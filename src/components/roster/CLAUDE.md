@@ -95,6 +95,8 @@ directory; still part of this feature:
 - `rosterEngine.js` — unit grouping (`UNIT_GROUPS`: epic/characters/battleline/transports/
   other, derived from keywords), points math, leader/warlord/enhancement eligibility, wargear
   group live-state
+- `rosterSummary.js` — the cached `{ points, unitCount, issues }` denormalised onto each stored
+  roster, who writes it and the repair pass for rosters nobody did (see **Store** below)
 - `rosterValidation.js` — `validateRoster()`. Philosophy: **never block**, like the official
   app — always compute a total and surface `{ code, level: 'error'|'warn', uid?, params? }`
   issues for the user to judge rather than preventing an illegal list. `code` maps to an i18n
@@ -357,6 +359,19 @@ weapon to give up is the player's call.
 (`SCHEMA_VERSION`, bump + extend `migrate()` on any shape change). Deliberately imports **no**
 faction data files — the list screen must stay in the light entry chunk; only the editor
 dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
+
+**`roster.summary` (`{ points, unitCount, issues }`) is a CACHE**, and `rosterSummary.js` owns the
+rules around it. It exists precisely because of the line above: points live in the faction chunk,
+and the two screens that show them — `RosterListView` and the tracker's `RosterPickerModal` — must
+not load one. So it can only ever be as good as its last writer, and **every screen that changes a
+roster while holding its faction data has to write it**: `useRosterEditing` (the editor and the
+add-units page) and `RosterCreateView`. That is what went wrong once already — only the editor
+wrote it, so a list built end-to-end in the wizard showed "0 pts" on both screens while its own
+page priced it correctly. `refreshSummaries()` is the safety net under those writers, called on
+mount by both readers: it prices only a roster whose cache is missing or contradicted by its own
+unit count (a share-link import, anything older than this mechanism), one faction chunk per
+faction involved, and writes straight onto the roster object so the repair doesn't bump
+`updatedAt` — the list screen shows that date, and repairing a number is not the user editing.
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 

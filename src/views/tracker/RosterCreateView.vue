@@ -218,7 +218,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
@@ -231,6 +231,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
+import { summaryOf } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -243,7 +244,7 @@ import {
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { createRoster, updateRoster } = useRosters()
+const { createRoster, updateRoster, rosterById } = useRosters()
 
 const step = ref(1)
 const name = ref('')
@@ -446,6 +447,18 @@ function finish() {
   updateRoster(rosterId.value, { ...step1Patch(), units: units.value })
   router.push(`/roster/${rosterId.value}/view`)
 }
+
+// The wizard is a place a roster gets finished and left, so it owes the list screens the same
+// cached summary the editor writes (rosterSummary.js) — a list built entirely here used to reach
+// them priced at 0. Assigned straight onto the stored roster (the store deep-watches and persists
+// it) rather than through updateRoster, which would bump `updatedAt` for a step-2 arrival that
+// changed nothing. Covers the step-3 per-unit edits too, which ride the same autosave and never
+// call syncUnits().
+watchEffect(() => {
+  if (!rosterId.value || !factionData.value) return
+  const stored = rosterById(rosterId.value)
+  if (stored) stored.summary = summaryOf({ units: units.value }, points.value, validation.value.errorCount)
+})
 </script>
 
 <style scoped>

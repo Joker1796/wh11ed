@@ -188,7 +188,7 @@ function updateRoster(id, patch) {
 
 // Import a roster object (from a share link / text) as a NEW saved roster with a fresh id, so
 // importing can never clobber an existing one. Share payloads deliberately omit id/timestamps
-// (assigned here) and summary (recomputed by the editor) — so validate only the essentials.
+// (assigned here) and summary (recomputed on this side) — so validate only the essentials.
 //
 // The payload's own `v` decides how it is read: it is the same versioned shape as a stored roster
 // and can predate the current schema, so it goes through the same migration rather than being
@@ -202,7 +202,10 @@ function importRoster(obj, name) {
   r.id = uid()
   r.name = name || r.name || 'Roster'
   r.createdAt = r.updatedAt = Date.now()
-  if (!r.summary) r.summary = { points: 0, unitCount: r.units.length, issues: 0 }
+  // No summary is fabricated here: the points are the SENDER's arithmetic and this side can't
+  // check them without the faction data. Left unset, it reads as "nobody has priced this yet",
+  // which is what refreshSummaries() repairs on the list screen (rosterSummary.js).
+  delete r.summary
   rosters.value.unshift(r)
   saveNow()
   return r
