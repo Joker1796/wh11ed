@@ -37,39 +37,41 @@ describe('GameSetup', () => {
   // Attaching a list is optional and lives only here, at setup — but when one IS attached it is
   // the description of the army, so it decides the faction and the detachments rather than being
   // checked against picks made separately.
+  // A list describes ONE army, so it stands where the faction picker would be rather than beside
+  // one that could contradict it.
   it('takes the faction and detachments from an attached roster', async () => {
     const w = mount(GameSetup)
-    await w.findAll('.roster-btn')[0].trigger('click')
+    await w.findAll('.rp-open')[0].trigger('click')
     w.findComponent(RosterPickerModal).vm.$emit('pick', {
       id: 'r1', name: 'Da List', faction: 'orks', detachments: ['Bully Boyz'],
       battleSize: 'strike-force', units: [{ uid: 'a', id: 'boyz', size: 0 }],
     })
     await flushPromises()
 
-    expect(w.findAll('.roster-btn')[0].text()).toContain('Da List')
-    expect(w.findAll('.faction-btn')[0].text()).toContain('Orks')
+    const line = w.findAll('.player-card')[0].find('.roster-line')
+    expect(line.text()).toContain('Orks')
+    expect(line.text()).toContain('Da List')
+    expect(w.findAll('.player-card')[0].find('.faction-btn').exists()).toBe(false)
     expect(w.findAll('.player-card')[0].text()).toContain('Bully Boyz')
   })
 
-  // A list describes ONE army. Left attached across a faction change it would sit there labelling
-  // the wrong army — and its detachments would be legal for a faction no longer being played.
-  it('detaches the roster when the player switches faction', async () => {
+  // Detaching is the only way back to picking a faction by hand — which is also why the
+  // "a faction change detaches the list" guard in resolveArmyChoice is now unreachable from
+  // this screen and kept only for a draft restored with the two out of step.
+  it('hands the faction picker back when the list is detached, keeping the faction it chose', async () => {
     const w = mount(GameSetup)
-    await w.findAll('.roster-btn')[0].trigger('click')
+    await w.findAll('.rp-open')[0].trigger('click')
     w.findComponent(RosterPickerModal).vm.$emit('pick', {
       id: 'r1', name: 'Da List', faction: 'orks', detachments: ['Bully Boyz'], units: [],
     })
     await flushPromises()
 
-    await w.findAll('.faction-btn')[0].trigger('click')
-    const body = new DOMWrapper(document.body)
-    const other = body.findAll('.fp-faction, .faction-row, button').find(b => b.text().trim() === 'Aeldari')
-    expect(other).toBeTruthy()
-    await other.trigger('click')
+    await w.findAll('.player-card')[0].find('.rl-clear').trigger('click')
     await flushPromises()
 
-    expect(w.findAll('.roster-btn')[0].text()).not.toContain('Da List')
-    expect(w.findAll('.player-card')[0].text()).not.toContain('Bully Boyz')
+    const card = w.findAll('.player-card')[0]
+    expect(card.find('.roster-line').exists()).toBe(false)
+    expect(card.find('.faction-btn').text()).toContain('Orks')
   })
 
   it('opens the score-mode help modal on the ? button', async () => {

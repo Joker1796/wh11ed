@@ -94,7 +94,7 @@ const { navigateTo } = useRefNavigation()
 
 const {
   isLanding, isEventRoute, isCoreRoute, isCombatPatrolFactionRoute,
-  isTrackerRoute, isTrackerGameRoute,
+  isTrackerRoute, isTrackerGameRoute, isGameRosterRoute,
 } = useRouteSection()
 
 // The footer is a tall multi-column block — fine on content/browsing pages, but it just eats
@@ -110,11 +110,13 @@ const isRosterEditRoute = computed(() =>
 )
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
-// outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
+// that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
+// a long read (a roster opened out of the live game). Hidden while a full-screen modal/drawer is
+// open so it never overlaps them.
 const { current: currentGame } = useTracker()
 const showResumeGame = computed(() =>
   currentGame.value?.phase === 'playing' &&
-  !isTrackerRoute.value &&
+  (!isTrackerRoute.value || isGameRosterRoute.value) &&
   !isLanding.value &&
   !searchOpen.value &&
   !installHintOpen.value &&

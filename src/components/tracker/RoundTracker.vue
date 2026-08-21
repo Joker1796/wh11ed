@@ -31,12 +31,6 @@
         <h3 class="ptitle">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</h3>
         <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
-        <!-- Only when a list was attached at setup; a game without one is the normal case. -->
-        <RouterLink v-if="pl.roster" class="proster" :to="`/tracker/game/roster/${i}`">
-          <i class="bi bi-card-list"></i>
-          <span class="pr-name">{{ pl.roster.name || labels.trackerRosterOpen }}</span>
-        </RouterLink>
-
         <!-- Primary mission — tap to open the scoring modal -->
         <div class="sec-title-row">{{ labels.trackerPrimary }}</div>
         <button v-if="primaryMission(i)" class="card-open" @click="openPrimary = i">
@@ -52,16 +46,26 @@
           <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
         </div>
 
-        <div v-if="current.settings.trackCP" class="score-row cp-row">
-          <span class="sr-label">{{ labels.trackerCp }}</span>
-          <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
-        </div>
-
         <SecondaryDeck :pi="i" />
 
+        <!-- CP and the army list sit UNDER the secondaries: both are consulted between scoring
+             passes, not during one, and above they pushed the round's actual scoring down. The
+             row survives either half on its own — CP is a setting, and a game with no list
+             attached is the normal case. -->
+        <div v-if="current.settings.trackCP || pl.roster" class="score-row cp-row">
+          <template v-if="current.settings.trackCP">
+            <span class="sr-label">{{ labels.trackerCp }}</span>
+            <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
+          </template>
+          <RouterLink v-if="pl.roster" class="proster" :to="`/tracker/game/roster/${i}`">
+            <i class="bi bi-card-list"></i>
+            {{ labels.trackerRosterOpen }}
+          </RouterLink>
+        </div>
+
         <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
-             secondaries. Opt-in per player (settings.trackArmyYou / trackArmyOpp, default on) and
-             renders only for factions with a spec. -->
+             secondaries and the CP row. Opt-in per player (settings.trackArmyYou /
+             trackArmyOpp, default on) and renders only for factions with a spec. -->
         <ArmyTrackerCard v-if="armyRuleOn(pl)" :pi="i" />
       </div>
     </div>
@@ -223,14 +227,17 @@ function onEndBattle(reason) {
   line-height: 1.5;
   color: var(--text-muted);
 }
+/* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and a pill next to
+   those square buttons read as a different kind of thing. It says just "Roster": the list's own
+   name is on the page it opens, and a long one used to squeeze the row. */
 .proster {
-  display: inline-flex; align-items: center; gap: 0.35rem; max-width: 100%;
-  margin-bottom: 0.4rem; padding: 0.2rem 0.5rem;
-  border: 1px solid var(--border); border-radius: 999px;
-  color: var(--text-muted); text-decoration: none; font-size: 0.75rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+  height: 40px; padding: 0 0.75rem;
+  border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card);
+  color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
+  transition: background 0.15s, border-color 0.15s;
 }
-.proster:hover { color: var(--accent); border-color: var(--accent); }
-.pr-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proster:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .player {
   background: var(--bg-card);
@@ -267,6 +274,13 @@ function onEndBattle(reason) {
 .card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+/* Same gap SecondaryDeck opens above itself (.sec), so the row reads as its own band under it.
+   The CP label drops `.sr-label`'s column width here — it labels the stepper right next to it,
+   not a column of rows — and the roster button sits at the far end, opposite the pair. With CP
+   tracking off that button is the row's only child and stays left, like everything else. */
+.cp-row { margin-top: 0.6rem; }
+.cp-row .sr-label { min-width: 0; }
+.cp-row .sr-label ~ .proster { margin-left: auto; }
 .sr-label {
   min-width: 4.5rem;
   font-size: 0.75rem;

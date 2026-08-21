@@ -21,7 +21,8 @@
         <span class="rp-name">{{ r.name || labels.rosterUntitled }}</span>
         <span class="rp-meta">
           <template v-if="factionName(r.faction)">{{ factionName(r.faction) }} · </template>
-          {{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }} · {{ r.units?.length || 0 }}
+          {{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }} ·
+          <i class="bi bi-people-fill"></i> {{ r.units?.length || 0 }}
         </span>
       </button>
 
@@ -91,10 +92,25 @@ async function useLink() {
 </script>
 
 <style scoped>
-.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
-.mh-title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 1.05rem; color: var(--text-primary); }
-.mh-close { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; padding: 0.2rem 0.35rem; }
-.modal-body { display: flex; flex-direction: column; gap: 0.5rem; }
+/* Same head/body recipe as the other tracker dialogs (DetachmentPickerModal, FactionPickerModal
+   …). It has to be repeated here: BaseModal's own `.modal-head` rules are scoped to BaseModal and
+   styles a SLOTTED header in the consumer's scope instead, so a custom header inherits nothing —
+   which is what left this one with no padding, no rule under it and a half-size title. */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+.mh-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
+}
+.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+.modal-body { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem; overflow-y: auto; }
 .rp-empty { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.25rem; }
 .rp-row {
   display: flex; flex-direction: column; gap: 0.15rem; text-align: left;
