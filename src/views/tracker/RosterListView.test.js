@@ -71,6 +71,46 @@ describe('RosterListView', () => {
     expect(store.rosters.value).toHaveLength(0)
   })
 
+  // Drafts are the wizard's unfinished business: their own tab, and a click continues the wizard
+  // rather than opening a list that isn't finished.
+  it('keeps drafts out of the saved tab and opens them back in the wizard', async () => {
+    const store = useRosters()
+    const saved = store.createRoster('Saved list')
+    const draft = store.createRoster('Half a list')
+    store.updateRoster(draft.id, { draft: true, draftStep: 2 })
+
+    const w = mount(RosterListView, { global: { stubs } })
+    expect(w.findAll('.roster')).toHaveLength(1)
+    expect(w.find('.rname').text()).toBe('Saved list')
+
+    const tabs = w.findAll('.rl-tabs button')
+    expect(tabs[0].text()).toContain('1')
+    expect(tabs[1].text()).toContain('1')
+    await tabs[1].trigger('click')
+
+    expect(w.findAll('.roster')).toHaveLength(1)
+    expect(w.find('.rname').text()).toBe('Half a list')
+    expect(w.find('.rstep').text()).toBe('step 2 of 3')
+
+    await w.find('.roster').trigger('click')
+    expect(push).toHaveBeenCalledWith({ path: '/roster/new', query: { draft: draft.id } })
+    expect(push).not.toHaveBeenCalledWith(`/roster/${saved.id}/view`)
+  })
+
+  it('offers a draft only "delete" in its actions sheet', async () => {
+    const store = useRosters()
+    const draft = store.createRoster('Half a list')
+    store.updateRoster(draft.id, { draft: true })
+
+    const w = mount(RosterListView, { global: { stubs } })
+    await w.findAll('.rl-tabs button')[1].trigger('click')
+    await w.find('.kebab').trigger('click')
+
+    const acts = w.findAll('.act-btn')
+    expect(acts).toHaveLength(1)
+    expect(acts[0].classes()).toContain('act-danger')
+  })
+
   it('shows a faction accent and flags a list over its points limit', async () => {
     const store = useRosters()
     const r = store.createRoster('Big list')

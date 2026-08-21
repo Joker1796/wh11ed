@@ -183,7 +183,7 @@
         </div>
         <div class="rc-sticky-actions">
           <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
-          <button class="btn-primary" @click="finish">{{ labels.rosterDone }}</button>
+          <button class="btn-primary" @click="finish">{{ labels.rosterSave }}</button>
         </div>
       </div>
     </div>
@@ -219,7 +219,7 @@
 
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
@@ -242,9 +242,10 @@ import {
 } from '../../composables/rosterEngine.js'
 
 const router = useRouter()
+const route = useRoute()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { createRoster, updateRoster, rosterById } = useRosters()
+const { createRoster, updateRoster, rosterById, saveDraft } = useRosters()
 
 const step = ref(1)
 const name = ref('')
@@ -292,6 +293,8 @@ function pickFaction(slug) {
   factionSlug.value = slug
   detachments.value = []
   units.value.splice(0) // units belong to a faction — changing it invalidates them
+  // The first choice worth remembering: from here the wizard has a draft to write into.
+  ensureDraft()
   syncUnits()
 }
 const detachmentOptions = computed(() =>
@@ -404,9 +407,39 @@ const groupedUnits = computed(() =>
     entries: units.value.filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
   })))
 
-// ── Save point: the roster only becomes real — and shows up on /roster — once step 1 is
-// filled in and the user moves on to picking units. Abandoning step 1 leaves no trace. ──
+// ── The draft: this wizard's persistence ──────────────────────────────────────────────────────
+// Everything collected here lives in a stored roster from the moment a FACTION is picked — the
+// first choice that means anything, and the one every later step depends on. Until then, opening
+// the wizard and wandering off leaves no trace. From then on a reload, the phone's back gesture or
+// a detour to look a rule up all come back to this list on the step it was left on, because the
+// draft's id is in the URL (`/roster/new?draft=<id>`) and every field is written through as it
+// changes.
+//
+// A draft is not a saved list: it shows only on the Drafts tab of /roster and can't be fielded
+// (see useRosters.js). "Save" — `finish()` — is what turns it into one.
 const rosterId = ref(null)
+
+// Resuming: the id the wizard put in its own URL, or the one a card on the Drafts tab links to.
+// A saved roster's id is ignored — that one belongs to the editor, and re-opening it here would
+// hand a finished list back to a wizard that ends in "Save".
+const resumed = (() => {
+  const id = route.query?.draft
+  const r = typeof id === 'string' ? rosterById(id) : null
+  return r?.draft ? r : null
+})()
+if (resumed) {
+  name.value = resumed.name || ''
+  factionSlug.value = resumed.faction || null
+  detachments.value = [...(resumed.detachments || [])]
+  battleSize.value = resumed.battleSize || 'strike-force'
+  customPoints.value = resumed.customPoints ?? 2000
+  checkLegality.value = resumed.checkLegality !== false
+  // The stored array itself, not a copy: from here the wizard's per-unit edits ARE the draft's,
+  // riding the store's deep-watch autosave exactly as they do after syncUnits().
+  units.value = resumed.units
+  rosterId.value = resumed.id
+  step.value = resumed.draftStep || 1
+}
 function step1Patch() {
   return {
     name: name.value.trim() || labels.value.rosterNewName,
@@ -430,22 +463,37 @@ function goToStep(n) {
   step.value = n
 }
 
+// Creates the draft the first time it's needed, and puts its id in the URL so a reload resumes
+// this one instead of starting a second. Idempotent — every caller may just call it.
+function ensureDraft() {
+  if (rosterId.value) return rosterId.value
+  const r = createRoster(step1Patch().name)
+  rosterId.value = r.id
+  updateRoster(r.id, { ...step1Patch(), draft: true, draftStep: step.value })
+  router.replace({ path: '/roster/new', query: { draft: r.id } })
+  return r.id
+}
+
+// Step 1's fields and the step itself are written through as they change — that is what makes the
+// draft a draft. Units take the other road (`syncUnits`, then the shared array), so they are not
+// watched here.
+watch([name, factionSlug, detachments, battleSize, customPoints, checkLegality, step], () => {
+  if (!rosterId.value) return
+  updateRoster(rosterId.value, { ...step1Patch(), draftStep: step.value })
+}, { deep: true })
+
 function goToUnits() {
-  if (rosterId.value) {
-    updateRoster(rosterId.value, step1Patch())
-  } else {
-    const r = createRoster(step1Patch().name)
-    rosterId.value = r.id
-    updateRoster(r.id, step1Patch())
-  }
+  ensureDraft()
   syncUnits()
   step.value = 2
 }
 
-// ── Finish: write the collected units, then hand off to the full editor ──
+// ── Save: the draft becomes a saved list, and the wizard hands off to its read-only view ──
 function finish() {
-  updateRoster(rosterId.value, { ...step1Patch(), units: units.value })
-  router.push(`/roster/${rosterId.value}/view`)
+  const id = ensureDraft()
+  updateRoster(id, { ...step1Patch(), units: units.value })
+  saveDraft(id)
+  router.push(`/roster/${id}/view`)
 }
 
 // The wizard is a place a roster gets finished and left, so it owes the list screens the same

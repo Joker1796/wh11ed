@@ -360,6 +360,17 @@ weapon to give up is the player's call.
 faction data files — the list screen must stay in the light entry chunk; only the editor
 dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
 
+**Drafts.** A roster the creation wizard is still working on carries `draft: true` and
+`draftStep`; a saved list carries neither, so "no flag" reads as "saved" and every roster that
+predates this is one — no migration. The store hands out the two halves separately
+(`savedRosters` / `draftRosters`) so each screen picks one deliberately, and `saveDraft(id)`
+(the wizard's "Save") **removes** the flags rather than setting them false, leaving a roster
+indistinguishable from one that never was a draft. A draft is real and persisted — that is the
+whole point — but it is not a list: it shows only on the Drafts tab of `/roster`, and
+`RosterPickerModal` never offers one to a game, because what it holds right now isn't what will
+be fielded. The flags never travel: `rosterShare.js`'s `PICK` is a whitelist, so a share link or
+a game snapshot carries the army and nothing about how it was made.
+
 **`roster.summary` (`{ points, unitCount, issues }`) is a CACHE**, and `rosterSummary.js` owns the
 rules around it. It exists precisely because of the line above: points live in the faction chunk,
 and the two screens that show them — `RosterListView` and the tracker's `RosterPickerModal` — must
@@ -375,8 +386,19 @@ faction involved, and writes straight onto the roster object so the repair doesn
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 
-`RosterListView`, `RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern; its
-"Done" button, `finish()`, lands on the roster's read-only view, not the editor),
+`RosterListView` (two tabs — saved lists and drafts; a draft card continues the wizard instead
+of opening a list that isn't finished, and its actions sheet offers only Delete),
+`RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern; its "Save" button,
+`finish()`, clears the draft flags and lands on the roster's read-only view, not the editor.
+**Everything it collects is a draft from the moment a faction is picked** — the first choice that
+means anything, and what every later step depends on; before that, opening the wizard and
+wandering off leaves no trace. The draft's id goes into the wizard's own URL
+(`router.replace` → `/roster/new?draft=<id>`), which is what makes a reload, a back gesture or a
+detour resume THIS draft on the step it was left on instead of starting a second one; step 1's
+fields and the step index are written through by a watcher, and the units by `syncUnits()` — after
+which the wizard and the draft share one array, so per-unit edits on step 3 ride the store's own
+autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
+editor, and this screen ends in "Save"),
 `RosterEditorView` (tabbed; fixed footer bar — `.rc-sticky`, same class and CSS as
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across all three tabs, not just
