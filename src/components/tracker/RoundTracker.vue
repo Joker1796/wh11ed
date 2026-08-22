@@ -48,11 +48,15 @@
 
         <SecondaryDeck :pi="i" />
 
-        <!-- CP and the army list sit UNDER the secondaries: both are consulted between scoring
-             passes, not during one, and above they pushed the round's actual scoring down. The
-             row survives either half on its own — CP is a setting, and a game with no list
-             attached is the normal case. -->
-        <div v-if="current.settings.trackCP || pl.roster" class="score-row cp-row">
+        <!-- CP and this player's army sit UNDER the secondaries: both are consulted between
+             scoring passes, not during one, and above they pushed the round's actual scoring
+             down. The row survives either half on its own — CP is a setting, and the army slot
+             needs a faction the oldest saved games may not carry.
+             One army button per player, never both: with a list attached the list is strictly
+             the better answer (only this army's units, with the game's live modifiers), and
+             without one the faction's datasheets are the next best thing. It reads the player
+             it belongs to, so the opponent's army is one tap away from their own card. -->
+        <div v-if="current.settings.trackCP || pl.roster || pl.factionSlug" class="score-row cp-row">
           <template v-if="current.settings.trackCP">
             <span class="sr-label">{{ labels.trackerCp }}</span>
             <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
@@ -60,6 +64,10 @@
           <RouterLink v-if="pl.roster" class="proster" :to="`/tracker/game/roster/${i}`">
             <i class="bi bi-card-list"></i>
             {{ labels.trackerRosterOpen }}
+          </RouterLink>
+          <RouterLink v-else-if="pl.factionSlug" class="proster" :to="`/factions/${pl.factionSlug}/datasheets`">
+            <i class="bi bi-people-fill"></i>
+            {{ labels.factionDatasheets }}
           </RouterLink>
         </div>
 
@@ -228,8 +236,10 @@ function onEndBattle(reason) {
   color: var(--text-muted);
 }
 /* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and a pill next to
-   those square buttons read as a different kind of thing. It says just "Roster": the list's own
-   name is on the page it opens, and a long one used to squeeze the row. */
+   those square buttons read as a different kind of thing. One class for both of the row's army
+   links (the attached list, or the faction's datasheets) so the slot looks the same either way.
+   It says just "Roster": the list's own name is on the page it opens, and a long one used to
+   squeeze the row. */
 .proster {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
   height: 40px; padding: 0 0.75rem;
