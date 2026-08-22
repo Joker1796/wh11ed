@@ -120,7 +120,9 @@ describe('rosterModifiers data', () => {
       expect(used.has(id), `condition "${id}" is defined but no effect uses it`).toBe(true)
     }
     for (const [id, c] of Object.entries(conditions)) {
-      expect(['army', 'unit', 'roster', 'phase'], `${id}.scope`).toContain(c.scope)
+      expect(['army', 'unit', 'roster', 'clock'], `${id}.scope`).toContain(c.scope)
+      // A clock condition has to say WHAT it asks the clock: a phase (and whose) or a round window.
+      if (c.scope === 'clock') expect(!!c.phase || Array.isArray(c.rounds), `${id} asks the clock what?`).toBe(true)
       expect(['phase', 'turn', 'round', 'battle'], `${id}.duration`).toContain(c.duration)
       expect(c.label?.en?.length, `${id}.label.en`).toBeGreaterThan(0)
       expect(c.label?.ru?.length, `${id}.label.ru`).toBeGreaterThan(0)
@@ -136,9 +138,13 @@ describe('rosterModifiers data', () => {
     expect(isAnswerable(['waaagh-active', 'unit-charged'])).toBe(true)
     expect(isAnswerable(['never'])).toBe(false)
     expect(isAnswerable(['blocked-subset'])).toBe(false)
-    // One un-answerable half is enough to keep the whole effect a note — the phase the game is
-    // in is not tracked yet, so a Waaagh!-in-the-Shooting-phase bonus must not be applied.
+    // One un-answerable half is enough to keep the whole effect a note. A phase is answerable
+    // only in a game keeping phases, so a Waaagh!-in-the-Shooting-phase bonus is a note by default
+    // and a number once the clock is running.
     expect(isAnswerable(['waaagh-active', 'phase-shooting'])).toBe(false)
+    expect(isAnswerable(['waaagh-active', 'phase-shooting'], { phases: true })).toBe(true)
+    // A battle-round window needs no clock setting — every game knows its round.
+    expect(isAnswerable(['rounds-3-5'])).toBe(true)
     expect(isAnswerable(['made-this-up'])).toBe(false)
     expect(isAnswerable([])).toBe(false)
     expect(isAnswerable(undefined)).toBe(false)

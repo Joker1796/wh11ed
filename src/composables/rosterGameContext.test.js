@@ -65,9 +65,12 @@ describe('activeConditions', () => {
     expect(activeConditions(p, 1, null).has('phase-shooting')).toBe(false)
   })
 
-  it('is empty for a game with no context recorded at all', () => {
-    expect(activeConditions(null, 1, null).size).toBe(0)
-    expect(activeConditions({}, 1, { uid: 'u1' }).size).toBe(0)
+  // Nothing the PLAYER recorded is true. The clock still answers its own questions — battle round
+  // 1 really is inside the "rounds 1-3" window whether or not anybody flipped anything.
+  it('holds nothing but the clock for a game with no context recorded at all', () => {
+    const recorded = (p, entry) => [...activeConditions(p, 1, entry)].filter((id) => !id.startsWith('rounds-'))
+    expect(recorded(null, null)).toEqual([])
+    expect(recorded({}, { uid: 'u1' })).toEqual([])
   })
 })
 
@@ -191,6 +194,33 @@ describe('the clock', () => {
     expect(switchesFor(recs, 'unit', player({}), kept, entry).map((s) => s.id)).toEqual(['unit-charged'])
     const not = clockOf(game({ settings: {} }))
     expect(switchesFor(recs, 'unit', player({}), not, entry)).toEqual([])
+  })
+})
+
+// ── P3d: what the clock made answerable ───────────────────────────────────────────────────────
+describe('clock-answered conditions', () => {
+  it('answers a battle-round window in any game, phases or not', () => {
+    const late = clockOf(game({ currentRound: 4, settings: {} }))
+    expect(activeConditions(player({}), late, null).has('rounds-3-5')).toBe(true)
+    expect(activeConditions(player({}), late, null).has('rounds-1-3')).toBe(false)
+    const early = clockOf(game({ currentRound: 2, settings: {} }))
+    expect(activeConditions(player({}), early, null).has('rounds-1-3')).toBe(true)
+  })
+
+  it('offers no switch for a round window — the tracker already knows the round', () => {
+    const recs = [{ effects: [{ cond: ['rounds-3-5'] }] }]
+    const c = clockOf(game({ currentRound: 4 }))
+    expect(switchesFor(recs, 'army', player({}), c, null)).toEqual([])
+  })
+
+  it('lets a phase and a switch together prove an effect', () => {
+    const recs = [{ effects: [{ cond: ['phase-shooting', 'unit-disembarked'] }] }]
+    const shooting = clockOf(game({ currentPhase: 'shooting' }), 0)
+    const sw = switchesFor(recs, 'unit', player({}), shooting, { uid: 'u1' })
+    expect(sw.map((s) => s.id)).toEqual(['unit-disembarked'])
+    const p = player({ units: { u1: { 'unit-disembarked': stampOf(shooting) } } })
+    const active = activeConditions(p, shooting, { uid: 'u1' })
+    expect(active.has('phase-shooting') && active.has('unit-disembarked')).toBe(true)
   })
 })
 

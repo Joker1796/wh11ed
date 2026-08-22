@@ -140,7 +140,8 @@ export default {
             "ru": "в вашей фазе стрельбы, если отряд высадился из Transport в этом ходу или потрачено 2YP"
           },
           "cond": [
-            "never"
+            "phase-shooting",
+            "unit-disembarked"
           ]
         }
       ]

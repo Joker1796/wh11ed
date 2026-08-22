@@ -29,7 +29,7 @@ export default {
             "ru": "пока в раунде активно благословение Martial Excellence"
           },
           "cond": [
-            "never"
+            "blessing-martial-excellence"
           ]
         },
         {
@@ -42,7 +42,7 @@ export default {
             "ru": "пока в раунде активно благословение Warp Blades"
           },
           "cond": [
-            "never"
+            "blessing-warp-blades"
           ]
         },
         {
@@ -82,7 +82,7 @@ export default {
             "ru": "пока в раунде активно благословение Martial Excellence"
           },
           "cond": [
-            "never"
+            "blessing-martial-excellence"
           ]
         },
         {
@@ -95,7 +95,7 @@ export default {
             "ru": "пока в раунде активно благословение Warp Blades"
           },
           "cond": [
-            "never"
+            "blessing-warp-blades"
           ]
         },
         {
