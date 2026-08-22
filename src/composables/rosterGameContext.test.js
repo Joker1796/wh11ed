@@ -295,6 +295,19 @@ describe('stratagems', () => {
     expect(out[0]).toMatchObject({ id: 'krump', on: true, duration: 'phase', det: 'War Horde' })
   })
 
+  // Core Rules 01.07: a Battle-shocked unit cannot be targeted with stratagems. What it already has
+  // stays flippable — the rule stops you targeting it, it does not undo what was spent first, and
+  // taking a mis-tap back must never become impossible.
+  it('blocks spending on a Battle-shocked unit, but not taking one back', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const clock = { round: 1, turn: 0, phase: 'fight', mine: true, tracked: true }
+    const at = stampOf(clock)
+    const p = player({ units: { u1: { 'unit-battle-shocked': at } }, strats: { u1: { krump: at } } })
+    const out = stratagemsFor([rec('krump', 'phase'), rec('other', 'phase')], p, clock, entry)
+    expect(out.find((s) => s.id === 'krump')).toMatchObject({ on: true, blocked: false })
+    expect(out.find((s) => s.id === 'other')).toMatchObject({ on: false, blocked: true })
+  })
+
   it('says nothing for an entry that spent none', async () => {
     const { activeStratagems } = await import('./rosterGameContext.js')
     expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)

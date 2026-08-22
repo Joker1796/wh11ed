@@ -14,9 +14,9 @@
         :key="sw.id"
         type="button"
         class="cond-chip"
-        :class="{ on: sw.on, auto: sw.auto }"
+        :class="{ on: sw.on, auto: sw.auto || sw.blocked }"
         :aria-pressed="sw.on"
-        :disabled="sw.auto"
+        :disabled="sw.auto || sw.blocked"
         @click="$emit('toggle', sw)"
       >
         <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
@@ -30,8 +30,10 @@
 // The one way a condition switch is drawn — above the unit list (army-wide states), on a unit's
 // card, and inside the rule that names it. Three places showing the same switch, so they share
 // one component rather than three sets of chips that could drift apart in look or in behaviour.
-// Purely presentational: `switches` come from rosterGameContext's switchesFor(), and flipping one
-// is the parent's business (only it knows which player is being drawn).
+// Purely presentational: `switches` come from rosterGameContext's switchesFor() (or stratagemsFor),
+// and flipping one is the parent's business (only it knows which player is being drawn). A chip is
+// inert when the tracker owns the answer (`auto`) or when the rules forbid the change (`blocked` —
+// a Battle-shocked unit cannot be targeted with stratagems).
 import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

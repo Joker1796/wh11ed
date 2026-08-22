@@ -198,18 +198,29 @@ export function activeStratagems(player, clock, entry, records) {
 
 // The stratagems worth offering on a card: this entry's own records that actually carry an effect,
 // each with whether it is in force right now.
+//
+// A Battle-shocked unit cannot be targeted with stratagems at all (Core Rules 01.07), so the ones
+// it has not already got are BLOCKED rather than merely off — spending one on it is not a thing the
+// game allows, and an app that lets you tap it is teaching the rule wrong. Ones already in force
+// stay flippable: the rule stops you targeting the unit, it does not undo what was spent before it
+// broke, and taking a mis-tap back must never become impossible.
 export function stratagemsFor(resolvedEntries, player, clock, entry) {
   const active = activeStratagems(player, clock, entry, resolvedEntries)
+  const shocked = activeConditions(player, clock, entry).has('unit-battle-shocked')
   return (resolvedEntries || [])
     .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
-    .map((rec) => ({
-      id: rec.sid,
-      label: { en: rec.name, ru: rec.name },   // stratagem names stay English by project convention
-      det: rec.det || null,
-      on: active.has(rec.sid),
-      auto: false,
-      duration: rec.dur || 'phase',
-    }))
+    .map((rec) => {
+      const on = active.has(rec.sid)
+      return {
+        id: rec.sid,
+        label: { en: rec.name, ru: rec.name },   // stratagem names stay English by project convention
+        det: rec.det || null,
+        on,
+        auto: false,
+        blocked: shocked && !on,
+        duration: rec.dur || 'phase',
+      }
+    })
 }
 
 // The switches worth showing for a set of resolved modifier records: the conditions their effects
