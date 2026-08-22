@@ -433,7 +433,9 @@ data touches it).
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 
 `RosterListView` (two tabs — saved lists and drafts; a draft card continues the wizard instead
-of opening a list that isn't finished, and its actions sheet offers only Delete),
+of opening a list that isn't finished, and carries Delete on the card itself: its actions sheet
+only ever held that one item, so the kebab was an extra tap for nothing. Saved lists keep the
+sheet — they have three things to offer),
 `RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern; its "Save" button,
 `finish()`, clears the draft flags and lands on the roster's read-only view, not the editor.
 **Everything it collects is a draft from the moment a faction is picked** — the first choice that

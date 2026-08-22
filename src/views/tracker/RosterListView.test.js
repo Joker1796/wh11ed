@@ -97,18 +97,31 @@ describe('RosterListView', () => {
     expect(push).not.toHaveBeenCalledWith(`/roster/${saved.id}/view`)
   })
 
-  it('offers a draft only "delete" in its actions sheet', async () => {
+  // A draft's sheet only ever held Delete, so the card carries it directly — one tap, no menu.
+  it('deletes a draft straight from its card, still behind the confirmation', async () => {
     const store = useRosters()
     const draft = store.createRoster('Half a list')
     store.updateRoster(draft.id, { draft: true })
 
     const w = mount(RosterListView, { global: { stubs } })
     await w.findAll('.rl-tabs button')[1].trigger('click')
-    await w.find('.kebab').trigger('click')
+    const btn = w.find('.kebab')
+    expect(btn.classes()).toContain('danger')
+    expect(btn.find('.bi-trash').exists()).toBe(true)
 
-    const acts = w.findAll('.act-btn')
-    expect(acts).toHaveLength(1)
-    expect(acts[0].classes()).toContain('act-danger')
+    await btn.trigger('click')
+    expect(w.findAll('.act-btn')).toHaveLength(0)   // no actions sheet on the way
+    expect(store.rosters.value).toHaveLength(1)     // and not gone until confirmed
+    await w.find('.modal-foot .btn-primary').trigger('click')
+    expect(store.rosterById(draft.id)).toBe(null)
+  })
+
+  it('keeps the full actions sheet for a saved list', async () => {
+    const store = useRosters()
+    store.createRoster('A list')
+    const w = mount(RosterListView, { global: { stubs } })
+    await w.find('.kebab').trigger('click')
+    expect(w.findAll('.act-btn')).toHaveLength(3)
   })
 
   it('shows a faction accent and flags a list over its points limit', async () => {

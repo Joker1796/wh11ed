@@ -42,7 +42,18 @@
       >
         <div class="roster-main">
           <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
-          <button class="kebab" :aria-label="labels.rosterMoreActions" @click.stop="menuFor = r.id">
+          <!-- A draft's actions sheet only ever held one item, so it is spared the extra tap:
+               the card carries Delete itself. Everything a SAVED list can do still needs the
+               sheet, so that one keeps the kebab. -->
+          <button
+            v-if="r.draft"
+            class="kebab danger"
+            :aria-label="labels.trackerDelete"
+            @click.stop="pendingDelete = r.id"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+          <button v-else class="kebab" :aria-label="labels.rosterMoreActions" @click.stop="menuFor = r.id">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
         </div>
@@ -70,13 +81,10 @@
           <button class="mh-close" :aria-label="labels.modalClose" @click="menuFor = null">✕</button>
         </header>
       </template>
-      <!-- A draft offers only "delete": editing it means continuing the wizard (the card itself),
-           and duplicating an unfinished list has nothing to offer. -->
+      <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
       <div class="modal-body act-list">
-        <template v-if="!menuRoster?.draft">
-          <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
-          <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
-        </template>
+        <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
+        <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
         <button class="act-btn act-danger" @click="onDelete(menuFor)">{{ labels.trackerDelete }}</button>
       </div>
     </BaseModal>
@@ -282,6 +290,9 @@ function confirmDelete() {
   font-size: 0.95rem;
 }
 .kebab:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+/* The draft's own Delete: same hit area as the kebab it replaces, and it says what it does only
+   on hover — a bin sitting bright red on every draft card would shout louder than the card. */
+.kebab.danger:hover { background: color-mix(in srgb, #d9534f 14%, transparent); color: #d9534f; }
 .rfaction { display: block; margin-top: 0.05rem; font-size: 0.78rem; font-weight: 600; color: var(--fa-light, var(--accent)); opacity: 0.7; }
 @media (prefers-color-scheme: dark) {
   .rfaction { color: var(--fa-dark, var(--accent)); }
