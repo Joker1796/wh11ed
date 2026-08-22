@@ -58,6 +58,34 @@ export default {
       }
     },
     {
+      "sid": "da81ccd6-35d7-4a5c-91f4-8bf64cf14ef3",
+      "kind": "detachmentRule",
+      "name": "Boons of the Brood",
+      "det": "Serpent’s Brood",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "serpents-brood"
+      },
+      "hash": "fd67f44f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "Harlequins Mounted and Vehicle models only",
+            "ru": "только модели Harlequins Mounted и Vehicle"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "04a0d658-c70b-4603-b49e-b510bec9a0e9",
       "kind": "detachmentRule",
       "name": "Shepherds of the Dead",
@@ -194,6 +222,57 @@ export default {
       }
     },
     {
+      "sid": "00eb75e2-21f5-445c-8fd4-431a1133ceb6",
+      "kind": "enhancement",
+      "name": "Alacritous Assault",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "eldritch-raiders"
+      },
+      "hash": "82118b6b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "4ac38d29-d3a8-4299-b36d-adce59b94bb7",
+      "kind": "enhancement",
+      "name": "Exotic Munitions",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "eldritch-raiders"
+      },
+      "hash": "558ddc7e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 5+",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "38c84028-2718-4537-bf80-3808d06997bd",
       "kind": "enhancement",
       "name": "Seer’s Hand",
@@ -204,6 +283,34 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "the healing and [PRECISION] land on a DIFFERENT unit the bearer selects, not on the bearer, and this layer only ever modifies the model carrying the enhancement"
+    },
+    {
+      "sid": "95508954-f634-4150-9300-b76953d3217f",
+      "kind": "enhancement",
+      "name": "Assassins' Eye (Upgrade)",
+      "det": "Path of the Outcast",
+      "ref": {
+        "kind": "enhancement",
+        "det": "path-of-the-outcast"
+      },
+      "hash": "55966571",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per ranged attack against a CHARACTER unit",
+            "ru": "за стрелковую атаку по отряду CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2829e959-9dd5-485b-ad55-9b162e11d54f",
@@ -339,6 +446,41 @@ export default {
         "kind": "enhancement",
         "det": "warhost"
       }
+    },
+    {
+      "sid": "16d5e738-7ef2-4b1c-8ab2-0d06387fe9c8",
+      "kind": "enhancement",
+      "name": "Seersight Strike",
+      "det": "Windrider Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "windrider-host"
+      },
+      "hash": "18e21f20",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 2+",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 2+",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": null
+        }
+      ]
     }
   ]
 }

@@ -64,6 +64,56 @@ export default {
       "note": "duplicate publication of the same rule"
     },
     {
+      "sid": "ac3ce055-781a-47a7-ae00-a1c5afe69b4a",
+      "kind": "detachmentRule",
+      "name": "Masters of Manoeuvre",
+      "det": "Company of Hunters",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "company-of-hunters"
+      },
+      "hash": "2aa7c5e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5da17b88-adf4-4521-bf36-a230dcf243e2",
+      "kind": "detachmentRule",
+      "name": "Invocations of Ancient Fury",
+      "det": "Dark Age Arsenal",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "dark-age-arsenal"
+      },
+      "hash": "419dcd7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "weapon profiles with 'Plasma' in their name only",
+            "ru": "только профили оружия со словом Plasma в названии"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "75d3a75e-54a9-4db3-8aeb-0aff7d9b285c",
       "kind": "detachmentRule",
       "name": "Black-winged Vigilance",
@@ -99,6 +149,20 @@ export default {
         "kind": "detachmentRule",
         "det": "inner-circle-task-force"
       }
+    },
+    {
+      "sid": "2464ddee-5a32-4ba2-8666-c37d4f608056",
+      "kind": "detachmentRule",
+      "name": "Dread Catechism",
+      "det": "Interrogation Conclave",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "interrogation-conclave"
+      },
+      "hash": "0a84b04f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "9e501c18-163d-42e5-9a25-3ef8f6208ca5",
@@ -154,6 +218,50 @@ export default {
         "kind": "detachmentRule",
         "det": "unforgiven-task-force"
       }
+    },
+    {
+      "sid": "931a0683-a764-44a2-8f87-a1f6a1d70cc4",
+      "kind": "enhancement",
+      "name": "Master-crafted Weapon",
+      "det": "Company of Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "company-of-hunters"
+      },
+      "hash": "9ecbedb9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "28e99366-170a-49c2-a572-6740ee178f95",
+      "kind": "enhancement",
+      "name": "Champion of the Deathwing",
+      "det": "Inner Circle Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "inner-circle-task-force"
+      },
+      "hash": "a0d472d2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a0af2727-f3c3-47c4-850f-727a3f10748d",

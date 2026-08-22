@@ -107,6 +107,31 @@ export default {
       }
     },
     {
+      "sid": "8780310f-ca05-4237-8fe5-66ac11a65cf6",
+      "kind": "detachmentRule",
+      "name": "Committed to the Ritual",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "9e6dcb21",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while within range of an objective marker",
+            "ru": "пока в пределах objective-маркера"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "19e0de45-bd88-44e4-81d2-19435524ab31",
       "kind": "detachmentRule",
       "name": "All is Dust",
@@ -374,6 +399,78 @@ export default {
         "kind": "enhancement",
         "det": "rubricae-phalanx"
       }
+    },
+    {
+      "sid": "01116f1d-09f7-43b3-9a8e-30ee3eaeada6",
+      "kind": "enhancement",
+      "name": "Stave Abominus",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rubricae-phalanx"
+      },
+      "hash": "9bdd9c4a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "587e90c8-b30d-4dfb-81b5-537e0fecce1e",
+      "kind": "enhancement",
+      "name": "Occulus Infernum",
+      "det": "Sekhetar Cohort",
+      "ref": {
+        "kind": "enhancement",
+        "det": "sekhetar-cohort"
+      },
+      "hash": "f0b0c532",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cb50a092-b387-493d-a329-fb3ebb9d603a",
+      "kind": "enhancement",
+      "name": "Thicket of Bladed Bone (Upgrade)",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "enhancement",
+        "det": "servants-of-change"
+      },
+      "hash": "0e63f605",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4f20a5e0-7e45-486f-b80d-7f769e1c6ece",

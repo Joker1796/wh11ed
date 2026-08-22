@@ -24,6 +24,86 @@ export default {
       "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
     },
     {
+      "sid": "cde884b9-4635-4974-a931-f33162d53c3c",
+      "kind": "armyRule",
+      "name": "Martial Ka’tah",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "175e9f73",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the Dacatari Stance is the one selected for this fight",
+            "ru": "пока для этого боя выбрана стойка Dacatari"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the Rendax Stance is the one selected for this fight",
+            "ru": "пока для этого боя выбрана стойка Rendax"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "6b8c2838-343c-4cd7-b270-d2a184e6746f",
+      "kind": "armyRule",
+      "name": "Martial Ka’tah",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "175e9f73",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the Dacatari Stance is the one selected for this fight",
+            "ru": "пока для этого боя выбрана стойка Dacatari"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the Rendax Stance is the one selected for this fight",
+            "ru": "пока для этого боя выбрана стойка Rendax"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "02ead9e4-7cbf-4b21-9454-9071c7f4035b",
       "kind": "detachmentRule",
       "name": "Assemblage of Might",
@@ -50,6 +130,28 @@ export default {
         "kind": "detachmentRule",
         "det": "lions-of-the-emperor"
       }
+    },
+    {
+      "sid": "35018eb5-1ace-43a1-aa0e-e6553eaee45f",
+      "kind": "detachmentRule",
+      "name": "March of the Honoured Dead",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "might-of-the-moritoi"
+      },
+      "hash": "1707aef3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7daf099f-82c8-4871-97e2-8e1863c59ec7",
@@ -356,6 +458,34 @@ export default {
         "kind": "enhancement",
         "det": "shield-host"
       }
+    },
+    {
+      "sid": "2571079f-cdf9-49df-8cba-42ef31db936c",
+      "kind": "enhancement",
+      "name": "Panoptispex",
+      "det": "Shield Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shield-host"
+      },
+      "hash": "1260bb42",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        }
+      ]
     },
     {
       "sid": "d25d6f4b-3dcf-4b17-8e8e-b39a487012c9",

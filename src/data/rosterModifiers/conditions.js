@@ -106,7 +106,14 @@ export const conditions = {
   'unit-leading': { scope: 'roster', duration: 'battle', label: { en: 'Leading a unit', ru: 'Ведёт отряд' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
+  // The tracker now HAS a clock (useTracker's currentTurn/currentPhase, added 2026-08-22), but
+  // rosterGameContext still answers none of these — wiring it up is P3c/P3d in
+  // ROSTER-IN-GAME-PROGRESS.md. They are marked on the effects anyway, so that work inherits a
+  // finished list instead of re-reading the prose.
+  // The vocabulary carries only the phases some effect actually names — index.test.js enforces
+  // that, and rightly: an id nothing uses is a promise about the data that isn't true.
   'phase-shooting': { scope: 'phase', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
+  'phase-fight': { scope: 'phase', duration: 'phase', label: { en: 'The Fight phase', ru: 'Фаза боя' } },
 }
 
 export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)

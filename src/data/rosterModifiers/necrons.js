@@ -8,6 +8,31 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "71124c51-fb03-44ee-acf1-4e5f6b6d5c13",
+      "kind": "detachmentRule",
+      "name": "Territorial Imperatives",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "02b31bb5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while selected at the end of your Command phase, until the start of your next",
+            "ru": "пока отряд выбран в конце вашей командной фазы, до начала следующей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "c8e67c94-634c-45a1-b354-fe1d1d0edf8a",
       "kind": "detachmentRule",
       "name": "Annihilation Protocol",
@@ -48,6 +73,43 @@ export default {
         "kind": "detachmentRule",
         "det": "awakened-dynasty"
       }
+    },
+    {
+      "sid": "2f40d32d-d52c-4fea-881e-9f3afd245708",
+      "kind": "detachmentRule",
+      "name": "Technosorcerous Augmentations",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cryptek-conclave"
+      },
+      "hash": "3c086d0c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        },
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 3+",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если для отряда выбрана именно эта способность"
+          },
+          "cond": [
+            "phase-shooting"
+          ]
+        }
+      ]
     },
     {
       "sid": "da5c3d84-9fb3-4ea1-8e3c-c8d34d6100a7",
@@ -149,6 +211,47 @@ export default {
         "kind": "detachmentRule",
         "det": "starshatter-arsenal"
       }
+    },
+    {
+      "sid": "23b709b7-1228-490b-98fe-7f039d5cd593",
+      "kind": "detachmentRule",
+      "name": "Empowered Engines",
+      "det": "The Phaeron's Armoury",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "the-phaerons-armoury"
+      },
+      "hash": "92336869",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "78e7ca8e-1321-4a1c-9b04-2383ca1a2572",
+      "kind": "enhancement",
+      "name": "Metalline Might",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "69c38e3b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "90ecb256-bc18-494a-89a9-57bba7ac455b",
@@ -370,6 +473,35 @@ export default {
       ]
     },
     {
+      "sid": "fe31d690-e8f6-4014-a53e-7b3db86f5a6e",
+      "kind": "enhancement",
+      "name": "Unflinching Will",
+      "det": "Obeisance Phalanx",
+      "ref": {
+        "kind": "enhancement",
+        "det": "obeisance-phalanx"
+      },
+      "hash": "5b96496f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "c173a0bd-085d-42db-ac95-5c7ab17a267f",
       "kind": "enhancement",
       "name": "Deepening Madness (Upgrade)",
@@ -387,6 +519,28 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "dec27f61-8026-4986-872b-5ad9c8b34084",
+      "kind": "enhancement",
+      "name": "Miniaturised Nebuloscope",
+      "det": "Starshatter Arsenal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "starshatter-arsenal"
+      },
+      "hash": "93fc2b38",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
           "when": null
         }
       ]

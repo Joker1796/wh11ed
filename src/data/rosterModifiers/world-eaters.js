@@ -8,6 +8,112 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
+      "kind": "armyRule",
+      "name": "Blessings of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5fc04aa0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the Martial Excellence Blessing is active for the battle round",
+            "ru": "пока в раунде активно благословение Martial Excellence"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the Warp Blades Blessing is active for the battle round",
+            "ru": "пока в раунде активно благословение Warp Blades"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while the Decapitating Strikes Blessing is active, against Infantry units",
+            "ru": "пока активно благословение Decapitating Strikes, против отрядов Infantry"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1e87eaec-e83c-4dab-849d-e191dacd3988",
+      "kind": "armyRule",
+      "name": "Blessings of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5fc04aa0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the Martial Excellence Blessing is active for the battle round",
+            "ru": "пока в раунде активно благословение Martial Excellence"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the Warp Blades Blessing is active for the battle round",
+            "ru": "пока в раунде активно благословение Warp Blades"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while the Decapitating Strikes Blessing is active, against Infantry units",
+            "ru": "пока активно благословение Decapitating Strikes, против отрядов Infantry"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "145c3608-88ac-4d19-b441-93aec4eceee9",
       "kind": "detachmentRule",
       "name": "Relentless Rage",
@@ -63,6 +169,31 @@ export default {
       }
     },
     {
+      "sid": "5277c93c-81dd-4f76-b4d5-9a7f0609f836",
+      "kind": "detachmentRule",
+      "name": "Berzerker Charge",
+      "det": "Frenzied Reavers",
+      "ref": null,
+      "hash": "708f62a1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "when that unit is selected to fight, if it made a Charge move this turn",
+            "ru": "когда отряд выбран для боя, если в этом ходу он совершил charge-перемещение"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "adf5998c-3b76-4841-b189-5e2e08a37b61",
       "kind": "detachmentRule",
       "name": "Rush to the Fray",
@@ -103,6 +234,48 @@ export default {
         "kind": "detachmentRule",
         "det": "khorne-daemonkin"
       }
+    },
+    {
+      "sid": "d6c37f06-0c31-480e-b0fc-d7a08735e284",
+      "kind": "detachmentRule",
+      "name": "Wrath of Khorne",
+      "det": "Vessels of Wrath",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "vessels-of-wrath"
+      },
+      "hash": "814d0c45",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 1",
+          "when": {
+            "en": "the Character models' melee attacks, if that option is the one taken when selected to fight",
+            "ru": "атаки ближнего боя моделей Character, если при выборе для боя взят этот вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "alt": 0,
+          "when": {
+            "en": "+1 AP instead, for the Character models' melee attacks",
+            "ru": "вместо этого +1 AP для атак ближнего боя моделей Character"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f7fbb275-bf28-483e-9f80-5bbedb3c3b51",
@@ -152,6 +325,50 @@ export default {
         "kind": "enhancement",
         "det": "berzerker-warband"
       }
+    },
+    {
+      "sid": "3959a88d-7bdd-4c12-8e21-72050af167a2",
+      "kind": "enhancement",
+      "name": "Gore-stained Veterans (Upgrade)",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "enhancement",
+        "det": "butchers-of-khorne"
+      },
+      "hash": "9b3cdb32",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "36ceb8f3-1be2-4dfb-8f56-3cd0b801b2cd",
+      "kind": "enhancement",
+      "name": "Sanctified in Slaughter (Upgrade)",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "enhancement",
+        "det": "butchers-of-khorne"
+      },
+      "hash": "71d1f520",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a0a554a8-ce20-4b80-ae87-61273c56f07a",

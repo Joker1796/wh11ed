@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "cd27788a-28c9-430c-8ccd-5916684fe11e",
+      "kind": "detachmentRule",
+      "name": "Daemonic Empowerment",
+      "det": "Carnival of Excess",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "carnival-of-excess"
+      },
+      "hash": "9cb3432e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the unit is Empowered (within 6\" of the other half of the alliance)",
+            "ru": "пока отряд Empowered (в пределах 6\" от союзной половины)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "3d5902bd-a800-4b2e-a1c2-1bb1f3d544ed",
       "kind": "detachmentRule",
       "name": "Sensational Performance",
@@ -47,6 +75,34 @@ export default {
         "kind": "detachmentRule",
         "det": "court-of-the-phoenician"
       }
+    },
+    {
+      "sid": "b18e24ee-40da-4585-ae6e-d99bab42aab2",
+      "kind": "detachmentRule",
+      "name": "Frantic Focus",
+      "det": "Frenzied Host",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "frenzied-host"
+      },
+      "hash": "c74b85fe",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the turn in which that unit was selected to make an advance or fall-back move",
+            "ru": "до конца хода, в котором отряд выбран для advance/fall-back-перемещения"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
@@ -284,6 +340,50 @@ export default {
       ]
     },
     {
+      "sid": "07b233f5-b9d7-40a8-b114-06c572e45886",
+      "kind": "enhancement",
+      "name": "Euphoric Crown",
+      "det": "Frenzied Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "frenzied-host"
+      },
+      "hash": "4b6299cb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "d4fcc7d3-1641-42fa-a300-9ba09b6776fb",
+      "kind": "enhancement",
+      "name": "Howling Plate",
+      "det": "Frenzied Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "frenzied-host"
+      },
+      "hash": "381682e9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
       "kind": "enhancement",
       "name": "Steeped in Suffering",
@@ -422,6 +522,28 @@ export default {
         "kind": "enhancement",
         "det": "slaaneshs-chosen"
       }
+    },
+    {
+      "sid": "87003c53-7a8a-49f0-bcc3-f07e7749ba3b",
+      "kind": "enhancement",
+      "name": "Eager Patrons (Upgrade)",
+      "det": "Spectacle of Slaughter",
+      "ref": {
+        "kind": "enhancement",
+        "det": "spectacle-of-slaughter"
+      },
+      "hash": "2ddd5ee8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     }
   ]
 }

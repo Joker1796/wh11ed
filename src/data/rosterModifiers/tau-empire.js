@@ -116,6 +116,34 @@ export default {
       }
     },
     {
+      "sid": "8d4abd30-90f3-4747-8497-0fe92c9377c9",
+      "kind": "detachmentRule",
+      "name": "Patient Hunter",
+      "det": "Kauyon",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "kauyon"
+      },
+      "hash": "e7892f2a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "during the third, fourth and fifth battle rounds",
+            "ru": "в третьем, четвёртом и пятом раундах"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "227283db-9c12-4439-a0e6-bfa6c2ac0644",
       "kind": "detachmentRule",
       "name": "Hunter’s Instincts",
@@ -156,6 +184,47 @@ export default {
         "kind": "detachmentRule",
         "det": "kroot-hunting-pack"
       }
+    },
+    {
+      "sid": "b6a14719-7a92-480a-9a27-a67e48996c50",
+      "kind": "detachmentRule",
+      "name": "Killing Blow",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "montka"
+      },
+      "hash": "512df2e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "during the first, second and third battle rounds",
+            "ru": "в первом, втором и третьем раундах"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "during the first, second and third battle rounds, while the unit is Guided",
+            "ru": "в первом, втором и третьем раундах, пока отряд Guided"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b7f0dc14-9ef7-4228-9162-ce5dcb921fc9",
@@ -199,6 +268,250 @@ export default {
       }
     },
     {
+      "sid": "62b007f2-e374-41af-8c14-9df423e382c6",
+      "kind": "detachmentRule",
+      "name": "Co-ordinated Eradication",
+      "det": "Sudden Dawn Cadre",
+      "ref": null,
+      "hash": "e0bc5f03",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "once per battle, per army, against the one enemy unit selected",
+            "ru": "раз за битву на армию, против одного выбранного отряда противника"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "e168fe57-5411-4ee4-978e-afa421d8fd5e",
+      "kind": "enhancement",
+      "name": "Admired Leader",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "auxiliary-cadre"
+      },
+      "hash": "42062682",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bbb5af4d-2fed-4d0e-9e75-7e533cb8d72b",
+      "kind": "enhancement",
+      "name": "Plasma Accelerator Rifle",
+      "det": "Experimental Prototype Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "experimental-prototype-cadre"
+      },
+      "hash": "23e6cbda",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Plasma rifle"
+          },
+          "when": {
+            "en": "the one Plasma Rifle selected in the Declare Battle Formations step",
+            "ru": "одно оружие Plasma Rifle, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Plasma rifle"
+          },
+          "when": {
+            "en": "the one Plasma Rifle selected in the Declare Battle Formations step",
+            "ru": "одно оружие Plasma Rifle, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Plasma rifle"
+          },
+          "when": {
+            "en": "the one Plasma Rifle selected in the Declare Battle Formations step",
+            "ru": "одно оружие Plasma Rifle, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Plasma rifle"
+          },
+          "when": {
+            "en": "the one Plasma Rifle selected in the Declare Battle Formations step",
+            "ru": "одно оружие Plasma Rifle, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "db116728-4b55-4323-8ed9-60397162dc82",
+      "kind": "enhancement",
+      "name": "Supernova Launcher",
+      "det": "Experimental Prototype Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "experimental-prototype-cadre"
+      },
+      "hash": "2b9b1c3b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Airbursting fragmentation projector"
+          },
+          "when": {
+            "en": "the one Airbursting Fragmentation Projector selected in the Declare Battle Formations step",
+            "ru": "одно оружие Airbursting Fragmentation Projector, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Airbursting fragmentation projector"
+          },
+          "when": {
+            "en": "the one Airbursting Fragmentation Projector selected in the Declare Battle Formations step",
+            "ru": "одно оружие Airbursting Fragmentation Projector, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Airbursting fragmentation projector"
+          },
+          "when": {
+            "en": "the one Airbursting Fragmentation Projector selected in the Declare Battle Formations step",
+            "ru": "одно оружие Airbursting Fragmentation Projector, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "302188cd-822a-40bd-93b3-8ccf7e50e1b7",
+      "kind": "enhancement",
+      "name": "Thermoneutronic Projector",
+      "det": "Experimental Prototype Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "experimental-prototype-cadre"
+      },
+      "hash": "7486b8b1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "T’au flamer"
+          },
+          "when": {
+            "en": "the one T'au Flamer selected in the Declare Battle Formations step",
+            "ru": "одно оружие T’au Flamer, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "T’au flamer"
+          },
+          "when": {
+            "en": "the one T'au Flamer selected in the Declare Battle Formations step",
+            "ru": "одно оружие T’au Flamer, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "T’au flamer"
+          },
+          "when": {
+            "en": "the one T'au Flamer selected in the Declare Battle Formations step",
+            "ru": "одно оружие T’au Flamer, выбранное на шаге Declare Battle Formations"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "7c538bba-1367-4adc-b54b-bea749daa8a5",
       "kind": "enhancement",
       "name": "Precision of the Patient Hunter",
@@ -211,6 +524,56 @@ export default {
         "kind": "enhancement",
         "det": "kauyon"
       }
+    },
+    {
+      "sid": "f65de9ae-c750-4ab8-bbb6-6459f9787c12",
+      "kind": "enhancement",
+      "name": "Through Unity, Devastation",
+      "det": "Kauyon",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kauyon"
+      },
+      "hash": "de6acae3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the unit is Guided and targeting its Spotted unit, with the bearer leading an Observer unit",
+            "ru": "пока отряд Guided и целью является его Spotted-отряд, а носитель ведёт Observer-отряд"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "b0b02250-29bc-4b8f-b501-a007e6fb45e6",
+      "kind": "enhancement",
+      "name": "Kroothawk Flock",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kroot-hunting-pack"
+      },
+      "hash": "262e776c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7e5ea128-b5a8-4540-b84b-6b74bca2da44",
@@ -249,6 +612,63 @@ export default {
           },
           "cond": [
             "unit-leading"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "4dd7d360-96a8-4d06-a4b6-37db141d8b80",
+      "kind": "enhancement",
+      "name": "Root-carved Weapons",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kroot-hunting-pack"
+      },
+      "hash": "0bd55e1f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "ee09770e-ecef-40eb-9435-f17af1b050ec",
+      "kind": "enhancement",
+      "name": "Coordinated Exploitation",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "enhancement",
+        "det": "montka"
+      },
+      "hash": "eb061f13",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the unit is Guided and targeting its Spotted unit, with the bearer leading an Observer unit",
+            "ru": "пока отряд Guided и целью является его Spotted-отряд, а носитель ведёт Observer-отряд"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]
@@ -300,6 +720,31 @@ export default {
           "op": "grant",
           "value": "Grenades",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3513ccb4-3398-47a4-9518-5cc2ab78b9cb",
+      "kind": "enhancement",
+      "name": "Proximity Scanners",
+      "det": "Sudden Dawn Cadre",
+      "ref": null,
+      "hash": "bbffd440",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for a unit disembarking from this Devilfish, pulse blaster and pulse carbine only",
+            "ru": "для отряда, высаживающегося из этого Devilfish, только pulse blaster и pulse carbine"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     }

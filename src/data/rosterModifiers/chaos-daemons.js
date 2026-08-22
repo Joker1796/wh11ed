@@ -116,6 +116,35 @@ export default {
       "note": "army-composition rule — allied points allowance, no printed number"
     },
     {
+      "sid": "676a146d-1018-40c5-82d4-e2c816e4bf80",
+      "kind": "detachmentRule",
+      "name": "Loci of Power",
+      "det": "Lords of the Warp",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "lords-of-the-warp"
+      },
+      "hash": "5baf0248",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "7f775c80-d3ce-4aa7-a586-348ac9502b2a",
       "kind": "detachmentRule",
       "name": "shudderblink",
@@ -157,6 +186,56 @@ export default {
         "kind": "enhancement",
         "det": "blood-legion"
       }
+    },
+    {
+      "sid": "f8020def-f6bf-421b-ab9d-9b2fd1dfadc3",
+      "kind": "enhancement",
+      "name": "Slaughterthirst (Aura)",
+      "det": "Blood Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "blood-legion"
+      },
+      "hash": "66c3a4e1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while that unit is within 6\" of the bearer",
+            "ru": "пока отряд в пределах 6\" от носителя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "911e7488-e48a-45e0-9925-4e7c58fbe13f",
+      "kind": "enhancement",
+      "name": "Apocalyptic Steeds (Upgrade)",
+      "det": "Cavalcade of Chaos",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cavalcade-of-chaos"
+      },
+      "hash": "ac0e965b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ebead938-7836-4e08-a1bf-e0c5ab3801a5",
@@ -273,6 +352,28 @@ export default {
       }
     },
     {
+      "sid": "533bc4ea-3d36-4fb0-95c2-8169ccd52859",
+      "kind": "enhancement",
+      "name": "Swollen with Power (Upgrade)",
+      "det": "Lords of the Warp",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-the-warp"
+      },
+      "hash": "06e094b5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "c6c3e944-461f-4651-a57c-d4d0a8a03ca4",
       "kind": "enhancement",
       "name": "Font of Spores (Aura)",
@@ -321,6 +422,28 @@ export default {
         "kind": "enhancement",
         "det": "scintillating-legion"
       }
+    },
+    {
+      "sid": "202cf6aa-5832-4f39-8d1f-555088d46b27",
+      "kind": "enhancement",
+      "name": "Bane-forged Weapons (Upgrade)",
+      "det": "Warptide",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warptide"
+      },
+      "hash": "8abc82de",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

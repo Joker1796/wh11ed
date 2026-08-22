@@ -102,6 +102,66 @@ export default {
       "note": "the infernal cannon is the only ranged row on these datasheets"
     },
     {
+      "sid": "94c913b5-2ba2-423b-bc8e-c1e05512044c",
+      "kind": "detachmentRule",
+      "name": "Empyric Wellspring",
+      "det": "Cabal of Chaos",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cabal-of-chaos"
+      },
+      "hash": "7f946683",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, if that unit makes a Dark Pact",
+            "ru": "в вашей фазе стрельбы, если отряд заключил Dark Pact"
+          },
+          "cond": [
+            "phase-shooting",
+            "unit-dark-pact-invoked"
+          ]
+        },
+        {
+          "scope": 1,
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "in the Fight phase, if that unit makes a Dark Pact",
+            "ru": "в фазе боя, если отряд заключил Dark Pact"
+          },
+          "cond": [
+            "phase-fight",
+            "unit-dark-pact-invoked"
+          ]
+        },
+        {
+          "scope": 1,
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "in the Fight phase, if that unit makes a Dark Pact",
+            "ru": "в фазе боя, если отряд заключил Dark Pact"
+          },
+          "cond": [
+            "phase-fight",
+            "unit-dark-pact-invoked"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "cf85e0a8-77ed-4e68-b5a4-a6b757aad177",
       "kind": "detachmentRule",
       "name": "Desperate Devotion",
@@ -336,6 +396,28 @@ export default {
       }
     },
     {
+      "sid": "be2d456a-583e-430f-b6aa-6f3da4f250e5",
+      "kind": "detachmentRule",
+      "name": "Slaves to None",
+      "det": "Renegade Warband",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "renegade-warband"
+      },
+      "hash": "d0e83155",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "180d0072-f72a-4976-bd90-a6531c9cd609",
       "kind": "detachmentRule",
       "name": "Debt to the Soul Forge",
@@ -363,6 +445,17 @@ export default {
         "kind": "detachmentRule",
         "det": "soulforged-warpack"
       }
+    },
+    {
+      "sid": "05ef298c-13c6-465c-986d-265e4d9a1be1",
+      "kind": "detachmentRule",
+      "name": "Abject Fear",
+      "det": "Zarkan’s Daemonkin",
+      "ref": null,
+      "hash": "f4d79faa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "d5097c0b-09a5-4a90-821f-58d20bf7f336",
@@ -503,6 +596,28 @@ export default {
       }
     },
     {
+      "sid": "a75445ba-2c59-4eeb-a687-6239357ea9cb",
+      "kind": "enhancement",
+      "name": "Surgical Precision",
+      "det": "Creations of Bile",
+      "ref": {
+        "kind": "enhancement",
+        "det": "creations-of-bile"
+      },
+      "hash": "b20b3a0a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "cbe268b4-d3fc-4235-9e0f-9186b25e74d4",
       "kind": "enhancement",
       "name": "Crown of Worms",
@@ -590,6 +705,35 @@ export default {
       ]
     },
     {
+      "sid": "b76d0a7a-fc2f-4f5e-a569-ead3c9e8af46",
+      "kind": "enhancement",
+      "name": "Iron Artifice",
+      "det": "Fellhammer Siege-host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "fellhammer-siege-host"
+      },
+      "hash": "1fb315ad",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-FORTIFICATION 4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "21b97ac4-0081-470d-910f-2e7c4d54b4a7",
       "kind": "enhancement",
       "name": "Ironbound Enmity",
@@ -602,6 +746,35 @@ export default {
         "kind": "enhancement",
         "det": "fellhammer-siege-host"
       }
+    },
+    {
+      "sid": "fb3a3dfd-c4f0-4908-b0b4-ddc1da594d6a",
+      "kind": "enhancement",
+      "name": "Pact of Cursed Pinions",
+      "det": "Murdertalon Raiders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "murdertalon-raiders"
+      },
+      "hash": "7e694e61",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "DAEMON",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fcd7d534-d0e1-4aad-9872-32329d49349d",
@@ -659,6 +832,28 @@ export default {
         "kind": "enhancement",
         "det": "renegade-warband"
       }
+    },
+    {
+      "sid": "b633020e-f18a-4a29-b2a7-2de5fcb08c2c",
+      "kind": "enhancement",
+      "name": "Eyes of the Hunter",
+      "det": "Renegade Warband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "renegade-warband"
+      },
+      "hash": "2eaa360d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "163a57f4-8b75-4ef4-b9db-bc8272981dd2",
@@ -758,6 +953,25 @@ export default {
         "kind": "enhancement",
         "det": "warpstrike-champions"
       }
+    },
+    {
+      "sid": "62d03b18-0075-4b52-8b53-fadbc253fadb",
+      "kind": "enhancement",
+      "name": "Infernal Infusion",
+      "det": "Zarkan’s Daemonkin",
+      "ref": null,
+      "hash": "6b4f2235",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

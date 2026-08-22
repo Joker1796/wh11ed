@@ -132,6 +132,34 @@ export default {
       ]
     },
     {
+      "sid": "184bc9b1-4743-4683-bb76-b667e8084f98",
+      "kind": "enhancement",
+      "name": "Eye of Affliction",
+      "det": "Mortarion’s Hammer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mortarions-hammer"
+      },
+      "hash": "41e6a5fd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while targeting an Afflicted enemy unit",
+            "ru": "пока целью является Afflicted-отряд противника"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
       "kind": "enhancement",
       "name": "Sorrowsyphon",

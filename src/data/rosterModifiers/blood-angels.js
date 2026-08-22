@@ -108,6 +108,34 @@ export default {
       }
     },
     {
+      "sid": "8f4b7a67-ab94-4545-afea-aa061b2fd5f2",
+      "kind": "enhancement",
+      "name": "Shadow of Abomination",
+      "det": "Encarmine Speartip",
+      "ref": {
+        "kind": "enhancement",
+        "det": "encarmine-speartip"
+      },
+      "hash": "93ae32eb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, per army, when this unit is selected to fight",
+            "ru": "раз за битву на армию, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "43800b4c-d055-44df-b593-75ee22ba1231",
       "kind": "enhancement",
       "name": "Blood Boil",
@@ -134,6 +162,34 @@ export default {
       "note": "addresses the [PSYCHIC] attacks, a subset of the weapon rows this format cannot single out"
     },
     {
+      "sid": "77a40dd5-c838-4223-80b2-853a997a7d0c",
+      "kind": "enhancement",
+      "name": "Rage-fuelled Warrior",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "enhancement",
+        "det": "liberator-assault-group"
+      },
+      "hash": "950b2f1e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 3",
+          "when": {
+            "en": "once per battle, for the Fight phase the bearer uses this Enhancement in",
+            "ru": "раз за битву, на фазу боя, в которой носитель использовал улучшение"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",
       "kind": "enhancement",
       "name": "Sanguinary Tear (Aura)",
@@ -146,6 +202,61 @@ export default {
         "kind": "enhancement",
         "det": "rage-cursed-onslaught"
       }
+    },
+    {
+      "sid": "51ee8286-2787-4427-8df3-d5ccea9bab9f",
+      "kind": "enhancement",
+      "name": "Masterful Fighter",
+      "det": "Sanguinary Spearhead",
+      "ref": null,
+      "hash": "6edde99c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "4d3bc718-7687-4dbe-ba8b-5f42d0e4506a",
+      "kind": "enhancement",
+      "name": "Archangel’s Shard",
+      "det": "The Angelic Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "the-angelic-host"
+      },
+      "hash": "c209f36e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-CHAOS 5+",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "63a53ef1-6111-4a00-8ce9-418646cd23cf",
@@ -189,6 +300,28 @@ export default {
         "kind": "enhancement",
         "det": "the-lost-brethren"
       }
+    },
+    {
+      "sid": "99c9bba1-4e59-4d3e-b168-906e977bb05d",
+      "kind": "enhancement",
+      "name": "On the Archtraitor's Bridge",
+      "det": "Wrath of the Doomed",
+      "ref": {
+        "kind": "enhancement",
+        "det": "wrath-of-the-doomed"
+      },
+      "hash": "80d7e659",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     }
   ]
 }

@@ -8,6 +8,53 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "ed4a222f-7ed6-4e9d-b310-0cb08a3c4906",
+      "kind": "detachmentRule",
+      "name": "Channelled Force",
+      "det": "Banishers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "banishers"
+      },
+      "hash": "5abc516f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "while that Leadership test was passed and this rule was the one selected",
+            "ru": "пока пройден тест Leadership и выбрано именно это правило"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "while that Leadership test was passed and this rule was the one selected",
+            "ru": "пока пройден тест Leadership и выбрано именно это правило"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a2c33cb8-a90f-427a-b1b2-7f15b0207e36",
       "kind": "detachmentRule",
       "name": "Mailed Fist",
@@ -172,6 +219,28 @@ export default {
       ]
     },
     {
+      "sid": "880712dd-e7d0-4140-8b54-c7d395724841",
+      "kind": "enhancement",
+      "name": "Boons of Deimos (Upgrade)",
+      "det": "Fires of Purgation",
+      "ref": {
+        "kind": "enhancement",
+        "det": "fires-of-purgation"
+      },
+      "hash": "05162876",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "de7be923-5642-4bf5-b8da-1ad373303f47",
       "kind": "enhancement",
       "name": "Sanctic Reaper",
@@ -220,6 +289,28 @@ export default {
         "kind": "enhancement",
         "det": "warpbane-task-force"
       }
+    },
+    {
+      "sid": "e3ead97e-e27b-44e0-b925-95a9551416f9",
+      "kind": "enhancement",
+      "name": "Radiant Champion",
+      "det": "Warpbane Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpbane-task-force"
+      },
+      "hash": "be39ba82",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
     }
   ]
 }

@@ -65,6 +65,25 @@ export default {
       }
     },
     {
+      "sid": "8102e3e2-4887-44d1-a3ca-a40599dffed2",
+      "kind": "detachmentRule",
+      "name": "Indomitable Resolve",
+      "det": "Assault Force",
+      "ref": null,
+      "hash": "e1c85f08",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "f8714ccf-244f-44c5-aaac-9dc11b404038",
       "kind": "detachmentRule",
       "name": "Adaptive Defence",
@@ -177,6 +196,47 @@ export default {
       ]
     },
     {
+      "sid": "5f85515e-c438-4f69-9b46-e1235fa5b934",
+      "kind": "detachmentRule",
+      "name": "Psychic Disciplines",
+      "det": "Librarius Conclave",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "librarius-conclave"
+      },
+      "hash": "569c6dad",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while the Biomancy Discipline is the one selected this battle round",
+            "ru": "пока в этом раунде выбрана дисциплина Biomancy"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while the Pyromancy Discipline is selected, against an enemy unit within 12\"",
+            "ru": "пока выбрана дисциплина Pyromancy, против отряда противника в пределах 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "fa8c2bcd-8194-4017-b12b-b7eed35cc993",
       "kind": "detachmentRule",
       "name": "Oath of Reclamation",
@@ -275,6 +335,62 @@ export default {
       }
     },
     {
+      "sid": "3fc43d3f-e342-4c47-be47-b988e604f8f9",
+      "kind": "enhancement",
+      "name": "Architect of War",
+      "det": "Anvil Siege Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "anvil-siege-force"
+      },
+      "hash": "224d2ea9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1816609d-be8c-4b19-bf30-7b04cf8d4536",
+      "kind": "enhancement",
+      "name": "Shock Deployment",
+      "det": "Armoured Speartip",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-speartip"
+      },
+      "hash": "bd5d10fa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "in your Shooting phase, if the unit disembarked from a Transport this turn",
+            "ru": "в вашей фазе стрельбы, если отряд высадился из Transport в этом ходу"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "df54e4af-9023-4a38-ba72-88a7b7be921e",
       "kind": "enhancement",
       "name": "Battle-line Veterans",
@@ -335,6 +451,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "f80a835c-9d3f-424c-b3f6-39b1b9c38b0d",
+      "kind": "enhancement",
+      "name": "Eye of the Primarch",
+      "det": "Bastion Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "bastion-task-force"
+      },
+      "hash": "134941ed",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "the bearer and Battleline models in its unit only",
+            "ru": "только носитель и модели Battleline в его отряде"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "1b46835e-a785-4a31-8f8f-a80b27136279",
@@ -420,6 +564,56 @@ export default {
         "kind": "enhancement",
         "det": "blade-of-ultramar"
       }
+    },
+    {
+      "sid": "bc002275-58b6-41cf-ac7c-df522aecec69",
+      "kind": "enhancement",
+      "name": "Veteran of Behemoth",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "enhancement",
+        "det": "blade-of-ultramar"
+      },
+      "hash": "a2c93f37",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "2b58efe2-2d62-4b7b-a0df-6e65bf3193ce",
+      "kind": "enhancement",
+      "name": "Spy-skull Data Link",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ceramite-sentinels"
+      },
+      "hash": "b05ef11e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "8d56caf6-2966-40b2-814f-00bac4e11b27",
@@ -583,6 +777,34 @@ export default {
       ]
     },
     {
+      "sid": "d3be1512-5719-483c-98c8-bda76a604897",
+      "kind": "enhancement",
+      "name": "Fire Discipline",
+      "det": "Gladius Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "gladius-task-force"
+      },
+      "hash": "a2c93f37",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "57200c62-5d47-4622-a062-41e1bc1241c9",
       "kind": "enhancement",
       "name": "The Honour Vehement",
@@ -710,6 +932,56 @@ export default {
       }
     },
     {
+      "sid": "8b00b0ce-52cd-46a3-9adb-b39c5dc2058c",
+      "kind": "enhancement",
+      "name": "Astartes Tank Ace (Aura)",
+      "det": "Headhunter Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "headhunter-task-force"
+      },
+      "hash": "42cab643",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "in your Shooting phase, while within 6\" of the bearer",
+            "ru": "в вашей фазе стрельбы, пока в пределах 6\" от носителя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "6e9bfaba-0954-4037-806b-32af5791e117",
+      "kind": "enhancement",
+      "name": "Firestorm Coordinators",
+      "det": "Headhunter Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "headhunter-task-force"
+      },
+      "hash": "c8776897",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "fb42248c-8de6-42bb-a457-555e04ae072f",
       "kind": "enhancement",
       "name": "Redoubtable Machine Spirit",
@@ -732,6 +1004,20 @@ export default {
       }
     },
     {
+      "sid": "d8f14666-8a59-43cf-ab2e-ae009229be08",
+      "kind": "enhancement",
+      "name": "Target Augury Web",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ironstorm-spearhead"
+      },
+      "hash": "19e261ff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "fb962a7a-73f1-4fa3-a5a8-8d31419e40c2",
       "kind": "enhancement",
       "name": "Seals of Reconquest",
@@ -752,6 +1038,35 @@ export default {
         "kind": "enhancement",
         "det": "reclamation-force"
       }
+    },
+    {
+      "sid": "2906828f-8819-4b4d-a17a-5e0960a74000",
+      "kind": "enhancement",
+      "name": "Hunter’s Eye",
+      "det": "Spearpoint Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "spearpoint-task-force"
+      },
+      "hash": "c21119aa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d72f263b-8ee5-4f71-b46d-7142f2e7e234",
