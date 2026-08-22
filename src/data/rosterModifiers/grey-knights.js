@@ -33,7 +33,7 @@ export default {
             "ru": "пока пройден тест Leadership и выбрано именно это правило"
           },
           "cond": [
-            "never"
+            "channelled-sustained"
           ]
         },
         {
@@ -49,7 +49,7 @@ export default {
             "ru": "пока пройден тест Leadership и выбрано именно это правило"
           },
           "cond": [
-            "never"
+            "channelled-lethal"
           ]
         }
       ]

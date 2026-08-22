@@ -40,6 +40,13 @@ export const SENTINELS = {
   'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
 }
 
+// `group` — ids that are alternatives to one another, at most one of which can be on. The rule
+// says so in words ("select one of the Orders below", "a unit can only be affected by one Order at
+// a time — any Order subsequently issued replaces the current one"), and useTracker enforces it on
+// write: turning one on clears its siblings. Without it a card could show a unit under two Orders
+// at once, which is not a state the game has. Ungrouped where the rule allows several — Blessings
+// of Khorne activates up to two, Combat Drugs can be rolled two at a time.
+//
 // scope — who answers the question:
 //   army    one switch for the whole army (an army rule state; the army-rule tracker proves some)
 //   unit    a per-entry switch (this unit charged, is Battle-shocked, has an Order on it)
@@ -53,18 +60,18 @@ export const conditions = {
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
   'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
-  'discipline-biomancy': { scope: 'army', duration: 'round', label: { en: 'Biomancy Discipline', ru: 'Biomancy Discipline' } },
-  'discipline-pyromancy': { scope: 'army', duration: 'round', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy Discipline' } },
+  'discipline-biomancy': { scope: 'army', duration: 'round', group: 'psychic-discipline', label: { en: 'Biomancy Discipline', ru: 'Biomancy Discipline' } },
+  'discipline-pyromancy': { scope: 'army', duration: 'round', group: 'psychic-discipline', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy Discipline' } },
   'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
   'blessing-warp-blades': { scope: 'army', duration: 'round', label: { en: 'Warp Blades', ru: 'Warp Blades' } },
-  'tactic-furor': { scope: 'army', duration: 'round', label: { en: 'Furor Tactics', ru: 'Furor Tactics' } },
-  'tactic-malleus': { scope: 'army', duration: 'round', label: { en: 'Malleus Tactics', ru: 'Malleus Tactics' } },
-  'drug-adrenalight': { scope: 'army', duration: 'battle', label: { en: 'Adrenalight', ru: 'Adrenalight' } },
-  'drug-hypex': { scope: 'army', duration: 'battle', label: { en: 'Hypex', ru: 'Hypex' } },
-  'drug-serpentin': { scope: 'army', duration: 'battle', label: { en: 'Serpentin', ru: 'Serpentin' } },
-  'drug-painbringer': { scope: 'army', duration: 'battle', label: { en: 'Painbringer', ru: 'Painbringer' } },
-  'drug-grave-lotus': { scope: 'army', duration: 'battle', label: { en: 'Grave Lotus', ru: 'Grave Lotus' } },
-  'drug-splintermind': { scope: 'army', duration: 'battle', label: { en: 'Splintermind', ru: 'Splintermind' } },
+  'tactic-furor': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Furor Tactics', ru: 'Furor Tactics' } },
+  'tactic-malleus': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Malleus Tactics', ru: 'Malleus Tactics' } },
+  'drug-adrenalight': { scope: 'army', duration: 'round', label: { en: 'Adrenalight', ru: 'Adrenalight' } },
+  'drug-hypex': { scope: 'army', duration: 'round', label: { en: 'Hypex', ru: 'Hypex' } },
+  'drug-serpentin': { scope: 'army', duration: 'round', label: { en: 'Serpentin', ru: 'Serpentin' } },
+  'drug-painbringer': { scope: 'army', duration: 'round', label: { en: 'Painbringer', ru: 'Painbringer' } },
+  'drug-grave-lotus': { scope: 'army', duration: 'round', label: { en: 'Grave Lotus', ru: 'Grave Lotus' } },
+  'drug-splintermind': { scope: 'army', duration: 'round', label: { en: 'Splintermind', ru: 'Splintermind' } },
   // Necrons' Cursed Legion: the trigger is one Destroyer Cult unit killing something, but the
   // bonus is the army's for the rest of the turn — an army switch, not a per-unit one.
   'cold-fervour': { scope: 'army', duration: 'turn', label: { en: 'Cold Fervour triggered', ru: 'Cold Fervour сработал' } },
@@ -87,6 +94,20 @@ export const conditions = {
   'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
   'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
+  // Martial Ka'tah: the unit picks a stance each time it is selected to fight, so this is a
+  // per-unit choice that lasts the phase — nothing can derive it, which is exactly what a switch
+  // is for.
+  'stance-dacatari': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Dacatari Stance', ru: 'Стойка Dacatari' } },
+  'stance-rendax': { scope: 'unit', duration: 'phase', group: 'ka-tah', label: { en: 'Rendax Stance', ru: 'Стойка Rendax' } },
+  // Grey Knights' Channelled Force: pass a Leadership test when selected to fight, then pick one of
+  // two rules for the phase. Both halves are the player's to know, so both live in one switch.
+  'channelled-sustained': { scope: 'unit', duration: 'phase', group: 'channelled-force', label: { en: 'Channelled: Sustained Hits', ru: 'Channelled: Sustained Hits' } },
+  'channelled-lethal': { scope: 'unit', duration: 'phase', group: 'channelled-force', label: { en: 'Channelled: Lethal Hits', ru: 'Channelled: Lethal Hits' } },
+  // Hagiomnifex: once per turn the unit uses one of five abilities, chosen at the start of a
+  // phase. Two of the five change a number. Read as lasting that phase — the shorter reading, so
+  // a stale switch can't rewrite a number after the fact.
+  'hagio-catechism': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Catechism of Raging Fervour', ru: 'Catechism of Raging Fervour' } },
+  'hagio-psalm': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Psalm of Righteous Smiting', ru: 'Psalm of Righteous Smiting' } },
   'unit-disembarked': { scope: 'unit', duration: 'turn', label: { en: 'Disembarked this turn', ru: 'Высадился в этом ходу' } },
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
@@ -101,11 +122,11 @@ export const conditions = {
   'surge-unholy-hunger': { scope: 'unit', duration: 'phase', label: { en: 'Unholy Hunger', ru: 'Unholy Hunger' } },
   'surge-unnatural-fortitude': { scope: 'unit', duration: 'phase', label: { en: 'Unnatural Fortitude', ru: 'Unnatural Fortitude' } },
   // Astra Militarum Orders — issued to one unit in the Command phase, so per unit, not per army.
-  'order-move-move-move': { scope: 'unit', duration: 'round', label: { en: '«Move! Move! Move!»', ru: '«Move! Move! Move!»' } },
-  'order-fix-bayonets': { scope: 'unit', duration: 'round', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },
-  'order-take-aim': { scope: 'unit', duration: 'round', label: { en: '«Take Aim!»', ru: '«Take Aim!»' } },
-  'order-duty-and-honour': { scope: 'unit', duration: 'round', label: { en: '«Duty and Honour!»', ru: '«Duty and Honour!»' } },
-  'order-first-rank-fire': { scope: 'unit', duration: 'round', label: { en: '«First Rank, Fire! Second Rank, Fire!»', ru: '«First Rank, Fire! Second Rank, Fire!»' } },
+  'order-move-move-move': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Move! Move! Move!»', ru: '«Move! Move! Move!»' } },
+  'order-fix-bayonets': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },
+  'order-take-aim': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Take Aim!»', ru: '«Take Aim!»' } },
+  'order-duty-and-honour': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Duty and Honour!»', ru: '«Duty and Honour!»' } },
+  'order-first-rank-fire': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«First Rank, Fire! Second Rank, Fire!»', ru: '«First Rank, Fire! Second Rank, Fire!»' } },
 
   // ── Answered by the list itself ─────────────────────────────────────────────────────────
   // The roster records the attachment, so there is nothing to ask the player.

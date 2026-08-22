@@ -765,7 +765,7 @@ at all. Three files, one idea:
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
-  **129 of the 285 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
+  **125 of the 275 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
   `blocked-subset`, `blocked-weapon`) that says why not. **A missing `cond` is not "unconditional" —
   it is unreviewed, and is treated as unproven.**
 
@@ -784,6 +784,15 @@ at all. Three files, one idea:
   - A subset naming part of the unit ("Penitent models, while…") still belongs in `scope`, the
     index of the rule statement that says it — 10 were moved there; 26 remain where the rule's own
     prose has no statement matching the subset.
+  **`group` makes ids alternatives**: at most one of a group can be on, enforced on WRITE in
+  `useTracker` (`clearGroupSiblings`) rather than in a view, so no caller can forget. The rules say
+  it in words — "select one of the Orders below", and for Orders even how it resolves ("any Order
+  subsequently issued to that unit replaces the current one"). Ungrouped where the rule allows
+  several: Blessings of Khorne activates up to two, Combat Drugs can be rolled two at a time.
+  **A "select one of N" rule is a switch, not a sentinel** — Martial Ka'tah's stances, Grey Knights'
+  Channelled Force, Hagiomnifex's five abilities are things only the player knows, which is exactly
+  what a switch is for. Marking one `never` (as the first review pass did) leaves the card showing a
+  note it could have applied.
 - **`src/composables/rosterGameContext.js`** — the answers. Each id is answered from exactly ONE
   source: `auto` (the tracker already knows — a called Waaagh! from the Ork toggle spec, the active
   Doctrina Imperative from the Adeptus Mechanicus selection spec), `roster` (the list already says

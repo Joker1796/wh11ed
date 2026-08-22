@@ -498,3 +498,37 @@ describe('the phase clock', () => {
   })
 })
 
+// ── Rule-condition switches ───────────────────────────────────────────────────────────────────
+describe('condition switches', () => {
+  it('records when a switch was flipped, and clears it on the way back off', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, true)
+    expect(tracker.current.value.players[0].ctx.units.u1['unit-charged']).toBe(205)
+    tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, false)
+    expect(tracker.current.value.players[0].ctx.units).toEqual({})
+  })
+
+  // "A unit can only be affected by one Order at a time (any Order subsequently issued to that
+  // unit replaces the current one)" — the rule replaces, so the store does too.
+  it('an alternative replaces its sibling instead of stacking with it', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitCondition(0, 'u1', 'order-take-aim', 101, true)
+    tracker.setUnitCondition(0, 'u1', 'order-fix-bayonets', 102, true)
+    expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102 })
+  })
+
+  it('leaves ungrouped switches alone — some rules really do allow several', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'blessing-martial-excellence', 101, true)
+    tracker.setArmyCondition(0, 'blessing-warp-blades', 101, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['blessing-martial-excellence', 'blessing-warp-blades'])
+  })
+
+  it('keeps the two players\' contexts apart', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'tactic-furor', 101, true)
+    expect(tracker.current.value.players[1].ctx).toBeUndefined()
+  })
+})
+
