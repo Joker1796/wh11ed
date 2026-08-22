@@ -778,7 +778,13 @@ Plan, research and open questions: `ROSTER-IN-GAME-PROGRESS.md`.
 
 ## Known gaps
 
-See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list (no cloud
-backup) — kept there rather than here since that file is the transient tracking doc and this one
-is the stable reference. The modifier overlay has its own tracking doc,
-`ROSTER-MODIFIERS-PROGRESS.md` (see the section above).
+See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list — kept there
+rather than here since that file is the transient tracking doc and this one is the stable
+reference. Cloud backup used to head that list; it was built on 2026-08-22 (see "Cloud sync"
+above) and the backend half still has to be deployed. The modifier overlay has its own tracking
+doc, `ROSTER-MODIFIERS-PROGRESS.md` (see the section above).
+
+What is still genuinely missing, feature-wise: **import** reads only our own share link (no GW-app
+text, no `.ros`), and **export** writes a GW-app-shaped text that is close to but not byte-exact
+with the real thing — the two together are what would let a list travel to and from New Recruit /
+BattleScribe / the official app.
