@@ -145,6 +145,21 @@ function condHolds(cond, active) {
   return Array.isArray(cond) && cond.length > 0 && cond.every((id) => active?.has(id))
 }
 
+// Is a CONDITIONAL effect proven right now? One predicate for all three passes (alternates, the
+// apply pass, keyword grants), because they must agree: an effect that rewrote a number but was
+// skipped by the grant pass would leave the card claiming a keyword it does not have, or the other
+// way round.
+//
+// A stratagem is proven by being SPENT, and its effects usually carry no `cond` at all — the whole
+// condition is that someone paid for it. Everywhere else an absent `cond` still means "nobody has
+// read this yet" and stays unproven. Getting that backwards made every stratagem a footnote that
+// never applied, however many chips were lit.
+function effectLive(entry, effect, active, activeStrats) {
+  if (entry.kind === 'stratagem' && !activeStrats?.has(entry.sid)) return false
+  if (effect.cond?.length) return condHolds(effect.cond, active)
+  return entry.kind === 'stratagem'
+}
+
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
 // Returns the sheet to render (a copy when anything changed, the same object when not), the
 // notes to print under it, the set of cells that were rewritten, keyed
@@ -186,7 +201,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     for (const eff of effects) {
       if (eff.alt == null) continue
       if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets)) continue
-      if (eff.when && !condHolds(eff.cond, active)) continue
+      if (eff.when && !effectLive(entry, eff, active, activeStrats)) continue
       replaced.add(eff.alt)
     }
 
@@ -199,13 +214,14 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       // is the set of records the player says are in force (keyed by sid, expiring on their own
       // `dur` — see rosterGameContext's activeStratagems). An extra `cond` on top still has to hold,
       // which is how "…against MONSTER targets" stays a footnote even while the stratagem is up.
-      const stratLive = entry.kind === 'stratagem' ? !!activeStrats?.has(entry.sid) : true
-      const live = effect.when ? stratLive && condHolds(effect.cond, active) : false
+      const live = effect.when ? effectLive(entry, effect, active, activeStrats) : false
       if (effect.when && !live) {
         notes.push(noteOf(entry, effect, false))
         continue
       }
-      const via = live ? effect.cond : null
+      // `via` is what PROVED a conditional effect, for the card's "applied, but only because…"
+      // treatment. A stratagem was proved by being spent, which its own note already says.
+      const via = live ? (effect.cond || []) : null
 
       if (isGrant(effect)) {
         if (effect.stat === 'keyword') {
@@ -262,13 +278,13 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 // running the full apply pass first would gate on the un-granted keyword set. A conditional grant
 // counts only when `active` proves it — the same test the numbers get, so the keyword layer and
 // the number layer can never disagree about whether a rule is on.
-export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null) {
+export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, activeStrats = null) {
   const out = []
   for (const entry of entries || []) {
     const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
-      if (effect.when && !condHolds(effect.cond, active)) continue
+      if (effect.when && !effectLive(entry, effect, active, activeStrats)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
