@@ -18,8 +18,31 @@ export default {
       },
       "hash": "08b30d76",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase that unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "3da4eee3-89af-4037-aefa-12023bbc67b1:ragnar-blackmane",
@@ -32,8 +55,25 @@ export default {
       },
       "hash": "f38068e0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Frostfang"
+          },
+          "when": {
+            "en": "until the end of a turn it ended a Charge move",
+            "ru": "до конца хода, в котором завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "a7069d52-c411-40a4-b338-669be44af016:thunderwolf-cavalry",
@@ -46,8 +86,25 @@ export default {
       },
       "hash": "bb731a97",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Wolf Guard"
+          },
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "e529cc68-31ea-4e22-8a19-6ca81aaa91f5:ulrik-the-slayer",
@@ -60,7 +117,7 @@ export default {
       },
       "hash": "1db00418",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +131,7 @@ export default {
       },
       "hash": "df5d46d9",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,8 +145,17 @@ export default {
       },
       "hash": "8629651a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "04e6754e-fec6-4e6e-bdef-40615b130dbf:wolf-guard-headtakers",
@@ -102,8 +168,35 @@ export default {
       },
       "hash": "b0fd3454",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against this unit's quarry",
+            "ru": "против выбранной добычи (quarry)"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against this unit's quarry",
+            "ru": "против выбранной добычи (quarry)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:wolf-priest",
@@ -116,7 +209,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -130,7 +223,7 @@ export default {
       },
       "hash": "570a574f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -144,8 +237,22 @@ export default {
       },
       "hash": "b06c5999",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "TWIN-LINKED",
+          "when": {
+            "en": "if this model took two melee weapons",
+            "ru": "если модель взяла два оружия ближнего боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1710499e-3656-4246-9978-65bf43c4c140",

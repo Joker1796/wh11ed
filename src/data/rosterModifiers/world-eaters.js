@@ -18,7 +18,7 @@ export default {
       },
       "hash": "d122b2c2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,8 +32,25 @@ export default {
       },
       "hash": "869e0d05",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Hellforged"
+          },
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "79ed7c3d-9cfc-4975-9b8c-df6efe860286:eightbound",
@@ -46,7 +63,7 @@ export default {
       },
       "hash": "fb1c6326",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +77,22 @@ export default {
       },
       "hash": "72dd735a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "39106d1b-f767-4eb9-bb2b-51234b91611c:helbrute",
@@ -74,8 +105,22 @@ export default {
       },
       "hash": "67092a63",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "the two melee weapons taken in addition to the close combat weapon",
+            "ru": "два оружия ближнего боя, взятые вдобавок к close combat weapon"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
     },
     {
       "sid": "dacf05b3-c5a9-40f2-9452-5f86a89d342a:heldrake",
@@ -88,7 +133,7 @@ export default {
       },
       "hash": "34bdf1df",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,7 +147,7 @@ export default {
       },
       "hash": "fb3f99dc",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -116,7 +161,7 @@ export default {
       },
       "hash": "f5ad8bed",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -130,8 +175,35 @@ export default {
       },
       "hash": "343267c3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0ecb9456-ccf0-48e8-86ce-7762decae226:vorrakh-lord-of-the-frenzied-reavers",
@@ -141,8 +213,22 @@ export default {
       "ref": null,
       "hash": "22be2b24",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",

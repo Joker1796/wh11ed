@@ -15,8 +15,22 @@ export default {
       "ref": null,
       "hash": "173901da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is engaged",
+            "ru": "пока отряд в ближнем бою"
+          },
+          "cond": [
+            "unit-engaged"
+          ]
+        }
+      ]
     },
     {
       "sid": "5b318ee0-9466-407f-ac49-d7f25fc20839:ardmob-boyz",
@@ -26,8 +40,22 @@ export default {
       "ref": null,
       "hash": "173901da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is engaged",
+            "ru": "пока отряд в ближнем бою"
+          },
+          "cond": [
+            "unit-engaged"
+          ]
+        }
+      ]
     },
     {
       "sid": "e308befb-5967-4b54-93e5-abc1128540bd:bannernob",
@@ -40,8 +68,29 @@ export default {
       },
       "hash": "1dcac41a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Waaagh! is active",
+            "ru": "пока активен Waaagh!"
+          },
+          "cond": [
+            "waaagh-active"
+          ]
+        }
+      ]
     },
     {
       "sid": "3e47ed80-e5ff-4877-bdb1-cd9e997090ef:battlewagon",
@@ -54,7 +103,7 @@ export default {
       },
       "hash": "9783aee4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -68,7 +117,7 @@ export default {
       },
       "hash": "6eee11a1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -82,7 +131,7 @@ export default {
       },
       "hash": "1ab6c76e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -96,8 +145,22 @@ export default {
       },
       "hash": "2df47c0f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "79daa833-60ea-4457-b539-4b832c476f38:big-mek-dakkarig",
@@ -110,8 +173,25 @@ export default {
       },
       "hash": "01d76d09",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 6,
+          "only": {
+            "name": "Blitzkannon"
+          },
+          "when": {
+            "en": "against non-MONSTER/VEHICLE targets",
+            "ru": "против целей, кроме MONSTER/VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "afd9b28e-f4f1-4274-816f-f6cb415a6265:biged-bossbunka",
@@ -124,7 +204,7 @@ export default {
       },
       "hash": "9318d4ed",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -138,8 +218,16 @@ export default {
       },
       "hash": "beee245c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b952c800-e70d-4ac7-bcba-2f78cca11f84:burna-bommer",
@@ -152,7 +240,7 @@ export default {
       },
       "hash": "89d7048d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -166,8 +254,36 @@ export default {
       },
       "hash": "4e986bf2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase this unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase this unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "bc6734e4-cfce-4eb3-96c6-8e179bc08c5c:deffkilla-wartrike",
@@ -180,7 +296,7 @@ export default {
       },
       "hash": "1ab6c76e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -194,7 +310,7 @@ export default {
       },
       "hash": "5cc9c5b2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -208,7 +324,7 @@ export default {
       },
       "hash": "a8cd937f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -222,7 +338,7 @@ export default {
       },
       "hash": "8544aaa8",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -236,8 +352,25 @@ export default {
       },
       "hash": "0d24e889",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Butcha boyz"
+          },
+          "when": {
+            "en": "per model embarked within this Transport, up to +6",
+            "ru": "за каждую модель на борту, максимум +6"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "46059742-1878-48e3-99ab-aa0d19966343:kill-rig",
@@ -250,7 +383,7 @@ export default {
       },
       "hash": "9251c1e5",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -264,8 +397,35 @@ export default {
       },
       "hash": "384fcd4e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "on a 3-4 when this unit is selected to shoot",
+            "ru": "на 3-4 при выборе отряда для стрельбы"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "on a 5-6 when this unit is selected to shoot",
+            "ru": "на 5-6 при выборе отряда для стрельбы"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "583eae5c-9b8c-44a3-a492-a45a895e9c6f:mek",
@@ -278,7 +438,7 @@ export default {
       },
       "hash": "c21e5e33",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -292,7 +452,7 @@ export default {
       },
       "hash": "0f740100",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -306,8 +466,36 @@ export default {
       },
       "hash": "a88c08e0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against TITANIC targets, instead",
+            "ru": "против целей TITANIC, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ]
     },
     {
       "sid": "ba282a64-1f19-4a71-8ca4-8dcc06885ee4:stompa",
@@ -320,7 +508,7 @@ export default {
       },
       "hash": "e2a75438",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -334,7 +522,7 @@ export default {
       },
       "hash": "65208372",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -348,8 +536,22 @@ export default {
       },
       "hash": "148084be",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 9\"",
+            "ru": "против целей в 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6e30e267-586b-410f-8a11-a2d9e6cbcc61:warboss-in-mega-armour",
@@ -362,7 +564,7 @@ export default {
       },
       "hash": "1ab6c76e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -376,8 +578,22 @@ export default {
       },
       "hash": "a0ff5de7",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 4,
+          "when": {
+            "en": "while the Waaagh! is active",
+            "ru": "пока активен Waaagh!"
+          },
+          "cond": [
+            "waaagh-active"
+          ]
+        }
+      ]
     },
     {
       "sid": "6e30e267-586b-410f-8a11-a2d9e6cbcc61:warboss",
@@ -390,7 +606,7 @@ export default {
       },
       "hash": "1ab6c76e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -404,8 +620,57 @@ export default {
       },
       "hash": "c656465b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "’Eadbanger"
+          },
+          "when": {
+            "en": "per 5 models in the unit it leads",
+            "ru": "за каждые 5 моделей в ведомом отряде"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "’Eadbanger"
+          },
+          "when": {
+            "en": "per 5 models in the unit it leads",
+            "ru": "за каждые 5 моделей в ведомом отряде"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "only": {
+            "name": "’Eadbanger"
+          },
+          "when": {
+            "en": "while the unit it leads has 10 or more models",
+            "ru": "пока в ведомом отряде 10+ моделей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "77988921-2061-4c67-a398-d614037664c9:wurrboy",
@@ -418,8 +683,41 @@ export default {
       },
       "hash": "6db76fb0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Eyez of Mork"
+          },
+          "when": {
+            "en": "per 5 models in the unit it leads",
+            "ru": "за каждые 5 моделей в ведомом отряде"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "only": {
+            "name": "Eyez of Mork"
+          },
+          "when": {
+            "en": "while the unit it leads has 10 or more models",
+            "ru": "пока в ведомом отряде 10+ моделей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "633d3755-6a6b-41e5-8cf2-212258c41535:zodgrod-wortsnagga",
@@ -432,8 +730,36 @@ export default {
       },
       "hash": "f1ab5da4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while the Waaagh! is active",
+            "ru": "пока активен Waaagh!"
+          },
+          "cond": [
+            "waaagh-active"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while the Waaagh! is active",
+            "ru": "пока активен Waaagh!"
+          },
+          "cond": [
+            "waaagh-active"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c25ff898-e6a3-425f-9eb4-1b6b6c2e3960:zodgrod-wortsnagga",
@@ -446,7 +772,7 @@ export default {
       },
       "hash": "e2f22bac",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

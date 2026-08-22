@@ -18,8 +18,17 @@ export default {
       },
       "hash": "d2a9d0ad",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "20de685a-c2fc-4a03-b53e-81e1b1596f3b:brotherhood-champion",
@@ -32,8 +41,25 @@ export default {
       },
       "hash": "8e136fee",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Nemesis"
+          },
+          "when": {
+            "en": "for the rest of the battle, once it destroyed an enemy CHARACTER in melee",
+            "ru": "до конца битвы, если уничтожил вражеского CHARACTER в ближнем бою"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a9366824-0d9e-4b29-9548-67bbe87ea381:brotherhood-techmarine",
@@ -46,7 +72,7 @@ export default {
       },
       "hash": "f41f3275",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +86,22 @@ export default {
       },
       "hash": "921d6aa1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "против целей, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "69144dc5-90d8-489f-b9f8-84ac2b11f999:castellan-crowe",
@@ -74,8 +114,20 @@ export default {
       },
       "hash": "1ccd750e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Purifying flame"
+          },
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "02a7dc81-4dee-4440-95ad-4ee97161347a:crowe-s-sanctifiers-brotherhood-terminator-squad",
@@ -85,8 +137,22 @@ export default {
       "ref": null,
       "hash": "eaa073e4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "против целей, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3c102e09-c8b3-4335-a6d9-7a3bffa591ec:grand-master",
@@ -99,8 +165,35 @@ export default {
       },
       "hash": "bf1dc5bf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2e6f2691-8a5a-4ab6-baf6-c9d6b1b6f0fd:paladin-squad",
@@ -113,8 +206,22 @@ export default {
       },
       "hash": "71577b8b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "c34906ca-50ad-45af-a033-0813825c377d:razorback",
@@ -127,7 +234,7 @@ export default {
       },
       "hash": "2c06b555",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -141,7 +248,7 @@ export default {
       },
       "hash": "205860ae",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,7 +262,7 @@ export default {
       },
       "hash": "1c8c1f3a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -169,7 +276,7 @@ export default {
       },
       "hash": "02b2e345",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

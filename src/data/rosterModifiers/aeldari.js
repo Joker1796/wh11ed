@@ -18,7 +18,7 @@ export default {
       },
       "hash": "935b9071",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,8 +32,16 @@ export default {
       },
       "hash": "9c60d886",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a3dd474d-2baa-4cc4-9427-3019a9c13991:corsair-voidscarred",
@@ -46,8 +54,35 @@ export default {
       },
       "hash": "3ef80f71",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the enemy unit selected at the start of the battle",
+            "ru": "против юнита, выбранного в начале битвы"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the enemy unit selected at the start of the battle",
+            "ru": "против юнита, выбранного в начале битвы"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "78a72237-1038-43ef-a066-56d9f24eafea:crimson-hunter",
@@ -60,7 +95,7 @@ export default {
       },
       "hash": "3c09b472",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,8 +109,22 @@ export default {
       },
       "hash": "01e44683",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against targets within half range",
+            "ru": "против целей в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "63e9f2c2-2aa2-410f-a31d-606d16783763:eldrad-ulthran",
@@ -88,7 +137,7 @@ export default {
       },
       "hash": "13ab6310",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,7 +151,7 @@ export default {
       },
       "hash": "fb705230",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -116,8 +165,20 @@ export default {
       },
       "hash": "1770a34a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "only": {
+            "tag": "MELTA"
+          },
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8a00605e-b319-4a00-9d3d-2da951171be8:jain-zar",
@@ -130,8 +191,23 @@ export default {
       },
       "hash": "7bf193e5",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase this unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "65c1bd9f-dcc0-46ee-964f-573a55b3ea9a:kharseth",
@@ -144,7 +220,7 @@ export default {
       },
       "hash": "722d30da",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,8 +231,22 @@ export default {
       "ref": null,
       "hash": "19c269e2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against targets within half range",
+            "ru": "против целей в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6779b58c-1f5a-4e04-916d-154c0e7a73e5:kygharil-s-protectors-dire-avengers",
@@ -166,8 +256,22 @@ export default {
       "ref": null,
       "hash": "19c269e2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against targets within half range",
+            "ru": "против целей в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "9f3ea182-ed96-41cc-a92e-7f2f2fc107ae:kygharil-s-protectors-warp-spiders",
@@ -177,8 +281,22 @@ export default {
       "ref": null,
       "hash": "2495534c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 3+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d7a81ef9-41fa-4187-a223-452a4db79d50:prince-yriel",
@@ -191,8 +309,17 @@ export default {
       },
       "hash": "0776f900",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "da03c40c-8401-4e82-83a8-077d720c0c45:revenant-titan",
@@ -205,8 +332,22 @@ export default {
       },
       "hash": "cbe4ef30",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 8,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "0b471474-b936-4ca9-9b31-df82df5f5ce2:shadowseer",
@@ -219,7 +360,7 @@ export default {
       },
       "hash": "114e1547",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -233,8 +374,38 @@ export default {
       },
       "hash": "09764894",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": "2D6",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Solitaire"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c91f3f7c-5e8d-42da-b343-fe3f93ee2152:spiritseer-kygharil",
@@ -244,7 +415,7 @@ export default {
       "ref": null,
       "hash": "21149fa1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -258,7 +429,7 @@ export default {
       },
       "hash": "4947bb7a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -272,7 +443,7 @@ export default {
       },
       "hash": "8fc274d8",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -286,7 +457,7 @@ export default {
       },
       "hash": "3cee30cf",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -300,7 +471,7 @@ export default {
       },
       "hash": "678b01b6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -314,8 +485,57 @@ export default {
       },
       "hash": "a186f2f6",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Vibro cannon"
+          },
+          "when": {
+            "en": "per other VIBRO CANNON PLATFORM that shot the same target this phase",
+            "ru": "за каждую другую VIBRO CANNON PLATFORM, стрелявшую по той же цели в этой фазе"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Vibro cannon"
+          },
+          "when": {
+            "en": "per other VIBRO CANNON PLATFORM that shot the same target this phase",
+            "ru": "за каждую другую VIBRO CANNON PLATFORM, стрелявшую по той же цели в этой фазе"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Vibro cannon"
+          },
+          "when": {
+            "en": "per other VIBRO CANNON PLATFORM that shot the same target this phase",
+            "ru": "за каждую другую VIBRO CANNON PLATFORM, стрелявшую по той же цели в этой фазе"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a6519552-88c0-47db-ac86-c2d551fc6b4b:war-walkers",
@@ -328,7 +548,7 @@ export default {
       },
       "hash": "db024523",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -342,8 +562,41 @@ export default {
       },
       "hash": "2acfba08",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4038cf0b-7832-4c7a-9c63-dc3e52bd0503:warlock-skyrunners",
@@ -356,8 +609,41 @@ export default {
       },
       "hash": "2acfba08",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4a5d030e-9923-48ec-9d98-965fd02d6844:warlock-skyrunners",
@@ -370,8 +656,16 @@ export default {
       },
       "hash": "f98460a0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a5a823b5-a149-4479-afd6-63239abc7fd3:warlock",
@@ -384,8 +678,41 @@ export default {
       },
       "hash": "de03884e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Destructor"
+          },
+          "when": {
+            "en": "per friendly AELDARI PSYKER within 6\", up to +2",
+            "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithblades",
@@ -398,8 +725,22 @@ export default {
       },
       "hash": "57550712",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": {
+            "en": "within 12\" of a friendly AELDARI PSYKER",
+            "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithguard",
@@ -412,8 +753,22 @@ export default {
       },
       "hash": "57550712",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": {
+            "en": "within 12\" of a friendly AELDARI PSYKER",
+            "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "811132b9-8b0e-4945-bd3f-69916b0a8608:wraithlord",
@@ -426,8 +781,48 @@ export default {
       },
       "hash": "15d5d440",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "within 12\" of a friendly AELDARI PSYKER",
+            "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "within 12\" of a friendly AELDARI PSYKER",
+            "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": {
+            "en": "within 12\" of a friendly AELDARI PSYKER",
+            "ru": "в 12\" от дружественного AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "842515a4-ceb3-4b60-912e-570959df315a:ynnari-raider",
@@ -440,8 +835,22 @@ export default {
       },
       "hash": "18a0ce80",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "d3d0bb1a-87c9-4e46-9237-2d6c05ccee4a:ynnari-succubus",
@@ -454,8 +863,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "04d0ed6a-3233-413d-8173-c96ace7f0f89",

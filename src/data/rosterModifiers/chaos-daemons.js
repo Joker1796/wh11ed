@@ -18,7 +18,7 @@ export default {
       },
       "hash": "aa7eb7dd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,7 +32,7 @@ export default {
       },
       "hash": "99d56dec",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +46,7 @@ export default {
       },
       "hash": "f20a7aa6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +60,17 @@ export default {
       },
       "hash": "76c79108",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "0dd11ed9-198b-463b-bfb4-3a78c281c76d:daemon-prince-of-chaos-with-wings",
@@ -74,8 +83,25 @@ export default {
       },
       "hash": "3bbbdb1a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Hellforged"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "befa7c2a-9616-4369-8a05-58815d6b121e:daemon-prince-of-chaos",
@@ -88,8 +114,22 @@ export default {
       },
       "hash": "c7e8505e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7fbe6305-a2cd-4319-991f-aaf3bd97acbd:epidemius",
@@ -102,8 +142,17 @@ export default {
       },
       "hash": "58585162",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "aadf02b1-b604-4d2b-bb39-aad16d42e58e:exalted-flamer",
@@ -116,8 +165,17 @@ export default {
       },
       "hash": "d7afb870",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "015e74d5-054a-49fa-b002-9c17b277069f:fateskimmer",
@@ -130,8 +188,17 @@ export default {
       },
       "hash": "d2a9d0ad",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
@@ -144,7 +211,7 @@ export default {
       },
       "hash": "24462df7",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,8 +225,35 @@ export default {
       },
       "hash": "127dac77",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "8732df0b-f46f-46a7-a14e-8c306abaafbe:infernal-enrapturess",
@@ -172,7 +266,7 @@ export default {
       },
       "hash": "7d1703a0",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -186,7 +280,7 @@ export default {
       },
       "hash": "1934ffb4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -200,7 +294,7 @@ export default {
       },
       "hash": "3975c405",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -214,7 +308,7 @@ export default {
       },
       "hash": "80353929",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -228,7 +322,7 @@ export default {
       },
       "hash": "6444af89",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -242,8 +336,17 @@ export default {
       },
       "hash": "a184123b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "589cd6bb-b4ff-46cd-be72-b0406197b9d5:sloppity-bilepiper",
@@ -256,8 +359,17 @@ export default {
       },
       "hash": "fc9e329c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "de75e5f2-6284-4fd0-93e4-e6a7ca260f18:spoilpox-scrivener",
@@ -270,8 +382,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "dc64cc17-20f8-44bd-8821-ef52027abe92:spoilpox-scrivener",
@@ -284,8 +405,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "efdf042e-67d5-40ec-af94-64f19995a199:the-masque-of-slaanesh",
@@ -298,7 +428,7 @@ export default {
       },
       "hash": "1ae444c8",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -312,7 +442,7 @@ export default {
       },
       "hash": "9547dbf1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

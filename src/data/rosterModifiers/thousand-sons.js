@@ -18,7 +18,7 @@ export default {
       },
       "hash": "80e639d4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,7 +32,7 @@ export default {
       },
       "hash": "f20a7aa6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,8 +46,35 @@ export default {
       },
       "hash": "eeab42c2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit hit by a THOUSAND SONS Psychic Attack this phase",
+            "ru": "против юнита, задетого Psychic Attack THOUSAND SONS в этой фазе"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against a unit hit by a THOUSAND SONS Psychic Attack this phase",
+            "ru": "против юнита, задетого Psychic Attack THOUSAND SONS в этой фазе"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "12fdfa99-1e9a-420d-a6bf-2fe5ce94fedf:chaos-rhino",
@@ -60,7 +87,7 @@ export default {
       },
       "hash": "1bae6b17",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +101,7 @@ export default {
       },
       "hash": "6edb2f9d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,8 +115,17 @@ export default {
       },
       "hash": "58585162",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
@@ -102,8 +138,22 @@ export default {
       },
       "hash": "67092a63",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "the two melee weapons taken in addition to the close combat weapon",
+            "ru": "два оружия ближнего боя, взятые вдобавок к close combat weapon"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
     },
     {
       "sid": "018818f0-a298-46d2-b1af-f4460529941f:infernal-master",
@@ -116,8 +166,17 @@ export default {
       },
       "hash": "3154cfe3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e9b6c7e7-ecfc-409b-8ddd-ef58d17500f4:lord-of-change",
@@ -130,7 +189,7 @@ export default {
       },
       "hash": "e1944b31",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -144,7 +203,7 @@ export default {
       },
       "hash": "4c5685bf",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,7 +217,7 @@ export default {
       },
       "hash": "f52800f4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -169,8 +228,22 @@ export default {
       "ref": null,
       "hash": "39c3d6cd",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "excluding CHARACTER models' attacks",
+            "ru": "кроме атак моделей CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer-in-terminator-armour",
@@ -183,8 +256,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "48c98e40-3db3-4c80-a6cc-66992d5efc6c:sorcerer-in-terminator-armour",
@@ -197,7 +279,7 @@ export default {
       },
       "hash": "29426a15",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -211,8 +293,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c6147b99-a91d-4063-a265-f70cb2230ea4:sorcerer",
@@ -225,8 +316,41 @@ export default {
       },
       "hash": "ddb1605d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "05f142d3-4beb-4b18-8cd0-47d8082ce2ce:tzaangor-shaman",
@@ -239,7 +363,7 @@ export default {
       },
       "hash": "b981890e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

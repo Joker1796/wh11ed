@@ -18,8 +18,22 @@ export default {
       },
       "hash": "0d3f6477",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 5,
+          "when": {
+            "en": "for the rest of the battle once its unit destroyed a unit in melee, while not Battle-shocked",
+            "ru": "до конца битвы, если отряд уничтожил врага в ближнем бою, пока не Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "779876f3-6817-4bb8-92c1-291b6af94dd5:emperor-s-champion-vedrenn",
@@ -29,7 +43,7 @@ export default {
       "ref": null,
       "hash": "962a1086",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -43,8 +57,22 @@ export default {
       },
       "hash": "e0d9dbc3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while engaged with a CHARACTER and this ability is used",
+            "ru": "раз за битву, в бою с CHARACTER, если способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e1a9ec64-4b70-47ba-aa5c-c1ff935a2c08:gladiator-valiant",
@@ -57,7 +85,7 @@ export default {
       },
       "hash": "89111ddd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -71,8 +99,25 @@ export default {
       },
       "hash": "08b2836b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "fc05efb4-4534-4b7c-8989-6d1c5338a76e:marshal",
@@ -85,8 +130,25 @@ export default {
       },
       "hash": "3daebaae",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Master-crafted power weapon"
+          },
+          "when": {
+            "en": "per enemy unit within 6\", up to +3",
+            "ru": "за каждый вражеский отряд в 6\", максимум +3"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",

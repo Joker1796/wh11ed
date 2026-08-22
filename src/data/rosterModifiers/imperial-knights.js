@@ -18,8 +18,63 @@ export default {
       },
       "hash": "caeb868f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against VEHICLE targets",
+            "ru": "против целей VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against VEHICLE targets",
+            "ru": "против целей VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against FORTIFICATION targets, instead",
+            "ru": "против целей FORTIFICATION, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against FORTIFICATION targets, instead",
+            "ru": "против целей FORTIFICATION, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 1
+        }
+      ]
     },
     {
       "sid": "9c2a6964-1173-4f07-b6fb-61b511a289ca:acastus-knight-porphyrion",
@@ -32,8 +87,22 @@ export default {
       },
       "hash": "4668776e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "f424f742-514f-4a36-80df-7c2d85459bde:armiger-warglaive",
@@ -46,8 +115,41 @@ export default {
       },
       "hash": "47334b3a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Reaper chain-cleaver – strike"
+          },
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Reaper chain-cleaver – sweep"
+          },
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "aeea8aeb-0ac6-45c7-9533-1b1ab816c4b3:cerastus-knight-atrapos",
@@ -60,7 +162,7 @@ export default {
       },
       "hash": "3bd42904",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,8 +176,35 @@ export default {
       },
       "hash": "4f3e0a39",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "80f8e567-a894-4b05-a8c4-84562e59a234:knight-crusader",
@@ -88,7 +217,7 @@ export default {
       },
       "hash": "6f8e1f0b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,8 +231,22 @@ export default {
       },
       "hash": "ae82eb32",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "1f762088-19de-49cd-984b-10d5382c0aae:knight-defender",
@@ -116,7 +259,7 @@ export default {
       },
       "hash": "06c55af6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -130,8 +273,22 @@ export default {
       },
       "hash": "35ec668e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if equipped with a thundershock spear and a bellatus reaper chainsword",
+            "ru": "если взяты thundershock spear и bellatus reaper chainsword"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d68cc907-a492-48aa-b9ff-432413214dea:knight-errant",
@@ -144,7 +301,7 @@ export default {
       },
       "hash": "0720840a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,8 +315,22 @@ export default {
       },
       "hash": "5d864fd8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "04171555-119d-4e8d-9fc5-da079ee2ba0d:knight-paladin",
@@ -172,8 +343,35 @@ export default {
       },
       "hash": "94113518",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "da35410e-2b9a-493b-91e9-b6919e95c808:knight-paladin",
@@ -186,8 +384,22 @@ export default {
       },
       "hash": "246d709f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "752308c2-6d98-4e01-b5c0-214087d6b7c7:knight-warden",
@@ -200,8 +412,35 @@ export default {
       },
       "hash": "50056bb5",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while affected by this Bondsman ability",
+            "ru": "пока действует эта способность Bondsman"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e7906e65-df90-4d9c-905b-6da98acc422b:questoris-knight-magaera",
@@ -214,8 +453,35 @@ export default {
       },
       "hash": "2782d971",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while affected by this Bondsman ability, against the closest eligible target",
+            "ru": "пока действует эта способность Bondsman, против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while affected by this Bondsman ability, against the closest eligible target",
+            "ru": "пока действует эта способность Bondsman, против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "bc62b0fd-75e6-4669-b3af-e9d8d2a2a09b",

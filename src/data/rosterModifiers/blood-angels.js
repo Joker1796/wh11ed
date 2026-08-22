@@ -18,8 +18,36 @@ export default {
       },
       "hash": "6a6c4936",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn its unit made a Charge move",
+            "ru": "до конца хода, в котором отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn this unit made a Charge move",
+            "ru": "до конца хода, в котором отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "04b5d2e0-87f3-43fb-8e2d-224c1c453e4a:blood-angels-captain",
@@ -32,8 +60,35 @@ export default {
       },
       "hash": "343267c3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f9fd8c3d-6ef7-4a5b-932a-096df2b86f93:commander-dante",
@@ -46,7 +101,7 @@ export default {
       },
       "hash": "54c9b976",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +115,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "832607b8-9dcc-4dc6-91a3-46108750a895:lemartes",
@@ -74,8 +138,17 @@ export default {
       },
       "hash": "d2a9d0ad",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7d0b98fd-de19-461b-ac84-d5a202107a15:sanguinary-priest",
@@ -88,8 +161,17 @@ export default {
       },
       "hash": "b74af02a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "14322c4c-df67-43e5-be95-af40f78f620d:sanguinary-spearhead-sanguinary-guard",
@@ -99,8 +181,22 @@ export default {
       "ref": null,
       "hash": "f8299992",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this unit is engaged",
+            "ru": "пока отряд в ближнем бою"
+          },
+          "cond": [
+            "unit-engaged"
+          ]
+        }
+      ]
     },
     {
       "sid": "47daf7fe-c1de-4223-878c-0753368aae9c:sanguinary-spearhead-sanguinary-guard",
@@ -110,8 +206,22 @@ export default {
       "ref": null,
       "hash": "f8299992",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this unit is engaged",
+            "ru": "пока отряд в ближнем бою"
+          },
+          "cond": [
+            "unit-engaged"
+          ]
+        }
+      ]
     },
     {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",

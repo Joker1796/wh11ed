@@ -18,8 +18,22 @@ export default {
       },
       "hash": "7cd3528a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если юнит совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "a5c1b3db-e8e5-48b2-a00e-4226c3ada951:chaos-predator-destructor",
@@ -32,8 +46,22 @@ export default {
       },
       "hash": "2acd6045",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "против целей INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ee01d6ea-47cc-4a7c-8b94-dcd9e8a3c430:dark-apostle",
@@ -46,7 +74,7 @@ export default {
       },
       "hash": "64108c35",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,7 +88,7 @@ export default {
       },
       "hash": "6943a0ee",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,8 +102,17 @@ export default {
       },
       "hash": "4f9e73da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8c1bf1ec-33df-49e3-b557-a8380670eaf6:fabius-bile",
@@ -88,8 +125,25 @@ export default {
       },
       "hash": "646e1a31",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "09820343-0004-4592-a040-cd760fd6e4d6:forgefiend",
@@ -102,8 +156,35 @@ export default {
       },
       "hash": "cda3afdc",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
@@ -116,8 +197,22 @@ export default {
       },
       "hash": "67092a63",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "the two melee weapons taken in addition to the close combat weapon",
+            "ru": "два оружия ближнего боя, взятые вдобавок к close combat weapon"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
     },
     {
       "sid": "dacf05b3-c5a9-40f2-9452-5f86a89d342a:heldrake",
@@ -130,7 +225,7 @@ export default {
       },
       "hash": "34bdf1df",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -144,7 +239,7 @@ export default {
       },
       "hash": "da456d08",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,8 +253,22 @@ export default {
       },
       "hash": "662f868f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7f7f725f-6107-488d-b11b-845d2788a1ce:master-of-possession",
@@ -172,7 +281,7 @@ export default {
       },
       "hash": "2170496e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -186,7 +295,7 @@ export default {
       },
       "hash": "5302db8d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -200,7 +309,7 @@ export default {
       },
       "hash": "fc58474b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -214,8 +323,22 @@ export default {
       },
       "hash": "b9dfaeec",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "INDIRECT FIRE",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "62fc1854-beb9-4a11-a8bb-d14939a8d3bf:possessed",
@@ -228,8 +351,22 @@ export default {
       },
       "hash": "7560dd98",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, on a Dark Pact",
+            "ru": "раз за битву, при Dark Pact"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "35a42e60-ee3e-4e40-a4e5-b3d3aeefe3e3:red-corsairs-raiders",
@@ -242,8 +379,22 @@ export default {
       },
       "hash": "e876c282",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "after destroying an enemy unit, while not Battle-shocked",
+            "ru": "после уничтожения вражеского юнита, пока не Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5af5e8b0-c662-4e8d-b69e-a57b48d46f49:red-corsairs-reave-captain",
@@ -256,8 +407,35 @@ export default {
       },
       "hash": "1b4fdaf6",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the turn it ended a Charge move",
+            "ru": "до конца хода, в котором завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "until the end of the turn it ended a Charge move",
+            "ru": "до конца хода, в котором завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "76261740-3578-4653-a8c7-d912c9fa7d47:sorcerer-in-terminator-armour",
@@ -270,7 +448,7 @@ export default {
       },
       "hash": "1bfaa601",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -284,7 +462,7 @@ export default {
       },
       "hash": "534d3d42",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -298,7 +476,7 @@ export default {
       },
       "hash": "9a98f6d5",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -312,8 +490,22 @@ export default {
       },
       "hash": "57cf1b8c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the rest of the battle, once its attacks destroyed a unit in the Fight phase",
+            "ru": "до конца битвы, если его атаки уничтожили юнит в фазе боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4a94c0cf-bfaa-4ed1-8a2d-6225e3536003:warpsmith",
@@ -326,7 +518,7 @@ export default {
       },
       "hash": "4fb849da",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -337,8 +529,22 @@ export default {
       "ref": null,
       "hash": "df7ce16a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, on a Dark Pact",
+            "ru": "раз за битву, при Dark Pact"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "55eb487b-db92-4465-9c80-2a2604b8982f",
