@@ -640,9 +640,12 @@ The review backlog, the update procedure and the format reference live in
 ## A roster attached to a game (`rosterGameLink.js`)
 
 A tracker game can carry each player's army list. **Optional on both sides** — a game with no
-lists is the normal case and nothing in the tracker may require one. Attaching happens **only in
-the setup wizard**: the roster field in step 1 (`RosterPickerModal.vue`), or automatically when
-the game was started from a roster via `rosterHandoff.js`.
+lists is the normal case and nothing in the tracker may require one. Attaching happens in the setup
+wizard — the roster field in step 1 (`RosterPickerModal.vue`), or automatically when the game was
+started from a roster via `rosterHandoff.js` — **and, since 2026-08-22, mid-game** from
+`EditSetupModal.vue`, with the same picker restricted to the faction already in play (a game that
+started without a list used to be a dead end). What the two attachments are allowed to decide
+differs; see `src/components/tracker/CLAUDE.md`.
 
 **A snapshot, not a reference.** `player.roster` holds the list itself; `player.rosterId` is
 provenance only and may dangle. A game outlives the roster it was played with — the list gets

@@ -711,6 +711,15 @@ export function useTracker() {
       if (!p || !pl) return
       if (p.name !== undefined) pl.name = p.name
       if (p.battleReady !== undefined) pl.battleReady = !!p.battleReady
+      // The army list can be attached (or detached) after the game has started — see
+      // EditSetupModal. `factionSlug`/`detachments` come with it only in the narrow cases that
+      // modal allows (a legacy game that never had a faction; detachments still empty): mid-game
+      // they are load-bearing — missions, the army-rule tracker, the points already scored and
+      // the stratagem list all hang on them — so the list never overwrites a standing choice.
+      if (p.rosterId !== undefined) pl.rosterId = p.rosterId
+      if (p.roster !== undefined) pl.roster = p.roster
+      if (p.factionSlug !== undefined) pl.factionSlug = p.factionSlug
+      if (p.detachments !== undefined) pl.detachments = [...p.detachments]
     })
     if (settings) {
       // players[0] is always the first-turn player (see newGame) and firstTurn itself

@@ -39,6 +39,12 @@ describe('rosterSnapshot', () => {
     }
     const bytes = JSON.stringify(rosterSnapshot(big)).length
     expect(bytes).toBeLessThan(12 * 1024)
+
+    // Two of them at once — the case that made a runtime size check unnecessary when attaching
+    // was opened up to a game already under way (EditSetupModal): the pair leaves the game's own
+    // scoring state room to spare inside the 64 KB, so nothing has to be measured at attach time.
+    const snap = rosterSnapshot(big)
+    expect(JSON.stringify({ players: [{ roster: snap }, { roster: snap }] }).length).toBeLessThan(32 * 1024)
   })
 })
 
