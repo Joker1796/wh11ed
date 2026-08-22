@@ -178,3 +178,37 @@ describe('DatasheetCard — weapon row markup the phone layout depends on', () =
     expect(w.findAll('.ds-weapons')[1].find('.wtags').exists()).toBe(false)
   })
 })
+
+describe('DatasheetCard modifier notes', () => {
+  const note = (over) => ({ on: 'profile', stat: 't', op: 'add', value: 1, when: null, applied: true, ...over })
+
+  // Read in application order the footnotes are four rules' worth of lines with nothing between
+  // them. The heading is what tells a reader which source each number came from.
+  it('groups the notes by source and names each source', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations' }),
+          note({ kind: 'ability', from: 'led', owner: 'Fabius Bile', source: 'Enhanced Warriors', stat: 's', on: 'melee' }),
+          note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations', stat: 'm' }),
+          note({ kind: 'ability', from: 'self', owner: 'Chosen', source: 'Veterans of the Long War' }),
+          note({ kind: 'armyRule', det: null, source: 'Dark Pacts' }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mod-src-h').map((n) => n.text()))
+      .toEqual(['Detachment · Creations of Bile', 'Leader · Fabius Bile', 'Ability', 'Army rule'])
+    // …and the two detachment lines sit together under their one heading.
+    expect(w.findAll('.ds-mod-src-h')[0].element.nextElementSibling.textContent).toContain('Experimental Augmentations')
+  })
+
+  // The heading already says which detachment it is; repeating it on every line was the noise
+  // this grouping exists to remove.
+  it('does not repeat the detachment on each line', () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet(), statNotes: [note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations' })] },
+    })
+    expect(w.find('.ds-mod-src').text()).toBe('Experimental Augmentations')
+  })
+})

@@ -64,7 +64,14 @@
          "modifiers". -->
     <ul v-if="statNotes.length" class="ds-mods">
       <li class="ds-mods-h">{{ labels.dsModifiers }}</li>
-      <li v-for="(n, i) in statNotes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
+      <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
+           detachment, an enhancement, an attached Leader's ability, this sheet's own ability. Read
+           in application order the list is four rules' worth of lines with nothing separating
+           them; the group heading is what tells a reader which of them they can do anything
+           about. -->
+      <template v-for="g in noteGroups" :key="g.key">
+      <li class="ds-mod-src-h">{{ g.label }}</li>
+      <li v-for="(n, i) in g.notes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
         <span class="ds-mod-delta">{{ modDelta(n) }}</span>
         <!-- The rule behind the number. A note whose caller could resolve the prose carries
              `hasSource`, and then the name itself opens it in the same popover a core ability or
@@ -75,13 +82,14 @@
           type="button"
           class="ds-mod-src ds-mod-srcbtn"
           @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
-        >{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span><i class="bi bi-info-circle"></i></button>
-        <span v-else class="ds-mod-src">{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span></span>
+        >{{ n.source }}<i class="bi bi-info-circle"></i></button>
+        <span v-else class="ds-mod-src">{{ n.source }}</span>
         <!-- `via` means the condition was PROVEN by the game in progress, so the number above was
              rewritten after all. The condition still shows — a value that is only true while
              something is switched on must never read as a printed one. -->
         <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
       </li>
+      </template>
     </ul>
 
     <!-- Abilities -->
@@ -126,6 +134,14 @@
               <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
             </span>
             <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
         </DsAccordion>
       </div>
@@ -144,6 +160,14 @@
               <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
             </span>
             <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
         </DsAccordion>
       </div>
@@ -162,6 +186,14 @@
               <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
             </span>
             <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
         </DsAccordion>
       </div>
@@ -182,6 +214,14 @@
               <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
             </span>
             <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
         </DsAccordion>
       </div>
@@ -342,6 +382,7 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { withGroupPos } from '../utils/weaponGroups.js'
 import DsAccordion from './DsAccordion.vue'
+import ConditionChips from './ConditionChips.vue'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
@@ -395,6 +436,10 @@ const props = defineProps({
   // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
   // datasheet — and every caller outside the roster — passes nothing and renders as before.
   abilityStates: { type: Object, default: null },
+  // The condition switches each ability's own modifier records are gated on, keyed by ENGLISH
+  // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
+  // effects name a condition the player may flip; `toggle-cond` reports the click.
+  abilitySwitches: { type: Object, default: null },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
@@ -415,7 +460,7 @@ const props = defineProps({
 // faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
 // virtually every unit on the page shares those, so a "units with this keyword" list would
 // just be the whole roster.
-defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click'])
+defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click', 'toggle-cond'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -584,9 +629,42 @@ function statCells(p) {
 const markSet = computed(() => new Set(props.statMarks))
 const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
 
+// WHERE a modifier came from, as a label. Text only, no colour of its own: the card already
+// carries the faction accent, and five source colours would compete with it. A detachment and a
+// Leader name themselves ("detachment · Creations of Bile"), the rest are the kind alone.
+function sourceLabel(n) {
+  const l = labels.value
+  if (n.kind === 'ability') {
+    // Reusing the block below's own words for the three sources it already names, so the same
+    // rule reads the same whether the reader meets it as a footnote or as a block.
+    if (n.from === 'led') return `${l.rosterLeaderTag} · ${n.owner}`
+    if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
+    return l.srcAbility
+  }
+  if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
+  if (n.kind === 'enhancement') return l.rosterEnhancement
+  if (n.kind === 'allegiance') return l.srcAllegiance
+  return l.srcArmy
+}
+
+// The notes bucketed by that label, in the order the sources first appear — so a card reads
+// source by source instead of in the order the arithmetic happened to run.
+const noteGroups = computed(() => {
+  const out = []
+  const byKey = new Map()
+  for (const n of props.statNotes) {
+    const label = sourceLabel(n)
+    let g = byKey.get(label)
+    if (!g) { g = { key: label, label, notes: [] }; byKey.set(label, g); out.push(g) }
+    g.notes.push(n)
+  }
+  return out
+})
+
 // An ability's precondition, keyed by the English name — which is what `nameEn` carries once the
 // RU overlay has renamed the header (see src/data/datasheets/ru/index.js).
 const abilityState = (a) => props.abilityStates?.[a.nameEn || a.name] || null
+const abilitySwitchesOf = (a) => props.abilitySwitches?.[a.nameEn || a.name] || []
 // The badge deliberately states the FACT the roster knows ("leading Chaos Space Marines"), not the
 // conclusion that the rule is therefore doing something: several of these abilities carry a second
 // condition in the same sentence ("…leading a unit that is below its Starting Strength"). The
@@ -1043,6 +1121,13 @@ function modDelta(n) {
 .ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
 .ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .ds-mod-src { color: var(--text-primary); }
+/* The source a group of notes came from. Same quiet ALL-CAPS plate the rule block above uses, so
+   "detachment · Creations of Bile" reads the same wherever it appears on the card. */
+.ds-mod-src-h {
+  margin-top: 0.35rem; color: var(--text-muted);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ds-mod-src-h:first-of-type { margin-top: 0; }
 .ds-mod-srcbtn {
   display: inline-flex; align-items: baseline; gap: 0.25rem;
   padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
@@ -1108,6 +1193,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 .ds-ab-state.on { color: var(--accent); font-style: normal; }
 .ds-ab-state .bi { font-size: 0.9em; font-style: normal; }
 .ds-ability-idle { opacity: 0.62; }
+.ds-ab-conds { margin-top: 0.35rem; }
 
 /* The English original beside a translated ability name (RU locale only — in EN there is nothing
    to keep). Deliberately quiet: it is a lookup key for the codex and for talking to an opponent,

@@ -29,15 +29,11 @@
             {{ labels.rosterAttachedTo }} <strong>{{ view.context.attachedTo }}</strong>
           </span>
         </div>
-        <!-- What this unit has done this round. Only states its own rules actually read, so an
-             ordinary unit gets no row at all; flipping one re-applies the modifier above rather
-             than adding a note beside it. -->
-        <ConditionChips
-          v-if="gameCtx?.switches?.length"
-          class="rum-conds"
-          :switches="gameCtx.switches"
-          @toggle="$emit('toggle-cond', $event)"
-        />
+        <!-- No strip of switches here any more. A state is flipped where the thing it changes is
+             read: on the ability that names it (DatasheetCard's `abilitySwitches`) or inside the
+             rule that does (the "In effect" block below) — and, for the states a player sets every
+             turn, on the unit's own row in the list behind this card. One store, one state, and
+             never a fourth place showing the same chip. -->
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
              datasheet. See src/components/roster/CLAUDE.md for what each tier adds. -->
@@ -51,6 +47,8 @@
           :stat-marks="statMods.marks"
           :stat-notes="statNotes"
           :ability-states="abilityStates"
+          :ability-switches="abilitySwitches"
+          @toggle-cond="$emit('toggle-cond', $event)"
           collapsible
           @faction-rule-click="openArmyRule"
           @mod-source-click="openModSource"
@@ -110,7 +108,7 @@ import BaseModal from '../BaseModal.vue'
 import DatasheetCard from '../DatasheetCard.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import DsAccordion from '../DsAccordion.vue'
-import ConditionChips from './ConditionChips.vue'
+import ConditionChips from '../ConditionChips.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -414,6 +412,23 @@ function switchesOfRule(kind, name, det) {
   return all.filter((sw) => ids.has(sw.id))
 }
 
+// The switches each of the sheet's OWN abilities is gated on, keyed by English ability name. Only
+// `self` records: an ability printed on a Leader's card is not in this sheet's ability list, and
+// its condition belongs to the unit it addresses, which has its own row and its own card.
+const abilitySwitches = computed(() => {
+  const all = [...(props.gameCtx?.switches || []), ...(props.gameCtx?.armySwitches || [])]
+  if (!all.length) return null
+  const out = {}
+  for (const rec of abilityModifiers.value) {
+    if (rec.from !== 'self') continue
+    const ids = new Set()
+    for (const eff of rec.effects || []) for (const id of eff.cond || []) ids.add(id)
+    const switches = all.filter((sw) => ids.has(sw.id))
+    if (switches.length) out[rec.name] = switches
+  }
+  return out
+})
+
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value
   const facEn = rulesFactionEn.value
@@ -461,7 +476,6 @@ const ruleBlocks = computed(() => {
 /* Context chips above the card. Muted, low-contrast on purpose — this is roster metadata, not
    part of the datasheet, and must not compete with the card's own accent-coloured header band. */
 .rum-ctx { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
-.rum-conds { margin-bottom: 0.6rem; }
 .rum-chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
   padding: 0.2rem 0.5rem; border-radius: 4px;

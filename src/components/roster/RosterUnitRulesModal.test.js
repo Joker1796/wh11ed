@@ -397,31 +397,48 @@ describe('RosterUnitRulesModal', () => {
     }
   })
 
-  // Opened from a game in progress, the card also carries the switches for what THIS unit has
-  // done — the states its own rules read, and nothing else.
-  it('offers the per-unit rule switches the game context hands it', async () => {
+  // A state is flipped where the thing it changes is READ. Desolation Squad's Targeter Optics
+  // grants [IGNORES COVER] after Remaining Stationary, so that switch belongs on that ability —
+  // not in a strip at the top of the card that says nothing about which rule it feeds.
+  it('offers an ability\'s own switch at the ability', async () => {
+    const rf = await import('../../data/roster/space-marines.js')
+    const def = rf.default.units.find((u) => u.id === 'desolation-squad')
     const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'desolation-squad',
+        factionSlug: 'space-marines',
+        ctx: { def, entry: { uid: 'a', id: 'desolation-squad' }, units: [] },
+        gameCtx: {
+          active: new Set(),
+          switches: [{ id: 'unit-stationary', label: { en: 'Remained Stationary', ru: 'Остался на месте' }, on: false, auto: false, scope: 'unit' }],
+          armySwitches: [],
+        },
+      },
+    })
+    await waitFor('Targeter Optics')
+    for (let i = 0; i < 60 && !document.querySelector('.ds-ab-conds'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    const chips = body().findAll('.ds-ab-conds .cond-chip')
+    expect(chips).toHaveLength(1)
+    await chips[0].trigger('click')
+    expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-stationary')
+  })
+
+  it('has no switch strip of its own any more', async () => {
+    mount(RosterUnitRulesModal, {
       props: {
         unitId: 'intercessor-squad',
         factionSlug: 'space-marines',
         gameCtx: {
-          active: new Set(['unit-charged']),
-          switches: [
-            { id: 'unit-charged', label: { en: 'Made a Charge move', ru: 'Совершил Charge' }, on: true, auto: false },
-            { id: 'unit-advanced', label: { en: 'Advanced', ru: 'Совершил Advance' }, on: false, auto: false },
-          ],
+          active: new Set(),
+          switches: [{ id: 'unit-charged', label: { en: 'Made a Charge move', ru: 'Совершил Charge' }, on: false, auto: false }],
         },
       },
     })
     await waitFor('Intercessor Squad')
-
-    const chips = body().findAll('.cond-chip')
-    expect(chips).toHaveLength(2)
-    expect(chips[0].classes()).toContain('on')
-    expect(chips[1].classes()).not.toContain('on')
-
-    await chips[1].trigger('click')
-    expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-advanced')
+    expect(body().find('.cond-chip').exists()).toBe(false)
   })
 
   // An ability that opens "While this model is leading a unit" is answered by the LIST, so the card

@@ -33,8 +33,8 @@
 // Purely presentational: `switches` come from rosterGameContext's switchesFor(), and flipping one
 // is the parent's business (only it knows which player is being drawn).
 import { computed } from 'vue'
-import { ui } from '../../i18n/ui.js'
-import { useLocale } from '../../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
 
 const props = defineProps({
   switches: { type: Array, default: () => [] },

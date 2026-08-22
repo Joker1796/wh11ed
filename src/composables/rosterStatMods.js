@@ -121,6 +121,11 @@ function noteOf(entry, effect, applied, via = null) {
     source: entry.name,
     det: entry.det,
     kind: entry.kind,
+    // Only a datasheet ability has these: the unit whose card the ability is printed on, and which
+    // direction it reached this card from (self / led / leader — abilityEntriesFor). Together with
+    // `kind` they are what the card's source label is built from.
+    owner: entry.owner || null,
+    from: entry.from || null,
     on: effect.on,
     stat: effect.stat,
     op: effect.op,
@@ -293,13 +298,16 @@ export function abilityEntriesFor(records, { unitId, leaderUnitIds = [], ledUnit
   for (const rec of records || []) {
     if (rec.kind !== 'ability' || rec.ref?.kind !== 'ability') continue
     const of = (t) => (rec.effects || []).filter((e) => (e.target || 'self') === t)
-    // A record's name is "<unit>: <ability>". On the unit's own card the prefix is noise; coming
-    // from another card it is the whole point, so it stays.
-    const own = rec.name.includes(': ') ? rec.name.slice(rec.name.indexOf(': ') + 2) : rec.name
-    const push = (effects, name) => { if (effects.length) out.push({ ...rec, body: '', effects, name }) }
-    if (rec.ref.unit === unitId) push(of('self'), own)
-    if (leaderUnitIds.includes(rec.ref.unit)) push(of('led'), rec.name)
-    if (ledUnitId && rec.ref.unit === ledUnitId) push(of('leader'), rec.name)
+    // A record's name is "<unit>: <ability>". Split rather than reformat: the card labels an
+    // effect by WHERE it came from ("LEADER · Fabius Bile") and names the rule separately, so
+    // both halves have to travel apart.
+    const at = rec.name.indexOf(': ')
+    const owner = at === -1 ? null : rec.name.slice(0, at)
+    const name = at === -1 ? rec.name : rec.name.slice(at + 2)
+    const push = (effects, from) => { if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from }) }
+    if (rec.ref.unit === unitId) push(of('self'), 'self')
+    if (leaderUnitIds.includes(rec.ref.unit)) push(of('led'), 'led')
+    if (ledUnitId && rec.ref.unit === ledUnitId) push(of('leader'), 'leader')
   }
   return out
 }

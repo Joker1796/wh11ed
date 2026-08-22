@@ -60,26 +60,34 @@
         <template v-for="g in groupedUnits" :key="g.id">
           <template v-if="g.entries.length">
             <h3 class="rvg-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
-            <button
-              v-for="e in g.entries"
-              :key="e.uid"
-              type="button"
-              class="rvunit"
-              @click="viewingUid = e.uid"
-            >
-              <span class="rvunit-text">
-                <span class="rvunit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                <span v-if="statCellsOf(e).length" class="rvunit-stats">
-                  <span v-for="s in statCellsOf(e)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }">
-                    <span class="rvst-label">{{ s.label }}</span>
-                    <span class="rvst-box">{{ s.value }}</span>
+            <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
+                 own state switches under the stats, and a button cannot hold buttons. Opening the
+                 card stays a button of its own, covering everything but the switches. -->
+            <div v-for="e in g.entries" :key="e.uid" class="rvunit">
+              <button type="button" class="rvunit-main" @click="viewingUid = e.uid">
+                <span class="rvunit-text">
+                  <span class="rvunit-name">{{ defOf(e.id)?.name || e.id }}</span>
+                  <span v-if="statCellsOf(e).length" class="rvunit-stats">
+                    <span v-for="s in statCellsOf(e)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }">
+                      <span class="rvst-label">{{ s.label }}</span>
+                      <span class="rvst-box">{{ s.value }}</span>
+                    </span>
                   </span>
+                  <span class="rvunit-sub">{{ summaryLine(e) }}</span>
                 </span>
-                <span class="rvunit-sub">{{ summaryLine(e) }}</span>
-              </span>
-              <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-              <i class="bi bi-chevron-right rvunit-chev"></i>
-            </button>
+                <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                <i class="bi bi-chevron-right rvunit-chev"></i>
+              </button>
+              <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
+                   the list — those are facts about the battle, not about a unit — and these are the
+                   ones a player flips every turn, which is not worth opening a card for. -->
+              <ConditionChips
+                v-if="unitSwitchesOf(e).length"
+                class="rvunit-conds"
+                :switches="unitSwitchesOf(e)"
+                @toggle="toggleUnitCondFor(e, $event)"
+              />
+            </div>
           </template>
         </template>
       </div>
@@ -196,7 +204,7 @@ import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
-import ConditionChips from '../../components/roster/ConditionChips.vue'
+import ConditionChips from '../../components/ConditionChips.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
@@ -418,6 +426,22 @@ const armySwitches = computed(() => {
   const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
   return switchesFor(all, 'army', gamePlayer.value, gameClock.value, null)
 })
+// This entry's own state switches, for the row in the list. Same source as the card's, so the two
+// can never disagree; cached per entry because the template asks for them on every render.
+const unitSwitchCache = computed(() => {
+  const m = new Map()
+  if (!canSwitch.value) return m
+  for (const e of roster.value?.units || []) {
+    m.set(e.uid, switchesFor(resolvedFor(e), 'unit', gamePlayer.value, gameClock.value, e))
+  }
+  return m
+})
+function unitSwitchesOf(entry) { return unitSwitchCache.value.get(entry.uid) || [] }
+function toggleUnitCondFor(entry, sw) {
+  if (sw.auto) return
+  tracker.value?.setUnitCondition(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
+}
+
 function toggleArmyCond(sw) {
   if (sw.auto) return // read from the tracker — flip it there, not here
   tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
@@ -686,19 +710,32 @@ function stratKey(strat) {
   border-bottom: 1px solid var(--border);
 }
 .rvunit {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+.rvunit:hover { border-color: var(--accent); }
+.rvunit-main {
   display: flex;
   width: 100%;
   align-items: center;
   gap: 0.6rem;
   padding: 0.6rem 0.5rem 0.6rem 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
+  background: none;
+  border: 0;
   cursor: pointer;
   text-align: left;
+  font: inherit;
+  color: inherit;
 }
-.rvunit:hover { border-color: var(--accent); }
+/* Indented to the name above and separated by a hairline: the switches belong to the row but are
+   not part of what the row SAYS about the unit. */
+.rvunit-conds {
+  padding: 0.45rem 0.75rem 0.55rem;
+  border-top: 1px dashed var(--border);
+}
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
