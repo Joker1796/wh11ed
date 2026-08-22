@@ -127,6 +127,19 @@
           <p v-if="!selectedDetachmentRules.length" class="rv-hint">{{ labels.rosterViewNoDetachment }}</p>
           <template v-else>
             <div class="strat-toolbar">
+              <!-- Only in a live game that keeps a clock: narrow the list to what this player can
+                   actually use in the slot the game is standing on. -->
+              <button
+                v-if="nowSlot"
+                type="button"
+                class="strat-toggle now-toggle"
+                :class="{ active: nowOnly }"
+                :aria-pressed="nowOnly"
+                @click="nowOnly = !nowOnly"
+              >
+                <i class="bi bi-hourglass-split"></i>
+                <span class="strat-toggle-label">{{ labels.stratNowOnly }}</span>
+              </button>
               <button
                 type="button"
                 class="strat-toggle"
@@ -140,7 +153,9 @@
               </button>
             </div>
 
-            <template v-if="byPhase">
+            <p v-if="nowOnly && !visibleStratagems.length" class="rv-hint">{{ labels.stratNowEmpty }}</p>
+
+            <template v-if="byPhase && !nowOnly">
               <div v-for="g in phaseGroups" :key="g.key" class="phase-group">
                 <button
                   type="button"
@@ -160,7 +175,7 @@
               </div>
             </template>
 
-            <div v-else class="strat-grid">
+            <div v-else-if="visibleStratagems.length" class="strat-grid">
               <StratCard v-for="s in visibleStratagems" :key="stratKey(s)" :strat="s" :sublabel="s.sublabel" />
             </div>
           </template>
@@ -205,7 +220,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries } from '../../composables/rosterStatMods.js'
 import { activeConditions, switchesFor } from '../../composables/rosterGameContext.js'
-import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
+import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const route = useRoute()
@@ -494,6 +509,7 @@ async function loadFactionSource(slug, loc) {
       stratagems: (det.stratagems || []).map((s, si) => ({
         ...s,
         _phases: phasesOf(data.en.detachments?.[di]?.stratagems?.[si]?.when),
+        _sides: phaseSidesOf(data.en.detachments?.[di]?.stratagems?.[si]?.when),
       })),
     })),
   })
@@ -532,13 +548,38 @@ const selectedDetachmentRules = computed(() =>
 // detachment it's from — no extra per-detachment grouping needed on top of that). The view
 // preference is shared with the standalone page (same localStorage key) so it isn't a
 // separate setting to learn twice.
-const visibleStratagems = computed(() => selectedDetachmentRules.value.flatMap((det) => det.stratagems || []))
+const allStratagems = computed(() => selectedDetachmentRules.value.flatMap((det) => det.stratagems || []))
+
+// The slot the game is standing on, but only when there IS one to stand on: a live game that
+// tracks phases. A finished game out of history keeps the clock it ended with — "what can I use
+// now" is not a question that record can answer.
+const nowSlot = computed(() => {
+  const g = game.value
+  if (!g || historyId.value || !g.settings?.trackPhases) return null
+  return {
+    phase: g.currentPhase || 'command',
+    // The turn is a player index (useTracker), so "mine" is whether it is this roster's owner's.
+    mine: (g.currentTurn === 1 ? 1 : 0) === gamePi.value,
+  }
+})
+const nowOnly = ref(false)
+// The filter can only be on while there is a slot: leaving the game (or the round bar losing the
+// setting) must not leave the list silently filtered by a phase nobody is in.
+watch(nowSlot, (slot) => { if (!slot) nowOnly.value = false })
+
+const visibleStratagems = computed(() => {
+  const slot = nowSlot.value
+  if (!nowOnly.value || !slot) return allStratagems.value
+  return allStratagems.value.filter((s) => usableInSlot(s._phases, s._sides, slot.phase, slot.mine))
+})
 
 const VIEW_KEY = 'wh11ed-stratagems-by-phase'
 const byPhase = ref(getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
 const openPhases = ref(new Set())
 
+// Grouping by phase while filtering TO one phase would be one accordion with everything in it,
+// so the filter renders the flat list (see the template's `byPhase && !nowOnly`).
 const phaseGroups = computed(() => {
   const by = new Map()
   for (const s of visibleStratagems.value) {
@@ -702,6 +743,7 @@ function stratKey(strat) {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 .strat-toggle {
