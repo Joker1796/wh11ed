@@ -49,7 +49,7 @@
         </div>
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
-             datasheet. See ROSTER-MODIFIERS-PROGRESS.md for what each phase adds. -->
+             datasheet. See src/components/roster/CLAUDE.md for what each tier adds. -->
         <DatasheetCard
           v-if="view.sheet"
           :sheet="statMods.sheet"

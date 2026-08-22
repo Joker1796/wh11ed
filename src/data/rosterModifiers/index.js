@@ -1,5 +1,5 @@
 // Lazy per-faction access to the numeric modifier layer (Tier C — see
-// ROSTER-MODIFIERS-PROGRESS.md). Same code-splitting discipline as data/roster/index.js and
+// src/components/roster/CLAUDE.md). Same code-splitting discipline as data/roster/index.js and
 // data/datasheets/index.js: one chunk per faction, fetched only when a roster's unit card is
 // actually opened, never statically imported into anything the light entry chunk can reach.
 //

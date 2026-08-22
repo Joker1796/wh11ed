@@ -14,7 +14,7 @@
 //   - rosterModifiers  — are the roster builder's numeric modifiers still tied to the rule wording
 //     they were read from? Reports stale (the prose moved under a reviewed record), new (prose
 //     that now looks like it changes a number), orphaned and unreviewed — see
-//     ROSTER-MODIFIERS-PROGRESS.md §5
+//     src/components/roster/CLAUDE.md → "Tier C"
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
 //   - sync-faction-text — faction rule/stratagem/enhancement/ability PROSE vs the canon (errata drift)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)

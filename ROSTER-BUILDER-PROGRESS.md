@@ -23,7 +23,7 @@ is implemented and tested.
    picks, enhancement, warlord flag) is already available to the caller — this is a "do the
    overlay" task, not a "find the data" task.
    **Grew into its own multi-phase task on 2026-08-19 — plan, decisions and progress now live
-   in `ROSTER-MODIFIERS-PROGRESS.md`.** Short version of what the research found: appdata has
+   in `src/components/roster/CLAUDE.md` → «Modifier overlay» (собственный док ретирнут 2026-08-22).** Short version of what the research found: appdata has
    almost no structural modifiers (6 ability + 2 weapon-profile links across 961 enhancements),
    so an overlay attributes rather than silently recomputes — same philosophy as the existing
    `grantedKeywords` prop on `DatasheetCard`.
@@ -350,7 +350,7 @@ is implemented and tested.
     +2 S on hellforged weapons, +2" M, +3 A on the infernal cannon). Those belong in Tier C's
     sidecar — 12 short entries behind its existing proofread-and-pin pipeline — and the text is
     already visible on the card as the datasheet's own `specialAbilities`, so nothing is hidden
-    meanwhile. Recorded in `ROSTER-MODIFIERS-PROGRESS.md` as the next Tier C batch.
+    meanwhile. Done in the 2026-08-22 review pass (see `src/components/roster/CLAUDE.md`).
 
 14. **The last 19 unparsed instructions — 17 read, 2 left on purpose, 2026-08-20.** The tail of
     item 8, sorted into six classes and fixed by reading the datasheet instead of the sentence.

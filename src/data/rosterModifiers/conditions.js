@@ -1,6 +1,6 @@
 // The vocabulary of game-state conditions a Tier C effect can be gated on — the machine-readable
 // half of an effect's `when` prose, hand-assigned in the same review pass (see the `cond` field in
-// each faction's records and ROSTER-IN-GAME-PROGRESS.md for the plan this serves).
+// each faction's records, and src/components/roster/CLAUDE.md → "Live rules" for what it serves).
 //
 // WHY A DICTIONARY AND NOT REGEXES ON THE PROSE. `when` is written for a human reading a footnote:
 // 218 conditional effects across 161 distinct wordings, most of them one-offs. There is no grammar
@@ -15,10 +15,10 @@
 // sentinel rather than by having no `cond` at all — "not automatable" and "not reviewed yet" must
 // never look the same.
 //
-// `duration` is read from the rule's own wording and says when a switch stops being true. NOTE
-// that the tracker's only clock is the battle round: it has no phases and no notion of whose turn
-// it is, so anything shorter than a round can only be auto-cleared at the round boundary until
-// that changes (§3.5 of ROSTER-IN-GAME-PROGRESS.md).
+// `duration` is read from the rule's own wording and says when a switch stops being true. The
+// tracker's clock resolves round → turn → phase, so a duration shorter than a round is honoured
+// as written — except in a game not keeping phases, where everything falls back to the round
+// boundary (rosterGameContext.js).
 
 // Sentinels — the effect stays an attributed note. Each says WHY, because the reasons have
 // different fixes and three of the four are removable.
@@ -112,10 +112,6 @@ export const conditions = {
   'unit-leading': { scope: 'roster', duration: 'battle', label: { en: 'Leading a unit', ru: 'Ведёт отряд' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
-  // The tracker now HAS a clock (useTracker's currentTurn/currentPhase, added 2026-08-22), but
-  // rosterGameContext still answers none of these — wiring it up is P3c/P3d in
-  // ROSTER-IN-GAME-PROGRESS.md. They are marked on the effects anyway, so that work inherits a
-  // finished list instead of re-reading the prose.
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
   // id carries `phase` and `side`, because GW says whose phase it is when that matters and the
   // Fight phase happens in both turns; only a game keeping phases can answer one. A `rounds` id

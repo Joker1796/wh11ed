@@ -1,6 +1,6 @@
 // Roster modifier overlay — what a datasheet looks like for ONE roster entry, as opposed to the
 // bare printed sheet. Pure functions, no Vue, no store (same discipline as rosterEngine.js /
-// rosterValidation.js). See ROSTER-MODIFIERS-PROGRESS.md for the phased plan; this file is
+// rosterValidation.js). See src/components/roster/CLAUDE.md ("Modifier overlay"); this file is
 // Tier A: it trims the weapon tables to the loadout the entry actually fields, resolves the
 // keywords the roster's detachments grant it, and reports the roster facts that aren't on the
 // datasheet at all (Warlord, enhancement, attachment). `notes` stays empty until Phase B.
