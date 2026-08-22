@@ -300,6 +300,49 @@ describe('RosterViewView', () => {
       expect(w.find('.rvst-mod').exists()).toBe(true)
     })
 
+    // The stratagem filter: only where there is a clock to read, and it answers for the player
+    // whose list is open, not for whoever's turn it happens to be.
+    // A list with a detachment, so there are stratagems on the tab at all.
+    const withStrats = { ...fielded, id: 'r4', detachments: ['Gladius Task Force'] }
+
+    it('offers "usable now" only in a live game that keeps a clock', async () => {
+      const t = await startGame(withStrats)
+      GAME_PI = '0'
+      const w1 = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w1, 'Fielded List')
+      await w1.findAll('.rv-tab').at(-1).trigger('click')
+      await flushPromises()
+      expect(w1.find('.now-toggle').exists()).toBe(false)   // the game doesn't track phases
+
+      t.updateSetup({ settings: { ...t.current.value.settings, trackPhases: true } })
+      const w2 = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w2, 'Fielded List')
+      await w2.findAll('.rv-tab').at(-1).trigger('click')
+      await flushPromises()
+      expect(w2.find('.now-toggle').exists()).toBe(true)
+    })
+
+    it('narrows the list to the slot the game is standing on', async () => {
+      const t = await startGame(withStrats)
+      t.updateSetup({ settings: { ...t.current.value.settings, trackPhases: true } })
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Fielded List')
+      await w.findAll('.rv-tab').at(-1).trigger('click')
+      await flushPromises()
+
+      const all = w.findAll('.strat-grid > *').length
+      await w.find('.now-toggle').trigger('click')
+      await flushPromises()
+      const nowMine = w.findAll('.strat-grid > *').length
+      expect(nowMine).toBeLessThan(all)
+
+      // Same phase, the opponent's turn: a different set — "your Command phase" stops applying.
+      t.goToPhase(1, 'command')
+      await flushPromises()
+      expect(w.findAll('.strat-grid > *').length).not.toBe(nowMine)
+    })
+
     it('leaves for the game when that player fielded no list', async () => {
       await startGame(fielded)
       GAME_PI = '1'

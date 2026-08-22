@@ -61,6 +61,8 @@ export const ui = {
     phaseAny: 'Any phase',
     // The tracker's clock (phase row + picker). Offered only when a roster is attached.
     trackerTrackPhases: 'Track phases',
+    stratNowOnly: 'Usable now',
+    stratNowEmpty: 'Nothing to use in this phase.',
     trackerPhaseHeading: 'Phase',
     trackerTurnFirst: 'goes first',
     trackerTurnSecond: 'goes second',
@@ -620,6 +622,8 @@ export const ui = {
     phaseFight: 'Фаза ближнего боя',
     phaseAny: 'Любая фаза',
     trackerTrackPhases: 'Вести фазы',
+    stratNowOnly: 'Доступны сейчас',
+    stratNowEmpty: 'В этой фазе нечего использовать.',
     trackerPhaseHeading: 'Фаза',
     trackerTurnFirst: 'ходит первым',
     trackerTurnSecond: 'ходит вторым',

@@ -37,3 +37,44 @@ export function phasesOf(englishWhen) {
   const named = NAMED_PHASES.filter((p) => new RegExp(`\\b${p} phase\\b`, 'i').test(englishWhen))
   return named.length ? named : ['any']
 }
+
+// WHOSE phase, per phase the timing names. `phasesOf` deliberately stays as it is: the stratagem
+// page groups by phase and has no reason to care whose turn it is — this is the extra half the
+// in-game "what can I do right now" filter needs.
+//
+// GW writes the possessive right before the phase: "in your Shooting phase", "End of your
+// opponent's Charge phase". A phase named with NO possessive is one that happens in both turns
+// ("the Fight phase", 83 of them) and is reported as 'both'. So is the same phase named twice
+// with different owners.
+//
+// One known over-report: "Start of your Movement or Charge phase" governs Charge with a possessive
+// that isn't adjacent to it, so Charge reads as 'both'. The filter then offers the stratagem in
+// the opponent's Charge phase too — erring towards SHOWING, which is the safe direction for a
+// convenience filter over a rules reference.
+const SIDE_RE = new RegExp(
+  `(?:(your opponent['\u2019]s|your)\\s+)?\\b(${NAMED_PHASES.join('|')}) phase`,
+  'gi',
+)
+
+export function phaseSidesOf(englishWhen) {
+  const out = {}
+  if (!englishWhen) return out
+  for (const m of englishWhen.matchAll(SIDE_RE)) {
+    const phase = m[2].toLowerCase()
+    const owner = (m[1] || '').toLowerCase()
+    const side = !owner ? 'both' : owner === 'your' ? 'own' : 'opp'
+    out[phase] = out[phase] && out[phase] !== side ? 'both' : side
+  }
+  return out
+}
+
+// Can this stratagem be used in the slot the game is standing on? `mine` is whether the turn
+// belongs to the player whose roster is open. A stratagem with no detectable phase, or one that
+// works in any phase, is always offered — the timing line is still printed on the card.
+export function usableInSlot(phases, sides, phase, mine) {
+  if (!phases?.length || phases.includes('any')) return true
+  if (!phases.includes(phase)) return false
+  const side = sides?.[phase] || 'both'
+  return side === 'both' || (side === 'own') === mine
+}
+
