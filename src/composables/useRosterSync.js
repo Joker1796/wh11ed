@@ -27,7 +27,8 @@ const syncing = ref(false)
 const uploading = ref(false)
 const lastError = ref(null)
 const checked = ref(false) // a successful cloud check happened this session
-// What the last sync pulled down, for the "your lists were updated" notice: { added, updated }.
+// What the last sync changed, for the "your lists were updated" notice:
+// { added, updated, removed } — a list buried on another device counts as news too.
 const pulled = ref(null)
 // Set by a successful save-triggered upload, cleared by the next sync — that is how the roster
 // view can say "saved to the cloud" right after the click that saved it.
@@ -36,8 +37,9 @@ const savedAt = ref(0)
 // so a list saved while offline still uploads on the next visit — and so a list that is merely
 // being edited is NOT in here.
 const pendingIds = ref(loadSet(PENDING_KEY))
-// Tombstones: lists deleted locally that must not be pulled back, and whose cloud DELETE is
-// retried until it lands. Same mechanism as the tracker's deleted-games set.
+// Deletions this device made whose DELETE hasn't reached the API yet (deleted offline / signed
+// out). Purely a retry queue: once the server holds its own tombstone, this note is dropped —
+// the server's copy is what actually keeps the list from coming back, here and everywhere else.
 const deletedIds = ref(loadSet(DELETED_KEY))
 
 function loadSet(key) {
@@ -82,7 +84,7 @@ const path = (id) => `/rosters/${encodeURIComponent(id)}`
 
 export function useRosterSync() {
   const { status, authedFetch } = useAuth()
-  const { rosters, savedRosters, rosterById, adoptFromCloud } = useRosters()
+  const { rosters, savedRosters, rosterById, adoptFromCloud, deleteRoster } = useRosters()
 
   // `enabled` is for the status line; the async functions below read `status.value` directly at
   // call time instead — a computed would cache across the sign-in that is precisely what they are
@@ -145,7 +147,7 @@ export function useRosterSync() {
     clearPending(id)
     if (!authed()) return
     try {
-      const res = await authedFetch(path(id), { method: 'DELETE' })
+      const res = await authedFetch(`${path(id)}?at=${Date.now()}`, { method: 'DELETE' })
       if (res.ok || res.status === 404) clearTombstone(id)
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)
@@ -162,24 +164,46 @@ export function useRosterSync() {
       const res = await authedFetch('/rosters')
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const body = await res.json()
-      const cloud = new Map((body.rosters || []).map((m) => [m.rosterId, m]))
+      // The listing mixes live lists with tombstones (`deleted: true`) — a list deleted on
+      // another device. They drive completely different logic, so they are split here.
+      const cloud = new Map()
+      const graves = new Map() // id → the deleting device's clock
+      for (const m of body.rosters || []) {
+        if (m.deleted) graves.set(m.rosterId, m.deletedAt || 0)
+        else cloud.set(m.rosterId, m)
+      }
       checked.value = true
 
-      // 1. Deletions. Push the ones the cloud still has; forget the rest — a tombstone for
-      //    something the cloud doesn't hold has done its job.
+      // 1. Our own deletions. The server keeps its own tombstone, so once it has one this
+      //    device's local note has done its job. A list the cloud doesn't know at all needs no
+      //    note either — nothing there can restore it.
       for (const id of [...deletedIds.value]) {
-        if (!cloud.has(id)) {
+        if (graves.has(id) || !cloud.has(id)) {
           clearTombstone(id)
           continue
         }
-        const del = await authedFetch(path(id), { method: 'DELETE' })
+        const del = await authedFetch(`${path(id)}?at=${Date.now()}`, { method: 'DELETE' })
         if (del.ok || del.status === 404) {
           clearTombstone(id)
           cloud.delete(id)
+          graves.set(id, Date.now())
         }
       }
 
-      // 2. Push. Queued saves, plus any saved list the cloud has never seen — that second half is
+      // 2. Deletions from elsewhere. A list buried in the cloud goes here too — unless this
+      //    device saved it AFTER the burial, which is the one case where a delete loses: an
+      //    explicit Save is a statement that this list should exist, and step 3 uploads it again.
+      let removed = 0
+      for (const [id, deletedAt] of graves) {
+        const local = rosterById(id)
+        if (!local || isDraft(local)) continue
+        if ((local.updatedAt || 0) > deletedAt) continue
+        deleteRoster(id)
+        clearPending(id)
+        removed++
+      }
+
+      // 3. Push. Queued saves, plus any saved list the cloud has never seen — that second half is
       //    what makes the first sign-in upload the entire existing collection. A list the cloud
       //    already holds at an older version is NOT pushed: those are the unsaved edits rule 2
       //    keeps out of the cloud.
@@ -192,7 +216,7 @@ export function useRosterSync() {
         else failures++
       }
 
-      // 3. Pull. Anything the cloud holds and we don't, or holds in a newer version.
+      // 4. Pull. Anything the cloud holds and we don't, or holds in a newer version.
       let added = 0
       let updated = 0
       for (const meta of cloud.values()) {
@@ -212,7 +236,7 @@ export function useRosterSync() {
         else added++
       }
 
-      pulled.value = added || updated ? { added, updated } : null
+      pulled.value = added || updated || removed ? { added, updated, removed } : null
       if (failures > 0) lastError.value = `${failures} roster(s) failed to upload`
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)

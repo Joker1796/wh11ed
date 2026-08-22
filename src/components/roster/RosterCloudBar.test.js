@@ -38,9 +38,9 @@ describe('RosterCloudBar', () => {
     expect(mount(RosterCloudBar).text()).toBe('')
   })
 
-  it('reports what the last sync pulled, counting both halves', () => {
+  it('reports what the last sync changed, counting all three kinds', () => {
     h.state.checked.value = true
-    h.state.pulled.value = { added: 2, updated: 1 }
+    h.state.pulled.value = { added: 2, updated: 1, removed: 0 }
     expect(mount(RosterCloudBar, { props: { hint: true } }).text()).toContain('3')
     // …but not on a single list's page, which is only there to answer a Save.
     expect(mount(RosterCloudBar).text()).toBe('')
@@ -53,7 +53,7 @@ describe('RosterCloudBar', () => {
 
   it('an error outranks everything else and is styled as one', () => {
     h.state.lastError.value = 'boom'
-    h.state.pulled.value = { added: 1, updated: 0 }
+    h.state.pulled.value = { added: 1, updated: 0, removed: 0 }
     const w = mount(RosterCloudBar, { props: { hint: true } })
     expect(w.find('.rc-bar').classes()).toContain('err')
   })

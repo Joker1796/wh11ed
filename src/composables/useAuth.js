@@ -25,6 +25,7 @@ const MOCK_USER = { id: 'mock', email: 'test@local', displayName: 'Tester' }
 let mockActive = false
 const mockCloud = new Map() // gameId → full game blob (a fake backend store)
 const mockRosterCloud = new Map() // rosterId → full roster blob
+const mockRosterGraves = new Map() // rosterId → deletedAt (the API tombstones, so the mock does too)
 
 function mockEnabled() {
   return DEV && mockActive
@@ -66,13 +67,19 @@ function mockFetch(path, opts = {}) {
     return mockJson({ games: [...mockCloud.values()].map(mockMeta) })
   }
   if (path === '/rosters' && method === 'GET') {
-    return mockJson({ rosters: [...mockRosterCloud.values()].map(mockRosterMeta) })
+    return mockJson({
+      rosters: [
+        ...[...mockRosterCloud.values()].map(mockRosterMeta),
+        ...[...mockRosterGraves].map(([rosterId, deletedAt]) => ({ rosterId, deleted: true, deletedAt })),
+      ],
+    })
   }
-  const mr = path.match(/^\/rosters\/(.+)$/)
+  const mr = path.match(/^\/rosters\/([^?]+)\??(.*)$/)
   if (mr) {
     const id = decodeURIComponent(mr[1])
     if (method === 'PUT') {
       mockRosterCloud.set(id, JSON.parse(opts.body))
+      mockRosterGraves.delete(id)
       return mockJson({ ok: true, rosterId: id })
     }
     if (method === 'GET') {
@@ -80,6 +87,9 @@ function mockFetch(path, opts = {}) {
       return r ? mockJson(r) : mockJson({ error: 'not_found' }, 404)
     }
     if (method === 'DELETE') {
+      if (mockRosterCloud.has(id)) {
+        mockRosterGraves.set(id, Number(new URLSearchParams(mr[2]).get('at')) || Date.now())
+      }
       mockRosterCloud.delete(id)
       return mockJson({ ok: true })
     }
@@ -124,6 +134,7 @@ function mockSignOut() {
   mockActive = false
   mockCloud.clear()
   mockRosterCloud.clear()
+  mockRosterGraves.clear()
   accessToken = null
   user.value = null
   status.value = 'anon'

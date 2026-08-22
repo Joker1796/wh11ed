@@ -44,7 +44,10 @@ const text = computed(() => {
     case 'hint': return l.rosterCloudHint
     case 'syncing': return l.rosterCloudSyncing
     case 'error': return l.rosterCloudError
-    case 'updated': return l.rosterCloudUpdated.replace('{n}', String(pulled.value.added + pulled.value.updated))
+    case 'updated': {
+      const p = pulled.value
+      return l.rosterCloudUpdated.replace('{n}', String(p.added + p.updated + p.removed))
+    }
     case 'saved': return l.rosterCloudSaved
     case 'pending': return l.rosterCloudPending.replace('{n}', String(pendingCount.value))
     case 'synced': return l.rosterCloudSynced

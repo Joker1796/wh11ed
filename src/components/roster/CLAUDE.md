@@ -410,18 +410,25 @@ the device clock — chosen over a server stamp for cost) and the screen says so
 and on a saved list's view page, which is where the editor's Save lands — that is how the click
 that saved a list gets an answer.
 
-Two sets in `localStorage` carry state across visits: `wh11ed-rosters-pending` (ids whose save
-hasn't landed — an offline save, a failed PUT) and `wh11ed-rosters-deleted` (tombstones, so a
-list deleted here isn't downloaded again on the next visit; the cloud DELETE is retried until it
-lands). A saved list the cloud has **never** seen is pushed by the pass regardless of the pending
-set — that is what makes the first sign-in upload the whole existing collection, and what
-eventually uploads a share-link import (`RosterSharedView` deliberately doesn't upload on the
-spot: an imported list is unpriced until a screen with faction data touches it).
+**Deletes are tombstones, and the authoritative one is the server's.** `DELETE /rosters/{id}?at=`
+empties the row and stamps it with the deleting device's clock; the list endpoint reports those
+graves alongside live lists. That is what makes a delete propagate: without it, the second device
+would see an id the cloud lacks, conclude "not backed up yet" and upload the list straight back.
+The rules that follow from having both timestamps on one scale:
 
-**Known limitation:** a delete propagates to the cloud, but a *second* device that still holds
-the list re-uploads it on its next visit (its own copy is a list the cloud no longer has). The
-tombstone protects the device that deleted. Same behaviour as the tracker's game sync; fixing it
-needs server-side tombstones, which is not worth a table yet.
+- A grave **removes the local copy** on every other device (counted in the notice as `removed`).
+- A list whose `updatedAt` is **newer than the grave** survives and is re-uploaded — an explicit
+  Save after a delete is a statement that this list should exist, and the Save wins.
+- A draft is never buried, whatever the cloud says: it was never up there to begin with.
+
+`wh11ed-rosters-deleted` in `localStorage` is now only a **retry queue** for deletes made offline
+or signed out. Once the server's listing shows the grave, the local note is dropped — the server
+is what keeps the list from coming back. The other set, `wh11ed-rosters-pending`, holds ids whose
+save hasn't landed. A saved list the cloud has **never** seen (no row, no grave) is pushed by the
+pass regardless of the pending set — that is what makes the first sign-in upload the whole
+existing collection, and what eventually uploads a share-link import (`RosterSharedView`
+deliberately doesn't upload on the spot: an imported list is unpriced until a screen with faction
+data touches it).
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 

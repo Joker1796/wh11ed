@@ -30,19 +30,33 @@ function roster(id, over = {}) {
   }
 }
 
-// A cloud that answers from a plain map, so a test can state what the "other device" holds.
-function cloudFetch(store) {
+// A cloud that answers from two plain maps — live lists and tombstones — so a test can state
+// exactly what the "other device" left behind. Mirrors the API: DELETE buries rather than
+// removes, PUT resurrects, and the listing returns both kinds.
+function cloudFetch(store, graves = new Map()) {
   return (url, opts = {}) => {
     const method = opts.method || 'GET'
     if (url === '/rosters') {
-      const rosters = [...store.values()].map((r) => ({
-        rosterId: r.id, name: r.name, faction: r.faction, updatedAt: r.updatedAt, points: 0, unitCount: 0,
-      }))
+      const rosters = [
+        ...[...store.values()].map((r) => ({
+          rosterId: r.id, name: r.name, faction: r.faction, updatedAt: r.updatedAt, points: 0, unitCount: 0,
+        })),
+        ...[...graves].map(([rosterId, deletedAt]) => ({ rosterId, deleted: true, deletedAt })),
+      ]
       return Promise.resolve({ ok: true, status: 200, json: async () => ({ rosters }) })
     }
-    const id = decodeURIComponent(url.replace('/rosters/', ''))
-    if (method === 'PUT') { store.set(id, JSON.parse(opts.body)); return Promise.resolve({ ok: true, status: 200 }) }
-    if (method === 'DELETE') { store.delete(id); return Promise.resolve({ ok: true, status: 204 }) }
+    const [, rawId, qs = ''] = url.match(/^\/rosters\/([^?]+)\??(.*)$/)
+    const id = decodeURIComponent(rawId)
+    if (method === 'PUT') {
+      store.set(id, JSON.parse(opts.body))
+      graves.delete(id)
+      return Promise.resolve({ ok: true, status: 200 })
+    }
+    if (method === 'DELETE') {
+      if (store.has(id)) graves.set(id, Number(new URLSearchParams(qs).get('at')) || 0)
+      store.delete(id)
+      return Promise.resolve({ ok: true, status: 204 })
+    }
     const r = store.get(id)
     return Promise.resolve(r ? { ok: true, status: 200, json: async () => r } : { ok: false, status: 404 })
   }
@@ -96,7 +110,7 @@ describe('syncNow', () => {
     h.fetchImpl = cloudFetch(cloud)
     await sync.syncNow()
     expect(store.rosterById('r9')?.name).toBe('From the laptop')
-    expect(sync.pulled.value).toEqual({ added: 1, updated: 0 })
+    expect(sync.pulled.value).toEqual({ added: 1, updated: 0, removed: 0 })
   })
 
   it('takes the newer cloud version and reports the list as updated', async () => {
@@ -105,7 +119,7 @@ describe('syncNow', () => {
     h.fetchImpl = cloudFetch(cloud)
     await sync.syncNow()
     expect(store.rosterById('r1').name).toBe('Newer')
-    expect(sync.pulled.value).toEqual({ added: 0, updated: 1 })
+    expect(sync.pulled.value).toEqual({ added: 0, updated: 1, removed: 0 })
   })
 
   it('keeps a newer local list and does not push it — an unsaved edit is not cloud business', async () => {
@@ -121,7 +135,7 @@ describe('syncNow', () => {
   it('does not restore a list deleted on this device, and finishes its cloud delete', async () => {
     const cloud = new Map([['r1', { ...roster('r1'), v: 4 }]])
     await load([roster('r1')])
-    h.status.value = 'anon' // deleted while signed out: the tombstone is all we have
+    h.status.value = 'anon' // deleted while signed out: the local note is all we have
     h.fetchImpl = cloudFetch(cloud)
     await sync.removeFromCloud('r1')
     store.deleteRoster('r1')
@@ -130,6 +144,47 @@ describe('syncNow', () => {
     await sync.syncNow()
     expect(cloud.has('r1')).toBe(false)
     expect(store.rosterById('r1')).toBe(null)
+  })
+
+  it('drops a list the cloud says was deleted on another device', async () => {
+    const graves = new Map([['r1', 5000]])
+    await load([roster('r1', { updatedAt: 1000 })])
+    h.fetchImpl = cloudFetch(new Map(), graves)
+    await sync.syncNow()
+    expect(store.rosterById('r1')).toBe(null)
+    expect(sync.pulled.value).toEqual({ added: 0, updated: 0, removed: 1 })
+  })
+
+  it('re-uploads a list saved AFTER it was deleted elsewhere — an explicit save outranks a delete', async () => {
+    const cloud = new Map()
+    const graves = new Map([['r1', 5000]])
+    await load([roster('r1', { name: 'Saved again', updatedAt: 9000 })])
+    h.fetchImpl = cloudFetch(cloud, graves)
+    await sync.syncNow()
+    expect(store.rosterById('r1')?.name).toBe('Saved again')
+    expect(cloud.get('r1').name).toBe('Saved again')
+    expect(graves.has('r1')).toBe(false)
+  })
+
+  it('stops re-sending a delete once the server holds the tombstone', async () => {
+    const cloud = new Map([['r1', { ...roster('r1'), v: 4 }]])
+    const graves = new Map()
+    await load([roster('r1')])
+    h.fetchImpl = cloudFetch(cloud, graves)
+    await sync.removeFromCloud('r1')
+    store.deleteRoster('r1')
+    expect(graves.has('r1')).toBe(true)
+
+    h.calls = []
+    await sync.syncNow()
+    expect(h.calls).toEqual([['/rosters', 'GET']])
+  })
+
+  it('does not bury a draft that happens to share an id with a cloud tombstone', async () => {
+    await load([roster('d1', { draft: true, updatedAt: 1000 })])
+    h.fetchImpl = cloudFetch(new Map(), new Map([['d1', 5000]]))
+    await sync.syncNow()
+    expect(store.rosterById('d1')).not.toBe(null)
   })
 })
 
