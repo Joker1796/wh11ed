@@ -8,19 +8,6 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "f9aa12c0-37ad-4cbd-ad9f-d93f664dffa5",
-      "kind": "armyRule",
-      "name": "Prioritised Efficiency",
-      "det": null,
-      "hash": "1ba9c15b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "a23f8bdf-5c65-4c96-90b6-1b93696cc5f3",
       "kind": "armyRule",
       "name": "Prioritised Efficiency",

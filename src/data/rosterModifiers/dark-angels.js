@@ -22,34 +22,6 @@ export default {
       "note": "the DEATHWING keyword it grants is already carried by src/data/conditionalKeywords.json (gen-conditional-keywords.mjs reads the same grant structurally); recording it here would show it twice"
     },
     {
-      "sid": "e55bbc4f-6173-4d1b-b806-9351010772f7",
-      "kind": "armyRule",
-      "name": "The Deathwing",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "5111516f",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "note": "duplicate publication of the same rule — same reasoning as the other The Deathwing record"
-    },
-    {
-      "sid": "0339c85c-6792-4c1d-a69f-93d1b915cd7e",
-      "kind": "armyRule",
-      "name": "The Ravenwing",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "5465d0bf",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "note": "the RAVENWING keyword is already carried by conditionalKeywords.json"
-    },
-    {
       "sid": "02e193b8-9f13-405d-968e-7c3b455bcc24",
       "kind": "armyRule",
       "name": "The Ravenwing",

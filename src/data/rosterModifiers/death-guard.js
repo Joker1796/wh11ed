@@ -21,19 +21,6 @@ export default {
       }
     },
     {
-      "sid": "59635a2a-6196-4c29-8aef-2477563b0a7c",
-      "kind": "armyRule",
-      "name": "Nurgle’s Gift (Aura)",
-      "det": null,
-      "hash": "9d8b8791",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "6ee24fba-454f-4bbe-8de5-1974f148d2bc",
       "kind": "detachmentRule",
       "name": "Warped and Rusted Animus",

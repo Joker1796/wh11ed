@@ -655,6 +655,14 @@ is worse than one reading T5 with a note. A value the layer cannot compute hones
 
 Three things hold this together and are easy to break:
 
+- **One record per army rule, deduped by NAME in the generator.** appdata publishes an army rule
+  once per publication it appears in, and a Combat Patrol box reprints the codex's rule — so the
+  same rule arrives 2+ times under different uuids. Every copy resolves to the same single
+  `facEn.armyRule`, so the effects were applied once per copy: doubled footnotes, and a doubled
+  NUMBER wherever the condition is proven — Adeptus Mechanicus' Doctrina Imperatives is answered
+  automatically from the tracker, so its +1 BS was silently +2 in any game with an Imperative
+  running (found 2026-08-22, 16 factions affected). The reprints are not byte-identical, hence
+  name-keyed rather than prose-keyed; the smallest uuid wins so the pick is stable.
 - **A record is tied to its prose by a hash** (`hash`, sha1 of the normalised English text) and to
   its rule by an appdata uuid (`sid`) plus a wh11ed-side pointer (`ref`, resolved through
   `sourceIds.json`). Matching by id, not by name, so a GW rename moves the record with the rule.
@@ -757,7 +765,7 @@ at all. Three files, one idea:
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
-  **129 of the 295 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
+  **129 of the 285 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
   `blocked-subset`, `blocked-weapon`) that says why not. **A missing `cond` is not "unconditional" —
   it is unreviewed, and is treated as unproven.**
 
@@ -838,6 +846,12 @@ reference. Cloud backup used to head that list; it was built on 2026-08-22 (see 
 above) and the backend half still has to be deployed. The overlay's own tracking docs
 (`ROSTER-MODIFIERS-PROGRESS.md`, `ROSTER-IN-GAME-PROGRESS.md`) were retired into this file on
 2026-08-22, once their last phases closed; their journals are in the git history.
+
+One modelling gap worth knowing: appdata gives a faction SEVERAL army rules, our faction files one
+(sometimes a merge, `Synapse & Shadow in the Warp`). A record for a rule we don't model separately
+— T'au's `Drones` — still resolves through `ref: {kind:'armyRule'}` and so reads the wrong body for
+its scopes. Only conditional effects sit there today, so nothing is applied off it, but a record
+authored against `Drones` cannot be trusted to gate correctly.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for

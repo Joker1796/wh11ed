@@ -22,20 +22,6 @@ export default {
       "note": "army-composition rule — allied points allowance"
     },
     {
-      "sid": "b1bcd7c8-edc3-4da2-a2c7-796001420f4b",
-      "kind": "armyRule",
-      "name": "Corsairs and Travelling Players",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "e1eea53b",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "note": "duplicate publication of the same rule"
-    },
-    {
       "sid": "60c93592-228e-4a81-a0c7-46967aacfc1d",
       "kind": "detachmentRule",
       "name": "Exacting Cruelty",

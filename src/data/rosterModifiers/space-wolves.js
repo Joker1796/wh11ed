@@ -48,46 +48,6 @@ export default {
       }
     },
     {
-      "sid": "8ec6aabd-3330-47e0-b08b-5735e867be28",
-      "kind": "armyRule",
-      "name": "Curse of the Wulfen",
-      "det": null,
-      "hash": "f9ef08c4",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "Infantry models, while within 6\" of a Space Wolves Character (or 12\" of a Wolf Priest) and not Battle-shocked",
-            "ru": "модели Infantry, пока отряд в 6\" от персонажа Space Wolves (или 12\" от Wolf Priest) и не Battle-shocked"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        },
-        {
-          "on": "profile",
-          "stat": "oc",
-          "op": "add",
-          "value": 3,
-          "when": {
-            "en": "Vehicle models, under the same condition",
-            "ru": "модели Vehicle, при том же условии"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "60d212ba-251a-4824-9d55-364185c514cd",
       "kind": "detachmentRule",
       "name": "Legendary Slayers",
