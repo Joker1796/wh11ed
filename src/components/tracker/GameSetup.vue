@@ -275,6 +275,13 @@
             <em v-if="!armyOppTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
           </span>
         </label>
+
+        <!-- Phases are offered only when a list is attached: the roster screen is the only thing
+             that reads the phase, so without one the row would be a clock nobody consults. -->
+        <label v-if="anyRoster" class="check" :class="{ on: settings.trackPhases }">
+          <input type="checkbox" v-model="settings.trackPhases" />
+          <span>{{ labels.trackerTrackPhases }}</span>
+        </label>
       </div>
 
       <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. Not offered for
@@ -393,6 +400,8 @@ const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
 const lastS = history.value[0]?.settings ?? {}
 const lastTrackArmyYou = lastS.trackArmyYou ?? lastS.trackArmyRule ?? true
 const lastTrackArmyOpp = lastS.trackArmyOpp ?? lastS.trackArmyRule ?? true
+// Phases default OFF, like the roster itself: an optional ornament, never a precondition.
+const lastTrackPhases = lastS.trackPhases ?? false
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -408,7 +417,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null }
 }
-const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, trackPhases: lastTrackPhases, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -429,6 +438,9 @@ const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
 // same as the in-game card), whenever the picked factions change.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
+
+// Either player having a list is enough: the clock belongs to the game, not to one side.
+const anyRoster = computed(() => players.some((p) => !!p.roster))
 watch(
   () => players.map(p => p.factionSlug).join('|'),
   async () => {

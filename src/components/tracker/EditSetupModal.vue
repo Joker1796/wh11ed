@@ -83,6 +83,14 @@
           <input type="checkbox" v-model="settings.trackArmyOpp" />
           <span>{{ labels.trackerTrackArmyOpp }}</span>
         </label>
+
+        <!-- Reads the DRAFT's rosters, not the game's: a list attached in this very dialog should
+             make the setting available before Save, and it is the only way a game that started
+             without a list can ever get phases. -->
+        <label v-if="anyRoster" class="check" :class="{ on: settings.trackPhases }">
+          <input type="checkbox" v-model="settings.trackPhases" />
+          <span>{{ labels.trackerTrackPhases }}</span>
+        </label>
       </div>
 
       <div class="settings layout-block" v-if="layouts.length">
@@ -150,6 +158,8 @@ const players = reactive(game.players.map(p => ({
 })))
 const settings = reactive({
   trackCP: game.settings.trackCP,
+  // Older games predate the clock → off.
+  trackPhases: game.settings.trackPhases ?? false,
   // Split you/opponent army-rule toggles; older games lack them → fall back to the old single flag,
   // then default on (matches the in-game "missing = on" fallback).
   trackArmyYou: game.settings.trackArmyYou ?? game.settings.trackArmyRule ?? true,
@@ -161,6 +171,8 @@ const settings = reactive({
   layout: game.settings.layout,
   customLayout: game.settings.customLayout,
 })
+
+const anyRoster = computed(() => players.some((p) => !!p.roster))
 
 function isYou(i) { return game.players[i].isYou ?? i === 0 }
 function playerLabel(i) { return isYou(i) ? labels.value.trackerYou : labels.value.trackerOpponent }

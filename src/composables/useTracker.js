@@ -10,6 +10,7 @@ import {
   grandTotal as grandTotalOf,
   leader as leaderOf,
 } from './gameScoring.js'
+import { BATTLE_PHASES } from './stratagemPhases.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -346,6 +347,13 @@ export function useTracker() {
       createdAt: new Date().toISOString(),
       phase: 'playing',
       currentRound: 1,
+      // The clock. `phase` above is the GAME's state (playing/finished), so the battle phase had
+      // to be called something else. "Whose turn" needs no new concept: players[0] is always the
+      // first-turn player (see the reorder above), so currentTurn is simply that player's index.
+      // Both are written even when settings.trackPhases is off — the row is hidden, not the state,
+      // so turning the setting on mid-game finds a sane clock rather than an empty one.
+      currentTurn: 0,
+      currentPhase: BATTLE_PHASES[0],
       settings,
       players: youFirst
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
@@ -683,6 +691,62 @@ export function useTracker() {
       }
     }
     current.value.currentRound = target
+    // A new round starts at the first-turn player's Command phase. A phase left over from the
+    // round you just left would read as "now", and it isn't. stepPhase() writes the clock AFTER
+    // calling this, which is how stepping backwards across the boundary lands on Fight instead.
+    current.value.currentTurn = 0
+    current.value.currentPhase = BATTLE_PHASES[0]
+  }
+
+  // ── The clock: battle round → whose turn → phase ───────────────────────────────────────────
+  // A game created before this existed has neither field; both read as the first-turn player's
+  // Command phase until something moves them, so no migration is needed.
+  function phaseIndex(g) {
+    const i = BATTLE_PHASES.indexOf(g?.currentPhase)
+    return i === -1 ? 0 : i
+  }
+
+  // Position within the battle round, 0..9 — two turns of five phases.
+  function clockSlot(g) {
+    return (g?.currentTurn === 1 ? 1 : 0) * BATTLE_PHASES.length + phaseIndex(g)
+  }
+
+  const SLOTS = BATTLE_PHASES.length * 2
+
+  // Can the clock move by `delta` at all? Round 1's opening phase and round 5's closing one are
+  // the ends of the game — same convention as the round bar's own arrows.
+  function canStepPhase(delta) {
+    const g = current.value
+    if (!g) return false
+    const next = clockSlot(g) + delta
+    if (next < 0) return g.currentRound > 1
+    if (next >= SLOTS) return g.currentRound < ROUND_COUNT
+    return true
+  }
+
+  // One phase forward or back, rolling over into the neighbouring battle round. Crossing a
+  // boundary goes through goToRound so the secondary-card housekeeping there still happens.
+  function stepPhase(delta) {
+    const g = current.value
+    if (!g || !canStepPhase(delta)) return
+    let next = clockSlot(g) + delta
+    if (next < 0) {
+      goToRound(g.currentRound - 1)
+      next = SLOTS - 1
+    } else if (next >= SLOTS) {
+      goToRound(g.currentRound + 1)
+      next = 0
+    }
+    g.currentTurn = next >= BATTLE_PHASES.length ? 1 : 0
+    g.currentPhase = BATTLE_PHASES[next % BATTLE_PHASES.length]
+  }
+
+  // Jump straight to one phase of one player's turn (the phase picker).
+  function goToPhase(turn, phaseKey) {
+    const g = current.value
+    if (!g || !BATTLE_PHASES.includes(phaseKey)) return
+    g.currentTurn = turn === 1 ? 1 : 0
+    g.currentPhase = phaseKey
   }
 
   // Finish = show the final summary; the game stays current so it can be resumed.
@@ -792,7 +856,7 @@ export function useTracker() {
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }

@@ -18,6 +18,27 @@
       <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" :aria-label="labels.ariaNextRound" @click="goToRound(current.currentRound + 1)">›</button>
     </div>
 
+    <!-- The clock, one row under the rounds: whose turn and which phase. Only for a game that
+         asked for it — the setting is offered when a roster is attached, because that is the only
+         thing on screen that reads the phase. A game without it looks exactly as it did. -->
+    <div v-if="current.settings.trackPhases" class="phase-bar">
+      <button class="pb-nav" :disabled="!canStepPhase(-1)" :aria-label="labels.ariaPrevPhase" @click="stepPhase(-1)">‹</button>
+      <button class="pb-now" @click="phasePickerOpen = true">
+        <span class="pb-who">{{ playerName(turnIndex) }}</span>
+        <span class="pb-phase">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
+      </button>
+      <button class="pb-nav" :disabled="!canStepPhase(1)" :aria-label="labels.ariaNextPhase" @click="stepPhase(1)">›</button>
+    </div>
+
+    <PhasePickerModal
+      v-if="phasePickerOpen"
+      :names="current.players.map((_, i) => playerName(i))"
+      :turn="turnIndex"
+      :phase="current.currentPhase || 'command'"
+      @pick="onPickPhase"
+      @close="phasePickerOpen = false"
+    />
+
     <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
     <details v-if="activeTwist" class="twist-card">
       <summary><span class="tc-label">{{ labels.trackerTwist }}</span> {{ activeTwist.title }}</summary>
@@ -28,7 +49,7 @@
 
     <div class="players">
       <div v-for="(pl, i) in current.players" :key="i" class="player">
-        <h3 class="ptitle">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</h3>
+        <h3 class="ptitle">{{ playerName(i) }}</h3>
         <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
         <!-- Primary mission — tap to open the scoring modal -->
@@ -128,19 +149,37 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
+import PhasePickerModal from './PhasePickerModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
+import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, stepPhase, goToPhase, canStepPhase, finishGame } = useTracker()
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
+const phasePickerOpen = ref(false)
+
+// players[0] is always the first-turn player, so the turn IS a player index (useTracker).
+const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
+
+// One naming rule for both the player cards and the clock: their own name if they gave one,
+// otherwise You/Opponent by who they are — never by position, since first turn reorders them.
+function playerName(i) {
+  const pl = current.value.players[i]
+  return pl.name || ((pl.isYou ?? i === 0) ? labels.value.trackerYou : labels.value.trackerOpponent)
+}
+
+function onPickPhase(turn, phase) {
+  goToPhase(turn, phase)
+  phasePickerOpen.value = false
+}
 
 // Show a player's army-rule card per the split you/opponent toggles (mapped by isYou, not index,
 // since players are reordered by first turn). Back-compat: games saved with the old single
@@ -197,6 +236,41 @@ function onEndBattle(reason) {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .rb-round.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* The phase row sits under the rounds and reads as secondary to them: the round is the game's
+   spine, the phase is where inside it you are. */
+.phase-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: -0.4rem 0 0.9rem;
+}
+.pb-nav {
+  min-width: 32px;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.pb-nav:disabled { opacity: 0.35; cursor: default; }
+.pb-now {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.pb-now:hover { border-color: var(--accent); }
+.pb-who { color: var(--text-muted); }
+.pb-phase { color: var(--text-primary); font-weight: 600; }
 .rb-nav {
   width: 34px; height: 34px;
   border: 1px solid var(--border);
