@@ -356,6 +356,11 @@ export const ui = {
     trackerRosterDetach: 'Detach the list',
     trackerRosterOpen: 'List',
     trackerRosterBack: 'Back to the game',
+    // Attaching mid-game (EditSetupModal): the faction is already in play, so only that
+    // faction's lists can be attached — see the tracker CLAUDE.md.
+    trackerRosterFactionOnly: 'Only lists of the faction already in play — the army itself can no longer change.',
+    trackerRosterWrongFaction: 'That list is a different faction.',
+    trackerRosterDetMismatch: "The list's detachment differs from the one being played. The game keeps its own — its stratagems and DP already depend on it.",
     trackerDetachment: 'Detachment',
     trackerDisposition: 'Force Disposition',
     trackerRole: 'Role',
@@ -895,6 +900,9 @@ export const ui = {
     trackerRosterDetach: 'Отвязать ростер',
     trackerRosterOpen: 'Ростер',
     trackerRosterBack: 'Назад к партии',
+    trackerRosterFactionOnly: 'Только списки фракции, которой уже идёт партия, — саму армию сменить уже нельзя.',
+    trackerRosterWrongFaction: 'Этот список другой фракции.',
+    trackerRosterDetMismatch: 'Детачмент списка отличается от того, по которому идёт партия. Партия остаётся на своём — от него уже зависят стратагемы и DP.',
     trackerDetachment: 'Детачмент',
     trackerDisposition: 'Force Disposition',
     trackerRole: 'Роль',

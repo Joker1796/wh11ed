@@ -91,6 +91,57 @@ describe('RosterPickerModal', () => {
     expect(w.emitted('pick')).toBeUndefined()
   })
 
+  // Attaching to a game already under way (EditSetupModal): the faction is being played and can
+  // no longer change, so only its lists may be picked — but the others stay VISIBLE, greyed out,
+  // rather than vanishing and leaving the collection looking empty.
+  describe('with a faction to match', () => {
+    async function twoRosters() {
+      const store = useRosters()
+      const mine = store.createRoster('My Orks')
+      store.updateRoster(mine.id, { faction: 'orks', units: [{ uid: 'a', id: 'boyz', size: 0 }] })
+      const other = store.createRoster('My Necrons')
+      store.updateRoster(other.id, { faction: 'necrons', units: [{ uid: 'b', id: 'warriors', size: 0 }] })
+      await flushPromises()
+      return { mine, other }
+    }
+
+    it('shows every list but disables the ones of another faction', async () => {
+      await twoRosters()
+      mount(RosterPickerModal, { props: { faction: 'orks' } })
+      await flushPromises()
+      const rows = body().findAll('.rp-row')
+      expect(rows).toHaveLength(2)
+      const orks = rows.find(r => r.text().includes('My Orks'))
+      const necrons = rows.find(r => r.text().includes('My Necrons'))
+      expect(orks.classes()).not.toContain('off')
+      expect(necrons.classes()).toContain('off')
+      expect(necrons.attributes('disabled')).toBeDefined()
+      expect(body().find('.rp-note').exists()).toBe(true)
+    })
+
+    it('leaves every list pickable when no faction is given (the wizard)', async () => {
+      await twoRosters()
+      mount(RosterPickerModal)
+      await flushPromises()
+      expect(body().findAll('.rp-row.off')).toHaveLength(0)
+      expect(body().find('.rp-note').exists()).toBe(false)
+    })
+
+    it('rejects a share link of the wrong faction, and says which problem it is', async () => {
+      const payload = await encodeRoster({
+        name: 'Their Necrons', faction: 'necrons', detachments: [], battleSize: 'strike-force',
+        units: [{ uid: 'x', id: 'warriors', size: 0 }],
+      })
+      const w = mount(RosterPickerModal, { props: { faction: 'orks' } })
+      await flushPromises()
+      await body().find('.rp-link input').setValue(payload)
+      await body().find('.rp-link-btn').trigger('click')
+      await waitUntil(() => body().find('.rp-link-error').exists())
+      expect(body().find('.rp-link-error').text()).toBe('That list is a different faction.')
+      expect(w.emitted('pick')).toBeUndefined()
+    })
+  })
+
   it('offers detaching only while something is attached', async () => {
     const w = mount(RosterPickerModal)
     await flushPromises()

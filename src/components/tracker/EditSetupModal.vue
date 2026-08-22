@@ -13,6 +13,39 @@
             <input type="checkbox" v-model="p.battleReady" />
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
           </label>
+
+          <!-- Attaching a list AFTER the game started. The wizard is the other (and usual) place
+               to do this; without it here, a player who built a list but forgot to pick it — or
+               whose game predates the feature — had no way back. Unlike the wizard, the list does
+               not decide the army here: the faction is already being played. -->
+          <div class="es-roster">
+            <div v-if="p.roster" class="roster-line">
+              <span class="rl-text">{{ p.roster.name || labels.rosterUntitled }}</span>
+              <button
+                type="button"
+                class="rl-clear"
+                :aria-label="labels.trackerRosterDetach"
+                :title="labels.trackerRosterDetach"
+                @click="clearRoster(p)"
+              >✕</button>
+            </div>
+            <button v-else type="button" class="rp-open" @click="rosterPickerIdx = i">
+              <i class="bi bi-card-list"></i>
+              <span>{{ labels.trackerRosterAttach }}</span>
+            </button>
+            <!-- The one thing attaching can't fix, so it has to be said rather than silently
+                 tolerated: the list is played under a different detachment than the game is. -->
+            <p v-if="detMismatch(p)" class="rl-warn">{{ labels.trackerRosterDetMismatch }}</p>
+          </div>
+
+          <RosterPickerModal
+            v-if="rosterPickerIdx === i"
+            :selected="p.roster ? (p.rosterId || '') : null"
+            :faction="p.factionSlug"
+            @pick="r => pickRoster(p, r)"
+            @clear="clearRoster(p)"
+            @close="rosterPickerIdx = -1"
+          />
         </div>
       </div>
 
@@ -89,11 +122,13 @@ import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
+import RosterPickerModal from './RosterPickerModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
+import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
@@ -102,7 +137,17 @@ const { current, updateSetup } = useTracker()
 const game = current.value
 
 // Local draft — only committed to the store on Save, so Cancel discards edits cleanly.
-const players = reactive(game.players.map(p => ({ name: p.name, battleReady: p.battleReady })))
+const players = reactive(game.players.map(p => ({
+  name: p.name,
+  battleReady: p.battleReady,
+  // The army half of the draft. `factionSlug`/`detachments` ride along read-only in the normal
+  // case — they're here so attaching can fill one that was never set, and so the mismatch
+  // warning has something to compare against.
+  rosterId: p.rosterId || null,
+  roster: p.roster || null,
+  factionSlug: p.factionSlug || null,
+  detachments: [...(p.detachments || [])],
+})))
 const settings = reactive({
   trackCP: game.settings.trackCP,
   // Split you/opponent army-rule toggles; older games lack them → fall back to the old single flag,
@@ -137,6 +182,39 @@ function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l
 
 const scoreHelpOpen = ref(false)
 
+// ── Attaching an army list to a game already under way ──
+const rosterPickerIdx = ref(-1)
+
+// The wizard's pickRoster lets the list DICTATE the faction and the detachments (see GameSetup).
+// Here it may only fill in what is still blank: the faction of a game saved before one was
+// mandatory, and detachments not yet chosen. Anything already standing stays — the game has been
+// played under it, and rewriting it would silently change which stratagems and how much DP the
+// player has had all along. A disagreement is reported instead (detMismatch).
+function pickRoster(p, roster) {
+  p.rosterId = roster.id || null
+  p.roster = rosterSnapshot(roster)
+  rosterPickerIdx.value = -1
+  if (!p.factionSlug && roster.faction) p.factionSlug = roster.faction
+  if (!p.detachments.length && roster.detachments?.length) p.detachments = [...roster.detachments]
+}
+
+// Detaching leaves the faction and detachments alone — same reasoning as the wizard's, and here
+// they may have been what the game was played under for four rounds.
+function clearRoster(p) {
+  p.rosterId = null
+  p.roster = null
+  rosterPickerIdx.value = -1
+}
+
+// Order doesn't matter (a detachment list is a set of picks), and an empty side isn't a
+// disagreement — it's the case pickRoster just filled in.
+function detMismatch(p) {
+  const a = p.detachments || []
+  const b = p.roster?.detachments || []
+  if (!a.length || !b.length) return false
+  return a.length !== b.length || a.some(d => !b.includes(d))
+}
+
 // Show each "Track army rule" toggle only if that player's faction has a tracker spec (factions are
 // fixed once a game starts, so resolve once). Mapped by isYou, since players are reordered by first
 // turn. Same lazy registry import as the in-game card.
@@ -153,7 +231,11 @@ const armyOppTrackable = ref(false)
 function save() {
   updateSetup({
     settings: { ...settings },
-    players: players.map(p => ({ name: p.name, battleReady: p.battleReady })),
+    players: players.map(p => ({
+      name: p.name, battleReady: p.battleReady,
+      rosterId: p.rosterId, roster: p.roster,
+      factionSlug: p.factionSlug, detachments: p.detachments,
+    })),
   })
   emit('close')
 }
@@ -188,6 +270,36 @@ function save() {
   flex-direction: column;
   align-items: stretch;
   gap: 0.9rem;
+}
+/* The list row, built to the same recipe as the wizard's (GameSetup's .roster-line/.rp-open) —
+   it is the same action in the other place you can take it. */
+.es-roster { margin-top: 0.75rem; }
+.roster-line {
+  display: flex; align-items: center; gap: 0.35rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--accent); border-radius: 5px; background: var(--bg-card);
+}
+.rl-text {
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 0.82rem; color: var(--text-primary);
+}
+.rl-clear {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.15rem 0.25rem;
+}
+.rl-clear:hover { color: var(--accent); }
+.rp-open {
+  display: flex; align-items: center; gap: 0.4rem; width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 1px dashed var(--border); border-radius: 5px; background: none;
+  color: var(--text-muted); font-size: 0.82rem; font-family: inherit; text-align: left; cursor: pointer;
+}
+.rp-open:hover { border-color: var(--accent); color: var(--text-primary); }
+.rl-warn {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem; line-height: 1.4; color: var(--text-muted);
+  border-left: 2px solid var(--accent); padding-left: 0.5rem;
 }
 .player-head {
   font-family: var(--font-display);

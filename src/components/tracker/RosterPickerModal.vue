@@ -8,14 +8,19 @@
     </template>
 
     <div class="modal-body">
+      <p v-if="faction" class="rp-note">{{ labels.trackerRosterFactionOnly }}</p>
       <p v-if="!savedRosters.length" class="rp-empty">{{ labels.trackerRosterNone }}</p>
 
+      <!-- A list of the wrong faction is shown DISABLED rather than filtered out: hiding it makes
+           a collection look empty and reads as "my list is gone", which is a worse answer than
+           seeing it greyed out next to the faction it belongs to. -->
       <button
         v-for="r in savedRosters"
         :key="r.id"
         type="button"
         class="rp-row"
-        :class="{ on: r.id === selected }"
+        :class="{ on: r.id === selected, off: wrongFaction(r) }"
+        :disabled="wrongFaction(r)"
         @click="$emit('pick', r)"
       >
         <span class="rp-name">{{ r.name || labels.rosterUntitled }}</span>
@@ -36,7 +41,7 @@
             {{ labels.trackerRosterLinkAdd }}
           </button>
         </div>
-        <p v-if="linkError" class="rp-link-error">{{ labels.rosterSharedInvalid }}</p>
+        <p v-if="linkError" class="rp-link-error">{{ linkError }}</p>
       </div>
 
       <button v-if="selected !== null" type="button" class="rp-clear" @click="$emit('clear')">
@@ -56,10 +61,15 @@ import { decodeRoster } from '../../composables/rosterShare.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 
-defineProps({
+const props = defineProps({
   // rosterId of the currently attached roster, or null. A link-imported one has no id, so the
   // "detach" action keys off the attachment existing at all (see `selected !== null` above).
   selected: { type: String, default: null },
+  // Restrict the offer to one faction. Set when attaching to a game already under way, where the
+  // faction is load-bearing (missions, the army-rule tracker, the points already scored hang on
+  // it) and so is no longer the list's to decide. Unset in the setup wizard, where the list still
+  // decides it.
+  faction: { type: String, default: null },
 })
 const emit = defineEmits(['pick', 'clear', 'close'])
 
@@ -79,19 +89,27 @@ function factionName(slug) {
   return allFactions.find((f) => f.slug === slug)?.name || ''
 }
 
+function wrongFaction(r) {
+  return !!props.faction && r.faction !== props.faction
+}
+
 const link = ref('')
-const linkError = ref(false)
+// The message to show, or '' — a link can fail two different ways and "invalid" would be a lie
+// for a perfectly good list of the wrong army.
+const linkError = ref('')
 const busy = ref(false)
 
 // Accepts what the user actually has in the clipboard: the whole share URL, or just the payload.
 async function useLink() {
   busy.value = true
-  linkError.value = false
+  linkError.value = ''
   const raw = link.value.trim()
   const payload = raw.match(/[#&?]r=([^&\s]+)/)?.[1] ?? raw
   const decoded = await decodeRoster(decodeURIComponent(payload))
   busy.value = false
-  if (!decoded) { linkError.value = true; return }
+  if (!decoded) { linkError.value = labels.value.rosterSharedInvalid; return }
+  // Same rule the saved rows follow — a link is just the other way a list arrives.
+  if (wrongFaction(decoded)) { linkError.value = labels.value.trackerRosterWrongFaction; return }
   // Not saved to the roster list — it is attached to this game only. Importing someone else's
   // list into your own collection is a separate, deliberate act on the /roster/shared page.
   emit('pick', decoded)
@@ -125,6 +143,9 @@ async function useLink() {
   background: var(--bg-card); color: var(--text-primary); cursor: pointer;
 }
 .rp-row:hover { border-color: var(--accent); }
+.rp-row.off { opacity: 0.45; cursor: not-allowed; }
+.rp-row.off:hover { border-color: var(--border); }
+.rp-note { margin: 0 0 0.25rem; color: var(--text-muted); font-size: 0.78rem; line-height: 1.4; }
 .rp-row.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .rp-name { font-weight: 600; font-size: 0.9rem; }
 .rp-meta { color: var(--text-muted); font-size: 0.78rem; }
