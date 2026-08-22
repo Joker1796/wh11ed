@@ -32,7 +32,8 @@ is implemented and tested.
    decisions, all the user's: saved lists only (drafts stay on the device), uploads happen on
    the **Save click** rather than on every autosave, one metadata `GET` per visit to `/roster`
    with blobs fetched only for what changed, last-write-wins on the client's `updatedAt`,
-   client-side tombstones for deletes, and the whole collection uploads on first sign-in.
+   server-side tombstones for deletes (a client-only note turned out to propagate nothing —
+   the other device just re-uploaded its copy), and the whole collection uploads on first sign-in.
    Full rationale in `src/components/roster/CLAUDE.md` → "Cloud sync". **The backend half is
    written but NOT deployed** — see the deploy checklist at the end of this file.
 3. **Stale comment** in `scripts/gen-roster-data.mjs`'s header claiming it "emits units
@@ -530,3 +531,7 @@ Order matters: **schema first, then the function, then the frontend.**
 
 Anyone can do steps 1–4 from this repo pair; a Claude session must be told **explicitly** to run
 2 (it deploys production) and 1 (it touches the production database).
+
+The same order — schema, function, smoke, frontend — is written down permanently in
+`wh11ed-api/README.md` → "Rolling out a change that touches the schema", which is where to look
+next time; this section is only the state of THIS rollout and goes away once it ships.
