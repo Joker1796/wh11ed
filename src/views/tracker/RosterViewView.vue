@@ -25,21 +25,7 @@
       <!-- What is true in the battle right now. Only the states this list's own rules actually
            name, and only ones the app can honestly answer — see conditions.js. A switch the
            tracker already knows the answer to (a called Waaagh!) shows as a fact, not a control. -->
-      <div v-if="armySwitches.length" class="rv-conds">
-        <button
-          v-for="sw in armySwitches"
-          :key="sw.id"
-          type="button"
-          class="rv-cond"
-          :class="{ on: sw.on, auto: sw.auto }"
-          :aria-pressed="sw.on"
-          :disabled="sw.auto"
-          @click="toggleArmyCond(sw)"
-        >
-          <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
-          {{ sw.label[locale] || sw.label.en }}
-        </button>
-      </div>
+      <ConditionChips class="rv-conds" :switches="armySwitches" @toggle="toggleArmyCond" />
 
       <div class="rv-tabs" role="tablist">
         <button
@@ -210,6 +196,7 @@ import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
+import ConditionChips from '../../components/roster/ConditionChips.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
@@ -420,18 +407,31 @@ function toggleArmyCond(sw) {
   tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
 }
 
-// The card the unit modal needs: what is true for that entry, and the switches it may flip.
+// The card the unit modal needs: what is true for that entry, and the switches it may flip. Both
+// scopes travel: per-unit ones head the card, and the modal also shows a rule's OWN switches inside
+// the rule (Creations of Bile's augmentations are army-wide, but the place a reader meets them is
+// the detachment rule on a unit's card). `army` is filtered to this entry's own records, so a card
+// only ever offers switches that can change something on it.
 const viewingGameCtx = computed(() => {
   if (!inGame.value || !viewingEntry.value) return null
+  const resolved = resolvedFor(viewingEntry.value)
   return {
     active: activeFor(viewingEntry.value),
     switches: canSwitch.value
-      ? switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
+      ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
+      : [],
+    armySwitches: canSwitch.value
+      ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
   }
 })
+// One handler for both scopes — the switch says which store it belongs to.
 function toggleUnitCond(sw) {
   if (sw.auto || !viewingEntry.value) return
+  if (sw.scope === 'army') {
+    tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
+    return
+  }
   tracker.value?.setUnitCondition(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
 }
 
@@ -605,15 +605,7 @@ function stratKey(strat) {
 </script>
 
 <style scoped>
-.rv-conds { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 0.2rem; }
-.rv-cond {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  padding: 0.3rem 0.65rem; border: 1px solid var(--border); border-radius: 999px;
-  background: var(--bg-card); color: var(--text-muted); font-size: 0.78rem; cursor: pointer;
-}
-.rv-cond:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
-.rv-cond.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-.rv-cond.auto { cursor: default; }
+.rv-conds { margin: 0.6rem 0 0.2rem; }
 
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
 .back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }

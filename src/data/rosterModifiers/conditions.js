@@ -40,12 +40,23 @@ export const SENTINELS = {
   'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
 }
 
-// `group` — ids that are alternatives to one another, at most one of which can be on. The rule
-// says so in words ("select one of the Orders below", "a unit can only be affected by one Order at
-// a time — any Order subsequently issued replaces the current one"), and useTracker enforces it on
-// write: turning one on clears its siblings. Without it a card could show a unit under two Orders
-// at once, which is not a state the game has. Ungrouped where the rule allows several — Blessings
-// of Khorne activates up to two, Combat Drugs can be rolled two at a time.
+// `group` — ids that are alternatives to one another, of which only so many can be on at once. The
+// rule says so in words ("select one of the Orders below", "a unit can only be affected by one
+// Order at a time — any Order subsequently issued replaces the current one"), and useTracker
+// enforces it on write: turning one on evicts the oldest sibling once the group is full. Without it
+// a card could show a unit under two Orders at once, which is not a state the game has. Ungrouped
+// where the rule allows any number.
+//
+// `GROUP_LIMITS` — how many of a group may be on together. A group absent from the map allows ONE,
+// which is what nearly every group means; the exceptions are rules that let you pick a fixed
+// handful ("either select one from the list below, or randomly determine two"). The limit lives
+// here rather than on each member so the six ids of a set cannot disagree about their own size.
+export const GROUP_LIMITS = {
+  // Creations of Bile — "either select one from the list below, or randomly determine two".
+  augmentation: 2,
+}
+
+export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 //
 // scope — who answers the question:
 //   army    one switch for the whole army (an army rule state; the army-rule tracker proves some)
@@ -79,13 +90,16 @@ export const conditions = {
   'doctrine-assault': { scope: 'army', duration: 'round', label: { en: 'Assault Doctrine', ru: 'Assault Doctrine' } },
   'manifestation-imbued': { scope: 'army', duration: 'round', label: { en: 'Imbued Manifestation selected', ru: 'Выбран Imbued Manifestation' } },
   // Chaos Space Marines, Creations of Bile: "at the start of the battle, select which augmentations
-  // are active … until the end of the battle" — chosen once, so battle-long.
-  'augment-cholinergic-accelerants': { scope: 'army', duration: 'battle', label: { en: 'Cholinergic Accelerants', ru: 'Cholinergic Accelerants' } },
-  'augment-hyperadrenal-infusion': { scope: 'army', duration: 'battle', label: { en: 'Hyperadrenal Infusion', ru: 'Hyperadrenal Infusion' } },
-  'augment-paraneural-reactions': { scope: 'army', duration: 'battle', label: { en: 'Paraneural Reactions', ru: 'Paraneural Reactions' } },
-  'augment-supracutaneous-chitination': { scope: 'army', duration: 'battle', label: { en: 'Supracutaneous Chitination', ru: 'Supracutaneous Chitination' } },
-  'augment-macrotensile-sinews': { scope: 'army', duration: 'battle', label: { en: 'Macrotensile Sinews', ru: 'Macrotensile Sinews' } },
-  'augment-ophthalmic-enhancement': { scope: 'army', duration: 'battle', label: { en: 'Ophthalmic Enhancement', ru: 'Ophthalmic Enhancement' } },
+  // are active … until the end of the battle" — chosen once, so battle-long. One group with a
+  // limit of two, because the rule offers "either select one from the list below, or randomly
+  // determine two": two is the most the army can ever be running, and without the cap all six
+  // could be switched on at once, each one rewriting a printed stat.
+  'augment-cholinergic-accelerants': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Cholinergic Accelerants', ru: 'Cholinergic Accelerants' } },
+  'augment-hyperadrenal-infusion': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Hyperadrenal Infusion', ru: 'Hyperadrenal Infusion' } },
+  'augment-paraneural-reactions': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Paraneural Reactions', ru: 'Paraneural Reactions' } },
+  'augment-supracutaneous-chitination': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Supracutaneous Chitination', ru: 'Supracutaneous Chitination' } },
+  'augment-macrotensile-sinews': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Macrotensile Sinews', ru: 'Macrotensile Sinews' } },
+  'augment-ophthalmic-enhancement': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Ophthalmic Enhancement', ru: 'Ophthalmic Enhancement' } },
 
   // ── Unit state ──────────────────────────────────────────────────────────────────────────
   'unit-charged': { scope: 'unit', duration: 'turn', label: { en: 'Made a Charge move', ru: 'Совершил Charge' } },

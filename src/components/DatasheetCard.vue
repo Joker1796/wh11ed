@@ -66,7 +66,17 @@
       <li class="ds-mods-h">{{ labels.dsModifiers }}</li>
       <li v-for="(n, i) in statNotes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
         <span class="ds-mod-delta">{{ modDelta(n) }}</span>
-        <span class="ds-mod-src">{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span></span>
+        <!-- The rule behind the number. A note whose caller could resolve the prose carries
+             `hasSource`, and then the name itself opens it in the same popover a core ability or
+             the faction line uses — otherwise the reader has to go find "Experimental
+             Augmentations" in another block of the same card. -->
+        <button
+          v-if="n.hasSource"
+          type="button"
+          class="ds-mod-src ds-mod-srcbtn"
+          @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
+        >{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span><i class="bi bi-info-circle"></i></button>
+        <span v-else class="ds-mod-src">{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span></span>
         <!-- `via` means the condition was PROVEN by the game in progress, so the number above was
              rewritten after all. The condition still shows — a value that is only true while
              something is switched on must never read as a printed one. -->
@@ -110,8 +120,12 @@
             </button>
             <h5 v-else class="ds-group-title">{{ labels.dsAbilities }}</h5>
           </template>
-          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -124,8 +138,12 @@
             </button>
             <h5 v-else class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
           </template>
-          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -138,8 +156,12 @@
             </button>
             <h5 v-else class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
           </template>
-          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -149,13 +171,17 @@
         <DsAccordion :collapsible="collapsible">
           <template #header="{ open, toggle }">
             <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ set.name }}</span>
+              <span>{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></span>
               <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
             </button>
-            <h5 v-else class="ds-group-title">{{ set.name }}</h5>
+            <h5 v-else class="ds-group-title">{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></h5>
           </template>
-          <div v-for="a in set.options" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+          <div v-for="a in set.options" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -163,10 +189,10 @@
         <DsAccordion :collapsible="collapsible">
           <template #header="{ open, toggle }">
             <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ r.name }}</span>
+              <span>{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></span>
               <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
             </button>
-            <h5 v-else class="ds-group-title">{{ r.name }}</h5>
+            <h5 v-else class="ds-group-title">{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></h5>
           </template>
           <div class="ds-ability">
             <span v-html="dsRichText(r.text)"></span>
@@ -360,10 +386,15 @@ const props = defineProps({
   // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
   // printed, and the note is the only thing that says the value can change. One with both
   // `applied` and `via` is a conditional whose condition the live game proved — applied, but
-  // still shown with its condition. Empty for every
-  // caller outside the roster.
+  // still shown with its condition. A note may also carry `hasSource: true`, meaning the caller
+  // holds the prose of the rule it came from and wants the name to open it (`mod-source-click`).
+  // Empty for every caller outside the roster.
   statMarks: { type: Array, default: () => [] },
   statNotes: { type: Array, default: () => [] },
+  // Whether an ability's own precondition holds right now, keyed by ENGLISH ability name (see
+  // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
+  // datasheet — and every caller outside the roster — passes nothing and renders as before.
+  abilityStates: { type: Object, default: null },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
@@ -384,7 +415,7 @@ const props = defineProps({
 // faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
 // virtually every unit on the page shares those, so a "units with this keyword" list would
 // just be the whole roster.
-defineEmits(['keyword-click', 'faction-rule-click'])
+defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -552,6 +583,20 @@ function statCells(p) {
 // naming the rule responsible.
 const markSet = computed(() => new Set(props.statMarks))
 const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
+
+// An ability's precondition, keyed by the English name — which is what `nameEn` carries once the
+// RU overlay has renamed the header (see src/data/datasheets/ru/index.js).
+const abilityState = (a) => props.abilityStates?.[a.nameEn || a.name] || null
+// The badge deliberately states the FACT the roster knows ("leading Chaos Space Marines"), not the
+// conclusion that the rule is therefore doing something: several of these abilities carry a second
+// condition in the same sentence ("…leading a unit that is below its Starting Strength"). The
+// negative side is the one that can be stated outright — not attached is not in effect, always.
+function abilityStateLabel(st) {
+  const l = labels.value
+  if (st.id === 'led') return st.on ? l.dsAbilityLed : l.dsAbilityNotLed
+  if (!st.on) return l.dsAbilityNotLeading
+  return st.subject ? l.dsAbilityLeading.replace('{name}', st.subject) : l.dsAbilityLeadingAny
+}
 
 const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D', range: 'RANGE' }
 // "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs
@@ -998,6 +1043,14 @@ function modDelta(n) {
 .ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
 .ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .ds-mod-src { color: var(--text-primary); }
+.ds-mod-srcbtn {
+  display: inline-flex; align-items: baseline; gap: 0.25rem;
+  padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
+  cursor: pointer; text-align: left;
+}
+.ds-mod-srcbtn:hover { color: var(--accent); }
+.ds-mod-srcbtn .bi { font-size: 0.85em; color: var(--text-muted); }
+.ds-mod-srcbtn:hover .bi { color: var(--accent); }
 .ds-mod-det { color: var(--text-muted); }
 /* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
    glance, and the condition follows. */
@@ -1044,6 +1097,22 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   letter-spacing: 0.2px;
 }
 .ds-ability { margin-bottom: 0.45rem; }
+/* An ability's own precondition, answered by the army list: whether this model is leading a unit
+   (or being led). Inline with the name, quiet when it holds — the ability reads normally, the chip
+   is a confirmation — and the whole row dims when it does not, because a printed ability that
+   cannot be doing anything is exactly what a reader keeps re-reading. */
+.ds-ab-state {
+  display: inline-flex; align-items: baseline; gap: 0.2rem; margin-right: 0.3rem;
+  color: var(--text-muted); font-size: 0.78em; font-style: italic;
+}
+.ds-ab-state.on { color: var(--accent); font-style: normal; }
+.ds-ab-state .bi { font-size: 0.9em; font-style: normal; }
+.ds-ability-idle { opacity: 0.62; }
+
+/* The English original beside a translated ability name (RU locale only — in EN there is nothing
+   to keep). Deliberately quiet: it is a lookup key for the codex and for talking to an opponent,
+   not a second title, so it never competes with the name it follows. */
+.ds-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); text-transform: none; letter-spacing: 0; }
 .ds-group-title {
   font-size: 0.68rem;
   font-weight: 700;

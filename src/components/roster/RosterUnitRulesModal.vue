@@ -32,21 +32,12 @@
         <!-- What this unit has done this round. Only states its own rules actually read, so an
              ordinary unit gets no row at all; flipping one re-applies the modifier above rather
              than adding a note beside it. -->
-        <div v-if="gameCtx?.switches?.length" class="rum-conds">
-          <button
-            v-for="sw in gameCtx.switches"
-            :key="sw.id"
-            type="button"
-            class="rum-cond"
-            :class="{ on: sw.on }"
-            :aria-pressed="sw.on"
-            :disabled="sw.auto"
-            @click="$emit('toggle-cond', sw)"
-          >
-            <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
-            {{ sw.label[locale] || sw.label.en }}
-          </button>
-        </div>
+        <ConditionChips
+          v-if="gameCtx?.switches?.length"
+          class="rum-conds"
+          :switches="gameCtx.switches"
+          @toggle="$emit('toggle-cond', $event)"
+        />
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
              datasheet. See src/components/roster/CLAUDE.md for what each tier adds. -->
@@ -58,9 +49,11 @@
           :hide-choices="!!ctx"
           :linked-faction-rules="linkedFactionRules"
           :stat-marks="statMods.marks"
-          :stat-notes="statMods.notes"
+          :stat-notes="statNotes"
+          :ability-states="abilityStates"
           collapsible
           @faction-rule-click="openArmyRule"
+          @mod-source-click="openModSource"
         >
           <template #before-keywords>
           <!-- What else bears on this unit right now: its enhancement, the roster's detachment
@@ -85,9 +78,18 @@
                   </button>
                 </template>
                 <div class="rum-rule-body">
+                  <!-- The switches this rule's OWN modifiers are gated on, at the rule. A state
+                       that decides what a rule does belongs where the rule is read, not only in a
+                       strip at the top of another screen — the same switch, one store. -->
+                  <ConditionChips
+                    v-if="b.switches?.length"
+                    class="rum-rule-conds"
+                    :switches="b.switches"
+                    @toggle="$emit('toggle-cond', $event)"
+                  />
                   <RuleBody v-if="b.body" :body="b.body" />
                   <div v-for="a in b.abilities || []" :key="a.name" class="rum-ability">
-                    <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+                    <strong>{{ a.name }}<span v-if="a.nameEn" class="rum-name-en"> ({{ a.nameEn }})</span>:</strong> <span v-html="renderInline(a.text)"></span>
                   </div>
                 </div>
               </DsAccordion>
@@ -108,6 +110,7 @@ import BaseModal from '../BaseModal.vue'
 import DatasheetCard from '../DatasheetCard.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import DsAccordion from '../DsAccordion.vue'
+import ConditionChips from './ConditionChips.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -116,6 +119,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
 import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom } from '../../composables/rosterStatMods.js'
+import { abilityStatusesOf } from '../../composables/abilityStatus.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -297,6 +301,40 @@ function openArmyRule(name, rect) {
   openRule(name, rulesFaction.value?.armyRule?.body, rect)
 }
 
+// The prose behind ONE modifier note, in the current locale — the army rule, a detachment rule or
+// an enhancement, found the same way ruleBlocks below finds them. Returns null when the record's
+// rule can't be resolved (an allegiance ability carries no body at all, and the two datasets can
+// legitimately disagree about a name), and then the note simply stays plain text.
+function modSource(n) {
+  const fac = rulesFaction.value
+  if (!fac || !n) return null
+  if (n.kind === 'armyRule') {
+    return fac.armyRule?.body ? { name: fac.armyRule.name, body: fac.armyRule.body } : null
+  }
+  const det = n.det ? (fac.detachments || []).find((d) => detKey(d.name) === detKey(n.det)) : null
+  if (n.kind === 'detachmentRule') {
+    return det?.rule?.body ? { name: det.rule.name, body: det.rule.body } : null
+  }
+  if (n.kind === 'enhancement') {
+    const found = (det ? [det] : fac.detachments || [])
+      .flatMap((d) => d.enhancements || [])
+      .find((e) => enhKey(e.name) === enhKey(n.source))
+    return found?.body ? { name: found.name, body: found.body } : null
+  }
+  return null
+}
+
+// The card's notes, each told whether its rule can be opened. Resolving here rather than inside
+// DatasheetCard keeps that component free of faction data — it renders what it is handed.
+const statNotes = computed(() => statMods.value.notes.map((n) => (
+  modSource(n) ? { ...n, hasSource: true } : n
+)))
+
+function openModSource(n, rect) {
+  const src = modSource(n)
+  if (src) openRule(src.name, src.body, rect)
+}
+
 // Does a rule bear on this unit? Read from the EN body (see rulesFactionEn); the block that
 // renders still shows the localised text.
 function applies(enBody) {
@@ -328,6 +366,40 @@ const usableModifierEntries = computed(() => {
   return entries.filter((e) => e.reviewed && e.effects?.length)
 })
 
+// Which of the sheet's OWN abilities the list already answers for — the ones gated on "while this
+// model is leading a unit". Read off the ENGLISH sheet (the RU prose is translated, and a
+// translated sentence is not something to pattern-match) and keyed by English name, which is what
+// DatasheetCard looks up. Only with roster context: on a plain datasheet page there is no
+// attachment to report, and an unconditional "not attached" would be a statement about nothing.
+const abilityStates = computed(() => {
+  if (!props.ctx) return null
+  const en = datasheets.value.find((d) => d.id === props.unitId)
+  if (!en) return null
+  return abilityStatusesOf(en, {
+    // The attachment as the roster records it: the name when it resolves, otherwise just the fact.
+    leading: view.value.context?.attachedTo || (props.ctx?.entry?.leaderOf ? true : null),
+    // Some other entry is attached to this one — the same fact ruleSources reports as a Leader
+    // block, so the two can never disagree.
+    led: view.value.ruleSources.some((src) => src.kind === 'leader'),
+  })
+})
+
+// The switches that belong to ONE rule: the conditions its own reviewed modifier records name,
+// looked up in the switch lists the game context handed down. A condition with no switch there is
+// one the game answers by itself (the clock, the tracker, the roster) or one nothing on this card
+// can change — either way there is nothing to offer, so it is left out rather than shown dead.
+function switchesOfRule(kind, name, det) {
+  const all = [...(props.gameCtx?.switches || []), ...(props.gameCtx?.armySwitches || [])]
+  if (!all.length) return []
+  const ids = new Set()
+  for (const rec of resolvedModifiers.value) {
+    if (rec.kind !== kind) continue
+    if (kind === 'detachmentRule' ? detKey(rec.det) !== detKey(det) : enhKey(rec.name) !== enhKey(name)) continue
+    for (const eff of rec.effects || []) for (const id of eff.cond || []) ids.add(id)
+  }
+  return all.filter((sw) => ids.has(sw.id))
+}
+
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value
   const facEn = rulesFactionEn.value
@@ -341,14 +413,20 @@ const ruleBlocks = computed(() => {
         found = d.enhancements?.find((e) => enhKey(e.name) === target)
         if (found) break
       }
-      if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body })
+      if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body, switches: switchesOfRule('enhancement', found.name, null) })
     } else if (src.kind === 'detachment') {
       if (!fac) continue
       const target = detKey(src.name)
       const det = (fac.detachments || []).find((d) => detKey(d.name) === target)
       const detEn = (facEn?.detachments || []).find((d) => detKey(d.name) === target)
       if (det?.rule?.body && applies(detEn?.rule?.body)) {
-        out.push({ key: `det:${src.name}`, src: `${labels.value.factionDetachment} · ${det.name}`, name: det.rule.name, body: det.rule.body })
+        out.push({
+          key: `det:${src.name}`,
+          src: `${labels.value.factionDetachment} · ${det.name}`,
+          name: det.rule.name,
+          body: det.rule.body,
+          switches: switchesOfRule('detachmentRule', det.rule.name, det.name),
+        })
       }
     } else if (src.kind === 'leader') {
       // The attached Leader's own abilities, from the datasheets already loaded for this modal —
@@ -369,14 +447,7 @@ const ruleBlocks = computed(() => {
 /* Context chips above the card. Muted, low-contrast on purpose — this is roster metadata, not
    part of the datasheet, and must not compete with the card's own accent-coloured header band. */
 .rum-ctx { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
-.rum-conds { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
-.rum-cond {
-  display: inline-flex; align-items: center; gap: 0.3rem;
-  padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 999px;
-  background: var(--bg-card); color: var(--text-muted); font-size: 0.75rem; cursor: pointer;
-}
-.rum-cond:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
-.rum-cond.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.rum-conds { margin-bottom: 0.6rem; }
 .rum-chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
   padding: 0.2rem 0.5rem; border-radius: 4px;
@@ -387,6 +458,9 @@ const ruleBlocks = computed(() => {
 .rum-chip-wl { color: var(--accent); }
 .rum-chip-pts { color: var(--text-primary); font-weight: 600; }
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
+.rum-rule-conds { margin-bottom: 0.5rem; }
+/* The English original beside a translated ability name — see DatasheetCard's .ds-name-en. */
+.rum-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
 
 /* Rule blocks under the card. Deliberately quieter than the card itself — flat rows, no accent

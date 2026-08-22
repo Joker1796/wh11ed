@@ -490,7 +490,9 @@ used both by `RosterUnitBrowser`'s row-click preview while adding units and by
 `RosterViewView`'s Units tab — see Views above; takes an optional `ctx` for the modifier
 overlay, see below),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
-chrome, keyed off the roster's faction slug).
+chrome, keyed off the roster's faction slug),
+`ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely
+presentational, the parent decides what a flip means).
 
 **`RosterUnitRulesModal`'s `.modal-body` cancels `DatasheetCard`'s own ≤480px `.ds-card`
 full-viewport bleed** (`width: 100vw; margin-left: calc(50% - 50vw)`) via a `:deep(.ds-card)`
@@ -757,6 +759,39 @@ edit pencil). Deliberately not a second copy of the screen: this is where the li
 pulls the mission/event datasets (~280 KB of source) and the ordinary roster route must not carry
 them. Entry point: the chip under each player's detachments in `RoundTracker.vue`.
 
+### What a printed ability is doing (`src/composables/abilityStatus.js`)
+
+Tier C reads faction RULES; a datasheet's own abilities are in no dataset at all, so on a card they
+are prose and nothing else — no statement of whether they are doing anything. Most of them could not
+have one (per attack, per target, on a dice roll) and guessing would be worse than silence. **One
+family can be answered honestly, and it is a big one:** ~110 abilities open with "While this model is
+leading a unit…", 8 with the mirror image ("while a CHARACTER model is leading this unit"), and
+whether a model is leading or is being led is a fact the LIST records.
+
+So the card states that fact — "ведёт отряд Intercessor Squad" beside the ability, or "не присоединён
+— не действует", with the whole row dimmed. Two deliberate limits:
+
+- **The badge names the PRECONDITION, not the conclusion.** Several of these abilities carry a
+  second condition in the same sentence ("…leading a unit that is below its Starting Strength"), so
+  "leading X" is a fact we know and "not attached" is a conclusion we can draw; "in effect" is not.
+- **Read from the ENGLISH prose**, like `ruleTargets.js` — the RU overlay translates the sentence,
+  and a translated sentence is not something to pattern-match. The map is keyed by English ability
+  name, which is what `nameEn` carries once the overlay has renamed the header.
+- Only with roster context. On a datasheet being READ there is no attachment to report, and an
+  unconditional "not attached" would be a statement about nothing.
+
+**The English name is kept.** `localizeSheet` records `nameEn` whenever it renames a header, and
+`DatasheetCard` shows it small, in brackets. Everything AROUND an ability on screen — detachment
+rules, enhancements, stratagems, the augmentation chips — stays English by project convention, so a
+translated header with no original was the one name on the card that could not be matched to the
+codex or said out loud to an opponent.
+
+**A modifier note opens its own rule.** A note the caller could resolve to prose carries
+`hasSource`, and then the rule's name in the footnote under the stats opens it in the same popover a
+core ability uses (`mod-source-click` → `RosterUnitRulesModal`'s `modSource`). Before that, seeing
+"+2\" M · Experimental Augmentations" meant going to find that rule in another block of the same
+card.
+
 ### Live rules — what is true right now
 
 Tier C rewrites a printed number only when the modifier is unconditional. Opened from a game, it
@@ -786,11 +821,18 @@ at all. Three files, one idea:
   - A subset naming part of the unit ("Penitent models, while…") still belongs in `scope`, the
     index of the rule statement that says it — 10 were moved there; 26 remain where the rule's own
     prose has no statement matching the subset.
-  **`group` makes ids alternatives**: at most one of a group can be on, enforced on WRITE in
-  `useTracker` (`clearGroupSiblings`) rather than in a view, so no caller can forget. The rules say
+  **`group` makes ids alternatives**: only so many of a group can be on, enforced on WRITE in
+  `useTracker` (`enforceGroupLimit`) rather than in a view, so no caller can forget. The rules say
   it in words — "select one of the Orders below", and for Orders even how it resolves ("any Order
-  subsequently issued to that unit replaces the current one"). Ungrouped where the rule allows
-  several: Blessings of Khorne activates up to two, Combat Drugs can be rolled two at a time.
+  subsequently issued to that unit replaces the current one"). **`GROUP_LIMITS`** carries the size
+  of a group that holds more than one: Creations of Bile's six augmentations pick TWO ("either
+  select one from the list below, or randomly determine two"), and without the cap all six could be
+  switched on at once, each rewriting a stat — a Fabius Bile read 8"/T5 against a printed 6"/T4.
+  A full group EVICTS its oldest member rather than refusing the tap, so it stays changeable in one
+  gesture the way a single-slot group is; ties on the stamp break on insertion order.
+  `activeConditions` applies the same cap on READ, because a game saved before the cap existed can
+  still hold six. Ungrouped where the rule allows any number: Blessings of Khorne activates up to
+  two, Combat Drugs can be rolled two at a time.
   **A "select one of N" rule is a switch, not a sentinel** — Martial Ka'tah's stances, Grey Knights'
   Channelled Force, Hagiomnifex's five abilities are things only the player knows, which is exactly
   what a switch is for. Marking one `never` (as the first review pass did) leaves the card showing a
@@ -828,7 +870,12 @@ answers are read from, `stampOf(clock)` is what a switch stores.
 
 **Where the switches are:** army-wide ones above the unit list in `RosterViewView` (facts about the
 battle); per-unit ones on the unit's own card in `RosterUnitRulesModal` (`gameCtx` prop, `toggle-cond`
-event), next to the number they change. A FINISHED game reached from the history list
+event), next to the number they change; and — since 2026-08-22 — **a rule's own switches inside the
+rule**, in the "In effect for this unit" block, army-wide ones included (`gameCtx.armySwitches`).
+That third place is not a fourth source of truth: all of them render `ConditionChips.vue` and write
+to the same store through the same handler, which routes on the switch's own `scope`. It exists
+because the place a player MEETS Creations of Bile's augmentations is the detachment rule on a
+unit's card, not a strip at the top of another screen. A FINISHED game reached from the history list
 (`/tracker/history/:gid/roster/:pi`) shows the same screen as a record: the recorded context still
 shapes the numbers, but there are no controls. Only conditions the roster's own rules actually name are
 offered, and only ones that can be answered — a switch that changes nothing on screen is worse than

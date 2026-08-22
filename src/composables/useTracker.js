@@ -11,7 +11,7 @@ import {
   leader as leaderOf,
 } from './gameScoring.js'
 import { BATTLE_PHASES } from './stratagemPhases.js'
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -454,15 +454,26 @@ export function useTracker() {
   // bare round number here; that layer recognises them (a stamp is never below 100) and reads
   // them as rounds. Absent on games older still, so every write defaults it.
   // Alternatives are enforced HERE rather than in the view, so no caller can forget: a condition
-  // with a `group` excludes its siblings, because the rules say so in words ("select one of the
-  // Orders below"; "any Order subsequently issued to that unit replaces the current one"). A card
-  // showing a unit under two Orders at once is not a state the game has.
-  function clearGroupSiblings(store, id) {
+  // with a `group` excludes its siblings once the group is full, because the rules say so in words
+  // ("select one of the Orders below"; "any Order subsequently issued to that unit replaces the
+  // current one"). A card showing a unit under two Orders at once is not a state the game has.
+  //
+  // Most groups hold ONE, and then this is the plain "turning one on turns the others off" it has
+  // always been. A group whose rule allows several (Creations of Bile picks two augmentations)
+  // carries its size in GROUP_LIMITS, and the OLDEST sibling makes way — evicting rather than
+  // refusing keeps a full group changeable in one tap, the same way a single-slot group is.
+  function enforceGroupLimit(store, id) {
     const group = conditions[id]?.group
     if (!group || !store) return
-    for (const other of Object.keys(store)) {
-      if (other !== id && conditions[other]?.group === group) delete store[other]
-    }
+    const limit = groupLimitOf(group)
+    // Insertion order is the tie-break: two switches flipped in the same phase share a stamp, and
+    // the one flipped first is still the one that has been on longest.
+    const siblings = Object.keys(store)
+      .filter((other) => other !== id && conditions[other]?.group === group)
+      .map((other, i) => ({ id: other, at: store[other], i }))
+      .sort((a, b) => a.at - b.at || a.i - b.i)
+    // `id` itself is about to occupy a slot, so the others may keep limit - 1 of them.
+    for (const s of siblings.slice(0, Math.max(0, siblings.length - (limit - 1)))) delete store[s.id]
   }
 
   function setArmyCondition(pi, id, at, on) {
@@ -470,7 +481,7 @@ export function useTracker() {
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.army) pl.ctx.army = {}
     if (on) {
-      clearGroupSiblings(pl.ctx.army, id)
+      enforceGroupLimit(pl.ctx.army, id)
       pl.ctx.army[id] = at
     } else delete pl.ctx.army[id]
   }
@@ -483,7 +494,7 @@ export function useTracker() {
     if (!pl.ctx.units) pl.ctx.units = {}
     if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
     if (on) {
-      clearGroupSiblings(pl.ctx.units[uid], id)
+      enforceGroupLimit(pl.ctx.units[uid], id)
       pl.ctx.units[uid][id] = at
     } else delete pl.ctx.units[uid][id]
     if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]

@@ -517,6 +517,30 @@ describe('condition switches', () => {
     expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102 })
   })
 
+  // Creations of Bile: "either select one from the list below, or randomly determine two". Two fit
+  // in the group; a third one pushes out the one that has been on longest.
+  it('lets a capped group hold its whole allowance, then evicts the oldest', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'augment-cholinergic-accelerants', 101, true)
+    tracker.setArmyCondition(0, 'augment-hyperadrenal-infusion', 102, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-cholinergic-accelerants', 'augment-hyperadrenal-infusion'])
+    tracker.setArmyCondition(0, 'augment-macrotensile-sinews', 103, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-hyperadrenal-infusion', 'augment-macrotensile-sinews'])
+  })
+
+  // Switches flipped in the same phase share a stamp, so the sort has nothing to go on but the
+  // order they were written in — and that order is still "which one has been on longest".
+  it('breaks a tie on insertion order when a whole group shares one stamp', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'augment-paraneural-reactions', 101, true)
+    tracker.setArmyCondition(0, 'augment-supracutaneous-chitination', 101, true)
+    tracker.setArmyCondition(0, 'augment-ophthalmic-enhancement', 101, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-ophthalmic-enhancement', 'augment-supracutaneous-chitination'])
+  })
+
   it('leaves ungrouped switches alone — some rules really do allow several', () => {
     tracker.newGame(setupGame())
     tracker.setArmyCondition(0, 'blessing-martial-excellence', 101, true)

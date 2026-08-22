@@ -261,7 +261,7 @@ describe('RosterViewView', () => {
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Waaagh!')
 
-      const chip = w.findAll('.rv-cond').find((c) => c.text().includes('Waaagh!'))
+      const chip = w.findAll('.cond-chip').find((c) => c.text().includes('Waaagh!'))
       expect(chip.classes()).not.toContain('on')
       // Read from the army-rule tracker, not flipped here — there is one switch for this fact.
       expect(chip.attributes('disabled')).toBeDefined()
@@ -270,7 +270,7 @@ describe('RosterViewView', () => {
       t.fireArmyToggle(0, t.current.value.currentRound)
       await waitForSelector(w, '.rvst-mod')
 
-      expect(w.findAll('.rv-cond').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
+      expect(w.findAll('.cond-chip').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
       expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the Waaagh! rewrote
     })
 
@@ -293,7 +293,7 @@ describe('RosterViewView', () => {
       await waitFor(w, 'Da Old List')
 
       expect(w.text()).toContain('Da Old List')
-      expect(w.find('.rv-cond').exists()).toBe(false)      // a record has no controls
+      expect(w.find('.cond-chip').exists()).toBe(false)      // a record has no controls
       expect(w.find('.back').attributes('href')).toBe(`/tracker/history/${gid}`)
       // …but what was true in that game still shaped the numbers it shows.
       await waitForSelector(w, '.rvst-mod')
