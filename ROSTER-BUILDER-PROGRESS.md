@@ -27,11 +27,14 @@ is implemented and tested.
    almost no structural modifiers (6 ability + 2 weapon-profile links across 961 enhancements),
    so an overlay attributes rather than silently recomputes — same philosophy as the existing
    `grantedKeywords` prop on `DatasheetCard`.
-2. **No cloud backup.** Game Tracker history syncs to `wh11ed-api`; rosters are
-   `localStorage`-only (`useRosters.js`). Unclear whether that's a deliberate v1 scope cut
-   (rosters are meant to be quick/disposable, sharing already covers cross-device via the
-   link) or a planned follow-up — worth a decision before calling this "done", not
-   something to build blind.
+2. **Cloud backup — DECIDED AND BUILT 2026-08-22.** Rosters now sync to `wh11ed-api`
+   (`/rosters`, four routes mirroring `/games`; `useRosterSync.js` on the frontend). The
+   decisions, all the user's: saved lists only (drafts stay on the device), uploads happen on
+   the **Save click** rather than on every autosave, one metadata `GET` per visit to `/roster`
+   with blobs fetched only for what changed, last-write-wins on the client's `updatedAt`,
+   client-side tombstones for deletes, and the whole collection uploads on first sign-in.
+   Full rationale in `src/components/roster/CLAUDE.md` → "Cloud sync". **The backend half is
+   written but NOT deployed** — see the deploy checklist at the end of this file.
 3. **Stale comment** in `scripts/gen-roster-data.mjs`'s header claiming it "emits units
    without gear for now" — **fixed 2026-08-19** while working on item 5.
 
@@ -504,3 +507,26 @@ The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `B
 `<Teleport>`, `getFaction()` → `loadFaction()` call-site updates) is documented in the merge
 commit message (`git log --grep "Merge branch 'main' into feat/roster-builder"`), not
 repeated here — this file is about the feature's own state, not that housekeeping.
+
+## Deploy checklist for roster cloud sync (2026-08-22, NOT done yet)
+
+The backend half lives in the sibling repo `wh11ed-api` (branch `main`): new `rosters` table,
+`domain/roster.ts`, `db/rosters.repo.ts`, `routes/rosters.ts`, mounted at `/rosters`.
+`npm test` (30 tests) and `npm run build` pass there. Until it is deployed the frontend simply
+behaves as if the cloud were off — every call is best-effort and the lists stay local.
+
+Order matters: **schema first, then the function, then the frontend.**
+
+1. `cd wh11ed-api && npm run migrate` — creates the `rosters` table. Idempotent
+   (`CREATE TABLE IF NOT EXISTS`), touches nothing existing. Needs `YDB_ENDPOINT`/`YDB_DATABASE`
+   and a `YDB_ACCESS_TOKEN` (`yc iam create-token`).
+2. Deploy the function: `bash scripts/deploy.sh` (build + zip + `terraform apply`), or a direct
+   `yc serverless function version create` the way the host-aware fix went out in 2026-08 — the
+   Terraform state has known harmless content drift.
+3. Smoke-test with a real token: `GET /rosters` → `{"rosters":[]}`, then a `PUT`/`GET`/`DELETE`
+   round trip on one id.
+4. Frontend: nothing to deploy separately — it ships with the roster branch whenever that merges.
+   Before then, `/roster` against the un-deployed API just shows its offline/anon state.
+
+Anyone can do steps 1–4 from this repo pair; a Claude session must be told **explicitly** to run
+2 (it deploys production) and 1 (it touches the production database).

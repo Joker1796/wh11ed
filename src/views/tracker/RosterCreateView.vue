@@ -218,7 +218,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue'
+import { computed, nextTick, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
@@ -232,6 +232,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
+import { useRosterSync } from '../../composables/useRosterSync.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -246,6 +247,7 @@ const route = useRoute()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { createRoster, updateRoster, rosterById, saveDraft } = useRosters()
+const { saveToCloud } = useRosterSync()
 
 const step = ref(1)
 const name = ref('')
@@ -489,10 +491,16 @@ function goToUnits() {
 }
 
 // ── Save: the draft becomes a saved list, and the wizard hands off to its read-only view ──
-function finish() {
+// This is also the moment the list first reaches the cloud: a draft is deliberately never
+// uploaded (useRosterSync.js), so "Save" is what turns it into something worth syncing. The
+// cached summary is written by the watchEffect at the bottom of this file, which flushes after
+// this tick — wait for it, or the uploaded copy would carry the previous step's points.
+async function finish() {
   const id = ensureDraft()
   updateRoster(id, { ...step1Patch(), units: units.value })
   saveDraft(id)
+  await nextTick()
+  saveToCloud(id)
   router.push(`/roster/${id}/view`)
 }
 

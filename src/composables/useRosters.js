@@ -240,6 +240,29 @@ function saveDraft(id) {
   return r
 }
 
+// Adopt a roster that came from the cloud (useRosterSync.js). The payload is the same shape a
+// share link carries — the stored object plus its schema `v` — so it goes through the same
+// migration: a list uploaded by an older build must not be trusted as-is. Replaces the local copy
+// in place when we already have that id (last-write-wins is decided by the caller), otherwise
+// prepends it. This store stays the single writer of `rosters`; the sync layer never splices.
+function adoptFromCloud(obj) {
+  if (!obj || typeof obj !== 'object') return null
+  const r = JSON.parse(JSON.stringify(obj))
+  const version = r.v
+  delete r.v
+  migrateRoster(r, version)
+  if (!isValidRoster(r)) return null
+  // The cloud only ever holds saved lists; strip the flags rather than trusting a stray one, so a
+  // bad blob can't materialise as a draft that the wizard would then try to resume.
+  delete r.draft
+  delete r.draftStep
+  const at = rosters.value.findIndex((x) => x.id === r.id)
+  if (at === -1) rosters.value.unshift(r)
+  else rosters.value.splice(at, 1, r)
+  saveNow()
+  return r
+}
+
 function rosterById(id) {
   return rosters.value.find((r) => r.id === id) || null
 }
@@ -256,6 +279,7 @@ export function useRosters() {
     renameRoster,
     updateRoster,
     importRoster,
+    adoptFromCloud,
     rosterById,
     saveNow,
   }

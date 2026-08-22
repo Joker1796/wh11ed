@@ -16,6 +16,10 @@
       </RouterLink>
     </header>
 
+    <!-- Where the editor's Save lands: the bar is how that click reports whether the list also
+         reached the cloud. Not inside a game — there this page is a read of a snapshot. -->
+    <RosterCloudBar v-if="!inGame" />
+
     <p v-if="!roster.faction" class="rv-hint">{{ labels.rosterViewNoFaction }}</p>
     <template v-else>
       <!-- What is true in the battle right now. Only the states this list's own rules actually
@@ -190,6 +194,7 @@ import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
+import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'

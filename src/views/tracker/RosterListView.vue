@@ -5,6 +5,10 @@
       <p class="hero-desc">{{ labels.rostersDesc }}</p>
     </div>
 
+    <!-- One line of cloud status. Everything it can say is produced by the single pass below;
+         there is no manual "Sync" button, on purpose. -->
+    <RosterCloudBar hint />
+
     <div class="cta">
       <button class="btn-primary" @click="onNew">
         <i class="bi bi-plus-lg"></i> {{ labels.rosterNew }}
@@ -93,10 +97,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
+import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
+import { useRosterSync } from '../../composables/useRosterSync.js'
+import { useAuth } from '../../composables/useAuth.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { effectiveBattle } from '../../composables/rosterEngine.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
@@ -108,6 +115,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { rosters, savedRosters, draftRosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
+const { ensureSession } = useAuth()
+const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
 const shown = computed(() => (tab.value === 'drafts' ? draftRosters : savedRosters).value)
@@ -118,7 +127,17 @@ function draftStepLabel(r) {
 // Points shown here come from each roster's cached summary — see rosterSummary.js. A roster no
 // editing screen ever wrote one for (built in an older wizard, imported from a link) is priced
 // once, here, instead of reading 0 forever.
-onMounted(() => { refreshSummaries(rosters.value) })
+//
+// This is also the ONE cloud check per visit (useRosterSync.js): a single metadata GET, then only
+// the uploads/downloads that metadata proves are needed. ensureSession() is a no-op unless the
+// silent session restore hasn't run yet this page load. A list that arrived from another device
+// may itself be unpriced, so summaries are refreshed again once something was pulled.
+onMounted(async () => {
+  refreshSummaries(rosters.value)
+  await ensureSession()
+  await syncNow()
+  if (pulled.value) refreshSummaries(rosters.value)
+})
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
 function factionOf(r) { return allFactions.find((f) => f.slug === r.faction) || null }
@@ -148,7 +167,10 @@ function onEdit(id) {
 }
 function onDuplicate(id) {
   menuFor.value = null
-  duplicateRoster(id, labels.value.rosterCopySuffix)
+  const copy = duplicateRoster(id, labels.value.rosterCopySuffix)
+  // A duplicate is a finished list the moment it exists — the same kind of deliberate save the
+  // editor's Save button makes, so it goes to the cloud now rather than waiting for the next visit.
+  if (copy) saveToCloud(copy.id)
 }
 
 const pendingDelete = ref(null)
@@ -157,7 +179,12 @@ function onDelete(id) {
   pendingDelete.value = id
 }
 function confirmDelete() {
-  if (pendingDelete.value) deleteRoster(pendingDelete.value)
+  if (pendingDelete.value) {
+    // Tombstone + cloud DELETE first (it reads the id, not the roster), then drop it locally.
+    // Without the tombstone the next visit would happily download it again.
+    removeFromCloud(pendingDelete.value)
+    deleteRoster(pendingDelete.value)
+  }
   pendingDelete.value = null
 }
 </script>
