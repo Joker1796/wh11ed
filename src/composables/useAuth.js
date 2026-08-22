@@ -24,6 +24,7 @@ const MOCK_FLAG = 'wh11ed-dev-mock-auth'
 const MOCK_USER = { id: 'mock', email: 'test@local', displayName: 'Tester' }
 let mockActive = false
 const mockCloud = new Map() // gameId → full game blob (a fake backend store)
+const mockRosterCloud = new Map() // rosterId → full roster blob
 
 function mockEnabled() {
   return DEV && mockActive
@@ -34,6 +35,17 @@ function mockJson(body, statusCode = 200) {
     status: statusCode,
     headers: { 'Content-Type': 'application/json' },
   })
+}
+
+function mockRosterMeta(r) {
+  return {
+    rosterId: r.id,
+    name: r.name || '',
+    faction: r.faction || null,
+    updatedAt: r.updatedAt || 0,
+    points: r.summary?.points || 0,
+    unitCount: r.summary?.unitCount || 0,
+  }
 }
 
 function mockMeta(g) {
@@ -52,6 +64,25 @@ function mockFetch(path, opts = {}) {
   if (path === '/me') return mockJson(MOCK_USER)
   if (path === '/games' && method === 'GET') {
     return mockJson({ games: [...mockCloud.values()].map(mockMeta) })
+  }
+  if (path === '/rosters' && method === 'GET') {
+    return mockJson({ rosters: [...mockRosterCloud.values()].map(mockRosterMeta) })
+  }
+  const mr = path.match(/^\/rosters\/(.+)$/)
+  if (mr) {
+    const id = decodeURIComponent(mr[1])
+    if (method === 'PUT') {
+      mockRosterCloud.set(id, JSON.parse(opts.body))
+      return mockJson({ ok: true, rosterId: id })
+    }
+    if (method === 'GET') {
+      const r = mockRosterCloud.get(id)
+      return r ? mockJson(r) : mockJson({ error: 'not_found' }, 404)
+    }
+    if (method === 'DELETE') {
+      mockRosterCloud.delete(id)
+      return mockJson({ ok: true })
+    }
   }
   const m = path.match(/^\/games\/(.+)$/)
   if (m) {
@@ -92,6 +123,7 @@ function mockSignIn() {
 function mockSignOut() {
   mockActive = false
   mockCloud.clear()
+  mockRosterCloud.clear()
   accessToken = null
   user.value = null
   status.value = 'anon'

@@ -221,12 +221,14 @@ import {
 } from '../../composables/rosterEngine.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { useRosterSync } from '../../composables/useRosterSync.js'
 
 const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current: trackerCurrent } = useTracker()
+const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
 
@@ -239,11 +241,17 @@ function useInTracker() {
 }
 
 // Every edit already writes straight to the reactive store (useRosters.js's deep watch
-// autosaves to localStorage on every change) — nothing here actually persists anything new.
-// "Save" is the explicit close-out action: same destination the creation wizard's own
+// autosaves to localStorage on every change) — nothing here actually persists anything new
+// LOCALLY. "Save" is the explicit close-out action: same destination the creation wizard's own
 // "Done" lands on (RosterCreateView.vue's finish()), so both paths converge on the read-only
 // view once a roster is considered finished.
+//
+// It IS, however, the moment the cloud copy is written: uploads follow the Save click, never the
+// autosave, so the cloud never collects half-built intermediate versions (useRosterSync.js).
+// Fire-and-forget — the upload reports itself on the view page we're navigating to, and a failure
+// leaves the list queued for the next visit rather than blocking the navigation.
 function save() {
+  saveToCloud(roster.value.id)
   router.push(`/roster/${roster.value.id}/view`)
 }
 
