@@ -27,7 +27,7 @@ export default {
             "ru": "пока отряд выбран в конце вашей командной фазы, до начала следующей"
           },
           "cond": [
-            "never"
+            "unit-selected-command-phase"
           ]
         }
       ]

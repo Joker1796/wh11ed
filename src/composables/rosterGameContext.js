@@ -108,12 +108,13 @@ function rosterAnswers(id, entry) {
   return false
 }
 
-// Is the game standing in the phase this condition names? Only a game that keeps phases can
-// answer at all; `side: 'own'` conditions ("your Shooting phase") additionally want the turn to
-// belong to the player whose card is being drawn, while an ownerless one (the Fight phase) is
-// true in both turns.
-function phaseHolds(c, clock) {
+// Does the tracker's own clock say this condition holds? Two kinds. A `rounds` window needs no
+// phases — every game knows its battle round — so it answers always. A phase needs a game keeping
+// them, and a `side: 'own'` one ("your Shooting phase") additionally wants the turn to belong to
+// the player whose card is being drawn; an ownerless one (the Fight phase) is true in both turns.
+function clockHolds(c, clock) {
   const k = normaliseClock(clock)
+  if (c.rounds) return c.rounds.includes(k.round)
   if (!k.tracked || k.phase !== c.phase) return false
   return c.side === 'any' || k.mine
 }
@@ -126,7 +127,7 @@ export function activeConditions(player, clock, entry) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
     let on = false
-    if (c.scope === 'phase') on = phaseHolds(c, clock)
+    if (c.scope === 'clock') on = clockHolds(c, clock)
     else if (isAuto(id)) on = AUTO[id](player, round)
     else if (c.scope === 'roster') on = rosterAnswers(id, entry)
     else if (c.scope === 'army') on = switchOn(player?.ctx?.army, id, clock)
@@ -141,13 +142,19 @@ export function activeConditions(player, clock, entry) {
 // a switch that cannot change anything on screen is worse than no switch at all.
 export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   const ids = new Set()
-  const answerable = (id) => conditions[id] && (conditions[id].scope !== 'phase' || normaliseClock(clock).tracked)
+  const answerable = (id) => {
+    const c = conditions[id]
+    if (!c) return false
+    if (c.scope !== 'clock') return true
+    return c.rounds ? true : normaliseClock(clock).tracked
+  }
   for (const rec of resolvedEntries || []) {
     for (const eff of rec.effects || []) {
       if (!eff.cond?.length) continue
-      // A phase half is answered by the clock, not by a switch — so it no longer disqualifies the
-      // effect, but only in a game that keeps phases. Without one it is still unanswerable, and an
-      // effect whose other half can be flipped would otherwise offer a switch that changes nothing.
+      // A clock half is answered by the clock, not by a switch — so it no longer disqualifies the
+      // effect. A battle-round window always answers; a phase only in a game keeping phases,
+      // without which an effect whose other half can be flipped would offer a switch that changes
+      // nothing on screen.
       if (!eff.cond.every(answerable)) continue
       for (const id of eff.cond) if (conditions[id].scope === scope) ids.add(id)
     }

@@ -44,14 +44,19 @@ export const SENTINELS = {
 //   army    one switch for the whole army (an army rule state; the army-rule tracker proves some)
 //   unit    a per-entry switch (this unit charged, is Battle-shocked, has an Order on it)
 //   roster  no switch at all: the list already answers it (attachment, wargear)
-//   phase   the phase/turn the game is in — NOT tracked yet, so these never come out true; marked
-//           so the future phase work inherits a finished list instead of starting from the prose
+//   clock   the tracker's own clock answers it — which battle round it is, and (when the game is
+//           keeping phases) which phase of whose turn. Never a switch: two sources for one fact
+//           is how a card ends up disagreeing with the tracker next to it
 export const conditions = {
   // ── Army state ──────────────────────────────────────────────────────────────────────────
   'waaagh-active': { scope: 'army', duration: 'round', label: { en: 'Waaagh! called', ru: 'Waaagh! объявлен' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
   'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
+  'discipline-biomancy': { scope: 'army', duration: 'round', label: { en: 'Biomancy Discipline', ru: 'Biomancy Discipline' } },
+  'discipline-pyromancy': { scope: 'army', duration: 'round', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy Discipline' } },
+  'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
+  'blessing-warp-blades': { scope: 'army', duration: 'round', label: { en: 'Warp Blades', ru: 'Warp Blades' } },
   'tactic-furor': { scope: 'army', duration: 'round', label: { en: 'Furor Tactics', ru: 'Furor Tactics' } },
   'tactic-malleus': { scope: 'army', duration: 'round', label: { en: 'Malleus Tactics', ru: 'Malleus Tactics' } },
   'drug-adrenalight': { scope: 'army', duration: 'battle', label: { en: 'Adrenalight', ru: 'Adrenalight' } },
@@ -82,6 +87,7 @@ export const conditions = {
   'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
   'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
+  'unit-disembarked': { scope: 'unit', duration: 'turn', label: { en: 'Disembarked this turn', ru: 'Высадился в этом ходу' } },
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
   'unit-achieved-boast': { scope: 'unit', duration: 'battle', label: { en: 'Achieved a Boast', ru: 'Выполнил Boast' } },
@@ -110,21 +116,32 @@ export const conditions = {
   // rosterGameContext still answers none of these — wiring it up is P3c/P3d in
   // ROSTER-IN-GAME-PROGRESS.md. They are marked on the effects anyway, so that work inherits a
   // finished list instead of re-reading the prose.
-  // Answered by the tracker's clock, never by a switch (rosterGameContext's phaseHolds), which is
-  // why these carry `phase` and `side`: GW says whose phase it is when it matters, and the Fight
-  // phase happens in both turns. A game not keeping phases answers none of them.
-  // The vocabulary carries only the phases some effect actually names — index.test.js enforces
-  // that, and rightly: an id nothing uses is a promise about the data that isn't true.
-  'phase-shooting': { scope: 'phase', phase: 'shooting', side: 'own', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
-  'phase-fight': { scope: 'phase', phase: 'fight', side: 'any', duration: 'phase', label: { en: 'The Fight phase', ru: 'Фаза боя' } },
+  // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
+  // id carries `phase` and `side`, because GW says whose phase it is when that matters and the
+  // Fight phase happens in both turns; only a game keeping phases can answer one. A `rounds` id
+  // needs no phases at all — every game knows its battle round — so those answer always.
+  // The vocabulary carries only what some effect actually names — index.test.js enforces that,
+  // and rightly: an id nothing uses is a promise about the data that isn't true.
+  'phase-shooting': { scope: 'clock', phase: 'shooting', side: 'own', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
+  'phase-fight': { scope: 'clock', phase: 'fight', side: 'any', duration: 'phase', label: { en: 'The Fight phase', ru: 'Фаза боя' } },
+  'rounds-1-3': { scope: 'clock', rounds: [1, 2, 3], duration: 'round', label: { en: 'Battle rounds 1–3', ru: 'Раунды 1–3' } },
+  'rounds-3-5': { scope: 'clock', rounds: [3, 4, 5], duration: 'round', label: { en: 'Battle rounds 3–5', ru: 'Раунды 3–5' } },
 }
 
 export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)
 
-// True when every condition on the effect is one the app can actually answer. A sentinel, an
-// unknown id, or a scope nothing resolves yet (`phase`) all mean the same thing to the caller:
-// keep the printed number and show the note.
-export function isAnswerable(cond) {
+// True when every condition on the effect is one the app can actually answer. A sentinel or an
+// unknown id means the same thing to the caller: keep the printed number and show the note.
+//
+// A `clock` condition depends on the GAME, not on the data — a battle round is always known, but
+// a phase only in a game keeping them — so `phases` says which kind of game is asking. The live
+// answer is rosterGameContext's; this is the static view of the same question.
+export function isAnswerable(cond, { phases = false } = {}) {
   if (!Array.isArray(cond) || !cond.length) return false
-  return cond.every((id) => conditions[id] && conditions[id].scope !== 'phase')
+  return cond.every((id) => {
+    const c = conditions[id]
+    if (!c) return false
+    if (c.scope !== 'clock') return true
+    return c.rounds ? true : phases
+  })
 }

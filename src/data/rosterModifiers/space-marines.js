@@ -218,7 +218,7 @@ export default {
             "ru": "пока в этом раунде выбрана дисциплина Biomancy"
           },
           "cond": [
-            "never"
+            "discipline-biomancy"
           ]
         },
         {
@@ -231,6 +231,7 @@ export default {
             "ru": "пока выбрана дисциплина Pyromancy, против отряда противника в пределах 12\""
           },
           "cond": [
+            "discipline-pyromancy",
             "never"
           ]
         }
@@ -385,7 +386,8 @@ export default {
             "ru": "в вашей фазе стрельбы, если отряд высадился из Transport в этом ходу"
           },
           "cond": [
-            "never"
+            "phase-shooting",
+            "unit-disembarked"
           ]
         }
       ]
