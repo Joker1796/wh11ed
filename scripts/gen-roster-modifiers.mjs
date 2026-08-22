@@ -80,6 +80,11 @@ export function proseHash(text) {
 // proposed. Kept in sync with what Tier C can actually express (see the `effects` shape).
 const CANDIDATE = new RegExp([
   '(?:add|subtract) \\d+ to',                 // "add 1 to the Strength characteristic"
+  // "subtract 1 from the Objective Control characteristic". Nearly every hit is a debuff on an
+  // ENEMY unit or a modifier on an incoming attack, neither of which this layer can express — but
+  // a rule nobody has ever looked at reads exactly like a rule nobody has written down yet, so
+  // they are proposed and closed as reviewed empties rather than left invisible.
+  'subtract \\d+ from [^.]{0,40}characteristic',
   '(?:add|subtract) \\d+["\u201d] to',            // the same with a distance: 'add 2" to this model\'s Move'
   'improve[sd]? the [^.]{0,40}characteristic',
   // "has a Move characteristic of 7\"", "have an Objective Control characteristic of 3" — a SET

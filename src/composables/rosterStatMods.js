@@ -304,6 +304,17 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
 // `ctx.leaderUnitIds` are the datasheet ids attached TO this entry, `ctx.ledUnitId` the datasheet
 // id of the unit this entry leads. Both come from the roster, which records the attachment — there
 // is nothing to infer and nothing to ask the player.
+// Our army-rule name against the record's, apostrophes and case aside. Containment either way:
+// a merged name covers the record it was merged from, and a record named for the whole rule still
+// matches when our name is the longer one.
+const normRule = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+function armyRuleMatches(recName, ourName) {
+  const a = normRule(recName)
+  const b = normRule(ourName)
+  if (!a || !b) return false
+  return a === b || a.includes(b) || b.includes(a)
+}
+
 export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null } = {}) {
   const out = []
   for (const rec of records || []) {
@@ -360,7 +371,16 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       continue
     }
     if (rec.ref.kind === 'armyRule') {
-      if (facEn.armyRule?.body) out.push({ ...rec, body: facEn.armyRule.body })
+      // appdata gives a faction SEVERAL army rules (Space Marines have three); we model one, and
+      // `ref: {kind:'armyRule'}` can only point at that one. A record written against a rule we do
+      // not model separately would silently read the wrong prose — T'au's `Drones` reading the body
+      // of `For the Greater Good` — and gate its effects on that rule's targets. So the names have
+      // to answer to each other: either is allowed to contain the other, because our own names are
+      // sometimes a deliberate merge (`Synapse & Shadow in the Warp` covers a record named
+      // `Synapse`), but two unrelated names drop the record rather than mis-resolve it.
+      if (facEn.armyRule?.body && armyRuleMatches(rec.name, facEn.armyRule.name)) {
+        out.push({ ...rec, body: facEn.armyRule.body })
+      }
       continue
     }
     const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)

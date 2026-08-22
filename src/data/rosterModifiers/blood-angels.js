@@ -151,6 +151,20 @@ export default {
       ]
     },
     {
+      "sid": "4697dedf-d6a1-4ee5-9816-ea2d9981158a:lemartes",
+      "kind": "ability",
+      "name": "Lemartes: Guardian of the Lost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lemartes"
+      },
+      "hash": "a33b6550",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7d0b98fd-de19-461b-ac84-d5a202107a15:sanguinary-priest",
       "kind": "ability",
       "name": "Sanguinary Priest: Blood Chalice",

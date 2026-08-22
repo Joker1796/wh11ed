@@ -520,6 +520,20 @@ export default {
       }
     },
     {
+      "sid": "5c618647-d77c-420a-aef6-9b18e3c44c6f",
+      "kind": "enhancement",
+      "name": "Helm of Brazen Ire",
+      "det": "Berzerker Warband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "berzerker-warband"
+      },
+      "hash": "31b6e128",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3959a88d-7bdd-4c12-8e21-72050af167a2",
       "kind": "enhancement",
       "name": "Gore-stained Veterans (Upgrade)",

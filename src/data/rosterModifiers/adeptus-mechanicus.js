@@ -148,6 +148,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "336210fa-5416-435b-8a30-8f000a820c90:skitarii-vanguard",
+      "kind": "ability",
+      "name": "Skitarii Vanguard: Rad-saturation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skitarii-vanguard"
+      },
+      "hash": "cbd7fe7d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c11347bd-b4dc-4660-a049-bb4618070032:skorpius-disintegrator",
       "kind": "ability",
       "name": "Skorpius Disintegrator: Blistering Salvoes",

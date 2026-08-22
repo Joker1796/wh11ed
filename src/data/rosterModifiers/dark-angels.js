@@ -31,6 +31,20 @@ export default {
       ]
     },
     {
+      "sid": "d021d325-2787-41ad-a5c1-347fc0262dfd:deathwing-knights",
+      "kind": "ability",
+      "name": "Deathwing Knights: Inner Circle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-knights"
+      },
+      "hash": "6903aaca",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e5141592-d906-445c-939f-081212f2666f:deathwing-terminator-squad",
       "kind": "ability",
       "name": "Deathwing Terminator Squad: Deathwing",

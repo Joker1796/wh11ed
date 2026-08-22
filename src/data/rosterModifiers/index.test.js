@@ -4,7 +4,7 @@ import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js
 
 // Every faction file in this directory, read eagerly — this is a test, not the app (the app
 // loads one faction at a time; see index.js).
-const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./*.test.js'], { eager: true, import: 'default' })
+const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { eager: true, import: 'default' })
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
 const OP = new Set(['add', 'set', 'improve', 'grant'])
@@ -172,5 +172,24 @@ describe('rosterModifiers data', () => {
     ] }
     expect(usableEntries(data)).toHaveLength(1)
     expect(usableEntries(null)).toEqual([])
+  })
+})
+
+describe('core rules as a modifier source', () => {
+  it('states Battle-shock as one reviewed effect, on a condition the app can answer', async () => {
+    const { coreModifiers } = await import('./coreRules.js')
+    expect(coreModifiers).toHaveLength(1)
+    const [bs] = coreModifiers
+    expect(bs.kind).toBe('core')
+    expect(bs.effects).toEqual([{
+      on: 'profile', stat: 'oc', op: 'set', value: '-',
+      when: { en: 'while this unit is Battle-shocked', ru: 'пока отряд Battle-shocked' },
+      cond: ['unit-battle-shocked'],
+    }])
+    expect(conditions['unit-battle-shocked']).toBeTruthy()
+  })
+
+  it('is not globbed as a faction file', async () => {
+    expect(Object.keys(files).some((f) => f.includes('coreRules'))).toBe(false)
   })
 })

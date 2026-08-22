@@ -255,6 +255,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "7a4be46a-3e2f-4421-ad8e-6551106c770f:razorwing-jetfighter",
+      "kind": "ability",
+      "name": "Razorwing Jetfighter: Nowhere to Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "razorwing-jetfighter"
+      },
+      "hash": "503b3fd4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "24a65646-e270-4708-a07e-4fd26d1bb189:reavers",
       "kind": "ability",
       "name": "Reavers: Matchless Swiftness",

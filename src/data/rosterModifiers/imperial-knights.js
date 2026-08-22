@@ -249,6 +249,20 @@ export default {
       ]
     },
     {
+      "sid": "d138a7b1-af83-4fb6-9a66-288a661a4652:knight-defender",
+      "kind": "ability",
+      "name": "Knight Defender: Defender’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-defender"
+      },
+      "hash": "c17a033d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1f762088-19de-49cd-984b-10d5382c0aae:knight-defender",
       "kind": "ability",
       "name": "Knight Defender: Selfless Protector",
@@ -482,6 +496,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d730aed0-8e77-4c83-9b91-91693829eedd:questoris-knight-styrix",
+      "kind": "ability",
+      "name": "Questoris Knight Styrix: Grav-pinned",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "questoris-knight-styrix"
+      },
+      "hash": "1ffdb6a3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "bc62b0fd-75e6-4669-b3af-e9d8d2a2a09b",

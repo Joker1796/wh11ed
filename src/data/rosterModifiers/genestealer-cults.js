@@ -374,6 +374,20 @@ export default {
       }
     },
     {
+      "sid": "4554e2a3-cef7-4ce5-97a6-20c3a3389180",
+      "kind": "enhancement",
+      "name": "Alien Majesty",
+      "det": "Biosanctic Broodsurge",
+      "ref": {
+        "kind": "enhancement",
+        "det": "biosanctic-broodsurge"
+      },
+      "hash": "e7e2571e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3f4c0ade-9d77-49c0-915b-29b7e942703c",
       "kind": "enhancement",
       "name": "Biomorph Adaptation",
