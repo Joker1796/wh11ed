@@ -441,24 +441,32 @@ describe('abilityEntriesFor', () => {
   }
   const records = [enhancedWarriors, ownAbility, onTheBodyguard]
 
-  it('gives a unit its own abilities, and drops the "<unit>: " prefix on its own card', () => {
+  it('gives a unit its own abilities, split into owner and rule name', () => {
     const out = abilityEntriesFor(records, { unitId: 'fabius-bile' })
     expect(out).toHaveLength(1)
     expect(out[0].name).toBe('Surgeon Acolyte')
+    expect(out[0].owner).toBe('Fabius Bile')
+    expect(out[0].from).toBe('self')
     expect(out[0].effects).toHaveLength(1)
   })
 
-  it('gives the led unit the leader\'s ability, still named after the leader', () => {
+  // The card labels this "leader · Fabius Bile" and names the rule separately, so the two halves
+  // have to arrive apart rather than as one glued string.
+  it('gives the led unit the leader\'s ability, tagged with where it came from', () => {
     const out = abilityEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
     expect(out).toHaveLength(1)
-    expect(out[0].name).toBe('Fabius Bile: Enhanced Warriors')
+    expect(out[0].name).toBe('Enhanced Warriors')
+    expect(out[0].owner).toBe('Fabius Bile')
+    expect(out[0].from).toBe('led')
     expect(out[0].effects.map((e) => e.stat)).toEqual(['s', 't'])
   })
 
   it('gives the leader an ability printed on the unit it leads', () => {
     const out = abilityEntriesFor(records, { unitId: 'lord-of-contagion', ledUnitId: 'poxwalkers' })
     expect(out).toHaveLength(1)
-    expect(out[0].name).toBe('Poxwalkers: Curse of the Walking Pox')
+    expect(out[0].name).toBe('Curse of the Walking Pox')
+    expect(out[0].owner).toBe('Poxwalkers')
+    expect(out[0].from).toBe('leader')
   })
 
   // The leader standing alone gets nothing from a `led` effect — the roster says it is attached to

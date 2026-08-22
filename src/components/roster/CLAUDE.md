@@ -805,6 +805,15 @@ rules, enhancements, stratagems, the augmentation chips — stays English by pro
 translated header with no original was the one name on the card that could not be matched to the
 codex or said out loud to an opponent.
 
+**Every note says where it came from.** The footnotes under the stats are grouped by source and each
+group is headed by it — `Army rule`, `Detachment · Creations of Bile`, `Enhancement`, `Leader ·
+Fabius Bile`, `Ability`, `Mark`. Text only, no colour of its own: the card already carries the
+faction accent and five source colours would fight it. Three of the six labels are the block below's
+own words, reused rather than reworded, so the same rule reads the same whether the reader meets it
+as a footnote or as a block. Ability records carry `owner` and `from` (self / led / leader) for
+exactly this — the record's stored name is `"<unit>: <ability>"` and the two halves have to travel
+apart.
+
 **A modifier note opens its own rule.** A note the caller could resolve to prose carries
 `hasSource`, and then the rule's name in the footnote under the stats opens it in the same popover a
 core ability uses (`mod-source-click` → `RosterUnitRulesModal`'s `modSource`). Before that, seeing
@@ -892,14 +901,24 @@ phases can answer one; a `rounds` id names a battle-round window (Mont'ka's 1-3,
 answers in EVERY game, because the round is always known. `clockOf(game, pi)` builds what the
 answers are read from, `stampOf(clock)` is what a switch stores.
 
-**Where the switches are:** army-wide ones above the unit list in `RosterViewView` (facts about the
-battle); per-unit ones on the unit's own card in `RosterUnitRulesModal` (`gameCtx` prop, `toggle-cond`
-event), next to the number they change; and — since 2026-08-22 — **a rule's own switches inside the
-rule**, in the "In effect for this unit" block, army-wide ones included (`gameCtx.armySwitches`).
-That third place is not a fourth source of truth: all of them render `ConditionChips.vue` and write
-to the same store through the same handler, which routes on the switch's own `scope`. It exists
-because the place a player MEETS Creations of Bile's augmentations is the detachment rule on a
-unit's card, not a strip at the top of another screen. A FINISHED game reached from the history list
+**Where the switches are** (settled 2026-08-22 — a state is flipped where the thing it changes is
+READ, never in a strip that says nothing about which rule it feeds):
+
+- **Above the unit list** — army-wide states. Facts about the battle, not about one unit.
+- **On the unit's row in the list**, under its stats (`.rvunit-conds`) — that unit's own states.
+  These are what a player flips every turn (charged, advanced, remained stationary), and opening a
+  card for that is a step too many. The row had to stop being one big `<button>` to hold them.
+- **On the ability**, inside the card (`DatasheetCard`'s `abilitySwitches`) — the states that
+  ability's own modifier records name. Only `self` records: an ability printed on a Leader's card is
+  not in this sheet's list, and its condition belongs to the unit it addresses.
+- **Inside the rule**, in the "In effect for this unit" block, army-wide ones included
+  (`gameCtx.armySwitches`) — the place a player MEETS Creations of Bile's augmentations is the
+  detachment rule on a unit's card.
+
+`RosterUnitRulesModal` has **no switch strip of its own** any more. All four places render
+`ConditionChips.vue` (`src/components/`, not this directory — it is not roster-specific) and write
+to the same store through one handler that routes on the switch's own `scope`, so no two of them can
+disagree. A FINISHED game reached from the history list
 (`/tracker/history/:gid/roster/:pi`) shows the same screen as a record: the recorded context still
 shapes the numbers, but there are no controls. Only conditions the roster's own rules actually name are
 offered, and only ones that can be answered — a switch that changes nothing on screen is worse than

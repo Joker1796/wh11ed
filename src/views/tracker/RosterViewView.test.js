@@ -109,7 +109,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    await w.find('.rvunit').trigger('click')
+    await w.find('.rvunit-main').trigger('click')
     const modal = w.find('roster-unit-rules-modal-stub')
     expect(modal.exists()).toBe(true)
     expect(modal.attributes('unitid')).toBe('intercessor-squad')
@@ -272,6 +272,40 @@ describe('RosterViewView', () => {
 
       expect(w.findAll('.cond-chip').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
       expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the Waaagh! rewrote
+    })
+
+    // Per-unit states live on the unit's own row: they are what a player flips every turn, and
+    // opening a card for that is a step too many. Army-wide states stay above the list.
+    it('puts a unit\'s own switches in its row, under the stats', async () => {
+      const sm = {
+        id: 'r3', name: 'Stationary List', faction: 'space-marines', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'desolation-squad', size: 0 }],
+      }
+      const t = await startGame(sm, 'space-marines')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Desolation Squad')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+
+      const chip = w.find('.rvunit-conds .cond-chip')
+      expect(chip.text()).toContain('Remained Stationary')
+      expect(chip.classes()).not.toContain('on')
+      await chip.trigger('click')
+      expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()
+    })
+
+    // The row became a container so it could hold those buttons; opening the card must still work.
+    it('still opens the card from the row itself', async () => {
+      const sm = {
+        id: 'r4', name: 'Tap List', faction: 'space-marines', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'desolation-squad', size: 0 }],
+      }
+      await startGame(sm, 'space-marines')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Desolation Squad')
+      await w.find('.rvunit-main').trigger('click')
+      expect(w.find('roster-unit-rules-modal-stub').exists()).toBe(true)
     })
 
     // A finished game keeps its lists — that is the whole reason the snapshot travels inside the
