@@ -95,7 +95,12 @@ const CANDIDATE = new RegExp([
 ].join('|'), 'i')
 
 export function isCandidate(text) {
-  return CANDIDATE.test(text || '')
+  // Test against the prose WITHOUT its emphasis markers. appdata bolds the characteristic letter
+  // in the shorthand form, so bodyText() hands us `+2" **M**` — and every pattern above that ends
+  // in a bare stat letter (`+1 OC`, `+2" M`, `+1 **Ld**`) silently failed to match it. 41 army and
+  // detachment rules were invisible to this heuristic for that reason alone, which is how a
+  // Custodes detachment that plainly says +2" M ended up with no record at all.
+  return CANDIDATE.test((text || '').replace(/\*\*/g, ''))
 }
 
 // Flatten one faction bundle into the sources a modifier can be attached to.
