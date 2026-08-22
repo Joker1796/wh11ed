@@ -205,7 +205,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
-import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries } from '../../composables/rosterStatMods.js'
+import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, abilityEntriesFor } from '../../composables/rosterStatMods.js'
 import { activeConditions, switchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -376,7 +376,23 @@ function resolvedFor(entry) {
   const def = defOf(entry.id)
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
   const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
-  return resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg)
+  return [
+    ...resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
+    // A datasheet ability can modify the unit it is attached to, so this entry's records include
+    // the abilities of whoever leads it and of whoever it leads — the roster records both.
+    ...abilityEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
+  ]
+}
+
+// Who is attached to whom, for abilityEntriesFor(). The game carries its own snapshot of the list,
+// so these uids are the ones the entries themselves hold.
+function attachmentCtxOf(entry) {
+  const units = roster.value?.units || []
+  return {
+    unitId: entry.id,
+    leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
+    ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+  }
 }
 
 function statModsFor(entry, sheet) {

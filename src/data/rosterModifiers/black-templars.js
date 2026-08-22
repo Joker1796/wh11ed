@@ -8,6 +8,87 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "b4f947ab-4065-4fb1-9ded-cf85a83d3c31:crusade-ancient",
+      "kind": "ability",
+      "name": "Crusade Ancient: Martial Honour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crusade-ancient"
+      },
+      "hash": "0d3f6477",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "779876f3-6817-4bb8-92c1-291b6af94dd5:emperor-s-champion-vedrenn",
+      "kind": "ability",
+      "name": "Emperor's Champion Vedrenn: Deft Riposte",
+      "det": null,
+      "ref": null,
+      "hash": "962a1086",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "508d9286-33e3-496a-8825-1bfe5c24b442:emperors-champion",
+      "kind": "ability",
+      "name": "Emperor’s Champion: Sigismund’s Heir",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "emperors-champion"
+      },
+      "hash": "e0d9dbc3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e1a9ec64-4b70-47ba-aa5c-c1ff935a2c08:gladiator-valiant",
+      "kind": "ability",
+      "name": "Gladiator Valiant: Priority Target Acquisition",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gladiator-valiant"
+      },
+      "hash": "89111ddd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a8425c53-a82f-402a-a08c-863cdf87916d:high-marshal-helbrecht",
+      "kind": "ability",
+      "name": "High Marshal Helbrecht: Crusade of Wrath",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "high-marshal-helbrecht"
+      },
+      "hash": "08b2836b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "fc05efb4-4534-4b7c-8989-6d1c5338a76e:marshal",
+      "kind": "ability",
+      "name": "Marshal: Pious Fervour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "marshal"
+      },
+      "hash": "3daebaae",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
       "kind": "allegiance",
       "name": "Headhunter Task Force Keywords: Character",

@@ -8,6 +8,196 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "214982bf-5eac-4189-ac0a-1c0945f404c2:coven-of-agonies-cronos",
+      "kind": "ability",
+      "name": "Coven of Agonies Cronos: Empowered Engines (Pain)",
+      "det": null,
+      "ref": null,
+      "hash": "5667e483",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "cb751d0c-daad-47e4-b514-267eccb6f68e:drazhar",
+      "kind": "ability",
+      "name": "Drazhar: Master of Blades",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "drazhar"
+      },
+      "hash": "4e523734",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6ebe6990-ffa4-4fa2-a063-0fff0fd61e60:haemonculus",
+      "kind": "ability",
+      "name": "Haemonculus: Fear Incarnate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "haemonculus"
+      },
+      "hash": "c85d06cd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "96b72b45-8ef5-40de-9985-2eed4a744631:hand-of-the-archon",
+      "kind": "ability",
+      "name": "Hand of the Archon: Archon’s Will",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hand-of-the-archon"
+      },
+      "hash": "a3097079",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3b2d13d0-27bc-49b1-8b7c-9be34589ed82:hellions",
+      "kind": "ability",
+      "name": "Hellions: Battlefield Butchery",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hellions"
+      },
+      "hash": "da5751c2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "814fcea3-09ca-46f1-be0b-9ffc56cf2074:incubi",
+      "kind": "ability",
+      "name": "Incubi: Tormentors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "incubi"
+      },
+      "hash": "4e631f35",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0b6bcdaf-7f79-4095-b229-eaec93e19b04:lelith-hesperax",
+      "kind": "ability",
+      "name": "Lelith Hesperax: Brides of Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lelith-hesperax"
+      },
+      "hash": "c4353cb2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a4fe8cb4-4bc5-4bfb-a3af-f2cd1dfa9070:lelith-hesperax",
+      "kind": "ability",
+      "name": "Lelith Hesperax: Thrilling Spectacle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lelith-hesperax"
+      },
+      "hash": "64aee29a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
+      "kind": "ability",
+      "name": "Razorwing Jetfighter: Ground-attack Craft",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "razorwing-jetfighter"
+      },
+      "hash": "95aac45c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "24a65646-e270-4708-a07e-4fd26d1bb189:reavers",
+      "kind": "ability",
+      "name": "Reavers: Matchless Swiftness",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "reavers"
+      },
+      "hash": "4b733d31",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1c0f156d-a5ea-42c8-8b88-012369237186:scourges-with-shardcarbines",
+      "kind": "ability",
+      "name": "Scourges with Shardcarbines: Murderous Crossfire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scourges-with-shardcarbines"
+      },
+      "hash": "1de432a2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d3d0bb1a-87c9-4e46-9237-2d6c05ccee4a:succubus",
+      "kind": "ability",
+      "name": "Succubus: Storm of Blades",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "succubus"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ba6e7827-a22b-4fdb-b38f-90475a84e9e2:talos",
+      "kind": "ability",
+      "name": "Talos: Devoted to Pain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "talos"
+      },
+      "hash": "23b9180a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "531b472d-8206-448f-971c-69e882c246bd:xatrophos-nuul",
+      "kind": "ability",
+      "name": "Xatrophos Nuul: Fear Incarnate (Aura)",
+      "det": null,
+      "ref": null,
+      "hash": "fd4e2b25",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4e3676ea-791d-4b86-844d-c87af3eccd15",
       "kind": "armyRule",
       "name": "Corsairs and Travelling Players",

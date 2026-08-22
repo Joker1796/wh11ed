@@ -48,9 +48,11 @@ function rowMatchesOnly(row, only) {
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets) {
-  // An enhancement modifies its own bearer, and an allegiance choice its own chooser — neither has
-  // prose addressed at some other unit, so there is nothing to gate on.
-  if (kind === 'enhancement' || kind === 'allegiance') return true
+  // An enhancement modifies its own bearer, an allegiance choice its own chooser, and a datasheet
+  // ability is printed on the very card it addresses (or on the card of the unit it is attached
+  // to, resolved by `target` before we ever get here) — none has prose aimed at some other unit,
+  // so there is nothing to gate on.
+  if (kind === 'enhancement' || kind === 'allegiance' || kind === 'ability') return true
   if (!scopes?.length) return true // ungated prose — the rule itself was already shown to this unit
   const hits = (kws) => (sc) => sc.targets.some((t) => keywordsMatchTarget(kws, t))
     && !sc.excludes.some((x) => keywordsMatchTarget(kws, x))
@@ -109,6 +111,11 @@ export function applyValue(current, op, value) {
 // second system so `when`, `scope` and the whole applicability machinery are shared.
 const isGrant = (effect) => effect.op === 'grant'
 
+// Records whose prose addresses exactly one unit — the one the caller resolved them FOR — so
+// ruleScopes() has nothing to gate on. Everything else is army- or detachment-wide prose that
+// names who it bears on, and is gated by keyword.
+const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability'])
+
 function noteOf(entry, effect, applied, via = null) {
   return {
     source: entry.name,
@@ -162,7 +169,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
   }
 
   for (const entry of entries) {
-    const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
+    const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
     const effects = entry.effects || []
 
     // "…add 2 to the Attacks characteristic INSTEAD." An alternate names the effect it replaces
@@ -247,7 +254,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null) {
   const out = []
   for (const entry of entries || []) {
-    const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
+    const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
       if (effect.when && !condHolds(effect.cond, active)) continue
@@ -267,6 +274,36 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
 // prose. `detachmentNames` is what the roster actually fields — a modifier from a detachment you
 // didn't take is not in play, whatever its rule says. `enhancementName` is the one this entry
 // carries (chosen or mandatory), since an enhancement only ever modifies its own bearer.
+// Datasheet abilities that bear on ONE roster entry. Three directions, and which one a record
+// takes is stated by its effect's `target`:
+//   self    (the default) the ability is printed on this unit's own card
+//   led     it is printed on an attached LEADER's card and addresses the unit being led
+//           ("…add 1 to the Strength characteristic of melee weapons equipped by Bodyguard models
+//           in that unit" — Fabius Bile's Enhanced Warriors)
+//   leader  it is printed on the BODYGUARD unit's card and addresses the Character leading it
+//           ("while a CHARACTER model is leading this unit, that model has Feel No Pain 4+")
+// The two cross directions are why this is a separate resolver: every other record in this layer
+// rewrites the card it was found on, and an ability is the first thing that can rewrite another.
+//
+// `ctx.leaderUnitIds` are the datasheet ids attached TO this entry, `ctx.ledUnitId` the datasheet
+// id of the unit this entry leads. Both come from the roster, which records the attachment — there
+// is nothing to infer and nothing to ask the player.
+export function abilityEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null } = {}) {
+  const out = []
+  for (const rec of records || []) {
+    if (rec.kind !== 'ability' || rec.ref?.kind !== 'ability') continue
+    const of = (t) => (rec.effects || []).filter((e) => (e.target || 'self') === t)
+    // A record's name is "<unit>: <ability>". On the unit's own card the prefix is noise; coming
+    // from another card it is the whole point, so it stays.
+    const own = rec.name.includes(': ') ? rec.name.slice(rec.name.indexOf(': ') + 2) : rec.name
+    const push = (effects, name) => { if (effects.length) out.push({ ...rec, body: '', effects, name }) }
+    if (rec.ref.unit === unitId) push(of('self'), own)
+    if (leaderUnitIds.includes(rec.ref.unit)) push(of('led'), rec.name)
+    if (ledUnitId && rec.ref.unit === ledUnitId) push(of('leader'), rec.name)
+  }
+  return out
+}
+
 export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName, alleg) {
   if (!facEn || !records?.length) return []
   const fielded = new Set((detachmentNames || [])
@@ -275,6 +312,9 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
   const out = []
   for (const rec of records) {
     if (!rec.ref) continue
+    // Datasheet abilities are resolved by abilityEntriesFor() above — they hang off a unit, not
+    // off a rule this function can look up in the faction bundle.
+    if (rec.ref.kind === 'ability') continue
     if (rec.ref.kind === 'allegiance') {
       // Applies only to the unit that made this exact choice. `alleg` is `{ g, opt }` — the
       // datasheet's allegiance group and what this entry picked (rosterEngine's allegFor/entry).

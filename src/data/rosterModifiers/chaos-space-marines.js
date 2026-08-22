@@ -8,6 +8,339 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",
+      "kind": "ability",
+      "name": "Chaos Bikers: Rapid Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-bikers"
+      },
+      "hash": "7cd3528a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a5c1b3db-e8e5-48b2-a00e-4226c3ada951:chaos-predator-destructor",
+      "kind": "ability",
+      "name": "Chaos Predator Destructor: Destructor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-predator-destructor"
+      },
+      "hash": "2acd6045",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ee01d6ea-47cc-4a7c-8b94-dcd9e8a3c430:dark-apostle",
+      "kind": "ability",
+      "name": "Dark Apostle: Dark Zealotry",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dark-apostle"
+      },
+      "hash": "64108c35",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5e80071d-8c49-4d9d-a6dc-e04e944145a9:dark-commune",
+      "kind": "ability",
+      "name": "Dark Commune: Dark Ritual",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dark-commune"
+      },
+      "hash": "6943a0ee",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3026a72c-5b06-4a83-b56b-36fb78ad9b55:dark-commune",
+      "kind": "ability",
+      "name": "Dark Commune: Faithful Flock",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dark-commune"
+      },
+      "hash": "4f9e73da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8c1bf1ec-33df-49e3-b557-a8380670eaf6:fabius-bile",
+      "kind": "ability",
+      "name": "Fabius Bile: Enhanced Warriors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fabius-bile"
+      },
+      "hash": "646e1a31",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "09820343-0004-4592-a040-cd760fd6e4d6:forgefiend",
+      "kind": "ability",
+      "name": "Forgefiend: Daemonic Ordnance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "forgefiend"
+      },
+      "hash": "cda3afdc",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
+      "kind": "ability",
+      "name": "Helbrute: Devoted to Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "helbrute"
+      },
+      "hash": "67092a63",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "dacf05b3-c5a9-40f2-9452-5f86a89d342a:heldrake",
+      "kind": "ability",
+      "name": "Heldrake: Airborne Predator",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heldrake"
+      },
+      "hash": "34bdf1df",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "dffec24a-b638-4df7-82c4-9033614b490e:huron-blackheart",
+      "kind": "ability",
+      "name": "Huron Blackheart: Lord of Badab",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "huron-blackheart"
+      },
+      "hash": "da456d08",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "72d19783-f2d6-4900-a5f3-d616d886ec6c:kravek-morne",
+      "kind": "ability",
+      "name": "Kravek Morne: Headlong Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kravek-morne"
+      },
+      "hash": "662f868f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7f7f725f-6107-488d-b11b-845d2788a1ce:master-of-possession",
+      "kind": "ability",
+      "name": "Master of Possession: Daemonkin",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "master-of-possession"
+      },
+      "hash": "2170496e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8306ea6a-70d3-4f00-8c41-592f3fb35e63:master-of-possession",
+      "kind": "ability",
+      "name": "Master of Possession: Sacrificial Dagger",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "master-of-possession"
+      },
+      "hash": "5302db8d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "73fd690a-fa45-4f1e-b838-f8e762cb0bce:nemesis-claw",
+      "kind": "ability",
+      "name": "Nemesis Claw: Visions of Suffering",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nemesis-claw"
+      },
+      "hash": "fc58474b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a9350d9a-923d-4d07-ba22-0c08d8635717:obliterators",
+      "kind": "ability",
+      "name": "Obliterators: Warp Rift Firepower",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "obliterators"
+      },
+      "hash": "b9dfaeec",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "62fc1854-beb9-4a11-a8bb-d14939a8d3bf:possessed",
+      "kind": "ability",
+      "name": "Possessed: Unholy Bloodshed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "possessed"
+      },
+      "hash": "7560dd98",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "35a42e60-ee3e-4e40-a4e5-b3d3aeefe3e3:red-corsairs-raiders",
+      "kind": "ability",
+      "name": "Red Corsairs Raiders: Trophy Takers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "red-corsairs-raiders"
+      },
+      "hash": "e876c282",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5af5e8b0-c662-4e8d-b69e-a57b48d46f49:red-corsairs-reave-captain",
+      "kind": "ability",
+      "name": "Red Corsairs Reave-Captain: Brutal Raider",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "red-corsairs-reave-captain"
+      },
+      "hash": "1b4fdaf6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "76261740-3578-4653-a8c7-d912c9fa7d47:sorcerer-in-terminator-armour",
+      "kind": "ability",
+      "name": "Sorcerer in Terminator Armour: Death Hex",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-in-terminator-armour"
+      },
+      "hash": "1bfaa601",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "75f0b9f2-fe46-4f7a-a0ab-2742ef5ac288:vashtorr-the-arkifane",
+      "kind": "ability",
+      "name": "Vashtorr the Arkifane: Reorder Reality",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vashtorr-the-arkifane"
+      },
+      "hash": "534d3d42",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d84a3253-a1a3-4e20-988c-60f251f86f38:vashtorr-the-arkifane",
+      "kind": "ability",
+      "name": "Vashtorr the Arkifane: Unholy Mechanisms",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vashtorr-the-arkifane"
+      },
+      "hash": "9a98f6d5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3e9f3310-0131-40ae-a411-377a4aa6d0c6:venomcrawler",
+      "kind": "ability",
+      "name": "Venomcrawler: Soul Eater",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "venomcrawler"
+      },
+      "hash": "57cf1b8c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4a94c0cf-bfaa-4ed1-8a2d-6225e3536003:warpsmith",
+      "kind": "ability",
+      "name": "Warpsmith: Master of Mechanisms",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warpsmith"
+      },
+      "hash": "4fb849da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "760cb5a0-d9f6-468c-851e-1e2930ab667b:zarkan-s-daemonkin-possessed",
+      "kind": "ability",
+      "name": "Zarkan's Daemonkin Possessed: Unholy Bloodshed",
+      "det": null,
+      "ref": null,
+      "hash": "df7ce16a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "55eb487b-db92-4465-9c80-2a2604b8982f",
       "kind": "allegiance",
       "name": "Daemonic Allegiance: Khorne",

@@ -146,6 +146,43 @@ function allegianceSources(tables, bundleDatasheetIds) {
   return out
 }
 
+// A datasheet's OWN abilities — the fourth source, added 2026-08-22. Everything above hangs off a
+// rule the whole army (or a detachment) shares; this hangs off one unit, and it is where most of
+// the numbers actually live: 1846 datasheet abilities across the game, 436 of which look like they
+// touch a statline. Only `type: 'datasheet'` is taken — `core` is the shared rulebook ability
+// (Feel No Pain, Leader) which the card already renders from core data, and `faction` is the army
+// rule, collected above with its own identity.
+//
+// `ref.unit` is the wh11ed datasheet id, from the same sourceIds bridge the detachments use, so a
+// record survives a GW rename. No `det`: an ability belongs to a unit, not to a detachment. The
+// record is NAMED "<unit>: <ability>" so the review queue and the generated file group by unit,
+// which is how a human reads them.
+function abilitySources(bundle, dsBySid) {
+  const out = []
+  for (const d of bundle.datasheets || []) {
+    const wh = dsBySid.get(d.id)?.id || null
+    for (const a of d.abilities || []) {
+      if (a.type !== 'datasheet') continue
+      const prose = appdataToMarkup(a.rules)
+      if (!a.id || !prose) continue
+      out.push({
+        // The one place a `sid` is NOT a bare appdata uuid: 56 abilities are published once and
+        // attached to several datasheets (Custodes' Turbo-boost sits on both jetbike units), and a
+        // record has to exist per datasheet — each one points its `ref` at a different unit. The
+        // uuid still leads the key, so the identity is unchanged; the suffix only separates the
+        // copies, and the pair is stable across runs.
+        sid: `${a.id}:${wh || slugifyName(d.name)}`,
+        kind: 'ability',
+        name: `${d.name}: ${a.name}`,
+        det: null,
+        ref: wh ? { kind: 'ability', unit: wh } : null,
+        prose,
+      })
+    }
+  }
+  return out
+}
+
 const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
@@ -273,6 +310,7 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const detBySid = invertSourceIds('det')
+  const dsBySid = invertSourceIds('ds')
   const allegTables = {
     groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
     abilities: table('allegiance_ability.json').reduce((m, a) => {
@@ -293,6 +331,7 @@ export async function run(argv = process.argv.slice(2)) {
     const sources = [
       ...sourcesOf(bundle, detBySid),
       ...allegianceSources(allegTables, (bundle.datasheets || []).map((d) => d.id)),
+      ...abilitySources(bundle, dsBySid),
     ]
     const existing = await readExisting(slug)
     const result = classify(existing, sources, ver)

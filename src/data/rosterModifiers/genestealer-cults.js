@@ -8,6 +8,157 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "03af0fc0-6c26-48af-83e0-fa6060aeaa40:achilles-ridgerunners",
+      "kind": "ability",
+      "name": "Achilles Ridgerunners: Crossfire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "achilles-ridgerunners"
+      },
+      "hash": "bb57ed5e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "78c4722f-e85f-4711-b4f8-4a2fd144aa3c:acolyte-iconward",
+      "kind": "ability",
+      "name": "Acolyte Iconward: Nexus of Devotion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "acolyte-iconward"
+      },
+      "hash": "84109d35",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3f241c29-b6ef-42bb-a5c4-21ba949e7963:benefictus",
+      "kind": "ability",
+      "name": "Benefictus: Bio‐horror Disruption",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "benefictus"
+      },
+      "hash": "43cbb91e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "dd83e9d1-2776-4f37-86a3-2bc688cab040:benefictus",
+      "kind": "ability",
+      "name": "Benefictus: Psionic Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "benefictus"
+      },
+      "hash": "b8c2ff80",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6f6a9bfc-98b4-4cb9-965b-27c4adb7d4b9:biophagus",
+      "kind": "ability",
+      "name": "Biophagus: Biological Warfare",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biophagus"
+      },
+      "hash": "eb80a84d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ddc1b543-9402-48c8-87aa-89d5b50d25be:biophagus",
+      "kind": "ability",
+      "name": "Biophagus: Twisted Science",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biophagus"
+      },
+      "hash": "d2a9d0ad",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "cbcf55d0-953b-4bc4-b374-7d6ab4f3a268:claw-of-ascension-achilles-ridgerunner",
+      "kind": "ability",
+      "name": "Claw of Ascension Achilles Ridgerunner: Crossfire",
+      "det": null,
+      "ref": null,
+      "hash": "d30ad47d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "40bcdab4-08ee-48d9-a197-d5be1748f7aa:magus",
+      "kind": "ability",
+      "name": "Magus: Psychic Familiar",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magus"
+      },
+      "hash": "30bf8a33",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "845b6f18-3061-4e1d-b8c7-175fbfca25ac:patriarch",
+      "kind": "ability",
+      "name": "Patriarch: Might From Beyond",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "patriarch"
+      },
+      "hash": "a184123b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "666a876e-6d72-44f5-87c2-7cef96d2d540:patriarch",
+      "kind": "ability",
+      "name": "Patriarch: Psychic Familiar",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "patriarch"
+      },
+      "hash": "6987189b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b4d10d6c-d53c-467c-a367-298fc3433418:primus",
+      "kind": "ability",
+      "name": "Primus: Cult Demagogue",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "primus"
+      },
+      "hash": "10806b5a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "bb51fe29-292d-4c77-a593-ea15daa0d3e3",
       "kind": "detachmentRule",
       "name": "Hypermorphic Fury",

@@ -8,6 +8,157 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "f74e3a85-2691-4849-9e8e-ee9d2675999f:agamatus-custodians",
+      "kind": "ability",
+      "name": "Agamatus Custodians: Turbo-boost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "agamatus-custodians"
+      },
+      "hash": "445d1419",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7a67bb01-737e-4644-b55b-2a6ea1a52c87:aleya",
+      "kind": "ability",
+      "name": "Aleya: Tenacious Spirit",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aleya"
+      },
+      "hash": "f34e2507",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d4d5010a-2aec-4900-81d2-f094312a06c3:custodian-guard-with-adrasite-and-pyrithite-spears",
+      "kind": "ability",
+      "name": "Custodian Guard with Adrasite and Pyrithite Spears: No Foe Shall Stand",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "custodian-guard-with-adrasite-and-pyrithite-spears"
+      },
+      "hash": "cd91381e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
+      "kind": "ability",
+      "name": "Gilded Blades Custodian Guard: Praesidium Shield",
+      "det": null,
+      "ref": null,
+      "hash": "24c8e47f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "68f78314-9458-4dd0-b445-14119ab4f945:knight-centura",
+      "kind": "ability",
+      "name": "Knight-Centura: Seeker’s Instincts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-centura"
+      },
+      "hash": "e2be7f4f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a2bb638b-5d8e-4915-853e-0e50df6dd5b5:pallas-grav-attack",
+      "kind": "ability",
+      "name": "Pallas Grav-attack: Merciless Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pallas-grav-attack"
+      },
+      "hash": "b3fbfa0b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "87205f80-9898-4628-97d6-ee6de5a3a15e:sagittarum-custodians",
+      "kind": "ability",
+      "name": "Sagittarum Custodians: Disintegration Beams",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sagittarum-custodians"
+      },
+      "hash": "211c448c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f6af813d-e886-4f2a-8f34-3e8b3e6e8dc9:telemon-heavy-dreadnought",
+      "kind": "ability",
+      "name": "Telemon Heavy Dreadnought: Devoted to Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "telemon-heavy-dreadnought"
+      },
+      "hash": "a99e7fb9",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ce39c177-aa83-4e6b-8543-85cef75a77d2:trajann-valoris",
+      "kind": "ability",
+      "name": "Trajann Valoris: Moment Shackle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "trajann-valoris"
+      },
+      "hash": "776b668a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f1cf8105-4d99-409e-8a02-6dc8b322aee7:valerian",
+      "kind": "ability",
+      "name": "Valerian: Golden Laurels",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "valerian"
+      },
+      "hash": "d0787118",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f74e3a85-2691-4849-9e8e-ee9d2675999f:vertus-praetors",
+      "kind": "ability",
+      "name": "Vertus Praetors: Turbo-boost",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vertus-praetors"
+      },
+      "hash": "445d1419",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",
       "kind": "allegiance",
       "name": "Solar Spearhead Keywords: Character",

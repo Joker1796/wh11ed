@@ -8,6 +8,213 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "4337284e-a5f8-45e5-9fb3-cb8e1ea971c0:aestred-thurga-and-agathae-dolan",
+      "kind": "ability",
+      "name": "Aestred Thurga and Agathae Dolan: Auto-Tapestry of the Emperor’s Judgement",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aestred-thurga-and-agathae-dolan"
+      },
+      "hash": "695968a3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "59ee1033-9a10-43cc-b972-674c1dc682dd:canoness-with-jump-pack",
+      "kind": "ability",
+      "name": "Canoness with Jump Pack: Divine Deliverance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoness-with-jump-pack"
+      },
+      "hash": "343267c3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c91f4d2b-d53c-4903-bf71-06ba14a3a2f2:canoness",
+      "kind": "ability",
+      "name": "Canoness: The Emperor’s Grace",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoness"
+      },
+      "hash": "493e6764",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ff3354ba-da0e-4213-bf2c-0c903b528dba:castigator",
+      "kind": "ability",
+      "name": "Castigator: Rites of Castigation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "castigator"
+      },
+      "hash": "02ce559f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bf4ca9bb-ec32-4711-b960-33d77130ff4e:dogmata",
+      "kind": "ability",
+      "name": "Dogmata: Executioner of Heretics",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dogmata"
+      },
+      "hash": "9e236969",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "23f2caff-39c4-4699-b7da-4f6f0d661c05:dogmata",
+      "kind": "ability",
+      "name": "Dogmata: Unflinching Determination",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dogmata"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bd932220-f498-4fd0-9088-3bb81acdb45b:imagifier",
+      "kind": "ability",
+      "name": "Imagifier: Stanchion of Holy Martyrs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "imagifier"
+      },
+      "hash": "752f4b85",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "12584d64-1474-48b2-b896-251c429ef437:ministorum-priest",
+      "kind": "ability",
+      "name": "Ministorum Priest: Righteous Smiting",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ministorum-priest"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3814e980-da68-4a95-b974-1ae6ff5c7542:ministorum-priest",
+      "kind": "ability",
+      "name": "Ministorum Priest: Zealot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ministorum-priest"
+      },
+      "hash": "0ff5db45",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1bf65833-c151-4824-8c13-81ca2b562021:morvenn-vahl",
+      "kind": "ability",
+      "name": "Morvenn Vahl: Righteous Repugnance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "morvenn-vahl"
+      },
+      "hash": "5cec19e1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6436cabf-748e-46d7-9d34-88b1e49cbe52:palatine",
+      "kind": "ability",
+      "name": "Palatine: Fury of the Righteous",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "palatine"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f928b1b5-2736-4276-802b-3e1c8a4056c7:paragon-warsuits",
+      "kind": "ability",
+      "name": "Paragon Warsuits: Righteous Paragons",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "paragon-warsuits"
+      },
+      "hash": "d8db284c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d27d6336-58c1-4947-94d0-9a1eac927945:retributor-squad",
+      "kind": "ability",
+      "name": "Retributor Squad: Storm of Retribution",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "retributor-squad"
+      },
+      "hash": "0836610c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "125bc084-8a95-4395-88c0-b7e7dfc85e84:sanctifiers",
+      "kind": "ability",
+      "name": "Sanctifiers: Ministorum Sermon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanctifiers"
+      },
+      "hash": "607413e5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e4a88233-98e8-4c9c-9665-409491dfd63d:sanctuary-guardians-arco-flagellants",
+      "kind": "ability",
+      "name": "Sanctuary Guardians Arco-Flagellants: Extremis Trigger Word",
+      "det": null,
+      "ref": null,
+      "hash": "371373d4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "cf5a5f6f-6690-416e-816e-f519b647adb8",
       "kind": "detachmentRule",
       "name": "Fervent Purgation",

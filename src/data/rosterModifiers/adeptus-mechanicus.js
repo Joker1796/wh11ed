@@ -8,6 +8,165 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "06c4375b-ee7a-4552-a5d0-2a55dcd6acdb:archaeopter-stratoraptor",
+      "kind": "ability",
+      "name": "Archaeopter Stratoraptor: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "archaeopter-stratoraptor"
+      },
+      "hash": "1c8c1f3a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1aca726c-3b92-4965-a0f2-97b3228ed49d:cybernetica-datasmith",
+      "kind": "ability",
+      "name": "Cybernetica Datasmith: Battle Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cybernetica-datasmith"
+      },
+      "hash": "07a9dad8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "34fc460d-17ad-4f87-a136-41f4d23a76ab:onager-dunecrawler",
+      "kind": "ability",
+      "name": "Onager Dunecrawler: Emanatus Force Field",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "onager-dunecrawler"
+      },
+      "hash": "72821a2b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "24abbe34-307d-4463-b783-01985d23f7d7:purge-corps-serberys-sulphurhounds",
+      "kind": "ability",
+      "name": "Purge Corps Serberys Sulphurhounds: Pinning Fire",
+      "det": null,
+      "ref": null,
+      "hash": "8cd8ce87",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f5ef9cfa-b388-47b1-8c7a-c985d104ec26:purge-corps-skitarii-vanguard",
+      "kind": "ability",
+      "name": "Purge Corps Skitarii Vanguard: Omnispex",
+      "det": null,
+      "ref": null,
+      "hash": "7edac6d1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5fd37be5-22d0-41d2-afa5-f5c0c9a92000:purge-corps-skitarii-vanguard",
+      "kind": "ability",
+      "name": "Purge Corps Skitarii Vanguard: Rad-saturation (Aura)",
+      "det": null,
+      "ref": null,
+      "hash": "618490ed",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c54d3765-7205-4c3b-aa8d-adae50dde22d:sicarian-ruststalkers",
+      "kind": "ability",
+      "name": "Sicarian Ruststalkers: Optimised Gait",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sicarian-ruststalkers"
+      },
+      "hash": "3cf67aea",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c11347bd-b4dc-4660-a049-bb4618070032:skorpius-disintegrator",
+      "kind": "ability",
+      "name": "Skorpius Disintegrator: Blistering Salvoes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skorpius-disintegrator"
+      },
+      "hash": "7da6aee4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2b590878-2876-48cf-acfd-eae26ed398ef:tech-priest-dominus",
+      "kind": "ability",
+      "name": "Tech-Priest Dominus: Lord of the Machine Cult",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-dominus"
+      },
+      "hash": "9af7334b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4bc24a5b-2219-483b-8e94-c2c92e8515f4:tech-priest-manipulus",
+      "kind": "ability",
+      "name": "Tech-Priest Manipulus: Defend the Divine Work",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-manipulus"
+      },
+      "hash": "fe0d06ce",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f0ee762e-c490-43f8-b16b-5bf6aa56b1ea:tech-priest-manipulus",
+      "kind": "ability",
+      "name": "Tech-Priest Manipulus: Galvanic Field",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-manipulus"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d06c940f-819a-4e2c-a905-352a9a633fad:technoarcheologist",
+      "kind": "ability",
+      "name": "Technoarcheologist: Seekers of Divine Arcana",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "technoarcheologist"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",
       "kind": "armyRule",
       "name": "Doctrina Imperatives",

@@ -118,7 +118,7 @@ import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
-import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, abilityEntriesFor } from '../../composables/rosterStatMods.js'
 import { abilityStatusesOf } from '../../composables/abilityStatus.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
@@ -345,7 +345,7 @@ function applies(enBody) {
 // unit isn't carrying or isn't targeted by. `ref` is the wh11ed-side pointer the generator wrote
 // (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
 // detach a modifier from its rule.
-const resolvedModifiers = computed(() => resolveModifierEntries(
+const resolvedModifiers = computed(() => [...abilityModifiers.value, ...resolveModifierEntries(
   usableModifierEntries.value,
   rulesFactionEn.value,
   props.ctx?.detachments,
@@ -354,7 +354,21 @@ const resolvedModifiers = computed(() => resolveModifierEntries(
   props.ctx?.entry?.alleg && props.ctx?.def?.alleg
     ? { g: props.ctx.def.alleg.g, opt: props.ctx.entry.alleg }
     : null,
-))
+)])
+
+// A datasheet ability can modify the unit it is ATTACHED to, so this card's records include the
+// abilities of whoever leads this entry and of whoever it leads. The roster records both
+// attachments; nothing here is inferred from prose.
+const abilityModifiers = computed(() => {
+  const units = props.ctx?.units || []
+  const entry = props.ctx?.entry
+  if (!entry) return []
+  return abilityEntriesFor(usableModifierEntries.value, {
+    unitId: props.unitId,
+    leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
+    ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+  })
+})
 
 const statMods = computed(() => {
   if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }

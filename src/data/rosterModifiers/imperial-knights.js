@@ -8,6 +8,216 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "3f9c1564-47ce-409b-a7f4-f481995c3eba:acastus-knight-asterius",
+      "kind": "ability",
+      "name": "Acastus Knight Asterius: Sunderer of Fortresses",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "acastus-knight-asterius"
+      },
+      "hash": "caeb868f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9c2a6964-1173-4f07-b6fb-61b511a289ca:acastus-knight-porphyrion",
+      "kind": "ability",
+      "name": "Acastus Knight Porphyrion: Bastion of Firepower",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "acastus-knight-porphyrion"
+      },
+      "hash": "4668776e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f424f742-514f-4a36-80df-7c2d85459bde:armiger-warglaive",
+      "kind": "ability",
+      "name": "Armiger Warglaive: Impetuous Glory",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "armiger-warglaive"
+      },
+      "hash": "47334b3a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "aeea8aeb-0ac6-45c7-9533-1b1ab816c4b3:cerastus-knight-atrapos",
+      "kind": "ability",
+      "name": "Cerastus Knight Atrapos: Macro-extinction Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cerastus-knight-atrapos"
+      },
+      "hash": "3bd42904",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f39640a0-0be0-4669-9625-e900e652b5cd:cerastus-knight-castigator",
+      "kind": "ability",
+      "name": "Cerastus Knight Castigator: Castigator’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cerastus-knight-castigator"
+      },
+      "hash": "4f3e0a39",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "80f8e567-a894-4b05-a8c4-84562e59a234:knight-crusader",
+      "kind": "ability",
+      "name": "Knight Crusader: Crusader’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-crusader"
+      },
+      "hash": "6f8e1f0b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4b660a3d-ca9c-4fd9-9b15-c33038a405e9:knight-crusader",
+      "kind": "ability",
+      "name": "Knight Crusader: Punishing Salvoes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-crusader"
+      },
+      "hash": "ae82eb32",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1f762088-19de-49cd-984b-10d5382c0aae:knight-defender",
+      "kind": "ability",
+      "name": "Knight Defender: Selfless Protector",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-defender"
+      },
+      "hash": "06c55af6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2de370eb-b169-48ea-959d-dece35b44f60:knight-destrier",
+      "kind": "ability",
+      "name": "Knight Destrier: Thundercharge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-destrier"
+      },
+      "hash": "35ec668e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d68cc907-a492-48aa-b9ff-432413214dea:knight-errant",
+      "kind": "ability",
+      "name": "Knight Errant: Aggressive Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-errant"
+      },
+      "hash": "0720840a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "200c9140-fdf9-47f1-a316-0aba3c73a7e1:knight-errant",
+      "kind": "ability",
+      "name": "Knight Errant: Errant’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-errant"
+      },
+      "hash": "5d864fd8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "04171555-119d-4e8d-9fc5-da079ee2ba0d:knight-paladin",
+      "kind": "ability",
+      "name": "Knight Paladin: Paladin’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-paladin"
+      },
+      "hash": "94113518",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "da35410e-2b9a-493b-91e9-b6919e95c808:knight-paladin",
+      "kind": "ability",
+      "name": "Knight Paladin: Seasoned Noble",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-paladin"
+      },
+      "hash": "246d709f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "752308c2-6d98-4e01-b5c0-214087d6b7c7:knight-warden",
+      "kind": "ability",
+      "name": "Knight Warden: Warden’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-warden"
+      },
+      "hash": "50056bb5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e7906e65-df90-4d9c-905b-6da98acc422b:questoris-knight-magaera",
+      "kind": "ability",
+      "name": "Questoris Knight Magaera: Magaera’s Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "questoris-knight-magaera"
+      },
+      "hash": "2782d971",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "bc62b0fd-75e6-4669-b3af-e9d8d2a2a09b",
       "kind": "armyRule",
       "name": "Code Chivalric",

@@ -8,6 +8,168 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "85eb2dc7-a000-467f-825a-1175fd936b7b:cadre-fireblade",
+      "kind": "ability",
+      "name": "Cadre Fireblade: Volley Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cadre-fireblade"
+      },
+      "hash": "e9897828",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7c3a2d95-83dd-41fe-ac51-ee557aaadfd4:commander-cloudspear",
+      "kind": "ability",
+      "name": "Commander Cloudspear: Shield Drone",
+      "det": null,
+      "ref": null,
+      "hash": "24c8e47f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5627b944-56d1-4649-8606-97050b2551af:commander-farsight",
+      "kind": "ability",
+      "name": "Commander Farsight: Way of the Short Blade",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commander-farsight"
+      },
+      "hash": "9c09f092",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "41b6ddfb-60a1-404c-bf5f-4b4411c5c90f:commander-in-coldstar-battlesuit",
+      "kind": "ability",
+      "name": "Commander in Coldstar Battlesuit: Coldstar Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commander-in-coldstar-battlesuit"
+      },
+      "hash": "de308cfa",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "306d7212-56a5-4659-b282-2378986d270a:commander-in-enforcer-battlesuit",
+      "kind": "ability",
+      "name": "Commander in Enforcer Battlesuit: Enforcer Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commander-in-enforcer-battlesuit"
+      },
+      "hash": "445cab64",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "edf3cf2b-c0b0-4d8b-b5c2-acc69bcbffe8:crisis-starscythe-battlesuits",
+      "kind": "ability",
+      "name": "Crisis Starscythe Battlesuits: Starscythe",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crisis-starscythe-battlesuits"
+      },
+      "hash": "4adc7911",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "79ce02fd-5706-413c-9365-98c90d0039f8:darkstrider",
+      "kind": "ability",
+      "name": "Darkstrider: Structural Analyser",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "darkstrider"
+      },
+      "hash": "07b755b8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1b0c45a9-bee6-47d2-8424-d0aa5a1522a1:hammerhead-gunship",
+      "kind": "ability",
+      "name": "Hammerhead Gunship: Armour Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hammerhead-gunship"
+      },
+      "hash": "a89f23e7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "eb78b17b-a5dc-4131-a00b-1cbd6e432c73:kroot-flesh-shaper",
+      "kind": "ability",
+      "name": "Kroot Flesh Shaper: Ritual Butchery",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kroot-flesh-shaper"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0b8a9cdf-f6e5-4e4f-9846-69c0c6c8b0f7:pathfinder-team",
+      "kind": "ability",
+      "name": "Pathfinder Team: Target Uploaded",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pathfinder-team"
+      },
+      "hash": "11cdc93b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b523c318-8321-4e1c-a0d2-9d112b731381:razorshark-strike-fighter",
+      "kind": "ability",
+      "name": "Razorshark Strike Fighter: Ground Strike Fighter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "razorshark-strike-fighter"
+      },
+      "hash": "e2179b98",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d86960ba-ce82-4f5d-bf4d-70811d1e8a29:sudden-dawn-cadre-pathfinder-team",
+      "kind": "ability",
+      "name": "Sudden Dawn Cadre Pathfinder Team: Target Uploaded",
+      "det": null,
+      "ref": null,
+      "hash": "24202041",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",
       "kind": "armyRule",
       "name": "Drones",

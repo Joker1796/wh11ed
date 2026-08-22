@@ -8,6 +8,314 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "20b0285d-05d1-4b48-bb21-419e1e1feae6:bloodmaster",
+      "kind": "ability",
+      "name": "Bloodmaster: Bloodmaster",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bloodmaster"
+      },
+      "hash": "aa7eb7dd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ee4d1638-9a02-4280-b02a-153c84034d21:bloodthirster",
+      "kind": "ability",
+      "name": "Bloodthirster: Daemon Lord of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bloodthirster"
+      },
+      "hash": "99d56dec",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ad0bab17-6be0-4962-8503-f1769cb70f6f:blue-horrors",
+      "kind": "ability",
+      "name": "Blue Horrors: Sullen Malevolence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blue-horrors"
+      },
+      "hash": "f20a7aa6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "751369ac-fb53-4fda-89d9-b8e8cbe532fa:changecaster",
+      "kind": "ability",
+      "name": "Changecaster: Changecaster",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "changecaster"
+      },
+      "hash": "76c79108",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0dd11ed9-198b-463b-bfb4-3a78c281c76d:daemon-prince-of-chaos-with-wings",
+      "kind": "ability",
+      "name": "Daemon Prince of Chaos with Wings: Malefic Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-chaos-with-wings"
+      },
+      "hash": "3bbbdb1a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "befa7c2a-9616-4369-8a05-58815d6b121e:daemon-prince-of-chaos",
+      "kind": "ability",
+      "name": "Daemon Prince of Chaos: Unholy Vigour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-chaos"
+      },
+      "hash": "c7e8505e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7fbe6305-a2cd-4319-991f-aaf3bd97acbd:epidemius",
+      "kind": "ability",
+      "name": "Epidemius: Blessed by the Plague God",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "epidemius"
+      },
+      "hash": "58585162",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "aadf02b1-b604-4d2b-bb39-aad16d42e58e:exalted-flamer",
+      "kind": "ability",
+      "name": "Exalted Flamer: Blazing Warpfire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exalted-flamer"
+      },
+      "hash": "d7afb870",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "015e74d5-054a-49fa-b002-9c17b277069f:fateskimmer",
+      "kind": "ability",
+      "name": "Fateskimmer: Fateskimmer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fateskimmer"
+      },
+      "hash": "d2a9d0ad",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
+      "kind": "ability",
+      "name": "Great Unclean One: Daemon Lord of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "great-unclean-one"
+      },
+      "hash": "24462df7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "41d2323f-4a2b-4fa3-9f13-7156d301f55e:hellflayers",
+      "kind": "ability",
+      "name": "Hellflayers: Cutting Down the Foe",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hellflayers"
+      },
+      "hash": "127dac77",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8732df0b-f46f-46a7-a14e-8c306abaafbe:infernal-enrapturess",
+      "kind": "ability",
+      "name": "Infernal Enrapturess: Discordant Disruption",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "infernal-enrapturess"
+      },
+      "hash": "7d1703a0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f0d51829-0fa5-44ab-b142-b5eea8246496:lord-of-change",
+      "kind": "ability",
+      "name": "Lord of Change: Daemon Lord of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-change"
+      },
+      "hash": "1934ffb4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
+      "kind": "ability",
+      "name": "Rendmaster on Blood Throne: Blood Throne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rendmaster-on-blood-throne"
+      },
+      "hash": "3975c405",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1a8915cb-676b-4dd0-a1c4-b01b2d24095e:rotigus",
+      "kind": "ability",
+      "name": "Rotigus: Virulent Blessing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rotigus"
+      },
+      "hash": "80353929",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "cec3a53a-130a-4a69-af12-4c54cc70b899:skarbrand",
+      "kind": "ability",
+      "name": "Skarbrand: Rage Embodied",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skarbrand"
+      },
+      "hash": "6444af89",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d89f5170-ed5a-4d4d-a198-cf96271a10b6:skulltaker",
+      "kind": "ability",
+      "name": "Skulltaker: Lord of Decapitations",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skulltaker"
+      },
+      "hash": "a184123b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "589cd6bb-b4ff-46cd-be72-b0406197b9d5:sloppity-bilepiper",
+      "kind": "ability",
+      "name": "Sloppity Bilepiper: Jolly Gutpipes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sloppity-bilepiper"
+      },
+      "hash": "fc9e329c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "de75e5f2-6284-4fd0-93e4-e6a7ca260f18:spoilpox-scrivener",
+      "kind": "ability",
+      "name": "Spoilpox Scrivener: Keep Counting!",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spoilpox-scrivener"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "dc64cc17-20f8-44bd-8821-ef52027abe92:spoilpox-scrivener",
+      "kind": "ability",
+      "name": "Spoilpox Scrivener: Meet Your Quota!",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spoilpox-scrivener"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "efdf042e-67d5-40ec-af94-64f19995a199:the-masque-of-slaanesh",
+      "kind": "ability",
+      "name": "The Masque of Slaanesh: The Eternal Dance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-masque-of-slaanesh"
+      },
+      "hash": "1ae444c8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4c51c601-04ca-43a7-9498-073ff4aabfbb:tormentbringer",
+      "kind": "ability",
+      "name": "Tormentbringer: Tormentbringer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tormentbringer"
+      },
+      "hash": "9547dbf1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "cdb2d463-155c-42e4-a175-a067c162c0eb",
       "kind": "allegiance",
       "name": "Daemonic Allegiance: Khorne",

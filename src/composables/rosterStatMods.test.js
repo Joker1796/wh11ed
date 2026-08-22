@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, abilityEntriesFor } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -412,5 +412,72 @@ describe('applyStatMods with an "instead" variant', () => {
     const applied = out.notes.filter((n) => n.applied)
     expect(applied).toHaveLength(1)
     expect(applied[0].value).toBe(2)
+  })
+})
+
+describe('abilityEntriesFor', () => {
+  // Fabius Bile's Enhanced Warriors is printed on HIS card and addresses the unit he joins, which
+  // is the first thing in this layer that rewrites a card other than the one it was found on.
+  const enhancedWarriors = {
+    kind: 'ability',
+    name: 'Fabius Bile: Enhanced Warriors',
+    ref: { kind: 'ability', unit: 'fabius-bile' },
+    effects: [
+      { on: 'melee', stat: 's', op: 'add', value: 1, when: null, target: 'led' },
+      { on: 'profile', stat: 't', op: 'add', value: 1, when: null, target: 'led' },
+    ],
+  }
+  const ownAbility = {
+    kind: 'ability',
+    name: 'Fabius Bile: Surgeon Acolyte',
+    ref: { kind: 'ability', unit: 'fabius-bile' },
+    effects: [{ on: 'profile', stat: 'w', op: 'add', value: 1, when: null }],
+  }
+  const onTheBodyguard = {
+    kind: 'ability',
+    name: 'Poxwalkers: Curse of the Walking Pox',
+    ref: { kind: 'ability', unit: 'poxwalkers' },
+    effects: [{ on: 'profile', stat: 'sv', op: 'improve', value: 1, when: null, target: 'leader' }],
+  }
+  const records = [enhancedWarriors, ownAbility, onTheBodyguard]
+
+  it('gives a unit its own abilities, and drops the "<unit>: " prefix on its own card', () => {
+    const out = abilityEntriesFor(records, { unitId: 'fabius-bile' })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Surgeon Acolyte')
+    expect(out[0].effects).toHaveLength(1)
+  })
+
+  it('gives the led unit the leader\'s ability, still named after the leader', () => {
+    const out = abilityEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Fabius Bile: Enhanced Warriors')
+    expect(out[0].effects.map((e) => e.stat)).toEqual(['s', 't'])
+  })
+
+  it('gives the leader an ability printed on the unit it leads', () => {
+    const out = abilityEntriesFor(records, { unitId: 'lord-of-contagion', ledUnitId: 'poxwalkers' })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Poxwalkers: Curse of the Walking Pox')
+  })
+
+  // The leader standing alone gets nothing from a `led` effect — the roster says it is attached to
+  // nobody, so there is no unit for the ability to reach.
+  it('applies nothing across an attachment the roster does not record', () => {
+    expect(abilityEntriesFor(records, { unitId: 'chaos-space-marines' })).toEqual([])
+    expect(abilityEntriesFor(records, { unitId: 'lord-of-contagion' })).toEqual([])
+  })
+
+  it('ignores every record that is not a datasheet ability', () => {
+    const det = { kind: 'detachmentRule', name: 'X', ref: { kind: 'detachmentRule', det: 'y' }, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }] }
+    expect(abilityEntriesFor([det], { unitId: 'anything' })).toEqual([])
+  })
+
+  it('is applied with no keyword gate — the ability is printed on the card it addresses', () => {
+    const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '5' }], melee: [{ name: 'Blade', a: '4', s: '4' }] })
+    const [rec] = abilityEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    const out = applyStatMods(sheet(), [rec], [], [], new Set())
+    expect(out.sheet.profiles[0].t).toBe('5')
+    expect(out.sheet.melee[0].s).toBe('5')
   })
 })

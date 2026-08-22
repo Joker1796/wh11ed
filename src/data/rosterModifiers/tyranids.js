@@ -8,6 +8,255 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "29d995ea-bdc6-4d3b-8522-c44fe075cbf4:broodlord",
+      "kind": "ability",
+      "name": "Broodlord: Vicious Insight",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "broodlord"
+      },
+      "hash": "0b72b958",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "811b5896-9f7a-4e94-b76b-fedee0d1012d:deathleaper",
+      "kind": "ability",
+      "name": "Deathleaper: Fear of the Unseen",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathleaper"
+      },
+      "hash": "6050114a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c5b81258-aab6-43c4-aa89-38de9e2b7369:harridan",
+      "kind": "ability",
+      "name": "Harridan: Frenzied Metabolism",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "harridan"
+      },
+      "hash": "6f28d8bd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "062d7126-5b04-4fa6-842a-76c2e8342ad4:hierophant",
+      "kind": "ability",
+      "name": "Hierophant: Apex-beast",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hierophant"
+      },
+      "hash": "7e324fcd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "82f6447f-7c85-4d0f-bcb7-d2a7b50b3ae2:hive-crone",
+      "kind": "ability",
+      "name": "Hive Crone: Airborne Predator",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hive-crone"
+      },
+      "hash": "205860ae",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6f643de5-2411-4317-b8a8-ae21dc77a54f:hive-tyrant",
+      "kind": "ability",
+      "name": "Hive Tyrant: Onslaught",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hive-tyrant"
+      },
+      "hash": "c3c5f43f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "effbe0ed-d0b2-45d4-9beb-f22ccb9541d1:hyperadapted-raveners",
+      "kind": "ability",
+      "name": "Hyperadapted Raveners: Alpha Invader",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hyperadapted-raveners"
+      },
+      "hash": "eea1dfa0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "474971c2-032e-4663-89c0-43d3bc98f7ed:neurogaunts",
+      "kind": "ability",
+      "name": "Neurogaunts: Neurocytes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "neurogaunts"
+      },
+      "hash": "32de5345",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "56b79d30-49bc-4d2f-899e-8fdb903b79c7:neurolictor",
+      "kind": "ability",
+      "name": "Neurolictor: Psychological Saboteur",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "neurolictor"
+      },
+      "hash": "84cc5836",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "31ef5be8-4d51-474f-9d3c-4751bc40009c:neurotyrant",
+      "kind": "ability",
+      "name": "Neurotyrant: Node Lash",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "neurotyrant"
+      },
+      "hash": "c383be03",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "73a70679-e107-49b7-8667-25145e5cbe27:psychophage",
+      "kind": "ability",
+      "name": "Psychophage: Bio-stimulus",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "psychophage"
+      },
+      "hash": "ebfcffb6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4c3112f4-3120-4d83-8681-1567dd43d530:psychophage",
+      "kind": "ability",
+      "name": "Psychophage: Feeding Frenzy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "psychophage"
+      },
+      "hash": "7a3f82bb",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "289b90e7-c0db-414a-b91f-c8efeee56368:tervigon",
+      "kind": "ability",
+      "name": "Tervigon: Brood Progenitor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tervigon"
+      },
+      "hash": "94e34790",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4a6ac461-9519-49b5-82f0-d9730df70ec7:tyranid-prime-with-lash-whip",
+      "kind": "ability",
+      "name": "Tyranid Prime with Lash Whip: Alpha Warrior",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tyranid-prime-with-lash-whip"
+      },
+      "hash": "f1bef6b4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "15dc61c6-ab64-417c-a248-fc994a04c43d:tyranid-warriors-with-melee-bio-weapons",
+      "kind": "ability",
+      "name": "Tyranid Warriors with Melee Bio-weapons: Adaptive Instincts (Once per turn, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tyranid-warriors-with-melee-bio-weapons"
+      },
+      "hash": "be824182",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "fbb597fc-642e-4616-bb1c-441dc9eaad5a:vardenghast-swarm-barbgaunts",
+      "kind": "ability",
+      "name": "Vardenghast Swarm Barbgaunts: Disruption Bombardment",
+      "det": null,
+      "ref": null,
+      "hash": "3b43c984",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "aff2ee6c-b954-4ece-8e66-94bde66f814c:winged-tyranid-prime",
+      "kind": "ability",
+      "name": "Winged Tyranid Prime: Alpha Warrior",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "winged-tyranid-prime"
+      },
+      "hash": "3154cfe3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "68090d9e-d603-4069-97f1-a23b8e6ff93f:zoanthropes",
+      "kind": "ability",
+      "name": "Zoanthropes: Warp Field",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zoanthropes"
+      },
+      "hash": "1dd47c6d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "3f3be044-118e-4050-9d01-a25cefc64f4c",
       "kind": "allegiance",
       "name": "Subterranean Assault Keywords: Character",

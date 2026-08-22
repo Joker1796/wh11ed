@@ -8,6 +8,241 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "91ff57b7-1d8b-40bd-8c05-9b87ca855bc2:ahriman",
+      "kind": "ability",
+      "name": "Ahriman: Arch-Sorcerer of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ahriman"
+      },
+      "hash": "80e639d4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ad0bab17-6be0-4962-8503-f1769cb70f6f:blue-horrors",
+      "kind": "ability",
+      "name": "Blue Horrors: Sullen Malevolence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blue-horrors"
+      },
+      "hash": "f20a7aa6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4fefe630-e078-4081-ac01-5a0a3f220d3b:chaos-predator-destructor",
+      "kind": "ability",
+      "name": "Chaos Predator Destructor: Ensorcelled Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-predator-destructor"
+      },
+      "hash": "eeab42c2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "12fdfa99-1e9a-420d-a6bf-2fe5ce94fedf:chaos-rhino",
+      "kind": "ability",
+      "name": "Chaos Rhino: Sorcerous Support",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-rhino"
+      },
+      "hash": "1bae6b17",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0622b621-95f4-46da-a965-8ed18b8373bf:daemon-prince-of-tzeentch",
+      "kind": "ability",
+      "name": "Daemon Prince of Tzeentch: Spirit Snare",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-tzeentch"
+      },
+      "hash": "6edb2f9d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4749049e-c383-4349-bf61-1794c0cb72d8:exalted-sorcerer",
+      "kind": "ability",
+      "name": "Exalted Sorcerer: Arcane Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exalted-sorcerer"
+      },
+      "hash": "58585162",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
+      "kind": "ability",
+      "name": "Helbrute: Devoted to Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "helbrute"
+      },
+      "hash": "67092a63",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "018818f0-a298-46d2-b1af-f4460529941f:infernal-master",
+      "kind": "ability",
+      "name": "Infernal Master: Malefic Maelstrom",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "infernal-master"
+      },
+      "hash": "3154cfe3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e9b6c7e7-ecfc-409b-8ddd-ef58d17500f4:lord-of-change",
+      "kind": "ability",
+      "name": "Lord of Change: Daemon Lord of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-change"
+      },
+      "hash": "e1944b31",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a3bc2ee7-9171-4eb3-afbf-36b97c7d3f45:magnus-the-red",
+      "kind": "ability",
+      "name": "Magnus the Red: Lord of the Planet of the Sorcerers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magnus-the-red"
+      },
+      "hash": "4c5685bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "49fd36bf-f94a-466d-8900-6791fc93f801:mutalith-vortex-beast",
+      "kind": "ability",
+      "name": "Mutalith Vortex Beast: Immaterial Flare",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mutalith-vortex-beast"
+      },
+      "hash": "f52800f4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "086a5947-74cb-4c55-9c39-75a00f33ebdc:prism-of-zadophon-rubric-marines",
+      "kind": "ability",
+      "name": "Prism of Zadophon Rubric Marines: Icon of Flame",
+      "det": null,
+      "ref": null,
+      "hash": "39c3d6cd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer-in-terminator-armour",
+      "kind": "ability",
+      "name": "Sorcerer in Terminator Armour: Empyric Guidance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-in-terminator-armour"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "48c98e40-3db3-4c80-a6cc-66992d5efc6c:sorcerer-in-terminator-armour",
+      "kind": "ability",
+      "name": "Sorcerer in Terminator Armour: Marked by Fate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-in-terminator-armour"
+      },
+      "hash": "29426a15",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer",
+      "kind": "ability",
+      "name": "Sorcerer: Empyric Guidance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c6147b99-a91d-4063-a265-f70cb2230ea4:sorcerer",
+      "kind": "ability",
+      "name": "Sorcerer: Twisted Sorceries",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer"
+      },
+      "hash": "ddb1605d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "05f142d3-4beb-4b18-8cd0-47d8082ce2ce:tzaangor-shaman",
+      "kind": "ability",
+      "name": "Tzaangor Shaman: Bestial Prophet",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tzaangor-shaman"
+      },
+      "hash": "b981890e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "166fb00a-fa76-4b86-913c-7a0c6a8be9d4",
       "kind": "armyRule",
       "name": "Cabal of Sorcerers",
