@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "7a600218-890d-4259-a303-9a21f9a4ff83:daemon-prince-of-slaanesh-with-wings",
+      "kind": "ability",
+      "name": "Daemon Prince of Slaanesh with Wings: Stimulated by Pain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-slaanesh-with-wings"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "58688df3-babc-4cd6-be1d-7218763ca629:daemon-prince-of-slaanesh",
       "kind": "ability",
       "name": "Daemon Prince of Slaanesh: Excessive Vigour",

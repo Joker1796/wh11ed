@@ -390,6 +390,20 @@ export default {
       ]
     },
     {
+      "sid": "aafd1de0-4432-4784-8f06-9d2d2204f308:night-spinner",
+      "kind": "ability",
+      "name": "Night Spinner: Monofilament Web",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "night-spinner"
+      },
+      "hash": "3ef10aea",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d7a81ef9-41fa-4187-a223-452a4db79d50:prince-yriel",
       "kind": "ability",
       "name": "Prince Yriel: Piratical Hero",
@@ -1219,6 +1233,20 @@ export default {
         "kind": "enhancement",
         "det": "aspect-host"
       }
+    },
+    {
+      "sid": "558885b8-e1fc-4c9e-8100-f7402cbda111",
+      "kind": "enhancement",
+      "name": "Infamy (Aura)",
+      "det": "Corsair Coterie",
+      "ref": {
+        "kind": "enhancement",
+        "det": "corsair-coterie"
+      },
+      "hash": "60aa4936",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1b083a45-8703-43da-8966-0c3340d8c4e2",

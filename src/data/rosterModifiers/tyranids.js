@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "8e60e6db-0d1d-4f3a-b1e5-596748c1315a:barbgaunts",
+      "kind": "ability",
+      "name": "Barbgaunts: Disruption Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "barbgaunts"
+      },
+      "hash": "eb73f8bb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "29d995ea-bdc6-4d3b-8522-c44fe075cbf4:broodlord",
       "kind": "ability",
       "name": "Broodlord: Vicious Insight",
@@ -303,6 +317,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "eb6947dc-3f61-4800-8fb2-bed18e5f1f1e:winged-hive-tyrant",
+      "kind": "ability",
+      "name": "Winged Hive Tyrant: Paroxysm",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "winged-hive-tyrant"
+      },
+      "hash": "fed191e2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "aff2ee6c-b954-4ece-8e66-94bde66f814c:winged-tyranid-prime",
       "kind": "ability",
       "name": "Winged Tyranid Prime: Alpha Warrior",
@@ -581,6 +609,20 @@ export default {
         "kind": "enhancement",
         "det": "synaptic-nexus"
       }
+    },
+    {
+      "sid": "42a47f68-0825-43a1-914d-5ff77c5f2959",
+      "kind": "enhancement",
+      "name": "Synaptic Control",
+      "det": "Synaptic Nexus",
+      "ref": {
+        "kind": "enhancement",
+        "det": "synaptic-nexus"
+      },
+      "hash": "5685ea95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "0666139a-ab22-4c98-9219-e369924291bf",

@@ -128,6 +128,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "3af8d792-b80a-41cd-9e40-8de6b3d0eb24:great-unclean-one",
+      "kind": "ability",
+      "name": "Great Unclean One: Nurgle’s Rot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "great-unclean-one"
+      },
+      "hash": "01c1b74d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bf2dd24a-75a8-49d7-8af0-d12d66dcb813:helbrute",
       "kind": "ability",
       "name": "Helbrute: Diseased Malice",
@@ -298,6 +312,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "7e8193c1-c4a6-428c-ab02-1505c56ea17f:rotigus",
+      "kind": "ability",
+      "name": "Rotigus: Deluge of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rotigus"
+      },
+      "hash": "a894725f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7ef32552-0784-46e2-b1e4-4d2355a82e9d:rotigus",

@@ -33,6 +33,62 @@ export default {
       ]
     },
     {
+      "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-deceiver",
+      "kind": "ability",
+      "name": "C’tan Shard of the Deceiver: Necrodermis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ctan-shard-of-the-deceiver"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-nightbringer",
+      "kind": "ability",
+      "name": "C’tan Shard of the Nightbringer: Necrodermis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ctan-shard-of-the-nightbringer"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-void-dragon",
+      "kind": "ability",
+      "name": "C’tan Shard of the Void Dragon: Necrodermis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ctan-shard-of-the-void-dragon"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ce417ae7-d402-4fe0-8666-aabd4aa80e64:canoptek-scarab-swarms",
+      "kind": "ability",
+      "name": "Canoptek Scarab Swarms: Chittering Swarm",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoptek-scarab-swarms"
+      },
+      "hash": "61cec700",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e06de742-1a30-4957-9c7a-7afde6d40508:catacomb-command-barge",
       "kind": "ability",
       "name": "Catacomb Command Barge: Carrier Wave",
@@ -42,6 +98,20 @@ export default {
         "unit": "catacomb-command-barge"
       },
       "hash": "989d5d7f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
+      "kind": "ability",
+      "name": "Geomancer: Tectonic Reverberations",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "geomancer"
+      },
+      "hash": "0b120c11",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -154,6 +224,20 @@ export default {
       ]
     },
     {
+      "sid": "29df3a8e-64c7-4084-b2ad-bc7da0df3edd:overlord",
+      "kind": "ability",
+      "name": "Overlord: Implacable Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "overlord"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "116d7153-6df1-4396-9ecd-d49de3e4bfa6:skorpekh-lord",
       "kind": "ability",
       "name": "Skorpekh Lord: United In Destruction",
@@ -175,6 +259,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:transcendent-ctan",
+      "kind": "ability",
+      "name": "Transcendent C’tan: Necrodermis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "transcendent-ctan"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "71124c51-fb03-44ee-acf1-4e5f6b6d5c13",
@@ -513,6 +611,20 @@ export default {
       ]
     },
     {
+      "sid": "1a9b09ed-4256-40d8-962f-aacc25948e46",
+      "kind": "enhancement",
+      "name": "Gravitic Bolas",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cryptek-conclave"
+      },
+      "hash": "fc588c57",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a17450e0-31f1-4b21-8952-5ea5c5bf7496",
       "kind": "enhancement",
       "name": "Destroyer Ankh",
@@ -691,6 +803,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "27ae0787-64b1-4e1e-840d-027f27eb996f",
+      "kind": "enhancement",
+      "name": "Chrono-impedance Fields",
+      "det": "Starshatter Arsenal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "starshatter-arsenal"
+      },
+      "hash": "74d2c9d5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "dec27f61-8026-4986-872b-5ad9c8b34084",

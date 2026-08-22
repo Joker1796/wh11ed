@@ -224,6 +224,20 @@ export default {
       ]
     },
     {
+      "sid": "04c17a07-f99e-4e0d-93b5-640fd2fca087:purgation-squad",
+      "kind": "ability",
+      "name": "Purgation Squad: Righteous Persecution",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "purgation-squad"
+      },
+      "hash": "23dc7f8e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c34906ca-50ad-45af-a033-0813825c377d:razorback",
       "kind": "ability",
       "name": "Razorback: Fire Focus",
@@ -247,6 +261,20 @@ export default {
         "unit": "stormhawk-interceptor"
       },
       "hash": "205860ae",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "9c3665db-de45-42c3-acb0-b46b5bb04467:stormraven-gunship",
+      "kind": "ability",
+      "name": "Stormraven Gunship: Armoured Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormraven-gunship"
+      },
+      "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
       "effects": []

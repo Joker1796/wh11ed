@@ -64,6 +64,20 @@ export default {
       ]
     },
     {
+      "sid": "d5c7b61a-5526-422a-bb72-b37a8e9191c1:chaos-spawn",
+      "kind": "ability",
+      "name": "Chaos Spawn: Mind-breaking Mutations",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-spawn"
+      },
+      "hash": "c304671c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ee01d6ea-47cc-4a7c-8b94-dcd9e8a3c430:dark-apostle",
       "kind": "ability",
       "name": "Dark Apostle: Dark Zealotry",

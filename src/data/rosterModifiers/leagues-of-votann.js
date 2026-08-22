@@ -359,6 +359,20 @@ export default {
       ]
     },
     {
+      "sid": "c719e55c-ede4-4422-999b-11b166a3e0d7",
+      "kind": "enhancement",
+      "name": "Asset Manipulator",
+      "det": "Mercenary Oathband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mercenary-oathband"
+      },
+      "hash": "927db668",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "dcc9fd81-0cb0-477b-9941-5f05fedf753f",
       "kind": "enhancement",
       "name": "Oathbound Speculator",

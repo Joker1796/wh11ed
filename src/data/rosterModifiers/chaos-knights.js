@@ -161,6 +161,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "d730aed0-8e77-4c83-9b91-91693829eedd:chaos-questoris-knight-styrix",
+      "kind": "ability",
+      "name": "Chaos Questoris Knight Styrix: Grav-pinned",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-questoris-knight-styrix"
+      },
+      "hash": "1ffdb6a3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7d101b1e-fd3c-4b06-9783-7b2591e6340a:chaos-questoris-knight-styrix",
       "kind": "ability",
       "name": "Chaos Questoris Knight Styrix: Preysight",

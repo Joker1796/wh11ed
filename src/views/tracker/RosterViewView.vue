@@ -215,6 +215,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
+import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { activeConditions, switchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -386,6 +387,9 @@ function resolvedFor(entry) {
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
   const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
   return [
+    // The rulebook's own modifiers apply to every unit of every faction — a Battle-shocked unit's
+    // OC is '-' whoever it belongs to — so they are added here rather than resolved per faction.
+    ...coreModifiers,
     ...resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
     // A datasheet ability can modify the unit it is attached to, so this entry's records include
     // the abilities of whoever leads it and of whoever it leads — the roster records both.

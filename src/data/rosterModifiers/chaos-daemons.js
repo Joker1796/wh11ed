@@ -215,6 +215,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "6e5dd267-7e5a-4213-9116-daef9389e80c:great-unclean-one",
+      "kind": "ability",
+      "name": "Great Unclean One: Nurgle’s Rot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "great-unclean-one"
+      },
+      "hash": "2250767e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "41d2323f-4a2b-4fa3-9f13-7156d301f55e:hellflayers",
       "kind": "ability",
       "name": "Hellflayers: Cutting Down the Foe",
@@ -293,6 +307,20 @@ export default {
         "unit": "rendmaster-on-blood-throne"
       },
       "hash": "3975c405",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7e8193c1-c4a6-428c-ab02-1505c56ea17f:rotigus",
+      "kind": "ability",
+      "name": "Rotigus: Deluge of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rotigus"
+      },
+      "hash": "a894725f",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -860,6 +888,20 @@ export default {
         "kind": "enhancement",
         "det": "scintillating-legion"
       }
+    },
+    {
+      "sid": "63613eac-5d6e-466b-bca6-863553d5a93e",
+      "kind": "enhancement",
+      "name": "Mantle of Gloom (Aura)",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shadow-legion"
+      },
+      "hash": "85b6b4a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "202cf6aa-5832-4f39-8d1f-555088d46b27",

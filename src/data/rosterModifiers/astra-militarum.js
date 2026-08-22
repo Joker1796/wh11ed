@@ -22,6 +22,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "08b3225e-bcec-4fae-9468-2d9074112dd4:bullgryn-squad",
+      "kind": "ability",
+      "name": "Bullgryn Squad: Wall of Muscle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bullgryn-squad"
+      },
+      "hash": "6903aaca",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "48a44349-782e-4f73-b49e-92687089533b:cadian-castellan",
       "kind": "ability",
       "name": "Cadian Castellan: Senior Officer",
@@ -179,6 +193,20 @@ export default {
       ]
     },
     {
+      "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
+      "kind": "ability",
+      "name": "Leman Russ Eradicator: Urban Warfare",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "leman-russ-eradicator"
+      },
+      "hash": "8ccaff62",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "351fe1e2-238c-4149-ad34-22cf5b861d35:leman-russ-executioner",
       "kind": "ability",
       "name": "Leman Russ Executioner: Gung-ho Executioners",
@@ -247,6 +275,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "ff7a4560-5c66-40ed-9890-e145a5612d8e:manticore",
+      "kind": "ability",
+      "name": "Manticore: Furious Barrage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "manticore"
+      },
+      "hash": "ee8bd009",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7e6e8ed7-a90a-4161-8315-75be03893b26:militarum-tempestus-command-squad",
@@ -649,6 +691,20 @@ export default {
         "kind": "detachmentRule",
         "det": "recon-element"
       }
+    },
+    {
+      "sid": "de0f8d4e-827f-4582-9af5-290b0fc40780",
+      "kind": "enhancement",
+      "name": "Death Mask of Ollanius",
+      "det": "Combined Arms",
+      "ref": {
+        "kind": "enhancement",
+        "det": "combined-arms"
+      },
+      "hash": "5c661f24",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "bc853f1d-57e1-4dce-bedb-71dcb438bfaf",

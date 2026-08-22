@@ -118,6 +118,7 @@ import { overlaySheet, enhKey, detKey, loadoutItemNames } from '../../composable
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
 import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { abilityStatusesOf } from '../../composables/abilityStatus.js'
+import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -343,7 +344,7 @@ function applies(enBody) {
 // unit isn't carrying or isn't targeted by. `ref` is the wh11ed-side pointer the generator wrote
 // (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
 // detach a modifier from its rule.
-const resolvedModifiers = computed(() => [...abilityModifiers.value, ...resolveModifierEntries(
+const resolvedModifiers = computed(() => [...coreModifiers, ...abilityModifiers.value, ...resolveModifierEntries(
   usableModifierEntries.value,
   rulesFactionEn.value,
   props.ctx?.detachments,

@@ -193,9 +193,27 @@ describe('resolveModifierEntries', () => {
   const rec = (over) => ({ name: 'x', reviewed: true, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1 }], ...over })
 
   it('resolves an army rule regardless of detachment', () => {
-    const out = resolveModifierEntries([rec({ ref: { kind: 'armyRule' } })], facEn, [], null)
+    const out = resolveModifierEntries([rec({ name: 'Waaagh!', ref: { kind: 'armyRule' } })], facEn, [], null)
     expect(out).toHaveLength(1)
     expect(out[0].body).toBe('army rule body')
+  })
+
+  // appdata publishes several army rules per faction and we model one, so `ref: {kind:'armyRule'}`
+  // can only ever point at that one. A record written against a rule we do not model separately
+  // used to read the wrong prose — T'au's `Drones` resolving to `For the Greater Good` — and gate
+  // its effects on that rule's targets.
+  it('drops an army-rule record written against a rule we do not model', () => {
+    expect(resolveModifierEntries([rec({ name: 'Drones', ref: { kind: 'armyRule' } })], facEn, [], null)).toEqual([])
+  })
+
+  // Our own names are sometimes a deliberate merge of two published rules, and a record named for
+  // either half still belongs to it.
+  it('accepts a record whose name is one half of a merged one', () => {
+    const merged = { ...facEn, armyRule: { name: 'Synapse & Shadow in the Warp', body: 'merged body' } }
+    expect(resolveModifierEntries([rec({ name: 'Synapse', ref: { kind: 'armyRule' } })], merged, [], null)).toHaveLength(1)
+    // …and an apostrophe of a different shape is the same name.
+    const katah = { ...facEn, armyRule: { name: "Martial Ka'tah", body: 'b' } }
+    expect(resolveModifierEntries([rec({ name: 'Martial Ka’tah', ref: { kind: 'armyRule' } })], katah, [], null)).toHaveLength(1)
   })
 
   it('drops a detachment the roster does not field', () => {

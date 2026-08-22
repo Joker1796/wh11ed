@@ -1062,6 +1062,34 @@ export default {
       ]
     },
     {
+      "sid": "8a46ce7f-aa97-462e-a345-a2aadd3a0ab7:redemptor-dreadnought",
+      "kind": "ability",
+      "name": "Redemptor Dreadnought: Duty Eternal",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "redemptor-dreadnought"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d3e7f9cb-4a24-476a-8c66-115f422465ed:reiver-squad",
+      "kind": "ability",
+      "name": "Reiver Squad: Terror Troops",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "reiver-squad"
+      },
+      "hash": "a8a8b6b0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b379e86f-16bd-491a-90cb-52027a541f40:repulsor-executioner",
       "kind": "ability",
       "name": "Repulsor Executioner: Executioner",
@@ -1113,6 +1141,20 @@ export default {
         "unit": "stormhawk-interceptor"
       },
       "hash": "205860ae",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "9c3665db-de45-42c3-acb0-b46b5bb04467:stormraven-gunship",
+      "kind": "ability",
+      "name": "Stormraven Gunship: Armoured Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormraven-gunship"
+      },
+      "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -2108,6 +2150,20 @@ export default {
       }
     },
     {
+      "sid": "a02bb3db-b4bd-4a43-b357-db06895ae216",
+      "kind": "enhancement",
+      "name": "Adamantine Mantle",
+      "det": "Firestorm Assault Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "firestorm-assault-force"
+      },
+      "hash": "ff3aba79",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "28a17ead-dfe3-4bb6-b02e-52c329cce8a2",
       "kind": "enhancement",
       "name": "War-tempered Artifice",
@@ -2128,6 +2184,20 @@ export default {
         "kind": "enhancement",
         "det": "firestorm-assault-force"
       }
+    },
+    {
+      "sid": "cc7476d6-9728-4a13-a76a-566bc9ec61f9",
+      "kind": "enhancement",
+      "name": "Adamantine Mantle",
+      "det": "Forgefather’s Seekers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "forgefathers-seekers"
+      },
+      "hash": "ff3aba79",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "9eb575db-8984-49c8-a8e2-9f13a038c625",

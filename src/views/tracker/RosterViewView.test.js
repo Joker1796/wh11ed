@@ -287,8 +287,12 @@ describe('RosterViewView', () => {
       await waitFor(w, 'Desolation Squad')
       await waitForSelector(w, '.rvunit-conds .cond-chip')
 
-      const chip = w.find('.rvunit-conds .cond-chip')
-      expect(chip.text()).toContain('Remained Stationary')
+      const chips = w.findAll('.rvunit-conds .cond-chip')
+      // Battle-shock rides along on every unit — it is a core rule, and its OC effect applies to
+      // whoever is Battle-shocked — so the ability's own state is found by name, not by position.
+      expect(chips.map((c) => c.text())).toContain('Battle-shocked')
+      const chip = chips.find((c) => c.text().includes('Remained Stationary'))
+      expect(chip).toBeTruthy()
       expect(chip.classes()).not.toContain('on')
       await chip.trigger('click')
       expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()

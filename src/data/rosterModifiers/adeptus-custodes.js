@@ -212,6 +212,20 @@ export default {
       ]
     },
     {
+      "sid": "a20a1308-d19f-4ab4-a0fe-e9c3ca984855:telemon-heavy-dreadnought",
+      "kind": "ability",
+      "name": "Telemon Heavy Dreadnought: Guardian Eternal",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "telemon-heavy-dreadnought"
+      },
+      "hash": "e577ede9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ce39c177-aa83-4e6b-8543-85cef75a77d2:trajann-valoris",
       "kind": "ability",
       "name": "Trajann Valoris: Moment Shackle",
@@ -615,6 +629,20 @@ export default {
         "kind": "enhancement",
         "det": "lions-of-the-emperor"
       }
+    },
+    {
+      "sid": "69c9f474-ba9e-402d-bb49-0c8f9ecf52d4",
+      "kind": "enhancement",
+      "name": "Enhanced Voidsheen Cloak",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "enhancement",
+        "det": "null-maiden-vigil"
+      },
+      "hash": "e43ce3b4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ad4c7b31-c0d1-4fdc-940e-9b82ca3d3057",
