@@ -110,10 +110,13 @@ export const conditions = {
   // rosterGameContext still answers none of these — wiring it up is P3c/P3d in
   // ROSTER-IN-GAME-PROGRESS.md. They are marked on the effects anyway, so that work inherits a
   // finished list instead of re-reading the prose.
+  // Answered by the tracker's clock, never by a switch (rosterGameContext's phaseHolds), which is
+  // why these carry `phase` and `side`: GW says whose phase it is when it matters, and the Fight
+  // phase happens in both turns. A game not keeping phases answers none of them.
   // The vocabulary carries only the phases some effect actually names — index.test.js enforces
   // that, and rightly: an id nothing uses is a promise about the data that isn't true.
-  'phase-shooting': { scope: 'phase', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
-  'phase-fight': { scope: 'phase', duration: 'phase', label: { en: 'The Fight phase', ru: 'Фаза боя' } },
+  'phase-shooting': { scope: 'phase', phase: 'shooting', side: 'own', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
+  'phase-fight': { scope: 'phase', phase: 'fight', side: 'any', duration: 'phase', label: { en: 'The Fight phase', ru: 'Фаза боя' } },
 }
 
 export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)
