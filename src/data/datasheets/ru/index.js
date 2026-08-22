@@ -4,8 +4,9 @@
 // Unit names, weapon profiles, stats, keywords, core & faction rule names, and [BRACKET]
 // tags stay English and inherit from EN. An optional `abilityNamesRu` named export maps
 // English ability names → RU display names, which replace the ability name in the card
-// header (the English name is not shown). Necrons instead carries the name inline via the
-// per-sheet overlay's { name, text } form; both paths translate the header, none add a subline.
+// header; the original is carried alongside as `nameEn` and the card shows it small, in
+// brackets. Necrons instead carries the name inline via the per-sheet overlay's { name, text }
+// form; both paths translate the header, and both record `nameEn`.
 //
 // Loaded on demand by FactionDatasheetView only in the RU locale, so the overlays never
 // enter the EN bundle. Each ./<slug>.js is code-split into its own chunk via glob.
@@ -219,9 +220,13 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
   const localizeAbilities = (list, textMap) =>
     (list || []).map((a) => {
       const out = { ...a }
-      // Translate the ability NAME directly in the card header (no English kept, no
-      // separate subline). The global map is keyed by the original English name; the
-      // per-sheet overlay's { name, text } form can override it further (Necrons-style).
+      // Translate the ability NAME directly in the card header. The global map is keyed by the
+      // original English name; the per-sheet overlay's { name, text } form can override it
+      // further (Necrons-style). The English original is kept in `nameEn` whenever the header
+      // actually changed — everything AROUND an ability on screen (detachment rules, enhancements,
+      // stratagems, the augmentation chips) stays English by project convention, so a translated
+      // header with no original is the one name on the card that cannot be matched to the codex or
+      // said out loud to an opponent. DatasheetCard renders it small, in brackets.
       if (names[a.name]) out.name = names[a.name]
       const overlay = textMap && textMap[a.name]
       if (typeof overlay === 'string') {
@@ -230,6 +235,7 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
         if (overlay.name) out.name = overlay.name
         if (overlay.text) out.text = overlay.text
       }
+      if (out.name !== a.name) out.nameEn = a.name
       // Fall back to the shared body only when this sheet still holds the exact English
       // it was written for (so worded-differently variants are never silently mistranslated).
       const shared = SHARED_RULE_TEXTS[a.name]
@@ -258,6 +264,7 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
     const textMap = { ...(o.specialAbilities || o.special || {}), ...(so.options || {}) }
     const out = { ...set, options: localizeAbilities(set.options, textMap) }
     if (names[set.name] || so.name) out.name = names[set.name] || so.name
+    if (out.name !== set.name) out.nameEn = set.name
     return out
   })
 

@@ -195,6 +195,44 @@ describe('RosterUnitRulesModal', () => {
     w.unmount()
   })
 
+  // The footnote under the stats names the rule that rewrote a number; the name itself opens that
+  // rule, so the reader is not sent hunting for it in another block of the same card.
+  it('opens the rule behind a modifier note from the note itself', async () => {
+    const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+    const { activeKeyword, visible, close } = useKeywordPopover()
+    close()
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/orks.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'boyz')
+    const det = rf.default.detachments.find((d) => d.name === 'War Horde')
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'boyz',
+        factionSlug: 'orks',
+        ctx: { def, entry: { uid: 'a', id: 'boyz', size: 0 }, items: it.default.items, detachments: [det] },
+      },
+    })
+    await waitFor('Get Stuck In')
+    for (let i = 0; i < 60 && !document.querySelector('.ds-mod-srcbtn'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    // Both kinds of note resolve: the army rule (Waaagh!) and the detachment's own (Get Stuck In).
+    const buttons = [...document.querySelectorAll('.ds-mod-srcbtn')]
+    expect(buttons.length).toBeGreaterThan(1)
+    const detNote = buttons.find((b) => b.textContent.includes('Get Stuck In'))
+    expect(detNote).toBeTruthy()
+    await detNote.click()
+    await flushPromises()
+    expect(visible.value).toBe(true)
+    expect(activeKeyword.value.name).toContain('Get Stuck In')
+    expect(activeKeyword.value.fullText).toBeTruthy()
+    close()
+    w.unmount()
+  })
+
   it('shows no rule blocks without a roster context', async () => {
     const w = mount(RosterUnitRulesModal, {
       props: { unitId: 'boyz', factionSlug: 'orks' },
@@ -377,7 +415,7 @@ describe('RosterUnitRulesModal', () => {
     })
     await waitFor('Intercessor Squad')
 
-    const chips = body().findAll('.rum-cond')
+    const chips = body().findAll('.cond-chip')
     expect(chips).toHaveLength(2)
     expect(chips[0].classes()).toContain('on')
     expect(chips[1].classes()).not.toContain('on')
@@ -386,11 +424,81 @@ describe('RosterUnitRulesModal', () => {
     expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-advanced')
   })
 
+  // An ability that opens "While this model is leading a unit" is answered by the LIST, so the card
+  // says which way, instead of leaving the reader to remember that a Character standing alone has
+  // half its abilities switched off. Adrax Agatone's "Unto the Anvil" is one of ~110 like it.
+  it('marks a leading-gated ability from the attachment the roster records', async () => {
+    const rf = await import('../../data/roster/space-marines.js')
+    const def = rf.default.units.find((u) => u.id === 'adrax-agatone')
+    const ctx = {
+      def,
+      entry: { uid: 'a', id: 'adrax-agatone', leaderOf: 'b' },
+      units: [{ uid: 'b', id: 'intercessor-squad' }],
+      leaderTargets: [{ uid: 'b', name: 'Intercessor Squad' }],
+    }
+    mount(RosterUnitRulesModal, { props: { unitId: 'adrax-agatone', factionSlug: 'space-marines', ctx } })
+    await waitFor('Unto the Anvil')
+    const state = body().findAll('.ds-ab-state').map((e) => e.text())
+    expect(state.some((t) => t.includes('leading Intercessor Squad'))).toBe(true)
+    expect(body().find('.ds-ab-state').classes()).toContain('on')
+  })
+
+  it('says so when the same ability has nothing to lead', async () => {
+    const rf = await import('../../data/roster/space-marines.js')
+    const def = rf.default.units.find((u) => u.id === 'adrax-agatone')
+    mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'adrax-agatone',
+        factionSlug: 'space-marines',
+        ctx: { def, entry: { uid: 'a', id: 'adrax-agatone' }, units: [] },
+      },
+    })
+    await waitFor('Unto the Anvil')
+    const chip = body().find('.ds-ab-state')
+    expect(chip.text()).toContain('not attached')
+    expect(chip.classes()).not.toContain('on')
+    expect(body().find('.ds-ability-idle').exists()).toBe(true)
+  })
+
+  // A datasheet being READ has no roster around it, so there is no attachment to report and the
+  // card must look exactly as it always did.
+  it('marks nothing without roster context', async () => {
+    mount(RosterUnitRulesModal, { props: { unitId: 'adrax-agatone', factionSlug: 'space-marines' } })
+    await waitFor('Unto the Anvil')
+    expect(body().find('.ds-ab-state').exists()).toBe(false)
+  })
+
+  // A state that decides what a rule does belongs where the rule is READ. Librarius Conclave's
+  // Psychic Disciplines is chosen army-wide, but the place a player meets it is the detachment
+  // rule on a psyker's card — so its switches are offered there, writing to the same store.
+  it('offers a rule\'s own switches inside the rule, army-wide ones included', async () => {
+    const rf = await import('../../data/roster/space-marines.js')
+    const def = rf.default.units.find((u) => u.id === 'librarian')
+    const det = rf.default.detachments.find((d) => d.name === 'Librarius Conclave')
+    const armySwitches = [
+      { id: 'discipline-biomancy', label: { en: 'Biomancy Discipline', ru: 'Biomancy' }, on: false, auto: false, scope: 'army', group: 'psychic-discipline', groupLimit: 1 },
+      { id: 'discipline-pyromancy', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy' }, on: false, auto: false, scope: 'army', group: 'psychic-discipline', groupLimit: 1 },
+    ]
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'librarian',
+        factionSlug: 'space-marines',
+        ctx: { def, entry: { uid: 'a', id: 'librarian' }, detachments: [det] },
+        gameCtx: { active: new Set(), switches: [], armySwitches },
+      },
+    })
+    await waitFor('Psychic Disciplines')
+    const chips = body().findAll('.rum-rule-conds .cond-chip')
+    expect(chips).toHaveLength(2)
+    await chips[0].trigger('click')
+    expect(w.emitted('toggle-cond')[0][0].id).toBe('discipline-biomancy')
+  })
+
   it('shows no switch row at all outside a game', async () => {
     mount(RosterUnitRulesModal, {
       props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },
     })
     await waitFor('Intercessor Squad')
-    expect(body().find('.rum-cond').exists()).toBe(false)
+    expect(body().find('.cond-chip').exists()).toBe(false)
   })
 })

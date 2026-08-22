@@ -22,7 +22,7 @@
 // values are recognised and read as rounds. Erring towards clearing EARLY is deliberate either
 // way: a switch that has gone stale would silently rewrite a number.
 
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { BATTLE_PHASES } from './stratagemPhases.js'
 
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
@@ -134,7 +134,35 @@ export function activeConditions(player, clock, entry) {
     else if (entry?.uid) on = switchOn(player?.ctx?.units?.[entry.uid], id, clock)
     if (on) out.add(id)
   }
+  capGroups(out, player, entry)
   return out
+}
+
+// A group can hold only so many at once (conditions.js's GROUP_LIMITS). useTracker enforces that on
+// write, so a game played on this build never over-fills one — but a game SAVED before the cap
+// existed can hold all six of Creations of Bile's augmentations, each rewriting a stat. Reading is
+// where that has to be caught, so the cap is applied here too and the newest switches win, the same
+// ones the store would have kept. Nothing is deleted: the game's own record stays as it was played.
+function capGroups(out, player, entry) {
+  const byGroup = new Map()
+  for (const id of out) {
+    const group = conditions[id]?.group
+    if (!group) continue
+    if (!byGroup.has(group)) byGroup.set(group, [])
+    byGroup.get(group).push(id)
+  }
+  for (const [group, ids] of byGroup) {
+    const limit = groupLimitOf(group)
+    if (ids.length <= limit) continue
+    const stampFor = (id) => (conditions[id].scope === 'army'
+      ? player?.ctx?.army?.[id]
+      : player?.ctx?.units?.[entry?.uid]?.[id]) ?? 0
+    // Oldest first, then drop from the front until the group fits. Ids came out of `out` in
+    // dictionary order, which is the same tie-break the store uses for switches sharing a stamp.
+    const ordered = ids.map((id, i) => ({ id, at: stampFor(id), i }))
+      .sort((a, b) => a.at - b.at || a.i - b.i)
+    for (const o of ordered.slice(0, ids.length - limit)) out.delete(o.id)
+  }
 }
 
 // The switches worth showing for a set of resolved modifier records: the conditions their effects
@@ -166,5 +194,13 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     on: active.has(id),
     auto: isAuto(id),           // shown, but not the player's to flip here
     duration: conditions[id].duration,
+    // Who the switch belongs to, so a view that shows army-wide and per-unit switches side by side
+    // (a rule's own chips inside the unit card) still writes each to the right store.
+    scope: conditions[id].scope,
+    // Alternatives travel with the switch so a view can say how many of a set are still free.
+    // The store enforces the cap either way (useTracker's enforceGroupLimit) — this is only for
+    // showing it, because a group of six chips that silently holds two needs to say so.
+    group: conditions[id].group || null,
+    groupLimit: groupLimitOf(conditions[id].group),
   }))
 }

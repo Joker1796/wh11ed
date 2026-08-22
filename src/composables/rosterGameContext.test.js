@@ -242,5 +242,29 @@ describe('mutually exclusive switches', () => {
     // Blessings of Khorne activates up to TWO, so they are deliberately not a group.
     expect(conditions['blessing-warp-blades'].group).toBeUndefined()
   })
+
+  // A game saved before the cap existed can hold all six augmentations at once. The store can't
+  // fix that retroactively (it only sees writes), so the read caps it — otherwise every stat the
+  // set touches is rewritten at the table.
+  it('caps an over-filled group on read, keeping the newest', () => {
+    const p = player({
+      army: {
+        'augment-cholinergic-accelerants': 101,
+        'augment-hyperadrenal-infusion': 102,
+        'augment-macrotensile-sinews': 103,
+      },
+    })
+    const on = activeConditions(p, clockOf({ currentRound: 1 }), null)
+    expect(on.has('augment-cholinergic-accelerants')).toBe(false)
+    expect(on.has('augment-hyperadrenal-infusion')).toBe(true)
+    expect(on.has('augment-macrotensile-sinews')).toBe(true)
+  })
+
+  it('leaves a group that fits well alone', () => {
+    const p = player({ army: { 'augment-hyperadrenal-infusion': 101, 'augment-macrotensile-sinews': 101 } })
+    const on = activeConditions(p, clockOf({ currentRound: 1 }), null)
+    expect(on.has('augment-hyperadrenal-infusion')).toBe(true)
+    expect(on.has('augment-macrotensile-sinews')).toBe(true)
+  })
 })
 
