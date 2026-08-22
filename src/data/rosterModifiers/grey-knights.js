@@ -583,6 +583,52 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "314a4643-59ab-4fd8-a1a8-d05172bb2070:brotherhood-terminator-squad",
+      "kind": "wargear",
+      "name": "Brotherhood Terminator Squad: Ancient’s Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "brotherhood-terminator-squad",
+        "item": "ancient's banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "314a4643-59ab-4fd8-a1a8-d05172bb2070:paladin-squad",
+      "kind": "wargear",
+      "name": "Paladin Squad: Ancient’s Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "paladin-squad",
+        "item": "ancient's banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

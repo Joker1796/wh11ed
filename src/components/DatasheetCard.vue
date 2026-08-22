@@ -641,6 +641,7 @@ function sourceLabel(n) {
     if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
     return l.srcAbility
   }
+  if (n.kind === 'wargear') return l.srcWargear
   if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
   if (n.kind === 'enhancement') return l.rosterEnhancement
   if (n.kind === 'allegiance') return l.srcAllegiance

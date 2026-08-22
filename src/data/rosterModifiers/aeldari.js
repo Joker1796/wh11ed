@@ -8,6 +8,69 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "77c94fb1-9705-4a8e-b27e-e20799540c56:asurmen",
+      "kind": "ability",
+      "name": "Asurmen: Hand of Asuryan",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "asurmen"
+      },
+      "hash": "28377a62",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "set",
+          "value": "3",
+          "only": {
+            "name": "Bloody Twins"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 5+",
+          "only": {
+            "name": "Bloody Twins"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Bloody Twins"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "58faded0-9585-4c7d-984b-eb5926fe37d1:avatar-of-khaine",
       "kind": "ability",
       "name": "Avatar of Khaine: The Bloody-Handed",
@@ -97,6 +160,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "75bc40c3-7ddf-487f-994a-812cebbd1ed8:d-cannon-platform",
+      "kind": "ability",
+      "name": "D-cannon Platform: Support Weapon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "d-cannon-platform"
+      },
+      "hash": "34ea935c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "against an attack, while the unit still holds another model",
+            "ru": "против атаки, пока в отряде есть другая модель"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0444e121-929b-4e43-a7a6-f14049b7a81a:dire-avengers",
@@ -350,6 +441,34 @@ export default {
       ]
     },
     {
+      "sid": "75bc40c3-7ddf-487f-994a-812cebbd1ed8:shadow-weaver-platform",
+      "kind": "ability",
+      "name": "Shadow Weaver Platform: Support Weapon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "shadow-weaver-platform"
+      },
+      "hash": "34ea935c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "against an attack, while the unit still holds another model",
+            "ru": "против атаки, пока в отряде есть другая модель"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "0b471474-b936-4ca9-9b31-df82df5f5ce2:shadowseer",
       "kind": "ability",
       "name": "Shadowseer: Treacherous Illusion",
@@ -538,6 +657,34 @@ export default {
       ]
     },
     {
+      "sid": "75bc40c3-7ddf-487f-994a-812cebbd1ed8:vibro-cannon-platform",
+      "kind": "ability",
+      "name": "Vibro Cannon Platform: Support Weapon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vibro-cannon-platform"
+      },
+      "hash": "34ea935c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "against an attack, while the unit still holds another model",
+            "ru": "против атаки, пока в отряде есть другая модель"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a6519552-88c0-47db-ac86-c2d551fc6b4b:war-walkers",
       "kind": "ability",
       "name": "War Walkers: Crystalline Targeting",
@@ -707,6 +854,34 @@ export default {
           "when": {
             "en": "per friendly AELDARI PSYKER within 6\", up to +2",
             "ru": "за каждого дружественного AELDARI PSYKER в 6\", максимум +2"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "765703cd-4b3a-4400-8f93-e1abd02a0b6e:warp-spiders",
+      "kind": "ability",
+      "name": "Warp Spiders: Flickerjump",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warp-spiders"
+      },
+      "hash": "1124390d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "24\"",
+          "when": {
+            "en": "until the end of a turn this ability was used (no charge that turn)",
+            "ru": "до конца хода, в котором использована способность (без charge)"
           },
           "cond": [
             "never"
@@ -1141,6 +1316,28 @@ export default {
       ]
     },
     {
+      "sid": "0ab6c77a-f7e0-4175-a08a-d7ac02cee847",
+      "kind": "enhancement",
+      "name": "Craftworld’s Champion",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardian-battlehost"
+      },
+      "hash": "698ed5fe",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "5",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "38c84028-2718-4537-bf80-3808d06997bd",
       "kind": "enhancement",
       "name": "Seer’s Hand",
@@ -1347,6 +1544,295 @@ export default {
             "tag": "PSYCHIC"
           },
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "2169123d-6e3f-4f28-a135-c8d388172eab:corsair-voidreavers",
+      "kind": "wargear",
+      "name": "Corsair Voidreavers: Mistshield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corsair-voidreavers",
+        "item": "mistshield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "00cd87c9-1c81-4922-91fc-e8c993814efb:corsair-voidscarred",
+      "kind": "wargear",
+      "name": "Corsair Voidscarred: Faolchú",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corsair-voidscarred",
+        "item": "faolchú"
+      },
+      "hash": "c40143bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "2169123d-6e3f-4f28-a135-c8d388172eab:corsair-voidscarred",
+      "kind": "wargear",
+      "name": "Corsair Voidscarred: Mistshield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corsair-voidscarred",
+        "item": "mistshield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1471d478-16f0-4ae5-8e10-b81d96a07945:dire-avengers",
+      "kind": "wargear",
+      "name": "Dire Avengers: Shimmershield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "dire-avengers",
+        "item": "shimmershield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1471d478-16f0-4ae5-8e10-b81d96a07945:shining-spears",
+      "kind": "wargear",
+      "name": "Shining Spears: Shimmershield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "shining-spears",
+        "item": "shimmershield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "23aebc71-e6d1-4ccd-bbc6-7344e8c3f89d:storm-guardians",
+      "kind": "wargear",
+      "name": "Storm Guardians: Serpent shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "storm-guardians",
+        "item": "serpent shield"
+      },
+      "hash": "40d840b6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c763e3a3-a9ea-48c5-947e-bbbe7ae67d83:wraithblades",
+      "kind": "wargear",
+      "name": "Wraithblades: Forceshield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wraithblades",
+        "item": "forceshield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "88c4b502-3037-48b4-bd44-937d14a7c999:wraithknight-with-ghostglaive",
+      "kind": "wargear",
+      "name": "Wraithknight with Ghostglaive: Scattershield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wraithknight-with-ghostglaive",
+        "item": "scattershield"
+      },
+      "hash": "a9f98625",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "88c4b502-3037-48b4-bd44-937d14a7c999:wraithknight",
+      "kind": "wargear",
+      "name": "Wraithknight: Scattershield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wraithknight",
+        "item": "scattershield"
+      },
+      "hash": "a9f98625",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "a27f1572-67ff-4f06-89a5-0c3147bdb33b:ynnari-kabalite-warriors",
+      "kind": "wargear",
+      "name": "Ynnari Kabalite Warriors: Phantasm grenade launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ynnari-kabalite-warriors",
+        "item": "phantasm grenade launcher"
+      },
+      "hash": "85f5be75",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "f4d519e6-ad5f-48f7-9e96-c9b8168322c2:ynnari-reavers",
+      "kind": "wargear",
+      "name": "Ynnari Reavers: Grav-talon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ynnari-reavers",
+        "item": "grav-talon"
+      },
+      "hash": "cdfab1c2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "the bearer's weapons only",
+            "ru": "только оружие носителя"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ]
     }

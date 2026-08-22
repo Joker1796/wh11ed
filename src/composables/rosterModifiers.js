@@ -87,6 +87,19 @@ export function loadoutItemIds(def, entry) {
   return kept
 }
 
+// The NAMES of the wargear this entry fields, normalised — the key a wargear modifier record is
+// matched on (rosterStatMods' datasheetEntriesFor). Names rather than ids because our item ids are
+// integers interned across factions and mean nothing to appdata, while the name is what the uuid
+// bridge stores on both sides. `null` when the loadout cannot be computed, which reads as "say
+// nothing" rather than "equipped with nothing".
+export function loadoutItemNames(def, entry, items) {
+  const kept = loadoutItemIds(def, entry)
+  if (!kept || !items) return null
+  const out = new Set()
+  for (const id of kept) { const n = norm(items[id]); if (n) out.add(n) }
+  return out
+}
+
 // Trim a sheet's weapon tables to the entry's actual loadout.
 //
 // CONSERVATIVE BY CONSTRUCTION: a row is hidden only when some wargear item positively CLAIMS it

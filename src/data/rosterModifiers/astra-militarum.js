@@ -370,6 +370,37 @@ export default {
       "effects": []
     },
     {
+      "sid": "4553de7a-0245-4160-ab0d-8cdc58b86136:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Vengeance for the Omnissiah",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer"
+      },
+      "hash": "20517a1b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Enginseer axe"
+          },
+          "when": {
+            "en": "for the rest of the battle, once a friendly VEHICLE was destroyed within 12\"",
+            "ru": "до конца битвы, если дружественный VEHICLE уничтожен в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "3b10e68b-0230-4669-a0a3-f0c29feaa3b4",
       "kind": "allegiance",
       "name": "Steel Hammer Keywords: Character",
@@ -708,6 +739,260 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "the +3\" Move is given to a VEHICLE the bearer picks, not to the bearer"
+    },
+    {
+      "sid": "150b107a-a9ed-4c7e-b696-45ec389a0bdf:bullgryn-squad",
+      "kind": "wargear",
+      "name": "Bullgryn Squad: Brute Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bullgryn-squad",
+        "item": "brute shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "6fa6c35b-da60-40aa-8bfe-2f213147c014:bullgryn-squad",
+      "kind": "wargear",
+      "name": "Bullgryn Squad: Slabshield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bullgryn-squad",
+        "item": "slabshield"
+      },
+      "hash": "38451d6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:cadian-command-squad",
+      "kind": "wargear",
+      "name": "Cadian Command Squad: Regimental Standard",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "cadian-command-squad",
+        "item": "regimental standard"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:catachan-command-squad",
+      "kind": "wargear",
+      "name": "Catachan Command Squad: Regimental Standard",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "catachan-command-squad",
+        "item": "regimental standard"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:krieg-command-squad",
+      "kind": "wargear",
+      "name": "Krieg Command Squad: Regimental Standard",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "krieg-command-squad",
+        "item": "regimental standard"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:militarum-tempestus-command-squad",
+      "kind": "wargear",
+      "name": "Militarum Tempestus Command Squad: Regimental Standard",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "militarum-tempestus-command-squad",
+        "item": "regimental standard"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "150b107a-a9ed-4c7e-b696-45ec389a0bdf:ogryn-bodyguard",
+      "kind": "wargear",
+      "name": "Ogryn Bodyguard: Brute Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ogryn-bodyguard",
+        "item": "brute shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "0538f546-232d-4070-9200-e13f335f1c33:ogryn-bodyguard",
+      "kind": "wargear",
+      "name": "Ogryn Bodyguard: Slabshield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ogryn-bodyguard",
+        "item": "slabshield"
+      },
+      "hash": "d4febadd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "7",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bfac6bb6-bcd7-42ef-a2fa-a13960d7f9cf:ratlings",
+      "kind": "wargear",
+      "name": "Ratlings: Demolition Gear",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ratlings",
+        "item": "demolition gear"
+      },
+      "hash": "85f5be75",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "2ed95431-ef55-48db-8e8b-d100d3a3b193:ratlings",
+      "kind": "wargear",
+      "name": "Ratlings: Ratling Battlemutt",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ratlings",
+        "item": "ratling battlemutt"
+      },
+      "hash": "ef12c0e2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     }
   ]
 }

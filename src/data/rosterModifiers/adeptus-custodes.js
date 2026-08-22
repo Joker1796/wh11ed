@@ -99,7 +99,21 @@ export default {
       "hash": "24c8e47f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "68f78314-9458-4dd0-b445-14119ab4f945:knight-centura",
@@ -482,6 +496,28 @@ export default {
       }
     },
     {
+      "sid": "84f59743-864c-4f63-89c2-33de243b7adf",
+      "kind": "enhancement",
+      "name": "Inspirational Exemplar",
+      "det": "Auric Champions",
+      "ref": {
+        "kind": "enhancement",
+        "det": "auric-champions"
+      },
+      "hash": "74e74f07",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "d178eeae-2a4d-4597-af84-02bef5cb5d36",
       "kind": "enhancement",
       "name": "Veiled Blade",
@@ -772,6 +808,181 @@ export default {
         "kind": "enhancement",
         "det": "talons-of-the-emperor"
       }
+    },
+    {
+      "sid": "a953553a-11dd-4105-a141-50667ddb666b:allarus-custodians",
+      "kind": "wargear",
+      "name": "Allarus Custodians: Vexilla",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "allarus-custodians",
+        "item": "vexilla"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "1aa2c464-883e-489a-81ea-9ea8895ccb75:custodian-guard",
+      "kind": "wargear",
+      "name": "Custodian Guard: Praesidium Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "custodian-guard",
+        "item": "praesidium shield"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "a953553a-11dd-4105-a141-50667ddb666b:custodian-guard",
+      "kind": "wargear",
+      "name": "Custodian Guard: Vexilla",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "custodian-guard",
+        "item": "vexilla"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "a953553a-11dd-4105-a141-50667ddb666b:custodian-wardens",
+      "kind": "wargear",
+      "name": "Custodian Wardens: Vexilla",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "custodian-wardens",
+        "item": "vexilla"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bb155c10-9ce7-495e-9e1f-22970e181d82:gilded-blades-custodian-guard",
+      "kind": "wargear",
+      "name": "Gilded Blades Custodian Guard: Praesidium Shield",
+      "det": null,
+      "ref": null,
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1aa2c464-883e-489a-81ea-9ea8895ccb75:shield-captain",
+      "kind": "wargear",
+      "name": "Shield-Captain: Praesidium Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "shield-captain",
+        "item": "praesidium shield"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "ae8d3318-35f9-417c-ace7-01eaf3bb87d7:venatari-custodians",
+      "kind": "wargear",
+      "name": "Venatari Custodians: Tarsis buckler",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "venatari-custodians",
+        "item": "tarsis buckler"
+      },
+      "hash": "6855a467",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     }
   ]
 }

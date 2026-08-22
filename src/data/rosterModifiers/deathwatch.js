@@ -299,6 +299,139 @@ export default {
         "kind": "enhancement",
         "det": "black-spear-task-force"
       }
+    },
+    {
+      "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
+      "kind": "wargear",
+      "name": "Corvus Blackstar: Auspex Array",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corvus-blackstar",
+        "item": "auspex array"
+      },
+      "hash": "a8073fac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "d5028f22-7248-4d7e-8550-23ebbf37c0a5:corvus-blackstar",
+      "kind": "wargear",
+      "name": "Corvus Blackstar: Infernum Halo-launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corvus-blackstar",
+        "item": "infernum halo-launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "7b6f34d2-cadf-4b4b-83ca-343026d55249:deathwatch-terminator-squad",
+      "kind": "wargear",
+      "name": "Deathwatch Terminator Squad: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-terminator-squad",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:deathwatch-veterans",
+      "kind": "wargear",
+      "name": "Deathwatch Veterans: Astartes shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-veterans",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:decimus-kill-team",
+      "kind": "wargear",
+      "name": "Decimus Kill Team: Astartes shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "decimus-kill-team",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     }
   ]
 }

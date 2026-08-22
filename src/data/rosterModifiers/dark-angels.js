@@ -615,6 +615,61 @@ export default {
         "kind": "enhancement",
         "det": "wrath-of-the-rock"
       }
+    },
+    {
+      "sid": "940380dd-af82-403b-ba52-1583f553b446:azrael",
+      "kind": "wargear",
+      "name": "Azrael: The Lion Helm",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "azrael",
+        "item": "the lion helm"
+      },
+      "hash": "ec2e799d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "a298ee2e-4181-43e7-81a7-158bdc457d53:ezekiel",
+      "kind": "wargear",
+      "name": "Ezekiel: Book of Salvation",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ezekiel",
+        "item": "book of salvation"
+      },
+      "hash": "923d989b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     }
   ]
 }

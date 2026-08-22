@@ -562,6 +562,28 @@ export default {
       ]
     },
     {
+      "sid": "6d9fb6cc-05ac-4f9d-a8ac-52ca06c2dffa",
+      "kind": "enhancement",
+      "name": "Putrid Carapace",
+      "det": "Lords of Dread",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-dread"
+      },
+      "hash": "c28dd285",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "23f176f3-52df-4f8d-ae85-85d2774a4677",
       "kind": "enhancement",
       "name": "Veil of Medrengard",

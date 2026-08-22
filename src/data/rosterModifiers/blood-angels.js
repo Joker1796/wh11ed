@@ -538,6 +538,29 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "98e6a22b-537f-48df-a078-327ce3569a5a:sanguinary-guard",
+      "kind": "wargear",
+      "name": "Sanguinary Guard: Sanguinary Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "sanguinary-guard",
+        "item": "sanguinary banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

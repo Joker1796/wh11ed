@@ -846,6 +846,102 @@ export default {
         "kind": "enhancement",
         "det": "warpmeld-pact"
       }
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:pink-horrors",
+      "kind": "wargear",
+      "name": "Pink Horrors: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pink-horrors",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:pink-horrors",
+      "kind": "wargear",
+      "name": "Pink Horrors: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pink-horrors",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7c1b90fb-5b4b-499f-8f6b-52b98f115efa:rubric-marines",
+      "kind": "wargear",
+      "name": "Rubric Marines: Icon of Flame",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "rubric-marines",
+        "item": "icon of flame"
+      },
+      "hash": "cf6f64c2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "excluding CHARACTER models' weapons",
+            "ru": "кроме оружия моделей CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "9e660f68-928e-43a7-8af4-915cb722ac9c:tzaangors",
+      "kind": "wargear",
+      "name": "Tzaangors: Herd banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tzaangors",
+        "item": "herd banner"
+      },
+      "hash": "9fd64a75",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "within range of an objective you control",
+            "ru": "в зоне контролируемого objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     }
   ]
 }

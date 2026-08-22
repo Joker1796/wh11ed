@@ -657,10 +657,25 @@ modifiers are conditional, and a card reading T6 when the +1 only holds while a 
 is worse than one reading T5 with a note. A value the layer cannot compute honestly ("D6+2" plus
 1) degrades to an annotation rather than inventing arithmetic — see `applyValue`.
 
-**Four kinds of source feed it**: army rules, detachment rules, enhancements, allegiance abilities —
-and, since 2026-08-22, a DATASHEET's own abilities. The last one is where most of the game's numbers
-actually live: 1846 datasheet abilities, 436 of them candidates, all reviewed. 241 carry an effect,
-195 read to no printed number at all. Three things are specific to that source:
+**Six kinds of source feed it**: army rules, detachment rules, enhancements, allegiance abilities —
+and, since 2026-08-22, a DATASHEET's own abilities and its WARGEAR. The last two are where most of
+the game's numbers actually live: 436 ability candidates and 136 wargear ones, all reviewed.
+
+**Wargear** (`kind: 'wargear'`, from appdata's `datasheet.wargear[].ruleText`) is an item, not a
+rule, so it applies only once the entry actually TOOK it: `ctx.itemNames` is the set of normalised
+item names the loadout fields (`loadoutItemNames`), and `ref.item` is matched against it. Without
+that a Storm Shield's 4+ invulnerable would print on every model that could have taken one. `null`
+itemNames — the add-unit preview, which cannot know the loadout — shows nothing rather than
+everything: unlike a weapon row there is no printed line being hidden. Five items read "while the
+bearer is leading a unit" and carry `target: 'led'`, answered from `ctx.leaderItemNames`.
+
+**A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
+characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.
+68 records were invisible for that reason alone, including the one that started the hunt (a
+Mortifier taking an Anchorite Sarcophagus and its stats not moving). If a rule that plainly changes
+a number has no record, suspect the wording before the pipeline.
+
+Three things are specific to the ABILITY source:
 
 - **It can address another unit.** "If this unit is attached to a unit … add 1 to the Strength
   characteristic of melee weapons equipped by Bodyguard models in that unit" is printed on Fabius
@@ -668,10 +683,10 @@ actually live: 1846 datasheet abilities, 436 of them candidates, all reviewed. 2
   absent (self), `led` (the unit this one is attached to — 94 effects), or `leader` (the Character
   leading THIS unit — the direction exists and is tested, but no record needs it yet: every ability
   pointing that way modifies a Wound roll or grants Feel No Pain, neither of which is a statline).
-  `abilityEntriesFor()` resolves both cross directions from the attachment the roster records; the
+  `datasheetEntriesFor()` resolves both cross directions from the attachment the roster records; the
   ordinary resolver skips `ref.kind === 'ability'` entirely.
 - **No keyword gate.** An ability is printed on the card it addresses, so `SCOPELESS` includes it
-  alongside enhancements and allegiance abilities — there is no prose naming who it bears on.
+  alongside enhancements, allegiance abilities and wargear — there is no prose naming who it bears on.
 - **`sid` is not a bare uuid here.** 56 abilities are published once and printed on several
   datasheets (Custodes' Turbo-boost is on both jetbike units), and each needs a record with its own
   `ref.unit`, so the sid is `<uuid>:<datasheet-slug>`.
@@ -807,7 +822,7 @@ codex or said out loud to an opponent.
 
 **Every note says where it came from.** The footnotes under the stats are grouped by source and each
 group is headed by it — `Army rule`, `Detachment · Creations of Bile`, `Enhancement`, `Leader ·
-Fabius Bile`, `Ability`, `Mark`. Text only, no colour of its own: the card already carries the
+Fabius Bile`, `Ability`, `Wargear`, `Mark`. Text only, no colour of its own: the card already carries the
 faction accent and five source colours would fight it. Three of the six labels are the block below's
 own words, reused rather than reworded, so the same rule reads the same whether the reader meets it
 as a footnote or as a block. Ability records carry `owner` and `from` (self / led / leader) for

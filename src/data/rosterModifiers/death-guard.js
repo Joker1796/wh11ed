@@ -603,6 +603,112 @@ export default {
         "kind": "enhancement",
         "det": "virulent-vectorium"
       }
+    },
+    {
+      "sid": "5028ed26-8ff1-4fc8-b844-168659f516ac:deathshroud-terminators",
+      "kind": "wargear",
+      "name": "Deathshroud Terminators: Icon of Despair (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathshroud-terminators",
+        "item": "icon of despair (aura)"
+      },
+      "hash": "af21f335",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:plague-drones",
+      "kind": "wargear",
+      "name": "Plague Drones: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plague-drones",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:plague-drones",
+      "kind": "wargear",
+      "name": "Plague Drones: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plague-drones",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5028ed26-8ff1-4fc8-b844-168659f516ac:plague-marines",
+      "kind": "wargear",
+      "name": "Plague Marines: Icon of Despair (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plague-marines",
+        "item": "icon of despair (aura)"
+      },
+      "hash": "af21f335",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:plaguebearers",
+      "kind": "wargear",
+      "name": "Plaguebearers: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plaguebearers",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:plaguebearers",
+      "kind": "wargear",
+      "name": "Plaguebearers: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plaguebearers",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

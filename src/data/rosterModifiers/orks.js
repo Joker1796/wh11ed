@@ -300,6 +300,37 @@ export default {
       "effects": []
     },
     {
+      "sid": "ea8d20dc-32b2-4e34-ac0f-c5e6353ead7f:flash-gitz",
+      "kind": "ability",
+      "name": "Flash Gitz: Gun-crazy Show-offs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "flash-gitz"
+      },
+      "hash": "295f05d1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "4",
+          "only": {
+            "name": "Snazzgun"
+          },
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "586e1427-e1f4-47fb-b11a-76fed2a560f9:ghazghkull-thraka",
       "kind": "ability",
       "name": "Ghazghkull Thraka: Ghazghkull’s Waaagh! Banner",
@@ -340,6 +371,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "9adf4176-f503-4386-bb5a-d135ad94f0ef:gretchin",
+      "kind": "ability",
+      "name": "Gretchin: Runtherd",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gretchin"
+      },
+      "hash": "ca5c4cfd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "set",
+          "value": "2",
+          "when": {
+            "en": "Runtherd models only, while the unit still holds a Gretchin",
+            "ru": "только модели Runtherd, пока в отряде есть Gretchin"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "0a9fb6cd-6a0b-4e33-800a-e926d4b1aadc:hunta-rig",
@@ -549,6 +608,37 @@ export default {
           },
           "cond": [
             "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3014021b-5c79-4b6d-ac8f-a5e99213a0b1:warboss-in-mega-armour",
+      "kind": "ability",
+      "name": "Warboss in Mega Armour: Dead Brutal",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss-in-mega-armour"
+      },
+      "hash": "b8bc1af5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "set",
+          "value": "3",
+          "only": {
+            "name": "’Uge choppa"
+          },
+          "when": {
+            "en": "while the Waaagh! is active",
+            "ru": "пока активен Waaagh!"
+          },
+          "cond": [
+            "waaagh-active"
           ]
         }
       ]
@@ -1340,6 +1430,211 @@ export default {
           "only": {
             "notTag": "EXTRA ATTACKS"
           },
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "7527971e-395b-4f7d-a2c1-876d8ad6a7d6:battlewagon",
+      "kind": "wargear",
+      "name": "Battlewagon: ’Ard Case",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "battlewagon",
+        "item": "'ard case"
+      },
+      "hash": "6b1440af",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "aee34635-59e6-4c77-9f7c-6334aff37fb3:big-mek-in-mega-armour",
+      "kind": "wargear",
+      "name": "Big Mek in Mega Armour: Kustom Force Field",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "big-mek-in-mega-armour",
+        "item": "kustom force field"
+      },
+      "hash": "2d6a2c10",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "against ranged attacks",
+            "ru": "против дальних атак"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "0549dd4b-5a1a-4609-9244-415205cad4a6:flash-gitz",
+      "kind": "wargear",
+      "name": "Flash Gitz: Ammo Runt",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "flash-gitz",
+        "item": "ammo runt"
+      },
+      "hash": "de5158d7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "0abec0dc-14e8-4ac0-8c7a-976412670343:kommandos",
+      "kind": "wargear",
+      "name": "Kommandos: Distraction Grot",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kommandos",
+        "item": "distraction grot"
+      },
+      "hash": "77249f4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "once per battle, while the grot is deployed",
+            "ru": "раз за битву, пока грот выставлен"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "07baa154-aeea-43b1-a515-8fb140376b9f:nobz",
+      "kind": "wargear",
+      "name": "Nobz: Ammo Runt",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "nobz",
+        "item": "ammo runt"
+      },
+      "hash": "ffebd655",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7ecf9be2-3858-40d3-9f14-9bdcd9a2d04b:tankbustas",
+      "kind": "wargear",
+      "name": "Tankbustas: Pulsa Rokkit",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tankbustas",
+        "item": "pulsa rokkit"
+      },
+      "hash": "a6321189",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "b64d38b3-82f0-49af-8259-d35ae3f6c065:wazbom-blastajet",
+      "kind": "wargear",
+      "name": "Wazbom Blastajet: Blastajet Force Field",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wazbom-blastajet",
+        "item": "blastajet force field"
+      },
+      "hash": "9cd825f5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
           "when": null
         }
       ]

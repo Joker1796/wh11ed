@@ -713,6 +713,179 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "f8700f44-a5d3-43d0-b34f-c2b09a6b504b:canoptek-macrocytes",
+      "kind": "wargear",
+      "name": "Canoptek Macrocytes: Accelerator Mandible",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoptek-macrocytes",
+        "item": "accelerator mandible"
+      },
+      "hash": "f506766c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "73c896ab-3e82-4c6c-8cd3-2490c776c67b:lychguard",
+      "kind": "wargear",
+      "name": "Lychguard: Dispersion Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "lychguard",
+        "item": "dispersion shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f6a5f8a4-40f5-498d-a806-d6d77283329d:ophydian-destroyers",
+      "kind": "wargear",
+      "name": "Ophydian Destroyers: Plasmacyte",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ophydian-destroyers",
+        "item": "plasmacyte"
+      },
+      "hash": "c30781e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle per Plasmacyte, while this ability is used",
+            "ru": "раз за битву на каждый Plasmacyte, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f6a5f8a4-40f5-498d-a806-d6d77283329d:skorpekh-destroyers",
+      "kind": "wargear",
+      "name": "Skorpekh Destroyers: Plasmacyte",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "skorpekh-destroyers",
+        "item": "plasmacyte"
+      },
+      "hash": "c30781e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle per Plasmacyte, while this ability is used",
+            "ru": "раз за битву на каждый Plasmacyte, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "04af9b1c-d69e-4d55-a73f-1594f009207f:tomb-blades",
+      "kind": "wargear",
+      "name": "Tomb Blades: Nebuloscope",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tomb-blades",
+        "item": "nebuloscope"
+      },
+      "hash": "a8073fac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "the bearer's weapons only",
+            "ru": "только оружие носителя"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "106ffa9b-ad87-4845-a297-a73bceed0b02:tomb-blades",
+      "kind": "wargear",
+      "name": "Tomb Blades: Shieldvanes",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tomb-blades",
+        "item": "shieldvanes"
+      },
+      "hash": "7ad3d726",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "8\"",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     }
   ]
 }

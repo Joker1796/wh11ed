@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "4ff7e6d5-ee30-452f-8ef8-e11bfc6de69a:cadre-fireblade",
+      "kind": "ability",
+      "name": "Cadre Fireblade: Crack Shot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cadre-fireblade"
+      },
+      "hash": "cb79af81",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "set",
+          "value": "-3",
+          "when": {
+            "en": "on a Critical Wound",
+            "ru": "при критическом ранении"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "85eb2dc7-a000-467f-825a-1175fd936b7b:cadre-fireblade",
       "kind": "ability",
       "name": "Cadre Fireblade: Volley Fire",
@@ -39,7 +67,21 @@ export default {
       "hash": "24c8e47f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "5627b944-56d1-4649-8606-97050b2551af:commander-farsight",
@@ -265,6 +307,34 @@ export default {
           "when": {
             "en": "against their Spotted unit",
             "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "0e4e1053-0b6b-4c1a-95de-3bd05d9884fd:tidewall-shieldline",
+      "kind": "ability",
+      "name": "Tidewall Shieldline: Tidewall Defence Platform",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tidewall-shieldline"
+      },
+      "hash": "47477b37",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "15",
+          "when": {
+            "en": "if equipped with a Tidewall defence platform",
+            "ru": "если взята Tidewall defence platform"
           },
           "cond": [
             "never"
@@ -952,6 +1022,763 @@ export default {
           "when": {
             "en": "for a unit disembarking from this Devilfish, pulse blaster and pulse carbine only",
             "ru": "для отряда, высаживающегося из этого Devilfish, только pulse blaster и pulse carbine"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:breacher-team",
+      "kind": "wargear",
+      "name": "Breacher Team: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "breacher-team",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:breacher-team",
+      "kind": "wargear",
+      "name": "Breacher Team: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "breacher-team",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:broadside-battlesuits",
+      "kind": "wargear",
+      "name": "Broadside Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "broadside-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:broadside-battlesuits",
+      "kind": "wargear",
+      "name": "Broadside Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "broadside-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:cadre-fireblade",
+      "kind": "wargear",
+      "name": "Cadre Fireblade: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "cadre-fireblade",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:cadre-fireblade",
+      "kind": "wargear",
+      "name": "Cadre Fireblade: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "cadre-fireblade",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:commander-in-coldstar-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Coldstar Battlesuit: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-coldstar-battlesuit",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:commander-in-coldstar-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Coldstar Battlesuit: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-coldstar-battlesuit",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1b501ea3-5061-4bc0-ac92-4b88f0e9126c:commander-in-coldstar-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Coldstar Battlesuit: Shield Generator",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-coldstar-battlesuit",
+        "item": "shield generator"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:commander-in-enforcer-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Enforcer Battlesuit: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-enforcer-battlesuit",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:commander-in-enforcer-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Enforcer Battlesuit: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-enforcer-battlesuit",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1b501ea3-5061-4bc0-ac92-4b88f0e9126c:commander-in-enforcer-battlesuit",
+      "kind": "wargear",
+      "name": "Commander in Enforcer Battlesuit: Shield Generator",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-in-enforcer-battlesuit",
+        "item": "shield generator"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:crisis-fireknife-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Fireknife Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-fireknife-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:crisis-fireknife-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Fireknife Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-fireknife-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:crisis-starscythe-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Starscythe Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-starscythe-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:crisis-starscythe-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Starscythe Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-starscythe-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:crisis-sunforge-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Sunforge Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-sunforge-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:crisis-sunforge-battlesuits",
+      "kind": "wargear",
+      "name": "Crisis Sunforge Battlesuits: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "crisis-sunforge-battlesuits",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "e3f13656-b541-4d93-9b59-2713e85638f0:ethereal",
+      "kind": "wargear",
+      "name": "Ethereal: Hover Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ethereal",
+        "item": "hover drone"
+      },
+      "hash": "a7dce676",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "10\"",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:ethereal",
+      "kind": "wargear",
+      "name": "Ethereal: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ethereal",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:ethereal",
+      "kind": "wargear",
+      "name": "Ethereal: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ethereal",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "a7dcf8ec-6f67-443a-a77f-51c50f42e2e3:kroot-farstalkers",
+      "kind": "wargear",
+      "name": "Kroot Farstalkers: Pech’ra",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kroot-farstalkers",
+        "item": "pech'ra"
+      },
+      "hash": "745f9d87",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:pathfinder-team",
+      "kind": "wargear",
+      "name": "Pathfinder Team: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pathfinder-team",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "38da8799-fc2a-4fc2-9ffe-1e9643007c20:pathfinder-team",
+      "kind": "wargear",
+      "name": "Pathfinder Team: Pulse Accelerator Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pathfinder-team",
+        "item": "pulse accelerator drone"
+      },
+      "hash": "62b65bb8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "only": {
+            "name": "Pulse carbine"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:pathfinder-team",
+      "kind": "wargear",
+      "name": "Pathfinder Team: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pathfinder-team",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:stealth-battlesuits",
+      "kind": "wargear",
+      "name": "Stealth Battlesuits: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "stealth-battlesuits",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:strike-team",
+      "kind": "wargear",
+      "name": "Strike Team: Marker Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "strike-team",
+        "item": "marker drone"
+      },
+      "hash": "a5cb8c1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:strike-team",
+      "kind": "wargear",
+      "name": "Strike Team: Shield Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "strike-team",
+        "item": "shield drone"
+      },
+      "hash": "219c8b44",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the Shield Drone model only",
+            "ru": "только модель Shield Drone"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f2084e6a-6326-4635-b658-250fac0a9ce5:tiger-shark",
+      "kind": "wargear",
+      "name": "Tiger Shark: Transport Bay",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tiger-shark",
+        "item": "transport bay"
+      },
+      "hash": "d294b130",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d6249dda-04d3-4c57-b3a8-849e8085e5c2:vespid-stingwings",
+      "kind": "wargear",
+      "name": "Vespid Stingwings: Oversight Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "vespid-stingwings",
+        "item": "oversight drone"
+      },
+      "hash": "f8221077",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
           },
           "cond": [
             "never"

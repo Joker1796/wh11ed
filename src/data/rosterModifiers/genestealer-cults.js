@@ -707,6 +707,73 @@ export default {
         "kind": "enhancement",
         "det": "xenocreed-congregation"
       }
+    },
+    {
+      "sid": "61c63ee8-1c41-4e6c-b0e8-5451c154c896:achilles-ridgerunners",
+      "kind": "wargear",
+      "name": "Achilles Ridgerunners: Flare launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "achilles-ridgerunners",
+        "item": "flare launcher"
+      },
+      "hash": "f9a96d14",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "ea265349-dc8b-491b-a164-16e0ef1e0a55:achilles-ridgerunners",
+      "kind": "wargear",
+      "name": "Achilles Ridgerunners: Spotter",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "achilles-ridgerunners",
+        "item": "spotter"
+      },
+      "hash": "b4db684e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "the bearer's weapons only",
+            "ru": "только оружие носителя"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "8315877d-349f-4db7-8f6d-2122795cdb93:biophagus",
+      "kind": "wargear",
+      "name": "Biophagus: Alchemicus Familiar",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "biophagus",
+        "item": "alchemicus familiar"
+      },
+      "hash": "8a6ddd66",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

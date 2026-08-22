@@ -31,6 +31,53 @@ export default {
       ]
     },
     {
+      "sid": "4cbc7c4a-861f-4681-ac63-c26c1b620a4f:arco-flagellants",
+      "kind": "ability",
+      "name": "Arco-flagellants: Extremis Trigger Word",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "arco-flagellants"
+      },
+      "hash": "74f242bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Arco-flails"
+          },
+          "when": {
+            "en": "while the trigger word is invoked",
+            "ru": "пока произнесено trigger word"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "only": {
+            "name": "Arco-flails"
+          },
+          "when": {
+            "en": "while the trigger word is invoked",
+            "ru": "пока произнесено trigger word"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "59ee1033-9a10-43cc-b972-674c1dc682dd:canoness-with-jump-pack",
       "kind": "ability",
       "name": "Canoness with Jump Pack: Divine Deliverance",
@@ -678,6 +725,28 @@ export default {
       }
     },
     {
+      "sid": "9304d111-c730-4ba5-bfd6-2224695f9026",
+      "kind": "enhancement",
+      "name": "Iron Surplice of Saint Istalela",
+      "det": "Bringers of Flame",
+      "ref": {
+        "kind": "enhancement",
+        "det": "bringers-of-flame"
+      },
+      "hash": "9b6522ef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "c2118c7b-986c-47cb-b2f5-3c82d77dde0f",
       "kind": "enhancement",
       "name": "Righteous Rage",
@@ -1017,6 +1086,36 @@ export default {
           "stat": "d",
           "op": "add",
           "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "fb07a984-f0d8-42d6-b044-08298622c911:mortifiers",
+      "kind": "wargear",
+      "name": "Mortifiers: Anchorite Sarcophagus",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "mortifiers",
+        "item": "anchorite sarcophagus"
+      },
+      "hash": "607eb6f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "7\"",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
           "when": null
         }
       ]

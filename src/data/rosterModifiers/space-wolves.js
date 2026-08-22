@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "c5876316-6c1b-4365-9fa6-97e070f9ded8:fenrisian-wolves",
+      "kind": "ability",
+      "name": "Fenrisian Wolves: Hunting Hounds",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fenrisian-wolves"
+      },
+      "hash": "77af4631",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c363373f-a93a-4ca3-87ea-4e5de5d9d00a:njal-stormcaller",
       "kind": "ability",
       "name": "Njal Stormcaller: Wind Walker",
@@ -199,6 +213,20 @@ export default {
       ]
     },
     {
+      "sid": "3a1fd791-197d-4de4-ba5d-5c976be0576b:wolf-guard-headtakers",
+      "kind": "ability",
+      "name": "Wolf Guard Headtakers: Hunting Hounds",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-headtakers"
+      },
+      "hash": "b488bac6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:wolf-priest",
       "kind": "ability",
       "name": "Wolf Priest: Litany of Hate",
@@ -222,6 +250,20 @@ export default {
         "unit": "wolf-scouts"
       },
       "hash": "570a574f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "aa17b3c5-1b61-4725-9044-405366b91850:wolf-scouts",
+      "kind": "ability",
+      "name": "Wolf Scouts: Hunting Hounds",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-scouts"
+      },
+      "hash": "056b2a5f",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -664,6 +706,162 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:thunderwolf-cavalry",
+      "kind": "wargear",
+      "name": "Thunderwolf Cavalry: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "thunderwolf-cavalry",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "dbc80516-c93e-476a-8b61-f86f5be11ee8:venerable-dreadnought",
+      "kind": "wargear",
+      "name": "Venerable Dreadnought: Blizzard Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "venerable-dreadnought",
+        "item": "blizzard shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "f6eb2ceb-969b-4268-a7c0-4dd6bd428a35:wolf-guard-battle-leader",
+      "kind": "wargear",
+      "name": "Wolf Guard Battle Leader: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-battle-leader",
+        "item": "storm shield"
+      },
+      "hash": "6026918c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:wolf-guard-headtakers",
+      "kind": "wargear",
+      "name": "Wolf Guard Headtakers: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-headtakers",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7b6f34d2-cadf-4b4b-83ca-343026d55249:wolf-guard-terminators",
+      "kind": "wargear",
+      "name": "Wolf Guard Terminators: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-terminators",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "dbc80516-c93e-476a-8b61-f86f5be11ee8:wulfen-dreadnought",
+      "kind": "wargear",
+      "name": "Wulfen Dreadnought: Blizzard Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wulfen-dreadnought",
+        "item": "blizzard shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
           "when": null
         }
       ]
