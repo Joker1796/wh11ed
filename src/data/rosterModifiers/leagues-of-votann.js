@@ -401,6 +401,375 @@ export default {
       }
     },
     {
+      "sid": "d2eda679-eccb-4db2-baac-72ed0d4cf5fb",
+      "kind": "stratagem",
+      "name": "Claimed for the Kindred",
+      "det": "Bane-slayer’s Bulwark",
+      "ref": null,
+      "hash": "076afe4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "b837ac4e-e909-4ae4-a50e-ca1b8bd4c678",
+      "kind": "stratagem",
+      "name": "Point-blank Fusillade",
+      "det": "Bane-slayer’s Bulwark",
+      "ref": null,
+      "hash": "d2d4bd7d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLOSE-QUARTERS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d1bc9d91-4eab-48d2-a89a-9db99c2fd77a",
+      "kind": "stratagem",
+      "name": "Tectonic Fracture",
+      "det": "Dêlve Assault Shift",
+      "ref": {
+        "kind": "stratagem",
+        "det": "delve-assault-shift",
+        "name": "Tectonic Fracture"
+      },
+      "hash": "4bfa7aaa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "147a06bd-d45b-45c3-98cd-a859b4c7dea3",
+      "kind": "stratagem",
+      "name": "No Shot Wasted",
+      "det": "Farseekers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "farseekers",
+        "name": "No Shot Wasted"
+      },
+      "hash": "b50f6f98",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "df435ca3-aa6b-4dcb-8212-6bc35c4c1585",
+      "kind": "stratagem",
+      "name": "Scornful Analysis",
+      "det": "Farseekers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "farseekers",
+        "name": "Scornful Analysis"
+      },
+      "hash": "621331d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a502277e-9201-4905-8ac4-8795943288c0",
+      "kind": "stratagem",
+      "name": "Brëkkeknots",
+      "det": "Hearthband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthband",
+        "name": "Brëkkeknots"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "09bea355-bf90-4280-bce6-e1ce930c1aa8",
+      "kind": "stratagem",
+      "name": "Fury of the Hearth",
+      "det": "Hearthband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthband",
+        "name": "Fury of the Hearth"
+      },
+      "hash": "3435e2a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "also, if 1YP was spent",
+            "ru": "и ещё, если потрачен 1YP"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "bb6e0a96-3c97-4a50-b157-8674b55eefa2",
+      "kind": "stratagem",
+      "name": "Superior Craftsmanship",
+      "det": "Hearthband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthband",
+        "name": "Superior Craftsmanship"
+      },
+      "hash": "2f4baaef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "162911a1-936b-48f1-bd54-3c5fe5935f41",
+      "kind": "stratagem",
+      "name": "Fury of the Hearth",
+      "det": "Hearthguard Covenant",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthguard-covenant",
+        "name": "Fury of the Hearth"
+      },
+      "hash": "cd69cd45",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "also, if 1YP was spent",
+            "ru": "и ещё, если потрачен 1YP"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "df41a297-18b5-49d8-9f65-341f0de8cb69",
+      "kind": "stratagem",
+      "name": "Auxiliary Contract",
+      "det": "Mercenary Oathband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mercenary-oathband",
+        "name": "Auxiliary Contract"
+      },
+      "hash": "1b8c180a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "073e93db-1dbb-4a04-9c8f-fa4a687ac016",
+      "kind": "stratagem",
+      "name": "Ancestral Sentence",
+      "det": "Needgaârd Oathband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "needgaard-oathband",
+        "name": "Ancestral Sentence"
+      },
+      "hash": "e26a7117",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "808979ff-4bcb-44ad-88ca-dea1c4ac78c5",
+      "kind": "stratagem",
+      "name": "Honour of the Hold",
+      "det": "Needgaârd Oathband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "needgaard-oathband",
+        "name": "Honour of the Hold"
+      },
+      "hash": "30cff239",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "18d2ac2e-5e4c-4a2d-a34b-cdc2c711ef37",
+      "kind": "stratagem",
+      "name": "Void Hardened",
+      "det": "Needgaârd Oathband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "needgaard-oathband",
+        "name": "Void Hardened"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a102c8c5-5cdb-4563-ac4d-97d0e1313bea",
+      "kind": "stratagem",
+      "name": "Frontier Momentum",
+      "det": "Persecution Prospect",
+      "ref": {
+        "kind": "stratagem",
+        "det": "persecution-prospect",
+        "name": "Frontier Momentum"
+      },
+      "hash": "50325371",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f58c275c-8b83-4fb3-8813-11c7b29cff7f",
+      "kind": "stratagem",
+      "name": "Ranger Tactics",
+      "det": "Persecution Prospect",
+      "ref": {
+        "kind": "stratagem",
+        "det": "persecution-prospect",
+        "name": "Ranger Tactics"
+      },
+      "hash": "afe97b97",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "94bb2d5a-b2ef-4286-869d-71867445cca2:einhyr-champion",
       "kind": "wargear",
       "name": "Einhyr Champion: Weavefield Crest",

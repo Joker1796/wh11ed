@@ -500,6 +500,21 @@ export function useTracker() {
     if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
   }
 
+  // A stratagem SPENT on one unit. Keyed by the roster entry's uid and then by the modifier
+  // record's sid, storing the clock stamp it was spent at — the record's own `dur` decides when
+  // that stops meaning anything (rosterGameContext's activeStratagems). Kept apart from `ctx.units`
+  // because a stratagem is not a state of the unit: several can be up at once, they are alternatives
+  // to nothing, and they are identified by the record they came from rather than by a condition id.
+  function setUnitStratagem(pi, uid, sid, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.strats) pl.ctx.strats = {}
+    if (!pl.ctx.strats[uid]) pl.ctx.strats[uid] = {}
+    if (on) pl.ctx.strats[uid][sid] = at
+    else delete pl.ctx.strats[uid][sid]
+    if (!Object.keys(pl.ctx.strats[uid]).length) delete pl.ctx.strats[uid]
+  }
+
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
@@ -880,7 +895,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
-    setArmyCondition, setUnitCondition,
+    setArmyCondition, setUnitCondition, setUnitStratagem,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

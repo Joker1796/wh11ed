@@ -797,6 +797,391 @@ export default {
       "note": "the +3\" Move is given to a VEHICLE the bearer picks, not to the bearer"
     },
     {
+      "sid": "a30bf1f8-e97b-4b24-a8a7-197d9bd736c7",
+      "kind": "stratagem",
+      "name": "Thick-skulled Obdurance",
+      "det": "Abhuman Auxiliaries",
+      "ref": {
+        "kind": "stratagem",
+        "det": "abhuman-auxiliaries",
+        "name": "Thick-skulled Obdurance"
+      },
+      "hash": "9e50d86d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e49aa10b-2b42-4430-aa54-86a349613571",
+      "kind": "stratagem",
+      "name": "Combined Fire",
+      "det": "Armoured Infantry",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-infantry",
+        "name": "Combined Fire"
+      },
+      "hash": "94e33ba5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "93db3b51-7abc-4b11-8f6f-3122bf6600cf",
+      "kind": "stratagem",
+      "name": "Opening Salvo",
+      "det": "Armoured Infantry",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-infantry",
+        "name": "Opening Salvo"
+      },
+      "hash": "78ce0ea9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "47d1a118-137e-4364-a40a-a37ae92455ee",
+      "kind": "stratagem",
+      "name": "Firing Hot",
+      "det": "Bridgehead Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bridgehead-strike",
+        "name": "Firing Hot"
+      },
+      "hash": "383d8f30",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Hot-shot"
+          },
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Hot-shot"
+          },
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ed83bb30-81ad-4d1c-859d-c70bd6be0aba",
+      "kind": "stratagem",
+      "name": "Servo-designators",
+      "det": "Bridgehead Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bridgehead-strike",
+        "name": "Servo-designators"
+      },
+      "hash": "e315b303",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "964e2794-16c2-4508-9ad7-64b12b74da63",
+      "kind": "stratagem",
+      "name": "Fields of Fire",
+      "det": "Combined Arms",
+      "ref": {
+        "kind": "stratagem",
+        "det": "combined-arms",
+        "name": "Fields of Fire"
+      },
+      "hash": "46d37624",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7a6ff137-248f-4f3d-bd6a-1bc96184895e",
+      "kind": "stratagem",
+      "name": "Additional Armour",
+      "det": "Grizzled Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grizzled-company",
+        "name": "Additional Armour"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e85f3b10-ba5a-436e-a292-251fc2f299f3",
+      "kind": "stratagem",
+      "name": "Mordian Minute",
+      "det": "Grizzled Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grizzled-company",
+        "name": "Mordian Minute"
+      },
+      "hash": "b04ae3d6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "001c82b3-7360-4b5a-a97d-9e743075c9e8",
+      "kind": "stratagem",
+      "name": "Purging Fire",
+      "det": "Grizzled Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grizzled-company",
+        "name": "Purging Fire"
+      },
+      "hash": "db679fe6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while within range of an objective marker",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ff94fb92-54ab-4572-957d-9442010d4246",
+      "kind": "stratagem",
+      "name": "Veteran Sharpshooters",
+      "det": "Grizzled Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grizzled-company",
+        "name": "Veteran Sharpshooters"
+      },
+      "hash": "f7f93b26",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "84115c52-4624-40fd-ac54-5a14b36b52c0",
+      "kind": "stratagem",
+      "name": "Ablative Plating",
+      "det": "Hammer of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-the-emperor",
+        "name": "Ablative Plating"
+      },
+      "hash": "3b9d003d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "81eb0dfa-af6b-4da6-892a-44d54185b879",
+      "kind": "stratagem",
+      "name": "Final Hour",
+      "det": "Hammer of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-the-emperor",
+        "name": "Final Hour"
+      },
+      "hash": "1ccef127",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "excluding [ONE SHOT] weapons",
+            "ru": "кроме оружия [ONE SHOT]"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "55e95ac0-2b37-4118-8518-9939794e5d4e",
+      "kind": "stratagem",
+      "name": "Furious Cannonade",
+      "det": "Hammer of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-the-emperor",
+        "name": "Furious Cannonade"
+      },
+      "hash": "88f4bd82",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5eb2bbea-e871-43f3-a6d0-b216ed4ec55e",
+      "kind": "stratagem",
+      "name": "Crack Shots",
+      "det": "Recon Element",
+      "ref": {
+        "kind": "stratagem",
+        "det": "recon-element",
+        "name": "Crack Shots"
+      },
+      "hash": "473ff39b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "df9c53eb-bd3b-49a7-8d62-d77bf0e5f111",
+      "kind": "stratagem",
+      "name": "Furious Fusillade",
+      "det": "Siege Regiment",
+      "ref": {
+        "kind": "stratagem",
+        "det": "siege-regiment",
+        "name": "Furious Fusillade"
+      },
+      "hash": "23d41eda",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against targets within half range",
+            "ru": "против целей в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cae76a6f-025e-4be1-86e1-4537c6427c31",
+      "kind": "stratagem",
+      "name": "Engine of Wrath",
+      "det": "Steel Hammer",
+      "ref": {
+        "kind": "stratagem",
+        "det": "steel-hammer",
+        "name": "Engine of Wrath"
+      },
+      "hash": "ddb9d3b6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "against the one enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "150b107a-a9ed-4c7e-b696-45ec389a0bdf:bullgryn-squad",
       "kind": "wargear",
       "name": "Bullgryn Squad: Brute Shield",

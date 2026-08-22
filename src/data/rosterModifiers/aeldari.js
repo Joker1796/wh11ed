@@ -1576,6 +1576,469 @@ export default {
       ]
     },
     {
+      "sid": "7ef3eaef-b37c-48e2-9bd4-0378cdc068b9",
+      "kind": "stratagem",
+      "name": "Doom Inescapable",
+      "det": "Aspect Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "aspect-host",
+        "name": "Doom Inescapable"
+      },
+      "hash": "9fbe4041",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "set",
+          "value": "18\"",
+          "only": {
+            "name": "Wailing doom"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "set",
+          "value": "8",
+          "only": {
+            "name": "Wailing doom"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "def8613e-eee9-4cb4-9297-76807bced5b5",
+      "kind": "stratagem",
+      "name": "Outcast Ambush",
+      "det": "Corsair Coterie",
+      "ref": {
+        "kind": "stratagem",
+        "det": "corsair-coterie",
+        "name": "Outcast Ambush"
+      },
+      "hash": "9a8f4e3a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "da1a7e68-a91b-4bc5-a466-6ec7fc740224",
+      "kind": "stratagem",
+      "name": "Pirates’ Due",
+      "det": "Corsair Coterie",
+      "ref": {
+        "kind": "stratagem",
+        "det": "corsair-coterie",
+        "name": "Pirates’ Due"
+      },
+      "hash": "fa5d89ce",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d5737f54-4a3e-4335-9ddf-6759368bd099",
+      "kind": "stratagem",
+      "name": "Soulsight",
+      "det": "Devoted of Ynnead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "devoted-of-ynnead",
+        "name": "Soulsight"
+      },
+      "hash": "15e3ea47",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "23a9ccd8-c557-4ec6-8a93-15f3b41ee8f5",
+      "kind": "stratagem",
+      "name": "No Prey too Big",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eldritch-raiders",
+        "name": "No Prey too Big"
+      },
+      "hash": "6ccbd7b0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "12ded315-0be2-463a-ab26-808bb701d1c8",
+      "kind": "stratagem",
+      "name": "Raider’s Spoils",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eldritch-raiders",
+        "name": "Raider’s Spoils"
+      },
+      "hash": "ff404a82",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "25fa402d-6cb8-46cb-9fcb-d6dc03f2ae22",
+      "kind": "stratagem",
+      "name": "Ruthless Killers",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eldritch-raiders",
+        "name": "Ruthless Killers"
+      },
+      "hash": "ffe64ef9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "51ff6332-28a3-4308-bc38-3644ffd4c908",
+      "kind": "stratagem",
+      "name": "Blades of Asuryan",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "guardian-battlehost",
+        "name": "Blades of Asuryan"
+      },
+      "hash": "9885d13f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PISTOL",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "35d8b42d-ab6c-4646-97e5-96f5b764a976",
+      "kind": "stratagem",
+      "name": "Time to Strike",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "guardian-battlehost",
+        "name": "Time to Strike"
+      },
+      "hash": "90a2030a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "26af9c53-96f1-4cee-8720-b19621384d41",
+      "kind": "stratagem",
+      "name": "Fate Inescapable",
+      "det": "Seer Council",
+      "ref": {
+        "kind": "stratagem",
+        "det": "seer-council",
+        "name": "Fate Inescapable"
+      },
+      "hash": "7a7d39b5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "178f6e1e-0a30-4650-9ad5-77b19be4c409",
+      "kind": "stratagem",
+      "name": "Blades From Beyond",
+      "det": "Spirit Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spirit-conclave",
+        "name": "Blades From Beyond"
+      },
+      "hash": "2cb6465b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9803bbcb-1dd8-4742-ad0b-309a06da2330",
+      "kind": "stratagem",
+      "name": "Crushing Strides",
+      "det": "Spirit Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spirit-conclave",
+        "name": "Crushing Strides"
+      },
+      "hash": "153c452c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0dc77037-8e04-4c5f-86d2-aa8663b70788",
+      "kind": "stratagem",
+      "name": "Wraithbone Armour",
+      "det": "Spirit Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spirit-conclave",
+        "name": "Wraithbone Armour"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cd8a2849-148d-42c2-baa8-70fde6c32971",
+      "kind": "stratagem",
+      "name": "Presaged Rehearsal",
+      "det": "Twilight Flickers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "twilight-flickers",
+        "name": "Presaged Rehearsal"
+      },
+      "hash": "127e1a54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "45d32b81-e8d4-41f7-a259-aa2b7b83e55b",
+      "kind": "stratagem",
+      "name": "Blitzing Firepower",
+      "det": "Warhost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warhost",
+        "name": "Blitzing Firepower"
+      },
+      "hash": "f2c288f7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7b546fe8-2b6e-4d32-addb-60eae596cdca",
+      "kind": "stratagem",
+      "name": "Focused Firepower",
+      "det": "Windrider Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "windrider-host",
+        "name": "Focused Firepower"
+      },
+      "hash": "20ff758a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5af63059-fb17-4c24-b61d-34535b3102d7",
+      "kind": "stratagem",
+      "name": "Spiralling Evasion",
+      "det": "Windrider Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "windrider-host",
+        "name": "Spiralling Evasion"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "2169123d-6e3f-4f28-a135-c8d388172eab:corsair-voidreavers",
       "kind": "wargear",
       "name": "Corsair Voidreavers: Mistshield",

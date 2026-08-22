@@ -706,6 +706,435 @@ export default {
       ]
     },
     {
+      "sid": "0671736d-e932-4396-85e8-7aed0f5fbbf0",
+      "kind": "stratagem",
+      "name": "Close-quarters Barrage",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "stratagem",
+        "det": "imperialis-fleet",
+        "name": "Close-quarters Barrage"
+      },
+      "hash": "7a1247be",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3b79b387-0009-4617-9ce3-c07efe843e8d",
+      "kind": "stratagem",
+      "name": "Displacer Field",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "stratagem",
+        "det": "imperialis-fleet",
+        "name": "Displacer Field"
+      },
+      "hash": "1326869d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "741664f3-5afd-4ff1-819b-7f4275d075fa",
+      "kind": "stratagem",
+      "name": "Superior Weaponry",
+      "det": "Inquisitor’s Hand",
+      "ref": null,
+      "hash": "93165ff9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "53b6c4d3-7b4d-4aac-b53f-d9325c617c9b",
+      "kind": "stratagem",
+      "name": "Urban Enforcers",
+      "det": "Inquisitor’s Hand",
+      "ref": null,
+      "hash": "975b05f7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b3c0a844-4b92-48dc-8ca3-6d169a5fe918",
+      "kind": "stratagem",
+      "name": "Dispense Justice",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-hereticus-purgation-force",
+        "name": "Dispense Justice"
+      },
+      "hash": "99f3de63",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "51d5caed-b41a-4bac-a398-a0458cbed119",
+      "kind": "stratagem",
+      "name": "Execution Order",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-hereticus-purgation-force",
+        "name": "Execution Order"
+      },
+      "hash": "eaecd977",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the CHARACTER this stratagem named",
+            "ru": "против CHARACTER, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "aa2b5fe6-cfe5-46f6-b3bd-2a525e755ab2",
+      "kind": "stratagem",
+      "name": "Hexagrammic Wards",
+      "det": "Ordo Malleus, Daemon Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-malleus-daemon-hunters",
+        "name": "Hexagrammic Wards"
+      },
+      "hash": "50036792",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "14441c71-f592-476f-96b0-e0e8b2d7b4f2",
+      "kind": "stratagem",
+      "name": "Psybolt Ammunition",
+      "det": "Ordo Malleus, Daemon Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-malleus-daemon-hunters",
+        "name": "Psybolt Ammunition"
+      },
+      "hash": "98b02112",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "4191fc9b-51ff-4fd7-ba42-fbc7b0d5a138",
+      "kind": "stratagem",
+      "name": "Truesilver Armour",
+      "det": "Ordo Malleus, Daemon Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-malleus-daemon-hunters",
+        "name": "Truesilver Armour"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3c71b9ec-b40c-44e1-9daa-fd22abee459f",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-xenos-alien-hunters",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "78859713-cdea-4729-815f-91a9d8c94491",
+      "kind": "stratagem",
+      "name": "Dragonfire Rounds",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-xenos-alien-hunters",
+        "name": "Dragonfire Rounds"
+      },
+      "hash": "c741719e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a8dc46f8-40e0-4820-90ec-cf475621a130",
+      "kind": "stratagem",
+      "name": "Hellfire Rounds",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-xenos-alien-hunters",
+        "name": "Hellfire Rounds"
+      },
+      "hash": "c1d7b05d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 2+",
+          "when": {
+            "en": "excluding Devastating Wounds weapons",
+            "ru": "кроме оружия с Devastating Wounds"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 5+",
+          "when": {
+            "en": "excluding Devastating Wounds weapons",
+            "ru": "кроме оружия с Devastating Wounds"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "30ea96b9-4327-4f32-8c09-ac1de917be40",
+      "kind": "stratagem",
+      "name": "Kraken Rounds",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-xenos-alien-hunters",
+        "name": "Kraken Rounds"
+      },
+      "hash": "7afed4a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "82047dbf-135c-4375-b0cb-6e3ce35037fe",
+      "kind": "stratagem",
+      "name": "Ensnaring Trap",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veiled-blade-elimination-force",
+        "name": "Ensnaring Trap"
+      },
+      "hash": "f1ef0cb5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ba362a01-cce9-4344-b5d2-259651658189",
+      "kind": "stratagem",
+      "name": "Hyperstimms",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veiled-blade-elimination-force",
+        "name": "Hyperstimms"
+      },
+      "hash": "96d8e448",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f05e1f04-a826-41ea-942a-0ab6e6048212",
+      "kind": "stratagem",
+      "name": "Will-sapping Salvo",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veiled-blade-elimination-force",
+        "name": "Will-sapping Salvo"
+      },
+      "hash": "e412350c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:aquila-kill-team",
       "kind": "wargear",
       "name": "Aquila Kill Team: Astartes shield",

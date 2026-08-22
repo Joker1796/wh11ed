@@ -260,6 +260,24 @@ function sourcesOf(bundle, detById) {
     for (const e of d.enhancements || []) {
       out.push({ sid: e.id, kind: 'enhancement', name: e.name, det: d.name, ref: whDet ? { kind: 'enhancement', det: whDet } : null, prose: appdataToMarkup(e.rules) })
     }
+    // STRATAGEMS — the seventh source, added 2026-08-22 and the largest of them all: 1427 across
+    // the game, 405 of which rewrite a characteristic. Unlike every other source a stratagem is not
+    // a standing fact about the army — it is spent, on one unit, for a stated window — so its
+    // record carries `dur` (how long the effect lasts) and applies only while the player says it is
+    // in force. Only the EFFECT is hashed: `when`/`target` say who may use it and when, which the
+    // stratagem card already renders in full, and folding them in would make every wording tweak
+    // read as an errata against the numbers.
+    for (const st of d.stratagems || []) {
+      if (!st.id || !st.effect) continue
+      out.push({
+        sid: st.id,
+        kind: 'stratagem',
+        name: st.name,
+        det: d.name,
+        ref: whDet ? { kind: 'stratagem', det: whDet, name: st.name } : null,
+        prose: appdataToMarkup(st.effect),
+      })
+    }
   }
   return out.filter((s) => s.sid && s.prose)
 }

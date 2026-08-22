@@ -723,6 +723,238 @@ export default {
       }
     },
     {
+      "sid": "89f9667a-2fe9-43f7-acae-2da2c36fdd58",
+      "kind": "stratagem",
+      "name": "Gene-twisted Muscle",
+      "det": "Biosanctic Broodsurge",
+      "ref": {
+        "kind": "stratagem",
+        "det": "biosanctic-broodsurge",
+        "name": "Gene-twisted Muscle"
+      },
+      "hash": "29fc7b5f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e361c74a-b210-419e-8896-e612c5b2eb1a",
+      "kind": "stratagem",
+      "name": "Avenge the Star Children",
+      "det": "Final Day",
+      "ref": {
+        "kind": "stratagem",
+        "det": "final-day",
+        "name": "Avenge the Star Children"
+      },
+      "hash": "abdfd34a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "265289eb-b508-484a-9f67-0e0aa86cd3e4",
+      "kind": "stratagem",
+      "name": "Surging Broodworship",
+      "det": "Heroes of the Uprising",
+      "ref": {
+        "kind": "stratagem",
+        "det": "heroes-of-the-uprising",
+        "name": "Surging Broodworship"
+      },
+      "hash": "9ac68057",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "KILLER models only",
+            "ru": "только модели KILLER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c76dd692-ec4c-47a9-a699-83ce9fa6f236",
+      "kind": "stratagem",
+      "name": "Coordinated Trap",
+      "det": "Host of Ascension",
+      "ref": {
+        "kind": "stratagem",
+        "det": "host-of-ascension",
+        "name": "Coordinated Trap"
+      },
+      "hash": "ac39cd86",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2cde0724-fb92-4638-b2b9-ac61fc0bc08c",
+      "kind": "stratagem",
+      "name": "Close-range Shoot-out",
+      "det": "Outlander Claw",
+      "ref": {
+        "kind": "stratagem",
+        "det": "outlander-claw",
+        "name": "Close-range Shoot-out"
+      },
+      "hash": "a0c70c35",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against targets within 18\"",
+            "ru": "против целей в 18\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7e26616d-df7c-434a-a91f-049f78fd0863",
+      "kind": "stratagem",
+      "name": "Deft Manoeuvring",
+      "det": "Outlander Claw",
+      "ref": {
+        "kind": "stratagem",
+        "det": "outlander-claw",
+        "name": "Deft Manoeuvring"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fb05d738-b1ad-4a65-8c61-878f9e0f5ee4",
+      "kind": "stratagem",
+      "name": "Devoted Crew",
+      "det": "Outlander Claw",
+      "ref": {
+        "kind": "stratagem",
+        "det": "outlander-claw",
+        "name": "Devoted Crew"
+      },
+      "hash": "df9c6903",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ed33177c-e79a-4f2e-b2af-f1c616eefef5",
+      "kind": "stratagem",
+      "name": "Frenzied Devotion",
+      "det": "Xenocreed Congregation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "xenocreed-congregation",
+        "name": "Frenzied Devotion"
+      },
+      "hash": "e009a163",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "excluding CHARACTER models (their weapons also gain [HAZARDOUS])",
+            "ru": "кроме моделей CHARACTER (оружие получает [HAZARDOUS])"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "excluding CHARACTER models (their weapons also gain [HAZARDOUS])",
+            "ru": "кроме моделей CHARACTER (оружие получает [HAZARDOUS])"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "33af9d30-cab9-49b0-bb8b-66ac614470c0",
+      "kind": "stratagem",
+      "name": "Transcendent Celerity",
+      "det": "Xenocreed Congregation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "xenocreed-congregation",
+        "name": "Transcendent Celerity"
+      },
+      "hash": "cf9bdcda",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "244095c9-a6cb-42da-987f-277997385935",
+      "kind": "stratagem",
+      "name": "Slunk from the Underbelly",
+      "det": "Xenocult Masses",
+      "ref": {
+        "kind": "stratagem",
+        "det": "xenocult-masses",
+        "name": "Slunk from the Underbelly"
+      },
+      "hash": "8562af04",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "61c63ee8-1c41-4e6c-b0e8-5451c154c896:achilles-ridgerunners",
       "kind": "wargear",
       "name": "Achilles Ridgerunners: Flare launcher",

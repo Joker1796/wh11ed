@@ -1091,6 +1091,377 @@ export default {
       ]
     },
     {
+      "sid": "ee842df1-f44d-45b9-9f16-e1ec47871c8f",
+      "kind": "stratagem",
+      "name": "Divine Guidance",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Divine Guidance"
+      },
+      "hash": "5be0535d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "76636826-a2ee-46f2-8a54-106731e6ebc8",
+      "kind": "stratagem",
+      "name": "Faith and Fury",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Faith and Fury"
+      },
+      "hash": "1bd9021b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9535f9df-440a-42ed-8ce1-fc2b3b3e2e2a",
+      "kind": "stratagem",
+      "name": "Light of the Emperor",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Light of the Emperor"
+      },
+      "hash": "380fcfb6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "edf56ccf-046e-4f5c-ae39-7ebc3d61d85b",
+      "kind": "stratagem",
+      "name": "Cleansing Flames",
+      "det": "Bringers of Flame",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bringers-of-flame",
+        "name": "Cleansing Flames"
+      },
+      "hash": "d1199be5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "07a13a5c-5ad0-4a41-ab8c-af3a0b6207d4",
+      "kind": "stratagem",
+      "name": "Righteous Blows",
+      "det": "Bringers of Flame",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bringers-of-flame",
+        "name": "Righteous Blows"
+      },
+      "hash": "31322c63",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a1cd7972-52b6-447f-9bf3-f0eb542b0401",
+      "kind": "stratagem",
+      "name": "Rites of Fire",
+      "det": "Bringers of Flame",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bringers-of-flame",
+        "name": "Rites of Fire"
+      },
+      "hash": "9b09a897",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4fe78d2e-a1d9-417b-8ff4-2e50ba6065bb",
+      "kind": "stratagem",
+      "name": "Shield of Aversion",
+      "det": "Bringers of Flame",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bringers-of-flame",
+        "name": "Shield of Aversion"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "233adae4-81a7-4967-af0c-8b819f453d70",
+      "kind": "stratagem",
+      "name": "To The Heart Of Heresy",
+      "det": "Champions of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-faith",
+        "name": "To The Heart Of Heresy"
+      },
+      "hash": "4efb0a8b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while the unit is Righteous",
+            "ru": "и ещё, пока отряд Righteous"
+          },
+          "cond": [
+            "unit-righteous"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "32eebb7c-25ad-4030-88b3-6edfcf6ad3eb",
+      "kind": "stratagem",
+      "name": "Devastating Reprise",
+      "det": "Chorus of Condemnation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "chorus-of-condemnation",
+        "name": "Devastating Reprise"
+      },
+      "hash": "114626cc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against the enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cf743f7c-6df2-40ea-96f7-cdb0de92947e",
+      "kind": "stratagem",
+      "name": "Boundless Zeal",
+      "det": "Penitent Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "penitent-host",
+        "name": "Boundless Zeal"
+      },
+      "hash": "83e5bff6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d69e5d7f-ef9c-4822-b6fc-b3b5ba87eb7a",
+      "kind": "stratagem",
+      "name": "Lash of Guilt",
+      "det": "Penitent Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "penitent-host",
+        "name": "Lash of Guilt"
+      },
+      "hash": "99b5dc08",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "for a PENITENT ENGINES unit, instead of an Advance roll",
+            "ru": "для отряда PENITENT ENGINES, вместо броска Advance"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6e89c116-3112-44b8-ac3b-74181a382434",
+      "kind": "stratagem",
+      "name": "Sanctified Blows",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sacred-champions",
+        "name": "Sanctified Blows"
+      },
+      "hash": "7a8873d6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "941baf14-ed21-4f5c-a3b3-74d91db967b9",
+      "kind": "stratagem",
+      "name": "Unflinching Determination",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sacred-champions",
+        "name": "Unflinching Determination"
+      },
+      "hash": "0ffdaff4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "dff7be98-fabd-4de4-bdcc-fe507d46a527",
+      "kind": "stratagem",
+      "name": "Fires of Damnation",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "1b3fca96",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "Torrent weapons, while this stratagem is in force",
+            "ru": "Torrent-оружие, пока действует стратагема"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "fb07a984-f0d8-42d6-b044-08298622c911:mortifiers",
       "kind": "wargear",
       "name": "Mortifiers: Anchorite Sarcophagus",

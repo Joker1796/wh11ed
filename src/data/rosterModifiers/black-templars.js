@@ -386,6 +386,256 @@ export default {
       ]
     },
     {
+      "sid": "7902554f-4d97-4939-823f-12d54bc02d4c",
+      "kind": "stratagem",
+      "name": "For The Emperor’s Honour!",
+      "det": "Companions of Vehemence",
+      "ref": {
+        "kind": "stratagem",
+        "det": "companions-of-vehemence",
+        "name": "For The Emperor’s Honour!"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f270d2df-d8b5-4d1e-a01d-e09812358568",
+      "kind": "stratagem",
+      "name": "Blessed Hull",
+      "det": "Godhammer Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "godhammer-assault-force",
+        "name": "Blessed Hull"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2822b996-2f83-424b-bca4-fc42ece2d2d5",
+      "kind": "stratagem",
+      "name": "Condemnatory Info-Screed",
+      "det": "Godhammer Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "godhammer-assault-force",
+        "name": "Condemnatory Info-Screed"
+      },
+      "hash": "abe09f4a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "24989e27-34b1-4b31-9ab4-296a7eb5c79e",
+      "kind": "stratagem",
+      "name": "Slayers of Abominations",
+      "det": "Marshal's Household",
+      "ref": {
+        "kind": "stratagem",
+        "det": "marshals-household",
+        "name": "Slayers of Abominations"
+      },
+      "hash": "c1571800",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ee54adfc-1175-4034-b181-84f617c20421",
+      "kind": "stratagem",
+      "name": "Litanies of Purgation",
+      "det": "Vindication Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vindication-task-force",
+        "name": "Litanies of Purgation"
+      },
+      "hash": "053cd6cc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while either unit is within range of an objective marker",
+            "ru": "пока один из отрядов в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d4b7ec66-5516-44a7-9511-894b53d7a8b7",
+      "kind": "stratagem",
+      "name": "Reclaim Our Honour!",
+      "det": "Vindication Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vindication-task-force",
+        "name": "Reclaim Our Honour!"
+      },
+      "hash": "fb944b4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "680055d9-0ea3-473b-8b1b-2ac08fa0ed40",
+      "kind": "stratagem",
+      "name": "Spoor of the Unholy",
+      "det": "Vindication Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vindication-task-force",
+        "name": "Spoor of the Unholy"
+      },
+      "hash": "6e1872ca",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "41258f7f-dee3-4065-93f5-83774b5da820",
+      "kind": "stratagem",
+      "name": "Come To Their Aid",
+      "det": "Vow-Sworn of Vedrenn",
+      "ref": null,
+      "hash": "cc14164b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c714807c-7a5d-4b53-a1cc-a4fc6f28fd1e",
+      "kind": "stratagem",
+      "name": "Heavy Strikes",
+      "det": "Vow-Sworn of Vedrenn",
+      "ref": null,
+      "hash": "b5bedc21",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6391df5a-5af9-4492-83ae-ab84867a65ed",
+      "kind": "stratagem",
+      "name": "Castigate the Demagogues",
+      "det": "Wrathful Procession",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrathful-procession",
+        "name": "Castigate the Demagogues"
+      },
+      "hash": "bf79a709",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ba8c0eec-7773-4981-82cf-8f29888b15e5",
+      "kind": "stratagem",
+      "name": "Rite of Perfervid Wrath",
+      "det": "Wrathful Procession",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrathful-procession",
+        "name": "Rite of Perfervid Wrath"
+      },
+      "hash": "d7306b4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "4376131c-0673-4ce5-84e3-6bda75cd6fd6:impulsor",
       "kind": "wargear",
       "name": "Impulsor: Shield Dome",

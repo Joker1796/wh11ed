@@ -841,6 +841,491 @@ export default {
       ]
     },
     {
+      "sid": "e911cb72-8416-456b-b29b-9d7e78845c3f",
+      "kind": "stratagem",
+      "name": "The Spoor of Frailty",
+      "det": "Annihilation Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "annihilation-legion",
+        "name": "The Spoor of Frailty"
+      },
+      "hash": "2fc82dc8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "189e9a56-08ba-4f1d-91fe-86a29a58fc97",
+      "kind": "stratagem",
+      "name": "Protocol of the Hungry Void",
+      "det": "Awakened Dynasty",
+      "ref": {
+        "kind": "stratagem",
+        "det": "awakened-dynasty",
+        "name": "Protocol of the Hungry Void"
+      },
+      "hash": "e16165bb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while a NECRONS CHARACTER is leading the unit",
+            "ru": "и ещё, пока отрядом руководит NECRONS CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "715892f9-4eab-4736-b3aa-cf87a1da9612",
+      "kind": "stratagem",
+      "name": "Protocol of the Sudden Storm",
+      "det": "Awakened Dynasty",
+      "ref": {
+        "kind": "stratagem",
+        "det": "awakened-dynasty",
+        "name": "Protocol of the Sudden Storm"
+      },
+      "hash": "3747e0bf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "c0a9369e-f600-4bff-afe3-953de7887c21",
+      "kind": "stratagem",
+      "name": "Curse of the Cryptek",
+      "det": "Canoptek Court",
+      "ref": {
+        "kind": "stratagem",
+        "det": "canoptek-court",
+        "name": "Curse of the Cryptek"
+      },
+      "hash": "6b386492",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d50a8525-0cda-4481-b35a-0166906008ce",
+      "kind": "stratagem",
+      "name": "Cynosure of Eradication",
+      "det": "Canoptek Court",
+      "ref": {
+        "kind": "stratagem",
+        "det": "canoptek-court",
+        "name": "Cynosure of Eradication"
+      },
+      "hash": "fe0b57a5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "CRYPTEK and CANOPTEK models only",
+            "ru": "только модели CRYPTEK и CANOPTEK"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9c1084ea-a988-41ae-9e7e-93fff8618e30",
+      "kind": "stratagem",
+      "name": "Solar Pulse",
+      "det": "Canoptek Court",
+      "ref": {
+        "kind": "stratagem",
+        "det": "canoptek-court",
+        "name": "Solar Pulse"
+      },
+      "hash": "8605bfcf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "faa6ca0c-12bb-4e2b-8d3d-519132a0cd1f",
+      "kind": "stratagem",
+      "name": "Microscarab Swarm",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cryptek-conclave",
+        "name": "Microscarab Swarm"
+      },
+      "hash": "7552fba5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "for a NECRON WARRIORS unit",
+            "ru": "для отряда NECRON WARRIORS"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "for an IMMORTALS unit, instead",
+            "ru": "для отряда IMMORTALS, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6bf52360-b8b5-446e-9492-171c06106583",
+      "kind": "stratagem",
+      "name": "Molecular Targeting",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cryptek-conclave",
+        "name": "Molecular Targeting"
+      },
+      "hash": "e970969b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cd990928-7ba9-4233-8360-25dc7fdab369",
+      "kind": "stratagem",
+      "name": "Synergistic Empowerment",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cryptek-conclave",
+        "name": "Synergistic Empowerment"
+      },
+      "hash": "8fcebd15",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "12fb9bc1-173f-4e4c-8c6b-7e9c03a33b0c",
+      "kind": "stratagem",
+      "name": "Methodical Murder",
+      "det": "Cursed Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cursed-legion",
+        "name": "Methodical Murder"
+      },
+      "hash": "fd0d603c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d51f2004-facc-4f30-95bd-efeac95a5493",
+      "kind": "stratagem",
+      "name": "Spreading Madness",
+      "det": "Cursed Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cursed-legion",
+        "name": "Spreading Madness"
+      },
+      "hash": "651aec76",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "04c6e3ba-873f-4909-be7e-2c2e3fdc8bdc",
+      "kind": "stratagem",
+      "name": "Dominance Protocols",
+      "det": "Hand of the Dynasty",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hand-of-the-dynasty",
+        "name": "Dominance Protocols"
+      },
+      "hash": "076afe4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "4c4d4778-c7da-4a19-b7e8-d14c1c4ef657",
+      "kind": "stratagem",
+      "name": "Entropic Damping",
+      "det": "Hypercrypt Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hypercrypt-legion",
+        "name": "Entropic Damping"
+      },
+      "hash": "4fd50ae6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "34e9b24d-0cfa-4679-8fd5-a2ee1485e03b",
+      "kind": "stratagem",
+      "name": "Quantum Deflection",
+      "det": "Hypercrypt Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hypercrypt-legion",
+        "name": "Quantum Deflection"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5ed9cb6e-a512-495d-af01-3e55d9966ca4",
+      "kind": "stratagem",
+      "name": "Nanoassembly Protocols",
+      "det": "Obeisance Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "obeisance-phalanx",
+        "name": "Nanoassembly Protocols"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4df51b07-bd1d-4510-9088-4734099be4cb",
+      "kind": "stratagem",
+      "name": "Suffer No Rival",
+      "det": "Obeisance Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "obeisance-phalanx",
+        "name": "Suffer No Rival"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a1f9d428-e9d5-484e-9791-7d0dcca30a6d",
+      "kind": "stratagem",
+      "name": "Territorial Obsession",
+      "det": "Obeisance Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "obeisance-phalanx",
+        "name": "Territorial Obsession"
+      },
+      "hash": "24319947",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "for a VEHICLE, instead",
+            "ru": "для VEHICLE, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "1b7e64e2-00bb-48a9-a88e-6c35d4aa0961",
+      "kind": "stratagem",
+      "name": "Chronoshift",
+      "det": "Starshatter Arsenal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "starshatter-arsenal",
+        "name": "Chronoshift"
+      },
+      "hash": "50325371",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fbcf624c-34ed-4f2c-b43a-4eb2ea002cb9",
+      "kind": "stratagem",
+      "name": "Merciless Reclamation",
+      "det": "Starshatter Arsenal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "starshatter-arsenal",
+        "name": "Merciless Reclamation"
+      },
+      "hash": "42c640c7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "699ac868-919e-490d-8e00-c86730312e2f",
+      "kind": "stratagem",
+      "name": "Cosmic Storm",
+      "det": "The Phaeron's Armoury",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-phaerons-armoury",
+        "name": "Cosmic Storm"
+      },
+      "hash": "cc0ec271",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Tesla sphere"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "f8700f44-a5d3-43d0-b34f-c2b09a6b504b:canoptek-macrocytes",
       "kind": "wargear",
       "name": "Canoptek Macrocytes: Accelerator Mandible",

@@ -757,6 +757,350 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "0c67be9d-bb57-48fd-8552-913f37a136fc",
+      "kind": "stratagem",
+      "name": "Counterpredation",
+      "det": "Ambush Predators",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ambush-predators",
+        "name": "Counterpredation"
+      },
+      "hash": "1baf7853",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a hidden unit",
+            "ru": "против скрытого (hidden) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against a hidden unit",
+            "ru": "против скрытого (hidden) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2824ee77-aa79-49dd-a64b-d5b19a7d1776",
+      "kind": "stratagem",
+      "name": "Broodguard Impulse",
+      "det": "Assimilation Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "assimilation-swarm",
+        "name": "Broodguard Impulse"
+      },
+      "hash": "34fc007c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "58be2d55-0238-466d-9419-1b9e71710d4d",
+      "kind": "stratagem",
+      "name": "Secure Biomass",
+      "det": "Assimilation Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "assimilation-swarm",
+        "name": "Secure Biomass"
+      },
+      "hash": "e775fab1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ff939b18-014a-4295-8557-4da856bce0b3",
+      "kind": "stratagem",
+      "name": "Swarm-guided Salvoes",
+      "det": "Crusher Stampede",
+      "ref": {
+        "kind": "stratagem",
+        "det": "crusher-stampede",
+        "name": "Swarm-guided Salvoes"
+      },
+      "hash": "76a73124",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "635d6424-caa2-4515-8c84-86ae2c8a7fac",
+      "kind": "stratagem",
+      "name": "Adaptive Optimisation",
+      "det": "Subterranean Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "subterranean-assault",
+        "name": "Adaptive Optimisation"
+      },
+      "hash": "57c4e273",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Synapse",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "c2caac9f-93d9-4f86-97c2-9eb33a793628",
+      "kind": "stratagem",
+      "name": "Enfilading Emergence",
+      "det": "Subterranean Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "subterranean-assault",
+        "name": "Enfilading Emergence"
+      },
+      "hash": "c7a567e7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "5eeb38ef-6c42-47a4-b504-d526b50c67df",
+      "kind": "stratagem",
+      "name": "Reinforced Hive Node",
+      "det": "Synaptic Nexus",
+      "ref": {
+        "kind": "stratagem",
+        "det": "synaptic-nexus",
+        "name": "Reinforced Hive Node"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "96e02332-a1cf-4bc9-b9a1-5a9b6738c765",
+      "kind": "stratagem",
+      "name": "Lesser Prey",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-norn-queen",
+        "name": "Lesser Prey"
+      },
+      "hash": "a7c72faa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d6d95f2e-da94-4979-83a9-1651076c015d",
+      "kind": "stratagem",
+      "name": "Bounding Advance",
+      "det": "Unending Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unending-swarm",
+        "name": "Bounding Advance"
+      },
+      "hash": "c1bf64f9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "87d7b3cf-4231-4fdd-949f-3718bb1cc569",
+      "kind": "stratagem",
+      "name": "Swarming Masses",
+      "det": "Unending Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unending-swarm",
+        "name": "Swarming Masses"
+      },
+      "hash": "989b1552",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cd3aa920-f0a8-4468-adf6-66a30c2ed7c0",
+      "kind": "stratagem",
+      "name": "Assassin Beasts",
+      "det": "Vanguard Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-onslaught",
+        "name": "Assassin Beasts"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ebaed1fb-6016-4854-8068-eb013d8ebe2a",
+      "kind": "stratagem",
+      "name": "Surprise Assault",
+      "det": "Vanguard Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-onslaught",
+        "name": "Surprise Assault"
+      },
+      "hash": "cac1695a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ad6bd914-db0f-43be-95c1-aae0515947a1",
+      "kind": "stratagem",
+      "name": "Parasitic Payload",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warrior-bioform-onslaught",
+        "name": "Parasitic Payload"
+      },
+      "hash": "3797bd7a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     }
   ]
 }

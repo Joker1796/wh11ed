@@ -1525,6 +1525,748 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "f2ea7f7b-8a98-4850-8acd-b3e32c3261ad",
+      "kind": "stratagem",
+      "name": "Wreathed in Warpflame",
+      "det": "Cabal of Chaos",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cabal-of-chaos",
+        "name": "Wreathed in Warpflame"
+      },
+      "hash": "5938c3ef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "10738da7-fbb3-4a3b-8f16-de400702fd2f",
+      "kind": "stratagem",
+      "name": "Crazed Focus",
+      "det": "Chaos Cult",
+      "ref": {
+        "kind": "stratagem",
+        "det": "chaos-cult",
+        "name": "Crazed Focus"
+      },
+      "hash": "48dd2041",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if the unit made a Desperate Pact",
+            "ru": "если отряд заключил Desperate Pact"
+          },
+          "cond": [
+            "unit-desperate-pact"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "95bd643e-d349-4e22-8626-d63f639092f4",
+      "kind": "stratagem",
+      "name": "Infernal Sacrifice",
+      "det": "Chaos Cult",
+      "ref": {
+        "kind": "stratagem",
+        "det": "chaos-cult",
+        "name": "Infernal Sacrifice"
+      },
+      "hash": "2d0091a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the unit made a Desperate Pact",
+            "ru": "если отряд заключил Desperate Pact"
+          },
+          "cond": [
+            "unit-desperate-pact"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b851a9d9-4f75-4968-a7c4-8903bcd801c1",
+      "kind": "stratagem",
+      "name": "Balefire Boon",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cult-of-the-arkifane",
+        "name": "Balefire Boon"
+      },
+      "hash": "20ff758a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d79b41a0-37ef-42ce-821e-9022d683bd6a",
+      "kind": "stratagem",
+      "name": "Biomechanoid Regeneration",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cult-of-the-arkifane",
+        "name": "Biomechanoid Regeneration"
+      },
+      "hash": "5dcd2330",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c45b573d-c5e1-495f-b216-2f6b5510bcfa",
+      "kind": "stratagem",
+      "name": "Forge-Fire Surge",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cult-of-the-arkifane",
+        "name": "Forge-Fire Surge"
+      },
+      "hash": "acebe636",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b25009cd-dd67-424d-81b2-fdd1a6d906cb",
+      "kind": "stratagem",
+      "name": "Unholy Fortitude",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cult-of-the-arkifane",
+        "name": "Unholy Fortitude"
+      },
+      "hash": "49d0fd4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "67aa0902-a907-48b0-b675-c891a322b560",
+      "kind": "stratagem",
+      "name": "From All Sides",
+      "det": "Deceptors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "deceptors",
+        "name": "From All Sides"
+      },
+      "hash": "9553ca33",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "dfd93880-0f0c-451d-a583-ae840e5c5aec",
+      "kind": "stratagem",
+      "name": "Depthless Cruelty",
+      "det": "Dread Talons",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-talons",
+        "name": "Depthless Cruelty"
+      },
+      "hash": "ec435d17",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against Battle-shocked or Below Half-strength targets",
+            "ru": "против Battle-shocked или Below Half-strength целей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3327c4a2-167a-4491-8a36-3fbce7dc75d3",
+      "kind": "stratagem",
+      "name": "Point-blank Destruction",
+      "det": "Fellhammer Siege-host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "fellhammer-siege-host",
+        "name": "Point-blank Destruction"
+      },
+      "hash": "88580281",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PISTOL",
+          "when": {
+            "en": "excluding Blast weapons",
+            "ru": "кроме Blast-оружия"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3f670811-2b11-430a-9b5f-bd34a6cb9070",
+      "kind": "stratagem",
+      "name": "Hardened Killers",
+      "det": "Huron’s Marauders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hurons-marauders",
+        "name": "Hardened Killers"
+      },
+      "hash": "2a9803ec",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "if that effect was the one selected",
+            "ru": "если выбран этот вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "RAPID FIRE"
+          },
+          "when": {
+            "en": "if that effect was the one selected",
+            "ru": "если выбран этот вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cbe69988-a5c2-472c-9111-a8b2bebba098",
+      "kind": "stratagem",
+      "name": "Reavers’ Flurry",
+      "det": "Huron’s Marauders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hurons-marauders",
+        "name": "Reavers’ Flurry"
+      },
+      "hash": "e069da04",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "158784e5-c154-4fd6-b348-abd9ec8fbf99",
+      "kind": "stratagem",
+      "name": "Seize the Prize",
+      "det": "Huron’s Marauders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hurons-marauders",
+        "name": "Seize the Prize"
+      },
+      "hash": "d930fd7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "instead of an Advance roll",
+            "ru": "вместо броска Advance"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5549aaa3-79e6-4861-8aa1-c55b3e482390",
+      "kind": "stratagem",
+      "name": "Plunging Talons",
+      "det": "Murdertalon Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "murdertalon-raiders",
+        "name": "Plunging Talons"
+      },
+      "hash": "127e1a54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5966ecaf-dbbb-4c4f-b24a-f1da41fbc804",
+      "kind": "stratagem",
+      "name": "Talons Sunk Deep",
+      "det": "Nightmare Hunt",
+      "ref": {
+        "kind": "stratagem",
+        "det": "nightmare-hunt",
+        "name": "Talons Sunk Deep"
+      },
+      "hash": "5c14e8f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against Battle-shocked or Below Half-strength targets",
+            "ru": "против Battle-shocked или Below Half-strength целей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6db426b9-51c3-4b16-9240-f0b25c6cecae",
+      "kind": "stratagem",
+      "name": "Eye of the Gods",
+      "det": "Pactbound Zealots",
+      "ref": {
+        "kind": "stratagem",
+        "det": "pactbound-zealots",
+        "name": "Eye of the Gods"
+      },
+      "hash": "fd75d102",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model only",
+            "ru": "только модель CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model only",
+            "ru": "только модель CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model only",
+            "ru": "только модель CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model's weapons only",
+            "ru": "только оружие модели CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model's weapons only",
+            "ru": "только оружие модели CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the CHARACTER model's weapons only",
+            "ru": "только оружие модели CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "battle"
+    },
+    {
+      "sid": "061789a4-030f-4b28-b7a8-4ac77d6ee146",
+      "kind": "stratagem",
+      "name": "Reaver’s Haste",
+      "det": "Renegade Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-raiders",
+        "name": "Reaver’s Haste"
+      },
+      "hash": "aadf101b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e38ba41a-8fc3-4b8f-9bd9-ca46d0235f51",
+      "kind": "stratagem",
+      "name": "Unfailingly Obdurate",
+      "det": "Renegade Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-raiders",
+        "name": "Unfailingly Obdurate"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e66eed41-c56b-4279-bd17-6730b64d986c",
+      "kind": "stratagem",
+      "name": "Warpcharged Engines",
+      "det": "Renegade Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-raiders",
+        "name": "Warpcharged Engines"
+      },
+      "hash": "50325371",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e3a9dcd4-c4c4-464d-9544-4578cf4493a2",
+      "kind": "stratagem",
+      "name": "Vengeful Destruction",
+      "det": "Renegade Warband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-warband",
+        "name": "Vengeful Destruction"
+      },
+      "hash": "b85cebe7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d3143f1b-4e27-49b1-91d8-968dba1e0561",
+      "kind": "stratagem",
+      "name": "Daemonic Possession",
+      "det": "Soulforged Warpack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "soulforged-warpack",
+        "name": "Daemonic Possession"
+      },
+      "hash": "7aef849b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Daemon",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "battle"
+    },
+    {
+      "sid": "c3a40b78-d68c-44cf-a75e-f9a841690720",
+      "kind": "stratagem",
+      "name": "Desperate Pledge",
+      "det": "Soulforged Warpack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "soulforged-warpack",
+        "name": "Desperate Pledge"
+      },
+      "hash": "2251371c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if the unit invoked its contract",
+            "ru": "если отряд заключил контракт"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fef09a92-d6c5-4819-a57b-4eff4c8b5ab7",
+      "kind": "stratagem",
+      "name": "Contemptuous Disregard",
+      "det": "Veterans of the Long War",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veterans-of-the-long-war",
+        "name": "Contemptuous Disregard"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8cfa3ae5-3836-474c-96de-6a7d8e93a9ad",
+      "kind": "stratagem",
+      "name": "Let the Galaxy Burn",
+      "det": "Veterans of the Long War",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veterans-of-the-long-war",
+        "name": "Let the Galaxy Burn"
+      },
+      "hash": "78715830",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "Torrent weapons, while this stratagem is in force",
+            "ru": "Torrent-оружие, пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "aebb7533-d9f6-473f-908f-e99d1577f45f",
+      "kind": "stratagem",
+      "name": "Armour of Corruption",
+      "det": "Warpstrike Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpstrike-champions",
+        "name": "Armour of Corruption"
+      },
+      "hash": "288334fc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6572fbd6-499b-46a8-ac6d-48a290969bb0",
+      "kind": "stratagem",
+      "name": "Empyric Dislocation",
+      "det": "Warpstrike Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpstrike-champions",
+        "name": "Empyric Dislocation"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3810e6a7-25be-4932-8b5f-6e30447ba08b",
+      "kind": "stratagem",
+      "name": "Siegebreaker Strike",
+      "det": "Warpstrike Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpstrike-champions",
+        "name": "Siegebreaker Strike"
+      },
+      "hash": "4cc6713e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     }
   ]
 }

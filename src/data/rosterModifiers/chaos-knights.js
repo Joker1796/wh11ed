@@ -624,6 +624,162 @@ export default {
         "kind": "enhancement",
         "det": "traitoris-lance"
       }
+    },
+    {
+      "sid": "58d86379-2099-42af-a1ba-671bb6495d36",
+      "kind": "stratagem",
+      "name": "Beasthide Manifestation",
+      "det": "Helhunt Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "helhunt-lance",
+        "name": "Beasthide Manifestation"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "23d446a4-7816-4277-8a34-fedc179a16a5",
+      "kind": "stratagem",
+      "name": "Merciless Fusillade",
+      "det": "Helhunt Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "helhunt-lance",
+        "name": "Merciless Fusillade"
+      },
+      "hash": "65313999",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "39493fcc-0ea8-44a4-92e8-0758641e3074",
+      "kind": "stratagem",
+      "name": "Avenge the Masters!",
+      "det": "Iconoclast Fiefdom",
+      "ref": {
+        "kind": "stratagem",
+        "det": "iconoclast-fiefdom",
+        "name": "Avenge the Masters!"
+      },
+      "hash": "c400fe1e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "71e5b868-02ba-4f1b-a154-3344075c17f1",
+      "kind": "stratagem",
+      "name": "Diabolic Bulwark",
+      "det": "Infernal Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "infernal-lance",
+        "name": "Diabolic Bulwark"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9dfac69d-e8a2-4d38-8d6b-19858eaea882",
+      "kind": "stratagem",
+      "name": "Hellforged Construction",
+      "det": "Infernal Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "infernal-lance",
+        "name": "Hellforged Construction"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0e0a9e37-fc6d-4ac8-8e17-9d44dc5ed741",
+      "kind": "stratagem",
+      "name": "Warp Vision",
+      "det": "Infernal Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "infernal-lance",
+        "name": "Warp Vision"
+      },
+      "hash": "f7f93b26",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f09aa1f8-3eff-4de9-b32a-bb88c4f8fcf8",
+      "kind": "stratagem",
+      "name": "Runes of Disdain",
+      "det": "Lords of Dread",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lords-of-dread",
+        "name": "Runes of Disdain"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "fdd0d950-98d1-4116-829b-4be30e80c3ac",
+      "kind": "stratagem",
+      "name": "Conquerors Without Mercy",
+      "det": "Traitoris Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "traitoris-lance",
+        "name": "Conquerors Without Mercy"
+      },
+      "hash": "3619df1f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     }
   ]
 }

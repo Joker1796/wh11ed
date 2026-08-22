@@ -554,6 +554,376 @@ export default {
       ]
     },
     {
+      "sid": "a9d59b50-f9f7-4c58-a3da-af7dd999b2d8",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "709d83a3-6a9d-4e15-bb91-522145490141",
+      "kind": "stratagem",
+      "name": "Focused Fury",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Focused Fury"
+      },
+      "hash": "c1439683",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "also, for a CHARACTER unit",
+            "ru": "и ещё, для отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "811ce264-ec5d-4c48-89b3-eb7f67e542e0",
+      "kind": "stratagem",
+      "name": "Instant of Grace",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Instant of Grace"
+      },
+      "hash": "edaf5eac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d894d116-f328-4734-b401-ba909226f87b",
+      "kind": "stratagem",
+      "name": "Strike Now For Glory",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Strike Now For Glory"
+      },
+      "hash": "4f343477",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d6b55c24-5996-4ab0-a969-8a5692c586c4",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "stratagem",
+        "det": "liberator-assault-group",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "68e640c9-6866-44ec-83ff-079063373952",
+      "kind": "stratagem",
+      "name": "Red Rampage",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "stratagem",
+        "det": "liberator-assault-group",
+        "name": "Red Rampage"
+      },
+      "hash": "1e060dc1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "if that ability was the one selected",
+            "ru": "если выбрана эта способность"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if that ability was the one selected",
+            "ru": "если выбрана эта способность"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "90ceb16d-6855-4536-8a4a-d48f177c1ec1",
+      "kind": "stratagem",
+      "name": "Savage Echoes",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "stratagem",
+        "det": "liberator-assault-group",
+        "name": "Savage Echoes"
+      },
+      "hash": "ded7de09",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if that characteristic was the one selected",
+            "ru": "если выбрана эта характеристика"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if that characteristic was the one selected",
+            "ru": "если выбрана эта характеристика"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "6491816c-ce51-4be9-98c8-87349939b151",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rage-cursed-onslaught",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a41a6832-7298-48b5-9b52-59bf2b316cbf",
+      "kind": "stratagem",
+      "name": "Limb from Limb",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rage-cursed-onslaught",
+        "name": "Limb from Limb"
+      },
+      "hash": "48325b04",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if that characteristic was the one selected",
+            "ru": "если выбрана эта характеристика"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if that characteristic was the one selected",
+            "ru": "если выбрана эта характеристика"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e8bee420-42a8-4bce-bed1-8211c139eb57",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "The Angelic Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-angelic-host",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "88d26402-f1f0-4c30-a590-c4e962ded68b",
+      "kind": "stratagem",
+      "name": "Martial Examplars",
+      "det": "The Angelic Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-angelic-host",
+        "name": "Martial Examplars"
+      },
+      "hash": "27d0b17a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6075a7c6-7b0c-4766-990c-0150ee871400",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "The Lost Brethren",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-lost-brethren",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6d7ee226-7f8f-4418-8088-487743940269",
+      "kind": "stratagem",
+      "name": "Lost to Rage",
+      "det": "The Lost Brethren",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-lost-brethren",
+        "name": "Lost to Rage"
+      },
+      "hash": "db677538",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "98e6a22b-537f-48df-a078-327ce3569a5a:sanguinary-guard",
       "kind": "wargear",
       "name": "Sanguinary Guard: Sanguinary Banner",
