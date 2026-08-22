@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { activeConditions, switchesFor, isAuto } from './rosterGameContext.js'
+import { activeConditions, switchesFor, isAuto, clockOf, stampOf } from './rosterGameContext.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
@@ -113,3 +113,84 @@ describe('switchesFor', () => {
     expect(switchesFor(twice, 'unit', player({}), 1, { uid: 'u1' })).toHaveLength(1)
   })
 })
+
+// ── The clock (P3c) ───────────────────────────────────────────────────────────────────────────
+// A switch records WHEN it was flipped as one monotonic stamp, so a state that lasts a phase can
+// stop being true at the end of that phase instead of surviving to the round boundary.
+const game = (over = {}) => ({ currentRound: 1, currentTurn: 0, currentPhase: 'command', settings: { trackPhases: true }, ...over })
+
+describe('the clock', () => {
+  it('numbers a moment so that a round-only stamp can never look like a phase', () => {
+    expect(stampOf(clockOf(game()))).toBe(101)
+    expect(stampOf(clockOf(game({ currentRound: 3, currentTurn: 1, currentPhase: 'fight' })))).toBe(315)
+    // A game not keeping phases records the round alone…
+    expect(stampOf(clockOf(game({ currentRound: 2, settings: {} })))).toBe(200)
+    // …and a game saved before any of this stored the bare round number, which is below 100.
+    expect(stampOf(2)).toBe(200)
+  })
+
+  it('answers whose turn it is from the player the card belongs to', () => {
+    const g = game({ currentTurn: 1 })
+    expect(clockOf(g, 1).mine).toBe(true)
+    expect(clockOf(g, 0).mine).toBe(false)
+  })
+
+  // unit-dark-pact-invoked lasts a PHASE by its own rule. Before the clock the only boundary
+  // available was the round, so it stayed true for four phases it had no business being true in.
+  it('expires a phase-long switch at the end of that phase', () => {
+    const shooting = clockOf(game({ currentPhase: 'shooting' }))
+    const p = player({ units: { u1: { 'unit-dark-pact-invoked': stampOf(shooting) } } })
+    expect(activeConditions(p, shooting, { uid: 'u1' }).has('unit-dark-pact-invoked')).toBe(true)
+    const charge = clockOf(game({ currentPhase: 'charge' }))
+    expect(activeConditions(p, charge, { uid: 'u1' }).has('unit-dark-pact-invoked')).toBe(false)
+  })
+
+  // unit-charged lasts a TURN: through every phase of the turn it was flipped in, and no further.
+  it('expires a turn-long switch when the turn changes, not when the round does', () => {
+    const mine = clockOf(game({ currentPhase: 'movement' }))
+    const p = player({ units: { u1: { 'unit-charged': stampOf(mine) } } })
+    expect(activeConditions(p, clockOf(game({ currentPhase: 'fight' })), { uid: 'u1' }).has('unit-charged')).toBe(true)
+    const theirTurn = clockOf(game({ currentTurn: 1, currentPhase: 'movement' }))
+    expect(activeConditions(p, theirTurn, { uid: 'u1' }).has('unit-charged')).toBe(false)
+  })
+
+  // Without a clock there is no boundary shorter than the round — which is what this file did
+  // before, and still does for a game that isn't keeping phases.
+  it('falls back to the round boundary when the game keeps no phases', () => {
+    const untracked = (over) => clockOf(game({ settings: {}, ...over }))
+    const p = player({ units: { u1: { 'unit-dark-pact-invoked': stampOf(untracked({})) } } })
+    expect(activeConditions(p, untracked({}), { uid: 'u1' }).has('unit-dark-pact-invoked')).toBe(true)
+    expect(activeConditions(p, untracked({ currentRound: 2 }), { uid: 'u1' }).has('unit-dark-pact-invoked')).toBe(false)
+  })
+
+  it('reads a value stored before stamps existed as a round', () => {
+    const p = player({ army: { 'tactic-furor': 2 } })
+    expect(activeConditions(p, clockOf(game({ currentRound: 2 })), null).has('tactic-furor')).toBe(true)
+    expect(activeConditions(p, clockOf(game({ currentRound: 3 })), null).has('tactic-furor')).toBe(false)
+  })
+
+  it('answers a phase condition from the clock, on the right side of the turn', () => {
+    const mine = clockOf(game({ currentPhase: 'shooting' }), 0)
+    const theirs = clockOf(game({ currentPhase: 'shooting', currentTurn: 1 }), 0)
+    expect(activeConditions(player({}), mine, null).has('phase-shooting')).toBe(true)
+    expect(activeConditions(player({}), theirs, null).has('phase-shooting')).toBe(false)
+    // The Fight phase belongs to nobody in particular — it happens in both turns.
+    const fightTheirs = clockOf(game({ currentPhase: 'fight', currentTurn: 1 }), 0)
+    expect(activeConditions(player({}), fightTheirs, null).has('phase-fight')).toBe(true)
+  })
+
+  it('answers no phase at all in a game that is not keeping them', () => {
+    const untracked = clockOf(game({ currentPhase: 'shooting', settings: {} }), 0)
+    expect(activeConditions(player({}), untracked, null).has('phase-shooting')).toBe(false)
+  })
+
+  it('offers a switch for an effect whose other half is a phase — but only once phases are kept', () => {
+    const recs = [{ effects: [{ cond: ['unit-charged', 'phase-fight'] }] }]
+    const entry = { uid: 'u1' }
+    const kept = clockOf(game({ currentPhase: 'fight' }))
+    expect(switchesFor(recs, 'unit', player({}), kept, entry).map((s) => s.id)).toEqual(['unit-charged'])
+    const not = clockOf(game({ settings: {} }))
+    expect(switchesFor(recs, 'unit', player({}), not, entry)).toEqual([])
+  })
+})
+

@@ -219,7 +219,7 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries } from '../../composables/rosterStatMods.js'
-import { activeConditions, switchesFor } from '../../composables/rosterGameContext.js'
+import { activeConditions, switchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -260,7 +260,9 @@ const game = computed(() => {
 // The roster is frozen in the snapshot, but what is TRUE about the battle is not, and that is
 // what decides whether a conditional modifier applies.
 const gamePlayer = computed(() => game.value?.players?.[gamePi.value] || null)
-const gameRound = computed(() => game.value?.currentRound || 1)
+// What the game is standing on, from THIS player's side: round, whose turn, which phase. One
+// object rather than a bare round, because a switch that lasts a phase has to be able to say so.
+const gameClock = computed(() => clockOf(game.value, gamePi.value))
 // A record is not editable; only a game in progress offers the switches.
 const canSwitch = computed(() => inGame.value && !historyId.value)
 
@@ -274,7 +276,7 @@ watch([gamePi, historyId], async ([pi]) => {
   gameRoster.value = rosterFromPlayer(gamePlayer.value)
 }, { immediate: true })
 
-const activeFor = (entry) => (inGame.value ? activeConditions(gamePlayer.value, gameRound.value, entry) : null)
+const activeFor = (entry) => (inGame.value ? activeConditions(gamePlayer.value, gameClock.value, entry) : null)
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -411,11 +413,11 @@ function statModsFor(entry, sheet) {
 const armySwitches = computed(() => {
   if (!canSwitch.value) return []
   const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
-  return switchesFor(all, 'army', gamePlayer.value, gameRound.value, null)
+  return switchesFor(all, 'army', gamePlayer.value, gameClock.value, null)
 })
 function toggleArmyCond(sw) {
   if (sw.auto) return // read from the tracker — flip it there, not here
-  tracker.value?.setArmyCondition(gamePi.value, sw.id, gameRound.value, !sw.on)
+  tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
 }
 
 // The card the unit modal needs: what is true for that entry, and the switches it may flip.
@@ -424,13 +426,13 @@ const viewingGameCtx = computed(() => {
   return {
     active: activeFor(viewingEntry.value),
     switches: canSwitch.value
-      ? switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameRound.value, viewingEntry.value)
+      ? switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
   }
 })
 function toggleUnitCond(sw) {
   if (sw.auto || !viewingEntry.value) return
-  tracker.value?.setUnitCondition(gamePi.value, viewingEntry.value.uid, sw.id, gameRound.value, !sw.on)
+  tracker.value?.setUnitCondition(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
 }
 
 // One pass per entry, not one per plate: statCellsOf() is called from the template for every row,
