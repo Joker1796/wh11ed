@@ -300,6 +300,32 @@ export default {
       ]
     },
     {
+      "sid": "daa414da-bd09-463e-8902-56e77b682488",
+      "kind": "enhancement",
+      "name": "Adapted Organism",
+      "det": "The Vardenghast Swarm",
+      "ref": null,
+      "hash": "5d878816",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "71b8e917-4924-4aea-93e9-ab17e7314061",
       "kind": "enhancement",
       "name": "Piercing Talons",
@@ -362,6 +388,28 @@ export default {
         "kind": "enhancement",
         "det": "vanguard-onslaught"
       }
+    },
+    {
+      "sid": "92603e22-71b4-4e0a-a15f-99f2a81056b5",
+      "kind": "enhancement",
+      "name": "Elevated Might",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warrior-bioform-onslaught"
+      },
+      "hash": "c617aabb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     }
   ]
 }

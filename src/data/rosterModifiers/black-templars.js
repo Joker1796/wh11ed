@@ -64,6 +64,28 @@ export default {
       }
     },
     {
+      "sid": "06e81511-2a0d-49db-8d18-be2c20c5792f",
+      "kind": "detachmentRule",
+      "name": "Faith-fuelled Resolve",
+      "det": "Marshal's Household",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "marshals-household"
+      },
+      "hash": "eb5de0af",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "741a30dc-8a63-45a5-8b27-9ba235c49bda",
       "kind": "enhancement",
       "name": "Incendiary Animus",

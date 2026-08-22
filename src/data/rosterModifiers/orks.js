@@ -89,6 +89,20 @@ export default {
       }
     },
     {
+      "sid": "f961623a-499e-4a8c-8061-2bb1ed0d0e54",
+      "kind": "detachmentRule",
+      "name": "Try Dat Button!",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "dread-mob"
+      },
+      "hash": "4fb1d694",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "36625896-bea9-4694-b3d0-1a684a71367b",
       "kind": "detachmentRule",
       "name": "Mob Mentality",
@@ -169,6 +183,69 @@ export default {
       ]
     },
     {
+      "sid": "e71395f5-4a7c-44ed-a8a3-a61bb7ce5ecc",
+      "kind": "detachmentRule",
+      "name": "Turbo Boostas",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "speedwaaagh"
+      },
+      "hash": "1d3dbfc4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "24\"",
+          "when": {
+            "en": "while the unit uses its turbo — one straight line only, and it cannot declare a charge",
+            "ru": "пока отряд использует турбо — только по прямой и без объявления charge"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "until the end of the turn in which the unit used its turbo",
+            "ru": "до конца хода, в котором отряд использовал турбо"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "ad39d9e7-48b0-4f33-a7dc-361c8266eb91",
+      "kind": "detachmentRule",
+      "name": "Get Stuck In",
+      "det": "War Horde",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "war-horde"
+      },
+      "hash": "645b7b89",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "fb854ed4-d89a-48fe-8885-668fc666fb57",
       "kind": "enhancement",
       "name": "Runnin’ Boots",
@@ -227,6 +304,28 @@ export default {
       }
     },
     {
+      "sid": "feb611dd-912d-42c4-acd1-c9e0922bd5aa",
+      "kind": "enhancement",
+      "name": "Gitfinder Gogglez",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "enhancement",
+        "det": "dread-mob"
+      },
+      "hash": "63bbe596",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "d3a899cc-7e85-48ee-aaf8-7bc01205a926",
       "kind": "enhancement",
       "name": "Bionik Workshop",
@@ -279,6 +378,28 @@ export default {
         "kind": "enhancement",
         "det": "freebooter-krew"
       }
+    },
+    {
+      "sid": "585d8003-498c-4dc1-a7d7-82aa037b3274",
+      "kind": "enhancement",
+      "name": "Git-Spotter Squig",
+      "det": "Freebooter Krew",
+      "ref": {
+        "kind": "enhancement",
+        "det": "freebooter-krew"
+      },
+      "hash": "b0b5300b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "987fbbf7-d3d3-4e55-a058-14332291177a",
@@ -367,6 +488,20 @@ export default {
       "note": "both bullets hang on the embarked Big Mek, so neither rewrites a printed tag"
     },
     {
+      "sid": "be252d4b-367b-4dcc-b10d-6e12f678df40",
+      "kind": "enhancement",
+      "name": "Dakkamek",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "enhancement",
+        "det": "speedwaaagh"
+      },
+      "hash": "05c13307",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1889b79a-54fd-4e88-93e8-fdc0d4076a1a",
       "kind": "enhancement",
       "name": "Master Meknologist",
@@ -413,6 +548,31 @@ export default {
           "cond": [
             "unit-leading"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "7387cdc9-10f1-49b5-846f-bd74d0990559",
+      "kind": "enhancement",
+      "name": "Headwoppa’s Killchoppa",
+      "det": "War Horde",
+      "ref": {
+        "kind": "enhancement",
+        "det": "war-horde"
+      },
+      "hash": "042b9d74",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "notTag": "EXTRA ATTACKS"
+          },
+          "when": null
         }
       ]
     }

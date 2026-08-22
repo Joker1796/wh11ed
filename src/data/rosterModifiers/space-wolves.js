@@ -130,6 +130,98 @@ export default {
       }
     },
     {
+      "sid": "908a1c13-a1bb-44de-9af2-1f55652d6c0a",
+      "kind": "enhancement",
+      "name": "Lone Hunter",
+      "det": "Askar’s Wolfpack",
+      "ref": null,
+      "hash": "b8605c04",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "14e6c085-26e1-4a1d-9b1c-1f784e12c24e",
+      "kind": "enhancement",
+      "name": "A Giant Amongst Giants",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "enhancement",
+        "det": "champions-of-fenris"
+      },
+      "hash": "913a23bb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "b01a927f-833a-41f0-93b2-517f49d54614",
+      "kind": "enhancement",
+      "name": "Fierce Example (Upgrade)",
+      "det": "Legends of Saga and Song",
+      "ref": {
+        "kind": "enhancement",
+        "det": "legends-of-saga-and-song"
+      },
+      "hash": "25074acf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "6bb394ee-ecc3-4447-bead-f3d003753b0b",
+      "kind": "enhancement",
+      "name": "Thirst for Glory (Upgrade)",
+      "det": "Legends of Saga and Song",
+      "ref": {
+        "kind": "enhancement",
+        "det": "legends-of-saga-and-song"
+      },
+      "hash": "13880a28",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "02dfd50a-9607-4ee7-894f-801322ead37b",
       "kind": "enhancement",
       "name": "Elder’s Guidance",
@@ -257,6 +349,34 @@ export default {
       }
     },
     {
+      "sid": "aa4fc796-1ecd-49c1-8b30-fd0d09f4292e",
+      "kind": "enhancement",
+      "name": "Skjald’s Foretelling",
+      "det": "Saga of the Great Wolf",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-great-wolf"
+      },
+      "hash": "b9ccc4ba",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "5a05c63a-00fc-4359-9a5e-ccac2c95b3d9",
       "kind": "enhancement",
       "name": "Feral Rage",
@@ -290,6 +410,56 @@ export default {
         "kind": "enhancement",
         "det": "saga-of-the-hunter"
       }
+    },
+    {
+      "sid": "c45ceb28-43f5-4c20-814c-96de4a95a201",
+      "kind": "enhancement",
+      "name": "Wolf Master",
+      "det": "Saga of the Hunter",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-hunter"
+      },
+      "hash": "887e263f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bea7180e-44b2-43b3-b3b9-584a06e83a19",
+      "kind": "enhancement",
+      "name": "Eye of the Hunter",
+      "det": "Veterans of the Fang",
+      "ref": {
+        "kind": "enhancement",
+        "det": "veterans-of-the-fang"
+      },
+      "hash": "4cd37d89",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     }
   ]
 }

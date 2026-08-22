@@ -240,6 +240,48 @@ export default {
       }
     },
     {
+      "sid": "19c61e87-4eec-4e4c-ba37-e6dfcb4aa815",
+      "kind": "detachmentRule",
+      "name": "Fire Zone Purge",
+      "det": "Bridgehead Strike",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "bridgehead-strike"
+      },
+      "hash": "67541d4d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "BATTLELINE",
+          "when": {
+            "en": "if a Militarum Tempestus Officer model is your Warlord",
+            "ru": "если ваш WARLORD — модель Militarum Tempestus Officer"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "scope": 0,
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if a Militarum Tempestus Officer model is your Warlord",
+            "ru": "если ваш WARLORD — модель Militarum Tempestus Officer"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "635a612e-5dec-4bcd-b575-8a799e40c485",
       "kind": "detachmentRule",
       "name": "Ruthless Discipline",

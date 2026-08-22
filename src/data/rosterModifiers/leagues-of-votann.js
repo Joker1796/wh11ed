@@ -34,6 +34,20 @@ export default {
       }
     },
     {
+      "sid": "182bd5d6-3bd6-4d04-b108-557182b698e6",
+      "kind": "detachmentRule",
+      "name": "Mobile Sensor Relays",
+      "det": "Brandfast Oathband",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "brandfast-oathband"
+      },
+      "hash": "4a2fd680",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "fdfc7863-9632-43df-88dd-2e2fda4a6dfa",
       "kind": "detachmentRule",
       "name": "Methodical Annihilation",
@@ -100,6 +114,34 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "35318eb6-0912-4912-9d7a-ddd32af5c735",
+      "kind": "enhancement",
+      "name": "Trivärg Cyber Implant",
+      "det": "Brandfast Oathband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "brandfast-oathband"
+      },
+      "hash": "d025af04",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "in your Shooting phase, if the unit disembarked from a Transport this turn or you spend 2YP",
+            "ru": "в вашей фазе стрельбы, если отряд высадился из Transport в этом ходу или потрачено 2YP"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -180,6 +222,28 @@ export default {
         "kind": "enhancement",
         "det": "hearthfyre-arsenal"
       }
+    },
+    {
+      "sid": "e39596ad-bfd4-4548-b115-a5d5f63a2fba",
+      "kind": "enhancement",
+      "name": "Ironskein",
+      "det": "Hearthguard Covenant",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthguard-covenant"
+      },
+      "hash": "4c18222c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "dcc9fd81-0cb0-477b-9941-5f05fedf753f",

@@ -79,6 +79,47 @@ export default {
       }
     },
     {
+      "sid": "4947e8db-c886-450b-a59c-4e3455f2d533",
+      "kind": "detachmentRule",
+      "name": "A Perfect Ambush",
+      "det": "Host of Ascension",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "host-of-ascension"
+      },
+      "hash": "dfb73c3c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "until the end of your next Fight phase after that unit arrives as Reinforcements",
+            "ru": "до конца вашей следующей фазы боя после прибытия отряда из резерва"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "until the end of your next Fight phase after that unit arrives as Reinforcements",
+            "ru": "до конца вашей следующей фазы боя после прибытия отряда из резерва"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "ccfe9240-89b1-433e-a3b9-e7557e36d2a6",
       "kind": "detachmentRule",
       "name": "Rapid Takeover",
@@ -180,6 +221,76 @@ export default {
       }
     },
     {
+      "sid": "e7fc2192-7062-46ff-a419-4fd5045ddf1f",
+      "kind": "enhancement",
+      "name": "Heavy Munitions",
+      "det": "Claw of Ascension",
+      "ref": null,
+      "hash": "79c5cf6b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Achilles missile launcher"
+          },
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Achilles missile launcher"
+          },
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Achilles missile launcher"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "2bcf475c-6bb6-4b44-83d7-f0c8832afc0d",
+      "kind": "enhancement",
+      "name": "Inhuman Integration",
+      "det": "Final Day",
+      "ref": {
+        "kind": "enhancement",
+        "det": "final-day"
+      },
+      "hash": "04560364",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while targeting an enemy unit within 6\" of a friendly Tyranids unit",
+            "ru": "пока целью является отряд противника в пределах 6\" от дружественного отряда Tyranids"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "ab3c5d79-10c6-469d-a00f-ecf411b344ed",
       "kind": "enhancement",
       "name": "Vanguard Tyrant",
@@ -207,6 +318,78 @@ export default {
         "kind": "enhancement",
         "det": "final-day"
       }
+    },
+    {
+      "sid": "75a729bf-56a4-44c1-9afd-f91861a38ba9",
+      "kind": "enhancement",
+      "name": "Contraband Munitions",
+      "det": "Heroes of the Uprising",
+      "ref": {
+        "kind": "enhancement",
+        "det": "heroes-of-the-uprising"
+      },
+      "hash": "c8aed89b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "41aca640-4f20-4528-8342-11821d5aefa3",
+      "kind": "enhancement",
+      "name": "Gene-tailored Toxins",
+      "det": "Heroes of the Uprising",
+      "ref": {
+        "kind": "enhancement",
+        "det": "heroes-of-the-uprising"
+      },
+      "hash": "bde455d0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0cc09514-6805-4a02-84ac-40b66bad5d9d",
+      "kind": "enhancement",
+      "name": "A Chink In Their Armour",
+      "det": "Host of Ascension",
+      "ref": {
+        "kind": "enhancement",
+        "det": "host-of-ascension"
+      },
+      "hash": "9d8852ff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "until the end of your next Fight phase after the bearer arrives as Reinforcements",
+            "ru": "до конца вашей следующей фазы боя после прибытия носителя из резерва"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        }
+      ]
     },
     {
       "sid": "fdcaf518-62e4-4b42-8452-32bd9d786dd4",
@@ -249,6 +432,42 @@ export default {
         "kind": "enhancement",
         "det": "outlander-claw"
       }
+    },
+    {
+      "sid": "4fb6414e-4c63-4843-b06c-ebcb2e5d0469",
+      "kind": "enhancement",
+      "name": "Mark of the Star Children (Upgrade)",
+      "det": "Purestrain Broodswarm",
+      "ref": {
+        "kind": "enhancement",
+        "det": "purestrain-broodswarm"
+      },
+      "hash": "0529fabb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "600d4605-dd14-421c-862c-c10be1906647",

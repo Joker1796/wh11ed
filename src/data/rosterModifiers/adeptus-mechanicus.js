@@ -269,6 +269,28 @@ export default {
       ]
     },
     {
+      "sid": "04ebb33a-9b1f-4190-beea-d34b105f73ae",
+      "kind": "enhancement",
+      "name": "Arch-negator",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cohort-cybernetica"
+      },
+      "hash": "649a680c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
       "kind": "enhancement",
       "name": "Belicosa-class Capacitor Vanes",
@@ -492,6 +514,63 @@ export default {
           "op": "grant",
           "value": "ANTI-INFANTRY 4+",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0f7669e1-e987-4557-9722-4aa1f8742217",
+      "kind": "enhancement",
+      "name": "Autoclavic Denunciation",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rad-zone-corps"
+      },
+      "hash": "1ad407f7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 2+",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "6f6d7403-0605-4345-b7d6-d304b861a7a0",
+      "kind": "enhancement",
+      "name": "Peerless Eradicator",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rad-zone-corps"
+      },
+      "hash": "304ecf6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ]
     }

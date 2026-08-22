@@ -129,6 +129,28 @@ export default {
       }
     },
     {
+      "sid": "edf77a51-682c-47f0-8182-4dd874f96f3d",
+      "kind": "enhancement",
+      "name": "Loping Predator",
+      "det": "Houndpack Lance",
+      "ref": {
+        "kind": "enhancement",
+        "det": "houndpack-lance"
+      },
+      "hash": "15471be4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "917b0195-7e5e-4a65-919b-821fd441782f",
       "kind": "enhancement",
       "name": "Panoply of the Cursed Knights",
@@ -160,6 +182,56 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "1fd8ab9e-795a-440f-a6e0-c312215e75a1",
+      "kind": "enhancement",
+      "name": "Cruel Lashmaster (Aura)",
+      "det": "Iconoclast Fiefdom",
+      "ref": {
+        "kind": "enhancement",
+        "det": "iconoclast-fiefdom"
+      },
+      "hash": "b86224c8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while within 6\" of the bearer, when selected to make a normal, advance or fall-back move",
+            "ru": "пока в пределах 6\" от носителя, при выборе для normal/advance/fall-back-перемещения"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "c497c2f9-7d5f-40d9-ab4a-94ea722296b0",
+      "kind": "enhancement",
+      "name": "Bestial Aspect",
+      "det": "Infernal Lance",
+      "ref": {
+        "kind": "enhancement",
+        "det": "infernal-lance"
+      },
+      "hash": "02fe334d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
           "when": null
         }
       ]
@@ -229,6 +301,28 @@ export default {
         "kind": "enhancement",
         "det": "infernal-lance"
       }
+    },
+    {
+      "sid": "3d51794a-1ab6-4fe9-8c9f-8c0b1088456d",
+      "kind": "enhancement",
+      "name": "Blade of Celerity",
+      "det": "Lords of Dread",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-dread"
+      },
+      "hash": "44f92426",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "23f176f3-52df-4f8d-ae85-85d2774a4677",

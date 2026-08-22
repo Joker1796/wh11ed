@@ -90,6 +90,83 @@ export default {
       }
     },
     {
+      "sid": "7c93a7f0-c620-488f-a19c-65c23ed26631",
+      "kind": "detachmentRule",
+      "name": "Deathwatch Mission Tactics",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "6d06128c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while the Furor Tactics Mission Tactic is active",
+            "ru": "пока активна тактика Furor Tactics"
+          },
+          "cond": [
+            "tactic-furor"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while the Malleus Tactics Mission Tactic is active",
+            "ru": "пока активна тактика Malleus Tactics"
+          },
+          "cond": [
+            "tactic-malleus"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "c03746fa-d420-4d0a-b792-5fe5b1e1be66",
+      "kind": "enhancement",
+      "name": "Ignis Judicium",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-hereticus-purgation-force"
+      },
+      "hash": "024b237f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "MELTA 1",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "20cc49fb-5221-4dcf-b631-b116a84b02c3",
       "kind": "enhancement",
       "name": "Daemon Slayer",
@@ -153,6 +230,35 @@ export default {
         "kind": "enhancement",
         "det": "ordo-malleus-daemon-hunters"
       }
+    },
+    {
+      "sid": "853414cb-e3c5-4543-a1cd-3ef2101c6682",
+      "kind": "enhancement",
+      "name": "Universal Anathema",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "ae5663cb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 2+",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": null
+        }
+      ]
     }
   ]
 }

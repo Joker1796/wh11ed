@@ -171,6 +171,57 @@ export default {
       }
     },
     {
+      "sid": "a5824f3e-ae1b-4dc1-97eb-41a764d9f43f",
+      "kind": "detachmentRule",
+      "name": "Holy Quest",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "sacred-champions"
+      },
+      "hash": "cfec14f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "602bada8-6b23-48ce-8887-3538496f1e10",
+      "kind": "detachmentRule",
+      "name": "Hymns of Battle",
+      "det": "Sanctified Orators",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "sanctified-orators"
+      },
+      "hash": "dde10020",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
       "kind": "enhancement",
       "name": "Blade of Saint Ellynor",
@@ -270,6 +321,28 @@ export default {
         "kind": "enhancement",
         "det": "bringers-of-flame"
       }
+    },
+    {
+      "sid": "8d24ee09-38f8-4dc5-a0f8-d1d52fc927e3",
+      "kind": "enhancement",
+      "name": "Eyes of the Oracle",
+      "det": "Champions of Faith",
+      "ref": {
+        "kind": "enhancement",
+        "det": "champions-of-faith"
+      },
+      "hash": "c3dc24cf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6d1771ba-9974-4593-aef1-ddcf25f7865c",
@@ -447,6 +520,110 @@ export default {
         "kind": "enhancement",
         "det": "penitent-host"
       }
+    },
+    {
+      "sid": "b025a522-241b-4585-a9d3-06d44400fb69",
+      "kind": "enhancement",
+      "name": "Perfervid Haste",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "enhancement",
+        "det": "sacred-champions"
+      },
+      "hash": "9f034c7b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0f265e7f-9e19-4caa-b1f3-42bcda062ef4",
+      "kind": "enhancement",
+      "name": "Writ of Compunction (Upgrade)",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "enhancement",
+        "det": "sacred-champions"
+      },
+      "hash": "68eebc98",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "36b50d74-e9ff-4420-9cba-2844461ec80c",
+      "kind": "enhancement",
+      "name": "Hagiomnifex (Upgrade)",
+      "det": "Sanctified Orators",
+      "ref": {
+        "kind": "enhancement",
+        "det": "sanctified-orators"
+      },
+      "hash": "1a58e00a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, while the Catechism of Raging Fervour is the ability used",
+            "ru": "раз в ход, пока выбрана способность Catechism of Raging Fervour"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, while the Psalm of Righteous Smiting is the ability used",
+            "ru": "раз в ход, пока выбрана способность Psalm of Righteous Smiting"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "012d2dd8-e566-4c82-a8e9-932d34ecee04",
+      "kind": "enhancement",
+      "name": "Righteous Fervour",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "cee6d601",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

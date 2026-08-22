@@ -82,6 +82,47 @@ export default {
       ]
     },
     {
+      "sid": "c1059c41-1e84-4da8-bfaa-0dcdc721df56",
+      "kind": "detachmentRule",
+      "name": "Rain of Cruelty",
+      "det": "Skysplinter Assault",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "skysplinter-assault"
+      },
+      "hash": "fae4a325",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "until the end of the turn in which that unit disembarked from a Transport",
+            "ru": "до конца хода, в котором отряд высадился из Transport"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "until the end of the turn in which that unit disembarked from a Transport",
+            "ru": "до конца хода, в котором отряд высадился из Transport"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "b46b3339-173c-4bce-b474-33cb0239e5d2",
       "kind": "detachmentRule",
       "name": "Combat Drugs",
@@ -188,6 +229,25 @@ export default {
       }
     },
     {
+      "sid": "69f4dbe4-bfd4-4638-b606-a1cc08c2ac0c",
+      "kind": "enhancement",
+      "name": "Toxin-laced Blades",
+      "det": "Coven of Agonies",
+      "ref": null,
+      "hash": "4db99bb8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "48d18d70-1dcd-455e-9894-a193bea14106",
       "kind": "enhancement",
       "name": "Master Artisan",
@@ -217,6 +277,35 @@ export default {
       }
     },
     {
+      "sid": "443165dc-6701-498b-b43c-ebeeb405d304",
+      "kind": "enhancement",
+      "name": "Master Nemesine",
+      "det": "Covenite Coterie",
+      "ref": {
+        "kind": "enhancement",
+        "det": "covenite-coterie"
+      },
+      "hash": "83540331",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-BEAST 2+",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "f6e6b1bd-e328-479b-bdaa-9e359bc5af3d",
       "kind": "enhancement",
       "name": "Master Repugnomancer (Aura)",
@@ -230,6 +319,28 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "extends the range of an Aura ability, not of a weapon"
+    },
+    {
+      "sid": "910abb59-9838-4b50-8180-fab4fedf9770",
+      "kind": "enhancement",
+      "name": "Hyperstimm Trafficker",
+      "det": "Exhibition of Slaughter",
+      "ref": {
+        "kind": "enhancement",
+        "det": "exhibition-of-slaughter"
+      },
+      "hash": "c761fdde",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5600dcd0-652a-4078-9d65-266dfff20443",
@@ -249,6 +360,35 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0904f021-9996-49f4-a13f-7e3c367a058e",
+      "kind": "enhancement",
+      "name": "Towering Arrogance",
+      "det": "Kabalite Agonysts",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-agonysts"
+      },
+      "hash": "524037ab",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
           "when": null
         }
       ]
