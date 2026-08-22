@@ -18,8 +18,63 @@ export default {
       },
       "hash": "caeb868f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against VEHICLE targets",
+            "ru": "против целей VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against VEHICLE targets",
+            "ru": "против целей VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against FORTIFICATION targets, instead",
+            "ru": "против целей FORTIFICATION, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against FORTIFICATION targets, instead",
+            "ru": "против целей FORTIFICATION, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 1
+        }
+      ]
     },
     {
       "sid": "9c2a6964-1173-4f07-b6fb-61b511a289ca:chaos-acastus-knight-porphyrion",
@@ -32,8 +87,22 @@ export default {
       },
       "hash": "4668776e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "aeea8aeb-0ac6-45c7-9533-1b1ab816c4b3:chaos-cerastus-knight-atrapos",
@@ -46,7 +115,7 @@ export default {
       },
       "hash": "3bd42904",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,7 +129,7 @@ export default {
       },
       "hash": "918261ea",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +143,7 @@ export default {
       },
       "hash": "598022d2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,7 +157,7 @@ export default {
       },
       "hash": "598022d2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,7 +171,7 @@ export default {
       },
       "hash": "336924dc",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -116,8 +185,22 @@ export default {
       },
       "hash": "307b0b1c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "71fb0366-3208-47ae-9c81-24501b271639:knight-ruinator",
@@ -130,7 +213,7 @@ export default {
       },
       "hash": "c36fbaa4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -144,7 +227,7 @@ export default {
       },
       "hash": "3895adc6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,7 +241,7 @@ export default {
       },
       "hash": "434dab6f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

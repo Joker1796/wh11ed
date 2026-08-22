@@ -18,7 +18,7 @@ export default {
       },
       "hash": "a5dbf863",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,7 +32,7 @@ export default {
       },
       "hash": "18dbc340",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +46,7 @@ export default {
       },
       "hash": "a5dbf863",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +60,35 @@ export default {
       },
       "hash": "23baf762",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a3719eb1-6c71-4db2-927b-f1a50dffbb3b:grey-knights-terminator-squad",
@@ -74,8 +101,22 @@ export default {
       },
       "hash": "88d43136",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "until the end of a turn it made a Charge move",
+            "ru": "до конца хода, в котором совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "500e30b2-050d-43e9-9682-e9902367e0a8:inquisitor-coteaz",
@@ -88,8 +129,32 @@ export default {
       },
       "hash": "7c363fc8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "6+",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "against Psychic Attacks and DAEMON attacks, instead",
+            "ru": "против Psychic Attacks и атак DAEMON, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8f8f280c-f5a8-4df4-93b4-0b402c61e3fa:inquisitor-draxus",
@@ -102,7 +167,7 @@ export default {
       },
       "hash": "22b18374",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -116,7 +181,7 @@ export default {
       },
       "hash": "a2c8eed2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -130,8 +195,17 @@ export default {
       },
       "hash": "5f809e24",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-PSYKER 4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "ee171eca-1e2b-4684-8eae-ad0356a9491c:inquisitor-kroyle",
@@ -144,8 +218,41 @@ export default {
       },
       "hash": "c11f932c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Jindarii tox"
+          },
+          "when": {
+            "en": "for the rest of the battle, once it scored a hit with that weapon",
+            "ru": "до конца битвы, если это оружие попало"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Jindarii tox"
+          },
+          "when": {
+            "en": "for the rest of the battle, once it scored a hit with that weapon (max Damage 6)",
+            "ru": "до конца битвы, если это оружие попало (Урон не выше 6)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitor-s-hand-eversor-assassin",
@@ -155,8 +262,22 @@ export default {
       "ref": null,
       "hash": "4b4fabb9",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -4,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7b8abd6e-ceb3-4e6b-90c4-b46306d857c5:ministorum-priest",
@@ -169,8 +290,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "3814e980-da68-4a95-b974-1ae6ff5c7542:ministorum-priest",
@@ -183,8 +313,35 @@ export default {
       },
       "hash": "0ff5db45",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f44961d2-ef44-41e8-ae8f-ad3d2486401e:preacher-teguen",
@@ -194,8 +351,17 @@ export default {
       "ref": null,
       "hash": "23578dc1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "529d2a22-6ed3-43d9-91a3-21a95385892f:preacher-teguen",
@@ -205,8 +371,35 @@ export default {
       "ref": null,
       "hash": "b7d24256",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "9a2a9f27-0b49-4bdc-8718-77a8122c1ddd:sanctifiers",
@@ -219,7 +412,7 @@ export default {
       },
       "hash": "657ab3df",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -233,7 +426,7 @@ export default {
       },
       "hash": "fc5b3a68",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -247,7 +440,7 @@ export default {
       },
       "hash": "3c91cf55",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -261,8 +454,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "82ad414b-e19f-4a6a-be1a-5ce96e420d21",

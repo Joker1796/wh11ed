@@ -18,8 +18,17 @@ export default {
       },
       "hash": "695968a3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "59ee1033-9a10-43cc-b972-674c1dc682dd:canoness-with-jump-pack",
@@ -32,8 +41,35 @@ export default {
       },
       "hash": "343267c3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c91f4d2b-d53c-4903-bf71-06ba14a3a2f2:canoness",
@@ -46,8 +82,22 @@ export default {
       },
       "hash": "493e6764",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ff3354ba-da0e-4213-bf2c-0c903b528dba:castigator",
@@ -60,7 +110,7 @@ export default {
       },
       "hash": "02ce559f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +124,7 @@ export default {
       },
       "hash": "9e236969",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,8 +138,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "bd932220-f498-4fd0-9088-3bb81acdb45b:imagifier",
@@ -102,8 +161,25 @@ export default {
       },
       "hash": "752f4b85",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "12584d64-1474-48b2-b896-251c429ef437:ministorum-priest",
@@ -116,7 +192,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -130,8 +206,35 @@ export default {
       },
       "hash": "0ff5db45",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1bf65833-c151-4824-8c13-81ca2b562021:morvenn-vahl",
@@ -144,8 +247,41 @@ export default {
       },
       "hash": "5cec19e1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Fidelis"
+          },
+          "when": {
+            "en": "while a Miracle die is discarded for this ability",
+            "ru": "если сброшен Miracle die ради этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Lance of Illumination"
+          },
+          "when": {
+            "en": "while a Miracle die is discarded for this ability",
+            "ru": "если сброшен Miracle die ради этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6436cabf-748e-46d7-9d34-88b1e49cbe52:palatine",
@@ -158,8 +294,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f928b1b5-2736-4276-802b-3e1c8a4056c7:paragon-warsuits",
@@ -172,7 +317,7 @@ export default {
       },
       "hash": "d8db284c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -186,7 +331,7 @@ export default {
       },
       "hash": "0836610c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -200,8 +345,22 @@ export default {
       },
       "hash": "607413e5",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit contains a MINISTORUM PRIEST",
+            "ru": "пока в отряде есть MINISTORUM PRIEST"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e4a88233-98e8-4c9c-9665-409491dfd63d:sanctuary-guardians-arco-flagellants",
@@ -211,8 +370,38 @@ export default {
       "ref": null,
       "hash": "371373d4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Arco-flails"
+          },
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "cf5a5f6f-6690-416e-816e-f519b647adb8",

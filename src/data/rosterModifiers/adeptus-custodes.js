@@ -18,8 +18,22 @@ export default {
       },
       "hash": "445d1419",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "7a67bb01-737e-4644-b55b-2a6ea1a52c87:aleya",
@@ -32,7 +46,7 @@ export default {
       },
       "hash": "f34e2507",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,8 +60,35 @@ export default {
       },
       "hash": "cd91381e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
@@ -57,7 +98,7 @@ export default {
       "ref": null,
       "hash": "24c8e47f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -71,8 +112,17 @@ export default {
       },
       "hash": "e2be7f4f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "a2bb638b-5d8e-4915-853e-0e50df6dd5b5:pallas-grav-attack",
@@ -85,7 +135,7 @@ export default {
       },
       "hash": "b3fbfa0b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -99,8 +149,22 @@ export default {
       },
       "hash": "211c448c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f6af813d-e886-4f2a-8f34-3e8b3e6e8dc9:telemon-heavy-dreadnought",
@@ -113,8 +177,25 @@ export default {
       },
       "hash": "a99e7fb9",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Telemon caestus"
+          },
+          "when": {
+            "en": "if two Telemon caestus were taken alongside the armoured feet",
+            "ru": "если взяты два Telemon caestus вдобавок к armoured feet"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ce39c177-aa83-4e6b-8543-85cef75a77d2:trajann-valoris",
@@ -127,8 +208,38 @@ export default {
       },
       "hash": "776b668a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "12",
+          "only": {
+            "name": "Watcher’s Axe"
+          },
+          "when": {
+            "en": "once per battle, if this option is chosen",
+            "ru": "раз за битву, если выбран этот вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, if this option is chosen instead",
+            "ru": "раз за битву, если выбран другой вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f1cf8105-4d99-409e-8a02-6dc8b322aee7:valerian",
@@ -141,7 +252,7 @@ export default {
       },
       "hash": "d0787118",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,8 +266,22 @@ export default {
       },
       "hash": "445d1419",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",

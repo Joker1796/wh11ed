@@ -18,8 +18,17 @@ export default {
       },
       "hash": "e9897828",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7c3a2d95-83dd-41fe-ac51-ee557aaadfd4:commander-cloudspear",
@@ -29,7 +38,7 @@ export default {
       "ref": null,
       "hash": "24c8e47f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -43,7 +52,7 @@ export default {
       },
       "hash": "9c09f092",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -57,8 +66,25 @@ export default {
       },
       "hash": "de308cfa",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "12\"",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "306d7212-56a5-4659-b282-2378986d270a:commander-in-enforcer-battlesuit",
@@ -71,7 +97,7 @@ export default {
       },
       "hash": "445cab64",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -85,8 +111,22 @@ export default {
       },
       "hash": "4adc7911",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "except against MONSTERS and VEHICLES",
+            "ru": "кроме целей MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "79ce02fd-5706-413c-9365-98c90d0039f8:darkstrider",
@@ -99,7 +139,7 @@ export default {
       },
       "hash": "07b755b8",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -113,7 +153,7 @@ export default {
       },
       "hash": "a89f23e7",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -127,8 +167,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "0b8a9cdf-f6e5-4e4f-9846-69c0c6c8b0f7:pathfinder-team",
@@ -141,8 +190,35 @@ export default {
       },
       "hash": "11cdc93b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against their Spotted unit",
+            "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against their Spotted unit",
+            "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b523c318-8321-4e1c-a0d2-9d112b731381:razorshark-strike-fighter",
@@ -155,7 +231,7 @@ export default {
       },
       "hash": "e2179b98",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -166,8 +242,35 @@ export default {
       "ref": null,
       "hash": "24202041",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against their Spotted unit",
+            "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against their Spotted unit",
+            "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",

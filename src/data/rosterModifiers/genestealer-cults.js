@@ -18,7 +18,7 @@ export default {
       },
       "hash": "bb57ed5e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,7 +32,7 @@ export default {
       },
       "hash": "84109d35",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,8 +46,17 @@ export default {
       },
       "hash": "43cbb91e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "dd83e9d1-2776-4f37-86a3-2bc688cab040:benefictus",
@@ -60,8 +69,22 @@ export default {
       },
       "hash": "b8c2ff80",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6f6a9bfc-98b4-4cb9-965b-27c4adb7d4b9:biophagus",
@@ -74,8 +97,41 @@ export default {
       },
       "hash": "eb80a84d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Injector goad"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 3,
+          "only": {
+            "name": "Injector goad"
+          },
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ddc1b543-9402-48c8-87aa-89d5b50d25be:biophagus",
@@ -88,8 +144,17 @@ export default {
       },
       "hash": "d2a9d0ad",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "cbcf55d0-953b-4bc4-b374-7d6ab4f3a268:claw-of-ascension-achilles-ridgerunner",
@@ -99,7 +164,7 @@ export default {
       "ref": null,
       "hash": "d30ad47d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -113,7 +178,7 @@ export default {
       },
       "hash": "30bf8a33",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -127,8 +192,17 @@ export default {
       },
       "hash": "a184123b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "666a876e-6d72-44f5-87c2-7cef96d2d540:patriarch",
@@ -141,7 +215,7 @@ export default {
       },
       "hash": "6987189b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,7 +229,7 @@ export default {
       },
       "hash": "10806b5a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

@@ -18,8 +18,17 @@ export default {
       },
       "hash": "3154cfe3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e5141592-d906-445c-939f-081212f2666f:deathwing-terminator-squad",
@@ -32,7 +41,7 @@ export default {
       },
       "hash": "537c6109",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +55,7 @@ export default {
       },
       "hash": "e5053d72",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -57,7 +66,7 @@ export default {
       "ref": null,
       "hash": "9bdc06bf",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -71,8 +80,35 @@ export default {
       },
       "hash": "3adfce24",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": {
+            "en": "in a phase it fights having made a Charge move this turn",
+            "ru": "в фазе боя, если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": {
+            "en": "in a phase it fights having made a Charge move this turn",
+            "ru": "в фазе боя, если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "b0bc4600-4287-48c3-9a42-9f4456812883:ravenwing-command-squad",
@@ -85,8 +121,22 @@ export default {
       },
       "hash": "671a747f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains a Ravenwing Ancient",
+            "ru": "пока в отряде есть Ravenwing Ancient"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7e1dd147-ead5-4bed-a886-b9757df51888:ravenwing-command-squad",
@@ -99,7 +149,7 @@ export default {
       },
       "hash": "a17e2211",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -113,7 +163,7 @@ export default {
       },
       "hash": "c38ed31f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -127,8 +177,16 @@ export default {
       },
       "hash": "efadef7d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2d71b3c6-84d1-49a1-a179-24b40816bb39",

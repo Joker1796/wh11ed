@@ -15,8 +15,22 @@ export default {
       "ref": null,
       "hash": "5667e483",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while Empowered with a Pain token",
+            "ru": "пока Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "cb751d0c-daad-47e4-b514-267eccb6f68e:drazhar",
@@ -29,7 +43,7 @@ export default {
       },
       "hash": "4e523734",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -43,7 +57,7 @@ export default {
       },
       "hash": "c85d06cd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -57,8 +71,35 @@ export default {
       },
       "hash": "a3097079",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "within range of the objective chosen at the start of the battle, unless Battle-shocked",
+            "ru": "в зоне выбранного в начале битвы objective, если не Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "within range of the objective chosen at the start of the battle, unless Battle-shocked",
+            "ru": "в зоне выбранного в начале битвы objective, если не Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3b2d13d0-27bc-49b1-8b7c-9be34589ed82:hellions",
@@ -71,8 +112,35 @@ export default {
       },
       "hash": "da5751c2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered with a Pain token",
+            "ru": "пока Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Empowered with a Pain token",
+            "ru": "пока Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
     },
     {
       "sid": "814fcea3-09ca-46f1-be0b-9ffc56cf2074:incubi",
@@ -85,7 +153,7 @@ export default {
       },
       "hash": "4e631f35",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -99,8 +167,37 @@ export default {
       },
       "hash": "c4353cb2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while its unit is Empowered with a Pain token",
+            "ru": "пока отряд Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while its unit is Empowered with a Pain token",
+            "ru": "пока отряд Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "a4fe8cb4-4bc5-4bfb-a3af-f2cd1dfa9070:lelith-hesperax",
@@ -113,8 +210,35 @@ export default {
       },
       "hash": "64aee29a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "12",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
@@ -127,7 +251,7 @@ export default {
       },
       "hash": "95aac45c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -141,8 +265,23 @@ export default {
       },
       "hash": "4b733d31",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 8,
+          "when": {
+            "en": "while Empowered, in a phase it Advanced (no Advance roll is made)",
+            "ru": "пока Empowered, в фазе с Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-empowered",
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "1c0f156d-a5ea-42c8-8b88-012369237186:scourges-with-shardcarbines",
@@ -155,7 +294,7 @@ export default {
       },
       "hash": "1de432a2",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -169,8 +308,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "ba6e7827-a22b-4fdb-b38f-90475a84e9e2:talos",
@@ -183,8 +331,25 @@ export default {
       },
       "hash": "23b9180a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "TWIN-LINKED",
+          "only": {
+            "name": "Macro-scalpel"
+          },
+          "when": {
+            "en": "if that model took two macro-scalpels",
+            "ru": "если модель взяла два macro-scalpel"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "531b472d-8206-448f-971c-69e882c246bd:xatrophos-nuul",
@@ -194,7 +359,7 @@ export default {
       "ref": null,
       "hash": "fd4e2b25",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

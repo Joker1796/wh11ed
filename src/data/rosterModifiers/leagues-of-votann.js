@@ -18,8 +18,22 @@ export default {
       },
       "hash": "d718d1bf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "once per turn, while this ability is used for 1YP",
+            "ru": "раз за ход, если способность использована за 1YP"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayer-s-bulwark-brokhyr-thunderkyn",
@@ -29,7 +43,7 @@ export default {
       "ref": null,
       "hash": "3df82845",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -43,8 +57,24 @@ export default {
       },
       "hash": "cedc10d8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "72f9560a-4651-44e7-a8e3-cd7ba5c9df96:einhyr-champion",
@@ -57,7 +87,7 @@ export default {
       },
       "hash": "2170496e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -71,8 +101,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7342cf80-6585-4570-bd7e-a26d2c8a584b:vynn-bane-slayer",
@@ -82,8 +121,16 @@ export default {
       "ref": null,
       "hash": "4b9d39f6",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a23f8bdf-5c65-4c96-90b6-1b93696cc5f3",

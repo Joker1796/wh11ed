@@ -18,8 +18,17 @@ export default {
       },
       "hash": "0b72b958",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "811b5896-9f7a-4e94-b76b-fedee0d1012d:deathleaper",
@@ -32,7 +41,7 @@ export default {
       },
       "hash": "6050114a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +55,7 @@ export default {
       },
       "hash": "6f28d8bd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,7 +69,7 @@ export default {
       },
       "hash": "7e324fcd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +83,7 @@ export default {
       },
       "hash": "205860ae",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,7 +97,7 @@ export default {
       },
       "hash": "c3c5f43f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,8 +111,16 @@ export default {
       },
       "hash": "eea1dfa0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "474971c2-032e-4663-89c0-43d3bc98f7ed:neurogaunts",
@@ -116,8 +133,22 @@ export default {
       },
       "hash": "32de5345",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Synapse",
+          "when": {
+            "en": "while within Synapse Range of another friendly TYRANIDS unit",
+            "ru": "пока в Synapse Range другого дружественного отряда TYRANIDS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "56b79d30-49bc-4d2f-899e-8fdb903b79c7:neurolictor",
@@ -130,7 +161,7 @@ export default {
       },
       "hash": "84cc5836",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -144,7 +175,7 @@ export default {
       },
       "hash": "c383be03",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -158,7 +189,7 @@ export default {
       },
       "hash": "ebfcffb6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -172,7 +203,7 @@ export default {
       },
       "hash": "7a3f82bb",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -186,7 +217,7 @@ export default {
       },
       "hash": "94e34790",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -200,8 +231,24 @@ export default {
       },
       "hash": "f1bef6b4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "15dc61c6-ab64-417c-a248-fc994a04c43d:tyranid-warriors-with-melee-bio-weapons",
@@ -214,8 +261,35 @@ export default {
       },
       "hash": "be824182",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, if this option is chosen",
+            "ru": "раз за ход, если выбран этот вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, if this option is chosen instead",
+            "ru": "раз за ход, если выбран другой вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "fbb597fc-642e-4616-bb1c-441dc9eaad5a:vardenghast-swarm-barbgaunts",
@@ -225,7 +299,7 @@ export default {
       "ref": null,
       "hash": "3b43c984",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -239,8 +313,17 @@ export default {
       },
       "hash": "3154cfe3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "68090d9e-d603-4069-97f1-a23b8e6ff93f:zoanthropes",
@@ -253,7 +336,7 @@ export default {
       },
       "hash": "1dd47c6d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

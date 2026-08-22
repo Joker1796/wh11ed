@@ -18,7 +18,7 @@ export default {
       },
       "hash": "ae3dab91",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,7 +32,7 @@ export default {
       },
       "hash": "a5dbf863",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +46,7 @@ export default {
       },
       "hash": "a5dbf863",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,7 +60,7 @@ export default {
       },
       "hash": "d60e7763",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,8 +74,35 @@ export default {
       },
       "hash": "a7989745",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "in a turn it made a Charge move",
+            "ru": "в ходу, когда отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "4d61f752-09f3-429a-9564-f0728c12e1df:talonstrike-kill-team",
@@ -88,8 +115,35 @@ export default {
       },
       "hash": "4722aec2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "until the end of the turn it was set up on the battlefield",
+            "ru": "до конца хода, в котором отряд был выставлен на стол"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "until the end of the turn it was set up on the battlefield",
+            "ru": "до конца хода, в котором отряд был выставлен на стол"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        }
+      ]
     },
     {
       "sid": "9750151c-8ecb-4051-a25b-5d34af7869e8:watch-captain-artemis",
@@ -102,8 +156,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "5e321f4d-a733-4459-94f8-e4bc2a472f38",

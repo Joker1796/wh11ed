@@ -657,6 +657,25 @@ modifiers are conditional, and a card reading T6 when the +1 only holds while a 
 is worse than one reading T5 with a note. A value the layer cannot compute honestly ("D6+2" plus
 1) degrades to an annotation rather than inventing arithmetic — see `applyValue`.
 
+**Four kinds of source feed it**: army rules, detachment rules, enhancements, allegiance abilities —
+and, since 2026-08-22, a DATASHEET's own abilities. The last one is where most of the game's numbers
+actually live: 1846 datasheet abilities, 436 of them candidates, all reviewed. 241 carry an effect,
+195 read to no printed number at all. Three things are specific to that source:
+
+- **It can address another unit.** "If this unit is attached to a unit … add 1 to the Strength
+  characteristic of melee weapons equipped by Bodyguard models in that unit" is printed on Fabius
+  Bile's card and rewrites the card of whoever he joined. An effect therefore carries `target`:
+  absent (self), `led` (the unit this one is attached to — 94 effects), or `leader` (the Character
+  leading THIS unit — the direction exists and is tested, but no record needs it yet: every ability
+  pointing that way modifies a Wound roll or grants Feel No Pain, neither of which is a statline).
+  `abilityEntriesFor()` resolves both cross directions from the attachment the roster records; the
+  ordinary resolver skips `ref.kind === 'ability'` entirely.
+- **No keyword gate.** An ability is printed on the card it addresses, so `SCOPELESS` includes it
+  alongside enhancements and allegiance abilities — there is no prose naming who it bears on.
+- **`sid` is not a bare uuid here.** 56 abilities are published once and printed on several
+  datasheets (Custodes' Turbo-boost is on both jetbike units), and each needs a record with its own
+  `ref.unit`, so the sid is `<uuid>:<datasheet-slug>`.
+
 Three things hold this together and are easy to break:
 
 - **One record per army rule, deduped by NAME in the generator.** appdata publishes an army rule
@@ -802,7 +821,7 @@ at all. Three files, one idea:
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
-  **125 of the 275 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
+  **125 of the pre-2026-08-22 275 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
   `blocked-subset`, `blocked-weapon`) that says why not. **A missing `cond` is not "unconditional" —
   it is unreviewed, and is treated as unproven.**
 
@@ -833,6 +852,11 @@ at all. Three files, one idea:
   `activeConditions` applies the same cap on READ, because a game saved before the cap existed can
   still hold six. Ungrouped where the rule allows any number: Blessings of Khorne activates up to
   two, Combat Drugs can be rolled two at a time.
+  Datasheet abilities added five ids of their own: `unit-stationary` ("each time this unit Remains
+  Stationary…"), `unit-engaged`, `unit-empowered` (Drukhari spend a Pain token to Empower a unit;
+  the tracker banks the tokens but does not record which unit was Empowered), and the three
+  `protocol-*` ids a Cybernetica Datasmith puts its KASTELAN ROBOTS into — one group, battle-long,
+  since a protocol "remains until it enters a different one".
   **A "select one of N" rule is a switch, not a sentinel** — Martial Ka'tah's stances, Grey Knights'
   Channelled Force, Hagiomnifex's five abilities are things only the player knows, which is exactly
   what a switch is for. Marking one `never` (as the first review pass did) leaves the card showing a

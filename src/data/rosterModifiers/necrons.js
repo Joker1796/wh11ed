@@ -15,8 +15,22 @@ export default {
       "ref": null,
       "hash": "1fb7609a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e06de742-1a30-4957-9c7a-7afde6d40508:catacomb-command-barge",
@@ -29,7 +43,7 @@ export default {
       },
       "hash": "989d5d7f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -43,7 +57,7 @@ export default {
       },
       "hash": "46c7fb8e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -57,7 +71,7 @@ export default {
       },
       "hash": "4def783f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -71,7 +85,7 @@ export default {
       },
       "hash": "240b73c5",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -85,8 +99,17 @@ export default {
       },
       "hash": "58585162",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "b8e6affb-5576-4b41-bc38-9697321ab6cf:overlord-with-translocation-shroud",
@@ -99,8 +122,36 @@ export default {
       },
       "hash": "91c2463a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase its unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase this unit Advanced (no Advance roll is made)",
+            "ru": "в фазе, когда отряд совершил Advance (бросок не делается)"
+          },
+          "cond": [
+            "unit-advanced"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "116d7153-6df1-4396-9ecd-d49de3e4bfa6:skorpekh-lord",
@@ -113,8 +164,17 @@ export default {
       },
       "hash": "d2a9d0ad",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "71124c51-fb03-44ee-acf1-4e5f6b6d5c13",

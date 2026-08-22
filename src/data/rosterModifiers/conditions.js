@@ -104,6 +104,22 @@ export const conditions = {
   // ── Unit state ──────────────────────────────────────────────────────────────────────────
   'unit-charged': { scope: 'unit', duration: 'turn', label: { en: 'Made a Charge move', ru: 'Совершил Charge' } },
   'unit-advanced': { scope: 'unit', duration: 'turn', label: { en: 'Advanced', ru: 'Совершил Advance' } },
+  // "Each time this unit Remains Stationary, until the start of your next Movement phase…" — the
+  // window runs to the next Movement phase, which is one turn's worth of the game.
+  'unit-stationary': { scope: 'unit', duration: 'turn', label: { en: 'Remained Stationary', ru: 'Остался на месте' } },
+  // "While this unit is engaged" — in Engagement Range of an enemy. Only the player knows, and it
+  // changes as the battle moves, so it expires at the phase boundary rather than the round's.
+  // Drukhari — "you can spend 1 Pain token to Empower this unit". The tracker banks Pain tokens
+  // but says nothing about which unit was Empowered with one, so this stays a switch; the window
+  // the rules give it is the phase it was spent in.
+  'unit-empowered': { scope: 'unit', duration: 'phase', label: { en: 'Empowered', ru: 'Empowered' } },
+  // Adeptus Mechanicus — a Cybernetica Datasmith puts the KASTELAN ROBOTS it leads into one
+  // protocol, "and it remains in that protocol until it enters a different one": battle-long, and
+  // exactly one at a time.
+  'protocol-protector': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Protector Protocol', ru: 'Protector Protocol' } },
+  'protocol-conqueror': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Conqueror Protocol', ru: 'Conqueror Protocol' } },
+  'protocol-aegis': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Aegis Protocol', ru: 'Aegis Protocol' } },
+  'unit-engaged': { scope: 'unit', duration: 'phase', label: { en: 'Engaged', ru: 'В ближнем бою' } },
   'unit-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Battle-shocked', ru: 'Battle-shocked' } },
   'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
   'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },

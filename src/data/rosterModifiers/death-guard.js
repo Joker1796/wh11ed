@@ -18,8 +18,22 @@ export default {
       },
       "hash": "eb9ed48e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "for the rest of the battle, once its unit destroyed an enemy unit in melee",
+            "ru": "до конца битвы, если отряд уничтожил врага в ближнем бою"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a46a1514-5477-4ae0-a3ad-f4a2fbb893f6:biologus-putrifier",
@@ -32,8 +46,17 @@ export default {
       },
       "hash": "4cfa6e40",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "bdb8439a-7a42-4525-9cab-0398f290a2f5:blightlord-terminators",
@@ -46,8 +69,35 @@ export default {
       },
       "hash": "593176bd",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against Afflicted targets, at Starting Strength 5+ or while led by a CHARACTER",
+            "ru": "против Afflicted-целей, при численности 5+ или под лидером CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against Afflicted targets, at Starting Strength 5+ or while led by a CHARACTER",
+            "ru": "против Afflicted-целей, при численности 5+ или под лидером CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6d97e026-65e3-4584-ac0e-e61215f11d07:chaos-predator-destructor",
@@ -60,7 +110,7 @@ export default {
       },
       "hash": "00204fe1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,7 +124,7 @@ export default {
       },
       "hash": "77ae4497",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -88,7 +138,7 @@ export default {
       },
       "hash": "d5f5b774",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -102,8 +152,22 @@ export default {
       },
       "hash": "67092a63",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "the two melee weapons taken in addition to the close combat weapon",
+            "ru": "два оружия ближнего боя, взятые вдобавок к close combat weapon"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ]
     },
     {
       "sid": "3da37e42-d76b-4bad-9f1e-eaa47458bde4:icon-bearer",
@@ -116,8 +180,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "19d670b0-6d26-4ea0-acf3-afc3e6235ead:lord-of-contagion",
@@ -130,8 +203,25 @@ export default {
       },
       "hash": "73f9ba0e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "73a0bd2d-c779-4bae-b570-b3d0dc2591e5:lord-of-poxes",
@@ -144,7 +234,7 @@ export default {
       },
       "hash": "058f9b55",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,8 +245,22 @@ export default {
       "ref": null,
       "hash": "173901da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is engaged",
+            "ru": "пока отряд в ближнем бою"
+          },
+          "cond": [
+            "unit-engaged"
+          ]
+        }
+      ]
     },
     {
       "sid": "152037ac-ce56-4024-a4d6-59b3d3db6d22:myphitic-blight-hauler",
@@ -169,7 +273,7 @@ export default {
       },
       "hash": "2a1700b3",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -183,8 +287,17 @@ export default {
       },
       "hash": "af57d362",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7ef32552-0784-46e2-b1e4-4d2355a82e9d:rotigus",
@@ -197,7 +310,7 @@ export default {
       },
       "hash": "5bc95a56",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

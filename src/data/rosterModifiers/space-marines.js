@@ -18,8 +18,22 @@ export default {
       },
       "hash": "53aaa79e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e0524eb7-29b2-4f3e-9055-362584aabb20:ancient-in-terminator-armour",
@@ -32,8 +46,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "1a483f1b-843f-49df-91fa-fe72c1a21e9a:ancient-in-terminator-armour",
@@ -46,7 +69,7 @@ export default {
       },
       "hash": "f34e2507",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -60,8 +83,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "38dea634-aa17-4e2d-ab34-fd659752945e:apothecary-biologis",
@@ -74,8 +106,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "02f7446d-0825-4bcf-b9ba-c3541673ac08:assault-force-captain",
@@ -85,7 +126,7 @@ export default {
       "ref": null,
       "hash": "49d66913",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -96,7 +137,7 @@ export default {
       "ref": null,
       "hash": "09d39f7a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -110,8 +151,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "49a7fdd1-4a53-4787-abab-b690ed47d046:bladeguard-ancient",
@@ -124,8 +174,22 @@ export default {
       },
       "hash": "6877cf2e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c37acebd-4051-4806-82b5-f6d3c10df6c3:captain-titus",
@@ -138,8 +202,24 @@ export default {
       },
       "hash": "abe9990b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "5dc548b9-fe2d-4d2c-9e71-1f53f28b5637:captain-with-jump-pack",
@@ -152,8 +232,23 @@ export default {
       },
       "hash": "10959842",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of a turn this unit ended a Charge move",
+            "ru": "до конца хода, в котором отряд завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "04b5d2e0-87f3-43fb-8e2d-224c1c453e4a:captain",
@@ -166,8 +261,35 @@ export default {
       },
       "hash": "343267c3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "af1b04e7-55dc-4a52-af99-157b6320bcdf:centurion-assault-squad",
@@ -180,8 +302,22 @@ export default {
       },
       "hash": "90a8eab9",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "against MONSTER, VEHICLE or FORTIFICATION targets",
+            "ru": "против целей MONSTER, VEHICLE или FORTIFICATION"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-in-terminator-armour",
@@ -194,7 +330,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -208,8 +344,22 @@ export default {
       },
       "hash": "e0fbf8ec",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against the enemy unit selected for this ability",
+            "ru": "против юнита, выбранного для этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-on-bike",
@@ -222,7 +372,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -236,7 +386,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -250,7 +400,7 @@ export default {
       },
       "hash": "ff1c3e96",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -264,8 +414,22 @@ export default {
       },
       "hash": "40cc4a72",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains an Ancient",
+            "ru": "пока в отряде есть Ancient"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "096ec45b-1205-4dfc-b6f9-29e3be1df65c:darnath-lysander",
@@ -278,8 +442,22 @@ export default {
       },
       "hash": "493e6764",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "405c298f-cc78-431a-baef-887fa9e9cb4a:desolation-squad",
@@ -292,8 +470,22 @@ export default {
       },
       "hash": "8ffd82d7",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "72ebcea5-be67-4773-8d7a-5bce17bac918:devastator-squad",
@@ -306,8 +498,22 @@ export default {
       },
       "hash": "8ffd82d7",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "7514c253-fe4c-4515-bebf-3db89f878c52:eliminator-squad",
@@ -320,8 +526,22 @@ export default {
       },
       "hash": "fb354850",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "after Remaining Stationary",
+            "ru": "после того как отряд остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "34d15ff5-13e7-4667-8cc3-bc0b8dc67851:eradicator-squad-with-heavy-bolters",
@@ -334,8 +554,25 @@ export default {
       },
       "hash": "b3c4030b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "BLAST 1",
+          "only": {
+            "name": "Heavy bolter"
+          },
+          "when": {
+            "en": "against the enemy unit selected for this ability",
+            "ru": "против юнита, выбранного для этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e1a9ec64-4b70-47ba-aa5c-c1ff935a2c08:gladiator-valiant",
@@ -348,7 +585,7 @@ export default {
       },
       "hash": "89111ddd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -362,8 +599,22 @@ export default {
       },
       "hash": "388767c3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "within range of an objective you control, against attacks with Damage 1",
+            "ru": "в зоне контролируемого objective, против атак с Уроном 1"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1ae20ece-dfe9-486b-ad2a-aaaa6e1ee6ad:incursor-squad",
@@ -376,7 +627,7 @@ export default {
       },
       "hash": "cd41104a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -390,8 +641,25 @@ export default {
       },
       "hash": "f69de90f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Bolt rifle"
+          },
+          "when": {
+            "en": "against the enemy unit selected for this ability",
+            "ru": "против юнита, выбранного для этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "71d74c1c-087e-4c70-96a5-bca5e6bfd2b6:iron-father-feirros",
@@ -404,7 +672,7 @@ export default {
       },
       "hash": "feb3f1ff",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -418,8 +686,25 @@ export default {
       },
       "hash": "1e17f0e8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Executioner relic blade"
+          },
+          "when": {
+            "en": "for the rest of the battle, once it destroyed an enemy CHARACTER",
+            "ru": "до конца битвы, если уничтожил вражеского CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7399a318-f089-4778-9ef3-701423e34f9b:korsarro-khan",
@@ -432,8 +717,25 @@ export default {
       },
       "hash": "725e7df3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7f49e247-dc01-475b-a43c-bcb81ad68d5a:librarian-in-terminator-armour",
@@ -446,8 +748,17 @@ export default {
       },
       "hash": "3154cfe3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f5239867-c2c7-4d4b-a3ee-6d9668637e4d:librarian",
@@ -460,8 +771,17 @@ export default {
       },
       "hash": "58585162",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-phobos-armour",
@@ -474,8 +794,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-reiver-armour",
@@ -488,8 +817,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant",
@@ -502,8 +840,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "a57c3a05-b36c-4600-b814-1a39f71ae5a7:outrider-squad",
@@ -516,8 +863,35 @@ export default {
       },
       "hash": "127dac77",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a Charge move this turn",
+            "ru": "если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "c2397446-6266-42da-968d-549855d3b1ab:pedro-kantor",
@@ -530,8 +904,22 @@ export default {
       },
       "hash": "5938ca6b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4dfaff20-f378-463a-9a2e-04666b40dea4:pedro-kantor",
@@ -544,7 +932,7 @@ export default {
       },
       "hash": "f34e2507",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -558,8 +946,22 @@ export default {
       },
       "hash": "21b48ff3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "против целей INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b379e86f-16bd-491a-90cb-52027a541f40:repulsor-executioner",
@@ -572,7 +974,7 @@ export default {
       },
       "hash": "bf931761",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -586,7 +988,7 @@ export default {
       },
       "hash": "3cda956c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -600,7 +1002,7 @@ export default {
       },
       "hash": "61ba4ec4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -614,7 +1016,7 @@ export default {
       },
       "hash": "205860ae",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -628,7 +1030,7 @@ export default {
       },
       "hash": "1c8c1f3a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -642,7 +1044,7 @@ export default {
       },
       "hash": "b7842750",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -656,7 +1058,7 @@ export default {
       },
       "hash": "97259642",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -670,7 +1072,7 @@ export default {
       },
       "hash": "bddfa7b3",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -684,8 +1086,48 @@ export default {
       },
       "hash": "3dd26b6c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against MONSTER, VEHICLE or FORTIFICATION targets",
+            "ru": "против целей MONSTER, VEHICLE или FORTIFICATION"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "when": {
+            "en": "against MONSTER, VEHICLE or FORTIFICATION targets",
+            "ru": "против целей MONSTER, VEHICLE или FORTIFICATION"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "against MONSTER, VEHICLE or FORTIFICATION targets",
+            "ru": "против целей MONSTER, VEHICLE или FORTIFICATION"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4761836f-d83c-4571-ba17-25ab0227e744:tor-garadon",
@@ -698,8 +1140,17 @@ export default {
       },
       "hash": "080523e0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7084723b-df23-4299-a719-01ce8a75430e:vanguard-veteran-squad-with-jump-packs",
@@ -712,8 +1163,22 @@ export default {
       },
       "hash": "2cfe494d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "until the end of a turn it ended a Charge move",
+            "ru": "до конца хода, в котором завершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "0c73087d-b71b-4c67-b25a-7788d7908c74:wardens-of-ultramar",
@@ -726,8 +1191,35 @@ export default {
       },
       "hash": "2797bed0",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains Ancient Gadriel",
+            "ru": "пока в отряде есть Ancient Gadriel"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this unit contains Ancient Gadriel and CAPTAIN TITUS",
+            "ru": "пока в отряде есть Ancient Gadriel и CAPTAIN TITUS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",

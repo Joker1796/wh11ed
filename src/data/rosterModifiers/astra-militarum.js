@@ -18,7 +18,7 @@ export default {
       },
       "hash": "e83499ed",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,8 +32,17 @@ export default {
       },
       "hash": "76c79108",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "6dd38dcc-c4f1-4ea9-8580-ff2c3bc7f579:catachan-command-squad",
@@ -46,8 +55,22 @@ export default {
       },
       "hash": "49344c1f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this unit contains an OFFICER",
+            "ru": "пока в отряде есть OFFICER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "da4fb92f-a7c1-40f2-87b1-49fa3b267967:catachan-jungle-fighters",
@@ -60,7 +83,7 @@ export default {
       },
       "hash": "7784b290",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -74,8 +97,22 @@ export default {
       },
       "hash": "f98b988c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per 3 models embarked, while not Battle-shocked",
+            "ru": "за каждые 3 модели на борту, пока не Battle-shocked"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6a0a7444-b91a-4ce4-8215-fb04d764ab7c:death-korps-of-krieg",
@@ -88,7 +125,7 @@ export default {
       },
       "hash": "496e063b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -99,8 +136,16 @@ export default {
       "ref": null,
       "hash": "1ff3a604",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6cbbd413-470c-423c-8ca9-13eb380bd682:field-ordnance-battery",
@@ -113,8 +158,25 @@ export default {
       },
       "hash": "d4552c8a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "only": {
+            "tag": "HEAVY"
+          },
+          "when": {
+            "en": "while under an Order, having Remained Stationary",
+            "ru": "под приказом, если остался на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "351fe1e2-238c-4149-ad34-22cf5b861d35:leman-russ-executioner",
@@ -127,7 +189,7 @@ export default {
       },
       "hash": "0abc0d99",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -141,7 +203,7 @@ export default {
       },
       "hash": "17edce82",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -155,8 +217,36 @@ export default {
       },
       "hash": "6a6c4936",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn its unit made a Charge move",
+            "ru": "до конца хода, в котором отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "until the end of a turn its unit made a Charge move",
+            "ru": "до конца хода, в котором отряд совершил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "7e6e8ed7-a90a-4161-8315-75be03893b26:militarum-tempestus-command-squad",
@@ -169,8 +259,22 @@ export default {
       },
       "hash": "49bb1499",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit contains a Tempestor Prime",
+            "ru": "пока в отряде есть Tempestor Prime"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "eaf8c6e0-b388-4ea1-9528-4e7e915cc617:ministorum-priest",
@@ -183,8 +287,17 @@ export default {
       },
       "hash": "9d48081a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "2bc28ee1-1701-4d6b-aae1-47d5753a0728:ogryn-squad",
@@ -197,8 +310,22 @@ export default {
       },
       "hash": "53aaa79e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ef45d7dd-4980-4bb0-a26d-1489424d91b7:primaris-psyker",
@@ -211,8 +338,22 @@ export default {
       },
       "hash": "b426ff9f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "on a 2+ at the start of your opponent's Shooting phase",
+            "ru": "на 2+ в начале фазы стрельбы оппонента"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "76861981-15ee-4efa-84a1-7302daa8e7a6:tech-priest-enginseer",
@@ -225,7 +366,7 @@ export default {
       },
       "hash": "35bf3335",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {

@@ -18,7 +18,7 @@ export default {
       },
       "hash": "1c8c1f3a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -32,8 +32,51 @@ export default {
       },
       "hash": "07a9dad8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while that unit is in Protector Protocol",
+            "ru": "пока отряд в Protector Protocol"
+          },
+          "cond": [
+            "protocol-protector"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while that unit is in Conqueror Protocol",
+            "ru": "пока отряд в Conqueror Protocol"
+          },
+          "cond": [
+            "protocol-conqueror"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is in Aegis Protocol",
+            "ru": "пока отряд в Aegis Protocol"
+          },
+          "cond": [
+            "protocol-aegis"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "34fc460d-17ad-4f87-a136-41f4d23a76ab:onager-dunecrawler",
@@ -46,7 +89,7 @@ export default {
       },
       "hash": "72821a2b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -57,7 +100,7 @@ export default {
       "ref": null,
       "hash": "8cd8ce87",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -68,8 +111,16 @@ export default {
       "ref": null,
       "hash": "7edac6d1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5fd37be5-22d0-41d2-afa5-f5c0c9a92000:purge-corps-skitarii-vanguard",
@@ -79,7 +130,7 @@ export default {
       "ref": null,
       "hash": "618490ed",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -93,7 +144,7 @@ export default {
       },
       "hash": "3cf67aea",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -107,7 +158,7 @@ export default {
       },
       "hash": "7da6aee4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -121,7 +172,7 @@ export default {
       },
       "hash": "9af7334b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -135,8 +186,36 @@ export default {
       },
       "hash": "fe0d06ce",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f0ee762e-c490-43f8-b16b-5bf6aa56b1ea:tech-priest-manipulus",
@@ -149,8 +228,17 @@ export default {
       },
       "hash": "abe50645",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "d06c940f-819a-4e2c-a905-352a9a633fad:technoarcheologist",
@@ -163,8 +251,17 @@ export default {
       },
       "hash": "be69986d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",
