@@ -925,6 +925,405 @@ export default {
       }
     },
     {
+      "sid": "bd66d7c1-a2c3-4a8d-962a-7ffb17d0998e",
+      "kind": "stratagem",
+      "name": "Powerful Creations",
+      "det": "Coven of Agonies",
+      "ref": null,
+      "hash": "ef45f036",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3504f5ae-6fc0-48a9-97df-9c903b1beacd",
+      "kind": "stratagem",
+      "name": "Connoisseurs of Pain",
+      "det": "Covenite Coterie",
+      "ref": {
+        "kind": "stratagem",
+        "det": "covenite-coterie",
+        "name": "Connoisseurs of Pain"
+      },
+      "hash": "a1ddf25f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "09da496d-57c0-4c17-a816-de5038fee95a",
+      "kind": "stratagem",
+      "name": "Planned Strikes",
+      "det": "Exhibition of Slaughter",
+      "ref": {
+        "kind": "stratagem",
+        "det": "exhibition-of-slaughter",
+        "name": "Planned Strikes"
+      },
+      "hash": "3a1eb869",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "981e3b0f-a2dc-4fd7-a5d3-53fa19b18366",
+      "kind": "stratagem",
+      "name": "Killers from the Dark Spires",
+      "det": "Kabalite Agonysts",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kabalite-agonysts",
+        "name": "Killers from the Dark Spires"
+      },
+      "hash": "5938c3ef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6fac0d93-29d2-4f77-b942-070db913cc3e",
+      "kind": "stratagem",
+      "name": "Making A Point",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kabalite-cartel",
+        "name": "Making A Point"
+      },
+      "hash": "6990f799",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3b2945d6-d957-4689-a86d-4fc11e05803e",
+      "kind": "stratagem",
+      "name": "Taken Alive",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kabalite-cartel",
+        "name": "Taken Alive"
+      },
+      "hash": "058e6483",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "42e7b548-fb86-4ce0-a13f-90dbe4291cdf",
+      "kind": "stratagem",
+      "name": "Dark Harvest",
+      "det": "Realspace Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "realspace-raiders",
+        "name": "Dark Harvest"
+      },
+      "hash": "fe2f913a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "8578de98-1229-478f-900d-c9196140c447",
+      "kind": "stratagem",
+      "name": "Eager for the Kill",
+      "det": "Realspace Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "realspace-raiders",
+        "name": "Eager for the Kill"
+      },
+      "hash": "a4c8daac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c9ce7694-250a-49ab-a7be-eca6db661e1c",
+      "kind": "stratagem",
+      "name": "Insensible to Pain",
+      "det": "Realspace Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "realspace-raiders",
+        "name": "Insensible to Pain"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "dd2be183-cb28-48a6-85b4-e6443f2e2bdb",
+      "kind": "stratagem",
+      "name": "Instinctive Spite",
+      "det": "Realspace Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "realspace-raiders",
+        "name": "Instinctive Spite"
+      },
+      "hash": "93799d3e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6496bede-f056-48dc-b698-04caeaa6ae7e",
+      "kind": "stratagem",
+      "name": "Night Shield",
+      "det": "Skysplinter Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skysplinter-assault",
+        "name": "Night Shield"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7852622e-29ff-49c5-ada8-ed7a075d2541",
+      "kind": "stratagem",
+      "name": "Skyborne Annihilation",
+      "det": "Skysplinter Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skysplinter-assault",
+        "name": "Skyborne Annihilation"
+      },
+      "hash": "f65412c8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "for KABALITE WARRIORS or HAND OF THE ARCHON, instead",
+            "ru": "для KABALITE WARRIORS или HAND OF THE ARCHON, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "8fabef51-65b1-44a4-854c-9739a2f7451a",
+      "kind": "stratagem",
+      "name": "Acrobatic Display",
+      "det": "Spectacle of Spite",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spectacle-of-spite",
+        "name": "Acrobatic Display"
+      },
+      "hash": "2c7e9e6a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "317227b3-8880-4b94-a663-ce9a00d9f190",
+      "kind": "stratagem",
+      "name": "Deadly Debut",
+      "det": "Spectacle of Spite",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spectacle-of-spite",
+        "name": "Deadly Debut"
+      },
+      "hash": "eee65040",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, for a WYCHES unit",
+            "ru": "и ещё, для отряда WYCHES"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b76d9c2e-6411-4c8b-ab57-7cdc440cea60",
+      "kind": "stratagem",
+      "name": "Salting the Wound",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "stratagem",
+        "det": "tools-of-torment",
+        "name": "Salting the Wound"
+      },
+      "hash": "4989c58d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against Battle-shocked targets",
+            "ru": "против Battle-shocked целей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "13df0ce0-d27d-4004-a370-1611de3526db:archon",
       "kind": "wargear",
       "name": "Archon: Soul Trap",

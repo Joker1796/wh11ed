@@ -1014,31 +1014,7 @@ export default {
       "hash": "c459d4ca",
       "ver": 925,
       "reviewed": true,
-      "effects": [
-        {
-          "scope": 0,
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "ASSAULT",
-          "when": null
-        },
-        {
-          "scope": 1,
-          "on": "ranged",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 1",
-          "when": {
-            "en": "in your Shooting phase, while the Waaagh! is active",
-            "ru": "в вашей фазе стрельбы, пока активен Waaagh!"
-          },
-          "cond": [
-            "waaagh-active",
-            "phase-shooting"
-          ]
-        }
-      ]
+      "effects": []
     },
     {
       "sid": "e71395f5-4a7c-44ed-a8a3-a61bb7ce5ecc",
@@ -1433,6 +1409,635 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "10d5e5dd-b0ba-4b15-93d6-cf57f2d8df30",
+      "kind": "stratagem",
+      "name": "Krump ’Em",
+      "det": "’Ardmob",
+      "ref": null,
+      "hash": "d7306b4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c0f6b966-a1c6-40a9-9eae-718c8c22c74c",
+      "kind": "stratagem",
+      "name": "Armoured Duellists",
+      "det": "Blitz Brigade",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blitz-brigade",
+        "name": "Armoured Duellists"
+      },
+      "hash": "b4e5268c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a92b516e-a846-4855-bc29-ad7a9c0a37c7",
+      "kind": "stratagem",
+      "name": "Hulking Brutes",
+      "det": "Bully Boyz",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bully-boyz",
+        "name": "Hulking Brutes"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "57bf2e49-354f-4671-b345-b790d6878929",
+      "kind": "stratagem",
+      "name": "Drag It Down",
+      "det": "Da Big Hunt",
+      "ref": {
+        "kind": "stratagem",
+        "det": "da-big-hunt",
+        "name": "Drag It Down"
+      },
+      "hash": "d8b4a416",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f2d2cb83-69c9-447d-adfa-f2161f6038b3",
+      "kind": "stratagem",
+      "name": "Stalkin’ Taktiks",
+      "det": "Da Big Hunt",
+      "ref": {
+        "kind": "stratagem",
+        "det": "da-big-hunt",
+        "name": "Stalkin’ Taktiks"
+      },
+      "hash": "e37c3c91",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f2274ddd-3d7b-4fe8-a10a-8ca805bd29c9",
+      "kind": "stratagem",
+      "name": "Bigger Shells For Bigger Gitz",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Bigger Shells For Bigger Gitz"
+      },
+      "hash": "7fd5b31c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "30ac141a-8589-47bc-809f-7a85d39c547d",
+      "kind": "stratagem",
+      "name": "Dakka! Dakka! Dakka!",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Dakka! Dakka! Dakka!"
+      },
+      "hash": "26637409",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "fdfdf495-19e2-479e-a31c-0b2faeb67c6d",
+      "kind": "stratagem",
+      "name": "Extra Gubbinz",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Extra Gubbinz"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0bd39ff7-0073-4d87-91b4-a06887f947f0",
+      "kind": "stratagem",
+      "name": "Klankin’ Klaws",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Klankin’ Klaws"
+      },
+      "hash": "d7023c69",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a8c4f685-8c50-417f-9822-6b513ec6314c",
+      "kind": "stratagem",
+      "name": "Superfuelled Boiler",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Superfuelled Boiler"
+      },
+      "hash": "b090ae54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "f62eb18e-c65a-454f-9f6e-08fc29aa4a65",
+      "kind": "stratagem",
+      "name": "Concealed Krumpin’",
+      "det": "Equatorial Hordes",
+      "ref": {
+        "kind": "stratagem",
+        "det": "equatorial-hordes",
+        "name": "Concealed Krumpin’"
+      },
+      "hash": "060347d5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "462a1795-2de3-4a79-9d9c-acfa12d373ab",
+      "kind": "stratagem",
+      "name": "Boardin’ Rush",
+      "det": "Freebooter Krew",
+      "ref": {
+        "kind": "stratagem",
+        "det": "freebooter-krew",
+        "name": "Boardin’ Rush"
+      },
+      "hash": "c1bf64f9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cfcd981d-e0b4-415c-93be-226ed53fe140",
+      "kind": "stratagem",
+      "name": "Rolling Loot-Heap",
+      "det": "Freebooter Krew",
+      "ref": {
+        "kind": "stratagem",
+        "det": "freebooter-krew",
+        "name": "Rolling Loot-Heap"
+      },
+      "hash": "dba8b751",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "68a2a4e6-bd80-4110-bd53-307d8f2cef44",
+      "kind": "stratagem",
+      "name": "Tide of Muscle",
+      "det": "Green Tide",
+      "ref": {
+        "kind": "stratagem",
+        "det": "green-tide",
+        "name": "Tide of Muscle"
+      },
+      "hash": "9d6992ae",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a1fd6ad7-1d97-46f7-9171-726e506a130a",
+      "kind": "stratagem",
+      "name": "Blitza Fire",
+      "det": "Kult of Speed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kult-of-speed",
+        "name": "Blitza Fire"
+      },
+      "hash": "41c359dc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d645ac95-42ca-488e-87c8-5ad5aed49b6e",
+      "kind": "stratagem",
+      "name": "Dakkastorm",
+      "det": "Kult of Speed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kult-of-speed",
+        "name": "Dakkastorm"
+      },
+      "hash": "1e03d35d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "against targets within 9\", instead",
+            "ru": "против целей в 9\", вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "0fb25d0d-f1a3-4a1e-aeeb-403437135ac7",
+      "kind": "stratagem",
+      "name": "Full Throttle",
+      "det": "Kult of Speed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kult-of-speed",
+        "name": "Full Throttle"
+      },
+      "hash": "a1a49b8b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b3bb4207-0b8b-4618-a78d-9f571cebbc07",
+      "kind": "stratagem",
+      "name": "Speediest Freeks",
+      "det": "Kult of Speed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kult-of-speed",
+        "name": "Speediest Freeks"
+      },
+      "hash": "05e69fab",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "for a VEHICLE with Toughness 8 or less, instead",
+            "ru": "для VEHICLE с Стойкостью 8 или меньше, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b2e069c3-85d2-4963-bf37-e6ef414ba5eb",
+      "kind": "stratagem",
+      "name": "Long, Uncontrolled Bursts",
+      "det": "More Dakka!",
+      "ref": {
+        "kind": "stratagem",
+        "det": "more-dakka",
+        "name": "Long, Uncontrolled Bursts"
+      },
+      "hash": "5938c3ef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "1edb6e6c-dfeb-4e93-bcde-3de0b8651b9d",
+      "kind": "stratagem",
+      "name": "Speshul Shells",
+      "det": "More Dakka!",
+      "ref": {
+        "kind": "stratagem",
+        "det": "more-dakka",
+        "name": "Speshul Shells"
+      },
+      "hash": "fa7d25f9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 9\"",
+            "ru": "против целей в 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "70d2e701-5531-4ac5-a4e9-aec2f4cc7ac9",
+      "kind": "stratagem",
+      "name": "Brutal Broadside",
+      "det": "Rollin' Deff",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rollin-deff",
+        "name": "Brutal Broadside"
+      },
+      "hash": "68997730",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "62a55842-78b7-41ad-af95-9bc039586ed3",
+      "kind": "stratagem",
+      "name": "Devastating Drift",
+      "det": "Rollin' Deff",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rollin-deff",
+        "name": "Devastating Drift"
+      },
+      "hash": "a63398e1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "81f6c4eb-5bec-4ee6-9d8f-fcefbab49374",
+      "kind": "stratagem",
+      "name": "Ded Killy Construction",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "stratagem",
+        "det": "speedwaaagh",
+        "name": "Ded Killy Construction"
+      },
+      "hash": "5e298d95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, if the unit made a Charge move this turn",
+            "ru": "и ещё, если отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9da4621c-23e6-4d5a-a6d0-54fcc410b521",
+      "kind": "stratagem",
+      "name": "Mobile Dakkastorm",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "stratagem",
+        "det": "speedwaaagh",
+        "name": "Mobile Dakkastorm"
+      },
+      "hash": "490a62f4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ccc88b1d-359c-4bdd-8dd6-b6d408514eab",
+      "kind": "stratagem",
+      "name": "Speshul Ammo",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "stratagem",
+        "det": "speedwaaagh",
+        "name": "Speshul Ammo"
+      },
+      "hash": "a2911ac3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": {
+            "en": "excluding Torrent weapons",
+            "ru": "кроме Torrent-оружия"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": {
+            "en": "excluding Torrent weapons",
+            "ru": "кроме Torrent-оружия"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "1c44285a-c668-4b37-9000-787d947acd6d",
+      "kind": "stratagem",
+      "name": "’Ere We Go",
+      "det": "War Horde",
+      "ref": {
+        "kind": "stratagem",
+        "det": "war-horde",
+        "name": "’Ere We Go"
+      },
+      "hash": "b7981da6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7527971e-395b-4f7d-a2c1-876d8ad6a7d6:battlewagon",

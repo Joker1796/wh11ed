@@ -301,6 +301,138 @@ export default {
       }
     },
     {
+      "sid": "f9014833-77c7-421f-beba-23e55d2d337e",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "black-spear-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "18809fe3-6bbd-4c57-8599-9f04aa58b766",
+      "kind": "stratagem",
+      "name": "Dragonfire Rounds",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "black-spear-task-force",
+        "name": "Dragonfire Rounds"
+      },
+      "hash": "c741719e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "62d34323-045f-4824-a552-b38c9d99ff65",
+      "kind": "stratagem",
+      "name": "Hellfire Rounds",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "black-spear-task-force",
+        "name": "Hellfire Rounds"
+      },
+      "hash": "8b4495a9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 2+",
+          "when": {
+            "en": "excluding Devastating Wounds weapons",
+            "ru": "кроме оружия с Devastating Wounds"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 5+",
+          "when": {
+            "en": "excluding Devastating Wounds weapons",
+            "ru": "кроме оружия с Devastating Wounds"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "827e649e-0dca-4aa4-8e17-4f304a8fd83d",
+      "kind": "stratagem",
+      "name": "Kraken Rounds",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "black-spear-task-force",
+        "name": "Kraken Rounds"
+      },
+      "hash": "22355a50",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
       "kind": "wargear",
       "name": "Corvus Blackstar: Auspex Array",

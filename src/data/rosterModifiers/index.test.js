@@ -51,6 +51,19 @@ describe('rosterModifiers data', () => {
     }
   })
 
+  // A stratagem is spent for a stated window, and the window is the whole reason it can be applied
+  // at all: without it the card would keep the rewritten number for the rest of the battle.
+  it('gives every stratagem record with effects a duration', () => {
+    for (const { file, e } of allEntries) {
+      if (e.kind !== 'stratagem' || !e.effects?.length) continue
+      expect(['phase', 'turn', 'battle'], `${file} ${e.name}: dur`).toContain(e.dur)
+    }
+    // …and nothing else carries one, since nothing else is spent.
+    for (const { file, e } of allEntries) {
+      if (e.kind !== 'stratagem') expect(e.dur, `${file} ${e.name}: dur on a standing rule`).toBeUndefined()
+    }
+  })
+
   it('validates every hand-authored effect', () => {
     for (const { file, e } of allEntries) {
       for (const [i, eff] of (e.effects || []).entries()) {
@@ -79,8 +92,13 @@ describe('rosterModifiers data', () => {
           expect(eff.when.ru.length, `${where}: when.ru`).toBeGreaterThan(0)
           // …and its machine-readable half, so "cannot be automated" and "nobody has looked at
           // this yet" can never look the same. A sentinel IS an answer; a missing `cond` is not.
-          expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
-          for (const id of eff.cond) {
+          // A STRATAGEM is the exception: being spent is itself the condition, and `activeStrats`
+          // answers it, so `cond` there is only for what the stratagem asks ON TOP ("…against
+          // MONSTER targets") and may be absent.
+          if (e.kind !== 'stratagem') {
+            expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
+          }
+          for (const id of eff.cond || []) {
             expect(isSentinel(id) || !!conditions[id], `${where}: unknown condition "${id}"`).toBe(true)
           }
         } else {

@@ -701,6 +701,216 @@ export default {
       ]
     },
     {
+      "sid": "04245333-93c8-497c-9c6c-2bfe63210589",
+      "kind": "stratagem",
+      "name": "Frenzied Resilience",
+      "det": "Berzerker Warband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "berzerker-warband",
+        "name": "Frenzied Resilience"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0e2f8b70-b049-4a99-8e6b-3f08fc3720b4",
+      "kind": "stratagem",
+      "name": "Hack and Slash",
+      "det": "Berzerker Warband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "berzerker-warband",
+        "name": "Hack and Slash"
+      },
+      "hash": "381f84c3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ddce833e-6a6b-4621-8abd-4c2e764d798d",
+      "kind": "stratagem",
+      "name": "Focused Ferocity",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "butchers-of-khorne",
+        "name": "Focused Ferocity"
+      },
+      "hash": "83e4f304",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "80b51c8d-7da0-4c7a-9584-40a017ea2cfa",
+      "kind": "stratagem",
+      "name": "Wrath Beyond Reason",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "butchers-of-khorne",
+        "name": "Wrath Beyond Reason"
+      },
+      "hash": "c853ac61",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",
+      "kind": "stratagem",
+      "name": "Blessing of Burning Blood",
+      "det": "Khorne Daemonkin",
+      "ref": {
+        "kind": "stratagem",
+        "det": "khorne-daemonkin",
+        "name": "Blessing of Burning Blood"
+      },
+      "hash": "c3f648eb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while the Boon of Blood is active, instead",
+            "ru": "пока активен Boon of Blood, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "8f8bdb9a-b906-48e6-84f4-7ce1762cf19e",
+      "kind": "stratagem",
+      "name": "Daemonic Fury",
+      "det": "Khorne Daemonkin",
+      "ref": {
+        "kind": "stratagem",
+        "det": "khorne-daemonkin",
+        "name": "Daemonic Fury"
+      },
+      "hash": "2370f986",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "885813ba-ec4e-4279-bd3b-b0ea000890cb",
+      "kind": "stratagem",
+      "name": "Daemonic Strength",
+      "det": "Possessed Slaughterband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "possessed-slaughterband",
+        "name": "Daemonic Strength"
+      },
+      "hash": "1a3cc600",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c719efe4-086b-4873-af62-1a50355b6c90",
+      "kind": "stratagem",
+      "name": "Aspire to Infamy",
+      "det": "Vessels of Wrath",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vessels-of-wrath",
+        "name": "Aspire to Infamy"
+      },
+      "hash": "03807c81",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "CHARACTER models only",
+            "ru": "только модели CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "CHARACTER models only",
+            "ru": "только модели CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
       "kind": "wargear",
       "name": "Bloodcrushers: Daemonic Icon",

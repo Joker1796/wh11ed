@@ -633,6 +633,269 @@ export default {
       }
     },
     {
+      "sid": "2227edbd-9daa-457f-9cda-f545297ba2ea",
+      "kind": "stratagem",
+      "name": "Grotesque Fortitude",
+      "det": "Champions of Contagion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-contagion",
+        "name": "Grotesque Fortitude"
+      },
+      "hash": "863e953f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2af32987-7344-4378-8eff-a42b8ec9f2f8",
+      "kind": "stratagem",
+      "name": "Blooming Pestilence",
+      "det": "Death Lord’s Chosen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "death-lords-chosen",
+        "name": "Blooming Pestilence"
+      },
+      "hash": "988ac824",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "da30d4bd-ad4d-41e5-bafb-5322aa227053",
+      "kind": "stratagem",
+      "name": "Mortarion’s Teachings",
+      "det": "Death Lord’s Chosen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "death-lords-chosen",
+        "name": "Mortarion’s Teachings"
+      },
+      "hash": "24a1a271",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "14397813-9386-479d-8645-ccf59904570a",
+      "kind": "stratagem",
+      "name": "Eye of the Swarm",
+      "det": "Flyblown Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "flyblown-host",
+        "name": "Eye of the Swarm"
+      },
+      "hash": "9d570fd5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLOSE-QUARTERS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "95ec357c-cf7f-4f5e-a224-85d5da35b084",
+      "kind": "stratagem",
+      "name": "Vomitous Salvoes",
+      "det": "Maggot Lords",
+      "ref": null,
+      "hash": "cd84fbc1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "tag": "LETHAL HITS"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e91eb4ac-52af-4e89-abc2-5c0b9e812e5c",
+      "kind": "stratagem",
+      "name": "Font of Filth",
+      "det": "Mortarion’s Hammer",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mortarions-hammer",
+        "name": "Font of Filth"
+      },
+      "hash": "cf9bdcda",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "25ba3f85-9261-4154-9014-fcf2a28390cf",
+      "kind": "stratagem",
+      "name": "Territorial Infection",
+      "det": "Paragons of Putrescence",
+      "ref": {
+        "kind": "stratagem",
+        "det": "paragons-of-putrescence",
+        "name": "Territorial Infection"
+      },
+      "hash": "076afe4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "1c06212d-4fb6-4992-94cb-32dd22c30052",
+      "kind": "stratagem",
+      "name": "Gnawing Hunger",
+      "det": "Shamblerot Vectorium",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shamblerot-vectorium",
+        "name": "Gnawing Hunger"
+      },
+      "hash": "8cfcb7d2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "ea30e94c-cf87-4f02-8210-0fb635615b18",
+      "kind": "stratagem",
+      "name": "Disgustingly Resilient",
+      "det": "Virulent Vectorium",
+      "ref": {
+        "kind": "stratagem",
+        "det": "virulent-vectorium",
+        "name": "Disgustingly Resilient"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "699e5a6d-243c-4ee3-a738-ce0882694238",
+      "kind": "stratagem",
+      "name": "Plaguesurge",
+      "det": "Virulent Vectorium",
+      "ref": {
+        "kind": "stratagem",
+        "det": "virulent-vectorium",
+        "name": "Plaguesurge"
+      },
+      "hash": "ac9574f8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5028ed26-8ff1-4fc8-b844-168659f516ac:deathshroud-terminators",
       "kind": "wargear",
       "name": "Deathshroud Terminators: Icon of Despair (Aura)",

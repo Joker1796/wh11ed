@@ -549,6 +549,19 @@ describe('condition switches', () => {
       .toEqual(['blessing-martial-excellence', 'blessing-warp-blades'])
   })
 
+  // A stratagem is spent, not switched: several can be up on one unit at once, and each is keyed by
+  // the record it came from rather than by a condition id.
+  it('records a stratagem spent on a unit, and forgets it when taken back', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitStratagem(0, 'u1', 'strat-a', 205, true)
+    tracker.setUnitStratagem(0, 'u1', 'strat-b', 205, true)
+    expect(tracker.current.value.players[0].ctx.strats.u1).toEqual({ 'strat-a': 205, 'strat-b': 205 })
+    tracker.setUnitStratagem(0, 'u1', 'strat-a', 205, false)
+    expect(tracker.current.value.players[0].ctx.strats.u1).toEqual({ 'strat-b': 205 })
+    tracker.setUnitStratagem(0, 'u1', 'strat-b', 205, false)
+    expect(tracker.current.value.players[0].ctx.strats).toEqual({})
+  })
+
   it('keeps the two players\' contexts apart', () => {
     tracker.newGame(setupGame())
     tracker.setArmyCondition(0, 'tactic-furor', 101, true)

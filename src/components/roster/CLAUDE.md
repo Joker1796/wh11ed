@@ -657,8 +657,8 @@ modifiers are conditional, and a card reading T6 when the +1 only holds while a 
 is worse than one reading T5 with a note. A value the layer cannot compute honestly ("D6+2" plus
 1) degrades to an annotation rather than inventing arithmetic — see `applyValue`.
 
-**Six kinds of source feed it**: army rules, detachment rules, enhancements, allegiance abilities —
-and, since 2026-08-22, a DATASHEET's own abilities and its WARGEAR. The last two are where most of
+**Eight kinds of source feed it**: army rules, detachment rules, enhancements, allegiance abilities —
+and, since 2026-08-22, a DATASHEET's own abilities, its WARGEAR, the CORE RULES and STRATAGEMS. The last two are where most of
 the game's numbers actually live: 436 ability candidates and 136 wargear ones, all reviewed.
 
 **Wargear** (`kind: 'wargear'`, from appdata's `datasheet.wargear[].ruleText`) is an item, not a
@@ -674,6 +674,29 @@ characteristic of 7"` — a SET rather than a delta, and the wording nearly ever
 68 records were invisible for that reason alone, including the one that started the hunt (a
 Mortifier taking an Anchorite Sarcophagus and its stats not moving). If a rule that plainly changes
 a number has no record, suspect the wording before the pipeline.
+
+**Stratagems** (`kind: 'stratagem'`) are the largest source of all — 1427 across the game, 423
+candidates, all reviewed — and the only one that is not a standing fact. A stratagem is SPENT: on one
+unit, for a stated window, when the player decides to. So:
+
+- The record carries **`dur`** (`phase` / `turn` / `battle`), read from its own prose. Expiry is the
+  same stamp comparison a switch uses, so a stratagem spent in the Shooting phase stops rewriting
+  the card in the Fight phase without anyone remembering to turn it off.
+- **Being spent IS the condition**, so a stratagem's effects need no `cond` — `activeStrats` (the
+  set of record ids the player says are up, from `player.ctx.strats[uid]`) answers it. A `cond` on
+  top is for what the stratagem asks BEYOND being spent ("…against MONSTER targets"), and those stay
+  footnotes exactly as they would anywhere else.
+- State lives in `player.ctx.strats[uid][sid]`, apart from `ctx.units`: several stratagems can be up
+  at once, they are alternatives to nothing, and they are keyed by record rather than by condition.
+- The chips are on the unit's card, above the datasheet — that is where the number they change is,
+  and choosing a unit is the whole point of spending one. The Stratagems tab is unchanged.
+- No keyword gate (`SCOPELESS`): WHICH unit a stratagem was spent on is the player's to say, not
+  this layer's to infer from "one ADEPTUS ASTARTES INFANTRY unit".
+
+**Core rules** (`coreRules.js`, hand-written, outside the faction glob) are the smallest: Battle-shock
+turning a unit's OC into `-`. It is the one core rule that rewrites a printed characteristic, it
+applies to every unit of every faction, and `unit-battle-shocked` was already in the vocabulary —
+which is why the switch now shows on every unit's row.
 
 Three things are specific to the ABILITY source:
 
@@ -822,7 +845,7 @@ codex or said out loud to an opponent.
 
 **Every note says where it came from.** The footnotes under the stats are grouped by source and each
 group is headed by it — `Army rule`, `Detachment · Creations of Bile`, `Enhancement`, `Leader ·
-Fabius Bile`, `Ability`, `Wargear`, `Mark`. Text only, no colour of its own: the card already carries the
+Fabius Bile`, `Ability`, `Wargear`, `Stratagem · War Horde`, `Core rule`, `Mark`. Text only, no colour of its own: the card already carries the
 faction accent and five source colours would fight it. Three of the six labels are the block below's
 own words, reused rather than reworded, so the same rule reads the same whether the reader meets it
 as a footnote or as a block. Ability records carry `owner` and `from` (self / led / leader) for
@@ -963,11 +986,22 @@ above) and the backend half still has to be deployed. The overlay's own tracking
 (`ROSTER-MODIFIERS-PROGRESS.md`, `ROSTER-IN-GAME-PROGRESS.md`) were retired into this file on
 2026-08-22, once their last phases closed; their journals are in the git history.
 
-One modelling gap worth knowing: appdata gives a faction SEVERAL army rules, our faction files one
-(sometimes a merge, `Synapse & Shadow in the Warp`). A record for a rule we don't model separately
-— T'au's `Drones` — still resolves through `ref: {kind:'armyRule'}` and so reads the wrong body for
-its scopes. Only conditional effects sit there today, so nothing is applied off it, but a record
-authored against `Drones` cannot be trusted to gate correctly.
+One modelling gap, now CONTAINED rather than open: appdata gives a faction several army rules, our
+faction files one (sometimes a merge, `Synapse & Shadow in the Warp`). A record for a rule we do not
+model separately used to resolve through `ref: {kind:'armyRule'}` anyway and read the wrong body for
+its scopes — T'au's `Drones` reading `For the Greater Good`. `resolveModifierEntries` now requires
+the names to answer to each other (containment either way, apostrophes and case aside), so such a
+record is dropped instead of mis-resolved. The gap itself remains: `Drones` has no home until the
+faction files model more than one army rule.
+
+**What the audit of 2026-08-22 found is NOT a source, and why** (so nobody re-checks): `ability:
+core` (1308 — rulebook abilities the app already carries), `wargearRules` (1371 — build
+instructions, not effects), `ability: faction` (1145 — an empty pointer at the army rule, though it
+is the key to modelling several of those), `damageAbility` (243 — almost all "-1 to the Hit roll",
+and the tracker deliberately does not count wounds), mission twists and core stratagems (one
+candidate each). What the layer STILL cannot express, whatever the source: modifiers on an INCOMING
+attack ("-1 to the Damage of that attack"), debuffs on an enemy unit, and auras on other friendly
+units.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for

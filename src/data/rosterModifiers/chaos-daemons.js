@@ -926,6 +926,309 @@ export default {
       ]
     },
     {
+      "sid": "8ffa14f4-ea5f-4972-ab86-695a093a56e9",
+      "kind": "stratagem",
+      "name": "Sheathed In Brass",
+      "det": "Blood Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blood-legion",
+        "name": "Sheathed In Brass"
+      },
+      "hash": "2a7d1eee",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "73f0cc79-068f-4e96-91ab-05c3914bacce",
+      "kind": "stratagem",
+      "name": "Draught of Terror",
+      "det": "Daemonic Incursion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "daemonic-incursion",
+        "name": "Draught of Terror"
+      },
+      "hash": "01c62e3b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "338e8c8f-7330-4a2e-bfe1-935e2556cbec",
+      "kind": "stratagem",
+      "name": "Archagonists",
+      "det": "Legion of Excess",
+      "ref": {
+        "kind": "stratagem",
+        "det": "legion-of-excess",
+        "name": "Archagonists"
+      },
+      "hash": "994267d5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
+      "kind": "stratagem",
+      "name": "Call to Murder",
+      "det": "Lords of the Warp",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lords-of-the-warp",
+        "name": "Call to Murder"
+      },
+      "hash": "83e4f304",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f88709cb-ae58-4672-8582-698049889c24",
+      "kind": "stratagem",
+      "name": "skirling magicks",
+      "det": "Lords of the Warp",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lords-of-the-warp",
+        "name": "skirling magicks"
+      },
+      "hash": "b50f6f98",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9c8980e1-16a2-4d68-8fec-9837729498ff",
+      "kind": "stratagem",
+      "name": "Fever Visions",
+      "det": "Plague Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "plague-legion",
+        "name": "Fever Visions"
+      },
+      "hash": "5dc5e5dd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b3c2324d-a2fd-4bc4-aa88-48b0aedad96e",
+      "kind": "stratagem",
+      "name": "Murkshadows",
+      "det": "Plague Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "plague-legion",
+        "name": "Murkshadows"
+      },
+      "hash": "e69d6033",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 5,
+          "when": {
+            "en": "for a Normal move, while this stratagem is in force",
+            "ru": "для Normal move, пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c404658f-f17a-4424-a4ae-14611998fe04",
+      "kind": "stratagem",
+      "name": "Pyrogenesis",
+      "det": "Scintillating Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "scintillating-legion",
+        "name": "Pyrogenesis"
+      },
+      "hash": "238794d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "if a Flux token was spent, instead (and +1 AP)",
+            "ru": "если потрачен Flux token, вместо этого (и +1 AP)"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "bd3b15c2-7884-42d4-8f6e-4b26b8956956",
+      "kind": "stratagem",
+      "name": "Channelled Wrath",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadow-legion",
+        "name": "Channelled Wrath"
+      },
+      "hash": "6b8351bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, for a KHORNE unit",
+            "ru": "и ещё, для отряда KHORNE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2530f74b-95bf-4d53-99c7-7505a887c1cd",
+      "kind": "stratagem",
+      "name": "Death Denied",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadow-legion",
+        "name": "Death Denied"
+      },
+      "hash": "b5780266",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "391a8bbe-346e-47d2-8886-4e648889c1c0",
+      "kind": "stratagem",
+      "name": "Encroaching Darkness",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadow-legion",
+        "name": "Encroaching Darkness"
+      },
+      "hash": "41952609",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f6dd7e2a-b033-4558-89a0-51739c18dcff",
+      "kind": "stratagem",
+      "name": "Spiteful Demise",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadow-legion",
+        "name": "Spiteful Demise"
+      },
+      "hash": "48189719",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
       "kind": "wargear",
       "name": "Bloodcrushers: Daemonic Icon",

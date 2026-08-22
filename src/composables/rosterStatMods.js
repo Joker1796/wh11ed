@@ -114,7 +114,7 @@ const isGrant = (effect) => effect.op === 'grant'
 // Records whose prose addresses exactly one unit — the one the caller resolved them FOR — so
 // ruleScopes() has nothing to gate on. Everything else is army- or detachment-wide prose that
 // names who it bears on, and is gated by keyword.
-const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability', 'wargear'])
+const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability', 'wargear', 'stratagem'])
 
 function noteOf(entry, effect, applied, via = null) {
   return {
@@ -151,7 +151,7 @@ function condHolds(cond, active) {
 // `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark, and
 // the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
 // grantedKeywordsFrom).
-export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null) {
+export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, activeStrats = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [] }
 
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
@@ -195,7 +195,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
-      const live = effect.when ? condHolds(effect.cond, active) : false
+      // A STRATAGEM is its own condition: it was spent on this unit or it was not, and `activeStrats`
+      // is the set of records the player says are in force (keyed by sid, expiring on their own
+      // `dur` — see rosterGameContext's activeStratagems). An extra `cond` on top still has to hold,
+      // which is how "…against MONSTER targets" stays a footnote even while the stratagem is up.
+      const stratLive = entry.kind === 'stratagem' ? !!activeStrats?.has(entry.sid) : true
+      const live = effect.when ? stratLive && condHolds(effect.cond, active) : false
       if (effect.when && !live) {
         notes.push(noteOf(entry, effect, false))
         continue
@@ -368,6 +373,14 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       // datasheet's allegiance group and what this entry picked (rosterEngine's allegFor/entry).
       // No body: the ability's prose addresses its own model, so there are no scopes to read.
       if (alleg?.g === rec.ref.g && alleg?.opt === rec.ref.opt) out.push({ ...rec, body: '' })
+      continue
+    }
+    // A stratagem belongs to a detachment the same way its rules do, so it is fielded or it is not;
+    // WHICH unit it was spent on is the player's to say, not this layer's to infer, so there are no
+    // scopes to read and no keyword gate (SCOPELESS).
+    if (rec.ref.kind === 'stratagem') {
+      const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
+      if (det && fielded.has(detKey(det.name))) out.push({ ...rec, body: '' })
       continue
     }
     if (rec.ref.kind === 'armyRule') {

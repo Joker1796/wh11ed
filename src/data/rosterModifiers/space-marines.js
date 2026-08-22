@@ -2697,6 +2697,1291 @@ export default {
       }
     },
     {
+      "sid": "aada0d58-5120-4fe2-9f65-a42abbb7de06",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "1st Company Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "1st-company-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "06423f32-dc7b-43d8-8feb-65f462b5c8b6",
+      "kind": "stratagem",
+      "name": "Heroes of the Chapter",
+      "det": "1st Company Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "1st-company-task-force",
+        "name": "Heroes of the Chapter"
+      },
+      "hash": "b9fdac06",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6525f05c-d6ef-435d-b59b-83c9b1ee4c0c",
+      "kind": "stratagem",
+      "name": "Legendary Fortitude",
+      "det": "1st Company Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "1st-company-task-force",
+        "name": "Legendary Fortitude"
+      },
+      "hash": "288334fc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "38939c03-9672-4ba4-b85f-5f6d2feee117",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Anvil Siege Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "anvil-siege-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c4be5f8e-562c-4805-bc00-aad3fa8e99f8",
+      "kind": "stratagem",
+      "name": "Battle Drill Recall",
+      "det": "Anvil Siege Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "anvil-siege-force",
+        "name": "Battle Drill Recall"
+      },
+      "hash": "b5ab1858",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a12194fa-62d7-4c77-9bce-9c3e3311d873",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Armoured Speartip",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-speartip",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2915804d-209d-48e9-95e1-8a1ca387ad8c",
+      "kind": "stratagem",
+      "name": "Purgation Doctrine",
+      "det": "Armoured Speartip",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-speartip",
+        "name": "Purgation Doctrine"
+      },
+      "hash": "54dcc828",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2daf77ae-8d3b-4e72-9817-c162bb862d97",
+      "kind": "stratagem",
+      "name": "Decapitating Strike",
+      "det": "Assault Force",
+      "ref": null,
+      "hash": "bf79a709",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7c0da99f-c645-4b51-b145-5b9cf61f5a5d",
+      "kind": "stratagem",
+      "name": "Guided Disruption",
+      "det": "Bastion Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bastion-task-force",
+        "name": "Guided Disruption"
+      },
+      "hash": "674794a8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "88477031-d757-4918-82f9-a7c3e949008b",
+      "kind": "stratagem",
+      "name": "Light of Vengeance",
+      "det": "Bastion Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bastion-task-force",
+        "name": "Light of Vengeance"
+      },
+      "hash": "34daafc2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if that ability was the one selected, against an auspex scanned unit or for BATTLELINE",
+            "ru": "если выбрана эта способность, против auspex scanned или для BATTLELINE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "if that ability was the one selected, against an auspex scanned unit or for BATTLELINE",
+            "ru": "если выбрана эта способность, против auspex scanned или для BATTLELINE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f5e96655-9f3c-4570-b2b9-1b2a74516770",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blade-of-ultramar",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "024374e3-1440-4742-a13e-a6502e551dc8",
+      "kind": "stratagem",
+      "name": "Courage and Honour!",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blade-of-ultramar",
+        "name": "Courage and Honour!"
+      },
+      "hash": "092ba0cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while under the Assault Doctrine",
+            "ru": "и ещё, под Assault Doctrine"
+          },
+          "cond": [
+            "doctrine-assault"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b2164541-e3d7-4bb3-9503-d7c814c32142",
+      "kind": "stratagem",
+      "name": "Exemplary Vigilance",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blade-of-ultramar",
+        "name": "Exemplary Vigilance"
+      },
+      "hash": "3878d23f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while under the Devastator Doctrine",
+            "ru": "и ещё, под Devastator Doctrine"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9fea9da4-6943-4686-b51b-a49eb3073574",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ceramite-sentinels",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b9894e70-4267-4344-aeb6-038746a63de3",
+      "kind": "stratagem",
+      "name": "Augmented Targeting",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ceramite-sentinels",
+        "name": "Augmented Targeting"
+      },
+      "hash": "21d9ef8f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "if that ability was the one selected (both while Entrenched)",
+            "ru": "если выбрана эта способность (обе — пока Entrenched)"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if that ability was the one selected (both while Entrenched)",
+            "ru": "если выбрана эта способность (обе — пока Entrenched)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "20843126-7ad3-4368-bdba-6fc715bafabb",
+      "kind": "stratagem",
+      "name": "Unyielding Might",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ceramite-sentinels",
+        "name": "Unyielding Might"
+      },
+      "hash": "6fa2b2cc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "9f8423ee-c000-4d20-9466-3d5207fe3a4e",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Emperor’s Shield",
+      "ref": {
+        "kind": "stratagem",
+        "det": "emperors-shield",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d542c7cc-ad27-408d-8e01-cf164b7aa363",
+      "kind": "stratagem",
+      "name": "Disciplined Extermination",
+      "det": "Emperor’s Shield",
+      "ref": {
+        "kind": "stratagem",
+        "det": "emperors-shield",
+        "name": "Disciplined Extermination"
+      },
+      "hash": "e52de03c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c0e3ba04-7c7a-4fdd-b613-3035821ccd7f",
+      "kind": "stratagem",
+      "name": "Fury of the First",
+      "det": "Emperor’s Shield",
+      "ref": {
+        "kind": "stratagem",
+        "det": "emperors-shield",
+        "name": "Fury of the First"
+      },
+      "hash": "473d9c6f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a5a527ed-ee07-4c6a-9cbd-fdf8a4d3d5ec",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Firestorm Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "firestorm-assault-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "acb62a30-656d-4994-ac0b-2f1f29f41d43",
+      "kind": "stratagem",
+      "name": "Crucible of Battle",
+      "det": "Firestorm Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "firestorm-assault-force",
+        "name": "Crucible of Battle"
+      },
+      "hash": "edc265e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a3195f2f-f195-4286-bc99-09ae17814e5e",
+      "kind": "stratagem",
+      "name": "Immolation Protocols",
+      "det": "Firestorm Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "firestorm-assault-force",
+        "name": "Immolation Protocols"
+      },
+      "hash": "a6262699",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6602438d-0065-4144-8df2-00a495e664e2",
+      "kind": "stratagem",
+      "name": "Onslaught of Fire",
+      "det": "Firestorm Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "firestorm-assault-force",
+        "name": "Onslaught of Fire"
+      },
+      "hash": "6c625793",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2501f65c-cfe2-4b19-9b73-4773a4fe501a",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Forgefather’s Seekers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "forgefathers-seekers",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "07500c11-4385-44b0-9cb9-7a37af500b10",
+      "kind": "stratagem",
+      "name": "Crucible of Battle",
+      "det": "Forgefather’s Seekers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "forgefathers-seekers",
+        "name": "Crucible of Battle"
+      },
+      "hash": "edc265e0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e9492f79-6110-4884-bf1e-16c37bb8d830",
+      "kind": "stratagem",
+      "name": "Immolation Protocols",
+      "det": "Forgefather’s Seekers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "forgefathers-seekers",
+        "name": "Immolation Protocols"
+      },
+      "hash": "d1199be5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "04762d86-2415-4b87-950f-347cd7702fed",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Gladius Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gladius-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c055b116-504d-418e-9e52-0951913d32e5",
+      "kind": "stratagem",
+      "name": "Honour the Chapter",
+      "det": "Gladius Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gladius-task-force",
+        "name": "Honour the Chapter"
+      },
+      "hash": "092ba0cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while under the Assault Doctrine",
+            "ru": "и ещё, под Assault Doctrine"
+          },
+          "cond": [
+            "doctrine-assault"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "07ce705a-e059-48a8-8dec-1d83b27162f0",
+      "kind": "stratagem",
+      "name": "Storm of Fire",
+      "det": "Gladius Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gladius-task-force",
+        "name": "Storm of Fire"
+      },
+      "hash": "3878d23f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "also, while under the Devastator Doctrine",
+            "ru": "и ещё, под Devastator Doctrine"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7f1ca1b2-6c84-4602-bdc4-d13555bc0eb8",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Hammer of Avernii",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-avernii",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "fb5116e6-606d-42b4-8f7c-a4022ba507b7",
+      "kind": "stratagem",
+      "name": "Augmetic Fortitude",
+      "det": "Hammer of Avernii",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-avernii",
+        "name": "Augmetic Fortitude"
+      },
+      "hash": "288334fc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "58c32d7a-b0f7-4cfe-8f3b-086adfedbeba",
+      "kind": "stratagem",
+      "name": "Ruthless Butchery",
+      "det": "Hammer of Avernii",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hammer-of-avernii",
+        "name": "Ruthless Butchery"
+      },
+      "hash": "eebbe6d7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "9a419058-a65d-4035-ae9b-4cb5d03836c9",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Headhunter Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "headhunter-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "02c615e1-a6c1-4a12-ab10-334cdd64dc94",
+      "kind": "stratagem",
+      "name": "Target Weak Point",
+      "det": "Headhunter Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "headhunter-task-force",
+        "name": "Target Weak Point"
+      },
+      "hash": "f6156f2b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "07c5c566-9c8f-4037-85e0-02be57f30805",
+      "kind": "stratagem",
+      "name": "Ancient Fury",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ironstorm-spearhead",
+        "name": "Ancient Fury"
+      },
+      "hash": "45125d4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "c724046a-d110-4aa0-a9f2-69e367eb680c",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ironstorm-spearhead",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7cac734b-0aa3-4cc8-a869-0c52cddac5b5",
+      "kind": "stratagem",
+      "name": "Tactical Decapitation",
+      "det": "Orbital Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "orbital-assault-force",
+        "name": "Tactical Decapitation"
+      },
+      "hash": "14e6e618",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a2d042cc-28da-4fc0-b159-5ccfb5faf864",
+      "kind": "stratagem",
+      "name": "Crusading Conquerors",
+      "det": "Reclamation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "reclamation-force",
+        "name": "Crusading Conquerors"
+      },
+      "hash": "ff404a82",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "1de1e05c-c7d7-4aa4-8fbb-75e03745debd",
+      "kind": "stratagem",
+      "name": "Furious Dedication",
+      "det": "Reclamation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "reclamation-force",
+        "name": "Furious Dedication"
+      },
+      "hash": "bec22aaf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "dd419425-d74b-4290-aa5d-dd2784cfee5b",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Shadowmark Talon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadowmark-talon",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4a593889-576e-4214-86eb-1e105d8ea880",
+      "kind": "stratagem",
+      "name": "Lay Low the Tyrants",
+      "det": "Shadowmark Talon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadowmark-talon",
+        "name": "Lay Low the Tyrants"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "666c5432-8a31-40c5-aa00-5be1b307b012",
+      "kind": "stratagem",
+      "name": "Stunning Fusillade",
+      "det": "Shadowmark Talon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shadowmark-talon",
+        "name": "Stunning Fusillade"
+      },
+      "hash": "ac05629f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against targets more than 12\" away",
+            "ru": "против целей дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets more than 12\" away",
+            "ru": "против целей дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "92569cb1-b793-4fb4-b442-ebec935ac746",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Spearpoint Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearpoint-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b7ffabf0-52bd-42fb-ab01-8377aaa74f6c",
+      "kind": "stratagem",
+      "name": "Spear Thrust and Sabre Swing",
+      "det": "Spearpoint Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearpoint-task-force",
+        "name": "Spear Thrust and Sabre Swing"
+      },
+      "hash": "06b13ff3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "if that ability was the one selected (MOUNTED units get both)",
+            "ru": "если выбрана эта способность (MOUNTED получает обе)"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if that ability was the one selected (MOUNTED units get both)",
+            "ru": "если выбрана эта способность (MOUNTED получает обе)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7825b7e3-7e1b-47ec-b336-4303168a962f",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Stormlance Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "stormlance-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8fd86a3f-9b2e-42c2-a4c9-55e9bbc2ab4d",
+      "kind": "stratagem",
+      "name": "Blitzing Fusillade",
+      "det": "Stormlance Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "stormlance-task-force",
+        "name": "Blitzing Fusillade"
+      },
+      "hash": "5ffe5282",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "for weapons that already had [ASSAULT]",
+            "ru": "для оружия, у которого уже был [ASSAULT]"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b1a41a8f-ad96-4a14-9794-5549fef75ede",
+      "kind": "stratagem",
+      "name": "Full Throttle",
+      "det": "Stormlance Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "stormlance-task-force",
+        "name": "Full Throttle"
+      },
+      "hash": "8c3d52bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll); 9\" instead if Mounted",
+            "ru": "в фазе с Advance (без броска); 9\" если Mounted"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "dd4d6731-dd3d-4b45-9721-add5b7ac613d",
+      "kind": "stratagem",
+      "name": "Shock Assault",
+      "det": "Stormlance Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "stormlance-task-force",
+        "name": "Shock Assault"
+      },
+      "hash": "5757518f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "bacb38b9-888e-4a2b-8ae8-1a80fe451742",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Vanguard Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-spearhead",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2c55924e-6941-4332-bd1a-aa474581fad2",
+      "kind": "stratagem",
+      "name": "Strike From The Shadows",
+      "det": "Vanguard Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-spearhead",
+        "name": "Strike From The Shadows"
+      },
+      "hash": "ac05629f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against targets more than 12\" away",
+            "ru": "против целей дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets more than 12\" away",
+            "ru": "против целей дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "715656ae-384c-4b07-a709-b5519e16f0e6",
+      "kind": "stratagem",
+      "name": "Surgical Strikes",
+      "det": "Vanguard Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-spearhead",
+        "name": "Surgical Strikes"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a32cbb8e-1369-4178-bf49-b68c9e39100c",
+      "kind": "stratagem",
+      "name": "Meteoric Onslaught",
+      "det": "Vengeful Hosts",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vengeful-hosts",
+        "name": "Meteoric Onslaught"
+      },
+      "hash": "d7306b4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "8a57b803-6122-4d63-a1a8-526e49b73adf:ancient-in-terminator-armour",
       "kind": "wargear",
       "name": "Ancient in Terminator Armour: Terminator Storm Shield",

@@ -191,6 +191,7 @@
       }"
       :game-ctx="viewingGameCtx"
       @toggle-cond="toggleUnitCond"
+      @toggle-strat="toggleUnitStrat"
       @close="viewingUid = null"
     />
   </div>
@@ -216,7 +217,7 @@ import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entr
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
-import { activeConditions, switchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, switchesFor, stratagemsFor, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -426,7 +427,10 @@ function statModsFor(entry, sheet) {
   // here would let a plate on this row and the card behind it disagree, which is the one thing this
   // shared implementation exists to prevent.
   const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active).map((g) => g.kw)]
-  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active)
+  // A spent stratagem rewrites the row in the list as well as the card behind it — same records,
+  // same clock, so the plate and the card can never disagree.
+  const strats = activeStratagems(gamePlayer.value, gameClock.value, entry, resolved)
+  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, strats)
 }
 
 // ── Rule switches (in game only) ────────────────────────────────────────────────────────────
@@ -469,6 +473,10 @@ const viewingGameCtx = computed(() => {
   const resolved = resolvedFor(viewingEntry.value)
   return {
     active: activeFor(viewingEntry.value),
+    // Which stratagems are spent on this unit right now, and which its detachments offer that
+    // would change a number on this card. Only in a live game: a record's clock is what expires
+    // them, and a finished game's clock stopped where the battle did.
+    strats: canSwitch.value ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value) : [],
     switches: canSwitch.value
       ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
@@ -478,6 +486,11 @@ const viewingGameCtx = computed(() => {
   }
 })
 // One handler for both scopes — the switch says which store it belongs to.
+function toggleUnitStrat(st) {
+  if (!viewingEntry.value) return
+  tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on)
+}
+
 function toggleUnitCond(sw) {
   if (sw.auto || !viewingEntry.value) return
   if (sw.scope === 'army') {

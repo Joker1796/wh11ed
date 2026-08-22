@@ -1030,6 +1030,279 @@ export default {
       ]
     },
     {
+      "sid": "f2aeddba-542d-4aa0-b1ac-1c6a39580385",
+      "kind": "stratagem",
+      "name": "Experimental Modifications",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "auxiliary-cadre",
+        "name": "Experimental Modifications"
+      },
+      "hash": "93165ff9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f69888d4-7f69-4346-9092-8f79fb3f0c1e",
+      "kind": "stratagem",
+      "name": "Experimental Ammunition",
+      "det": "Experimental Prototype Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "experimental-prototype-cadre",
+        "name": "Experimental Ammunition"
+      },
+      "hash": "c1f627ff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if the second option was chosen (weapons also gain [HAZARDOUS])",
+            "ru": "если выбран второй вариант (оружие получает [HAZARDOUS])"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "23171018-281d-4321-a2fe-c65dd5a6fb08",
+      "kind": "stratagem",
+      "name": "A Tempting Trap",
+      "det": "Kauyon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kauyon",
+        "name": "A Tempting Trap"
+      },
+      "hash": "bb917519",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1d4a3379-8785-4d9d-b18e-4ddd744e8390",
+      "kind": "stratagem",
+      "name": "Coordinate to Engage",
+      "det": "Kauyon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kauyon",
+        "name": "Coordinate to Engage"
+      },
+      "hash": "62b9fc5c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against their Spotted unit",
+            "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "64ac8db1-bb2c-495b-82db-64ae980f215d",
+      "kind": "stratagem",
+      "name": "Point-blank Ambush",
+      "det": "Kauyon",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kauyon",
+        "name": "Point-blank Ambush"
+      },
+      "hash": "23bdfb83",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 9\"",
+            "ru": "против целей в 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7ce53326-264e-4abf-8421-d137129a0665",
+      "kind": "stratagem",
+      "name": "A Trap Well Laid",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kroot-hunting-pack",
+        "name": "A Trap Well Laid"
+      },
+      "hash": "b367fbc6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6ed24703-1b7e-465b-9b31-0cfc693d0ed0",
+      "kind": "stratagem",
+      "name": "EMP Grenades",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "kroot-hunting-pack",
+        "name": "EMP Grenades"
+      },
+      "hash": "942628be",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "dc0729c7-424b-43d1-a8f9-5e72e7cd8001",
+      "kind": "stratagem",
+      "name": "Aggressive Mobility",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "stratagem",
+        "det": "montka",
+        "name": "Aggressive Mobility"
+      },
+      "hash": "50325371",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "450d8520-3527-4c3d-bbdb-a5361f7d6ab0",
+      "kind": "stratagem",
+      "name": "Counterfire Defence Systems",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "stratagem",
+        "det": "montka",
+        "name": "Counterfire Defence Systems"
+      },
+      "hash": "7d3ef23d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "44f34886-982e-453b-8806-1e2e4cd315e1",
+      "kind": "stratagem",
+      "name": "Focused Fire",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "stratagem",
+        "det": "montka",
+        "name": "Focused Fire"
+      },
+      "hash": "9e642357",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the one enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "78f2df6d-2fe6-418c-bc1b-52720d8f10d4",
+      "kind": "stratagem",
+      "name": "Pulse Onslaught",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "stratagem",
+        "det": "montka",
+        "name": "Pulse Onslaught"
+      },
+      "hash": "ebbdcfe5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "af84591d-2433-4909-92bf-63d3cee6c3c5",
+      "kind": "stratagem",
+      "name": "Suppressing Fire",
+      "det": "Sudden Dawn Cadre",
+      "ref": null,
+      "hash": "8d80c4dd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:breacher-team",
       "kind": "wargear",
       "name": "Breacher Team: Marker Drone",

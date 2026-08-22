@@ -722,6 +722,300 @@ export default {
       ]
     },
     {
+      "sid": "4eb6db28-8316-4d64-a6ab-10333e405814",
+      "kind": "stratagem",
+      "name": "Shatter Strike",
+      "det": "Callous Blades",
+      "ref": null,
+      "hash": "3463f06e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c31be1f6-a71d-44ba-85f7-b4b7021a6b9f",
+      "kind": "stratagem",
+      "name": "Armour of Abhorrence",
+      "det": "Coterie of the Conceited",
+      "ref": {
+        "kind": "stratagem",
+        "det": "coterie-of-the-conceited",
+        "name": "Armour of Abhorrence"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cd9eea99-4b5b-4a1f-b876-6a4d45610a7d",
+      "kind": "stratagem",
+      "name": "Close-quarters Excruciation",
+      "det": "Court of the Phoenician",
+      "ref": {
+        "kind": "stratagem",
+        "det": "court-of-the-phoenician",
+        "name": "Close-quarters Excruciation"
+      },
+      "hash": "5cb3d608",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against targets within 12\"",
+            "ru": "против целей в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a66b93f1-8245-4923-9b41-2f77873604e0",
+      "kind": "stratagem",
+      "name": "Psychedelic Soulflame",
+      "det": "Elegant Brutes",
+      "ref": {
+        "kind": "stratagem",
+        "det": "elegant-brutes",
+        "name": "Psychedelic Soulflame"
+      },
+      "hash": "4e26dc3d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9d74338f-4543-4fb8-9cf5-ff661c0eaaba",
+      "kind": "stratagem",
+      "name": "Possessive Mania",
+      "det": "Frenzied Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "frenzied-host",
+        "name": "Possessive Mania"
+      },
+      "hash": "9e50d86d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "393f0842-1159-4dd0-920a-c98a41a15339",
+      "kind": "stratagem",
+      "name": "Honour the Prince",
+      "det": "Mercurial Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mercurial-host",
+        "name": "Honour the Prince"
+      },
+      "hash": "f0ac49ee",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f69984fd-ed4d-4485-bc52-82866572b0b6",
+      "kind": "stratagem",
+      "name": "Violent Excess",
+      "det": "Mercurial Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mercurial-host",
+        "name": "Violent Excess"
+      },
+      "hash": "d91ad8da",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "3b83c2cd-a59c-475f-871c-88f9bc8b565b",
+      "kind": "stratagem",
+      "name": "Cruel Bladesman",
+      "det": "Peerless Bladesmen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "peerless-bladesmen",
+        "name": "Cruel Bladesman"
+      },
+      "hash": "381f84c3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "821d0384-2c3d-441d-9d74-dd36b23301ad",
+      "kind": "stratagem",
+      "name": "Devoted Duellists",
+      "det": "Slaanesh’s Chosen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "slaaneshs-chosen",
+        "name": "Devoted Duellists"
+      },
+      "hash": "6db6bd62",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against the enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "4eececb5-65f3-43ae-b6f0-a8396cd1528f",
+      "kind": "stratagem",
+      "name": "Heightened Jealousy",
+      "det": "Slaanesh’s Chosen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "slaaneshs-chosen",
+        "name": "Heightened Jealousy"
+      },
+      "hash": "b5596c56",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for a CHARACTER that is not your Favoured Champions",
+            "ru": "для CHARACTER, не входящего в Favoured Champions"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "1e9e2ba7-f899-4d0b-b553-c8f46fa9deff",
+      "kind": "stratagem",
+      "name": "Honour Is for Fools",
+      "det": "Spectacle of Slaughter",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spectacle-of-slaughter",
+        "name": "Honour Is for Fools"
+      },
+      "hash": "bf79a709",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:daemonettes",
       "kind": "wargear",
       "name": "Daemonettes: Daemonic Icon",

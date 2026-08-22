@@ -711,6 +711,203 @@ export default {
       ]
     },
     {
+      "sid": "b610b879-25f7-4480-b150-eaf3476550b9",
+      "kind": "stratagem",
+      "name": "Bestial Dominance",
+      "det": "Askar’s Wolfpack",
+      "ref": null,
+      "hash": "a0d889e1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "battle"
+    },
+    {
+      "sid": "ec043755-b8ac-49ac-99e5-364e7f3de998",
+      "kind": "stratagem",
+      "name": "Bring It Down",
+      "det": "Askar’s Wolfpack",
+      "ref": null,
+      "hash": "8213bb72",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f64b6cdc-e007-4358-8e50-9358007ac5ac",
+      "kind": "stratagem",
+      "name": "Fangs of the Pack",
+      "det": "Legends of Saga and Song",
+      "ref": {
+        "kind": "stratagem",
+        "det": "legends-of-saga-and-song",
+        "name": "Fangs of the Pack"
+      },
+      "hash": "bf79a709",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5816dd17-6d98-4205-89bb-017b833d4877",
+      "kind": "stratagem",
+      "name": "Unbridled Ferocity",
+      "det": "Saga of the Beastslayer",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-beastslayer",
+        "name": "Unbridled Ferocity"
+      },
+      "hash": "78ce0ea9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a4722680-da41-426d-9c44-0444928b4945",
+      "kind": "stratagem",
+      "name": "Birth of a Saga",
+      "det": "Saga of the Bold",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-bold",
+        "name": "Birth of a Saga"
+      },
+      "hash": "d0000b50",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "cc1ef85f-06f7-43a5-b7ff-3a3f4785d573",
+      "kind": "stratagem",
+      "name": "Heroic Resolve",
+      "det": "Saga of the Bold",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-bold",
+        "name": "Heroic Resolve"
+      },
+      "hash": "6d37add7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5994a824-1ade-4db3-ac74-74012ad8303f",
+      "kind": "stratagem",
+      "name": "Inspiring Presence",
+      "det": "Saga of the Bold",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-bold",
+        "name": "Inspiring Presence"
+      },
+      "hash": "0b5272c7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5407c9dd-c9b0-48cf-9614-8dfe641a85bf",
+      "kind": "stratagem",
+      "name": "Eye of the Pack",
+      "det": "Saga of the Great Wolf",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-great-wolf",
+        "name": "Eye of the Pack"
+      },
+      "hash": "076f75ba",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f0bfbe43-83ab-4fe0-8c52-f0f389a7f1f5",
+      "kind": "stratagem",
+      "name": "The Foe Foreseen",
+      "det": "Saga of the Great Wolf",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-great-wolf",
+        "name": "The Foe Foreseen"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:thunderwolf-cavalry",
       "kind": "wargear",
       "name": "Thunderwolf Cavalry: Storm Shield",

@@ -642,6 +642,7 @@ function sourceLabel(n) {
     return l.srcAbility
   }
   if (n.kind === 'core') return l.srcCore
+  if (n.kind === 'stratagem') return n.det ? `${l.srcStratagem} · ${n.det}` : l.srcStratagem
   if (n.kind === 'wargear') return l.srcWargear
   if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
   if (n.kind === 'enhancement') return l.rosterEnhancement

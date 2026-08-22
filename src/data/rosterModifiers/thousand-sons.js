@@ -848,6 +848,262 @@ export default {
       }
     },
     {
+      "sid": "9dd1faed-7e8a-4386-b2a1-827023cd92d9",
+      "kind": "stratagem",
+      "name": "Devastating Sorcery",
+      "det": "Grand Coven",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grand-coven",
+        "name": "Devastating Sorcery"
+      },
+      "hash": "1a088249",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 9,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ef76aa65-62d6-4fbc-a9d6-f434efc42d36",
+      "kind": "stratagem",
+      "name": "Psychic Dominion",
+      "det": "Grand Coven",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grand-coven",
+        "name": "Psychic Dominion"
+      },
+      "hash": "584f1494",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1321ba9d-f02a-4d64-bbe3-610c0fd8778c",
+      "kind": "stratagem",
+      "name": "Scouring Warpflame",
+      "det": "Hexwarp Thrallband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hexwarp-thrallband",
+        "name": "Scouring Warpflame"
+      },
+      "hash": "8c98ff6d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ff7282e4-5c01-40b0-a3d3-67c3c98bf992",
+      "kind": "stratagem",
+      "name": "Implacable Guardians",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rubricae-phalanx",
+        "name": "Implacable Guardians"
+      },
+      "hash": "fd2abbfb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3805f783-e42a-499d-a3f8-9a7934853d7c",
+      "kind": "stratagem",
+      "name": "Inexorable Advance",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rubricae-phalanx",
+        "name": "Inexorable Advance"
+      },
+      "hash": "22cdfca3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "6aeab97e-fe77-4731-a92e-eddc56b88ded",
+      "kind": "stratagem",
+      "name": "Infernal Fusillade",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rubricae-phalanx",
+        "name": "Infernal Fusillade"
+      },
+      "hash": "ebc56341",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "only": {
+            "name": "Inferno"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "set",
+          "value": "5",
+          "only": {
+            "name": "Inferno"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "65974fb7-162a-4917-9850-2a36ba6a793e",
+      "kind": "stratagem",
+      "name": "Prismatic Displacement",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "stratagem",
+        "det": "servants-of-change",
+        "name": "Prismatic Displacement"
+      },
+      "hash": "0ffdaff4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "b0cb5981-a7ae-4fac-9c49-1415afa964d5",
+      "kind": "stratagem",
+      "name": "Ensorcelled Infusion",
+      "det": "Warpforged Cabal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpforged-cabal",
+        "name": "Ensorcelled Infusion"
+      },
+      "hash": "095530fa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": {
+            "en": "VEHICLE models only",
+            "ru": "только модели VEHICLE"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cbe3dc47-dd1e-4e77-9f69-1cd70c86270a",
+      "kind": "stratagem",
+      "name": "Hex-Marked Armour",
+      "det": "Warpforged Cabal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpforged-cabal",
+        "name": "Hex-Marked Armour"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8976f591-43b5-458a-8ee9-5b0b5b3d3ef3",
+      "kind": "stratagem",
+      "name": "Warped Vicissitude",
+      "det": "Warpmeld Pact",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpmeld-pact",
+        "name": "Warped Vicissitude"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:pink-horrors",
       "kind": "wargear",
       "name": "Pink Horrors: Daemonic Icon",

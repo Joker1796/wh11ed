@@ -845,6 +845,334 @@ export default {
       ]
     },
     {
+      "sid": "c5c70e06-87e7-4ed4-a1d9-b5828d640d87",
+      "kind": "stratagem",
+      "name": "Defect Scrutiny",
+      "det": "Cohort Acquisitus",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cohort-acquisitus",
+        "name": "Defect Scrutiny"
+      },
+      "hash": "4848452b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bb586cc5-9709-418d-b4c6-cfe1fd80928e",
+      "kind": "stratagem",
+      "name": "Auto-divinatory Targeting",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cohort-cybernetica",
+        "name": "Auto-divinatory Targeting"
+      },
+      "hash": "33bc9d22",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "but only against units within range of the selected marker",
+            "ru": "но только против юнитов у выбранного маркера"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "but only against units within range of the selected marker",
+            "ru": "но только против юнитов у выбранного маркера"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "85cd645b-36de-4c71-94fb-d1dd8b63d61d",
+      "kind": "stratagem",
+      "name": "Motive Imperative",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cohort-cybernetica",
+        "name": "Motive Imperative"
+      },
+      "hash": "7578ea72",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "df721828-da79-4f3a-adfc-7a2b9dc1cad9",
+      "kind": "stratagem",
+      "name": "Chant of the Remorseless Fist",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "data-psalm-conclave",
+        "name": "Chant of the Remorseless Fist"
+      },
+      "hash": "47ce045f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2a8a67fa-6d84-4862-b69d-37cfa44b9fd6",
+      "kind": "stratagem",
+      "name": "Luminescent Blessing",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "data-psalm-conclave",
+        "name": "Luminescent Blessing"
+      },
+      "hash": "d172fab4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "CULT MECHANICUS models only",
+            "ru": "только модели CULT MECHANICUS"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "0615ff22-fe2b-4fed-a233-75033fdca00e",
+      "kind": "stratagem",
+      "name": "Servo-Driven Charge",
+      "det": "Eradication Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eradication-cohort",
+        "name": "Servo-Driven Charge"
+      },
+      "hash": "38a2a2a7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2a6b9771-679c-479a-be4f-0f9248641e10",
+      "kind": "stratagem",
+      "name": "Unrelenting Aggression",
+      "det": "Eradication Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eradication-cohort",
+        "name": "Unrelenting Aggression"
+      },
+      "hash": "ffe87ff2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "66f322cb-8c53-4c82-9dd4-29eba0609afc",
+      "kind": "stratagem",
+      "name": "Auto-oracular Retrieval",
+      "det": "Explorator Maniple",
+      "ref": {
+        "kind": "stratagem",
+        "det": "explorator-maniple",
+        "name": "Auto-oracular Retrieval"
+      },
+      "hash": "e29b5af5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "45ceb232-8964-463c-bebe-2677603b1444",
+      "kind": "stratagem",
+      "name": "Scriptural Prognosis",
+      "det": "Lords of the Forge",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lords-of-the-forge",
+        "name": "Scriptural Prognosis"
+      },
+      "hash": "9e50d86d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5988385b-4997-4228-9e6d-4f4b85d270a8",
+      "kind": "stratagem",
+      "name": "Aggressor Imperative",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rad-zone-corps",
+        "name": "Aggressor Imperative"
+      },
+      "hash": "574493a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll)",
+            "ru": "в фазе с Advance (без броска)"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5ca929e2-f7b2-467f-bde5-0bbc37bbea76",
+      "kind": "stratagem",
+      "name": "Bulwark Imperative",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rad-zone-corps",
+        "name": "Bulwark Imperative"
+      },
+      "hash": "74b1f1f1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "8caaa11d-0b04-485d-b7a0-1051940ba64d",
+      "kind": "stratagem",
+      "name": "Lethal Dosage",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rad-zone-corps",
+        "name": "Lethal Dosage"
+      },
+      "hash": "bc3f9fb7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e532731c-37b8-43d9-9d77-d4263507e900",
+      "kind": "stratagem",
+      "name": "Binharic Offence",
+      "det": "Skitarii Hunter Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skitarii-hunter-cohort",
+        "name": "Binharic Offence"
+      },
+      "hash": "cc43863e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "8873139d-a32b-459e-b0a6-98d0ea2ea25a",
+      "kind": "stratagem",
+      "name": "Isolate and Destroy",
+      "det": "Skitarii Hunter Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skitarii-hunter-cohort",
+        "name": "Isolate and Destroy"
+      },
+      "hash": "bf79f996",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8356be94-9f5e-422d-ae18-98ce1bd89810:archaeopter-fusilave",
       "kind": "wargear",
       "name": "Archaeopter Fusilave: Chaff Launcher",

@@ -29,6 +29,16 @@
             {{ labels.rosterAttachedTo }} <strong>{{ view.context.attachedTo }}</strong>
           </span>
         </div>
+        <!-- Stratagems SPENT on this unit, and the ones its detachments offer that would change a
+             number on this card. A stratagem is the one thing here that is not a fact about the
+             army or the unit — it is bought, for one unit, for a stated window — so it gets a row
+             of its own rather than sitting among the states, and each chip says how long it lasts.
+             Flipping one rewrites the card and the row in the list behind it; the clock takes it
+             back down on its own. -->
+        <div v-if="gameCtx?.strats?.length" class="rum-strats">
+          <h4 class="rum-strats-h">{{ labels.srcStratagem }}</h4>
+          <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
+        </div>
         <!-- No strip of switches here any more. A state is flipped where the thing it changes is
              read: on the ability that names it (DatasheetCard's `abilitySwitches`) or inside the
              rule that does (the "In effect" block below) — and, for the states a player sets every
@@ -136,7 +146,7 @@ const props = defineProps({
   // this player may flip from here. Null everywhere else, which is the read-only behaviour.
   gameCtx: { type: Object, default: null },
 })
-defineEmits(['close', 'toggle-cond'])
+defineEmits(['close', 'toggle-cond', 'toggle-strat'])
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
@@ -374,7 +384,15 @@ const abilityModifiers = computed(() => {
 
 const statMods = computed(() => {
   if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
-  return applyStatMods(view.value.sheet, resolvedModifiers.value, unitKeywords.value, factionKeywordSets.value, props.gameCtx?.active)
+  return applyStatMods(
+    view.value.sheet,
+    resolvedModifiers.value,
+    unitKeywords.value,
+    factionKeywordSets.value,
+    props.gameCtx?.active,
+    // The stratagems the player says are up on this unit, as a set of record ids.
+    new Set((props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id)),
+  )
 })
 
 const usableModifierEntries = computed(() => {
@@ -491,6 +509,11 @@ const ruleBlocks = computed(() => {
 .rum-chip-pts { color: var(--text-primary); font-weight: 600; }
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
 .rum-rule-conds { margin-bottom: 0.5rem; }
+.rum-strats { margin-bottom: 0.6rem; }
+.rum-strats-h {
+  margin: 0 0 0.3rem; color: var(--text-muted);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
 /* The English original beside a translated ability name — see DatasheetCard's .ds-name-en. */
 .rum-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }

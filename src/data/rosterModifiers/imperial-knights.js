@@ -862,6 +862,391 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "9e203a34-7bd6-4faa-966a-a5380a7bad91",
+      "kind": "stratagem",
+      "name": "Foebreaker Firestorm",
+      "det": "Dominus Foebreakers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dominus-foebreakers",
+        "name": "Foebreaker Firestorm"
+      },
+      "hash": "1dd594cf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "BLAST"
+          },
+          "when": {
+            "en": "while this stratagem is in force (those weapons lose [BLAST])",
+            "ru": "пока действует стратагема (оружие теряет [BLAST])"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "65caee89-44d0-49a2-81b0-33e12539c898",
+      "kind": "stratagem",
+      "name": "Ground-shaking Strides",
+      "det": "Dominus Foebreakers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dominus-foebreakers",
+        "name": "Ground-shaking Strides"
+      },
+      "hash": "6ed179bb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "752b879c-a9ec-43a4-ac22-7cf12eb041db",
+      "kind": "stratagem",
+      "name": "Full Tilt",
+      "det": "Freeblade Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "freeblade-company",
+        "name": "Full Tilt"
+      },
+      "hash": "54433eba",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll); 9\" instead for an ARMIGER",
+            "ru": "в фазе с Advance (без броска); 9\" для ARMIGER"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "49bf6432-d81b-4a7d-bab4-4c93e6be389f",
+      "kind": "stratagem",
+      "name": "Marshal the Defence",
+      "det": "Gate Warden Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gate-warden-lance",
+        "name": "Marshal the Defence"
+      },
+      "hash": "2db12b9a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "63028ff5-5ce3-403b-8b32-b0fa7d0af6f0",
+      "kind": "stratagem",
+      "name": "Titanic Bombardment",
+      "det": "Gate Warden Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gate-warden-lance",
+        "name": "Titanic Bombardment"
+      },
+      "hash": "ddd9b3d1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "591c5831-b960-4ea7-8749-a4edadb3da4c",
+      "kind": "stratagem",
+      "name": "Titanic Duel",
+      "det": "Questoris Companions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "questoris-companions",
+        "name": "Titanic Duel"
+      },
+      "hash": "f011ffa7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8d4a096d-8753-4149-833d-339072d21ac9",
+      "kind": "stratagem",
+      "name": "Exemplar’s Wisdom",
+      "det": "Spearhead-at-Arms",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearhead-at-arms",
+        "name": "Exemplar’s Wisdom"
+      },
+      "hash": "1b2dd438",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1b44d8dd-5034-4f88-b828-2034d485fe6d",
+      "kind": "stratagem",
+      "name": "Let Duty Be Your Shield",
+      "det": "Spearhead-at-Arms",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearhead-at-arms",
+        "name": "Let Duty Be Your Shield"
+      },
+      "hash": "1f76c246",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a3b426d3-9acd-46b2-b2b6-67d5494d5a3a",
+      "kind": "stratagem",
+      "name": "Thin Their Ranks",
+      "det": "Spearhead-at-Arms",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearhead-at-arms",
+        "name": "Thin Their Ranks"
+      },
+      "hash": "526e0dfc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "when": {
+            "en": "ARMIGER models only",
+            "ru": "только модели ARMIGER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "604bd57f-0040-461c-b11c-9302c9a85795",
+      "kind": "stratagem",
+      "name": "Virtue of Courage",
+      "det": "Spearhead-at-Arms",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearhead-at-arms",
+        "name": "Virtue of Courage"
+      },
+      "hash": "bbe60db7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3f80ee20-b7bc-446b-be65-f81e6acd1385",
+      "kind": "stratagem",
+      "name": "Full Tilt",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "valourstrike-lance",
+        "name": "Full Tilt"
+      },
+      "hash": "ce37d637",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "in a phase it Advanced (no Advance roll); 9\" instead for an ARMIGER",
+            "ru": "в фазе с Advance (без броска); 9\" для ARMIGER"
+          },
+          "cond": [
+            "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c4518bd6-6ce8-49bc-bbd2-ad7688440c35",
+      "kind": "stratagem",
+      "name": "Rotate Ion Shields",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "valourstrike-lance",
+        "name": "Rotate Ion Shields"
+      },
+      "hash": "987d6ae0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c18eaed3-595f-4ffe-bb0d-3e8f2c579b6a",
+      "kind": "stratagem",
+      "name": "Run Them Through!",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "valourstrike-lance",
+        "name": "Run Them Through!"
+      },
+      "hash": "49ac72bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "73aa6ecc-ae27-48d6-9d19-67e8eceb7db1",
+      "kind": "stratagem",
+      "name": "Thunderstomp",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "valourstrike-lance",
+        "name": "Thunderstomp"
+      },
+      "hash": "84f6fcff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "8",
+          "only": {
+            "name": "Armoured feet"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "12",
+          "only": {
+            "name": "Titanic feet"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b63ed631-b1ba-4ef5-b407-60fc90e7aee0",
+      "kind": "stratagem",
+      "name": "Vow of Retribution",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "valourstrike-lance",
+        "name": "Vow of Retribution"
+      },
+      "hash": "5d6c4cb7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     }
   ]
 }

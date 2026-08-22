@@ -93,11 +93,18 @@ function switchOn(store, id, clock) {
   if (at == null) return false
   const c = conditions[id]
   if (!c) return false
-  if (c.duration === 'battle') return true
+  return stampHolds(at, c.duration, clock)
+}
+
+// Is a stamp still inside the window a duration gives it? Shared by switches and by stratagems,
+// which expire the same way for the same reason.
+function stampHolds(at, duration, clock) {
+  if (at == null) return false
+  if (duration === 'battle') return true
   const now = stampOf(clock)
   const coarse = isLegacy(at) || !normaliseClock(clock).tracked
-  if (c.duration === 'phase' && !coarse) return at === now
-  if (c.duration === 'turn' && !coarse) return turnOfStamp(at) === turnOfStamp(now)
+  if (duration === 'phase' && !coarse) return at === now
+  if (duration === 'turn' && !coarse) return turnOfStamp(at) === turnOfStamp(now)
   return roundOfStamp(at) === roundOfStamp(now)
 }
 
@@ -163,6 +170,46 @@ function capGroups(out, player, entry) {
       .sort((a, b) => a.at - b.at || a.i - b.i)
     for (const o of ordered.slice(0, ids.length - limit)) out.delete(o.id)
   }
+}
+
+// ── Stratagems ────────────────────────────────────────────────────────────────────────────────
+// A stratagem is not a state of the battle, it is something SPENT: on one unit, for a stated
+// window, once the player decides to. So it is not in the condition vocabulary at all — the record
+// itself is the condition, and what is stored is which records are in force on which entry
+// (`player.ctx.strats[uid][sid]` = the clock stamp it was spent at).
+//
+// The window comes from the record's own `dur`, read from the stratagem's prose in the same review
+// pass that wrote its effects — "until the end of the phase" is the common one, "until the end of
+// the turn" next, and a handful last the battle. Expiry is the same single comparison a switch
+// uses, so a stratagem spent in the Shooting phase stops rewriting the card in the Fight phase
+// without anyone having to remember to turn it off.
+export function activeStratagems(player, clock, entry, records) {
+  const out = new Set()
+  const store = entry?.uid ? player?.ctx?.strats?.[entry.uid] : null
+  if (!store) return out
+  const byId = new Map((records || []).map((r) => [r.sid, r]))
+  for (const [sid, at] of Object.entries(store)) {
+    const rec = byId.get(sid)
+    if (!rec) continue
+    if (stampHolds(at, rec.dur || 'phase', clock)) out.add(sid)
+  }
+  return out
+}
+
+// The stratagems worth offering on a card: this entry's own records that actually carry an effect,
+// each with whether it is in force right now.
+export function stratagemsFor(resolvedEntries, player, clock, entry) {
+  const active = activeStratagems(player, clock, entry, resolvedEntries)
+  return (resolvedEntries || [])
+    .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
+    .map((rec) => ({
+      id: rec.sid,
+      label: { en: rec.name, ru: rec.name },   // stratagem names stay English by project convention
+      det: rec.det || null,
+      on: active.has(rec.sid),
+      auto: false,
+      duration: rec.dur || 'phase',
+    }))
 }
 
 // The switches worth showing for a set of resolved modifier records: the conditions their effects

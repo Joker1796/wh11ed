@@ -838,6 +838,517 @@ export default {
       }
     },
     {
+      "sid": "c42f1a6c-7209-44c3-8a08-1983a33aa429",
+      "kind": "stratagem",
+      "name": "Slayer of Champions",
+      "det": "Auric Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "auric-champions",
+        "name": "Slayer of Champions"
+      },
+      "hash": "28b225c9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3d93b0b2-7640-4265-985b-0c1a9e206643",
+      "kind": "stratagem",
+      "name": "Defiant To The Last",
+      "det": "Lions of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-of-the-emperor",
+        "name": "Defiant To The Last"
+      },
+      "hash": "c36844c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b16af145-a7ba-473f-8386-ed8fb276e828",
+      "kind": "stratagem",
+      "name": "Peerless Warrior",
+      "det": "Lions of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-of-the-emperor",
+        "name": "Peerless Warrior"
+      },
+      "hash": "10391964",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "dfa96045-020a-40da-a05a-110841d6114f",
+      "kind": "stratagem",
+      "name": "Prioritised Eradication",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "stratagem",
+        "det": "might-of-the-moritoi",
+        "name": "Prioritised Eradication"
+      },
+      "hash": "2e0429c6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 6",
+          "only": {
+            "name": "Arachnus storm cannon"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 2",
+          "only": {
+            "name": "Iliastus accelerator culverin"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "29d8fbb6-9a19-47a9-9c0c-348c18f2031b",
+      "kind": "stratagem",
+      "name": "Psy-chaff Volley",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Psy-chaff Volley"
+      },
+      "hash": "32319f16",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e71fa2b3-af09-442a-b69d-5160a2c30289",
+      "kind": "stratagem",
+      "name": "Purgation Sweep",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Purgation Sweep"
+      },
+      "hash": "8f475604",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "against a PSYKER or Battle-shocked target, instead",
+            "ru": "против PSYKER или Battle-shocked цели, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "da903080-91ba-4138-a20c-d7719a69754d",
+      "kind": "stratagem",
+      "name": "Avenge the Fallen",
+      "det": "Shield Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shield-host",
+        "name": "Avenge the Fallen"
+      },
+      "hash": "f9f55d63",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while Below Half-strength, instead",
+            "ru": "пока Below Half-strength, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "df90dc29-28d9-4484-b6aa-266ce4b3699d",
+      "kind": "stratagem",
+      "name": "Deathsong Scythes",
+      "det": "Silent Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "silent-hunters",
+        "name": "Deathsong Scythes"
+      },
+      "hash": "9ef4ad65",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against PSYKER targets",
+            "ru": "против целей PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9786c88d-4694-4c3d-b3c3-c63c25e15a85",
+      "kind": "stratagem",
+      "name": "Synchronised Inferno",
+      "det": "Silent Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "silent-hunters",
+        "name": "Synchronised Inferno"
+      },
+      "hash": "5ba6b1ed",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "BLAST 1",
+          "only": {
+            "tag": "TORRENT"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9494bd29-d121-496c-bb4d-f6d1e2897445",
+      "kind": "stratagem",
+      "name": "Umbral Prosecution",
+      "det": "Silent Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "silent-hunters",
+        "name": "Umbral Prosecution"
+      },
+      "hash": "44605a08",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 2",
+          "only": {
+            "name": "Boltgun"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "only": {
+            "name": "Boltgun"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9876dec8-0561-44cf-b491-429cd673c76b",
+      "kind": "stratagem",
+      "name": "Emperor’s Vengeance",
+      "det": "Solar Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "solar-spearhead",
+        "name": "Emperor’s Vengeance"
+      },
+      "hash": "e112e80f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bcb0956b-1bcd-4210-9135-c9a2494bc31a",
+      "kind": "stratagem",
+      "name": "Punishment Inescapable",
+      "det": "Solar Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "solar-spearhead",
+        "name": "Punishment Inescapable"
+      },
+      "hash": "6f179bef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b25a7834-58da-4565-9f0a-68df133f1b1f",
+      "kind": "stratagem",
+      "name": "Relentless Persecution",
+      "det": "Solar Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "solar-spearhead",
+        "name": "Relentless Persecution"
+      },
+      "hash": "49e6d0e2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f5c50ce4-bc47-4982-a25c-e9e09f28737d",
+      "kind": "stratagem",
+      "name": "Emperor’s Executioners",
+      "det": "Talons of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-emperor",
+        "name": "Emperor’s Executioners"
+      },
+      "hash": "465f0820",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "35dbd75b-fa44-489d-b243-38467b8777e1",
+      "kind": "stratagem",
+      "name": "Talons Interlocked",
+      "det": "Talons of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-emperor",
+        "name": "Talons Interlocked"
+      },
+      "hash": "8b66761f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the one enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against the one enemy unit this stratagem named",
+            "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "586938da-eb36-4a8c-9ebc-eacd8ac75f90",
+      "kind": "stratagem",
+      "name": "Electroexorcist Saturation",
+      "det": "Tharanatoi Hammerblow",
+      "ref": {
+        "kind": "stratagem",
+        "det": "tharanatoi-hammerblow",
+        "name": "Electroexorcist Saturation"
+      },
+      "hash": "6fcf05f0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "D3+3",
+          "only": {
+            "name": "Ballistus grenade launcher"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "342d243e-237b-425e-af03-f0cb82e857b8",
+      "kind": "stratagem",
+      "name": "Hardened Resolve",
+      "det": "Tharanatoi Hammerblow",
+      "ref": {
+        "kind": "stratagem",
+        "det": "tharanatoi-hammerblow",
+        "name": "Hardened Resolve"
+      },
+      "hash": "10a35e26",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c4b60961-67ad-4237-8dbc-2e3641dadadb",
+      "kind": "stratagem",
+      "name": "Never Outmatched",
+      "det": "Tristraen’s Gilded Blades",
+      "ref": null,
+      "hash": "83e4f304",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "a953553a-11dd-4105-a141-50667ddb666b:allarus-custodians",
       "kind": "wargear",
       "name": "Allarus Custodians: Vexilla",

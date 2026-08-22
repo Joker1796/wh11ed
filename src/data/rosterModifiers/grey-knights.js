@@ -613,6 +613,300 @@ export default {
       ]
     },
     {
+      "sid": "8b08bfd2-6a32-44ab-a2c4-901589090107",
+      "kind": "stratagem",
+      "name": "A Threat Ended",
+      "det": "Argent Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "argent-assault",
+        "name": "A Threat Ended"
+      },
+      "hash": "bf79a709",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ecc6a3a8-9b28-4bc6-a7aa-16c9a54cde85",
+      "kind": "stratagem",
+      "name": "Aura of Vengeance",
+      "det": "Argent Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "argent-assault",
+        "name": "Aura of Vengeance"
+      },
+      "hash": "137c1e4f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b325fd46-a00d-4ea6-87f6-f003609e2c7a",
+      "kind": "stratagem",
+      "name": "Chaos Bane",
+      "det": "Banishers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "banishers",
+        "name": "Chaos Bane"
+      },
+      "hash": "bb122aa6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-CHAOS 4+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "70353176-4c50-48d7-80a5-8f84c5bdeac8",
+      "kind": "stratagem",
+      "name": "Purgation Pattern",
+      "det": "Brotherhood Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brotherhood-strike",
+        "name": "Purgation Pattern"
+      },
+      "hash": "fd0d603c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c27c1fef-b27d-4d79-a325-8081ab9992c9",
+      "kind": "stratagem",
+      "name": "Truesilver Channelling",
+      "det": "Brotherhood Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brotherhood-strike",
+        "name": "Truesilver Channelling"
+      },
+      "hash": "425bf3c4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ec8379f3-0e51-4799-9b31-72811587a410",
+      "kind": "stratagem",
+      "name": "Psi-reactive Ammunition",
+      "det": "Crowe’s Sanctifiers",
+      "ref": null,
+      "hash": "f7bbc5ac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "only": {
+            "name": "Storm bolter"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5d77830b-d1f3-4b68-be52-4897eec1df38",
+      "kind": "stratagem",
+      "name": "Giants of the Battlefield",
+      "det": "Hallowed Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hallowed-conclave",
+        "name": "Giants of the Battlefield"
+      },
+      "hash": "6547cad0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "c0addec3-227c-404f-a291-d2cbf4e87772",
+      "kind": "stratagem",
+      "name": "Point-Blank Purgation",
+      "det": "Hallowed Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hallowed-conclave",
+        "name": "Point-Blank Purgation"
+      },
+      "hash": "4d46a400",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PISTOL",
+          "only": {
+            "name": "Storm bolter"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "TWIN-LINKED",
+          "only": {
+            "name": "Storm bolter"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d06f1a14-1634-4911-acfb-6eb2caded2d2",
+      "kind": "stratagem",
+      "name": "Blades from the Beyond",
+      "det": "Immaterial Interdiction",
+      "ref": {
+        "kind": "stratagem",
+        "det": "immaterial-interdiction",
+        "name": "Blades from the Beyond"
+      },
+      "hash": "127e1a54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2bb127f0-35c3-4e5c-b9b3-86eb75105241",
+      "kind": "stratagem",
+      "name": "Abominus-Class Targets",
+      "det": "Sanctic Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sanctic-spearhead",
+        "name": "Abominus-Class Targets"
+      },
+      "hash": "9754786c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "31a2dff2-e760-462d-b57a-6fe1159bd900",
+      "kind": "stratagem",
+      "name": "Aegis Eternal",
+      "det": "Warpbane Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warpbane-task-force",
+        "name": "Aegis Eternal"
+      },
+      "hash": "19be779c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while wholly within your Hallowed Ground",
+            "ru": "пока полностью в своей Hallowed Ground"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "314a4643-59ab-4fd8-a1a8-d05172bb2070:brotherhood-terminator-squad",
       "kind": "wargear",
       "name": "Brotherhood Terminator Squad: Ancient’s Banner",

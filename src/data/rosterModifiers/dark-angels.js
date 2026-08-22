@@ -631,6 +631,361 @@ export default {
       }
     },
     {
+      "sid": "418829b4-ff4b-4cdf-9530-cbf9f67f9ea1",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Company of Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "company-of-hunters",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "150d44d6-66a3-470d-abc8-f7a9dede80e0",
+      "kind": "stratagem",
+      "name": "Talon Strike",
+      "det": "Company of Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "company-of-hunters",
+        "name": "Talon Strike"
+      },
+      "hash": "5757518f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9af5293a-2c33-44f8-9104-d14301621129",
+      "kind": "stratagem",
+      "name": "No Sacrifice Too Great",
+      "det": "Dark Age Arsenal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dark-age-arsenal",
+        "name": "No Sacrifice Too Great"
+      },
+      "hash": "72f7c02a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "HAZARDOUS"
+          },
+          "when": {
+            "en": "plasma weapons, while this stratagem is in force",
+            "ru": "плазменное оружие, пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "709d9f90-1f57-493c-bdf3-279310da4339",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Inner Circle Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "inner-circle-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "38100d27-b255-437d-8d7d-f7c1a177cec3",
+      "kind": "stratagem",
+      "name": "Exacting Punishment",
+      "det": "Interrogation Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "interrogation-conclave",
+        "name": "Exacting Punishment"
+      },
+      "hash": "72d06e1d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "5bd61afc-3e7a-48d3-9080-e4ea6a01ae76",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Lion’s Blade Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-blade-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "52f5dd3c-9c83-41d3-811c-2323554aa7ca",
+      "kind": "stratagem",
+      "name": "Illuminating Fire",
+      "det": "Lion’s Blade Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-blade-task-force",
+        "name": "Illuminating Fire"
+      },
+      "hash": "1014cf89",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "dbc9a4a9-b047-4171-96dd-b5432502c579",
+      "kind": "stratagem",
+      "name": "Overpowering Exaction",
+      "det": "Lion’s Blade Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lions-blade-task-force",
+        "name": "Overpowering Exaction"
+      },
+      "hash": "7c6de389",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1ead1a56-e4a7-4e0f-8a46-65b9e8f0452a",
+      "kind": "stratagem",
+      "name": "For the Lion",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "076afe4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "12237ea6-06fd-4cb6-b7e3-282850a71f16",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Unforgiven Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unforgiven-task-force",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "50d24785-ed31-4425-a0ba-c7a8965f54cf",
+      "kind": "stratagem",
+      "name": "Fire Discipline",
+      "det": "Unforgiven Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unforgiven-task-force",
+        "name": "Fire Discipline"
+      },
+      "hash": "7bb022c1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "4e190f01-9671-4565-9d2a-6f7f73e9a93a",
+      "kind": "stratagem",
+      "name": "Unforgiven Fury",
+      "det": "Unforgiven Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unforgiven-task-force",
+        "name": "Unforgiven Fury"
+      },
+      "hash": "2eb2a217",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9ee78dbf-8891-4a6c-98df-4b1a29ce0dd5",
+      "kind": "stratagem",
+      "name": "Armour of Contempt",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Armour of Contempt"
+      },
+      "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "fb1bcf88-543d-4b37-b503-8097298378d3",
+      "kind": "stratagem",
+      "name": "Lion’s Will",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Lion’s Will"
+      },
+      "hash": "40a9eacd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "turn"
+    },
+    {
+      "sid": "777a5d6f-2b9c-401b-9488-89f8c97f03ca",
+      "kind": "stratagem",
+      "name": "Relics of the Dark Age",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Relics of the Dark Age"
+      },
+      "hash": "ef8d6f39",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2f72cc59-edd2-4633-ba40-0f0e7cdd0a10",
+      "kind": "stratagem",
+      "name": "Tactical Mastery",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Tactical Mastery"
+      },
+      "hash": "4331c5bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "940380dd-af82-403b-ba52-1583f553b446:azrael",
       "kind": "wargear",
       "name": "Azrael: The Lion Helm",

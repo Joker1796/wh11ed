@@ -268,3 +268,35 @@ describe('mutually exclusive switches', () => {
   })
 })
 
+describe('stratagems', () => {
+  const rec = (sid, dur) => ({ sid, kind: 'stratagem', name: sid, det: 'War Horde', dur, effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'x', ru: 'x' } }] })
+  const entry = { uid: 'u1', id: 'boyz' }
+  const spent = (at) => player({ strats: { u1: { 'krump': at } } })
+
+  it('holds a phase-long stratagem only in the phase it was spent', async () => {
+    const { activeStratagems } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'shooting', mine: true, tracked: true }
+    const at = stampOf(clock)
+    expect(activeStratagems(spent(at), clock, entry, [rec('krump', 'phase')]).has('krump')).toBe(true)
+    expect(activeStratagems(spent(at), { ...clock, phase: 'fight' }, entry, [rec('krump', 'phase')]).has('krump')).toBe(false)
+    // …and a turn-long one survives the phase change but not the round.
+    expect(activeStratagems(spent(at), { ...clock, phase: 'fight' }, entry, [rec('krump', 'turn')]).has('krump')).toBe(true)
+    expect(activeStratagems(spent(at), { ...clock, round: 3 }, entry, [rec('krump', 'turn')]).has('krump')).toBe(false)
+    // A battle-long one never expires.
+    expect(activeStratagems(spent(at), { ...clock, round: 5 }, entry, [rec('krump', 'battle')]).has('krump')).toBe(true)
+  })
+
+  it('offers a card the stratagems that would change something on it', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const clock = { round: 1, turn: 0, phase: 'fight', mine: true, tracked: true }
+    const records = [rec('krump', 'phase'), { sid: 'nothing', kind: 'stratagem', name: 'nothing', dur: 'phase', effects: [] }]
+    const out = stratagemsFor(records, spent(stampOf(clock)), clock, entry)
+    expect(out).toHaveLength(1)      // the one with no effect is not worth a chip
+    expect(out[0]).toMatchObject({ id: 'krump', on: true, duration: 'phase', det: 'War Horde' })
+  })
+
+  it('says nothing for an entry that spent none', async () => {
+    const { activeStratagems } = await import('./rosterGameContext.js')
+    expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)
+  })
+})
