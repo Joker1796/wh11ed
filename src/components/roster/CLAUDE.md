@@ -680,8 +680,37 @@ The layer is detachable: delete `src/data/rosterModifiers/` and `loadRosterModif
 null, the card keeps its printed numbers, and Tiers A+B are unaffected. Nothing is written into
 the hand-authored faction files.
 
-The review backlog, the update procedure and the format reference live in
-`ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
+#### Authoring a record
+
+The generator writes the skeleton; `effects`, `when`, `cond` and `reviewed` are the human's and
+survive regeneration. The shape, fixed since the layer was built:
+
+```js
+{ scope: 0, on: 'melee', stat: 's', op: 'add', value: 2,
+  only: { tag: 'PSYCHIC' }, alt: 1,
+  when: { en: '…', ru: '…' }, cond: ['unit-charged'] }
+```
+
+- `on` — `profile` | `ranged` | `melee` | `weapon` (both weapon tables) | `unit` (keyword grants)
+- `stat` — datasheet keys `m/t/sv/w/ld/oc/inv`, weapon `a/bs/ws/s/ap/d/range`, plus `ability` and
+  `keyword` for grants (`op: 'grant'`, `value` the name — `SUSTAINED HITS 1`, unbracketed)
+- `op` — `add` | `set` | `improve`. `improve` is only for roll-shaped characteristics (saves, Ld,
+  BS/WS), where better means lower. For a plain number the reviewer writes `add` with the sign the
+  rule implies: AP is printed negative, so "+1 AP" is `add: -1`.
+- `when: null` means unconditional — and unconditional is the only thing that rewrites a number
+  without proof. Anything else needs both a bilingual `when` and a `cond`.
+- A rule whose reading is "changes no printed number" is kept with `effects: []` and
+  `reviewed: true` — otherwise the generator proposes it again forever.
+
+Run `npm run modifiers` to refresh skeletons, `npm run modifiers:queue` to write the working list
+(`MODIFIER-QUEUE.local.json`, gitignored), `npm run modifiers:check` to fail on anything unreviewed
+or stale. The check is part of `npm run sync` — see `DATA-SYNC.md`.
+
+**A lesson worth not relearning** (2026-08-22): the candidate heuristic tests the prose for things
+like `+1 OC` or `+2" M`, and `bodyText()` hands it appdata's emphasis intact (`+2" **M**`). Two
+asterisks between the number and the letter hid **141 rules** from the scan — a Custodes detachment
+that plainly says +2" M had no record at all. `isCandidate` strips `**` before testing now; if a
+rule that obviously changes a number is missing, suspect the markup before the pipeline.
 
 ## A roster attached to a game (`rosterGameLink.js`)
 
@@ -728,7 +757,7 @@ at all. Three files, one idea:
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
-  **100 of the 217 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
+  **129 of the 295 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
   `blocked-subset`, `blocked-weapon`) that says why not. **A missing `cond` is not "unconditional" —
   it is unreviewed, and is treated as unproven.**
 
@@ -759,11 +788,24 @@ at all. Three files, one idea:
   its condition text, with `via` naming what proved it — `DatasheetCard` renders that third state
   (`ds-mod-live`) distinctly from both a printed value and an unmet condition.
 
-**The clock is the battle round.** A switch stores the round it was flipped in, and anything whose
-rule lasts less than the whole battle is true only in that round. The tracker has no phases and no
-notion of whose turn it is, so that is the only honest clock — and clearing EARLY is the safe
-direction, since a stale switch would silently rewrite a number. Conditions scoped to a phase are
-marked in the vocabulary and never come out true until that changes.
+**The clock.** A switch stores WHEN it was flipped as one monotonic stamp — `round*100 + turn*10 +
+phase` — so every duration is a single comparison: `phase` wants the same stamp, `turn` the same
+round and turn, `round` the same round, `battle` anything. That matters because five conditions
+last a phase by their own rules and four last a turn; with the round as the only boundary they
+stayed true through phases they had no business being true in.
+
+Two things degrade it, both deliberately: a game not keeping phases (`settings.trackPhases`, off by
+default) records round-only stamps, and a game saved before stamps existed holds a bare round
+number — which can never be mistaken for a stamp, since the smallest real one is 100. Either way
+every duration falls back to the round boundary, which is what this layer did before the clock
+existed. Clearing EARLY is the safe direction: a stale switch would silently rewrite a number.
+
+**`scope: 'clock'` conditions are answered by the tracker, never by a switch** — same one-source
+law as `auto`. Two kinds: a `phase` id names the phase and whose turn it must be (`side: 'own'` for
+"your Shooting phase", `'any'` for the Fight phase, which happens in both), and only a game keeping
+phases can answer one; a `rounds` id names a battle-round window (Mont'ka's 1-3, Kauyon's 3-5) and
+answers in EVERY game, because the round is always known. `clockOf(game, pi)` builds what the
+answers are read from, `stampOf(clock)` is what a switch stores.
 
 **Where the switches are:** army-wide ones above the unit list in `RosterViewView` (facts about the
 battle); per-unit ones on the unit's own card in `RosterUnitRulesModal` (`gameCtx` prop, `toggle-cond`
@@ -774,15 +816,35 @@ offered, and only ones that can be answered — a switch that changes nothing on
 no switch. State lives in the game (`player.ctx.army` / `player.ctx.units[uid]`, written by
 `useTracker`'s `setArmyCondition`/`setUnitCondition`), never in the roster.
 
-Plan, research and open questions: `ROSTER-IN-GAME-PROGRESS.md`.
+**The stratagems tab reads the clock too.** In a live game keeping phases it offers a "usable now"
+filter — what this player can use in the slot the game is standing on. `phasesOf` (grouping, used
+by the standalone stratagems page too) is deliberately untouched; `phaseSidesOf` is the extra half
+that reads WHOSE phase the timing names, and `usableInSlot` is the predicate. A history record is
+excluded: its clock stopped where the game ended.
+
+**User decisions behind all of this** (2026-08-20/22), none derivable from the code: both players
+may have a list and neither must; the roster link is an ornament, never a precondition; context
+state lives in the game, not in the roster; a faction with no tracker spec still gets a plain
+army-level switch; positional and per-attack conditions are never automated; wounds, casualties and
+table position are out of scope — this is a reference that knows the rules in play, not a
+battlefield. Phases are opt-in per game and offered only where a list is attached, since the roster
+screen is the only thing that reads them.
 
 ## Known gaps
 
 See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list — kept there
 rather than here since that file is the transient tracking doc and this one is the stable
 reference. Cloud backup used to head that list; it was built on 2026-08-22 (see "Cloud sync"
-above) and the backend half still has to be deployed. The modifier overlay has its own tracking
-doc, `ROSTER-MODIFIERS-PROGRESS.md` (see the section above).
+above) and the backend half still has to be deployed. The overlay's own tracking docs
+(`ROSTER-MODIFIERS-PROGRESS.md`, `ROSTER-IN-GAME-PROGRESS.md`) were retired into this file on
+2026-08-22, once their last phases closed; their journals are in the git history.
+
+Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
+shrink the number: 26 name part of a unit the rule's own prose gives no statement for
+(`blocked-subset`), a handful restrict to a weapon chosen at deployment that nothing records
+(`blocked-weapon`), and the rest are `never` — resolved per attack, by range, by an aura, or by a
+once-per-battle activation the player simply decides. Adding a phase clock (2026-08-22) freed
+eleven of them and no more; the remainder are not waiting on machinery.
 
 What is still genuinely missing, feature-wise: **import** reads only our own share link (no GW-app
 text, no `.ros`), and **export** writes a GW-app-shaped text that is close to but not byte-exact

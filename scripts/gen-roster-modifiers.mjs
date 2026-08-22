@@ -1,5 +1,5 @@
 // Generate and audit src/data/rosterModifiers/<slug>.js — the numeric modifier layer for the
-// roster builder's unit card (Tier C of ROSTER-MODIFIERS-PROGRESS.md). A record says what a rule
+// roster builder's unit card (Tier C — src/components/roster/CLAUDE.md). A record says what a rule
 // DOES to a statline or a weapon profile ("+2 to the Strength characteristic"), which the
 // attributed prose blocks of Tier B can only describe.
 //
@@ -238,7 +238,7 @@ function serialise(slug, existing, sources, result) {
     + `// HAND-AUTHORED — re-running the generator preserves them. Never edit \`sid\`/\`hash\`/\`ver\`\n`
     + `// by hand: \`hash\` is what ties a record to the exact rule wording it was read from, and\n`
     + `// rewriting it by hand would silence the one signal that says "GW changed this rule".\n`
-    + `// See ROSTER-MODIFIERS-PROGRESS.md and the generator's own header.\n`
+    + `// See src/components/roster/CLAUDE.md and the generator's own header.\n`
     + `export default ${body}\n`
 }
 

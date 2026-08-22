@@ -71,7 +71,7 @@ const turnOfStamp = (at) => Math.floor(at / 10)
 // Adding to this map is a per-faction job: the spec has to actually record the same thing the
 // condition asks about, which most do not — Drukhari's tracker counts Pain tokens, not which
 // Combat Drug is running, and the Sororitas one banks Miracle dice and says nothing about which
-// unit is Righteous. Those stay switches. (R2 in ROSTER-IN-GAME-PROGRESS.md.)
+// unit is Righteous. Those stay switches.
 const AUTO = {
   // Orks — a `toggle` spec that records the round the Waaagh! was called in.
   'waaagh-active': (player, round) => player?.factionSlug === 'orks'
