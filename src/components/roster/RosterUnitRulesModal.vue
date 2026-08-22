@@ -36,7 +36,13 @@
              Flipping one rewrites the card and the row in the list behind it; the clock takes it
              back down on its own. -->
         <div v-if="gameCtx?.strats?.length" class="rum-strats">
-          <h4 class="rum-strats-h">{{ labels.srcStratagem }}</h4>
+          <h4 class="rum-strats-h">
+            {{ labels.srcStratagem }}
+            <!-- Core Rules 01.07: a Battle-shocked unit cannot be targeted with stratagems. The
+                 chips are inert rather than hidden — what you cannot spend right now is still worth
+                 knowing you have. -->
+            <span v-if="stratsBlocked" class="rum-strats-note">{{ labels.stratBlockedShock }}</span>
+          </h4>
           <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
         </div>
         <!-- No strip of switches here any more. A state is flipped where the thing it changes is
@@ -451,6 +457,8 @@ const abilitySwitches = computed(() => {
   return out
 })
 
+const stratsBlocked = computed(() => (props.gameCtx?.strats || []).some((st) => st.blocked))
+
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value
   const facEn = rulesFactionEn.value
@@ -514,6 +522,7 @@ const ruleBlocks = computed(() => {
   margin: 0 0 0.3rem; color: var(--text-muted);
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
 }
+.rum-strats-note { margin-left: 0.4rem; color: var(--accent); font-weight: 600; text-transform: none; letter-spacing: 0; }
 /* The English original beside a translated ability name — see DatasheetCard's .ds-name-en. */
 .rum-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
