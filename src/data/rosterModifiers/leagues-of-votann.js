@@ -385,6 +385,169 @@ export default {
         "kind": "enhancement",
         "det": "persecution-prospect"
       }
+    },
+    {
+      "sid": "94bb2d5a-b2ef-4286-869d-71867445cca2:einhyr-champion",
+      "kind": "wargear",
+      "name": "Einhyr Champion: Weavefield Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "einhyr-champion",
+        "item": "weavefield crest"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c2bf69d8-7326-4933-84ae-58539abb44df:einhyr-hearthguard",
+      "kind": "wargear",
+      "name": "Einhyr Hearthguard: Weavefield crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "einhyr-hearthguard",
+        "item": "weavefield crest"
+      },
+      "hash": "40d840b6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c2bf69d8-7326-4933-84ae-58539abb44df:hearthkyn-warriors",
+      "kind": "wargear",
+      "name": "Hearthkyn Warriors: Weavefield crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hearthkyn-warriors",
+        "item": "weavefield crest"
+      },
+      "hash": "40d840b6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3e828a03-5cad-42d0-b529-d1ac1e551753:k-hl",
+      "kind": "wargear",
+      "name": "Kâhl: Rampart Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "k-hl",
+        "item": "rampart crest"
+      },
+      "hash": "b352cc54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "e8a7d080-698c-40a8-ae09-8be318dd6859:kapricus-carrier",
+      "kind": "wargear",
+      "name": "Kapricus Carrier: Smoke Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kapricus-carrier",
+        "item": "smoke launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e8a7d080-698c-40a8-ae09-8be318dd6859:kapricus-defenders",
+      "kind": "wargear",
+      "name": "Kapricus Defenders: Smoke Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kapricus-defenders",
+        "item": "smoke launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "8f2926c4-dbed-4488-8da1-8ea590acf469:thar-the-destined",
+      "kind": "wargear",
+      "name": "Ûthar the Destined: Rampart Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "thar-the-destined",
+        "item": "rampart crest"
+      },
+      "hash": "2dd29335",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "led"
+        }
+      ]
     }
   ]
 }

@@ -137,6 +137,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "a65415ae-941f-4500-a868-cbf1c0ed6f25:lord-on-juggernaut",
+      "kind": "ability",
+      "name": "Lord on Juggernaut: Aggressive Advance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-on-juggernaut"
+      },
+      "hash": "55eac758",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "set",
+          "value": "10\"",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "bb6455b4-5b89-4710-9777-79d66db0d1c2:maulerfiend",
       "kind": "ability",
       "name": "Maulerfiend: Savage Exaltation",
@@ -614,6 +637,28 @@ export default {
       }
     },
     {
+      "sid": "fcbe8acf-9854-414e-b644-c0e0cb67e41c",
+      "kind": "enhancement",
+      "name": "Blood-Forged Armour",
+      "det": "Khorne Daemonkin",
+      "ref": {
+        "kind": "enhancement",
+        "det": "khorne-daemonkin"
+      },
+      "hash": "d735756f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "39eeeb4f-b6ba-45a6-8d96-7a7036b58d88",
       "kind": "enhancement",
       "name": "Disciple of Khorne",
@@ -640,6 +685,82 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
+      "kind": "wargear",
+      "name": "Bloodcrushers: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodcrushers",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:bloodcrushers",
+      "kind": "wargear",
+      "name": "Bloodcrushers: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodcrushers",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodletters",
+      "kind": "wargear",
+      "name": "Bloodletters: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodletters",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:bloodletters",
+      "kind": "wargear",
+      "name": "Bloodletters: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodletters",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

@@ -352,6 +352,47 @@ export default {
       ]
     },
     {
+      "sid": "fa0d2462-a7dd-4f57-abcb-e001e8682912:wracks",
+      "kind": "ability",
+      "name": "Wracks: Experimental Enhancements",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wracks"
+      },
+      "hash": "10523e54",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "while Empowered, if this option is chosen (non-CHARACTER models)",
+            "ru": "пока Empowered, если выбран этот вариант (кроме CHARACTER)"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "while Empowered, if the other option is chosen (non-CHARACTER models, HAZARDOUS)",
+            "ru": "пока Empowered, если выбран другой вариант (кроме CHARACTER, HAZARDOUS)"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "531b472d-8206-448f-971c-69e882c246bd:xatrophos-nuul",
       "kind": "ability",
       "name": "Xatrophos Nuul: Fear Incarnate (Aura)",
@@ -735,6 +776,28 @@ export default {
       ]
     },
     {
+      "sid": "96ad45b7-7bcb-4584-9692-596c23687f56",
+      "kind": "enhancement",
+      "name": "Leechbite Plate",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-cartel"
+      },
+      "hash": "2b6bd246",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "1b8a36e1-aaf0-4dc9-8d5e-7dc93f9961b4",
       "kind": "enhancement",
       "name": "Towering Arrogance",
@@ -846,6 +909,247 @@ export default {
         "kind": "enhancement",
         "det": "spectacle-of-spite"
       }
+    },
+    {
+      "sid": "13df0ce0-d27d-4004-a370-1611de3526db:archon",
+      "kind": "wargear",
+      "name": "Archon: Soul Trap",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "archon",
+        "item": "soul trap"
+      },
+      "hash": "78e9f6ec",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for the rest of the battle, once its attacks destroyed a model, instead",
+            "ru": "до конца битвы, если атака уничтожила модель, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for the rest of the battle, once its attacks destroyed a model, instead",
+            "ru": "до конца битвы, если атака уничтожила модель, вместо этого"
+          },
+          "cond": [
+            "never"
+          ],
+          "alt": 1
+        }
+      ]
+    },
+    {
+      "sid": "49a47f0e-f2f3-49f4-9089-b4c164174287:hand-of-the-archon",
+      "kind": "wargear",
+      "name": "Hand of the Archon: Kabalite Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hand-of-the-archon",
+        "item": "kabalite icon"
+      },
+      "hash": "5fc81170",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only, while its unit is not Battle-shocked",
+            "ru": "только носитель, пока отряд не Battle-shocked"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "69fe633d-fa89-4a70-9de3-9bfccbf68a09:hand-of-the-archon",
+      "kind": "wargear",
+      "name": "Hand of the Archon: Phantasm Grenade Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hand-of-the-archon",
+        "item": "phantasm grenade launcher"
+      },
+      "hash": "6f6b78f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "79bfd4a0-3952-454b-95db-bee1f1f23580:hellions",
+      "kind": "wargear",
+      "name": "Hellions: Phantasm Grenade Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hellions",
+        "item": "phantasm grenade launcher"
+      },
+      "hash": "9f2814e8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "49a47f0e-f2f3-49f4-9089-b4c164174287:kabalite-warriors",
+      "kind": "wargear",
+      "name": "Kabalite Warriors: Kabalite Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kabalite-warriors",
+        "item": "kabalite icon"
+      },
+      "hash": "5fc81170",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer only, while its unit is not Battle-shocked",
+            "ru": "только носитель, пока отряд не Battle-shocked"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "79bfd4a0-3952-454b-95db-bee1f1f23580:kabalite-warriors",
+      "kind": "wargear",
+      "name": "Kabalite Warriors: Phantasm Grenade Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "kabalite-warriors",
+        "item": "phantasm grenade launcher"
+      },
+      "hash": "9f2814e8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "6d7b527c-2b1a-44b6-b72a-e035011627a4:reavers",
+      "kind": "wargear",
+      "name": "Reavers: Grav-talon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "reavers",
+        "item": "grav-talon"
+      },
+      "hash": "259ba69a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "set",
+          "value": "-2",
+          "when": {
+            "en": "the bearer's weapons only",
+            "ru": "только оружие носителя"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the bearer's weapons only",
+            "ru": "только оружие носителя"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -384,6 +384,29 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "4376131c-0673-4ce5-84e3-6bda75cd6fd6:impulsor",
+      "kind": "wargear",
+      "name": "Impulsor: Shield Dome",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "impulsor",
+        "item": "shield dome"
+      },
+      "hash": "a490870b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
     }
   ]
 }

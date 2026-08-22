@@ -176,6 +176,37 @@ export default {
       "effects": []
     },
     {
+      "sid": "1e0b085e-afa3-45ef-91ac-7da966bed7d9:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Vengeance for the Omnissiah",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer"
+      },
+      "hash": "bacbdb9e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "6",
+          "only": {
+            "name": "Omnissian axe"
+          },
+          "when": {
+            "en": "for the rest of the battle, once a friendly VEHICLE was destroyed within 12\"",
+            "ru": "до конца битвы, если дружественный VEHICLE уничтожен в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "4bc24a5b-2219-483b-8e94-c2c92e8515f4:tech-priest-manipulus",
       "kind": "ability",
       "name": "Tech-Priest Manipulus: Defend the Divine Work",
@@ -494,6 +525,28 @@ export default {
       ]
     },
     {
+      "sid": "728a30a4-6408-4ab1-b1f2-54e7da8cacee",
+      "kind": "enhancement",
+      "name": "Mechanicus Locum",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "data-psalm-conclave"
+      },
+      "hash": "189b1239",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
       "kind": "enhancement",
       "name": "Belicosa-class Capacitor Vanes",
@@ -774,6 +827,121 @@ export default {
           "cond": [
             "unit-leading"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "8356be94-9f5e-422d-ae18-98ce1bd89810:archaeopter-fusilave",
+      "kind": "wargear",
+      "name": "Archaeopter Fusilave: Chaff Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "archaeopter-fusilave",
+        "item": "chaff launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "8356be94-9f5e-422d-ae18-98ce1bd89810:archaeopter-stratoraptor",
+      "kind": "wargear",
+      "name": "Archaeopter Stratoraptor: Chaff Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "archaeopter-stratoraptor",
+        "item": "chaff launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "8356be94-9f5e-422d-ae18-98ce1bd89810:archaeopter-transvector",
+      "kind": "wargear",
+      "name": "Archaeopter Transvector: Chaff Launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "archaeopter-transvector",
+        "item": "chaff launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3970cd7b-a8ee-4429-96e1-99d8a57709a2:skitarii-rangers",
+      "kind": "wargear",
+      "name": "Skitarii Rangers: Omnispex",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "skitarii-rangers",
+        "item": "omnispex"
+      },
+      "hash": "c40143bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3970cd7b-a8ee-4429-96e1-99d8a57709a2:skitarii-vanguard",
+      "kind": "wargear",
+      "name": "Skitarii Vanguard: Omnispex",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "skitarii-vanguard",
+        "item": "omnispex"
+      },
+      "hash": "c40143bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
         }
       ]
     }

@@ -213,7 +213,8 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
-import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, abilityEntriesFor } from '../../composables/rosterStatMods.js'
+import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
+import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { activeConditions, switchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -388,11 +389,11 @@ function resolvedFor(entry) {
     ...resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
     // A datasheet ability can modify the unit it is attached to, so this entry's records include
     // the abilities of whoever leads it and of whoever it leads — the roster records both.
-    ...abilityEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
+    ...datasheetEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
   ]
 }
 
-// Who is attached to whom, for abilityEntriesFor(). The game carries its own snapshot of the list,
+// Who is attached to whom, for datasheetEntriesFor(). The game carries its own snapshot of the list,
 // so these uids are the ones the entries themselves hold.
 function attachmentCtxOf(entry) {
   const units = roster.value?.units || []
@@ -400,6 +401,13 @@ function attachmentCtxOf(entry) {
     unitId: entry.id,
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+    itemNames: loadoutItemNames(defOf(entry.id), entry, rosterItems.items),
+    // What the attached Leaders are carrying — a Kustom Force Field covers the unit its Big Mek
+    // joined, not the Big Mek.
+    leaderItemNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+      for (const n of loadoutItemNames(defOf(u.id), u, rosterItems.items) || []) set.add(n)
+      return set
+    }, new Set()),
   }
 }
 

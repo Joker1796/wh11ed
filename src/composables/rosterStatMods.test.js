@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, abilityEntriesFor } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -415,7 +415,7 @@ describe('applyStatMods with an "instead" variant', () => {
   })
 })
 
-describe('abilityEntriesFor', () => {
+describe('datasheetEntriesFor', () => {
   // Fabius Bile's Enhanced Warriors is printed on HIS card and addresses the unit he joins, which
   // is the first thing in this layer that rewrites a card other than the one it was found on.
   const enhancedWarriors = {
@@ -442,7 +442,7 @@ describe('abilityEntriesFor', () => {
   const records = [enhancedWarriors, ownAbility, onTheBodyguard]
 
   it('gives a unit its own abilities, split into owner and rule name', () => {
-    const out = abilityEntriesFor(records, { unitId: 'fabius-bile' })
+    const out = datasheetEntriesFor(records, { unitId: 'fabius-bile' })
     expect(out).toHaveLength(1)
     expect(out[0].name).toBe('Surgeon Acolyte')
     expect(out[0].owner).toBe('Fabius Bile')
@@ -453,7 +453,7 @@ describe('abilityEntriesFor', () => {
   // The card labels this "leader · Fabius Bile" and names the rule separately, so the two halves
   // have to arrive apart rather than as one glued string.
   it('gives the led unit the leader\'s ability, tagged with where it came from', () => {
-    const out = abilityEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    const out = datasheetEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
     expect(out).toHaveLength(1)
     expect(out[0].name).toBe('Enhanced Warriors')
     expect(out[0].owner).toBe('Fabius Bile')
@@ -462,7 +462,7 @@ describe('abilityEntriesFor', () => {
   })
 
   it('gives the leader an ability printed on the unit it leads', () => {
-    const out = abilityEntriesFor(records, { unitId: 'lord-of-contagion', ledUnitId: 'poxwalkers' })
+    const out = datasheetEntriesFor(records, { unitId: 'lord-of-contagion', ledUnitId: 'poxwalkers' })
     expect(out).toHaveLength(1)
     expect(out[0].name).toBe('Curse of the Walking Pox')
     expect(out[0].owner).toBe('Poxwalkers')
@@ -472,20 +472,62 @@ describe('abilityEntriesFor', () => {
   // The leader standing alone gets nothing from a `led` effect — the roster says it is attached to
   // nobody, so there is no unit for the ability to reach.
   it('applies nothing across an attachment the roster does not record', () => {
-    expect(abilityEntriesFor(records, { unitId: 'chaos-space-marines' })).toEqual([])
-    expect(abilityEntriesFor(records, { unitId: 'lord-of-contagion' })).toEqual([])
+    expect(datasheetEntriesFor(records, { unitId: 'chaos-space-marines' })).toEqual([])
+    expect(datasheetEntriesFor(records, { unitId: 'lord-of-contagion' })).toEqual([])
   })
 
   it('ignores every record that is not a datasheet ability', () => {
     const det = { kind: 'detachmentRule', name: 'X', ref: { kind: 'detachmentRule', det: 'y' }, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }] }
-    expect(abilityEntriesFor([det], { unitId: 'anything' })).toEqual([])
+    expect(datasheetEntriesFor([det], { unitId: 'anything' })).toEqual([])
   })
 
   it('is applied with no keyword gate — the ability is printed on the card it addresses', () => {
     const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '5' }], melee: [{ name: 'Blade', a: '4', s: '4' }] })
-    const [rec] = abilityEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    const [rec] = datasheetEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
     const out = applyStatMods(sheet(), [rec], [], [], new Set())
     expect(out.sheet.profiles[0].t).toBe('5')
     expect(out.sheet.melee[0].s).toBe('5')
+  })
+})
+
+describe('datasheetEntriesFor — wargear', () => {
+  const sarcophagus = {
+    kind: 'wargear',
+    name: 'Mortifiers: Anchorite Sarcophagus',
+    ref: { kind: 'wargear', unit: 'mortifiers', item: 'anchorite sarcophagus' },
+    effects: [
+      { on: 'profile', stat: 'm', op: 'set', value: '7"', when: null },
+      { on: 'profile', stat: 'sv', op: 'set', value: '3+', when: null },
+    ],
+  }
+  const forceField = {
+    kind: 'wargear',
+    name: 'Big Mek in Mega Armour: Kustom Force Field',
+    ref: { kind: 'wargear', unit: 'big-mek-in-mega-armour', item: 'kustom force field' },
+    effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '4+', when: { en: 'x', ru: 'x' }, cond: ['never'], target: 'led' }],
+  }
+
+  it('applies a wargear rule only to a unit that took the item', () => {
+    const took = datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers', itemNames: new Set(['anchorite sarcophagus']) })
+    expect(took).toHaveLength(1)
+    expect(took[0].name).toBe('Anchorite Sarcophagus')
+    expect(took[0].from).toBe('wargear')
+    expect(datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers', itemNames: new Set(['heavy bolter']) })).toEqual([])
+  })
+
+  // No loadout at all (the add-unit preview) is not "equipped with everything": a wargear rule has
+  // no printed line it would be hiding, so silence is the safe direction.
+  it('says nothing when the caller cannot name the loadout', () => {
+    expect(datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers' })).toEqual([])
+  })
+
+  it('reaches the led unit when the LEADER is the one carrying it', () => {
+    const ctx = { unitId: 'boyz', leaderUnitIds: ['big-mek-in-mega-armour'], leaderItemNames: new Set(['kustom force field']) }
+    const out = datasheetEntriesFor([forceField], ctx)
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+    expect(out[0].owner).toBe('Big Mek in Mega Armour')
+    // …and not when the Big Mek left it at home.
+    expect(datasheetEntriesFor([forceField], { ...ctx, leaderItemNames: new Set() })).toEqual([])
   })
 })

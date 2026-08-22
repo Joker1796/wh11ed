@@ -119,6 +119,34 @@ export default {
       ]
     },
     {
+      "sid": "f6a10550-38ed-4c2f-8528-0f037ec3a81e:apothecary-biologis",
+      "kind": "ability",
+      "name": "Apothecary Biologis: Vivispectrum",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "apothecary-biologis"
+      },
+      "hash": "c207965a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "9",
+          "when": {
+            "en": "for the rest of the battle, once its unit destroyed an enemy unit in melee",
+            "ru": "до конца битвы, если отряд уничтожил врага в ближнем бою"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "02f7446d-0825-4bcf-b9ba-c3541673ac08:assault-force-captain",
       "kind": "ability",
       "name": "Assault Force Captain: Relic Shield",
@@ -432,6 +460,20 @@ export default {
       ]
     },
     {
+      "sid": "5429d3a6-6245-4780-ad9d-5fa105a0f81d:darnath-lysander",
+      "kind": "ability",
+      "name": "Darnath Lysander: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "darnath-lysander"
+      },
+      "hash": "3c08dc20",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "096ec45b-1205-4dfc-b6f9-29e3be1df65c:darnath-lysander",
       "kind": "ability",
       "name": "Darnath Lysander: Rampart",
@@ -662,6 +704,20 @@ export default {
       ]
     },
     {
+      "sid": "2ee3980e-f81f-4093-a8ac-f9cfe7036b9e:iron-father-feirros",
+      "kind": "ability",
+      "name": "Iron Father Feirros: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-father-feirros"
+      },
+      "hash": "ade2c599",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "71d74c1c-087e-4c70-96a5-bca5e6bfd2b6:iron-father-feirros",
       "kind": "ability",
       "name": "Iron Father Feirros: Master of the Forge",
@@ -707,6 +763,20 @@ export default {
       ]
     },
     {
+      "sid": "c608eecd-b9bd-4d99-993c-ce96fa6b561b:kayvaan-shrike",
+      "kind": "ability",
+      "name": "Kayvaan Shrike: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kayvaan-shrike"
+      },
+      "hash": "30743003",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7399a318-f089-4778-9ef3-701423e34f9b:korsarro-khan",
       "kind": "ability",
       "name": "Kor’sarro Khan: For the Khan!",
@@ -736,6 +806,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "9eeaad07-22c7-456f-b3bf-689cf6d11855:korsarro-khan",
+      "kind": "ability",
+      "name": "Kor’sarro Khan: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "korsarro-khan"
+      },
+      "hash": "2a7b2770",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7f49e247-dc01-475b-a43c-bcb81ad68d5a:librarian-in-terminator-armour",
@@ -892,6 +976,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "49d03928-99bb-46c6-9bc0-a4a185be0a58:pedro-kantor",
+      "kind": "ability",
+      "name": "Pedro Kantor: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pedro-kantor"
+      },
+      "hash": "ac6d8390",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c2397446-6266-42da-968d-549855d3b1ab:pedro-kantor",
@@ -1062,6 +1160,37 @@ export default {
       "effects": []
     },
     {
+      "sid": "99cbd2c2-4531-4410-abdb-72c7d24e3d5f:techmarine",
+      "kind": "ability",
+      "name": "Techmarine: Vengeance of the Omnissiah",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "techmarine"
+      },
+      "hash": "b8d4732b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "7",
+          "only": {
+            "name": "Omnissian power axe"
+          },
+          "when": {
+            "en": "for the rest of the battle, once a friendly VEHICLE was destroyed within 12\"",
+            "ru": "до конца битвы, если дружественный VEHICLE уничтожен в 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "3093dc5f-b20a-4fed-85ea-9b121dc01fd1:terminator-squad",
       "kind": "ability",
       "name": "Terminator Squad: Fury of the First",
@@ -1176,6 +1305,61 @@ export default {
           },
           "cond": [
             "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "c364cc32-4b31-449d-93fd-b4f0bf89ac18:vulkan-hestan",
+      "kind": "ability",
+      "name": "Vulkan He’stan: Inspiring Commander",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vulkan-hestan"
+      },
+      "hash": "a5c0ed08",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a33c9c81-9cbc-46a4-af1c-82980e25aa9e:vulkan-hestan",
+      "kind": "ability",
+      "name": "Vulkan He’stan: Seeker of the Unfound",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vulkan-hestan"
+      },
+      "hash": "519ed4cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "10",
+          "when": {
+            "en": "within range of the objective chosen when it arrived",
+            "ru": "в зоне objective, выбранного при выставлении"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "within range of the objective chosen when it arrived",
+            "ru": "в зоне objective, выбранного при выставлении"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]
@@ -1725,6 +1909,28 @@ export default {
       ]
     },
     {
+      "sid": "78cc0398-facb-4866-ab12-6f89d83556d4",
+      "kind": "enhancement",
+      "name": "Armour of Antoninus",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "enhancement",
+        "det": "blade-of-ultramar"
+      },
+      "hash": "192beb6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "ee406f75-ff0d-48fa-a912-668b94840822",
       "kind": "enhancement",
       "name": "Oath of Macragge",
@@ -1988,6 +2194,28 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "32c6e6cd-2f06-4773-8875-8410e5df2caf",
+      "kind": "enhancement",
+      "name": "Artificer Armour",
+      "det": "Gladius Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "gladius-task-force"
+      },
+      "hash": "192beb6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
           "when": null
         }
       ]
@@ -2397,6 +2625,337 @@ export default {
         "kind": "enhancement",
         "det": "stormlance-task-force"
       }
+    },
+    {
+      "sid": "8a57b803-6122-4d63-a1a8-526e49b73adf:ancient-in-terminator-armour",
+      "kind": "wargear",
+      "name": "Ancient in Terminator Armour: Terminator Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ancient-in-terminator-armour",
+        "item": "terminator storm shield"
+      },
+      "hash": "6026918c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "5bbcf921-b6c6-400c-bf8e-9b0104322b21:captain-with-jump-pack",
+      "kind": "wargear",
+      "name": "Captain with Jump Pack: Relic Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "captain-with-jump-pack",
+        "item": "relic shield"
+      },
+      "hash": "6026918c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5bbcf921-b6c6-400c-bf8e-9b0104322b21:captain",
+      "kind": "wargear",
+      "name": "Captain: Relic Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "captain",
+        "item": "relic shield"
+      },
+      "hash": "6026918c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "9c41682e-4ea0-4fdf-810b-c3a9d4d822a3:centurion-assault-squad",
+      "kind": "wargear",
+      "name": "Centurion Assault Squad: Centurion assault launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "centurion-assault-squad",
+        "item": "centurion assault launcher"
+      },
+      "hash": "83e77f19",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5bbcf921-b6c6-400c-bf8e-9b0104322b21:chaplain-in-terminator-armour",
+      "kind": "wargear",
+      "name": "Chaplain in Terminator Armour: Relic Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "chaplain-in-terminator-armour",
+        "item": "relic shield"
+      },
+      "hash": "6026918c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "6",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "4376131c-0673-4ce5-84e3-6bda75cd6fd6:impulsor",
+      "kind": "wargear",
+      "name": "Impulsor: Shield Dome",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "impulsor",
+        "item": "shield dome"
+      },
+      "hash": "a490870b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:lieutenant",
+      "kind": "wargear",
+      "name": "Lieutenant: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "lieutenant",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7b6f34d2-cadf-4b4b-83ca-343026d55249:terminator-assault-squad",
+      "kind": "wargear",
+      "name": "Terminator Assault Squad: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "terminator-assault-squad",
+        "item": "storm shield"
+      },
+      "hash": "38451d6c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:vanguard-veteran-squad-with-jump-packs",
+      "kind": "wargear",
+      "name": "Vanguard Veteran Squad with Jump Packs: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "vanguard-veteran-squad-with-jump-packs",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "b0e2ebc8-9362-401b-86f4-0b59b4f57752:victrix-honour-guard",
+      "kind": "wargear",
+      "name": "Victrix Honour Guard: Banner of Macragge",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "victrix-honour-guard",
+        "item": "banner of macragge"
+      },
+      "hash": "62101fcb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, while this ability is used",
+            "ru": "раз за битву, пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "b1c5d835-f70f-439c-9449-aa447771540a:wardens-of-ultramar",
+      "kind": "wargear",
+      "name": "Wardens of Ultramar: Refractor Field",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wardens-of-ultramar",
+        "item": "refractor field"
+      },
+      "hash": "a490870b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:wardens-of-ultramar",
+      "kind": "wargear",
+      "name": "Wardens of Ultramar: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wardens-of-ultramar",
+        "item": "storm shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     }
   ]
 }

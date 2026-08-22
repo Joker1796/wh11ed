@@ -82,6 +82,10 @@ const CANDIDATE = new RegExp([
   '(?:add|subtract) \\d+ to',                 // "add 1 to the Strength characteristic"
   '(?:add|subtract) \\d+["\u201d] to',            // the same with a distance: 'add 2" to this model\'s Move'
   'improve[sd]? the [^.]{0,40}characteristic',
+  // "has a Move characteristic of 7\"", "have an Objective Control characteristic of 3" — a SET
+  // rather than a delta, and the wording the wargear rules use almost exclusively (a Mortifiers'
+  // Anchorite Sarcophagus rewrites Move and Save this way and was invisible to every pattern here).
+  '(?:has|have) an? [^.]{0,40}characteristic of',
   '\\d\\+ invulnerable save',
   'has a \\d\\+ (?:invulnerable )?save',
   '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
@@ -182,6 +186,37 @@ function abilitySources(bundle, dsBySid) {
   }
   return out
 }
+
+// A datasheet's WARGEAR that carries a rule of its own rather than a weapon profile — a Storm
+// Shield's 4+ invulnerable, a Mortifier's Anchorite Sarcophagus rewriting Move and Save. Sixth
+// source, added 2026-08-22: 330 such entries across the game, 136 of which touch a statline, and
+// none of them applies unless the unit actually TOOK the item.
+//
+// `ref.item` is the item's NAME, normalised — the same key `filterWeapons` already matches loadouts
+// on. The uuid bridge stores wargear as `wg:<datasheet>:<lowercased name>`, so the name is the
+// stable part on both sides; our own item ids are interned integers that mean nothing across
+// factions.
+function wargearSources(bundle, dsBySid) {
+  const out = []
+  for (const d of bundle.datasheets || []) {
+    const wh = dsBySid.get(d.id)?.id || null
+    for (const w of d.wargear || []) {
+      const prose = appdataToMarkup(w.ruleText)
+      if (!w.id || !prose) continue
+      out.push({
+        sid: `${w.id}:${wh || slugifyName(d.name)}`,
+        kind: 'wargear',
+        name: `${d.name}: ${w.name}`,
+        det: null,
+        ref: wh ? { kind: 'wargear', unit: wh, item: normItemName(w.name) } : null,
+        prose,
+      })
+    }
+  }
+  return out
+}
+
+const normItemName = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
 
 const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -332,6 +367,7 @@ export async function run(argv = process.argv.slice(2)) {
       ...sourcesOf(bundle, detBySid),
       ...allegianceSources(allegTables, (bundle.datasheets || []).map((d) => d.id)),
       ...abilitySources(bundle, dsBySid),
+      ...wargearSources(bundle, dsBySid),
     ]
     const existing = await readExisting(slug)
     const result = classify(existing, sources, ver)

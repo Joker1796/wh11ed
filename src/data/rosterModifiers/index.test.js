@@ -98,13 +98,15 @@ describe('rosterModifiers data', () => {
           // "instead" means — the replacement always depends on something.
           expect(eff.when, `${where}: unconditional alternate`).not.toBeNull()
         }
-        // WHOSE card the effect lands on. Only a datasheet ability can address another unit —
-        // every other record rewrites the card its rule was already shown on — and the two cross
-        // directions are the whole reason the field exists, so a stray one elsewhere would apply
-        // to nobody and look reviewed.
+        // WHOSE card the effect lands on. Only a record that hangs off a DATASHEET can address
+        // another unit — an ability printed on a Leader's card, a Kustom Force Field worn by one —
+        // and everything else rewrites the card its rule was already shown on, so a stray `target`
+        // there would apply to nobody and still look reviewed. `leader` is an ability's alone: a
+        // wargear rule pointing back at the Character has no way to say which item it came from.
         if (eff.target !== undefined) {
           expect(['self', 'led', 'leader'], `${where}: target`).toContain(eff.target)
-          expect(e.kind, `${where}: target on a non-ability record`).toBe('ability')
+          expect(['ability', 'wargear'], `${where}: target on a rule record`).toContain(e.kind)
+          if (e.kind === 'wargear') expect(eff.target, `${where}: wargear target`).toBe('led')
           expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
         }
         // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.

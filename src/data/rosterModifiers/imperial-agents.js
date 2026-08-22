@@ -704,6 +704,278 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:aquila-kill-team",
+      "kind": "wargear",
+      "name": "Aquila Kill Team: Astartes shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "aquila-kill-team",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
+      "kind": "wargear",
+      "name": "Corvus Blackstar: Auspex Array",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corvus-blackstar",
+        "item": "auspex array"
+      },
+      "hash": "a8073fac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "d5028f22-7248-4d7e-8550-23ebbf37c0a5:corvus-blackstar",
+      "kind": "wargear",
+      "name": "Corvus Blackstar: Infernum Halo-launcher",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corvus-blackstar",
+        "item": "infernum halo-launcher"
+      },
+      "hash": "46cafc31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Smoke",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "bd82612d-1cc5-4408-bcdb-43affb04b068:deathwatch-kill-team",
+      "kind": "wargear",
+      "name": "Deathwatch Kill Team: Astartes shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-kill-team",
+        "item": "astartes shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "bde4aec2-30a1-4d29-a294-e5c220d4c16b:exaction-squad",
+      "kind": "wargear",
+      "name": "Exaction Squad: Soulguilt Scanner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "exaction-squad",
+        "item": "soulguilt scanner"
+      },
+      "hash": "c40143bc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "314a4643-59ab-4fd8-a1a8-d05172bb2070:grey-knights-terminator-squad",
+      "kind": "wargear",
+      "name": "Grey Knights Terminator Squad: Ancient’s Banner",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "grey-knights-terminator-squad",
+        "item": "ancient's banner"
+      },
+      "hash": "ec06b6a4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "074ac92a-0ebc-4951-8e67-e459cb11bae3:imperial-navy-breachers",
+      "kind": "wargear",
+      "name": "Imperial Navy Breachers: Endurant Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "imperial-navy-breachers",
+        "item": "endurant shield"
+      },
+      "hash": "5e0ca50d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "4c0dbe01-e4a8-4fd5-992b-f35d5ef423a4:inquisitor",
+      "kind": "wargear",
+      "name": "Inquisitor: Blessed Wardings",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "inquisitor",
+        "item": "blessed wardings"
+      },
+      "hash": "bda848a8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "6+",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "a49e2a76-e166-4227-965c-ad9b4ef36f1f:inquisitor",
+      "kind": "wargear",
+      "name": "Inquisitor: Psychic Gifts",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "inquisitor",
+        "item": "psychic gifts"
+      },
+      "hash": "a7eed996",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Psyker",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "34c3c209-6c20-4bfd-941b-5cf6224c3011:sanctifiers",
+      "kind": "wargear",
+      "name": "Sanctifiers: Simulacrum Imperialis",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "sanctifiers",
+        "item": "simulacrum imperialis"
+      },
+      "hash": "f2b9e017",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "34c3c209-6c20-4bfd-941b-5cf6224c3011:sisters-of-battle-squad",
+      "kind": "wargear",
+      "name": "Sisters of Battle Squad: Simulacrum Imperialis",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "sisters-of-battle-squad",
+        "item": "simulacrum imperialis"
+      },
+      "hash": "f2b9e017",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ]
     }
   ]
 }

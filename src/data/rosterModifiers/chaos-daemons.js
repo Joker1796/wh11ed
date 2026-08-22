@@ -882,6 +882,295 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
+      "kind": "wargear",
+      "name": "Bloodcrushers: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodcrushers",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:bloodcrushers",
+      "kind": "wargear",
+      "name": "Bloodcrushers: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodcrushers",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodletters",
+      "kind": "wargear",
+      "name": "Bloodletters: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodletters",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:bloodletters",
+      "kind": "wargear",
+      "name": "Bloodletters: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "bloodletters",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:daemonettes",
+      "kind": "wargear",
+      "name": "Daemonettes: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "daemonettes",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:daemonettes",
+      "kind": "wargear",
+      "name": "Daemonettes: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "daemonettes",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5579aa57-632e-42a7-a12a-7ebc8c69e24d:keeper-of-secrets",
+      "kind": "wargear",
+      "name": "Keeper of Secrets: Shining Aegis",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "keeper-of-secrets",
+        "item": "shining aegis"
+      },
+      "hash": "2aa5c1c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:pink-horrors",
+      "kind": "wargear",
+      "name": "Pink Horrors: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pink-horrors",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:pink-horrors",
+      "kind": "wargear",
+      "name": "Pink Horrors: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pink-horrors",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:plague-drones",
+      "kind": "wargear",
+      "name": "Plague Drones: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plague-drones",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:plague-drones",
+      "kind": "wargear",
+      "name": "Plague Drones: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plague-drones",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:plaguebearers",
+      "kind": "wargear",
+      "name": "Plaguebearers: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plaguebearers",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:plaguebearers",
+      "kind": "wargear",
+      "name": "Plaguebearers: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "plaguebearers",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:seekers",
+      "kind": "wargear",
+      "name": "Seekers: Daemonic Icon",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "seekers",
+        "item": "daemonic icon"
+      },
+      "hash": "5db4589c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e77cb7d8-d6cd-472a-a771-91fee3e48bcd:seekers",
+      "kind": "wargear",
+      "name": "Seekers: Instrument of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "seekers",
+        "item": "instrument of chaos"
+      },
+      "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

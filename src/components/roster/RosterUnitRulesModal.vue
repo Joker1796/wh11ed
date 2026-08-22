@@ -114,9 +114,9 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
+import { overlaySheet, enhKey, detKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
-import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, abilityEntriesFor } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { abilityStatusesOf } from '../../composables/abilityStatus.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
@@ -361,8 +361,11 @@ const abilityModifiers = computed(() => {
   const units = props.ctx?.units || []
   const entry = props.ctx?.entry
   if (!entry) return []
-  return abilityEntriesFor(usableModifierEntries.value, {
+  return datasheetEntriesFor(usableModifierEntries.value, {
     unitId: props.unitId,
+    // What this entry is actually carrying — a Storm Shield's 4+ invulnerable is not a fact about
+    // the datasheet, it is a fact about the model that took the shield.
+    itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
   })
