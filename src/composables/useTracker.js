@@ -11,6 +11,7 @@ import {
   leader as leaderOf,
 } from './gameScoring.js'
 import { BATTLE_PHASES } from './stratagemPhases.js'
+import { conditions } from '../data/rosterModifiers/conditions.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -452,12 +453,26 @@ export function useTracker() {
   // of quietly staying true for the rest of the game. Games saved before stamps existed hold a
   // bare round number here; that layer recognises them (a stamp is never below 100) and reads
   // them as rounds. Absent on games older still, so every write defaults it.
+  // Alternatives are enforced HERE rather than in the view, so no caller can forget: a condition
+  // with a `group` excludes its siblings, because the rules say so in words ("select one of the
+  // Orders below"; "any Order subsequently issued to that unit replaces the current one"). A card
+  // showing a unit under two Orders at once is not a state the game has.
+  function clearGroupSiblings(store, id) {
+    const group = conditions[id]?.group
+    if (!group || !store) return
+    for (const other of Object.keys(store)) {
+      if (other !== id && conditions[other]?.group === group) delete store[other]
+    }
+  }
+
   function setArmyCondition(pi, id, at, on) {
     const pl = current.value.players[pi]
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.army) pl.ctx.army = {}
-    if (on) pl.ctx.army[id] = at
-    else delete pl.ctx.army[id]
+    if (on) {
+      clearGroupSiblings(pl.ctx.army, id)
+      pl.ctx.army[id] = at
+    } else delete pl.ctx.army[id]
   }
 
   // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
@@ -467,8 +482,10 @@ export function useTracker() {
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.units) pl.ctx.units = {}
     if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
-    if (on) pl.ctx.units[uid][id] = at
-    else delete pl.ctx.units[uid][id]
+    if (on) {
+      clearGroupSiblings(pl.ctx.units[uid], id)
+      pl.ctx.units[uid][id] = at
+    } else delete pl.ctx.units[uid][id]
     if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
   }
 

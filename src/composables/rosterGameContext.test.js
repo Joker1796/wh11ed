@@ -17,11 +17,19 @@ describe('activeConditions', () => {
     expect(activeConditions(p, 1, null).has('imperative-protector')).toBe(false)
   })
 
-  // A Combat Drug is chosen for the battle, so it must NOT expire with the round the way an
-  // Imperative does — the duration in conditions.js is what tells the two apart.
+  // A Creations of Bile augmentation is chosen for the whole battle, so it must NOT expire with
+  // the round the way an Imperative does — the duration in conditions.js is what tells them apart.
+  // (Combat Drugs used to stand in for this here; they are per-round by their own wording — "until
+  // the start of your next Command phase" — and were corrected to `round` on 2026-08-22.)
   it('keeps a battle-long switch across rounds', () => {
-    const p = player({ army: { 'drug-hypex': 1 } })
-    expect(activeConditions(p, 4, null).has('drug-hypex')).toBe(true)
+    const p = player({ army: { 'augment-hyperadrenal-infusion': 1 } })
+    expect(activeConditions(p, 4, null).has('augment-hyperadrenal-infusion')).toBe(true)
+  })
+
+  it('expires a Combat Drug with the round it was selected in', () => {
+    const p = player({ army: { 'drug-hypex': 2 } })
+    expect(activeConditions(p, 2, null).has('drug-hypex')).toBe(true)
+    expect(activeConditions(p, 3, null).has('drug-hypex')).toBe(false)
   })
 
   it('keys unit switches by the roster entry', () => {
@@ -221,6 +229,18 @@ describe('clock-answered conditions', () => {
     const p = player({ units: { u1: { 'unit-disembarked': stampOf(shooting) } } })
     const active = activeConditions(p, shooting, { uid: 'u1' })
     expect(active.has('phase-shooting') && active.has('unit-disembarked')).toBe(true)
+  })
+})
+
+// ── Alternatives (2026-08-22) ─────────────────────────────────────────────────────────────────
+describe('mutually exclusive switches', () => {
+  it('groups the ids the rules call alternatives, and leaves the rest alone', async () => {
+    const { conditions } = await import('../data/rosterModifiers/conditions.js')
+    expect(conditions['order-take-aim'].group).toBe('order')
+    expect(conditions['order-fix-bayonets'].group).toBe('order')
+    expect(conditions['stance-dacatari'].group).toBe('ka-tah')
+    // Blessings of Khorne activates up to TWO, so they are deliberately not a group.
+    expect(conditions['blessing-warp-blades'].group).toBeUndefined()
   })
 })
 

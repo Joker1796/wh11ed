@@ -45,7 +45,7 @@ export default {
             "ru": "пока для этого боя выбрана стойка Dacatari"
           },
           "cond": [
-            "never"
+            "stance-dacatari"
           ]
         },
         {
@@ -58,7 +58,7 @@ export default {
             "ru": "пока для этого боя выбрана стойка Rendax"
           },
           "cond": [
-            "never"
+            "stance-rendax"
           ]
         }
       ]

@@ -588,7 +588,7 @@ export default {
             "ru": "раз в ход, пока выбрана способность Catechism of Raging Fervour"
           },
           "cond": [
-            "never"
+            "hagio-catechism"
           ]
         },
         {
@@ -601,7 +601,7 @@ export default {
             "ru": "раз в ход, пока выбрана способность Psalm of Righteous Smiting"
           },
           "cond": [
-            "never"
+            "hagio-psalm"
           ]
         }
       ]
