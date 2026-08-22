@@ -8,6 +8,84 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "da8ebbc2-fd92-49fc-993a-e14833cb4874:arkanyst-evaluator",
+      "kind": "ability",
+      "name": "Arkanyst Evaluator: Resource Transmutation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "arkanyst-evaluator"
+      },
+      "hash": "d718d1bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayer-s-bulwark-brokhyr-thunderkyn",
+      "kind": "ability",
+      "name": "Bane Slayer's Bulwark Brokhyr Thunderkyn: Breaching Fire",
+      "det": null,
+      "ref": null,
+      "hash": "3df82845",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "773edacf-28fd-4694-96ab-306ef6329ae6:berehk-stornbr-w",
+      "kind": "ability",
+      "name": "Berehk Stornbröw: Break the Foe",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "berehk-stornbr-w"
+      },
+      "hash": "cedc10d8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "72f9560a-4651-44e7-a8e3-cd7ba5c9df96:einhyr-champion",
+      "kind": "ability",
+      "name": "Einhyr Champion: Exemplar of the Einhyr",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "einhyr-champion"
+      },
+      "hash": "2170496e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "28f010a7-1c57-498f-8587-5edf804ace65:k-hl",
+      "kind": "ability",
+      "name": "Kâhl: Kindred Hero",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "k-hl"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7342cf80-6585-4570-bd7e-a26d2c8a584b:vynn-bane-slayer",
+      "kind": "ability",
+      "name": "Vynn Bane-Slayer: Fast-firing Targeters",
+      "det": null,
+      "ref": null,
+      "hash": "4b9d39f6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "a23f8bdf-5c65-4c96-90b6-1b93696cc5f3",
       "kind": "armyRule",
       "name": "Prioritised Efficiency",

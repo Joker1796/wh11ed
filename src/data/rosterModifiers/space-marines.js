@@ -8,6 +8,728 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "8260f427-71a5-46d8-8ff3-1f50f4205db8:aggressor-squad",
+      "kind": "ability",
+      "name": "Aggressor Squad: Close-quarters Firepower",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aggressor-squad"
+      },
+      "hash": "53aaa79e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e0524eb7-29b2-4f3e-9055-362584aabb20:ancient-in-terminator-armour",
+      "kind": "ability",
+      "name": "Ancient in Terminator Armour: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ancient-in-terminator-armour"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1a483f1b-843f-49df-91fa-fe72c1a21e9a:ancient-in-terminator-armour",
+      "kind": "ability",
+      "name": "Ancient in Terminator Armour: Keep the Banner High",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ancient-in-terminator-armour"
+      },
+      "hash": "f34e2507",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e0524eb7-29b2-4f3e-9055-362584aabb20:ancient",
+      "kind": "ability",
+      "name": "Ancient: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ancient"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "38dea634-aa17-4e2d-ab34-fd659752945e:apothecary-biologis",
+      "kind": "ability",
+      "name": "Apothecary Biologis: Surgical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "apothecary-biologis"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "02f7446d-0825-4bcf-b9ba-c3541673ac08:assault-force-captain",
+      "kind": "ability",
+      "name": "Assault Force Captain: Relic Shield",
+      "det": null,
+      "ref": null,
+      "hash": "49d66913",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "df6430d8-151d-4b2b-ad43-d7085b122d93:assault-force-intercessor-squad",
+      "kind": "ability",
+      "name": "Assault Force Intercessor Squad: Stalwart Defenders",
+      "det": null,
+      "ref": null,
+      "hash": "09d39f7a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e0524eb7-29b2-4f3e-9055-362584aabb20:bladeguard-ancient",
+      "kind": "ability",
+      "name": "Bladeguard Ancient: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bladeguard-ancient"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "49a7fdd1-4a53-4787-abab-b690ed47d046:bladeguard-ancient",
+      "kind": "ability",
+      "name": "Bladeguard Ancient: Deeds of Heroism",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bladeguard-ancient"
+      },
+      "hash": "6877cf2e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c37acebd-4051-4806-82b5-f6d3c10df6c3:captain-titus",
+      "kind": "ability",
+      "name": "Captain Titus: Press the Attack",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain-titus"
+      },
+      "hash": "abe9990b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5dc548b9-fe2d-4d2c-9e71-1f53f28b5637:captain-with-jump-pack",
+      "kind": "ability",
+      "name": "Captain with Jump Pack: Angel’s Wrath",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain-with-jump-pack"
+      },
+      "hash": "10959842",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "04b5d2e0-87f3-43fb-8e2d-224c1c453e4a:captain",
+      "kind": "ability",
+      "name": "Captain: Finest Hour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain"
+      },
+      "hash": "343267c3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "af1b04e7-55dc-4a52-af99-157b6320bcdf:centurion-assault-squad",
+      "kind": "ability",
+      "name": "Centurion Assault Squad: Annihilator Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "centurion-assault-squad"
+      },
+      "hash": "90a8eab9",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-in-terminator-armour",
+      "kind": "ability",
+      "name": "Chaplain in Terminator Armour: Litany of Hate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-in-terminator-armour"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bed942f4-4372-40ca-b26d-0ef1acd6ccbd:chaplain-on-bike",
+      "kind": "ability",
+      "name": "Chaplain on Bike: Catechism of Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-on-bike"
+      },
+      "hash": "e0fbf8ec",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-on-bike",
+      "kind": "ability",
+      "name": "Chaplain on Bike: Litany of Hate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-on-bike"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain-with-jump-pack",
+      "kind": "ability",
+      "name": "Chaplain with Jump Pack: Litany of Hate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-with-jump-pack"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:chaplain",
+      "kind": "ability",
+      "name": "Chaplain: Litany of Hate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0bb2afd9-e4af-48c8-9024-3ef42e189ea9:company-heroes",
+      "kind": "ability",
+      "name": "Company Heroes: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "company-heroes"
+      },
+      "hash": "40cc4a72",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "096ec45b-1205-4dfc-b6f9-29e3be1df65c:darnath-lysander",
+      "kind": "ability",
+      "name": "Darnath Lysander: Rampart",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "darnath-lysander"
+      },
+      "hash": "493e6764",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "405c298f-cc78-431a-baef-887fa9e9cb4a:desolation-squad",
+      "kind": "ability",
+      "name": "Desolation Squad: Targeter Optics",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "desolation-squad"
+      },
+      "hash": "8ffd82d7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "72ebcea5-be67-4773-8d7a-5bce17bac918:devastator-squad",
+      "kind": "ability",
+      "name": "Devastator Squad: Signum",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "devastator-squad"
+      },
+      "hash": "8ffd82d7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7514c253-fe4c-4515-bebf-3db89f878c52:eliminator-squad",
+      "kind": "ability",
+      "name": "Eliminator Squad: Mark the Target",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "eliminator-squad"
+      },
+      "hash": "fb354850",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "34d15ff5-13e7-4667-8cc3-bc0b8dc67851:eradicator-squad-with-heavy-bolters",
+      "kind": "ability",
+      "name": "Eradicator Squad with Heavy Bolters: Overlapping Detonations",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "eradicator-squad-with-heavy-bolters"
+      },
+      "hash": "b3c4030b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e1a9ec64-4b70-47ba-aa5c-c1ff935a2c08:gladiator-valiant",
+      "kind": "ability",
+      "name": "Gladiator Valiant: Priority Target Acquisition",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gladiator-valiant"
+      },
+      "hash": "89111ddd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0e85b310-463d-4bb8-bea6-78b9c0075ef3:heavy-intercessor-squad",
+      "kind": "ability",
+      "name": "Heavy Intercessor Squad: Unyielding in the Face of the Foe",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heavy-intercessor-squad"
+      },
+      "hash": "388767c3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1ae20ece-dfe9-486b-ad2a-aaaa6e1ee6ad:incursor-squad",
+      "kind": "ability",
+      "name": "Incursor Squad: Multi-spectrum Array",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "incursor-squad"
+      },
+      "hash": "cd41104a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "13208534-ad24-46ec-bc04-225b696a346d:intercessor-squad",
+      "kind": "ability",
+      "name": "Intercessor Squad: Hail of Bolts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "intercessor-squad"
+      },
+      "hash": "f69de90f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "71d74c1c-087e-4c70-96a5-bca5e6bfd2b6:iron-father-feirros",
+      "kind": "ability",
+      "name": "Iron Father Feirros: Master of the Forge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-father-feirros"
+      },
+      "hash": "feb3f1ff",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5d6f20f8-84d7-47dd-8fbb-5543650b4f71:judiciar",
+      "kind": "ability",
+      "name": "Judiciar: Silent Fury",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "judiciar"
+      },
+      "hash": "1e17f0e8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7399a318-f089-4778-9ef3-701423e34f9b:korsarro-khan",
+      "kind": "ability",
+      "name": "Kor’sarro Khan: For the Khan!",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "korsarro-khan"
+      },
+      "hash": "725e7df3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7f49e247-dc01-475b-a43c-bcb81ad68d5a:librarian-in-terminator-armour",
+      "kind": "ability",
+      "name": "Librarian in Terminator Armour: Veil of Time",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian-in-terminator-armour"
+      },
+      "hash": "3154cfe3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f5239867-c2c7-4d4b-a3ee-6d9668637e4d:librarian",
+      "kind": "ability",
+      "name": "Librarian: Mental Fortress",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian"
+      },
+      "hash": "58585162",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-phobos-armour",
+      "kind": "ability",
+      "name": "Lieutenant in Phobos Armour: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lieutenant-in-phobos-armour"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-reiver-armour",
+      "kind": "ability",
+      "name": "Lieutenant in Reiver Armour: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lieutenant-in-reiver-armour"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant",
+      "kind": "ability",
+      "name": "Lieutenant: Tactical Precision",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lieutenant"
+      },
+      "hash": "abe50645",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a57c3a05-b36c-4600-b814-1a39f71ae5a7:outrider-squad",
+      "kind": "ability",
+      "name": "Outrider Squad: Thunderous Impact",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "outrider-squad"
+      },
+      "hash": "127dac77",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c2397446-6266-42da-968d-549855d3b1ab:pedro-kantor",
+      "kind": "ability",
+      "name": "Pedro Kantor: Oath of Rynn",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pedro-kantor"
+      },
+      "hash": "5938ca6b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4dfaff20-f378-463a-9a2e-04666b40dea4:pedro-kantor",
+      "kind": "ability",
+      "name": "Pedro Kantor: To the Last",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "pedro-kantor"
+      },
+      "hash": "f34e2507",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "81871a97-24e7-46f9-98f5-bcff26730609:predator-destructor",
+      "kind": "ability",
+      "name": "Predator Destructor: Destructor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "predator-destructor"
+      },
+      "hash": "21b48ff3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b379e86f-16bd-491a-90cb-52027a541f40:repulsor-executioner",
+      "kind": "ability",
+      "name": "Repulsor Executioner: Executioner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "repulsor-executioner"
+      },
+      "hash": "bf931761",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e89c5fdd-1344-409a-968f-7ee791cfcfc6:storm-speeder-hailstrike",
+      "kind": "ability",
+      "name": "Storm Speeder Hailstrike: Hailstrike",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "storm-speeder-hailstrike"
+      },
+      "hash": "3cda956c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ccb968f2-1480-4b31-8c59-1ae349518117:storm-speeder-thunderstrike",
+      "kind": "ability",
+      "name": "Storm Speeder Thunderstrike: Thunderstrike",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "storm-speeder-thunderstrike"
+      },
+      "hash": "61ba4ec4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "349ad1d7-8340-47bd-bd2f-8ed6262b4ddb:stormhawk-interceptor",
+      "kind": "ability",
+      "name": "Stormhawk Interceptor: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormhawk-interceptor"
+      },
+      "hash": "205860ae",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "06c4375b-ee7a-4552-a5d0-2a55dcd6acdb:stormtalon-gunship",
+      "kind": "ability",
+      "name": "Stormtalon Gunship: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormtalon-gunship"
+      },
+      "hash": "1c8c1f3a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b3665ebe-e8c2-4a0c-a65a-17976a709bf4:suboden-khan",
+      "kind": "ability",
+      "name": "Suboden Khan: Spear of Chogoris",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "suboden-khan"
+      },
+      "hash": "b7842750",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d9fa9030-63e4-41dc-833c-7350233463fb:techmarine",
+      "kind": "ability",
+      "name": "Techmarine: Blessing of the Omnissiah",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "techmarine"
+      },
+      "hash": "97259642",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3093dc5f-b20a-4fed-85ea-9b121dc01fd1:terminator-squad",
+      "kind": "ability",
+      "name": "Terminator Squad: Fury of the First",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "terminator-squad"
+      },
+      "hash": "bddfa7b3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "fb7bc95a-4db3-4cfd-9d3c-4b35396d4b46:tor-garadon",
+      "kind": "ability",
+      "name": "Tor Garadon: Siege Captain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tor-garadon"
+      },
+      "hash": "3dd26b6c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4761836f-d83c-4571-ba17-25ab0227e744:tor-garadon",
+      "kind": "ability",
+      "name": "Tor Garadon: Signum Array",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tor-garadon"
+      },
+      "hash": "080523e0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7084723b-df23-4299-a719-01ce8a75430e:vanguard-veteran-squad-with-jump-packs",
+      "kind": "ability",
+      "name": "Vanguard Veteran Squad with Jump Packs: Vanguard Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vanguard-veteran-squad-with-jump-packs"
+      },
+      "hash": "2cfe494d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0c73087d-b71b-4c67-b25a-7788d7908c74:wardens-of-ultramar",
+      "kind": "ability",
+      "name": "Wardens of Ultramar: Second Company Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wardens-of-ultramar"
+      },
+      "hash": "2797bed0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
       "kind": "allegiance",
       "name": "Headhunter Task Force Keywords: Character",

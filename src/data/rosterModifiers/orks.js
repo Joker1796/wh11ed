@@ -8,6 +8,448 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "1d566042-d5d0-452c-bbb7-1561f91f3322:ardmob-boyz",
+      "kind": "ability",
+      "name": "’Ardmob Boyz: Grab Dat Scrap",
+      "det": null,
+      "ref": null,
+      "hash": "173901da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5b318ee0-9466-407f-ac49-d7f25fc20839:ardmob-boyz",
+      "kind": "ability",
+      "name": "’Ardmob Boyz: Grab Dat Scrap",
+      "det": null,
+      "ref": null,
+      "hash": "173901da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e308befb-5967-4b54-93e5-abc1128540bd:bannernob",
+      "kind": "ability",
+      "name": "Bannernob: Waaagh! Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bannernob"
+      },
+      "hash": "1dcac41a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3e47ed80-e5ff-4877-bdb1-cd9e997090ef:battlewagon",
+      "kind": "ability",
+      "name": "Battlewagon: Ramshackle but Rugged",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "battlewagon"
+      },
+      "hash": "9783aee4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "af6add91-ce14-4ed9-90fc-8b4bfe6d582c:beastboss-on-squigosaur",
+      "kind": "ability",
+      "name": "Beastboss on Squigosaur: Thundering Stampede",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "beastboss-on-squigosaur"
+      },
+      "hash": "6eee11a1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c87c43f0-980f-4f40-8a21-2383d5fcbda2:beastboss",
+      "kind": "ability",
+      "name": "Beastboss: Beastboss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "beastboss"
+      },
+      "hash": "1ab6c76e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9bff4ac4-a1f5-49b4-9cec-26499251c923:beastboss",
+      "kind": "ability",
+      "name": "Beastboss: Ferocious Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "beastboss"
+      },
+      "hash": "2df47c0f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "79daa833-60ea-4457-b539-4b832c476f38:big-mek-dakkarig",
+      "kind": "ability",
+      "name": "Big Mek Dakkarig: Dakkablitz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "big-mek-dakkarig"
+      },
+      "hash": "01d76d09",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "afd9b28e-f4f1-4274-816f-f6cb415a6265:biged-bossbunka",
+      "kind": "ability",
+      "name": "Big’ed Bossbunka: Shoutin’ Pole",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biged-bossbunka"
+      },
+      "hash": "9318d4ed",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "1466c2e2-98b5-496d-92b7-2d46ffd54b48:bigboss",
+      "kind": "ability",
+      "name": "Bigboss: Breakin’ Heads",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bigboss"
+      },
+      "hash": "beee245c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b952c800-e70d-4ac7-bcba-2f78cca11f84:burna-bommer",
+      "kind": "ability",
+      "name": "Burna-bommer: Burna Bomb",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "burna-bommer"
+      },
+      "hash": "89d7048d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4f828ab7-3fa2-44c8-8d18-32a9f06efb30:deffkilla-wartrike",
+      "kind": "ability",
+      "name": "Deffkilla Wartrike: Fuel-mixa Grot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deffkilla-wartrike"
+      },
+      "hash": "4e986bf2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bc6734e4-cfce-4eb3-96c6-8e179bc08c5c:deffkilla-wartrike",
+      "kind": "ability",
+      "name": "Deffkilla Wartrike: Speedboss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deffkilla-wartrike"
+      },
+      "hash": "1ab6c76e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "586e1427-e1f4-47fb-b11a-76fed2a560f9:ghazghkull-thraka",
+      "kind": "ability",
+      "name": "Ghazghkull Thraka: Ghazghkull’s Waaagh! Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ghazghkull-thraka"
+      },
+      "hash": "5cc9c5b2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7c9f6290-d392-405f-bf1a-4a5c53800a2e:ghazghkull-thraka",
+      "kind": "ability",
+      "name": "Ghazghkull Thraka: Prophet of Da Great Waaagh!",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ghazghkull-thraka"
+      },
+      "hash": "a8cd937f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d3e74c82-b05c-4ec5-8306-d4f3259a291d:gorkanaut",
+      "kind": "ability",
+      "name": "Gorkanaut: Big an’ Stompy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gorkanaut"
+      },
+      "hash": "8544aaa8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0a9fb6cd-6a0b-4e33-800a-e926d4b1aadc:hunta-rig",
+      "kind": "ability",
+      "name": "Hunta Rig: On Da Hunt",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hunta-rig"
+      },
+      "hash": "0d24e889",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "46059742-1878-48e3-99ab-aa0d19966343:kill-rig",
+      "kind": "ability",
+      "name": "Kill Rig: Spirit of Gork",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kill-rig"
+      },
+      "hash": "9251c1e5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "079c7a3b-05cc-42b5-b64d-46b24d804f96:killa-kans",
+      "kind": "ability",
+      "name": "Killa Kans: Shooty Power Trip",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "killa-kans"
+      },
+      "hash": "384fcd4e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "583eae5c-9b8c-44a3-a492-a45a895e9c6f:mek",
+      "kind": "ability",
+      "name": "Mek: Mekaniak",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mek"
+      },
+      "hash": "c21e5e33",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6c1b99c5-e4e3-450b-a641-4349480bdf1b:morkanaut",
+      "kind": "ability",
+      "name": "Morkanaut: Big an’ Shooty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "morkanaut"
+      },
+      "hash": "0f740100",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0cb9c31a-27ee-4aa2-827d-6038a5f230a2:mozrog-skragbad",
+      "kind": "ability",
+      "name": "Mozrog Skragbad: Da Bigger Dey Iz…",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mozrog-skragbad"
+      },
+      "hash": "a88c08e0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ba282a64-1f19-4a71-8ca4-8dcc06885ee4:stompa",
+      "kind": "ability",
+      "name": "Stompa: Waaagh! Effigy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stompa"
+      },
+      "hash": "e2a75438",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "acef6c1f-91e0-4728-b1a6-b74b2d521f3f:tankbustas",
+      "kind": "ability",
+      "name": "Tankbustas: Tank Hunters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tankbustas"
+      },
+      "hash": "65208372",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4059d207-b42e-4f7a-8ee0-affbc18980fa:warbikers",
+      "kind": "ability",
+      "name": "Warbikers: Drive-by Dakka",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warbikers"
+      },
+      "hash": "148084be",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6e30e267-586b-410f-8a11-a2d9e6cbcc61:warboss-in-mega-armour",
+      "kind": "ability",
+      "name": "Warboss in Mega Armour: Might is Right",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss-in-mega-armour"
+      },
+      "hash": "1ab6c76e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "794c1337-68e0-41cb-abec-c8478c020c68:warboss",
+      "kind": "ability",
+      "name": "Warboss: Da Biggest and da Best",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss"
+      },
+      "hash": "a0ff5de7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6e30e267-586b-410f-8a11-a2d9e6cbcc61:warboss",
+      "kind": "ability",
+      "name": "Warboss: Might is Right",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss"
+      },
+      "hash": "1ab6c76e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2d940cc9-32aa-4dcd-8b43-becc8872da25:weirdboy",
+      "kind": "ability",
+      "name": "Weirdboy: Waaagh! Energy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "weirdboy"
+      },
+      "hash": "c656465b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "77988921-2061-4c67-a398-d614037664c9:wurrboy",
+      "kind": "ability",
+      "name": "Wurrboy: Unstable Oracle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wurrboy"
+      },
+      "hash": "6db76fb0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "633d3755-6a6b-41e5-8cf2-212258c41535:zodgrod-wortsnagga",
+      "kind": "ability",
+      "name": "Zodgrod Wortsnagga: Special Dose",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zodgrod-wortsnagga"
+      },
+      "hash": "f1ab5da4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c25ff898-e6a3-425f-9eb4-1b6b6c2e3960:zodgrod-wortsnagga",
+      "kind": "ability",
+      "name": "Zodgrod Wortsnagga: Super Runts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zodgrod-wortsnagga"
+      },
+      "hash": "e2f22bac",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "42dcefdd-5b72-49b8-8add-76b4da2221fa",
       "kind": "armyRule",
       "name": "Waaagh!",

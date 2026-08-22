@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "d0fc1914-b4a9-48f4-aec3-20399c292aba:warbringer-nemesis-titan",
+      "kind": "ability",
+      "name": "Warbringer Nemesis Titan: Titanic Fire Support",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warbringer-nemesis-titan"
+      },
+      "hash": "c7decce4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9388db62-a987-4569-a619-2338c8261d09:warhound-titan",
+      "kind": "ability",
+      "name": "Warhound Titan: Flank Speed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warhound-titan"
+      },
+      "hash": "cbe4ef30",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4df73e8a-a315-4944-a1dd-8ffd2866078f",
       "kind": "armyRule",
       "name": "Titanic Support",

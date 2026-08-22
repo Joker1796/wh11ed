@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "bfb574b0-dbfa-4e69-9840-a316b635052f:chaos-warbringer-nemesis-titan",
+      "kind": "ability",
+      "name": "Chaos Warbringer Nemesis Titan: Titanic Fire Support",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-warbringer-nemesis-titan"
+      },
+      "hash": "72d9ce26",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9388db62-a987-4569-a619-2338c8261d09:chaos-warhound-titan",
+      "kind": "ability",
+      "name": "Chaos Warhound Titan: Flank Speed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-warhound-titan"
+      },
+      "hash": "cbe4ef30",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "6cba2cb4-c880-4fa5-8310-920c548e8400",
       "kind": "armyRule",
       "name": "Titanic Support",

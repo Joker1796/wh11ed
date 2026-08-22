@@ -8,6 +8,171 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "cce072e6-efe4-4f0c-b0cb-3d04a077fe93:brother-captain",
+      "kind": "ability",
+      "name": "Brother-Captain: Hammerhand",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brother-captain"
+      },
+      "hash": "d2a9d0ad",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "20de685a-c2fc-4a03-b53e-81e1b1596f3b:brotherhood-champion",
+      "kind": "ability",
+      "name": "Brotherhood Champion: Inspiring Exemplar",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brotherhood-champion"
+      },
+      "hash": "8e136fee",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a9366824-0d9e-4b29-9548-67bbe87ea381:brotherhood-techmarine",
+      "kind": "ability",
+      "name": "Brotherhood Techmarine: Blessing of the Omnissiah",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brotherhood-techmarine"
+      },
+      "hash": "f41f3275",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "68c418e0-4997-43dc-816c-6502ae9e6795:brotherhood-terminator-squad",
+      "kind": "ability",
+      "name": "Brotherhood Terminator Squad: Force Edge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brotherhood-terminator-squad"
+      },
+      "hash": "921d6aa1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "69144dc5-90d8-489f-b9f8-84ac2b11f999:castellan-crowe",
+      "kind": "ability",
+      "name": "Castellan Crowe: Champion of the Order of Purifiers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "castellan-crowe"
+      },
+      "hash": "1ccd750e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "02a7dc81-4dee-4440-95ad-4ee97161347a:crowe-s-sanctifiers-brotherhood-terminator-squad",
+      "kind": "ability",
+      "name": "Crowe's Sanctifiers Brotherhood Terminator Squad: Force Edge (Psychic)",
+      "det": null,
+      "ref": null,
+      "hash": "eaa073e4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3c102e09-c8b3-4335-a6d9-7a3bffa591ec:grand-master",
+      "kind": "ability",
+      "name": "Grand Master: Might of Titan",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grand-master"
+      },
+      "hash": "bf1dc5bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2e6f2691-8a5a-4ab6-baf6-c9d6b1b6f0fd:paladin-squad",
+      "kind": "ability",
+      "name": "Paladin Squad: Attuned Onslaught",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "paladin-squad"
+      },
+      "hash": "71577b8b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c34906ca-50ad-45af-a033-0813825c377d:razorback",
+      "kind": "ability",
+      "name": "Razorback: Fire Focus",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "razorback"
+      },
+      "hash": "2c06b555",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "349ad1d7-8340-47bd-bd2f-8ed6262b4ddb:stormhawk-interceptor",
+      "kind": "ability",
+      "name": "Stormhawk Interceptor: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormhawk-interceptor"
+      },
+      "hash": "205860ae",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "06c4375b-ee7a-4552-a5d0-2a55dcd6acdb:stormtalon-gunship",
+      "kind": "ability",
+      "name": "Stormtalon Gunship: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormtalon-gunship"
+      },
+      "hash": "1c8c1f3a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b45355c5-7cfa-4792-b7ee-826e06fe07f4:venerable-dreadnought",
+      "kind": "ability",
+      "name": "Venerable Dreadnought: Guidance of the Ancients",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "venerable-dreadnought"
+      },
+      "hash": "02b2e345",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ed4a222f-7ed6-4e9d-b310-0cb08a3c4906",
       "kind": "detachmentRule",
       "name": "Channelled Force",

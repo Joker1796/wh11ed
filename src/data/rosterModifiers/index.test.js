@@ -34,7 +34,10 @@ describe('rosterModifiers data', () => {
 
   it('pins every record to the prose it was read from', () => {
     for (const { file, e } of allEntries) {
-      expect(e.sid, `${file} ${e.name}`).toMatch(/^[0-9a-f-]{36}$/)
+      // The appdata uuid, optionally suffixed with the datasheet it was attached to: 56 abilities
+      // are published once and printed on several datasheets, and each needs its own record
+      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged.
+      expect(e.sid, `${file} ${e.name}`).toMatch(/^[0-9a-f-]{36}(:[a-z0-9-]+)?$/)
       expect(e.hash, `${file} ${e.name}`).toMatch(/^[0-9a-f]{8}$/)
       expect(typeof e.ver, `${file} ${e.name}`).toBe('number')
     }
@@ -94,6 +97,15 @@ describe('rosterModifiers data', () => {
           // An UNCONDITIONAL alternate would suppress its base forever, which is not what
           // "instead" means — the replacement always depends on something.
           expect(eff.when, `${where}: unconditional alternate`).not.toBeNull()
+        }
+        // WHOSE card the effect lands on. Only a datasheet ability can address another unit —
+        // every other record rewrites the card its rule was already shown on — and the two cross
+        // directions are the whole reason the field exists, so a stray one elsewhere would apply
+        // to nobody and look reviewed.
+        if (eff.target !== undefined) {
+          expect(['self', 'led', 'leader'], `${where}: target`).toContain(eff.target)
+          expect(e.kind, `${where}: target on a non-ability record`).toBe('ability')
+          expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
         }
         // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.
         if (eff.only !== undefined) {

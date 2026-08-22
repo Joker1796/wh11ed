@@ -8,6 +8,160 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "3f9c1564-47ce-409b-a7f4-f481995c3eba:chaos-acastus-knight-asterius",
+      "kind": "ability",
+      "name": "Chaos Acastus Knight Asterius: Sunderer of Fortresses",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-acastus-knight-asterius"
+      },
+      "hash": "caeb868f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9c2a6964-1173-4f07-b6fb-61b511a289ca:chaos-acastus-knight-porphyrion",
+      "kind": "ability",
+      "name": "Chaos Acastus Knight Porphyrion: Bastion of Firepower",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-acastus-knight-porphyrion"
+      },
+      "hash": "4668776e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "aeea8aeb-0ac6-45c7-9533-1b1ab816c4b3:chaos-cerastus-knight-atrapos",
+      "kind": "ability",
+      "name": "Chaos Cerastus Knight Atrapos: Macro-extinction Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-cerastus-knight-atrapos"
+      },
+      "hash": "3bd42904",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "86129fd1-2639-453b-a311-4342e7a63f3e:chaos-cerastus-knight-castigator",
+      "kind": "ability",
+      "name": "Chaos Cerastus Knight Castigator: Offerings for the Dark Gods",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-cerastus-knight-castigator"
+      },
+      "hash": "918261ea",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8029af3f-904f-40d7-91d1-02a270ec8c6e:chaos-cerastus-knight-lancer",
+      "kind": "ability",
+      "name": "Chaos Cerastus Knight Lancer: Dark Fervour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-cerastus-knight-lancer"
+      },
+      "hash": "598022d2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "02ebb3f0-e94d-440c-ba3f-f3cf219da220:chaos-questoris-knight-magaera",
+      "kind": "ability",
+      "name": "Chaos Questoris Knight Magaera: Huntmaster",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-questoris-knight-magaera"
+      },
+      "hash": "598022d2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7d101b1e-fd3c-4b06-9783-7b2591e6340a:chaos-questoris-knight-styrix",
+      "kind": "ability",
+      "name": "Chaos Questoris Knight Styrix: Preysight",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-questoris-knight-styrix"
+      },
+      "hash": "336924dc",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "480dd27b-5872-4821-b4a5-675f69dbdbc8:knight-rampager",
+      "kind": "ability",
+      "name": "Knight Rampager: Bloodlust",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-rampager"
+      },
+      "hash": "307b0b1c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "71fb0366-3208-47ae-9c81-24501b271639:knight-ruinator",
+      "kind": "ability",
+      "name": "Knight Ruinator: Close-range Killers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-ruinator"
+      },
+      "hash": "c36fbaa4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "249bb130-c323-4270-b894-4e014761eac7:war-dog-executioner",
+      "kind": "ability",
+      "name": "War Dog Executioner: Executioner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "war-dog-executioner"
+      },
+      "hash": "3895adc6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5d62d846-d7a1-4e2a-9431-4f38967a434a:war-dog-stalker",
+      "kind": "ability",
+      "name": "War Dog Stalker: Stalker",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "war-dog-stalker"
+      },
+      "hash": "434dab6f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "f7e05863-87be-4f5a-bc7c-f053cf453bd2",
       "kind": "allegiance",
       "name": "Houndpack Lance Keyword: Character",

@@ -8,6 +8,146 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "c363373f-a93a-4ca3-87ea-4e5de5d9d00a:njal-stormcaller",
+      "kind": "ability",
+      "name": "Njal Stormcaller: Wind Walker",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "njal-stormcaller"
+      },
+      "hash": "08b30d76",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3da4eee3-89af-4037-aefa-12023bbc67b1:ragnar-blackmane",
+      "kind": "ability",
+      "name": "Ragnar Blackmane: Battle-lust",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ragnar-blackmane"
+      },
+      "hash": "f38068e0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a7069d52-c411-40a4-b338-669be44af016:thunderwolf-cavalry",
+      "kind": "ability",
+      "name": "Thunderwolf Cavalry: Thunderous Charge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "thunderwolf-cavalry"
+      },
+      "hash": "bb731a97",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e529cc68-31ea-4e22-8a19-6ca81aaa91f5:ulrik-the-slayer",
+      "kind": "ability",
+      "name": "Ulrik the Slayer: Oathbound",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ulrik-the-slayer"
+      },
+      "hash": "1db00418",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "605fa95b-842d-4edc-8451-831c87db9f3b:venerable-dreadnought",
+      "kind": "ability",
+      "name": "Venerable Dreadnought: Fervour of the Ancients",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "venerable-dreadnought"
+      },
+      "hash": "df5d46d9",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8e94dbbe-8d1c-489a-95b0-84124330dce9:wolf-guard-battle-leader",
+      "kind": "ability",
+      "name": "Wolf Guard Battle Leader: Tempered Ferocity",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-battle-leader"
+      },
+      "hash": "8629651a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "04e6754e-fec6-4e6e-bdef-40615b130dbf:wolf-guard-headtakers",
+      "kind": "ability",
+      "name": "Wolf Guard Headtakers: Headhunters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-headtakers"
+      },
+      "hash": "b0fd3454",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b68802d5-ac33-412c-9ca6-a6900b837bc1:wolf-priest",
+      "kind": "ability",
+      "name": "Wolf Priest: Litany of Hate",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-priest"
+      },
+      "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b9ca957a-30df-4c4e-975f-ef014c23fba3:wolf-scouts",
+      "kind": "ability",
+      "name": "Wolf Scouts: Deadly Stalkers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-scouts"
+      },
+      "hash": "570a574f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2941a942-f21f-4911-920c-4c191f83be73:wulfen-dreadnought",
+      "kind": "ability",
+      "name": "Wulfen Dreadnought: Violent Fury",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wulfen-dreadnought"
+      },
+      "hash": "b06c5999",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1710499e-3656-4246-9978-65bf43c4c140",
       "kind": "armyRule",
       "name": "Curse of the Wulfen",

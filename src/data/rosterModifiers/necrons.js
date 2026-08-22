@@ -8,6 +8,115 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "076d361c-d1bb-4e8e-8eb4-251434f9d888:amonhotekh-s-guard-skorpekh-destroyers",
+      "kind": "ability",
+      "name": "Amonhotekh's Guard Skorpekh Destroyers: Plasmacyte (Once per battle per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "1fb7609a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e06de742-1a30-4957-9c7a-7afde6d40508:catacomb-command-barge",
+      "kind": "ability",
+      "name": "Catacomb Command Barge: Carrier Wave",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "catacomb-command-barge"
+      },
+      "hash": "989d5d7f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0a968330-aa2f-48db-927f-812e04f0f885:illuminor-szeras",
+      "kind": "ability",
+      "name": "Illuminor Szeras: Atomic Energy Manipulator",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "illuminor-szeras"
+      },
+      "hash": "46c7fb8e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "af817f85-0876-4ef6-9171-059e66d6f7d4:illuminor-szeras",
+      "kind": "ability",
+      "name": "Illuminor Szeras: Mechanical Augmentation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "illuminor-szeras"
+      },
+      "hash": "4def783f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "12dac8d8-3c5e-46bf-a06f-f216708577f7:nekrosor-ammentar",
+      "kind": "ability",
+      "name": "Nekrosor Ammentar: Infectious Murder-Madness",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nekrosor-ammentar"
+      },
+      "hash": "240b73c5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f53452e1-fe6d-4ffd-9765-52432f6a5f5e:orikan-the-diviner",
+      "kind": "ability",
+      "name": "Orikan the Diviner: Master Chronomancer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "orikan-the-diviner"
+      },
+      "hash": "58585162",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b8e6affb-5576-4b41-bc38-9697321ab6cf:overlord-with-translocation-shroud",
+      "kind": "ability",
+      "name": "Overlord with Translocation Shroud: Translocation Shroud",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "overlord-with-translocation-shroud"
+      },
+      "hash": "91c2463a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "116d7153-6df1-4396-9ecd-d49de3e4bfa6:skorpekh-lord",
+      "kind": "ability",
+      "name": "Skorpekh Lord: United In Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skorpekh-lord"
+      },
+      "hash": "d2a9d0ad",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "71124c51-fb03-44ee-acf1-4e5f6b6d5c13",
       "kind": "detachmentRule",
       "name": "Territorial Imperatives",

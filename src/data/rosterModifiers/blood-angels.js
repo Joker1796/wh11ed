@@ -8,6 +8,112 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "ac23ab70-115f-4c7e-b66a-e3093a934f1e:astorath",
+      "kind": "ability",
+      "name": "Astorath: Mass of Doom",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "astorath"
+      },
+      "hash": "6a6c4936",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "04b5d2e0-87f3-43fb-8e2d-224c1c453e4a:blood-angels-captain",
+      "kind": "ability",
+      "name": "Blood Angels Captain: Finest Hour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blood-angels-captain"
+      },
+      "hash": "343267c3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f9fd8c3d-6ef7-4a5b-932a-096df2b86f93:commander-dante",
+      "kind": "ability",
+      "name": "Commander Dante: Warden of the Imperium Nihilus",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commander-dante"
+      },
+      "hash": "54c9b976",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "809fddbd-421f-492e-be6d-7e733115b2c3:death-company-captain-with-jump-pack",
+      "kind": "ability",
+      "name": "Death Company Captain with Jump Pack: Lost to Fury",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-captain-with-jump-pack"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "832607b8-9dcc-4dc6-91a3-46108750a895:lemartes",
+      "kind": "ability",
+      "name": "Lemartes: Fury Unbound",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lemartes"
+      },
+      "hash": "d2a9d0ad",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7d0b98fd-de19-461b-ac84-d5a202107a15:sanguinary-priest",
+      "kind": "ability",
+      "name": "Sanguinary Priest: Blood Chalice",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-priest"
+      },
+      "hash": "b74af02a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "14322c4c-df67-43e5-be95-af40f78f620d:sanguinary-spearhead-sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Spearhead Sanguinary Guard: Born To Fight",
+      "det": null,
+      "ref": null,
+      "hash": "f8299992",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "47daf7fe-c1de-4223-878c-0753368aae9c:sanguinary-spearhead-sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Spearhead Sanguinary Guard: Born To Fight",
+      "det": null,
+      "ref": null,
+      "hash": "f8299992",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
       "kind": "allegiance",
       "name": "Headhunter Task Force Keywords: Character",

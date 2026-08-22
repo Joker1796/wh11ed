@@ -8,6 +8,227 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "e42730d6-21b4-4166-ba64-964869fc997a:aegis-defence-line",
+      "kind": "ability",
+      "name": "Aegis Defence Line: Defence Line",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aegis-defence-line"
+      },
+      "hash": "e83499ed",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "48a44349-782e-4f73-b49e-92687089533b:cadian-castellan",
+      "kind": "ability",
+      "name": "Cadian Castellan: Senior Officer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cadian-castellan"
+      },
+      "hash": "76c79108",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6dd38dcc-c4f1-4ea9-8580-ff2c3bc7f579:catachan-command-squad",
+      "kind": "ability",
+      "name": "Catachan Command Squad: Gung-ho Command",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "catachan-command-squad"
+      },
+      "hash": "49344c1f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "da4fb92f-a7c1-40f2-87b1-49fa3b267967:catachan-jungle-fighters",
+      "kind": "ability",
+      "name": "Catachan Jungle Fighters: Jungle Fighters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "catachan-jungle-fighters"
+      },
+      "hash": "7784b290",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4b4cda10-99d6-4df7-b8d2-4e087557d379:centaur-rsv",
+      "kind": "ability",
+      "name": "Centaur RSV: Rapid Strike Vehicle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "centaur-rsv"
+      },
+      "hash": "f98b988c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6a0a7444-b91a-4ce4-8215-fb04d764ab7c:death-korps-of-krieg",
+      "kind": "ability",
+      "name": "Death Korps of Krieg: Grim Demeanour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-korps-of-krieg"
+      },
+      "hash": "496e063b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d627eacc-bd80-4426-b40f-f10912926b6d:drayden-s-lance-command-squad",
+      "kind": "ability",
+      "name": "Drayden's Lance Command Squad: Regimental Standard",
+      "det": null,
+      "ref": null,
+      "hash": "1ff3a604",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6cbbd413-470c-423c-8ca9-13eb380bd682:field-ordnance-battery",
+      "kind": "ability",
+      "name": "Field Ordnance Battery: Rearm, Reload, Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "field-ordnance-battery"
+      },
+      "hash": "d4552c8a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "351fe1e2-238c-4149-ad34-22cf5b861d35:leman-russ-executioner",
+      "kind": "ability",
+      "name": "Leman Russ Executioner: Gung-ho Executioners",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "leman-russ-executioner"
+      },
+      "hash": "0abc0d99",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "fab2bea2-2e0e-46c5-9542-a5a7c5f3ee94:leman-russ-exterminator",
+      "kind": "ability",
+      "name": "Leman Russ Exterminator: Withering Hail",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "leman-russ-exterminator"
+      },
+      "hash": "17edce82",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6299b4be-a5b7-4a5e-9989-3c89e2e79694:lord-marshal-dreir",
+      "kind": "ability",
+      "name": "Lord Marshal Dreir: Leading The Charge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-marshal-dreir"
+      },
+      "hash": "6a6c4936",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7e6e8ed7-a90a-4161-8315-75be03893b26:militarum-tempestus-command-squad",
+      "kind": "ability",
+      "name": "Militarum Tempestus Command Squad: Tempestor Prime",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "militarum-tempestus-command-squad"
+      },
+      "hash": "49bb1499",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "eaf8c6e0-b388-4ea1-9528-4e7e915cc617:ministorum-priest",
+      "kind": "ability",
+      "name": "Ministorum Priest: War Hymns",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ministorum-priest"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "2bc28ee1-1701-4d6b-aae1-47d5753a0728:ogryn-squad",
+      "kind": "ability",
+      "name": "Ogryn Squad: Point-blank Barrage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ogryn-squad"
+      },
+      "hash": "53aaa79e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "ef45d7dd-4980-4bb0-a26d-1489424d91b7:primaris-psyker",
+      "kind": "ability",
+      "name": "Primaris Psyker: Psychic Barrier",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "primaris-psyker"
+      },
+      "hash": "b426ff9f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "76861981-15ee-4efa-84a1-7302daa8e7a6:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Omnissiah’s Blessing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer"
+      },
+      "hash": "35bf3335",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "3b10e68b-0230-4669-a0a3-f0c29feaa3b4",
       "kind": "allegiance",
       "name": "Steel Hammer Keywords: Character",

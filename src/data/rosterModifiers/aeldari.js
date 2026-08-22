@@ -8,6 +8,456 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "58faded0-9585-4c7d-984b-eb5926fe37d1:avatar-of-khaine",
+      "kind": "ability",
+      "name": "Avatar of Khaine: The Bloody-Handed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "avatar-of-khaine"
+      },
+      "hash": "935b9071",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "def6141c-f3be-438e-8d5c-3fed35eaec4f:clanblade",
+      "kind": "ability",
+      "name": "Clanblade: Blade of the Clans",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "clanblade"
+      },
+      "hash": "9c60d886",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a3dd474d-2baa-4cc4-9427-3019a9c13991:corsair-voidscarred",
+      "kind": "ability",
+      "name": "Corsair Voidscarred: Piratical Raiders",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "corsair-voidscarred"
+      },
+      "hash": "3ef80f71",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "78a72237-1038-43ef-a066-56d9f24eafea:crimson-hunter",
+      "kind": "ability",
+      "name": "Crimson Hunter: Skyhunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crimson-hunter"
+      },
+      "hash": "3c09b472",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0444e121-929b-4e43-a7a6-f14049b7a81a:dire-avengers",
+      "kind": "ability",
+      "name": "Dire Avengers: Bladestorm",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dire-avengers"
+      },
+      "hash": "01e44683",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "63e9f2c2-2aa2-410f-a31d-606d16783763:eldrad-ulthran",
+      "kind": "ability",
+      "name": "Eldrad Ulthran: Doom",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "eldrad-ulthran"
+      },
+      "hash": "13ab6310",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c4af05dc-c069-4ad5-bbdf-3c10f4f75166:farseer",
+      "kind": "ability",
+      "name": "Farseer: Guide",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "farseer"
+      },
+      "hash": "fb705230",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "429cf5f2-2ead-418f-a158-ba517e1c137e:fuegan",
+      "kind": "ability",
+      "name": "Fuegan: Burning Lance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fuegan"
+      },
+      "hash": "1770a34a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8a00605e-b319-4a00-9d3d-2da951171be8:jain-zar",
+      "kind": "ability",
+      "name": "Jain Zar: Whirling Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "jain-zar"
+      },
+      "hash": "7bf193e5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "65c1bd9f-dcc0-46ee-964f-573a55b3ea9a:kharseth",
+      "kind": "ability",
+      "name": "Kharseth: Fury of the Void",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kharseth"
+      },
+      "hash": "722d30da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "84fda62f-0d1d-4b3c-805f-3f37daad2073:kygharil-s-protectors-dire-avengers",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Dire Avengers: Bladestorm",
+      "det": null,
+      "ref": null,
+      "hash": "19c269e2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6779b58c-1f5a-4e04-916d-154c0e7a73e5:kygharil-s-protectors-dire-avengers",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Dire Avengers: Bladestorm",
+      "det": null,
+      "ref": null,
+      "hash": "19c269e2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "9f3ea182-ed96-41cc-a92e-7f2f2fc107ae:kygharil-s-protectors-warp-spiders",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Warp Spiders: Engulfing Flames (Once per battle per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "2495534c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d7a81ef9-41fa-4187-a223-452a4db79d50:prince-yriel",
+      "kind": "ability",
+      "name": "Prince Yriel: Piratical Hero",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "prince-yriel"
+      },
+      "hash": "0776f900",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "da03c40c-8401-4e82-83a8-077d720c0c45:revenant-titan",
+      "kind": "ability",
+      "name": "Revenant Titan: Revenant Jet Pack",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "revenant-titan"
+      },
+      "hash": "cbe4ef30",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0b471474-b936-4ca9-9b31-df82df5f5ce2:shadowseer",
+      "kind": "ability",
+      "name": "Shadowseer: Treacherous Illusion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "shadowseer"
+      },
+      "hash": "114e1547",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c27d57ab-4d05-4e54-8319-bbd4e47aba54:solitaire",
+      "kind": "ability",
+      "name": "Solitaire: Blitz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "solitaire"
+      },
+      "hash": "09764894",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "c91f3f7c-5e8d-42da-b343-fe3f93ee2152:spiritseer-kygharil",
+      "kind": "ability",
+      "name": "Spiritseer Kygharil: Spirit Mark (Psychic) (Once per turn per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "21149fa1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b3663a94-996e-49eb-9222-a6454f12733a:spiritseer",
+      "kind": "ability",
+      "name": "Spiritseer: Spirit Mark",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spiritseer"
+      },
+      "hash": "4947bb7a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5807db74-ec48-49cf-ab65-62ed949dcc29:stonesinger",
+      "kind": "ability",
+      "name": "Stonesinger: Elemental Ensnarement",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stonesinger"
+      },
+      "hash": "8fc274d8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3c29ffd6-45d1-4309-9f05-a570218e8703:troupe-master",
+      "kind": "ability",
+      "name": "Troupe Master: Cegorach’s Favour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "troupe-master"
+      },
+      "hash": "3cee30cf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6ee70ac1-5d7f-4eed-a4fc-fe6047cdb895:troupe",
+      "kind": "ability",
+      "name": "Troupe: Dance of Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "troupe"
+      },
+      "hash": "678b01b6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "35260774-9854-428f-af0c-83b533726bed:vibro-cannon-platform",
+      "kind": "ability",
+      "name": "Vibro Cannon Platform: Sonic Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vibro-cannon-platform"
+      },
+      "hash": "a186f2f6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a6519552-88c0-47db-ac86-c2d551fc6b4b:war-walkers",
+      "kind": "ability",
+      "name": "War Walkers: Crystalline Targeting",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "war-walkers"
+      },
+      "hash": "db024523",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4038cf0b-7832-4c7a-9c63-dc3e52bd0503:warlock-conclave",
+      "kind": "ability",
+      "name": "Warlock Conclave: Psychic Communion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warlock-conclave"
+      },
+      "hash": "2acfba08",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4038cf0b-7832-4c7a-9c63-dc3e52bd0503:warlock-skyrunners",
+      "kind": "ability",
+      "name": "Warlock Skyrunners: Psychic Communion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warlock-skyrunners"
+      },
+      "hash": "2acfba08",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4a5d030e-9923-48ec-9d98-965fd02d6844:warlock-skyrunners",
+      "kind": "ability",
+      "name": "Warlock Skyrunners: Runes of Battle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warlock-skyrunners"
+      },
+      "hash": "f98460a0",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a5a823b5-a149-4479-afd6-63239abc7fd3:warlock",
+      "kind": "ability",
+      "name": "Warlock: Psychic Communion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warlock"
+      },
+      "hash": "de03884e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithblades",
+      "kind": "ability",
+      "name": "Wraithblades: Psychic Guidance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wraithblades"
+      },
+      "hash": "57550712",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithguard",
+      "kind": "ability",
+      "name": "Wraithguard: Psychic Guidance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wraithguard"
+      },
+      "hash": "57550712",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "811132b9-8b0e-4945-bd3f-69916b0a8608:wraithlord",
+      "kind": "ability",
+      "name": "Wraithlord: Psychic Guidance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wraithlord"
+      },
+      "hash": "15d5d440",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "842515a4-ceb3-4b60-912e-570959df315a:ynnari-raider",
+      "kind": "ability",
+      "name": "Ynnari Raider: Aethersails",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ynnari-raider"
+      },
+      "hash": "18a0ce80",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d3d0bb1a-87c9-4e46-9237-2d6c05ccee4a:ynnari-succubus",
+      "kind": "ability",
+      "name": "Ynnari Succubus: Storm of Blades",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ynnari-succubus"
+      },
+      "hash": "9d48081a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "04d0ed6a-3233-413d-8173-c96ace7f0f89",
       "kind": "armyRule",
       "name": "Disparate Paths",

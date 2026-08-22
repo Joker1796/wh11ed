@@ -8,6 +8,129 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "6e39159c-9a5e-4672-9f80-dc40e4cc4353:azrael",
+      "kind": "ability",
+      "name": "Azrael: Supreme Grand Master",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "azrael"
+      },
+      "hash": "3154cfe3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e5141592-d906-445c-939f-081212f2666f:deathwing-terminator-squad",
+      "kind": "ability",
+      "name": "Deathwing Terminator Squad: Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-terminator-squad"
+      },
+      "hash": "537c6109",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "cb502504-f1d5-4294-be79-d5eeb88be41f:inner-circle-companions",
+      "kind": "ability",
+      "name": "Inner Circle Companions: Enmity for the Unworthy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inner-circle-companions"
+      },
+      "hash": "e5053d72",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4c63e8cc-3ae0-483f-bb91-b903d35e692d:master-zacharial",
+      "kind": "ability",
+      "name": "Master Zacharial: Gravis Protection",
+      "det": null,
+      "ref": null,
+      "hash": "9bdc06bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "16ca7bcc-81e1-4696-ba4e-a56e91be601a:ravenwing-black-knights",
+      "kind": "ability",
+      "name": "Ravenwing Black Knights: Knights of Caliban",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-black-knights"
+      },
+      "hash": "3adfce24",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b0bc4600-4287-48c3-9a42-9f4456812883:ravenwing-command-squad",
+      "kind": "ability",
+      "name": "Ravenwing Command Squad: Astartes Banner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-command-squad"
+      },
+      "hash": "671a747f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7e1dd147-ead5-4bed-a886-b9757df51888:ravenwing-command-squad",
+      "kind": "ability",
+      "name": "Ravenwing Command Squad: Honour or Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-command-squad"
+      },
+      "hash": "a17e2211",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "4c4629f2-1f02-458e-99f6-2dd66ad13c4c:ravenwing-dark-talon",
+      "kind": "ability",
+      "name": "Ravenwing Dark Talon: Stasis Bomb",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-dark-talon"
+      },
+      "hash": "c38ed31f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7fcd5eab-c360-44c6-8f5e-c02f512ee488:sammael",
+      "kind": "ability",
+      "name": "Sammael: Grand Master of the Ravenwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sammael"
+      },
+      "hash": "efadef7d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "2d71b3c6-84d1-49a1-a179-24b40816bb39",
       "kind": "armyRule",
       "name": "The Deathwing",

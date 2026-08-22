@@ -8,6 +8,199 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "a85aca60-4e5a-4b05-9866-934d34eed0a0:biologus-putrifier",
+      "kind": "ability",
+      "name": "Biologus Putrifier: Extraction of Fresh Disease",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biologus-putrifier"
+      },
+      "hash": "eb9ed48e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "a46a1514-5477-4ae0-a3ad-f4a2fbb893f6:biologus-putrifier",
+      "kind": "ability",
+      "name": "Biologus Putrifier: Foul Infusion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biologus-putrifier"
+      },
+      "hash": "4cfa6e40",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bdb8439a-7a42-4525-9cab-0398f290a2f5:blightlord-terminators",
+      "kind": "ability",
+      "name": "Blightlord Terminators: Blistering Fusillade",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blightlord-terminators"
+      },
+      "hash": "593176bd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6d97e026-65e3-4584-ac0e-e61215f11d07:chaos-predator-destructor",
+      "kind": "ability",
+      "name": "Chaos Predator Destructor: Hail of Corrosive Disease",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-predator-destructor"
+      },
+      "hash": "00204fe1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "6f4fdefb-fb32-450e-8d72-7220fd01c2b3:great-unclean-one",
+      "kind": "ability",
+      "name": "Great Unclean One: Daemon Lord of Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "great-unclean-one"
+      },
+      "hash": "77ae4497",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bf2dd24a-75a8-49d7-8af0-d12d66dcb813:helbrute",
+      "kind": "ability",
+      "name": "Helbrute: Diseased Malice",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "helbrute"
+      },
+      "hash": "d5f5b774",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e21df5c1-bbd7-441d-930f-2d8a279efe8c:helbrute",
+      "kind": "ability",
+      "name": "Helbrute: Froth-spattered Frenzy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "helbrute"
+      },
+      "hash": "67092a63",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3da37e42-d76b-4bad-9f1e-eaa47458bde4:icon-bearer",
+      "kind": "ability",
+      "name": "Icon Bearer: Unclean Icon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "icon-bearer"
+      },
+      "hash": "be69986d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "19d670b0-6d26-4ea0-acf3-afc3e6235ead:lord-of-contagion",
+      "kind": "ability",
+      "name": "Lord of Contagion: Vector of Disease",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-contagion"
+      },
+      "hash": "73f9ba0e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "73a0bd2d-c779-4bae-b570-b3d0dc2591e5:lord-of-poxes",
+      "kind": "ability",
+      "name": "Lord of Poxes: Gift of Poxes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-poxes"
+      },
+      "hash": "058f9b55",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "72da3008-253b-46f7-9382-27a58b5c64c9:maggot-lords-deathshroud-terminators",
+      "kind": "ability",
+      "name": "Maggot Lords Deathshroud Terminators: Obstinate Resistance",
+      "det": null,
+      "ref": null,
+      "hash": "173901da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "152037ac-ce56-4024-a4d6-59b3d3db6d22:myphitic-blight-hauler",
+      "kind": "ability",
+      "name": "Myphitic Blight-haulers: Tank Hunters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "myphitic-blight-hauler"
+      },
+      "hash": "2a1700b3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b6278fdf-663b-47dd-865f-3f2b78217481:noxious-blightbringer",
+      "kind": "ability",
+      "name": "Noxious Blightbringer: Sickening Vitality",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "noxious-blightbringer"
+      },
+      "hash": "af57d362",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7ef32552-0784-46e2-b1e4-4d2355a82e9d:rotigus",
+      "kind": "ability",
+      "name": "Rotigus: Virulent Blessing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rotigus"
+      },
+      "hash": "5bc95a56",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "13ae6c92-101f-4e20-bcd7-1ea786034eeb",
       "kind": "armyRule",
       "name": "Nurgle’s Gift (Aura)",

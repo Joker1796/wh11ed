@@ -8,6 +8,143 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "2cbca890-eb1a-4b32-aed7-6e7abb2ac218:bloodthirster",
+      "kind": "ability",
+      "name": "Bloodthirster: Daemon Lord of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bloodthirster"
+      },
+      "hash": "d122b2c2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "33a3fdd4-beec-4f75-8779-cf16bbdadf0f:daemon-prince-of-khorne",
+      "kind": "ability",
+      "name": "Daemon Prince of Khorne: Devastating Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-khorne"
+      },
+      "hash": "869e0d05",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "79ed7c3d-9cfc-4975-9b8c-df6efe860286:eightbound",
+      "kind": "ability",
+      "name": "Eightbound: Beacons of Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "eightbound"
+      },
+      "hash": "fb1c6326",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3763072d-ee53-4a22-94c0-8c762a088c72:exalted-eightbound",
+      "kind": "ability",
+      "name": "Exalted Eightbound: Rend and Tear",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exalted-eightbound"
+      },
+      "hash": "72dd735a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "39106d1b-f767-4eb9-bb2b-51234b91611c:helbrute",
+      "kind": "ability",
+      "name": "Helbrute: Devoted to Destruction",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "helbrute"
+      },
+      "hash": "67092a63",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "dacf05b3-c5a9-40f2-9452-5f86a89d342a:heldrake",
+      "kind": "ability",
+      "name": "Heldrake: Airborne Predator",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heldrake"
+      },
+      "hash": "34bdf1df",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bb6455b4-5b89-4710-9777-79d66db0d1c2:maulerfiend",
+      "kind": "ability",
+      "name": "Maulerfiend: Savage Exaltation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "maulerfiend"
+      },
+      "hash": "fb3f99dc",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "787f9581-a51d-4d80-af61-d5fa8acfb5c0:skarbrand",
+      "kind": "ability",
+      "name": "Skarbrand: Rage Embodied",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skarbrand"
+      },
+      "hash": "f5ad8bed",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "848b2010-250d-4c2b-b325-8aee82639312:slaughterbound",
+      "kind": "ability",
+      "name": "Slaughterbound: Possessed Lord",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "slaughterbound"
+      },
+      "hash": "343267c3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0ecb9456-ccf0-48e8-86ce-7762decae226:vorrakh-lord-of-the-frenzied-reavers",
+      "kind": "ability",
+      "name": "Vorrakh, Lord of the Frenzied Reavers: Devastating Assault",
+      "det": null,
+      "ref": null,
+      "hash": "22be2b24",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
       "kind": "armyRule",
       "name": "Blessings of Khorne",
