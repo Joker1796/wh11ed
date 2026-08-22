@@ -426,10 +426,12 @@ function statModsFor(entry, sheet) {
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
   // here would let a plate on this row and the card behind it disagree, which is the one thing this
   // shared implementation exists to prevent.
-  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active).map((g) => g.kw)]
   // A spent stratagem rewrites the row in the list as well as the card behind it — same records,
-  // same clock, so the plate and the card can never disagree.
+  // same clock, so the plate and the card can never disagree. Resolved BEFORE the keyword grants,
+  // since a stratagem can hand out a keyword (Daemonic Possession's DAEMON) that decides which
+  // other rules bear on the unit at all.
   const strats = activeStratagems(gamePlayer.value, gameClock.value, entry, resolved)
+  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, strats).map((g) => g.kw)]
   return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, strats)
 }
 

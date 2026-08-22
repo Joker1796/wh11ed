@@ -549,3 +549,46 @@ describe('datasheetEntriesFor — wargear', () => {
     expect(datasheetEntriesFor([forceField], { ...ctx, leaderItemNames: new Set() })).toEqual([])
   })
 })
+
+describe('a spent stratagem', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }], melee: [{ name: 'Blade', a: '4', s: '4', ap: '-1', tags: [] }] })
+  const strat = {
+    sid: 'divine-guidance', kind: 'stratagem', name: 'Divine Guidance', det: 'Army of Faith', dur: 'phase',
+    effects: [{ on: 'melee', stat: 'ap', op: 'add', value: -1, when: { en: 'while this stratagem is in force', ru: 'пока действует стратагема' } }],
+  }
+  const gated = {
+    sid: 'reprise', kind: 'stratagem', name: 'Devastating Reprise', det: 'Chorus', dur: 'phase',
+    effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'DEVASTATING WOUNDS', when: { en: 'against the named unit', ru: 'против названного юнита' }, cond: ['never'] }],
+  }
+
+  // The bug this pins: a stratagem's effects carry no `cond` (being spent IS the condition), and
+  // the "is it proven" test demanded a non-empty one — so every stratagem stayed a footnote no
+  // matter how many chips were lit.
+  it('rewrites the number once it is in force', () => {
+    const off = applyStatMods(sheet(), [strat], [], [], new Set(), new Set())
+    expect(off.sheet.melee[0].ap).toBe('-1')            // untouched
+    expect(off.notes[0].applied).toBe(false)
+
+    const on = applyStatMods(sheet(), [strat], [], [], new Set(), new Set(['divine-guidance']))
+    expect(on.sheet.melee[0].ap).toBe('-2')
+    expect(on.notes[0].applied).toBe(true)
+    expect(on.marks).toContain('melee:ap:0')
+  })
+
+  // A `cond` on a stratagem means what it asks BEYOND being spent, so it still gates.
+  it('keeps a further condition as a footnote even while in force', () => {
+    const out = applyStatMods(sheet(), [gated], [], [], new Set(), new Set(['reprise']))
+    expect(out.notes[0].applied).toBe(false)
+  })
+
+  it('hands out a keyword only while in force', () => {
+    const kw = {
+      sid: 'possession', kind: 'stratagem', name: 'Daemonic Possession', dur: 'battle',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Daemon', when: { en: 'x', ru: 'x' } }],
+    }
+    expect(grantedKeywordsFrom([kw], [], [], new Set(), new Set())).toEqual([])
+    expect(grantedKeywordsFrom([kw], [], [], new Set(), new Set(['possession']))).toEqual([
+      { kw: 'Daemon', source: 'Daemonic Possession', det: undefined },
+    ])
+  })
+})

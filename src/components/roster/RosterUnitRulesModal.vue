@@ -275,7 +275,7 @@ const factionKeywordSets = computed(() =>
 const modifierGrantedKeywords = computed(() => {
   const printed = datasheets.value.find((d) => d.id === props.unitId)
   const base = [...(printed?.keywords || []), ...(printed?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
-  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, props.gameCtx?.active)
+  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, props.gameCtx?.active, activeStratIds.value)
 })
 
 const unitKeywords = computed(() => {
@@ -388,6 +388,10 @@ const abilityModifiers = computed(() => {
   })
 })
 
+// The stratagems the player says are up on this unit, as a set of record ids. Shared by the stat
+// pass and the keyword pass so the two cannot disagree about whether one is in force.
+const activeStratIds = computed(() => new Set((props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id)))
+
 const statMods = computed(() => {
   if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
   return applyStatMods(
@@ -396,8 +400,7 @@ const statMods = computed(() => {
     unitKeywords.value,
     factionKeywordSets.value,
     props.gameCtx?.active,
-    // The stratagems the player says are up on this unit, as a set of record ids.
-    new Set((props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id)),
+    activeStratIds.value,
   )
 })
 
