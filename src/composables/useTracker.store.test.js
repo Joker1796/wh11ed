@@ -420,3 +420,81 @@ describe('setArmyCondition / setUnitCondition', () => {
     expect(t.current.value.players[1].ctx.army['drug-hypex']).toBe(1)
   })
 })
+
+// ── The clock (battle round → whose turn → phase) ──────────────────────────────────────────────
+// `players[0]` is always the first-turn player, so a turn index IS a player index; the phase row
+// in RoundTracker reads these two fields and nothing else.
+describe('the phase clock', () => {
+  it('a new game starts at the first-turn player\'s Command phase', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('steps through five phases, then hands the turn over', () => {
+    tracker.newGame(setupGame())
+    for (let i = 0; i < 4; i++) tracker.stepPhase(1)
+    expect(tracker.current.value.currentPhase).toBe('fight')
+    expect(tracker.current.value.currentTurn).toBe(0)
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('rolls into the next battle round after the second player\'s Fight phase', () => {
+    tracker.newGame(setupGame())
+    for (let i = 0; i < 10; i++) tracker.stepPhase(1)
+    const g = tracker.current.value
+    expect(g.currentRound).toBe(2)
+    expect(g.currentTurn).toBe(0)
+    expect(g.currentPhase).toBe('command')
+  })
+
+  it('steps back across the round boundary onto the second player\'s Fight phase', () => {
+    tracker.newGame(setupGame())
+    tracker.goToRound(3)
+    tracker.stepPhase(-1)
+    const g = tracker.current.value
+    expect(g.currentRound).toBe(2)
+    expect(g.currentTurn).toBe(1)
+    expect(g.currentPhase).toBe('fight')
+  })
+
+  it('never steps off either end of the battle', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.canStepPhase(-1)).toBe(false)
+    tracker.stepPhase(-1)
+    expect(tracker.current.value.currentRound).toBe(1)
+    tracker.goToRound(mod.ROUND_COUNT)
+    tracker.goToPhase(1, 'fight')
+    expect(tracker.canStepPhase(1)).toBe(false)
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentRound).toBe(mod.ROUND_COUNT)
+    expect(tracker.current.value.currentPhase).toBe('fight')
+  })
+
+  it('changing the round resets the clock — a leftover phase would read as "now"', () => {
+    tracker.newGame(setupGame())
+    tracker.goToPhase(1, 'charge')
+    tracker.goToRound(4)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('goToPhase ignores a phase that is not one', () => {
+    tracker.newGame(setupGame())
+    tracker.goToPhase(1, 'psychic')
+    expect(tracker.current.value.currentPhase).toBe('command')
+    expect(tracker.current.value.currentTurn).toBe(0)
+  })
+
+  it('a game saved before the clock existed reads as the opening phase and steps from there', () => {
+    tracker.newGame(setupGame())
+    delete tracker.current.value.currentTurn
+    delete tracker.current.value.currentPhase
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('movement')
+  })
+})
+

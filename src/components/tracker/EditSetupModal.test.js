@@ -128,3 +128,19 @@ describe('EditSetupModal — attaching an army list to a running game', () => {
     expect(you().detachments).toEqual(['Bully Boyz'])
   })
 })
+
+// The clock is only offered where something reads it, and a list can arrive here mid-game.
+describe('EditSetupModal — the phase setting', () => {
+  it('is hidden while no list is attached, and appears the moment one is', async () => {
+    startGame()
+    const w = mount(EditSetupModal)
+    const phaseCheck = () => body().findAll('.check').find(c => c.text().includes('Track phases'))
+    expect(phaseCheck()).toBeUndefined()
+
+    await body().findAll('.es-roster .rp-open')[0].trigger('click')
+    w.findComponent(RosterPickerModal).vm.$emit('pick', list())
+    await flushPromises()
+    expect(phaseCheck()).toBeDefined()
+  })
+})
+

@@ -9,6 +9,11 @@ export const PHASE_ORDER = ['command', 'movement', 'shooting', 'charge', 'fight'
 
 const NAMED_PHASES = ['command', 'movement', 'shooting', 'charge', 'fight']
 
+// The five phases in play order, without `any` — this is the vocabulary the tracker's clock steps
+// through (useTracker's currentPhase). It lives here, next to the stratagem grouping, because a
+// clock the stratagem filter can't line up with would be useless to both.
+export const BATTLE_PHASES = NAMED_PHASES
+
 const PHASE_LABEL_KEYS = {
   command: 'phaseCommand',
   movement: 'phaseMovement',

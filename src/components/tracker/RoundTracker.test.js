@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 // The tracker store is a module singleton — reset it (and the component that binds to it)
@@ -32,6 +32,9 @@ function startGame(p0, p1, settings = {}) {
     ],
   })
 }
+
+// The phase picker teleports to <body> (BaseModal), so clear it between cases.
+afterEach(() => { document.body.innerHTML = '' })
 
 // The heavy children have their own specs; this one is about the army link in the CP row.
 const RouterLinkStub = { props: ['to'], template: '<a :href="to"><slot /></a>' }
@@ -78,3 +81,50 @@ describe('RoundTracker — the army link on a player card', () => {
     expect(mountTracker().findAll('.cp-row')).toHaveLength(0)
   })
 })
+
+describe('RoundTracker — the phase row', () => {
+  it('is absent unless the game asked for phases', () => {
+    startGame({}, {})
+    expect(mountTracker().find('.phase-bar').exists()).toBe(false)
+  })
+
+  it('names whose turn it is and which phase, by player name', () => {
+    startGame({}, {}, { trackPhases: true })
+    const w = mountTracker()
+    expect(w.find('.pb-who').text()).toBe('Me')
+    expect(w.find('.pb-phase').text()).toBe('Command phase')
+  })
+
+  it('follows the clock into the opponent\'s turn', async () => {
+    startGame({}, {}, { trackPhases: true })
+    const w = mountTracker()
+    tracker.goToPhase(1, 'shooting')
+    await w.vm.$nextTick()
+    expect(w.find('.pb-who').text()).toBe('Opp')
+    expect(w.find('.pb-phase').text()).toBe('Shooting phase')
+  })
+
+  it('walks the clock with its own arrows, and refuses to walk off the start', async () => {
+    startGame({}, {}, { trackPhases: true })
+    const w = mountTracker()
+    const [prev, next] = w.findAll('.pb-nav')
+    expect(prev.attributes('disabled')).toBeDefined()
+    await next.trigger('click')
+    expect(tracker.current.value.currentPhase).toBe('movement')
+  })
+
+  it('opens the picker and jumps where it says', async () => {
+    startGame({}, {}, { trackPhases: true })
+    const w = mountTracker()
+    await w.find('.pb-now').trigger('click')
+    // The picker teleports to <body> (BaseModal), so look for its rows there.
+    const rows = document.body.querySelectorAll('.pp-phase')
+    expect(rows).toHaveLength(10) // five phases per player
+    rows[8].click() // the second player's Charge phase
+    await w.vm.$nextTick()
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(tracker.current.value.currentPhase).toBe('charge')
+    expect(document.body.querySelectorAll('.pp-phase')).toHaveLength(0) // and it closes
+  })
+})
+
