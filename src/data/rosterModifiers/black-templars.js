@@ -37,19 +37,6 @@ export default {
       }
     },
     {
-      "sid": "f4c13fe5-b2c6-49d9-a532-d4cdc71e2094",
-      "kind": "armyRule",
-      "name": "Templar Vows",
-      "det": null,
-      "hash": "959ac12a",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "6c1960c0-fdef-41a7-a017-cda5d322bd74",
       "kind": "detachmentRule",
       "name": "Shock and Awe",

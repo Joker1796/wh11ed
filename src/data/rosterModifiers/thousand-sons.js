@@ -21,19 +21,6 @@ export default {
       }
     },
     {
-      "sid": "c7c41366-2625-4d4b-87a9-9b53d67572d0",
-      "kind": "armyRule",
-      "name": "Cabal of Sorcerers",
-      "det": null,
-      "hash": "5736c5d6",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "7bdab8ed-0e0f-4861-b887-fca833b68f6a",
       "kind": "detachmentRule",
       "name": "Infernal Pacts",

@@ -24,46 +24,6 @@ export default {
       "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
     },
     {
-      "sid": "cde884b9-4635-4974-a931-f33162d53c3c",
-      "kind": "armyRule",
-      "name": "Martial Ka’tah",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "175e9f73",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 1",
-          "when": {
-            "en": "while the Dacatari Stance is the one selected for this fight",
-            "ru": "пока для этого боя выбрана стойка Dacatari"
-          },
-          "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
-          "when": {
-            "en": "while the Rendax Stance is the one selected for this fight",
-            "ru": "пока для этого боя выбрана стойка Rendax"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
       "sid": "6b8c2838-343c-4cd7-b270-d2a184e6746f",
       "kind": "armyRule",
       "name": "Martial Ka’tah",

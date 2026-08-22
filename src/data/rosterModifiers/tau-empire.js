@@ -8,33 +8,6 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "f601afd5-17dd-4110-bd95-ad2a8da3959e",
-      "kind": "armyRule",
-      "name": "Drones",
-      "det": null,
-      "hash": "afe18cdf",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "w",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "if the model was upgraded with a Shield Drone",
-            "ru": "если модель улучшена дроном-щитом (Shield Drone)"
-          },
-          "cond": [
-            "blocked-subset"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",
       "kind": "armyRule",
       "name": "Drones",
@@ -54,33 +27,6 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
-      "sid": "bb8da155-0303-4f4a-a3a2-167a82ad3f97",
-      "kind": "armyRule",
-      "name": "For the Greater Good",
-      "det": null,
-      "hash": "88370fd8",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "bs",
-          "op": "improve",
-          "value": 1,
-          "when": {
-            "en": "per attack by a Guided unit against a Spotted unit",
-            "ru": "за атаку отряда Guided по отряду Spotted"
-          },
-          "cond": [
-            "never"
           ]
         }
       ],

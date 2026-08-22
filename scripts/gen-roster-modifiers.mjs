@@ -151,8 +151,29 @@ const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u
 
 function sourcesOf(bundle, detById) {
   const out = []
+  // appdata publishes an army rule once per PUBLICATION it appears in, and a Combat Patrol box
+  // reprints the codex's rule verbatim — so the same rule arrives two or more times under
+  // different uuids (29 extra copies across the game; nothing else duplicates this way).
+  // Every copy resolves to the ONE hand-authored army rule on our side (`ref: {kind:'armyRule'}`),
+  // so its effects were applied once per copy: doubled footnotes on the card, and a doubled
+  // NUMBER wherever the condition is proven — Adeptus Mechanicus' Doctrina Imperatives is
+  // answered automatically from the tracker, so its +1 BS was silently +2 in any game with an
+  // Imperative running. Keep one copy per identical prose, chosen by the smallest uuid so the
+  // pick is stable across runs and machines; the extra records then read as `orphan` and the
+  // next write drops them.
+  // Keyed by NAME, not by prose: the reprints are not always byte-identical (one publication's
+  // Doctrina Imperatives is missing a full stop the other has, Templar Vows says "declares a
+  // charge" where the other says "declares charge"), and on our side every record with the same
+  // name resolves to the same single hand-authored army rule anyway — `ref: {kind:'armyRule'}`
+  // points at `facEn.armyRule`, of which there is exactly one per faction. Two rules that really
+  // are different carry different names (Dark Angels' Deathwing and Ravenwing), so they survive.
+  const armyRules = new Map()
   for (const r of bundle.armyRules || []) {
-    out.push({ sid: r.id, kind: 'armyRule', name: r.name, det: null, ref: { kind: 'armyRule' }, prose: bodyText(r.body) })
+    const prev = armyRules.get(r.name)
+    if (!prev || r.id < prev.sid) armyRules.set(r.name, { sid: r.id, name: r.name, prose: bodyText(r.body) })
+  }
+  for (const r of armyRules.values()) {
+    out.push({ sid: r.sid, kind: 'armyRule', name: r.name, det: null, ref: { kind: 'armyRule' }, prose: r.prose })
   }
   for (const d of bundle.detachments || []) {
     const whDet = detById.get(d.id)?.id || null

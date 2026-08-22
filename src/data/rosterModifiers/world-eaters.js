@@ -61,59 +61,6 @@ export default {
       ]
     },
     {
-      "sid": "1e87eaec-e83c-4dab-849d-e191dacd3988",
-      "kind": "armyRule",
-      "name": "Blessings of Khorne",
-      "det": null,
-      "ref": {
-        "kind": "armyRule"
-      },
-      "hash": "5fc04aa0",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 1",
-          "when": {
-            "en": "while the Martial Excellence Blessing is active for the battle round",
-            "ru": "пока в раунде активно благословение Martial Excellence"
-          },
-          "cond": [
-            "blessing-martial-excellence"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "LETHAL HITS",
-          "when": {
-            "en": "while the Warp Blades Blessing is active for the battle round",
-            "ru": "пока в раунде активно благословение Warp Blades"
-          },
-          "cond": [
-            "blessing-warp-blades"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ability",
-          "op": "grant",
-          "value": "DEVASTATING WOUNDS",
-          "when": {
-            "en": "while the Decapitating Strikes Blessing is active, against Infantry units",
-            "ru": "пока активно благословение Decapitating Strikes, против отрядов Infantry"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ]
-    },
-    {
       "sid": "145c3608-88ac-4d19-b441-93aec4eceee9",
       "kind": "detachmentRule",
       "name": "Relentless Rage",

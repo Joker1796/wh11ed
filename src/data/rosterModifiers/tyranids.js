@@ -51,33 +51,6 @@ export default {
       }
     },
     {
-      "sid": "96fc8e70-8686-4e12-be1e-2eec1632888f",
-      "kind": "armyRule",
-      "name": "Synapse",
-      "det": null,
-      "hash": "9612d927",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "melee",
-          "stat": "s",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "per melee attack, while the unit is within Synapse Range of your army",
-            "ru": "за атаку ближнего боя, пока отряд в радиусе синапса вашей армии"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "6fdc5e01-fce9-4451-ba94-b2cfe91aff19",
       "kind": "detachmentRule",
       "name": "Enraged Behemoths",

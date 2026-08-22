@@ -8,59 +8,6 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "94eb8c9d-a20e-4851-903e-459df9d80a22",
-      "kind": "armyRule",
-      "name": "Doctrina Imperatives",
-      "det": null,
-      "hash": "205b2058",
-      "ver": 925,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "ranged",
-          "stat": "bs",
-          "op": "improve",
-          "value": 1,
-          "when": {
-            "en": "while the Protector Imperative is active for your army",
-            "ru": "пока для армии активен Protector Imperative"
-          },
-          "cond": [
-            "imperative-protector"
-          ]
-        },
-        {
-          "on": "melee",
-          "stat": "ws",
-          "op": "improve",
-          "value": 1,
-          "when": {
-            "en": "while the Conqueror Imperative is active for your army",
-            "ru": "пока для армии активен Conqueror Imperative"
-          },
-          "cond": [
-            "imperative-conqueror"
-          ]
-        },
-        {
-          "on": "weapon",
-          "stat": "ap",
-          "op": "add",
-          "value": -1,
-          "when": {
-            "en": "per attack under the Conqueror Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
-            "ru": "за атаку при Conqueror Imperative, если отряд Battleline или в 6\" от дружественного отряда Battleline"
-          },
-          "cond": [
-            "never"
-          ]
-        }
-      ],
-      "ref": {
-        "kind": "armyRule"
-      }
-    },
-    {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",
       "kind": "armyRule",
       "name": "Doctrina Imperatives",
