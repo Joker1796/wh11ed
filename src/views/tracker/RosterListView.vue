@@ -32,7 +32,12 @@
       </button>
     </div>
 
-    <p v-if="!shown.length" class="empty">{{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}</p>
+    <!-- An empty screen is where somebody stands who has not decided this is worth their evening,
+         so it is also where the explanation belongs — not three taps away in a help menu. -->
+    <p v-if="!shown.length" class="empty">
+      {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
+      <RouterLink v-if="tab !== 'drafts'" class="empty-help" to="/help#help-rosters">{{ labels.helpLearnMore }}</RouterLink>
+    </p>
     <TransitionGroup v-else tag="ul" name="list" class="rosters">
       <li
         v-for="r in shown"
@@ -259,6 +264,7 @@ function confirmDelete() {
   margin-bottom: 0.3rem;
 }
 .hero-desc { color: var(--text-muted); font-size: 0.95rem; }
+.empty-help { display: block; margin-top: 0.5rem; color: var(--accent); font-size: 0.85rem; }
 .cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex;

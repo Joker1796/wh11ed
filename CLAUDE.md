@@ -100,6 +100,17 @@ Vue 3 SPA using HTML5 history routing (`createWebHistory`) — clean paths like 
 - Unknown paths render `NotFoundView` (catch-all route) which injects `noindex` while mounted.
 - Old `/#/path` links are rewritten by a tiny inline shim at the top of `index.html` (`location.replace`, keeps the query even inside the hash — the pre-migration OAuth callback relies on that). Keep the shim — it's what makes old bookmarks/shared links work forever.
 
+**`/help` — "How to use this"** (`src/data/help.js` + `views/HelpView.vue`): the one page of
+product documentation, bilingual, rendered through the shared block renderer so a `[KEYWORD]` or a
+`(NN.NN)` in it behaves as it does inside a rule. **It carries only what a reader cannot see for
+themselves** — the offline split (a tab is deliberately light, the installed app is not), where
+their lists actually live, why our points can disagree with a list built elsewhere, and the
+features with no visible entry point (Ctrl+K, roster import/export/share, handing a roster to the
+tracker). Anything a button already says stays on the button. Like `/links` it is **not** in the
+navbar or the drawer: it is reached from the footer and from the empty screens that raise the
+question (the roster list's empty state → `#help-rosters`, the tracker home → `#help-tracker`).
+`HelpView.test.js` guards the EN↔RU marker parity the same way the rule data is guarded.
+
 **Navigation model:** Two levels.
 
 - **Top navbar** (`App.vue`) — sections "Core Rules", "Event Companion", "Tracker", "Factions". (The `/links` page of source PDFs is deliberately NOT in the navbar or the drawer — only its card on the landing page links to it.) `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders. **Factions** is a `.nav-dropdown`: the link still navigates to `/factions`, but on **hover / focus-within** (desktop only — `.navbar-links` is `display:none` ≤900px) it opens a pure-CSS grouped mega-menu of all factions (2-column grid from `data/factionsIndex.js` via `groupLabelKey`, links to `/factions/:slug`, "coming soon" for non-ready). No JS state — reveal is CSS `:hover`/`:focus-within` with a transparent `padding-top` bridge.

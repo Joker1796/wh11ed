@@ -3,6 +3,9 @@
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
       <p class="hero-desc">{{ labels.trackerIntroDesc }}</p>
+      <!-- The first-timer's question ("does this keep the game if my phone sleeps?") is answered
+           on /help, not here — one link rather than a paragraph nobody reads twice. -->
+      <RouterLink class="hero-help" to="/help#help-tracker">{{ labels.helpLearnMore }}</RouterLink>
     </div>
 
     <!-- Cloud backup: account info / sign-in hint, kept separate from the action buttons below. -->
@@ -358,6 +361,7 @@ function footLine(g) {
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
+.hero-help { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-size: 0.85rem; }
 .hero-desc { color: var(--text-muted); font-size: 0.95rem; }
 .cloud-bar {
   display: flex;
