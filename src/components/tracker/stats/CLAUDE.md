@@ -1,4 +1,4 @@
-# Battle Record (`/tracker/stats`)
+# Statistics (`/tracker/stats`)
 
 Statistics over the tracker's finished games. Read-only end to end: nothing in this feature writes
 a game, a roster or a preference. Split in two, the same way the rest of the tracker is:

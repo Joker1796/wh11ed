@@ -45,7 +45,7 @@ export const help = {
         body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result. It is meant to be used with one thumb while the other hand holds dice.
 ▪ Start a game, and the app remembers it — closing the tab or losing signal mid-game changes nothing.
 ▪ Finished games go to the history, where you can look back at how the score was made.
-▪ Enough of them and a **battle record** builds itself: win rate, average score, how you do on the play and on the receive, which factions beat you and which secondary cards actually pay. Under five games it shows counts rather than percentages, because three games are not a percentage.
+▪ Enough of them and the **statistics** page builds itself: win rate, average score, how you do on the play and on the receive, which factions beat you and which secondary cards actually pay. Under five games it shows counts rather than percentages, because three games are not a percentage.
 ▪ Sign in, and the history and your army lists keep themselves in step across your devices — nothing to press, and a new phone starts where the old one left off.`,
       },
       {
@@ -101,7 +101,7 @@ export const help = {
         body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points. Он рассчитан на то, что вы работаете одним пальцем, а во второй руке кубики.
 ▪ Начатая партия запоминается — закрыть вкладку или потерять сеть посреди игры ничего не меняет.
 ▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
-▪ Из них сам собой складывается **боевой лист**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.
+▪ Из них сама собой складывается **статистика**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.
 ▪ Войдите в аккаунт — и история с армейскими листами сами держатся в актуальном состоянии на всех ваших устройствах: нажимать ничего не нужно, а новый телефон начинает с того же места.`,
       },
       {
