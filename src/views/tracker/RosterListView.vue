@@ -89,6 +89,9 @@
       <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
       <div class="modal-body act-list">
         <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
+        <!-- Export from here as well as from the editor: a finished list is passed on far more
+             often than it is edited, and opening the editor to copy it is a detour. -->
+        <button class="act-btn" :disabled="exportBusy" @click="onExport(menuFor)">{{ labels.rosterExportTitle }}</button>
         <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
         <button class="act-btn act-danger" @click="onDelete(menuFor)">{{ labels.trackerDelete }}</button>
       </div>
@@ -105,6 +108,15 @@
     />
 
     <RosterImportModal v-if="importOpen" @imported="onImported" @close="importOpen = false" />
+
+    <RosterExportModal
+      v-if="exportRoster"
+      :roster="exportRoster"
+      :faction="exportFaction"
+      :core="rosterCore"
+      :items="rosterItems.items"
+      @close="exportRoster = null"
+    />
   </div>
 </template>
 
@@ -114,6 +126,7 @@ import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import RosterImportModal from '../../components/roster/RosterImportModal.vue'
+import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -124,6 +137,7 @@ import { useFormatDate } from '../../composables/useFormatDate.js'
 import { effectiveBattle } from '../../composables/rosterEngine.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
+import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 
 const router = useRouter()
@@ -136,6 +150,26 @@ const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
 const importOpen = ref(false)
+
+// Exporting needs the faction's generated bundle (unit names, wargear, points), which this screen
+// otherwise never loads — so it is fetched on demand, the same lazy load the editor does, and the
+// menu stays disabled for the moment it takes.
+const exportRoster = ref(null)
+const exportFaction = ref(null)
+const exportBusy = ref(false)
+async function onExport(id) {
+  const r = rosterById(id)
+  if (!r?.faction || exportBusy.value) return
+  exportBusy.value = true
+  try {
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    exportFaction.value = await loadRosterFaction(r.faction)
+    exportRoster.value = r
+    menuFor.value = null
+  } finally {
+    exportBusy.value = false
+  }
+}
 // An imported list lands in the editor, not in the read-only view: whatever the report could not
 // place is the reader's to finish, and that is where they can.
 function onImported(id) { router.push(`/roster/${id}`) }

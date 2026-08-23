@@ -131,79 +131,142 @@ function parseGw(text) {
   return out
 }
 
-// ── WTC / New Recruit ────────────────────────────────────────────────────────────────────────
+// ── WTC / New Recruit (plain and compact) ────────────────────────────────────────────────────
+//
+// One parser for the whole family. New Recruit writes the same `+++` header for its WTC and
+// WTC-Compact exports and only varies how much of the body it spells out — the compact one folds
+// the per-profile breakdown into the unit's own line — so the grammar below is deliberately
+// tolerant: `•` or `*` bullets, `pts`/`points`/`pt`, a quantity with or without its `x`, and any
+// `Char1:` / `Infa6:`-style reference prefix.
+
+const PTS = '(?:pts?|points?)'
+const REF = '[A-Za-z]+\\d+'
 
 const wtcGear = (tail) => (tail || '')
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean)
   .map((s) => {
-    const m = s.match(/^(?:(\d+)x )?(.+)$/)
-    return { n: +(m[1] || 1), name: m[2] }
+    const m = s.match(/^(?:(\d+)x? )?(?:with )?(.+)$/i)
+    return { n: +(m[1] || 1), name: m[2].trim() }
   })
 
-function parseWtc(text) {
-  const out = { format: 'wtc', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
-  const warlordRef = { value: null }
-  let unit = null
-  const flush = () => {
-    if (!unit) return
-    delete unit.fromProfiles
-    out.units.push(unit)
-    unit = null
-  }
+// The `+++ … +++` block. Returns where the body starts, so a list with no header at all still
+// parses from line 0.
+function wtcHeader(lines, out) {
+  let i = 0
+  while (i < lines.length && !lines[i].trim()) i++
+  if (!lines[i]?.trim().startsWith('+++')) return 0
+  i++
+  for (; i < lines.length && !lines[i].trim().startsWith('+++'); i++) {
+    const t = lines[i].trim()
+    if (!/^[+&]/.test(t)) continue
+    const content = t.slice(1).trim()
 
-  for (const raw of (text || '').split(/\r?\n/)) {
+    // `& …` continues the ENHANCEMENT list above it.
+    const enh = /^&/.test(t) ? content : (content.match(/^ENHANCEMENT:\s*(.*)$/i) || [])[1]
+    if (enh) {
+      const on = enh.match(new RegExp(`^(.*?)\\s*\\(on\\s+(${REF})?\\s*:?\\s*(.*)\\)$`, 'i'))
+      out.enhancements.push(on
+        ? { name: on[1].trim(), onRef: on[2] || null, onName: on[3]?.trim() || null }
+        : { name: enh.trim(), onRef: null, onName: null })
+      continue
+    }
+
+    const faction = content.match(/^FACTION KEYWORD:\s*(.*)$/i)
+    if (faction) {
+      // "Xenos - T'au Empire" — the alliance is everything before the FIRST hyphen.
+      const v = faction[1].trim()
+      const cut = v.indexOf('-')
+      out.faction = cut === -1 ? v : v.slice(cut + 1).trim()
+      continue
+    }
+    const det = content.match(/^DETACHMENT:\s*(.*)$/i)
+    if (det) { out.detachments = det[1].replace(/\s*\([^)]*\)/g, '').split(/,\s*/).map((d) => d.trim()).filter(Boolean); continue }
+    const pts = content.match(new RegExp(`^TOTAL ARMY POINTS:\\s*(\\d+)`, 'i'))
+    if (pts) { out.stated = +pts[1]; continue }
+    const wl = content.match(new RegExp(`^WARLORD:\\s*(${REF})?\\s*:?\\s*(.*)$`, 'i'))
+    if (wl) { out.warlord = { ref: wl[1] || null, name: wl[2]?.trim() || '' }; continue }
+  }
+  return i + 1
+}
+
+function parseWtc(text) {
+  const lines = (text || '').split(/\r?\n/).map((l) => l.replace(/\u00a0/g, ' '))
+  const out = { format: 'wtc', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [], enhancements: [], warlord: null }
+  const start = wtcHeader(lines, out)
+
+  let unit = null
+  let mini = null          // the profile the following indented lines belong to
+  const flush = () => { if (unit) { delete unit.fromProfiles; out.units.push(unit); unit = null; mini = null } }
+
+  for (let i = start; i < lines.length; i++) {
+    const raw = lines[i]
     const t = raw.trim()
     if (!t || /^\++$/.test(t)) continue
 
-    const kv = t.match(/^\+ ([A-Z ]+): ?(.*)$/)
-    if (kv) {
-      const [, key, value] = kv
-      if (key === 'FACTION KEYWORD') out.faction = value.includes(' - ') ? value.split(' - ').slice(1).join(' - ') : value
-      else if (key === 'DETACHMENT') out.detachments = value.replace(/\s*\([^)]*\)\s*$/, '').split(/,\s*/).filter(Boolean)
-      else if (key === 'TOTAL ARMY POINTS') out.stated = parseInt(value, 10) || 0
-      else if (key === 'WARLORD') warlordRef.value = value
-      continue
-    }
-    if (/^[+&]/.test(t)) continue   // the enhancement continuation lines are read off the units
-
-    const enh = t.match(/^Enhancement: (.+?) \(\+?\d+ ?pts?\)$/i)
+    const enh = t.match(new RegExp(`^(?:[•*]\\s*)?Enhancement:\\s*(.*?)\\s*\\(\\+?\\d+ ?${PTS}\\)$`, 'i'))
     if (enh && unit) { unit.enh = enh[1]; continue }
 
-    const profile = t.match(/^• (?:(\d+)x )?(.+?): (.*)$/)
-    if (profile && unit) {
-      // The head line already stated the unit's size ("10x Khorne Berzerkers"); the profile lines
-      // then break that same 10 down. They REPLACE the head's count rather than adding to it.
-      if (!unit.fromProfiles) { unit.models = 0; unit.fromProfiles = true }
-      unit.models += +(profile[1] || 1)
-      unit.weapons.push(...wtcGear(profile[3]).map((g) => ({ ...g, mini: profile[2] })))
+    // Who this unit joined. Which side of the pair carries the line varies, so only the LINK is
+    // recorded here; the matcher decides which of the two is the leader once it knows the
+    // datasheets (rosterImport's `attachedTo` handling).
+    const att = t.match(/^Attached to\s+(.+)$/i)
+    if (att && unit) { unit.attachedTo = att[1].trim(); continue }
+
+    if (/^[•*]/.test(t)) {
+      const body = t.slice(1).trim()
+      const cut = body.indexOf(':')
+      const head = (cut === -1 ? body : body.slice(0, cut)).trim()
+      const m = head.match(/^(?:(\d+)x? )?(.*)$/)
+      const n = +(m?.[1] || 1)
+      mini = m?.[2]?.trim() || null
+      if (unit) {
+        if (!unit.fromProfiles) { unit.models = 0; unit.fromProfiles = true }
+        unit.models += n
+        if (cut !== -1) unit.weapons.push(...wtcGear(body.slice(cut + 1)).map((g) => ({ ...g, mini })))
+      }
       continue
     }
 
-    const head = t.match(/^(?:(Char\d+): )?(?:(\d+)x )?(.+?) \((\d+) ?pts?\)(?:: (.*))?$/i)
+    // An indented continuation: "9 with Bolt pistol, Chainsword" under the profile above it. The
+    // leading number counts MODELS, so each item it lists is carried that many times over.
+    if (/^\s/.test(raw) && unit) {
+      const detail = t.match(/^(\d+)?\s*(?:with\s+)?(.*)$/i)
+      if (detail?.[2]) {
+        const models = +(detail[1] || 1)
+        unit.weapons.push(...wtcGear(detail[2]).map((g) => ({ ...g, n: g.n * models, mini })))
+        continue
+      }
+    }
+
+    const head = t.match(new RegExp(`^(?:(${REF}): )?(?:(\\d+)x? )?(.+?) \\((\\d+) ?${PTS}\\)(?:: (.*))?$`, 'i'))
     if (head) {
       flush()
       const [, ref, n, name, pts, tail] = head
-      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, models: null, weapons: [], fromProfiles: false }
+      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: null, models: n ? +n : null, weapons: [], fromProfiles: false }
+      mini = null
       for (const g of wtcGear(tail)) {
         if (/^warlord$/i.test(g.name)) { unit.warlord = true; continue }
         const mark = g.name.match(/^([^:]+): (.+)$/)
         if (mark) { unit.alleg = mark[2]; continue }
-        unit.weapons.push(g)
+        unit.weapons.push({ ...g, mini: null })
       }
-      // A `• 1x Profile:` line sets the model count itself; a plain `10x Unit` head carries it.
-      if (n) unit.models = +n
-      continue
     }
   }
   flush()
 
-  if (warlordRef.value) {
-    const ref = warlordRef.value.split(':')[0].trim()
-    const name = norm(warlordRef.value.split(':').slice(1).join(':') || warlordRef.value)
-    const hit = out.units.find((u) => u.ref === ref) || out.units.find((u) => norm(u.name) === name)
+  // The header names the warlord and every enhancement, by reference or by name. A compact export
+  // may say it ONLY there, so the header is read as a source and not merely as a summary.
+  if (out.warlord) {
+    const want = norm(out.warlord.name)
+    const hit = out.units.find((u) => u.ref === out.warlord.ref) || out.units.find((u) => norm(u.name) === want)
     if (hit) hit.warlord = true
+  }
+  for (const e of out.enhancements) {
+    const hit = out.units.find((u) => e.onRef && u.ref === e.onRef)
+      || out.units.find((u) => e.onName && norm(u.name) === norm(e.onName) && !u.enh)
+    if (hit && !hit.enh) hit.enh = e.name
   }
   return out
 }
@@ -309,6 +372,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   const byName = new Map((faction.units || []).map((u) => [norm(u.name), u]))
   const copies = new Map()
   const groups = new Map()
+  const attachments = []
 
   for (const pu of parsed.units || []) {
     const def = byName.get(norm(pu.name))
@@ -367,9 +431,23 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (!groups.has(pu.group)) groups.set(pu.group, [])
       groups.get(pu.group).push({ entry, attachedAs: pu.attachedAs })
     }
+    if (pu.attachedTo) attachments.push({ entry, def, target: pu.attachedTo })
   }
 
-  // Attached units: the app blocks a leader with the unit it joined, so the block IS the link.
+  // WTC states the pair as a line on one of them ("Attached to X") — but not always on the same
+  // side, so the CHARACTER of the two is taken as the leader whichever way round it was written.
+  const rowOf = new Map(payload.units.map((u, i) => [norm(report.units[i]?.name), { entry: u, def: byName.get(norm(report.units[i]?.name)) }]))
+  for (const a of attachments) {
+    const other = rowOf.get(norm(a.target))
+    if (!other || other.entry === a.entry) continue
+    const isChar = (d) => !!(d?.flags?.char || d?.flags?.epic)
+    const leader = isChar(a.def) ? a : (isChar(other.def) ? other : null)
+    if (!leader) continue
+    const body = leader === a ? other : a
+    leader.entry.leaderOf = body.entry.uid
+  }
+
+  // The GW app blocks a leader with the unit it joined, so there the block IS the link.
   for (const members of groups.values()) {
     const body = members.find((m) => /^bodyguard/i.test(m.attachedAs || ''))
     if (!body) continue

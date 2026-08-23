@@ -146,6 +146,81 @@ describe('parseList — WTC', () => {
   })
 })
 
+// New Recruit's compact tournament export: the same `+++` header, the body squeezed onto one line
+// per unit. Written here the way the readers in circulation accept it — `*` bullets, `points`
+// spelled out, quantities without their `x`, an `Infa6:`-style reference, and the enhancement
+// stated ONLY in the header.
+const WTC_COMPACT = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Chaos - World Eaters
++ DETACHMENT: Berzerker Warband (Purge the Foe)
++ TOTAL ARMY POINTS: 430points
++
++ WARLORD: Char1: Khârn the Betrayer
++ ENHANCEMENT: Favoured of Khorne (on Char2: Daemon Prince of Khorne)
++ NUMBER OF UNITS: 3
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Char1: 1 Khârn the Betrayer (115 points): Gorechild, Plasma pistol
+  Attached to Khorne Berzerkers
+Char2: 1x Daemon Prince of Khorne (220 points): Hellforged weapons, Infernal cannon
+Infa6: 10x Khorne Berzerkers (180 points)
+* 1 Khorne Berzerker Champion
+  1 with Chainblade, Plasma pistol
+* 9 Khorne Berzerker
+  9 with Bolt pistol, Chainblade`
+
+describe('parseList — WTC-Compact and the loose spellings around it', () => {
+  const p = parseList(WTC_COMPACT)
+
+  it('is the same format as WTC, so it is detected and parsed as one', () => {
+    expect(detectFormat(WTC_COMPACT)).toBe('wtc')
+    expect(p.faction).toBe('World Eaters')
+    expect(p.stated).toBe(430)
+    expect(p.units).toHaveLength(3)
+  })
+
+  it('accepts the loose spellings: * bullets, "points", a bare quantity, any reference prefix', () => {
+    const zerks = p.units.find((u) => u.name === 'Khorne Berzerkers')
+    expect(zerks.ref).toBe('Infa6')
+    expect(zerks.models).toBe(10)
+    expect(zerks.weapons).toContainEqual({ n: 9, name: 'Bolt pistol', mini: 'Khorne Berzerker' })
+    expect(zerks.weapons).toContainEqual({ n: 1, name: 'Plasma pistol', mini: 'Khorne Berzerker Champion' })
+  })
+
+  // A compact export may state an enhancement only in the header — reading the header as a summary
+  // and not as a source loses it.
+  it('takes the warlord and the enhancement off the header', () => {
+    expect(p.units.find((u) => u.name === 'Khârn the Betrayer').warlord).toBe(true)
+    expect(p.units.find((u) => u.name === 'Daemon Prince of Khorne').enh).toBe('Favoured of Khorne')
+  })
+
+  it('reads the attachment line the format has for it', () => {
+    expect(p.units.find((u) => u.name === 'Khârn the Betrayer').attachedTo).toBe('Khorne Berzerkers')
+  })
+})
+
+describe('matchRoster — an attachment stated as a line', () => {
+  // The line sits on one side of the pair, but not always the same side, so the CHARACTER of the
+  // two is the leader whichever way round it was written.
+  it('makes the character the leader, whichever side carried the line', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    const ctx = { faction, core: rosterCore, items: items.items }
+    const forward = matchRoster(parseList(WTC_COMPACT), ctx).payload
+    expect(forward.units.find((u) => u.id === 'kh-rn-the-betrayer').leaderOf)
+      .toBe(forward.units.find((u) => u.id === 'khorne-berzerkers').uid)
+
+    const flipped = WTC_COMPACT
+      .replace('Char1: 1 Khârn the Betrayer (115 points): Gorechild, Plasma pistol\n  Attached to Khorne Berzerkers', 'Char1: 1 Khârn the Betrayer (115 points): Gorechild, Plasma pistol')
+      .replace('Infa6: 10x Khorne Berzerkers (180 points)', 'Infa6: 10x Khorne Berzerkers (180 points)\n  Attached to Khârn the Betrayer')
+    const back = matchRoster(parseList(flipped), ctx).payload
+    expect(back.units.find((u) => u.id === 'kh-rn-the-betrayer').leaderOf)
+      .toBe(back.units.find((u) => u.id === 'khorne-berzerkers').uid)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')
@@ -281,15 +356,19 @@ describe('round trip — export then import', () => {
     expect(buildRosterText(payload, ctx, 'compact')).toBe(buildRosterText(roster, ctx, 'compact'))
   })
 
-  it('comes back through WTC minus what WTC does not carry', async () => {
+  // Both WTC shapes survive the trip whole — the compact one folds the per-profile breakdown into
+  // the unit's line, which changes how the loadout is WRITTEN but not what it is. The one thing
+  // the format has no field for is the list's own name.
+  it.each(['wtc', 'wtc-compact'])('comes back through %s minus the name the format has no field for', async (fmt) => {
     const { buildRosterText } = await import('./rosterExport.js')
     const ctx = { faction, core: rosterCore, items }
     const roster = rosterOf(faction)
-    const { payload, report } = matchRoster(parseList(buildRosterText(roster, ctx, 'wtc')), ctx)
+    const { payload, report } = matchRoster(parseList(buildRosterText(roster, ctx, fmt)), ctx)
     expect(report.missing).toEqual([])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
     expect(report.points.computed).toBe(report.points.statedUnits)
     expect(payload.name).toBe('Roster')                                   // WTC states no list name
-    expect(payload.units.some((u) => u.leaderOf)).toBe(false)             // …and no attachment
-    expect(payload.units.map((u) => u.id)).toEqual(roster.units.map((u) => u.id))
+    expect(buildRosterText({ ...payload, name: roster.name }, ctx, 'compact'))
+      .toBe(buildRosterText(roster, ctx, 'compact'))                      // …everything else, incl. the attachment
   })
 })

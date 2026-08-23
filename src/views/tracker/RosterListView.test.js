@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 
 const push = vi.fn()
 vi.mock('vue-router', () => ({
@@ -25,6 +25,10 @@ const BaseModalStub = {
 }
 const stubs = { BaseModal: BaseModalStub, RouterLink: { props: ['to'], template: '<a><slot /></a>' } }
 
+// The actions sheet is picked by LABEL, never by index: it has grown twice already, and a
+// positional selector silently starts clicking the neighbouring action when it does.
+const act = (w, label) => w.findAll('.act-btn').find((b) => b.text() === label)
+
 describe('RosterListView', () => {
   it('shows the empty state and routes New to the creation wizard', async () => {
     const w = mount(RosterListView, { global: { stubs } })
@@ -46,7 +50,7 @@ describe('RosterListView', () => {
     const r = store.createRoster('Test list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    await w.findAll('.act-btn')[0].trigger('click')
+    await act(w, 'Edit').trigger('click')
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}`)
   })
 
@@ -55,7 +59,7 @@ describe('RosterListView', () => {
     store.createRoster('Test list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    await w.findAll('.act-btn')[1].trigger('click')
+    await act(w, 'Duplicate').trigger('click')
     expect(store.rosters.value).toHaveLength(2)
   })
 
@@ -64,7 +68,7 @@ describe('RosterListView', () => {
     store.createRoster('Test list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    await w.findAll('.act-btn')[2].trigger('click')
+    await act(w, 'Delete').trigger('click')
     // Not removed yet — ConfirmModal is up.
     expect(store.rosters.value).toHaveLength(1)
     await w.find('.modal-foot .btn-primary').trigger('click')
@@ -121,7 +125,27 @@ describe('RosterListView', () => {
     store.createRoster('A list')
     const w = mount(RosterListView, { global: { stubs } })
     await w.find('.kebab').trigger('click')
-    expect(w.findAll('.act-btn')).toHaveLength(3)
+    // Edit / Export / Duplicate / Delete — picked by label everywhere else in this file, so the
+    // sheet can grow without a positional index quietly pointing at the wrong action.
+    expect(w.findAll('.act-btn').map((b) => b.text())).toEqual(['Edit', 'Export roster', 'Duplicate', 'Delete'])
+  })
+
+  // A finished list is passed on more often than it is edited, so it exports from here too — which
+  // means this screen has to fetch the faction bundle it otherwise never loads.
+  it('kebab menu: Export opens the export sheet once the faction data is in', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Exportable')
+    store.updateRoster(r.id, { faction: 'world-eaters', detachments: [], battleSize: 'strike-force' })
+    const w = mount(RosterListView, { global: { stubs } })
+    await w.find('.kebab').trigger('click')
+    await act(w, 'Export roster').trigger('click')
+    for (let i = 0; i < 40 && !w.find('.rex').exists(); i++) {
+      await flushPromises()
+      await new Promise((res) => setTimeout(res, 10))
+    }
+    expect(w.find('.rex').exists()).toBe(true)
+    expect(w.findAll('.rex-fmt').map((b) => b.text())).toEqual(['GW app', 'WTC', 'WTC-Compact', 'Discord'])
+    w.unmount()
   })
 
   it('shows a faction accent and flags a list over its points limit', async () => {

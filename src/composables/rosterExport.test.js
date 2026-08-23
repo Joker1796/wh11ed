@@ -115,6 +115,25 @@ describe('buildRosterText — WTC', () => {
   })
 })
 
+describe('buildRosterText — WTC-Compact', () => {
+  const txt = build('wtc-compact')
+
+  // Same header, same unit lines — the difference is that the per-profile breakdown is folded into
+  // the unit's own line, so a squad is one line instead of three.
+  it('keeps the header and folds the profiles away', () => {
+    expect(txt).toContain('+ FACTION KEYWORD: Imperium - Space Marines')
+    expect(txt).toContain('10x Intercessor Squad (170 pts): 9x Bolt rifle, Power fist')
+    expect(txt).not.toContain('• 1x Intercessor Sergeant')
+  })
+
+  // The attachment has a line of its own in this family, and writing it is what lets a reader
+  // (ours included) put the leader back where it was.
+  it('states the attachment both formats have a line for', () => {
+    expect(txt).toContain('  Attached to Intercessor Squad')
+    expect(build('wtc')).toContain('  Attached to Intercessor Squad')
+  })
+})
+
 describe('buildRosterText — compact', () => {
   const txt = build('compact')
 
@@ -135,8 +154,8 @@ describe('buildRosterText — compact', () => {
 })
 
 describe('buildRosterText — the shapes themselves', () => {
-  it('offers exactly the three formats, and defaults to the app’s', () => {
-    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'compact'])
+  it('offers exactly the four formats, and defaults to the app’s', () => {
+    expect(EXPORT_FORMATS).toEqual(['gw', 'wtc', 'wtc-compact', 'compact'])
     expect(buildRosterText(roster, ctx)).toBe(build('gw'))
   })
 

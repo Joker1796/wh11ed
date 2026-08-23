@@ -7,7 +7,12 @@
 //            as their own blocks, then CHARACTERS / DEDICATED TRANSPORTS / OTHER DATASHEETS.
 //   wtc      the tournament header format (New Recruit calls it WTC): a `+ KEY: value` block that a
 //            judge reads at a glance, then one line per unit with its wargear inline.
-//   compact  one line per unit, for pasting into a Discord channel; identical entries collapse.
+//   wtc-compact  the same list with the per-profile breakdown folded away — New Recruit's own
+//            shorter tournament export, and what the readers in circulation (40kCompactor,
+//            ListForge) accept alongside plain WTC. Same grammar, fewer lines.
+//   compact  one line per unit, ours, for pasting into a Discord channel; identical entries
+//            collapse into `2x`. The shortest thing here, at the price of not being a format
+//            anybody else parses.
 //
 // The 11th-edition app export differs from the 10th's in ways this file has to honour: several
 // detachments at once with a Detachment Points budget, a Force Dispositions line, and attached
@@ -24,7 +29,7 @@ import {
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
-export const EXPORT_FORMATS = ['gw', 'wtc', 'compact']
+export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact']
 
 // WTC writes the faction's alliance ahead of its name ("Xenos - T'au Empire"). Our index splits the
 // Imperium in two (Space Marine chapters have their own group), which WTC does not.
@@ -241,11 +246,18 @@ function gwText(m, version) {
 
 // ── WTC ──────────────────────────────────────────────────────────────────────────────────────
 
-const inlineGear = (row) => row.gear
-  .flatMap((g) => (g.name && row.gear.length > 1 ? [] : g.items))
-  .map((it) => (it.n > 1 ? `${it.n}x ${it.name}` : it.name))
+// A unit's wargear on one line. `all` folds the per-profile groups in as well, which is the only
+// difference between WTC and its compact form.
+function inlineGear(row, all = false) {
+  const groups = all || row.gear.length === 1 || !row.gear.some((g) => g.name) ? row.gear : []
+  const merged = new Map()
+  for (const g of groups) for (const it of g.items) merged.set(it.name, (merged.get(it.name) || 0) + it.n)
+  return [...merged]
+    .sort((a, b) => a[0].localeCompare(b[0]))   // stable order, so two exports of one list diff cleanly
+    .map(([name, n]) => (n > 1 ? `${n}x ${name}` : name))
+}
 
-function wtcText(m) {
+function wtcText(m, compact = false) {
   const bar = '+'.repeat(47)
   const chars = m.rows.filter((r) => r.bucket === 'epic' || r.bucket === 'characters')
   const refOf = new Map(chars.map((r, i) => [r.uid, `Char${i + 1}`]))
@@ -278,14 +290,18 @@ function wtcText(m) {
     const head = refOf.has(r.uid)
       ? `${refOf.get(r.uid)}: ${r.models}x ${r.name} (${r.pts} pts)`
       : `${r.models}x ${r.name} (${r.pts} pts)`
-    const inline = [...(r.warlord ? ['Warlord'] : []), ...(r.alleg ? [`${r.alleg.label}: ${r.alleg.value}`] : []), ...inlineGear(r)]
+    const inline = [...(r.warlord ? ['Warlord'] : []), ...(r.alleg ? [`${r.alleg.label}: ${r.alleg.value}`] : []), ...inlineGear(r, compact)]
     out.push(inline.length ? `${head}: ${inline.join(', ')}` : head)
-    if (r.gear.length > 1) {
+    if (!compact && r.gear.length > 1) {
       for (const g of r.gear) {
         out.push(`• ${g.models}x ${g.name}: ${g.items.map((it) => (it.n > 1 ? `${it.n}x ${it.name}` : it.name)).join(', ')}`)
       }
     }
     if (r.enh) out.push(`Enhancement: ${r.enh.name} (+${r.enh.pts} pts)`)
+    // Who this unit joined. The format has a line for it and the readers in circulation parse it,
+    // so writing it is what keeps an attachment alive through an export/import round trip.
+    const led = r.leaderOf ? m.rows.find((x) => x.uid === r.leaderOf) : null
+    if (led) out.push(`  Attached to ${led.name}`)
   }
   return out.join('\n').trimEnd()
 }
@@ -332,6 +348,7 @@ export function buildRosterText(roster, ctx = {}, format = 'gw') {
   const m = resolve(roster, ctx)
   m.items = ctx.items
   if (format === 'wtc') return wtcText(m)
+  if (format === 'wtc-compact') return wtcText(m, true)
   if (format === 'compact') return compactText(m)
   return gwText(m, ctx.version)
 }
