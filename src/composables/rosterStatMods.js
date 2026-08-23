@@ -116,7 +116,12 @@ const isGrant = (effect) => effect.op === 'grant'
 // names who it bears on, and is gated by keyword.
 const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability', 'wargear', 'stratagem'])
 
-function noteOf(entry, effect, applied, via = null) {
+// `live` — is this modifier in force RIGHT NOW? Not the same question as `applied`: a modifier
+// that is in force but had nothing computable to change (a dice value, no matching weapon row)
+// is live with `applied: false`, and it belongs with the ones that did rewrite a number. What is
+// NOT live is a conditional effect whose condition the game has not proven — the card shows those
+// apart (in a game, not at all: a block headed "in effect" must not list what is not).
+function noteOf(entry, effect, applied, via = null, live = true) {
   return {
     source: entry.name,
     det: entry.det,
@@ -136,6 +141,7 @@ function noteOf(entry, effect, applied, via = null) {
     // Its presence is what distinguishes "always true" from "true right now".
     via,
     applied,
+    live,
   }
 }
 
@@ -216,7 +222,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       // which is how "…against MONSTER targets" stays a footnote even while the stratagem is up.
       const live = effect.when ? effectLive(entry, effect, active, activeStrats) : false
       if (effect.when && !live) {
-        notes.push(noteOf(entry, effect, false))
+        notes.push(noteOf(entry, effect, false, null, false))
         continue
       }
       // `via` is what PROVED a conditional effect, for the card's "applied, but only because…"

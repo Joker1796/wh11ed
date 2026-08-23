@@ -203,6 +203,58 @@ describe('DatasheetCard modifier notes', () => {
     expect(w.findAll('.ds-mod-src-h')[0].element.nextElementSibling.textContent).toContain('Experimental Augmentations')
   })
 
+  // Two lists, never one: what is in force now, and — off the table — what would be. A block
+  // headed "modifiers in play" must not list what is not in play.
+  it('puts what is not in force under a heading of its own', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'core', source: 'Battle-shock', stat: 'oc', op: 'set', value: '-', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+        ],
+      },
+    })
+    const heads = w.findAll('.ds-mods-h').map((n) => n.text())
+    expect(heads).toEqual(['Modifiers in play', 'Possible modifiers'])
+    const lists = w.findAll('.ds-mods')
+    expect(lists[0].text()).toContain('Cold Fervour')
+    expect(lists[0].text()).not.toContain('Battle-shock')
+    expect(lists[1].text()).toContain('Battle-shock')
+    // …and the second one is the collapsing block, closed.
+    expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+  })
+
+  // In a game the card answers "what is true right now", so a modifier that is not in force is not
+  // the card's business at all — its condition and its switch live on the rule block below.
+  it('drops them entirely when the caller says a game is on', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        hidePossible: true,
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'core', source: 'Battle-shock', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.find('.ds-mods').text()).not.toContain('Battle-shock')
+  })
+
+  // A modifier IS in force but had nothing computable to change (a dice value, no matching weapon
+  // row): it belongs with the ones that did rewrite a number, not with the waiting ones.
+  it('keeps a live modifier that changed nothing in the in-play list', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        hidePossible: true,
+        sheet: sheet(),
+        statNotes: [note({ kind: 'armyRule', source: 'Dark Pacts', value: 'D3', applied: false })],
+      },
+    })
+    expect(w.find('.ds-mods').text()).toContain('Dark Pacts')
+  })
+
   // The heading already says which detachment it is; repeating it on every line was the noise
   // this grouping exists to remove.
   it('does not repeat the detachment on each line', () => {

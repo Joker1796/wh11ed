@@ -63,6 +63,7 @@
           :linked-faction-rules="linkedFactionRules"
           :stat-marks="statMods.marks"
           :stat-notes="statNotes"
+          :hide-possible="!!gameCtx"
           :ability-states="abilityStates"
           :ability-switches="abilitySwitches"
           @toggle-cond="$emit('toggle-cond', $event)"
@@ -135,6 +136,7 @@ import { overlaySheet, enhKey, detKey, loadoutItemNames } from '../../composable
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
 import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { abilityStatusesOf } from '../../composables/abilityStatus.js'
+import { rosterConditions } from '../../composables/rosterGameContext.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
@@ -276,7 +278,7 @@ const factionKeywordSets = computed(() =>
 const modifierGrantedKeywords = computed(() => {
   const printed = datasheets.value.find((d) => d.id === props.unitId)
   const base = [...(printed?.keywords || []), ...(printed?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
-  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, props.gameCtx?.active, activeStratIds.value)
+  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, activeConds.value, activeStratIds.value)
 })
 
 const unitKeywords = computed(() => {
@@ -393,6 +395,11 @@ const abilityModifiers = computed(() => {
 // pass and the keyword pass so the two cannot disagree about whether one is in force.
 const activeStratIds = computed(() => new Set((props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id)))
 
+// What is true for this unit right now. In a game the tracker answers (gameCtx.active); off the
+// table the LIST still answers for itself — an enhancement gated on "while the bearer is leading a
+// unit" is proven by the roster, with no game needed — and nothing else can be true.
+const activeConds = computed(() => props.gameCtx?.active || rosterConditions(props.ctx?.entry))
+
 const statMods = computed(() => {
   if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
   return applyStatMods(
@@ -400,7 +407,7 @@ const statMods = computed(() => {
     resolvedModifiers.value,
     unitKeywords.value,
     factionKeywordSets.value,
-    props.gameCtx?.active,
+    activeConds.value,
     activeStratIds.value,
   )
 })

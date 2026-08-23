@@ -884,6 +884,35 @@ as a footnote or as a block. Ability records carry `owner` and `from` (self / le
 exactly this — the record's stored name is `"<unit>: <ability>"` and the two halves have to travel
 apart.
 
+**Two lists, and which one a note is in.** `applyStatMods` stamps every note with **`live`** — is
+this modifier in force right now? — and the card renders the two apart (`noteSections`):
+
+- **«Modifiers in play»** (`dsModifiers`) — the live ones. `live` is NOT `applied`: a modifier in
+  force that had nothing computable to change (no melee row to add to, a dice value) is live with
+  `applied: false` and belongs here, because it IS in play.
+- **«Possible modifiers»** (`dsModifiersPossible`) — an accordion, closed, everything waiting on a
+  condition. **Only off the table.** In a game the caller passes `hidePossible` and they are not
+  rendered at all: a block headed "in play" must not list what is not, and mid-battle a list of what
+  MIGHT be true is one more thing to scroll past. Nothing is lost — the condition and its switch are
+  on the rule block below the card, which is where it is flipped.
+- Above the unit list, out of a game, the same idea at roster scale: **`RosterViewView`'s
+  `possibleGroups`** collects the not-live notes of the roster-wide sources only (army rule,
+  detachment rule, core rule) from the cards' own notes, deduped per rule, and shows them in the
+  place the switch strip takes during a game. An ability, a wargear rule or an enhancement belongs
+  to the one unit that carries it and stays on that unit's card.
+- Of the 1429 hand-authored effects, **502 carry a sentinel** (`never`/`blocked-subset`/
+  `blocked-weapon`) and so can never be live. Off the table they read as "possible", which is a
+  slight stretch — they are really "yours to apply by hand" — but a third list for them would cost
+  more than it explains.
+
+**Off the table the ROSTER still answers for itself.** `rosterConditions(entry)` (rosterGameContext)
+answers the `scope: 'roster'` conditions with no game anywhere — today only `unit-leading`, which
+proves the 18 enhancement effects worded "while the bearer is leading a unit". Both the card
+(`RosterUnitRulesModal`'s `activeConds`) and the row (`RosterViewView`'s `activeFor`) use it, so
+they agree. Deliberately NOT `activeConditions` with an empty player: that also answers the
+clock-scoped ids, and a null clock reads as round 1 — "during battle rounds 1-3" would switch itself
+on in a list nobody is playing yet.
+
 **A modifier note opens its own rule.** A note the caller could resolve to prose carries
 `hasSource`, and then the rule's name in the footnote under the stats opens it in the same popover a
 core ability uses (`mod-source-click` → `RosterUnitRulesModal`'s `modSource`). Before that, seeing

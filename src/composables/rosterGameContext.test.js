@@ -268,6 +268,17 @@ describe('mutually exclusive switches', () => {
   })
 })
 
+describe('rosterConditions', () => {
+  it('answers what the list itself knows, and nothing else', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    expect([...rosterConditions({ uid: 'u1', leaderOf: 'u2' })]).toEqual(['unit-leading'])
+    expect(rosterConditions({ uid: 'u1' }).size).toBe(0)
+    // Not activeConditions with an empty player: a null clock reads as round 1, and "during
+    // battle rounds 1-3" would switch itself on in a list nobody is playing yet.
+    expect(rosterConditions({ uid: 'u1', leaderOf: 'u2' }).has('rounds-1-3')).toBe(false)
+  })
+})
+
 describe('stratagems', () => {
   const rec = (sid, dur) => ({ sid, kind: 'stratagem', name: sid, det: 'War Horde', dur, effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'x', ru: 'x' } }] })
   const entry = { uid: 'u1', id: 'boyz' }
