@@ -243,7 +243,11 @@ directory; still part of this feature:
     their sum (ten swaps, not twenty). Before this a Lychguard unit imported still holding its
     printed warscythes — at the same price, so nothing in the report said so.
   - **A single-profile datasheet has no `minis`** and answers under its own name ("• 2x Chaos
-    Spawn"), which was otherwise reported as wargear nobody could place.
+    Spawn"), which was otherwise reported as wargear nobody could place — and it names its models in
+    the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that one comparison
+    folds the plural. 158 datasheets game-wide are named for their models, and on several the count
+    decides the price (Rangers: 5 models 60pts, 6-10 models 110pts). Profile names are still
+    compared exactly, as written.
   - **An enhancement's kind tag is ignored on both sides.** Our generated data keeps it inside the
     name for some factions (`Dead Shiny Shootas (Upgrade)`), the app leaves it off, listhammer
     prints it — three spellings of one enhancement, compared through `enhKey`.
