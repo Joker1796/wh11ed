@@ -1,6 +1,21 @@
 <template>
   <BaseModal :title="labels.rosterExportTitle" max-width="520px" @close="$emit('close')">
     <div class="modal-body rex">
+      <!-- One list, three dialects: which one you need depends on where it is going (a TO's inbox,
+           a tournament header, a Discord channel), so the choice is a switch and not a setting. -->
+      <div class="rex-fmts" role="tablist">
+        <button
+          v-for="f in FORMATS"
+          :key="f"
+          type="button"
+          class="rex-fmt"
+          :class="{ on: format === f }"
+          role="tab"
+          :aria-selected="format === f"
+          @click="format = f"
+        >{{ labels[FMT_LABEL[f]] }}</button>
+      </div>
+      <p class="rex-hint">{{ labels[FMT_HINT[format]] }}</p>
       <textarea class="rex-text" readonly :value="text" @focus="$event.target.select()"></textarea>
       <div class="rex-actions">
         <button class="rex-btn" @click="copy(text, 'text')">
@@ -21,7 +36,8 @@ import { computed, ref, onMounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { buildRosterText } from '../../composables/rosterExport.js'
+import { buildRosterText, EXPORT_FORMATS } from '../../composables/rosterExport.js'
+import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { encodeRoster, shareUrl } from '../../composables/rosterShare.js'
 
 const props = defineProps({
@@ -35,7 +51,19 @@ defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const text = computed(() => buildRosterText(props.roster, { faction: props.faction, core: props.core, items: props.items }))
+const FORMATS = EXPORT_FORMATS
+const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', compact: 'rosterFmtCompact' }
+const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', compact: 'rosterFmtCompactHint' }
+const format = ref('gw')
+
+// The footer names the tool and the points data that wrote the list — never the GW app's own
+// version, which we would be claiming falsely (see rosterExport.js).
+const version = { app: __APP_VERSION__, data: APP_DATA_VERSION }
+const text = computed(() => buildRosterText(
+  props.roster,
+  { faction: props.faction, core: props.core, items: props.items, version },
+  format.value,
+))
 
 // The share URL is built from the current origin, so it stays valid across the
 // wh11ed.ru → wh-rules.ru move — never hard-code the domain. (After the domain-migration
@@ -71,6 +99,19 @@ async function copy(value, which) {
   border: 1px solid var(--border);
   border-radius: 5px;
 }
+.rex-fmts { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.rex-fmt {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.rex-fmt.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.rex-hint { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
 .rex-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .rex-btn {
   display: inline-flex;
