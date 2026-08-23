@@ -641,6 +641,34 @@ describe('an aura ability', () => {
 
 // An ability set's option is proven the same way a stratagem is: by the player choosing it. Its
 // effects carry no `cond` — the choice IS the condition.
+// The two grants that land on the UNIT rather than on a row: a keyword the rules read, and a core
+// ability the card prints on its Core line.
+// The trap this pins: `improve` only means something for a roll (3+ → 2+). For AP the rule's
+// "improve by 1" is authored as `add: -1`, and writing `improve` there applied nothing at all
+// while still reading as a reviewed effect.
+describe('improving a characteristic', () => {
+  it('improves a roll and refuses a plain number', () => {
+    expect(applyValue('3+', 'improve', 1)).toBe('2+')
+    expect(applyValue('-2', 'improve', 1)).toBeNull()
+    expect(applyValue('-2', 'add', -1)).toBe('-3')
+  })
+})
+
+describe('a granted core ability', () => {
+  const sheet = () => ({ core: 'Leader', profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const rec = (over) => ({
+    kind: 'ability', name: 'Hospitaller: Medicus Ministorum', body: '',
+    effects: [{ on: 'unit', stat: 'core', op: 'grant', value: 'Feel No Pain 5+', when: null, ...over }],
+  })
+
+  it('is returned for the card to print, and never touches the statline', () => {
+    const out = applyStatMods(sheet(), [rec()], [], [])
+    expect(out.core).toEqual([{ ability: 'Feel No Pain 5+', source: 'Hospitaller: Medicus Ministorum', det: undefined }])
+    expect(out.sheet.core).toBe('Leader')     // the printed line is not rewritten
+    expect(out.notes[0]).toMatchObject({ stat: 'core', applied: true })
+  })
+})
+
 describe('an ability-set option', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
   const relic = {

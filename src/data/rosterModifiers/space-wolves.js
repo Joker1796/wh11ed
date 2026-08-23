@@ -22,6 +22,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "be12a555-96eb-4190-a230-0a18b61e5a6f:iron-priest",
+      "kind": "ability",
+      "name": "Iron Priest: Iron Priest",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-priest"
+      },
+      "hash": "986336f6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c363373f-a93a-4ca3-87ea-4e5de5d9d00a:njal-stormcaller",
       "kind": "ability",
       "name": "Njal Stormcaller: Wind Walker",
@@ -634,6 +648,28 @@ export default {
       ]
     },
     {
+      "sid": "99e44607-2ea9-4472-91b5-f1a941b220a9",
+      "kind": "enhancement",
+      "name": "Fenrisian Grit",
+      "det": "Saga of the Hunter",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-hunter"
+      },
+      "hash": "02afa46f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "5a05c63a-00fc-4359-9a5e-ccac2c95b3d9",
       "kind": "enhancement",
       "name": "Feral Rage",
@@ -667,6 +703,20 @@ export default {
         "kind": "enhancement",
         "det": "saga-of-the-hunter"
       }
+    },
+    {
+      "sid": "178dc16b-0b05-49e6-8629-527b903d4255",
+      "kind": "enhancement",
+      "name": "Swift Hunter",
+      "det": "Saga of the Hunter",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-hunter"
+      },
+      "hash": "63d46be1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c45ceb28-43f5-4c20-814c-96de4a95a201",
@@ -773,6 +823,36 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "9dc26557-7328-4a29-9938-9849ecf497b2",
+      "kind": "stratagem",
+      "name": "Stalk Between Worlds",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Stalk Between Worlds"
+      },
+      "hash": "38b9e784",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a360ace1-2a1d-4db9-97d7-e304b0224ca1",
+      "kind": "stratagem",
+      "name": "Wolf Totems",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Wolf Totems"
+      },
+      "hash": "5967579f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f64b6cdc-e007-4358-8e50-9358007ac5ac",

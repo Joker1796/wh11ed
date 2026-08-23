@@ -45,8 +45,8 @@ export default {
         {
           "on": "melee",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "target": "aura",
           "when": {
             "en": "while that unit made a Charge move this turn",
@@ -57,6 +57,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d5100107-8fed-47bd-a7da-f399153361aa:daemon-prince-of-slaanesh",
+      "kind": "ability",
+      "name": "Daemon Prince of Slaanesh: Lord of Excess",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-slaanesh"
+      },
+      "hash": "8318f2b9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "a4c58c7b-269b-4a5b-a1ec-476f7314b90e:defiler",
@@ -144,8 +158,8 @@ export default {
         {
           "on": "melee",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "target": "aura",
           "when": null
         }
@@ -258,6 +272,20 @@ export default {
       ]
     },
     {
+      "sid": "6bf37262-bc4e-4e29-ac45-6d8b05830003:lucius-the-eternal",
+      "kind": "ability",
+      "name": "Lucius the Eternal: Duellist’s Hubris",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lucius-the-eternal"
+      },
+      "hash": "5b8055de",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "09d47f55-a9bd-448a-81f2-a256005c8cd2:maulerfiend",
       "kind": "ability",
       "name": "Maulerfiend: Glutton for Punishment",
@@ -367,6 +395,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "74798d62-5f94-461d-9f8d-6e074b85f7ad",
+      "kind": "detachmentRule",
+      "name": "Entitled to Victory",
+      "det": "Spectacle of Slaughter",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "spectacle-of-slaughter"
+      },
+      "hash": "2fae678d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
@@ -662,6 +704,20 @@ export default {
       }
     },
     {
+      "sid": "a1f791ea-398b-4724-9736-83bd81581abc",
+      "kind": "enhancement",
+      "name": "Blinding Speed",
+      "det": "Peerless Bladesmen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "peerless-bladesmen"
+      },
+      "hash": "4f1f261a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "75e69566-9f5c-408f-8780-7581588e4710",
       "kind": "enhancement",
       "name": "Distortion",
@@ -843,6 +899,21 @@ export default {
         "name": "Armour of Abhorrence"
       },
       "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "fadeb9fd-72d1-4595-bb0e-d16f1f67e57d",
+      "kind": "stratagem",
+      "name": "Protection of the Dark Prince",
+      "det": "Coterie of the Conceited",
+      "ref": {
+        "kind": "stratagem",
+        "det": "coterie-of-the-conceited",
+        "name": "Protection of the Dark Prince"
+      },
+      "hash": "4cc38390",
       "ver": 925,
       "reviewed": true,
       "effects": []

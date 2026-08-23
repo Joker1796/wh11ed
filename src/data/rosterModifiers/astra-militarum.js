@@ -22,6 +22,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "c66da885-1906-4bf5-a086-a226b02b16a9:banesword",
+      "kind": "ability",
+      "name": "Banesword: Armour Obliteration",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "banesword"
+      },
+      "hash": "824347a8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "08b3225e-bcec-4fae-9468-2d9074112dd4:bullgryn-squad",
       "kind": "ability",
       "name": "Bullgryn Squad: Wall of Muscle",
@@ -207,6 +221,17 @@ export default {
       "effects": []
     },
     {
+      "sid": "0223b4f3-5ba1-4534-ba8b-c6c7eca3c016:drayden-s-lance-command-squad",
+      "kind": "ability",
+      "name": "Drayden's Lance Command Squad: Medi-pack",
+      "det": null,
+      "ref": null,
+      "hash": "54180cc7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d627eacc-bd80-4426-b40f-f10912926b6d:drayden-s-lance-command-squad",
       "kind": "ability",
       "name": "Drayden's Lance Command Squad: Regimental Standard",
@@ -255,6 +280,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "94c195aa-261a-444f-b3d6-d01693f81baf:gaunts-ghosts",
+      "kind": "ability",
+      "name": "Gaunt’s Ghosts: Covert Stealth Team",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gaunts-ghosts"
+      },
+      "hash": "4375ff00",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
@@ -406,6 +445,34 @@ export default {
       ]
     },
     {
+      "sid": "7df2649f-03eb-4f18-bc9c-3038fb440140:nork-deddog",
+      "kind": "ability",
+      "name": "Nork Deddog: Ogryn Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nork-deddog"
+      },
+      "hash": "5a214fd7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7df2649f-03eb-4f18-bc9c-3038fb440140:ogryn-bodyguard",
+      "kind": "ability",
+      "name": "Ogryn Bodyguard: Ogryn Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ogryn-bodyguard"
+      },
+      "hash": "5a214fd7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "2bc28ee1-1701-4d6b-aae1-47d5753a0728:ogryn-squad",
       "kind": "ability",
       "name": "Ogryn Squad: Point-blank Barrage",
@@ -434,6 +501,20 @@ export default {
       ]
     },
     {
+      "sid": "bb85a21b-d82c-4f35-b0bd-6d406ecba587:primaris-psyker",
+      "kind": "ability",
+      "name": "Primaris Psyker: Malign Wardings",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "primaris-psyker"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ef45d7dd-4980-4bb0-a26d-1489424d91b7:primaris-psyker",
       "kind": "ability",
       "name": "Primaris Psyker: Psychic Barrier",
@@ -460,6 +541,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "7f40c14c-ac8c-40f8-8cf4-39a6b6dec019:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Enginseer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer"
+      },
+      "hash": "75f5205a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "76861981-15ee-4efa-84a1-7302daa8e7a6:tech-priest-enginseer",
@@ -589,7 +684,7 @@ export default {
         {
           "on": "ranged",
           "stat": "a",
-          "op": "improve",
+          "op": "add",
           "value": 1,
           "when": {
             "en": "while affected by the «First Rank, Fire! Second Rank, Fire!» Order — Rapid Fire weapons only",
@@ -773,6 +868,48 @@ export default {
       }
     },
     {
+      "sid": "c63d8c87-0781-4ce3-9960-2f0d2b96df60",
+      "kind": "detachmentRule",
+      "name": "Artillery Support",
+      "det": "Siege Regiment",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "siege-regiment"
+      },
+      "hash": "f8f73c83",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c1ce9799-014d-4556-b261-ab8fd004daf1",
+      "kind": "enhancement",
+      "name": "Exemplar of Duty (Upgrade)",
+      "det": "Abhuman Auxiliaries",
+      "ref": {
+        "kind": "enhancement",
+        "det": "abhuman-auxiliaries"
+      },
+      "hash": "77091950",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d1fe63bf-bc7b-44f4-9755-a95196e76d59",
+      "kind": "enhancement",
+      "name": "Omnissian Unguents (Aura)",
+      "det": "Armoured Infantry",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-infantry"
+      },
+      "hash": "03ae5d87",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "de0f8d4e-827f-4582-9af5-290b0fc40780",
       "kind": "enhancement",
       "name": "Death Mask of Ollanius",
@@ -782,6 +919,20 @@ export default {
         "det": "combined-arms"
       },
       "hash": "5c661f24",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4272bd39-3d22-455a-be75-91c7e5bbafce",
+      "kind": "enhancement",
+      "name": "Long-range Scout (Upgrade)",
+      "det": "Designation Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "designation-force"
+      },
+      "hash": "b21c3efe",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -815,6 +966,42 @@ export default {
       }
     },
     {
+      "sid": "44f6e32f-71ad-4198-b5a4-17c2b54d388c",
+      "kind": "enhancement",
+      "name": "Spec Ops Veteran",
+      "det": "Grizzled Company",
+      "ref": {
+        "kind": "enhancement",
+        "det": "grizzled-company"
+      },
+      "hash": "e7a36e89",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4b8b684b-2f0d-41b3-9333-1945e0c3329c",
+      "kind": "enhancement",
+      "name": "Indomitable Steed",
+      "det": "Hammer of the Emperor",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hammer-of-the-emperor"
+      },
+      "hash": "604211f6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "9023c1ea-65ac-4554-a508-34400cc1136f",
       "kind": "enhancement",
       "name": "Regimental Banner",
@@ -835,6 +1022,42 @@ export default {
         "kind": "enhancement",
         "det": "hammer-of-the-emperor"
       }
+    },
+    {
+      "sid": "59e0757c-0d0e-4587-99d3-72e61e622a4e",
+      "kind": "enhancement",
+      "name": "Survival Gear",
+      "det": "Recon Element",
+      "ref": {
+        "kind": "enhancement",
+        "det": "recon-element"
+      },
+      "hash": "1546a885",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e5d2ca6f-bdfc-498e-bef1-9c753c55bc64",
+      "kind": "enhancement",
+      "name": "Eager Advance",
+      "det": "Siege Regiment",
+      "ref": {
+        "kind": "enhancement",
+        "det": "siege-regiment"
+      },
+      "hash": "6722076d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e38c0b38-9334-43e5-aaf5-abe27a176bc8",
@@ -1175,6 +1398,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "88921ea9-e94b-46ff-8fa5-ac1d8b58b133",
+      "kind": "stratagem",
+      "name": "Courageous Diversion",
+      "det": "Recon Element",
+      "ref": {
+        "kind": "stratagem",
+        "det": "recon-element",
+        "name": "Courageous Diversion"
+      },
+      "hash": "3c4a457e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5eb2bbea-e871-43f3-a6d0-b216ed4ec55e",
       "kind": "stratagem",
       "name": "Crack Shots",
@@ -1364,6 +1602,21 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "264530a8-a2ae-4fe3-8776-022de8bbddf7:krieg-command-squad",
+      "kind": "wargear",
+      "name": "Krieg Command Squad: Alchemyk Counteragents",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "krieg-command-squad",
+        "item": "alchemyk counteragents"
+      },
+      "hash": "5cc20e86",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:krieg-command-squad",

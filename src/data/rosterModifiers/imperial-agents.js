@@ -36,6 +36,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "f8711d73-0a55-4e7d-a23c-92b9b2ec60b2:culexus-assassin",
+      "kind": "ability",
+      "name": "Culexus Assassin: Abomination",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "culexus-assassin"
+      },
+      "hash": "0d07cd2a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "95f007e6-3ff6-4664-ab65-a2d04760db65:deathwatch-kill-team",
       "kind": "ability",
       "name": "Deathwatch Kill Team: Death to the Alien",
@@ -402,6 +416,20 @@ export default {
       ]
     },
     {
+      "sid": "a6a3da0c-0f81-4ebf-89b7-4e9e0db73fe8:rogue-trader-entourage",
+      "kind": "ability",
+      "name": "Rogue Trader Entourage: Backroom Deals",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogue-trader-entourage"
+      },
+      "hash": "90b508e3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "9a2a9f27-0b49-4bdc-8718-77a8122c1ddd:sanctifiers",
       "kind": "ability",
       "name": "Sanctifiers: Ministorum Sermon",
@@ -425,6 +453,20 @@ export default {
         "unit": "vigilant-squad"
       },
       "hash": "fc5b3a68",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3e661faf-c623-45b8-b474-70050fa69514:vindicare-assassin",
+      "kind": "ability",
+      "name": "Vindicare Assassin: Dead‐shot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vindicare-assassin"
+      },
+      "hash": "1efabeb5",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -576,6 +618,34 @@ export default {
       ]
     },
     {
+      "sid": "c994437c-491b-40e6-b0f2-de686fdc461c",
+      "kind": "enhancement",
+      "name": "Clandestine Operation",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "enhancement",
+        "det": "imperialis-fleet"
+      },
+      "hash": "4e6f00a6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "eecfa9a1-38bf-4ece-993b-b2ce3f595fad",
+      "kind": "enhancement",
+      "name": "Combat Landers",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "enhancement",
+        "det": "imperialis-fleet"
+      },
+      "hash": "83c16170",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c03746fa-d420-4d0a-b792-5fe5b1e1be66",
       "kind": "enhancement",
       "name": "Ignis Judicium",
@@ -675,6 +745,42 @@ export default {
         "kind": "enhancement",
         "det": "ordo-malleus-daemon-hunters"
       }
+    },
+    {
+      "sid": "ab3c3644-1c9d-4cd8-9c6f-8022be72daee",
+      "kind": "enhancement",
+      "name": "Beacon Angelis",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "c5b989c7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "14192d59-f64c-484c-a1b5-f31eeb356288",
+      "kind": "enhancement",
+      "name": "Blackweave Shroud",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "5ab93aa4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "853414cb-e3c5-4543-a1cd-3ef2101c6682",
@@ -865,6 +971,33 @@ export default {
         }
       ],
       "dur": "round"
+    },
+    {
+      "sid": "cbd2a41a-d9c0-444b-ac39-82079d07fcca",
+      "kind": "stratagem",
+      "name": "Inviolate Jurisdiction",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-hereticus-purgation-force",
+        "name": "Inviolate Jurisdiction"
+      },
+      "hash": "2dcc4ebb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "aa2b5fe6-cfe5-46f6-b3bd-2a525e755ab2",
@@ -1106,6 +1239,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "607a4536-6c68-4bf8-ad36-382e18c16d12",
+      "kind": "stratagem",
+      "name": "Orbital Oversight",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veiled-blade-elimination-force",
+        "name": "Orbital Oversight"
+      },
+      "hash": "f0f985fa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f05e1f04-a826-41ea-942a-0ab6e6048212",

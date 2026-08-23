@@ -109,9 +109,16 @@
     <div class="ds-abilities">
       <!-- Core abilities are clickable keywords: Leader, Deep Strike, Scouts 9"… all
            resolve in KeywordPopover via the coreAbilities lookup (exact or prefix match). -->
-      <p v-if="sheet.core" class="ds-ability-line">
+      <p v-if="sheet.core || extraCore.length" class="ds-ability-line">
         <strong>{{ labels.dsCore }}:</strong>
         <template v-for="(c, i) in coreParts" :key="c">{{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span></template>
+        <!-- Handed to this unit by a rule rather than printed on it (a Hospitaller's Feel No Pain,
+             the Triumph's Icon aura): same line, same popover, and the `*` the whole card uses for
+             a value the modifier layer put there. -->
+        <template v-for="(c, i) in extraCore" :key="c.ability">{{ (coreParts.length || i) ? ', ' : ' ' }}<span
+          class="keyword ds-core-granted"
+          :title="c.det ? `${c.source} · ${c.det}` : c.source"
+        >{{ c.ability }}<sup class="ds-mod-star" aria-hidden="true">*</sup></span></template>
       </p>
       <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
            passes its name in `linkedFactionRules`; that part then renders as a `.keyword` and
@@ -427,6 +434,8 @@ const props = defineProps({
   // Warlord requirement) that isn't itself modelled — the footnote adds a caveat instead of
   // implying that context is the whole story.
   grantedKeywords: { type: Array, default: () => [] },
+  // Core abilities a rule handed this unit: [{ ability, source, det }] from applyStatMods.
+  grantedCore: { type: Array, default: () => [] },
   // Leader/Attached-unit bodyguard-unit names to hide from `sheet.leader.units` entirely,
   // rather than render as a dead (unlinked) name — used for a name that resolves to a REAL
   // datasheet, just on a different faction's page (e.g. Dark Angels' shared "Ancient in
@@ -485,6 +494,18 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+// Core abilities a rule granted (grantedCore prop), minus any the sheet already prints — a unit
+// with Feel No Pain 5+ of its own does not gain a second one from a Hospitaller.
+const extraCore = computed(() => {
+  const printed = new Set(coreParts.value.map((c) => c.toLowerCase()))
+  const seen = new Set()
+  return props.grantedCore.filter((g) => {
+    const key = String(g.ability).toLowerCase()
+    if (printed.has(key) || seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+})
 // The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen"), and
 // only the part the caller can actually open should look clickable.
 const factionParts = computed(() => (props.sheet.faction ? props.sheet.faction.split(/,\s*/) : []))
@@ -1148,6 +1169,8 @@ function abilityStateLabel(st) {
    The value itself is marked by COLOUR rather than an underline — an underline spans the whole
    grid cell, label included, which read as a heavy bar under one column. The `::before` label
    sets its own colour, so it stays muted. */
+/* A core ability the layer added, marked like every other value it put on this card. */
+.ds-core-granted { border-style: dashed; }
 .ds-mod-star {
   position: relative;
   top: -0.4em;

@@ -161,6 +161,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "e3f31634-4654-45fa-97c5-244ef85c65b1:celestian-insidiants",
+      "kind": "ability",
+      "name": "Celestian Insidiants: Rituale Nullificatus",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "celestian-insidiants"
+      },
+      "hash": "b8b41276",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bf4ca9bb-ec32-4711-b960-33d77130ff4e:dogmata",
       "kind": "ability",
       "name": "Dogmata: Executioner of Heretics",
@@ -198,6 +212,43 @@ export default {
       ]
     },
     {
+      "sid": "2d6fa7ff-94b7-4b14-ba9a-2e07817823cd:exorcist",
+      "kind": "ability",
+      "name": "Exorcist: Devastating Refrain",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exorcist"
+      },
+      "hash": "237ccbbb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ed6ae2ec-687d-4bb5-9582-8b71e6ede18f:hospitaller",
+      "kind": "ability",
+      "name": "Hospitaller: Medicus Ministorum",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hospitaller"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "bd932220-f498-4fd0-9088-3bb81acdb45b:imagifier",
       "kind": "ability",
       "name": "Imagifier: Stanchion of Holy Martyrs",
@@ -227,6 +278,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "a7f90476-628b-4749-ba68-c02368b7f46b:junith-eruita",
+      "kind": "ability",
+      "name": "Junith Eruita: The Pulpit of Saint Holline’s Basilica",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "junith-eruita"
+      },
+      "hash": "337e357b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "12584d64-1474-48b2-b896-251c429ef437:ministorum-priest",
@@ -382,6 +447,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "b2877b4d-767e-4f70-a84f-9621f80b2335:saint-celestine",
+      "kind": "ability",
+      "name": "Saint Celestine: Lifewards",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "saint-celestine"
+      },
+      "hash": "d5b038c7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "125bc084-8a95-4395-88c0-b7e7dfc85e84:sanctifiers",
       "kind": "ability",
       "name": "Sanctifiers: Ministorum Sermon",
@@ -408,6 +487,17 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "f0edfa54-75bf-4e69-a5ec-f91f23fd4a56:sanctuary-canoness-adalya",
+      "kind": "ability",
+      "name": "Sanctuary Canoness Adalya: Null Rod",
+      "det": null,
+      "ref": null,
+      "hash": "0bc281c9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e4a88233-98e8-4c9c-9665-409491dfd63d:sanctuary-guardians-arco-flagellants",
@@ -524,8 +614,8 @@ export default {
         {
           "on": "melee",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "target": "aura",
           "when": {
             "en": "while this ability is the one selected",
@@ -1328,6 +1418,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "b086ec0e-3e1e-40a6-bcfe-f84331200399",
+      "kind": "stratagem",
+      "name": "Shield of Faith",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Shield of Faith"
+      },
+      "hash": "0d4f156a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "edf56ccf-046e-4f5c-ae39-7ebc3d61d85b",
       "kind": "stratagem",
       "name": "Cleansing Flames",
@@ -1410,6 +1515,21 @@ export default {
         "name": "Shield of Aversion"
       },
       "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "27162b9e-7b88-4242-802f-ab58c931ea8f",
+      "kind": "stratagem",
+      "name": "Shield of Denial",
+      "det": "Champions of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-faith",
+        "name": "Shield of Denial"
+      },
+      "hash": "46db95ed",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1530,6 +1650,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "b1b62829-e231-428c-ab28-f01ec2e5e05f",
+      "kind": "stratagem",
+      "name": "Purity of Suffering",
+      "det": "Penitent Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "penitent-host",
+        "name": "Purity of Suffering"
+      },
+      "hash": "7b172a86",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cbaa005e-618e-46f8-b2ef-09858ca6861d",
+      "kind": "stratagem",
+      "name": "Faithful Fortitude",
+      "det": "Sacred Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sacred-champions",
+        "name": "Faithful Fortitude"
+      },
+      "hash": "ed5a8577",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6e89c116-3112-44b8-ac3b-74181a382434",
       "kind": "stratagem",
       "name": "Sanctified Blows",
@@ -1628,6 +1778,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "c1a366d8-b7f6-485e-99ac-6a52311d640c:canoness",
+      "kind": "wargear",
+      "name": "Canoness: Null Rod",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoness",
+        "item": "null rod"
+      },
+      "hash": "0cb98d7e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "fb07a984-f0d8-42d6-b044-08298622c911:mortifiers",

@@ -128,6 +128,20 @@ export default {
       ]
     },
     {
+      "sid": "2c8f129d-6b94-443f-9c30-fab0f55189d8:death-company-captain",
+      "kind": "ability",
+      "name": "Death Company Captain: Forlorn Hero",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-captain"
+      },
+      "hash": "10c8dbde",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "832607b8-9dcc-4dc6-91a3-46108750a895:lemartes",
       "kind": "ability",
       "name": "Lemartes: Fury Unbound",
@@ -184,6 +198,29 @@ export default {
           "value": -1,
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "f0488d61-b697-43cf-95d8-39c6168b9c1a:sanguinary-priest",
+      "kind": "ability",
+      "name": "Sanguinary Priest: Sanguinary Priest",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-priest"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
         }
       ]
     },
@@ -338,6 +375,20 @@ export default {
       }
     },
     {
+      "sid": "2d22330e-db53-4118-801c-2a357f165d91",
+      "kind": "enhancement",
+      "name": "Prescient Flash",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "enhancement",
+        "det": "angelic-inheritors"
+      },
+      "hash": "719dbd66",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8f4b7a67-ab94-4545-afea-aa061b2fd5f2",
       "kind": "enhancement",
       "name": "Shadow of Abomination",
@@ -418,6 +469,48 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "940b5249-6f37-4a1b-9a46-191a75ed41a7",
+      "kind": "enhancement",
+      "name": "Speed of the Primarch",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "enhancement",
+        "det": "liberator-assault-group"
+      },
+      "hash": "94c8620d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c20141d0-2bb8-4532-9bd7-46b360b4b0ee",
+      "kind": "enhancement",
+      "name": "Carmine Reliquary",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rage-cursed-onslaught"
+      },
+      "hash": "040e4ae1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b2c65fcd-a74a-48ff-9b54-afcc973fd5d9",
+      "kind": "enhancement",
+      "name": "Master of the Red Thirst",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rage-cursed-onslaught"
+      },
+      "hash": "94c8620d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",
@@ -651,6 +744,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "f58294ba-6002-4a97-8be1-5b311bda04c3",
+      "kind": "stratagem",
+      "name": "Blinding Blurs of Vengeance",
+      "det": "Encarmine Speartip",
+      "ref": {
+        "kind": "stratagem",
+        "det": "encarmine-speartip",
+        "name": "Blinding Blurs of Vengeance"
+      },
+      "hash": "38b9e784",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "663734f3-8762-43d4-a2c7-556b3572b180",
+      "kind": "stratagem",
+      "name": "Angelic Grace",
+      "det": "Liberator Assault Group",
+      "ref": {
+        "kind": "stratagem",
+        "det": "liberator-assault-group",
+        "name": "Angelic Grace"
+      },
+      "hash": "54dde1f0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d6b55c24-5996-4ab0-a969-8a5692c586c4",
       "kind": "stratagem",
       "name": "Armour of Contempt",
@@ -765,6 +888,33 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "4ac4d016-f523-4d6c-822b-8e258841b256",
+      "kind": "stratagem",
+      "name": "Insensate Rampage",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rage-cursed-onslaught",
+        "name": "Insensate Rampage"
+      },
+      "hash": "2dcc4ebb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a41a6832-7298-48b5-9b52-59bf2b316cbf",

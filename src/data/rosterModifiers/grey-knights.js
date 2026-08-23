@@ -62,6 +62,20 @@ export default {
       ]
     },
     {
+      "sid": "24ce0967-91f2-452b-864d-46e238ba9e58:brotherhood-librarian",
+      "kind": "ability",
+      "name": "Brotherhood Librarian: Sanctic Hood",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brotherhood-librarian"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a9366824-0d9e-4b29-9548-67bbe87ea381:brotherhood-techmarine",
       "kind": "ability",
       "name": "Brotherhood Techmarine: Blessing of the Omnissiah",
@@ -79,6 +93,20 @@ export default {
         ]
       },
       "hash": "f41f3275",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "30b2f72e-938f-48de-b689-450af79897b3:brotherhood-techmarine",
+      "kind": "ability",
+      "name": "Brotherhood Techmarine: Techmarine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "brotherhood-techmarine"
+      },
+      "hash": "cb1dcef3",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -161,6 +189,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "7911d9a1-f1a1-4cbb-9904-d357e491ba53:grand-master-voldus",
+      "kind": "ability",
+      "name": "Grand Master Voldus: Sanctuary",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grand-master-voldus"
+      },
+      "hash": "0e6a810e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "3c102e09-c8b3-4335-a6d9-7a3bffa591ec:grand-master",
@@ -255,6 +297,28 @@ export default {
         "unit": "razorback"
       },
       "hash": "2c06b555",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cd629045-b8c3-4962-b72f-14996e74b8c4:rhino",
+      "kind": "ability",
+      "name": "Rhino: Truesilver Aegis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rhino",
+        "scopes": [
+          {
+            "targets": [
+              "GREY KNIGHTS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "5ed21942",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -571,6 +635,20 @@ export default {
       }
     },
     {
+      "sid": "8f60b2f9-89ee-44cc-8294-35da72e5e06d",
+      "kind": "enhancement",
+      "name": "Astral Overlap (Upgrade)",
+      "det": "Immaterial Interdiction",
+      "ref": {
+        "kind": "enhancement",
+        "det": "immaterial-interdiction"
+      },
+      "hash": "8641a349",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "be02d133-6751-4ea3-b302-4630469a0d4d",
       "kind": "enhancement",
       "name": "Mandulian Reliquary",
@@ -597,6 +675,20 @@ export default {
         "kind": "enhancement",
         "det": "warpbane-task-force"
       }
+    },
+    {
+      "sid": "ceb1ad8f-9980-4f08-b06a-9b8da67a5b65",
+      "kind": "enhancement",
+      "name": "Phial of the Abyss",
+      "det": "Warpbane Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpbane-task-force"
+      },
+      "hash": "8c9f4350",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e3ead97e-e27b-44e0-b925-95a9551416f9",
@@ -663,6 +755,51 @@ export default {
       "effects": []
     },
     {
+      "sid": "6ea42dae-8e52-4643-b989-169bcb5ff983",
+      "kind": "stratagem",
+      "name": "Truesilver Aegis",
+      "det": "Argent Assault",
+      "ref": {
+        "kind": "stratagem",
+        "det": "argent-assault",
+        "name": "Truesilver Aegis"
+      },
+      "hash": "84dbd5f5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1d199aa0-6532-4d07-92b0-bb05550242b5",
+      "kind": "stratagem",
+      "name": "Mirage of Echoes",
+      "det": "Augurium Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "augurium-task-force",
+        "name": "Mirage of Echoes"
+      },
+      "hash": "5693e5bd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "979b7a00-af6b-410d-b702-43ea02eb6148",
+      "kind": "stratagem",
+      "name": "Redirected Strike",
+      "det": "Augurium Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "augurium-task-force",
+        "name": "Redirected Strike"
+      },
+      "hash": "e84d3193",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b325fd46-a00d-4ea6-87f6-f003609e2c7a",
       "kind": "stratagem",
       "name": "Chaos Bane",
@@ -690,6 +827,66 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "47e924b5-01af-47a4-8ca8-509808d47818",
+      "kind": "stratagem",
+      "name": "Shadow of Anarch",
+      "det": "Banishers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "banishers",
+        "name": "Shadow of Anarch"
+      },
+      "hash": "d16b881f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5b8c5b24-068e-42ca-a55c-85efa99df5bf",
+      "kind": "stratagem",
+      "name": "Warding Chant",
+      "det": "Banishers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "banishers",
+        "name": "Warding Chant"
+      },
+      "hash": "6625f677",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f4ee723f-87ba-49df-a34a-a31358b591ae",
+      "kind": "stratagem",
+      "name": "Duty Unending",
+      "det": "Brotherhood Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brotherhood-strike",
+        "name": "Duty Unending"
+      },
+      "hash": "5693e5bd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "faec38a4-dc35-4f94-a2bc-7529c196ad9b",
+      "kind": "stratagem",
+      "name": "Expeditious Exit",
+      "det": "Brotherhood Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brotherhood-strike",
+        "name": "Expeditious Exit"
+      },
+      "hash": "daec86ef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "70353176-4c50-48d7-80a5-8f84c5bdeac8",
       "kind": "stratagem",
       "name": "Purgation Pattern",
@@ -715,6 +912,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "fe2f9054-f743-412b-a33d-f6de5dec93dc",
+      "kind": "stratagem",
+      "name": "Shining Veil",
+      "det": "Brotherhood Strike",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brotherhood-strike",
+        "name": "Shining Veil"
+      },
+      "hash": "f489250a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c27c1fef-b27d-4d79-a325-8081ab9992c9",
@@ -880,6 +1092,21 @@ export default {
         "name": "Abominus-Class Targets"
       },
       "hash": "9754786c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ff093638-de55-4e06-be1c-74f65ba523e7",
+      "kind": "stratagem",
+      "name": "Truesilver Will",
+      "det": "Sanctic Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sanctic-spearhead",
+        "name": "Truesilver Will"
+      },
+      "hash": "f75e2a98",
       "ver": 925,
       "reviewed": true,
       "effects": []

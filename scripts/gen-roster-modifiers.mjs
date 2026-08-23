@@ -101,6 +101,11 @@ const CANDIDATE = new RegExp([
   // its bearer DESTROYER CULT, and Cold Fervour then gives every DESTROYER CULT model +2
   // Strength), and a weapon ability is printed on the weapon row like any other tag.
   '(?:has|have|gains?) the [^.]{1,40}keyword',
+  // A CORE ability granted by a rule — "models in that unit have the Feel No Pain 6+ ability".
+  // It is not a characteristic, but it belongs on the card's Core line all the same: the reader
+  // is owed the same "this unit has it now" the printed ones get. Only the named core abilities,
+  // so "has the Chapter Master ability" (a datasheet ability) does not drag every rule in.
+  '(?:has|have|gains?) (?:the )?(?:Deadly Demise|Deep Strike|Feel No Pain|Fights First|Firing Deck|Hover|Infiltrators|Lone Operative|Scouts|Scout Move|Stealth|Support)\\b',
   '(?:attacks|weapons)[^.]{0,70}have (?:the )?\\[',
 ].join('|'), 'i')
 

@@ -68,8 +68,8 @@ export default {
         {
           "on": "melee",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
@@ -322,6 +322,34 @@ export default {
       }
     },
     {
+      "sid": "f24a3d55-7872-4a94-8e34-3d53ca2549b9",
+      "kind": "enhancement",
+      "name": "Zealous Vanguard",
+      "det": "Companions of Vehemence",
+      "ref": {
+        "kind": "enhancement",
+        "det": "companions-of-vehemence"
+      },
+      "hash": "719dbd66",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0a2f6202-af65-4e33-a67d-12b39c05b312",
+      "kind": "enhancement",
+      "name": "Herald of Sacred Slaughter",
+      "det": "Godhammer Assault Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "godhammer-assault-force"
+      },
+      "hash": "9bcf3033",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "69ab0beb-af42-4edc-a124-4e2b99fd3a1a",
       "kind": "enhancement",
       "name": "Paragon of Fury",
@@ -355,6 +383,20 @@ export default {
         "kind": "enhancement",
         "det": "godhammer-assault-force"
       }
+    },
+    {
+      "sid": "67e3a042-d1d7-42ea-8fa6-d8c560c9bd90",
+      "kind": "enhancement",
+      "name": "Inheritors of Sigismund (Upgrade)",
+      "det": "Marshal's Household",
+      "ref": {
+        "kind": "enhancement",
+        "det": "marshals-household"
+      },
+      "hash": "f078ef24",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2deaa998-e999-4cb4-933e-a1840de3d2a0",
@@ -418,6 +460,20 @@ export default {
         "kind": "enhancement",
         "det": "vindication-task-force"
       }
+    },
+    {
+      "sid": "29b2e763-dcba-43aa-8bc5-8449a738ed92",
+      "kind": "enhancement",
+      "name": "Orb of the Emperor’s Aegis",
+      "det": "Vindication Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vindication-task-force"
+      },
+      "hash": "e8b8248b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "eef35b1c-9069-43b3-a82d-a795edfef746",
@@ -677,6 +733,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "ad65ead4-deef-4147-9c79-4fc2b51ac62e",
+      "kind": "stratagem",
+      "name": "Fuelled By Faith",
+      "det": "Wrathful Procession",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrathful-procession",
+        "name": "Fuelled By Faith"
+      },
+      "hash": "84dbd5f5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ba8c0eec-7773-4981-82cf-8f29888b15e5",

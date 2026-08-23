@@ -73,6 +73,7 @@
           :sheet="statMods.sheet"
           :faction-slug="factionSlug"
           :granted-keywords="allGrantedKeywords"
+          :granted-core="statMods.core || []"
           :hide-choices="!!ctx"
           :linked-faction-rules="linkedFactionRules"
           :stat-marks="statMods.marks"

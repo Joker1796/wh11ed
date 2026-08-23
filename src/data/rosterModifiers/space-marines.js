@@ -96,6 +96,20 @@ export default {
       ]
     },
     {
+      "sid": "7ed6ae99-c571-4b25-8ce3-020a96522761:ancient",
+      "kind": "ability",
+      "name": "Ancient: Unbreakable Duty",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ancient"
+      },
+      "hash": "2a39a8aa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "38dea634-aa17-4e2d-ab34-fd659752945e:apothecary-biologis",
       "kind": "ability",
       "name": "Apothecary Biologis: Surgical Precision",
@@ -218,6 +232,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "f99f5ac3-b359-4859-963f-1bc4b3914700:caanok-var",
+      "kind": "ability",
+      "name": "Caanok Var: Cerebrex Logic Engine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "caanok-var"
+      },
+      "hash": "cd0349ba",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c37acebd-4051-4806-82b5-f6d3c10df6c3:captain-titus",
@@ -362,6 +390,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "5774196c-a733-4084-b5cd-26ba4d072fd3:chaplain-in-terminator-armour",
+      "kind": "ability",
+      "name": "Chaplain in Terminator Armour: Recitation of Faith",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-in-terminator-armour"
+      },
+      "hash": "3164196a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bed942f4-4372-40ca-b26d-0ef1acd6ccbd:chaplain-on-bike",
       "kind": "ability",
       "name": "Chaplain on Bike: Catechism of Fire",
@@ -427,6 +469,34 @@ export default {
         "unit": "chaplain"
       },
       "hash": "ff1c3e96",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6ddc2dab-c8c7-4f6f-a2e1-1ef1fdc5cabe:chief-librarian-tigurius",
+      "kind": "ability",
+      "name": "Chief Librarian Tigurius: Hood of Hellfire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chief-librarian-tigurius"
+      },
+      "hash": "179c8eff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b8206e9c-1017-4f1d-89e7-be3af93c6d95:chief-librarian-tigurius",
+      "kind": "ability",
+      "name": "Chief Librarian Tigurius: Master of Prescience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chief-librarian-tigurius"
+      },
+      "hash": "0d4d1bf7",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -718,6 +788,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "813bc3e5-85f1-47d5-bcf1-f81c0598b84a:iron-father-feirros",
+      "kind": "ability",
+      "name": "Iron Father Feirros: Iron Father",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-father-feirros"
+      },
+      "hash": "357331f5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "71d74c1c-087e-4c70-96a5-bca5e6bfd2b6:iron-father-feirros",
       "kind": "ability",
       "name": "Iron Father Feirros: Master of the Forge",
@@ -738,6 +822,29 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "a4b89adc-f530-44c8-9536-bf32b69ed4fb:iron-father-feirros",
+      "kind": "ability",
+      "name": "Iron Father Feirros: Rites of Tempering",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-father-feirros"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5d6f20f8-84d7-47dd-8fbb-5543650b4f71:judiciar",
@@ -769,6 +876,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "1a36db6c-7d89-4c2c-bb86-fc01d546a190:judiciar",
+      "kind": "ability",
+      "name": "Judiciar: Tempormortis",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "judiciar"
+      },
+      "hash": "a4271bd1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c608eecd-b9bd-4d99-993c-ce96fa6b561b:kayvaan-shrike",
@@ -830,6 +951,48 @@ export default {
       "effects": []
     },
     {
+      "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:librarian-in-phobos-armour",
+      "kind": "ability",
+      "name": "Librarian in Phobos Armour: Psychic Hood",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian-in-phobos-armour"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0ea8c549-4e95-46c3-b7bc-2b38140c38a3:librarian-in-phobos-armour",
+      "kind": "ability",
+      "name": "Librarian in Phobos Armour: Shrouding",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian-in-phobos-armour"
+      },
+      "hash": "8b7e3236",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:librarian-in-terminator-armour",
+      "kind": "ability",
+      "name": "Librarian in Terminator Armour: Psychic Hood",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian-in-terminator-armour"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7f49e247-dc01-475b-a43c-bcb81ad68d5a:librarian-in-terminator-armour",
       "kind": "ability",
       "name": "Librarian in Terminator Armour: Veil of Time",
@@ -874,6 +1037,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:librarian",
+      "kind": "ability",
+      "name": "Librarian: Psychic Hood",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "librarian"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-phobos-armour",
@@ -1188,6 +1365,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "8fa67241-91f6-45bb-b545-238253f19efb:roboute-guilliman",
+      "kind": "ability",
+      "name": "Roboute Guilliman: Ultramarines Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "roboute-guilliman"
+      },
+      "hash": "36943dfb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e89c5fdd-1344-409a-968f-7ee791cfcfc6:storm-speeder-hailstrike",
       "kind": "ability",
       "name": "Storm Speeder Hailstrike: Hailstrike",
@@ -1289,6 +1480,20 @@ export default {
         ]
       },
       "hash": "97259642",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4c443932-cf71-4ef2-b9ee-c967caac6aa0:techmarine",
+      "kind": "ability",
+      "name": "Techmarine: Techmarine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "techmarine"
+      },
+      "hash": "986336f6",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1422,6 +1627,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "ab224771-6fe8-474c-aa70-89ab5aa442ce:uriel-ventris",
+      "kind": "ability",
+      "name": "Uriel Ventris: Master of the Fleet",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "uriel-ventris"
+      },
+      "hash": "9ec37b96",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7084723b-df23-4299-a719-01ce8a75430e:vanguard-veteran-squad-with-jump-packs",
@@ -1778,6 +1997,20 @@ export default {
       ]
     },
     {
+      "sid": "b14b38af-00df-43ac-aad6-0595e00c441a",
+      "kind": "detachmentRule",
+      "name": "Rapid-drop Deployment",
+      "det": "Orbital Assault Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "orbital-assault-force"
+      },
+      "hash": "f2b2e8f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "fa8c2bcd-8194-4017-b12b-b7eed35cc993",
       "kind": "detachmentRule",
       "name": "Oath of Reclamation",
@@ -1804,6 +2037,28 @@ export default {
         "kind": "detachmentRule",
         "det": "reclamation-force"
       }
+    },
+    {
+      "sid": "864b0e6a-9580-4fd4-ac41-b31e1afbb1ce",
+      "kind": "enhancement",
+      "name": "Iron Resolve",
+      "det": "1st Company Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "1st-company-task-force"
+      },
+      "hash": "bec70c62",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c8f28a58-eefa-4c34-94e8-5dbf475724b0",
@@ -1904,6 +2159,20 @@ export default {
       ]
     },
     {
+      "sid": "0a185dec-e874-4f9e-ab48-6296f1ba5221",
+      "kind": "enhancement",
+      "name": "Stoic Defender",
+      "det": "Anvil Siege Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "anvil-siege-force"
+      },
+      "hash": "cab30c3c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1816609d-be8c-4b19-bf30-7b04cf8d4536",
       "kind": "enhancement",
       "name": "Shock Deployment",
@@ -1931,6 +2200,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "11750a06-78b2-4ad9-8e19-24d83bc78038",
+      "kind": "enhancement",
+      "name": "Tip of the Spear",
+      "det": "Armoured Speartip",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-speartip"
+      },
+      "hash": "38f90111",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "df54e4af-9023-4a38-ba72-88a7b7be921e",
@@ -2632,6 +2915,56 @@ export default {
       "effects": []
     },
     {
+      "sid": "f60cf1af-30e3-4a74-9b73-e5263614cc1a",
+      "kind": "enhancement",
+      "name": "The Flesh Is Weak",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ironstorm-spearhead"
+      },
+      "hash": "02afa46f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "d0ec4815-3cd2-4b50-9a56-d79fc45c0097",
+      "kind": "enhancement",
+      "name": "Temporal Corridor",
+      "det": "Librarius Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "librarius-conclave"
+      },
+      "hash": "5c33311b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4d288693-6483-4250-98d0-29c21fb619d6",
+      "kind": "enhancement",
+      "name": "Veteran of the Vanguard",
+      "det": "Orbital Assault Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "orbital-assault-force"
+      },
+      "hash": "719dbd66",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "fb962a7a-73f1-4fa3-a5a8-8d31419e40c2",
       "kind": "enhancement",
       "name": "Seals of Reconquest",
@@ -2652,6 +2985,49 @@ export default {
         "kind": "enhancement",
         "det": "reclamation-force"
       }
+    },
+    {
+      "sid": "b35d0b72-1c46-4a27-a0f9-ece68c7d4a08",
+      "kind": "enhancement",
+      "name": "Blackwing Shroud",
+      "det": "Shadowmark Talon",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shadowmark-talon"
+      },
+      "hash": "b4c579a5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e443e399-f25c-4e3c-9f2d-152578603ec9",
+      "kind": "enhancement",
+      "name": "Umbral Raptor",
+      "det": "Shadowmark Talon",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shadowmark-talon"
+      },
+      "hash": "171d2813",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2906828f-8819-4b4d-a17a-5e0960a74000",
@@ -2795,6 +3171,49 @@ export default {
         "kind": "enhancement",
         "det": "stormlance-task-force"
       }
+    },
+    {
+      "sid": "acbf2d07-94a9-4518-91aa-1bfdaa4dac9d",
+      "kind": "enhancement",
+      "name": "Ghostweave Cloak",
+      "det": "Vanguard Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vanguard-spearhead"
+      },
+      "hash": "171d2813",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "e8edbda1-6f9f-4b5a-afab-85f6597cb6a6",
+      "kind": "enhancement",
+      "name": "The Blade Driven Deep",
+      "det": "Vanguard Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vanguard-spearhead"
+      },
+      "hash": "b4c579a5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "aada0d58-5120-4fe2-9f65-a42abbb7de06",
@@ -3634,6 +4053,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "dd818b80-27a5-4b4d-b0ed-ac7e5b769bfe",
+      "kind": "stratagem",
+      "name": "Blind Screen",
+      "det": "Orbital Assault Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "orbital-assault-force",
+        "name": "Blind Screen"
+      },
+      "hash": "3cecd180",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7cac734b-0aa3-4cc8-a869-0c52cddac5b5",
       "kind": "stratagem",
       "name": "Tactical Decapitation",
@@ -4226,6 +4660,21 @@ export default {
       ]
     },
     {
+      "sid": "a19b0acf-cd48-425a-bd2c-395d84944116:infiltrator-squad",
+      "kind": "wargear",
+      "name": "Infiltrator Squad: Helix Gauntlet",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "infiltrator-squad",
+        "item": "helix gauntlet"
+      },
+      "hash": "7c0f0ce2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:lieutenant",
       "kind": "wargear",
       "name": "Lieutenant: Storm Shield",
@@ -4251,6 +4700,29 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "2e184848-e984-48fd-88e8-743cdea21eb9:reiver-squad",
+      "kind": "wargear",
+      "name": "Reiver Squad: Reiver Grav-chute",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "reiver-squad",
+        "item": "reiver grav-chute"
+      },
+      "hash": "0cb13cfd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
         }
       ]
     },

@@ -803,6 +803,21 @@ in English would leave the reader matching two spellings of one rule. `RosterVie
 `nameEn → name` map per unit from `localizeSheet` (abilities and ability-set options alike) and only
 in the RU locale — the same overlay the card fetches, so nothing new rides in the EN bundle.
 
+**A granted CORE ability** (`stat: 'core'`, `op: 'grant'`, `on: 'unit'`) is the third kind of grant,
+added 2026-08-23 because a Hospitaller's "models in that unit have the Feel No Pain 5+ ability" was
+prose and nothing else. It is returned from `applyStatMods` like a granted keyword — never written
+into the sheet — and `DatasheetCard` prints it on the **Core line** beside the printed ones, dashed
+and starred, with its source in the title. 296 rules across the game grant one; **54 are stated**,
+the rest are partial in a way this layer cannot say ("Feel No Pain 4+ **against mortal wounds**",
+"**PENITENT** models in your unit") and stay reviewed empties. The templates that were accepted are
+in the commit; anything narrower than "this/that/your unit" was refused on purpose.
+
+**`improve` is only for the roll-shaped characteristics** (`sv`/`bs`/`ws`/`ld`/`inv`, where a lower
+number is better). `applyValue` REFUSES it anywhere else and returns null, so an effect written
+`{stat:'ap', op:'improve'}` reads as reviewed and silently does nothing — six AP modifiers were
+dead that way until 2026-08-23, the Triumph's Petals of the Bloody Rose among them. For AP the
+reviewer writes `add: -1`, for Attacks `add: 1`. `index.test.js` now fails on any other pairing.
+
 **Core rules** (`coreRules.js`, hand-written, outside the faction glob) are the smallest: Battle-shock
 turning a unit's OC into `-`. It is the one core rule that rewrites a printed characteristic, it
 applies to every unit of every faction, and `unit-battle-shocked` was already in the vocabulary —

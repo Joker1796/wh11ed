@@ -223,6 +223,20 @@ export default {
       ]
     },
     {
+      "sid": "6ff6b048-2cc3-4ccb-bccd-5293599fd77e",
+      "kind": "enhancement",
+      "name": "Beacon Angelis",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "black-spear-task-force"
+      },
+      "hash": "b52a0024",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "796172d3-0693-4e71-a27d-51e9db6bfdca",
       "kind": "enhancement",
       "name": "Thief of Secrets",
@@ -433,6 +447,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "461ae662-d319-4e5d-b5ad-1aed15d0b84b",
+      "kind": "stratagem",
+      "name": "Site-to-Site Teleportation",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "black-spear-task-force",
+        "name": "Site-to-Site Teleportation"
+      },
+      "hash": "6e300347",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
       "kind": "wargear",
       "name": "Corvus Blackstar: Auspex Array",
@@ -564,6 +593,21 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "a19b0acf-cd48-425a-bd2c-395d84944116:spectrus-kill-team",
+      "kind": "wargear",
+      "name": "Spectrus Kill Team: Helix Gauntlet",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "spectrus-kill-team",
+        "item": "helix gauntlet"
+      },
+      "hash": "7c0f0ce2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

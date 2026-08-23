@@ -323,6 +323,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "16e941e3-a6e6-44d1-9759-29dcca29a912:heretic-astartes-daemon-prince",
+      "kind": "ability",
+      "name": "Heretic Astartes Daemon Prince: Lord of Chaos",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heretic-astartes-daemon-prince"
+      },
+      "hash": "e10dbb71",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "dffec24a-b638-4df7-82c4-9033614b490e:huron-blackheart",
       "kind": "ability",
       "name": "Huron Blackheart: Lord of Badab",
@@ -566,6 +580,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "3ae2b3c4-81d6-4a30-a9ed-1ad9526ead12:traitor-enforcer",
+      "kind": "ability",
+      "name": "Traitor Enforcer: Mutated Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "traitor-enforcer"
+      },
+      "hash": "0f2a72fb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8078cf2e-7725-43ca-ab8e-8ca17fcdfcae:vashtorr-the-arkifane",
+      "kind": "ability",
+      "name": "Vashtorr the Arkifane: Indentured Daemon Engines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vashtorr-the-arkifane"
+      },
+      "hash": "0425934e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "75f0b9f2-fe46-4f7a-a0ab-2742ef5ac288:vashtorr-the-arkifane",
       "kind": "ability",
       "name": "Vashtorr the Arkifane: Reorder Reality",
@@ -664,6 +706,20 @@ export default {
         ]
       },
       "hash": "4fb849da",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0dbcd892-d932-499e-af4a-80fc6004bc52:warpsmith",
+      "kind": "ability",
+      "name": "Warpsmith: Warpsmith",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warpsmith"
+      },
+      "hash": "e468c98d",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1004,6 +1060,20 @@ export default {
       }
     },
     {
+      "sid": "5b2a4659-4811-4b0a-8b4f-eb57b6008469",
+      "kind": "detachmentRule",
+      "name": "Masters of Misdirection",
+      "det": "Deceptors",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "deceptors"
+      },
+      "hash": "fa30cdfe",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5fc0cd69-c9d0-4613-a01a-491e55bf56c0",
       "kind": "detachmentRule",
       "name": "Rain of Ruin",
@@ -1238,6 +1308,20 @@ export default {
       }
     },
     {
+      "sid": "f3f59b36-f262-4dec-9a7a-9df55f658f00",
+      "kind": "enhancement",
+      "name": "Warped Foresight",
+      "det": "Chaos Cult",
+      "ref": {
+        "kind": "enhancement",
+        "det": "chaos-cult"
+      },
+      "hash": "e794e390",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b75b9a64-a5bb-4f4d-8f77-1661f71300ab",
       "kind": "enhancement",
       "name": "Living Carapace",
@@ -1363,6 +1447,35 @@ export default {
       }
     },
     {
+      "sid": "4619045f-80b0-4a61-9859-e808b38c2e34",
+      "kind": "enhancement",
+      "name": "Shroud of Obfuscation",
+      "det": "Deceptors",
+      "ref": {
+        "kind": "enhancement",
+        "det": "deceptors"
+      },
+      "hash": "dbd03362",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "f7646e99-5ac1-483b-92e1-0ff76c88546d",
       "kind": "enhancement",
       "name": "Soul Link",
@@ -1389,6 +1502,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d239ad4c-30b9-4d7d-803d-bfa976b2c2d2",
+      "kind": "enhancement",
+      "name": "Night’s Shroud",
+      "det": "Dread Talons",
+      "ref": {
+        "kind": "enhancement",
+        "det": "dread-talons"
+      },
+      "hash": "ac4b615c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "b76d0a7a-fc2f-4f5e-a569-ead3c9e8af46",
@@ -1434,6 +1561,28 @@ export default {
       }
     },
     {
+      "sid": "09c85dbd-492c-4df7-b190-e122e8d8c512",
+      "kind": "enhancement",
+      "name": "Eager for Bloodshed",
+      "det": "Huron’s Marauders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hurons-marauders"
+      },
+      "hash": "befd5d37",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "fb3a3dfd-c4f0-4908-b0b4-ddc1da594d6a",
       "kind": "enhancement",
       "name": "Pact of Cursed Pinions",
@@ -1458,6 +1607,56 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "004d85d1-b422-420d-9f03-e78dae340e0f",
+      "kind": "enhancement",
+      "name": "Greyveil Hex",
+      "det": "Nightmare Hunt",
+      "ref": {
+        "kind": "enhancement",
+        "det": "nightmare-hunt"
+      },
+      "hash": "41bc55ad",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "65980ad3-eae6-4374-9540-13e6becd6513",
+      "kind": "enhancement",
+      "name": "Sorrowscent Vulture",
+      "det": "Nightmare Hunt",
+      "ref": {
+        "kind": "enhancement",
+        "det": "nightmare-hunt"
+      },
+      "hash": "64ef35fc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2d4f3432-7ff2-4796-8f71-0f7b5800a3a2",
+      "kind": "enhancement",
+      "name": "Intoxicating Elixir",
+      "det": "Pactbound Zealots",
+      "ref": {
+        "kind": "enhancement",
+        "det": "pactbound-zealots"
+      },
+      "hash": "d22a796c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
           "when": null
         }
       ]
@@ -1506,6 +1705,20 @@ export default {
       }
     },
     {
+      "sid": "d8f3b863-f305-4a11-aa76-5f5770aa5baa",
+      "kind": "enhancement",
+      "name": "Mark of the Hound",
+      "det": "Renegade Raiders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "renegade-raiders"
+      },
+      "hash": "ddfc38d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e6de1854-8e17-4bec-aa86-2a3c67c1fb36",
       "kind": "enhancement",
       "name": "Empyric Symbiote",
@@ -1540,6 +1753,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "ba117705-e7a3-45a4-ace6-4cc32afb9d46",
+      "kind": "enhancement",
+      "name": "Forge’s Blessing",
+      "det": "Soulforged Warpack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "soulforged-warpack"
+      },
+      "hash": "0061db28",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "163a57f4-8b75-4ef4-b9db-bc8272981dd2",
@@ -1658,6 +1885,17 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "a917fba0-b0a2-4103-a2a9-647ee9bf7467",
+      "kind": "enhancement",
+      "name": "Prey on the Weak",
+      "det": "Zarkan’s Daemonkin",
+      "ref": null,
+      "hash": "0e243106",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f2ea7f7b-8a98-4850-8acd-b3e32c3261ad",
@@ -1901,6 +2139,33 @@ export default {
           "cond": [
             "blocked-weapon"
           ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7c923572-d246-407e-bcc1-44e9222569fe",
+      "kind": "stratagem",
+      "name": "Steadfast Determination",
+      "det": "Fellhammer Siege-host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "fellhammer-siege-host",
+        "name": "Steadfast Determination"
+      },
+      "hash": "2dcc4ebb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
         }
       ],
       "dur": "phase"
@@ -2158,6 +2423,21 @@ export default {
       "dur": "battle"
     },
     {
+      "sid": "fe88b41d-bc36-4aea-9351-7cd09f219955",
+      "kind": "stratagem",
+      "name": "Festering Miasma",
+      "det": "Pactbound Zealots",
+      "ref": {
+        "kind": "stratagem",
+        "det": "pactbound-zealots",
+        "name": "Festering Miasma"
+      },
+      "hash": "0404a432",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "061789a4-030f-4b28-b7a8-4ac77d6ee146",
       "kind": "stratagem",
       "name": "Reaver’s Haste",
@@ -2288,6 +2568,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "664cb026-2bd0-43c1-98b4-ff3636a3dbff",
+      "kind": "stratagem",
+      "name": "Bringers of Despair",
+      "det": "Veterans of the Long War",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veterans-of-the-long-war",
+        "name": "Bringers of Despair"
+      },
+      "hash": "de0797b3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "fef09a92-d6c5-4819-a57b-4eff4c8b5ab7",
