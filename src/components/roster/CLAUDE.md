@@ -1174,6 +1174,35 @@ READ, never in a strip that says nothing about which rule it feeds):
   (`gameCtx.armySwitches`) — the place a player MEETS Creations of Bile's augmentations is the
   detachment rule on a unit's card.
 
+**Every chip that raises a question answers it — through the "i" beside it** (2026-08-23).
+`ConditionChips` has always drawn that button for a switch carrying `info: { name, text }`, which
+until now only an ability-set pick and an aura had. Two more kinds now do:
+
+- **A stratagem chip opens the stratagem itself.** `RosterUnitRulesModal.stratSource()` finds the
+  card the way `modSource` finds a detachment rule — by the detachment the record names, then by
+  `enhKey` inside it — and `stratText()` writes it out as bold-labelled `WHEN / TARGET / EFFECT /
+  RESTRICTIONS` lines, prefixed by the CP. **Not** StratCard's layout: `renderRichText` knows
+  nothing of its `◈ LABEL |` info-cards, and reproducing them here would be a second renderer to
+  keep in step. The flavour text is dropped — the one field that says nothing about the rule. The
+  faction bundle it reads is the localised one, so the popover reads in the modal's own locale, and
+  the RU name rides in the popover header (`openRule`'s new `sub` argument, drawn as `.kw-name-ru`)
+  the way it rides under the chip. This is also the real answer to "why won't this chip press?" —
+  the WHEN line names the phase the chip is refusing you in.
+- **A game-state chip opens the core rule that defines it** — `conditions.js`'s new `hint`
+  field, written in both locales (`RosterViewView.withRuleInfo` picks one) and free to use the same
+  body markup as any rule text, so `(01.07)` navigates and `[gloss:battle-shocked:…]` opens its
+  definition. Nine states have one: charged, advanced, remained stationary, engaged, Battle-shocked
+  and not, arrived from Reserves, disembarked, at starting strength. A state that is some FACTION's
+  rule (an Imperative, an Order, a Kastelan protocol) deliberately has none — its text lives in that
+  rule's own body, a pointer this dictionary does not hold, and a hand-written paraphrase of
+  somebody else's rule is how the two quietly come to disagree. Reaching those needs the id →
+  rule + `### ` subheading map the search index already builds through `extractSubheadings.js`;
+  until then no `hint` means no button, which is the honest state.
+
+`index.test.js` guards the hints: both locales present, and every `(nn.nn)` in one resolves to a
+`section-…` id that still exists in `basicRules` / `advancedRules` / `battleRound` — a renumbered
+section must fail here, not under a reader's finger.
+
 **A stratagem chip carries its Russian name under the English one** (2026-08-23), the same pairing
 `StratCard` renders on the card itself: the name stays English, because that is what the printed
 card and the GW app both say, and the translation is a display line. It is keyed by the English name

@@ -373,7 +373,7 @@ const statNotes = computed(() => statMods.value.notes.map((n) => (
 // A chip that names somebody's printed rule carries its text (the caller resolved it) — the "i"
 // opens it in the same popover a core ability or a modifier note uses.
 function openChipInfo(sw, rect) {
-  if (sw.info) openRule(sw.info.name, sw.info.text, rect)
+  if (sw.info) openRule(sw.info.name, sw.info.text, rect, sw.info.sub)
 }
 
 function openModSource(n, rect) {
@@ -515,17 +515,60 @@ const abilitySwitches = computed(() => {
   return out
 })
 
+// The stratagem card behind a chip, found the way modSource finds a detachment rule: by the
+// detachment the record names, then by the stratagem's own name inside it. A chip whose detachment
+// is no longer fielded never reaches here (resolveModifierEntries drops it), so a miss means the
+// two datasets disagree about a name — and then the chip simply carries no "i".
+function stratSource(chip) {
+  const fac = rulesFaction.value
+  const name = chip?.label?.en
+  if (!fac || !name) return null
+  const dets = chip.det
+    ? (fac.detachments || []).filter((d) => detKey(d.name) === detKey(chip.det))
+    : (fac.detachments || [])
+  for (const d of dets) {
+    const found = (d.stratagems || []).find((x) => enhKey(x.name) === enhKey(name))
+    if (found) return found
+  }
+  return null
+}
+
+// …written out as the popover's body. The card's own layout can't be reused here (renderRichText
+// knows nothing of StratCard's `◈ LABEL |` info-cards), so each field becomes a bold-labelled line
+// — which is what answers the question the chip raises: WHEN may I use this, and what does it do.
+// The flavour text is left out: it is the one field that says nothing about the rule.
+function stratText(st) {
+  const l = labels.value
+  return [
+    [null, st.cp],
+    [l.stratWhen, st.when],
+    [l.stratTarget, st.target],
+    [l.stratEffect, st.effect],
+    [l.stratRestrictions, st.restrictions],
+  ]
+    .filter(([, v]) => v)
+    .map(([k, v]) => (k ? `**${k}:** ${v}` : `**${v}**`))
+    .join('\n')
+}
+
+// The stratagem chips, with the translated name under the English one and the card itself behind
+// the "i". The switches come from the view (only it knows which player is being drawn); both the
+// RU name and the prose are this component's to add, because it is the one holding the faction
+// bundle — already localised, so the popover reads in whatever locale the modal is in.
+const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
+  const ru = stratNamesRu.value?.[st.label?.en]
+  const src = stratSource(st)
+  const text = src ? stratText(src) : ''
+  return {
+    ...st,
+    ...(ru ? { subLabel: ru } : null),
+    ...(text ? { info: { name: src.name, text, sub: ru || null } } : null),
+  }
+}))
+
 // Battle-shock and "this unit was already targeted this phase" block every chip in the block, so
 // they are stated in its header; a reason belonging to ONE stratagem (its phase, or having been
 // spent already) is written on that chip's own second line (ConditionChips' subLine).
-// The stratagem chips, with the translated name under the English one. The switches themselves come
-// from the view (only it knows which player is being drawn); the RU name is this component's to add,
-// because it is the one that already holds the faction's RU module.
-const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
-  const ru = stratNamesRu.value?.[st.label?.en]
-  return ru ? { ...st, subLabel: ru } : st
-}))
-
 const stratsBlockedNote = computed(() => {
   const blocked = (props.gameCtx?.strats || []).filter((st) => st.blocked)
   if (blocked.some((st) => st.blockedBy === 'shock')) return labels.value.stratBlockedShock
