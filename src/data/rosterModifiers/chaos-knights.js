@@ -257,6 +257,45 @@ export default {
       ]
     },
     {
+      "sid": "a434e6c6-6d32-4e57-90f5-457be208fe29:knight-despoiler",
+      "kind": "ability",
+      "name": "Knight Despoiler: Dread Dominion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-despoiler",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "d6113015",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "480dd27b-5872-4821-b4a5-675f69dbdbc8:knight-rampager",
       "kind": "ability",
       "name": "Knight Rampager: Bloodlust",
@@ -304,7 +343,50 @@ export default {
       "hash": "c36fbaa4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "target": "aura",
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "по ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "786c6869-a00b-49f4-8775-9a10a99b3e73:war-dog-brigand",
+      "kind": "ability",
+      "name": "War Dog Brigand: Brigand",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "war-dog-brigand"
+      },
+      "hash": "3ef0d8cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "249bb130-c323-4270-b894-4e014761eac7:war-dog-executioner",
@@ -393,6 +475,34 @@ export default {
       "note": "extends an Aura's own targeting; nothing on the statline"
     },
     {
+      "sid": "73e45769-afa4-4e4a-a0e9-7fa425bb77f9",
+      "kind": "detachmentRule",
+      "name": "Marked Prey",
+      "det": "Houndpack Lance",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "houndpack-lance"
+      },
+      "hash": "9b6bed40",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
       "kind": "detachmentRule",
       "name": "Malefic Surge",
@@ -426,6 +536,47 @@ export default {
           "cond": [
             "surge-unnatural-fortitude"
           ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "for the phase, via the Unnatural Fortitude Malefic Surge ability",
+            "ru": "на фазу, через способность Malefic Surge «Unnatural Fortitude»"
+          },
+          "cond": [
+            "surge-unnatural-fortitude"
+          ],
+          "alt": 1
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "for the phase, via the Diabolic Power Malefic Surge ability",
+            "ru": "на фазу, через способность Malefic Surge «Diabolic Power»"
+          },
+          "cond": [
+            "surge-diabolic-power"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "for the phase, via the Diabolic Power Malefic Surge ability",
+            "ru": "на фазу, через способность Malefic Surge «Diabolic Power»"
+          },
+          "cond": [
+            "surge-diabolic-power"
+          ],
+          "alt": 3
         }
       ],
       "ref": {
@@ -622,6 +773,19 @@ export default {
           "op": "improve",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "while the bearer is using the Diabolic Power ability",
+            "ru": "пока носитель использует способность Diabolic Power"
+          },
+          "cond": [
+            "surge-diabolic-power"
+          ]
         }
       ],
       "ref": {
@@ -648,6 +812,19 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "for the phase, when the bearer uses this Enhancement",
+            "ru": "на фазу, когда носитель применил улучшение"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -758,7 +935,16 @@ export default {
       "hash": "5967579f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "58d86379-2099-42af-a1ba-671bb6495d36",
@@ -788,7 +974,16 @@ export default {
       "hash": "54dde1f0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "23d446a4-7816-4277-8a34-fedc179a16a5",
@@ -818,7 +1013,16 @@ export default {
       "hash": "efc5db5c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "39493fcc-0ea8-44a4-92e8-0758641e3074",
@@ -974,7 +1178,16 @@ export default {
       "hash": "7c9432d1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     }
   ]
 }

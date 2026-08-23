@@ -105,6 +105,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-captain-with-jump-pack",
+      "kind": "ability",
+      "name": "Death Company Captain with Jump Pack: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-captain-with-jump-pack"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "809fddbd-421f-492e-be6d-7e733115b2c3:death-company-captain-with-jump-pack",
       "kind": "ability",
       "name": "Death Company Captain with Jump Pack: Lost to Fury",
@@ -128,6 +156,34 @@ export default {
       ]
     },
     {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-captain",
+      "kind": "ability",
+      "name": "Death Company Captain: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-captain"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "2c8f129d-6b94-443f-9c30-fab0f55189d8:death-company-captain",
       "kind": "ability",
       "name": "Death Company Captain: Forlorn Hero",
@@ -140,6 +196,146 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-dreadnought",
+      "kind": "ability",
+      "name": "Death Company Dreadnought: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-dreadnought"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-marines-with-bolt-rifles",
+      "kind": "ability",
+      "name": "Death Company Marines with Bolt Rifles: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-bolt-rifles"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-marines-with-jump-packs",
+      "kind": "ability",
+      "name": "Death Company Marines with Jump Packs: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines-with-jump-packs"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "847cb735-32ae-4dcf-9ffa-2e579961191b:death-company-marines",
+      "kind": "ability",
+      "name": "Death Company Marines: An Honourable Death in Combat",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines"
+      },
+      "hash": "058c7e48",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against a unit below its Starting Strength",
+            "ru": "по отряду ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-marines",
+      "kind": "ability",
+      "name": "Death Company Marines: Black Rage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-company-marines"
+      },
+      "hash": "406a6207",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 0,
+          "when": {
+            "en": "while not within 6\" of a BLOOD ANGELS CHARACTER or 12\" of a CHAPLAIN",
+            "ru": "пока не в 6\" от BLOOD ANGELS CHARACTER и не в 12\" от CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "832607b8-9dcc-4dc6-91a3-46108750a895:lemartes",
@@ -386,7 +582,15 @@ export default {
       "hash": "719dbd66",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "8f4b7a67-ab94-4545-afea-aa061b2fd5f2",
@@ -485,6 +689,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "e088a79c-17c8-4672-9719-801a89b21419",
+      "kind": "enhancement",
+      "name": "Angel’s Fang",
+      "det": "Rage-cursed Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rage-cursed-onslaught"
+      },
+      "hash": "3e02e4a7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "по целям MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "c20141d0-2bb8-4532-9bd7-46b360b4b0ee",
       "kind": "enhancement",
       "name": "Carmine Reliquary",
@@ -496,7 +728,15 @@ export default {
       "hash": "040e4ae1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b2c65fcd-a74a-48ff-9b54-afcc973fd5d9",
@@ -756,7 +996,16 @@ export default {
       "hash": "38b9e784",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "663734f3-8762-43d4-a2c7-556b3572b180",
@@ -771,7 +1020,16 @@ export default {
       "hash": "54dde1f0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "d6b55c24-5996-4ab0-a969-8a5692c586c4",
@@ -1069,6 +1327,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "unless your unit is within 12\" of a friendly CHAPLAIN",
+            "ru": "если отряд не в 12\" от дружественного CHAPLAIN"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

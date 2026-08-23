@@ -172,7 +172,43 @@ export default {
       "hash": "b8b41276",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5ccdafb5-2cf7-4697-b996-812ed7902f05:celestian-insidiants",
+      "kind": "ability",
+      "name": "Celestian Insidiants: Virtue of Intolerance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "celestian-insidiants"
+      },
+      "hash": "dcd368bf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "bf4ca9bb-ec32-4711-b960-33d77130ff4e:dogmata",
@@ -276,6 +312,34 @@ export default {
           "value": "4+",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "650bed4b-9806-40d2-8297-1ac566ed458f:intranzia-fraye",
+      "kind": "ability",
+      "name": "Intranzia Fraye: Judged for Execution",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "intranzia-fraye"
+      },
+      "hash": "f017b7b2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -497,7 +561,15 @@ export default {
       "hash": "0bc281c9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e4a88233-98e8-4c9c-9665-409491dfd63d:sanctuary-guardians-arco-flagellants",
@@ -738,6 +810,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
         }
       ],
       "ref": {
@@ -953,6 +1032,13 @@ export default {
           "op": "add",
           "value": -1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
         }
       ],
       "ref": {
@@ -984,6 +1070,22 @@ export default {
           "only": {
             "tag": "TORRENT"
           }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "only": {
+            "notTag": "TORRENT"
+          },
+          "when": {
+            "en": "all other ranged weapons, while the bearer is leading the unit",
+            "ru": "всё остальное стрелковое оружие, пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ],
       "ref": {
@@ -1124,6 +1226,20 @@ export default {
         "kind": "enhancement",
         "det": "champions-of-faith"
       }
+    },
+    {
+      "sid": "ba12b88b-73ac-4fc3-af47-a972cfe31b82",
+      "kind": "enhancement",
+      "name": "Mantle of Ophelia",
+      "det": "Hallowed Martyrs",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hallowed-martyrs"
+      },
+      "hash": "54e4911e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ae5538f8-1681-4fdd-9cdc-2605f8847aa6",
@@ -1439,7 +1555,16 @@ export default {
       "hash": "0d4f156a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "edf56ccf-046e-4f5c-ae39-7ebc3d61d85b",
@@ -1541,7 +1666,16 @@ export default {
       "hash": "46db95ed",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "233adae4-81a7-4967-af0c-8b819f453d70",
@@ -1686,7 +1820,16 @@ export default {
       "hash": "ed5a8577",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "6e89c116-3112-44b8-ac3b-74181a382434",
@@ -1801,7 +1944,15 @@ export default {
       "hash": "0cb98d7e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fb07a984-f0d8-42d6-b044-08298622c911:mortifiers",

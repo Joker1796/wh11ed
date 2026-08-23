@@ -148,7 +148,16 @@ export default {
       "hash": "b1a8245a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0dd11ed9-198b-463b-bfb4-3a78c281c76d:daemon-prince-of-chaos-with-wings",
@@ -366,7 +375,15 @@ export default {
       "hash": "87a55d7c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
@@ -469,6 +486,37 @@ export default {
       "effects": []
     },
     {
+      "sid": "961e1f8f-1e16-470c-b069-d6a9f88b3cc3:keeper-of-secrets",
+      "kind": "ability",
+      "name": "Keeper of Secrets: Daemon Lord of Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "keeper-of-secrets",
+        "scopes": [
+          {
+            "targets": [
+              "SLAANESH LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "4ebf44c4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "f0d51829-0fa5-44ab-b142-b5eea8246496:lord-of-change",
       "kind": "ability",
       "name": "Lord of Change: Daemon Lord of Tzeentch",
@@ -569,6 +617,38 @@ export default {
           "value": 1,
           "target": "aura",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "65416b74-1478-4169-856a-ed5522ef4309:skullmaster",
+      "kind": "ability",
+      "name": "Skullmaster: Skullmaster’s Fury",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skullmaster"
+      },
+      "hash": "1e93ac48",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Juggernaut’s bladed horn"
+          },
+          "target": "led",
+          "when": {
+            "en": "for the turn, after that unit ends a Charge move",
+            "ru": "на ход, после того как отряд закончил Charge"
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ]
     },
@@ -1223,7 +1303,15 @@ export default {
       "hash": "c88d3f5f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 9\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "63613eac-5d6e-466b-bca6-863553d5a93e",
@@ -1706,7 +1794,15 @@ export default {
       "hash": "7b24f7e2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e6a45e83-838d-4449-8bde-44b7e2c3e4ec:karanak",
@@ -1721,7 +1817,15 @@ export default {
       "hash": "d5b6dfdf",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5579aa57-632e-42a7-a12a-7ebc8c69e24d:keeper-of-secrets",

@@ -71,6 +71,20 @@ export default {
       ]
     },
     {
+      "sid": "f737f1fc-4495-41f8-9f62-67f77f31597b:avatar-of-khaine",
+      "kind": "ability",
+      "name": "Avatar of Khaine: Molten Form",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "avatar-of-khaine"
+      },
+      "hash": "f62f7f7a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "58faded0-9585-4c7d-984b-eb5926fe37d1:avatar-of-khaine",
       "kind": "ability",
       "name": "Avatar of Khaine: The Bloody-Handed",
@@ -516,7 +530,15 @@ export default {
       "hash": "87a55d7c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c27d57ab-4d05-4e54-8319-bbd4e47aba54:solitaire",
@@ -1219,6 +1241,46 @@ export default {
       ]
     },
     {
+      "sid": "6727344a-cbbc-4ce3-972b-221a4daeb484",
+      "kind": "armyRule",
+      "name": "Battle Focus",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "1b5a1ea7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for the phase, after the unit performs the Swift as the Wind Agile Manoeuvre",
+            "ru": "на фазу, после того как отряд выполнил манёвр Swift as the Wind"
+          },
+          "cond": [
+            "unit-manoeuvre-swift-as-the-wind"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "for the turn, after a VEHICLE unit performs the Star Engines Agile Manoeuvre",
+            "ru": "на ход, после того как VEHICLE выполнил манёвр Star Engines"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "04d0ed6a-3233-413d-8173-c96ace7f0f89",
       "kind": "armyRule",
       "name": "Disparate Paths",
@@ -1336,7 +1398,15 @@ export default {
       "hash": "255ff2e4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f40ed095-81a8-49e6-b58a-6c5e8c907e68",
@@ -1394,6 +1464,13 @@ export default {
           "stat": "d",
           "op": "add",
           "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
           "when": null
         }
       ],
@@ -1511,6 +1588,31 @@ export default {
       }
     },
     {
+      "sid": "26849fdc-c5cb-4c85-b018-9a4be81c4266",
+      "kind": "enhancement",
+      "name": "Gaze of Ynnead",
+      "det": "Devoted of Ynnead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "devoted-of-ynnead"
+      },
+      "hash": "022bb834",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Eldritch Storm"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "00eb75e2-21f5-445c-8fd4-431a1133ceb6",
       "kind": "enhancement",
       "name": "Alacritous Assault",
@@ -1573,7 +1675,15 @@ export default {
       "hash": "2faf0432",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "67e3f31f-1ec0-4ad5-b92e-c5e9d7ce7146",
@@ -1634,7 +1744,15 @@ export default {
       "hash": "47487144",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "38c84028-2718-4537-bf80-3808d06997bd",
@@ -1742,7 +1860,15 @@ export default {
       "hash": "645c7155",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "964c822b-33e6-412a-8ebd-fa8d57373161",
@@ -1815,6 +1941,34 @@ export default {
       }
     },
     {
+      "sid": "282aca3c-3003-4f0c-beaa-48e503c7cea5",
+      "kind": "enhancement",
+      "name": "Stave of Kurnous",
+      "det": "Spirit Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "spirit-conclave"
+      },
+      "hash": "f3dc41b8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "on a Critical Wound",
+            "ru": "на Critical Wound"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "be347cc7-e483-497b-a475-0d5d3be07a32",
       "kind": "enhancement",
       "name": "Prelude Performer",
@@ -1826,7 +1980,15 @@ export default {
       "hash": "9316d2d5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "627a96a6-71e7-4eb1-81ef-83be078a8900",
@@ -1840,7 +2002,15 @@ export default {
       "hash": "2a9b512e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7c7a454e-4548-414f-9cf1-5faf80dddd9d",
@@ -1879,7 +2049,15 @@ export default {
       "hash": "61e696d7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 9\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "16d5e738-7ef2-4b1c-8ab2-0d06387fe9c8",
@@ -1929,7 +2107,16 @@ export default {
       "hash": "5967579f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "7ef3eaef-b37c-48e2-9bd4-0378cdc068b9",
@@ -2281,7 +2468,16 @@ export default {
       "hash": "9f4867a1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "178f6e1e-0a30-4650-9ad5-77b19be4c409",
@@ -2479,6 +2675,21 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "18c4bfb4-b13e-4b82-96fd-6aad896046dc:corsair-voidscarred",
+      "kind": "wargear",
+      "name": "Corsair Voidscarred: Channeller Stones",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "corsair-voidscarred",
+        "item": "channeller stones"
+      },
+      "hash": "f4c11bbc",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "00cd87c9-1c81-4922-91fc-e8c993814efb:corsair-voidscarred",

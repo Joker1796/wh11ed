@@ -92,6 +92,7 @@ export const conditions = {
   'vision-momentous-brutality': { scope: 'army', duration: 'battle', label: { en: 'Vision of Momentous Brutality chosen', ru: 'Выбран Vision of Momentous Brutality' } },
   'doctrine-assault': { scope: 'army', duration: 'round', label: { en: 'Assault Doctrine', ru: 'Assault Doctrine' } },
   'manifestation-imbued': { scope: 'army', duration: 'round', label: { en: 'Imbued Manifestation selected', ru: 'Выбран Imbued Manifestation' } },
+  'manifestation-wrath': { scope: 'army', duration: 'round', label: { en: 'Wrath of the Immaterium selected', ru: 'Выбран Wrath of the Immaterium' } },
   // Chaos Space Marines, Creations of Bile: "at the start of the battle, select which augmentations
   // are active … until the end of the battle" — chosen once, so battle-long. One group with a
   // limit of two, because the rule offers "either select one from the list below, or randomly
@@ -158,6 +159,7 @@ export const conditions = {
   'unit-manoeuvre-swift-as-the-wind': { scope: 'unit', duration: 'phase', label: { en: 'Swift as the Wind performed', ru: 'Выполнен Swift as the Wind' } },
   'surge-unholy-hunger': { scope: 'unit', duration: 'phase', label: { en: 'Unholy Hunger', ru: 'Unholy Hunger' } },
   'surge-unnatural-fortitude': { scope: 'unit', duration: 'phase', label: { en: 'Unnatural Fortitude', ru: 'Unnatural Fortitude' } },
+  'surge-diabolic-power': { scope: 'unit', duration: 'phase', label: { en: 'Diabolic Power', ru: 'Diabolic Power' } },
   // Astra Militarum Orders — issued to one unit in the Command phase, so per unit, not per army.
   'order-move-move-move': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Move! Move! Move!»', ru: '«Move! Move! Move!»' } },
   'order-fix-bayonets': { scope: 'unit', duration: 'round', group: 'order', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },

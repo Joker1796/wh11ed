@@ -277,6 +277,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "7251453d-a731-4021-86a2-71958fe457d0:knight-destrier",
+      "kind": "ability",
+      "name": "Knight Destrier: Saturation Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-destrier"
+      },
+      "hash": "a699f303",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "2de370eb-b169-48ea-959d-dece35b44f60:knight-destrier",
       "kind": "ability",
       "name": "Knight Destrier: Thundercharge",
@@ -408,6 +436,34 @@ export default {
           "when": {
             "en": "against the closest eligible target",
             "ru": "против ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "5aa7850c-9706-4cfc-882e-1f13f35377f4:knight-warden",
+      "kind": "ability",
+      "name": "Knight Warden: Thin Their Ranks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-warden"
+      },
+      "hash": "65aace2d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "по целям, кроме MONSTER и VEHICLE"
           },
           "cond": [
             "never"
@@ -590,7 +646,15 @@ export default {
       "hash": "fdd1bf22",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3cf0eb6d-3049-4885-acd0-632ad39be4bb",
@@ -1059,7 +1123,16 @@ export default {
       "hash": "5967579f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2144578e-ef9a-4a05-b8fe-60b1e114b511",

@@ -229,7 +229,15 @@ export default {
       "hash": "54180cc7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d627eacc-bd80-4426-b40f-f10912926b6d:drayden-s-lance-command-squad",
@@ -336,6 +344,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "db5683f1-9393-4ac4-b03e-eb4f8de5e101:leman-russ-punisher",
+      "kind": "ability",
+      "name": "Leman Russ Punisher: Mow Down the Enemy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "leman-russ-punisher"
+      },
+      "hash": "6437713f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "по целям, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6299b4be-a5b7-4a5e-9989-3c89e2e79694:lord-marshal-dreir",
@@ -512,7 +548,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ef45d7dd-4980-4bb0-a26d-1489424d91b7:primaris-psyker",
@@ -535,6 +580,48 @@ export default {
           "when": {
             "en": "on a 2+ at the start of your opponent's Shooting phase",
             "ru": "на 2+ в начале фазы стрельбы оппонента"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3ab67e3d-9134-477a-a176-59ac72bc9e26:rogal-dorn-battle-tank",
+      "kind": "ability",
+      "name": "Rogal Dorn Battle Tank: Ablative Plating",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rogal-dorn-battle-tank"
+      },
+      "hash": "c1c6946a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "33045c06-1dbd-443b-b374-61783b865d2b:shadowsword",
+      "kind": "ability",
+      "name": "Shadowsword: Titan-killer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "shadowsword"
+      },
+      "hash": "14994df9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "по целям MONSTER или VEHICLE"
           },
           "cond": [
             "never"
@@ -576,7 +663,16 @@ export default {
       "hash": "35bf3335",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": 4,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4553de7a-0245-4160-ab0d-8cdc58b86136:tech-priest-enginseer",
@@ -784,6 +880,34 @@ export default {
       ]
     },
     {
+      "sid": "afb94836-c7b8-4435-aa2c-a4e8ff4c9fca",
+      "kind": "detachmentRule",
+      "name": "Born Soldiers",
+      "det": "Combined Arms",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "combined-arms"
+      },
+      "hash": "a541e463",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "по целям, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "635a612e-5dec-4bcd-b575-8a799e40c485",
       "kind": "detachmentRule",
       "name": "Ruthless Discipline",
@@ -893,7 +1017,15 @@ export default {
       "hash": "77091950",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d1fe63bf-bc7b-44f4-9755-a95196e76d59",
@@ -935,7 +1067,15 @@ export default {
       "hash": "b21c3efe",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "bc853f1d-57e1-4dce-bedb-71dcb438bfaf",
@@ -1616,7 +1756,15 @@ export default {
       "hash": "5cc20e86",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+ (vs mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "bd18f68e-60d7-4e24-aba4-9b56dd43c8aa:krieg-command-squad",

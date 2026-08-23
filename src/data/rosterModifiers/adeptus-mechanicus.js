@@ -119,7 +119,16 @@ export default {
       "hash": "73b0c7da",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1aca726c-3b92-4965-a0f2-97b3228ed49d:cybernetica-datasmith",
@@ -179,6 +188,62 @@ export default {
       ]
     },
     {
+      "sid": "ee9ce49a-c67c-4233-a708-dd5510d8d6f8:hastarii-exterminators",
+      "kind": "ability",
+      "name": "Hastarii Exterminators: Broad‑spectrum Targeting Augurs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hastarii-exterminators"
+      },
+      "hash": "333283af",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "по целям, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "6b5e7c68-c1e8-4061-99b9-60b130b16e42:hastarii-fusiliers",
+      "kind": "ability",
+      "name": "Hastarii Fusiliers: Monocular Targeting Helms",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hastarii-fusiliers"
+      },
+      "hash": "200f6866",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "по целям MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "14823b5c-5dfa-4cbd-8a77-554487de9c3a:kastelan-robots",
       "kind": "ability",
       "name": "Kastelan Robots: Robotic Bodyguard",
@@ -212,7 +277,22 @@ export default {
       "hash": "72821a2b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": 4,
+          "target": "aura",
+          "when": {
+            "en": "against ranged attacks",
+            "ru": "против стрелковых атак"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "24abbe34-307d-4463-b783-01985d23f7d7:purge-corps-serberys-sulphurhounds",
@@ -354,7 +434,22 @@ export default {
       "hash": "bb4cdbc6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "aura",
+          "when": {
+            "en": "until your next Command phase, VEHICLE models only",
+            "ru": "до вашей следующей Command phase, только VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1e0b085e-afa3-45ef-91ac-7da966bed7d9:tech-priest-enginseer",
@@ -592,6 +687,19 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": {
+            "en": "while the Protector Imperative is active for your army",
+            "ru": "пока для армии активен Protector Imperative"
+          },
+          "cond": [
+            "imperative-protector"
+          ]
         }
       ],
       "ref": {
@@ -723,6 +831,19 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "for a unit given the Halo Override keyword with the Muted Servomotors ability",
+            "ru": "для отряда, получившего Halo Override со способностью Muted Servomotors"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -779,7 +900,15 @@ export default {
       "hash": "1810055e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5a7312e4-d267-4775-a7e6-1328941bfc9f",
@@ -793,7 +922,15 @@ export default {
       "hash": "6850e19e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative 15\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "04ebb33a-9b1f-4190-beea-d34b105f73ae",
@@ -816,6 +953,34 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "843a24a0-aa26-4ceb-a889-356c2fcb0f97",
+      "kind": "enhancement",
+      "name": "Necromechanic",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cohort-cybernetica"
+      },
+      "hash": "58d76b61",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "081fbb43-b5b8-460b-820a-179b8029f596",
+      "kind": "enhancement",
+      "name": "Mantle of the Gnosticarch",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "data-psalm-conclave"
+      },
+      "hash": "6c85884b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "728a30a4-6408-4ab1-b1f2-54e7da8cacee",
@@ -851,7 +1016,15 @@ export default {
       "hash": "022d6b35",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
@@ -1073,7 +1246,15 @@ export default {
       "hash": "31245ec6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c434dc26-c687-4677-b72d-c879da0c169b",

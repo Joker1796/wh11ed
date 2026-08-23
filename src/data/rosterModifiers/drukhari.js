@@ -102,6 +102,47 @@ export default {
       ]
     },
     {
+      "sid": "1f5e1659-5d95-48d9-8eff-25fc9e5f663f:hand-of-the-archon",
+      "kind": "ability",
+      "name": "Hand of the Archon: Assassins’ Poisons",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hand-of-the-archon"
+      },
+      "hash": "fda945a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "3b2d13d0-27bc-49b1-8b7c-9be34589ed82:hellions",
       "kind": "ability",
       "name": "Hellions: Battlefield Butchery",
@@ -135,6 +176,34 @@ export default {
           "when": {
             "en": "while Empowered with a Pain token",
             "ru": "пока Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "026ef43a-b285-45d9-a071-f7a939bddfa0:incubi",
+      "kind": "ability",
+      "name": "Incubi: Decapitating Strikes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "incubi"
+      },
+      "hash": "6ad5e7df",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while Empowered",
+            "ru": "пока отряд Empowered"
           },
           "cond": [
             "unit-empowered"
@@ -307,6 +376,20 @@ export default {
         "pickLimit": 1
       },
       "hash": "7fbd9c95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d962b22a-8d58-4ee1-aeea-a59a87037426:raider",
+      "kind": "ability",
+      "name": "Raider: Splinter Racks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raider"
+      },
+      "hash": "ba40073d",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -561,6 +644,34 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83ef4dc5-1730-4b4b-9476-69bc14fe1e35",
+      "kind": "detachmentRule",
+      "name": "Murderous Agenda",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "kabalite-cartel"
+      },
+      "hash": "ceb65564",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "under the Trophy Hunters Contract, against your Contract unit",
+            "ru": "при контракте «Trophy Hunters», по отряду-цели контракта"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -1050,7 +1161,15 @@ export default {
       "hash": "5b75f6e7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "64571ab3-200a-432c-bab6-ac107cf7598c",
@@ -1064,7 +1183,15 @@ export default {
       "hash": "3f686459",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a04e80bd-7407-42b2-84f2-c47df330e77c",
@@ -1149,6 +1276,36 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "ff486372-93ee-477a-8727-f32623594fdc",
+      "kind": "stratagem",
+      "name": "Distillers of Fear",
+      "det": "Covenite Coterie",
+      "ref": {
+        "kind": "stratagem",
+        "det": "covenite-coterie",
+        "name": "Distillers of Fear"
+      },
+      "hash": "1dfc1073",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "по Battle-shocked отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "09da496d-57c0-4c17-a816-de5038fee95a",
@@ -1617,6 +1774,21 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "c867b290-f746-47f5-998b-788c25e7406e:hand-of-the-archon",
+      "kind": "wargear",
+      "name": "Hand of the Archon: Stimm-needler",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "hand-of-the-archon",
+        "item": "stimm-needler"
+      },
+      "hash": "a28c5c6f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "79bfd4a0-3952-454b-95db-bee1f1f23580:hellions",

@@ -116,7 +116,15 @@ export default {
       "hash": "728f7122",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d43dee4b-b513-49f2-85d0-f84c7ab38017:fulgrim",
@@ -408,7 +416,15 @@ export default {
       "hash": "2fae678d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
@@ -465,6 +481,32 @@ export default {
           "stat": "d",
           "op": "add",
           "value": 1,
+          "when": {
+            "en": "that same weapon, for the fight the bearer uses this Enhancement in",
+            "ru": "то же оружие, на бой, в котором носитель применил улучшение"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "that same weapon, for the fight the bearer uses this Enhancement in",
+            "ru": "то же оружие, на бой, в котором носитель применил улучшение"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
           "when": {
             "en": "that same weapon, for the fight the bearer uses this Enhancement in",
             "ru": "то же оружие, на бой, в котором носитель применил улучшение"
@@ -619,6 +661,13 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
         }
       ],
       "note": "the Deep Strike in the first bullet is an ability, not a keyword or a weapon tag — nothing on the card carries it"
@@ -747,6 +796,20 @@ export default {
       }
     },
     {
+      "sid": "1f87a1d3-1319-475b-9cea-34ce5b50cd05",
+      "kind": "enhancement",
+      "name": "Heretek Adept",
+      "det": "Rapid Evisceration",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rapid-evisceration"
+      },
+      "hash": "c0f8388f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b26e88ce-98ee-401d-a5c3-f12564e770e4",
       "kind": "enhancement",
       "name": "Eager to Prove",
@@ -836,6 +899,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
         }
       ],
       "ref": {

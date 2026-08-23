@@ -336,6 +336,34 @@ export default {
       ]
     },
     {
+      "sid": "b1767ecf-ca50-4a7d-9c90-2d1f4836ac91:malignant-plaguecaster",
+      "kind": "ability",
+      "name": "Malignant Plaguecaster: Gift of Contagion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "malignant-plaguecaster"
+      },
+      "hash": "91c6246e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against an Afflicted unit",
+            "ru": "по Afflicted отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "f2ae231c-1b15-4767-8884-015a768c86f0:mortarion",
       "kind": "ability",
       "name": "Mortarion: Boon of Death",
@@ -532,7 +560,15 @@ export default {
       "hash": "4d236ed4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 3\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "9a404cbe-ff89-4583-9b06-49d7926e2e68",
@@ -806,6 +842,13 @@ export default {
           "op": "add",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
         }
       ],
       "ref": {
@@ -875,7 +918,16 @@ export default {
       "hash": "de0797b3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2af32987-7344-4378-8eff-a42b8ec9f2f8",

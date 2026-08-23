@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "77ad54b1-f72a-4681-b624-d765a3198ca0:adrax-agatone",
+      "kind": "ability",
+      "name": "Adrax Agatone: Lord of the Pyroclasts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "adrax-agatone"
+      },
+      "hash": "c139a9d9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8260f427-71a5-46d8-8ff3-1f50f4205db8:aggressor-squad",
       "kind": "ability",
       "name": "Aggressor Squad: Close-quarters Firepower",
@@ -248,6 +262,48 @@ export default {
       "effects": []
     },
     {
+      "sid": "e99087ac-5dc5-4e2d-b2f5-ecabb496e445:caanok-var",
+      "kind": "ability",
+      "name": "Caanok Var: Cold and Calculating",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "caanok-var"
+      },
+      "hash": "ecbeeef7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against MONSTER or VEHICLE targets",
+            "ru": "по целям MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f8dea766-524c-451f-93b4-137b57a96de1:captain-in-gravis-armour",
+      "kind": "ability",
+      "name": "Captain in Gravis Armour: Refuse to Yield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "captain-in-gravis-armour"
+      },
+      "hash": "f62f7f7a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c37acebd-4051-4806-82b5-f6d3c10df6c3:captain-titus",
       "kind": "ability",
       "name": "Captain Titus: Press the Attack",
@@ -401,7 +457,16 @@ export default {
       "hash": "3164196a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "bed942f4-4372-40ca-b26d-0ef1acd6ccbd:chaplain-on-bike",
@@ -485,7 +550,16 @@ export default {
       "hash": "179c8eff",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b8206e9c-1017-4f1d-89e7-be3af93c6d95:chief-librarian-tigurius",
@@ -499,7 +573,15 @@ export default {
       "hash": "0d4d1bf7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0bb2afd9-e4af-48c8-9024-3ef42e189ea9:company-heroes",
@@ -679,6 +761,34 @@ export default {
           "when": {
             "en": "against the enemy unit selected for this ability",
             "ru": "против юнита, выбранного для этой способности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "a0cdaf1d-65ae-4128-a869-406b2b8f5999:gladiator-reaper",
+      "kind": "ability",
+      "name": "Gladiator Reaper: Reaping Tally",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gladiator-reaper"
+      },
+      "hash": "e55f216a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "по целям INFANTRY"
           },
           "cond": [
             "never"
@@ -889,7 +999,16 @@ export default {
       "hash": "a4271bd1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c608eecd-b9bd-4d99-993c-ce96fa6b561b:kayvaan-shrike",
@@ -962,7 +1081,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0ea8c549-4e95-46c3-b7bc-2b38140c38a3:librarian-in-phobos-armour",
@@ -990,7 +1118,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7f49e247-dc01-475b-a43c-bcb81ad68d5a:librarian-in-terminator-armour",
@@ -1050,7 +1187,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c6695dee-7b60-4d97-a9cb-4dc1bdbeee22:lieutenant-in-phobos-armour",
@@ -1722,6 +1868,19 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while within range of the objective marker selected for this model",
+            "ru": "пока в зоне objective marker, выбранного для этой модели"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -1891,6 +2050,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
         }
       ],
       "ref": {
@@ -1919,6 +2085,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
         }
       ],
       "ref": {
@@ -2901,6 +3074,20 @@ export default {
       }
     },
     {
+      "sid": "0c21dd37-cff5-4099-9cab-3cc4027d8a3b",
+      "kind": "enhancement",
+      "name": "Adept of the Omnissiah",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ironstorm-spearhead"
+      },
+      "hash": "d2c81520",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d8f14666-8a59-43cf-ab2e-ae009229be08",
       "kind": "enhancement",
       "name": "Target Augury Web",
@@ -2962,7 +3149,15 @@ export default {
       "hash": "719dbd66",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fb962a7a-73f1-4fa3-a5a8-8d31419e40c2",
@@ -3301,6 +3496,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "785677c5-013d-4173-8c1b-e81b052065f2",
+      "kind": "stratagem",
+      "name": "Not One Backwards Step",
+      "det": "Anvil Siege Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "anvil-siege-force",
+        "name": "Not One Backwards Step"
+      },
+      "hash": "478ac888",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "a12194fa-62d7-4c77-9bce-9c3e3311d873",
@@ -4053,6 +4263,36 @@ export default {
       "effects": []
     },
     {
+      "sid": "a6c31db3-14f8-4d8a-a25f-46fc6428ada8",
+      "kind": "stratagem",
+      "name": "Mercy Is Weakness",
+      "det": "Ironstorm Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ironstorm-spearhead",
+        "name": "Mercy Is Weakness"
+      },
+      "hash": "2df6d255",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against a unit below its Starting Strength",
+            "ru": "по отряду ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "dd818b80-27a5-4b4d-b0ed-ac7e5b769bfe",
       "kind": "stratagem",
       "name": "Blind Screen",
@@ -4672,7 +4912,15 @@ export default {
       "hash": "7c0f0ce2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "007d6307-976c-424b-871a-c3324c4f8b6d:lieutenant",

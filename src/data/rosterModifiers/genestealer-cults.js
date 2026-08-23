@@ -488,7 +488,15 @@ export default {
       "hash": "2680efcf",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e01ab9b2-f087-4e37-9b71-1cc22a578c83",
@@ -982,6 +990,19 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "models other than CHARACTERS",
+            "ru": "кроме моделей CHARACTER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "dur": "phase"
@@ -1076,6 +1097,35 @@ export default {
           },
           "cond": [
             "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "d47b0a50-f539-4af2-b886-e08f4ef8c786:achilles-ridgerunners",
+      "kind": "wargear",
+      "name": "Achilles Ridgerunners: Survey Augur",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "achilles-ridgerunners",
+        "item": "survey augur"
+      },
+      "hash": "ce56a5b3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]

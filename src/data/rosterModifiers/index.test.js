@@ -201,6 +201,34 @@ describe('rosterModifiers data', () => {
     expect(isAnswerable(undefined)).toBe(false)
   })
 
+  // The card prints a granted core ability as a CLICKABLE keyword, and KeywordPopover resolves it
+  // by matching the rulebook's name against the START of the text. A qualifier therefore has to
+  // ride behind the name ("Feel No Pain 4+ (vs mortal wounds)"), never in front of it — and the
+  // qualifier itself is not optional: 94 of these grants only bite against mortal wounds or
+  // Psychic Attacks, and a bare "Feel No Pain 4+" on the Core line would be a plain error.
+  it('names a granted core ability the way the popover can resolve it', () => {
+    const CORE = ['Deadly Demise', 'Deep Strike', 'Feel No Pain', 'Fights First', 'Firing Deck',
+      'Hover', 'Infiltrators', 'Lone Operative', 'Scouts', 'Stealth']
+    for (const { file, e } of allEntries) {
+      for (const eff of e.effects || []) {
+        if (eff.stat !== 'core') continue
+        const where = `${file} ${e.name}: "${eff.value}"`
+        expect(CORE.some((c) => eff.value.startsWith(c)), where).toBe(true)
+        expect(eff.value, where).not.toMatch(/ against /i)   // spelled "(vs …)", one way only
+      }
+    }
+  })
+
+  // Aeldari's Battle Focus reaches the layer only if bodyText() keeps the EFFECT half of a
+  // trigger/effect block (see generator.test.js). The record is the end of that thread.
+  it('carries the Battle Focus manoeuvre that a truncated body hid', async () => {
+    const aeldari = await files['./aeldari.js']
+    const rec = aeldari.entries.find((e) => e.name === 'Battle Focus')
+    expect(rec?.effects).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stat: 'm', op: 'add', value: 2, cond: ['unit-manoeuvre-swift-as-the-wind'] }),
+    ]))
+  })
+
   it('exposes only reviewed records that actually carry an effect', () => {
     const data = { entries: [
       { reviewed: true, effects: [{ on: 'profile' }] },

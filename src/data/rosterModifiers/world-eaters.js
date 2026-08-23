@@ -554,6 +554,19 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "BLOOD LEGIONS units, while the Daemonic Rage ability is paid for with 3BTP",
+            "ru": "отряды BLOOD LEGIONS, пока за 3BTP активирована Daemonic Rage"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -667,6 +680,31 @@ export default {
       "effects": []
     },
     {
+      "sid": "5b1f2f75-b53c-4e8c-b9e0-27b709684271",
+      "kind": "enhancement",
+      "name": "Talons of Butchery (Upgrade)",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "enhancement",
+        "det": "brazen-engines"
+      },
+      "hash": "fd537c39",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 2",
+          "only": {
+            "name": "Maulerfiend fists"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "3959a88d-7bdd-4c12-8e21-72050af167a2",
       "kind": "enhancement",
       "name": "Gore-stained Veterans (Upgrade)",
@@ -724,6 +762,13 @@ export default {
           "stat": "t",
           "op": "add",
           "value": 1,
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
           "when": null
         }
       ],
@@ -880,6 +925,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
         }
       ]
     },
@@ -1147,7 +1199,16 @@ export default {
       "hash": "84dbd5f5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
@@ -1238,7 +1299,15 @@ export default {
       "hash": "7b24f7e2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ]
     }
   ]
 }

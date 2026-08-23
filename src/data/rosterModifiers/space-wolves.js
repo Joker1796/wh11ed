@@ -22,6 +22,42 @@ export default {
       "effects": []
     },
     {
+      "sid": "4d66c56a-808d-4c5d-8468-8e18a844953e:iron-priest",
+      "kind": "ability",
+      "name": "Iron Priest: Gift of the Iron Wolf",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-priest",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "eba7e7da",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "be12a555-96eb-4190-a230-0a18b61e5a6f:iron-priest",
       "kind": "ability",
       "name": "Iron Priest: Iron Priest",
@@ -716,7 +752,15 @@ export default {
       "hash": "63d46be1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 7\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c45ceb28-43f5-4c20-814c-96de4a95a201",
@@ -837,7 +881,16 @@ export default {
       "hash": "38b9e784",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a360ace1-2a1d-4db9-97d7-e304b0224ca1",
@@ -852,7 +905,16 @@ export default {
       "hash": "5967579f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f64b6cdc-e007-4358-8e50-9358007ac5ac",
