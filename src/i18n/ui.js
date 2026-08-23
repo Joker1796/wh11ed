@@ -350,6 +350,7 @@ export const ui = {
     rosterExport: 'Export',
     // One label, several places: the link from an empty screen to the part of /help that answers it.
     helpLearnMore: 'How this works',
+    helpContents: 'Contents',
     // First-visit card. Three facts, because a fourth would not be read.
     welcomeTitle: 'Welcome',
     welcomeLead: 'A free app for playing Warhammer 40,000 11th Edition — the rules, your army list, and the game itself.',
@@ -961,6 +962,7 @@ export const ui = {
     rosterCustom: 'Свой',
     rosterExport: 'Экспорт',
     helpLearnMore: 'Как это работает',
+    helpContents: 'Содержание',
     welcomeTitle: 'Добро пожаловать',
     welcomeLead: 'Бесплатное приложение для игры в Warhammer 40,000 11-й редакции — правила, ваш ростер и сама партия.',
     welcomeWhat: 'Основные правила и датащиты фракций, конструктор армейских листов и трекер, который по ходу партии применяет правила вашей армии.',
