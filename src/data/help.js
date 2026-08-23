@@ -44,7 +44,7 @@ export const help = {
         body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result. It is meant to be used with one thumb while the other hand holds dice.
 ▪ Start a game, and the app remembers it — closing the tab or losing signal mid-game changes nothing.
 ▪ Finished games go to the history, where you can look back at how the score was made.
-▪ Sign in (optional) to back the history and your lists up to the cloud, so a new phone starts where the old one left off.`,
+▪ Sign in, and the history and your army lists keep themselves in step across your devices — nothing to press, and a new phone starts where the old one left off.`,
       },
       {
         id: 'help-offline',
@@ -57,7 +57,7 @@ export const help = {
       {
         id: 'help-data',
         title: 'Your data, and ours',
-        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. Signing in is the only way to keep a copy elsewhere, and it is optional.
+        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. **Signing in adds a second home rather than moving them:** they then sync both ways, so a list saved on one device is on the next one you open, a game finished on the phone is in the history on the laptop, and a lost phone costs you nothing. Lists upload when you SAVE one, not on every keystroke, and if two devices changed the same list the later save wins.
 **Our rules and points have a version**, shown in the footer beside the app version. If a list you built somewhere else prices differently here, that is normally the two of us reading different Munitorum Field Manuals rather than an arithmetic error — the import shows both figures side by side for exactly that reason.
 ▪ Found a rule that reads wrong, or a unit priced wrong? Write to the address in the footer, or open an issue in the repository. Say which faction and which unit, and it gets fixed in the next update.
 ▪ What changed and when is listed under the version number, on the changelog page.`,
@@ -98,7 +98,7 @@ export const help = {
         body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points. Он рассчитан на то, что вы работаете одним пальцем, а во второй руке кубики.
 ▪ Начатая партия запоминается — закрыть вкладку или потерять сеть посреди игры ничего не меняет.
 ▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
-▪ Войти в аккаунт (по желанию) — чтобы история и листы сохранились в облаке, и новый телефон начал с того же места.`,
+▪ Войдите в аккаунт — и история с армейскими листами сами держатся в актуальном состоянии на всех ваших устройствах: нажимать ничего не нужно, а новый телефон начинает с того же места.`,
       },
       {
         id: 'help-offline',
@@ -111,7 +111,7 @@ export const help = {
       {
         id: 'help-data',
         title: 'Ваши данные и наши',
-        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. Вход в аккаунт — единственный способ держать копию в другом месте, и он необязателен.
+        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. **Вход в аккаунт не переносит их, а добавляет второй дом:** дальше они синхронизируются в обе стороны — лист, сохранённый на одном устройстве, открывается на следующем, партия, доигранная на телефоне, лежит в истории на ноутбуке, а потерянный телефон не стоит вам ничего. Листы уезжают в облако в момент **сохранения**, а не на каждое нажатие; если один и тот же лист меняли на двух устройствах, побеждает то сохранение, что позже.
 **У наших правил и очков есть версия**, она показана в подвале рядом с версией приложения. Если лист, собранный в другом месте, оценивается у нас иначе, обычно это значит, что мы читаем разные выпуски Munitorum Field Manual, а не ошибку в арифметике — именно поэтому импорт показывает обе суммы рядом.
 ▪ Нашли правило с ошибкой или неверные очки у юнита? Напишите на адрес в подвале или заведите issue в репозитории. Укажите фракцию и юнит — поправим в ближайшем обновлении.
 ▪ Что и когда менялось, перечислено под номером версии, на странице изменений.`,
