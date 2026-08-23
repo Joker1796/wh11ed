@@ -891,13 +891,17 @@ this modifier in force right now? — and the card renders the two apart (`noteS
   force that had nothing computable to change (no melee row to add to, a dice value) is live with
   `applied: false` and belongs here, because it IS in play.
 - **«Possible modifiers»** (`dsModifiersPossible`) — an accordion, closed, everything waiting on a
-  condition. **Only off the table.** In a game the caller passes `hidePossible` and they are not
+  condition **except the core rules** (`possibleModNotes`): a core rule applies to every unit of
+  every army in every game, so against one roster it says nothing — Battle-shock's OC would be a
+  line on every unit of every list being planned, and in this app that rule mostly decides whether
+  the unit can be targeted with a stratagem at all, which is a table question, not a list one.
+  **Only off the table.** In a game the caller passes `hidePossible` and they are not
   rendered at all: a block headed "in play" must not list what is not, and mid-battle a list of what
   MIGHT be true is one more thing to scroll past. Nothing is lost — the condition and its switch are
   on the rule block below the card, which is where it is flipped.
 - Above the unit list, out of a game, the same idea at roster scale: **`RosterViewView`'s
   `possibleGroups`** collects the not-live notes of the roster-wide sources only (army rule,
-  detachment rule, core rule) from the cards' own notes, deduped per rule, and shows them in the
+  detachment rule) from the cards' own notes, deduped per rule, and shows them in the
   place the switch strip takes during a game. An ability, a wargear rule or an enhancement belongs
   to the one unit that carries it and stays on that unit's card.
 - Of the 1429 hand-authored effects, **502 carry a sentinel** (`never`/`blocked-subset`/

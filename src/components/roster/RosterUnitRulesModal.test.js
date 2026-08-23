@@ -490,9 +490,9 @@ describe('RosterUnitRulesModal', () => {
     const notes = document.querySelector('.ds-mods')
     expect(notes.textContent).toContain('Calculated Tenacity')
     expect(document.querySelectorAll('.ds-stat-mod').length).toBeGreaterThan(0)
-    // …while Battle-shock, which no list can prove, is in the second block, the possible one.
-    expect(notes.textContent).not.toContain('Battle-shock')
-    expect(document.querySelectorAll('.ds-mods')[1].textContent).toContain('Battle-shock')
+    // …while Battle-shock, which is the same for every army in every game, is on no list here at
+    // all: nothing about it helps plan a roster (see possibleModNotes).
+    expect(document.body.textContent).not.toContain('Battle-shock')
   })
 
   it('says so when the same ability has nothing to lead', async () => {

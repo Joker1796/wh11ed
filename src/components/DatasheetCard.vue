@@ -393,7 +393,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { withGroupPos } from '../utils/weaponGroups.js'
-import { groupModNotes, modDelta } from '../composables/rosterModNotes.js'
+import { groupModNotes, modDelta, possibleModNotes } from '../composables/rosterModNotes.js'
 import DsAccordion from './DsAccordion.vue'
 import ConditionChips from './ConditionChips.vue'
 
@@ -647,7 +647,7 @@ const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`
 const noteSections = computed(() => {
   const out = []
   const live = props.statNotes.filter((n) => n.live !== false)
-  const possible = props.hidePossible ? [] : props.statNotes.filter((n) => n.live === false)
+  const possible = props.hidePossible ? [] : possibleModNotes(props.statNotes)
   const l = labels.value
   if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
   if (possible.length) {
