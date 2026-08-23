@@ -56,9 +56,10 @@ describe('HelpView', () => {
     const nav = w.findAll('.help-nav-item')
     expect(nav).toHaveLength(help.en.sections.length)
     expect(nav[0].attributes('href')).toBe('#help-search')
-    // Reads as a contents list, not as a row of tags: numbered, one per line, titled.
+    // Reads as a contents list, not as a row of tags: numbered, one per line, titled — and with
+    // no furniture around it (no panel, no chevrons), which is the second thing it was.
     expect(w.find('.help-nav-h').text()).toBe('Contents')
-    expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1', '2', '3', '4', '5', '6'])
+    expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1.', '2.', '3.', '4.', '5.', '6.'])
     expect(nav[0].find('.help-nav-t').text()).toBe(help.en.sections[0].title)
   })
 

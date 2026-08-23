@@ -5,10 +5,9 @@
       <p class="hero-desc">{{ t.intro }}</p>
     </div>
 
-    <!-- A real table of contents, not a pile of tags: somebody arrives with ONE question — usually
-         "does it work without signal" or "where did my lists go" — and has to see, at a glance,
-         which row answers it. Numbered, one per line, and the row for the section you are reading
-         stays lit as you scroll. -->
+    <!-- Plain contents: somebody arrives with ONE question and has to find the line that answers
+         it. A numbered list of links does that; a boxed panel with chevrons only adds furniture.
+         The line for the section being read is marked, which is the one thing a bare list lacks. -->
     <nav class="help-nav" :aria-label="labels.helpContents">
       <p class="help-nav-h">{{ labels.helpContents }}</p>
       <ol class="help-nav-list">
@@ -20,9 +19,8 @@
             :aria-current="active === s.id ? 'true' : undefined"
             @click.prevent="go(s.id)"
           >
-            <span class="help-nav-n">{{ i + 1 }}</span>
+            <span class="help-nav-n">{{ i + 1 }}.</span>
             <span class="help-nav-t">{{ s.title }}</span>
-            <i class="bi bi-chevron-right help-nav-c"></i>
           </a>
         </li>
       </ol>
@@ -127,57 +125,29 @@ function onBodyClick(e) {
   line-height: 1.6;
 }
 
-.help-nav {
-  margin: 0 0 2rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
+.help-nav { margin: 0 0 2rem; }
 .help-nav-h {
-  margin: 0;
-  padding: 0.55rem 0.9rem;
+  margin: 0 0 0.4rem;
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  border-bottom: 1px solid var(--border);
 }
 .help-nav-list { list-style: none; margin: 0; padding: 0; }
-.help-nav-list li + li .help-nav-item { border-top: 1px solid var(--border); }
 
 .help-nav-item {
   display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.65rem 0.9rem;
-  color: var(--text-primary);
+  gap: 0.45rem;
+  padding: 0.22rem 0;
+  color: var(--text-secondary);
   text-decoration: none;
-  /* The lit bar is drawn on a transparent border so the row never changes height when it lights. */
-  border-left: 3px solid transparent;
+  font-size: 0.9rem;
 }
-.help-nav-item:hover { background: var(--bg-primary); }
-.help-nav-item.on { border-left-color: var(--accent); color: var(--accent); background: var(--bg-primary); }
+.help-nav-item:hover { color: var(--accent); }
+.help-nav-item.on { color: var(--accent); }
 
-.help-nav-n {
-  flex: none;
-  width: 1.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
+.help-nav-n { flex: none; color: var(--text-muted); }
 .help-nav-item.on .help-nav-n { color: var(--accent); }
-.help-nav-t { flex: 1; font-size: 0.9rem; }
-.help-nav-c { flex: none; font-size: 0.75rem; color: var(--text-muted); }
-
-/* Two columns once there is room — six rows in one narrow strip reads as a list to scroll past,
-   not as a map of the page. */
-@media (min-width: 720px) {
-  .help-nav-list { display: grid; grid-template-columns: 1fr 1fr; }
-  .help-nav-list li:nth-child(2n) .help-nav-item { border-left-width: 3px; }
-  .help-nav-list li:nth-child(-n + 2) .help-nav-item { border-top: none; }
-  .help-nav-list li:nth-child(n + 3) .help-nav-item { border-top: 1px solid var(--border); }
-}
 
 .help-section { margin-bottom: 1.8rem; scroll-margin-top: 6rem; }
 .help-section h2 {
