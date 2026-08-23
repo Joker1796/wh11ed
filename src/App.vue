@@ -65,7 +65,7 @@ import DomainMoveBanner from './components/DomainMoveBanner.vue'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
-import { useKeywordPopover } from './composables/useKeywordPopover.js'
+import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
@@ -142,6 +142,9 @@ function onKeydown(e) {
 }
 
 function onGlobalClick(e) {
+  // A button that opened the popover on its own (a chip's "i", a rule name under a datasheet's
+  // stats) is not "somewhere else" — without this its own click closes what it just opened.
+  if (opensPopover(e.target)) return
   const refEl = e.target.closest('.cross-ref')
   if (refEl) {
     const { route, anchor } = resolveRef(refEl.dataset.ref)

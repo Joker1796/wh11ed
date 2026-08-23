@@ -32,6 +32,7 @@
           v-if="sw.info"
           type="button"
           class="cond-info"
+          data-kw-open
           :aria-label="sw.label[locale] || sw.label.en"
           @click="$emit('info', sw, $event.currentTarget.getBoundingClientRect())"
         ><i class="bi bi-info-circle"></i></button>
