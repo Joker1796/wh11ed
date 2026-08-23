@@ -24,6 +24,17 @@ describe('help content', () => {
     }
   })
 
+  // The faction rules are the bulk of the app; Combat Patrol is a side door. The page used to give
+  // them equal billing in its own heading, which is not what the product is.
+  it('leads the rules section with the factions, and keeps Combat Patrol as an aside', () => {
+    for (const loc of ['en', 'ru']) {
+      const s = help[loc].sections.find((x) => x.id === 'help-rules')
+      expect(s.title, loc).not.toMatch(/Combat Patrol/)
+      const body = s.body
+      expect(body.indexOf('Combat Patrol'), loc).toBeGreaterThan(body.length / 2)  // last, not first
+    }
+  })
+
   // Everything here has to be something a reader cannot see for themselves — the four questions
   // this page exists to answer. If one of these ever stops being covered, the page has drifted.
   it('answers the questions the screen does not', () => {

@@ -23,11 +23,12 @@ export const help = {
       },
       {
         id: 'help-rules',
-        title: 'Rules, factions, Combat Patrol',
-        body: `The Core Rules are one page with the chapters in order, so a search result and a cross-reference always land in the same place. The Event Companion (missions, terrain layouts, pairings) is one page too.
-▪ On a faction page, pick your detachment once — it is remembered, and the stratagems, enhancements and datasheet rules follow it.
-▪ Every datasheet carries its own weapons, abilities and base sizes; a faction's own FAQ and errata sit on their own tab.
-▪ Combat Patrol boxes have their own section, with the fixed roster each one plays.`,
+        title: 'Rules and factions',
+        body: `**Every faction is here in full** — all 30 of them: the army rule, every detachment with its rule, stratagems and enhancements, and the datasheet of every unit, in both languages. That is the bulk of what this app is for.
+▪ On a faction page, pick your detachment once — it is remembered, and the stratagems, enhancements and datasheet rules follow it everywhere.
+▪ A datasheet carries its weapons, abilities, keywords and base sizes; the faction's own FAQ and errata sit on their own tab.
+▪ The Core Rules are one page with the chapters in order, so a search result and a cross-reference always land in the same place. The Event Companion — missions, terrain layouts, pairings — is one page too.
+▪ Playing a starter box instead? Combat Patrol has a small section of its own, with the fixed roster and rules each box plays. It is a side door, not the main one.`,
       },
       {
         id: 'help-rosters',
@@ -77,11 +78,12 @@ export const help = {
       },
       {
         id: 'help-rules',
-        title: 'Правила, фракции, Combat Patrol',
-        body: `Основные правила — одна страница с главами по порядку, поэтому результат поиска и перекрёстная ссылка всегда приводят в одно и то же место. Event Companion (миссии, раскладки террейна, паринги) — тоже одна страница.
-▪ На странице фракции один раз выберите детачмент — выбор запоминается, и стратагемы, улучшения и правила датащитов следуют за ним.
-▪ У каждого датащита своё оружие, способности и размеры баз; FAQ и эррата фракции живут на отдельной вкладке.
-▪ У наборов Combat Patrol свой раздел — с тем фиксированным составом, которым они играются.`,
+        title: 'Правила и фракции',
+        body: `**Каждая фракция есть целиком** — все 30: правило армии, все детачменты со своим правилом, стратагемами и улучшениями, и датащит каждого юнита, на двух языках. Это основной объём того, ради чего приложение существует.
+▪ На странице фракции один раз выберите детачмент — выбор запоминается, и стратагемы, улучшения и правила датащитов следуют за ним повсюду.
+▪ У датащита есть его оружие, способности, ключевые слова и размеры баз; FAQ и эррата фракции живут на отдельной вкладке.
+▪ Основные правила — одна страница с главами по порядку, поэтому результат поиска и перекрёстная ссылка всегда приводят в одно и то же место. Event Companion — миссии, раскладки террейна, паринги — тоже одна страница.
+▪ Играете стартовый набор? У Combat Patrol свой небольшой раздел с фиксированным составом и правилами каждой коробки. Это боковая дверь, а не главная.`,
       },
       {
         id: 'help-rosters',
