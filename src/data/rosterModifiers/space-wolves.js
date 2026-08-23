@@ -833,7 +833,7 @@ export default {
           }
         }
       ],
-      "dur": "turn"
+      "dur": "round"
     },
     {
       "sid": "cc1ef85f-06f7-43a5-b7ff-3a3f4785d573",

@@ -327,6 +327,49 @@ describe('stratagems', () => {
     expect(stratagemsClearedBy('unit-charged', [rec('krump', 'phase')], p, clock, entry)).toEqual([])
   })
 
+  // 15.01: "unless otherwise stated, each player cannot target the same unit with more than one
+  // stratagem in the same phase", and "each player cannot use the same stratagem more than once in
+  // the same phase". Both are about the phase a stratagem was SPENT in, not about how long it lasts.
+  it('holds the two per-phase limits of 15.01', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'shooting', mine: true, tracked: true }
+    const records = [rec('krump', 'phase'), rec('other', 'turn'), rec('third', 'phase')]
+
+    // One spent on this unit this phase: everything else on its card is out until the next phase.
+    const p = player({ strats: { u1: { krump: stampOf(clock) } } })
+    const out = stratagemsFor(records, p, clock, entry)
+    expect(out.find((s) => s.id === 'krump')).toMatchObject({ on: true, blocked: false })
+    expect(out.find((s) => s.id === 'other')).toMatchObject({ blocked: true, blockedBy: 'unitPhase' })
+
+    // The same stratagem spent on ANOTHER unit this phase blocks it here, and only it.
+    const p2 = player({ strats: { u2: { krump: stampOf(clock) } } })
+    const out2 = stratagemsFor(records, p2, clock, entry)
+    expect(out2.find((s) => s.id === 'krump')).toMatchObject({ blocked: true, blockedBy: 'usedPhase' })
+    expect(out2.find((s) => s.id === 'other')).toMatchObject({ blocked: false, blockedBy: null })
+  })
+
+  it('lets the unit be targeted again in the next phase, in force or not', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'movement', mine: true, tracked: true }
+    // A turn-long stratagem spent in the Movement phase: still rewriting the card in the Shooting
+    // phase, and no obstacle at all to spending another one there.
+    const p = player({ strats: { u1: { other: stampOf(clock) } } })
+    const out = stratagemsFor([rec('krump', 'phase'), rec('other', 'turn')], p, { ...clock, phase: 'shooting' }, entry)
+    expect(out.find((s) => s.id === 'other')).toMatchObject({ on: true })
+    expect(out.find((s) => s.id === 'krump')).toMatchObject({ blocked: false })
+  })
+
+  // A game that keeps no phases stamps bare rounds, so "the same phase" cannot be answered — and
+  // blocking the whole round would forbid a second stratagem the rules allow in a later phase.
+  it('sits the per-phase limits out when the game keeps no clock', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'shooting', mine: false, tracked: false }
+    const p = player({ strats: { u1: { krump: 2 } } })
+    const out = stratagemsFor([rec('krump', 'phase'), rec('other', 'phase')], p, clock, entry)
+    expect(out.find((s) => s.id === 'krump')).toMatchObject({ on: true })
+    expect(out.find((s) => s.id === 'other')).toMatchObject({ blocked: false })
+  })
+
   it('says nothing for an entry that spent none', async () => {
     const { activeStratagems } = await import('./rosterGameContext.js')
     expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)

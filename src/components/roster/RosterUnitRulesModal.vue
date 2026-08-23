@@ -38,10 +38,11 @@
         <div v-if="gameCtx?.strats?.length" class="rum-strats">
           <h4 class="rum-strats-h">
             {{ labels.srcStratagem }}
-            <!-- Core Rules 01.07: a Battle-shocked unit cannot be targeted with stratagems. The
-                 chips are inert rather than hidden — what you cannot spend right now is still worth
-                 knowing you have. -->
-            <span v-if="stratsBlocked" class="rum-strats-note">{{ labels.stratBlockedShock }}</span>
+            <!-- The chips are inert rather than hidden — what you cannot spend right now is still
+                 worth knowing you have — and the reason that applies to the WHOLE block is said
+                 once here (Battle-shock, or the unit having been targeted this phase already). A
+                 reason that hits one chip only ("already used this phase") rides on that chip. -->
+            <span v-if="stratsBlockedNote" class="rum-strats-note">{{ stratsBlockedNote }}</span>
           </h4>
           <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
         </div>
@@ -460,7 +461,14 @@ const abilitySwitches = computed(() => {
   return out
 })
 
-const stratsBlocked = computed(() => (props.gameCtx?.strats || []).some((st) => st.blocked))
+// Battle-shock and "this unit was already targeted this phase" block every chip in the block, so
+// they are stated in its header; the per-stratagem reason is a chip tooltip (ConditionChips).
+const stratsBlockedNote = computed(() => {
+  const blocked = (props.gameCtx?.strats || []).filter((st) => st.blocked)
+  if (blocked.some((st) => st.blockedBy === 'shock')) return labels.value.stratBlockedShock
+  if (blocked.some((st) => st.blockedBy === 'unitPhase')) return labels.value.stratBlockedUnit
+  return null
+})
 
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value

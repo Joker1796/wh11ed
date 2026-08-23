@@ -218,28 +218,68 @@ export function stratagemsClearedBy(condId, resolvedEntries, player, clock, entr
     .filter((sid) => (byId.get(sid)?.dur || 'phase') !== 'battle')
 }
 
+// WHAT WAS SPENT IN THE PHASE THE GAME IS STANDING IN — the two per-phase limits of rule 15.01
+// ("each player cannot use the same stratagem more than once in the same phase", and "unless
+// otherwise stated, each player cannot target the same unit with more than one stratagem in the
+// same phase") are both about the phase a stratagem was SPENT in, not about how long its effect
+// lasts: a turn-long stratagem spent in the Movement phase does not stop the unit being targeted
+// again in the Shooting phase.
+//
+// Only a game that keeps phases can answer this. Without one every stamp is a bare round (see the
+// clock note at the top), so "the same phase" is unknowable, and blocking a whole round would
+// forbid play the rules allow — the wrong way to be wrong. Returns null there, and the limits sit out.
+function spentThisPhase(player, clock) {
+  if (!normaliseClock(clock).tracked) return null
+  const now = stampOf(clock)
+  const sids = new Set()          // every stratagem used this phase, whoever it was used on
+  const byUid = new Map()         // …and which of them landed on each unit
+  for (const [uid, store] of Object.entries(player?.ctx?.strats || {})) {
+    for (const [sid, at] of Object.entries(store)) {
+      if (isLegacy(at) || at !== now) continue
+      sids.add(sid)
+      if (!byUid.has(uid)) byUid.set(uid, new Set())
+      byUid.get(uid).add(sid)
+    }
+  }
+  return { sids, byUid }
+}
+
 // The stratagems worth offering on a card: this entry's own records that actually carry an effect,
 // each with whether it is in force right now.
 //
-// A Battle-shocked unit cannot be targeted with stratagems at all (Core Rules 01.07), so the ones
-// it has not already got are BLOCKED rather than merely off — spending one on it is not a thing the
-// game allows, and an app that lets you tap it is teaching the rule wrong. Ones already in force
-// stay flippable, so a mis-tap can always be taken back — but they are normally gone by then:
-// switching Battle-shock ON un-spends them first (stratagemsClearedBy).
+// A chip the rules forbid tapping is BLOCKED rather than hidden — what you cannot spend right now
+// is still worth knowing you have — and it says WHY, because all three reasons are temporary and a
+// player who cannot see the reason cannot tell when it lifts:
+//   shock      Battle-shocked: this unit cannot be targeted with stratagems at all (01.07)
+//   unitPhase  the unit has already been targeted with one this phase (15.01)
+//   usedPhase  this stratagem has already been used this phase, here or on another unit (15.01)
+// Ones already in force stay flippable whatever the reason, so a mis-tap can always be taken back —
+// which is also the escape hatch for the "unless otherwise stated" stratagem that IS allowed to
+// double up: un-spend the other one. (Switching Battle-shock on un-spends them for you, so a
+// shocked unit normally has none left — stratagemsClearedBy.)
 export function stratagemsFor(resolvedEntries, player, clock, entry) {
   const active = activeStratagems(player, clock, entry, resolvedEntries)
   const shocked = stratagemsBlocked(player, clock, entry)
+  const spent = spentThisPhase(player, clock)
+  const takenThisPhase = !!spent?.byUid.get(entry?.uid)?.size
   return (resolvedEntries || [])
     .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
     .map((rec) => {
       const on = active.has(rec.sid)
+      let blockedBy = null
+      if (!on) {
+        if (shocked) blockedBy = 'shock'
+        else if (takenThisPhase) blockedBy = 'unitPhase'
+        else if (spent?.sids.has(rec.sid)) blockedBy = 'usedPhase'
+      }
       return {
         id: rec.sid,
         label: { en: rec.name, ru: rec.name },   // stratagem names stay English by project convention
         det: rec.det || null,
         on,
         auto: false,
-        blocked: shocked && !on,
+        blocked: !!blockedBy,
+        blockedBy,
         duration: rec.dur || 'phase',
       }
     })

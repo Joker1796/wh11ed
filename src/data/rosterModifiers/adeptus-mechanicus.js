@@ -900,7 +900,7 @@ export default {
           ]
         }
       ],
-      "dur": "turn"
+      "dur": "round"
     },
     {
       "sid": "85cd645b-36de-4c71-94fb-d1dd8b63d61d",
@@ -927,7 +927,7 @@ export default {
           }
         }
       ],
-      "dur": "turn"
+      "dur": "round"
     },
     {
       "sid": "df721828-da79-4f3a-adfc-7a2b9dc1cad9",

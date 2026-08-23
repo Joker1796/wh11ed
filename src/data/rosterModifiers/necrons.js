@@ -1248,7 +1248,7 @@ export default {
           "alt": 0
         }
       ],
-      "dur": "turn"
+      "dur": "round"
     },
     {
       "sid": "1b7e64e2-00bb-48a9-a88e-6c35d4aa0961",

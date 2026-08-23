@@ -864,7 +864,7 @@ export default {
           ]
         }
       ],
-      "dur": "turn"
+      "dur": "round"
     },
     {
       "sid": "aa2b5fe6-cfe5-46f6-b3bd-2a525e755ab2",
