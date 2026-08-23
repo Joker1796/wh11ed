@@ -37,8 +37,8 @@
     <!-- Bilingual title/description: the SPA overrides these per locale at runtime (useSeoMeta),
          but the raw HTML carries the Cyrillic brand (Вархаммер) + "на русском" so RU queries are
          covered even before/without JS rendering. -->
-    <title>Warhammer 40,000 11 ed — правила, фракции, ростеры и трекер на русском</title>
-    <meta name="description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus a free army list builder (import from the GW app or New Recruit) and an offline game tracker. Searchable, installable, free. · Справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском — основные правила, миссии и стратагемы, фракции и листы данных, конструктор армейских листов (ростер-билдер) и трекер очков, бесплатно." />
+    <title>Warhammer 40,000 11 ed на русском — правила, ростеры и трекер партии</title>
+    <meta name="description" content="A free app for playing Warhammer 40,000 11th Edition: the complete core rules and Event Companion, every faction&#39;s rules and datasheets, an army list builder priced against the current MFM (import from the GW app or New Recruit), and a game tracker that applies your army&#39;s own rules while you play. Bilingual EN/RU, installable, fully offline, no account needed. · Бесплатное приложение для игры в Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила и листы данных фракций, конструктор ростеров по актуальному MFM и трекер партии, который применяет правила вашей армии по ходу игры. Офлайн, без аккаунта." />
     <!-- canonical + hreflang + og:url are set PER ROUTE at runtime by useSeoMeta.js
          (history routing: every deep URL serves this same file, so a static canonical
          here would wrongly point every page at "/"). Do not re-add them statically. -->
@@ -47,8 +47,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="WH Rules" />
-    <meta property="og:title" content="Warhammer 40,000 11th Edition — Rules, Datasheets, Army List Builder &amp; Tracker" />
-    <meta property="og:description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker. Searchable, installable, free." />
+    <meta property="og:title" content="Warhammer 40,000 11th Edition — rules, army lists and a live game tracker" />
+    <meta property="og:description" content="Everything the table needs for Warhammer 40,000 11th Edition: core rules and the Event Companion, faction rules and datasheets, an army list builder, and a tracker that applies your army&#39;s own rules while you play. Bilingual EN/RU, fully offline, free, no account needed." />
     <meta property="og:image" content="%SITE_ORIGIN%/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -57,8 +57,8 @@
 
     <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Warhammer 40,000 11th Edition — Rules, Datasheets, Army List Builder &amp; Tracker" />
-    <meta name="twitter:description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker." />
+    <meta name="twitter:title" content="Warhammer 40,000 11th Edition — rules, army lists and a live game tracker" />
+    <meta name="twitter:description" content="Everything the table needs for Warhammer 40,000 11th Edition: core rules and the Event Companion, faction rules and datasheets, an army list builder, and a tracker that applies your army&#39;s own rules while you play. Bilingual EN/RU, fully offline, free, no account needed." />
     <meta name="twitter:image" content="%SITE_ORIGIN%/og-image.png" />
 
     <!-- Structured data -->
@@ -70,14 +70,14 @@
             "@type": "WebSite",
             "@id": "%SITE_ORIGIN%/#website",
             "name": "WH Rules",
-            "alternateName": ["Warhammer 40,000 11th Edition — Rules, Factions & Tracker", "Вархаммер 40000 — правила 11-й редакции на русском"],
+            "alternateName": ["Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker", "Вархаммер 40000 — правила, ростеры и трекер 11-й редакции на русском"],
             "url": "%SITE_ORIGIN%/",
             "inLanguage": ["en", "ru"],
-            "description": "Bilingual EN/RU reference for the Warhammer 40,000 11th Edition Core Rules, Event Companion, faction rules and unit datasheets, with an army list builder and a game tracker."
+            "description": "A bilingual EN/RU app for playing Warhammer 40,000 11th Edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder, and a game tracker that applies your army's own rules."
           },
           {
             "@type": "WebApplication",
-            "name": "WH Rules — Warhammer 40,000 11th Edition rules, datasheets, army list builder & tracker",
+            "name": "WH Rules — Warhammer 40,000 11th Edition rules, rosters and game tracker",
             "url": "%SITE_ORIGIN%/",
             "isPartOf": { "@id": "%SITE_ORIGIN%/#website" },
             "applicationCategory": "GameApplication",
@@ -85,12 +85,13 @@
             "inLanguage": ["en", "ru"],
             "isAccessibleForFree": true,
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "description": "Bilingual EN/RU interactive reference for the Warhammer 40,000 11th Edition Core Rules, Event Companion, faction rules and unit datasheets, with a free army list builder and an offline game tracker.",
+            "description": "A free bilingual (EN/RU) app for playing Warhammer 40,000 11th Edition end to end: look a rule up, build the army list, then run the game with your army's own rules applied. Installable, works fully offline, and needs no account.",
             "featureList": [
               "Core Rules and Event Companion, searchable in English and Russian",
               "Faction rules, detachments and unit datasheets",
               "Army list builder with Munitorum Field Manual points, import from the Warhammer 40,000 app and New Recruit",
-              "Offline two-player game tracker"
+              "Offline two-player game tracker that applies your army's detachment rules, auras and stratagems to the units on screen",
+              "Works without an account, entirely on your device; signing in syncs lists and games across devices"
             ]
           }
         ]

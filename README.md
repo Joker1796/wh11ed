@@ -1,8 +1,10 @@
 # WH Rules
 
-Bilingual (EN/RU) digital reference for the **Warhammer 40,000 11th edition** rules, plus an
-offline tracker for a game in progress. Built as a fast, searchable alternative to flipping
-through the PDF at the table — and, once installed, it works with no connection at all.
+A bilingual (EN/RU) app for **playing Warhammer 40,000 11th edition** — the whole evening in one
+place: look a rule up, build the army list, then run the game with that list's own rules applied to
+the units on screen. It started as a searchable alternative to flipping through the PDF at the
+table, and the reference is still its foundation; the roster builder and the tracker are what grew
+on top. Once installed it works with no connection at all, and **nothing here needs an account.**
 
 🌐 **[wh-rules.ru](https://wh-rules.ru)** · open source under [MIT](LICENSE) · contributions
 welcome
@@ -21,17 +23,24 @@ This repo is the frontend, and the frontend is ~99% of the product. See
   missions and the 6 twists.
 - **Factions** — army rules, detachments (detachment rule, stratagems, enhancements) and unit
   datasheets for **28 factions**, with a chapter/detachment picker shared across pages.
+- **Rosters** — an army list builder priced against the current Munitorum Field Manual: units,
+  wargear, leaders, enhancements and detachment limits, checked as you build. Import a list from
+  the Warhammer 40,000 app or New Recruit, export it in the shapes a TO or a Discord channel wants,
+  share it as a link (the list rides inside the link, never a server), or hand it to the tracker.
 - **Game Tracker** — a client-side, offline 2-player VP tracker for a full 5-round game: setup
   wizard, primary/secondary missions, tactical secondary deck, CP, twists, battle points, and a
-  per-round score breakdown. Finished games are archived to history.
+  per-round score breakdown. Finished games are archived to history. **With a roster loaded it also
+  applies that army's rules**: a unit's card shows what its detachment rule, the auras reaching it
+  and the stratagems spent on it are doing to its numbers right now.
 - **Stratagems** — a stripped-down quick reference for game time; with a game in progress it also
   shows both players' detachment stratagems, grouped by phase.
 - **Bilingual** — every rule and UI string ships in English and Russian, switchable at runtime.
   Game terms carry inline glosses that open a definition popover.
 - **Instant search** — `Ctrl+K` across every rule, ability, keyword and unit name.
 - **Installable PWA** — see *Offline* below.
-- **Optional cloud backup** — sign in to keep tracker history across devices, via
-  [wh11ed-api](https://github.com/Joker1796/wh11ed-api). Everything else works without it.
+- **Optional cloud sync** — signing in keeps your army lists and tracker history in step across
+  your devices, via [wh11ed-api](https://github.com/Joker1796/wh11ed-api). Signed out, every part of
+  the app still works; the data simply stays on the one device.
 
 ## Offline
 

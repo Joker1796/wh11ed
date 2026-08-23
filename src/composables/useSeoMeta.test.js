@@ -25,9 +25,12 @@ describe('applyRouteMeta', () => {
     document.title = ''
   })
 
+  // The literals below are what a crawler and a shared link actually show, so they are pinned
+  // rather than derived — and they move when the product's positioning does. The landing gets its
+  // OWN title; everything unrecognised falls back to the default one.
   it('sets the project landing title + default description on home', () => {
     applyRouteMeta('/', 'en')
-    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — rules, army lists and a live game tracker')
     expect(descContent()).toMatch(/Bilingual/)
   })
 
@@ -48,11 +51,11 @@ describe('applyRouteMeta', () => {
   // the default.
   it('falls back to the default for the retired per-chapter routes', () => {
     applyRouteMeta('/basic-rules', 'en')
-    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker')
     expect(canonicalHref()).toBe('')
 
     applyRouteMeta('/event-companion/missions', 'en')
-    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker')
     expect(canonicalHref()).toBe('')
   })
 
@@ -79,7 +82,7 @@ describe('applyRouteMeta', () => {
 
   it('falls back to the default for unknown routes', () => {
     applyRouteMeta('/totally-unknown', 'ru')
-    expect(document.title).toBe('Warhammer 40,000 11-я редакция — правила, фракции и трекер')
+    expect(document.title).toBe('Warhammer 40,000 11-я редакция — правила, ростеры и трекер партии')
   })
 
   it('reuses a single <meta name="description"> element across calls', () => {

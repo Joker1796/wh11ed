@@ -12,7 +12,7 @@
 export const help = {
   en: {
     title: 'How to use this',
-    intro: 'A short guide to the parts that are not obvious from the screen. Everything here is free, needs no account, and works on a phone at the table.',
+    intro: 'This is an app for playing 11th edition end to end: look a rule up, build the army list, then run the game with that list\'s own rules applied. Below are the parts that are not obvious from the screen. All of it is free, works without an account, and is meant for a phone at the table.',
     sections: [
       {
         id: 'help-search',
@@ -57,7 +57,7 @@ export const help = {
       {
         id: 'help-data',
         title: 'Your data, and ours',
-        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. **Signing in adds a second home rather than moving them:** they then sync both ways, so a list saved on one device is on the next one you open, a game finished on the phone is in the history on the laptop, and a lost phone costs you nothing. Lists upload when you SAVE one, not on every keystroke, and if two devices changed the same list the later save wins.
+        body: `**Your lists and games live on your device**, not on a server — clearing the browser's data clears them too. **Nothing here needs an account:** every part of the app works signed out, with nothing locked, capped or nagged about. **Signing in adds a second home rather than moving them:** they then sync both ways, so a list saved on one device is on the next one you open, a game finished on the phone is in the history on the laptop, and a lost phone costs you nothing. Lists upload when you SAVE one, not on every keystroke, and if two devices changed the same list the later save wins.
 **Our rules and points have a version**, shown in the footer beside the app version. If a list you built somewhere else prices differently here, that is normally the two of us reading different Munitorum Field Manuals rather than an arithmetic error — the import shows both figures side by side for exactly that reason.
 ▪ Found a rule that reads wrong, or a unit priced wrong? Write to the address in the footer, or open an issue in the repository. Say which faction and which unit, and it gets fixed in the next update.
 ▪ What changed and when is listed under the version number, on the changelog page.`,
@@ -66,7 +66,7 @@ export const help = {
   },
   ru: {
     title: 'Как пользоваться',
-    intro: 'Короткий гид по тому, что не видно с экрана. Всё бесплатно, без аккаунта и рассчитано на телефон за столом.',
+    intro: 'Это приложение для игры в 11-ю редакцию целиком: посмотреть правило, собрать армейский лист и провести партию с применением правил этого листа. Ниже — то, что не видно с экрана. Всё бесплатно, работает без аккаунта и рассчитано на телефон за столом.',
     sections: [
       {
         id: 'help-search',
@@ -111,7 +111,7 @@ export const help = {
       {
         id: 'help-data',
         title: 'Ваши данные и наши',
-        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. **Вход в аккаунт не переносит их, а добавляет второй дом:** дальше они синхронизируются в обе стороны — лист, сохранённый на одном устройстве, открывается на следующем, партия, доигранная на телефоне, лежит в истории на ноутбуке, а потерянный телефон не стоит вам ничего. Листы уезжают в облако в момент **сохранения**, а не на каждое нажатие; если один и тот же лист меняли на двух устройствах, побеждает то сохранение, что позже.
+        body: `**Ваши листы и партии хранятся на устройстве**, а не на сервере — очистка данных браузера удалит и их. **Аккаунт здесь ни для чего не обязателен:** без входа работает всё, ничего не заперто, не урезано и не выпрашивается. **Вход не переносит данные, а добавляет второй дом:** дальше они синхронизируются в обе стороны — лист, сохранённый на одном устройстве, открывается на следующем, партия, доигранная на телефоне, лежит в истории на ноутбуке, а потерянный телефон не стоит вам ничего. Листы уезжают в облако в момент **сохранения**, а не на каждое нажатие; если один и тот же лист меняли на двух устройствах, побеждает то сохранение, что позже.
 **У наших правил и очков есть версия**, она показана в подвале рядом с версией приложения. Если лист, собранный в другом месте, оценивается у нас иначе, обычно это значит, что мы читаем разные выпуски Munitorum Field Manual, а не ошибку в арифметике — именно поэтому импорт показывает обе суммы рядом.
 ▪ Нашли правило с ошибкой или неверные очки у юнита? Напишите на адрес в подвале или заведите issue в репозитории. Укажите фракцию и юнит — поправим в ближайшем обновлении.
 ▪ Что и когда менялось, перечислено под номером версии, на странице изменений.`,

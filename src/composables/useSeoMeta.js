@@ -27,12 +27,12 @@ const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
 const DEFAULT = {
   title: {
-    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
-    ru: 'Warhammer 40,000 11-я редакция — правила, фракции и трекер',
+    en: 'Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker',
+    ru: 'Warhammer 40,000 11-я редакция — правила, ростеры и трекер партии',
   },
   description: {
-    en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker — searchable, free.',
-    ru: 'Двуязычный (EN/RU) интерактивный справочник по Warhammer 40,000 11-й редакции: основные правила, Event Companion, правила фракций и листы данных юнитов, плюс бесплатный конструктор армейских листов и офлайн-трекер партии — с поиском, бесплатно.',
+    en: 'A free bilingual (EN/RU) app for playing Warhammer 40,000 11th edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder, and a game tracker that applies your army\'s own rules. Offline, no account needed.',
+    ru: 'Бесплатное двуязычное (EN/RU) приложение для игры в Warhammer 40,000 11-й редакции: основные правила и Event Companion, правила фракций и листы данных юнитов, конструктор армейских листов и трекер партии, применяющий правила вашей армии. Офлайн, без аккаунта.',
   },
 }
 
@@ -41,12 +41,12 @@ const DEFAULT = {
 // scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
 const LANDING = {
   title: {
-    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
-    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила, фракции и ростеры на русском',
+    en: 'Warhammer 40,000 11th Edition — rules, army lists and a live game tracker',
+    ru: 'Warhammer 40 000 (Вархаммер) 11-я редакция на русском — правила, ростеры и трекер партии',
   },
   description: {
-    en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker. Searchable, installable, free.',
-    ru: 'Справочник по Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила фракций и листы данных юнитов, конструктор армейских листов (ростер-билдер) и трекер очков. С поиском, офлайн, бесплатно.',
+    en: 'Everything the table needs for Warhammer 40,000 11th edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder priced against the current MFM, and a tracker that applies your army\'s own rules while you play. Bilingual, installable, fully offline, free — and it all works without an account.',
+    ru: 'Всё, что нужно за столом в Warhammer 40 000 (Вархаммер) 11-й редакции: основные правила и Event Companion, правила фракций и листы данных юнитов, конструктор ростеров по актуальному MFM и трекер партии, применяющий правила вашей армии. Двуязычно, офлайн, бесплатно — и всё работает без аккаунта.',
   },
 }
 
