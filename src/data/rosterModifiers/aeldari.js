@@ -1387,6 +1387,8 @@ export default {
         "scopes": [
           {
             "targets": [
+              "WRAITHBLADES",
+              "WRAITHGUARD",
               "WRAITHLORD"
             ],
             "excludes": []

@@ -18,13 +18,17 @@
 //      gating on that one word would hide it from every infantry unit in the army.
 //   3. If no unit in the faction matches at all, the extraction is assumed wrong and ignored.
 //
-// Measured across all 30 factions: 225 of 268 detachment rules yield a scope, 41% of
-// (unit, rule) pairs are hidden, no unit is left seeing none of its faction's rules, and 7 rules
-// fall through escape 3 — prose that abbreviates a faction keyword ("Votann units" against the
-// LEAGUES OF VOTANN keyword, "AGENTS OF IMPERIUM"), or a capitalised word that was never a
-// keyword. Those 7 are shown to everyone, which for the army-wide ones is the right answer
-// anyway. Re-run that measurement after touching the patterns; the numbers are the only way to
-// tell a sharper gate from a wrongly-hiding one.
+// Measured across all 30 factions (re-measured 2026-08-23, after teaching KW_ALT the comma/or/and
+// list form): 227 of 268 detachment rules yield a scope, 38.7% of (unit, rule) pairs are hidden,
+// no unit is left seeing none of its faction's rules, and 10 rules fall through escape 3 — prose
+// that abbreviates a faction keyword ("Votann units" against the LEAGUES OF VOTANN keyword,
+// "AGENTS OF IMPERIUM"), or a capitalised word that was never a keyword. Those 10 are shown to
+// everyone, which for the army-wide ones is the right answer anyway. Re-run that measurement after
+// touching the patterns; the numbers are the only way to tell a sharper gate from a wrongly-hiding
+// one — and diff the per-rule VISIBLE UNIT SETS, not just the totals. The 2026-08-23 change moved
+// 16 rules to more units (each one a rule that had been hiding from units it names) and two the
+// other way: Skitarii Hunter Cohort and Cult of Blood named their targets in a list, matched no
+// keyword end to end, and so had been shown to the whole army by escape 2.
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
@@ -32,8 +36,15 @@
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
 const KW = "[A-Z][A-Za-z’'\\-]*(?:\\s+[A-Z][A-Za-z’'\\-]*)*"
-// …optionally written as an alternation: "Friendly Immortals/Necron Warriors units".
-const KW_ALT = `${KW}(?:\\s*/\\s*${KW})*`
+// …optionally written as an alternation: "Friendly Immortals/Necron Warriors units", and equally
+// often as an English list — "a WRAITHBLADES, WRAITHGUARD or WRAITHLORD unit", "friendly JAKHALS or
+// GOREMONGERS units". Reading only the slash form cost the whole gate on the list form: the run
+// breaks at the comma, so the pattern either kept the LAST keyword alone (hiding the rule from the
+// other two) or matched nothing at all and fell through escape 2. The separators can only extend a
+// run that is still followed by "units"/"models", so a sentence that merely happens to carry "and"
+// after a keyword backtracks to the plain form.
+const KW_SEP = "(?:\\s*/\\s*|,\\s*|\\s+(?:or|and)\\s+)"
+const KW_ALT = `${KW}(?:${KW_SEP}${KW})*`
 // A parenthetical can sit between the noun and "from your army": "a Necrons model (excluding
 // Monster models) from your army". The exclusion inside it is picked up separately by EXCLUDE.
 const PAREN = "(?:\\s*\\([^)]*\\))?"
@@ -62,7 +73,8 @@ const STOP = new Set(['The', 'This', 'That', 'These', 'Those', 'Each', 'While', 
   'Add', 'Subtract', 'Your', 'You', 'Roll', 'Select', 'Then', 'Once', 'For', 'Command', 'Movement', 'Shooting',
   'Charge', 'Fight', 'Phase', 'Battle', 'Round', 'Turn', 'Range', 'Strength', 'Toughness', 'Attacks', 'Wound',
   'Hit', 'Save', 'Other', 'Units', 'Models', 'Unit', 'Model', 'A', 'An', 'One', 'Any', 'All', 'Every', 'Eligible',
-  'Enemy', 'Friendly', 'Keywords', 'Trigger', 'Effect', 'Number', 'Up', 'Same', 'Different', 'Both', 'Either'])
+  'Enemy', 'Friendly', 'Keywords', 'Trigger', 'Effect', 'Number', 'Up', 'Same', 'Different', 'Both', 'Either',
+  'Detachment'])
 
 const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 
@@ -122,8 +134,8 @@ export function ruleScopes(body) {
       re.lastIndex = 0
       let m
       while ((m = re.exec(passage))) {
-        // A slash alternation is several targets, not one phrase.
-        for (const alt of m[1].split('/')) {
+        // An alternation is several targets, not one phrase.
+        for (const alt of m[1].split(/\s*\/\s*|,\s*|\s+(?:or|and)\s+/)) {
           const words = alt.trim().split(/\s+/).filter((w) => !isStop(w))
           if (words.length) found.add(words.join(' '))
         }

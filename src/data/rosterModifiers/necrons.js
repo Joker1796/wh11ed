@@ -1322,7 +1322,18 @@ export default {
       "det": "Starshatter Arsenal",
       "ref": {
         "kind": "enhancement",
-        "det": "starshatter-arsenal"
+        "det": "starshatter-arsenal",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS VEHICLE",
+              "NECRONS MOUNTED"
+            ],
+            "excludes": [
+              "TITANIC"
+            ]
+          }
+        ]
       },
       "hash": "74d2c9d5",
       "ver": 925,
