@@ -438,6 +438,73 @@ describe('matchRoster — listhammer against our own data', () => {
   })
 })
 
+// Two things a real Thousand Sons export off the same site turned up, both of which had nothing to
+// do with listhammer's spelling and everything to do with what the parser assumed.
+describe('parseList — a header line with no points, and a weapon two groups offer', () => {
+  // Some lists come out with a bare title ("Bootcamp 11th die Zweite"), no points on it. That line
+  // then stood where the faction was expected and the import failed with "unknown faction".
+  it('reads an unpriced first line as the list’s name, not as its faction', () => {
+    const p = parseList(`Bootcamp 11th die Zweite
+
+Thousand Sons
+Grand Coven (3 Detachment Points)
+Priority Assets
+Strike Force (2.000 Points)
+
+CHARACTERS
+
+Magnus the Red (455 Points)
+  • Warlord
+  • 1x Blade of Magnus`)
+    expect(p.name).toBe('Bootcamp 11th die Zweite')
+    expect(p.faction).toBe('Thousand Sons')
+    expect(p.limit).toBe(2000)
+    expect(p.detachments).toEqual(['Grand Coven'])
+  })
+
+  // …but a list pasted from its faction line down still has to work, so an exact faction name is
+  // never taken for a title.
+  it('does not eat the faction when the list was pasted without its title', () => {
+    const p = parseList(`Thousand Sons
+Strike Force (2000 points)
+
+CHARACTERS
+
+Magnus the Red (455 points)
+  • 1x Blade of Magnus`)
+    expect(p.faction).toBe('Thousand Sons')
+  })
+
+  // A Defiler may replace its heavy baleflamer AND its heavy missile launcher with a heavy reaper
+  // autocannon: two paid picks in two different groups, written as two identical lines. Merging
+  // them into one pick charged for one of the two.
+  it('spends a repeated weapon on a second group before merging it into the first', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/thousand-sons.js'),
+      import('../data/roster/items.js'),
+    ])
+    const list = `Coven
+
+Thousand Sons
+Grand Coven (3 Detachment Points)
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Defiler (330 Points)
+  • 2x Excruciator cannon
+  • 1x Hades battle cannon
+  • 1x Heavy reaper autocannon
+  • 1x Heavy reaper autocannon
+  • 1x Shearing claws`
+    const { payload, report } = matchRoster(parseList(list), { faction, core: rosterCore, items: items.items })
+    const defiler = report.units.find((u) => u.name === 'Defiler')
+    expect(defiler.points.computed).toBe(330)                       // 300 + 15 + 15
+    expect(payload.units[0].wg).toHaveLength(2)
+    expect(payload.units[0].wg[0][0]).not.toBe(payload.units[0].wg[1][0])   // …two different groups
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')
