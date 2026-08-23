@@ -124,9 +124,15 @@ directory; still part of this feature:
     heading of its own.
   - **`wtc`** — the tournament header format (New Recruit calls it WTC): a `+ KEY: value` block
     between `+++` bars, characters numbered `Char1…` so `+ WARLORD:` and `+ ENHANCEMENT:` can point
-    at one, then a line per unit with its wargear inline.
-  - **`compact`** — one line per unit for a chat message; identical entries collapse to `2x` with
-    their points **summed**, so the copy surcharge stays visible.
+    at one, then a line per unit with its wargear inline, plus an indented `Attached to <unit>`
+    line — the format's own way of stating an attachment, and what keeps a leader attached through
+    a round trip.
+  - **`wtc-compact`** — the same list with the per-profile bullets folded into the unit's own line.
+    It is not a different grammar (the readers in circulation parse both with one parser), just a
+    shorter body: a squad is one line instead of three.
+  - **`compact`** — ours, one line per unit for a chat message; identical entries collapse to `2x`
+    with their points **summed**, so the copy surcharge stays visible. The shortest thing here, at
+    the price of being the one format nobody else parses.
 
   **Weapons come out as totals per model profile**, swaps already spent — `loadoutGroups()` reuses
   the same `modelsPerMini`/`swapsByMini` accounting the editor shows on screen, so the export prints
@@ -163,9 +169,20 @@ directory; still part of this feature:
     `def.minis` so the pick lands in the right group and prices the unit correctly. The same option
     named once per profile is merged into ONE pick — two triples would charge for it twice.
 
-  **What each format cannot carry**, pinned by the round-trip tests: a WTC list states no list name
-  and no attachment, so an imported one comes back as "Roster" with its leaders unattached. The GW
-  format survives a round trip intact.
+  **The WTC family is read by ONE tolerant parser**, because New Recruit's plain and compact exports
+  differ only in how much of the body they spell out. It accepts `•` and `*` bullets, `pts` /
+  `points` / `pt`, a quantity with or without its `x`, any `Char1:` / `Infa6:`-style reference
+  prefix, and indented `9 with Bolt pistol, Chainsword` detail lines — where the leading number
+  counts MODELS, so each item it lists is carried that many times over. The `+++` header is read as
+  a SOURCE, not a summary: a compact export often states an enhancement only there, and the warlord
+  only by its `Char1:` reference.
+
+  **An attachment is a line, and either side can carry it** (`Attached to <unit>`), so the matcher
+  makes the CHARACTER of the pair the leader whichever way round it was written.
+
+  **What each format cannot carry**, pinned by the round-trip tests: neither WTC shape has a field
+  for the list's own NAME, so an imported one comes back as "Roster" — everything else, attachment
+  included, survives. The GW format survives a round trip whole.
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without

@@ -52,8 +52,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const FORMATS = EXPORT_FORMATS
-const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', compact: 'rosterFmtCompact' }
-const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', compact: 'rosterFmtCompactHint' }
+const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact' }
+const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint' }
 const format = ref('gw')
 
 // The footer names the tool and the points data that wrote the list — never the GW app's own
