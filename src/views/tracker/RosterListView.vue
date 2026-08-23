@@ -73,6 +73,12 @@
             <span class="rpoints" :class="{ over: (r.summary?.points || 0) > limitOf(r) }">
               {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
             </span>
+            <!-- What this list did on the table. Only ever present on a saved list — a draft
+                 can't be attached to a game — and it links nowhere: the full record is on
+                 /tracker/stats, which the tracker page carries a way into. -->
+            <span v-if="recordOf(r)" class="rrec" :title="labels.statsTitle">
+              <i class="bi bi-trophy"></i> {{ recordOf(r) }}
+            </span>
             <span v-if="r.draft" class="rstep">{{ draftStepLabel(r) }}</span>
             <span v-else-if="r.summary?.issues" class="issues" :title="String(r.summary.issues)">
               <i class="bi bi-exclamation-triangle-fill"></i> {{ r.summary.issues }}
@@ -144,6 +150,7 @@ import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
+import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -191,7 +198,17 @@ function draftStepLabel(r) {
 // the uploads/downloads that metadata proves are needed. ensureSession() is a no-op unless the
 // silent session restore hasn't run yet this page load. A list that arrived from another device
 // may itself be unpriced, so summaries are refreshed again once something was pulled.
+// Per-list battle record (gameStats.js). Read ONCE from storage rather than subscribing to the
+// tracker store: nothing on this page can change a game, and the record is a footnote on a card —
+// it does not need to be reactive, and this screen does not need the store to render.
+const records = ref(new Map())
+function recordOf(r) {
+  const rec = records.value.get(r.id)
+  return rec ? `${rec.w}–${rec.l}–${rec.d}` : null
+}
+
 onMounted(async () => {
+  records.value = rosterRecords(loadHistory())
   refreshSummaries(rosters.value)
   await ensureSession()
   await syncNow()
@@ -324,6 +341,14 @@ function confirmDelete() {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--text-muted);
+}
+.rrec {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 .rosters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
 .roster {

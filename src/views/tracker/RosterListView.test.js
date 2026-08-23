@@ -157,4 +157,30 @@ describe('RosterListView', () => {
     expect(w.find('.rfaction').text()).toBe('Space Marines')
     expect(w.find('.rpoints').classes()).toContain('over')
   })
+
+  // The badge is the only thing on this screen that reads the tracker's history, and it reads it
+  // straight from storage (gameStats.loadHistory) — so the test seeds the key, not the store.
+  it('shows a list’s battle record on its card, and nothing on a list that never played', async () => {
+    const store = useRosters()
+    const played = store.createRoster('Green Tide')
+    store.createRoster('Untested list')
+    const player = (isYou, rosterId) => ({
+      isYou, name: '', factionSlug: null, detachments: [], rosterId,
+      rounds: Array.from({ length: 5 }, () => ({ primary: 0, picks: {} })),
+      secondaryMode: 'tactical', secondary: { deck: [], hand: [], drawn: {}, discarded: [], scored: [] },
+    })
+    const game = (vp) => ({
+      id: 'g' + vp.join(''), phase: 'finished', settings: { battleSize: 'strikeForce' },
+      players: [player(true, played.id), player(false, null)], result: { totals: vp },
+    })
+    localStorage.setItem('wh11ed-tracker-history', JSON.stringify([game([90, 60]), game([40, 80])]))
+
+    const w = mount(RosterListView, { global: { stubs } })
+    await flushPromises()
+    const cards = w.findAll('.roster')
+    const green = cards.find((c) => c.text().includes('Green Tide'))
+    expect(green.find('.rrec').text()).toContain('1–1–0')
+    expect(cards.find((c) => c.text().includes('Untested list')).find('.rrec').exists()).toBe(false)
+  })
+
 })
