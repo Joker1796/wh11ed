@@ -91,6 +91,7 @@
               v-if="n.hasSource"
               type="button"
               class="ds-mod-src ds-mod-srcbtn"
+              data-kw-open
               @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
             >{{ n.source }}<i class="bi bi-info-circle"></i></button>
             <span v-else class="ds-mod-src">{{ n.source }}</span>
@@ -123,6 +124,7 @@
         <template v-for="(f, i) in factionParts" :key="f">{{ i ? ', ' : ' ' }}<span
           v-if="linkedFactionRule(f)"
           class="keyword"
+          data-kw-open
           @click="$emit('faction-rule-click', linkedFactionRule(f), $event.currentTarget.getBoundingClientRect())"
         >{{ f }}</span><span v-else class="ds-faction-rule">{{ f }}</span></template>
       </p>

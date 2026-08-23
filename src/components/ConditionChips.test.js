@@ -30,6 +30,24 @@ describe('ConditionChips', () => {
     expect(w.find('.cond-group-h').text()).toBe('chosen: 1 of 2')
   })
 
+  // A chip naming somebody else's printed rule carries an "i". It opens the popover itself, which
+  // means App.vue's "a click anywhere else closes it" listener has to be told to leave this click
+  // alone — hence the marker. Without it the popover opened and shut in one tap.
+  it('offers the rule behind a chip, and marks the button as a popover opener', async () => {
+    const info = { name: 'The Fiery Heart (Aura)', text: 'While a friendly unit is within 6"…' }
+    const w = mount(ConditionChips, { props: { switches: [sw('a', { info }), sw('b')] } })
+    const buttons = w.findAll('.cond-info')
+    expect(buttons).toHaveLength(1)                     // only the chip that has a rule to show
+    expect(buttons[0].attributes('data-kw-open')).toBeDefined()
+
+    const { opensPopover } = await import('../composables/useKeywordPopover.js')
+    expect(opensPopover(buttons[0].element)).toBe(true)
+    expect(opensPopover(w.find('.cond-chip').element)).toBe(false)
+
+    await buttons[0].trigger('click')
+    expect(w.emitted('info')[0][0].id).toBe('a')
+  })
+
   it('emits the switch it was asked to flip, and never flips an auto one', async () => {
     const w = mount(ConditionChips, { props: { switches: [sw('a'), sw('b', { auto: true })] } })
     const chips = w.findAll('.cond-chip')

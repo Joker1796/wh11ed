@@ -749,7 +749,11 @@ belongs to that model. Each carries `from` (`{ owner, ability, set, unit }`), wh
 `RosterViewView.withRuleInfo` turns into what a reader needs — the group headed by **the unit and
 the set**, the chip **named the way that unit's card names it** (the RU overlay's translation, via
 the `ruleInfo` map — abilities, sets and options, keyed by their ENGLISH name), and an **"i"**
-opening the rule text in the same popover a core ability uses. Aura chips carry the same three, for
+opening the rule text in the same popover a core ability uses. **A button that opens that popover
+itself must carry `data-kw-open`** (`opensPopover`, checked by App.vue's document listener): that
+listener's job is "a click anywhere else closes the popover", and the opener's own click bubbles
+straight into it — without the marker the popover opens and shuts in one tap, which is exactly what
+the chips' "i" did. Aura chips carry the same three, for
 the same reason: they name a rule printed on somebody else's card.
 
 **Auras** (`target: 'aura'`) are the first modifier that reaches a unit the record was not printed

@@ -58,6 +58,16 @@ function loadGlossary() {
   return glossPromise
 }
 
+// A button that opens the popover ITSELF, rather than being a `.keyword` span App.vue recognises,
+// must say so — `data-kw-open` — because the same click then bubbles to App's document listener,
+// whose job is "a click anywhere else closes the popover". Without the marker the popover opens and
+// closes in one gesture, which is exactly what happened to the chips' "i" (2026-08-23) and to every
+// rule button on a card that is not inside a modal.
+export const KW_OPENER_ATTR = 'data-kw-open'
+export function opensPopover(el) {
+  return !!(el && typeof el.closest === 'function' && el.closest(`[${KW_OPENER_ATTR}]`))
+}
+
 export function useKeywordPopover() {
   async function open(rawText, rect) {
     const data = await loadData()
