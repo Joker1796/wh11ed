@@ -491,7 +491,16 @@ export default {
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
-        "det": "cult-of-blood"
+        "det": "cult-of-blood",
+        "scopes": [
+          {
+            "targets": [
+              "JAKHALS",
+              "GOREMONGERS"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {

@@ -31,6 +31,15 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "belakor",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA",
+              "SHADOW LEGION"
+            ],
+            "excludes": []
+          }
+        ],
         "set": "Shadow Form Abilities",
         "pickLimit": 1
       },

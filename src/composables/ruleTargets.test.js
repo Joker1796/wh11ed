@@ -147,6 +147,30 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
       .toEqual(['Immortals', 'Necron Warriors'])
   })
 
+  it('reads the list form of an alternation as well as the slash form', () => {
+    // "Friendly SKITARII INFANTRY, SKITARII MOUNTED and IRONSTRIDER BALLISTARII units have Stealth"
+    // used to match no keyword end to end and fall through escape 2 — the rule was shown to the
+    // whole army. The comma/or/and list is as common as the slash in this corpus.
+    expect(ruleTargets('Friendly Skitarii Infantry, Skitarii Mounted and Ironstrider Ballistarii units have Stealth.'))
+      .toEqual(['Skitarii Infantry', 'Skitarii Mounted', 'Ironstrider Ballistarii'])
+    expect(ruleTargets('While a friendly Jakhals or Goremongers unit is within 6" of this model, add 1" to the Move characteristic of models in that unit.'))
+      .toEqual(['Jakhals', 'Goremongers'])
+    // …and a "X, Y or Z" written mid-sentence keeps every keyword, not just the last one.
+    expect(ruleTargets('While a Wraithblades, Wraithguard or Wraithlord unit from your army is within 12" of this model, that unit has the Battle Focus ability.'))
+      .toEqual(['Wraithblades', 'Wraithguard', 'Wraithlord'])
+  })
+
+  it('does not let the list form swallow the sentence after the keyword', () => {
+    // The separators may only extend a run that is still followed by "units"/"models", so an "and"
+    // joining two clauses backtracks to the plain form rather than inventing a target.
+    expect(ruleTargets('Friendly Necrons units and enemy units within 6" of them are affected.'))
+      .toEqual(['Necrons'])
+    // "Detachment" is game vocabulary, never a unit keyword — Blood Angels' Lost Brethren opens its
+    // keyword clause with "If you select this Detachment, DEATH COMPANY MARINES and …".
+    expect(ruleTargets('If you select this Detachment, Death Company Marines and Death Company Marines With Bolt Rifles units from your army have the Battleline keyword.'))
+      .toEqual(['Death Company Marines', 'Death Company Marines With Bolt Rifles'])
+  })
+
   it('reads through a parenthetical sitting before "from your army"', () => {
     const body = 'Each time a Necrons model (excluding Monster models) from your army makes an attack, add 1 to the Hit roll.'
     expect(ruleTargets(body)).toEqual(['Necrons'])

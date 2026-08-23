@@ -518,7 +518,16 @@ export default {
       ],
       "ref": {
         "kind": "enhancement",
-        "det": "brood-brothers-auxilia"
+        "det": "brood-brothers-auxilia",
+        "scopes": [
+          {
+            "targets": [
+              "ASTRA MILITARUM INFANTRY",
+              "ASTRA MILITARUM MOUNTED"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {

@@ -1265,12 +1265,27 @@ Read the REACH CLAUSE alone and the same function returns exactly the receiving 
 
 Two records carry it: `Mobile Sensor Relays` (SUSTAINED HITS 1 for LEAGUES OF VOTANN INFANTRY near a
 TRANSPORT) and `Ensorcelled Animus` (+1 WS in melee for SEKHETAR ROBOTS near a PSYKER — previously a
-`never` sentinel). Four rules gain `ref.scopes`; the two that do not carry effects are Cogbound
-Alliance and Aeldari's `Shepherds of the Dead`, and the latter is the warning attached to all of
-this: **`ruleScopes` silently drops a disjunction** — "a WRAITHBLADES, WRAITHGUARD or WRAITHLORD
-unit" reads as WRAITHLORD alone, and "JAKHALS or GOREMONGERS" (Idols of Khorne) reads as nothing.
-A gate is only as good as the reading behind it, which is why both live gates are pinned by name in
-`index.test.js` rather than trusted to the next generator run.
+`never` sentinel). Both gates are pinned by name in `index.test.js` rather than trusted to the next
+generator run: a gate is only as good as the reading behind it, and nothing else in the record shows
+what it reads.
+
+Writing them turned up a hole in that reader, fixed the same day: **`ruleScopes` knew the slash
+alternation and not the English list** — "a WRAITHBLADES, WRAITHGUARD or WRAITHLORD unit" kept
+WRAITHLORD alone and "friendly JAKHALS or GOREMONGERS units" matched nothing at all. `KW_ALT` now
+spans `,`/`or`/`and` runs. Measured over all 30 factions, that moved 16 rules to MORE units (each
+one a rule that had been hiding from units it names — Ork Bully Boyz never reached Nobz, Wrath of
+the Rock reached 57 fewer units than it names) and two the other way, both correctly: Skitarii
+Hunter Cohort and Cult of Blood name their targets in a list, so they had matched no keyword end to
+end and been shown to the whole army by escape 2. Two aura records gained a gate they should always
+have had — Abaddon's Mark of Chaos Ascendant (HERETIC ASTARTES INFANTRY/MOUNTED excluding DAMNED)
+and GSC's Martial Espionage — so their chips no longer offer themselves to units the prose never
+names. The numbers are in `ruleTargets.js`'s own header; re-measure the same way after touching
+those patterns, and diff the per-rule visible unit SETS, not just the totals.
+
+Still empty on purpose: Cogbound Alliance (above), Aeldari's `Shepherds of the Dead` (grants a
+faction ability, which this layer has no `stat` for) and World Eaters' `Idols of Khorne`, which now
+reads its gate but needs one of three once-per-battle idols to be the one selected this round — a
+pick this layer does not model for a detachment rule.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for

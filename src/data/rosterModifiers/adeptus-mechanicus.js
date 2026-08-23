@@ -586,6 +586,15 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "thulia-ghuld",
+        "scopes": [
+          {
+            "targets": [
+              "SKITARII",
+              "THULIA GHULD"
+            ],
+            "excludes": []
+          }
+        ],
         "set": "Rod of the War Forge",
         "pickLimit": 1
       },
@@ -602,6 +611,15 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "thulia-ghuld",
+        "scopes": [
+          {
+            "targets": [
+              "SKITARII",
+              "THULIA GHULD"
+            ],
+            "excludes": []
+          }
+        ],
         "set": "Rod of the War Forge",
         "pickLimit": 1
       },
@@ -632,6 +650,15 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "thulia-ghuld",
+        "scopes": [
+          {
+            "targets": [
+              "SKITARII",
+              "THULIA GHULD"
+            ],
+            "excludes": []
+          }
+        ],
         "set": "Rod of the War Forge",
         "pickLimit": 1
       },
@@ -961,7 +988,16 @@ export default {
       "det": "Cohort Cybernetica",
       "ref": {
         "kind": "enhancement",
-        "det": "cohort-cybernetica"
+        "det": "cohort-cybernetica",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIO CYBERNETICA",
+              "ADEPTUS MECHANICUS VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "58d76b61",
       "ver": 925,

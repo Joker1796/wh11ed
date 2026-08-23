@@ -41,6 +41,17 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "abaddon-the-despoiler",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES INFANTRY",
+              "HERETIC ASTARTES MOUNTED"
+            ],
+            "excludes": [
+              "DAMNED"
+            ]
+          }
+        ],
         "set": "Warmaster",
         "pickLimit": 1
       },
