@@ -117,6 +117,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "070f2614-d0af-4b75-92b8-6355cd5e4cff:emperors-champion",
+      "kind": "ability",
+      "name": "Emperor’s Champion: Armour of Faith",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "emperors-champion"
+      },
+      "hash": "46c487f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "508d9286-33e3-496a-8825-1bfe5c24b442:emperors-champion",
       "kind": "ability",
       "name": "Emperor’s Champion: Sigismund’s Heir",
@@ -137,6 +151,34 @@ export default {
           "when": {
             "en": "once per battle, while engaged with a CHARACTER and this ability is used",
             "ru": "раз за битву, в бою с CHARACTER, если способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "a0cdaf1d-65ae-4128-a869-406b2b8f5999:gladiator-reaper",
+      "kind": "ability",
+      "name": "Gladiator Reaper: Reaping Tally",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gladiator-reaper"
+      },
+      "hash": "e55f216a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "по целям INFANTRY"
           },
           "cond": [
             "never"
@@ -333,7 +375,15 @@ export default {
       "hash": "719dbd66",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0a2f6202-af65-4e33-a67d-12b39c05b312",
@@ -396,7 +446,15 @@ export default {
       "hash": "f078ef24",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2deaa998-e999-4cb4-933e-a1840de3d2a0",
@@ -473,7 +531,15 @@ export default {
       "hash": "e8b8248b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "eef35b1c-9069-43b3-a82d-a795edfef746",
@@ -747,7 +813,16 @@ export default {
       "hash": "84dbd5f5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ba8c0eec-7773-4981-82cf-8f29888b15e5",

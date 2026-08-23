@@ -501,7 +501,36 @@ export default {
       "hash": "9251c1e5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "for the phase, on a roll of 2+ for Spirit of Gork",
+            "ru": "на фазу, при броске 2+ для Spirit of Gork"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "target": "aura",
+          "when": {
+            "en": "for the phase, on a roll of 6 for Spirit of Gork",
+            "ru": "на фазу, при броске 6 для Spirit of Gork"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "079c7a3b-05cc-42b5-b64d-46b24d804f96:killa-kans",
@@ -1185,6 +1214,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "ea8317a8-3324-4675-8b68-865875f3fb08",
+      "kind": "detachmentRule",
+      "name": "Here be Loot",
+      "det": "Freebooter Krew",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "freebooter-krew"
+      },
+      "hash": "1e1b5b90",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "по целям INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "36625896-bea9-4694-b3d0-1a684a71367b",
       "kind": "detachmentRule",
       "name": "Mob Mentality",
@@ -1351,7 +1408,15 @@ export default {
       "hash": "818bb5a5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "bb4fc923-48a3-4b7f-a58e-08e2bc7bdbe4",
@@ -1365,7 +1430,15 @@ export default {
       "hash": "83f747c8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 9\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "054ed69c-a8e8-4469-80bf-1d1e39dc5103",
@@ -1423,7 +1496,15 @@ export default {
       "hash": "a98a26bd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d3a899cc-7e85-48ee-aaf8-7bc01205a926",
@@ -1544,6 +1625,31 @@ export default {
       }
     },
     {
+      "sid": "51adc17c-33c8-4f45-b96a-1792cfef631e",
+      "kind": "enhancement",
+      "name": "Dead Shiny Shootas (Upgrade)",
+      "det": "More Dakka!",
+      "ref": {
+        "kind": "enhancement",
+        "det": "more-dakka"
+      },
+      "hash": "1882b6fd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "notTag": "RAPID FIRE"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "d31fb77e-2a18-415e-8a42-d8721e2e7864",
       "kind": "enhancement",
       "name": "Targetin’ Gizmos (Upgrade)",
@@ -1622,6 +1728,41 @@ export default {
         "kind": "enhancement",
         "det": "speedwaaagh"
       }
+    },
+    {
+      "sid": "3bf140ed-cfc8-41aa-8e02-48a5479e0a4f",
+      "kind": "enhancement",
+      "name": "Supa-Burny Fuel",
+      "det": "Speedwaaagh!",
+      "ref": {
+        "kind": "enhancement",
+        "det": "speedwaaagh"
+      },
+      "hash": "b6a1e06e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": "3D6",
+          "only": {
+            "name": "Killa jet – burna"
+          },
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "set",
+          "value": 3,
+          "only": {
+            "name": "Killa jet – cutta"
+          },
+          "when": null
+        }
+      ]
     },
     {
       "sid": "64bce989-3720-4e84-a38f-4f34a7c6cf5a",
@@ -1875,6 +2016,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "only if you chose to push the Stratagem",
+            "ru": "только если вы решили «push» стратагему"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"
@@ -1958,6 +2112,36 @@ export default {
           },
           "cond": [
             "unit-advanced"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "ffc8350d-fec1-4bee-98ce-340b44a58f4c",
+      "kind": "stratagem",
+      "name": "Deck Fraggers",
+      "det": "Freebooter Krew",
+      "ref": {
+        "kind": "stratagem",
+        "det": "freebooter-krew",
+        "name": "Deck Fraggers"
+      },
+      "hash": "c28c9135",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "BLAST",
+          "when": {
+            "en": "against INFANTRY targets",
+            "ru": "по целям INFANTRY"
+          },
+          "cond": [
+            "never"
           ]
         }
       ],

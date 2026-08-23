@@ -131,7 +131,15 @@ export default {
       "hash": "0e6a810e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c31c6751-321c-4491-a903-cf7160117d54:convergence-of-dominion",
@@ -177,6 +185,37 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "79bafa09-ec84-4f99-8a58-3c6810810fcb:doomsday-ark",
+      "kind": "ability",
+      "name": "Doomsday Ark: Overwhelming Obliteration",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "doomsday-ark"
+      },
+      "hash": "e0183dc7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "name": "Doomsday cannon"
+          },
+          "when": {
+            "en": "for the turn, if this model Remained Stationary",
+            "ru": "на ход, если модель осталась на месте"
+          },
+          "cond": [
+            "unit-stationary"
+          ]
+        }
+      ]
     },
     {
       "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
@@ -299,6 +338,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "6a0f149c-0d22-4446-a2ca-8ae8bb8c2331:obelisk",
+      "kind": "ability",
+      "name": "Obelisk: Gravitic Pulse",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "obelisk"
+      },
+      "hash": "a971f8e8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f53452e1-fe6d-4ffd-9765-52432f6a5f5e:orikan-the-diviner",
       "kind": "ability",
       "name": "Orikan the Diviner: Master Chronomancer",
@@ -320,6 +373,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "d8a7419e-b1a4-4050-a552-a7a64ee63ef0:orikan-the-diviner",
+      "kind": "ability",
+      "name": "Orikan the Diviner: The Stars Are Right",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "orikan-the-diviner"
+      },
+      "hash": "f8eafa3d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "b8e6affb-5576-4b41-bc38-9697321ab6cf:overlord-with-translocation-shroud",
@@ -522,6 +589,37 @@ export default {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
           }
+        }
+      ]
+    },
+    {
+      "sid": "1f7a8e5e-21cb-44e2-933a-fb3b131d6fe0:the-silent-king",
+      "kind": "ability",
+      "name": "The Silent King: The Silent King",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-silent-king",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "dabf0c2d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
         }
       ]
     },
@@ -742,7 +840,15 @@ export default {
       "hash": "9c2e7911",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "dec1adcf-64dc-4e7a-b535-73fc56cb305c",
@@ -929,7 +1035,15 @@ export default {
       "hash": "735cabe5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6e0e59cb-c41f-4cb0-a009-c962aad3d392",
@@ -1058,7 +1172,15 @@ export default {
       "hash": "c019b083",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 5\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "28910499-26bf-4cf0-823a-17462276ea57",
@@ -1122,7 +1244,15 @@ export default {
       "hash": "cdcb4519",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fe31d690-e8f6-4014-a53e-7b3db86f5a6e",
@@ -1717,7 +1847,16 @@ export default {
       "hash": "f506766c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ea2d4f7d-612f-41a0-980f-c538a5dc020d:canoptek-spyders",
@@ -1740,7 +1879,16 @@ export default {
       "hash": "d52964cd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5084d88f-827f-4b35-90c6-86d8f84d6863:canoptek-spyders",
@@ -1763,7 +1911,16 @@ export default {
       "hash": "6d14604f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c0da2d15-20c2-4da9-a9df-a0ce62051918:lokhust-lord",
@@ -1838,7 +1995,16 @@ export default {
       "hash": "6d14604f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f6a5f8a4-40f5-498d-a806-d6d77283329d:ophydian-destroyers",

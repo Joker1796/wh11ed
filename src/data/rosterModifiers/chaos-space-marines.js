@@ -116,6 +116,87 @@ export default {
       ]
     },
     {
+      "sid": "aa8e2bfb-ada0-4a35-adfa-6187c6a5117c:chaos-lord-in-terminator-armour",
+      "kind": "ability",
+      "name": "Chaos Lord in Terminator Armour: Formidably Resilient",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord-in-terminator-armour"
+      },
+      "hash": "f62f7f7a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b265fc6e-3f98-45af-a8a1-e5e2dbae3284:chaos-lord",
+      "kind": "ability",
+      "name": "Chaos Lord: Chance for Glory",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-lord"
+      },
+      "hash": "feb96c79",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, once per battle, when this model uses Chance for Glory",
+            "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, once per battle, when this model uses Chance for Glory",
+            "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the phase, once per battle, when this model uses Chance for Glory",
+            "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, once per battle, when this model uses Chance for Glory",
+            "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a5c1b3db-e8e5-48b2-a00e-4226c3ada951:chaos-predator-destructor",
       "kind": "ability",
       "name": "Chaos Predator Destructor: Destructor",
@@ -238,6 +319,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "1604740b-05de-4f6c-bcde-d11fa64dd156:fabius-bile",
+      "kind": "ability",
+      "name": "Fabius Bile: Surgeon Acolyte",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fabius-bile"
+      },
+      "hash": "3d46d954",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "09820343-0004-4592-a040-cd760fd6e4d6:forgefiend",
@@ -439,6 +534,37 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "99cceacb-030a-4660-8ec3-af728f5e0d8c:noctilith-crown",
+      "kind": "ability",
+      "name": "Noctilith Crown: Malevolent Locus",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "noctilith-crown",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "ac410cf1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a9350d9a-923d-4d07-ba22-0c08d8635717:obliterators",
@@ -844,6 +970,141 @@ export default {
       "note": "the infernal cannon is the only ranged row on these datasheets"
     },
     {
+      "sid": "ef79c733-32e7-42e2-9e0b-6289b0006a6d",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Chaos Undivided",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Chaos Undivided"
+      },
+      "hash": "11844148",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7bf20970-b53d-463f-b837-72e7ac4ca2d2",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Chaos Undivided",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Chaos Undivided"
+      },
+      "hash": "11844148",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0b2d5509-3965-4c7c-93cd-f390d394156f",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Khorne",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Khorne"
+      },
+      "hash": "e2d05110",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cd0646c6-ccd9-482d-9462-1e6b47f035b3",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Nurgle"
+      },
+      "hash": "1da9ffed",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f6656d45-3b6c-4eea-8f80-b0236ae78ef9",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Nurgle"
+      },
+      "hash": "1da9ffed",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "aec1fd9f-49d7-43b2-87a2-2ee70b0bc3ed",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Slaanesh"
+      },
+      "hash": "0439badd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1a33c3f1-da1d-48cb-8de4-2cea16f5f015",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Slaanesh"
+      },
+      "hash": "b3fb173f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8dc87b76-961a-4180-a2a2-d7c9fc41199e",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Tzeentch"
+      },
+      "hash": "748f330d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "61bee31b-bf5a-4ad9-b67d-0c3cc4fff8be",
+      "kind": "allegiance",
+      "name": "Mark of Chaos: Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "mark-of-chaos",
+        "opt": "Tzeentch"
+      },
+      "hash": "748f330d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "94c913b5-2ba2-423b-bc8e-c1e05512044c",
       "kind": "detachmentRule",
       "name": "Empyric Wellspring",
@@ -1144,6 +1405,13 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
         }
       ],
       "ref": {
@@ -1336,6 +1604,13 @@ export default {
           "op": "add",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
         }
       ],
       "ref": {
@@ -1439,6 +1714,13 @@ export default {
           "op": "add",
           "value": -1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
         }
       ],
       "ref": {
@@ -1513,6 +1795,28 @@ export default {
         "det": "dread-talons"
       },
       "hash": "ac4b615c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "449203c0-c0cf-44e3-8cc3-7ed306483ef7",
+      "kind": "enhancement",
+      "name": "Bastion Plate",
+      "det": "Fellhammer Siege-host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "fellhammer-siege-host"
+      },
+      "hash": "dc1cfdeb",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1623,7 +1927,15 @@ export default {
       "hash": "41bc55ad",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "65980ad3-eae6-4374-9540-13e6becd6513",
@@ -1637,7 +1949,15 @@ export default {
       "hash": "64ef35fc",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2d4f3432-7ff2-4796-8f71-0f7b5800a3a2",
@@ -1716,7 +2036,15 @@ export default {
       "hash": "ddfc38d3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e6de1854-8e17-4bec-aa86-2a3c67c1fb36",
@@ -1895,7 +2223,15 @@ export default {
       "hash": "0e243106",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f2ea7f7b-8a98-4850-8acd-b3e32c3261ad",
@@ -2435,7 +2771,16 @@ export default {
       "hash": "0404a432",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "061789a4-030f-4b28-b7a8-4ac77d6ee146",
@@ -2451,6 +2796,36 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "a7707cad-872d-4c6a-9c9b-7d1ab3c0d35b",
+      "kind": "stratagem",
+      "name": "Scour and Seize",
+      "det": "Renegade Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-raiders",
+        "name": "Scour and Seize"
+      },
+      "hash": "fd176ce9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e38ba41a-8fc3-4b8f-9bd9-ca46d0235f51",
@@ -2493,6 +2868,30 @@ export default {
           "cond": [
             "unit-advanced"
           ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2876b144-3e84-42ec-90ba-2736e2efdb69",
+      "kind": "stratagem",
+      "name": "Corrupted Munitions",
+      "det": "Renegade Warband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "renegade-warband",
+        "name": "Corrupted Munitions"
+      },
+      "hash": "04e39710",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ],
       "dur": "phase"
@@ -2570,6 +2969,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "a215fd24-e15d-4808-93d2-67da59819f5d",
+      "kind": "stratagem",
+      "name": "Black Crusade",
+      "det": "Veterans of the Long War",
+      "ref": {
+        "kind": "stratagem",
+        "det": "veterans-of-the-long-war",
+        "name": "Black Crusade"
+      },
+      "hash": "146e18d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "turn"
+    },
+    {
       "sid": "664cb026-2bd0-43c1-98b4-ff3636a3dbff",
       "kind": "stratagem",
       "name": "Bringers of Despair",
@@ -2582,7 +3011,16 @@ export default {
       "hash": "de0797b3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "fef09a92-d6c5-4819-a57b-4eff4c8b5ab7",

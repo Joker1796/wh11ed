@@ -47,7 +47,15 @@ export default {
       "hash": "4b399b90",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ac0e9c52-fc93-4534-b850-4b7d8fa194c0:aleya",
@@ -98,7 +106,43 @@ export default {
       "hash": "e48360cd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "71d428ee-e9d9-43b1-9e87-0cc582dd7441:caladius-grav-tank",
+      "kind": "ability",
+      "name": "Caladius Grav-tank: Advanced Firepower",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "caladius-grav-tank"
+      },
+      "hash": "4f6a5231",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against targets other than MONSTERS and VEHICLES",
+            "ru": "по целям, кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d4d5010a-2aec-4900-81d2-f094312a06c3:custodian-guard-with-adrasite-and-pyrithite-spears",
@@ -189,7 +233,15 @@ export default {
       "hash": "163ad0c5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ff1734b8-b92b-4d1f-942c-aeed6828534f:knight-centura",
@@ -203,7 +255,15 @@ export default {
       "hash": "4b399b90",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "68f78314-9458-4dd0-b445-14119ab4f945:knight-centura",
@@ -254,7 +314,56 @@ export default {
       "hash": "4c4ca89b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5caa9ab7-eeaa-4b92-b8fc-2b83352663d2:prosecutors",
+      "kind": "ability",
+      "name": "Prosecutors: Purity of Execution",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "prosecutors"
+      },
+      "hash": "ca520d71",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against PSYKER targets",
+            "ru": "по целям PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against PSYKER targets",
+            "ru": "по целям PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "87205f80-9898-4628-97d6-ee6de5a3a15e:sagittarum-custodians",
@@ -283,6 +392,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "21d10416-3f99-4ee7-87f5-9906ff2f50d9:shield-captain-in-allarus-terminator-armour",
+      "kind": "ability",
+      "name": "Shield-Captain in Allarus Terminator Armour: Auramite and Adamantine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "shield-captain-in-allarus-terminator-armour"
+      },
+      "hash": "07b4315e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f6af813d-e886-4f2a-8f34-3e8b3e6e8dc9:telemon-heavy-dreadnought",
@@ -427,7 +550,15 @@ export default {
       "hash": "4c4ca89b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:witchseekers",
@@ -441,7 +572,15 @@ export default {
       "hash": "4c4ca89b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",
@@ -1007,6 +1146,20 @@ export default {
       ]
     },
     {
+      "sid": "3a2d0fec-d3ae-4ba8-b9fc-5a5a1cbe108f",
+      "kind": "enhancement",
+      "name": "Aegis Projector",
+      "det": "Talons of the Emperor",
+      "ref": {
+        "kind": "enhancement",
+        "det": "talons-of-the-emperor"
+      },
+      "hash": "e2dcb903",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "60461b2c-c1ca-4046-82a2-436078ebfb10",
       "kind": "enhancement",
       "name": "Gift of Terran Artifice",
@@ -1225,7 +1378,16 @@ export default {
       "hash": "f75e2a98",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "da903080-91ba-4138-a20c-d7719a69754d",
@@ -1466,7 +1628,16 @@ export default {
       "hash": "86fd9f70",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "35dbd75b-fa44-489d-b243-38467b8777e1",

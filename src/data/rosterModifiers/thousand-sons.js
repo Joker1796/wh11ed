@@ -91,6 +91,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "6caecabb-1eae-4404-a3b1-7e2b03d384f5:daemon-prince-of-tzeentch-with-wings",
+      "kind": "ability",
+      "name": "Daemon Prince of Tzeentch with Wings: Aetherstride",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-tzeentch-with-wings"
+      },
+      "hash": "67844491",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "27a36d58-b747-405c-95e6-01a4a4113466:daemon-prince-of-tzeentch",
       "kind": "ability",
       "name": "Daemon Prince of Tzeentch: Glamour of Tzeentch",
@@ -513,7 +541,16 @@ export default {
       "hash": "cde7ab6f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "166fb00a-fa76-4b86-913c-7a0c6a8be9d4",
@@ -580,6 +617,22 @@ export default {
           "only": {
             "tag": "PSYCHIC"
           }
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "Psychic weapons only, while the Wrath of the Immaterium ability is selected",
+            "ru": "только психическое оружие, пока выбрана способность Wrath of the Immaterium"
+          },
+          "cond": [
+            "manifestation-wrath"
+          ]
         }
       ],
       "ref": {
@@ -882,6 +935,28 @@ export default {
       }
     },
     {
+      "sid": "e472737b-595b-4329-8875-1a94fc04a71d",
+      "kind": "enhancement",
+      "name": "Warp-tainted Shells",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "5a782652",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "only": {
+            "name": "Infernal cannon"
+          },
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "b0d14bf1-434c-499d-b74d-aae2f320c5cf",
       "kind": "enhancement",
       "name": "Curse of Life",
@@ -1089,6 +1164,21 @@ export default {
       }
     },
     {
+      "sid": "86e94729-5da6-4199-a7ee-1bbca915f068",
+      "kind": "stratagem",
+      "name": "Destined by Fate",
+      "det": "Grand Coven",
+      "ref": {
+        "kind": "stratagem",
+        "det": "grand-coven",
+        "name": "Destined by Fate"
+      },
+      "hash": "b6da6204",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "9dd1faed-7e8a-4386-b2a1-827023cd92d9",
       "kind": "stratagem",
       "name": "Devastating Sorcery",
@@ -1203,7 +1293,16 @@ export default {
       "hash": "5967579f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ff7282e4-5c01-40b0-a3d3-67c3c98bf992",

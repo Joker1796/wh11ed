@@ -399,6 +399,26 @@ describe('applyStatMods with a weapon filter', () => {
     expect(out.sheet.ranged[0].s).toBe('4')
   })
 
+  // The filter has to hold for a GRANT too, which is how the 2026-08-23 pass could state rules
+  // that hand one named weapon a tag ("the bearer's Eldritch Storm weapon has [DEVASTATING
+  // WOUNDS]") — and, with notTag, one that hands out a tag only where it is not already printed:
+  // Orks' Dead Shiny Shootas gives [RAPID FIRE 1] to everything that has no RAPID FIRE, and
+  // stapling it onto a [RAPID FIRE 2] row would print a second, wrong value.
+  it('filters a granted weapon ability the same way', () => {
+    const grant = (only) => ({
+      name: 'Gaze of Ynnead', kind: 'enhancement', det: 'Windrider Host', body: '',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'DEVASTATING WOUNDS', when: null, only }],
+    })
+    const named = applyStatMods(psychicSheet(), [grant({ name: 'Warp blast' })], destroyer, [])
+    expect(named.sheet.ranged[1].tags).toContain('DEVASTATING WOUNDS')
+    expect(named.sheet.ranged[0].tags).not.toContain('DEVASTATING WOUNDS')
+
+    const rf = { ...psychicSheet(), ranged: [{ name: 'Shoota', tags: [] }, { name: 'Big shoota', tags: ['RAPID FIRE 2'] }] }
+    const out = applyStatMods(rf, [{ ...grant({ notTag: 'RAPID FIRE' }), effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'RAPID FIRE 1', when: null, only: { notTag: 'RAPID FIRE' } }] }], destroyer, [])
+    expect(out.sheet.ranged[0].tags).toContain('RAPID FIRE 1')
+    expect(out.sheet.ranged[1].tags).toEqual(['RAPID FIRE 2'])
+  })
+
   it('leaves model profiles alone — a weapon filter has nothing to say about them', () => {
     const prof = { ...rec({ tag: 'PSYCHIC' }, 'profile'), effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null, only: { tag: 'PSYCHIC' } }] }
     const out = applyStatMods(psychicSheet(), [prof], destroyer, [])

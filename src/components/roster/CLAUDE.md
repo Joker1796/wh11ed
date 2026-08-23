@@ -807,19 +807,29 @@ in the RU locale — the same overlay the card fetches, so nothing new rides in 
 added 2026-08-23 because a Hospitaller's "models in that unit have the Feel No Pain 5+ ability" was
 prose and nothing else. It is returned from `applyStatMods` like a granted keyword — never written
 into the sheet — and `DatasheetCard` prints it on the **Core line** beside the printed ones, dashed
-and starred, with its source in the title. 296 rules across the game grant one; **57 are stated**,
-the rest are partial in a way this layer cannot say ("Feel No Pain 4+ **against mortal wounds**",
-"**PENITENT** models in your unit") and stay reviewed empties. The templates that were accepted are
-in the commit; anything narrower than "this/that/your unit" was refused on purpose.
+and starred, with its source in the title. **196 are stated** across 192 records: 97 plain grants to
+the record's own unit ("This unit has Stealth", "Models in the bearer's unit have the Deep Strike
+ability"), 11 to a LED unit, 8 auras, 8 keyword-scoped detachment rules, and 28 spent by a stratagem.
+
+**The qualifier rides in the value, behind the name.** 94 of these grants bite only against certain
+attacks, and a bare `Feel No Pain 4+` on the Core line would be a plain error — so the value reads
+`Feel No Pain 4+ (vs mortal wounds)`. KeywordPopover resolves a core ability by matching the
+rulebook name against the START of the text, which is why the qualifier may never lead; `index.test.js`
+pins both halves of that (starts with a real core ability, and never spells it " against ").
 
 **A review pass has to look at the reviewed EMPTIES too.** The first sweep only read records
 awaiting review, and the Triumph's Icon of the Valorous Heart had been closed as an empty an hour
 earlier — by the ability-set pass, before a core grant was expressible at all. Three grants were
 invisible for that reason. Whenever a NEW kind of effect becomes expressible, re-read the empties:
 they are the records that were told "we cannot say this", and that is exactly what changed.
-Detachment rules are still outstanding — their bodies are structured markup rather than a flat
-sentence, so the strict templates cannot read them ("Friendly SKITARII INFANTRY units have
-Stealth").
+
+**And a template is not a policy.** That first sweep stated 57 of these and this file recorded the
+rest as "partial in a way the layer cannot say". The 2026-08-23 audit of all 5011 sources found the
+opposite: 261 grants sat in reviewed empties, and 97 of them were the plainest possible form — the
+templates simply did not know "Models in the bearer's unit have…" or "Friendly SAGITAUR units have
+Scouts 6"". Detachment rules were blamed on structured bodies here; their bodies are flat sentences
+and the shape of the template was the whole obstacle. When a pass closes an order of magnitude fewer
+records than the corpus suggests, doubt the reader before the corpus.
 
 **`improve` is only for the roll-shaped characteristics** (`sv`/`bs`/`ws`/`ld`/`inv`, where a lower
 number is better). `applyValue` REFUSES it anywhere else and returns null, so an effect written
@@ -884,6 +894,23 @@ Three things hold this together and are easy to break:
   A second copy of the scope in the data would be free to drift from the prose.
 - **Only `reviewed` records with effects are ever applied** (`usableEntries`). An unreviewed
   skeleton means "somebody still has to read this rule", not "no effect".
+- **What the gate rejects is not unreviewed — it is INVISIBLE.** `isCandidate` decides whether a
+  rule gets a skeleton at all, so a wording it does not know reaches no queue and no reader. The
+  2026-08-23 audit ran every one of the 5011 sources the generator sees against a looser probe and
+  found 103 real modifiers behind five holes, all now patched: `improve THAT unit's` (the article
+  an aura naturally uses — two +1 Ld auras had no record for that one word), a bracketed weapon
+  ability granted with any subject other than "attacks/weapons" (66 sources), a characteristic set
+  as "its Objective Control characteristic **is** 0" (Blood Angels' Black Rage, on six datasheets),
+  a multiplied one ("double the Objective Control characteristic"), and "change the Attacks
+  characteristic … to 3D6". Keep the gate loose: a false positive costs one line in the queue, a
+  false negative costs a rule nobody will ever see again. `generator.test.js` pins all five.
+- **`bodyText()` must keep every text field of a block, not the first.** A `triggerEffectAccordion`
+  holds the condition in `trigger` and the RULE in `effect`, and `text || trigger || effect` kept
+  the trigger and threw the rule away — Aeldari's Battle Focus manoeuvres ("add 2" to the Move
+  characteristic") reached neither this generator nor the two text-drift guards that share the
+  helper (`sync-faction-text`, `appdata-text-diff`), which were comparing our full prose against
+  half of appdata's. Fixed 2026-08-23; the drift count over all 30 factions is unchanged at 239,
+  so nothing was papering over a real difference.
 - **`grantedKeywordsFrom` runs before the apply pass, in BOTH readers.** A granted keyword decides
   which rules bear on the unit at all (Necrons' Destroyer Ankh gives its bearer DESTROYER CULT, and
   only then does Cold Fervour reach it), so gating on the un-granted set answers a different
@@ -1182,8 +1209,22 @@ instructions, not effects), `ability: faction` (1145 — an empty pointer at the
 is the key to modelling several of those), `damageAbility` (243 — almost all "-1 to the Hit roll",
 and the tracker deliberately does not count wounds), mission twists and core stratagems (one
 candidate each). What the layer STILL cannot express, whatever the source: modifiers on an INCOMING
-attack ("-1 to the Damage of that attack"), debuffs on an enemy unit, and auras on other friendly
-units.
+attack ("-1 to the Damage of that attack" — 15 records, the largest single family of reviewed
+empties), debuffs on an ENEMY unit, and an op for a MULTIPLIED characteristic ("double the Objective
+Control", "triple the Attacks") — those last are proposed and closed as empties on purpose, so the
+rule is on the record rather than invisible.
+
+**An AURA can only hang off an ability or a piece of wargear.** `target` is restricted to
+`kind: 'ability' | 'wargear'` (`index.test.js`) because `aurasReaching` finds the radiating entry
+through `ref.unit` — the datasheet the rule is printed on. An ENHANCEMENT or a DETACHMENT RULE has
+no `ref.unit`: its bearer is whichever entry the roster gave it, known only at runtime. So twelve
+friendly-aura buffs stay reviewed empties even though every other part of the machinery exists —
+Sanguinary Tear (+1 S to a DEATH COMPANY unit within 6"), Font of Spores, Improbable Shield, Knight
+of the Opus Machina, Martial Espionage, Chrono-impedance Fields, Occulus Infernum, Strike Swiftly,
+and the nested auras inside Cogbound Alliance, Abject Fear, Dread Catechism and Idols of Khorne.
+Closing it means teaching `aurasReaching` to resolve an enhancement's bearer from the roster (the
+editor already knows it — `enhancementName` reaches `resolveModifierEntries`), then letting the two
+kinds carry `target`.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for

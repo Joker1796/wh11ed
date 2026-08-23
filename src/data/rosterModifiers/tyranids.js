@@ -265,7 +265,15 @@ export default {
       "hash": "52db8bfd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "73a70679-e107-49b7-8667-25145e5cbe27:psychophage",
@@ -291,6 +299,20 @@ export default {
         "unit": "psychophage"
       },
       "hash": "7a3f82bb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4d049409-1d04-4922-a1f0-de31624c4ca1:ripper-swarms",
+      "kind": "ability",
+      "name": "Ripper Swarms: Chitinous Horrors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ripper-swarms"
+      },
+      "hash": "c06b50c6",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -398,6 +420,20 @@ export default {
       ]
     },
     {
+      "sid": "1d2e25ad-ec5a-4964-8809-bf98f171af65:tyrannofex",
+      "kind": "ability",
+      "name": "Tyrannofex: Resilient Organism",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tyrannofex"
+      },
+      "hash": "c39edff0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7a889eea-b714-4644-84d8-3e99dcf8245b:tyrant-guard",
       "kind": "ability",
       "name": "Tyrant Guard: Guardian Organism",
@@ -431,7 +467,16 @@ export default {
       "hash": "3f2d7792",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f940edde-72b8-4ff5-91db-d44d85368c1e:venomthropes",
@@ -578,7 +623,15 @@ export default {
       "hash": "13bbacff",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6fdc5e01-fce9-4451-ba94-b2cfe91aff19",
@@ -609,6 +662,60 @@ export default {
         "kind": "detachmentRule",
         "det": "crusher-stampede"
       }
+    },
+    {
+      "sid": "cd0c876b-de60-45f7-a44d-1213924948e0",
+      "kind": "detachmentRule",
+      "name": "Hyper-adaptations",
+      "det": "Invasion Fleet",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "invasion-fleet"
+      },
+      "hash": "a9f0801b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "under the Swarming Instincts Hyper-adaptation, against INFANTRY or SWARM targets",
+            "ru": "при Hyper-adaptation «Swarming Instincts», по целям INFANTRY или SWARM"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "under the Hyper-aggression Hyper-adaptation, against MONSTER or VEHICLE targets",
+            "ru": "при Hyper-adaptation «Hyper-aggression», по целям MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "under the Hive Predators Hyper-adaptation, against CHARACTER targets on a Critical Hit",
+            "ru": "при Hyper-adaptation «Hive Predators», по целям CHARACTER на Critical Hit"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "547b0295-bdc0-42db-8b31-dc2af65b3fe3",
@@ -840,6 +947,20 @@ export default {
         "det": "synaptic-nexus"
       },
       "hash": "5685ea95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "09c9c986-a5ad-44bb-98f0-90744ba77f94",
+      "kind": "enhancement",
+      "name": "The Dirgeheart of Kharis (Aura)",
+      "det": "Synaptic Nexus",
+      "ref": {
+        "kind": "enhancement",
+        "det": "synaptic-nexus"
+      },
+      "hash": "7860cf0f",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1258,7 +1379,16 @@ export default {
       "hash": "84dbd5f5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "96e02332-a1cf-4bc9-b9a1-5a9b6738c765",

@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "186372fc-8ed9-4e80-98ff-445d3712ef3c:ax-1-0-tiger-shark",
+      "kind": "ability",
+      "name": "AX-1-0 Tiger Shark: Titan Hunter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ax-1-0-tiger-shark"
+      },
+      "hash": "8e612c35",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-TITANIC 3+",
+          "when": {
+            "en": "while targeting within half range",
+            "ru": "по цели в пределах половины дальности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "990335c4-d2ed-4eac-8677-3ef24c8cd375:broadside-battlesuits",
       "kind": "ability",
       "name": "Broadside Battlesuits: Advanced Armour",
@@ -19,7 +47,15 @@ export default {
       "hash": "4e6472f8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4ff7e6d5-ee30-452f-8ef8-e11bfc6de69a:cadre-fireblade",
@@ -222,6 +258,20 @@ export default {
       ]
     },
     {
+      "sid": "9d44f9cd-f90a-42e0-a1ad-991dd4f91ead:ghostkeel-battlesuit",
+      "kind": "ability",
+      "name": "Ghostkeel Battlesuit: Stealth Drones",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ghostkeel-battlesuit"
+      },
+      "hash": "e1355834",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1b0c45a9-bee6-47d2-8424-d0aa5a1522a1:hammerhead-gunship",
       "kind": "ability",
       "name": "Hammerhead Gunship: Armour Hunter",
@@ -234,6 +284,47 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "bdf68a61-1dd3-452b-bfb9-98d2770b8789:kroot-farstalkers",
+      "kind": "ability",
+      "name": "Kroot Farstalkers: Bounty Hunters",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kroot-farstalkers"
+      },
+      "hash": "d83f9fee",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "8483191d-9223-42a3-984f-af76afc80b30:kroot-flesh-shaper",
@@ -278,6 +369,34 @@ export default {
           "value": "SUSTAINED HITS 1",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "a74d1719-a805-4c86-be15-83b1149e7aa9:kroot-hounds",
+      "kind": "ability",
+      "name": "Kroot Hounds: Hunting Hounds",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kroot-hounds"
+      },
+      "hash": "8ae494c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": 1,
+          "when": {
+            "en": "while within 12\" of a friendly KROOT CHARACTER",
+            "ru": "пока в 12\" от дружественного KROOT CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -337,6 +456,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "e555e882-7cc5-4580-b9ec-c417e5ba4861:riptide-battlesuit",
+      "kind": "ability",
+      "name": "Riptide Battlesuit: Nova Charge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "riptide-battlesuit"
+      },
+      "hash": "e9e77db7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "d86960ba-ce82-4f5d-bf4d-70811d1e8a29:sudden-dawn-cadre-pathfinder-team",
       "kind": "ability",
       "name": "Sudden Dawn Cadre Pathfinder Team: Target Uploaded",
@@ -367,6 +514,47 @@ export default {
           "when": {
             "en": "against their Spotted unit",
             "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "863ac9a8-db40-4e18-a66e-bb9f69d4bd23:the-twin-lance",
+      "kind": "ability",
+      "name": "The Twin Lance: Exemplars of Mont’ka",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-twin-lance"
+      },
+      "hash": "2aa5f748",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "по ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "по ближайшей допустимой цели"
           },
           "cond": [
             "never"
@@ -446,6 +634,19 @@ export default {
           "when": {
             "en": "per attack by a Guided unit against a Spotted unit",
             "ru": "за атаку отряда Guided по отряду Spotted"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against a Spotted unit marked by an Observer with the Markerlight keyword",
+            "ru": "по Spotted-отряду, отмеченному наблюдателем с кейвордом Markerlight"
           },
           "cond": [
             "never"
@@ -1145,6 +1346,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "dd153b7c-abbb-4c2f-a989-bcb394ba8986",
+      "kind": "stratagem",
+      "name": "Guided By Unity",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "auxiliary-cadre",
+        "name": "Guided By Unity"
+      },
+      "hash": "056ca4e1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against a unit near a friendly KROOT or VESPID STINGWINGS unit",
+            "ru": "по отряду рядом с дружественным KROOT/VESPID STINGWINGS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "f69888d4-7f69-4346-9092-8f79fb3f0c1e",
       "kind": "stratagem",
       "name": "Experimental Ammunition",
@@ -1221,6 +1452,19 @@ export default {
           "when": {
             "en": "against their Spotted unit",
             "ru": "против отмеченного (Spotted) юнита"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "if your unit has the Markerlight keyword",
+            "ru": "если у отряда есть кейворд Markerlight"
           },
           "cond": [
             "never"
@@ -1417,6 +1661,36 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cfe18c6e-317d-493e-bd95-b399118541c2",
+      "kind": "stratagem",
+      "name": "The Arro’kon Protocol",
+      "det": "Retaliation Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "retaliation-cadre",
+        "name": "The Arro’kon Protocol"
+      },
+      "hash": "52d6e5dd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against a unit of 6 or more models",
+            "ru": "по отряду из 6+ моделей"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

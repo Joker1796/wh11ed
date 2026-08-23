@@ -47,7 +47,15 @@ export default {
       "hash": "0d07cd2a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 2+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "95f007e6-3ff6-4664-ab65-a2d04760db65:deathwatch-kill-team",
@@ -105,6 +113,47 @@ export default {
       ]
     },
     {
+      "sid": "45a6c1ac-0a09-47da-9ac0-b8716abdc416:exaction-squad",
+      "kind": "ability",
+      "name": "Exaction Squad: Imperial Law",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "exaction-squad"
+      },
+      "hash": "d83f9fee",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a3719eb1-6c71-4db2-927b-f1a50dffbb3b:grey-knights-terminator-squad",
       "kind": "ability",
       "name": "Grey Knights Terminator Squad: Hammerhand",
@@ -128,6 +177,34 @@ export default {
           },
           "cond": [
             "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "88b7c551-6538-4fab-a565-528f90bccd49:imperial-navy-breachers",
+      "kind": "ability",
+      "name": "Imperial Navy Breachers: CAT Unit",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "imperial-navy-breachers"
+      },
+      "hash": "c01c6511",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]
@@ -486,6 +563,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "5571bc03-10a6-402c-94c9-a15e83b30d1a:voidsmen-at-arms",
+      "kind": "ability",
+      "name": "Voidsmen-at-Arms: Masters of Close Confines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "voidsmen-at-arms"
+      },
+      "hash": "004c9f4b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the closest eligible target",
+            "ru": "по ближайшей допустимой цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "9750151c-8ecb-4051-a25b-5d34af7869e8:watch-captain-artemis",
       "kind": "ability",
       "name": "Watch Captain Artemis: Tactical Instinct",
@@ -577,6 +682,41 @@ export default {
       }
     },
     {
+      "sid": "f06dc6ab-3722-4c1f-b2ce-0c0f37b0b520",
+      "kind": "detachmentRule",
+      "name": "Root out Heresy",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "ordo-hereticus-purgation-force"
+      },
+      "hash": "c4b91060",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against a Chaos unit of 5 or more models",
+            "ru": "по отряду Chaos из 5+ моделей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "7c93a7f0-c620-488f-a19c-65c23ed26631",
       "kind": "detachmentRule",
       "name": "Deathwatch Mission Tactics",
@@ -616,6 +756,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "4e34ecd7-53de-4493-8468-666e9bd1d875",
+      "kind": "detachmentRule",
+      "name": "Extremis Sanction",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "veiled-blade-elimination-force"
+      },
+      "hash": "1c7e84e4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c994437c-491b-40e6-b0f2-de686fdc461c",
@@ -696,6 +850,13 @@ export default {
           "op": "add",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-DAEMON 3+",
+          "when": null
         }
       ],
       "ref": {
@@ -758,7 +919,15 @@ export default {
       "hash": "c5b989c7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "14192d59-f64c-484c-a1b5-f31eeb356288",
@@ -807,6 +976,41 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-MONSTER 4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "aa4924d4-a606-4e06-9da3-b1467cd20ebb",
+      "kind": "enhancement",
+      "name": "Micromelta Rounds",
+      "det": "Veiled Blade Elimination Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "veiled-blade-elimination-force"
+      },
+      "hash": "28d383b3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MONSTER 4+",
+          "only": {
+            "name": "Exitus rifle"
+          },
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-VEHICLE 4+",
+          "only": {
+            "name": "Exitus rifle"
+          },
           "when": null
         }
       ]
@@ -877,6 +1081,77 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a3e18b4f-0acc-4b1f-847d-1ce78c4af55b",
+      "kind": "stratagem",
+      "name": "Selfless Bodyguard",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "stratagem",
+        "det": "imperialis-fleet",
+        "name": "Selfless Bodyguard"
+      },
+      "hash": "e2841d92",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d8ce9636-0f38-40be-8918-76c5597c91d3",
+      "kind": "stratagem",
+      "name": "Violent Acquisition",
+      "det": "Imperialis Fleet",
+      "ref": {
+        "kind": "stratagem",
+        "det": "imperialis-fleet",
+        "name": "Violent Acquisition"
+      },
+      "hash": "c71b6a30",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"
@@ -1047,6 +1322,36 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d79ad24e-26e3-4049-bcfa-95132cd95810",
+      "kind": "stratagem",
+      "name": "Rites of Exorcism",
+      "det": "Ordo Malleus, Daemon Hunters",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-malleus-daemon-hunters",
+        "name": "Rites of Exorcism"
+      },
+      "hash": "23bf6dc9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against the marked enemy unit",
+            "ru": "по отмеченному вражескому отряду"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

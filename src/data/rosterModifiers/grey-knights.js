@@ -73,7 +73,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a9366824-0d9e-4b29-9548-67bbe87ea381:brotherhood-techmarine",
@@ -202,7 +211,15 @@ export default {
       "hash": "0e6a810e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3c102e09-c8b3-4335-a6d9-7a3bffa591ec:grand-master",
@@ -321,7 +338,16 @@ export default {
       "hash": "5ed21942",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+ (vs mortal wounds)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "349ad1d7-8340-47bd-bd2f-8ed6262b4ddb:stormhawk-interceptor",
@@ -646,7 +672,15 @@ export default {
       "hash": "8641a349",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "be02d133-6751-4ea3-b302-4630469a0d4d",
@@ -688,7 +722,15 @@ export default {
       "hash": "8c9f4350",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e3ead97e-e27b-44e0-b925-95a9551416f9",
@@ -767,7 +809,16 @@ export default {
       "hash": "84dbd5f5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "1d199aa0-6532-4d07-92b0-bb05550242b5",
@@ -854,7 +905,16 @@ export default {
       "hash": "6625f677",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs attacks with an unmodified Damage characteristic of 1)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f4ee723f-87ba-49df-a34a-a31358b591ae",
@@ -926,7 +986,16 @@ export default {
       "hash": "f489250a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c27c1fef-b27d-4d79-a325-8081ab9992c9",
@@ -1109,7 +1178,16 @@ export default {
       "hash": "f75e2a98",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "31a2dff2-e760-462d-b57a-6fe1159bd900",

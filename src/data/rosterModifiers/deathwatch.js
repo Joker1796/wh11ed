@@ -234,7 +234,15 @@ export default {
       "hash": "b52a0024",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "796172d3-0693-4e71-a27d-51e9db6bfdca",
@@ -607,7 +615,15 @@ export default {
       "hash": "7c0f0ce2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ]
     }
   ]
 }

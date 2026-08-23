@@ -130,7 +130,16 @@ export default {
       "hash": "08801928",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "28f010a7-1c57-498f-8587-5edf804ace65:k-hl",
@@ -199,7 +208,15 @@ export default {
       "hash": "fee0d106",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "182bd5d6-3bd6-4d04-b108-557182b698e6",
@@ -227,7 +244,15 @@ export default {
       "hash": "ef922977",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fdfc7863-9632-43df-88dd-2e2fda4a6dfa",
@@ -418,7 +443,15 @@ export default {
       "hash": "9b4d7ea7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e39596ad-bfd4-4548-b115-a5d5f63a2fba",
@@ -455,6 +488,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "8777d61f-6b9a-45ab-b0c2-639a917452e2",
+      "kind": "enhancement",
+      "name": "Etacarn SB9 Targeting Implant",
+      "det": "Mercenary Oathband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mercenary-oathband"
+      },
+      "hash": "c7e9d62f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this ability is used",
+            "ru": "пока способность использована"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "dcc9fd81-0cb0-477b-9941-5f05fedf753f",
@@ -881,7 +942,16 @@ export default {
       "hash": "271b0376",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "94bb2d5a-b2ef-4286-869d-71867445cca2:einhyr-champion",
@@ -919,7 +989,15 @@ export default {
       "hash": "d6359087",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "c2bf69d8-7326-4933-84ae-58539abb44df:einhyr-hearthguard",
@@ -964,6 +1042,64 @@ export default {
           "op": "set",
           "value": "5+",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "1204f755-51f8-4f35-8126-4da29de988c1:ironkin-steeljacks-with-heavy-volkanite-disintegrators",
+      "kind": "wargear",
+      "name": "Ironkin Steeljacks with Heavy Volkanite Disintegrators: Preymark Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
+        "item": "preymark crest"
+      },
+      "hash": "6fbb4ca3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "1204f755-51f8-4f35-8126-4da29de988c1:ironkin-steeljacks-with-melee-weapons",
+      "kind": "wargear",
+      "name": "Ironkin Steeljacks with Melee Weapons: Preymark Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "ironkin-steeljacks-with-melee-weapons",
+        "item": "preymark crest"
+      },
+      "hash": "6fbb4ca3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against a unit within range of an objective marker",
+            "ru": "по отряду в зоне objective marker"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

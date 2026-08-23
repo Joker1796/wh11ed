@@ -73,10 +73,17 @@ export function appdataToMarkup(text) {
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
 // converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
 // stores flavour in a separate `flavor` field, so including them would flag every rule.
+//
+// A block can carry SEVERAL of these fields, and every one of them is rule text: a
+// `triggerEffectAccordion` (Aeldari's Battle Focus manoeuvres) keeps the condition in `trigger`
+// and the rule itself in `effect`. Reading `text || trigger || effect` kept the trigger and threw
+// the effect away — "add 2\" to the Move characteristic of models in that unit" was in no reader's
+// hands, so gen-roster-modifiers proposed no record for it and the text-drift guards
+// (sync-faction-text, appdata-text-diff) compared our full prose against a half of appdata's.
 export function bodyText(body) {
   return (body || [])
     .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
-    .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
+    .map((b) => [b.text, b.trigger, b.effect].filter(Boolean).map(appdataToMarkup).filter(Boolean).join('\n'))
     .filter(Boolean)
     .join('\n')
 }

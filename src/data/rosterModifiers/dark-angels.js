@@ -31,6 +31,34 @@ export default {
       ]
     },
     {
+      "sid": "b7762dcd-fc0e-4d41-a767-19b5b183f3ef:belial",
+      "kind": "ability",
+      "name": "Belial: Grand Master of the Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belial"
+      },
+      "hash": "06108a12",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "on a Critical Hit",
+            "ru": "на Critical Hit"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "d021d325-2787-41ad-a5c1-347fc0262dfd:deathwing-knights",
       "kind": "ability",
       "name": "Deathwing Knights: Inner Circle",
@@ -70,7 +98,16 @@ export default {
       "hash": "d4f151a2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b6530fa5-3538-484c-b54e-d632bd973644:inner-circle-companions",
@@ -84,7 +121,15 @@ export default {
       "hash": "87a55d7c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cb502504-f1d5-4294-be79-d5eeb88be41f:inner-circle-companions",
@@ -112,7 +157,15 @@ export default {
       "hash": "e48360cd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 3+ (vs Psychic Attacks and mortal wounds)",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d35ece66-fa50-4d0a-8503-97eafc049ffc:lion-eljonson",
@@ -190,7 +243,16 @@ export default {
       "hash": "abacefa0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4c63e8cc-3ae0-483f-bb91-b903d35e692d:master-zacharial",
@@ -562,7 +624,15 @@ export default {
       "hash": "36589190",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 9\"",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "28e99366-170a-49c2-a572-6740ee178f95",
@@ -885,7 +955,16 @@ export default {
       "hash": "38b9e784",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "709d9f90-1f57-493c-bdf3-279310da4339",
@@ -1198,6 +1277,19 @@ export default {
           "value": "4+",
           "when": null,
           "target": "led"
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "for the phase, when the bearer uses this wargear",
+            "ru": "на фазу, когда носитель применил снаряжение"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

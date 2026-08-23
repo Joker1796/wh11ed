@@ -87,7 +87,10 @@ const CANDIDATE = new RegExp([
   // they are proposed and closed as reviewed empties rather than left invisible.
   'subtract \\d+ from [^.]{0,40}characteristic',
   '(?:add|subtract) \\d+["\u201d] to',            // the same with a distance: 'add 2" to this model\'s Move'
-  'improve[sd]? the [^.]{0,40}characteristic',
+  // "improve THAT unit's Leadership characteristic", "worsen ITS Save" — the article is not always
+  // `the`, and an aura almost never uses it (it is talking about the unit it reached, not itself).
+  // Two +1 Ld auras (Necrons' Silent King, the Noctilith Crown) had no record for that one word.
+  '(?:improve|worsen)[sd]? (?:the|that|its|their|this|your)\\b',
   // "has a Move characteristic of 7\"", "have an Objective Control characteristic of 3" — a SET
   // rather than a delta, and the wording the wargear rules use almost exclusively (a Mortifiers'
   // Anchorite Sarcophagus rewrites Move and Save this way and was invisible to every pattern here).
@@ -96,7 +99,6 @@ const CANDIDATE = new RegExp([
   'has a \\d\\+ (?:invulnerable )?save',
   '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
   '[+-]\\d+"? (?:M|Move)\\b',
-  'worsen[s]? the',
   // Grants: a keyword changes which OTHER rules bear on the unit (Necrons' Destroyer Ankh gives
   // its bearer DESTROYER CULT, and Cold Fervour then gives every DESTROYER CULT model +2
   // Strength), and a weapon ability is printed on the weapon row like any other tag.
@@ -107,6 +109,19 @@ const CANDIDATE = new RegExp([
   // so "has the Chapter Master ability" (a datasheet ability) does not drag every rule in.
   '(?:has|have|gains?) (?:the )?(?:Deadly Demise|Deep Strike|Feel No Pain|Fights First|Firing Deck|Hover|Infiltrators|Lone Operative|Scouts|Scout Move|Stealth|Support)\\b',
   '(?:attacks|weapons)[^.]{0,70}have (?:the )?\\[',
+  // The same grant with any other subject in front: "the bearer's Eldritch Storm weapon has
+  // [DEVASTATING WOUNDS]", "that attack has the [PRECISION] ability". The pattern above needs the
+  // words `attacks`/`weapons` within 70 characters, and 66 rules phrase it without them.
+  '(?:has|have|gains?|with) (?:the )?\\[[A-Z]',
+  // A characteristic SET without the "has a … characteristic of" shape: "its Objective Control
+  // characteristic is 0" (Blood Angels' Black Rage, on six datasheets).
+  'characteristic (?:of [^.]{0,60} )?is \\d',
+  // Multiplied rather than shifted — "double the Objective Control characteristic of models in
+  // your unit". `applyValue` has no such op today; the record is proposed so the reviewer can say
+  // so in prose rather than leaving the rule invisible.
+  '(?:halve|halves|double[sd]?|triple[sd]?) (?:the|its|their) [^.]{0,45}characteristic',
+  // "Change the Attacks characteristic of the bearer's killa jet – burna weapon to 3D6".
+  'change the [^.]{0,45}characteristic of [^.]{0,70} to ',
 ].join('|'), 'i')
 
 export function isCandidate(text) {
