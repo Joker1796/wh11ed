@@ -56,7 +56,9 @@ describe('rosterModifiers data', () => {
   it('gives every stratagem record with effects a duration', () => {
     for (const { file, e } of allEntries) {
       if (e.kind !== 'stratagem' || !e.effects?.length) continue
-      expect(['phase', 'turn', 'battle'], `${file} ${e.name}: dur`).toContain(e.dur)
+      // 'round' is the window for "until the start of your next Command phase" and "until the end
+      // of the battle round" — longer than the player turn, shorter than the battle.
+      expect(['phase', 'turn', 'round', 'battle'], `${file} ${e.name}: dur`).toContain(e.dur)
     }
     // …and nothing else carries one, since nothing else is spent.
     for (const { file, e } of allEntries) {

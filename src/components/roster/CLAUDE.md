@@ -679,9 +679,26 @@ a number has no record, suspect the wording before the pipeline.
 candidates, all reviewed — and the only one that is not a standing fact. A stratagem is SPENT: on one
 unit, for a stated window, when the player decides to. So:
 
-- The record carries **`dur`** (`phase` / `turn` / `battle`), read from its own prose. Expiry is the
-  same stamp comparison a switch uses, so a stratagem spent in the Shooting phase stops rewriting
-  the card in the Fight phase without anyone remembering to turn it off.
+- The record carries **`dur`** (`phase` / `turn` / `round` / `battle`), read from its own prose.
+  Expiry is the same stamp comparison a switch uses, so a stratagem spent in the Shooting phase
+  stops rewriting the card in the Fight phase without anyone remembering to turn it off. **`phase`
+  is the default and the overwhelming majority** (234 of 264 records with effects): a stratagem with
+  no stated window lasts until the end of the phase. `round` is for the windows that outlive the
+  player turn — "until the start of your next Command phase" (11 records) and "until the end of the
+  battle round" (1) — where `turn` would drop a defensive buff exactly when it matters, during the
+  opponent's turn; it still errs EARLY against the true window, which is the standing preference.
+  Where one stratagem states two windows (Sororitas' To the Heart of Heresy: Strength for the turn,
+  AP for the phase) the record takes the one that covers its effects; there is no per-effect `dur`,
+  and nothing needs one so far.
+- **The two per-phase limits of 15.01 are enforced on the chips** (`stratagemsFor` → `blockedBy`):
+  a unit already targeted this phase blocks every other stratagem on its card (`unitPhase`), and a
+  stratagem already used this phase — on this unit or another — blocks itself (`usedPhase`). Both
+  compare the stamp a stratagem was SPENT at against the current one, never its duration: a
+  turn-long stratagem spent in the Movement phase is still in force in the Shooting phase and is no
+  obstacle to spending another one there. **Only where the game keeps phases**: without a phase
+  clock every stamp is a bare round, "the same phase" is unanswerable, and blocking a whole round
+  would forbid play the rules allow. The "unless otherwise stated" stratagem that may legally double
+  up has an escape hatch — un-spend the other one, which is never blocked.
 - **Being spent IS the condition**, so a stratagem's effects need no `cond` — `activeStrats` (the
   set of record ids the player says are up, from `player.ctx.strats[uid]`) answers it. A `cond` on
   top is for what the stratagem asks BEYOND being spent ("…against MONSTER targets"), and those stay

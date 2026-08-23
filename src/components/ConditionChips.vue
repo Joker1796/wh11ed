@@ -17,6 +17,7 @@
         :class="{ on: sw.on, auto: sw.auto || sw.blocked }"
         :aria-pressed="sw.on"
         :disabled="sw.auto || sw.blocked"
+        :title="blockedHint(sw)"
         @click="$emit('toggle', sw)"
       >
         <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
@@ -45,6 +46,14 @@ defineEmits(['toggle'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// Why a blocked chip cannot be tapped. The reason travels as a key (stratagemsFor's `blockedBy`)
+// rather than as text, because the rule is the pure layer's to state and the wording is this one's.
+const BLOCK_HINTS = { shock: 'stratBlockedShock', unitPhase: 'stratBlockedUnit', usedPhase: 'stratBlockedUsed' }
+function blockedHint(sw) {
+  const key = BLOCK_HINTS[sw.blockedBy]
+  return key ? labels.value[key] : null
+}
 
 // The switches in the order they came, bucketed by `group`. Ungrouped chips share one anonymous
 // bucket rather than getting one each, so their relative order is untouched.
