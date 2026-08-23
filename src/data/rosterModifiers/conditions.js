@@ -120,7 +120,11 @@ export const conditions = {
   'protocol-conqueror': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Conqueror Protocol', ru: 'Conqueror Protocol' } },
   'protocol-aegis': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Aegis Protocol', ru: 'Aegis Protocol' } },
   'unit-engaged': { scope: 'unit', duration: 'phase', label: { en: 'Engaged', ru: 'В ближнем бою' } },
-  'unit-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Battle-shocked', ru: 'Battle-shocked' } },
+  // `blocksStratagems` is the one condition flag the app ACTS on rather than merely reads: while it
+  // is on, no Stratagem may be used to affect the unit (Core Rules 01.07), so the card blocks the
+  // ones it has not got and drops the ongoing ones it had. Nothing else in the vocabulary carries
+  // it today; it lives here rather than as an id spelled out in the code so the rule is stated once.
+  'unit-battle-shocked': { scope: 'unit', duration: 'round', blocksStratagems: true, label: { en: 'Battle-shocked', ru: 'Battle-shocked' } },
   'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
   'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
