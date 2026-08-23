@@ -698,6 +698,21 @@ turning a unit's OC into `-`. It is the one core rule that rewrites a printed ch
 applies to every unit of every faction, and `unit-battle-shocked` was already in the vocabulary —
 which is why the switch now shows on every unit's row.
 
+Battle-shock's *other* effect on this layer is that a Battle-shocked unit may not be affected by a
+Stratagem at all, and that is enforced from both sides — the condition carries `blocksStratagems`
+in `conditions.js` so the rule is stated once rather than as an id spelled out in the code:
+
+- ahead of the fact, `stratagemsFor()` marks the ones it has not got `blocked`, so they cannot be tapped;
+- after it, switching Battle-shock ON un-spends what the unit was already running
+  (`stratagemsClearedBy()` → the view's `toggleUnitCondFor`). Leaving a spent stratagem rewriting
+  the card of a unit that may not be affected by one is a contradiction the player would otherwise
+  have to spot and undo by hand.
+
+A battle-long stratagem is deliberately left alone: its effect (Daemonic Possession's DAEMON) was
+resolved when it was spent and nothing takes it back, while a phase- or turn-long one is still
+affecting the unit. Both handlers — the row's chips and the card's — go through `toggleUnitCondFor`
+for exactly this reason: two switches for one fact must do the same thing.
+
 Three things are specific to the ABILITY source:
 
 - **It can address another unit.** "If this unit is attached to a unit … add 1 to the Strength

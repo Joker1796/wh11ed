@@ -308,6 +308,25 @@ describe('stratagems', () => {
     expect(out.find((s) => s.id === 'other')).toMatchObject({ on: false, blocked: true })
   })
 
+  // Switching Battle-shock ON un-spends what the unit was running: a stratagem still affecting a
+  // unit that may not be affected by one is a contradiction the player would have to undo by hand.
+  it('names the ongoing stratagems a blocking condition takes off', async () => {
+    const { stratagemsClearedBy } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'fight', mine: true, tracked: true }
+    const at = stampOf(clock)
+    const p = player({ strats: { u1: { krump: at, possess: at, stale: stampOf({ ...clock, round: 1 }) } } })
+    const records = [rec('krump', 'phase'), rec('possess', 'battle'), rec('stale', 'phase')]
+    const out = stratagemsClearedBy('unit-battle-shocked', records, p, clock, entry)
+    expect(out).toEqual(['krump'])   // 'possess' was resolved for good, 'stale' expired on its own
+  })
+
+  it('takes nothing off for a condition that does not block stratagems', async () => {
+    const { stratagemsClearedBy } = await import('./rosterGameContext.js')
+    const clock = { round: 1, turn: 0, phase: 'fight', mine: true, tracked: true }
+    const p = player({ strats: { u1: { krump: stampOf(clock) } } })
+    expect(stratagemsClearedBy('unit-charged', [rec('krump', 'phase')], p, clock, entry)).toEqual([])
+  })
+
   it('says nothing for an entry that spent none', async () => {
     const { activeStratagems } = await import('./rosterGameContext.js')
     expect(activeStratagems(player({}), 1, entry, [rec('krump', 'phase')]).size).toBe(0)

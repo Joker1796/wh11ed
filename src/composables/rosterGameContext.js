@@ -196,17 +196,39 @@ export function activeStratagems(player, clock, entry, records) {
   return out
 }
 
+// Is a condition that forbids spending stratagems on this unit on right now? (Battle-shock is the
+// only one, but which condition it is belongs in the vocabulary, not in this file.)
+export function stratagemsBlocked(player, clock, entry) {
+  for (const id of activeConditions(player, clock, entry)) {
+    if (conditions[id]?.blocksStratagems) return true
+  }
+  return false
+}
+
+// The stratagems that must come OFF the unit when `condId` is switched on: everything it has in
+// force whose effect is still ongoing. A stratagem that lasts the whole battle is left alone — its
+// effect (Daemonic Possession's DAEMON) was resolved when it was spent and nothing takes it back,
+// while a phase- or turn-long one is still affecting the unit, which is exactly what a
+// Battle-shocked unit may not be. Returns sids for the caller to un-spend; pure, so the store stays
+// the single writer.
+export function stratagemsClearedBy(condId, resolvedEntries, player, clock, entry) {
+  if (!conditions[condId]?.blocksStratagems) return []
+  const byId = new Map((resolvedEntries || []).map((r) => [r.sid, r]))
+  return [...activeStratagems(player, clock, entry, resolvedEntries)]
+    .filter((sid) => (byId.get(sid)?.dur || 'phase') !== 'battle')
+}
+
 // The stratagems worth offering on a card: this entry's own records that actually carry an effect,
 // each with whether it is in force right now.
 //
 // A Battle-shocked unit cannot be targeted with stratagems at all (Core Rules 01.07), so the ones
 // it has not already got are BLOCKED rather than merely off — spending one on it is not a thing the
 // game allows, and an app that lets you tap it is teaching the rule wrong. Ones already in force
-// stay flippable: the rule stops you targeting the unit, it does not undo what was spent before it
-// broke, and taking a mis-tap back must never become impossible.
+// stay flippable, so a mis-tap can always be taken back — but they are normally gone by then:
+// switching Battle-shock ON un-spends them first (stratagemsClearedBy).
 export function stratagemsFor(resolvedEntries, player, clock, entry) {
   const active = activeStratagems(player, clock, entry, resolvedEntries)
-  const shocked = activeConditions(player, clock, entry).has('unit-battle-shocked')
+  const shocked = stratagemsBlocked(player, clock, entry)
   return (resolvedEntries || [])
     .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
     .map((rec) => {

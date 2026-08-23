@@ -298,6 +298,29 @@ describe('RosterViewView', () => {
       expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()
     })
 
+    // Core Rules 01.07 again, from the other side: a Battle-shocked unit may not be affected by a
+    // Stratagem, so switching Battle-shock on un-spends the ones it is running rather than leaving
+    // the player to notice a card that contradicts the rule it just turned on.
+    it('un-spends a unit\'s stratagems when it is Battle-shocked', async () => {
+      const t = await startGame({ ...withStrats, id: 'r5' })
+      GAME_PI = '0'
+      // Gladius' "Honour the Chapter", spent on the unit this round (a game with no phase clock
+      // stamps the bare round, which is what an untracked game has always stored).
+      t.setUnitStratagem(0, 'u1', 'c055b116-504d-418e-9e52-0951913d32e5', t.current.value.currentRound, true)
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+      await new Promise((r) => setTimeout(r, 20))   // the faction's modifier bundle is imported lazily
+      await flushPromises()
+
+      expect(t.current.value.players[0].ctx.strats.u1).toBeDefined()
+      const chip = w.findAll('.rvunit-conds .cond-chip').find((c) => c.text().includes('Battle-shocked'))
+      await chip.trigger('click')
+
+      expect(t.current.value.players[0].ctx.units.u1['unit-battle-shocked']).toBeDefined()
+      expect(t.current.value.players[0].ctx.strats.u1).toBeUndefined()
+    })
+
     // The row became a container so it could hold those buttons; opening the card must still work.
     it('still opens the card from the row itself', async () => {
       const sm = {

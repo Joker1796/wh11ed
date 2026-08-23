@@ -217,7 +217,7 @@ import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entr
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
-import { activeConditions, switchesFor, stratagemsFor, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -455,9 +455,18 @@ const unitSwitchCache = computed(() => {
   return m
 })
 function unitSwitchesOf(entry) { return unitSwitchCache.value.get(entry.uid) || [] }
+// Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
+// ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
+// not be affected by one is the contradiction the player would have to notice and undo by hand.
 function toggleUnitCondFor(entry, sw) {
   if (sw.auto) return
-  tracker.value?.setUnitCondition(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
+  const at = stampOf(gameClock.value)
+  if (!sw.on) {
+    for (const sid of stratagemsClearedBy(sw.id, resolvedFor(entry), gamePlayer.value, gameClock.value, entry)) {
+      tracker.value?.setUnitStratagem(gamePi.value, entry.uid, sid, at, false)
+    }
+  }
+  tracker.value?.setUnitCondition(gamePi.value, entry.uid, sw.id, at, !sw.on)
 }
 
 function toggleArmyCond(sw) {
@@ -499,7 +508,8 @@ function toggleUnitCond(sw) {
     tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
     return
   }
-  tracker.value?.setUnitCondition(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
+  // Same handler as the row in the list, so the card and the row can never differ on what a switch does.
+  toggleUnitCondFor(viewingEntry.value, sw)
 }
 
 // One pass per entry, not one per plate: statCellsOf() is called from the template for every row,
