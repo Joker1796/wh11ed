@@ -199,6 +199,18 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
+  Two more things a real list turned up, neither of them about listhammer's spelling:
+  - **The first line is the list's NAME, priced or not.** Some exports come out with a bare title
+    ("Bootcamp 11th die Zweite"), and that line then stood where the faction was expected — the
+    import failed with "unknown faction". A first line that IS one of our faction names is still
+    read as the faction (`isFactionName`, strict, unlike `matchFaction`'s fallback pass), so a list
+    pasted from its faction line down keeps working. Detection had the same assumption: the
+    last-resort test now looks for ANY priced line, not the first one.
+  - **One weapon name can be offered by SEVERAL groups.** A Defiler swaps its baleflamer AND its
+    missile launcher for a heavy reaper autocannon: two paid picks, written as two identical lines.
+    A repeat now looks for a group that hasn't been used before falling back to the one already
+    picked — 15 points a unit, silently.
+
   Two matcher rules came out of reading a real listhammer list, and both apply to the GW app too:
   - **A model line is only a model if the datasheet has a profile by that name.** `• 1x Ammo Runt`
     is printed exactly like `• 9x Flash Git`, so counting it made a ten-model unit eleven, which

@@ -28,7 +28,8 @@ import { factionGroups } from '../data/factionsIndex.js'
 import { optionItems, optionLabel, unitPoints } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
-const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS)$/
+// `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
+const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS)$/m
 const BATTLE_SIZES = /^(Combat Patrol|Incursion|Strike Force|Onslaught|Custom)$/
 
 // Bullets. The app writes `•` at every depth; listhammer writes `•` for a model line and `◦` for
@@ -49,6 +50,11 @@ export const norm = (s) => (s || '')
   .trim()
   .toLowerCase()
 
+// Exactly one of our own faction names — used to tell a list titled after its author from a list
+// whose header line is the faction itself. Deliberately strict, unlike matchFaction's fallback
+// pass: a loose match here would eat the title of a list called "Orks go fast".
+const isFactionName = (t) => factionGroups.some((g) => g.factions.some((f) => norm(f.name) === norm(t)))
+
 // ── format detection ─────────────────────────────────────────────────────────────────────────
 
 export function detectFormat(text) {
@@ -56,7 +62,9 @@ export function detectFormat(text) {
   if (/^\s*\++\s*$/m.test(t) && /^\+ (FACTION KEYWORD|TOTAL ARMY POINTS):/m.test(t)) return 'wtc'
   if (isCompactList(t)) return 'listhammer-compact'
   if (/^attached units?( \d+)?$/im.test(t) || /^Exported with App Version:/m.test(t) || SECTIONS.test(t)) return 'gw'
-  if (POINTS_LINE.test(t.split(/\r?\n/).find((l) => l.trim()) || '')) return 'gw'
+  // Last resort: any line that prices something. Not just the first — a list's own title line is
+  // sometimes unpriced, and then the only points in the file are on its units.
+  if (/\((\d[\d.,\u00a0 ]*)\s*points?\)/i.test(t)) return 'gw'
   return null
 }
 
@@ -165,10 +173,16 @@ function parseGw(text) {
       }
       continue
     }
-    // A bare line before the battle size names the faction ("World Eaters", "Orks"). The FIRST
-    // one: listhammer prints the Force Disposition as a bare line of its own right after it, and
+    if (indent !== 0) continue
+    // The first bare line is the list's NAME — priced or not: listhammer omits the points from the
+    // header of some lists, and without this the name took the faction's place and the import
+    // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
+    // faction names is the faction, though, so a paste that starts at that line still works.
+    if (!seenHeader && !isFactionName(t)) { out.name = t; seenHeader = true; continue }
+    // The faction is then the first bare line after it ("World Eaters", "Orks") — the FIRST,
+    // because listhammer prints the Force Disposition as a bare line of its own right below it and
     // taking the last would make "Take and Hold" the army.
-    if (indent === 0 && !plain) plain = t
+    if (!plain) plain = t
   }
   flush()
   out.faction = plain
@@ -514,18 +528,30 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const printed = defaultNames(def, items)
     const idx = optionIndex(def, items)
     const picks = new Map()
+    const key2 = (r) => `${r.gi}:${r.oi}`
     for (const w of weapons) {
       const key = norm(w.name)
       if (!key || printed.has(key)) continue
       const refs = idx.get(key)
       if (!refs?.length) { line.gear.missing.push(w.name); continue }
       const want = miniIndexOf(def, w.mini)
-      const ref = (want != null && refs.find((r) => r.m === want)) || refs[0]
-      // The same option named twice (once per profile) is ONE pick, not two — two triples would
-      // charge the unit twice for it.
-      const k = `${ref.gi}:${ref.oi}`
-      const at = picks.get(k)
-      if (at) { if (ref.stepper) at[2] += (w.n || 1) } else picks.set(k, [ref.gi, ref.oi, ref.stepper ? (w.n || 1) : 1])
+      const own = want != null ? refs.filter((r) => r.m === want) : []
+      const pool = own.length ? own : refs
+      // One weapon name can be offered by SEVERAL groups — a Defiler may swap its baleflamer AND
+      // its missile launcher for a heavy reaper autocannon, two paid picks in two groups spelled
+      // by two identical lines. So a repeat looks for a group that hasn't been used yet before it
+      // falls back to the one already picked, where the old rule still holds: the same option
+      // named once per profile is ONE pick, not two (two triples would charge for it twice).
+      let left = w.n || 1
+      while (left > 0) {
+        const ref = pool.find((r) => !picks.has(key2(r))) || pool[0]
+        const k = key2(ref)
+        const at = picks.get(k)
+        if (at) { if (ref.stepper) at[2] += left; break }
+        picks.set(k, [ref.gi, ref.oi, ref.stepper ? left : 1])
+        if (ref.stepper) break
+        left -= 1
+      }
       line.gear.picked.push(w.name)
     }
     if (picks.size) entry.wg = [...picks.values()]
