@@ -274,6 +274,7 @@ import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEn
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
+import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -415,10 +416,17 @@ const ruleInfoOf = (unitId, enName) => ruleInfo.value.get(unitId)?.get(enName) |
 
 // A switch that belongs to somebody's printed rule (an ability set's options) says so: it names
 // itself the way that card does, is headed by the unit it belongs to, and carries the text for the
-// info button. Everything else — "this unit charged" — passes through untouched.
+// info button. A plain game state — "this unit charged" — carries the core rule that defines it,
+// if the vocabulary knows one.
 function withRuleInfo(list) {
   return (list || []).map((sw) => {
-    if (!sw.from) return sw
+    // A state the CORE rules define carries its definition instead: "Made a Charge move" is a
+    // question about the rules, not about somebody's card, and the answer is a paragraph away in
+    // the vocabulary itself (conditions.js `hint`). Faction states have none and stay plain.
+    if (!sw.from) {
+      const hint = sw.info ? null : conditions[sw.id]?.hint
+      return hint ? { ...sw, info: { name: sw.label[locale.value] || sw.label.en, text: hint[locale.value] || hint.en } } : sw
+    }
     const info = ruleInfoOf(sw.from.unit, sw.from.ability)
     const set = ruleInfoOf(sw.from.unit, sw.from.set)
     return {
@@ -430,7 +438,7 @@ function withRuleInfo(list) {
   })
 }
 function openChipInfo(sw, rect) {
-  if (sw.info) openRule(sw.info.name, sw.info.text, rect)
+  if (sw.info) openRule(sw.info.name, sw.info.text, rect, sw.info.sub)
 }
 
 // ── Unit rules modal ──

@@ -60,6 +60,15 @@ export const GROUP_LIMITS = {
 // way a spent stratagem is. See rosterGameContext's pickSwitchesFor.
 
 export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
+
+// `hint` — what the state IS, for the "i" beside the chip. Only for the states the CORE rules
+// define: a player who cannot remember whether a failed charge counts, or what being Battle-shocked
+// costs, is answered here rather than three screens away. Written in both locales because the chip
+// is (RosterViewView's withRuleInfo picks one), and free to use the body markup every other rule
+// text uses — a `(11.02)` cross-ref navigates to that rule, a `[gloss:…]` opens its definition.
+// A state that is a FACTION rule (an Imperative, an Order, a Kastelan protocol) deliberately has
+// none: its text lives in that rule's own body, which is a pointer this dictionary does not hold
+// yet, and a hand-written paraphrase of somebody's rule is how the two quietly come to disagree.
 //
 // scope — who answers the question:
 //   army    one switch for the whole army (an army rule state; the army-rule tracker proves some)
@@ -106,11 +115,32 @@ export const conditions = {
   'augment-ophthalmic-enhancement': { scope: 'army', duration: 'battle', group: 'augmentation', label: { en: 'Ophthalmic Enhancement', ru: 'Ophthalmic Enhancement' } },
 
   // ── Unit state ──────────────────────────────────────────────────────────────────────────
-  'unit-charged': { scope: 'unit', duration: 'turn', label: { en: 'Made a Charge move', ru: 'Совершил Charge' } },
-  'unit-advanced': { scope: 'unit', duration: 'turn', label: { en: 'Advanced', ru: 'Совершил Advance' } },
+  'unit-charged': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Made a Charge move', ru: 'Совершил Charge' },
+    hint: {
+      en: 'This unit declared a charge this turn and completed the **charge move**. A charge that failed leaves the unit where it was and does not count (11.02).',
+      ru: 'Отряд объявил charge в этом ходу и выполнил **charge move**. Провалившийся charge оставляет отряд на месте и не считается (11.02).',
+    },
+  },
+  'unit-advanced': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Advanced', ru: 'Совершил Advance' },
+    hint: {
+      en: 'This unit made an **Advance move** this turn: its M characteristic plus an Advance roll. Until the end of the turn it is not eligible to declare a charge or to start an action (09.06).',
+      ru: 'Отряд выполнил **Advance move** в этом ходу: характеристика M плюс advance roll. До конца хода он не может объявить charge и начать action (09.06).',
+    },
+  },
   // "Each time this unit Remains Stationary, until the start of your next Movement phase…" — the
   // window runs to the next Movement phase, which is one turn's worth of the game.
-  'unit-stationary': { scope: 'unit', duration: 'turn', label: { en: 'Remained Stationary', ru: 'Остался на месте' } },
+  'unit-stationary': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Remained Stationary', ru: 'Остался на месте' },
+    hint: {
+      en: 'This unit Remained Stationary in the Movement phase: no model was moved or rotated, so nothing that triggers on a unit starting or ending a move was triggered (09.04).',
+      ru: 'Отряд Remained Stationary в Movement phase: ни одна модель не перемещалась и не поворачивалась, поэтому правила на начало и конец перемещения не сработали (09.04).',
+    },
+  },
   // "While this unit is engaged" — in Engagement Range of an enemy. Only the player knows, and it
   // changes as the battle moves, so it expires at the phase boundary rather than the round's.
   // Drukhari — "you can spend 1 Pain token to Empower this unit". The tracker banks Pain tokens
@@ -123,14 +153,42 @@ export const conditions = {
   'protocol-protector': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Protector Protocol', ru: 'Protector Protocol' } },
   'protocol-conqueror': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Conqueror Protocol', ru: 'Conqueror Protocol' } },
   'protocol-aegis': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Aegis Protocol', ru: 'Aegis Protocol' } },
-  'unit-engaged': { scope: 'unit', duration: 'phase', label: { en: 'Engaged', ru: 'В ближнем бою' } },
+  'unit-engaged': {
+    scope: 'unit', duration: 'phase',
+    label: { en: 'Engaged', ru: 'В ближнем бою' },
+    hint: {
+      en: 'One or more models in this unit are within **[gloss:engagement-range:engagement range]** of an enemy model — 2" horizontally and 5" vertically (03.04).',
+      ru: 'Хотя бы одна модель отряда находится в **[gloss:engagement-range:engagement range]** от модели противника — 2" по горизонтали и 5" по вертикали (03.04).',
+    },
+  },
   // `blocksStratagems` is the one condition flag the app ACTS on rather than merely reads: while it
   // is on, no Stratagem may be used to affect the unit (Core Rules 01.07), so the card blocks the
   // ones it has not got and drops the ongoing ones it had. Nothing else in the vocabulary carries
   // it today; it lives here rather than as an id spelled out in the code so the rule is stated once.
-  'unit-battle-shocked': { scope: 'unit', duration: 'round', blocksStratagems: true, label: { en: 'Battle-shocked', ru: 'Battle-shocked' } },
-  'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
-  'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },
+  'unit-battle-shocked': {
+    scope: 'unit', duration: 'round', blocksStratagems: true,
+    label: { en: 'Battle-shocked', ru: 'Battle-shocked' },
+    hint: {
+      en: "This unit failed a battle-shock roll. While it is **[gloss:battle-shocked:battle-shocked]** the OC of all its models is '-', it cannot start an action, and it cannot be targeted with Stratagems — which is why the card blocks them (01.07).",
+      ru: "Отряд провалил проверку боевого шока. Пока он **[gloss:battle-shocked:подвержен боевому шоку]**, OC всех его моделей — '-', он не может начинать action, и на него нельзя нацеливать стратагемы — поэтому карточка их блокирует (01.07).",
+    },
+  },
+  'unit-not-battle-shocked': {
+    scope: 'unit', duration: 'round',
+    label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' },
+    hint: {
+      en: 'The ordinary state. The rule names it because its own effect stops while the unit IS **[gloss:battle-shocked:battle-shocked]** (01.07).',
+      ru: 'Обычное состояние. Правило называет его потому, что перестаёт действовать, пока отряд **[gloss:battle-shocked:подвержен боевому шоку]** (01.07).',
+    },
+  },
+  'unit-arrived-from-reserves': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' },
+    hint: {
+      en: 'This unit was set up on the battlefield this turn from **[gloss:strategic-reserves:strategic reserves]** rather than during deployment (20.01).',
+      ru: 'Отряд выставлен на поле боя в этом ходу из **[gloss:strategic-reserves:стратегического резерва]**, а не в расстановке (20.01).',
+    },
+  },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
   // Martial Ka'tah: the unit picks a stance each time it is selected to fight, so this is a
   // per-unit choice that lasts the phase — nothing can derive it, which is exactly what a switch
@@ -146,12 +204,26 @@ export const conditions = {
   // a stale switch can't rewrite a number after the fact.
   'hagio-catechism': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Catechism of Raging Fervour', ru: 'Catechism of Raging Fervour' } },
   'hagio-psalm': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Psalm of Righteous Smiting', ru: 'Psalm of Righteous Smiting' } },
-  'unit-disembarked': { scope: 'unit', duration: 'turn', label: { en: 'Disembarked this turn', ru: 'Высадился в этом ходу' } },
+  'unit-disembarked': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Disembarked this turn', ru: 'Высадился в этом ходу' },
+    hint: {
+      en: 'This unit disembarked from a [gloss:transport:TRANSPORT] this turn. Any disembark move counts, including the emergency one out of a destroyed TRANSPORT (18.03).',
+      ru: 'Отряд высадился из [gloss:transport:TRANSPORT] в этом ходу. Считается любой disembark move, включая аварийный из уничтоженного TRANSPORT (18.03).',
+    },
+  },
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
   'unit-achieved-boast': { scope: 'unit', duration: 'battle', label: { en: 'Achieved a Boast', ru: 'Выполнил Boast' } },
   // Not casualty TRACKING (out of scope) — one switch the player flips when it stops being true.
-  'unit-at-starting-strength': { scope: 'unit', duration: 'battle', label: { en: 'At Starting Strength', ru: 'В полном составе' } },
+  'unit-at-starting-strength': {
+    scope: 'unit', duration: 'battle',
+    label: { en: 'At Starting Strength', ru: 'В полном составе' },
+    hint: {
+      en: 'The unit still contains every model it had at the start of the first battle round — its **[gloss:starting-strength:starting strength]** (01.02.01).',
+      ru: 'В отряде остались все модели, которые были в нём в начале первого раунда боя, — его **[gloss:starting-strength:начальная численность]** (01.02.01).',
+    },
+  },
   'unit-lost-wounds': { scope: 'unit', duration: 'battle', label: { en: 'Has lost wounds', ru: 'Потерял раны' } },
   'unit-destroyed-model-melee': { scope: 'unit', duration: 'battle', label: { en: 'Destroyed a model in melee', ru: 'Уничтожил модель в мели' } },
   'unit-dark-pact-invoked': { scope: 'unit', duration: 'phase', label: { en: 'Invoked its Dark Pact contract', ru: 'Призвал контракт Dark Pact' } },

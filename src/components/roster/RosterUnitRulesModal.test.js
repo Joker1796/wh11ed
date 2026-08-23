@@ -427,6 +427,43 @@ describe('RosterUnitRulesModal', () => {
     }
   })
 
+  // The chip names a stratagem; the card that says what it does is on another tab. The "i" carries
+  // it — laid out as bold-labelled lines, because the popover's renderer knows nothing of
+  // StratCard's info-cards — and the RU name rides in the header the way it rides under the chip.
+  it('opens the stratagem card itself from the chip', async () => {
+    const { useLocale } = await import('../../composables/useLocale.js')
+    const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+    const { locale } = useLocale()
+    const { activeKeyword, close } = useKeywordPopover()
+    const prev = locale.value
+    locale.value = 'ru'
+    try {
+      const w = mount(RosterUnitRulesModal, {
+        props: {
+          unitId: 'necron-warriors',
+          factionSlug: 'necrons',
+          ctx: { entry: { uid: 'a', id: 'necron-warriors' }, units: [] },
+          gameCtx: {
+            active: new Set(),
+            strats: [{ id: 's1', label: { en: 'Methodical Murder', ru: 'Methodical Murder' }, det: 'Cursed Legion', on: false, auto: false }],
+          },
+        },
+      })
+      await waitFor('Методичное убийство')
+      await body().find('.rum-strats .cond-info').trigger('click')
+      expect(activeKeyword.value.name).toBe('Methodical Murder')
+      expect(activeKeyword.value.sub).toBe('Методичное убийство')
+      expect(activeKeyword.value.fullText).toContain('1CP')
+      expect(activeKeyword.value.fullText).toContain('**КОГДА:**')      // the localised labels…
+      expect(activeKeyword.value.fullText).toContain('Ваша фаза стрельбы') // …and the localised prose
+      expect(activeKeyword.value.fullText).not.toContain('ОГРАНИЧЕНИЯ') // this one has none
+      close()
+      w.unmount()
+    } finally {
+      locale.value = prev
+    }
+  })
+
   // A state is flipped where the thing it changes is READ. Desolation Squad's Targeter Optics
   // grants [IGNORES COVER] after Remaining Stationary, so that switch belongs on that ability —
   // not in a strip at the top of the card that says nothing about which rule it feeds.

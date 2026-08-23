@@ -287,3 +287,45 @@ describe('core rules as a modifier source', () => {
     expect(Object.keys(files).some((f) => f.includes('coreRules'))).toBe(false)
   })
 })
+
+// A hint is a paraphrase of a printed rule, and it names the rule it paraphrases: the number is a
+// live cross-ref (renderInline turns `(01.07)` into one), so a section that got renumbered has to
+// be caught here rather than by a reader tapping a dead link.
+describe('the hints behind a game-state chip', () => {
+  const sectionIds = async () => {
+    const [b, a, r] = await Promise.all([
+      import('../basicRules.js'), import('../advancedRules.js'), import('../battleRound.js'),
+    ])
+    const ids = new Set()
+    const walk = (node) => {
+      if (Array.isArray(node)) return node.forEach(walk)
+      if (!node || typeof node !== 'object') return
+      if (typeof node.id === 'string' && node.id.startsWith('section-')) ids.add(node.id)
+      for (const v of Object.values(node)) walk(v)
+    }
+    walk([b.basicRules, a.advancedRules, r.battleRound])
+    return ids
+  }
+
+  it('writes every hint in both locales, and only for a state the core rules define', async () => {
+    const hinted = Object.entries(conditions).filter(([, c]) => c.hint)
+    expect(hinted.length).toBeGreaterThan(0)
+    for (const [id, c] of hinted) {
+      expect(c.hint.en, id).toBeTruthy()
+      expect(c.hint.ru, id).toBeTruthy()
+      expect(id.startsWith('unit-'), id).toBe(true)
+    }
+  })
+
+  it('points every hint at a section that still exists', async () => {
+    const ids = await sectionIds()
+    for (const [id, c] of Object.entries(conditions)) {
+      if (!c.hint) continue
+      for (const text of [c.hint.en, c.hint.ru]) {
+        for (const [, num] of text.matchAll(/\((\d{2}(?:\.\d{2}){1,2})\)/g)) {
+          expect(ids.has(`section-${num.replace(/\./g, '-')}`), `${id} → ${num}`).toBe(true)
+        }
+      }
+    }
+  })
+})

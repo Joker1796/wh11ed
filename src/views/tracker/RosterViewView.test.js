@@ -365,6 +365,43 @@ describe('RosterViewView', () => {
       expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()
     })
 
+    // A state the CORE rules define answers for itself: the "i" beside Battle-shocked says what
+    // being Battle-shocked costs — including the stratagem ban this card enforces. A state that is
+    // some faction's rule (a Waaagh!) has no such definition to give, and carries no button.
+    it('puts the core rule behind a game-state chip, and only where there is one', async () => {
+      const sm = {
+        id: 'r3h', name: 'Hint List', faction: 'space-marines', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'desolation-squad', size: 0 }],
+      }
+      await startGame(sm, 'space-marines')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Desolation Squad')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+
+      const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+      const { visible, activeKeyword, close } = useKeywordPopover()
+      await w.find('.rvunit-conds .cond-info').trigger('click')
+      expect(visible.value).toBe(true)
+      expect(activeKeyword.value.name).toBe('Battle-shocked')
+      expect(activeKeyword.value.fullText).toContain('cannot be targeted with Stratagems')
+      expect(activeKeyword.value.fullText).toContain('(01.07)')   // …and the rule number navigates
+      close()
+      w.unmount()
+
+      const orks = {
+        id: 'r3w', name: 'Waaagh List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      await startGame(orks, 'orks')
+      const w2 = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w2, 'Boyz')
+      await waitForSelector(w2, '.rv-conds .cond-chip')
+      const waaagh = w2.findAll('.rv-conds .cond-item').find((i) => i.text().includes('Waaagh!'))
+      expect(waaagh.find('.cond-info').exists()).toBe(false)
+      w2.unmount()
+    })
+
     // …and no chevron at all when Battle-shock is the only thing this unit can be in.
     it('leaves the row bare when there is nothing behind the chevron', async () => {
       const orks = {

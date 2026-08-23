@@ -98,9 +98,11 @@ export function useKeywordPopover() {
   // to consult: the faction bundle is already loaded by the caller, and it would be wasteful (and
   // wrong, since the text is per-locale there) to re-resolve it here. Same { name, num, fullText }
   // shape, so the popover renders it exactly like a core ability.
-  function openRule(name, text, rect) {
+  // `sub` is a display line under the name, for a rule whose name stays English by project
+  // convention while its translation travels beside it (a stratagem's, on the roster's chips).
+  function openRule(name, text, rect, sub = null) {
     if (!name || !text) return
-    activeKeyword.value = { name, num: '', fullText: text, kind: 'rule' }
+    activeKeyword.value = { name, num: '', sub, fullText: text, kind: 'rule' }
     anchor.value = rect
     visible.value = true
   }
