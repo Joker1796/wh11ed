@@ -76,6 +76,33 @@ export function resolveRef(text) {
 // scrollToAnchor() call supersede any still-running earlier one instead of fighting it.
 let scrollGeneration = 0
 
+// Run a scroll with NO animation, whatever the page's CSS says.
+//
+// `behavior: 'instant'` on its own is not enough: Safari only understood the value from 17.4, and
+// before that the `scroll-behavior: smooth` this app sets on <html> (style.css) won — so each of
+// the two scrolls below became an animation, and the second interrupted the first halfway. That is
+// what an iPhone reader sees as "search sometimes lands in the wrong place". Neutralising the CSS
+// for the duration works on every engine, including the ones that do support the option.
+function instantly(fn) {
+  const root = document.documentElement
+  const prev = root.style.scrollBehavior
+  root.style.scrollBehavior = 'auto'
+  try { fn() } finally { root.style.scrollBehavior = prev }
+}
+
+// Is the viewport done moving? On iOS the search palette has the on-screen keyboard up, and
+// closing it resizes the visual viewport over ~300ms while Safari scrolls the page itself — align
+// during that and we are aiming at a moving target. Two consecutive frames of the same height is
+// "settled"; a browser that never reports one is capped out by the caller so nothing can stall.
+let lastViewportH = null
+let steadyFrames = 0
+function viewportSettled(elapsed) {
+  const h = window.visualViewport?.height ?? window.innerHeight
+  if (h === lastViewportH) steadyFrames++
+  else { lastViewportH = h; steadyFrames = 0 }
+  return steadyFrames >= 2 || elapsed > 500
+}
+
 // Robustly scroll the given element id into view below the sticky header. The target
 // view (and its async illustrations) may not be laid out yet right after a route change,
 // so poll up to ~1.5s for the element, then — once it exists — re-check after 400ms to
@@ -99,8 +126,10 @@ export function scrollToAnchor(anchor, offset = 100) {
     // hand-computed sum off, landing the scroll in an earlier chapter entirely.
     // scrollIntoView() doesn't have that problem — the browser resolves the true position
     // itself, correctly walking any still-collapsed content along the way.
-    el.scrollIntoView({ behavior: 'instant', block: 'start' })
-    window.scrollBy({ top: -offset, behavior: 'instant' })
+    instantly(() => {
+      el.scrollIntoView({ block: 'start' })
+      window.scrollBy(0, -offset)
+    })
     return true
   }
   // The 400ms follow-up is only meant to correct a few dozen px of drift from a late-loading
@@ -110,19 +139,42 @@ export function scrollToAnchor(anchor, offset = 100) {
   // practice, jumping several sections backward. A plain getBoundingClientRect() delta is
   // safe here because the target's own chapter is already genuinely rendered by this point.
   const nudge = () => {
+    if (tookOver) return    // the reader started scrolling themselves; do not yank the page back
     const el = findEl()
     if (!el) return
     const drift = el.getBoundingClientRect().top - offset
-    if (Math.abs(drift) > 4) window.scrollBy({ top: drift, behavior: 'smooth' })
+    // Instant, like the align above and for the same reason. This used to be `smooth`, which on a
+    // phone meant a second animation still running when the keyboard finished dismissing.
+    if (Math.abs(drift) > 4) instantly(() => window.scrollBy(0, drift))
   }
+
+  // A reader who starts scrolling has taken the page over — the follow-up correction is then a
+  // page yanked out from under them, which is worse than a few px of drift.
+  let tookOver = false
+  const onUser = () => { tookOver = true }
+  const listen = (on) => {
+    for (const ev of ['touchstart', 'wheel']) {
+      if (on) window.addEventListener(ev, onUser, { passive: true })
+      else window.removeEventListener(ev, onUser)
+    }
+  }
+  listen(true)
 
   const start = performance.now()
   const tick = () => {
-    if (token !== scrollGeneration) return // superseded by a newer scrollToAnchor() call
-    if (align()) {
-      setTimeout(() => { if (token === scrollGeneration) nudge() }, 400)
-    } else if (performance.now() - start < 1500) {
+    if (token !== scrollGeneration) { listen(false); return } // superseded by a newer call
+    const elapsed = performance.now() - start
+    // Wait for the viewport before aligning, then for the element. Both can stall; the 1.5s cap
+    // is the same one this loop has always had.
+    if (viewportSettled(elapsed) && align()) {
+      setTimeout(() => {
+        if (token === scrollGeneration) nudge()
+        listen(false)
+      }, 400)
+    } else if (elapsed < 1500) {
       requestAnimationFrame(tick)
+    } else {
+      listen(false)
     }
   }
   requestAnimationFrame(tick)
