@@ -204,7 +204,10 @@ directory; still part of this feature:
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
     every bare line and picks the one `isFactionName` — then `matchFaction` — recognises; nothing
-    answering leaves it empty, which the import screen turns into "choose the faction".
+    answering leaves it empty, which the import screen turns into "choose the faction". The **last**
+    such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
+    and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
+    which has no Azrael, no Deathwing Knights and neither of that list's detachments.
   - **A body can arrive with its indentation stripped** (pasted out of a rendered page rather than
     off the clipboard): every line at column 0, bullets and all, and nothing in the TEXT separating
     a model line from a weapon. `gwBody` then offers every line as a candidate model line — sharing
