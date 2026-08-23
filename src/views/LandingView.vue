@@ -6,6 +6,7 @@
     </div>
 
     <p class="landing-desc">{{ t.description }}</p>
+    <p class="landing-help"><RouterLink to="/help">{{ t.footer.helpLink }} →</RouterLink></p>
 
     <div class="section-grid">
       <RouterLink
@@ -72,6 +73,14 @@ const t = computed(() => landing[locale.value])
   line-height: 1.7;
   font-size: 1rem;
 }
+
+.landing-help {
+  text-align: center;
+  margin: -0.6rem 0 1.4rem;
+  font-size: 0.88rem;
+}
+.landing-help a { color: var(--accent); text-decoration: none; }
+.landing-help a:hover { text-decoration: underline; }
 
 .section-grid {
   display: grid;

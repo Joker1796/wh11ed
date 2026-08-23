@@ -3,6 +3,9 @@
     <div class="hero">
       <h1>{{ labels.rostersHeading }}</h1>
       <p class="hero-desc">{{ labels.rostersDesc }}</p>
+      <!-- The builder can do more than the screen shows (import, share, hand-off to the tracker),
+           so the explanation is one tap from the screen itself rather than buried in a footer. -->
+      <RouterLink class="hero-help" to="/help#help-rosters">{{ labels.helpLearnMore }}</RouterLink>
     </div>
 
     <!-- One line of cloud status. Everything it can say is produced by the single pass below;
@@ -34,10 +37,7 @@
 
     <!-- An empty screen is where somebody stands who has not decided this is worth their evening,
          so it is also where the explanation belongs — not three taps away in a help menu. -->
-    <p v-if="!shown.length" class="empty">
-      {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
-      <RouterLink v-if="tab !== 'drafts'" class="empty-help" to="/help#help-rosters">{{ labels.helpLearnMore }}</RouterLink>
-    </p>
+    <p v-if="!shown.length" class="empty">{{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}</p>
     <TransitionGroup v-else tag="ul" name="list" class="rosters">
       <li
         v-for="r in shown"
@@ -264,7 +264,7 @@ function confirmDelete() {
   margin-bottom: 0.3rem;
 }
 .hero-desc { color: var(--text-muted); font-size: 0.95rem; }
-.empty-help { display: block; margin-top: 0.5rem; color: var(--accent); font-size: 0.85rem; }
+.hero-help { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-size: 0.85rem; }
 .cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex;
