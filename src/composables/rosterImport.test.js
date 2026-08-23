@@ -587,6 +587,27 @@ describe('parseList — a title of several lines, and a body that lost its inden
     expect(p.limit).toBe(2000)
   })
 
+// A Chapter is printed UNDER its parent faction, and the Chapter is the army: taking the first
+  // faction line gave a Dark Angels list the Space Marines data, which has no Azrael, no Deathwing
+  // Knights and neither of the list's own detachments — seven units and both detachments missing.
+  it('takes the Chapter, not the parent faction printed above it', () => {
+    const p = parseList(`What I wasn’t allowed to play at WTC (2000 points)
+
+Space Marines
+Dark Angels
+Company of Hunters and Darkflight Pursuit (3 Detachment Points)
+Reconnaissance
+Strike Force (2000 points)
+
+CHARACTERS
+
+Azrael (140 points)
+• 1x The Lion Helm`)
+    expect(p.faction).toBe('Dark Angels')
+    expect(matchFaction(p.faction)).toBe('dark-angels')
+    expect(p.detachments).toEqual(['Company of Hunters', 'Darkflight Pursuit'])
+  })
+
   it('still reads the units when every line sits at column 0', () => {
     expect(p.units.map((u) => u.name)).toEqual(['Khorne Berzerkers', 'Chaos Spawn', 'Forgefiend'])
   })

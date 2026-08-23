@@ -195,7 +195,13 @@ function parseGw(text) {
   // faction is the bare line that ANSWERS as one — by name, then by our looser reading — and
   // everything else is the title around it. Nothing answering leaves it empty, which the import
   // screen turns into "choose the faction" rather than into a failure.
-  out.faction = plains.find(isFactionName) || plains.find((t) => matchFaction(t)) || plains[0] || ''
+  //
+  // The LAST such line, because a Chapter is printed under its parent ("Space Marines" then "Dark
+  // Angels") and the Chapter is the army: taking the first gave a Dark Angels list the Space
+  // Marines data, which has no Azrael, no Deathwing Knights and neither of its detachments.
+  const answers = plains.filter(isFactionName)
+  const loose = plains.filter((t) => matchFaction(t))
+  out.faction = answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
   return out
 }
 
