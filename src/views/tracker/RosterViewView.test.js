@@ -320,15 +320,36 @@ describe('RosterViewView', () => {
       await waitFor(w, 'Desolation Squad')
       await waitForSelector(w, '.rvunit-conds .cond-chip')
 
-      const chips = w.findAll('.rvunit-conds .cond-chip')
-      // Battle-shock rides along on every unit — it is a core rule, and its OC effect applies to
-      // whoever is Battle-shocked — so the ability's own state is found by name, not by position.
-      expect(chips.map((c) => c.text())).toContain('Battle-shocked')
-      const chip = chips.find((c) => c.text().includes('Remained Stationary'))
+      // One chip stays on the row — Battle-shock, the state every unit can be in and the one that
+      // gets marked every Command phase — and the rest fold behind the chevron beside it.
+      const row = w.find('.rvunit')
+      expect(row.findAll('.rvunit-conds > .cond-chips .cond-chip').map((c) => c.text())).toEqual(['Battle-shocked'])
+      expect(w.find('.rvunit-more').attributes('aria-expanded')).toBe('false')
+
+      await w.find('.rvunit-more').trigger('click')
+      expect(w.find('.rvunit-more').attributes('aria-expanded')).toBe('true')
+      const chip = w.findAll('.rvunit-rest .cond-chip').find((c) => c.text().includes('Remained Stationary'))
       expect(chip).toBeTruthy()
       expect(chip.classes()).not.toContain('on')
       await chip.trigger('click')
       expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()
+    })
+
+    // …and no chevron at all when Battle-shock is the only thing this unit can be in.
+    it('leaves the row bare when there is nothing behind the chevron', async () => {
+      const orks = {
+        id: 'r8', name: 'Plain List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      await startGame(orks, 'orks')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Plain List')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+      await new Promise((r) => setTimeout(r, 25))
+      await flushPromises()
+      expect(w.findAll('.rvunit-conds > .cond-chips .cond-chip').map((c) => c.text())).toEqual(['Battle-shocked'])
+      expect(w.find('.rvunit-more').exists()).toBe(false)
     })
 
     // Core Rules 01.07 again, from the other side: a Battle-shocked unit may not be affected by a
@@ -373,7 +394,9 @@ describe('RosterViewView', () => {
       await flushPromises()
 
       const rowOf = (name) => w.findAll('.rvunit').find((r) => r.text().includes(name))
-      const chip = rowOf('Battle Sisters Squad').findAll('.cond-chip').find((c) => c.text().includes('The Fiery Heart'))
+      // An aura is not the row's headline state, so it lives behind the chevron with the rest.
+      await rowOf('Battle Sisters Squad').find('.rvunit-more').trigger('click')
+      const chip = rowOf('Battle Sisters Squad').findAll('.rvunit-rest .cond-chip').find((c) => c.text().includes('The Fiery Heart'))
       expect(chip.text()).toContain('Triumph of Saint Katherine')   // the chip says where it comes from
       expect(chip.classes()).not.toContain('on')
 

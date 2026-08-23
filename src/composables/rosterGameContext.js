@@ -232,8 +232,10 @@ export function auraSwitchesFor(reaching, player, clock, entry) {
   const on = activeAuras(player, clock, entry)
   return (reaching || []).map((a) => ({
     id: a.sid,
-    // Names of units, abilities and detachments all stay English by project convention.
-    label: { en: `${a.source} · ${a.name}`, ru: `${a.source} · ${a.name}` },
+    // The UNIT's name stays English by project convention; the ABILITY has a translation on its own
+    // card (the RU overlay), and a chip that names it in English while the card names it in Russian
+    // is one more thing for the reader to match up. `nameRu` is the caller's to supply.
+    label: { en: `${a.source} · ${a.name}`, ru: `${a.source} · ${a.nameRu || a.name}` },
     on: on.has(a.sid),
     auto: false,
     aura: true,
