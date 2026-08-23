@@ -550,6 +550,36 @@ describe('datasheetEntriesFor — wargear', () => {
   })
 })
 
+// `live` is what the card sorts by: in force now, or waiting on something. It is not `applied` —
+// a modifier can be in force and still change no number it can compute.
+describe('the live flag on a note', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const rule = (over) => ({
+    kind: 'detachmentRule', name: 'Cold Fervour', det: 'Cursed Legion', body: '',
+    effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, ...over }],
+  })
+
+  it('marks an unconditional modifier live', () => {
+    const out = applyStatMods(sheet(), [rule()], [], [], new Set(), new Set())
+    expect(out.notes[0]).toMatchObject({ live: true, applied: true })
+  })
+
+  it('marks a conditional one live only once its condition holds', () => {
+    const conditional = rule({ when: { en: 'while charged', ru: 'x' }, cond: ['unit-charged'] })
+    expect(applyStatMods(sheet(), [conditional], [], [], new Set(), new Set()).notes[0])
+      .toMatchObject({ live: false, applied: false })
+    expect(applyStatMods(sheet(), [conditional], [], [], new Set(['unit-charged']), new Set()).notes[0])
+      .toMatchObject({ live: true, applied: true })
+  })
+
+  // In force, but there was no row to change (this unit carries no melee weapon). It stays with
+  // the modifiers in play — it IS one — even though no cell was rewritten.
+  it('keeps a live modifier live when it changed nothing', () => {
+    const out = applyStatMods(sheet(), [rule({ on: 'melee', stat: 'a' })], [], [], new Set(), new Set())
+    expect(out.notes[0]).toMatchObject({ live: true, applied: false })
+  })
+})
+
 describe('a spent stratagem', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }], melee: [{ name: 'Blade', a: '4', s: '4', ap: '-1', tags: [] }] })
   const strat = {

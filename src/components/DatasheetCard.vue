@@ -58,39 +58,51 @@
     </div>
 
     <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
-         carries a `*`; this is where the `*` is explained. A CONDITIONAL modifier appears here
-         too, with its condition and WITHOUT having touched the number — that asymmetry is the
-         whole point of the layer, so the two are rendered distinctly rather than as one list of
-         "modifiers". -->
-    <ul v-if="statNotes.length" class="ds-mods">
-      <li class="ds-mods-h">{{ labels.dsModifiers }}</li>
-      <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
-           detachment, an enhancement, an attached Leader's ability, this sheet's own ability. Read
-           in application order the list is four rules' worth of lines with nothing separating
-           them; the group heading is what tells a reader which of them they can do anything
-           about. -->
-      <template v-for="g in noteGroups" :key="g.key">
-      <li class="ds-mod-src-h">{{ g.label }}</li>
-      <li v-for="(n, i) in g.notes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
-        <span class="ds-mod-delta">{{ modDelta(n) }}</span>
-        <!-- The rule behind the number. A note whose caller could resolve the prose carries
-             `hasSource`, and then the name itself opens it in the same popover a core ability or
-             the faction line uses — otherwise the reader has to go find "Experimental
-             Augmentations" in another block of the same card. -->
-        <button
-          v-if="n.hasSource"
-          type="button"
-          class="ds-mod-src ds-mod-srcbtn"
-          @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
-        >{{ n.source }}<i class="bi bi-info-circle"></i></button>
-        <span v-else class="ds-mod-src">{{ n.source }}</span>
-        <!-- `via` means the condition was PROVEN by the game in progress, so the number above was
-             rewritten after all. The condition still shows — a value that is only true while
-             something is switched on must never read as a printed one. -->
-        <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
-      </li>
-      </template>
-    </ul>
+         carries a `*`; this is where the `*` is explained.
+         TWO sections, never one list: what is in force NOW ("Modifiers in play"), and — off the
+         table, where nothing can be in force — what WOULD change once the conditions are met
+         ("Possible modifiers", an accordion, closed). In a game the second one is not rendered at
+         all (`hidePossible`): a block that says "in play" must not list what is not, and the
+         conditions themselves stay one tap away on the rule blocks below, with their switches. -->
+    <template v-for="sec in noteSections" :key="sec.key">
+      <DsAccordion :collapsible="sec.collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="sec.collapsible" type="button" class="ds-mods-h ds-mods-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ sec.label }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <p v-else class="ds-mods-h">{{ sec.label }}</p>
+        </template>
+        <ul class="ds-mods">
+          <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
+               detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
+               Read in application order the list is four rules' worth of lines with nothing
+               separating them; the group heading is what tells a reader which of them they can do
+               anything about. -->
+          <template v-for="g in sec.groups" :key="g.key">
+          <li class="ds-mod-src-h">{{ g.label }}</li>
+          <li v-for="(n, i) in g.notes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
+            <span class="ds-mod-delta">{{ modDelta(n) }}</span>
+            <!-- The rule behind the number. A note whose caller could resolve the prose carries
+                 `hasSource`, and then the name itself opens it in the same popover a core ability
+                 or the faction line uses — otherwise the reader has to go find "Experimental
+                 Augmentations" in another block of the same card. -->
+            <button
+              v-if="n.hasSource"
+              type="button"
+              class="ds-mod-src ds-mod-srcbtn"
+              @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
+            >{{ n.source }}<i class="bi bi-info-circle"></i></button>
+            <span v-else class="ds-mod-src">{{ n.source }}</span>
+            <!-- `via` means the condition was PROVEN by the game in progress, so the number above
+                 was rewritten after all. The condition still shows — a value that is only true
+                 while something is switched on must never read as a printed one. -->
+            <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
+          </li>
+          </template>
+        </ul>
+      </DsAccordion>
+    </template>
 
     <!-- Abilities -->
     <div class="ds-abilities">
@@ -381,6 +393,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { withGroupPos } from '../utils/weaponGroups.js'
+import { groupModNotes, modDelta } from '../composables/rosterModNotes.js'
 import DsAccordion from './DsAccordion.vue'
 import ConditionChips from './ConditionChips.vue'
 
@@ -432,6 +445,8 @@ const props = defineProps({
   // Empty for every caller outside the roster.
   statMarks: { type: Array, default: () => [] },
   statNotes: { type: Array, default: () => [] },
+  // In a game: drop the modifiers that are not in force instead of listing them separately.
+  hidePossible: { type: Boolean, default: false },
   // Whether an ability's own precondition holds right now, keyed by ENGLISH ability name (see
   // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
   // datasheet — and every caller outside the roster — passes nothing and renders as before.
@@ -629,37 +644,14 @@ function statCells(p) {
 const markSet = computed(() => new Set(props.statMarks))
 const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
 
-// WHERE a modifier came from, as a label. Text only, no colour of its own: the card already
-// carries the faction accent, and five source colours would compete with it. A detachment and a
-// Leader name themselves ("detachment · Creations of Bile"), the rest are the kind alone.
-function sourceLabel(n) {
-  const l = labels.value
-  if (n.kind === 'ability') {
-    // Reusing the block below's own words for the three sources it already names, so the same
-    // rule reads the same whether the reader meets it as a footnote or as a block.
-    if (n.from === 'led') return `${l.rosterLeaderTag} · ${n.owner}`
-    if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
-    return l.srcAbility
-  }
-  if (n.kind === 'core') return l.srcCore
-  if (n.kind === 'stratagem') return n.det ? `${l.srcStratagem} · ${n.det}` : l.srcStratagem
-  if (n.kind === 'wargear') return l.srcWargear
-  if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
-  if (n.kind === 'enhancement') return l.rosterEnhancement
-  if (n.kind === 'allegiance') return l.srcAllegiance
-  return l.srcArmy
-}
-
-// The notes bucketed by that label, in the order the sources first appear — so a card reads
-// source by source instead of in the order the arithmetic happened to run.
-const noteGroups = computed(() => {
+const noteSections = computed(() => {
   const out = []
-  const byKey = new Map()
-  for (const n of props.statNotes) {
-    const label = sourceLabel(n)
-    let g = byKey.get(label)
-    if (!g) { g = { key: label, label, notes: [] }; byKey.set(label, g); out.push(g) }
-    g.notes.push(n)
+  const live = props.statNotes.filter((n) => n.live !== false)
+  const possible = props.hidePossible ? [] : props.statNotes.filter((n) => n.live === false)
+  const l = labels.value
+  if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
+  if (possible.length) {
+    out.push({ key: 'possible', label: l.dsModifiersPossible, collapsible: true, groups: groupModNotes(possible, l) })
   }
   return out
 })
@@ -679,17 +671,6 @@ function abilityStateLabel(st) {
   return st.subject ? l.dsAbilityLeading.replace('{name}', st.subject) : l.dsAbilityLeadingAny
 }
 
-const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D', range: 'RANGE' }
-// "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs
-// no translating of its own beyond the condition text the record already carries bilingually.
-function modDelta(n) {
-  const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
-  if (n.op === 'set') return `${stat} = ${n.value}`
-  if (n.op === 'improve') return `${stat} −${n.value}`
-  // A value can be a dice expression ("D3") on a conditional modifier, which Number() can't sign.
-  const signed = Number.isFinite(Number(n.value)) && Number(n.value) < 0 ? '' : '+'
-  return `${signed}${n.value} ${stat}`
-}
 </script>
 
 <style scoped>
@@ -898,7 +879,7 @@ function modDelta(n) {
 .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.05rem; }
 /* …and the same for a weapons table immediately followed by the modifier footnotes: they explain
    the numbers in that table, so they have to read as attached to it. */
-.ds-weapons:has(+ .ds-mods) { margin-bottom: 0.3rem; }
+.ds-weapons:has(+ .ds-mods-h) { margin-bottom: 0.3rem; }
 .ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .ds-weapons th {
   text-align: center;
@@ -1119,7 +1100,15 @@ function modDelta(n) {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--accent);
-  margin-bottom: 0.2rem;
+  margin: 0 0 0.2rem;
+}
+/* The "possible modifiers" heading is also the accordion's handle: same plate, full width, with
+   the chevron every other collapsing block on this card uses. */
+.ds-mods-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  width: 100%; padding: 0; border: 0; background: none; font: inherit;
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent); cursor: pointer; text-align: left;
 }
 .ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
 .ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }

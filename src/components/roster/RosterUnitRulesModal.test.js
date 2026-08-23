@@ -460,6 +460,41 @@ describe('RosterUnitRulesModal', () => {
     expect(body().find('.ds-ab-state').classes()).toContain('on')
   })
 
+  // …and the same fact PROVES a modifier, not just a badge: "while the bearer is leading that
+  // unit" is answered by the list itself, so the number moves in the builder, with no game
+  // anywhere. 18 enhancements read that way; nothing else off the table can be true.
+  it('applies a leading-gated enhancement from the roster alone', async () => {
+    const rf = await import('../../data/roster/leagues-of-votann.js')
+    const def = rf.default.units.find((u) => u.id === 'einhyr-champion')
+    const ctx = {
+      def,
+      detachments: ['Hearthfyre Arsenal'],
+      entry: { uid: 'a', id: 'einhyr-champion', enh: 'Calculated Tenacity', leaderOf: 'b' },
+      units: [{ uid: 'b', id: 'einhyr-hearthguard' }],
+      leaderTargets: [{ uid: 'b', name: 'Einhyr Hearthguard' }],
+    }
+    mount(RosterUnitRulesModal, { props: { unitId: 'einhyr-champion', factionSlug: 'leagues-of-votann', ctx } })
+    await waitFor('Calculated Tenacity')
+    // The faction's modifier bundle is a separate dynamic import from the sheet's, and the core
+    // rules' own note is on the card before it lands — so wait for this record, not for the block.
+    for (let i = 0; i < 80 && !document.body.textContent.includes('OC'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    for (let i = 0; i < 80 && !document.querySelector('.ds-stat-mod'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    // The OC plate was rewritten, and the note sits with the modifiers in play rather than under
+    // "possible" — the roster proved it.
+    const notes = document.querySelector('.ds-mods')
+    expect(notes.textContent).toContain('Calculated Tenacity')
+    expect(document.querySelectorAll('.ds-stat-mod').length).toBeGreaterThan(0)
+    // …while Battle-shock, which no list can prove, is in the second block, the possible one.
+    expect(notes.textContent).not.toContain('Battle-shock')
+    expect(document.querySelectorAll('.ds-mods')[1].textContent).toContain('Battle-shock')
+  })
+
   it('says so when the same ability has nothing to lead', async () => {
     const rf = await import('../../data/roster/space-marines.js')
     const def = rf.default.units.find((u) => u.id === 'adrax-agatone')

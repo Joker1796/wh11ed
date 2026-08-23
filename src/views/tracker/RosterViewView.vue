@@ -27,6 +27,36 @@
            tracker already knows the answer to (a called Waaagh!) shows as a fact, not a control. -->
       <ConditionChips class="rv-conds" :switches="armySwitches" @toggle="toggleArmyCond" />
 
+      <!-- Off the table there is nothing to switch, so this is what stands in that place instead:
+           everything the army rule, the detachment(s) and the core rules WOULD do to this list once
+           the battle proves their condition. What one unit's own ability or wargear would do is on
+           that unit's card — repeating it here would be the whole modifier layer printed twice.
+           Closed by default: it is preparation, not the list. -->
+      <section v-if="possibleGroups.length" class="rv-possible">
+        <button
+          type="button"
+          class="rvp-head"
+          :aria-expanded="possibleOpen"
+          @click="possibleOpen = !possibleOpen"
+        >
+          <i class="bi rvp-chev" :class="possibleOpen ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <span class="rvp-title">{{ labels.dsModifiersPossible }}</span>
+          <span class="rvp-count">{{ possibleCount }}</span>
+        </button>
+        <CollapseTransition :show="possibleOpen">
+          <ul class="rvp-list">
+            <template v-for="g in possibleGroups" :key="g.key">
+              <li class="rvp-src">{{ g.label }}</li>
+              <li v-for="(n, i) in g.notes" :key="i" class="rvp-mod">
+                <span class="rvp-delta">{{ modDelta(n) }}</span>
+                <span class="rvp-name">{{ n.source }}</span>
+                <span v-if="n.when" class="rvp-cond">{{ n.when[locale] || n.when.en }}</span>
+              </li>
+            </template>
+          </ul>
+        </CollapseTransition>
+      </section>
+
       <div class="rv-tabs" role="tablist">
         <button
           class="rv-tab"
@@ -216,8 +246,9 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
+import { groupModNotes, modDelta } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
-import { activeConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -274,7 +305,12 @@ watch([gamePi, historyId], async ([pi]) => {
   gameRoster.value = rosterFromPlayer(gamePlayer.value)
 }, { immediate: true })
 
-const activeFor = (entry) => (inGame.value ? activeConditions(gamePlayer.value, gameClock.value, entry) : null)
+// What is true for one entry: the game answers when there is one, and off the table the LIST still
+// answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
+// roster) — the same call RosterUnitRulesModal makes, so a row and the card behind it agree.
+const activeFor = (entry) => (inGame.value
+  ? activeConditions(gamePlayer.value, gameClock.value, entry)
+  : rosterConditions(entry))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -434,6 +470,33 @@ function statModsFor(entry, sheet) {
   const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, strats).map((g) => g.kw)]
   return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, strats)
 }
+
+// ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────
+// The list's own rules that are waiting on the battle: read straight off the notes the cards
+// produce, so a line here and the card it came from can never word the same rule differently.
+// Only the roster-wide sources — an army rule, a detachment rule, a core rule bear on the whole
+// list, while an ability, a wargear rule or an enhancement belongs to the one unit that carries
+// it and is already on that unit's card.
+const ROSTER_WIDE = new Set(['armyRule', 'detachmentRule', 'core'])
+const possibleOpen = ref(false)
+const possibleGroups = computed(() => {
+  if (inGame.value) return []
+  const seen = new Set()
+  const notes = []
+  for (const e of roster.value?.units || []) {
+    for (const n of statModCache.value.get(e.uid)?.notes || []) {
+      if (n.live !== false || !ROSTER_WIDE.has(n.kind)) continue
+      // One line per RULE, not per unit it could touch: the same detachment rule produces the same
+      // note on every unit it bears on, and twelve identical lines say nothing the first did not.
+      const key = `${n.kind}|${n.det}|${n.source}|${n.on}|${n.stat}|${n.op}|${n.value}|${n.when?.en || ''}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      notes.push(n)
+    }
+  }
+  return groupModNotes(notes, labels.value)
+})
+const possibleCount = computed(() => possibleGroups.value.reduce((n, g) => n + g.notes.length, 0))
 
 // ── Rule switches (in game only) ────────────────────────────────────────────────────────────
 // Army-wide states go above the list, where they read as facts about the battle rather than about
@@ -683,6 +746,32 @@ function stratKey(strat) {
 
 <style scoped>
 .rv-conds { margin: 0.6rem 0 0.2rem; }
+
+/* "Possible modifiers" — the out-of-game stand-in for the switch strip above. Quieter than a
+   phase accordion: it is reference, and the list itself is what the page is for. */
+.rv-possible { margin: 0.6rem 0 0.2rem; }
+.rvp-head {
+  display: flex; align-items: center; gap: 0.5rem;
+  width: 100%; padding: 0.4rem 0.6rem;
+  border: 1px dashed var(--border); border-radius: 6px;
+  background: none; color: var(--text-muted); cursor: pointer;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.rvp-head:hover { border-color: var(--accent); color: var(--accent); }
+.rvp-chev { flex-shrink: 0; font-size: 0.7rem; }
+.rvp-title { flex: 1; text-align: left; }
+.rvp-count { flex-shrink: 0; font-family: var(--font-mono); }
+.rvp-list { list-style: none; margin: 0.4rem 0 0; padding: 0 0.2rem; font-size: 0.76rem; }
+.rvp-src {
+  margin-top: 0.5rem; color: var(--text-muted);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.rvp-src:first-child { margin-top: 0; }
+.rvp-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
+.rvp-delta { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.rvp-name { color: var(--text-primary); }
+.rvp-cond { flex-basis: 100%; font-style: italic; }
 
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
 .back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }

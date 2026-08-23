@@ -145,6 +145,21 @@ export function activeConditions(player, clock, entry) {
   return out
 }
 
+// The conditions a ROSTER can answer on its own, with no game anywhere: today that is only
+// `unit-leading`, because the list itself records which entry is attached to which. Used off the
+// table (the roster builder, a list being read before the game), where an enhancement that reads
+// "while the bearer is leading a unit" is as true as any printed number and should be applied,
+// not footnoted. Deliberately NOT activeConditions() with an empty player: that would also answer
+// the clock-scoped conditions, and a null clock reads as round 1 — "during battle rounds 1-3"
+// would switch itself on in a list nobody is playing yet.
+export function rosterConditions(entry) {
+  const out = new Set()
+  for (const [id, c] of Object.entries(conditions)) {
+    if (c.scope === 'roster' && rosterAnswers(id, entry)) out.add(id)
+  }
+  return out
+}
+
 // A group can hold only so many at once (conditions.js's GROUP_LIMITS). useTracker enforces that on
 // write, so a game played on this build never over-fills one — but a game SAVED before the cap
 // existed can hold all six of Creations of Bile's augmentations, each rewriting a stat. Reading is

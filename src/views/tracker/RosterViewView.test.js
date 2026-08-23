@@ -67,6 +67,35 @@ describe('RosterViewView', () => {
     expect(w.find('.rv-tabs').exists()).toBe(false)
   })
 
+  // Off the table nothing can be in force, so the switch strip's place above the list is taken by
+  // what WOULD apply once the battle proves it — closed, and only the rules that bear on the whole
+  // list (an ability or a wargear rule belongs to one unit and is on that unit's card).
+  it('offers the possible modifiers above the list, out of a game', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Cursed list')
+    r.faction = 'necrons'
+    r.detachments = ['Cursed Legion']
+    r.units.push({ uid: 'u1', id: 'necron-warriors', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitFor(w, 'Necron Warriors')
+    await waitForSelector(w, '.rvp-head')
+
+    expect(w.find('.rvp-head').attributes('aria-expanded')).toBe('false')
+    const before = w.find('.rvp-list').text()
+    expect(before).toContain('Cold Fervour')
+    // Sources are named, and each conditional modifier says what it is waiting for.
+    // Battle-shock rides along on every list — it is a core rule — and the detachment names itself.
+    const sources = w.findAll('.rvp-src').map((n) => n.text())
+    expect(sources).toContain('Core rule')
+    expect(sources.some((t) => t.includes('Cursed Legion'))).toBe(true)
+    expect(w.find('.rvp-cond').exists()).toBe(true)
+
+    await w.find('.rvp-head').trigger('click')
+    expect(w.find('.rvp-head').attributes('aria-expanded')).toBe('true')
+  })
+
   it('lists units grouped by role, with points, and links Edit to the full editor', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
@@ -185,7 +214,9 @@ describe('RosterViewView', () => {
 
     await w.find('.phase-head').trigger('click')
     expect(w.find('.phase-head').attributes('aria-expanded')).toBe('true')
-    expect(w.find('.collapse').classes()).toContain('is-open')
+    // Scoped to the phase group: the "possible modifiers" block above the tabs has a collapse of
+    // its own, and out of a game it is the first one on the page.
+    expect(w.find('.phase-group .collapse').classes()).toContain('is-open')
   })
 
   it('shows a hint under Stratagems when no detachment is picked yet', async () => {
@@ -319,6 +350,21 @@ describe('RosterViewView', () => {
 
       expect(t.current.value.players[0].ctx.units.u1['unit-battle-shocked']).toBeDefined()
       expect(t.current.value.players[0].ctx.strats.u1).toBeUndefined()
+    })
+
+    // In a game the same place carries the switches instead: what is true is answerable, so a list
+    // of what MIGHT be true is one more thing to scroll past mid-turn.
+    it('drops the possible-modifier block once a game is on', async () => {
+      const orks = {
+        id: 'r6', name: 'Da Live List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      await startGame(orks, 'orks')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Da Live List')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+      expect(w.find('.rvp-head').exists()).toBe(false)
     })
 
     // The row became a container so it could hold those buttons; opening the card must still work.
