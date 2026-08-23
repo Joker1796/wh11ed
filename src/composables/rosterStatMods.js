@@ -48,7 +48,7 @@ function rowMatchesOnly(row, only) {
 // ruleScopes(); a null scope means the effect belongs to the rule as a whole, so any statement
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
-function effectApplies(effect, scopes, keywords, kind, factionKeywordSets) {
+function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false) {
   // No scopes to gate on. Either the prose named no unit at all (fail-open, see ruleTargets), or
   // the record's kind is one whose prose addresses exactly the card it is applied to — an
   // enhancement modifies its own bearer, an allegiance choice its own chooser, a wargear rule
@@ -63,7 +63,13 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets) {
   // DISPLAYING the rule. Without it the two layers disagree: the prose block shows the rule to
   // everyone (fail-open) while its reviewed modifier silently applies to no one — a hand-read
   // effect quietly doing nothing is the worst of both.
-  if (factionKeywordSets?.length && !factionKeywordSets.some((kws) => scopes.some(hits(kws)))) return true
+  // …except when the gate is an AURA's and the rule behind it is the DETACHMENT's. That escape
+  // trades a too-narrow gate for a too-wide one, which is the right trade for a rule printed on one
+  // card and the wrong one for a rule that addresses the whole army: Questor Forgepact's aura names
+  // ADEPTUS MECHANICUS, a faction whose datasheets this list cannot field at all, and failing open
+  // there would hand every Knight a buff meant for allies that are not in the game. Reaching nobody
+  // is the honest answer.
+  if (!strict && factionKeywordSets?.length && !factionKeywordSets.some((kws) => scopes.some(hits(kws)))) return true
   if (effect.scope == null) return scopes.some(hits(keywords))
   const sc = scopes[effect.scope]
   return sc ? hits(keywords)(sc) : false
@@ -208,6 +214,8 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     // `entry.scopes` is an aura's keyword gate, carried on the record (ref.scopes, derived from the
     // prose by the generator) because the record itself holds no prose to read it from here.
     const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
+    // An aura gate on an army-wide rule is not allowed to fail open — see effectApplies.
+    const strict = !!entry.scopes && entry.kind === 'detachmentRule'
     const effects = entry.effects || []
 
     // "…add 2 to the Attacks characteristic INSTEAD." An alternate names the effect it replaces
@@ -221,14 +229,14 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     const replaced = new Set()
     for (const eff of effects) {
       if (eff.alt == null) continue
-      if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets)) continue
+      if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
       if (gated(eff) && !effectLive(entry, eff, active, chosen)) continue
       replaced.add(eff.alt)
     }
 
     for (const [index, effect] of effects.entries()) {
       if (replaced.has(index)) continue
-      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
+      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
       // A STRATAGEM is its own condition: it was spent on this unit or it was not, and `chosen`
@@ -312,11 +320,11 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, chosen = null) {
   const out = []
   for (const entry of entries || []) {
-    const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
+    const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
       if ((effect.when || byChoice(entry)) && !effectLive(entry, effect, active, chosen)) continue
-      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
+      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule')) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
   }
@@ -367,9 +375,21 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
+    // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
+    // KNIGHTS models have the following ability…"), so there is no attachment to read it off and
+    // nothing about it is certain from the list: it arrives only when the player marks the chip.
+    // `detIds` is the detachments actually fielded — a mark can only exist because a chip was
+    // offered for one, so a caller that cannot say (the unit-rules modal) passes nothing.
+    if (rec.ref?.kind === 'detachmentRule') {
+      const aura = (rec.effects || []).filter((e) => e.target === 'aura')
+      if (!aura.length || !auraOn?.has(rec.sid)) continue
+      if (detIds && !detIds.has(rec.ref.det)) continue
+      out.push({ ...rec, body: '', effects: aura, from: 'aura', scopes: rec.ref.scopes || null })
+      continue
+    }
     // An ENHANCEMENT aura reaches this unit in two ways this function can answer. Its bearer's own
     // card gets it from resolveModifierEntries (that is the entry that took the relic); here we
     // cover the two OTHER cards: the unit the bearer is attached to, where 22.01 puts the model
@@ -463,6 +483,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
   keywords = [], factionKeywordSets = null, active = null, chosen = null, leaderEnhNames = null,
+  detIds = null,
 } = {}) {
   const out = []
   const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
@@ -473,9 +494,21 @@ export function aurasReaching(records, {
   const proven = (rec, e) => (!rec.ref?.set || chosen?.has(rec.sid))
     && (!e.cond?.length || e.cond.every((id) => active?.has(id)))
   for (const rec of records || []) {
-    if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear' && rec.ref?.kind !== 'enhancement') continue
+    if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear'
+      && rec.ref?.kind !== 'enhancement' && rec.ref?.kind !== 'detachmentRule') continue
     const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
+    // A DETACHMENT RULE's aura has no source ENTRY: the models carrying it are named by keyword, and
+    // the player is judging the 6" anyway. So the chip says where the rule comes from — the
+    // detachment — and is offered once, to every unit the reach clause names, provided that
+    // detachment is on the table. No `detIds`, no chip: a rule from a detachment this army is not
+    // playing must never offer a switch.
+    if (rec.ref.kind === 'detachmentRule') {
+      if (!detIds?.has(rec.ref.det)) continue
+      if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets, true))) continue
+      out.push({ sid: rec.sid, source: rec.det, sourceUid: null, unit: null, name: rec.name, det: rec.ref.det })
+      continue
+    }
     // An ENHANCEMENT aura radiates from an ENTRY, not from a datasheet: which model wears the relic
     // is the roster's answer, so the source is found by the enhancement's name and the two certain
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
@@ -558,7 +591,12 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
     const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
     if (!det || !fielded.has(detKey(det.name))) continue
     if (rec.ref.kind === 'detachmentRule') {
-      if (det.rule?.body) out.push({ ...rec, body: det.rule.body })
+      // Its AURA effects are not facts about the army the way the rest of the rule is — they reach
+      // whoever is standing near a model that carries it, which only the player can say. They leave
+      // through the chip (datasheetEntriesFor's `auraOn`); what stays here is the rest of the rule,
+      // gated as every detachment rule is, by the scopes read off its own body.
+      const own = (rec.effects || []).filter((e) => e.target !== 'aura')
+      if (det.rule?.body && (own.length || !(rec.effects || []).length)) out.push({ ...rec, body: det.rule.body, effects: own })
     } else if (rec.ref.kind === 'enhancement') {
       if (!enhancementName || enhKey(rec.name) !== enhKey(enhancementName)) continue
       const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(rec.name))

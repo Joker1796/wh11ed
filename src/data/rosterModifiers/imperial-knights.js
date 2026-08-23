@@ -691,7 +691,15 @@ export default {
       "det": "Questor Forgepact",
       "ref": {
         "kind": "detachmentRule",
-        "det": "questor-forgepact"
+        "det": "questor-forgepact",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "450f424e",
       "ver": 925,

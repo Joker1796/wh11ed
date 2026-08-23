@@ -713,6 +713,59 @@ describe('an enhancement that is an aura', () => {
   })
 })
 
+describe('a detachment rule that is an aura', () => {
+  // Brandfast Oathband's Firebase Control: the TRANSPORT carries it, the INFANTRY around it collects
+  // it. Two keywords in one rule, which is why the gate is read off the reach clause alone — over
+  // the whole body ruleScopes merges them and the transport would buff itself.
+  const rule = {
+    sid: 'relays', kind: 'detachmentRule', name: 'Mobile Sensor Relays', det: 'Brandfast Oathband',
+    ref: { kind: 'detachmentRule', det: 'brandfast-oathband', scopes: [{ targets: ['LEAGUES OF VOTANN INFANTRY'], excludes: [] }] },
+    effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', target: 'aura', when: null }],
+  }
+  const facEn = { detachments: [{ id: 'brandfast-oathband', name: 'Brandfast Oathband', rule: { name: 'Mobile Sensor Relays', body: 'LEAGUES OF VOTANN TRANSPORT units…' } }] }
+  const sheet = () => ({ ranged: [{ name: 'Ion beamer' }] })
+  const infantry = ['Hearthkyn Warriors', 'Leagues of Votann', 'Infantry']
+  const transport = ['Sagitaur', 'Leagues of Votann', 'Transport']
+  const facSets = [infantry, transport]
+
+  it('does not apply itself: nothing in the list says who is standing near the transport', () => {
+    const resolved = resolveModifierEntries([rule], facEn, ['Brandfast Oathband'], null, null)
+    expect(resolved).toEqual([])
+  })
+
+  it('offers one chip per gated unit, and only while that detachment is fielded', () => {
+    const ctx = { unitId: 'hearthkyn-warriors', entryUid: 'a', keywords: infantry, factionKeywordSets: facSets, detIds: new Set(['brandfast-oathband']) }
+    expect(aurasReaching([rule], ctx)).toEqual([
+      { sid: 'relays', source: 'Brandfast Oathband', sourceUid: null, unit: null, name: 'Mobile Sensor Relays', det: 'brandfast-oathband' },
+    ])
+    // the transport carrying it is not the unit it reaches…
+    expect(aurasReaching([rule], { ...ctx, keywords: transport })).toEqual([])
+    // …and a rule from a detachment this army is not playing offers nothing at all.
+    expect(aurasReaching([rule], { ...ctx, detIds: new Set(['oathband-of-the-ancestors']) })).toEqual([])
+    expect(aurasReaching([rule], { ...ctx, detIds: null })).toEqual([])
+  })
+
+  it('lands on the marked unit, gated by the reach clause', () => {
+    const marked = datasheetEntriesFor([rule], { unitId: 'hearthkyn-warriors', auraOn: new Set(['relays']), detIds: new Set(['brandfast-oathband']) })
+    expect(marked.map((e) => e.from)).toEqual(['aura'])
+    expect(applyStatMods(sheet(), marked, infantry, facSets).sheet.ranged[0].tags).toEqual(['SUSTAINED HITS 1'])
+    expect(applyStatMods(sheet(), marked, transport, facSets).sheet.ranged[0].tags).toBeUndefined()
+    // a mark left over from another detachment is not honoured
+    expect(datasheetEntriesFor([rule], { unitId: 'hearthkyn-warriors', auraOn: new Set(['relays']), detIds: new Set(['other']) })).toEqual([])
+  })
+
+  it('reaches nobody when its gate names a faction this army cannot field', () => {
+    // Questor Forgepact's aura buffs ADEPTUS MECHANICUS allies. For every other record a gate that
+    // matches no datasheet is treated as a misreading and dropped (fail-open); for an army-wide rule
+    // that would hand the buff to every Knight in the list.
+    const admech = { ...rule, ref: { ...rule.ref, scopes: [{ targets: ['ADEPTUS MECHANICUS'], excludes: [] }] } }
+    const ctx = { unitId: 'knight-paladin', entryUid: 'a', keywords: ['Knight Paladin', 'Imperial Knights'], factionKeywordSets: [['Knight Paladin', 'Imperial Knights']], detIds: new Set(['brandfast-oathband']) }
+    expect(aurasReaching([admech], ctx)).toEqual([])
+    const marked = datasheetEntriesFor([admech], { unitId: 'knight-paladin', auraOn: new Set(['relays']) })
+    expect(applyStatMods(sheet(), marked, ctx.keywords, ctx.factionKeywordSets).sheet.ranged[0].tags).toBeUndefined()
+  })
+})
+
 describe('improving a characteristic', () => {
   it('improves a roll and refuses a plain number', () => {
     expect(applyValue('3+', 'improve', 1)).toBe('2+')

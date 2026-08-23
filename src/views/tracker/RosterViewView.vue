@@ -534,6 +534,9 @@ function attachmentCtxOf(entry) {
     // The auras the player has marked as reaching this unit. The bearer's own unit and the unit it
     // is attached to are not in here — 22.01 answers those from the list itself.
     auraOn: activeAuras(gamePlayer.value, gameClock.value, entry),
+    // …and which detachments are on the table, because one kind of aura hangs off a detachment rule
+    // rather than off a model in this list.
+    detIds: fieldedDetIds.value,
     // What the attached Leaders are carrying — a Kustom Force Field covers the unit its Big Mek
     // joined, not the Big Mek.
     leaderItemNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
@@ -658,8 +661,11 @@ const auraSwitchCache = computed(() => {
       chosen: chosenFor(e, resolvedFor(e)),
     })
     const named = reaching.map((a) => {
-      const info = ruleInfoOf(a.unit, a.name)
-      return { ...a, nameRu: info?.name || null, info: info?.text ? { name: info.name, text: info.text } : null }
+      // A detachment rule's aura is not printed on anybody's datasheet, so its name and text come
+      // from the detachment itself — already localised, unlike `ruleInfo`'s datasheet lookup.
+      const rule = a.det ? curDetachments.value.find((d) => d.id === a.det)?.rule : null
+      const info = rule || ruleInfoOf(a.unit, a.name)
+      return { ...a, nameRu: info?.name || null, info: info?.text || info?.body ? { name: info.name, text: info.text || info.body } : null }
     })
     m.set(e.uid, auraSwitchesFor(named, gamePlayer.value, gameClock.value, e))
   }
@@ -806,6 +812,11 @@ const unitMap = computed(() => {
   return m
 })
 function defOf(id) { return unitMap.value.get(id) }
+
+// The detachments this army is actually playing, as ids — the gate for a detachment rule's aura
+// (rosterStatMods' aurasReaching), which unlike every other aura is not vouched for by an entry
+// sitting in the list.
+const fieldedDetIds = computed(() => new Set(curDetachments.value.map((d) => d.id)))
 
 const curDetachments = computed(() =>
   (roster.value?.detachments || [])

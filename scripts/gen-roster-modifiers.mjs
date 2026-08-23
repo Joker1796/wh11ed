@@ -246,6 +246,29 @@ function auraRef(prose) {
 }
 const AURA_SHAPE = /\(aura\)|within \d+["\u201d] of (?:this|that|the bearer|it)\b/i
 
+// The same gate for a DETACHMENT RULE, which needs the prose cut differently. An ability's whole
+// text IS the aura ("while a friendly ADEPTA SORORITAS unit within 6\" of this model…"), but a
+// detachment rule first says who CARRIES the aura and only then who it reaches — and ruleScopes
+// over the whole body merges the two into one gate ("IMPERIAL KNIGHTS or ADEPTUS MECHANICUS"),
+// which would hand the buff to the carrier as well. So the reader is given the reach clause alone.
+//
+// Fail-closed, unlike everywhere else in this file: a detachment rule addresses the whole army, so
+// an aura whose gate could not be read would splash over every unit in the list rather than over
+// one card. No gate, no `ref.scopes` — and index.test.js refuses `target: 'aura'` without one.
+// Two different reach clauses (Custodes' Revered Companions carries one aura each way) are one
+// record with one gate, which cannot be said either, so that too returns nothing.
+const AURA_LABEL = /\(aura\)/i
+const AURA_REACH = /While (?:a|an|any)\b[^.]*?within \d+["\u201d] of[^.]*/g
+export function detachmentAuraScopes(prose) {
+  if (!AURA_LABEL.test(prose || '')) return null
+  const seen = new Map()
+  for (const m of (prose || '').matchAll(AURA_REACH)) {
+    const scopes = ruleScopes(m[0])
+    if (scopes) seen.set(JSON.stringify(scopes), scopes)
+  }
+  return seen.size === 1 ? [...seen.values()][0] : null
+}
+
 // A datasheet's WARGEAR that carries a rule of its own rather than a weapon profile — a Storm
 // Shield's 4+ invulnerable, a Mortifier's Anchorite Sarcophagus rewriting Move and Save. Sixth
 // source, added 2026-08-22: 330 such entries across the game, 136 of which touch a statline, and
@@ -311,7 +334,9 @@ function sourcesOf(bundle, detById) {
   for (const d of bundle.detachments || []) {
     const whDet = detById.get(d.id)?.id || null
     for (const r of d.rules || []) {
-      out.push({ sid: r.id, kind: 'detachmentRule', name: r.name, det: d.name, ref: whDet ? { kind: 'detachmentRule', det: whDet } : null, prose: bodyText(r.body) })
+      const prose = bodyText(r.body)
+      const scopes = detachmentAuraScopes(prose)
+      out.push({ sid: r.id, kind: 'detachmentRule', name: r.name, det: d.name, ref: whDet ? { kind: 'detachmentRule', det: whDet, ...(scopes ? { scopes } : null) } : null, prose })
     }
     // An enhancement can be an AURA too ("while a friendly DEATH COMPANY unit is within 6\" of the
     // bearer…"), and then it needs the same keyword gate an ability aura carries — without it the

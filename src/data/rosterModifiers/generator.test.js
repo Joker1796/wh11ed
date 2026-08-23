@@ -2,7 +2,7 @@
 // both have silently swallowed real rules before — so they are pinned from here, where the records
 // they produce are tested, rather than left to the next full run of the generator to reveal.
 import { describe, it, expect } from 'vitest'
-import { isCandidate } from '../../../scripts/gen-roster-modifiers.mjs'
+import { isCandidate, detachmentAuraScopes } from '../../../scripts/gen-roster-modifiers.mjs'
 import { bodyText } from '../../../scripts/lib/sync-common.mjs'
 
 describe('bodyText', () => {
@@ -36,5 +36,26 @@ describe('isCandidate', () => {
 
   it('still says no to prose that changes no printed number', () => {
     expect(isCandidate('Each time a model in this unit makes an attack, you can re-roll the Hit roll.')).toBe(false)
+  })
+})
+
+describe('detachmentAuraScopes', () => {
+  // The gate for a detachment rule's aura. It is read off the REACH clause alone because the rule
+  // names two keywords — who carries the aura, who it reaches — and ruleScopes over the whole body
+  // merges them into one, which would hand the buff to the carrier too.
+  it('reads the reach clause and not the carrier', () => {
+    const prose = 'Friendly IMPERIAL KNIGHTS models have the following ability: **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6" of this model, that unit’s ranged attacks have +1 BS.'
+    expect(detachmentAuraScopes(prose)).toEqual([{ targets: ['ADEPTUS MECHANICUS'], excludes: [] }])
+  })
+
+  it('says nothing when the rule carries two auras pointing different ways', () => {
+    // Custodes' Revered Companions: each keyword buffs the other. One record cannot hold two gates,
+    // and guessing one of them would apply the wrong buff to the wrong half of the army.
+    const prose = '**ANATHEMA PSYKANA** units from your army gain: **Null Aegis (Aura)**: While an **ADEPTUS CUSTODES** unit is within 6" of this unit, models in that unit have Feel No Pain 5+. All other **ADEPTUS CUSTODES** units gain: **Deadly Unity (Aura)**: While an **ANATHEMA PSYKANA** unit is within 6" of this unit, add 1 to the Hit roll.'
+    expect(detachmentAuraScopes(prose)).toBeNull()
+  })
+
+  it('says nothing about a rule that is no aura at all', () => {
+    expect(detachmentAuraScopes('Each time a model in an ADEPTUS CUSTODES unit from your army makes an attack, if there are no other friendly units within 6" of that unit, add 1 to the Hit roll.')).toBeNull()
   })
 })

@@ -700,7 +700,15 @@ export default {
       "det": "Sekhetar Cohort",
       "ref": {
         "kind": "detachmentRule",
-        "det": "sekhetar-cohort"
+        "det": "sekhetar-cohort",
+        "scopes": [
+          {
+            "targets": [
+              "SEKHETAR ROBOTS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "02b8c2cf",
       "ver": 925,
@@ -719,13 +727,8 @@ export default {
           "stat": "ws",
           "op": "improve",
           "value": 1,
-          "when": {
-            "en": "for a SEKHETAR ROBOTS unit within 12\" of a friendly THOUSAND SONS PSYKER unit (Infusion aura)",
-            "ru": "для юнита SEKHETAR ROBOTS в пределах 12\" от дружественного юнита THOUSAND SONS PSYKER (аура Infusion)"
-          },
-          "cond": [
-            "never"
-          ]
+          "target": "aura",
+          "when": null
         }
       ]
     },
