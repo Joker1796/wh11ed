@@ -53,8 +53,31 @@ describe('HelpView', () => {
     const w = mount(HelpView, { global: { stubs } })
     const ids = w.findAll('.help-section').map((s) => s.attributes('id'))
     expect(ids).toEqual(help.en.sections.map((s) => s.id))
-    expect(w.findAll('.help-toc a')).toHaveLength(help.en.sections.length)
-    expect(w.findAll('.help-toc a')[0].attributes('href')).toBe('#help-search')
+    const nav = w.findAll('.help-nav-item')
+    expect(nav).toHaveLength(help.en.sections.length)
+    expect(nav[0].attributes('href')).toBe('#help-search')
+    // Reads as a contents list, not as a row of tags: numbered, one per line, titled.
+    expect(w.find('.help-nav-h').text()).toBe('Contents')
+    expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1', '2', '3', '4', '5', '6'])
+    expect(nav[0].find('.help-nav-t').text()).toBe(help.en.sections[0].title)
+  })
+
+  // The lit row is what makes it navigation rather than a list of links: it says where you are.
+  it('lights the row for the section being read', async () => {
+    const w = mount(HelpView, { global: { stubs }, attachTo: document.body })
+    // jsdom lays nothing out, so place the sections by hand: the second one is just above the
+    // header line, the ones after it are still below the fold.
+    help.en.sections.forEach((s, i) => {
+      const el = document.getElementById(s.id)
+      el.getBoundingClientRect = () => ({ top: i <= 1 ? 50 : 800, height: 200 })
+    })
+    window.dispatchEvent(new Event('scroll'))
+    await new Promise((r) => setTimeout(r, 40))
+    const lit = w.findAll('.help-nav-item').filter((a) => a.classes().includes('on'))
+    expect(lit).toHaveLength(1)
+    expect(lit[0].attributes('href')).toBe(`#${help.en.sections[1].id}`)
+    expect(lit[0].attributes('aria-current')).toBe('true')
+    w.unmount()
   })
 
   it('renders the body through the shared block renderer, not as flat text', () => {
