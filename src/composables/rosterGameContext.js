@@ -239,6 +239,9 @@ export function auraSwitchesFor(reaching, player, clock, entry) {
     on: on.has(a.sid),
     auto: false,
     aura: true,
+    // The rule behind the chip, for its "i" — an aura is printed on a card the reader is not
+    // looking at. The caller supplies it (only it has the sheets), and null is fine.
+    info: a.info || null,
   }))
 }
 
@@ -351,6 +354,11 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     if (c.scope !== 'clock') return true
     return c.rounds ? true : normaliseClock(clock).tracked
   }
+  // WHERE a switch comes from, for the ones that belong to a rule printed on a named unit: an
+  // ability set's options ("select up to two Relics of the Matriarchs") are switched above the
+  // list, far from the card that explains them, so the chip has to be able to say whose they are,
+  // name itself the way that card does, and hand the reader the rule text.
+  const owners = new Map()
   for (const rec of resolvedEntries || []) {
     for (const eff of rec.effects || []) {
       if (!eff.cond?.length) continue
@@ -359,13 +367,22 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
       // without which an effect whose other half can be flipped would offer a switch that changes
       // nothing on screen.
       if (!eff.cond.every(answerable)) continue
-      for (const id of eff.cond) if (conditions[id].scope === scope) ids.add(id)
+      for (const id of eff.cond) {
+        if (conditions[id].scope !== scope) continue
+        ids.add(id)
+        if (!owners.has(id) && rec.ref?.set) {
+          owners.set(id, { owner: rec.owner || null, ability: rec.name, set: rec.ref.set, unit: rec.ref.unit || null })
+        }
+      }
     }
   }
   const active = activeConditions(player, clock, entry)
   return [...ids].map((id) => ({
     id,
     label: conditions[id].label,
+    // Null for every switch that is just a state of the battle ("this unit charged"); set for the
+    // options of an ability set, which are somebody's printed rule.
+    from: owners.get(id) || null,
     on: active.has(id),
     auto: isAuto(id),           // shown, but not the player's to flip here
     duration: conditions[id].duration,

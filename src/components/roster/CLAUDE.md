@@ -728,6 +728,15 @@ parent); which one is UP is a group-limited switch in `conditions.js` (`relic-*`
 `temple-*`, …), army-scope because every set in the game is printed on a named character, and
 round-long because that is the window the sets state.
 
+Those chips sit above the unit list, three screens from the card that explains them, so
+`switchesFor` gives every switch a **`from`** (`{ owner, ability, set, unit }`, filled only for a
+record with a `ref.set`) and `RosterViewView.withRuleInfo` turns it into what a reader needs: the
+group headed by **the unit and the set** it belongs to, the chip **named the way that unit's card
+names it** (the RU overlay's own translation, via the `ruleInfo` map — abilities, sets and options,
+keyed by their ENGLISH name), and an **"i"** opening the rule text in the same popover a core
+ability uses. Aura chips carry the same three, for the same reason: they name a rule printed on
+somebody else's card.
+
 **Auras** (`target: 'aura'`) are the first modifier that reaches a unit the record was not printed
 on. Three answers, and only one of them is a question for the player:
 
@@ -738,7 +747,9 @@ on. Three answers, and only one of them is a question for the player:
   unit) — also free**: the model is inside that unit, at 0". Read from the attachment the roster
   already records.
 - **Anybody else — a chip on that unit's row**, behind the chevron next to Battle-shock, because it
-  is a distance on the table and only the player can see it. State lives in `player.ctx.auras[uid][sid]` — keyed by
+  is a distance on the table and only the player can see it. Offered only while the aura's own rule
+  is actually running (`aurasReaching`'s `active`): an unselected relic changes nothing, and a
+  switch that moves no number is what this layer refuses to show anywhere else. State lives in `player.ctx.auras[uid][sid]` — keyed by
   the RECORD, like a spent stratagem, since an aura is a relationship with another model rather
   than a state of this one — and lasts a **battle round** (`activeAuras`): what starts and stops an
   aura is movement, and asking again every phase would be a tap per unit per phase.

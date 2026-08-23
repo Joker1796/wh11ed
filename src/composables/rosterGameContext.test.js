@@ -268,6 +268,35 @@ describe('mutually exclusive switches', () => {
   })
 })
 
+// An ability set's options are switched above the list, far from the card that prints them, so the
+// switch carries enough for a view to head the group, name the option and open the rule.
+describe('switchesFor — where a switch comes from', () => {
+  const relic = {
+    sid: 'fiery', kind: 'ability', name: 'The Fiery Heart (Aura)', owner: 'Triumph of Saint Katherine',
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', set: 'Relics of the Matriarchs' },
+    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, target: 'aura', when: { en: 'x', ru: 'x' }, cond: ['relic-fiery-heart'] }],
+  }
+  const state = {
+    sid: 'other', kind: 'detachmentRule', name: 'Cold Fervour', body: '',
+    effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'x', ru: 'x' }, cond: ['unit-charged'] }],
+  }
+
+  it('names the rule and the unit for an ability set, and nothing for a plain state', async () => {
+    const { switchesFor } = await import('./rosterGameContext.js')
+    const clock = { round: 1, turn: 0, phase: 'command', mine: true, tracked: true }
+    const [army] = switchesFor([relic], 'army', player({}), clock, null)
+    expect(army.from).toEqual({
+      owner: 'Triumph of Saint Katherine',
+      ability: 'The Fiery Heart (Aura)',
+      set: 'Relics of the Matriarchs',
+      unit: 'triumph-of-saint-katherine',
+    })
+    expect(army.groupLimit).toBe(2)
+    const [unit] = switchesFor([state], 'unit', player({}), clock, { uid: 'u1' })
+    expect(unit.from).toBeNull()
+  })
+})
+
 describe('auras', () => {
   const entry = { uid: 'u1', id: 'battle-sisters-squad' }
   const marked = (at) => player({ auras: { u1: { 'fiery-heart': at } } })

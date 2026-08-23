@@ -429,17 +429,23 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
-  keywords = [], factionKeywordSets = null,
+  keywords = [], factionKeywordSets = null, active = null,
 } = {}) {
   const out = []
   const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
+  // An aura whose own rule is not running changes nothing if marked: the Triumph's Fiery Heart
+  // does nothing until it is one of the two relics selected this round. Offering the chip anyway
+  // is offering a switch that moves no number, which is exactly what this layer refuses to do
+  // elsewhere (switchesFor's `answerable`).
+  const proven = (e) => !e.cond?.length || e.cond.every((id) => active?.has(id))
   for (const rec of records || []) {
     if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear') continue
-    if (!(rec.effects || []).some((e) => e.target === 'aura')) continue
+    const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(e))
+    if (!reaching.length) continue
     if (automatic.has(rec.ref.unit)) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
-    if (!(rec.effects || []).some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+    if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
     for (const u of rosterUnits) {
       if (u.id !== rec.ref.unit || u.uid === entryUid) continue
       const at = rec.name.indexOf(': ')
