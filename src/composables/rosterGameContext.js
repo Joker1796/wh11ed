@@ -23,7 +23,7 @@
 // way: a switch that has gone stale would silently rewrite a number.
 
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
-import { BATTLE_PHASES } from './stratagemPhases.js'
+import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
 // What the game is standing on, from the point of view of ONE player: which battle round, whose
@@ -297,6 +297,7 @@ function spentThisPhase(player, clock) {
 // is still worth knowing you have — and it says WHY, because all three reasons are temporary and a
 // player who cannot see the reason cannot tell when it lifts:
 //   shock      Battle-shocked: this unit cannot be targeted with stratagems at all (01.07)
+//   wrongPhase the stratagem's own WHEN does not include the phase (or the turn) the game is in
 //   unitPhase  the unit has already been targeted with one this phase (15.01)
 //   usedPhase  this stratagem has already been used this phase, here or on another unit (15.01)
 // Ones already in force stay flippable whatever the reason, so a mis-tap can always be taken back —
@@ -308,6 +309,10 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
   const shocked = stratagemsBlocked(player, clock, entry)
   const spent = spentThisPhase(player, clock)
   const takenThisPhase = !!spent?.byUid.get(entry?.uid)?.size
+  // The slot the game is standing in — only a game keeping phases has one, and without it the
+  // timing line is unanswerable, exactly as the per-phase limits above are.
+  const k = normaliseClock(clock)
+  const slot = k.tracked ? { phase: k.phase, mine: k.mine } : null
   return (resolvedEntries || [])
     .filter((rec) => rec.kind === 'stratagem' && rec.effects?.length)
     .map((rec) => {
@@ -315,6 +320,10 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
       let blockedBy = null
       if (!on) {
         if (shocked) blockedBy = 'shock'
+        // A stratagem states the moment it may be used ("Your opponent's Shooting phase…"), and a
+        // game keeping a clock knows whether that moment is now. One already in force is never
+        // blocked — it was used when it could be, and taking it back must stay possible.
+        else if (slot && !usableInSlot(rec.slot?.phases, rec.slot?.sides, slot.phase, slot.mine)) blockedBy = 'wrongPhase'
         else if (takenThisPhase) blockedBy = 'unitPhase'
         else if (spent?.sids.has(rec.sid)) blockedBy = 'usedPhase'
       }

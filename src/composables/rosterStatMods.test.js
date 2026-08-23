@@ -555,6 +555,35 @@ describe('datasheetEntriesFor — wargear', () => {
 // Core Rules 22.01: "while a model with an aura ability is on the battlefield, it is always within
 // range of its own aura ability" — so the bearer needs no switch, and neither does the unit its
 // model is standing in. Everyone else is a distance on the table, which only the player knows.
+// The chip needs to know when a stratagem may be used, and only this pass has both the record and
+// the faction data it was read from.
+describe('resolveModifierEntries — a stratagem\'s timing', () => {
+  const facEn = {
+    detachments: [{
+      id: 'gladius-task-force',
+      name: 'Gladius Task Force',
+      stratagems: [{ name: 'Armour of Contempt', when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets." }],
+    }],
+  }
+  const rec = {
+    sid: 'aoc', kind: 'stratagem', name: 'Armour of Contempt', det: 'Gladius Task Force',
+    ref: { kind: 'stratagem', det: 'gladius-task-force', name: 'Armour of Contempt' },
+    effects: [{ on: 'melee', stat: 'ap', op: 'add', value: -1, when: null }],
+  }
+
+  it('reads the phases and the side off the English timing line', () => {
+    const [out] = resolveModifierEntries([rec], facEn, ['Gladius Task Force'], null, null)
+    expect(out.slot.phases).toEqual(['shooting', 'fight'])
+    expect(out.slot.sides.shooting).toBe('opp')
+  })
+
+  it('leaves it null when the stratagem cannot be found', () => {
+    const orphan = { ...rec, ref: { ...rec.ref, name: 'Renamed by GW' }, name: 'Renamed by GW' }
+    const [out] = resolveModifierEntries([orphan], facEn, ['Gladius Task Force'], null, null)
+    expect(out.slot).toBeNull()
+  })
+})
+
 describe('an aura ability', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
   const aura = {

@@ -49,7 +49,12 @@ const labels = computed(() => ui[locale.value])
 
 // Why a blocked chip cannot be tapped. The reason travels as a key (stratagemsFor's `blockedBy`)
 // rather than as text, because the rule is the pure layer's to state and the wording is this one's.
-const BLOCK_HINTS = { shock: 'stratBlockedShock', unitPhase: 'stratBlockedUnit', usedPhase: 'stratBlockedUsed' }
+const BLOCK_HINTS = {
+  shock: 'stratBlockedShock',
+  wrongPhase: 'stratBlockedPhase',
+  unitPhase: 'stratBlockedUnit',
+  usedPhase: 'stratBlockedUsed',
+}
 function blockedHint(sw) {
   const key = BLOCK_HINTS[sw.blockedBy]
   return key ? labels.value[key] : null
