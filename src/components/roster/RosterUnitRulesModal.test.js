@@ -397,6 +397,36 @@ describe('RosterUnitRulesModal', () => {
     }
   })
 
+  // A stratagem's name stays English on the chip (project convention) — the translation rides
+  // under it, keyed by the English name off the faction's RU module, the same map the faction page
+  // uses. Nothing else in this modal holds that map, which is why the chips are built here.
+  it('writes the RU stratagem name under the English one', async () => {
+    const { useLocale } = await import('../../composables/useLocale.js')
+    const { locale } = useLocale()
+    const prev = locale.value
+    locale.value = 'ru'
+    try {
+      const w = mount(RosterUnitRulesModal, {
+        props: {
+          unitId: 'necron-warriors',
+          factionSlug: 'necrons',
+          ctx: { entry: { uid: 'a', id: 'necron-warriors' }, units: [] },
+          gameCtx: {
+            active: new Set(),
+            strats: [{ id: 's1', label: { en: 'Methodical Murder', ru: 'Methodical Murder' }, on: false, auto: false }],
+          },
+        },
+      })
+      await waitFor('Методичное убийство')
+      const chip = body().find('.rum-strats .cond-chip')
+      expect(chip.text()).toContain('Methodical Murder')
+      expect(chip.find('.cond-chip-sub').text()).toBe('Методичное убийство')
+      w.unmount()
+    } finally {
+      locale.value = prev
+    }
+  })
+
   // A state is flipped where the thing it changes is READ. Desolation Squad's Targeter Optics
   // grants [IGNORES COVER] after Remaining Stationary, so that switch belongs on that ability —
   // not in a strip at the top of the card that says nothing about which rule it feeds.

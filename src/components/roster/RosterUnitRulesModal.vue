@@ -44,7 +44,7 @@
                  reason that hits one chip only ("already used this phase") rides on that chip. -->
             <span v-if="stratsBlockedNote" class="rum-strats-note">{{ stratsBlockedNote }}</span>
           </h4>
-          <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
+          <ConditionChips :switches="stratChips" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
         </div>
         <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
              Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
@@ -232,11 +232,14 @@ const rulesFaction = ref(null)
 // English by project convention, the sentences around them do not), so the gate would silently
 // stop matching in RU if it read the localised bodies.
 const rulesFactionEn = ref(null)
+// EN stratagem name → RU display name, for the chips (RU locale only; null in EN).
+const stratNamesRu = ref(null)
 watch(
   [() => props.factionSlug, () => !!props.ctx, locale],
   async ([slug, hasCtx, loc]) => {
     rulesFaction.value = null
     rulesFactionEn.value = null
+    stratNamesRu.value = null
     if (!slug || !hasCtx) return
     const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
       import('../../data/factions/index.js'),
@@ -250,6 +253,10 @@ watch(
       const mod = await loadFactionRu(slug)
       if (props.factionSlug !== slug || locale.value !== loc) return
       if (mod) fac = deepOverlay(fac, mod.default)
+      // A stratagem's NAME is not part of the overlay: it stays English on the card (project
+      // convention — that is what the physical card and the GW app both say), and its translation
+      // travels beside it as a display line. Same map the faction page uses (useFactionPage).
+      stratNamesRu.value = mod?.stratNamesRu || null
     }
     rulesFaction.value = fac || null
   },
@@ -509,7 +516,16 @@ const abilitySwitches = computed(() => {
 })
 
 // Battle-shock and "this unit was already targeted this phase" block every chip in the block, so
-// they are stated in its header; the per-stratagem reason is a chip tooltip (ConditionChips).
+// they are stated in its header; a reason belonging to ONE stratagem (its phase, or having been
+// spent already) is written on that chip's own second line (ConditionChips' subLine).
+// The stratagem chips, with the translated name under the English one. The switches themselves come
+// from the view (only it knows which player is being drawn); the RU name is this component's to add,
+// because it is the one that already holds the faction's RU module.
+const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
+  const ru = stratNamesRu.value?.[st.label?.en]
+  return ru ? { ...st, subLabel: ru } : st
+}))
+
 const stratsBlockedNote = computed(() => {
   const blocked = (props.gameCtx?.strats || []).filter((st) => st.blocked)
   if (blocked.some((st) => st.blockedBy === 'shock')) return labels.value.stratBlockedShock

@@ -194,6 +194,36 @@ describe('RosterViewView', () => {
     expect(w.find('.strat-grid').exists()).toBe(true)
   })
 
+  // Rule and stratagem NAMES stay English by convention and carry their translation on a line
+  // underneath (RuleBlock's subtitle, StratCard's nameRu). Both templates asked for that line from
+  // the start; the loader here never attached the RU name maps, so it never appeared.
+  it('shows the RU name under the English one on the Rules and Stratagems tabs', async () => {
+    const { useLocale } = await import('../../composables/useLocale.js')
+    const { locale } = useLocale()
+    const prev = locale.value
+    locale.value = 'ru'
+    try {
+      const store = useRosters()
+      const r = store.createRoster('Test list')
+      r.faction = 'space-marines'
+      r.detachments = ['Gladius Task Force']
+      r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+      ROSTER_ID = r.id
+
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+      await w.findAll('.rv-tab')[1].trigger('click')   // Rules
+      await waitFor(w, 'Клятва момента')               // the army rule's RU name, under "Oath of Moment"
+      expect(w.text()).toContain('Oath of Moment')
+      expect(w.text()).toContain('Боевые доктрины')    // …and the detachment rule's
+      await w.findAll('.rv-tab')[2].trigger('click')   // Stratagems
+      await waitFor(w, 'Броня презрения')
+      expect(w.text()).toContain('Armour of Contempt')
+    } finally {
+      locale.value = prev
+    }
+  })
+
   it('the Stratagems tab groups by phase behind the same toggle as the standalone page', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')

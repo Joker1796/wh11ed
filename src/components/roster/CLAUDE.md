@@ -697,6 +697,14 @@ unit, for a stated window, when the player decides to. So:
   data it was read from — and the chip is dimmed, not hidden: holding Armour of Contempt for the
   opponent's Shooting phase is worth knowing. One already in force is never blocked, whatever phase
   it is now.
+- **A blocked chip has to LOOK blocked, and say why on itself** (fixed 2026-08-23, reported as
+  "why don't these stratagems press?"). It was `disabled` and carried its reason in `title` — but
+  the only style on it was `cursor: default`, which is nothing at all on the screen this is read on,
+  and a `title` never opens under a finger. So an inert chip was pixel-identical to a live one.
+  `ConditionChips` now dims it and dashes its border, and writes the reason on a second line inside
+  the chip — but only the reasons that belong to that ONE chip (`wrongPhase`, `usedPhase`); the
+  block-wide two (Battle-shock, the unit already targeted) stay in the header above the group, where
+  they are said once instead of on every chip.
 - **The two per-phase limits of 15.01 are enforced on the chips** (`stratagemsFor` → `blockedBy`):
   a unit already targeted this phase blocks every other stratagem on its card (`unitPhase`), and a
   stratagem already used this phase — on this unit or another — blocks itself (`usedPhase`). Both
@@ -1165,6 +1173,16 @@ READ, never in a strip that says nothing about which rule it feeds):
 - **Inside the rule**, in the "In effect for this unit" block, army-wide ones included
   (`gameCtx.armySwitches`) — the place a player MEETS Creations of Bile's augmentations is the
   detachment rule on a unit's card.
+
+**A stratagem chip carries its Russian name under the English one** (2026-08-23), the same pairing
+`StratCard` renders on the card itself: the name stays English, because that is what the printed
+card and the GW app both say, and the translation is a display line. It is keyed by the English name
+off the faction RU module's `stratNamesRu` — which the modal now keeps alongside the overlay it
+already loads, since nothing else in the chip pipeline holds that map. The same gap existed one
+level up: `RosterViewView`'s Rules and Stratagems tabs render `RuleBlock`'s `subtitle` and
+`StratCard`'s `nameRu`, but its loader never attached any of the RU name maps, so those lines had
+never appeared — `withRuNames()` now does it there the way `useFactionPage` does it for the faction
+page (army rule, detachment, detachment rule, stratagems, enhancements).
 
 `RosterUnitRulesModal` has **no switch strip of its own** any more. All four places render
 `ConditionChips.vue` (`src/components/`, not this directory — it is not roster-specific) and write
