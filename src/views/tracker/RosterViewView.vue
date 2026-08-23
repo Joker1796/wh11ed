@@ -20,6 +20,15 @@
          reached the cloud. Not inside a game — there this page is a read of a snapshot. -->
     <RosterCloudBar v-if="!inGame" />
 
+    <!-- How this list has done on the table. Saved lists only: in a game the answer is the game.
+         The full record — matchups, missions, cards — is behind the link. -->
+    <RouterLink v-if="record" to="/tracker/stats" class="rv-record">
+      <i class="bi bi-trophy"></i>
+      <span class="rvr-rec">{{ record }}</span>
+      <span class="rvr-lab">{{ labels.statsTitle }}</span>
+      <i class="bi bi-chevron-right rvr-go"></i>
+    </RouterLink>
+
     <p v-if="!roster.faction" class="rv-hint">{{ labels.rosterViewNoFaction }}</p>
     <template v-else>
       <!-- What is true in the battle right now. Only the states this list's own rules actually
@@ -278,6 +287,7 @@ import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -333,6 +343,15 @@ watch([gamePi, historyId], async ([pi]) => {
   tracker.value = useTracker()
   gameRoster.value = rosterFromPlayer(gamePlayer.value)
 }, { immediate: true })
+
+// This list's own record, read once from storage (gameStats.js) — the read-only side of the game
+// history, so this route keeps working without the tracker store it dynamic-imports above. Off the
+// table only: inside a game the score on screen is the record that matters.
+const record = computed(() => {
+  if (inGame.value || !roster.value?.id) return null
+  const rec = rosterRecords(loadHistory()).get(roster.value.id)
+  return rec ? `${rec.w}–${rec.l}–${rec.d}` : null
+})
 
 // What is true for one entry: the game answers when there is one, and off the table the LIST still
 // answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
@@ -998,6 +1017,23 @@ function stratKey(strat) {
 </script>
 
 <style scoped>
+.rv-record {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.5rem 0 0.2rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+.rv-record:hover { border-color: var(--accent); color: var(--text-primary); }
+.rvr-rec { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rvr-lab { flex: 1; }
+
 .rv-conds { margin: 0.6rem 0 0.2rem; }
 
 /* "Possible modifiers" — the out-of-game stand-in for the switch strip above. Quieter than a
