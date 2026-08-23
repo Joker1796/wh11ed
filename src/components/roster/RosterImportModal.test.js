@@ -78,4 +78,31 @@ describe('RosterImportModal', () => {
     expect(body().find('.rim-report').exists()).toBe(false)
     w.unmount()
   })
+
+  // listhammer's short export names no faction anywhere in the text, so the screen has to ask —
+  // and the answer resumes the read rather than making the reader press the button again.
+  it('asks which faction a list that names none is, and finishes the read once told', async () => {
+    const COMPACT = `Khaaaarn!  (210 Points)
+
+Khârn the Betrayer + 10x Khorne Berzerkers
+
+2x Chaos Spawn
+
+Exported from listhammer.info: https://listhammer.info/list/abc`
+
+    const w = mount(RosterImportModal)
+    await body().find('textarea').setValue(COMPACT)
+    await body().find('.rim-btn').trigger('click')
+    await settle()
+    expect(body().find('.rim-faction').exists()).toBe(true)
+    expect(body().find('.rim-report').exists()).toBe(false)
+
+    await body().find('.rim-faction select').setValue('world-eaters')
+    await settle()
+    const report = body().find('.rim-report')
+    expect(report.exists()).toBe(true)
+    expect(report.text()).toContain('World Eaters')
+    w.unmount()
+  })
+
 })

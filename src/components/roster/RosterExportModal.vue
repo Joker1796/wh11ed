@@ -127,4 +127,13 @@ async function copy(value, which) {
   cursor: pointer;
 }
 .rex-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Narrow phones: inside a modal the two copy buttons are already boxed in, and at desktop size
+   they wrap into a stack that fills half the sheet. Same rule as the CTA rows — button-sized
+   buttons on one line. */
+@media (max-width: 480px) {
+  .rex-fmt { padding: 0.3rem 0.55rem; font-size: 0.72rem; }
+  .rex-actions { gap: 0.4rem; }
+  .rex-btn { padding: 0.45rem 0.7rem; font-size: 0.78rem; white-space: nowrap; }
+}
 </style>

@@ -144,8 +144,9 @@ directory; still part of this feature:
   Copying a layout is fine; signing somebody else's name to it is not — and a reader is entitled to
   know which tool and which points data (`APP_DATA_VERSION`) wrote the list.
 - `rosterImport.js` — the way back in: read a list somebody else's tool wrote (`detectFormat` →
-  `parseList` → `matchFaction` → `matchRoster`), in the same two formats `rosterExport.js` writes —
-  the GW app's 11th-edition export and the WTC/New Recruit header format. `RosterImportModal.vue`
+  `parseList` → `matchFaction` → `matchRoster`), in the formats `rosterExport.js` writes — the GW
+  app's 11th-edition export and the WTC/New Recruit header format — plus **both listhammer.info
+  modes** (added 2026-08-24). `RosterImportModal.vue`
   (from the roster list's "Import" button) shows the report and only then creates the list, landing
   the reader in the EDITOR, because whatever failed to match is theirs to finish.
 
@@ -179,6 +180,42 @@ directory; still part of this feature:
 
   **An attachment is a line, and either side can carry it** (`Attached to <unit>`), so the matcher
   makes the CHARACTER of the pair the leader whichever way round it was written.
+
+  **listhammer.info's detailed mode is the GW app's grammar**, so it goes through the same parser
+  rather than a fork of it. Everything that differs is cosmetic and is tolerated in one place each:
+  capitalised `Points`, a thousands separator (`2.000 Points` — points are integers, so a dot inside
+  one is never a decimal point), `◦` for the weapons under a model line (added to `BULLET`, which is
+  what the nesting rule reads), lower-case `Attached unit 1`, plural `Enhancements:`, and a bare
+  Force Disposition line where the app writes a labelled one — **which is why the faction is the
+  FIRST bare line and not the last**, or the army comes out as "Take and Hold".
+
+  **`listhammer-compact` is its short mode and needs its own parser.** One line per unit, an
+  attached unit written as its members joined with `" + "` (leaders first, the unit they joined
+  last — the Bodyguard/Leader/Support roles are reconstructed from that order), counts in MODELS,
+  and an `Enhancement:` line under the group rather than beside the unit that carries it. It is
+  detected by what it LACKS — nothing bulleted, only the header priced — because its footer is the
+  only marker and nobody is obliged to paste it. It carries **no faction, no detachment and no
+  battle size at all**, so `RosterImportModal` asks for the faction (a plain `<select>` off the
+  light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
+  list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
+
+  Two matcher rules came out of reading a real listhammer list, and both apply to the GW app too:
+  - **A model line is only a model if the datasheet has a profile by that name.** `• 1x Ammo Runt`
+    is printed exactly like `• 9x Flash Git`, so counting it made a ten-model unit eleven, which
+    fell into the 5-model bracket and priced Flash Gitz at half. `gwBody` keeps the lines,
+    `matchRoster` checks them against `def.minis` and passes the strays on as gear — where an
+    attached extra may still match a wargear option.
+  - **An enhancement's kind tag is ignored on both sides.** Our generated data keeps it inside the
+    name for some factions (`Dead Shiny Shootas (Upgrade)`), the app leaves it off, listhammer
+    prints it — three spellings of one enhancement, compared through `enhKey`.
+
+  **Leader AND Support both attach.** A bodyguard unit holds one of each (two independent slots, see
+  `leaderTargetsFor`), and the app names them that way; matching only `Leader` left the second
+  character of a block unattached.
+
+  Both listhammer modes are pinned end to end against the real generated Orks bundle: every unit of
+  the detailed export prices exactly as the site stated it, and the short export — given the faction
+  and detachments the screen asks for — comes out as the same army.
 
   **What each format cannot carry**, pinned by the round-trip tests: neither WTC shape has a field
   for the list's own NAME, so an imported one comes back as "Roster" — everything else, attachment
@@ -1410,7 +1447,6 @@ shrink the number: 26 name part of a unit the rule's own prose gives no statemen
 once-per-battle activation the player simply decides. Adding a phase clock (2026-08-22) freed
 eleven of them and no more; the remainder are not waiting on machinery.
 
-What is still genuinely missing, feature-wise: **import** reads only our own share link (no GW-app
-text, no `.ros`), and **export** writes a GW-app-shaped text that is close to but not byte-exact
-with the real thing — the two together are what would let a list travel to and from New Recruit /
-BattleScribe / the official app.
+What is still genuinely missing, feature-wise: import reads the GW app, listhammer.info (both
+modes) and the WTC family, but no `.ros` (BattleScribe is dead — BSData targets New Recruit now),
+and **export** writes a GW-app-shaped text that is close to but not byte-exact with the real thing.
