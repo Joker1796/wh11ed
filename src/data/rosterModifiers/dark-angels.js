@@ -73,6 +73,70 @@ export default {
       "effects": []
     },
     {
+      "sid": "e0cefd1e-fc89-484e-98dc-2f41f7322b40:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El’Jonson: Martial Exemplar (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Primarch of the First Legion",
+        "pickLimit": 2
+      },
+      "hash": "4eac361e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cda4bdcf-38e9-442a-b524-d68b04f345b7:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El’Jonson: Mist-wreathed Shadow Realms",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson",
+        "set": "Primarch of the First Legion",
+        "pickLimit": 2
+      },
+      "hash": "9e30d74d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0c2901c8-7603-488d-ab58-2badb2eecbb4:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El’Jonson: No Hiding From the Watchers (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Primarch of the First Legion",
+        "pickLimit": 2
+      },
+      "hash": "abacefa0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4c63e8cc-3ae0-483f-bb91-b903d35e692d:master-zacharial",
       "kind": "ability",
       "name": "Master Zacharial: Gravis Protection",

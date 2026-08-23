@@ -15,7 +15,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "chaplain-grimaldus",
-        "set": "Temple Relics"
+        "set": "Temple Relics",
+        "pickLimit": 1
       },
       "hash": "e876a611",
       "ver": 925,
@@ -30,7 +31,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "chaplain-grimaldus",
-        "set": "Temple Relics"
+        "set": "Temple Relics",
+        "pickLimit": 1
       },
       "hash": "fe4d4952",
       "ver": 925,
@@ -44,10 +46,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "temple-column"
-          ]
+          }
         }
       ]
     },
@@ -59,7 +58,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "chaplain-grimaldus",
-        "set": "Temple Relics"
+        "set": "Temple Relics",
+        "pickLimit": 1
       },
       "hash": "a10216fa",
       "ver": 925,
@@ -73,10 +73,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "temple-water"
-          ]
+          }
         }
       ]
     },

@@ -451,6 +451,54 @@ export default {
       ]
     },
     {
+      "sid": "03cea895-25dc-4be7-b50a-82959b8d514f:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: Censer of the Sacred Rose (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
+      },
+      "hash": "d1c7f32d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "743e9016-ef6c-449f-b45c-28828116d1eb:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: Icon of the Valorous Heart (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
+      },
+      "hash": "b2cfdcaf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7d97856b-0bd3-4e08-bd78-094d7f56b9d0:triumph-of-saint-katherine",
       "kind": "ability",
       "name": "Triumph of Saint Katherine: Petals of the Bloody Rose (Aura)",
@@ -466,7 +514,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Relics of the Matriarchs"
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
       },
       "hash": "5afb3513",
       "ver": 925,
@@ -481,12 +530,57 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "relic-petals-bloody-rose"
-          ]
+          }
         }
       ]
+    },
+    {
+      "sid": "b276fd29-a21e-4b1c-8010-d2910063ffed:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: Simulacrum of the Argent Shroud (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
+      },
+      "hash": "c8dadf05",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "825ee2e4-db33-4e11-b0b0-43660036d114:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: Simulacrum of the Ebon Chalice (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
+      },
+      "hash": "156e7e2a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7d867253-6b26-46a4-ad71-995d88487c37:triumph-of-saint-katherine",
@@ -504,7 +598,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Relics of the Matriarchs"
+        "set": "Relics of the Matriarchs",
+        "pickLimit": 2
       },
       "hash": "d6cc8a90",
       "ver": 925,
@@ -519,10 +614,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "relic-fiery-heart"
-          ]
+          }
         }
       ]
     },

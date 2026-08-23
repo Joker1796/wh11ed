@@ -22,6 +22,22 @@ export default {
       "effects": []
     },
     {
+      "sid": "b5752ed7-9b3d-4820-a0f3-c70ff1c925f0:belisarius-cawl",
+      "kind": "ability",
+      "name": "Belisarius Cawl: Invocation of Machine Vengeance (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belisarius-cawl",
+        "set": "Canticles of the Omnissiah",
+        "pickLimit": 1
+      },
+      "hash": "6c8ef7e3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "0c6ffd3b-58d1-45db-9f61-c342ddc58ba0:belisarius-cawl",
       "kind": "ability",
       "name": "Belisarius Cawl: Mantra of Discipline",
@@ -37,7 +53,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Canticles of the Omnissiah"
+        "set": "Canticles of the Omnissiah",
+        "pickLimit": 1
       },
       "hash": "2093ec8e",
       "ver": 925,
@@ -51,10 +68,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "canticle-mantra-of-discipline"
-          ]
+          }
         },
         {
           "on": "profile",
@@ -65,12 +79,33 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "canticle-mantra-of-discipline"
-          ]
+          }
         }
       ]
+    },
+    {
+      "sid": "087b86ef-bc68-421c-89b3-c93aa5854ad9:belisarius-cawl",
+      "kind": "ability",
+      "name": "Belisarius Cawl: Shroudpsalm (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belisarius-cawl",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Canticles of the Omnissiah",
+        "pickLimit": 1
+      },
+      "hash": "73b0c7da",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1aca726c-3b92-4965-a0f2-97b3228ed49d:cybernetica-datasmith",
@@ -374,6 +409,54 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "b271c952-e022-4c4f-a677-1ea9821e6dd4:thulia-ghuld",
+      "kind": "ability",
+      "name": "Thulia Ghuld: Adaptive Tactics",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "thulia-ghuld",
+        "set": "Rod of the War Forge",
+        "pickLimit": 1
+      },
+      "hash": "0c9a1c4e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d3699b65-50d4-4945-a597-88928dea446e:thulia-ghuld",
+      "kind": "ability",
+      "name": "Thulia Ghuld: Fanatical Devotion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "thulia-ghuld",
+        "set": "Rod of the War Forge",
+        "pickLimit": 1
+      },
+      "hash": "7b2f79b1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "16118a77-1935-4242-9170-934f9416cf42:thulia-ghuld",
+      "kind": "ability",
+      "name": "Thulia Ghuld: The Fires of Mars",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "thulia-ghuld",
+        "set": "Rod of the War Forge",
+        "pickLimit": 1
+      },
+      "hash": "dd520465",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "53a34500-653b-4767-ac3b-c23a2c84c383",

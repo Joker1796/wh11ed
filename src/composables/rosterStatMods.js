@@ -159,14 +159,18 @@ function condHolds(cond, active) {
 // skipped by the grant pass would leave the card claiming a keyword it does not have, or the other
 // way round.
 //
-// A stratagem is proven by being SPENT, and its effects usually carry no `cond` at all — the whole
-// condition is that someone paid for it. Everywhere else an absent `cond` still means "nobody has
-// read this yet" and stays unproven. Getting that backwards made every stratagem a footnote that
-// never applied, however many chips were lit.
-function effectLive(entry, effect, active, activeStrats) {
-  if (entry.kind === 'stratagem' && !activeStrats?.has(entry.sid)) return false
+// Two kinds of record are proven by the player naming the RECORD rather than by a condition: a
+// stratagem, which is proven by being SPENT, and an ability set's option, proven by being the one
+// PICKED this round. Their effects usually carry no `cond` at all — the whole condition is the
+// choice — so `chosen` (the set of record ids the player says are up: spent stratagems plus picked
+// options) answers for them. Everywhere else an absent `cond` still means "nobody has read this
+// yet" and stays unproven. Getting that backwards made every stratagem a footnote that never
+// applied, however many chips were lit.
+const byChoice = (entry) => entry.kind === 'stratagem' || !!entry.ref?.set
+function effectLive(entry, effect, active, chosen) {
+  if (byChoice(entry) && !chosen?.has(entry.sid)) return false
   if (effect.cond?.length) return condHolds(effect.cond, active)
-  return entry.kind === 'stratagem'
+  return byChoice(entry)
 }
 
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
@@ -175,7 +179,7 @@ function effectLive(entry, effect, active, activeStrats) {
 // `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark, and
 // the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
 // grantedKeywordsFrom).
-export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, activeStrats = null) {
+export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [] }
 
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
@@ -208,11 +212,15 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     // (`alt`, an index into this record's own effects); while it is in force the one it replaces
     // is skipped entirely, so the two can never stack into +3. Its note carries the "instead"
     // wording, which is what explains the missing base line.
+    // An entry the player has to CHOOSE (a stratagem, an ability set's option) is gated whether or
+    // not its effect carries a `when`: unspent and unpicked mean the same thing as an unproven
+    // condition, and a reviewer leaving `when` null must not turn the gate off.
+    const gated = (eff) => !!eff.when || byChoice(entry)
     const replaced = new Set()
     for (const eff of effects) {
       if (eff.alt == null) continue
       if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets)) continue
-      if (eff.when && !effectLive(entry, eff, active, activeStrats)) continue
+      if (gated(eff) && !effectLive(entry, eff, active, chosen)) continue
       replaced.add(eff.alt)
     }
 
@@ -221,12 +229,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
-      // A STRATAGEM is its own condition: it was spent on this unit or it was not, and `activeStrats`
+      // A STRATAGEM is its own condition: it was spent on this unit or it was not, and `chosen`
       // is the set of records the player says are in force (keyed by sid, expiring on their own
       // `dur` — see rosterGameContext's activeStratagems). An extra `cond` on top still has to hold,
       // which is how "…against MONSTER targets" stays a footnote even while the stratagem is up.
-      const live = effect.when ? effectLive(entry, effect, active, activeStrats) : false
-      if (effect.when && !live) {
+      const live = gated(effect) ? effectLive(entry, effect, active, chosen) : false
+      if (gated(effect) && !live) {
         notes.push(noteOf(entry, effect, false, null, false))
         continue
       }
@@ -289,13 +297,13 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 // running the full apply pass first would gate on the un-granted keyword set. A conditional grant
 // counts only when `active` proves it — the same test the numbers get, so the keyword layer and
 // the number layer can never disagree about whether a rule is on.
-export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, activeStrats = null) {
+export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, chosen = null) {
   const out = []
   for (const entry of entries || []) {
     const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
-      if (effect.when && !effectLive(entry, effect, active, activeStrats)) continue
+      if ((effect.when || byChoice(entry)) && !effectLive(entry, effect, active, chosen)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
@@ -429,18 +437,19 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
-  keywords = [], factionKeywordSets = null, active = null,
+  keywords = [], factionKeywordSets = null, active = null, chosen = null,
 } = {}) {
   const out = []
   const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
   // An aura whose own rule is not running changes nothing if marked: the Triumph's Fiery Heart
-  // does nothing until it is one of the two relics selected this round. Offering the chip anyway
-  // is offering a switch that moves no number, which is exactly what this layer refuses to do
+  // does nothing until it is one of the two relics picked this round. Offering the chip anyway is
+  // offering a switch that moves no number, which is exactly what this layer refuses to do
   // elsewhere (switchesFor's `answerable`).
-  const proven = (e) => !e.cond?.length || e.cond.every((id) => active?.has(id))
+  const proven = (rec, e) => (!rec.ref?.set || chosen?.has(rec.sid))
+    && (!e.cond?.length || e.cond.every((id) => active?.has(id)))
   for (const rec of records || []) {
     if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear') continue
-    const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(e))
+    const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
     if (automatic.has(rec.ref.unit)) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the

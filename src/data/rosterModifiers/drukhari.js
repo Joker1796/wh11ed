@@ -241,6 +241,54 @@ export default {
       ]
     },
     {
+      "sid": "1d74d334-af88-4582-aca0-f818ef8bd439:raider",
+      "kind": "ability",
+      "name": "Raider: Aethersails",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raider",
+        "set": "Vanguard of the Dark City",
+        "pickLimit": 1
+      },
+      "hash": "9e2db4e6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "20936b9a-96d7-4934-9402-eed98ae38c99:raider",
+      "kind": "ability",
+      "name": "Raider: Masters of the Shadowed Sky",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raider",
+        "set": "Vanguard of the Dark City",
+        "pickLimit": 1
+      },
+      "hash": "2b3380b3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "95651527-f545-4399-b4c4-06d7461558c4:raider",
+      "kind": "ability",
+      "name": "Raider: Speed of the Kill",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raider",
+        "set": "Vanguard of the Dark City",
+        "pickLimit": 1
+      },
+      "hash": "7fbd9c95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "845cca83-fe79-455f-8ee6-761b1d478a97:raider",
       "kind": "ability",
       "name": "Raider: Visions of Butchery",
@@ -248,7 +296,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "raider",
-        "set": "Vanguard of the Dark City"
+        "set": "Vanguard of the Dark City",
+        "pickLimit": 1
       },
       "hash": "2ba45689",
       "ver": 925,

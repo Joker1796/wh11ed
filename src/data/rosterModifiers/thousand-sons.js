@@ -217,7 +217,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "magnus-the-red",
-        "set": "Unearthly Power"
+        "set": "Unearthly Power",
+        "pickLimit": 1
       },
       "hash": "4004fc0a",
       "ver": 925,
@@ -254,7 +255,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Unearthly Power"
+        "set": "Unearthly Power",
+        "pickLimit": 1
       },
       "hash": "f3e4bf62",
       "ver": 925,
@@ -269,10 +271,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "unearthly-time-flux"
-          ]
+          }
         }
       ]
     },
@@ -284,7 +283,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "magnus-the-red",
-        "set": "Unearthly Power"
+        "set": "Unearthly Power",
+        "pickLimit": 1
       },
       "hash": "743ba7d5",
       "ver": 925,

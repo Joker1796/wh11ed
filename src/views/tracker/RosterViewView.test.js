@@ -400,7 +400,8 @@ describe('RosterViewView', () => {
       expect(auraChip()).toBeUndefined()
       expect(rowOf('Battle Sisters Squad').find('.rvunit-more').exists()).toBe(false)
 
-      t.setArmyCondition(0, 'relic-fiery-heart', t.current.value.currentRound, true)
+      // The Triumph picks the relic on its own row — the choice belongs to that model.
+      t.setUnitPick(0, 'u1', '7d867253-6b26-46a4-ad71-995d88487c37:triumph-of-saint-katherine', t.current.value.currentRound, true)
       await flushPromises()
       // …and now it is, behind the chevron: an aura is not the row's headline state.
       await rowOf('Battle Sisters Squad').find('.rvunit-more').trigger('click')
@@ -441,13 +442,18 @@ describe('RosterViewView', () => {
         await new Promise((r) => setTimeout(r, 25))
         await flushPromises()
 
-        const group = w.find('.rv-conds .cond-group')
+        // On the unit's own row, behind the chevron: it is that model's choice.
+        await w.find('.rvunit-more').trigger('click')
+        const group = w.find('.rvunit-rest .cond-group')
         expect(group.find('.cond-group-owner').text())
           .toBe('Triumph of Saint Katherine · Реликвии Матриархов')
         expect(group.text()).toContain('0 из 2')          // the set picks two a round
         const chips = group.findAll('.cond-chip').map((c) => c.text())
+        // ALL SIX options, not just the two that move a number — the tally is the point.
+        expect(chips).toHaveLength(6)
         expect(chips).toContain('Огненное сердце (Аура)')  // the RU overlay's own name for it
-        expect(group.findAll('.cond-info').length).toBe(chips.length)
+        expect(chips).toContain('Кадило Священной Розы (Аура)')   // …and one that changes nothing
+        expect(group.findAll('.cond-info').length).toBe(6)
       } finally {
         locale.value = prev
       }

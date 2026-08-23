@@ -268,32 +268,40 @@ describe('mutually exclusive switches', () => {
   })
 })
 
-// An ability set's options are switched above the list, far from the card that prints them, so the
-// switch carries enough for a view to head the group, name the option and open the rule.
-describe('switchesFor — where a switch comes from', () => {
-  const relic = {
-    sid: 'fiery', kind: 'ability', name: 'The Fiery Heart (Aura)', owner: 'Triumph of Saint Katherine',
-    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', set: 'Relics of the Matriarchs' },
-    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, target: 'aura', when: { en: 'x', ru: 'x' }, cond: ['relic-fiery-heart'] }],
-  }
-  const state = {
-    sid: 'other', kind: 'detachmentRule', name: 'Cold Fervour', body: '',
-    effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'x', ru: 'x' }, cond: ['unit-charged'] }],
-  }
+// An ability set is a choice about one model, keyed by the option's own record — like a spent
+// stratagem, not like a state of the battle.
+describe('ability-set picks', () => {
+  const entry = { uid: 'u1', id: 'triumph-of-saint-katherine' }
+  const option = (sid, name) => ({
+    sid, kind: 'ability', name: `Triumph of Saint Katherine: ${name}`,
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', set: 'Relics of the Matriarchs', pickLimit: 2 },
+    effects: [],
+  })
+  const records = [option('fiery', 'The Fiery Heart (Aura)'), option('censer', 'Censer of the Sacred Rose (Aura)')]
+  const picked = (at) => player({ picks: { u1: { fiery: at } } })
 
-  it('names the rule and the unit for an ability set, and nothing for a plain state', async () => {
-    const { switchesFor } = await import('./rosterGameContext.js')
-    const clock = { round: 1, turn: 0, phase: 'command', mine: true, tracked: true }
-    const [army] = switchesFor([relic], 'army', player({}), clock, null)
-    expect(army.from).toEqual({
-      owner: 'Triumph of Saint Katherine',
-      ability: 'The Fiery Heart (Aura)',
-      set: 'Relics of the Matriarchs',
-      unit: 'triumph-of-saint-katherine',
-    })
-    expect(army.groupLimit).toBe(2)
-    const [unit] = switchesFor([state], 'unit', player({}), clock, { uid: 'u1' })
-    expect(unit.from).toBeNull()
+  it('offers every option of the set, whether or not it changes a number', async () => {
+    const { pickSwitchesFor } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'command', mine: true, tracked: true }
+    const out = pickSwitchesFor(records, picked(stampOf(clock)), clock, entry)
+    expect(out).toHaveLength(2)                       // the Censer moves no number and is still a chip
+    expect(out[0]).toMatchObject({ id: 'fiery', on: true, pick: true, group: 'set:Relics of the Matriarchs', groupLimit: 2 })
+    expect(out[0].label.en).toBe('The Fiery Heart (Aura)')
+    expect(out[0].from).toMatchObject({ owner: 'Triumph of Saint Katherine', set: 'Relics of the Matriarchs' })
+    expect(out[1].on).toBe(false)
+    // …and nothing for a unit whose card does not print the set.
+    expect(pickSwitchesFor(records, picked(stampOf(clock)), clock, { uid: 'u2', id: 'battle-sisters-squad' })).toEqual([])
+  })
+
+  it('holds a pick for the battle round it was made in', async () => {
+    const { activePicks, allPicks } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'command', mine: true, tracked: true }
+    const at = stampOf(clock)
+    expect(activePicks(picked(at), { ...clock, phase: 'fight', turn: 1 }, entry).has('fiery')).toBe(true)
+    expect(activePicks(picked(at), { ...clock, round: 3 }, entry).has('fiery')).toBe(false)
+    // Read army-wide for whoever the aura lands on, not only for the model that picked it.
+    expect(allPicks(picked(at), clock).has('fiery')).toBe(true)
+    expect(allPicks(picked(at), { ...clock, round: 3 }, entry).has('fiery')).toBe(false)
   })
 })
 

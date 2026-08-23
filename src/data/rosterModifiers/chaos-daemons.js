@@ -8,6 +8,62 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "1142f775-5766-44be-b032-fd2edd0ac4ee:belakor",
+      "kind": "ability",
+      "name": "Be’lakor: Pall of Despair (Aura, Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belakor",
+        "set": "Shadow Form Abilities",
+        "pickLimit": 1
+      },
+      "hash": "34873127",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "35f3d3f8-f9b9-45cd-adcf-5f6f1c9a7c2d:belakor",
+      "kind": "ability",
+      "name": "Be’lakor: Shadow Lord (Aura, Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belakor",
+        "set": "Shadow Form Abilities",
+        "pickLimit": 1
+      },
+      "hash": "fa25cb6f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "9e1aae3f-0753-4856-ad14-0cc44786e7be:belakor",
+      "kind": "ability",
+      "name": "Be’lakor: Wreathed in Shadows (Aura, Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belakor",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Shadow Form Abilities",
+        "pickLimit": 1
+      },
+      "hash": "86d85f6a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "20b0285d-05d1-4b48-bb21-419e1e1feae6:bloodmaster",
       "kind": "ability",
       "name": "Bloodmaster: Bloodmaster",

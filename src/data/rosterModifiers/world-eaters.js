@@ -8,6 +8,62 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "791c069c-fc4b-4198-8085-a8a00c78fd00:angron",
+      "kind": "ability",
+      "name": "Angron: Driven by Ultimate Rage (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "angron",
+        "scopes": [
+          {
+            "targets": [
+              "WORLD EATERS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Wrathful Presence",
+        "pickLimit": 1
+      },
+      "hash": "46c95af7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0590eb08-1a08-422b-8aa7-cef2df169979:angron",
+      "kind": "ability",
+      "name": "Angron: Overwhelmlng Wrath (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "angron",
+        "set": "Wrathful Presence",
+        "pickLimit": 1
+      },
+      "hash": "19e2f271",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f2400e6f-7d30-487b-99a2-f8ffebf00817:angron",
+      "kind": "ability",
+      "name": "Angron: The Blood God’s Favour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "angron",
+        "set": "Wrathful Presence",
+        "pickLimit": 1
+      },
+      "hash": "8423f8d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "2cbca890-eb1a-4b32-aed7-6e7abb2ac218:bloodthirster",
       "kind": "ability",
       "name": "Bloodthirster: Daemon Lord of Khorne",

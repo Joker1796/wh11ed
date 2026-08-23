@@ -29,3 +29,11 @@ export async function loadRosterModifiers(slug) {
 export function usableEntries(data) {
   return (data?.entries || []).filter((e) => e.reviewed && e.effects?.length)
 }
+
+// An ABILITY SET's options, reviewed but not necessarily carrying a modifier: the player picks one
+// (or two) each round and wants to see the whole set, so the ones that change no number are chips
+// too. Kept apart from usableEntries() — nothing here is applied to a statline, and the apply pass
+// must never see a record with no effects.
+export function pickEntries(data) {
+  return (data?.entries || []).filter((e) => e.reviewed && e.ref?.set)
+}
