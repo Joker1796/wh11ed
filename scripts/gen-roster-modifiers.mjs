@@ -49,6 +49,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
+import { ruleScopes } from '../src/composables/ruleTargets.js'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -170,27 +171,53 @@ function abilitySources(bundle, dsBySid) {
   const out = []
   for (const d of bundle.datasheets || []) {
     const wh = dsBySid.get(d.id)?.id || null
-    for (const a of d.abilities || []) {
-      if (a.type !== 'datasheet') continue
-      const prose = appdataToMarkup(a.rules)
-      if (!a.id || !prose) continue
+    // The one place a `sid` is NOT a bare appdata uuid: 56 abilities are published once and
+    // attached to several datasheets (Custodes' Turbo-boost sits on both jetbike units), and a
+    // record has to exist per datasheet — each one points its `ref` at a different unit. The uuid
+    // still leads the key, so the identity is unchanged; the suffix only separates the copies, and
+    // the pair is stable across runs.
+    const push = (id, name, prose, extra) => {
+      if (!id || !prose) return
       out.push({
-        // The one place a `sid` is NOT a bare appdata uuid: 56 abilities are published once and
-        // attached to several datasheets (Custodes' Turbo-boost sits on both jetbike units), and a
-        // record has to exist per datasheet — each one points its `ref` at a different unit. The
-        // uuid still leads the key, so the identity is unchanged; the suffix only separates the
-        // copies, and the pair is stable across runs.
-        sid: `${a.id}:${wh || slugifyName(d.name)}`,
+        sid: `${id}:${wh || slugifyName(d.name)}`,
         kind: 'ability',
-        name: `${d.name}: ${a.name}`,
+        name: `${d.name}: ${name}`,
         det: null,
-        ref: wh ? { kind: 'ability', unit: wh } : null,
+        ref: wh ? { kind: 'ability', unit: wh, ...auraRef(prose), ...extra } : null,
         prose,
       })
+    }
+    for (const a of d.abilities || []) {
+      if (a.type !== 'datasheet') continue
+      push(a.id, a.name, appdataToMarkup(a.rules))
+      // An ABILITY SET — "select up to two of the abilities in the Relics of the Matriarchs
+      // section; until the start of the next battle round this model has those abilities". The
+      // parent's own prose is the picking instruction and changes no number; the options under it
+      // do, and appdata carries them as `subAbilities`. 16 sets across the game, 52 options, and
+      // until 2026-08-23 not one of them was a source. `ref.set` is the parent's name: which
+      // option is up is a group-limited choice (conditions.js's GROUP_LIMITS), and the group is
+      // the set.
+      for (const sa of a.subAbilities || []) {
+        push(sa.id, sa.name, appdataToMarkup(sa.rules), { set: a.name })
+      }
     }
   }
   return out
 }
+
+// An AURA reaches units OTHER than the one whose card it is printed on, so — unlike every other
+// datasheet ability — it has to be gated by keyword: "while a friendly ADEPTA SORORITAS unit is
+// within 6" of this model" says nothing about a Rhino standing next to it. The gate is the same
+// prose reader the detachment rules use (ruleTargets' ruleScopes), run HERE rather than in the
+// browser: the record carries no prose, and re-deriving it every run is what keeps the gate from
+// drifting away from the wording it was read from. Null scopes (nothing extractable) stay null and
+// the effect applies ungated — the fail-open direction ruleTargets is built on.
+function auraRef(prose) {
+  if (!AURA_SHAPE.test(prose)) return null
+  const scopes = ruleScopes(prose)
+  return scopes ? { scopes } : null
+}
+const AURA_SHAPE = /\(aura\)|within \d+["\u201d] of (?:this|that|the bearer|it)\b/i
 
 // A datasheet's WARGEAR that carries a rule of its own rather than a weapon profile — a Storm
 // Shield's 4+ invulnerable, a Mortifier's Anchorite Sarcophagus rewriting Move and Save. Sixth
@@ -213,7 +240,9 @@ function wargearSources(bundle, dsBySid) {
         kind: 'wargear',
         name: `${d.name}: ${w.name}`,
         det: null,
-        ref: wh ? { kind: 'wargear', unit: wh, item: normItemName(w.name) } : null,
+        // …and a wargear rule can be an aura too (a Plague Marine icon, a Kustom Force Field), so
+        // it carries the same keyword gate — see auraRef.
+        ref: wh ? { kind: 'wargear', unit: wh, item: normItemName(w.name), ...auraRef(prose) } : null,
         prose,
       })
     }

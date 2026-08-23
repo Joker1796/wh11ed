@@ -48,12 +48,14 @@ function rowMatchesOnly(row, only) {
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets) {
-  // An enhancement modifies its own bearer, an allegiance choice its own chooser, a wargear rule
-  // whoever took the item, and a datasheet ability the card it is printed on (or the card of the
-  // unit it is attached to, resolved by `target` before we ever get here) — none has prose aimed
-  // at some other unit, so there is nothing to gate on.
-  if (SCOPELESS.has(kind)) return true
-  if (!scopes?.length) return true // ungated prose — the rule itself was already shown to this unit
+  // No scopes to gate on. Either the prose named no unit at all (fail-open, see ruleTargets), or
+  // the record's kind is one whose prose addresses exactly the card it is applied to — an
+  // enhancement modifies its own bearer, an allegiance choice its own chooser, a wargear rule
+  // whoever took the item, a datasheet ability the card it is printed on (or the card of the unit
+  // it is attached to, resolved by `target` before we ever get here), and applyStatMods never
+  // reads scopes for those. An AURA is the exception among abilities: it addresses "a friendly
+  // ADEPTA SORORITAS unit", and its scopes travel on the entry, so it lands here gated.
+  if (!scopes?.length) return true
   const hits = (kws) => (sc) => sc.targets.some((t) => keywordsMatchTarget(kws, t))
     && !sc.excludes.some((x) => keywordsMatchTarget(kws, x))
   // The same "the extraction matched nobody, so distrust it" escape ruleTargets.js applies when
@@ -196,7 +198,9 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
   }
 
   for (const entry of entries) {
-    const scopes = SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body)
+    // `entry.scopes` is an aura's keyword gate, carried on the record (ref.scopes, derived from the
+    // prose by the generator) because the record itself holds no prose to read it from here.
+    const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
     const effects = entry.effects || []
 
     // "…add 2 to the Attacks characteristic INSTEAD." An alternate names the effect it replaces
@@ -342,7 +346,7 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, auraOn = null } = {}) {
   const out = []
   for (const rec of records || []) {
     if (rec.kind === 'wargear' && rec.ref?.kind === 'wargear') {
@@ -361,6 +365,19 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       if (led.length && leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
         out.push({ ...rec, body: '', effects: led, ...split, from: 'led' })
       }
+      // A wargear AURA (a Plague Marine's Icon of Despair) reaches units around the model wearing
+      // it — including, by 22.01, its own. Same keyword gate as an ability aura.
+      const aura = (rec.effects || []).filter((e) => e.target === 'aura')
+      if (aura.length) {
+        const scopes = rec.ref.scopes || null
+        if (rec.ref.unit === unitId && itemNames?.has(rec.ref.item)) {
+          out.push({ ...rec, body: '', effects: aura, ...split, from: 'self', scopes })
+        } else if (leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
+          out.push({ ...rec, body: '', effects: aura, ...split, from: 'led', scopes })
+        } else if (rec.ref.unit !== unitId && auraOn?.has(rec.sid)) {
+          out.push({ ...rec, body: '', effects: aura, ...split, from: 'aura', scopes })
+        }
+      }
       continue
     }
     if (rec.kind !== 'ability' || rec.ref?.kind !== 'ability') continue
@@ -372,9 +389,66 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     const owner = at === -1 ? null : rec.name.slice(0, at)
     const name = at === -1 ? rec.name : rec.name.slice(at + 2)
     const push = (effects, from) => { if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from }) }
-    if (rec.ref.unit === unitId) push(of('self'), 'self')
-    if (leaderUnitIds.includes(rec.ref.unit)) push(of('led'), 'led')
-    if (ledUnitId && rec.ref.unit === ledUnitId) push(of('leader'), 'leader')
+    // An AURA (`target: 'aura'`) reaches whole units rather than one card, so it travels with the
+    // keyword gate its prose named (Core Rules 22.01 wording: "a friendly ADEPTA SORORITAS unit
+    // within 6" of this model") — without it a Rhino would collect the buff meant for the Sisters.
+    const pushAura = (from) => {
+      const effects = of('aura')
+      if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from, scopes: rec.ref.scopes || null })
+    }
+    if (rec.ref.unit === unitId) {
+      push(of('self'), 'self')
+      // 22.01: "while a model with an aura ability is on the battlefield, it is always within
+      // range of its own aura ability" — so the bearer's own unit needs no switch and no range.
+      pushAura('self')
+    }
+    if (leaderUnitIds.includes(rec.ref.unit)) {
+      push(of('led'), 'led')
+      // The aura's model is INSIDE this unit, at 0" — same certainty, from the list alone.
+      pushAura('led')
+    }
+    if (ledUnitId && rec.ref.unit === ledUnitId) {
+      push(of('leader'), 'leader')
+      pushAura('leader')   // …and the Character standing in that unit is inside its aura too
+    }
+    // Anyone else is a question only the player can answer: it is a distance on the table.
+    if (rec.ref.unit !== unitId && auraOn?.has(rec.sid)) pushAura('aura')
+  }
+  return out
+}
+
+// WHICH AURAS THE PLAYER COULD MARK ON THIS UNIT — the only part of an aura the app cannot answer
+// itself. The bearer's own unit and the unit it is attached to are certain (22.01, above); everyone
+// else is a distance on the table, so those get a chip, and only these:
+//   · the aura's source is a DIFFERENT entry of this same roster (nothing else can be near it),
+//   · this unit passes the aura's own keyword gate — "a friendly ADEPTA SORORITAS unit" says
+//     nothing about the Rhino parked beside it, and a chip that can change nothing is worse than
+//     no chip at all,
+//   · and the source is not already leading this unit / led by it, where the answer is automatic.
+// `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
+export function aurasReaching(records, {
+  unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
+  keywords = [], factionKeywordSets = null,
+} = {}) {
+  const out = []
+  const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
+  for (const rec of records || []) {
+    if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear') continue
+    if (!(rec.effects || []).some((e) => e.target === 'aura')) continue
+    if (automatic.has(rec.ref.unit)) continue
+    // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
+    // modifier behind it would land.
+    if (!(rec.effects || []).some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+    for (const u of rosterUnits) {
+      if (u.id !== rec.ref.unit || u.uid === entryUid) continue
+      const at = rec.name.indexOf(': ')
+      out.push({
+        sid: rec.sid,
+        source: u.name || u.id,       // the entry the aura radiates from, as the list names it
+        sourceUid: u.uid,
+        name: at === -1 ? rec.name : rec.name.slice(at + 2),
+      })
+    }
   }
   return out
 }

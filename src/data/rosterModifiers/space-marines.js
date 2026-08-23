@@ -724,7 +724,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "iron-father-feirros"
+        "unit": "iron-father-feirros",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "feb3f1ff",
       "ver": 925,
@@ -1104,6 +1112,44 @@ export default {
       "effects": []
     },
     {
+      "sid": "76a6280a-359a-4d23-973a-de8d6afc20e5:roboute-guilliman",
+      "kind": "ability",
+      "name": "Roboute Guilliman: Primarch of the XIII (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "roboute-guilliman",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Author of the Codex"
+      },
+      "hash": "b4922e6d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "codex-primarch-of-the-xiii"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "e89c5fdd-1344-409a-968f-7ee791cfcfc6:storm-speeder-hailstrike",
       "kind": "ability",
       "name": "Storm Speeder Hailstrike: Hailstrike",
@@ -1194,7 +1240,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "techmarine"
+        "unit": "techmarine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "97259642",
       "ver": 925,
@@ -1208,7 +1262,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "techmarine"
+        "unit": "techmarine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "b8d4732b",
       "ver": 925,

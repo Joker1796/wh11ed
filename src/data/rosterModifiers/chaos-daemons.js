@@ -28,7 +28,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "bloodthirster"
+        "unit": "bloodthirster",
+        "scopes": [
+          {
+            "targets": [
+              "KHORNE LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "99d56dec",
       "ver": 925,
@@ -207,12 +215,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "great-unclean-one"
+        "unit": "great-unclean-one",
+        "scopes": [
+          {
+            "targets": [
+              "NURGLE LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "24462df7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6e5dd267-7e5a-4213-9116-daef9389e80c:great-unclean-one",
@@ -290,12 +315,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "lord-of-change"
+        "unit": "lord-of-change",
+        "scopes": [
+          {
+            "targets": [
+              "TZEENTCH LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "1934ffb4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
@@ -346,12 +388,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "skarbrand"
+        "unit": "skarbrand",
+        "scopes": [
+          {
+            "targets": [
+              "KHORNE LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "6444af89",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d89f5170-ed5a-4d4d-a198-cf96271a10b6:skulltaker",
@@ -452,7 +511,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "the-masque-of-slaanesh"
+        "unit": "the-masque-of-slaanesh",
+        "scopes": [
+          {
+            "targets": [
+              "SLAANESH LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "1ae444c8",
       "ver": 925,
@@ -466,12 +533,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "tormentbringer"
+        "unit": "tormentbringer",
+        "scopes": [
+          {
+            "targets": [
+              "SLAANESH LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "9547dbf1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cdb2d463-155c-42e4-a175-a067c162c0eb",

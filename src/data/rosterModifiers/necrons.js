@@ -95,12 +95,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "catacomb-command-barge"
+        "unit": "catacomb-command-barge",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "989d5d7f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
@@ -137,12 +154,37 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "illuminor-szeras"
+        "unit": "illuminor-szeras",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS BATTLELINE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "4def783f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "12dac8d8-3c5e-46bf-a06f-f216708577f7:nekrosor-ammentar",
@@ -151,7 +193,18 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "nekrosor-ammentar"
+        "unit": "nekrosor-ammentar",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": [
+              "MONSTER",
+              "TITANIC"
+            ]
+          }
+        ]
       },
       "hash": "240b73c5",
       "ver": 925,
@@ -257,6 +310,86 @@ export default {
           "value": "LETHAL HITS",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "1cee9f3a-90af-4c23-9c39-2ccf1011c722:the-silent-king",
+      "kind": "ability",
+      "name": "The Silent King: Phaeron of the Blades (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-silent-king",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": [
+              "MONSTER"
+            ]
+          }
+        ],
+        "set": "Triarch Abilities"
+      },
+      "hash": "39225b1a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "triarch-phaeron-of-the-blades"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "4fac3e0b-fe87-430a-a259-4a7b70854de8:the-silent-king",
+      "kind": "ability",
+      "name": "The Silent King: Relentless March (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-silent-king",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": [
+              "MONSTER"
+            ]
+          }
+        ],
+        "set": "Triarch Abilities"
+      },
+      "hash": "a7467e93",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "triarch-relentless-march"
+          ]
         }
       ]
     },
@@ -1333,7 +1466,15 @@ export default {
       "ref": {
         "kind": "wargear",
         "unit": "canoptek-macrocytes",
-        "item": "accelerator mandible"
+        "item": "accelerator mandible",
+        "scopes": [
+          {
+            "targets": [
+              "CANOPTEK"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "f506766c",
       "ver": 925,

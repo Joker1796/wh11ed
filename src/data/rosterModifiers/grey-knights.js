@@ -68,7 +68,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "brotherhood-techmarine"
+        "unit": "brotherhood-techmarine",
+        "scopes": [
+          {
+            "targets": [
+              "GREY KNIGHTS VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "f41f3275",
       "ver": 925,

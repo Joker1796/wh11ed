@@ -185,9 +185,41 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "lord-of-change"
+        "unit": "lord-of-change",
+        "scopes": [
+          {
+            "targets": [
+              "SCINTILLATING LEGIONS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "e1944b31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "cdee0846-07c4-46dd-8f41-03ec95ffb7ba:magnus-the-red",
+      "kind": "ability",
+      "name": "Magnus the Red: Impossible Form (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magnus-the-red",
+        "set": "Unearthly Power"
+      },
+      "hash": "4004fc0a",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -207,13 +239,74 @@ export default {
       "effects": []
     },
     {
+      "sid": "383842c0-08ef-4dfa-ab29-63e48ae5acdf:magnus-the-red",
+      "kind": "ability",
+      "name": "Magnus the Red: Time Flux (Aura, Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magnus-the-red",
+        "scopes": [
+          {
+            "targets": [
+              "THOUSAND SONS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Unearthly Power"
+      },
+      "hash": "f3e4bf62",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "unearthly-time-flux"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "5f1de731-c854-4037-8c61-4ece6772f685:magnus-the-red",
+      "kind": "ability",
+      "name": "Magnus the Red: Treason of Tzeentch (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magnus-the-red",
+        "set": "Unearthly Power"
+      },
+      "hash": "743ba7d5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "49fd36bf-f94a-466d-8900-6791fc93f801:mutalith-vortex-beast",
       "kind": "ability",
       "name": "Mutalith Vortex Beast: Immaterial Flare",
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "mutalith-vortex-beast"
+        "unit": "mutalith-vortex-beast",
+        "scopes": [
+          {
+            "targets": [
+              "THOUSAND SONS PSYKER"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "f52800f4",
       "ver": 925,

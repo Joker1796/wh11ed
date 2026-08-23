@@ -451,6 +451,82 @@ export default {
       ]
     },
     {
+      "sid": "7d97856b-0bd3-4e08-bd78-094d7f56b9d0:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: Petals of the Bloody Rose (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs"
+      },
+      "hash": "5afb3513",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "relic-petals-bloody-rose"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7d867253-6b26-46a4-ad71-995d88487c37:triumph-of-saint-katherine",
+      "kind": "ability",
+      "name": "Triumph of Saint Katherine: The Fiery Heart (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "triumph-of-saint-katherine",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTA SORORITAS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Relics of the Matriarchs"
+      },
+      "hash": "d6cc8a90",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "relic-fiery-heart"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "cf5a5f6f-6690-416e-816e-f519b647adb8",
       "kind": "detachmentRule",
       "name": "Fervent Purgation",

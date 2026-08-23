@@ -710,6 +710,49 @@ unit, for a stated window, when the player decides to. So:
 - No keyword gate (`SCOPELESS`): WHICH unit a stratagem was spent on is the player's to say, not
   this layer's to infer from "one ADEPTUS ASTARTES INFANTRY unit".
 
+**Ability sets** (`subAbilities` in appdata, added 2026-08-23) are the ninth thing a record can hang
+off — and until then the generator walked straight past them. A set is "at the start of the battle
+round, select up to two of the abilities in the Relics of the Matriarchs section; until the start of
+the next battle round this model has those abilities": the PARENT's prose is the picking
+instruction and changes no number, and the options that do live under it. 16 sets across the game,
+52 options, 16 of which touch a characteristic — one of them is why the Triumph of Saint Katherine's
+card showed nothing at all. Each option is an ordinary `kind: 'ability'` record (`ref.set` names its
+parent); which one is UP is a group-limited switch in `conditions.js` (`relic-*`, `triarch-*`,
+`temple-*`, …), army-scope because every set in the game is printed on a named character, and
+round-long because that is the window the sets state.
+
+**Auras** (`target: 'aura'`) are the first modifier that reaches a unit the record was not printed
+on. Three answers, and only one of them is a question for the player:
+
+- **The bearer's own unit — free.** Core Rules 22.01: "while a model with an aura ability is on the
+  battlefield, it is always within range of its own aura ability." No chip, no range, nothing to
+  ask.
+- **The unit the bearer is attached to (and, from the other side, a Character standing in an aura's
+  unit) — also free**: the model is inside that unit, at 0". Read from the attachment the roster
+  already records.
+- **Anybody else — a chip on that unit's row**, next to Battle-shock, because it is a distance on
+  the table and only the player can see it. State lives in `player.ctx.auras[uid][sid]` — keyed by
+  the RECORD, like a spent stratagem, since an aura is a relationship with another model rather
+  than a state of this one — and lasts a **battle round** (`activeAuras`): what starts and stops an
+  aura is movement, and asking again every phase would be a tap per unit per phase.
+
+Two things make auras different from every other ability record:
+
+- **They are keyword-gated.** "A friendly ADEPTA SORORITAS unit within 6" of this model" says
+  nothing about the Rhino beside it, so the aura is the one ability that does NOT get the
+  `SCOPELESS` pass. The gate travels on the record as `ref.scopes`, derived from the prose by the
+  generator (`auraRef` → `ruleScopes`) because the record itself stores no prose to read it from in
+  the browser; re-derived every run, so it cannot drift from the wording. Prose the extractor
+  cannot read leaves it absent and the effect applies ungated — the same fail-open direction
+  `ruleTargets.js` takes everywhere.
+- **Which chips are offered is `aurasReaching()`**: the source must be a DIFFERENT entry of this
+  same roster, the unit must pass that keyword gate, and the automatic cases above are excluded —
+  otherwise every unit's row grows a chip for every aura in the game.
+
+The effects themselves carry **no `when`**: being in range IS the condition, and the resolution
+above has already answered it by the time `applyStatMods` sees the entry (a `cond` on top still
+means what it always did — Excessive Vigour's "if that unit made a Charge move this turn").
+
 **Core rules** (`coreRules.js`, hand-written, outside the faction glob) are the smallest: Battle-shock
 turning a unit's OC into `-`. It is the one core rule that rewrites a printed characteristic, it
 applies to every unit of every faction, and `unit-battle-shocked` was already in the vocabulary —

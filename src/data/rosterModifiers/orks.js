@@ -200,12 +200,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "biged-bossbunka"
+        "unit": "biged-bossbunka",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "9318d4ed",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1466c2e2-98b5-496d-92b7-2d46ffd54b48:bigboss",
@@ -236,7 +253,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "burna-bommer"
+        "unit": "burna-bommer",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "89d7048d",
       "ver": 925,
@@ -438,7 +463,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "kill-rig"
+        "unit": "kill-rig",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "9251c1e5",
       "ver": 925,
@@ -493,7 +526,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "mek"
+        "unit": "mek",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "c21e5e33",
       "ver": 925,
@@ -563,7 +604,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "stompa"
+        "unit": "stompa",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "e2a75438",
       "ver": 925,
@@ -698,6 +747,36 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "7f262bc1-fa45-443b-bdb8-6b3ba279b48c:wazdakka-gutsmek",
+      "kind": "ability",
+      "name": "Wazdakka Gutsmek: Pulse Jet",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wazdakka-gutsmek",
+        "set": "Throttlerokkit Shokka Engine"
+      },
+      "hash": "9acf37ea",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while this unit Advances, instead of an Advance roll",
+            "ru": "когда отряд совершает Advance, вместо броска"
+          },
+          "cond": [
+            "throttlerokkit-pulse-jet",
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "2d940cc9-32aa-4dcd-8b43-becc8872da25:weirdboy",

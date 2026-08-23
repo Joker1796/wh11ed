@@ -241,6 +241,21 @@ export default {
       ]
     },
     {
+      "sid": "845cca83-fe79-455f-8ee6-761b1d478a97:raider",
+      "kind": "ability",
+      "name": "Raider: Visions of Butchery",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "raider",
+        "set": "Vanguard of the Dark City"
+      },
+      "hash": "2ba45689",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "01b389b5-c381-4610-83e1-ea05cd85b20a:razorwing-jetfighter",
       "kind": "ability",
       "name": "Razorwing Jetfighter: Ground-attack Craft",

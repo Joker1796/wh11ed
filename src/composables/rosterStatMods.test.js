@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -552,6 +552,64 @@ describe('datasheetEntriesFor — wargear', () => {
 
 // `live` is what the card sorts by: in force now, or waiting on something. It is not `applied` —
 // a modifier can be in force and still change no number it can compute.
+// Core Rules 22.01: "while a model with an aura ability is on the battlefield, it is always within
+// range of its own aura ability" — so the bearer needs no switch, and neither does the unit its
+// model is standing in. Everyone else is a distance on the table, which only the player knows.
+describe('an aura ability', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const aura = {
+    sid: 'fiery-heart', kind: 'ability', name: 'Triumph of Saint Katherine: The Fiery Heart (Aura)',
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', scopes: [{ targets: ['ADEPTA SORORITAS'], excludes: [] }] },
+    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, target: 'aura', when: null }],
+  }
+
+  it('reaches the bearer with no switch at all', () => {
+    const out = datasheetEntriesFor([aura], { unitId: 'triumph-of-saint-katherine' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+    expect(out[0].scopes).toEqual(aura.ref.scopes)
+  })
+
+  it('reaches the unit the bearer is attached to, and the Character standing in it', () => {
+    expect(datasheetEntriesFor([aura], { unitId: 'battle-sisters-squad', leaderUnitIds: ['triumph-of-saint-katherine'] })[0])
+      .toMatchObject({ from: 'led' })
+    expect(datasheetEntriesFor([aura], { unitId: 'canoness', ledUnitId: 'triumph-of-saint-katherine' })[0])
+      .toMatchObject({ from: 'leader' })
+  })
+
+  it('reaches anyone else only once the player marks it', () => {
+    const ctx = { unitId: 'battle-sisters-squad' }
+    expect(datasheetEntriesFor([aura], ctx)).toEqual([])
+    expect(datasheetEntriesFor([aura], { ...ctx, auraOn: new Set(['fiery-heart']) })[0]).toMatchObject({ from: 'aura' })
+  })
+
+  // The gate an ordinary ability does not need: this one is printed on one card and addresses
+  // another, so "a friendly ADEPTA SORORITAS unit" has to be checked against the unit it lands on.
+  it('is gated by the keywords its own prose named', () => {
+    const entries = datasheetEntriesFor([aura], { unitId: 'battle-sisters-squad', auraOn: new Set(['fiery-heart']) })
+    expect(applyStatMods(sheet(), entries, ['Adepta Sororitas', 'Infantry'], []).sheet.profiles[0].m).toBe('8"')
+    expect(applyStatMods(sheet(), entries, ['Astra Militarum'], []).sheet.profiles[0].m).toBe('6"')
+  })
+
+  it('offers a chip only for a source in this list that the unit can be reached by', () => {
+    const units = [
+      { uid: 'a', id: 'triumph-of-saint-katherine', name: 'Triumph of Saint Katherine' },
+      { uid: 'b', id: 'battle-sisters-squad', name: 'Battle Sisters Squad' },
+    ]
+    const ctx = { unitId: 'battle-sisters-squad', entryUid: 'b', rosterUnits: units, keywords: ['Adepta Sororitas'] }
+    expect(aurasReaching([aura], ctx)).toEqual([
+      { sid: 'fiery-heart', source: 'Triumph of Saint Katherine', sourceUid: 'a', name: 'The Fiery Heart (Aura)' },
+    ])
+    // …not for a unit the aura's own prose does not address,
+    expect(aurasReaching([aura], { ...ctx, keywords: ['Astra Militarum'] })).toEqual([])
+    // …not on the bearer's own card, and not where the list already answers (22.01),
+    expect(aurasReaching([aura], { ...ctx, unitId: 'triumph-of-saint-katherine', entryUid: 'a' })).toEqual([])
+    expect(aurasReaching([aura], { ...ctx, leaderUnitIds: ['triumph-of-saint-katherine'] })).toEqual([])
+    // …and not for a source that is not in this list at all.
+    expect(aurasReaching([aura], { ...ctx, rosterUnits: [units[1]] })).toEqual([])
+  })
+})
+
 describe('the live flag on a note', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
   const rule = (over) => ({

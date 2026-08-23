@@ -22,6 +22,57 @@ export default {
       "effects": []
     },
     {
+      "sid": "0c6ffd3b-58d1-45db-9f61-c342ddc58ba0:belisarius-cawl",
+      "kind": "ability",
+      "name": "Belisarius Cawl: Mantra of Discipline",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belisarius-cawl",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Canticles of the Omnissiah"
+      },
+      "hash": "2093ec8e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "canticle-mantra-of-discipline"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "canticle-mantra-of-discipline"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "1aca726c-3b92-4965-a0f2-97b3228ed49d:cybernetica-datasmith",
       "kind": "ability",
       "name": "Cybernetica Datasmith: Battle Protocols",
@@ -85,7 +136,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "onager-dunecrawler"
+        "unit": "onager-dunecrawler",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS BATTLELINE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "72821a2b",
       "ver": 925,
@@ -196,7 +255,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "tech-priest-enginseer"
+        "unit": "tech-priest-enginseer",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "bacbdb9e",
       "ver": 925,

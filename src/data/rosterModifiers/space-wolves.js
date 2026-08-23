@@ -141,7 +141,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "venerable-dreadnought"
+        "unit": "venerable-dreadnought",
+        "scopes": [
+          {
+            "targets": [
+              "SPACE WOLVES"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "df5d46d9",
       "ver": 925,

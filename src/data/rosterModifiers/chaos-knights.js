@@ -125,12 +125,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "chaos-cerastus-knight-castigator"
+        "unit": "chaos-cerastus-knight-castigator",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "918261ea",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "8029af3f-904f-40d7-91d1-02a270ec8c6e:chaos-cerastus-knight-lancer",
@@ -139,12 +156,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "chaos-cerastus-knight-lancer"
+        "unit": "chaos-cerastus-knight-lancer",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "598022d2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "02ebb3f0-e94d-440c-ba3f-f3cf219da220:chaos-questoris-knight-magaera",
@@ -153,12 +187,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "chaos-questoris-knight-magaera"
+        "unit": "chaos-questoris-knight-magaera",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "598022d2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d730aed0-8e77-4c83-9b91-91693829eedd:chaos-questoris-knight-styrix",
@@ -181,12 +232,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "chaos-questoris-knight-styrix"
+        "unit": "chaos-questoris-knight-styrix",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "336924dc",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "480dd27b-5872-4821-b4a5-675f69dbdbc8:knight-rampager",
@@ -223,7 +291,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "knight-ruinator"
+        "unit": "knight-ruinator",
+        "scopes": [
+          {
+            "targets": [
+              "WAR DOG"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "c36fbaa4",
       "ver": 925,

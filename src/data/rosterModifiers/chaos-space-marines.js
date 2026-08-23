@@ -8,6 +8,36 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "338a2363-49b5-4862-b395-88a5463b1490:abaddon-the-despoiler",
+      "kind": "ability",
+      "name": "Abaddon the Despoiler: Mark of Chaos Ascendant (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "abaddon-the-despoiler",
+        "set": "Warmaster"
+      },
+      "hash": "d553fbfd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "target": "aura",
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "warmaster-mark-ascendant"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",
       "kind": "ability",
       "name": "Chaos Bikers: Rapid Assault",
@@ -249,12 +279,32 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "huron-blackheart"
+        "unit": "huron-blackheart",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES INFANTRY"
+            ],
+            "excludes": [
+              "Battle-shocked",
+              "DAMNED"
+            ]
+          }
+        ]
       },
       "hash": "da456d08",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "72d19783-f2d6-4900-a5f3-d616d886ec6c:kravek-morne",
@@ -486,12 +536,37 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "vashtorr-the-arkifane"
+        "unit": "vashtorr-the-arkifane",
+        "scopes": [
+          {
+            "targets": [
+              "DAEMON VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "9a98f6d5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "target": "aura",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3e9f3310-0131-40ae-a411-377a4aa6d0c6:venomcrawler",
@@ -528,7 +603,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "warpsmith"
+        "unit": "warpsmith",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "4fb849da",
       "ver": 925,
