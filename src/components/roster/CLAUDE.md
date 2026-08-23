@@ -217,6 +217,12 @@ directory; still part of this feature:
     fell into the 5-model bracket and priced Flash Gitz at half. `gwBody` keeps the lines,
     `matchRoster` checks them against `def.minis` and passes the strays on as gear — where an
     attached extra may still match a wargear option.
+  - **A bundled option is matched by either half.** "Their warscythe replaced with 1 hyperphase
+    sword and 1 dispersion shield" is ONE option; no export names the option, they name what the
+    models carry, so it arrives as two lines. `optionIndex` indexes every item inside an option,
+    not just single-item ones, and a stepper takes the LARGER count from the two halves rather than
+    their sum (ten swaps, not twenty). Before this a Lychguard unit imported still holding its
+    printed warscythes — at the same price, so nothing in the report said so.
   - **An enhancement's kind tag is ignored on both sides.** Our generated data keeps it inside the
     name for some factions (`Dead Shiny Shootas (Upgrade)`), the app leaves it off, listhammer
     prints it — three spellings of one enhancement, compared through `enhKey`.

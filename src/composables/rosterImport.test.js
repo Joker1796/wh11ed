@@ -505,6 +505,37 @@ Defiler (330 Points)
   })
 })
 
+// A swap can hand out TWO items at once ("their warscythe replaced with 1 hyperphase sword and 1
+// dispersion shield"). No export ever names the option — they name what the models carry — so the
+// two halves arrive as two lines, and indexing only single-item options left both unplaceable and
+// the swap untaken: the unit imported still holding the printed warscythes, at the same price.
+describe('matchRoster — a bundled wargear option', () => {
+  it('takes the swap from either half of the bundle, once, for the right number of models', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/necrons.js'),
+      import('../data/roster/items.js'),
+    ])
+    const list = `Mono Ctan (160 points)
+
+Necrons
+Cursed Legion (3 Detachment Points)
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Lychguard (160 points)
+  • 10x Lychguard
+    • 10x Dispersion Shield
+      10x Hyperphase sword`
+    const { payload, report } = matchRoster(parseList(list), { faction, core: rosterCore, items: items.items })
+    const lych = report.units.find((u) => u.name === 'Lychguard')
+    expect(lych.gear.missing).toEqual([])
+    // One pick for ten models — not two picks, and not twenty models restated by the second line.
+    expect(payload.units[0].wg).toEqual([[0, 0, 10]])
+    expect(lych.points.computed).toBe(160)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')
