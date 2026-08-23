@@ -199,7 +199,26 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Two more things a real list turned up, neither of them about listhammer's spelling:
+  Four more things real lists turned up, none of them about listhammer's spelling:
+  - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
+    to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
+    points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
+    every bare line and picks the one `isFactionName` — then `matchFaction` — recognises; nothing
+    answering leaves it empty, which the import screen turns into "choose the faction".
+  - **A body can arrive with its indentation stripped** (pasted out of a rendered page rather than
+    off the clipboard): every line at column 0, bullets and all, and nothing in the TEXT separating
+    a model line from a weapon. `gwBody` then offers every line as a candidate model line — sharing
+    objects with `weapons`, so `matchRoster` moves one across rather than counting it twice — and
+    the datasheet decides which is which. A 20-model Berzerker squad had been importing as a
+    5-model one, with its own profiles reported as unplaceable wargear.
+  - **A swap TAKES SOMETHING AWAY.** Two groups can offer the same weapon (a Forgefiend's ectoplasma
+    cannon comes either from its autocannons or from its jaws), and the only thing telling them
+    apart is what is MISSING from the list: with "2x Hades autocannon" still there, that group was
+    not taken. `untouched(gi)` compares each group's `rep` items against the printed counts, and a
+    group that still has all of them is used only if nothing else fits — otherwise the swap was
+    charged twice.
+
+  Two more:
   - **The first line is the list's NAME, priced or not.** Some exports come out with a bare title
     ("Bootcamp 11th die Zweite"), and that line then stood where the faction was expected — the
     import failed with "unknown faction". A first line that IS one of our faction names is still
@@ -223,6 +242,8 @@ directory; still part of this feature:
     not just single-item ones, and a stepper takes the LARGER count from the two halves rather than
     their sum (ten swaps, not twenty). Before this a Lychguard unit imported still holding its
     printed warscythes — at the same price, so nothing in the report said so.
+  - **A single-profile datasheet has no `minis`** and answers under its own name ("• 2x Chaos
+    Spawn"), which was otherwise reported as wargear nobody could place.
   - **An enhancement's kind tag is ignored on both sides.** Our generated data keeps it inside the
     name for some factions (`Dead Shiny Shootas (Upgrade)`), the app leaves it off, listhammer
     prints it — three spellings of one enhancement, compared through `enhKey`.

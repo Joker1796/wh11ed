@@ -88,7 +88,15 @@ function isCompactList(text) {
 // depth-2 lines above it are model groups; an unbulleted one is the second weapon of a single model.
 function gwBody(entries) {
   const nested = entries.some((e) => e.indent >= 4 && e.bullet)
-  if (!nested) return { models: null, weapons: entries.map(({ n, name }) => ({ n, name, mini: null })) }
+  if (!nested) {
+    // Indentation is the ONLY thing separating a model line from a weapon here, and a paste can
+    // arrive with it stripped (copied out of a rendered page rather than the clipboard export) —
+    // every line then sits at column 0, bullets and all. So every line is offered as a candidate
+    // model line, sharing objects with `weapons` so the matcher — which alone knows the
+    // datasheet's profiles — can move one across instead of counting it twice.
+    const weapons = entries.map(({ n, name }) => ({ n, name, mini: null }))
+    return { models: null, weapons, modelLines: weapons, flatBody: true }
+  }
   const top = Math.min(...entries.map((e) => e.indent))
   let models = 0
   let mini = null
@@ -111,7 +119,7 @@ function parseGw(text) {
   let entries = []
   let group = null       // the `Attached Unit N` this unit belongs to, if any
   let seenHeader = false
-  let plain = ''         // the first bare line after the header — the faction
+  const plains = []      // the bare lines: the title's own continuation lines, and the faction
 
   const flush = () => {
     if (!unit) return
@@ -179,13 +187,15 @@ function parseGw(text) {
     // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
     // faction names is the faction, though, so a paste that starts at that line still works.
     if (!seenHeader && !isFactionName(t)) { out.name = t; seenHeader = true; continue }
-    // The faction is then the first bare line after it ("World Eaters", "Orks") — the FIRST,
-    // because listhammer prints the Force Disposition as a bare line of its own right below it and
-    // taking the last would make "Take and Hold" the army.
-    if (!plain) plain = t
+    plains.push(t)
   }
   flush()
-  out.faction = plain
+  // Which bare line is the faction? Not "the one after the title": a list name runs to several
+  // lines as often as a player is funny, and the Force Disposition is a bare line too. So the
+  // faction is the bare line that ANSWERS as one — by name, then by our looser reading — and
+  // everything else is the title around it. Nothing answering leaves it empty, which the import
+  // screen turns into "choose the faction" rather than into a failure.
+  out.faction = plains.find(isFactionName) || plains.find((t) => matchFaction(t)) || plains[0] || ''
   return out
 }
 
@@ -508,13 +518,19 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // profile is passed on as gear instead, where it may still match a wargear option.
     let models = pu.models
     let weapons = pu.weapons || []
-    const known = new Set((def.minis || []).map((m) => norm(m?.n)))
+    // …and a single-profile datasheet has no `minis` at all, so it answers under its own name
+    // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place.
+    const known = new Set([...(def.minis || []).map((m) => norm(m?.n)), norm(def.name)].filter(Boolean))
     const lines = pu.modelLines || []
     if (lines.length && known.size) {
       const real = lines.filter((l) => known.has(norm(l.name)))
       if (real.length && real.length !== lines.length) {
         models = real.reduce((n, l) => n + l.n, 0) || null
-        weapons = [...weapons, ...lines.filter((l) => !known.has(norm(l.name))).map((l) => ({ n: l.n, name: l.name, mini: null }))]
+        // An indented body listed its model lines apart from the weapons, so the strays join them;
+        // a flat one listed everything together, so the real model lines leave (same objects).
+        weapons = pu.flatBody
+          ? weapons.filter((w) => !real.includes(w))
+          : [...weapons, ...lines.filter((l) => !known.has(norm(l.name))).map((l) => ({ n: l.n, name: l.name, mini: null }))]
       }
     }
 
@@ -531,6 +547,33 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // already comes with is in the text too, and must not be read as a choice.
     const printed = defaultNames(def, items)
     const idx = optionIndex(def, items)
+
+    // A swap TAKES SOMETHING AWAY, and the export lists what the models are actually holding — so a
+    // group whose replaced items are all still there in full was not taken. That is the only thing
+    // telling two groups offering the same weapon apart: a Forgefiend's ectoplasma cannon comes
+    // either from its autocannons or from its jaws, and with "2x Hades autocannon" still listed it
+    // can only have come from the jaws. Picking the wrong group charged the swap twice.
+    const listed = new Map()
+    for (const w of weapons) {
+      const k = norm(w.name)
+      listed.set(k, (listed.get(k) || 0) + (w.n || 1))
+    }
+    const printedCount = new Map()
+    for (const [, list] of def.defaults || []) {
+      for (const [id, n] of list || []) {
+        const k = norm(items?.[id])
+        if (k) printedCount.set(k, (printedCount.get(k) || 0) + (n || 1))
+      }
+    }
+    const untouched = (gi) => {
+      const rep = def.gear?.[gi]?.rep || []
+      if (!rep.length) return false
+      return rep.every((id) => {
+        const k = norm(items?.[id])
+        const was = printedCount.get(k) || 0
+        return was > 0 && (listed.get(k) || 0) >= was
+      })
+    }
     const picks = new Map()
     const key2 = (r) => `${r.gi}:${r.oi}`
     for (const w of weapons) {
@@ -540,7 +583,9 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (!refs?.length) { line.gear.missing.push(w.name); continue }
       const want = miniIndexOf(def, w.mini)
       const own = want != null ? refs.filter((r) => r.m === want) : []
-      const pool = own.length ? own : refs
+      const all = own.length ? own : refs
+      const touched = all.filter((r) => !untouched(r.gi))
+      const pool = touched.length ? touched : all
       // One weapon name can be offered by SEVERAL groups — a Defiler may swap its baleflamer AND
       // its missile launcher for a heavy reaper autocannon, two paid picks in two groups spelled
       // by two identical lines. So a repeat looks for a group that hasn't been used yet before it
