@@ -73,7 +73,7 @@ export default defineConfig({
         // enough not to be truncated on a phone home screen (~12 chars).
         short_name: 'WH Rules',
         description:
-          'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition: core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker.',
+          'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition: core rules, the Event Companion, faction rules and unit datasheets, plus an army list builder and an offline game tracker.',
         lang: 'en',
         dir: 'ltr',
         start_url: '/',
@@ -93,6 +93,12 @@ export default defineConfig({
             name: 'Game Tracker',
             short_name: 'Tracker',
             url: '/tracker',
+            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+          },
+          {
+            name: 'Army Lists',
+            short_name: 'Rosters',
+            url: '/roster',
             icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
           },
           {

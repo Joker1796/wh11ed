@@ -107,9 +107,19 @@ themselves** — the offline split (a tab is deliberately light, the installed a
 their lists actually live, why our points can disagree with a list built elsewhere, and the
 features with no visible entry point (Ctrl+K, roster import/export/share, handing a roster to the
 tracker). Anything a button already says stays on the button. Like `/links` it is **not** in the
-navbar or the drawer: it is reached from the footer and from the empty screens that raise the
-question (the roster list's empty state → `#help-rosters`, the tracker home → `#help-tracker`).
-`HelpView.test.js` guards the EN↔RU marker parity the same way the rule data is guarded.
+navbar or the drawer, **and deliberately not in the footer either** — nobody looks for "how does
+this work" at the bottom of the page. It is reached from the screens that raise the question: the
+landing (under its description), the roster list's hero (→ `#help-rosters`) and the tracker home
+(→ `#help-tracker`). `HelpView.test.js` guards the EN↔RU marker parity the same way the rule data
+is guarded.
+
+**First-visit card** (`WelcomeModal.vue` + `useWelcome.js`, key `wh11ed-welcome-seen`): three facts
+a reader cannot get from the screen — what is here, that the *installed* app goes fully offline, and
+that their lists live on the device — plus a link to `/help`. **Landing page only**: most visitors
+arrive from a search engine straight into a rule and are mid-question, and a card across that is an
+interruption, not a welcome. Shown once; dismissing (or following the link) is permanent, and the
+decision is taken on mount rather than in a route watcher, so navigating to `/` later in a session
+never raises it.
 
 **Navigation model:** Two levels.
 

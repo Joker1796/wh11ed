@@ -31,8 +31,8 @@ const DEFAULT = {
     ru: 'Warhammer 40,000 11-я редакция — правила, фракции и трекер',
   },
   description: {
-    en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus an offline game tracker — searchable, free.',
-    ru: 'Двуязычный (EN/RU) интерактивный справочник по Warhammer 40,000 11-й редакции: основные правила, Event Companion, правила фракций и листы данных юнитов, плюс офлайн-трекер партии — с поиском, бесплатно.',
+    en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker — searchable, free.',
+    ru: 'Двуязычный (EN/RU) интерактивный справочник по Warhammer 40,000 11-й редакции: основные правила, Event Companion, правила фракций и листы данных юнитов, плюс бесплатный конструктор армейских листов и офлайн-трекер партии — с поиском, бесплатно.',
   },
 }
 
@@ -42,11 +42,11 @@ const DEFAULT = {
 const LANDING = {
   title: {
     en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
-    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила и фракции на русском',
+    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила, фракции и ростеры на русском',
   },
   description: {
-    en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free offline game tracker. Searchable, installable, free.',
-    ru: 'Справочник по Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила фракций и листы данных юнитов, трекер очков. С поиском, офлайн, бесплатно.',
+    en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free army list builder and an offline game tracker. Searchable, installable, free.',
+    ru: 'Справочник по Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила фракций и листы данных юнитов, конструктор армейских листов (ростер-билдер) и трекер очков. С поиском, офлайн, бесплатно.',
   },
 }
 

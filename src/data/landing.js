@@ -4,7 +4,7 @@ export const landing = {
   en: {
     tagline: 'Unofficial 11th Edition reference',
     description:
-      'A bilingual (EN/RU), searchable reference for Warhammer 40,000 11th Edition — the Core Rules, the Event Companion and a game tracker. Installable as an app and works fully offline, free.',
+      'A bilingual (EN/RU), searchable reference for Warhammer 40,000 11th Edition — the Core Rules, the Event Companion, faction datasheets, an army list builder and a game tracker. Installable as an app and works fully offline, free.',
     sections: [
       {
         key: 'rules',
@@ -19,6 +19,13 @@ export const landing = {
         path: '/factions',
         badge: '28 factions',
         desc: 'Army rules, detachments and searchable unit datasheets for all 28 factions — with base sizes and bilingual EN/RU text.',
+      },
+      {
+        key: 'roster',
+        label: 'Rosters',
+        path: '/roster',
+        badge: 'Army list builder',
+        desc: 'Build a list against the current Munitorum Field Manual — units, wargear, leaders and enhancements, priced and checked as you go. Import one from the Warhammer 40,000 app or New Recruit, share it as a link, then take it into the tracker.',
       },
       {
         key: 'tracker',
@@ -58,7 +65,7 @@ export const landing = {
   ru: {
     tagline: 'Неофициальный справочник Вархаммер 40 000, 11-я редакция',
     description:
-      'Двуязычный (EN/RU) справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском — основные правила, миссии и стратагемы, Event Companion и трекер игры. Устанавливается как приложение и работает полностью офлайн, бесплатно.',
+      'Двуязычный (EN/RU) справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском — основные правила, миссии и стратагемы, Event Companion, листы данных фракций, конструктор армейских листов и трекер игры. Устанавливается как приложение и работает полностью офлайн, бесплатно.',
     sections: [
       {
         key: 'rules',
@@ -73,6 +80,13 @@ export const landing = {
         path: '/factions',
         badge: '28 фракций',
         desc: 'Правила армии, детачменты и листы данных юнитов с поиском — для всех 28 фракций, с размерами баз и двуязычным EN/RU текстом.',
+      },
+      {
+        key: 'roster',
+        label: 'Ростеры',
+        path: '/roster',
+        badge: 'Конструктор листов',
+        desc: 'Соберите армейский лист по актуальному Munitorum Field Manual — юниты, вооружение, лидеры и улучшения, с подсчётом очков и проверкой ограничений на ходу. Импортируйте из приложения Warhammer 40,000 или New Recruit, поделитесь ссылкой и передайте в трекер.',
       },
       {
         key: 'tracker',
