@@ -301,6 +301,17 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
   keyed on `$route.path`. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
   `useRefNavigation.js`) polls the DOM for ~1.5s so the short mount delay doesn't break it.
+- **Programmatic scrolling never animates** (`instantly()` in `useRefNavigation.js`). `html` carries
+  `scroll-behavior: smooth` for the reader's own anchor clicks, and `behavior: 'instant'` is NOT
+  enough to opt out of it: Safari only understood that value from **17.4**, so before this each of
+  `scrollToAnchor`'s two scrolls became an animation and the second interrupted the first — the
+  "search sometimes lands in the wrong place" an iPhone reader sees. The CSS is switched off around
+  the scroll and restored after; don't go back to trusting the option. `scrollToAnchor` also waits
+  for the **visual viewport** to hold still for two frames before aligning (capped at 500ms): on
+  iOS the search palette has the on-screen keyboard up, and dismissing it resizes the viewport for
+  ~300ms while Safari scrolls the page itself. `SearchModal` blurs its input before closing to start
+  that dismissal a beat earlier, and a `touchstart`/`wheel` from the reader cancels the 400ms
+  follow-up correction — once they are scrolling, the page is theirs.
 
 ## Deployment
 
