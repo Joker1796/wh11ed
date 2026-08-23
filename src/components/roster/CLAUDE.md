@@ -112,8 +112,31 @@ directory; still part of this feature:
   generated files it was built against, and an id that no longer resolves is filtered out by every
   other reader (the grouped lists, the export, the points), so the unit used to vanish and the army
   to get quietly cheaper.
-- `rosterExport.js` — plain-text army list export, official-app style, EN names throughout
-  (unit/detachment/wargear names stay English by project convention)
+- `rosterExport.js` — plain-text army list export in **three** shapes (`EXPORT_FORMATS`), EN names
+  throughout (unit/detachment/wargear names stay English by project convention):
+  - **`gw`** (default) — the Warhammer 40,000 app's own **11th-edition** export, which is what a TO
+    asks for and what every list reader (BCP, New Recruit, 40kCompactor) parses first. It is not the
+    10th's: several detachments at once with the battle size's **Detachment Points budget**, a
+    **Force Dispositions** line (both read off the generated `dp`/`fd` fields on a detachment), and
+    attached units as `Attached Unit N` blocks with `• Attached as: Leader (Character)` /
+    `Bodyguard (Battleline)` — the character no longer carries a "leading" note. Sections are the
+    app's three (`CHARACTERS`, `DEDICATED TRANSPORTS`, `OTHER DATASHEETS`); battleline has no
+    heading of its own.
+  - **`wtc`** — the tournament header format (New Recruit calls it WTC): a `+ KEY: value` block
+    between `+++` bars, characters numbered `Char1…` so `+ WARLORD:` and `+ ENHANCEMENT:` can point
+    at one, then a line per unit with its wargear inline.
+  - **`compact`** — one line per unit for a chat message; identical entries collapse to `2x` with
+    their points **summed**, so the copy surcharge stays visible.
+
+  **Weapons come out as totals per model profile**, swaps already spent — `loadoutGroups()` reuses
+  the same `modelsPerMini`/`swapsByMini` accounting the editor shows on screen, so the export prints
+  the whole fielded loadout rather than only what the player changed. A datasheet with no recorded
+  `defaults` falls back to the picks alone, which is the honest answer: we hold the roster bundle,
+  not the datasheet.
+
+  **The footer says `Exported with wh-rules.ru`, never the app's own `Exported with App Version:`.**
+  Copying a layout is fine; signing somebody else's name to it is not — and a reader is entitled to
+  know which tool and which points data (`APP_DATA_VERSION`) wrote the list.
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without
