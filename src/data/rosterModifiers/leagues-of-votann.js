@@ -225,12 +225,29 @@ export default {
       "det": "Brandfast Oathband",
       "ref": {
         "kind": "detachmentRule",
-        "det": "brandfast-oathband"
+        "det": "brandfast-oathband",
+        "scopes": [
+          {
+            "targets": [
+              "LEAGUES OF VOTANN INFANTRY"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "4a2fd680",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3ff21f42-0b1b-40f3-bf0c-19e3aae93804",

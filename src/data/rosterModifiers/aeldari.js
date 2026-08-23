@@ -1383,7 +1383,15 @@ export default {
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
-        "det": "spirit-conclave"
+        "det": "spirit-conclave",
+        "scopes": [
+          {
+            "targets": [
+              "WRAITHLORD"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {

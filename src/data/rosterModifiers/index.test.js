@@ -146,9 +146,20 @@ describe('rosterModifiers data', () => {
           // AROUND its bearer addresses other cards, so it needs the keyword gate and the chip an
           // aura carries, while every other enhancement effect addresses its own bearer and would
           // be applied to nobody if it claimed a target.
-          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement'] : ['ability', 'wargear']
+          // …and a DETACHMENT RULE on the same day, also for `aura` alone: three of them hand out an
+          // aura ability by keyword ("friendly IMPERIAL KNIGHTS models have…") rather than by
+          // datasheet, so there is no entry to hang it on and the chip names the detachment instead.
+          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule'] : ['ability', 'wargear']
           expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
           if (e.kind === 'wargear' && eff.target !== 'aura') expect(eff.target, `${where}: wargear target`).toBe('led')
+          // A detachment rule addresses the WHOLE ARMY, so its aura is the one that may not fail
+          // open: without a gate read off the reach clause the buff would land on every unit in the
+          // list. The generator writes `ref.scopes` when it can read exactly one such clause
+          // (detachmentAuraScopes) and nothing when it cannot — and then this effect may not exist.
+          if (eff.target === 'aura' && e.kind === 'detachmentRule') {
+            expect(e.ref?.scopes?.length, `${where}: a detachment aura needs a keyword gate`).toBeGreaterThan(0)
+            expect(eff.scope, `${where}: a detachment aura is gated by ref.scopes, not by a scope index`).toBeUndefined()
+          }
           expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
         }
         // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.
@@ -232,6 +243,19 @@ describe('rosterModifiers data', () => {
     expect(rec?.effects).toEqual(expect.arrayContaining([
       expect.objectContaining({ stat: 'm', op: 'add', value: 2, cond: ['unit-manoeuvre-swift-as-the-wind'] }),
     ]))
+  })
+
+  // The two detachment auras, pinned by their GATE: ruleScopes silently drops a "X, Y or Z"
+  // disjunction (Aeldari's Shepherds of the Dead keeps only WRAITHLORD of three keywords), so a
+  // gate is only as good as the reading behind it and a generator change must not move these.
+  it.each([
+    ['./leagues-of-votann.js', 'Mobile Sensor Relays', 'LEAGUES OF VOTANN INFANTRY'],
+    ['./thousand-sons.js', 'Ensorcelled Animus', 'SEKHETAR ROBOTS'],
+  ])('gates %s\'s aura on the unit it reaches', async (file, name, target) => {
+    const data = await files[file]
+    const rec = data.entries.find((e) => e.name === name)
+    expect(rec.ref.scopes).toEqual([{ targets: [target], excludes: [] }])
+    expect(rec.effects.some((eff) => eff.target === 'aura')).toBe(true)
   })
 
   it('exposes only reviewed records that actually carry an effect', () => {

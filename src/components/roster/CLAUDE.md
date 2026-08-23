@@ -785,6 +785,10 @@ Two things make auras different from every other ability record:
 - **Which chips are offered is `aurasReaching()`**: the source must be a DIFFERENT entry of this
   same roster, the unit must pass that keyword gate, and the automatic cases above are excluded —
   otherwise every unit's row grows a chip for every aura in the game.
+- **A DETACHMENT RULE's aura is the exception to "a different entry"**: its carrier is named by
+  keyword, not by datasheet, so the chip is headed by the detachment and offered once to every unit
+  the rule reaches. Its gate is read off the reach clause alone and may not fail open — see the
+  section on it further down.
 
 The effects themselves carry **no `when`**: being in range IS the condition, and the resolution
 above has already answered it by the time `applyStatMods` sees the entry (a `cond` on top still
@@ -1231,13 +1235,42 @@ radiating entry through `ref.unit` — the datasheet the rule is printed on. An 
 - `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
   `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
 
-**Still out of reach: a DETACHMENT RULE that grants an aura ability.** Three of them
-("Friendly IMPERIAL KNIGHTS models have the following ability: Assisted Targeting (Aura): while a
-friendly ADEPTUS MECHANICUS unit is within 6"…" — Cogbound Alliance, Mobile Sensor Relays, Idols of
-Khorne, of which the last modifies rolls and is out of scope anyway). They need TWO keyword gates,
-one for who carries the aura and one for who it reaches, and the record shape has exactly one
-(`effect.scope`, an index into the rule's own scopes). Two records is not worth a second scope
-field and a chip with no source entry to name.
+**A DETACHMENT RULE can grant an aura too** (2026-08-23) — "Friendly IMPERIAL KNIGHTS models have
+the following ability: Assisted Targeting (Aura): while a friendly ADEPTUS MECHANICUS unit is within
+6"…". I had this filed as needing TWO keyword gates and therefore a second scope field. It does not:
+the problem was never the record shape but what the reader was given. `ruleScopes` over the whole
+body MERGES the carrier and the receiver into one gate (Cogbound Alliance →
+`[IMPERIAL KNIGHTS, ADEPTUS MECHANICUS]`), which is what would have handed the buff to the carrier.
+Read the REACH CLAUSE alone and the same function returns exactly the receiving gate. So:
+
+- the generator's `detachmentAuraScopes` matches `While a/an … within N" of …` inside a body that
+  carries an `(Aura)` label, and stores `ruleScopes` of that clause as `ref.scopes`. It is
+  **fail-closed**, unlike every other reader here: a detachment rule addresses the whole army, so an
+  unreadable gate would splash over the entire list rather than over one card. Two different reach
+  clauses (Custodes' Revered Companions buffs each way) cannot be said by one record either, and
+  return nothing. `index.test.js` refuses `target: 'aura'` on a detachment rule without a gate;
+- the CARRIER is not modelled at all. Nothing in the list vouches for it and the player is judging
+  the 6" anyway, so `aurasReaching` offers one chip headed by the DETACHMENT
+  ("Brandfast Oathband · Mobile Sensor Relays", its name and text taken from the detachment's own
+  localised rule rather than from `ruleInfo`'s datasheet lookup) to every unit the reach clause
+  names — and only while that detachment is fielded (`detIds`, fail-closed for the same reason);
+- `resolveModifierEntries` therefore keeps the aura effects OUT of the automatic path (the rest of
+  the rule stays gated by its body's own scopes, as before), and `datasheetEntriesFor` delivers them
+  when the chip is marked;
+- `effectApplies` grew a `strict` flag for exactly this case: the "the extraction matched no
+  datasheet, so distrust it" escape is right for a rule printed on one card and wrong for one
+  addressing the army. Questor Forgepact's aura names ADEPTUS MECHANICUS — allies this list cannot
+  field — and failing open there would buff every Knight. Reaching nobody is the honest answer, and
+  Cogbound Alliance stays an empty record because of it.
+
+Two records carry it: `Mobile Sensor Relays` (SUSTAINED HITS 1 for LEAGUES OF VOTANN INFANTRY near a
+TRANSPORT) and `Ensorcelled Animus` (+1 WS in melee for SEKHETAR ROBOTS near a PSYKER — previously a
+`never` sentinel). Four rules gain `ref.scopes`; the two that do not carry effects are Cogbound
+Alliance and Aeldari's `Shepherds of the Dead`, and the latter is the warning attached to all of
+this: **`ruleScopes` silently drops a disjunction** — "a WRAITHBLADES, WRAITHGUARD or WRAITHLORD
+unit" reads as WRAITHLORD alone, and "JAKHALS or GOREMONGERS" (Idols of Khorne) reads as nothing.
+A gate is only as good as the reading behind it, which is why both live gates are pinned by name in
+`index.test.js` rather than trusted to the next generator run.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for
