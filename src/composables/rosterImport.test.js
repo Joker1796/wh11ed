@@ -221,6 +221,223 @@ describe('matchRoster — an attachment stated as a line', () => {
   })
 })
 
+// listhammer.info, detailed ("with wargear") mode. Same grammar as the app's export, written a
+// little differently everywhere — which is the point of this fixture: capitalised "Points", a
+// thousands separator, `◦` under the model lines, "Attached unit 1" in lower case, a bare Force
+// Disposition line, plural "Enhancements:", and an enhancement whose kind is part of its name.
+const LH_FULL = `Dakka  (2.000 Points)
+
+Orks
+Freebooter Krew and More Dakka! (3 Detachment Points)
+Take and Hold
+Strike Force (2.000 Points)
+
+ATTACHED UNITS
+
+Attached unit 1
+
+Ghazghkull Thraka (235 Points)
+  • Attached as: Leader (Character)
+  • 1x Ghazghkull Thraka
+     • Warlord
+     ◦ 1x Gork’s Klaw
+     ◦ 1x Mork’s Roar
+  • 1x Makari
+     ◦ 1x Makari’s stabba
+
+Painboy (90 Points)
+  • Attached as: Support (Character)
+  • 1x Power klaw
+  • 1x ’Urty syringe
+
+Boyz (160 Points)
+  • Attached as: Bodyguard (Battleline)
+  • 19x Boy
+     ◦ 19x Choppa
+     ◦ 19x Slugga
+  • 1x Boss Nob
+     ◦ 1x Power klaw
+     ◦ 1x Slugga
+
+OTHER DATASHEETS
+
+Flash Gitz (150 Points)
+  • 1x Ammo Runt
+  • 1x Kaptin
+     ◦ 1x Choppa
+     ◦ 1x Snazzgun
+  • 9x Flash Git
+     ◦ 9x Choppa
+     ◦ 9x Snazzgun
+
+Lootas (115 Points)
+  • Enhancements: Dead Shiny Shootas (Upgrade)
+  • 2x Spanner
+     ◦ 2x Close combat weapon
+     ◦ 2x Kustom mega-blasta
+  • 8x Loota
+     ◦ 8x Close combat weapon
+     ◦ 8x Deffgun
+
+Exported with App Version: v2.4.0 (1), Data Version: v925
+
+Exported from listhammer.info: https://listhammer.info/list/5d540378ffc45bcff8`
+
+// The same list in the site's short mode. One line per unit, attached units joined with " + ",
+// counts in MODELS, no wargear — and no faction, detachment or battle size anywhere.
+const LH_COMPACT = `Dakka  (2.000 Points)
+
+2x Ghazghkull Thraka + Painboy + 20x Boyz
+
+Big Mek with Shokk Attack Gun + 6x Tankbustas
+  Enhancement: Git-Spotter Squig
+
+Wazdakka Gutsmek
+
+10x Flash Gitz
+
+10x Lootas
+  Enhancement: Dead Shiny Shootas
+
+Exported with App Version: v2.4.0 (1), Data Version: v925
+
+Exported from listhammer.info: https://listhammer.info/list/5d540378ffc45bcff8`
+
+describe('parseList — listhammer.info, detailed mode', () => {
+  const p = parseList(LH_FULL)
+
+  it('is the app’s grammar, so it is read by the same parser', () => {
+    expect(detectFormat(LH_FULL)).toBe('gw')
+  })
+
+  it('reads a header written its way: capital Points, a thousands separator, two spaces', () => {
+    expect(p.name).toBe('Dakka')
+    expect(p.stated).toBe(2000)
+    expect(p.limit).toBe(2000)
+  })
+
+  // The faction is the FIRST bare line, not the last: the Force Disposition is printed bare too,
+  // two lines further down, and taking the last would make the army "Take and Hold".
+  it('takes the faction and not the Force Disposition under it', () => {
+    expect(p.faction).toBe('Orks')
+    expect(p.detachments).toEqual(['Freebooter Krew', 'More Dakka!'])
+  })
+
+  it('reads ◦ as a bullet, so the model lines still count as models', () => {
+    const ghaz = p.units.find((u) => u.name === 'Ghazghkull Thraka')
+    expect(ghaz.models).toBe(2)                       // Ghazghkull and Makari
+    expect(ghaz.warlord).toBe(true)
+    expect(ghaz.weapons).toContainEqual({ n: 1, name: 'Makari’s stabba', mini: 'Makari' })
+
+    const boyz = p.units.find((u) => u.name === 'Boyz')
+    expect(boyz.models).toBe(20)
+    expect(boyz.weapons).toContainEqual({ n: 1, name: 'Power klaw', mini: 'Boss Nob' })
+  })
+
+  it('keeps the whole attached block together, Support slot and all', () => {
+    const [ghaz, pain, boyz] = ['Ghazghkull Thraka', 'Painboy', 'Boyz'].map((n) => p.units.find((u) => u.name === n))
+    expect(ghaz.group).toBe(boyz.group)
+    expect(pain.group).toBe(boyz.group)
+    expect(pain.attachedAs).toBe('Support (Character)')
+  })
+
+  it('reads the plural "Enhancements:" label', () => {
+    expect(p.units.find((u) => u.name === 'Lootas').enh).toBe('Dead Shiny Shootas')
+  })
+})
+
+describe('parseList — listhammer.info, short mode', () => {
+  const p = parseList(LH_COMPACT)
+
+  it('is recognised by what it lacks: no bullets, and only the header prices anything', () => {
+    expect(detectFormat(LH_COMPACT)).toBe('listhammer-compact')
+    expect(p.name).toBe('Dakka')
+    expect(p.stated).toBe(2000)
+    expect(p.units).toHaveLength(8)   // three of them are the members of two attached blocks
+  })
+
+  // Nothing in the text says which army this is — which is why the import screen has to ask.
+  it('carries no faction, detachment or battle size at all', () => {
+    expect(p.faction).toBe('')
+    expect(p.detachments).toEqual([])
+    expect(p.limit).toBe(0)
+  })
+
+  it('splits an attached unit on " + ", leaders first and the unit they joined last', () => {
+    const [ghaz, pain, boyz] = ['Ghazghkull Thraka', 'Painboy', 'Boyz'].map((n) => p.units.find((u) => u.name === n))
+    expect(ghaz.attachedAs).toBe('Leader')
+    expect(pain.attachedAs).toBe('Support')
+    expect(boyz.attachedAs).toBe('Bodyguard')
+    expect(ghaz.group).toBe(boyz.group)
+    expect(p.units.find((u) => u.name === 'Wazdakka Gutsmek').group).toBe(null)
+  })
+
+  it('reads the count as MODELS, the way the site writes it', () => {
+    expect(p.units.find((u) => u.name === 'Ghazghkull Thraka').models).toBe(2)  // …plus Makari
+    expect(p.units.find((u) => u.name === 'Boyz').models).toBe(20)              // 19 Boyz + the Nob
+    expect(p.units.find((u) => u.name === 'Painboy').models).toBe(null)
+  })
+
+  // The enhancement is printed under the GROUP, so it has to be given to a member of it.
+  it('gives the enhancement to the character of the group it is printed under', () => {
+    expect(p.units.find((u) => u.name === 'Big Mek with Shokk Attack Gun').enh).toBe('Git-Spotter Squig')
+    expect(p.units.find((u) => u.name === 'Tankbustas').enh).toBe(null)
+    expect(p.units.find((u) => u.name === 'Lootas').enh).toBe('Dead Shiny Shootas')
+  })
+})
+
+// Both listhammer modes, end to end against the real generated Orks bundle. The two exports are
+// the same army, so they must come out priced the same — and equal to what the site itself stated.
+describe('matchRoster — listhammer against our own data', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/orks.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+
+  it('prices every unit of the detailed export exactly as the site did', () => {
+    const { report } = matchRoster(parseList(LH_FULL), ctx)
+    expect(report.missing).toEqual([])
+    for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    expect(report.points.computed).toBe(report.points.statedUnits)
+  })
+
+  // "• 1x Ammo Runt" is printed exactly like a model line, but the datasheet has no such profile:
+  // counting it as one made a ten-model unit eleven, which fell into the 5-model bracket and
+  // priced Flash Gitz at half.
+  it('does not count a unit’s attached extra as a model', () => {
+    const { report } = matchRoster(parseList(LH_FULL), ctx)
+    const gitz = report.units.find((u) => u.name === 'Flash Gitz')
+    expect(gitz.models).toBe(10)
+    expect(gitz.points.computed).toBe(150)
+  })
+
+  // Our data keeps the kind inside the enhancement's name ("Dead Shiny Shootas (Upgrade)"); the
+  // app leaves it off and listhammer prints it. All three have to land on the same enhancement.
+  it('matches an enhancement through the kind tag, whichever side carries it', () => {
+    const { report, payload } = matchRoster(parseList(LH_FULL), ctx)
+    expect(report.units.find((u) => u.name === 'Lootas').enh).toEqual({ name: 'Dead Shiny Shootas', ok: true })
+    expect(payload.units.find((u) => u.id === 'lootas').enh).toBe('Dead Shiny Shootas (Upgrade)')
+  })
+
+  it('reads the short export into the same army, given the faction the text does not name', () => {
+    const parsed = parseList(LH_COMPACT)
+    parsed.detachments = ['Freebooter Krew', 'More Dakka!']   // the screen’s faction/detachment step
+    const { payload, report } = matchRoster(parsed, ctx)
+    expect(report.missing).toEqual([])
+    expect(payload.units.map((u) => u.id)).toContain('flash-gitz')
+    expect(report.units.find((u) => u.name === 'Flash Gitz').points.computed).toBe(150)
+    expect(report.units.find((u) => u.name === 'Lootas').points.computed).toBe(115)   // 100 + the enhancement
+    // Both characters of the block joined the same unit — the second one in the Support slot.
+    const boyz = payload.units.find((u) => u.id === 'boyz')
+    expect(payload.units.find((u) => u.id === 'ghazghkull-thraka').leaderOf).toBe(boyz.uid)
+    expect(payload.units.find((u) => u.id === 'painboy').leaderOf).toBe(boyz.uid)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')
