@@ -110,13 +110,35 @@
               </button>
               <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
                    the list — those are facts about the battle, not about a unit — and these are the
-                   ones a player flips every turn, which is not worth opening a card for. -->
-              <ConditionChips
-                v-if="unitChipsOf(e).length"
-                class="rvunit-conds"
-                :switches="unitChipsOf(e)"
-                @toggle="toggleUnitChip(e, $event)"
-              />
+                   ones a player flips every turn, which is not worth opening a card for.
+
+                   ONE chip stays out: Battle-shock, the one every unit of every army can be in and
+                   the one that gets marked every Command phase. Everything else — states only some
+                   rules read, auras radiating from other models in the list — folds behind the
+                   chevron beside it, because a Sororitas list gave every row three stacked chips
+                   and the numbers they belong to got lost between them. The chevron appears only
+                   when there is something behind it. -->
+              <div v-if="pinnedChipOf(e)" class="rvunit-conds">
+                <ConditionChips :switches="[pinnedChipOf(e)]" @toggle="toggleUnitChip(e, $event)" />
+                <button
+                  v-if="restChipsOf(e).length"
+                  type="button"
+                  class="rvunit-more"
+                  :aria-expanded="openChips.has(e.uid)"
+                  :aria-label="labels.rosterMoreStates"
+                  @click="toggleChips(e.uid)"
+                >
+                  <span class="rvunit-more-n">{{ restChipsOf(e).length }}</span>
+                  <i class="bi" :class="openChips.has(e.uid) ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                </button>
+              </div>
+              <CollapseTransition v-if="restChipsOf(e).length" :show="openChips.has(e.uid)">
+                <ConditionChips
+                  class="rvunit-conds rvunit-rest"
+                  :switches="restChipsOf(e)"
+                  @toggle="toggleUnitChip(e, $event)"
+                />
+              </CollapseTransition>
             </div>
           </template>
         </template>
@@ -351,6 +373,29 @@ watch(() => roster.value?.faction, async (slug) => {
   fullSheets.value = m
 }, { immediate: true })
 
+// The RU names of datasheet abilities, per unit — for the aura chips, which name an ability
+// printed on ANOTHER unit's card. That card shows the translated name (the RU overlay), so a chip
+// naming it in English would leave the reader matching two spellings of the same rule. Loaded only
+// in the RU locale, and only the names: this is the same overlay RosterUnitRulesModal fetches when
+// a card is opened, so nothing new rides in the EN bundle.
+const ruAbilityNames = ref(new Map())
+watch([() => roster.value?.faction, fullSheets, locale], async ([slug, sheets, loc]) => {
+  if (!slug || loc !== 'ru' || !sheets.size) { ruAbilityNames.value = new Map(); return }
+  const [{ loadDatasheetsRu, localizeSheet }] = await Promise.all([import('../../data/datasheets/ru/index.js')])
+  const ru = await loadDatasheetsRu(slug)
+  if (roster.value?.faction !== slug) return
+  const m = new Map()
+  for (const [id, en] of sheets) {
+    const loc2 = localizeSheet(en, ru?.default?.[id], ru?.abilityNamesRu)
+    const names = new Map()
+    const take = (list) => { for (const a of list || []) if (a.nameEn) names.set(a.nameEn, a.name) }
+    take(loc2.abilities)
+    for (const set of loc2.abilitySets || []) take(set.options)
+    if (names.size) m.set(id, names)
+  }
+  ruAbilityNames.value = m
+}, { immediate: true })
+
 // ── Unit rules modal ──
 const viewingUid = ref(null)
 const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
@@ -541,11 +586,30 @@ const auraSwitchCache = computed(() => {
       keywords: [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])],
       factionKeywordSets: factionKeywordSets.value,
     })
-    m.set(e.uid, auraSwitchesFor(reaching, gamePlayer.value, gameClock.value, e))
+    const named = reaching.map((a) => ({ ...a, nameRu: ruAbilityNames.value.get(a.unit)?.get(a.name) || null }))
+    m.set(e.uid, auraSwitchesFor(named, gamePlayer.value, gameClock.value, e))
   }
   return m
 })
 function unitChipsOf(entry) { return [...unitSwitchesOf(entry), ...(auraSwitchCache.value.get(entry.uid) || [])] }
+// The one chip that stays on the row: Battle-shock rides on every unit in the game and is marked
+// every Command phase. If a list somehow has no Battle-shock record, the first chip takes its place
+// rather than the row losing its strip altogether.
+const PINNED_CHIP = 'unit-battle-shocked'
+function pinnedChipOf(entry) {
+  const chips = unitChipsOf(entry)
+  return chips.find((c) => c.id === PINNED_CHIP) || chips[0] || null
+}
+function restChipsOf(entry) {
+  const pinned = pinnedChipOf(entry)
+  return unitChipsOf(entry).filter((c) => c !== pinned)
+}
+const openChips = ref(new Set())
+function toggleChips(uid) {
+  const next = new Set(openChips.value)
+  next.has(uid) ? next.delete(uid) : next.add(uid)
+  openChips.value = next
+}
 function toggleUnitChip(entry, sw) {
   if (sw.aura) {
     tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
@@ -901,9 +965,25 @@ function stratKey(strat) {
 /* Indented to the name above and separated by a hairline: the switches belong to the row but are
    not part of what the row SAYS about the unit. */
 .rvunit-conds {
+  display: flex; align-items: flex-start; gap: 0.4rem;
   padding: 0.45rem 0.75rem 0.55rem;
   border-top: 1px dashed var(--border);
 }
+.rvunit-conds > .cond-chips { flex: 1; min-width: 0; }
+/* The handle for everything that did not fit on the row: quiet, and it says how much is behind it
+   so the row stays honest about what it is hiding. */
+.rvunit-more {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  flex-shrink: 0; padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: none; color: var(--text-muted); cursor: pointer;
+  font-size: 0.7rem; line-height: 1;
+  transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.rvunit-more:hover { border-color: var(--accent); color: var(--accent); }
+.rvunit-more-n { font-family: var(--font-mono); font-weight: 700; }
+/* The folded-out strip continues the one above it, so it carries no rule of its own. */
+.rvunit-rest { border-top: 0; padding-top: 0; }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed

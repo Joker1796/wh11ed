@@ -730,8 +730,8 @@ on. Three answers, and only one of them is a question for the player:
 - **The unit the bearer is attached to (and, from the other side, a Character standing in an aura's
   unit) — also free**: the model is inside that unit, at 0". Read from the attachment the roster
   already records.
-- **Anybody else — a chip on that unit's row**, next to Battle-shock, because it is a distance on
-  the table and only the player can see it. State lives in `player.ctx.auras[uid][sid]` — keyed by
+- **Anybody else — a chip on that unit's row**, behind the chevron next to Battle-shock, because it
+  is a distance on the table and only the player can see it. State lives in `player.ctx.auras[uid][sid]` — keyed by
   the RECORD, like a spent stratagem, since an aura is a relationship with another model rather
   than a state of this one — and lasts a **battle round** (`activeAuras`): what starts and stops an
   aura is movement, and asking again every phase would be a tap per unit per phase.
@@ -752,6 +752,19 @@ Two things make auras different from every other ability record:
 The effects themselves carry **no `when`**: being in range IS the condition, and the resolution
 above has already answered it by the time `applyStatMods` sees the entry (a `cond` on top still
 means what it always did — Excessive Vigour's "if that unit made a Charge move this turn").
+
+**The unit row's chip strip** holds ONE chip and a chevron: Battle-shock stays out (every unit in
+the game can be in it, and it is marked every Command phase), everything else — states only some of
+this unit's rules read, auras radiating from other models in the list — folds into a collapsed strip
+under it, with the count on the handle. The chevron is rendered only when there is something behind
+it. A Sororitas list with a Triumph put three stacked chips on every row and buried the numbers they
+belong to; that is what this exists to prevent.
+
+**An aura chip names its ability in the reader's language.** The unit half stays English by project
+convention, but the ability is translated on its own card (the RU overlay), and a chip spelling it
+in English would leave the reader matching two spellings of one rule. `RosterViewView` builds a
+`nameEn → name` map per unit from `localizeSheet` (abilities and ability-set options alike) and only
+in the RU locale — the same overlay the card fetches, so nothing new rides in the EN bundle.
 
 **Core rules** (`coreRules.js`, hand-written, outside the faction glob) are the smallest: Battle-shock
 turning a unit's OC into `-`. It is the one core rule that rewrites a printed characteristic, it

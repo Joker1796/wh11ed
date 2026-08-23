@@ -446,6 +446,7 @@ export function aurasReaching(records, {
         sid: rec.sid,
         source: u.name || u.id,       // the entry the aura radiates from, as the list names it
         sourceUid: u.uid,
+        unit: rec.ref.unit,           // …and its datasheet, for the caller's RU name lookup
         name: at === -1 ? rec.name : rec.name.slice(at + 2),
       })
     }

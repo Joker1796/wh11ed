@@ -290,6 +290,11 @@ describe('auras', () => {
     const [chip] = auraSwitchesFor(reaching, marked(stampOf(clock)), clock, entry)
     expect(chip).toMatchObject({ id: 'fiery-heart', on: true, auto: false, aura: true })
     expect(chip.label.en).toBe('Triumph of Saint Katherine · The Fiery Heart (Aura)')
+    // The RU card names the ability in Russian, so the chip does too — the unit's name stays
+    // English by project convention, the ability's does not.
+    const [ru] = auraSwitchesFor([{ ...reaching[0], nameRu: 'Огненное сердце (Аура)' }], player({}), clock, entry)
+    expect(ru.label.ru).toBe('Triumph of Saint Katherine · Огненное сердце (Аура)')
+    expect(chip.label.ru).toBe(chip.label.en)   // …and falls back to English when there is none
   })
 })
 

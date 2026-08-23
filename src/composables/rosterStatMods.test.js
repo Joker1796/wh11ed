@@ -598,7 +598,7 @@ describe('an aura ability', () => {
     ]
     const ctx = { unitId: 'battle-sisters-squad', entryUid: 'b', rosterUnits: units, keywords: ['Adepta Sororitas'] }
     expect(aurasReaching([aura], ctx)).toEqual([
-      { sid: 'fiery-heart', source: 'Triumph of Saint Katherine', sourceUid: 'a', name: 'The Fiery Heart (Aura)' },
+      { sid: 'fiery-heart', source: 'Triumph of Saint Katherine', sourceUid: 'a', unit: 'triumph-of-saint-katherine', name: 'The Fiery Heart (Aura)' },
     ])
     // …not for a unit the aura's own prose does not address,
     expect(aurasReaching([aura], { ...ctx, keywords: ['Astra Militarum'] })).toEqual([])
