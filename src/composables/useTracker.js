@@ -515,6 +515,23 @@ export function useTracker() {
     if (!Object.keys(pl.ctx.strats[uid]).length) delete pl.ctx.strats[uid]
   }
 
+  // An AURA the player says is reaching this unit — keyed by the roster entry's uid and then by
+  // the modifier record's sid, exactly like a spent stratagem and for the same reason: it is not a
+  // state of the unit but a relationship with another model, identified by the record it comes
+  // from. Stored with the clock stamp it was marked at, and read back through the record's own
+  // window (rosterGameContext's activeAuras — a battle round, since what changes it is movement).
+  // The bearer's own unit and the unit it is attached to are never in here: Core Rules 22.01 makes
+  // those certain, and the app answers them from the list.
+  function setUnitAura(pi, uid, sid, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.auras) pl.ctx.auras = {}
+    if (!pl.ctx.auras[uid]) pl.ctx.auras[uid] = {}
+    if (on) pl.ctx.auras[uid][sid] = at
+    else delete pl.ctx.auras[uid][sid]
+    if (!Object.keys(pl.ctx.auras[uid]).length) delete pl.ctx.auras[uid]
+  }
+
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
@@ -895,7 +912,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
-    setArmyCondition, setUnitCondition, setUnitStratagem,
+    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

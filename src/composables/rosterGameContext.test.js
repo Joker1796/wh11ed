@@ -268,6 +268,31 @@ describe('mutually exclusive switches', () => {
   })
 })
 
+describe('auras', () => {
+  const entry = { uid: 'u1', id: 'battle-sisters-squad' }
+  const marked = (at) => player({ auras: { u1: { 'fiery-heart': at } } })
+
+  // A battle round: what starts or stops an aura is movement, and asking again every phase would
+  // be a tap per unit per phase for a fact that rarely changes inside one round.
+  it('holds a mark for the round it was made in', async () => {
+    const { activeAuras } = await import('./rosterGameContext.js')
+    const clock = { round: 2, turn: 0, phase: 'movement', mine: true, tracked: true }
+    const at = stampOf(clock)
+    expect(activeAuras(marked(at), { ...clock, phase: 'fight', turn: 1 }, entry).has('fiery-heart')).toBe(true)
+    expect(activeAuras(marked(at), { ...clock, round: 3 }, entry).has('fiery-heart')).toBe(false)
+    expect(activeAuras(player({}), clock, entry).size).toBe(0)
+  })
+
+  it('renders each one as a chip naming where it comes from', async () => {
+    const { auraSwitchesFor } = await import('./rosterGameContext.js')
+    const clock = { round: 1, turn: 0, phase: 'movement', mine: true, tracked: true }
+    const reaching = [{ sid: 'fiery-heart', source: 'Triumph of Saint Katherine', sourceUid: 'a', name: 'The Fiery Heart (Aura)' }]
+    const [chip] = auraSwitchesFor(reaching, marked(stampOf(clock)), clock, entry)
+    expect(chip).toMatchObject({ id: 'fiery-heart', on: true, auto: false, aura: true })
+    expect(chip.label.en).toBe('Triumph of Saint Katherine · The Fiery Heart (Aura)')
+  })
+})
+
 describe('rosterConditions', () => {
   it('answers what the list itself knows, and nothing else', async () => {
     const { rosterConditions } = await import('./rosterGameContext.js')

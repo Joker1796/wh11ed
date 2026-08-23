@@ -354,6 +354,43 @@ describe('RosterViewView', () => {
       expect(t.current.value.players[0].ctx.strats.u1).toBeUndefined()
     })
 
+    // The aura chain end to end, on real data: the Triumph picks a relic (an army-wide choice, the
+    // chips above the list), the player says the Sisters are within 6" (a chip on their row, right
+    // where Battle-shock is marked), and their Move plate moves. Core Rules 22.01 gives the
+    // Triumph its own aura for free — that half needs no chip at all.
+    it('marks an aura on a unit and rewrites its numbers', async () => {
+      const sisters = {
+        id: 'r7', name: 'Sisters', faction: 'adepta-sororitas', detachments: [],
+        battleSize: 'strike-force',
+        units: [{ uid: 'u1', id: 'triumph-of-saint-katherine', size: 0 }, { uid: 'u2', id: 'battle-sisters-squad', size: 0 }],
+      }
+      const t = await startGame(sisters, 'adepta-sororitas')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Battle Sisters Squad')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+      await new Promise((r) => setTimeout(r, 25))
+      await flushPromises()
+
+      const rowOf = (name) => w.findAll('.rvunit').find((r) => r.text().includes(name))
+      const chip = rowOf('Battle Sisters Squad').findAll('.cond-chip').find((c) => c.text().includes('The Fiery Heart'))
+      expect(chip.text()).toContain('Triumph of Saint Katherine')   // the chip says where it comes from
+      expect(chip.classes()).not.toContain('on')
+
+      // The relic has to be the one selected this round — the aura is only half the question.
+      t.setArmyCondition(0, 'relic-fiery-heart', t.current.value.currentRound, true)
+      await chip.trigger('click')
+      await flushPromises()
+      expect(t.current.value.players[0].ctx.auras.u2).toBeDefined()
+
+      const move = rowOf('Battle Sisters Squad').findAll('.rvst').find((c) => c.text().startsWith('M'))
+      expect(move.text()).toContain('8"')                      // 6" printed + 2"
+      expect(move.classes()).toContain('rvst-mod')
+      // …and the Triumph's own Move moved with no chip of its own (22.01).
+      expect(rowOf('Triumph of Saint Katherine').findAll('.rvst').find((c) => c.text().startsWith('M')).classes())
+        .toContain('rvst-mod')
+    })
+
     // In a game the same place carries the switches instead: what is true is answerable, so a list
     // of what MIGHT be true is one more thing to scroll past mid-turn.
     it('drops the possible-modifier block once a game is on', async () => {

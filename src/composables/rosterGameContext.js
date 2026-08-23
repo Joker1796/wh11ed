@@ -211,6 +211,35 @@ export function activeStratagems(player, clock, entry, records) {
   return out
 }
 
+// The auras the player says are reaching this unit right now, as a set of record ids. The window is
+// a BATTLE ROUND: what makes an aura start or stop applying is movement, and re-confirming every
+// phase would be a tap per unit per phase for a fact that rarely changes inside one round. Erring
+// early, as everywhere else here — a mark that has gone stale would quietly rewrite a number.
+export function activeAuras(player, clock, entry) {
+  const out = new Set()
+  const store = entry?.uid ? player?.ctx?.auras?.[entry.uid] : null
+  if (!store) return out
+  for (const [sid, at] of Object.entries(store)) {
+    if (stampHolds(at, 'round', clock)) out.add(sid)
+  }
+  return out
+}
+
+// The chips: one per aura that could reach this unit (rosterStatMods' aurasReaching decides which),
+// each saying where it radiates from, and whether the player has marked it. Same shape as the
+// condition and stratagem switches, so they render in the same strip on the unit's row.
+export function auraSwitchesFor(reaching, player, clock, entry) {
+  const on = activeAuras(player, clock, entry)
+  return (reaching || []).map((a) => ({
+    id: a.sid,
+    // Names of units, abilities and detachments all stay English by project convention.
+    label: { en: `${a.source} · ${a.name}`, ru: `${a.source} · ${a.name}` },
+    on: on.has(a.sid),
+    auto: false,
+    aura: true,
+  }))
+}
+
 // Is a condition that forbids spending stratagems on this unit on right now? (Battle-shock is the
 // only one, but which condition it is belongs in the vocabulary, not in this file.)
 export function stratagemsBlocked(player, clock, entry) {

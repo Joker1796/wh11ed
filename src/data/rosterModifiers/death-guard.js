@@ -120,12 +120,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "great-unclean-one"
+        "unit": "great-unclean-one",
+        "scopes": [
+          {
+            "targets": [
+              "PLAGUE LEGIONS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "77ae4497",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3af8d792-b80a-41cd-9e40-8de6b3d0eb24:great-unclean-one",
@@ -275,6 +292,29 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "b4450eec-288c-4778-bb01-a366e62b4ff1:mortarion",
+      "kind": "ability",
+      "name": "Mortarion: Inflamed Reprisal",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mortarion",
+        "scopes": [
+          {
+            "targets": [
+              "DEATH GUARD"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Lord of the Death Guard"
+      },
+      "hash": "16b5bcee",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "152037ac-ce56-4024-a4d6-59b3d3db6d22:myphitic-blight-hauler",

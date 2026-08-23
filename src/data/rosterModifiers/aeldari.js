@@ -77,7 +77,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "avatar-of-khaine"
+        "unit": "avatar-of-khaine",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "935b9071",
       "ver": 925,
@@ -558,7 +566,17 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "spiritseer"
+        "unit": "spiritseer",
+        "scopes": [
+          {
+            "targets": [
+              "WRAITH CONSTRUCT"
+            ],
+            "excludes": [
+              "TITANIC"
+            ]
+          }
+        ]
       },
       "hash": "4947bb7a",
       "ver": 925,
@@ -719,7 +737,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "warlock-conclave"
+        "unit": "warlock-conclave",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI PSYKER"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "2acfba08",
       "ver": 925,
@@ -766,7 +792,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "warlock-skyrunners"
+        "unit": "warlock-skyrunners",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI PSYKER"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "2acfba08",
       "ver": 925,
@@ -835,7 +869,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "warlock"
+        "unit": "warlock",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI PSYKER"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "de03884e",
       "ver": 925,

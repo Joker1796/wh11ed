@@ -562,6 +562,16 @@ describe('condition switches', () => {
     expect(tracker.current.value.players[0].ctx.strats).toEqual({})
   })
 
+  // An aura is a relationship with another model, not a state of this one — so it is keyed by the
+  // record it radiates from, in its own map, exactly like a spent stratagem.
+  it('records an aura marked on a unit, and forgets it when unmarked', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, true)
+    expect(tracker.current.value.players[0].ctx.auras.u1).toEqual({ 'fiery-heart': 205 })
+    tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, false)
+    expect(tracker.current.value.players[0].ctx.auras).toEqual({})
+  })
+
   it('keeps the two players\' contexts apart', () => {
     tracker.newGame(setupGame())
     tracker.setArmyCondition(0, 'tactic-furor', 101, true)

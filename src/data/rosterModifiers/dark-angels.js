@@ -1024,7 +1024,15 @@ export default {
       "ref": {
         "kind": "wargear",
         "unit": "ezekiel",
-        "item": "book of salvation"
+        "item": "book of salvation",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "923d989b",
       "ver": 925,

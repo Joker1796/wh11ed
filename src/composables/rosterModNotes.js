@@ -15,11 +15,14 @@ export function modSourceLabel(n, l) {
     // reads the same whether the reader meets it as a footnote or as a block.
     if (n.from === 'led') return `${l.rosterLeaderTag} · ${n.owner}`
     if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
+    // An aura reached this card from another model on the table, so the owner is the whole answer
+    // to "why is this number different" — without it the reader has no idea which chip to untick.
+    if (n.from === 'aura') return n.owner ? `${l.srcAura} · ${n.owner}` : l.srcAura
     return l.srcAbility
   }
   if (n.kind === 'core') return l.srcCore
   if (n.kind === 'stratagem') return n.det ? `${l.srcStratagem} · ${n.det}` : l.srcStratagem
-  if (n.kind === 'wargear') return l.srcWargear
+  if (n.kind === 'wargear') return n.from === 'aura' ? `${l.srcAura} · ${n.owner || l.srcWargear}` : l.srcWargear
   if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
   if (n.kind === 'enhancement') return l.rosterEnhancement
   if (n.kind === 'allegiance') return l.srcAllegiance

@@ -46,6 +46,14 @@
           </h4>
           <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
         </div>
+        <!-- Auras of other units in the list that reach this one. The chips are also on this
+             unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
+             aura the rules answer for (22.01: the bearer's own unit, the unit it is attached to)
+             never appears here, because there is nothing to ask. -->
+        <div v-if="gameCtx?.auras?.length" class="rum-strats">
+          <h4 class="rum-strats-h">{{ labels.dsAuras }}</h4>
+          <ConditionChips :switches="gameCtx.auras" @toggle="$emit('toggle-aura', $event)" />
+        </div>
         <!-- No strip of switches here any more. A state is flipped where the thing it changes is
              read: on the ability that names it (DatasheetCard's `abilitySwitches`) or inside the
              rule that does (the "In effect" block below) — and, for the states a player sets every
@@ -155,7 +163,7 @@ const props = defineProps({
   // this player may flip from here. Null everywhere else, which is the read-only behaviour.
   gameCtx: { type: Object, default: null },
 })
-defineEmits(['close', 'toggle-cond', 'toggle-strat'])
+defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura'])
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
@@ -388,8 +396,15 @@ const abilityModifiers = computed(() => {
     itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+    // Auras the player marked on this unit, from the same store the list's chips write to — the
+    // ones 22.01 makes certain (the bearer's own unit, the unit it is attached to) are not in it.
+    auraOn: activeAuraIds.value,
   })
 })
+
+// The auras the player says are reaching this unit, as a set of record ids — the chips live on the
+// unit's row in the list, next to Battle-shock, and this is the same state read from the card.
+const activeAuraIds = computed(() => new Set((props.gameCtx?.auras || []).filter((a) => a.on).map((a) => a.id)))
 
 // The stratagems the player says are up on this unit, as a set of record ids. Shared by the stat
 // pass and the keyword pass so the two cannot disagree about whether one is in force.

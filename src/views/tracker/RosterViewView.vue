@@ -112,10 +112,10 @@
                    the list — those are facts about the battle, not about a unit — and these are the
                    ones a player flips every turn, which is not worth opening a card for. -->
               <ConditionChips
-                v-if="unitSwitchesOf(e).length"
+                v-if="unitChipsOf(e).length"
                 class="rvunit-conds"
-                :switches="unitSwitchesOf(e)"
-                @toggle="toggleUnitCondFor(e, $event)"
+                :switches="unitChipsOf(e)"
+                @toggle="toggleUnitChip(e, $event)"
               />
             </div>
           </template>
@@ -220,6 +220,7 @@
         units: roster.units,
       }"
       :game-ctx="viewingGameCtx"
+      @toggle-aura="toggleViewingAura"
       @toggle-cond="toggleUnitCond"
       @toggle-strat="toggleUnitStrat"
       @close="viewingUid = null"
@@ -244,11 +245,11 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
-import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
+import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -443,6 +444,9 @@ function attachmentCtxOf(entry) {
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
     itemNames: loadoutItemNames(defOf(entry.id), entry, rosterItems.items),
+    // The auras the player has marked as reaching this unit. The bearer's own unit and the unit it
+    // is attached to are not in here — 22.01 answers those from the list itself.
+    auraOn: activeAuras(gamePlayer.value, gameClock.value, entry),
     // What the attached Leaders are carrying — a Kustom Force Field covers the unit its Big Mek
     // joined, not the Big Mek.
     leaderItemNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
@@ -519,6 +523,36 @@ const unitSwitchCache = computed(() => {
   return m
 })
 function unitSwitchesOf(entry) { return unitSwitchCache.value.get(entry.uid) || [] }
+
+// The auras of OTHER units in this list that could reach this one, as chips in the same strip as
+// its states — an aura is one more thing the player knows and the app cannot, and it is checked
+// the same moment Battle-shock is. Which ones are even offered is rosterStatMods' aurasReaching
+// (source in this list, keyword gate passed, not already certain from 22.01).
+const auraSwitchCache = computed(() => {
+  const m = new Map()
+  if (!canSwitch.value) return m
+  const units = (roster.value?.units || []).map((u) => ({ uid: u.uid, id: u.id, name: defOf(u.id)?.name || u.id }))
+  for (const e of roster.value?.units || []) {
+    const sheet = fullSheets.value.get(e.id)
+    const reaching = aurasReaching(modifierRecords.value, {
+      ...attachmentCtxOf(e),
+      entryUid: e.uid,
+      rosterUnits: units,
+      keywords: [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])],
+      factionKeywordSets: factionKeywordSets.value,
+    })
+    m.set(e.uid, auraSwitchesFor(reaching, gamePlayer.value, gameClock.value, e))
+  }
+  return m
+})
+function unitChipsOf(entry) { return [...unitSwitchesOf(entry), ...(auraSwitchCache.value.get(entry.uid) || [])] }
+function toggleUnitChip(entry, sw) {
+  if (sw.aura) {
+    tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
+    return
+  }
+  toggleUnitCondFor(entry, sw)
+}
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
 // ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
 // not be affected by one is the contradiction the player would have to notice and undo by hand.
@@ -552,6 +586,8 @@ const viewingGameCtx = computed(() => {
     // would change a number on this card. Only in a live game: a record's clock is what expires
     // them, and a finished game's clock stopped where the battle did.
     strats: canSwitch.value ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value) : [],
+    // …and the auras of other entries that reach it, the same chips its row carries.
+    auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     switches: canSwitch.value
       ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
@@ -564,6 +600,11 @@ const viewingGameCtx = computed(() => {
 function toggleUnitStrat(st) {
   if (!viewingEntry.value) return
   tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on)
+}
+
+function toggleViewingAura(sw) {
+  if (!viewingEntry.value) return
+  tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
 }
 
 function toggleUnitCond(sw) {

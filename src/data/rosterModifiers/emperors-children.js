@@ -28,12 +28,35 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "daemon-prince-of-slaanesh"
+        "unit": "daemon-prince-of-slaanesh",
+        "scopes": [
+          {
+            "targets": [
+              "SLAANESH"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "bc5ddaee",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": {
+            "en": "while that unit made a Charge move this turn",
+            "ru": "пока отряд совершил Charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "a4c58c7b-269b-4a5b-a1ec-476f7314b90e:defiler",
@@ -56,12 +79,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "keeper-of-secrets"
+        "unit": "keeper-of-secrets",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONS OF EXCESS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "959350b2",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ebc372fc-2320-4b92-b420-4ca74193af7f:lord-exultant",

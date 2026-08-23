@@ -8,6 +8,79 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "2278dde1-efbb-4d0d-8775-453560af1bb5:chaplain-grimaldus",
+      "kind": "ability",
+      "name": "Chaplain Grimaldus: Banner of the Emperor Victorious",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-grimaldus",
+        "set": "Temple Relics"
+      },
+      "hash": "e876a611",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "7c3124c4-00ad-4946-afd8-7eae9e429024:chaplain-grimaldus",
+      "kind": "ability",
+      "name": "Chaplain Grimaldus: Column from the Major Altar",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-grimaldus",
+        "set": "Temple Relics"
+      },
+      "hash": "fe4d4952",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "temple-column"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "64754e98-cdb5-4582-99da-e4c2f10c5a74:chaplain-grimaldus",
+      "kind": "ability",
+      "name": "Chaplain Grimaldus: Water from the Stoup of Elucidation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaplain-grimaldus",
+        "set": "Temple Relics"
+      },
+      "hash": "a10216fa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this ability is the one selected",
+            "ru": "пока выбрана эта способность"
+          },
+          "cond": [
+            "temple-water"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "b4f947ab-4065-4fb1-9ded-cf85a83d3c31:crusade-ancient",
       "kind": "ability",
       "name": "Crusade Ancient: Martial Honour",

@@ -404,7 +404,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "tech-priest-enginseer"
+        "unit": "tech-priest-enginseer",
+        "scopes": [
+          {
+            "targets": [
+              "ASTRA MILITARUM VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "35bf3335",
       "ver": 925,
@@ -418,7 +426,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "tech-priest-enginseer"
+        "unit": "tech-priest-enginseer",
+        "scopes": [
+          {
+            "targets": [
+              "ASTRA MILITARUM VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "20517a1b",
       "ver": 925,

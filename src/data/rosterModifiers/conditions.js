@@ -54,6 +54,10 @@ export const SENTINELS = {
 export const GROUP_LIMITS = {
   // Creations of Bile — "either select one from the list below, or randomly determine two".
   augmentation: 2,
+  // Two of the six relics each battle round, and two Author of the Codex abilities each Command
+  // phase — the only ability sets that pick more than one.
+  'relics-of-the-matriarchs': 2,
+  'author-of-the-codex': 2,
 }
 
 export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
@@ -119,6 +123,25 @@ export const conditions = {
   'protocol-protector': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Protector Protocol', ru: 'Protector Protocol' } },
   'protocol-conqueror': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Conqueror Protocol', ru: 'Conqueror Protocol' } },
   'protocol-aegis': { scope: 'unit', duration: 'battle', group: 'kastelan-protocol', label: { en: 'Aegis Protocol', ru: 'Aegis Protocol' } },
+  // ABILITY SETS — "at the start of the battle round, select up to two of the abilities in the
+  // Relics of the Matriarchs section; until the start of the next battle round this model has
+  // those abilities." 16 sets across the game, every one of them on a named character, so the
+  // choice is a fact about the ARMY rather than about one of several identical units: it is
+  // switched above the list, like Creations of Bile's augmentations, and expires with the round
+  // the rule names. The group is the set; its size comes from the set's own wording (most pick
+  // one, two pick two — GROUP_LIMITS). Only the options that actually change a number are here:
+  // an id nothing reads would be a chip that changes nothing.
+  'relic-fiery-heart': { scope: 'army', duration: 'round', group: 'relics-of-the-matriarchs', label: { en: 'The Fiery Heart', ru: 'The Fiery Heart' } },
+  'relic-petals-bloody-rose': { scope: 'army', duration: 'round', group: 'relics-of-the-matriarchs', label: { en: 'Petals of the Bloody Rose', ru: 'Petals of the Bloody Rose' } },
+  'canticle-mantra-of-discipline': { scope: 'army', duration: 'round', group: 'canticles-of-the-omnissiah', label: { en: 'Mantra of Discipline', ru: 'Mantra of Discipline' } },
+  'temple-column': { scope: 'army', duration: 'round', group: 'temple-relics', label: { en: 'Column from the Major Altar', ru: 'Column from the Major Altar' } },
+  'temple-water': { scope: 'army', duration: 'round', group: 'temple-relics', label: { en: 'Water from the Stoup of Elucidation', ru: 'Water from the Stoup of Elucidation' } },
+  'warmaster-mark-ascendant': { scope: 'army', duration: 'round', group: 'warmaster', label: { en: 'Mark of Chaos Ascendant', ru: 'Mark of Chaos Ascendant' } },
+  'triarch-phaeron-of-the-blades': { scope: 'army', duration: 'round', group: 'triarch-abilities', label: { en: 'Phaeron of the Blades', ru: 'Phaeron of the Blades' } },
+  'triarch-relentless-march': { scope: 'army', duration: 'round', group: 'triarch-abilities', label: { en: 'Relentless March', ru: 'Relentless March' } },
+  'codex-primarch-of-the-xiii': { scope: 'army', duration: 'round', group: 'author-of-the-codex', label: { en: 'Primarch of the XIII', ru: 'Primarch of the XIII' } },
+  'unearthly-time-flux': { scope: 'army', duration: 'round', group: 'unearthly-power', label: { en: 'Time Flux', ru: 'Time Flux' } },
+  'throttlerokkit-pulse-jet': { scope: 'army', duration: 'round', group: 'throttlerokkit', label: { en: 'Pulse Jet', ru: 'Pulse Jet' } },
   'unit-engaged': { scope: 'unit', duration: 'phase', label: { en: 'Engaged', ru: 'В ближнем бою' } },
   // `blocksStratagems` is the one condition flag the app ACTS on rather than merely reads: while it
   // is on, no Stratagem may be used to affect the unit (Core Rules 01.07), so the card blocks the

@@ -14,7 +14,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "bloodthirster"
+        "unit": "bloodthirster",
+        "scopes": [
+          {
+            "targets": [
+              "BLOOD LEGIONS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "d122b2c2",
       "ver": 925,
@@ -59,7 +67,20 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "eightbound"
+        "unit": "eightbound",
+        "scopes": [
+          {
+            "targets": [
+              "WORLD EATERS"
+            ],
+            "excludes": [
+              "MONSTERS",
+              "MONSTER",
+              "VEHICLES",
+              "VEHICLE"
+            ]
+          }
+        ]
       },
       "hash": "fb1c6326",
       "ver": 925,
@@ -180,12 +201,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "skarbrand"
+        "unit": "skarbrand",
+        "scopes": [
+          {
+            "targets": [
+              "BLOOD LEGIONS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "f5ad8bed",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "848b2010-250d-4c2b-b325-8aee82639312:slaughterbound",

@@ -107,12 +107,37 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "hive-tyrant"
+        "unit": "hive-tyrant",
+        "scopes": [
+          {
+            "targets": [
+              "TYRANIDS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "c3c5f43f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "target": "aura",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "effbe0ed-d0b2-45d4-9beb-f22ccb9541d1:hyperadapted-raveners",
@@ -171,7 +196,15 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "neurolictor"
+        "unit": "neurolictor",
+        "scopes": [
+          {
+            "targets": [
+              "TYRANIDS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "84cc5836",
       "ver": 925,
@@ -227,12 +260,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "tervigon"
+        "unit": "tervigon",
+        "scopes": [
+          {
+            "targets": [
+              "TERMAGANTS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "94e34790",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4a6ac461-9519-49b5-82f0-d9730df70ec7:tyranid-prime-with-lash-whip",
@@ -360,12 +410,29 @@ export default {
       "det": null,
       "ref": {
         "kind": "ability",
-        "unit": "zoanthropes"
+        "unit": "zoanthropes",
+        "scopes": [
+          {
+            "targets": [
+              "TYRANIDS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "1dd47c6d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "6+",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3f3be044-118e-4050-9d01-a25cefc64f4c",

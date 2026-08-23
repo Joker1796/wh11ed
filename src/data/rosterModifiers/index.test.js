@@ -123,10 +123,15 @@ describe('rosterModifiers data', () => {
         // and everything else rewrites the card its rule was already shown on, so a stray `target`
         // there would apply to nobody and still look reviewed. `leader` is an ability's alone: a
         // wargear rule pointing back at the Character has no way to say which item it came from.
+        // `aura` is the fourth: it addresses whole units at a range, so it reaches the bearer's own
+        // unit (Core Rules 22.01), the unit the bearer is attached to, and any other entry the
+        // player marks. Its keyword gate travels on the record (`ref.scopes`, read off the prose by
+        // the generator) — but not every aura has one: prose the extractor cannot read leaves it
+        // absent, and the effect applies ungated, the same fail-open direction ruleTargets takes.
         if (eff.target !== undefined) {
-          expect(['self', 'led', 'leader'], `${where}: target`).toContain(eff.target)
+          expect(['self', 'led', 'leader', 'aura'], `${where}: target`).toContain(eff.target)
           expect(['ability', 'wargear'], `${where}: target on a rule record`).toContain(e.kind)
-          if (e.kind === 'wargear') expect(eff.target, `${where}: wargear target`).toBe('led')
+          if (e.kind === 'wargear' && eff.target !== 'aura') expect(eff.target, `${where}: wargear target`).toBe('led')
           expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
         }
         // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.
