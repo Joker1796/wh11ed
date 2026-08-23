@@ -44,13 +44,13 @@
                  reason that hits one chip only ("already used this phase") rides on that chip. -->
             <span v-if="stratsBlockedNote" class="rum-strats-note">{{ stratsBlockedNote }}</span>
           </h4>
-          <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
+          <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
         </div>
         <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
              Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
         <div v-if="gameCtx?.picks?.length" class="rum-strats">
           <h4 class="rum-strats-h">{{ gameCtx.picks[0].from?.set || labels.dsAbilities }}</h4>
-          <ConditionChips :switches="gameCtx.picks" @toggle="$emit('toggle-pick', $event)" />
+          <ConditionChips :switches="gameCtx.picks" @toggle="$emit('toggle-pick', $event)" @info="openChipInfo" />
         </div>
         <!-- Auras of other units in the list that reach this one. The chips are also on this
              unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
@@ -58,7 +58,7 @@
              never appears here, because there is nothing to ask. -->
         <div v-if="gameCtx?.auras?.length" class="rum-strats">
           <h4 class="rum-strats-h">{{ labels.dsAuras }}</h4>
-          <ConditionChips :switches="gameCtx.auras" @toggle="$emit('toggle-aura', $event)" />
+          <ConditionChips :switches="gameCtx.auras" @toggle="$emit('toggle-aura', $event)" @info="openChipInfo" />
         </div>
         <!-- No strip of switches here any more. A state is flipped where the thing it changes is
              read: on the ability that names it (DatasheetCard's `abilitySwitches`) or inside the
@@ -361,6 +361,12 @@ function modSource(n) {
 const statNotes = computed(() => statMods.value.notes.map((n) => (
   modSource(n) ? { ...n, hasSource: true } : n
 )))
+
+// A chip that names somebody's printed rule carries its text (the caller resolved it) — the "i"
+// opens it in the same popover a core ability or a modifier note uses.
+function openChipInfo(sw, rect) {
+  if (sw.info) openRule(sw.info.name, sw.info.text, rect)
+}
 
 function openModSource(n, rect) {
   const src = modSource(n)

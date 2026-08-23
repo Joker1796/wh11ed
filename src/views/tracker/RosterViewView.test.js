@@ -454,6 +454,15 @@ describe('RosterViewView', () => {
         expect(chips).toContain('Огненное сердце (Аура)')  // the RU overlay's own name for it
         expect(chips).toContain('Кадило Священной Розы (Аура)')   // …and one that changes nothing
         expect(group.findAll('.cond-info').length).toBe(6)
+
+        // …and the "i" opens the rule itself, in the popover a core ability uses.
+        const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+        const { visible, activeKeyword, close } = useKeywordPopover()
+        expect(visible.value).toBe(false)
+        await group.find('.cond-info').trigger('click')
+        expect(visible.value).toBe(true)
+        expect(activeKeyword.value.fullText).toContain('6"')   // the aura's own prose
+        close()
       } finally {
         locale.value = prev
       }

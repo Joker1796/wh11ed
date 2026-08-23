@@ -426,6 +426,35 @@ describe('RosterUnitRulesModal', () => {
     expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-stationary')
   })
 
+  // A chip on the card names a rule printed somewhere the reader is not looking (an ability set's
+  // option, an aura from another model), so its "i" has to open that rule.
+  it('opens a chip\'s own rule from the card', async () => {
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'intercessor-squad',
+        factionSlug: 'space-marines',
+        gameCtx: {
+          active: new Set(),
+          picks: [{
+            id: 'fiery', label: { en: 'The Fiery Heart (Aura)', ru: 'Огненное сердце (Аура)' },
+            on: false, auto: false, pick: true, group: 'set:Relics of the Matriarchs', groupLimit: 2,
+            from: { owner: 'Triumph of Saint Katherine', set: 'Relics of the Matriarchs' },
+            info: { name: 'The Fiery Heart (Aura)', text: 'While a friendly unit is within 6"…' },
+          }],
+        },
+      },
+    })
+    await waitFor('Intercessor Squad')
+    const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+    const { visible, activeKeyword, close } = useKeywordPopover()
+    close()
+    await body().find('.cond-info').trigger('click')
+    expect(visible.value).toBe(true)
+    expect(activeKeyword.value.name).toBe('The Fiery Heart (Aura)')
+    close()
+    w.unmount()
+  })
+
   it('has no switch strip of its own any more', async () => {
     mount(RosterUnitRulesModal, {
       props: {
