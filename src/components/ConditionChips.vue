@@ -6,23 +6,36 @@
          pick-exactly-one groups whose chips already read as radio buttons — renders flat, through
          a `display: contents` wrapper that adds no box of its own. -->
     <div v-for="g in groups" :key="g.key" class="cond-group" :class="{ capped: g.limit > 1 }">
+      <!-- A set of options printed on one unit's card is switched here, far from that card, so the
+           group says whose rule it is before it says how full it is. -->
+      <span v-if="g.owner" class="cond-group-h cond-group-owner">{{ g.owner }}</span>
       <span v-if="g.limit > 1" class="cond-group-h">
         {{ labels.rosterCondPicked.replace('{n}', g.picked).replace('{max}', g.limit) }}
       </span>
-      <button
-        v-for="sw in g.items"
-        :key="sw.id"
-        type="button"
-        class="cond-chip"
-        :class="{ on: sw.on, auto: sw.auto || sw.blocked }"
-        :aria-pressed="sw.on"
-        :disabled="sw.auto || sw.blocked"
-        :title="blockedHint(sw)"
-        @click="$emit('toggle', sw)"
-      >
-        <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
-        {{ sw.label[locale] || sw.label.en }}
-      </button>
+      <!-- A chip and, for one that names somebody's printed rule, the "i" beside it: "The Fiery
+           Heart" is a name, not a rule, and the card explaining it is three screens away. A button
+           cannot hold a button, so the pair shares a wrapper. -->
+      <span v-for="sw in g.items" :key="sw.id" class="cond-item">
+        <button
+          type="button"
+          class="cond-chip"
+          :class="{ on: sw.on, auto: sw.auto || sw.blocked }"
+          :aria-pressed="sw.on"
+          :disabled="sw.auto || sw.blocked"
+          :title="blockedHint(sw)"
+          @click="$emit('toggle', sw)"
+        >
+          <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+          {{ sw.label[locale] || sw.label.en }}
+        </button>
+        <button
+          v-if="sw.info"
+          type="button"
+          class="cond-info"
+          :aria-label="sw.label[locale] || sw.label.en"
+          @click="$emit('info', sw, $event.currentTarget.getBoundingClientRect())"
+        ><i class="bi bi-info-circle"></i></button>
+      </span>
     </div>
   </div>
 </template>
@@ -42,7 +55,7 @@ import { useLocale } from '../composables/useLocale.js'
 const props = defineProps({
   switches: { type: Array, default: () => [] },
 })
-defineEmits(['toggle'])
+defineEmits(['toggle', 'info'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -69,10 +82,11 @@ const groups = computed(() => {
     const key = sw.group || ''
     let g = byKey.get(key)
     if (!g) {
-      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [] }
+      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [], owner: sw.groupOwner || null }
       byKey.set(key, g)
       out.push(g)
     }
+    if (!g.owner && sw.groupOwner) g.owner = sw.groupOwner
     g.items.push(sw)
     if (sw.on) g.picked++
   }
@@ -89,6 +103,15 @@ const groups = computed(() => {
   padding: 0.35rem 0.5rem; border: 1px dashed var(--border); border-radius: 10px;
 }
 .cond-group-h { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+/* The unit whose card these options are printed on — the first thing in the box, on its own line. */
+.cond-group-owner { flex-basis: 100%; color: var(--text-primary); font-weight: 700; }
+.cond-item { display: inline-flex; align-items: center; gap: 0.15rem; }
+.cond-info {
+  display: inline-flex; align-items: center;
+  padding: 0.2rem; margin-left: -0.2rem;
+  border: 0; background: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem;
+}
+.cond-info:hover { color: var(--accent); }
 .cond-chip {
   display: inline-flex; align-items: center; gap: 0.35rem;
   padding: 0.3rem 0.65rem; border: 1px solid var(--border); border-radius: 999px;

@@ -394,14 +394,20 @@ describe('RosterViewView', () => {
       await flushPromises()
 
       const rowOf = (name) => w.findAll('.rvunit').find((r) => r.text().includes(name))
-      // An aura is not the row's headline state, so it lives behind the chevron with the rest.
+      const auraChip = () => rowOf('Battle Sisters Squad').findAll('.cond-chip').find((c) => c.text().includes('Fiery Heart'))
+      // Nothing is offered while the relic is not the one selected this round: marking it would
+      // move no number, and the Sisters' row has nothing else to fold away either.
+      expect(auraChip()).toBeUndefined()
+      expect(rowOf('Battle Sisters Squad').find('.rvunit-more').exists()).toBe(false)
+
+      t.setArmyCondition(0, 'relic-fiery-heart', t.current.value.currentRound, true)
+      await flushPromises()
+      // …and now it is, behind the chevron: an aura is not the row's headline state.
       await rowOf('Battle Sisters Squad').find('.rvunit-more').trigger('click')
-      const chip = rowOf('Battle Sisters Squad').findAll('.rvunit-rest .cond-chip').find((c) => c.text().includes('The Fiery Heart'))
+      const chip = rowOf('Battle Sisters Squad').findAll('.rvunit-rest .cond-chip').find((c) => c.text().includes('Fiery Heart'))
       expect(chip.text()).toContain('Triumph of Saint Katherine')   // the chip says where it comes from
       expect(chip.classes()).not.toContain('on')
 
-      // The relic has to be the one selected this round — the aura is only half the question.
-      t.setArmyCondition(0, 'relic-fiery-heart', t.current.value.currentRound, true)
       await chip.trigger('click')
       await flushPromises()
       expect(t.current.value.players[0].ctx.auras.u2).toBeDefined()
@@ -412,6 +418,39 @@ describe('RosterViewView', () => {
       // …and the Triumph's own Move moved with no chip of its own (22.01).
       expect(rowOf('Triumph of Saint Katherine').findAll('.rvst').find((c) => c.text().startsWith('M')).classes())
         .toContain('rvst-mod')
+    })
+
+    // The chips above the list are somebody's printed rule, switched three screens from the card
+    // that explains it — so they say whose it is, name it the way that card does, and hand over
+    // the text.
+    it('heads an ability set with its owner and names it in the reader\'s language', async () => {
+      const { useLocale } = await import('../../composables/useLocale.js')
+      const { locale } = useLocale()
+      const prev = locale.value
+      locale.value = 'ru'
+      try {
+        const sisters = {
+          id: 'r9', name: 'Sisters', faction: 'adepta-sororitas', detachments: [],
+          battleSize: 'strike-force', units: [{ uid: 'u1', id: 'triumph-of-saint-katherine', size: 0 }],
+        }
+        await startGame(sisters, 'adepta-sororitas')
+        GAME_PI = '0'
+        const w = mount(RosterViewView, { global: { stubs } })
+        await waitFor(w, 'Triumph of Saint Katherine')
+        await waitForSelector(w, '.rv-conds .cond-chip')
+        await new Promise((r) => setTimeout(r, 25))
+        await flushPromises()
+
+        const group = w.find('.rv-conds .cond-group')
+        expect(group.find('.cond-group-owner').text())
+          .toBe('Triumph of Saint Katherine · Реликвии Матриархов')
+        expect(group.text()).toContain('0 из 2')          // the set picks two a round
+        const chips = group.findAll('.cond-chip').map((c) => c.text())
+        expect(chips).toContain('Огненное сердце (Аура)')  // the RU overlay's own name for it
+        expect(group.findAll('.cond-info').length).toBe(chips.length)
+      } finally {
+        locale.value = prev
+      }
     })
 
     // In a game the same place carries the switches instead: what is true is answerable, so a list

@@ -25,7 +25,7 @@
       <!-- What is true in the battle right now. Only the states this list's own rules actually
            name, and only ones the app can honestly answer — see conditions.js. A switch the
            tracker already knows the answer to (a called Waaagh!) shows as a fact, not a control. -->
-      <ConditionChips class="rv-conds" :switches="armySwitches" @toggle="toggleArmyCond" />
+      <ConditionChips class="rv-conds" :switches="armySwitches" @toggle="toggleArmyCond" @info="openChipInfo" />
 
       <!-- Off the table there is nothing to switch, so this is what stands in that place instead:
            everything the army rule, the detachment(s) and the core rules WOULD do to this list once
@@ -119,7 +119,7 @@
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
               <div v-if="pinnedChipOf(e)" class="rvunit-conds">
-                <ConditionChips :switches="[pinnedChipOf(e)]" @toggle="toggleUnitChip(e, $event)" />
+                <ConditionChips :switches="[pinnedChipOf(e)]" @toggle="toggleUnitChip(e, $event)" @info="openChipInfo" />
                 <button
                   v-if="restChipsOf(e).length"
                   type="button"
@@ -137,6 +137,7 @@
                   class="rvunit-conds rvunit-rest"
                   :switches="restChipsOf(e)"
                   @toggle="toggleUnitChip(e, $event)"
+                  @info="openChipInfo"
                 />
               </CollapseTransition>
             </div>
@@ -261,6 +262,7 @@ import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRosters } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
@@ -278,6 +280,8 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
+// The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.
+const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 const { rosterById } = useRosters()
 
@@ -373,28 +377,60 @@ watch(() => roster.value?.faction, async (slug) => {
   fullSheets.value = m
 }, { immediate: true })
 
-// The RU names of datasheet abilities, per unit — for the aura chips, which name an ability
-// printed on ANOTHER unit's card. That card shows the translated name (the RU overlay), so a chip
-// naming it in English would leave the reader matching two spellings of the same rule. Loaded only
-// in the RU locale, and only the names: this is the same overlay RosterUnitRulesModal fetches when
-// a card is opened, so nothing new rides in the EN bundle.
-const ruAbilityNames = ref(new Map())
+// EVERY datasheet ability of this list, by unit and by its ENGLISH name, as `{ name, text }` in the
+// reader's language. Two chips need it: an aura names a rule printed on another unit's card, and an
+// ability set's options are switched above the list, far from the card that explains them. Both
+// must read the way that card reads — same translated name, and the text one tap away — or the
+// reader is matching two spellings of one rule across two screens. In RU it is the same overlay
+// RosterUnitRulesModal fetches when a card is opened; in EN no extra fetch at all.
+const ruleInfo = ref(new Map())
 watch([() => roster.value?.faction, fullSheets, locale], async ([slug, sheets, loc]) => {
-  if (!slug || loc !== 'ru' || !sheets.size) { ruAbilityNames.value = new Map(); return }
-  const [{ loadDatasheetsRu, localizeSheet }] = await Promise.all([import('../../data/datasheets/ru/index.js')])
-  const ru = await loadDatasheetsRu(slug)
-  if (roster.value?.faction !== slug) return
+  if (!slug || !sheets.size) { ruleInfo.value = new Map(); return }
+  let ru = null
+  let localizeSheet = null
+  if (loc === 'ru') {
+    ;({ localizeSheet } = await import('../../data/datasheets/ru/index.js'))
+    const { loadDatasheetsRu } = await import('../../data/datasheets/ru/index.js')
+    ru = await loadDatasheetsRu(slug)
+    if (roster.value?.faction !== slug) return
+  }
   const m = new Map()
   for (const [id, en] of sheets) {
-    const loc2 = localizeSheet(en, ru?.default?.[id], ru?.abilityNamesRu)
-    const names = new Map()
-    const take = (list) => { for (const a of list || []) if (a.nameEn) names.set(a.nameEn, a.name) }
-    take(loc2.abilities)
-    for (const set of loc2.abilitySets || []) take(set.options)
-    if (names.size) m.set(id, names)
+    const sheet = ru ? localizeSheet(en, ru?.default?.[id], ru?.abilityNamesRu) : en
+    const byEn = new Map()
+    // Keyed by the ENGLISH name, which is what a record holds; `nameEn` is set only when the RU
+    // overlay actually renamed the header, so an untranslated ability keys off its own name.
+    const take = (a) => byEn.set(a.nameEn || a.name, { name: a.name, text: a.text || '' })
+    for (const a of sheet.abilities || []) take(a)
+    for (const set of sheet.abilitySets || []) {
+      take(set)
+      for (const o of set.options || []) take(o)
+    }
+    if (byEn.size) m.set(id, byEn)
   }
-  ruAbilityNames.value = m
+  ruleInfo.value = m
 }, { immediate: true })
+const ruleInfoOf = (unitId, enName) => ruleInfo.value.get(unitId)?.get(enName) || null
+
+// A switch that belongs to somebody's printed rule (an ability set's options) says so: it names
+// itself the way that card does, is headed by the unit it belongs to, and carries the text for the
+// info button. Everything else — "this unit charged" — passes through untouched.
+function withRuleInfo(list) {
+  return (list || []).map((sw) => {
+    if (!sw.from) return sw
+    const info = ruleInfoOf(sw.from.unit, sw.from.ability)
+    const set = ruleInfoOf(sw.from.unit, sw.from.set)
+    return {
+      ...sw,
+      label: { en: sw.from.ability, ru: info?.name || sw.from.ability },
+      groupOwner: sw.from.owner ? `${sw.from.owner} · ${set?.name || sw.from.set}` : (set?.name || sw.from.set),
+      info: info?.text ? { name: info.name, text: info.text } : null,
+    }
+  })
+}
+function openChipInfo(sw, rect) {
+  if (sw.info) openRule(sw.info.name, sw.info.text, rect)
+}
 
 // ── Unit rules modal ──
 const viewingUid = ref(null)
@@ -555,7 +591,7 @@ const possibleCount = computed(() => possibleGroups.value.reduce((n, g) => n + g
 const armySwitches = computed(() => {
   if (!canSwitch.value) return []
   const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
-  return switchesFor(all, 'army', gamePlayer.value, gameClock.value, null)
+  return withRuleInfo(switchesFor(all, 'army', gamePlayer.value, gameClock.value, null))
 })
 // This entry's own state switches, for the row in the list. Same source as the card's, so the two
 // can never disagree; cached per entry because the template asks for them on every render.
@@ -563,7 +599,7 @@ const unitSwitchCache = computed(() => {
   const m = new Map()
   if (!canSwitch.value) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, switchesFor(resolvedFor(e), 'unit', gamePlayer.value, gameClock.value, e))
+    m.set(e.uid, withRuleInfo(switchesFor(resolvedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
   }
   return m
 })
@@ -585,8 +621,13 @@ const auraSwitchCache = computed(() => {
       rosterUnits: units,
       keywords: [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])],
       factionKeywordSets: factionKeywordSets.value,
+      // …and only the auras whose own rule is running: an unselected relic changes nothing.
+      active: activeFor(e),
     })
-    const named = reaching.map((a) => ({ ...a, nameRu: ruAbilityNames.value.get(a.unit)?.get(a.name) || null }))
+    const named = reaching.map((a) => {
+      const info = ruleInfoOf(a.unit, a.name)
+      return { ...a, nameRu: info?.name || null, info: info?.text ? { name: info.name, text: info.text } : null }
+    })
     m.set(e.uid, auraSwitchesFor(named, gamePlayer.value, gameClock.value, e))
   }
   return m
