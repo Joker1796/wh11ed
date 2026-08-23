@@ -40,6 +40,16 @@ export function groupModNotes(notes, l) {
   return out
 }
 
+// The notes worth showing as "possible" — everything waiting on a condition, EXCEPT the core
+// rules. A core rule applies to every unit of every army in every game (Battle-shock is the only
+// one that rewrites a characteristic, and in this app it mostly decides whether the unit can be
+// targeted with a stratagem at all), so listing it against a roster says nothing about that roster
+// and adds a line to every unit of every list. In a game it is either in force — and then it is in
+// the list that says so — or it is not the card's business.
+export function possibleModNotes(notes) {
+  return (notes || []).filter((n) => n.live === false && n.kind !== 'core')
+}
+
 const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D', range: 'RANGE' }
 
 // "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs

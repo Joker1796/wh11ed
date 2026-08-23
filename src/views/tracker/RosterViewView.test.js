@@ -86,10 +86,12 @@ describe('RosterViewView', () => {
     const before = w.find('.rvp-list').text()
     expect(before).toContain('Cold Fervour')
     // Sources are named, and each conditional modifier says what it is waiting for.
-    // Battle-shock rides along on every list — it is a core rule — and the detachment names itself.
+    // The detachment names itself; Battle-shock does not appear at all — a core rule is the same
+    // for every army in every game and says nothing about this list.
     const sources = w.findAll('.rvp-src').map((n) => n.text())
-    expect(sources).toContain('Core rule')
+    expect(sources).not.toContain('Core rule')
     expect(sources.some((t) => t.includes('Cursed Legion'))).toBe(true)
+    expect(w.find('.rvp-list').text()).not.toContain('Battle-shock')
     expect(w.find('.rvp-cond').exists()).toBe(true)
 
     await w.find('.rvp-head').trigger('click')

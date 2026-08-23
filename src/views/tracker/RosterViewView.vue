@@ -246,7 +246,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
-import { groupModNotes, modDelta } from '../../composables/rosterModNotes.js'
+import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
@@ -474,18 +474,19 @@ function statModsFor(entry, sheet) {
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────
 // The list's own rules that are waiting on the battle: read straight off the notes the cards
 // produce, so a line here and the card it came from can never word the same rule differently.
-// Only the roster-wide sources — an army rule, a detachment rule, a core rule bear on the whole
-// list, while an ability, a wargear rule or an enhancement belongs to the one unit that carries
-// it and is already on that unit's card.
-const ROSTER_WIDE = new Set(['armyRule', 'detachmentRule', 'core'])
+// Only the roster-wide sources — an army rule and a detachment rule bear on the whole list, while
+// an ability, a wargear rule or an enhancement belongs to the one unit that carries it and is
+// already on that unit's card. Core rules are out too (possibleModNotes): they are the same for
+// every army in every game and say nothing about THIS list.
+const ROSTER_WIDE = new Set(['armyRule', 'detachmentRule'])
 const possibleOpen = ref(false)
 const possibleGroups = computed(() => {
   if (inGame.value) return []
   const seen = new Set()
   const notes = []
   for (const e of roster.value?.units || []) {
-    for (const n of statModCache.value.get(e.uid)?.notes || []) {
-      if (n.live !== false || !ROSTER_WIDE.has(n.kind)) continue
+    for (const n of possibleModNotes(statModCache.value.get(e.uid)?.notes)) {
+      if (!ROSTER_WIDE.has(n.kind)) continue
       // One line per RULE, not per unit it could touch: the same detachment rule produces the same
       // note on every unit it bears on, and twelve identical lines say nothing the first did not.
       const key = `${n.kind}|${n.det}|${n.source}|${n.on}|${n.stat}|${n.op}|${n.value}|${n.when?.en || ''}`

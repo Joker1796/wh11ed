@@ -211,7 +211,7 @@ describe('DatasheetCard modifier notes', () => {
         sheet: sheet(),
         statNotes: [
           note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
-          note({ kind: 'core', source: 'Battle-shock', stat: 'oc', op: 'set', value: '-', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+          note({ kind: 'armyRule', source: 'Dark Pacts', applied: false, live: false, when: { en: 'while a pact is invoked', ru: 'x' } }),
         ],
       },
     })
@@ -219,10 +219,26 @@ describe('DatasheetCard modifier notes', () => {
     expect(heads).toEqual(['Modifiers in play', 'Possible modifiers'])
     const lists = w.findAll('.ds-mods')
     expect(lists[0].text()).toContain('Cold Fervour')
-    expect(lists[0].text()).not.toContain('Battle-shock')
-    expect(lists[1].text()).toContain('Battle-shock')
+    expect(lists[0].text()).not.toContain('Dark Pacts')
+    expect(lists[1].text()).toContain('Dark Pacts')
     // …and the second one is the collapsing block, closed.
     expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+  })
+
+  // A core rule is the same for every army in every game, so against one roster it says nothing:
+  // Battle-shock's OC would otherwise be a line on every unit of every list being planned.
+  it('never offers a core rule as a possible modifier', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'core', source: 'Battle-shock', stat: 'oc', op: 'set', value: '-', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.text()).not.toContain('Battle-shock')
   })
 
   // In a game the card answers "what is true right now", so a modifier that is not in force is not
