@@ -52,7 +52,8 @@ model. This file is the engineering reference; `README.md` is the product overvi
 **Large features have their own scoped `CLAUDE.md`**, loaded contextually instead of living
 here — read the one for the directory you're touching: `src/components/core/CLAUDE.md` (Core
 Rules), `src/components/event/CLAUDE.md` (Event Companion), `src/components/tracker/CLAUDE.md`
-(Game Tracker), `src/components/roster/CLAUDE.md` (Roster Builder), `src/views/faction/CLAUDE.md`
+(Game Tracker), `src/components/tracker/stats/CLAUDE.md` (Battle Record — the stats page),
+`src/components/roster/CLAUDE.md` (Roster Builder), `src/views/faction/CLAUDE.md`
 (faction pages), `src/views/combat-patrol/CLAUDE.md` (Combat Patrol), `public/images/CLAUDE.md`
 (image pipeline). This file covers what's shared across all of them (the rendering engine, nav,
 search, deployment, bilingual conventions) plus anything without a dedicated directory.
@@ -269,7 +270,10 @@ against the source PDF) — see `src/components/event/CLAUDE.md`.
 Third top-level section (`/tracker`) — a client-side, offline 2-player VP tracker for a game
 of 40k 11th ed. **Not part of the rules-reference data pipeline above.** See
 `src/components/tracker/CLAUDE.md` for the setup wizard, scoring, secondaries, twists and
-data shapes. **Roster Builder** (`/roster*`) is its own top-level nav section (next to
+data shapes. **Battle Record** (`/tracker/stats`) reads those finished games back as statistics —
+win rate, turn order, matchups, secondary cards, per-roster records — see
+`src/components/tracker/stats/CLAUDE.md` (in particular the `MIN_SAMPLE` rule: no percentage under
+five games). **Roster Builder** (`/roster*`) is its own top-level nav section (next to
 Tracker, not nested in it) and hands a built roster off to this one — see
 `src/components/roster/CLAUDE.md`.
 
