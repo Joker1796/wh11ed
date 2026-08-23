@@ -114,6 +114,48 @@ export default {
       "effects": []
     },
     {
+      "sid": "a8d8d01e-72b8-4032-b19b-ac6271556aa6:daemon-prince-of-nurgle",
+      "kind": "ability",
+      "name": "Daemon Prince of Nurgle: Death Guard Defenders",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-nurgle"
+      },
+      "hash": "dad06274",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "cb37619a-5b58-4891-a794-8b2891848d10:deathshroud-terminators",
+      "kind": "ability",
+      "name": "Deathshroud Terminators: Silent Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathshroud-terminators"
+      },
+      "hash": "27530f8e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "6584d4a0-f5f6-4791-ba72-38d97ae9d21e:foul-blightspawn",
+      "kind": "ability",
+      "name": "Foul Blightspawn: Blinding Spray",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "foul-blightspawn"
+      },
+      "hash": "274de3a9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6f4fdefb-fb32-450e-8d72-7220fd01c2b3:great-unclean-one",
       "kind": "ability",
       "name": "Great Unclean One: Daemon Lord of Nurgle",
@@ -468,6 +510,31 @@ export default {
       "note": "the CONTAGION ENGINE keyword in the first bullet is already carried by conditionalKeywords.json"
     },
     {
+      "sid": "188768af-2d22-45c5-ab28-2350970fdcfd",
+      "kind": "detachmentRule",
+      "name": "Verminous Haze",
+      "det": "Flyblown Host",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "flyblown-host"
+      },
+      "hash": "b9f087c3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e579235d-fd34-487c-bcbb-b1e8ca5420c2",
+      "kind": "detachmentRule",
+      "name": "Creeping Rot",
+      "det": "Maggot Lords",
+      "ref": null,
+      "hash": "4d236ed4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "9a404cbe-ff89-4583-9b06-49d7926e2e68",
       "kind": "detachmentRule",
       "name": "Reverberant Rancidity",
@@ -509,6 +576,17 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "5c863751-9ea1-4464-b75c-65e254e9becc",
+      "kind": "enhancement",
+      "name": "Noisome Veil",
+      "det": "Maggot Lords",
+      "ref": null,
+      "hash": "3c31d88d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5c3eba83-5786-4320-92e5-b6369e5c0535",
@@ -568,6 +646,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "7b1f761d-498a-4439-a0c1-e76a6cff030e",
+      "kind": "enhancement",
+      "name": "Tendrilous Emissions",
+      "det": "Mortarion’s Hammer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mortarions-hammer"
+      },
+      "hash": "197925b9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
@@ -722,6 +814,28 @@ export default {
       }
     },
     {
+      "sid": "e389de76-b121-4110-b01e-343ed1bec502",
+      "kind": "enhancement",
+      "name": "Revolting Regeneration",
+      "det": "Virulent Vectorium",
+      "ref": {
+        "kind": "enhancement",
+        "det": "virulent-vectorium"
+      },
+      "hash": "04d75b4a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "2227edbd-9daa-457f-9cda-f545297ba2ea",
       "kind": "stratagem",
       "name": "Grotesque Fortitude",
@@ -747,6 +861,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "2c92e4d2-9e0c-4edd-8f3d-ffef6913d9c0",
+      "kind": "stratagem",
+      "name": "Rabid Infusion",
+      "det": "Champions of Contagion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-contagion",
+        "name": "Rabid Infusion"
+      },
+      "hash": "de0797b3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2af32987-7344-4378-8eff-a42b8ec9f2f8",
@@ -953,6 +1082,21 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "09039d9e-b439-4648-ac05-fbe0e76ec692",
+      "kind": "stratagem",
+      "name": "Hidden Amongst The Dead",
+      "det": "Shamblerot Vectorium",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shamblerot-vectorium",
+        "name": "Hidden Amongst The Dead"
+      },
+      "hash": "e0cc51db",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ea30e94c-cf87-4f02-8210-0fb635615b18",

@@ -36,6 +36,43 @@ export default {
       ]
     },
     {
+      "sid": "ff1734b8-b92b-4d1f-942c-aeed6828534f:aleya",
+      "kind": "ability",
+      "name": "Aleya: Daughter of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aleya"
+      },
+      "hash": "4b399b90",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ac0e9c52-fc93-4534-b850-4b7d8fa194c0:aleya",
+      "kind": "ability",
+      "name": "Aleya: Tactical Perception",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aleya"
+      },
+      "hash": "f54f8f52",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "7a67bb01-737e-4644-b55b-2a6ea1a52c87:aleya",
       "kind": "ability",
       "name": "Aleya: Tenacious Spirit",
@@ -45,6 +82,20 @@ export default {
         "unit": "aleya"
       },
       "hash": "f34e2507",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "366838d7-9714-40ac-a557-1c766d1401b1:anathema-psykana-rhino",
+      "kind": "ability",
+      "name": "Anathema Psykana Rhino: Daughters of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "anathema-psykana-rhino"
+      },
+      "hash": "e48360cd",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -91,6 +142,20 @@ export default {
       ]
     },
     {
+      "sid": "07ca7cf7-d8b7-4048-b6a6-07cbf36f56c6:custodian-wardens",
+      "kind": "ability",
+      "name": "Custodian Wardens: Living Fortress",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "custodian-wardens"
+      },
+      "hash": "6a098c7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
       "kind": "ability",
       "name": "Gilded Blades Custodian Guard: Praesidium Shield",
@@ -114,6 +179,31 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "3ce73261-dcba-4288-879f-76bbd72baed1:gilded-blades-custodian-wardens",
+      "kind": "ability",
+      "name": "Gilded Blades Custodian Wardens: Divine Protection",
+      "det": null,
+      "ref": null,
+      "hash": "163ad0c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ff1734b8-b92b-4d1f-942c-aeed6828534f:knight-centura",
+      "kind": "ability",
+      "name": "Knight-Centura: Daughter of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "knight-centura"
+      },
+      "hash": "4b399b90",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "68f78314-9458-4dd0-b445-14119ab4f945:knight-centura",
@@ -148,6 +238,20 @@ export default {
         "unit": "pallas-grav-attack"
       },
       "hash": "b3fbfa0b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:prosecutors",
+      "kind": "ability",
+      "name": "Prosecutors: Daughters of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "prosecutors"
+      },
+      "hash": "4c4ca89b",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -310,6 +414,34 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:vigilators",
+      "kind": "ability",
+      "name": "Vigilators: Daughters of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vigilators"
+      },
+      "hash": "4c4ca89b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "42b81257-a32d-49c3-b38e-65aa9c78980d:witchseekers",
+      "kind": "ability",
+      "name": "Witchseekers: Daughters of the Abyss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "witchseekers"
+      },
+      "hash": "4c4ca89b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",
@@ -631,6 +763,35 @@ export default {
       }
     },
     {
+      "sid": "8be61c26-7307-4e5d-98a0-f8958a199c00",
+      "kind": "enhancement",
+      "name": "Praesidius",
+      "det": "Lions of the Emperor",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lions-of-the-emperor"
+      },
+      "hash": "69186f70",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "69c9f474-ba9e-402d-bb49-0c8f9ecf52d4",
       "kind": "enhancement",
       "name": "Enhanced Voidsheen Cloak",
@@ -824,6 +985,28 @@ export default {
       }
     },
     {
+      "sid": "3f8a63b3-0196-4a79-951b-c87d463e68e3",
+      "kind": "enhancement",
+      "name": "Augury Uplink",
+      "det": "Solar Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "solar-spearhead"
+      },
+      "hash": "de590332",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "60461b2c-c1ca-4046-82a2-436078ebfb10",
       "kind": "enhancement",
       "name": "Gift of Terran Artifice",
@@ -848,6 +1031,21 @@ export default {
         "name": "Slayer of Champions"
       },
       "hash": "28b225c9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "61aafa75-fdc3-4c3b-99e0-08a8f2255a85",
+      "kind": "stratagem",
+      "name": "The Emperor’s Auspice",
+      "det": "Auric Champions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "auric-champions",
+        "name": "The Emperor’s Auspice"
+      },
+      "hash": "e85bb0b8",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -953,6 +1151,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "dec320fe-e3fd-475d-9e59-d4ca35479940",
+      "kind": "stratagem",
+      "name": "Psychic Abominations",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Psychic Abominations"
+      },
+      "hash": "53ba30ad",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e71fa2b3-af09-442a-b69d-5160a2c30289",
       "kind": "stratagem",
       "name": "Purgation Sweep",
@@ -998,6 +1211,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "c86305d1-9ed8-4611-853b-2e9582c62091",
+      "kind": "stratagem",
+      "name": "Arcane Genetic Alchemy",
+      "det": "Shield Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shield-host",
+        "name": "Arcane Genetic Alchemy"
+      },
+      "hash": "f75e2a98",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "da903080-91ba-4138-a20c-d7719a69754d",
@@ -1221,6 +1449,21 @@ export default {
         "name": "Emperor’s Executioners"
       },
       "hash": "465f0820",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "17071980-b9bf-4a01-afe9-c31c1eefc773",
+      "kind": "stratagem",
+      "name": "Empyric Severance",
+      "det": "Talons of the Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-emperor",
+        "name": "Empyric Severance"
+      },
+      "hash": "86fd9f70",
       "ver": 925,
       "reviewed": true,
       "effects": []

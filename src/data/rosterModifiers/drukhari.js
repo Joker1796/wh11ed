@@ -157,6 +157,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "3efecd52-2d60-42d1-928d-6c868233d11d:lelith-hesperax",
+      "kind": "ability",
+      "name": "Lelith Hesperax: Blur of Blades",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lelith-hesperax"
+      },
+      "hash": "f54f8f52",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "0b6bcdaf-7f79-4095-b229-eaec93e19b04:lelith-hesperax",
       "kind": "ability",
       "name": "Lelith Hesperax: Brides of Death",
@@ -854,6 +877,20 @@ export default {
       ]
     },
     {
+      "sid": "152e049f-2e43-4e81-979e-29d3149737e0",
+      "kind": "enhancement",
+      "name": "Informant Network",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-cartel"
+      },
+      "hash": "d23b281a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "96ad45b7-7bcb-4584-9692-596c23687f56",
       "kind": "enhancement",
       "name": "Leechbite Plate",
@@ -917,6 +954,20 @@ export default {
       }
     },
     {
+      "sid": "8b210e33-0efe-4538-89e1-edd6a1e3eef4",
+      "kind": "enhancement",
+      "name": "Webway Awl",
+      "det": "Kabalite Cartel",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-cartel"
+      },
+      "hash": "bc7df3f6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a8e27f43-6f0f-487e-9969-c65087ccdefe",
       "kind": "enhancement",
       "name": "Eye of Spite",
@@ -958,6 +1009,76 @@ export default {
         "kind": "enhancement",
         "det": "realspace-raiders"
       }
+    },
+    {
+      "sid": "c08c0431-a879-4802-83e1-63248c280552",
+      "kind": "enhancement",
+      "name": "Archraider",
+      "det": "Reaper’s Wager",
+      "ref": {
+        "kind": "enhancement",
+        "det": "reapers-wager"
+      },
+      "hash": "d4c312fe",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0141231c-7ff0-4807-8ea4-4cf6b1078bad",
+      "kind": "enhancement",
+      "name": "Reaper’s Cowl",
+      "det": "Reaper’s Wager",
+      "ref": {
+        "kind": "enhancement",
+        "det": "reapers-wager"
+      },
+      "hash": "fa8a9425",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8f4da3ed-14af-43a6-8708-64f2bca26258",
+      "kind": "enhancement",
+      "name": "Webway Walker",
+      "det": "Reaper’s Wager",
+      "ref": {
+        "kind": "enhancement",
+        "det": "reapers-wager"
+      },
+      "hash": "5b75f6e7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "64571ab3-200a-432c-bab6-ac107cf7598c",
+      "kind": "enhancement",
+      "name": "Phantasmal Smoke",
+      "det": "Skysplinter Assault",
+      "ref": {
+        "kind": "enhancement",
+        "det": "skysplinter-assault"
+      },
+      "hash": "3f686459",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a04e80bd-7407-42b2-84f2-c47df330e77c",
+      "kind": "enhancement",
+      "name": "Chronoshard",
+      "det": "Spectacle of Spite",
+      "ref": {
+        "kind": "enhancement",
+        "det": "spectacle-of-spite"
+      },
+      "hash": "052f254b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "21a18c7b-916b-47d4-a50b-8af59f3c03dc",

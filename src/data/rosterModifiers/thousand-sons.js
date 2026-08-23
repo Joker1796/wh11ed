@@ -91,6 +91,51 @@ export default {
       "effects": []
     },
     {
+      "sid": "27a36d58-b747-405c-95e6-01a4a4113466:daemon-prince-of-tzeentch",
+      "kind": "ability",
+      "name": "Daemon Prince of Tzeentch: Glamour of Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-tzeentch",
+        "scopes": [
+          {
+            "targets": [
+              "THOUSAND SONS INFANTRY"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "ffbb3512",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5bfb5c68-19d9-4d7c-bf0a-f67b5757599d:daemon-prince-of-tzeentch",
+      "kind": "ability",
+      "name": "Daemon Prince of Tzeentch: Servile Pawns",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-tzeentch"
+      },
+      "hash": "2a13fb8e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "0622b621-95f4-46da-a965-8ed18b8373bf:daemon-prince-of-tzeentch",
       "kind": "ability",
       "name": "Daemon Prince of Tzeentch: Spirit Snare",
@@ -460,6 +505,17 @@ export default {
       "effects": []
     },
     {
+      "sid": "6fcd2ecb-d54a-4fae-820f-6613f2fd39c8:zadophon-the-soul-eater",
+      "kind": "ability",
+      "name": "Zadophon the Soul Eater: Glamour of Tzeentch (Aura, Psychic)",
+      "det": null,
+      "ref": null,
+      "hash": "cde7ab6f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "166fb00a-fa76-4b86-913c-7a0c6a8be9d4",
       "kind": "armyRule",
       "name": "Cabal of Sorcerers",
@@ -727,6 +783,20 @@ export default {
       "note": "extends the range of a Ritual, not of a weapon"
     },
     {
+      "sid": "f2e24d64-f111-42bf-84f6-cd1ae234afec",
+      "kind": "enhancement",
+      "name": "Umbralefic Crystal",
+      "det": "Grand Coven",
+      "ref": {
+        "kind": "enhancement",
+        "det": "grand-coven"
+      },
+      "hash": "a15ddc15",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "23b38434-e051-4b26-a841-cbe2d62b5904",
       "kind": "enhancement",
       "name": "Arcane Might",
@@ -840,6 +910,20 @@ export default {
       }
     },
     {
+      "sid": "5217a83b-742c-4e2a-966d-8ce26ec5adf8",
+      "kind": "enhancement",
+      "name": "Risen Rubricae",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rubricae-phalanx"
+      },
+      "hash": "769d0b31",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "01116f1d-09f7-43b3-9a8e-30ee3eaeada6",
       "kind": "enhancement",
       "name": "Stave Abominus",
@@ -883,6 +967,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "2d9eaedb-d4b1-4d07-9cc4-3bb50194cfeb",
+      "kind": "enhancement",
+      "name": "Walking Rampart",
+      "det": "Sekhetar Cohort",
+      "ref": {
+        "kind": "enhancement",
+        "det": "sekhetar-cohort"
+      },
+      "hash": "fbdf20f6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "cb50a092-b387-493d-a329-fb3ebb9d603a",
       "kind": "enhancement",
       "name": "Thicket of Bladed Bone (Upgrade)",
@@ -912,6 +1010,20 @@ export default {
       ]
     },
     {
+      "sid": "857f4218-0a35-44db-b747-7f37a411fd9d",
+      "kind": "enhancement",
+      "name": "Perplexing Cloak",
+      "det": "Warpforged Cabal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpforged-cabal"
+      },
+      "hash": "b5c10428",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4f20a5e0-7e45-486f-b80d-7f769e1c6ece",
       "kind": "enhancement",
       "name": "Warp-Cursed Runemaster",
@@ -925,6 +1037,42 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "extends the range of a Ritual, not of a weapon"
+    },
+    {
+      "sid": "97f56fc4-c754-4f63-9e7a-7c4da6a1b3ad",
+      "kind": "enhancement",
+      "name": "Bray Lord",
+      "det": "Warpmeld Pact",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpmeld-pact"
+      },
+      "hash": "e470e302",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "ec87a2f7-7b37-4475-aecc-e1b855221749",
+      "kind": "enhancement",
+      "name": "Flowing Flesh",
+      "det": "Warpmeld Pact",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpmeld-pact"
+      },
+      "hash": "143577b0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "0e2f4b29-498d-4e89-9af1-373f8d3ae792",
@@ -986,6 +1134,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "fafdea87-fdba-4af0-abf1-0ec3f7b086dc",
+      "kind": "stratagem",
+      "name": "Kaleidoscopic Tempest",
+      "det": "Hexwarp Thrallband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hexwarp-thrallband",
+        "name": "Kaleidoscopic Tempest"
+      },
+      "hash": "2e9c5baa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1321ba9d-f02a-4d64-bbe3-610c0fd8778c",
       "kind": "stratagem",
       "name": "Scouring Warpflame",
@@ -1011,6 +1174,36 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "f0930771-8807-4a77-a274-a6637d0b2d6a",
+      "kind": "stratagem",
+      "name": "Through The Veil",
+      "det": "Hexwarp Thrallband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hexwarp-thrallband",
+        "name": "Through The Veil"
+      },
+      "hash": "d9ca6a9a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2eee2081-a2c8-4686-892f-68f2e3ee2eb9",
+      "kind": "stratagem",
+      "name": "Relentless Rebirth",
+      "det": "Ritual of Regeneration",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ritual-of-regeneration",
+        "name": "Relentless Rebirth"
+      },
+      "hash": "5967579f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ff7282e4-5c01-40b0-a3d3-67c3c98bf992",

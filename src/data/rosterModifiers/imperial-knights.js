@@ -579,6 +579,20 @@ export default {
       "note": "army-composition rule — which allied models may be included"
     },
     {
+      "sid": "c9b67ad0-1baf-45c0-9687-11626725f299",
+      "kind": "detachmentRule",
+      "name": "Knights of Legend",
+      "det": "Freeblade Company",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "freeblade-company"
+      },
+      "hash": "fdd1bf22",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3cf0eb6d-3049-4885-acd0-632ad39be4bb",
       "kind": "detachmentRule",
       "name": "Dauntless Defenders",
@@ -744,6 +758,20 @@ export default {
       ]
     },
     {
+      "sid": "062c115d-820f-4719-829e-0df211f841e9",
+      "kind": "enhancement",
+      "name": "Mysterious Guardian",
+      "det": "Freeblade Company",
+      "ref": {
+        "kind": "enhancement",
+        "det": "freeblade-company"
+      },
+      "hash": "3ce15cdd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "45391896-5ae3-4cb5-a2fe-d3f400f7f454",
       "kind": "enhancement",
       "name": "Sanctuary",
@@ -845,6 +873,20 @@ export default {
         "det": "spearhead-at-arms"
       },
       "hash": "14772b20",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5e130c62-8760-4161-8090-b0b5a1e49cc0",
+      "kind": "enhancement",
+      "name": "Bearer of the Evanescent Ion",
+      "det": "Valourstrike Lance",
+      "ref": {
+        "kind": "enhancement",
+        "det": "valourstrike-lance"
+      },
+      "hash": "83560bfd",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -996,6 +1038,48 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 2",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "df5c9648-052a-4751-b58e-b2301869bede",
+      "kind": "stratagem",
+      "name": "Omnissiah’s Grace",
+      "det": "Questor Forgepact",
+      "ref": {
+        "kind": "stratagem",
+        "det": "questor-forgepact",
+        "name": "Omnissiah’s Grace"
+      },
+      "hash": "5967579f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2144578e-ef9a-4a05-b8fe-60b1e114b511",
+      "kind": "stratagem",
+      "name": "Courageous Stand",
+      "det": "Questoris Companions",
+      "ref": {
+        "kind": "stratagem",
+        "det": "questoris-companions",
+        "name": "Courageous Stand"
+      },
+      "hash": "37f47123",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

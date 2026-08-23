@@ -59,6 +59,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:ezekiel",
+      "kind": "ability",
+      "name": "Ezekiel: Psychic Hood",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ezekiel"
+      },
+      "hash": "d4f151a2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b6530fa5-3538-484c-b54e-d632bd973644:inner-circle-companions",
+      "kind": "ability",
+      "name": "Inner Circle Companions: Braziers of Judgement",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inner-circle-companions"
+      },
+      "hash": "87a55d7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "cb502504-f1d5-4294-be79-d5eeb88be41f:inner-circle-companions",
       "kind": "ability",
       "name": "Inner Circle Companions: Enmity for the Unworthy",
@@ -68,6 +96,34 @@ export default {
         "unit": "inner-circle-companions"
       },
       "hash": "e5053d72",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "df10d338-55e1-441e-87bb-0424cce8a22f:lazarus",
+      "kind": "ability",
+      "name": "Lazarus: The Spiritshield Helm",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lazarus"
+      },
+      "hash": "e48360cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d35ece66-fa50-4d0a-8503-97eafc049ffc:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El’Jonson: Dark Angels Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson"
+      },
+      "hash": "36943dfb",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -240,6 +296,28 @@ export default {
         "unit": "ravenwing-dark-talon"
       },
       "hash": "c38ed31f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "837e822e-e367-499f-a51b-540581de8241:ravenwing-darkshroud",
+      "kind": "ability",
+      "name": "Ravenwing Darkshroud: Icon of Old Caliban",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravenwing-darkshroud",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "0f321044",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -473,6 +551,20 @@ export default {
       ]
     },
     {
+      "sid": "98482be9-4f60-4c8e-847d-b0760af85084",
+      "kind": "enhancement",
+      "name": "Recon Hunter",
+      "det": "Company of Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "company-of-hunters"
+      },
+      "hash": "36589190",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "28e99366-170a-49c2-a572-6740ee178f95",
       "kind": "enhancement",
       "name": "Champion of the Deathwing",
@@ -565,6 +657,20 @@ export default {
         "kind": "enhancement",
         "det": "lions-blade-task-force"
       }
+    },
+    {
+      "sid": "8b6de18b-cb40-49eb-9eb3-3ece326ec681",
+      "kind": "enhancement",
+      "name": "Pennant of Remembrance",
+      "det": "Unforgiven Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "unforgiven-task-force"
+      },
+      "hash": "28d64d38",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7018776e-8c69-4371-b038-0d6dd2fe8537",
@@ -765,6 +871,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "15da7f78-d0fe-4dec-8ed6-94ac5fc8430e",
+      "kind": "stratagem",
+      "name": "Wings of Shadow",
+      "det": "Darkflight Pursuit",
+      "ref": {
+        "kind": "stratagem",
+        "det": "darkflight-pursuit",
+        "name": "Wings of Shadow"
+      },
+      "hash": "38b9e784",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "709d9f90-1f57-493c-bdf3-279310da4339",
@@ -1079,6 +1200,36 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-knights",
+      "kind": "wargear",
+      "name": "Deathwing Knights: Watcher in the Dark",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwing-knights",
+        "item": "watcher in the dark"
+      },
+      "hash": "35b72d9f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-terminator-squad",
+      "kind": "wargear",
+      "name": "Deathwing Terminator Squad: Watcher in the Dark",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwing-terminator-squad",
+        "item": "watcher in the dark"
+      },
+      "hash": "35b72d9f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "a298ee2e-4181-43e7-81a7-158bdc457d53:ezekiel",

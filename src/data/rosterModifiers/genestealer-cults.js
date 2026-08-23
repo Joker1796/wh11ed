@@ -168,6 +168,43 @@ export default {
       "effects": []
     },
     {
+      "sid": "c08a3b23-279d-4a26-b01f-2f6c41aa60af:locus",
+      "kind": "ability",
+      "name": "Locus: Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "locus"
+      },
+      "hash": "6e31de92",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8cfd92c9-55d5-491d-b50d-719ab02e443e:locus",
+      "kind": "ability",
+      "name": "Locus: Sudden Assault",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "locus"
+      },
+      "hash": "f54f8f52",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "40bcdab4-08ee-48d9-a197-d5be1748f7aa:magus",
       "kind": "ability",
       "name": "Magus: Psychic Familiar",
@@ -374,6 +411,20 @@ export default {
       }
     },
     {
+      "sid": "b58f14db-dd11-4e6c-80f0-7e3915af5840",
+      "kind": "detachmentRule",
+      "name": "Unquestioning Fanaticism",
+      "det": "Xenocreed Congregation",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "xenocreed-congregation"
+      },
+      "hash": "2174a241",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4554e2a3-cef7-4ce5-97a6-20c3a3389180",
       "kind": "enhancement",
       "name": "Alien Majesty",
@@ -415,6 +466,20 @@ export default {
         "kind": "enhancement",
         "det": "biosanctic-broodsurge"
       }
+    },
+    {
+      "sid": "175dea26-cb65-4e86-be1c-5a1bb166f8ac",
+      "kind": "enhancement",
+      "name": "Predatory Instincts",
+      "det": "Biosanctic Broodsurge",
+      "ref": {
+        "kind": "enhancement",
+        "det": "biosanctic-broodsurge"
+      },
+      "hash": "2680efcf",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e01ab9b2-f087-4e37-9b71-1cc22a578c83",

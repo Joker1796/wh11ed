@@ -652,6 +652,28 @@ export default {
       ]
     },
     {
+      "sid": "e17d089a-c6be-42b1-b8e3-58c1b044c352",
+      "kind": "enhancement",
+      "name": "Blessing of the Dark Master",
+      "det": "Lords of Dread",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-dread"
+      },
+      "hash": "44e62976",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "6d9fb6cc-05ac-4f9d-a8ac-52ca06c2dffa",
       "kind": "enhancement",
       "name": "Putrid Carapace",
@@ -669,6 +691,28 @@ export default {
           "stat": "sv",
           "op": "set",
           "value": "2+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "7f71e5b1-cae6-4207-bb8e-12b57b3e4fa5",
+      "kind": "enhancement",
+      "name": "Warp-borne Stalker",
+      "det": "Lords of Dread",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-dread"
+      },
+      "hash": "84f45f4c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
           "when": null
         }
       ]
@@ -702,6 +746,21 @@ export default {
       }
     },
     {
+      "sid": "5b7ebc65-f243-4eb0-9af1-17c2f28e7937",
+      "kind": "stratagem",
+      "name": "Rune-cursed Stronghold",
+      "det": "Bastions of Tyranny",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bastions-of-tyranny",
+        "name": "Rune-cursed Stronghold"
+      },
+      "hash": "5967579f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "58d86379-2099-42af-a1ba-671bb6495d36",
       "kind": "stratagem",
       "name": "Beasthide Manifestation",
@@ -717,6 +776,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "c8c71438-0798-4694-b2a5-965560e8c887",
+      "kind": "stratagem",
+      "name": "Feral Arrogance",
+      "det": "Helhunt Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "helhunt-lance",
+        "name": "Feral Arrogance"
+      },
+      "hash": "54dde1f0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "23d446a4-7816-4277-8a34-fedc179a16a5",
       "kind": "stratagem",
       "name": "Merciless Fusillade",
@@ -727,6 +801,21 @@ export default {
         "name": "Merciless Fusillade"
       },
       "hash": "65313999",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "286f27c5-6f8f-4065-b4e0-6c9e4b17144a",
+      "kind": "stratagem",
+      "name": "Insensate Bloodthirst",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hunting-warpack",
+        "name": "Insensate Bloodthirst"
+      },
+      "hash": "efc5db5c",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -856,6 +945,36 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "342ebf3d-58b7-43b4-9ee7-a300640f2855",
+      "kind": "stratagem",
+      "name": "Disdain for the Weak",
+      "det": "Traitoris Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "traitoris-lance",
+        "name": "Disdain for the Weak"
+      },
+      "hash": "29627615",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "27661185-4352-4946-a96b-554be5d5502e",
+      "kind": "stratagem",
+      "name": "Storm of Darkness",
+      "det": "Traitoris Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "traitoris-lance",
+        "name": "Storm of Darkness"
+      },
+      "hash": "7c9432d1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     }
   ]
 }

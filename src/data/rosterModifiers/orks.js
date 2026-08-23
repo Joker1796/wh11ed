@@ -58,6 +58,17 @@ export default {
       ]
     },
     {
+      "sid": "76087fd7-01d1-4632-86f3-b99acd2c9325:ardmob-gretchin",
+      "kind": "ability",
+      "name": "’Ardmob Gretchin: Grot Infestation (Once per battle per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "8e3cb8a3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e308befb-5967-4b54-93e5-abc1128540bd:bannernob",
       "kind": "ability",
       "name": "Bannernob: Waaagh! Banner",
@@ -245,6 +256,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "e96d778f-1f1b-4031-885c-0d9044623457:boss-snikrot",
+      "kind": "ability",
+      "name": "Boss Snikrot: Kunnin’ Infiltrator (Once per battle, per army)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "boss-snikrot"
+      },
+      "hash": "d4b5a4d8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "b952c800-e70d-4ac7-bcba-2f78cca11f84:burna-bommer",
@@ -520,6 +545,34 @@ export default {
       ]
     },
     {
+      "sid": "867906c9-30a5-4462-84e7-6021e830a0ea:meganobz",
+      "kind": "ability",
+      "name": "Meganobz: Krumpin’ Time",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "meganobz"
+      },
+      "hash": "d1db0ba2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a2d4f764-2e09-46ec-9258-174fb2203bff:mek",
+      "kind": "ability",
+      "name": "Mek: Know-wotz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mek"
+      },
+      "hash": "8cda45a5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "583eae5c-9b8c-44a3-a492-a45a895e9c6f:mek",
       "kind": "ability",
       "name": "Mek: Mekaniak",
@@ -594,6 +647,52 @@ export default {
             "never"
           ],
           "alt": 0
+        }
+      ]
+    },
+    {
+      "sid": "f46782fa-1384-4d8b-b10f-7896906fa23e:painboss",
+      "kind": "ability",
+      "name": "Painboss: Dok’s Toolz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "painboss"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "f46782fa-1384-4d8b-b10f-7896906fa23e:painboy",
+      "kind": "ability",
+      "name": "Painboy: Dok’s Toolz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "painboy"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
         }
       ]
     },
@@ -1072,6 +1171,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "34b837a4-ee8c-473d-8aac-1d513abbdbc3",
+      "kind": "detachmentRule",
+      "name": "Jungle Know-wotz",
+      "det": "Equatorial Hordes",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "equatorial-hordes"
+      },
+      "hash": "2141ef9f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "36625896-bea9-4694-b3d0-1a684a71367b",
       "kind": "detachmentRule",
       "name": "Mob Mentality",
@@ -1227,6 +1340,34 @@ export default {
       }
     },
     {
+      "sid": "3d83cfeb-581e-435d-b322-029c6adf5add",
+      "kind": "enhancement",
+      "name": "Tellyporta",
+      "det": "Bully Boyz",
+      "ref": {
+        "kind": "enhancement",
+        "det": "bully-boyz"
+      },
+      "hash": "818bb5a5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bb4fc923-48a3-4b7f-a58e-08e2bc7bdbe4",
+      "kind": "enhancement",
+      "name": "Glory Hog",
+      "det": "Da Big Hunt",
+      "ref": {
+        "kind": "enhancement",
+        "det": "da-big-hunt"
+      },
+      "hash": "83f747c8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "054ed69c-a8e8-4469-80bf-1d1e39dc5103",
       "kind": "enhancement",
       "name": "Proper Killy",
@@ -1269,6 +1410,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "bbc09d5c-a926-4660-a0a9-e9bf51301379",
+      "kind": "enhancement",
+      "name": "Smoky Gubbinz",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "enhancement",
+        "det": "dread-mob"
+      },
+      "hash": "a98a26bd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "d3a899cc-7e85-48ee-aaf8-7bc01205a926",
@@ -1469,6 +1624,20 @@ export default {
       }
     },
     {
+      "sid": "64bce989-3720-4e84-a38f-4f34a7c6cf5a",
+      "kind": "enhancement",
+      "name": "Slippery Git",
+      "det": "Taktikal Brigade",
+      "ref": {
+        "kind": "enhancement",
+        "det": "taktikal-brigade"
+      },
+      "hash": "8963dec7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6e1ce3ba-cf8c-4f03-8826-d8c32b03c38c",
       "kind": "enhancement",
       "name": "Follow Me Ladz",
@@ -1517,6 +1686,28 @@ export default {
           "only": {
             "notTag": "EXTRA ATTACKS"
           },
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "193c7ee0-362c-4c27-92f7-97c33317dba4",
+      "kind": "enhancement",
+      "name": "Supa-Cybork Body",
+      "det": "War Horde",
+      "ref": {
+        "kind": "enhancement",
+        "det": "war-horde"
+      },
+      "hash": "f653432e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
           "when": null
         }
       ]

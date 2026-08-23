@@ -110,7 +110,8 @@ export function applyValue(current, op, value) {
 // A grant is an effect whose "value" is a name rather than a number: `stat: 'keyword'` gives the
 // unit a keyword (which can then make OTHER rules apply to it — Necrons' Destroyer Ankh grants
 // DESTROYER CULT, and Cold Fervour's first bullet gives every DESTROYER CULT model +2 Strength),
-// `stat: 'ability'` gives its weapons a bracketed ability. Modelled as an effect rather than a
+// `stat: 'core'` gives the UNIT one of the rulebook's core abilities (Feel No Pain 5+, Stealth,
+// Lone Operative); `stat: 'ability'` gives its weapons a bracketed ability. Modelled as an effect rather than a
 // second system so `when`, `scope` and the whole applicability machinery are shared.
 const isGrant = (effect) => effect.op === 'grant'
 
@@ -180,12 +181,13 @@ function effectLive(entry, effect, active, chosen) {
 // the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
 // grantedKeywordsFrom).
 export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null) {
-  if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [] }
+  if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [], core: [] }
 
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
   const notes = []
   const marks = new Set()
   const granted = []
+  const core = []
   // The sheet as it stands RIGHT NOW: the working copy once anything has been written, the
   // original before that. Every effect must read through this, not from `sheet` — two modifiers
   // touching the same cell (a +2 Attacks from an enhancement and a +1 from a detachment rule)
@@ -248,6 +250,16 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           notes.push(noteOf(entry, effect, true, via))
           continue
         }
+        // A CORE ability handed to the unit — "models in that unit have the Feel No Pain 6+
+        // ability". Not a characteristic, but it belongs on the card's Core line with the printed
+        // ones: a reader looking for what this unit has now should not have to find it in the
+        // prose of a rule printed on another model's card. Returned rather than written into the
+        // sheet, the same way a granted keyword is.
+        if (effect.stat === 'core') {
+          core.push({ ability: String(effect.value), source: entry.name, det: entry.det })
+          notes.push(noteOf(entry, effect, true, via))
+          continue
+        }
         // A weapon ability joins that row's printed tags, in the same shape DatasheetCard reads.
         let added = false
         for (const table of WEAPON_TABLES[effect.on] || []) {
@@ -289,7 +301,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     }
   }
 
-  return { sheet: out || sheet, notes, marks: [...marks], keywords: granted }
+  return { sheet: out || sheet, notes, marks: [...marks], keywords: granted, core }
 }
 
 // The keywords these records grant this unit, WITHOUT applying anything else. Callers need them

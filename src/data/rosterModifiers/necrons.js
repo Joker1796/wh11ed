@@ -120,6 +120,65 @@ export default {
       ]
     },
     {
+      "sid": "790fff5e-e0e1-41a1-9677-b26052d6b7c5:chronomancer",
+      "kind": "ability",
+      "name": "Chronomancer: Timesplinter Mantle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chronomancer"
+      },
+      "hash": "0e6a810e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c31c6751-321c-4491-a903-cf7160117d54:convergence-of-dominion",
+      "kind": "ability",
+      "name": "Convergence of Dominion: Reanimation Nodes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "convergence-of-dominion",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS INFANTRY"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "61c675d8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "6ddcfb42-49e2-43ad-9517-3d69a35da32a:cryptothralls",
+      "kind": "ability",
+      "name": "Cryptothralls: Bound Creation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cryptothralls"
+      },
+      "hash": "02088f8a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7d7ee4d3-72bd-404e-bb89-281b7cca87cd:geomancer",
       "kind": "ability",
       "name": "Geomancer: Tectonic Reverberations",
@@ -148,6 +207,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "28266681-b62f-4d2a-a302-110de4ec2a57:illuminor-szeras",
+      "kind": "ability",
+      "name": "Illuminor Szeras: Illuminor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "illuminor-szeras"
+      },
+      "hash": "93fccbf0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "af817f85-0876-4ef6-9171-059e66d6f7d4:illuminor-szeras",
       "kind": "ability",
       "name": "Illuminor Szeras: Mechanical Augmentation",
@@ -171,16 +244,16 @@ export default {
         {
           "on": "ranged",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "target": "aura",
           "when": null
         },
         {
           "on": "melee",
           "stat": "ap",
-          "op": "improve",
-          "value": 1,
+          "op": "add",
+          "value": -1,
           "target": "aura",
           "when": null
         }
@@ -207,6 +280,20 @@ export default {
         ]
       },
       "hash": "240b73c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5d1bb72b-de3f-4243-b853-98182615ad67:nekrosor-ammentar",
+      "kind": "ability",
+      "name": "Nekrosor Ammentar: Protective Disciples",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nekrosor-ammentar"
+      },
+      "hash": "f493341c",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -310,6 +397,29 @@ export default {
           "value": "LETHAL HITS",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "4732a1ed-ebd9-4064-b991-a984d9d345a1:technomancer",
+      "kind": "ability",
+      "name": "Technomancer: Rites of Reanimation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "technomancer"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
         }
       ]
     },
@@ -621,6 +731,20 @@ export default {
       }
     },
     {
+      "sid": "4ef33601-c63c-4fb7-866f-ce94f062e01b",
+      "kind": "detachmentRule",
+      "name": "Transdimensional Deployment",
+      "det": "Skyshroud Spearhead",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "skyshroud-spearhead"
+      },
+      "hash": "9c2e7911",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "dec1adcf-64dc-4e7a-b535-73fc56cb305c",
       "kind": "detachmentRule",
       "name": "Relentless Onslaught",
@@ -730,6 +854,42 @@ export default {
       }
     },
     {
+      "sid": "9eaf87ca-f192-4962-abfe-71524fc8f81f",
+      "kind": "enhancement",
+      "name": "Enaegic Dermal Bond",
+      "det": "Awakened Dynasty",
+      "ref": {
+        "kind": "enhancement",
+        "det": "awakened-dynasty"
+      },
+      "hash": "3a8d1248",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "682ea8a8-adb8-4f7f-96e4-8d991d22b7fa",
+      "kind": "enhancement",
+      "name": "Nether-realm Casket",
+      "det": "Awakened Dynasty",
+      "ref": {
+        "kind": "enhancement",
+        "det": "awakened-dynasty"
+      },
+      "hash": "250c323a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a6e993f2-c457-4c04-b5f9-c1a7deda2c37",
       "kind": "enhancement",
       "name": "Phasal Subjugator (Aura)",
@@ -742,6 +902,34 @@ export default {
         "kind": "enhancement",
         "det": "awakened-dynasty"
       }
+    },
+    {
+      "sid": "eff15605-8995-4196-a6fb-220bf5a2fe87",
+      "kind": "enhancement",
+      "name": "Veil of Darkness",
+      "det": "Awakened Dynasty",
+      "ref": {
+        "kind": "enhancement",
+        "det": "awakened-dynasty"
+      },
+      "hash": "f531ccd6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b6b83c22-ccc1-4e7b-8abe-ab09ddd291c9",
+      "kind": "enhancement",
+      "name": "Dimensional Sanctum",
+      "det": "Canoptek Court",
+      "ref": {
+        "kind": "enhancement",
+        "det": "canoptek-court"
+      },
+      "hash": "735cabe5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "6e0e59cb-c41f-4cb0-a009-c962aad3d392",
@@ -859,6 +1047,20 @@ export default {
       ]
     },
     {
+      "sid": "08785e77-dca3-4170-ac4b-67317a780156",
+      "kind": "enhancement",
+      "name": "Enlivened Sentinels (Upgrade)",
+      "det": "Hand of the Dynasty",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hand-of-the-dynasty"
+      },
+      "hash": "c019b083",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "28910499-26bf-4cf0-823a-17462276ea57",
       "kind": "enhancement",
       "name": "Tools of Dominion (Upgrade)",
@@ -907,6 +1109,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "c1641e5f-db23-49aa-905f-12b1833efcf1",
+      "kind": "enhancement",
+      "name": "Osteoclave Fulcrum",
+      "det": "Hypercrypt Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hypercrypt-legion"
+      },
+      "hash": "cdcb4519",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "fe31d690-e8f6-4014-a53e-7b3db86f5a6e",
@@ -1504,6 +1720,75 @@ export default {
       "effects": []
     },
     {
+      "sid": "ea2d4f7d-612f-41a0-980f-c538a5dc020d:canoptek-spyders",
+      "kind": "wargear",
+      "name": "Canoptek Spyders: Fabricator Claw Array (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoptek-spyders",
+        "item": "fabricator claw array (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "d52964cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5084d88f-827f-4b35-90c6-86d8f84d6863:canoptek-spyders",
+      "kind": "wargear",
+      "name": "Canoptek Spyders: Gloom Prism (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "canoptek-spyders",
+        "item": "gloom prism (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "6d14604f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c0da2d15-20c2-4da9-a9df-a0ce62051918:lokhust-lord",
+      "kind": "wargear",
+      "name": "Lokhust Lord: Nanoscarab Amulet",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "lokhust-lord",
+        "item": "nanoscarab amulet"
+      },
+      "hash": "b92eaf5f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "73c896ab-3e82-4c6c-8cd3-2490c776c67b:lychguard",
       "kind": "wargear",
       "name": "Lychguard: Dispersion Shield",
@@ -1531,6 +1816,29 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d0064c2e-8a21-4d58-bf03-02e6370585bb:nekrosor-ammentar",
+      "kind": "wargear",
+      "name": "Nekrosor Ammentar: Nullstone Field Generator (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "nekrosor-ammentar",
+        "item": "nullstone field generator (aura)",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "6d14604f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f6a5f8a4-40f5-498d-a806-d6d77283329d:ophydian-destroyers",
@@ -1616,6 +1924,29 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "0d59e1f0-4cca-4797-9810-89f34da9ac5a:tomb-blades",
+      "kind": "wargear",
+      "name": "Tomb Blades: Shadowloom",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "tomb-blades",
+        "item": "shadowloom"
+      },
+      "hash": "1764e07f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
         }
       ]
     },

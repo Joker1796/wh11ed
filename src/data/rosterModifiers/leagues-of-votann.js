@@ -36,6 +36,20 @@ export default {
       ]
     },
     {
+      "sid": "2cdfc336-20d9-400b-885b-67785a21ec58:arkanyst-evaluator",
+      "kind": "ability",
+      "name": "Arkanyst Evaluator: Science Guild Support",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "arkanyst-evaluator"
+      },
+      "hash": "03485ce3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayer-s-bulwark-brokhyr-thunderkyn",
       "kind": "ability",
       "name": "Bane Slayer's Bulwark Brokhyr Thunderkyn: Breaching Fire",
@@ -77,6 +91,20 @@ export default {
       ]
     },
     {
+      "sid": "35e3ca62-d5ea-4758-b5bd-39e2631cf33a:br-khyr-iron-master",
+      "kind": "ability",
+      "name": "Brôkhyr Iron-master: Brôkhyr Guild Support",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "br-khyr-iron-master"
+      },
+      "hash": "653bd1cd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "72f9560a-4651-44e7-a8e3-cd7ba5c9df96:einhyr-champion",
       "kind": "ability",
       "name": "Einhyr Champion: Exemplar of the Einhyr",
@@ -86,6 +114,20 @@ export default {
         "unit": "einhyr-champion"
       },
       "hash": "2170496e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "03248c77-668f-4f2c-bbf2-afe8594b9d72:grimnyr",
+      "kind": "ability",
+      "name": "Grimnyr: Fortify",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "grimnyr"
+      },
+      "hash": "08801928",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -146,6 +188,20 @@ export default {
       }
     },
     {
+      "sid": "661e67b0-df39-44c5-8b83-263cd4856ff6",
+      "kind": "detachmentRule",
+      "name": "Sagitaur Spearhead",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "armoured-trailblazers"
+      },
+      "hash": "fee0d106",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "182bd5d6-3bd6-4d04-b108-557182b698e6",
       "kind": "detachmentRule",
       "name": "Mobile Sensor Relays",
@@ -155,6 +211,20 @@ export default {
         "det": "brandfast-oathband"
       },
       "hash": "4a2fd680",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3ff21f42-0b1b-40f3-bf0c-19e3aae93804",
+      "kind": "detachmentRule",
+      "name": "Fury From The Dêlve",
+      "det": "Dêlve Assault Shift",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "delve-assault-shift"
+      },
+      "hash": "ef922977",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -335,6 +405,20 @@ export default {
         "kind": "enhancement",
         "det": "hearthfyre-arsenal"
       }
+    },
+    {
+      "sid": "f032aa6f-36db-4f80-b411-c04b7ff0754b",
+      "kind": "enhancement",
+      "name": "Fârstrydr Node",
+      "det": "Hearthfyre Arsenal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthfyre-arsenal"
+      },
+      "hash": "9b4d7ea7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e39596ad-bfd4-4548-b115-a5d5f63a2fba",
@@ -725,6 +809,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "f54e0e60-d1ef-4cee-b1a2-2c94454e8d57",
+      "kind": "stratagem",
+      "name": "Dispersed Formation",
+      "det": "Persecution Prospect",
+      "ref": {
+        "kind": "stratagem",
+        "det": "persecution-prospect",
+        "name": "Dispersed Formation"
+      },
+      "hash": "e7aadbf4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a102c8c5-5cdb-4563-ac4d-97d0e1313bea",
       "kind": "stratagem",
       "name": "Frontier Momentum",
@@ -770,6 +869,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "6f7e40a4-2f84-495d-8a2c-c756c603b08e:einhyr-champion",
+      "kind": "wargear",
+      "name": "Einhyr Champion: Teleport Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "einhyr-champion",
+        "item": "teleport crest"
+      },
+      "hash": "271b0376",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "94bb2d5a-b2ef-4286-869d-71867445cca2:einhyr-champion",
       "kind": "wargear",
       "name": "Einhyr Champion: Weavefield Crest",
@@ -791,6 +905,21 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "6ed75f65-8944-4116-a103-4c6e5ae5e068:einhyr-hearthguard",
+      "kind": "wargear",
+      "name": "Einhyr Hearthguard: Teleport Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "einhyr-hearthguard",
+        "item": "teleport crest"
+      },
+      "hash": "d6359087",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c2bf69d8-7326-4933-84ae-58539abb44df:einhyr-hearthguard",
@@ -859,6 +988,30 @@ export default {
           "value": "5+",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "ea178566-f956-496f-ae25-27f82360b663:k-hl",
+      "kind": "wargear",
+      "name": "Kâhl: Teleport Crest",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "k-hl",
+        "item": "teleport crest"
+      },
+      "hash": "bc2805c6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "target": "led",
+          "when": null
         }
       ]
     },

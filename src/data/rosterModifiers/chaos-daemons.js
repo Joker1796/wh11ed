@@ -137,6 +137,20 @@ export default {
       ]
     },
     {
+      "sid": "af46eb11-f58f-4447-8cb4-ddb0ce9d839e:contorted-epitome",
+      "kind": "ability",
+      "name": "Contorted Epitome: Swallow Energy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "contorted-epitome"
+      },
+      "hash": "b1a8245a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "0dd11ed9-198b-463b-bfb4-3a78c281c76d:daemon-prince-of-chaos-with-wings",
       "kind": "ability",
       "name": "Daemon Prince of Chaos with Wings: Malefic Destruction",
@@ -164,6 +178,51 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "c2040afa-b23e-443f-a3c8-2f45383bc96f:daemon-prince-of-chaos",
+      "kind": "ability",
+      "name": "Daemon Prince of Chaos: Daemonic Lord",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-chaos"
+      },
+      "hash": "792980f7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "132a3018-8899-4d29-9efb-ed1d7735badf:daemon-prince-of-chaos",
+      "kind": "ability",
+      "name": "Daemon Prince of Chaos: Prince of Darkness",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-chaos",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "f46b8c03",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "when": null
         }
       ]
     },
@@ -263,6 +322,51 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "a438e44e-b000-41b0-94ed-61a085221fee:feculent-gnarlmaw",
+      "kind": "ability",
+      "name": "Feculent Gnarlmaw: Shroud of Flies",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "feculent-gnarlmaw",
+        "scopes": [
+          {
+            "targets": [
+              "NURGLE LEGIONES DAEMONICA"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "f3b8776a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "4ee62487-e96f-4363-a5bc-6ca110ce1730:fluxmaster",
+      "kind": "ability",
+      "name": "Fluxmaster: Fluxmaster",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fluxmaster"
+      },
+      "hash": "87a55d7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2b28facf-6d9e-477a-9612-5fb56296aef1:great-unclean-one",
@@ -722,6 +826,20 @@ export default {
       "note": "army-composition rule — allied points allowance, no printed number"
     },
     {
+      "sid": "bcf36274-b2f2-4e89-9ec8-4b15779043cc",
+      "kind": "detachmentRule",
+      "name": "Seductive Gambit",
+      "det": "Legion of Excess",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "legion-of-excess"
+      },
+      "hash": "bf28d71f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "676a146d-1018-40c5-82d4-e2c816e4bf80",
       "kind": "detachmentRule",
       "name": "Loci of Power",
@@ -749,6 +867,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "b11810ea-a5f1-4a5f-ae70-54c95415b57d",
+      "kind": "detachmentRule",
+      "name": "First Prince of Chaos",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "shadow-legion"
+      },
+      "hash": "04c2b126",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7f775c80-d3ce-4aa7-a586-348ac9502b2a",
@@ -792,6 +924,20 @@ export default {
         "kind": "enhancement",
         "det": "blood-legion"
       }
+    },
+    {
+      "sid": "02d5ce17-8c89-4918-aebc-440d43cb0ed7",
+      "kind": "enhancement",
+      "name": "Gateway Unto Damnation",
+      "det": "Blood Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "blood-legion"
+      },
+      "hash": "80378352",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f8020def-f6bf-421b-ab9d-9b2fd1dfadc3",
@@ -885,6 +1031,28 @@ export default {
         "kind": "enhancement",
         "det": "daemonic-incursion"
       }
+    },
+    {
+      "sid": "e8f57682-ba60-4f3f-a276-523d9c6539d3",
+      "kind": "enhancement",
+      "name": "The Endless Gift",
+      "det": "Daemonic Incursion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "daemonic-incursion"
+      },
+      "hash": "46f895f9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "21549ce2-0e59-434f-b5e0-360ea30d53a6",
@@ -994,6 +1162,20 @@ export default {
       }
     },
     {
+      "sid": "164bc0b9-47cc-4e31-a655-174ec86d611e",
+      "kind": "enhancement",
+      "name": "Improbable Shield (Aura)",
+      "det": "Scintillating Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "scintillating-legion"
+      },
+      "hash": "692e2a7a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bb19b8b3-0999-446a-80b9-da84024bcc61",
       "kind": "enhancement",
       "name": "Neverblade",
@@ -1028,6 +1210,20 @@ export default {
         "kind": "enhancement",
         "det": "scintillating-legion"
       }
+    },
+    {
+      "sid": "3ac71f81-4676-44b1-8461-7471c474dc49",
+      "kind": "enhancement",
+      "name": "Leaping Shadows",
+      "det": "Shadow Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shadow-legion"
+      },
+      "hash": "c88d3f5f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "63613eac-5d6e-466b-bca6-863553d5a93e",
@@ -1160,6 +1356,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "af8aef17-a033-44a4-b8a9-d27ebff42e0c",
+      "kind": "stratagem",
+      "name": "Carnival of Excess",
+      "det": "Lords of the Warp",
+      "ref": {
+        "kind": "stratagem",
+        "det": "lords-of-the-warp",
+        "name": "Carnival of Excess"
+      },
+      "hash": "347c0fce",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f88709cb-ae58-4672-8582-698049889c24",
@@ -1478,6 +1689,36 @@ export default {
         "item": "instrument of chaos"
       },
       "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "80a80408-8489-4694-a5f4-72cf40036349:flesh-hounds",
+      "kind": "wargear",
+      "name": "Flesh Hounds: Collar of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "flesh-hounds",
+        "item": "collar of khorne"
+      },
+      "hash": "7b24f7e2",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e6a45e83-838d-4449-8bde-44b7e2c3e4ec:karanak",
+      "kind": "wargear",
+      "name": "Karanak: Brass Collar of Bloody Vengeance",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "karanak",
+        "item": "brass collar of bloody vengeance"
+      },
+      "hash": "d5b6dfdf",
       "ver": 925,
       "reviewed": true,
       "effects": []

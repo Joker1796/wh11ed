@@ -117,6 +117,20 @@ export default {
       ]
     },
     {
+      "sid": "f4b2702b-190a-42fb-a211-a230d826a89a:daemon-prince-of-khorne",
+      "kind": "ability",
+      "name": "Daemon Prince of Khorne: Lord of Murder",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-khorne"
+      },
+      "hash": "dfc9c1f4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "79ed7c3d-9cfc-4975-9b8c-df6efe860286:eightbound",
       "kind": "ability",
       "name": "Eightbound: Beacons of Rage",
@@ -209,6 +223,20 @@ export default {
         "unit": "heldrake"
       },
       "hash": "34bdf1df",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5dcb3c9e-f998-4600-8c30-b7d16011e9dc:lord-invocatus",
+      "kind": "ability",
+      "name": "Lord Invocatus: Fire Riders",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-invocatus"
+      },
+      "hash": "4ced3263",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -346,6 +374,17 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "93fa81cd-a227-498a-bc31-4e7a03bf7d1a:vorrakh-lord-of-the-frenzied-reavers",
+      "kind": "ability",
+      "name": "Vorrakh, Lord of the Frenzied Reavers: Lord of Murder",
+      "det": null,
+      "ref": null,
+      "hash": "8000d291",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
@@ -694,6 +733,28 @@ export default {
       }
     },
     {
+      "sid": "976e65fb-8d52-46c2-945c-2caac09d790b",
+      "kind": "enhancement",
+      "name": "Butcher Lord",
+      "det": "Cult of Blood",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cult-of-blood"
+      },
+      "hash": "f1a9e3c6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "b4cc8581-ed00-4444-878a-5aac6e4a0d12",
       "kind": "enhancement",
       "name": "Chosen of the Blood God",
@@ -707,6 +768,34 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "extends the range of the bearer's Aura abilities, not a weapon row"
+    },
+    {
+      "sid": "aff00366-f427-452e-b17d-a7cb1b28ca6d",
+      "kind": "enhancement",
+      "name": "Aggressive Deployment",
+      "det": "Goretrack Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "goretrack-onslaught"
+      },
+      "hash": "0b7be537",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "583dbda3-3181-460b-96ad-fc0535c79aea",
+      "kind": "enhancement",
+      "name": "Infernal Infusion",
+      "det": "Goretrack Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "goretrack-onslaught"
+      },
+      "hash": "669b32ae",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
@@ -795,6 +884,20 @@ export default {
       ]
     },
     {
+      "sid": "78111068-bb4c-489e-822a-d283798812c0",
+      "kind": "enhancement",
+      "name": "Violent Demise",
+      "det": "Possessed Slaughterband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "possessed-slaughterband"
+      },
+      "hash": "2a5f25c5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "04245333-93c8-497c-9c6c-2bfe63210589",
       "kind": "stratagem",
       "name": "Frenzied Resilience",
@@ -877,6 +980,33 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "b2c1204e-dc4a-4745-bf1e-76cffa675e99",
+      "kind": "stratagem",
+      "name": "In the Shadow of Brass Idols",
+      "det": "Cult of Blood",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cult-of-blood",
+        "name": "In the Shadow of Brass Idols"
+      },
+      "hash": "57c40746",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",
@@ -1005,6 +1135,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "059f08d4-8cb7-4a95-9670-8125006de9ef",
+      "kind": "stratagem",
+      "name": "Scorn the Witch",
+      "det": "Vessels of Wrath",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vessels-of-wrath",
+        "name": "Scorn the Witch"
+      },
+      "hash": "84dbd5f5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",
       "kind": "wargear",
       "name": "Bloodcrushers: Daemonic Icon",
@@ -1076,6 +1221,21 @@ export default {
         "item": "instrument of chaos"
       },
       "hash": "9fccd872",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "80a80408-8489-4694-a5f4-72cf40036349:flesh-hounds",
+      "kind": "wargear",
+      "name": "Flesh Hounds: Collar of Khorne",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "flesh-hounds",
+        "item": "collar of khorne"
+      },
+      "hash": "7b24f7e2",
       "ver": 925,
       "reviewed": true,
       "effects": []

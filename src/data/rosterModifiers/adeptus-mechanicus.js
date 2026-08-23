@@ -84,6 +84,20 @@ export default {
       ]
     },
     {
+      "sid": "1887939d-3115-460c-88b3-f8f6dbfa70e0:belisarius-cawl",
+      "kind": "ability",
+      "name": "Belisarius Cawl: Mechanicus Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belisarius-cawl"
+      },
+      "hash": "402acad0",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "087b86ef-bc68-421c-89b3-c93aa5854ad9:belisarius-cawl",
       "kind": "ability",
       "name": "Belisarius Cawl: Shroudpsalm (Aura)",
@@ -163,6 +177,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "14823b5c-5dfa-4cbd-8a77-554487de9c3a:kastelan-robots",
+      "kind": "ability",
+      "name": "Kastelan Robots: Robotic Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kastelan-robots"
+      },
+      "hash": "c377d4d6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "34fc460d-17ad-4f87-a136-41f4d23a76ab:onager-dunecrawler",
@@ -279,6 +307,42 @@ export default {
         "unit": "tech-priest-dominus"
       },
       "hash": "9af7334b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "673d57bc-ac5a-4d00-805c-5543dd8c2dbb:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Enginseer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer"
+      },
+      "hash": "3337914a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "dc5cdab8-d4dd-4988-a586-be5533ff02f1:tech-priest-enginseer",
+      "kind": "ability",
+      "name": "Tech-Priest Enginseer: Omnissiah’s Blessing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tech-priest-enginseer",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "bb4cdbc6",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -438,6 +502,20 @@ export default {
         "pickLimit": 1
       },
       "hash": "7b2f79b1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1887939d-3115-460c-88b3-f8f6dbfa70e0:thulia-ghuld",
+      "kind": "ability",
+      "name": "Thulia Ghuld: Mechanicus Bodyguard",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "thulia-ghuld"
+      },
+      "hash": "402acad0",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -667,6 +745,48 @@ export default {
       ]
     },
     {
+      "sid": "a17d231c-9e86-4986-b9a9-577f25cf8e0c",
+      "kind": "detachmentRule",
+      "name": "Stealth Optimisation",
+      "det": "Skitarii Hunter Cohort",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "skitarii-hunter-cohort"
+      },
+      "hash": "568f8cf5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "070d6e51-e685-4f6b-bfa2-64f2d6807ce3",
+      "kind": "enhancement",
+      "name": "Explorator Dispensation",
+      "det": "Cohort Acquisitus",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cohort-acquisitus"
+      },
+      "hash": "1810055e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5a7312e4-d267-4775-a7e6-1328941bfc9f",
+      "kind": "enhancement",
+      "name": "Stealth-screened Cybercanids (Upgrade)",
+      "det": "Cohort Acquisitus",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cohort-acquisitus"
+      },
+      "hash": "6850e19e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "04ebb33a-9b1f-4190-beea-d34b105f73ae",
       "kind": "enhancement",
       "name": "Arch-negator",
@@ -709,6 +829,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "43866891-3180-4b74-8e66-f85748cef297",
+      "kind": "enhancement",
+      "name": "Temporcopia",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "data-psalm-conclave"
+      },
+      "hash": "022d6b35",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
@@ -919,6 +1053,20 @@ export default {
       ]
     },
     {
+      "sid": "f8645d3a-a3b2-49df-a2c3-172d8825cceb",
+      "kind": "enhancement",
+      "name": "Electromiasmic Brazier",
+      "det": "Luminen Auto-Choir",
+      "ref": {
+        "kind": "enhancement",
+        "det": "luminen-auto-choir"
+      },
+      "hash": "31245ec6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c434dc26-c687-4677-b72d-c879da0c169b",
       "kind": "enhancement",
       "name": "Empowered Mechanisms",
@@ -967,6 +1115,20 @@ export default {
       ]
     },
     {
+      "sid": "4a33a897-bd07-4d57-a477-ef7ebf8dab38",
+      "kind": "enhancement",
+      "name": "Malphonic Susurrus",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rad-zone-corps"
+      },
+      "hash": "e4e604d3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6f6d7403-0605-4345-b7d6-d304b861a7a0",
       "kind": "enhancement",
       "name": "Peerless Eradicator",
@@ -993,6 +1155,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "ef50da0d-ca9d-49d9-b0db-d990d60b1c07",
+      "kind": "enhancement",
+      "name": "Clandestine Infiltrator",
+      "det": "Skitarii Hunter Cohort",
+      "ref": {
+        "kind": "enhancement",
+        "det": "skitarii-hunter-cohort"
+      },
+      "hash": "84a78712",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c5c70e06-87e7-4ed4-a1d9-b5828d640d87",
@@ -1053,6 +1229,21 @@ export default {
       "dur": "round"
     },
     {
+      "sid": "e9b63132-d31d-4435-a89e-4c9a49a7bf50",
+      "kind": "stratagem",
+      "name": "Benevolence of the Omnissiah",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cohort-cybernetica",
+        "name": "Benevolence of the Omnissiah"
+      },
+      "hash": "b72b2093",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "85cd645b-36de-4c71-94fb-d1dd8b63d61d",
       "kind": "stratagem",
       "name": "Motive Imperative",
@@ -1090,6 +1281,21 @@ export default {
         "name": "Chant of the Remorseless Fist"
       },
       "hash": "47ce045f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "87035c38-ee30-42d3-8590-098f1cdd797b",
+      "kind": "stratagem",
+      "name": "Incantation of the Iron Soul",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "data-psalm-conclave",
+        "name": "Incantation of the Iron Soul"
+      },
+      "hash": "26d88d82",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1177,6 +1383,21 @@ export default {
         "name": "Auto-oracular Retrieval"
       },
       "hash": "e29b5af5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e4005739-ca42-4298-9462-752d4d07cea1",
+      "kind": "stratagem",
+      "name": "Incense Exhausts",
+      "det": "Explorator Maniple",
+      "ref": {
+        "kind": "stratagem",
+        "det": "explorator-maniple",
+        "name": "Incense Exhausts"
+      },
+      "hash": "23e16f0a",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1299,6 +1520,33 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "b6df434f-d754-4673-aa84-4ec62abb19d6",
+      "kind": "stratagem",
+      "name": "Bionic Endurance",
+      "det": "Skitarii Hunter Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skitarii-hunter-cohort",
+        "name": "Bionic Endurance"
+      },
+      "hash": "2dcc4ebb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

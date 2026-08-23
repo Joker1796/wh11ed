@@ -505,6 +505,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "4597efdf-31b9-4972-b398-9116923f65ea:skyweavers",
+      "kind": "ability",
+      "name": "Skyweavers: Acrobatic Grace",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skyweavers"
+      },
+      "hash": "87a55d7c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c27d57ab-4d05-4e54-8319-bbd4e47aba54:solitaire",
       "kind": "ability",
       "name": "Solitaire: Blitz",
@@ -560,6 +574,17 @@ export default {
       "effects": []
     },
     {
+      "sid": "7bdcd61c-033a-4dd1-8f01-38870f3a58f0:spiritseer-kygharil",
+      "kind": "ability",
+      "name": "Spiritseer Kygharil: Spiritseer",
+      "det": null,
+      "ref": null,
+      "hash": "0075b36b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b3663a94-996e-49eb-9222-a6454f12733a:spiritseer",
       "kind": "ability",
       "name": "Spiritseer: Spirit Mark",
@@ -584,6 +609,42 @@ export default {
       "effects": []
     },
     {
+      "sid": "12387ba9-c005-400c-b6a1-383571c02456:spiritseer",
+      "kind": "ability",
+      "name": "Spiritseer: Spiritseer",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spiritseer"
+      },
+      "hash": "cb16a106",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f40fc41c-07ce-4fb5-a82f-9f836a09b78b:starfangs",
+      "kind": "ability",
+      "name": "Starfangs: Hallucinogen Grenades",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "starfangs",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI INFANTRY"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "3cc5239e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5807db74-ec48-49cf-ab65-62ed949dcc29:stonesinger",
       "kind": "ability",
       "name": "Stonesinger: Elemental Ensnarement",
@@ -593,6 +654,43 @@ export default {
         "unit": "stonesinger"
       },
       "hash": "8fc274d8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b2d8ae70-d954-416e-ac47-a237da706df5:the-visarch",
+      "kind": "ability",
+      "name": "The Visarch: Way of the Blade",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-visarch"
+      },
+      "hash": "f54f8f52",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "777969ea-dcca-4088-82fe-0b6eadb97124:the-visarch",
+      "kind": "ability",
+      "name": "The Visarch: Yvraine’s Champion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-visarch"
+      },
+      "hash": "6e31de92",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1084,6 +1182,20 @@ export default {
       ]
     },
     {
+      "sid": "87e31755-0855-4acb-9561-42dc6d2f6040:ynnari-succubus",
+      "kind": "ability",
+      "name": "Ynnari Succubus: Empowered by Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ynnari-succubus"
+      },
+      "hash": "21c2d773",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d3d0bb1a-87c9-4e46-9237-2d6c05ccee4a:ynnari-succubus",
       "kind": "ability",
       "name": "Ynnari Succubus: Storm of Blades",
@@ -1143,6 +1255,20 @@ export default {
       ]
     },
     {
+      "sid": "8ec01895-99aa-488d-9ee9-e49c6deb3585",
+      "kind": "detachmentRule",
+      "name": "Strength from Death",
+      "det": "Devoted of Ynnead",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "devoted-of-ynnead"
+      },
+      "hash": "81a3d78f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ffd11536-5f6e-44a3-8f8a-f3833e44dc1c",
       "kind": "detachmentRule",
       "name": "Defend At All Costs",
@@ -1199,6 +1325,20 @@ export default {
       }
     },
     {
+      "sid": "1c52dc8a-4a81-4545-aad5-e373d306e9cb",
+      "kind": "detachmentRule",
+      "name": "Dance of Distortion",
+      "det": "Twilight Flickers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "twilight-flickers"
+      },
+      "hash": "255ff2e4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f40ed095-81a8-49e6-b58a-6c5e8c907e68",
       "kind": "detachmentRule",
       "name": "Martial Grace",
@@ -1225,6 +1365,20 @@ export default {
         "kind": "detachmentRule",
         "det": "warhost"
       }
+    },
+    {
+      "sid": "c6afafd7-2084-43da-af98-5ea9d98ed9f3",
+      "kind": "enhancement",
+      "name": "Spirit Stone of Raelyth",
+      "det": "Armoured Warhost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-warhost"
+      },
+      "hash": "863f06db",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "af33d000-b02d-40ef-9c11-0e0e92432740",
@@ -1313,6 +1467,28 @@ export default {
       }
     },
     {
+      "sid": "867996f1-aa68-4a1d-a57c-bc2ee1e0e36d",
+      "kind": "enhancement",
+      "name": "Webway Pathstone",
+      "det": "Corsair Coterie",
+      "ref": {
+        "kind": "enhancement",
+        "det": "corsair-coterie"
+      },
+      "hash": "5abca7e4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "4c728b85-8794-4043-9890-15c62ee1ee74",
       "kind": "enhancement",
       "name": "Borrowed Vigour",
@@ -1386,6 +1562,34 @@ export default {
       ]
     },
     {
+      "sid": "0b334c87-9ac3-471d-9708-20ecb762b900",
+      "kind": "enhancement",
+      "name": "Mistweave",
+      "det": "Fateful Performance",
+      "ref": {
+        "kind": "enhancement",
+        "det": "fateful-performance"
+      },
+      "hash": "2faf0432",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "67e3f31f-1ec0-4ad5-b92e-c5e9d7ce7146",
+      "kind": "enhancement",
+      "name": "Mistweave",
+      "det": "Ghosts of the Webway",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ghosts-of-the-webway"
+      },
+      "hash": "800a886e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "0ab6c77a-f7e0-4175-a08a-d7ac02cee847",
       "kind": "enhancement",
       "name": "Craftworld’s Champion",
@@ -1406,6 +1610,31 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "b9241196-72d9-4b64-94f2-7e485bf0a84b",
+      "kind": "enhancement",
+      "name": "Ethereal Pathway",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardian-battlehost"
+      },
+      "hash": "d05a838a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "9f284647-768c-470b-a84e-42450935b075",
+      "kind": "enhancement",
+      "name": "Guided Jump",
+      "det": "Kygharil's Protectors",
+      "ref": null,
+      "hash": "47487144",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "38c84028-2718-4537-bf80-3808d06997bd",
@@ -1462,6 +1691,20 @@ export default {
       }
     },
     {
+      "sid": "c2eaaffb-4410-4c56-ba4c-f24c5b725653",
+      "kind": "enhancement",
+      "name": "Runes of Warding",
+      "det": "Seer Council",
+      "ref": {
+        "kind": "enhancement",
+        "det": "seer-council"
+      },
+      "hash": "8aae3144",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d4232944-2e90-4b98-8350-2fedc2258f40",
       "kind": "enhancement",
       "name": "Stone of Eldritch Fury",
@@ -1486,6 +1729,20 @@ export default {
         }
       ],
       "note": "the +12\" is real and unconditional, but it applies to a SUBSET of the weapon table this format cannot address, so it annotates instead of rewriting every range"
+    },
+    {
+      "sid": "39ac87c1-1d96-4aaf-909b-6addb2fa6cad",
+      "kind": "enhancement",
+      "name": "Key of Ghosts",
+      "det": "Serpent’s Brood",
+      "ref": {
+        "kind": "enhancement",
+        "det": "serpents-brood"
+      },
+      "hash": "645c7155",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "964c822b-33e6-412a-8ebd-fa8d57373161",
@@ -1558,6 +1815,34 @@ export default {
       }
     },
     {
+      "sid": "be347cc7-e483-497b-a475-0d5d3be07a32",
+      "kind": "enhancement",
+      "name": "Prelude Performer",
+      "det": "Twilight Flickers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "twilight-flickers"
+      },
+      "hash": "9316d2d5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "627a96a6-71e7-4eb1-81ef-83be078a8900",
+      "kind": "enhancement",
+      "name": "Shadowfall Masks (Upgrade)",
+      "det": "Twilight Flickers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "twilight-flickers"
+      },
+      "hash": "2a9b512e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7c7a454e-4548-414f-9cf1-5faf80dddd9d",
       "kind": "enhancement",
       "name": "Psychic Destroyer",
@@ -1581,6 +1866,20 @@ export default {
         "kind": "enhancement",
         "det": "warhost"
       }
+    },
+    {
+      "sid": "fb8a0e05-6f2c-49f6-aa41-963dfe850ef3",
+      "kind": "enhancement",
+      "name": "Firstdrawn Blade",
+      "det": "Windrider Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "windrider-host"
+      },
+      "hash": "61e696d7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "16d5e738-7ef2-4b1c-8ab2-0d06387fe9c8",
@@ -1616,6 +1915,21 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "0353efc2-003c-4da7-bb1b-c687e36155b6",
+      "kind": "stratagem",
+      "name": "Layered Wards",
+      "det": "Armoured Warhost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-warhost",
+        "name": "Layered Wards"
+      },
+      "hash": "5967579f",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7ef3eaef-b37c-48e2-9bd4-0378cdc068b9",
@@ -1659,6 +1973,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "e6d81d10-fb30-42ac-b70b-dcf91203b6fe",
+      "kind": "stratagem",
+      "name": "Cloak and Shadow",
+      "det": "Corsair Coterie",
+      "ref": {
+        "kind": "stratagem",
+        "det": "corsair-coterie",
+        "name": "Cloak and Shadow"
+      },
+      "hash": "2e05f68c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "def8613e-eee9-4cb4-9297-76807bced5b5",
@@ -1829,6 +2158,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "b6e68ab5-ae3a-4ca1-83bd-4e4a370cea97",
+      "kind": "stratagem",
+      "name": "Yriel’s Example",
+      "det": "Eldritch Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "eldritch-raiders",
+        "name": "Yriel’s Example"
+      },
+      "hash": "2dcc4ebb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "51ff6332-28a3-4308-bc38-3644ffd4c908",
       "kind": "stratagem",
       "name": "Blades of Asuryan",
@@ -1911,6 +2267,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "9907d0a7-4f77-449d-8e36-28115304d029",
+      "kind": "stratagem",
+      "name": "Unshrouded Truth",
+      "det": "Seer Council",
+      "ref": {
+        "kind": "stratagem",
+        "det": "seer-council",
+        "name": "Unshrouded Truth"
+      },
+      "hash": "9f4867a1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "178f6e1e-0a30-4650-9ad5-77b19be4c409",

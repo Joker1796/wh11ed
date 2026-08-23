@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "990335c4-d2ed-4eac-8677-3ef24c8cd375:broadside-battlesuits",
+      "kind": "ability",
+      "name": "Broadside Battlesuits: Advanced Armour",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "broadside-battlesuits"
+      },
+      "hash": "4e6472f8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4ff7e6d5-ee30-452f-8ef8-e11bfc6de69a:cadre-fireblade",
       "kind": "ability",
       "name": "Cadre Fireblade: Crack Shot",
@@ -185,6 +199,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "3a57eda6-acfc-40b9-9c84-3187094862aa:ethereal",
+      "kind": "ability",
+      "name": "Ethereal: Failure Is Not an Option",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ethereal"
+      },
+      "hash": "ccc78431",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "1b0c45a9-bee6-47d2-8424-d0aa5a1522a1:hammerhead-gunship",
       "kind": "ability",
       "name": "Hammerhead Gunship: Armour Hunter",
@@ -197,6 +234,29 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "8483191d-9223-42a3-984f-af76afc80b30:kroot-flesh-shaper",
+      "kind": "ability",
+      "name": "Kroot Flesh Shaper: Rites of Feasting",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kroot-flesh-shaper"
+      },
+      "hash": "42e02f83",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "eb78b17b-a5dc-4131-a00b-1cbd6e432c73:kroot-flesh-shaper",
@@ -583,6 +643,20 @@ export default {
         "det": "auxiliary-cadre"
       },
       "hash": "42062682",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "aa6050b1-4d24-4801-930e-e3871441ac4d",
+      "kind": "enhancement",
+      "name": "Student of Kauyon",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "auxiliary-cadre"
+      },
+      "hash": "6829c2e3",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -983,6 +1057,20 @@ export default {
       }
     },
     {
+      "sid": "f4e9290f-d6cd-469b-94cc-cf7b908c59ad",
+      "kind": "enhancement",
+      "name": "Strike Swiftly",
+      "det": "Mont’ka",
+      "ref": {
+        "kind": "enhancement",
+        "det": "montka"
+      },
+      "hash": "d020ecaa",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f73f4a42-c4b1-4ef7-bd9c-deaf79bc413d",
       "kind": "enhancement",
       "name": "Internal Grenade Racks",
@@ -1290,6 +1378,48 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "95f3d7cd-07f9-4e45-bc44-9726c1bc9843",
+      "kind": "stratagem",
+      "name": "Fail-safe Detonator",
+      "det": "Retaliation Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "retaliation-cadre",
+        "name": "Fail-safe Detonator"
+      },
+      "hash": "fe05abda",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a7b887c0-722a-4c93-b146-c3f7b23d815d",
+      "kind": "stratagem",
+      "name": "Stimm Injectors",
+      "det": "Retaliation Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "retaliation-cadre",
+        "name": "Stimm Injectors"
+      },
+      "hash": "37f47123",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "af84591d-2433-4909-92bf-63d3cee6c3c5",
@@ -1910,6 +2040,21 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "e63aac10-6f51-4d7d-afff-4ef394b32978:pathfinder-team",
+      "kind": "wargear",
+      "name": "Pathfinder Team: Recon Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "pathfinder-team",
+        "item": "recon drone"
+      },
+      "hash": "6aeccd03",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:pathfinder-team",

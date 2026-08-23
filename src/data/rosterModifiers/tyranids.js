@@ -226,6 +226,48 @@ export default {
       "effects": []
     },
     {
+      "sid": "88a02083-c150-45cc-8e5b-71bd828c6c55:norn-assimilator",
+      "kind": "ability",
+      "name": "Norn Assimilator: Singular Purpose",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "norn-assimilator"
+      },
+      "hash": "cea69fa9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "88a02083-c150-45cc-8e5b-71bd828c6c55:norn-emissary",
+      "kind": "ability",
+      "name": "Norn Emissary: Singular Purpose",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "norn-emissary"
+      },
+      "hash": "cea69fa9",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "c7285376-ad91-4341-81ca-ec7cf356e639:norn-emissary",
+      "kind": "ability",
+      "name": "Norn Emissary: Unnatural Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "norn-emissary"
+      },
+      "hash": "52db8bfd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "73a70679-e107-49b7-8667-25145e5cbe27:psychophage",
       "kind": "ability",
       "name": "Psychophage: Bio-stimulus",
@@ -356,12 +398,59 @@ export default {
       ]
     },
     {
+      "sid": "7a889eea-b714-4644-84d8-3e99dcf8245b:tyrant-guard",
+      "kind": "ability",
+      "name": "Tyrant Guard: Guardian Organism",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tyrant-guard"
+      },
+      "hash": "0a8aee18",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "fbb597fc-642e-4616-bb1c-441dc9eaad5a:vardenghast-swarm-barbgaunts",
       "kind": "ability",
       "name": "Vardenghast Swarm Barbgaunts: Disruption Bombardment",
       "det": null,
       "ref": null,
       "hash": "3b43c984",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d6188f39-6a42-4c2d-9d21-f2df003aa3c8:vardenghast-swarm-psychophage",
+      "kind": "ability",
+      "name": "Vardenghast Swarm Psychophage: Bio-stimulus (Aura)",
+      "det": null,
+      "ref": null,
+      "hash": "3f2d7792",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f940edde-72b8-4ff5-91db-d44d85368c1e:venomthropes",
+      "kind": "ability",
+      "name": "Venomthropes: Foul Spores",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "venomthropes",
+        "scopes": [
+          {
+            "targets": [
+              "TYRANIDS"
+            ],
+            "excludes": []
+          }
+        ]
+      },
+      "hash": "ecdaf1f7",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -478,6 +567,20 @@ export default {
       }
     },
     {
+      "sid": "4608d63e-8da1-41d1-91fe-7a2ec2e8b2d0",
+      "kind": "detachmentRule",
+      "name": "Mindhunger",
+      "det": "Ambush Predators",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "ambush-predators"
+      },
+      "hash": "13bbacff",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6fdc5e01-fce9-4451-ba94-b2cfe91aff19",
       "kind": "detachmentRule",
       "name": "Enraged Behemoths",
@@ -536,6 +639,20 @@ export default {
       }
     },
     {
+      "sid": "ce279cdd-c6b1-4b68-9b14-7a506b3c596c",
+      "kind": "enhancement",
+      "name": "Instinctive Defence",
+      "det": "Assimilation Swarm",
+      "ref": {
+        "kind": "enhancement",
+        "det": "assimilation-swarm"
+      },
+      "hash": "d69eff9d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c96ad299-23ee-4528-9b36-00173e02299d",
       "kind": "enhancement",
       "name": "Parasitic Biomorphology",
@@ -585,6 +702,20 @@ export default {
       }
     },
     {
+      "sid": "37e81a72-9536-4ec8-b9d4-cfc58aff5141",
+      "kind": "enhancement",
+      "name": "Null Nodules",
+      "det": "Crusher Stampede",
+      "ref": {
+        "kind": "enhancement",
+        "det": "crusher-stampede"
+      },
+      "hash": "842c8612",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "87509b4c-bbec-4bef-8ffe-c9d57a9351b4",
       "kind": "enhancement",
       "name": "Ominous Presence",
@@ -605,6 +736,28 @@ export default {
         "kind": "enhancement",
         "det": "crusher-stampede"
       }
+    },
+    {
+      "sid": "89da4916-0d30-4b0e-a7d1-6c3b96a80d97",
+      "kind": "enhancement",
+      "name": "Adaptive Biology",
+      "det": "Invasion Fleet",
+      "ref": {
+        "kind": "enhancement",
+        "det": "invasion-fleet"
+      },
+      "hash": "3b7155b5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e39bb599-731d-4f13-855f-50b8508438af",
@@ -790,6 +943,28 @@ export default {
       ]
     },
     {
+      "sid": "24f1eb9a-4966-44fa-8a86-0cd82bae357e",
+      "kind": "enhancement",
+      "name": "Chameleonic",
+      "det": "Vanguard Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vanguard-onslaught"
+      },
+      "hash": "2e7f32ea",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "e93d1916-52d5-4c51-a097-c89a1b1783a9",
       "kind": "enhancement",
       "name": "Stalker",
@@ -869,6 +1044,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "dba23d7e-df57-434f-8829-03cbfe84d881",
+      "kind": "stratagem",
+      "name": "Ablative Carapace",
+      "det": "Assimilation Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "assimilation-swarm",
+        "name": "Ablative Carapace"
+      },
+      "hash": "2c0de403",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "2824ee77-aa79-49dd-a64b-d5b19a7d1776",
       "kind": "stratagem",
       "name": "Broodguard Impulse",
@@ -929,6 +1131,33 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fd4cd9bf-d7b1-4225-a64b-e3ee837fe4b6",
+      "kind": "stratagem",
+      "name": "Rapid Regeneration",
+      "det": "Invasion Fleet",
+      "ref": {
+        "kind": "stratagem",
+        "det": "invasion-fleet",
+        "name": "Rapid Regeneration"
+      },
+      "hash": "8e0b6907",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1012,6 +1241,21 @@ export default {
         "name": "Reinforced Hive Node"
       },
       "hash": "068f028a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a00e9bdd-8eb5-4f20-bf21-965bc8aa1ded",
+      "kind": "stratagem",
+      "name": "Catalytic Biofortification",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-norn-queen",
+        "name": "Catalytic Biofortification"
+      },
+      "hash": "84dbd5f5",
       "ver": 925,
       "reviewed": true,
       "effects": []
@@ -1138,6 +1382,21 @@ export default {
         "name": "Surprise Assault"
       },
       "hash": "cac1695a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "01ac5989-ef6d-4d4b-a3ff-c9b389972480",
+      "kind": "stratagem",
+      "name": "Unseen Lurkers",
+      "det": "Vanguard Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "vanguard-onslaught",
+        "name": "Unseen Lurkers"
+      },
+      "hash": "f05dcd4e",
       "ver": 925,
       "reviewed": true,
       "effects": []
