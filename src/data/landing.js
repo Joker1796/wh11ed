@@ -17,8 +17,8 @@ export const landing = {
         key: 'factions',
         label: 'Factions',
         path: '/factions',
-        badge: '28 factions',
-        desc: 'Army rules, detachments and searchable unit datasheets for all 28 factions — with base sizes and bilingual EN/RU text.',
+        badge: '30 factions',
+        desc: 'The full rules of every faction — army rule, detachments with their stratagems and enhancements, and a searchable datasheet for every unit, in both languages, with base sizes.',
       },
       {
         key: 'roster',
@@ -78,8 +78,8 @@ export const landing = {
         key: 'factions',
         label: 'Фракции',
         path: '/factions',
-        badge: '28 фракций',
-        desc: 'Правила армии, детачменты и листы данных юнитов с поиском — для всех 28 фракций, с размерами баз и двуязычным EN/RU текстом.',
+        badge: '30 фракций',
+        desc: 'Полные правила каждой фракции — правило армии, детачменты со стратагемами и улучшениями и лист данных каждого юнита, на двух языках и с размерами баз.',
       },
       {
         key: 'roster',

@@ -24,6 +24,17 @@ describe('LandingView', () => {
     expect(w.find('.landing-help a').attributes('href')).toBe('/help')
   })
 
+  // The faction count is written into the copy on both sides, and it had already drifted two
+  // behind the data. Pin it to the index so the next faction added can't leave the page lying.
+  it('counts the factions the way the data does', async () => {
+    const { factionGroups } = await import('../data/factionsIndex.js')
+    const ready = factionGroups.flatMap((g) => g.factions).filter((f) => f.ready).length
+    for (const loc of ['en', 'ru']) {
+      const card = landing[loc].sections.find((s) => s.key === 'factions')
+      expect(card.badge, loc).toContain(String(ready))
+    }
+  })
+
   it('says what the site is, in both locales, including the builder', () => {
     for (const loc of ['en', 'ru']) {
       expect(landing[loc].sections.map((s) => s.key))
