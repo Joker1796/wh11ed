@@ -309,7 +309,16 @@ export default {
       "hash": "9af7334b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "673d57bc-ac5a-4d00-805c-5543dd8c2dbb:tech-priest-enginseer",

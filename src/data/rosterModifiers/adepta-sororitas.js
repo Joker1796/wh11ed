@@ -586,7 +586,16 @@ export default {
       "hash": "b2cfdcaf",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7d97856b-0bd3-4e08-bd78-094d7f56b9d0:triumph-of-saint-katherine",
