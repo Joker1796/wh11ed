@@ -1264,12 +1264,29 @@ export default {
       "det": "Mont’ka",
       "ref": {
         "kind": "enhancement",
-        "det": "montka"
+        "det": "montka",
+        "scopes": [
+          {
+            "targets": [
+              "T'AU EMPIRE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "d020ecaa",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f73f4a42-c4b1-4ef7-bd9c-deaf79bc413d",

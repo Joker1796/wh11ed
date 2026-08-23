@@ -787,7 +787,15 @@ export default {
       "det": "Auric Champions",
       "ref": {
         "kind": "enhancement",
-        "det": "auric-champions"
+        "det": "auric-champions",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS CUSTODES"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "74e74f07",
       "ver": 925,

@@ -1034,7 +1034,15 @@ export default {
       "det": "Armoured Infantry",
       "ref": {
         "kind": "enhancement",
-        "det": "armoured-infantry"
+        "det": "armoured-infantry",
+        "scopes": [
+          {
+            "targets": [
+              "ARMOURED SKIRMISHER"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "03ae5d87",
       "ver": 925,

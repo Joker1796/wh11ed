@@ -1034,12 +1034,29 @@ export default {
       "det": "Sekhetar Cohort",
       "ref": {
         "kind": "enhancement",
-        "det": "sekhetar-cohort"
+        "det": "sekhetar-cohort",
+        "scopes": [
+          {
+            "targets": [
+              "SEKHETAR ROBOTS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "f0b0c532",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2d9eaedb-d4b1-4d07-9cc4-3bb50194cfeb",
@@ -1048,7 +1065,21 @@ export default {
       "det": "Sekhetar Cohort",
       "ref": {
         "kind": "enhancement",
-        "det": "sekhetar-cohort"
+        "det": "sekhetar-cohort",
+        "scopes": [
+          {
+            "targets": [
+              "SEKHETAR ROBOTS"
+            ],
+            "excludes": []
+          },
+          {
+            "targets": [
+              "SEKHETAR ROBOTS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "fbdf20f6",
       "ver": 925,

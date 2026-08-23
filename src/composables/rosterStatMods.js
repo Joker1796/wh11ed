@@ -367,9 +367,22 @@ function armyRuleMatches(recName, ourName) {
   return a === b || a.includes(b) || b.includes(a)
 }
 
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, auraOn = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, itemNames = null, leaderItemNames = null, leaderEnhNames = null, auraOn = null } = {}) {
   const out = []
   for (const rec of records || []) {
+    // An ENHANCEMENT aura reaches this unit in two ways this function can answer. Its bearer's own
+    // card gets it from resolveModifierEntries (that is the entry that took the relic); here we
+    // cover the two OTHER cards: the unit the bearer is attached to, where 22.01 puts the model
+    // inside the aura with no distance to judge, and any entry the player has marked. Same keyword
+    // gate as an ability aura — `ref.scopes`, read off the prose by the generator.
+    if (rec.ref?.kind === 'enhancement') {
+      const aura = (rec.effects || []).filter((e) => e.target === 'aura')
+      if (!aura.length) continue
+      const scopes = rec.ref.scopes || null
+      if (leaderEnhNames?.has(rec.name)) out.push({ ...rec, body: '', effects: aura, from: 'led', scopes })
+      else if (auraOn?.has(rec.sid)) out.push({ ...rec, body: '', effects: aura, from: 'aura', scopes })
+      continue
+    }
     if (rec.kind === 'wargear' && rec.ref?.kind === 'wargear') {
       const at = rec.name.indexOf(': ')
       const split = { name: at === -1 ? rec.name : rec.name.slice(at + 2), owner: at === -1 ? null : rec.name.slice(0, at) }
@@ -449,7 +462,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
-  keywords = [], factionKeywordSets = null, active = null, chosen = null,
+  keywords = [], factionKeywordSets = null, active = null, chosen = null, leaderEnhNames = null,
 } = {}) {
   const out = []
   const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
@@ -460,9 +473,22 @@ export function aurasReaching(records, {
   const proven = (rec, e) => (!rec.ref?.set || chosen?.has(rec.sid))
     && (!e.cond?.length || e.cond.every((id) => active?.has(id)))
   for (const rec of records || []) {
-    if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear') continue
+    if (rec.ref?.kind !== 'ability' && rec.ref?.kind !== 'wargear' && rec.ref?.kind !== 'enhancement') continue
     const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
+    // An ENHANCEMENT aura radiates from an ENTRY, not from a datasheet: which model wears the relic
+    // is the roster's answer, so the source is found by the enhancement's name and the two certain
+    // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
+    // than by unit id.
+    if (rec.ref.kind === 'enhancement') {
+      if (leaderEnhNames?.has(rec.name)) continue
+      if (!reaching.some((e) => effectApplies(e, rec.ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+      for (const u of rosterUnits) {
+        if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
+        out.push({ sid: rec.sid, source: u.name || u.id, sourceUid: u.uid, unit: u.id, name: rec.name })
+      }
+      continue
+    }
     if (automatic.has(rec.ref.unit)) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
@@ -536,7 +562,16 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
     } else if (rec.ref.kind === 'enhancement') {
       if (!enhancementName || enhKey(rec.name) !== enhKey(enhancementName)) continue
       const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(rec.name))
-      if (found?.body) out.push({ ...rec, body: found.body })
+      if (!found?.body) continue
+      // An enhancement AURA reaches whole units, so it is the one part of an enhancement that does
+      // NOT simply address its bearer: it comes with the keyword gate its prose named (`ref.scopes`,
+      // read by the generator), and the bearer collects it only if the bearer matches that gate —
+      // 22.01 puts the model inside its own aura, it does not make a Captain part of the DEATH
+      // COMPANY. Split so the rest of the enhancement stays ungated, as every enhancement is.
+      const aura = (rec.effects || []).filter((e) => e.target === 'aura')
+      const own = (rec.effects || []).filter((e) => e.target !== 'aura')
+      if (own.length || !aura.length) out.push({ ...rec, body: found.body, effects: own })
+      if (aura.length) out.push({ ...rec, body: found.body, effects: aura, scopes: rec.ref.scopes || null, from: 'self' })
     }
   }
   return out

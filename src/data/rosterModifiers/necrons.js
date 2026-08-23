@@ -1006,7 +1006,17 @@ export default {
       "effects": [],
       "ref": {
         "kind": "enhancement",
-        "det": "awakened-dynasty"
+        "det": "awakened-dynasty",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": [
+              "CHARACTER"
+            ]
+          }
+        ]
       }
     },
     {

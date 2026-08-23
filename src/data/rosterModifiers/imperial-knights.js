@@ -892,12 +892,37 @@ export default {
       "det": "Questor Forgepact",
       "ref": {
         "kind": "enhancement",
-        "det": "questor-forgepact"
+        "det": "questor-forgepact",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "5f1d6155",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3e7ec35c-7e28-40fd-99ad-6326fe7d3101",

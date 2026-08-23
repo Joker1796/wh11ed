@@ -760,10 +760,27 @@ export default {
       "hash": "41be1610",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "target": "aura",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
-        "det": "rage-cursed-onslaught"
+        "det": "rage-cursed-onslaught",
+        "scopes": [
+          {
+            "targets": [
+              "DEATH COMPANY"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {

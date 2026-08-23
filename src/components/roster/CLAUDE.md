@@ -1214,17 +1214,30 @@ empties), debuffs on an ENEMY unit, and an op for a MULTIPLIED characteristic ("
 Control", "triple the Attacks") — those last are proposed and closed as empties on purpose, so the
 rule is on the record rather than invisible.
 
-**An AURA can only hang off an ability or a piece of wargear.** `target` is restricted to
-`kind: 'ability' | 'wargear'` (`index.test.js`) because `aurasReaching` finds the radiating entry
-through `ref.unit` — the datasheet the rule is printed on. An ENHANCEMENT or a DETACHMENT RULE has
-no `ref.unit`: its bearer is whichever entry the roster gave it, known only at runtime. So twelve
-friendly-aura buffs stay reviewed empties even though every other part of the machinery exists —
-Sanguinary Tear (+1 S to a DEATH COMPANY unit within 6"), Font of Spores, Improbable Shield, Knight
-of the Opus Machina, Martial Espionage, Chrono-impedance Fields, Occulus Infernum, Strike Swiftly,
-and the nested auras inside Cogbound Alliance, Abject Fear, Dread Catechism and Idols of Khorne.
-Closing it means teaching `aurasReaching` to resolve an enhancement's bearer from the roster (the
-editor already knows it — `enhancementName` reaches `resolveModifierEntries`), then letting the two
-kinds carry `target`.
+**An AURA hangs off an ability, a piece of wargear or an ENHANCEMENT.** The first two find their
+radiating entry through `ref.unit` — the datasheet the rule is printed on. An enhancement has no
+`ref.unit`: which model wears the relic is the roster's answer, so it is resolved by NAME instead
+(added 2026-08-23, for the eight relics that buff the units around their bearer):
+
+- the generator gives an enhancement `ref.scopes` the same way it does an ability (`auraRef`), and
+  `index.test.js` lets `kind: 'enhancement'` carry `target` — for `aura` and nothing else;
+- `resolveModifierEntries` SPLITS such a record: the ordinary effects stay ungated (an enhancement
+  addresses its bearer), the aura effects come back as a second entry carrying `scopes`, so the
+  bearer collects them only if the bearer matches the gate. 22.01 puts the model inside its own
+  aura; it does not make a Captain part of the DEATH COMPANY, and Sanguinary Tear's +1 Strength
+  must not land on the Captain wearing it;
+- `datasheetEntriesFor` covers the other two cards — `leaderEnhNames` (the unit the bearer joined,
+  certain by 22.01, no chip) and `auraOn` (anyone the player marked);
+- `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
+  `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
+
+**Still out of reach: a DETACHMENT RULE that grants an aura ability.** Three of them
+("Friendly IMPERIAL KNIGHTS models have the following ability: Assisted Targeting (Aura): while a
+friendly ADEPTUS MECHANICUS unit is within 6"…" — Cogbound Alliance, Mobile Sensor Relays, Idols of
+Khorne, of which the last modifies rolls and is out of scope anyway). They need TWO keyword gates,
+one for who carries the aura and one for who it reaches, and the record shape has exactly one
+(`effect.scope`, an index into the rule's own scopes). Two records is not worth a second scope
+field and a chip with no source entry to name.
 
 Of the conditional effects that stay sentinels, the reasons are worth knowing before trying to
 shrink the number: 26 name part of a unit the rule's own prose gives no statement for

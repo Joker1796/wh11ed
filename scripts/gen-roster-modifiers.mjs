@@ -313,8 +313,12 @@ function sourcesOf(bundle, detById) {
     for (const r of d.rules || []) {
       out.push({ sid: r.id, kind: 'detachmentRule', name: r.name, det: d.name, ref: whDet ? { kind: 'detachmentRule', det: whDet } : null, prose: bodyText(r.body) })
     }
+    // An enhancement can be an AURA too ("while a friendly DEATH COMPANY unit is within 6\" of the
+    // bearer…"), and then it needs the same keyword gate an ability aura carries — without it the
+    // buff meant for the Death Company would land on the Captain wearing the relic.
     for (const e of d.enhancements || []) {
-      out.push({ sid: e.id, kind: 'enhancement', name: e.name, det: d.name, ref: whDet ? { kind: 'enhancement', det: whDet } : null, prose: appdataToMarkup(e.rules) })
+      const prose = appdataToMarkup(e.rules)
+      out.push({ sid: e.id, kind: 'enhancement', name: e.name, det: d.name, ref: whDet ? { kind: 'enhancement', det: whDet, ...auraRef(prose) } : null, prose })
     }
     // STRATAGEMS — the seventh source, added 2026-08-22 and the largest of them all: 1427 across
     // the game, 405 of which rewrite a characteristic. Unlike every other source a stratagem is not

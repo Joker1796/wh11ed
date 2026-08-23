@@ -906,7 +906,15 @@ export default {
       "det": "Covenite Coterie",
       "ref": {
         "kind": "enhancement",
-        "det": "covenite-coterie"
+        "det": "covenite-coterie",
+        "scopes": [
+          {
+            "targets": [
+              "DRUKHARI"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "3149a83e",
       "ver": 925,

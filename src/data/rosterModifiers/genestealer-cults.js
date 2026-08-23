@@ -506,7 +506,16 @@ export default {
       "hash": "88e4b31d",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "target": "aura",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "brood-brothers-auxilia"

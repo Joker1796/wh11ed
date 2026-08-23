@@ -1443,7 +1443,21 @@ export default {
       "det": "Armoured Warhost",
       "ref": {
         "kind": "enhancement",
-        "det": "armoured-warhost"
+        "det": "armoured-warhost",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI VEHICLE"
+            ],
+            "excludes": []
+          },
+          {
+            "targets": [
+              "AELDARI VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "863f06db",
       "ver": 925,
@@ -1937,7 +1951,15 @@ export default {
       ],
       "ref": {
         "kind": "enhancement",
-        "det": "spirit-conclave"
+        "det": "spirit-conclave",
+        "scopes": [
+          {
+            "targets": [
+              "WRAITH CONSTRUCT"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {
@@ -1947,7 +1969,17 @@ export default {
       "det": "Spirit Conclave",
       "ref": {
         "kind": "enhancement",
-        "det": "spirit-conclave"
+        "det": "spirit-conclave",
+        "scopes": [
+          {
+            "targets": [
+              "WRAITH CONSTRUCT"
+            ],
+            "excludes": [
+              "TITANIC"
+            ]
+          }
+        ]
       },
       "hash": "f3dc41b8",
       "ver": 925,

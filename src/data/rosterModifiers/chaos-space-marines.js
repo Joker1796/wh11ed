@@ -2089,7 +2089,15 @@ export default {
       "det": "Soulforged Warpack",
       "ref": {
         "kind": "enhancement",
-        "det": "soulforged-warpack"
+        "det": "soulforged-warpack",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "0061db28",
       "ver": 925,
@@ -2129,7 +2137,15 @@ export default {
       "effects": [],
       "ref": {
         "kind": "enhancement",
-        "det": "soulforged-warpack"
+        "det": "soulforged-warpack",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES DAEMON VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {

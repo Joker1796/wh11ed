@@ -802,7 +802,15 @@ export default {
       "det": "Rapid Evisceration",
       "ref": {
         "kind": "enhancement",
-        "det": "rapid-evisceration"
+        "det": "rapid-evisceration",
+        "scopes": [
+          {
+            "targets": [
+              "EMPEROR’S CHILDREN VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "c0f8388f",
       "ver": 925,
