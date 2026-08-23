@@ -294,6 +294,54 @@ export default {
       ]
     },
     {
+      "sid": "f2ae231c-1b15-4767-8884-015a768c86f0:mortarion",
+      "kind": "ability",
+      "name": "Mortarion: Boon of Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mortarion",
+        "scopes": [
+          {
+            "targets": [
+              "DEATH GUARD"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Lord of the Death Guard",
+        "pickLimit": 1
+      },
+      "hash": "5ed4e4b1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b0bb67e8-39cd-452d-bf7e-4c2c159ec9d9:mortarion",
+      "kind": "ability",
+      "name": "Mortarion: Diseased Influence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mortarion",
+        "scopes": [
+          {
+            "targets": [
+              "DEATH GUARD"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Lord of the Death Guard",
+        "pickLimit": 1
+      },
+      "hash": "54f7453a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b4450eec-288c-4778-bb01-a366e62b4ff1:mortarion",
       "kind": "ability",
       "name": "Mortarion: Inflamed Reprisal",
@@ -309,7 +357,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Lord of the Death Guard"
+        "set": "Lord of the Death Guard",
+        "pickLimit": 1
       },
       "hash": "16b5bcee",
       "ver": 925,

@@ -211,6 +211,69 @@ export function activeStratagems(player, clock, entry, records) {
   return out
 }
 
+// WHICH OPTION OF AN ABILITY SET IS UP — the same shape as a spent stratagem: keyed by the option
+// record's sid, stamped when it was picked, and lasting the battle round the set's own wording
+// gives it ("until the start of the next battle round this model has those abilities"). Every set
+// in the game is worded that way, so the window is not per-record.
+export function activePicks(player, clock, entry) {
+  const out = new Set()
+  const store = entry?.uid ? player?.ctx?.picks?.[entry.uid] : null
+  if (!store) return out
+  for (const [sid, at] of Object.entries(store)) {
+    if (stampHolds(at, 'round', clock)) out.add(sid)
+  }
+  return out
+}
+
+// Every option picked anywhere in this army, whichever model picked it. An ability set belongs to a
+// named character — 15 of the 16 in the game are on a unique model — so "the Fiery Heart is up"
+// is effectively an army-wide fact, and the modifiers it feeds land on OTHER units (its aura), whose
+// own `ctx.picks` know nothing about it. The one non-unique exception is the Drukhari Raider, where
+// two of them would share one choice; that is the price of not threading the source entry through
+// every apply pass, and it is written down rather than hidden.
+export function allPicks(player, clock) {
+  const out = new Set()
+  for (const store of Object.values(player?.ctx?.picks || {})) {
+    for (const [sid, at] of Object.entries(store)) {
+      if (stampHolds(at, 'round', clock)) out.add(sid)
+    }
+  }
+  return out
+}
+
+// The chips for the sets this entry's own card prints: one per option, grouped by set, with the
+// set's size on the group so the tally reads "2 of 6" rather than "2 of the two we modelled".
+// An option that changes no number is a chip all the same — a set showing two of its six options
+// is a tally nobody can read, and the point of these chips is following the choice.
+// `records` are the RAW option records (rosterModifiers' pickEntries), not resolved ones: an option
+// that changes no number carries no effects and so never reaches the resolver — and those are
+// exactly the ones a tally needs.
+export function pickSwitchesFor(records, player, clock, entry) {
+  const on = activePicks(player, clock, entry)
+  return (records || [])
+    .filter((rec) => rec.ref?.set && rec.ref.unit === entry?.id)
+    .map((rec) => {
+      const at = rec.name.indexOf(': ')
+      return {
+        id: rec.sid,
+        // The record is named "<unit>: <ability>"; the chip shows the ability, and the view swaps
+        // in the RU card's own name for it.
+        label: { en: at === -1 ? rec.name : rec.name.slice(at + 2), ru: at === -1 ? rec.name : rec.name.slice(at + 2) },
+        on: on.has(rec.sid),
+        auto: false,
+        pick: true,
+        group: `set:${rec.ref.set}`,
+        groupLimit: rec.ref.pickLimit || 1,
+        from: {
+          owner: at === -1 ? null : rec.name.slice(0, at),
+          ability: at === -1 ? rec.name : rec.name.slice(at + 2),
+          set: rec.ref.set,
+          unit: rec.ref.unit,
+        },
+      }
+    })
+}
+
 // The auras the player says are reaching this unit right now, as a set of record ids. The window is
 // a BATTLE ROUND: what makes an aura start or stop applying is movement, and re-confirming every
 // phase would be a tap per unit per phase for a fact that rarely changes inside one round. Erring
@@ -354,11 +417,6 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     if (c.scope !== 'clock') return true
     return c.rounds ? true : normaliseClock(clock).tracked
   }
-  // WHERE a switch comes from, for the ones that belong to a rule printed on a named unit: an
-  // ability set's options ("select up to two Relics of the Matriarchs") are switched above the
-  // list, far from the card that explains them, so the chip has to be able to say whose they are,
-  // name itself the way that card does, and hand the reader the rule text.
-  const owners = new Map()
   for (const rec of resolvedEntries || []) {
     for (const eff of rec.effects || []) {
       if (!eff.cond?.length) continue
@@ -367,22 +425,13 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
       // without which an effect whose other half can be flipped would offer a switch that changes
       // nothing on screen.
       if (!eff.cond.every(answerable)) continue
-      for (const id of eff.cond) {
-        if (conditions[id].scope !== scope) continue
-        ids.add(id)
-        if (!owners.has(id) && rec.ref?.set) {
-          owners.set(id, { owner: rec.owner || null, ability: rec.name, set: rec.ref.set, unit: rec.ref.unit || null })
-        }
-      }
+      for (const id of eff.cond) if (conditions[id].scope === scope) ids.add(id)
     }
   }
   const active = activeConditions(player, clock, entry)
   return [...ids].map((id) => ({
     id,
     label: conditions[id].label,
-    // Null for every switch that is just a state of the battle ("this unit charged"); set for the
-    // options of an ability set, which are somebody's printed rule.
-    from: owners.get(id) || null,
     on: active.has(id),
     auto: isAuto(id),           // shown, but not the player's to flip here
     duration: conditions[id].duration,

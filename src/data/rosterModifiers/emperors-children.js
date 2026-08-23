@@ -73,6 +73,54 @@ export default {
       "effects": []
     },
     {
+      "sid": "8f5e1acd-04e7-4af5-9a10-260a57c23807:fulgrim",
+      "kind": "ability",
+      "name": "Fulgrim: Beguiling Form",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fulgrim",
+        "set": "Daemon Primarch of Slaanesh",
+        "pickLimit": 1
+      },
+      "hash": "0ffe6c64",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "20022824-dde8-47a5-8860-7fcbe3c9af76:fulgrim",
+      "kind": "ability",
+      "name": "Fulgrim: Daemonic Speed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fulgrim",
+        "set": "Daemon Primarch of Slaanesh",
+        "pickLimit": 1
+      },
+      "hash": "728f7122",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d43dee4b-b513-49f2-85d0-f84c7ab38017:fulgrim",
+      "kind": "ability",
+      "name": "Fulgrim: Enthralling Hypnosis (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fulgrim",
+        "set": "Daemon Primarch of Slaanesh",
+        "pickLimit": 1
+      },
+      "hash": "e93c66db",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "2c211c4e-657c-4c46-8cdf-23a93bd835cf:keeper-of-secrets",
       "kind": "ability",
       "name": "Keeper of Secrets: Daemon Lord of Slaanesh",

@@ -94,10 +94,11 @@ describe('rosterModifiers data', () => {
           expect(eff.when.ru.length, `${where}: when.ru`).toBeGreaterThan(0)
           // …and its machine-readable half, so "cannot be automated" and "nobody has looked at
           // this yet" can never look the same. A sentinel IS an answer; a missing `cond` is not.
-          // A STRATAGEM is the exception: being spent is itself the condition, and `activeStrats`
-          // answers it, so `cond` there is only for what the stratagem asks ON TOP ("…against
-          // MONSTER targets") and may be absent.
-          if (e.kind !== 'stratagem') {
+          // Two kinds are the exception: a STRATAGEM (being spent is itself the condition) and an
+          // ability set's OPTION (being the one picked is), both answered by the record's own id.
+          // `cond` there is only for what the rule asks ON TOP ("…against MONSTER targets") and
+          // may be absent.
+          if (e.kind !== 'stratagem' && !e.ref?.set) {
             expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
           }
           for (const id of eff.cond || []) {

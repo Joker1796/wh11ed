@@ -515,6 +515,32 @@ export function useTracker() {
     if (!Object.keys(pl.ctx.strats[uid]).length) delete pl.ctx.strats[uid]
   }
 
+  // An ABILITY SET's choice — "select up to two of the abilities in the Relics of the Matriarchs
+  // section; until the start of the next battle round this model has those abilities". Keyed like
+  // a spent stratagem (roster entry uid → the option record's sid → the stamp it was picked at),
+  // because it is a choice this model made rather than a state it is in, and because the set's
+  // options are records, not vocabulary.
+  //
+  // `siblings` are the set's other option sids and `limit` how many it holds, both from the record
+  // (`ref.set` / `ref.pickLimit`): the store enforces the cap without knowing what a set IS,
+  // evicting the OLDEST pick the same way a condition group does.
+  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.picks) pl.ctx.picks = {}
+    if (!pl.ctx.picks[uid]) pl.ctx.picks[uid] = {}
+    const store = pl.ctx.picks[uid]
+    if (on) {
+      const held = siblings
+        .filter((other) => other !== sid && store[other] != null)
+        .map((other, i) => ({ sid: other, at: store[other], i }))
+        .sort((a, b) => a.at - b.at || a.i - b.i)
+      for (const h of held.slice(0, Math.max(0, held.length - (limit - 1)))) delete store[h.sid]
+      store[sid] = at
+    } else delete store[sid]
+    if (!Object.keys(store).length) delete pl.ctx.picks[uid]
+  }
+
   // An AURA the player says is reaching this unit — keyed by the roster entry's uid and then by
   // the modifier record's sid, exactly like a spent stratagem and for the same reason: it is not a
   // state of the unit but a relationship with another model, identified by the record it comes
@@ -912,7 +938,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
-    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura,
+    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

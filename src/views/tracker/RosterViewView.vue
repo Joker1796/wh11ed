@@ -244,6 +244,7 @@
       }"
       :game-ctx="viewingGameCtx"
       @toggle-aura="toggleViewingAura"
+      @toggle-pick="toggleViewingPick"
       @toggle-cond="toggleUnitCond"
       @toggle-strat="toggleUnitStrat"
       @close="viewingUid = null"
@@ -273,7 +274,7 @@ import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEn
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -480,18 +481,23 @@ function statCellsOf(entry) {
 // bundle whose rule bodies ruleTargets.js reads. Both are per-faction dynamic imports, and
 // `loadFaction` memoizes, so opening the Rules tab afterwards costs nothing extra.
 const modifierRecords = ref([])
+// The ability-set options, which are records too but carry no effects of their own — they exist to
+// be picked (rosterGameContext's pickSwitchesFor).
+const pickRecords = ref([])
 const factionEn = ref(null)
 watch(() => roster.value?.faction, async (slug) => {
   modifierRecords.value = []
+  pickRecords.value = []
   factionEn.value = null
   if (!slug) return
-  const [{ loadRosterModifiers, usableEntries }, { loadFaction }] = await Promise.all([
+  const [{ loadRosterModifiers, usableEntries, pickEntries }, { loadFaction }] = await Promise.all([
     import('../../data/rosterModifiers/index.js'),
     import('../../data/factions/index.js'),
   ])
   const [mods, fac] = await Promise.all([loadRosterModifiers(slug), loadFaction(slug)])
   if (roster.value?.faction !== slug) return
   modifierRecords.value = usableEntries(mods)
+  pickRecords.value = pickEntries(mods)
   factionEn.value = fac?.en || null
 }, { immediate: true })
 
@@ -537,6 +543,18 @@ function attachmentCtxOf(entry) {
   }
 }
 
+// Everything the player has NAMED on this entry, as record ids: the stratagems spent on it and the
+// ability-set options picked on it. Both are proven by the choice itself rather than by a
+// condition, and rosterStatMods answers for them through one set.
+function chosenFor(entry, resolved) {
+  return new Set([
+    ...activeStratagems(gamePlayer.value, gameClock.value, entry, resolved),
+    // Picks are read army-wide, not per entry: a relic picked on the Triumph feeds an aura that
+    // lands on the Sisters, whose own picks know nothing about it (see allPicks).
+    ...allPicks(gamePlayer.value, gameClock.value),
+  ])
+}
+
 function statModsFor(entry, sheet) {
   if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
   const resolved = resolvedFor(entry)
@@ -551,9 +569,9 @@ function statModsFor(entry, sheet) {
   // same clock, so the plate and the card can never disagree. Resolved BEFORE the keyword grants,
   // since a stratagem can hand out a keyword (Daemonic Possession's DAEMON) that decides which
   // other rules bear on the unit at all.
-  const strats = activeStratagems(gamePlayer.value, gameClock.value, entry, resolved)
-  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, strats).map((g) => g.kw)]
-  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, strats)
+  const chosen = chosenFor(entry, resolved)
+  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
+  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, chosen)
 }
 
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────
@@ -623,6 +641,7 @@ const auraSwitchCache = computed(() => {
       factionKeywordSets: factionKeywordSets.value,
       // …and only the auras whose own rule is running: an unselected relic changes nothing.
       active: activeFor(e),
+      chosen: chosenFor(e, resolvedFor(e)),
     })
     const named = reaching.map((a) => {
       const info = ruleInfoOf(a.unit, a.name)
@@ -632,7 +651,25 @@ const auraSwitchCache = computed(() => {
   }
   return m
 })
-function unitChipsOf(entry) { return [...unitSwitchesOf(entry), ...(auraSwitchCache.value.get(entry.uid) || [])] }
+// Which option of each ability set this unit's own card prints is up. On the unit's row, with its
+// states and the auras reaching it: it is that model's choice, made every round, and the card that
+// explains it is behind the row anyway.
+const pickSwitchCache = computed(() => {
+  const m = new Map()
+  if (!canSwitch.value) return m
+  for (const e of roster.value?.units || []) {
+    const chips = pickSwitchesFor(pickRecords.value, gamePlayer.value, gameClock.value, e)
+    if (chips.length) m.set(e.uid, withRuleInfo(chips))
+  }
+  return m
+})
+function unitChipsOf(entry) {
+  return [
+    ...unitSwitchesOf(entry),
+    ...(pickSwitchCache.value.get(entry.uid) || []),
+    ...(auraSwitchCache.value.get(entry.uid) || []),
+  ]
+}
 // The one chip that stays on the row: Battle-shock rides on every unit in the game and is marked
 // every Command phase. If a list somehow has no Battle-shock record, the first chip takes its place
 // rather than the row losing its strip altogether.
@@ -654,6 +691,13 @@ function toggleChips(uid) {
 function toggleUnitChip(entry, sw) {
   if (sw.aura) {
     tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
+    return
+  }
+  if (sw.pick) {
+    // The set's own size caps it, and the store evicts the oldest pick — the same way a condition
+    // group behaves, so picking a third relic drops the one that has been up longest.
+    const siblings = (pickSwitchCache.value.get(entry.uid) || []).filter((c) => c.group === sw.group).map((c) => c.id)
+    tracker.value?.setUnitPick(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, { siblings, limit: sw.groupLimit })
     return
   }
   toggleUnitCondFor(entry, sw)
@@ -693,6 +737,11 @@ const viewingGameCtx = computed(() => {
     strats: canSwitch.value ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value) : [],
     // …and the auras of other entries that reach it, the same chips its row carries.
     auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    // …and which option of its own ability set is up, likewise the row's chips.
+    picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
+    // read the same number its row does.
+    chosen: canSwitch.value ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
     switches: canSwitch.value
       ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
@@ -710,6 +759,10 @@ function toggleUnitStrat(st) {
 function toggleViewingAura(sw) {
   if (!viewingEntry.value) return
   tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
+}
+
+function toggleViewingPick(sw) {
+  if (viewingEntry.value) toggleUnitChip(viewingEntry.value, sw)
 }
 
 function toggleUnitCond(sw) {

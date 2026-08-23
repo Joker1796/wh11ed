@@ -176,7 +176,7 @@ function abilitySources(bundle, dsBySid) {
     // record has to exist per datasheet — each one points its `ref` at a different unit. The uuid
     // still leads the key, so the identity is unchanged; the suffix only separates the copies, and
     // the pair is stable across runs.
-    const push = (id, name, prose, extra) => {
+    const push = (id, name, prose, extra, always = false) => {
       if (!id || !prose) return
       out.push({
         sid: `${id}:${wh || slugifyName(d.name)}`,
@@ -185,6 +185,8 @@ function abilitySources(bundle, dsBySid) {
         det: null,
         ref: wh ? { kind: 'ability', unit: wh, ...auraRef(prose), ...extra } : null,
         prose,
+        // A source that gets a record whether or not its prose looks like a modifier — see below.
+        always,
       })
     }
     for (const a of d.abilities || []) {
@@ -194,11 +196,16 @@ function abilitySources(bundle, dsBySid) {
       // section; until the start of the next battle round this model has those abilities". The
       // parent's own prose is the picking instruction and changes no number; the options under it
       // do, and appdata carries them as `subAbilities`. 16 sets across the game, 52 options, and
-      // until 2026-08-23 not one of them was a source. `ref.set` is the parent's name: which
-      // option is up is a group-limited choice (conditions.js's GROUP_LIMITS), and the group is
-      // the set.
+      // until 2026-08-23 not one of them was a source.
+      //
+      // EVERY option gets a record, candidate or not (`always`): which one is up is a choice the
+      // player makes each round and wants to see, and a set showing two of its six options is a
+      // tally that cannot be read. The ones that change no number carry no effects and never will
+      // — they are there to be picked. `ref.set` names the parent, `ref.pickLimit` says how many
+      // of it may be up at once, read from the parent's own instruction.
+      const limit = /select (?:up to )?two\b/i.test(a.rules || '') ? 2 : 1
       for (const sa of a.subAbilities || []) {
-        push(sa.id, sa.name, appdataToMarkup(sa.rules), { set: a.name })
+        push(sa.id, sa.name, appdataToMarkup(sa.rules), { set: a.name, pickLimit: limit }, true)
       }
     }
   }
@@ -356,7 +363,7 @@ function classify(existing, sources, ver) {
   }
   for (const s of sources) {
     if (known.has(s.sid)) continue
-    if (isCandidate(s.prose)) fresh.push(s)
+    if (s.always || isCandidate(s.prose)) fresh.push(s)
   }
   return { stale, fresh, orphan, ok, ver }
 }

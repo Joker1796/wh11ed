@@ -46,6 +46,12 @@
           </h4>
           <ConditionChips :switches="gameCtx.strats" @toggle="$emit('toggle-strat', $event)" />
         </div>
+        <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
+             Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
+        <div v-if="gameCtx?.picks?.length" class="rum-strats">
+          <h4 class="rum-strats-h">{{ gameCtx.picks[0].from?.set || labels.dsAbilities }}</h4>
+          <ConditionChips :switches="gameCtx.picks" @toggle="$emit('toggle-pick', $event)" />
+        </div>
         <!-- Auras of other units in the list that reach this one. The chips are also on this
              unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
              aura the rules answer for (22.01: the bearer's own unit, the unit it is attached to)
@@ -163,7 +169,7 @@ const props = defineProps({
   // this player may flip from here. Null everywhere else, which is the read-only behaviour.
   gameCtx: { type: Object, default: null },
 })
-defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura'])
+defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
@@ -408,7 +414,13 @@ const activeAuraIds = computed(() => new Set((props.gameCtx?.auras || []).filter
 
 // The stratagems the player says are up on this unit, as a set of record ids. Shared by the stat
 // pass and the keyword pass so the two cannot disagree about whether one is in force.
-const activeStratIds = computed(() => new Set((props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id)))
+// Everything the player has NAMED on this card, as record ids: stratagems spent on it, and the
+// ability-set options picked anywhere in the army (a relic picked on the Triumph feeds the aura
+// that lands here — see rosterGameContext's allPicks).
+const activeStratIds = computed(() => new Set([
+  ...(props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id),
+  ...(props.gameCtx?.chosen || []),
+]))
 
 // What is true for this unit right now. In a game the tracker answers (gameCtx.active); off the
 // table the LIST still answers for itself — an enhancement gated on "while the bearer is leading a

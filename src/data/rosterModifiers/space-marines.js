@@ -1112,6 +1112,22 @@ export default {
       "effects": []
     },
     {
+      "sid": "fa32fb8b-9b66-4c9b-82df-06d5273bcebc:roboute-guilliman",
+      "kind": "ability",
+      "name": "Roboute Guilliman: Master of Battle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "roboute-guilliman",
+        "set": "Author of the Codex",
+        "pickLimit": 2
+      },
+      "hash": "097c90f3",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "76a6280a-359a-4d23-973a-de8d6afc20e5:roboute-guilliman",
       "kind": "ability",
       "name": "Roboute Guilliman: Primarch of the XIII (Aura)",
@@ -1127,7 +1143,8 @@ export default {
             "excludes": []
           }
         ],
-        "set": "Author of the Codex"
+        "set": "Author of the Codex",
+        "pickLimit": 2
       },
       "hash": "b4922e6d",
       "ver": 925,
@@ -1142,12 +1159,33 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "codex-primarch-of-the-xiii"
-          ]
+          }
         }
       ]
+    },
+    {
+      "sid": "e567e6c8-d5f0-494f-9ee9-5ffb5ae8dacb:roboute-guilliman",
+      "kind": "ability",
+      "name": "Roboute Guilliman: Supreme Strategist",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "roboute-guilliman",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Author of the Codex",
+        "pickLimit": 2
+      },
+      "hash": "689e94af",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e89c5fdd-1344-409a-968f-7ee791cfcfc6:storm-speeder-hailstrike",

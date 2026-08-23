@@ -331,7 +331,8 @@ export default {
             ]
           }
         ],
-        "set": "Triarch Abilities"
+        "set": "Triarch Abilities",
+        "pickLimit": 1
       },
       "hash": "39225b1a",
       "ver": 925,
@@ -346,12 +347,35 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "triarch-phaeron-of-the-blades"
-          ]
+          }
         }
       ]
+    },
+    {
+      "sid": "8c31ec08-cfe2-4d58-ad1d-3138807c9d28:the-silent-king",
+      "kind": "ability",
+      "name": "The Silent King: Phaeron of the Stars (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-silent-king",
+        "scopes": [
+          {
+            "targets": [
+              "NECRONS"
+            ],
+            "excludes": [
+              "MONSTER"
+            ]
+          }
+        ],
+        "set": "Triarch Abilities",
+        "pickLimit": 1
+      },
+      "hash": "594b1a50",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "4fac3e0b-fe87-430a-a259-4a7b70854de8:the-silent-king",
@@ -371,7 +395,8 @@ export default {
             ]
           }
         ],
-        "set": "Triarch Abilities"
+        "set": "Triarch Abilities",
+        "pickLimit": 1
       },
       "hash": "a7467e93",
       "ver": 925,
@@ -386,10 +411,7 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "triarch-relentless-march"
-          ]
+          }
         }
       ]
     },

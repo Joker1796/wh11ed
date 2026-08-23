@@ -8,6 +8,32 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "65763fed-86e9-4fc4-aaaf-cafb90f63b99:abaddon-the-despoiler",
+      "kind": "ability",
+      "name": "Abaddon the Despoiler: Lord of the Traitor Legions (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "abaddon-the-despoiler",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES"
+            ],
+            "excludes": [
+              "DAMNED"
+            ]
+          }
+        ],
+        "set": "Warmaster",
+        "pickLimit": 1
+      },
+      "hash": "71c8951b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "338a2363-49b5-4862-b395-88a5463b1490:abaddon-the-despoiler",
       "kind": "ability",
       "name": "Abaddon the Despoiler: Mark of Chaos Ascendant (Aura)",
@@ -15,7 +41,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "abaddon-the-despoiler",
-        "set": "Warmaster"
+        "set": "Warmaster",
+        "pickLimit": 1
       },
       "hash": "d553fbfd",
       "ver": 925,
@@ -30,12 +57,35 @@ export default {
           "when": {
             "en": "while this ability is the one selected",
             "ru": "пока выбрана эта способность"
-          },
-          "cond": [
-            "warmaster-mark-ascendant"
-          ]
+          }
         }
       ]
+    },
+    {
+      "sid": "02291736-47e1-4e9c-be70-af04df246944:abaddon-the-despoiler",
+      "kind": "ability",
+      "name": "Abaddon the Despoiler: Paragon of Hatred (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "abaddon-the-despoiler",
+        "scopes": [
+          {
+            "targets": [
+              "HERETIC ASTARTES"
+            ],
+            "excludes": [
+              "DAMNED"
+            ]
+          }
+        ],
+        "set": "Warmaster",
+        "pickLimit": 1
+      },
+      "hash": "5a65192c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "74e8bcac-20e7-42a6-bb3f-da299f501a0c:chaos-bikers",

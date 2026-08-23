@@ -723,19 +723,34 @@ round, select up to two of the abilities in the Relics of the Matriarchs section
 the next battle round this model has those abilities": the PARENT's prose is the picking
 instruction and changes no number, and the options that do live under it. 16 sets across the game,
 52 options, 16 of which touch a characteristic — one of them is why the Triumph of Saint Katherine's
-card showed nothing at all. Each option is an ordinary `kind: 'ability'` record (`ref.set` names its
-parent); which one is UP is a group-limited switch in `conditions.js` (`relic-*`, `triarch-*`,
-`temple-*`, …), army-scope because every set in the game is printed on a named character, and
-round-long because that is the window the sets state.
+card showed nothing at all. **EVERY option gets a record**, whether or not it changes a number (the generator's `always` flag —
+the only source exempt from `isCandidate`): a set showing two of its six options is a tally nobody
+can read, and following the choice is the whole point of these chips. 52 records, 16 of them with
+effects.
 
-Those chips sit above the unit list, three screens from the card that explains them, so
-`switchesFor` gives every switch a **`from`** (`{ owner, ability, set, unit }`, filled only for a
-record with a `ref.set`) and `RosterViewView.withRuleInfo` turns it into what a reader needs: the
-group headed by **the unit and the set** it belongs to, the chip **named the way that unit's card
-names it** (the RU overlay's own translation, via the `ruleInfo` map — abilities, sets and options,
-keyed by their ENGLISH name), and an **"i"** opening the rule text in the same popover a core
-ability uses. Aura chips carry the same three, for the same reason: they name a rule printed on
-somebody else's card.
+**Which option is up is a CHOICE, not a condition** — the same shape as a spent stratagem, and
+deliberately not vocabulary:
+
+- state lives in `player.ctx.picks[uid][sid]`, keyed by the option's own record, stamped when it
+  was picked and lasting the **battle round** every set's wording gives it;
+- the cap is the set's own size (`ref.pickLimit`, read from the parent's "select up to two"), and
+  `setUnitPick` evicts the oldest pick when a full set gains one — the store never learns what a
+  set IS, the caller passes the siblings;
+- the effects carry **no `cond`**: `effectLive`'s `byChoice` treats a stratagem and a set option
+  alike, and `applyStatMods` gates them whether or not they carry a `when` (a reviewer leaving it
+  null must not turn the gate off);
+- **picks are read army-wide** (`allPicks`): 15 of the 16 sets are on a unique model, and a relic
+  picked on the Triumph feeds an aura landing on the Sisters, whose own `ctx.picks` know nothing
+  about it. The Drukhari Raider is the one non-unique exception and would share one choice between
+  two of them — the price of not threading the source entry through every apply pass.
+
+The chips are **on the unit's row** (behind the chevron, with its states and auras): the choice
+belongs to that model. Each carries `from` (`{ owner, ability, set, unit }`), which
+`RosterViewView.withRuleInfo` turns into what a reader needs — the group headed by **the unit and
+the set**, the chip **named the way that unit's card names it** (the RU overlay's translation, via
+the `ruleInfo` map — abilities, sets and options, keyed by their ENGLISH name), and an **"i"**
+opening the rule text in the same popover a core ability uses. Aura chips carry the same three, for
+the same reason: they name a rule printed on somebody else's card.
 
 **Auras** (`target: 'aura'`) are the first modifier that reaches a unit the record was not printed
 on. Three answers, and only one of them is a question for the player:

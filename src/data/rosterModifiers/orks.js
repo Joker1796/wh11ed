@@ -756,7 +756,8 @@ export default {
       "ref": {
         "kind": "ability",
         "unit": "wazdakka-gutsmek",
-        "set": "Throttlerokkit Shokka Engine"
+        "set": "Throttlerokkit Shokka Engine",
+        "pickLimit": 1
       },
       "hash": "9acf37ea",
       "ver": 925,
@@ -772,11 +773,42 @@ export default {
             "ru": "когда отряд совершает Advance, вместо броска"
           },
           "cond": [
-            "throttlerokkit-pulse-jet",
             "unit-advanced"
           ]
         }
       ]
+    },
+    {
+      "sid": "0a9dfe49-0efc-44e9-8dde-277117562230:wazdakka-gutsmek",
+      "kind": "ability",
+      "name": "Wazdakka Gutsmek: Shokk Attack Engine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wazdakka-gutsmek",
+        "set": "Throttlerokkit Shokka Engine",
+        "pickLimit": 1
+      },
+      "hash": "5e90d4f4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "720b0a3f-a492-4a16-83fd-0b7cb329f624:wazdakka-gutsmek",
+      "kind": "ability",
+      "name": "Wazdakka Gutsmek: Turbo Engine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wazdakka-gutsmek",
+        "set": "Throttlerokkit Shokka Engine",
+        "pickLimit": 1
+      },
+      "hash": "104326c1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2d940cc9-32aa-4dcd-8b43-becc8872da25:weirdboy",

@@ -639,6 +639,34 @@ describe('an aura ability', () => {
   })
 })
 
+// An ability set's option is proven the same way a stratagem is: by the player choosing it. Its
+// effects carry no `cond` — the choice IS the condition.
+describe('an ability-set option', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const relic = {
+    sid: 'fiery', kind: 'ability', name: 'The Fiery Heart (Aura)', body: '',
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', set: 'Relics of the Matriarchs', pickLimit: 2 },
+    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, when: null }],
+  }
+
+  it('changes nothing until it is the option picked', () => {
+    expect(applyStatMods(sheet(), [relic], [], [], new Set(), new Set()).sheet.profiles[0].m).toBe('6"')
+    expect(applyStatMods(sheet(), [relic], [], [], new Set(), new Set(['fiery'])).sheet.profiles[0].m).toBe('8"')
+  })
+
+  it('is not offered as an aura chip while it is unpicked', () => {
+    const aura = { ...relic, effects: [{ ...relic.effects[0], target: 'aura' }] }
+    const ctx = {
+      unitId: 'battle-sisters-squad',
+      entryUid: 'b',
+      rosterUnits: [{ uid: 'a', id: 'triumph-of-saint-katherine', name: 'Triumph of Saint Katherine' }],
+      keywords: ['Adepta Sororitas'],
+    }
+    expect(aurasReaching([aura], ctx)).toEqual([])
+    expect(aurasReaching([aura], { ...ctx, chosen: new Set(['fiery']) })).toHaveLength(1)
+  })
+})
+
 describe('the live flag on a note', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
   const rule = (over) => ({

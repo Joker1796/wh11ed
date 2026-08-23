@@ -562,6 +562,21 @@ describe('condition switches', () => {
     expect(tracker.current.value.players[0].ctx.strats).toEqual({})
   })
 
+  // An ability set's choice is that model's, keyed by the option's own record — and the set's size
+  // caps it: picking a third relic drops the one that has been up longest.
+  it('records an ability-set pick, and evicts the oldest when the set is full', () => {
+    tracker.newGame(setupGame())
+    const set = { siblings: ['a', 'b', 'c'], limit: 2 }
+    tracker.setUnitPick(0, 'u1', 'a', 201, true, set)
+    tracker.setUnitPick(0, 'u1', 'b', 202, true, set)
+    expect(tracker.current.value.players[0].ctx.picks.u1).toEqual({ a: 201, b: 202 })
+    tracker.setUnitPick(0, 'u1', 'c', 203, true, set)
+    expect(tracker.current.value.players[0].ctx.picks.u1).toEqual({ b: 202, c: 203 })
+    tracker.setUnitPick(0, 'u1', 'b', 203, false, set)
+    tracker.setUnitPick(0, 'u1', 'c', 203, false, set)
+    expect(tracker.current.value.players[0].ctx.picks).toEqual({})
+  })
+
   // An aura is a relationship with another model, not a state of this one — so it is keyed by the
   // record it radiates from, in its own map, exactly like a spent stratagem.
   it('records an aura marked on a unit, and forgets it when unmarked', () => {

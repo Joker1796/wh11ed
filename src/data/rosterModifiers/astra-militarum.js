@@ -129,6 +129,70 @@ export default {
       ]
     },
     {
+      "sid": "70a1ca8c-56dc-4a33-a686-8dcc96c513a0:commissar-yarrick",
+      "kind": "ability",
+      "name": "Commissar Yarrick: Counterstrategist",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commissar-yarrick",
+        "scopes": [
+          {
+            "targets": [
+              "REGIMENT"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Hero of Hades Hive",
+        "pickLimit": 1
+      },
+      "hash": "3066cae6",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d93dac8b-cce2-4779-9091-ccf212d1ef77:commissar-yarrick",
+      "kind": "ability",
+      "name": "Commissar Yarrick: Decisive Command",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commissar-yarrick",
+        "set": "Hero of Hades Hive",
+        "pickLimit": 1
+      },
+      "hash": "e8bad77d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ef6bd73d-249a-4518-b0c7-c31ae41d6fd9:commissar-yarrick",
+      "kind": "ability",
+      "name": "Commissar Yarrick: Inspiring Hero (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commissar-yarrick",
+        "scopes": [
+          {
+            "targets": [
+              "ASTRA MILITARUM"
+            ],
+            "excludes": []
+          }
+        ],
+        "set": "Hero of Hades Hive",
+        "pickLimit": 1
+      },
+      "hash": "c0575d91",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6a0a7444-b91a-4ce4-8215-fb04d764ab7c:death-korps-of-krieg",
       "kind": "ability",
       "name": "Death Korps of Krieg: Grim Demeanour",
