@@ -313,6 +313,19 @@ function confirmDelete() {
 }
 .btn-ghost:hover { color: var(--text-primary); border-color: var(--accent); }
 
+/* Same treatment as the tracker's CTA row on phones: button-sized buttons on one line, not two
+   stretched panels. */
+@media (max-width: 480px) {
+  .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
+  .cta .btn-primary,
+  .cta .btn-ghost {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
 /* Same segmented control the wizard and GameSetup use for a small either/or choice. */
 .rl-tabs { margin: 0 auto 1rem; }
 .seg {

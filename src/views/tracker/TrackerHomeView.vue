@@ -452,6 +452,22 @@ function footLine(g) {
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
+
+/* Phones: these are three ordinary buttons (resume / new game / sign in), not three panels. They
+   stay the size of their own label — stretching them to share the row only turns the longest one
+   into a two-line block, which is how they got big in the first place — and the label is kept on
+   one line, which at this size fits even a 320px screen. */
+@media (max-width: 480px) {
+  .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
+  .cta .btn-primary,
+  .cta .ya-btn {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .ya-btn-logo { width: 16px; height: 16px; font-size: 0.72rem; }
+}
 .history-head {
   display: flex;
   align-items: center;
