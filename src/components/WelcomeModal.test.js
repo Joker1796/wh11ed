@@ -27,7 +27,10 @@ describe('WelcomeModal', () => {
     expect(body().findAll('.welcome-list li')).toHaveLength(3)
     expect(text).toContain('army list builder')   // what is here
     expect(text).toContain('no signal')           // the installed app goes fully offline
-    expect(text).toContain('on this device')      // where the reader's data lives
+    // Where the reader's data lives — and that signing in SYNCS it rather than merely copying it
+    // somewhere. The weaker word undersells the thing people actually want from an account.
+    expect(text).toContain('on this device')
+    expect(text).toMatch(/follow you|sign in/i)
 
     await body().find('.welcome-ok').trigger('click')
     expect(w.emitted('close')).toBeTruthy()
