@@ -536,6 +536,99 @@ Lychguard (160 points)
   })
 })
 
+// A third real list — pasted out of a rendered page rather than off the clipboard, so it arrives
+// with a multi-line joke for a title, its points on a line of their own, and every line flush at
+// column 0. Everything below was silently wrong on it.
+const FLAT = `“Meta? Never Heard of Her.”
+Everyone else brought the good stuff.
+I brought axes.
+
+(2000 points)
+
+World Eaters
+Berzerker Warband (3 Detachment Points)
+Priority Assets
+Strike Force (2000 points)
+
+Attached Units
+Attached Unit 1
+
+Khorne Berzerkers (330 points)
+• Attached as: Bodyguard (Battleline)
+• 1x Khorne Berzerker Champion
+• 1x Chainblade
+1x Plasma pistol
+• 19x Khorne Berzerker
+• 15x Bolt pistol
+15x Chainblade
+1x Icon of Khorne
+4x Khornate eviscerator
+4x Plasma pistol
+
+OTHER DATASHEETS
+
+Chaos Spawn (95 points)
+• 2x Chaos Spawn
+• 2x Hideous mutations
+
+Forgefiend (145 points)
+• 1x Ectoplasma cannon
+1x Forgefiend claws
+2x Hades autocannon`
+
+describe('parseList — a title of several lines, and a body that lost its indentation', () => {
+  const p = parseList(FLAT)
+
+  // A list name runs to as many lines as the player is funny, and the Force Disposition is a bare
+  // line too — so the faction is the bare line that ANSWERS as one, not the second one down.
+  it('finds the faction among the bare lines instead of counting to it', () => {
+    expect(p.name).toBe('“Meta? Never Heard of Her.”')
+    expect(p.faction).toBe('World Eaters')
+    expect(p.limit).toBe(2000)
+  })
+
+  it('still reads the units when every line sits at column 0', () => {
+    expect(p.units.map((u) => u.name)).toEqual(['Khorne Berzerkers', 'Chaos Spawn', 'Forgefiend'])
+  })
+})
+
+describe('matchRoster — the flat body, against our own data', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+
+  // With no indentation there is nothing in the TEXT to tell a model line from a weapon, so the
+  // datasheet decides: a line naming one of its profiles is models, the rest is gear.
+  it('recovers the model count from the datasheet’s own profiles', () => {
+    const { report } = matchRoster(parseList(FLAT), ctx)
+    const zerks = report.units.find((u) => u.name === 'Khorne Berzerkers')
+    expect(zerks.models).toBe(20)                    // the champion and nineteen berzerkers
+    expect(zerks.points.computed).toBe(330)
+    expect(zerks.gear.missing).toEqual([])
+  })
+
+  // A single-profile datasheet has no `minis` at all and answers under its own name.
+  it('reads a one-profile unit’s count off its own name, not as unplaceable wargear', () => {
+    const { report } = matchRoster(parseList(FLAT), ctx)
+    const spawn = report.units.find((u) => u.name === 'Chaos Spawn')
+    expect(spawn.models).toBe(2)
+    expect(spawn.gear.missing).toEqual([])
+  })
+
+  // A Forgefiend's ectoplasma cannon comes either from its autocannons or from its jaws. With
+  // "2x Hades autocannon" still listed, the autocannons were plainly not swapped — a swap takes
+  // something away — so the cannon came from the jaws. Taking the wrong group charged both.
+  it('will not take a swap whose replaced weapon is still in the list', () => {
+    const { report } = matchRoster(parseList(FLAT), ctx)
+    expect(report.units.find((u) => u.name === 'Forgefiend').points.computed).toBe(145)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')
