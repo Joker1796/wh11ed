@@ -413,20 +413,24 @@ export function matchFaction(name) {
 }
 
 // Every wargear option of a datasheet, by the names it could be written under: the option's own
-// label ("Hexrifle + Torturer's tool") and each item inside it.
+// label ("Hexrifle + Torturer's tool") and each item inside it — INCLUDING each half of a bundled
+// option. An export names what the models carry, never what the option is called, so a swap for
+// "1 hyperphase sword and 1 dispersion shield" arrives as two lines; indexing only single-item
+// options left both unplaceable and the swap untaken, which silently imported a Lychguard unit
+// still holding its printed warscythes.
 function optionIndex(def, items) {
   const idx = new Map()
   const put = (key, ref) => {
     if (!key) return
     if (!idx.has(key)) idx.set(key, [])
-    idx.get(key).push(ref)
+    const at = idx.get(key)
+    if (!at.some((r) => r.gi === ref.gi && r.oi === ref.oi)) at.push(ref)
   }
   def?.gear?.forEach((g, gi) => {
     g.o?.forEach((o, oi) => {
       const ref = { gi, oi, m: g.m ?? 0, stepper: g.in === 'stepper' }
       put(norm(optionLabel(o, items)), ref)
-      const inside = optionItems(o)
-      if (inside.length === 1) put(norm(items?.[inside[0][0]]), ref)
+      for (const [id] of optionItems(o)) put(norm(items?.[id]), ref)
     })
   })
   return idx
@@ -547,14 +551,21 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const ref = pool.find((r) => !picks.has(key2(r))) || pool[0]
         const k = key2(ref)
         const at = picks.get(k)
-        if (at) { if (ref.stepper) at[2] += left; break }
-        picks.set(k, [ref.gi, ref.oi, ref.stepper ? left : 1])
+        if (at) {
+          // A stepper counts MODELS. Another line naming the same weapon adds to that count; a line
+          // naming the OTHER HALF of a bundle is restating the same models ("10x Hyperphase sword"
+          // then "10x Dispersion Shield" is ten swaps, not twenty), so it takes the larger figure.
+          if (ref.stepper) at.n = at.names.has(key) ? at.n + left : Math.max(at.n, left)
+          at.names.add(key)
+          break
+        }
+        picks.set(k, { gi: ref.gi, oi: ref.oi, n: ref.stepper ? left : 1, names: new Set([key]) })
         if (ref.stepper) break
         left -= 1
       }
       line.gear.picked.push(w.name)
     }
-    if (picks.size) entry.wg = [...picks.values()]
+    if (picks.size) entry.wg = [...picks.values()].map((p) => [p.gi, p.oi, p.n])
 
     if (pu.enh) {
       const found = (faction.detachments || [])
