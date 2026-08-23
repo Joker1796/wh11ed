@@ -142,7 +142,12 @@ describe('rosterModifiers data', () => {
         // absent, and the effect applies ungated, the same fail-open direction ruleTargets takes.
         if (eff.target !== undefined) {
           expect(['self', 'led', 'leader', 'aura'], `${where}: target`).toContain(eff.target)
-          expect(['ability', 'wargear'], `${where}: target on a rule record`).toContain(e.kind)
+          // An ENHANCEMENT joined them on 2026-08-23, for `aura` alone: a relic that buffs units
+          // AROUND its bearer addresses other cards, so it needs the keyword gate and the chip an
+          // aura carries, while every other enhancement effect addresses its own bearer and would
+          // be applied to nobody if it claimed a target.
+          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement'] : ['ability', 'wargear']
+          expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
           if (e.kind === 'wargear' && eff.target !== 'aura') expect(eff.target, `${where}: wargear target`).toBe('led')
           expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
         }

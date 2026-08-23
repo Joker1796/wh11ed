@@ -409,6 +409,12 @@ const abilityModifiers = computed(() => {
     itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
     ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+    // An enhancement aura worn by an attached Leader covers this unit with no distance to judge
+    // (22.01 — the model is standing in it), so it arrives here rather than as a chip.
+    leaderEnhNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+      if (u.enh) set.add(u.enh)
+      return set
+    }, new Set()),
     // Auras the player marked on this unit, from the same store the list's chips write to — the
     // ones 22.01 makes certain (the bearer's own unit, the unit it is attached to) are not in it.
     auraOn: activeAuraIds.value,

@@ -769,7 +769,15 @@ export default {
       "det": "Saga of the Hunter",
       "ref": {
         "kind": "enhancement",
-        "det": "saga-of-the-hunter"
+        "det": "saga-of-the-hunter",
+        "scopes": [
+          {
+            "targets": [
+              "SPACE WOLVES"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "887e263f",
       "ver": 925,

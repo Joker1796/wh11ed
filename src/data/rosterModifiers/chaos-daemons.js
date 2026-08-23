@@ -1026,7 +1026,18 @@ export default {
       "det": "Blood Legion",
       "ref": {
         "kind": "enhancement",
-        "det": "blood-legion"
+        "det": "blood-legion",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA KHORNE"
+            ],
+            "excludes": [
+              "MONSTERS",
+              "MONSTER"
+            ]
+          }
+        ]
       },
       "hash": "66c3a4e1",
       "ver": 925,
@@ -1188,7 +1199,18 @@ export default {
       "effects": [],
       "ref": {
         "kind": "enhancement",
-        "det": "legion-of-excess"
+        "det": "legion-of-excess",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA SLAANESH"
+            ],
+            "excludes": [
+              "MONSTERS",
+              "MONSTER"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1202,7 +1224,18 @@ export default {
       "effects": [],
       "ref": {
         "kind": "enhancement",
-        "det": "legion-of-excess"
+        "det": "legion-of-excess",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA SLAANESH"
+            ],
+            "excludes": [
+              "MONSTERS",
+              "MONSTER"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1235,10 +1268,27 @@ export default {
       "hash": "e5278c50",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "target": "aura",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
-        "det": "plague-legion"
+        "det": "plague-legion",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA NURGLE"
+            ],
+            "excludes": []
+          }
+        ]
       }
     },
     {
@@ -1248,12 +1298,29 @@ export default {
       "det": "Scintillating Legion",
       "ref": {
         "kind": "enhancement",
-        "det": "scintillating-legion"
+        "det": "scintillating-legion",
+        "scopes": [
+          {
+            "targets": [
+              "LEGIONES DAEMONICA TZEENTCH"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "692e2a7a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
+          "target": "aura",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "bb19b8b3-0999-446a-80b9-da84024bcc61",

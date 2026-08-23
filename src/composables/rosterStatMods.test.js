@@ -666,6 +666,53 @@ describe('an aura ability', () => {
 // The trap this pins: `improve` only means something for a roll (3+ → 2+). For AP the rule's
 // "improve by 1" is authored as `add: -1`, and writing `improve` there applied nothing at all
 // while still reading as a reviewed effect.
+// An enhancement aura is the one enhancement effect that does not simply address its bearer, so it
+// is resolved like an ability aura: gated by the keywords its prose named, certain for the unit the
+// bearer joined, and a chip for anyone else. Added 2026-08-23 — before it, twelve relics that buff
+// the units AROUND their bearer could not be stated at all.
+describe('an enhancement that is an aura', () => {
+  const relic = {
+    sid: 'tear', kind: 'enhancement', name: 'Sanguinary Tear (Aura)', det: 'Rage-cursed Onslaught',
+    ref: { kind: 'enhancement', det: 'rage-cursed-onslaught', scopes: [{ targets: ['DEATH COMPANY'], excludes: [] }] },
+    effects: [{ on: 'weapon', stat: 's', op: 'add', value: 1, target: 'aura', when: null }],
+  }
+  const facEn = { detachments: [{ id: 'rage-cursed-onslaught', name: 'Rage-cursed Onslaught', enhancements: [{ name: 'Sanguinary Tear (Aura)', body: 'While a friendly DEATH COMPANY unit is within 6" of the bearer…' }] }] }
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4' }], melee: [{ name: 'Chainsword', s: '4' }] })
+  const bearer = ['Captain', 'Adeptus Astartes']
+  const company = ['Death Company', 'Adeptus Astartes']
+
+  it('buffs its own bearer only when the bearer passes the gate', () => {
+    const resolved = resolveModifierEntries([relic], facEn, ['Rage-cursed Onslaught'], 'Sanguinary Tear (Aura)', null)
+    expect(applyStatMods(sheet(), resolved, bearer, []).sheet.melee[0].s).toBe('4')
+    expect(applyStatMods(sheet(), resolved, company, []).sheet.melee[0].s).toBe('5')
+  })
+
+  it('offers a chip on another entry of the list, and only to a unit it could reach', () => {
+    const ctx = {
+      unitId: 'death-company-marines', entryUid: 'dc', keywords: company,
+      rosterUnits: [
+        { uid: 'cap', id: 'captain', name: 'Captain', enh: 'Sanguinary Tear (Aura)' },
+        { uid: 'dc', id: 'death-company-marines', name: 'Death Company Marines', enh: null },
+      ],
+    }
+    expect(aurasReaching([relic], ctx)).toEqual([
+      { sid: 'tear', source: 'Captain', sourceUid: 'cap', unit: 'captain', name: 'Sanguinary Tear (Aura)' },
+    ])
+    expect(aurasReaching([relic], { ...ctx, keywords: ['Intercessor Squad', 'Adeptus Astartes'] })).toEqual([])
+    // …and none at all for the unit the bearer is standing in: 22.01 answers that from the list.
+    expect(aurasReaching([relic], { ...ctx, leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })).toEqual([])
+  })
+
+  it('lands once marked, and lands unasked on the unit the bearer joined', () => {
+    const marked = datasheetEntriesFor([relic], { unitId: 'death-company-marines', auraOn: new Set(['tear']) })
+    expect(marked.map((e) => e.from)).toEqual(['aura'])
+    expect(applyStatMods(sheet(), marked, company, []).sheet.melee[0].s).toBe('5')
+    const led = datasheetEntriesFor([relic], { unitId: 'death-company-marines', leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })
+    expect(led.map((e) => e.from)).toEqual(['led'])
+    expect(applyStatMods(sheet(), led, company, []).sheet.melee[0].s).toBe('5')
+  })
+})
+
 describe('improving a characteristic', () => {
   it('improves a roll and refuses a plain number', () => {
     expect(applyValue('3+', 'improve', 1)).toBe('2+')

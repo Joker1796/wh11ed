@@ -671,7 +671,15 @@ export default {
       "det": "Iconoclast Fiefdom",
       "ref": {
         "kind": "enhancement",
-        "det": "iconoclast-fiefdom"
+        "det": "iconoclast-fiefdom",
+        "scopes": [
+          {
+            "targets": [
+              "DAMNED"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "b86224c8",
       "ver": 925,

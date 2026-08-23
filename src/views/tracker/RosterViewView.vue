@@ -540,6 +540,13 @@ function attachmentCtxOf(entry) {
       for (const n of loadoutItemNames(defOf(u.id), u, rosterItems.items) || []) set.add(n)
       return set
     }, new Set()),
+    // …and which ENHANCEMENTS they wear, for the same reason: an enhancement aura radiates from the
+    // model, and the unit that model joined is inside it by 22.01 — no distance to judge, no chip.
+    leaderEnhNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+      const n = u.enh || mandatoryEnhancementFor(defOf(u.id), curDetachments.value)?.name || null
+      if (n) set.add(n)
+      return set
+    }, new Set()),
   }
 }
 
@@ -630,7 +637,14 @@ function unitSwitchesOf(entry) { return unitSwitchCache.value.get(entry.uid) || 
 const auraSwitchCache = computed(() => {
   const m = new Map()
   if (!canSwitch.value) return m
-  const units = (roster.value?.units || []).map((u) => ({ uid: u.uid, id: u.id, name: defOf(u.id)?.name || u.id }))
+  const units = (roster.value?.units || []).map((u) => ({
+    uid: u.uid,
+    id: u.id,
+    name: defOf(u.id)?.name || u.id,
+    // An enhancement aura is found by WHO WEARS IT, so the list has to say so (rosterStatMods'
+    // aurasReaching); a mandatory enhancement counts the same as a chosen one, as everywhere else.
+    enh: u.enh || mandatoryEnhancementFor(defOf(u.id), curDetachments.value)?.name || null,
+  }))
   for (const e of roster.value?.units || []) {
     const sheet = fullSheets.value.get(e.id)
     const reaching = aurasReaching(modifierRecords.value, {

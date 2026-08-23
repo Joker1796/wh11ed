@@ -3008,7 +3008,15 @@ export default {
       "det": "Headhunter Task Force",
       "ref": {
         "kind": "enhancement",
-        "det": "headhunter-task-force"
+        "det": "headhunter-task-force",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "42cab643",
       "ver": 925,
@@ -3080,7 +3088,15 @@ export default {
       "det": "Ironstorm Spearhead",
       "ref": {
         "kind": "enhancement",
-        "det": "ironstorm-spearhead"
+        "det": "ironstorm-spearhead",
+        "scopes": [
+          {
+            "targets": [
+              "ADEPTUS ASTARTES VEHICLE"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "d2c81520",
       "ver": 925,

@@ -989,7 +989,15 @@ export default {
       "det": "Data-psalm Conclave",
       "ref": {
         "kind": "enhancement",
-        "det": "data-psalm-conclave"
+        "det": "data-psalm-conclave",
+        "scopes": [
+          {
+            "targets": [
+              "CULT MECHANICUS"
+            ],
+            "excludes": []
+          }
+        ]
       },
       "hash": "189b1239",
       "ver": 925,
