@@ -690,6 +690,13 @@ unit, for a stated window, when the player decides to. So:
   Where one stratagem states two windows (Sororitas' To the Heart of Heresy: Strength for the turn,
   AP for the phase) the record takes the one that covers its effects; there is no per-effect `dur`,
   and nothing needs one so far.
+- **A stratagem's own timing is enforced on the chips too** (`blockedBy: 'wrongPhase'`): its WHEN
+  line names the phase, and often the side ("Your opponent's Shooting phase"), which `phasesOf` /
+  `phaseSidesOf` already read for the Stratagems tab's "usable now" filter. `resolveModifierEntries`
+  attaches the pair to the record as `slot` — the one pass holding both the record and the faction
+  data it was read from — and the chip is dimmed, not hidden: holding Armour of Contempt for the
+  opponent's Shooting phase is worth knowing. One already in force is never blocked, whatever phase
+  it is now.
 - **The two per-phase limits of 15.01 are enforced on the chips** (`stratagemsFor` → `blockedBy`):
   a unit already targeted this phase blocks every other stratagem on its card (`unitPhase`), and a
   stratagem already used this phase — on this unit or another — blocks itself (`usedPhase`). Both

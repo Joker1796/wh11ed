@@ -389,6 +389,36 @@ describe('stratagems', () => {
     expect(out2.find((s) => s.id === 'other')).toMatchObject({ blocked: false, blockedBy: null })
   })
 
+  // A stratagem states the moment it may be used, and a game keeping a clock knows whether that
+  // moment is now. The chip is dimmed rather than hidden: knowing you are holding Armour of
+  // Contempt for the opponent's Shooting phase is worth a line on the card.
+  it('refuses a stratagem outside the phase its own timing names', async () => {
+    const { stratagemsFor } = await import('./rosterGameContext.js')
+    const shooting = { round: 2, turn: 0, phase: 'shooting', mine: true, tracked: true }
+    const timed = { ...rec('krump', 'phase'), slot: { phases: ['fight'], sides: { fight: 'own' } } }
+    const untimed = rec('any-time', 'phase')       // no timing read — never blocked on that account
+
+    const out = stratagemsFor([timed, untimed], player({}), shooting, entry)
+    expect(out.find((s) => s.id === 'krump')).toMatchObject({ blocked: true, blockedBy: 'wrongPhase' })
+    expect(out.find((s) => s.id === 'any-time')).toMatchObject({ blocked: false })
+
+    // …in the Fight phase it is offered — but only on this player's own turn, which is what its
+    // timing line said.
+    const fight = { ...shooting, phase: 'fight' }
+    expect(stratagemsFor([timed], player({}), fight, entry)[0]).toMatchObject({ blocked: false })
+    expect(stratagemsFor([timed], player({}), { ...fight, mine: false }, entry)[0])
+      .toMatchObject({ blocked: true, blockedBy: 'wrongPhase' })
+
+    // A game that keeps no phases cannot answer the question and does not pretend to.
+    expect(stratagemsFor([timed], player({}), { ...shooting, tracked: false }, entry)[0])
+      .toMatchObject({ blocked: false })
+
+    // …and one already in force stays flippable, whatever phase it is now.
+    const spentEarlier = player({ strats: { u1: { krump: stampOf({ ...shooting, phase: 'fight' }) } } })
+    expect(stratagemsFor([{ ...timed, dur: 'turn' }], spentEarlier, shooting, entry)[0])
+      .toMatchObject({ on: true, blocked: false })
+  })
+
   it('lets the unit be targeted again in the next phase, in force or not', async () => {
     const { stratagemsFor } = await import('./rosterGameContext.js')
     const clock = { round: 2, turn: 0, phase: 'movement', mine: true, tracked: true }

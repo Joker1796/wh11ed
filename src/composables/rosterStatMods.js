@@ -19,6 +19,7 @@
 
 import { ruleScopes, keywordsMatchTarget } from './ruleTargets.js'
 import { enhKey, detKey } from './rosterModifiers.js'
+import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
@@ -477,7 +478,15 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
     // scopes to read and no keyword gate (SCOPELESS).
     if (rec.ref.kind === 'stratagem') {
       const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
-      if (det && fielded.has(detKey(det.name))) out.push({ ...rec, body: '' })
+      if (!det || !fielded.has(detKey(det.name))) continue
+      // …and WHEN it may be used, from the stratagem's own English timing line, so the chip can
+      // refuse a stratagem in a phase the game does not allow it in (rosterGameContext's
+      // stratagemsFor). Read here because this is the one place that has both the record and the
+      // faction data it came from; `facEn` is always the English bundle, which is what phasesOf
+      // must be given.
+      const st = (det.stratagems || []).find((x) => enhKey(x.name) === enhKey(rec.ref.name || rec.name))
+      const slot = st?.when ? { phases: phasesOf(st.when), sides: phaseSidesOf(st.when) } : null
+      out.push({ ...rec, body: '', slot })
       continue
     }
     if (rec.ref.kind === 'armyRule') {
