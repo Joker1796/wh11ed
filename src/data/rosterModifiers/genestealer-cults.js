@@ -33,7 +33,16 @@ export default {
       "hash": "84109d35",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "target": "led",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3f241c29-b6ef-42bb-a5c4-21ba949e7963:benefictus",

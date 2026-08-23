@@ -455,6 +455,33 @@ describe('RosterUnitRulesModal', () => {
     w.unmount()
   })
 
+  // A core ability handed over by a rule belongs on the Core line with the printed ones — the
+  // Triumph's own Icon of the Valorous Heart reaches it by 22.01, with no chip to tick.
+  it('prints a granted core ability on the Core line', async () => {
+    const rf = await import('../../data/roster/adepta-sororitas.js')
+    const def = rf.default.units.find((u) => u.id === 'triumph-of-saint-katherine')
+    mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'triumph-of-saint-katherine',
+        factionSlug: 'adepta-sororitas',
+        ctx: { def, entry: { uid: 'a', id: 'triumph-of-saint-katherine' }, units: [] },
+        gameCtx: {
+          active: new Set(),
+          // the relic picked this round, as the row's chips would have stored it
+          chosen: new Set(['743e9016-ef6c-449f-b45c-28828116d1eb:triumph-of-saint-katherine']),
+        },
+      },
+    })
+    await waitFor('Triumph of Saint Katherine')
+    for (let i = 0; i < 80 && !document.querySelector('.ds-core-granted'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    const granted = body().find('.ds-core-granted')
+    expect(granted.text()).toContain('Feel No Pain 6+')
+    expect(granted.attributes('title')).toContain('Icon of the Valorous Heart')
+  })
+
   it('has no switch strip of its own any more', async () => {
     mount(RosterUnitRulesModal, {
       props: {

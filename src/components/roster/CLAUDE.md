@@ -807,10 +807,19 @@ in the RU locale — the same overlay the card fetches, so nothing new rides in 
 added 2026-08-23 because a Hospitaller's "models in that unit have the Feel No Pain 5+ ability" was
 prose and nothing else. It is returned from `applyStatMods` like a granted keyword — never written
 into the sheet — and `DatasheetCard` prints it on the **Core line** beside the printed ones, dashed
-and starred, with its source in the title. 296 rules across the game grant one; **54 are stated**,
+and starred, with its source in the title. 296 rules across the game grant one; **57 are stated**,
 the rest are partial in a way this layer cannot say ("Feel No Pain 4+ **against mortal wounds**",
 "**PENITENT** models in your unit") and stay reviewed empties. The templates that were accepted are
 in the commit; anything narrower than "this/that/your unit" was refused on purpose.
+
+**A review pass has to look at the reviewed EMPTIES too.** The first sweep only read records
+awaiting review, and the Triumph's Icon of the Valorous Heart had been closed as an empty an hour
+earlier — by the ability-set pass, before a core grant was expressible at all. Three grants were
+invisible for that reason. Whenever a NEW kind of effect becomes expressible, re-read the empties:
+they are the records that were told "we cannot say this", and that is exactly what changed.
+Detachment rules are still outstanding — their bodies are structured markup rather than a flat
+sentence, so the strict templates cannot read them ("Friendly SKITARII INFANTRY units have
+Stealth").
 
 **`improve` is only for the roll-shaped characteristics** (`sv`/`bs`/`ws`/`ld`/`inv`, where a lower
 number is better). `applyValue` REFUSES it anywhere else and returns null, so an effect written
