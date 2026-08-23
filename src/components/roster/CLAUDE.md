@@ -137,6 +137,35 @@ directory; still part of this feature:
   **The footer says `Exported with wh-rules.ru`, never the app's own `Exported with App Version:`.**
   Copying a layout is fine; signing somebody else's name to it is not — and a reader is entitled to
   know which tool and which points data (`APP_DATA_VERSION`) wrote the list.
+- `rosterImport.js` — the way back in: read a list somebody else's tool wrote (`detectFormat` →
+  `parseList` → `matchFaction` → `matchRoster`), in the same two formats `rosterExport.js` writes —
+  the GW app's 11th-edition export and the WTC/New Recruit header format. `RosterImportModal.vue`
+  (from the roster list's "Import" button) shows the report and only then creates the list, landing
+  the reader in the EDITOR, because whatever failed to match is theirs to finish.
+
+  **Best-effort, never silent.** A list is prose written by another program against another points
+  file, so everything that could not be placed is named: units missing from our data, a detachment
+  we don't have, wargear that matched no option. A unit is never dropped quietly — what is not shown
+  cannot be fixed by hand.
+
+  **Points are recomputed, never trusted.** `report.points` carries three numbers: what the list
+  STATED in its header, what its matched units stated (`statedUnits`), and what those units cost
+  HERE. A difference is normally a data-version difference, and saying so is the whole reason the
+  stated figure is kept.
+
+  Two parsing details that took a real export to find:
+  - **The bullet, not the indent, tells a model line from a weapon.** `  • 2x Chaos Spawn` with
+    `    • 2x Hideous mutations` under it is a model group; `  • 1x Gorechild` with `    1x Plasma
+    pistol` under it is one model carrying two weapons. Both indent identically — the deeper line's
+    BULLET is the only difference, and reading it wrong doubles a unit's model count.
+  - **A weapon belongs to the profile it was printed under.** The sergeant and the squad often have
+    a group each offering the same weapon; `miniIndexOf` matches the model line's name against
+    `def.minis` so the pick lands in the right group and prices the unit correctly. The same option
+    named once per profile is merged into ONE pick — two triples would charge for it twice.
+
+  **What each format cannot carry**, pinned by the round-trip tests: a WTC list states no list name
+  and no attachment, so an imported one comes back as "Roster" with its leaders unattached. The GW
+  format survives a round trip intact.
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without
