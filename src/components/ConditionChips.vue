@@ -19,14 +19,21 @@
         <button
           type="button"
           class="cond-chip"
-          :class="{ on: sw.on, auto: sw.auto || sw.blocked }"
+          :class="{ on: sw.on, auto: sw.auto || sw.blocked, stacked: subLine(sw) }"
           :aria-pressed="sw.on"
           :disabled="sw.auto || sw.blocked"
           :title="blockedHint(sw)"
           @click="$emit('toggle', sw)"
         >
           <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
-          {{ sw.label[locale] || sw.label.en }}
+          <span class="cond-chip-text">
+            {{ sw.label[locale] || sw.label.en }}
+            <!-- The second line: this chip's own translated name (a stratagem's, which stays
+                 English on the first line by project convention) and, if it cannot be tapped, why.
+                 The reason used to live in `title` alone — invisible on a touch screen, which is
+                 where this is read — so a chip that was inert by design looked like a broken one. -->
+            <small v-if="subLine(sw)" class="cond-chip-sub">{{ subLine(sw) }}</small>
+          </span>
         </button>
         <button
           v-if="sw.info"
@@ -72,6 +79,18 @@ const BLOCK_HINTS = {
 function blockedHint(sw) {
   const key = BLOCK_HINTS[sw.blockedBy]
   return key ? labels.value[key] : null
+}
+
+// A chip's own second line. The reason is shown only for the two that belong to THIS chip — a
+// stratagem's timing, and one already spent this phase; the two block-wide ones (Battle-shock, the
+// unit having been targeted already) are stated once above the whole group by the view that owns
+// it, and repeating them on every chip is noise.
+const OWN_REASON = new Set(['wrongPhase', 'usedPhase'])
+function subLine(sw) {
+  const parts = []
+  if (sw.subLabel) parts.push(sw.subLabel)
+  if (OWN_REASON.has(sw.blockedBy)) parts.push(blockedHint(sw))
+  return parts.filter(Boolean).join(' · ') || null
 }
 
 // The switches in the order they came, bucketed by `group`. Ungrouped chips share one anonymous
@@ -120,5 +139,12 @@ const groups = computed(() => {
 }
 .cond-chip:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
 .cond-chip.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-.cond-chip.auto { cursor: default; }
+/* An inert chip has to LOOK inert: `cursor: default` says nothing on a touch screen, and a chip
+   that cannot be tapped but reads exactly like one that can is indistinguishable from a bug. */
+.cond-chip.auto { cursor: default; opacity: 0.55; border-style: dashed; }
+/* Two lines need square-ish corners and a left-aligned text column; a pill only suits one. */
+.cond-chip.stacked { align-items: flex-start; border-radius: 12px; padding-top: 0.28rem; padding-bottom: 0.28rem; }
+.cond-chip.stacked .bi { margin-top: 0.1rem; }
+.cond-chip-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; text-align: left; }
+.cond-chip-sub { color: var(--text-muted); font-size: 0.68rem; font-weight: 400; }
 </style>

@@ -48,6 +48,33 @@ describe('ConditionChips', () => {
     expect(w.emitted('info')[0][0].id).toBe('a')
   })
 
+  // A chip that cannot be tapped used to look exactly like one that can — the reason lived in
+  // `title`, which never opens on a touch screen. It now reads on the chip itself, but only for the
+  // reasons that belong to that one chip: the block-wide ones are stated once above the group.
+  it('writes a per-chip reason on the chip and leaves the block-wide one to the header', () => {
+    const items = [
+      sw('a', { blocked: true, blockedBy: 'wrongPhase' }),
+      sw('b', { blocked: true, blockedBy: 'shock' }),
+    ]
+    const chips = mount(ConditionChips, { props: { switches: items } }).findAll('.cond-chip')
+    expect(chips[0].find('.cond-chip-sub').text()).toBe('Not usable in this phase')
+    expect(chips[0].attributes('disabled')).toBeDefined()
+    expect(chips[1].find('.cond-chip-sub').exists()).toBe(false)
+    expect(chips[1].attributes('title')).toBe('Battle-shocked — cannot be targeted')
+  })
+
+  // A stratagem's name stays English on the first line (project convention); the translation is a
+  // display line under it, the same pairing StratCard renders on the card itself.
+  it('carries a translated name under the English one, alongside the reason', () => {
+    const items = [sw('Methodical Murder', { subLabel: 'Методичное убийство' })]
+    const w = mount(ConditionChips, { props: { switches: items } })
+    expect(w.find('.cond-chip-sub').text()).toBe('Методичное убийство')
+    const both = mount(ConditionChips, {
+      props: { switches: [sw('x', { subLabel: 'Икс', blocked: true, blockedBy: 'usedPhase' })] },
+    })
+    expect(both.find('.cond-chip-sub').text()).toBe('Икс · Already used this phase')
+  })
+
   it('emits the switch it was asked to flip, and never flips an auto one', async () => {
     const w = mount(ConditionChips, { props: { switches: [sw('a'), sw('b', { auto: true })] } })
     const chips = w.findAll('.cond-chip')

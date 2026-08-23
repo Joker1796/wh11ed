@@ -883,7 +883,27 @@ async function loadFactionSource(slug, loc) {
   if (loc !== 'ru') return withPhase(data.en)
   const { loadFactionRu, deepOverlay } = await import('../../data/factions/ru/index.js')
   const mod = await loadFactionRu(slug)
-  return withPhase(mod ? deepOverlay(data.en, mod.default) : data.ru)
+  if (!mod) return withPhase(data.ru)
+  return withPhase(withRuNames(deepOverlay(data.en, mod.default), mod))
+}
+
+// Army-rule, detachment, detachment-rule and stratagem NAMES stay English by project convention —
+// that is what the card in the box and the GW app both say — so the RU files keep their
+// translations in separate name maps rather than in the overlay, and every view that shows one
+// renders it as a small line under the English name (RuleBlock's `subtitle`, StratCard's
+// `nameRu`). This view's templates have always asked for those lines; nothing was attaching them.
+// Same maps and same shape as the faction page's own loader (useFactionPage.js).
+function withRuNames(fac, mod) {
+  const out = { ...fac }
+  if (mod.armyRuleNameRu && out.armyRule) out.armyRule = { ...out.armyRule, nameRu: mod.armyRuleNameRu }
+  out.detachments = (out.detachments || []).map((d) => ({
+    ...d,
+    nameRu: mod.detNamesRu?.[d.name] || d.nameRu,
+    rule: d.rule ? { ...d.rule, nameRu: mod.detRuleNamesRu?.[d.rule.name] || d.rule.nameRu } : d.rule,
+    stratagems: (d.stratagems || []).map((st) => ({ ...st, nameRu: mod.stratNamesRu?.[st.name] || st.nameRu })),
+    enhancements: (d.enhancements || []).map((e) => ({ ...e, nameRu: mod.enhNamesRu?.[e.name] || e.nameRu })),
+  }))
+  return out
 }
 
 watch([() => roster.value?.faction, tab, locale], async ([slug, t, loc]) => {
