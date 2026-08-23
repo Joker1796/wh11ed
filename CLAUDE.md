@@ -4,10 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**WH Rules** is a bilingual (EN/RU) reference for the **Warhammer 40,000 11th edition** rules plus
-an offline tracker for a game in progress — live at [wh-rules.ru](https://wh-rules.ru). This repo
-is the frontend, and the frontend is ~99% of the product: every rule, every page and the tracker
-all live here, with no backend involved.
+**WH Rules** is a bilingual (EN/RU) app for **playing Warhammer 40,000 11th edition** — live at
+[wh-rules.ru](https://wh-rules.ru). It began as a rules reference and that is still its foundation,
+but the centre of the product has moved: the arc is now **look a rule up → build the army list →
+run the game with that list's rules applied** (the roster builder, and the modifier overlay the
+tracker shows on a unit's card). Position it that way in any user-facing copy. This repo is the
+frontend, and the frontend is ~99% of the product: every rule, every page, the roster builder and
+the tracker all live here, with no backend involved — **and nothing in the app requires an
+account**; signing in only syncs lists and history between devices.
 
 > **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** **`MIGRATION.md` —
 > источник правды**, читать его в начале любой сессии на любой машине (память Claude между
@@ -17,8 +21,8 @@ all live here, with no backend involved.
 > новый домен. Осталась Фаза 3 — переключить старый бакет в 301.
 
 > **Имя продукта — «WH Rules»** (`short_name` в манифесте, iOS-title, og:site_name, JSON-LD,
-> вордмарк на скриншотах установки); полное — «Warhammer 40,000 11th Edition — Rules, Factions &
-> Tracker». Старое `WH11ED` в UI/метаданных не осталось. **Но `wh11ed-*` ключи `localStorage` и
+> вордмарк на скриншотах установки); полное — «Warhammer 40,000 11th Edition — Rules, Rosters &
+> Game Tracker». Старое `WH11ED` в UI/метаданных не осталось. **Но `wh11ed-*` ключи `localStorage` и
 > имя рантайм-кэша `wh11ed-images` НЕ переименовывать** — это пользовательские данные: смена
 > префикса потеряет всю историю партий, избранное и настройки, а смена имени кэша заставит
 > установленные PWA заново качать ~27 МБ картинок.

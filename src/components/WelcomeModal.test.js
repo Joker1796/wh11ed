@@ -27,10 +27,13 @@ describe('WelcomeModal', () => {
     expect(body().findAll('.welcome-list li')).toHaveLength(3)
     expect(text).toContain('army list builder')   // what is here
     expect(text).toContain('no signal')           // the installed app goes fully offline
+    // The account is the intended way to use it, but it must never read as the price of entry:
+    // signed out, nothing is locked — the card used to say "no account" and then "if you sign in".
+    expect(text).toContain('without an account')
     // Where the reader's data lives — and that signing in SYNCS it rather than merely copying it
     // somewhere. The weaker word undersells the thing people actually want from an account.
-    expect(text).toContain('on this device')
-    expect(text).toMatch(/follow you|sign in/i)
+    expect(text).toContain('this device')
+    expect(text).toMatch(/follow you to your other devices/i)
 
     await body().find('.welcome-ok').trigger('click')
     expect(w.emitted('close')).toBeTruthy()
