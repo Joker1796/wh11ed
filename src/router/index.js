@@ -12,6 +12,7 @@ const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
+const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
 const RosterListView    = () => import('../views/tracker/RosterListView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
@@ -363,6 +364,9 @@ export const router = createRouter({
     // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
     { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
+    // Your battle record, read out of the same history. Private like /tracker/game: it is a view
+    // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
+    { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
     { path: '/tracker/history/:gid/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },

@@ -3,6 +3,7 @@ import { missions } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
+  ROUND_COUNT,
   PRIMARY_GAME_CAP,
   TACTICAL_SECONDARY_CAP,
   primaryTotal as primaryTotalOf,
@@ -11,6 +12,7 @@ import {
   leader as leaderOf,
 } from './gameScoring.js'
 import { BATTLE_PHASES } from './stratagemPhases.js'
+import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
@@ -20,10 +22,10 @@ import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 // 20 per fixed secondary) match the official caps.
 
 const CUR_KEY = 'wh11ed-tracker-current'
-const HIST_KEY = 'wh11ed-tracker-history'
+// Where the finished games live. The key is defined in gameStats.js — the read-only side, used by
+// screens that show a record without this store; this module remains their only WRITER.
 const DRAFT_KEY = 'wh11ed-tracker-setup-draft'
 
-export const ROUND_COUNT = 5
 // Battle sizes (rule 25.03): each sets the Detachment-Points budget used in setup.
 export const BATTLE_SIZES = [
   { id: 'incursion', name: 'Incursion', points: 1000, maxDp: 2 },
@@ -34,6 +36,7 @@ export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
 // importers (RoundTracker, ScoreBreakdown).
 export {
+  ROUND_COUNT,
   PRIMARY_GAME_CAP,
   FIXED_SECONDARY_CAP,
   TACTICAL_SECONDARY_CAP,

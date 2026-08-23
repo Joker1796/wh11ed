@@ -2,6 +2,7 @@
 // game from history). useTracker.js wraps these for the active game; the history view passes a
 // stored game directly. Keeping the logic here is the single source of truth for the caps.
 
+export const ROUND_COUNT = 5           // battle rounds in a game
 export const PRIMARY_GAME_CAP = 45
 export const FIXED_SECONDARY_CAP = 20 // each fixed secondary, over the game
 export const TACTICAL_SECONDARY_CAP = 5 // each tactical secondary, per scoring ("up to 5VP")

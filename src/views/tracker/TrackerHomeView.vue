@@ -41,6 +41,15 @@
       </button>
     </div>
 
+    <!-- The one number people came back for. It sits above the list because a record is a
+         summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
+    <RouterLink v-if="stats.games" to="/tracker/stats" class="record-bar">
+      <span class="rb-rec">{{ recordText }}</span>
+      <span class="rb-lab">{{ labels.statsLink }}</span>
+      <span v-if="stats.enough" class="rb-rate">{{ winrateText }}</span>
+      <i class="bi bi-chevron-right"></i>
+    </RouterLink>
+
     <section class="history">
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
@@ -142,6 +151,7 @@ import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
+import { buildStats } from '../../composables/gameStats.js'
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -159,6 +169,13 @@ const {
   inSync,
   cloudEmpty,
 } = useCloudSync()
+
+// Battle record, from this device's history (gameStats.js does the reading — this is one line of
+// it plus a way in). Recomputed when a game is archived or deleted; the history is short enough
+// that a full pass costs nothing.
+const stats = computed(() => buildStats(history.value))
+const recordText = computed(() => `${stats.value.record.w}–${stats.value.record.l}–${stats.value.record.d}`)
+const winrateText = computed(() => `${Math.round(stats.value.winrate * 100)}%`)
 
 // Deleting a game removes it locally AND from the cloud backup (so it doesn't resurface on
 // another device or get re-downloaded by a later sync) — destructive, so confirm first.
@@ -314,6 +331,30 @@ function footLine(g) {
 
 <style scoped>
 .tracker-home { padding-top: 0.5rem; }
+
+.record-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.2rem 0 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.record-bar:hover { border-color: var(--accent); color: var(--text-primary); }
+.rb-rec {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.rb-lab { flex: 1; }
+.rb-rate { color: var(--accent); font-weight: 600; }
 /* Yandex ID branded sign-in button (login is Yandex OAuth) — brand red + the "Я" mark. */
 .ya-btn {
   display: inline-flex;
