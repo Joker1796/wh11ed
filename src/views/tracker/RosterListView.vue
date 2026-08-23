@@ -13,6 +13,11 @@
       <button class="btn-primary" @click="onNew">
         <i class="bi bi-plus-lg"></i> {{ labels.rosterNew }}
       </button>
+      <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
+           Pasting it beats rebuilding it, so the second way in sits beside the first. -->
+      <button class="btn-ghost" @click="importOpen = true">
+        <i class="bi bi-clipboard-plus"></i> {{ labels.rosterImport }}
+      </button>
     </div>
 
     <!-- Saved lists and unfinished ones are the same kind of card but not the same kind of thing:
@@ -98,6 +103,8 @@
       @confirm="confirmDelete"
       @close="pendingDelete = null"
     />
+
+    <RosterImportModal v-if="importOpen" @imported="onImported" @close="importOpen = false" />
   </div>
 </template>
 
@@ -106,6 +113,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
+import RosterImportModal from '../../components/roster/RosterImportModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -127,6 +135,10 @@ const { ensureSession } = useAuth()
 const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
+const importOpen = ref(false)
+// An imported list lands in the editor, not in the read-only view: whatever the report could not
+// place is the reader's to finish, and that is where they can.
+function onImported(id) { router.push(`/roster/${id}`) }
 const shown = computed(() => (tab.value === 'drafts' ? draftRosters : savedRosters).value)
 function draftStepLabel(r) {
   return labels.value.rosterDraftStep.replace('{n}', String(r.draftStep || 1))
@@ -213,7 +225,7 @@ function confirmDelete() {
   margin-bottom: 0.3rem;
 }
 .hero-desc { color: var(--text-muted); font-size: 0.95rem; }
-.cta { display: flex; justify-content: center; margin-bottom: 1.75rem; }
+.cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -227,6 +239,23 @@ function confirmDelete() {
   font-size: 0.95rem;
   cursor: pointer;
 }
+/* The second way in — quieter than "New roster", because building one here is still the main
+   path and pasting one is the shortcut for a list that already exists elsewhere. */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--accent); }
+
 /* Same segmented control the wizard and GameSetup use for a small either/or choice. */
 .rl-tabs { margin: 0 auto 1rem; }
 .seg {
