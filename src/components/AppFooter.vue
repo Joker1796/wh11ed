@@ -4,6 +4,7 @@
       <div class="footer-col">
         <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
         <p class="footer-contact"><a :href="'mailto:' + contactEmail">{{ contactEmail }}</a></p>
+        <p class="footer-contact"><RouterLink to="/help">{{ t.footer.helpLink }}</RouterLink></p>
         <p class="footer-contact"><RouterLink to="/disclaimer">{{ t.footer.disclaimerLink }}</RouterLink></p>
         <p class="footer-version">
           <RouterLink to="/changelog">v{{ version }}</RouterLink>

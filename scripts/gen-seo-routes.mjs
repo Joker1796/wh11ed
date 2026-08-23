@@ -36,6 +36,7 @@ const STATIC_ROUTES = [
   '/roster',
   '/stratagems',
   '/links',
+  '/help',
   '/disclaimer',
   '/changelog',
 ]

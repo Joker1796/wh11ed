@@ -348,6 +348,8 @@ export const ui = {
     issue_allegMismatch: '{name} ({own}) cannot be attached to {target} ({theirs}) — the keywords must match',
     rosterCustom: 'Custom',
     rosterExport: 'Export',
+    // One label, several places: the link from an empty screen to the part of /help that answers it.
+    helpLearnMore: 'How this works',
     rosterImport: 'Import',
     rosterImportTitle: 'Import an army list',
     rosterImportHint: 'Paste a list exported from the Warhammer 40,000 app, or from New Recruit in WTC format.',
@@ -950,6 +952,7 @@ export const ui = {
     issue_allegMismatch: '{name} ({own}) не может быть прикреплён к {target} ({theirs}) — ключевые слова должны совпадать',
     rosterCustom: 'Свой',
     rosterExport: 'Экспорт',
+    helpLearnMore: 'Как это работает',
     rosterImport: 'Импорт',
     rosterImportTitle: 'Импорт армейского листа',
     rosterImportHint: 'Вставьте лист, выгруженный из приложения Warhammer 40,000 или из New Recruit в формате WTC.',

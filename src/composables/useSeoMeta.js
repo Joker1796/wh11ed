@@ -111,6 +111,13 @@ const ROUTES = {
       ru: 'Бесплатный конструктор армейских листов для Warhammer 40,000 11-й редакции — юниты, вооружение, лидеры и улучшения, подсчёт очков и проверка ограничений офлайн.',
     },
   },
+  '/help': {
+    title: { en: 'How to use this', ru: 'Как пользоваться' },
+    description: {
+      en: 'A short guide to WH Rules: searching the Warhammer 40,000 11th edition rules, building and importing army lists, tracking a game, working offline, and where your data is kept.',
+      ru: 'Короткий гид: как искать правила Warhammer 40,000 11-й редакции, собирать и импортировать армейские листы, вести партию, работать офлайн и где хранятся ваши данные.',
+    },
+  },
   '/links': {
     title: { en: 'Links', ru: 'Ссылки' },
     description: {
