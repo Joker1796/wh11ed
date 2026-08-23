@@ -620,6 +620,32 @@ describe('matchRoster — the flat body, against our own data', () => {
     expect(spawn.gear.missing).toEqual([])
   })
 
+  // …and it names its models in the singular while the datasheet is plural. 158 datasheets are
+  // named that way, and on several the count decides the price (Rangers: 5 models 60pts, 6-10
+  // models 110pts), so the fold is not cosmetic.
+  it('folds the plural when a datasheet is named for its models', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/aeldari.js'),
+      import('../data/roster/items.js'),
+    ])
+    const list = `Rangers only
+
+Aeldari
+Strike Force (2,000 Points)
+
+OTHER DATASHEETS
+
+Rangers (110 Points)
+• 7x Ranger
+◦ 7x Close combat weapon
+◦ 7x Long rifle`
+    const { report } = matchRoster(parseList(list), { faction, core: rosterCore, items: items.items })
+    const rangers = report.units.find((u) => u.name === 'Rangers')
+    expect(rangers.models).toBe(7)
+    expect(rangers.points.computed).toBe(110)     // the 6-10 bracket, not the 5-model one
+    expect(rangers.gear.missing).toEqual([])
+  })
+
   // A Forgefiend's ectoplasma cannon comes either from its autocannons or from its jaws. With
   // "2x Hades autocannon" still listed, the autocannons were plainly not swapped — a swap takes
   // something away — so the cannon came from the jaws. Taking the wrong group charged both.

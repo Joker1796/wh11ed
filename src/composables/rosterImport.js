@@ -519,18 +519,25 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     let models = pu.models
     let weapons = pu.weapons || []
     // …and a single-profile datasheet has no `minis` at all, so it answers under its own name
-    // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place.
-    const known = new Set([...(def.minis || []).map((m) => norm(m?.n)), norm(def.name)].filter(Boolean))
+    // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place. Its models
+    // are named in the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that
+    // one comparison folds the plural — 158 datasheets game-wide are named that way, and on
+    // several of them (Rangers: 5 models 60pts, 6-10 models 110pts) the count decides the price.
+    // Only for the datasheet's own name: a profile name is compared exactly, as it is written.
+    const bare = (t) => norm(t).replace(/s$/, '')
+    const self = bare(def.name)
+    const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
+    const isModel = (name) => known.has(norm(name)) || bare(name) === self
     const lines = pu.modelLines || []
-    if (lines.length && known.size) {
-      const real = lines.filter((l) => known.has(norm(l.name)))
+    if (lines.length) {
+      const real = lines.filter((l) => isModel(l.name))
       if (real.length && real.length !== lines.length) {
         models = real.reduce((n, l) => n + l.n, 0) || null
         // An indented body listed its model lines apart from the weapons, so the strays join them;
         // a flat one listed everything together, so the real model lines leave (same objects).
         weapons = pu.flatBody
           ? weapons.filter((w) => !real.includes(w))
-          : [...weapons, ...lines.filter((l) => !known.has(norm(l.name))).map((l) => ({ n: l.n, name: l.name, mini: null }))]
+          : [...weapons, ...lines.filter((l) => !isModel(l.name)).map((l) => ({ n: l.n, name: l.name, mini: null }))]
       }
     }
 
