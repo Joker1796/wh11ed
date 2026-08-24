@@ -533,11 +533,22 @@ directory; still part of this feature:
     their sum (ten swaps, not twenty). Before this a Lychguard unit imported still holding its
     printed warscythes — at the same price, so nothing in the report said so.
   - **A single-profile datasheet has no `minis`** and answers under its own name ("• 2x Chaos
-    Spawn"), which was otherwise reported as wargear nobody could place — and it names its models in
-    the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that one comparison
-    folds the plural. 158 datasheets game-wide are named for their models, and on several the count
-    decides the price (Rangers: 5 models 60pts, 6-10 models 110pts). Profile names are still
-    compared exactly, as written.
+    Spawn"), which was otherwise reported as wargear nobody could place. 158 datasheets game-wide
+    are named for their models, and on several the count decides the price (Rangers: 5 models
+    60pts, 6-10 models 110pts).
+  - **Every name comparison folds the plural, in any word** (`norm`, `.replace(/s\b/g, '')`). The
+    two sides disagree in BOTH directions and it is never the same side twice: listhammer prints
+    "5x Tyranid Warriors" for a profile our data calls `Tyranid Warrior`, "10x Genestealers" for a
+    profile called `Genestealer` whose weapon appdata holds as `Genestealers claws and talons`, and
+    "5x Ranger" for the datasheet `Rangers`. Safe because nothing in the game is told apart by that
+    letter: across all 30 factions no two datasheets, detachments, enhancements, profiles or wargear
+    items fold together — the only names that do are one weapon written both ways (Bolt pistol /
+    Bolt pistols). Getting this wrong costs points, not just tidiness: the Warriors' own model line
+    read as wargear dropped a six-model unit into the three-model bracket, at half price.
+  - **An ampersand is "and".** listhammer writes `Genestealer Claws & Talons` where the datasheet
+    reads "claws and talons" — every Tyranid melee weapon in a list is spelled that way, and each
+    one was reported as wargear that could not be placed. No name in our data contains an
+    ampersand, so the two forms can only ever be the same name.
   - **An enhancement's kind tag is ignored on both sides.** Our generated data keeps it inside the
     name for some factions (`Dead Shiny Shootas (Upgrade)`), the app leaves it off, listhammer
     prints it — three spellings of one enhancement, compared through `enhKey`.
