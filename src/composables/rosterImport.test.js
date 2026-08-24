@@ -1811,4 +1811,25 @@ describe('matchRoster — a list that writes the plural its own way', () => {
     expect(payload.units.every((u) => !u.wg)).toBe(true)
     expect(report.units.find((u) => u.name === 'Hyperadapted Raveners').models).toBe(5)
   })
+
+  // The blocks carry no "Attached as:" line anywhere — the header is the whole statement, and
+  // every one of this list's six attachments was lost.
+  it('attaches a block that says nothing but "Attached Unit"', () => {
+    const { payload } = matchRoster(parseList(TYR), ctx)
+    const uid = (id) => payload.units.find((u) => u.id === id).uid
+    expect(payload.units.find((u) => u.id === 'hyperadapted-raveners').leaderOf).toBe(uid('raveners'))
+    expect(payload.units.find((u) => u.id === 'winged-tyranid-prime').leaderOf)
+      .toBe(uid('tyranid-warriors-with-melee-bio-weapons'))
+  })
+
+  // …but only where the datasheets allow it. Hyperadapted Raveners lead Raveners and nothing else,
+  // so a block pairing them with Genestealers is a block we have read wrong — and two units left
+  // standing alone are a smaller lie than an attachment the rules forbid.
+  it('leaves a block alone when neither member may join the other', () => {
+    const text = TYR.replace('Raveners (125 points)\n• 5x Ravener\n• 5x Ravener Claws & Talons', `Genestealers (140 points)
+• 10x Genestealers
+• 10x Genestealer Claws & Talons`)
+    const { payload } = matchRoster(parseList(text), ctx)
+    expect(payload.units.every((u) => !u.leaderOf || u.id === 'winged-tyranid-prime')).toBe(true)
+  })
 })
