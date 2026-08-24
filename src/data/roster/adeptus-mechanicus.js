@@ -2453,28 +2453,6 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              190,
-              0,
-              1
-            ],
-            [
-              264,
-              0,
-              1
-            ],
-            [
-              263,
-              0,
-              1
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 104,
-          "in": "checkbox",
-          "o": [
-            [
               265
             ]
           ],
@@ -2570,7 +2548,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 105,
+          "t": 104,
           "in": "checkbox",
           "o": [
             [
@@ -2583,7 +2561,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 106,
+          "t": 105,
           "in": "checkbox",
           "o": [
             [
@@ -2750,7 +2728,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 107,
+          "t": 106,
           "in": "checkbox",
           "o": [
             [
