@@ -153,6 +153,15 @@ models can be your WARLORD, and they cannot be given Enhancements"* (`allyWarlor
 clause, and Ynnari units are exactly what the Devoted of Ynnead Detachment's Enhancements are for.
 `canTakeEnhancements` is appdata's own field (`enh`) and overrides the ban where it is set.
 
+**A detachment can bar another faction's datasheet.** `excludedUnits` ids are namespaced the same
+way allied ids are, because the fallback used to be the slugified NAME and two factions can print
+the same one. Black Spear Task Force bars the **Codex: Imperial Agents** Watch Master, Corvus
+Blackstar, Watch Captain Artemis and Deathwatch Kill Team — the allied copies you would otherwise
+bring alongside your own — and by name those became the **Index: Deathwatch** datasheets the army is
+built around, so every Deathwatch list holding a perfectly legal Watch Master read as illegal. Four
+ids across the game are foreign; the rest stay bare, including the Codex: Space Marines squads a
+Chapter folds into its own pool.
+
 **One group, two rules.** An army can be offered the same allied faction by two rows — Deathwatch
 gets the general Agents of the Imperium list (written for ADEPTUS ASTARTES) and its own, which is
 that list minus the five Deathwatch datasheets its own bundle already carries. The generator keeps

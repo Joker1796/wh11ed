@@ -1888,15 +1888,15 @@ export default {
       "dp": 3,
       "fd": "Purge the Foe",
       "excludedUnits": [
-        "watch-master",
-        "corvus-blackstar",
+        "imperial-agents:watch-master",
+        "imperial-agents:corvus-blackstar",
         "tactical-squad",
         "terminator-squad",
         "devastator-squad",
         "scout-squad",
-        "watch-captain-artemis",
+        "imperial-agents:watch-captain-artemis",
         "terminator-assault-squad",
-        "deathwatch-kill-team"
+        "imperial-agents:deathwatch-kill-team"
       ],
       "enhancements": [
         {

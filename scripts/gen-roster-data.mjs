@@ -1484,7 +1484,7 @@ function buildEnhancement(e, nameToDsId, idMap) {
   return enh
 }
 
-function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag) { // idMap also reaches buildEnhancement
+function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug) { // idMap also reaches buildEnhancement
   // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
@@ -1505,7 +1505,21 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag) { // idMap als
   if (new Set(sources.map(([, v]) => norm(v))).size > 1) {
     report.detTag.drift.push(`${bdet.name}: ${sources.map(([n, v]) => `${n} ${v ? `«${v}»` : '—'}`).join(', ')}`)
   }
-  const excl = (detExcluded.get(bdet.id) || []).map((id) => idMap.get(id) || slugify(enOf(dsById.get(id)).name || '')).filter(Boolean)
+  // A detachment can bar a datasheet that belongs to ANOTHER faction, and the id must say so or it
+  // lands on this army's own unit of the same name. Black Spear Task Force excludes the Codex:
+  // Imperial Agents Watch Master — the ally you would otherwise bring alongside your own — and
+  // falling back to the slugified NAME made that "watch-master", which is the Index: Deathwatch
+  // datasheet this army is built around: a legal Watch Master read as illegal in every Deathwatch
+  // list. Resolved through the same global map the allied ids use, so a foreign datasheet comes out
+  // namespaced (`imperial-agents:watch-master`) and an own one bare.
+  const exclId = (id) => {
+    const own = idMap.get(id)
+    if (own) return own
+    const found = unitBySheet.get(id)
+    if (found && found[0] !== slug) return `${found[0]}:${found[1]}`
+    return found ? found[1] : slugify(enOf(dsById.get(id)).name || '')
+  }
+  const excl = (detExcluded.get(bdet.id) || []).map(exclId).filter(Boolean)
   if (excl.length) det.excludedUnits = excl
   const linked = (detLinked.get(bdet.id) || []).map((r) => {
     const l = { unit: idMap.get(r.datasheetId) || slugify(enOf(dsById.get(r.datasheetId)).name || ''), count: r.count }
@@ -1631,7 +1645,7 @@ async function genFaction(slug) {
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
-    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag))
+    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug))
     .sort((a, b) => a.name.localeCompare(b.name))
   stripMandatoryPriceBrackets(units, detachments)
 
