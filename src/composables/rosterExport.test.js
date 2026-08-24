@@ -193,3 +193,27 @@ describe('buildRosterText — allegiance', () => {
     expect(buildRosterText(r, { faction: f, core, items }, 'compact')).toContain('[Khorne]')
   })
 })
+
+describe('allies in the GW export', () => {
+  // An allied unit prints under the app's own ALLIED UNITS heading rather than among the army's
+  // datasheets — the same heading our importer reads, so the list survives a round trip.
+  const inquisitor = {
+    id: 'imperial-agents:inquisitor', name: 'Inquisitor', kws: ['Character', 'Infantry'], flags: { char: 1 },
+    sizes: [{ pts: 65, per: [1, 1], default: 1 }], defaults: [[0, [[1, 1]]]],
+  }
+  const allyFaction = { ...faction, units: [...faction.units, inquisitor], allies: [{ key: 'agents', name: 'Agents of the Imperium', ids: [inquisitor.id] }] }
+  const withAlly = { ...roster, units: [...roster.units, { uid: 'e', id: 'imperial-agents:inquisitor', size: 0 }] }
+  const text = buildRosterText(withAlly, { ...ctx, faction: allyFaction }, 'gw')
+
+  it('prints it under ALLIED UNITS, not under CHARACTERS', () => {
+    expect(text).toContain('ALLIED UNITS')
+    const chars = text.slice(text.indexOf('CHARACTERS'), text.indexOf('ALLIED UNITS'))
+    expect(chars).not.toContain('Inquisitor (')
+    expect(text.slice(text.indexOf('ALLIED UNITS'))).toContain('Inquisitor (65 points)')
+  })
+
+  it('still counts in the army total', () => {
+    expect(text.startsWith('Strike Force Alpha (')).toBe(true)
+    expect(text).toContain(`(${85 + 15 + 160 + 10 + 70 + 75 + 65} points)`)
+  })
+})

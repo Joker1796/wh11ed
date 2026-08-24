@@ -19,7 +19,10 @@
             @click="toggleGroup(g.id)"
           >
             <i class="bi rub-chev" :class="isOpen(g.id) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-            <span class="rub-group-name">{{ groupLabel(g.id) }}</span>
+            <span class="rub-group-name">
+              {{ groupLabel(g) }}
+              <em v-if="g.ally" class="rub-ally-cap">{{ allyCap(g.ally) }}</em>
+            </span>
             <span class="rub-group-count">{{ g.units.length }}</span>
           </button>
           <CollapseTransition :show="isOpen(g.id)">
@@ -67,9 +70,9 @@
          deciding whether to add it. The roster's detachments DO already apply though (a unit can
          gain Battleline from one), so those go in. -->
     <RosterUnitRulesModal
-      v-if="previewId && factionSlug"
-      :unit-id="previewId"
-      :faction-slug="factionSlug"
+      v-if="previewId && previewSlug"
+      :unit-id="previewUnitId"
+      :faction-slug="previewSlug"
       :ctx="{ detachments }"
       @close="previewId = null"
     />
@@ -82,7 +85,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, mandatoryEnhancementFor, capKeyOf } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 
 const props = defineProps({
@@ -100,6 +103,10 @@ const props = defineProps({
   // read, to compute each unit's duplicate cap (rosterValidation.js's duplicateLimit). Absent
   // (e.g. no battle size resolvable yet) means no cap is enforced, same as checkLegality: false.
   battle: { type: Object, default: null },
+  // The faction's allied contexts (data/roster/<slug>.js `allies`). Their units arrive in `units`
+  // like any other, but they are listed in their own sections rather than in the battlefield-role
+  // buckets, and a group whose Detachment isn't selected isn't offered at all — see sectionsOf.
+  allies: { type: Array, default: () => [] },
   // "Проверка легитимности" — live-enforces the duplicate cap on the "+" button below instead of
   // only surfacing it later in the issues list (see rosterValidation.js's validateRoster). Off
   // restores today's unlimited-add behaviour.
@@ -132,13 +139,24 @@ const filtered = computed(() => {
   return props.units.filter((u) => u.name.toLowerCase().includes(q))
 })
 
-function groupLabel(id) { return labels.value[GROUP_LABEL_KEYS[id]] || '' }
+function groupLabel(g) { return g.ally ? g.ally.name : (labels.value[GROUP_LABEL_KEYS[g.id]] || '') }
+
+// What the group allows at this battle size, in the header: "up to 500 pts", "1× Titanic / 3×
+// Armiger" (mutex groups print the either/or with a slash, everyone else with a dot).
+function allyCap(g) {
+  const size = props.battle?.base || props.battle?.id
+  const parts = []
+  const pts = g.pts?.[size]
+  if (pts != null) parts.push(labels.value.rosterAllyCapPts.replace('{n}', String(pts)))
+  for (const [kw, bySize] of Object.entries(g.lim || {})) {
+    if (bySize[size] != null) parts.push(labels.value.rosterAllyCapKw.replace('{n}', String(bySize[size])).replace('{kw}', kw))
+  }
+  return parts.join(g.mutex ? ' / ' : ' · ')
+}
 
 const groups = computed(() =>
-  UNIT_GROUPS.map((id) => ({
-    id,
-    units: filtered.value.filter((u) => bucketOf(u) === id).sort((a, b) => a.name.localeCompare(b.name)),
-  })),
+  sectionsOf(filtered.value, { faction: { allies: props.allies }, detachments: props.detachments })
+    .map((sec) => ({ ...sec, units: sec.items.slice().sort((a, b) => a.name.localeCompare(b.name)) })),
 )
 
 const defById = computed(() => new Map(props.units.map((u) => [u.id, u])))
@@ -187,6 +205,11 @@ function minPoints(u) {
 }
 
 const previewId = ref(null)
+// An allied unit's rules live in ITS faction's data, not in the army's (Draxus is an Imperial
+// Agents datasheet in a Custodes list) — the namespaced id says which.
+const previewSrc = computed(() => allySourceOf(previewId.value))
+const previewSlug = computed(() => previewSrc.value?.[0] || props.factionSlug)
+const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 </script>
 
 <style scoped>
@@ -224,6 +247,17 @@ const previewId = ref(null)
 .rub-head:hover { color: var(--text-primary); }
 .rub-chev { flex-shrink: 0; font-size: 0.7rem; }
 .rub-group-name { flex: 1; text-align: left; }
+/* The group's ceiling, printed next to its name: normal-case and dimmer, so the header still
+   reads as one label rather than two competing ones. */
+.rub-ally-cap {
+  margin-left: 0.5em;
+  font-size: 0.92em;
+  font-weight: 600;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
 .rub-group-count { flex-shrink: 0; font-family: var(--font-mono); color: var(--text-dim); }
 
 .rub-list { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.35rem; }

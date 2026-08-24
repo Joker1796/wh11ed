@@ -460,3 +460,73 @@ describe('validateRoster — allegiance', () => {
     expect(iss.params).toMatchObject({ name: 'Chaos Lord', own: 'Khorne', target: 'Chaos Vindicator', theirs: 'Nurgle' })
   })
 })
+
+// ── Allies ──
+// A faction with two allied contexts of the different shapes the data has: a points-capped group
+// unlocked by a Detachment (in-bundle ids, like World Eaters' Blood Legions) and a keyword-capped
+// either/or one whose units come from another bundle (like Imperial Knights).
+const inquisitor = { id: 'imperial-agents:inquisitor', name: 'Inquisitor', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 65, per: [1, 1], default: 1 }] }
+const armiger = { id: 'imperial-knights:armiger-helverin', name: 'Armiger Helverin', kws: ['Armiger', 'Vehicle', 'Walker'], flags: {}, sizes: [{ pts: 150, per: [1, 1], default: 1 }] }
+const knight = { id: 'imperial-knights:knight-paladin', name: 'Knight Paladin', kws: ['Titanic', 'Vehicle', 'Walker'], flags: {}, sizes: [{ pts: 425, per: [1, 1], default: 1 }] }
+const daemon = { id: 'bloodletters', name: 'Bloodletters', kws: ['Infantry', 'Daemon'], flags: {}, sizes: [{ pts: 110, per: [10, 10], default: 1 }] }
+
+const daemonkin = { sid: 'det-2', name: 'Khorne Daemonkin', dp: 0, enhancements: [], excludedUnits: [] }
+const allyFaction = {
+  ...faction,
+  detachments: [detachment, daemonkin],
+  units: [...faction.units, inquisitor, armiger, knight, daemon],
+  allies: [
+    { key: 'agents', name: 'Agents of the Imperium', ids: [inquisitor.id], lim: { Character: { 'strike-force': 1 } } },
+    { key: 'knights', name: 'Imperial Knights', ids: [armiger.id, knight.id], mutex: 1, lim: { Armiger: { 'strike-force': 3 }, Titanic: { 'strike-force': 1 } } },
+    { key: 'daemons', name: 'Blood Legions', ids: [daemon.id], pts: { 'strike-force': 200 }, dets: ['Khorne Daemonkin'] },
+  ],
+}
+const allyCodes = (r) => validateRoster(r, { faction: allyFaction, core }).issues.map((i) => i.code)
+
+describe('validateRoster — allies', () => {
+  it('accepts an allied unit inside its limits', () => {
+    expect(allyCodes(roster({ units: [U(captain.id, { warlord: true }), U(inquisitor.id)] }))).toEqual([])
+  })
+
+  // The cap is per keyword and per battle size: one Agents CHARACTER at Strike Force.
+  it('counts allied units by the keyword their limit is written against', () => {
+    const r = roster({ units: [U(captain.id, { warlord: true }), U(inquisitor.id), U(inquisitor.id)] })
+    expect(allyCodes(r)).toContain('allyOverLimit')
+  })
+
+  // "Either one TITANIC model or up to three ARMIGER models" — using both is the violation, even
+  // though neither count is over its own cap.
+  it('flags an either/or group that used both of its keywords', () => {
+    const r = roster({ units: [U(captain.id, { warlord: true }), U(knight.id), U(armiger.id)] })
+    expect(allyCodes(r)).toContain('allyMutex')
+    // …and not when only one of them is used.
+    expect(allyCodes(roster({ units: [U(captain.id, { warlord: true }), U(armiger.id), U(armiger.id)] }))).toEqual([])
+  })
+
+  it('adds up a points-capped group against its own ceiling', () => {
+    const r = roster({ detachments: ['Khorne Daemonkin'], units: [U(captain.id, { warlord: true }), U(daemon.id), U(daemon.id)] })
+    const issues = validateRoster(r, { faction: allyFaction, core }).issues
+    const over = issues.find((i) => i.code === 'allyOverPoints')
+    expect(over.params).toMatchObject({ group: 'Blood Legions', points: 220, limit: 200 })
+  })
+
+  // The group is unlocked by one Detachment and by nothing else, so the same unit is legal in one
+  // list and not in another — with the Detachment named, since that is the fix.
+  it('flags a unit whose group the selected detachment does not unlock', () => {
+    const r = roster({ units: [U(captain.id, { warlord: true }), U(daemon.id)] })
+    const issue = validateRoster(r, { faction: allyFaction, core }).issues.find((i) => i.code === 'allyLocked')
+    expect(issue.params).toMatchObject({ name: 'Bloodletters', dets: 'Khorne Daemonkin' })
+    expect(allyCodes(roster({ detachments: ['Khorne Daemonkin'], units: [U(captain.id, { warlord: true }), U(daemon.id)] }))).toEqual([])
+  })
+
+  // "None of these models can be your WARLORD, and they cannot be given Enhancements" — the
+  // sentence every cross-faction allied rule ends with. In-bundle groups are spared it.
+  it('refuses an allied Warlord and an allied enhancement, but only across factions', () => {
+    const cross = roster({ units: [U(inquisitor.id, { warlord: true, enh: 'Artificer Armour' })] })
+    const codes2 = allyCodes(cross)
+    expect(codes2).toContain('allyWarlord')
+    expect(codes2).toContain('allyEnh')
+    const own = roster({ detachments: ['Khorne Daemonkin'], units: [U(daemon.id, { warlord: true })] })
+    expect(allyCodes(own)).not.toContain('allyWarlord')
+  })
+})

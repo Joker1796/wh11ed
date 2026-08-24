@@ -29,14 +29,15 @@ link).
 class of derived data as the datasheet/mfm pipelines (structural facts only, no rules prose):
 
 - `src/data/roster/core.js` — battle sizes (points / DP / enhancement+duplicate limits)
-- `src/data/roster/<slug>.js` — one per faction, 30/30 generated. Units link to their
+- `src/data/roster/<slug>.js` — one per faction, 30/30 generated, each carrying its own `allies`
+  metadata (see **Allies** below). Units link to their
   datasheet page via `sourceIds.json`'s `ds:` entries (`linked: true` + id); unmatched units
   get a slugified id and no link. 1034/1034 units currently linked; 1 dropped for missing
   points/composition (Imperial Knights' Sir Hekhtur — check the generator's console output
   after a re-run for any new drops).
 - `src/data/roster/items.js` — wargear item names + group instruction text, interned once
   across all factions (most wargear is a free swap; only ~83 options carry a points delta)
-- `src/data/roster/index.js` — `loadRosterFaction(slug)`, lazy per-faction (`import.meta.glob`,
+- `src/data/roster/index.js` — `loadRosterFaction(slug, { allies })`, lazy per-faction (`import.meta.glob`,
   same PWA-light-entry-chunk discipline as `data/datasheets/index.js`), folds an SM-Chapter's
   `sharedUnitIds` back in the same way `datasheets/index.js`'s `loadDatasheets` does, applying
   that Chapter's own `unitPoints` to the folded units (see Points below)
@@ -86,6 +87,64 @@ Dreadnought's fists and bolt rifles, while its own printed loadout and its own s
 say blood fists. One entry today, applied only where the printed loadout and the option prose agree
 against the table, and every application is printed by the run — a test pins the result so the table
 gets dropped the moment upstream fixes the row.
+
+## Allies (added 2026-08-24)
+
+An army can hold units that do not have its Faction keyword. **All 21 allied contexts appdata
+records are supported**, and none of them is hand-written: `allied_faction` plus six satellite
+tables say which armies may take a group, which datasheets it offers, the per-keyword caps per
+battle size, the combined points ceiling, and which Detachment (if any) unlocks it.
+
+`gen-roster-data.mjs` emits that per faction as **`allies`** — metadata only (ids + limits), so a
+faction file stays one chunk. Two shapes, and the difference is visible in the ids:
+
+- **cross-faction** — the units live in another bundle, so their ids are **namespaced**
+  `<source slug>:<unit id>` (`imperial-agents:inquisitor-draxus`). A bare id is only unique within
+  a bundle — Astra Militarum and Imperial Agents each have a `ministorum-priest`, and an AM army
+  can ally the Agents one — and the prefix is also how the runtime knows which bundle to load and
+  which faction's datasheet page the unit links to. One group can mix sources (the Chaos Space
+  Marines' cult-legion group takes one datasheet from each of the four cult legions), so the source
+  is per id, never per group.
+- **in-bundle** (appdata's `isSiblingFaction`, plus Drukhari's Harlequins) — already in this
+  faction's file (Blood Legions in `world-eaters.js`). Bare ids; the group exists only to carry the
+  limits that apply to them.
+
+`loadRosterFaction(slug, { allies })` merges the cross-faction ones on request, keeping the
+namespaced id as the unit's id. **Opt-in on purpose**: an IMPERIUM army reaches three bundles it
+otherwise never loads, so the editor and the import screen ask for them always and the read-only
+screens only when the list actually holds one (`usesAllies`). No new files ship — the source
+bundles already existed.
+
+**Prices are the allied ones** where the MFM prints a second list: the `up` map on a group is the
+same mechanism as a Chapter's `unitPoints` (model count → points, only where it differs). Draxus is
+75 points in her own army and 110 in somebody else's.
+
+**What the runtime adds to the data.** `validateRoster` applies the Detachment gate (`allyLocked`),
+the per-keyword caps (`allyOverLimit`), the either/or of the Knight and Titan rules — "either one
+TITANIC model or up to three ARMIGER models", appdata's `isMutuallyExclusiveKeywordLimit`, emitted
+as `mutex` (`allyMutex`) — and the points ceiling (`allyOverPoints`). On top of that it applies the
+sentence every CROSS-FACTION allied rule ends with and which no table records: *"None of these
+models can be your WARLORD, and they cannot be given Enhancements"* (`allyWarlord`, `allyEnh`).
+**In-bundle groups are deliberately spared that pair** — Aeldari's Harlequins rule has no such
+clause, and Ynnari units are exactly what the Devoted of Ynnead Detachment's Enhancements are for.
+`canTakeEnhancements` is appdata's own field (`enh`) and overrides the ban where it is set.
+
+**Which group a unit counts against is decided by the Detachment, not by the user.** Drukhari can
+reach the same Troupe through two groups — Harlequins under Reaper's Wager (500 pts, Enhancements
+allowed) and the corsair group under eight other Detachments (250 pts) — and they can never be
+active at once, which is what makes `allyGroupOf` well-defined.
+
+**On screen**, allies are their own sections rather than battlefield-role entries
+(`rosterEngine.sectionsOf`, shared by the add-units browser, the editor and the read-only view):
+the browser prints the group's ceiling next to its name and does not offer a group whose Detachment
+isn't selected, while the editor and the view keep a locked group visible (`keepLocked`) so a unit
+that is in the list can't disappear from the screen while still counting in the total. The GW export
+prints them under **ALLIED UNITS** — the app's own heading, which our importer already read, so an
+exported list comes back whole. Attached allies stay inside their `Attached Unit` block, as the app
+prints them.
+
+**Import**: allied units resolve by name like any other, but the army's OWN datasheet always wins a
+name collision — an Astra Militarum list saying "Ministorum Priest" means its own.
 
 ## Pure logic (`src/composables/roster*.js`)
 

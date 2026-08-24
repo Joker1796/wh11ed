@@ -827,3 +827,64 @@ describe('round trip — export then import', () => {
       .toBe(buildRosterText(roster, ctx, 'compact'))                      // …everything else, incl. the attachment
   })
 })
+
+// A real export with an allied unit in it — an Inquisitor attached to a Custodian Guard squad in a
+// Custodes army. Until the roster could hold allies at all, this list came in 110 points light with
+// "Inquisitor Draxus" in the not-found column.
+const ALLIED = `“CuStOdEs DoN’t ShOoT WeLl” (2,000 Points)
+
+Adeptus Custodes
+Lions of the Emperor and Might of the Moritoi (3 Detachment Points)
+Strike Force (2,000 Points)
+
+ATTACHED UNITS
+
+Attached unit 1
+
+Inquisitor Draxus (110 Points)
+• Attached as: Leader (Character)
+• 1x Dirgesinger
+• 1x Power fist
+• 1x Psychic Tempest
+
+Custodian Guard (215 Points)
+• Attached as: Bodyguard (Battleline)
+• 5x Custodian Guard
+◦ 4x Guardian spear
+◦ 1x Misericordia
+◦ 1x Praesidium Shield
+◦ 1x Vexilla
+
+Exported from listhammer.info: https://listhammer.info/list/58d9d3ca5cfa23840d`
+
+describe('matchRoster — an allied unit', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('adeptus-custodes', { allies: true }), core: rosterCore, items: items.items }
+  })
+
+  it('places it, at the price it costs as an ally', () => {
+    const { report, payload } = matchRoster(parseList(ALLIED), ctx)
+    expect(report.missing).toEqual([])
+    const draxus = report.units.find((u) => u.name === 'Inquisitor Draxus')
+    expect([draxus.points.computed, draxus.points.stated]).toEqual([110, 110])
+    expect(payload.units.map((u) => u.id)).toContain('imperial-agents:inquisitor-draxus')
+    expect(report.points.computed).toBe(report.points.statedUnits)
+  })
+
+  // Two datasheets share the name across that line, and an Astra Militarum list saying
+  // "Ministorum Priest" means its own — the ally is only reached when the army has nothing by
+  // that name.
+  it('prefers the army’s own datasheet over an ally of the same name', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('astra-militarum', { allies: true })
+    const text = `Priests (2000 points)\n\nAstra Militarum\nStrike Force (2000 points)\n\nCHARACTERS\n\nMinistorum Priest (35 points)\n  • 1x Laspistol`
+    const { payload } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(payload.units[0].id).toBe('ministorum-priest')
+  })
+})

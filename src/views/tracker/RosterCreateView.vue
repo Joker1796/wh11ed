@@ -89,6 +89,7 @@
       <RosterUnitBrowser
         v-if="factionData"
         :units="factionData.units"
+      :allies="factionData.allies || []"
         :faction-slug="factionSlug"
         :added-ids="units.map((u) => u.id)"
         :detachments="curDetachments"
@@ -273,7 +274,8 @@ watch(factionSlug, async (slug) => {
   if (!slug) { factionData.value = null; return }
   loadingFaction.value = true
   try {
-    factionData.value = await loadRosterFaction(slug)
+    // Allies too — the wizard's step 2 is the same browser the add-units screen uses.
+    factionData.value = await loadRosterFaction(slug, { allies: true })
   } finally {
     loadingFaction.value = false
   }
