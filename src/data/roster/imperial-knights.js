@@ -2272,5 +2272,8 @@ export default {
         }
       }
     }
+  ],
+  "noBuild": [
+    "Sir Hekhtur"
   ]
 }

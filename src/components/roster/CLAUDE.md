@@ -266,7 +266,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Five more things real lists turned up, none of them about listhammer's spelling:
+  Six more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -275,6 +275,15 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **A profile no list can buy still appears in the text.** Sir Hekhtur is the pilot who climbs
+    out when Canis Rex is destroyed — his own datasheet, with no points and no composition in
+    appdata, so the roster layer drops him (the generator's single drop) and records the name in
+    the faction's `noBuild`. Every exporter prints "1x Sir Hekhtur" and his two weapons inside the
+    Canis Rex entry, because that is how the datasheet reads. `matchRoster` passes those lines over:
+    they are neither models of the unit (the entry is one Knight, and the count is the sum of the
+    printed profile lines in both parsers) nor wargear it could take, so reporting them would put a
+    problem in front of a reader who can do nothing about it — and the entry costs Canis Rex's own
+    415 either way.
   - **The detachment line cannot be split as text.** The app writes every selected detachment on
     one line joined with commas and a final "and" — and detachment names contain "and" themselves:
     "Legends of Saga and Song and Saga of the Great Wolf" is TWO of them, and splitting on " and "
