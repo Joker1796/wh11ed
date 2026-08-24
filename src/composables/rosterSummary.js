@@ -16,7 +16,7 @@
 // cache is missing or contradicted by the roster's own unit count, and loads one faction chunk
 // per faction that needs it, so a healthy collection loads nothing at all.
 
-import { rosterPoints } from './rosterEngine.js'
+import { rosterPoints, usesAllies } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
@@ -60,7 +60,10 @@ export async function refreshSummaries(rosters) {
   }
   for (const [slug, list] of byFaction) {
     // An unknown slug (a faction dropped from the data) must not take the screen down with it.
-    const data = await loadRosterFaction(slug).catch(() => null)
+    // Allies only if one of these lists actually holds a unit from another faction's bundle —
+    // the summary is computed for every saved list at once, so an unconditional load would pull
+    // three extra bundles per Imperium faction just to re-price a list that has no allies.
+    const data = await loadRosterFaction(slug, { allies: list.some(usesAllies) }).catch(() => null)
     if (!data) continue
     for (const r of list) r.summary = summarize(r, data)
   }

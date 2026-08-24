@@ -28,16 +28,53 @@ const repriced = (unit, byModels) => {
   return sizes.some((s, i) => s !== unit.sizes[i]) ? { ...unit, sizes } : unit
 }
 
-export async function loadRosterFaction(slug) {
+// Units this army may ally in (data.allies — see the generator's Allies section). A group's ids
+// are NAMESPACED `<source slug>:<unit id>` when the units live in another faction's bundle, and
+// bare when they are already in this one (Blood Legions in world-eaters.js). So the merge only has
+// to look at the namespaced ones: load each source bundle once, take the units the group names,
+// and keep the namespaced id as the unit's id — that id is what a roster entry stores, what tells
+// two same-named datasheets apart (Astra Militarum and Imperial Agents each have a Ministorum
+// Priest) and what says which faction's datasheet page the unit links to.
+//
+// Allies are opt-in because they cost extra chunks: an IMPERIUM army can reach three source
+// bundles it otherwise never loads. The editor asks for them (anything may be added); the
+// read-only screens ask only when the list actually holds one (rosterEngine's `usesAllies`).
+async function allyUnits(data) {
+  const need = new Map()     // source slug -> Set(unit id)
+  const prices = new Map()   // namespaced id -> { models: points }
+  for (const g of data.allies || []) {
+    for (const id of g.ids || []) {
+      const at = id.indexOf(':')
+      if (at < 0) continue   // already in this bundle
+      const src = id.slice(0, at)
+      if (!need.has(src)) need.set(src, new Set())
+      need.get(src).add(id.slice(at + 1))
+      if (g.up?.[id]) prices.set(id, g.up[id])
+    }
+  }
+  const out = []
+  for (const [src, ids] of need) {
+    const bundle = await load(src)
+    for (const u of bundle?.units || []) {
+      if (!ids.has(u.id)) continue
+      const id = `${src}:${u.id}`
+      out.push({ ...repriced(u, prices.get(id)), id })
+    }
+  }
+  return out
+}
+
+export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
-  if (!data.sharedUnitIds?.length) return data
-  const sm = await load('space-marines')
-  const idSet = new Set(data.sharedUnitIds)
+  const extra = allies && data.allies?.length ? await allyUnits(data) : []
+  if (!data.sharedUnitIds?.length && !extra.length) return data
+  const sm = data.sharedUnitIds?.length ? await load('space-marines') : null
+  const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
     .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
-  const units = [...data.units, ...shared].sort((a, b) => a.name.localeCompare(b.name))
+  const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units }
 }
 

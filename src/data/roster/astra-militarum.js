@@ -8673,5 +8673,178 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "adeptus-titanicus",
+      "name": "Adeptus Titanicus",
+      "ids": [
+        "titan-legions:reaver-titan",
+        "titan-legions:warbringer-nemesis-titan",
+        "titan-legions:warhound-titan",
+        "titan-legions:warlord-titan"
+      ],
+      "lim": {
+        "Reaver Titan": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "Warbringer Nemesis Titan": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "Warhound Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Warlord Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        }
+      },
+      "mutex": 1
+    },
+    {
+      "key": "agents-of-the-imperium",
+      "name": "Agents of the Imperium",
+      "ids": [
+        "imperial-agents:aquila-kill-team",
+        "imperial-agents:callidus-assassin",
+        "imperial-agents:corvus-blackstar",
+        "imperial-agents:culexus-assassin",
+        "imperial-agents:deathwatch-kill-team",
+        "imperial-agents:eversor-assassin",
+        "imperial-agents:exaction-squad",
+        "imperial-agents:grey-knights-terminator-squad",
+        "imperial-agents:imperial-navy-breachers",
+        "imperial-agents:imperial-rhino",
+        "imperial-agents:inquisitor",
+        "imperial-agents:inquisitor-coteaz",
+        "imperial-agents:inquisitor-draxus",
+        "imperial-agents:inquisitor-greyfax",
+        "imperial-agents:inquisitor-kroyle",
+        "imperial-agents:inquisitorial-agents",
+        "imperial-agents:inquisitorial-chimera",
+        "imperial-agents:ministorum-priest",
+        "imperial-agents:navigator",
+        "imperial-agents:rogue-trader-entourage",
+        "imperial-agents:sanctifiers",
+        "imperial-agents:sisters-of-battle-immolator",
+        "imperial-agents:sisters-of-battle-squad",
+        "imperial-agents:subductor-squad",
+        "imperial-agents:vigilant-squad",
+        "imperial-agents:vindicare-assassin",
+        "imperial-agents:voidsmen-at-arms",
+        "imperial-agents:watch-captain-artemis",
+        "imperial-agents:watch-master"
+      ],
+      "lim": {
+        "Character": {
+          "incursion": 1,
+          "onslaught": 3,
+          "strike-force": 2
+        },
+        "Retinue": {
+          "incursion": 1,
+          "onslaught": 3,
+          "strike-force": 2
+        },
+        "Requisitioned": {
+          "incursion": 1,
+          "onslaught": 2,
+          "strike-force": 1
+        }
+      },
+      "up": {
+        "imperial-agents:eversor-assassin": {
+          "1": 110
+        },
+        "imperial-agents:exaction-squad": {
+          "11": 85
+        },
+        "imperial-agents:grey-knights-terminator-squad": {
+          "5": 190
+        },
+        "imperial-agents:inquisitor": {
+          "1": 65
+        },
+        "imperial-agents:inquisitor-coteaz": {
+          "1": 95
+        },
+        "imperial-agents:inquisitor-draxus": {
+          "1": 110
+        },
+        "imperial-agents:inquisitorial-agents": {
+          "6": 60,
+          "12": 120
+        },
+        "imperial-agents:navigator": {
+          "1": 75
+        },
+        "imperial-agents:rogue-trader-entourage": {
+          "4": 105
+        },
+        "imperial-agents:sisters-of-battle-immolator": {
+          "1": 105
+        },
+        "imperial-agents:sisters-of-battle-squad": {
+          "10": 110
+        },
+        "imperial-agents:subductor-squad": {
+          "11": 100
+        },
+        "imperial-agents:vindicare-assassin": {
+          "1": 125
+        },
+        "imperial-agents:voidsmen-at-arms": {
+          "6": 70
+        }
+      }
+    },
+    {
+      "key": "imperial-knights",
+      "name": "Imperial Knights",
+      "ids": [
+        "imperial-knights:acastus-knight-asterius",
+        "imperial-knights:acastus-knight-porphyrion",
+        "imperial-knights:armiger-helverin",
+        "imperial-knights:armiger-moirax",
+        "imperial-knights:armiger-warglaive",
+        "imperial-knights:canis-rex",
+        "imperial-knights:cerastus-knight-acheron",
+        "imperial-knights:cerastus-knight-atrapos",
+        "imperial-knights:cerastus-knight-castigator",
+        "imperial-knights:cerastus-knight-lancer",
+        "imperial-knights:knight-castellan",
+        "imperial-knights:knight-crusader",
+        "imperial-knights:knight-defender",
+        "imperial-knights:knight-destrier",
+        "imperial-knights:knight-errant",
+        "imperial-knights:knight-gallant",
+        "imperial-knights:knight-paladin",
+        "imperial-knights:knight-preceptor",
+        "imperial-knights:knight-valiant",
+        "imperial-knights:knight-warden",
+        "imperial-knights:questoris-knight-magaera",
+        "imperial-knights:questoris-knight-styrix"
+      ],
+      "lim": {
+        "Armiger": {
+          "strike-force": 3,
+          "incursion": 3,
+          "onslaught": 3
+        },
+        "Titanic": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        }
+      },
+      "mutex": 1
+    }
   ]
 }

@@ -565,6 +565,43 @@ export function wargearNames(def, entry, items) {
   }).filter(Boolean)
 }
 
+// ── Allies ────────────────────────────────────────────────────────────────────────────────────
+// An allied unit's id is namespaced `<source faction slug>:<unit id>` (see data/roster/index.js) —
+// it is the only mark it carries, so everything about allies is derived from the id plus the
+// faction's own `allies` metadata rather than from a flag stamped on the entry.
+export function allySourceOf(id) {
+  const at = String(id || '').indexOf(':')
+  return at < 0 ? null : [id.slice(0, at), id.slice(at + 1)]
+}
+
+// Does this roster hold a unit from another faction's bundle? The read-only screens use it to
+// decide whether loadRosterFaction has to pull those bundles at all (the editor always does).
+export function usesAllies(roster) {
+  return (roster?.units || []).some((u) => allySourceOf(u?.id))
+}
+
+// Which allied contexts are open to a list with these detachments selected. Most groups are always
+// available; some are unlocked by one Detachment and by nothing else (World Eaters' Blood Legions
+// need Khorne Daemonkin), which is also what tells Drukhari's two overlapping Aeldari groups apart
+// — the same Troupe is a 500-point Harlequins ally under Reaper's Wager and a 250-point one under
+// the corsair Detachments, so the selected Detachment decides which limits apply.
+export function allyGroupsFor(faction, detachments = []) {
+  const names = new Set((detachments || []).map((d) => d?.name).filter(Boolean))
+  return (faction?.allies || []).filter((g) => !g.dets?.length || g.dets.some((n) => names.has(n)))
+}
+
+// Every group that lists this unit, whether or not its Detachment requirement is met — the
+// difference is what separates "this unit is an ally" from "this unit is not allowed here".
+export function allyGroupsOf(faction, id) {
+  return (faction?.allies || []).filter((g) => (g.ids || []).includes(id))
+}
+
+// The group a unit counts against right now: the first ACTIVE group listing it, or null when the
+// unit is an ordinary member of the army.
+export function allyGroupOf(faction, id, detachments = []) {
+  return allyGroupsFor(faction, detachments).find((g) => (g.ids || []).includes(id)) || null
+}
+
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total
 // and borrows the duplicate / enhancement / DP limits of the standard bracket it falls within.
 export function effectiveBattle(roster, core) {
@@ -573,10 +610,12 @@ export function effectiveBattle(roster, core) {
   if (roster?.battleSize === 'custom') {
     const points = roster.customPoints || 0
     const std = sizes.find((b) => points <= b.points) || fallback
-    return { id: 'custom', points, dp: std.dp, enhLimit: std.enhLimit, dupLimit: std.dupLimit, custom: true }
+    // `base` is the standard bracket whose limits a custom size borrows — the ally limits are
+    // tabulated per battle size, so they need a bracket name even when the points are hand-typed.
+    return { id: 'custom', base: std.id, points, dp: std.dp, enhLimit: std.enhLimit, dupLimit: std.dupLimit, custom: true }
   }
   const b = sizes.find((x) => x.id === roster?.battleSize)
-  return b ? { ...b, custom: false } : { ...fallback, custom: false }
+  return b ? { ...b, base: b.id, custom: false } : { ...fallback, base: fallback.id, custom: false }
 }
 
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its

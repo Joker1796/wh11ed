@@ -290,7 +290,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, allies: { groups: 0, units: 0, empty: [], missing: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -923,6 +923,150 @@ function pickPrices(rows, priced, name, mfmSteps) {
   return out
 }
 
+// ── Allies ────────────────────────────────────────────────────────────────────────────────────
+// An army can include units that do NOT have its Faction keyword: Agents of the Imperium in any
+// IMPERIUM army, a Knight or a Titan, Daemons in a Chaos Space Marines army, Brood Brothers in a
+// Genestealer Cults one, Harlequins in an Aeldari one. appdata models all 21 of those contexts
+// structurally (`allied_faction` + six satellite tables), so nothing here is hand-written: which
+// armies may take the group, which datasheets it offers, how many of each keyword per battle size,
+// what the combined points may reach, and which Detachment (if any) unlocks it.
+//
+// Two shapes come out of that, and the difference matters to the loader:
+//  - CROSS-FACTION — the units live in another faction's bundle (Draxus is in imperial-agents.js).
+//    Their ids are emitted NAMESPACED, `<source slug>:<unit id>`, because a bare id is only unique
+//    within a bundle: Astra Militarum and Imperial Agents each have their own `ministorum-priest`
+//    datasheet, and an AM army can ally the Agents one. The prefix is also how the runtime knows
+//    which bundle to load and which faction's datasheet page a unit links to. One group can even
+//    mix sources — the Chaos Space Marines' cult-legion group takes one datasheet from each of
+//    Emperor's Children, Death Guard, Thousand Sons and World Eaters — so the source is per id.
+//  - IN-BUNDLE (appdata's `isSiblingFaction`, plus Drukhari's Harlequins) — the units are already
+//    in this faction's own file (Blood Legions are in world-eaters.js, Harlequins in aeldari.js).
+//    Ids stay bare; the group exists only to carry the limits that apply to them.
+//
+// What the group does NOT carry is the warlord/enhancement ban, because it isn't uniform: the
+// cross-faction rules all end "None of these models can be your WARLORD, and they cannot be given
+// Enhancements", while Aeldari's Harlequins have no such sentence and Ynnari units are exactly
+// what the Devoted of Ynnead Detachment's Enhancements are for. `canTakeEnhancements` is appdata's
+// own field and is emitted as `enh`; the rest is the runtime's rule (see rosterValidation.js).
+const alliedRows = table('allied_faction')
+const fkParentOf = new Map(table('faction_keyword').map((k) => [k.id, k.parentFactionKeywordId]))
+const bsSlug = new Map(table('battle_size').map((b) => [b.id, slugify(enOf(b).name)]))
+const groupBy = (rows, key) => {
+  const m = new Map()
+  for (const r of rows) {
+    if (!m.has(r[key])) m.set(r[key], [])
+    m.get(r[key]).push(r)
+  }
+  return m
+}
+const alliedTakers = groupBy(table('faction_keyword_allied_faction'), 'alliedFactionId')
+const alliedParents = groupBy(table('allied_faction_parent_faction_keyword'), 'alliedFactionId')
+const alliedSheets = groupBy(table('allied_faction_datasheet'), 'alliedFactionId')
+const alliedKeywords = groupBy(table('allied_faction_keyword'), 'alliedFactionId')
+const alliedPoints = groupBy(table('allied_faction_points_limit'), 'alliedFactionId')
+const alliedDets = groupBy(table('allied_faction_required_detachment'), 'alliedFactionId')
+
+// datasheet uuid -> [our faction slug, our unit id]. sourceIds.json is the same map the datasheet
+// pages are keyed by, and a datasheet appears under exactly one faction there (1039 of them, no
+// duplicates), so this resolves an allied datasheet to the bundle that actually holds it.
+const unitBySheet = new Map()
+{
+  const all = loadJson(path.join(ROOT, 'src/data/sourceIds.json')) || {}
+  for (const [slug, entries] of Object.entries(all)) {
+    for (const [k, uuid] of Object.entries(entries)) if (k.startsWith('ds:')) unitBySheet.set(uuid, [slug, k.slice(3)])
+  }
+}
+
+// Is this faction (or a faction it is a chapter/subfaction of) allowed to take the group? Takers
+// are recorded at whatever level the rule is written — "Adeptus Astartes" for the Codex armies,
+// "Dark Angels" where a Chapter is named — so walk up the keyword's parents.
+function fkChain(id) {
+  const out = []
+  for (let cur = id, n = 0; cur && n < 8; cur = fkParentOf.get(cur), n++) out.push(cur)
+  return out
+}
+
+// What the group's units cost as ALLIES. The MFM prints a second, dearer list for Agents of the
+// Imperium ("Agents of the Imperium (allied)": Draxus 75 in her own army, 110 in somebody else's)
+// and ownMfmUnits deliberately ignores it when pricing that faction's own bundle. Same mechanism
+// as a Chapter's `unitPoints`: model count -> points, emitted only where it differs, applied by
+// loadRosterFaction to a `sizes` array built elsewhere.
+const alliedPriceCache = new Map()
+async function alliedPricesOf(slug) {
+  if (alliedPriceCache.has(slug)) return alliedPriceCache.get(slug)
+  const mfm = (await loadModule(path.join(ROOT, 'src/data/mfm', `${slug}.js`)))?.default
+  const sub = (mfm?.subfactions || []).find((s) => /allied/i.test(s.name))
+  let out = null
+  if (sub) {
+    const allied = mfmPrices(sub.units)
+    const own = mfmPrices(ownMfmUnits(mfm))
+    out = new Map()
+    for (const [name, prices] of allied) {
+      const diff = {}
+      for (const [models, p] of prices) if (own.get(name)?.get(models)?.base !== p.base) diff[models] = p.base
+      if (Object.keys(diff).length) out.set(name, diff)
+    }
+  }
+  alliedPriceCache.set(slug, out)
+  return out
+}
+
+async function alliesFor(factionKeywordId, ownUnitIds, slug) {
+  const mine = new Set(fkChain(factionKeywordId))
+  const out = []
+  for (const af of alliedRows) {
+    if (!(alliedTakers.get(af.id) || []).some((t) => mine.has(t.factionKeywordId))) continue
+    const names = (alliedParents.get(af.id) || []).map((p) => fkwName.get(p.factionKeywordId)).filter(Boolean)
+    const group = { key: slugify(names.join(' ')), name: names.join(' / ') }
+    const ids = []
+    const missing = []
+    const up = {}
+    for (const row of alliedSheets.get(af.id) || []) {
+      const found = unitBySheet.get(row.datasheetId)
+      if (!found) { missing.push(enOf(dsById.get(row.datasheetId)).name || row.datasheetId); continue }
+      const [srcSlug, unitId] = found
+      if (srcSlug === slug) {
+        // Already in this bundle (a sibling faction, or a Chapter's own copy) — bare id.
+        if (ownUnitIds.has(unitId)) ids.push(unitId)
+        else missing.push(`${unitId} (not a buildable entry)`)
+        continue
+      }
+      const id = `${srcSlug}:${unitId}`
+      ids.push(id)
+      const prices = await alliedPricesOf(srcSlug)
+      const diff = prices?.get(normApost(enOf(dsById.get(row.datasheetId)).name || ''))
+      if (diff) up[id] = diff
+    }
+    if (!ids.length) { report.allies.empty.push(`${slug}: ${group.name}`); continue }
+    group.ids = ids.sort()
+    // Keyword caps ("up to 3 ARMIGER models"), per battle size. `mutex` is appdata's
+    // isMutuallyExclusiveKeywordLimit — the Knight/Titan rule reads "either one TITANIC model OR
+    // up to three ARMIGER models", so the caps are alternatives, not a budget each.
+    const lim = {}
+    for (const r of alliedKeywords.get(af.id) || []) {
+      const kw = kwName.get(r.keywordId)
+      const size = bsSlug.get(r.battleSizeId)
+      if (!kw || !size) continue
+      lim[kw] = lim[kw] || {}
+      lim[kw][size] = r.limitCount
+    }
+    if (Object.keys(lim).length) group.lim = lim
+    if (af.isMutuallyExclusiveKeywordLimit) group.mutex = 1
+    const pts = {}
+    for (const r of alliedPoints.get(af.id) || []) if (bsSlug.get(r.battleSizeId)) pts[bsSlug.get(r.battleSizeId)] = r.pointsLimit
+    if (Object.keys(pts).length) group.pts = pts
+    const dets = (alliedDets.get(af.id) || []).map((r) => enOf(detById.get(r.detachmentId)).name).filter(Boolean).sort()
+    if (dets.length) group.dets = dets
+    if (af.canTakeEnhancements) group.enh = 1
+    if (Object.keys(up).length) group.up = up
+    if (missing.length) report.allies.missing.push(`${slug}/${group.name}: ${missing.join(', ')}`)
+    report.allies.groups++
+    report.allies.units += ids.length
+    out.push(group)
+  }
+  return out.sort((a, b) => a.name.localeCompare(b.name))
+}
+
 // What the shared Codex: Space Marines units cost THIS Chapter. A Chapter's bundle doesn't repeat
 // them (loadRosterFaction folds them in from space-marines.js), so their price can't come from
 // buildUnit — but it does differ: Blood Angels pay 80 for an Assault Intercessor Squad where the
@@ -1440,6 +1584,10 @@ async function genFaction(slug) {
   for (const u of units) { if (u.linked) report.linked++; else report.unlinked.push(`${slug}: ${u.name}`) }
 
   const data = { slug, name: enOf(bundle.faction).name || bundle.faction?.name || slug, units, detachments }
+  // Allied contexts this army may use (see the Allies section above). Metadata only — ids and
+  // limits — so a faction file stays one chunk; loadRosterFaction pulls the source bundles.
+  const allies = await alliesFor(bundle.faction?.id, new Set(units.map((u) => u.id)), slug)
+  if (allies.length) data.allies = allies
   // SM-Chapter fold: a Chapter's bundle lists only its own units; the shared Adeptus Astartes
   // pool lives in space-marines.js. Reuse the exact `sharedUnitIds` the datasheet layer already
   // computed (data/datasheets/<chapter>.js) so the roster shows the same unit list as the rules
@@ -1503,16 +1651,53 @@ const repriced = (unit, byModels) => {
   return sizes.some((s, i) => s !== unit.sizes[i]) ? { ...unit, sizes } : unit
 }
 
-export async function loadRosterFaction(slug) {
+// Units this army may ally in (data.allies — see the generator's Allies section). A group's ids
+// are NAMESPACED \`<source slug>:<unit id>\` when the units live in another faction's bundle, and
+// bare when they are already in this one (Blood Legions in world-eaters.js). So the merge only has
+// to look at the namespaced ones: load each source bundle once, take the units the group names,
+// and keep the namespaced id as the unit's id — that id is what a roster entry stores, what tells
+// two same-named datasheets apart (Astra Militarum and Imperial Agents each have a Ministorum
+// Priest) and what says which faction's datasheet page the unit links to.
+//
+// Allies are opt-in because they cost extra chunks: an IMPERIUM army can reach three source
+// bundles it otherwise never loads. The editor asks for them (anything may be added); the
+// read-only screens ask only when the list actually holds one (rosterEngine's \`usesAllies\`).
+async function allyUnits(data) {
+  const need = new Map()     // source slug -> Set(unit id)
+  const prices = new Map()   // namespaced id -> { models: points }
+  for (const g of data.allies || []) {
+    for (const id of g.ids || []) {
+      const at = id.indexOf(':')
+      if (at < 0) continue   // already in this bundle
+      const src = id.slice(0, at)
+      if (!need.has(src)) need.set(src, new Set())
+      need.get(src).add(id.slice(at + 1))
+      if (g.up?.[id]) prices.set(id, g.up[id])
+    }
+  }
+  const out = []
+  for (const [src, ids] of need) {
+    const bundle = await load(src)
+    for (const u of bundle?.units || []) {
+      if (!ids.has(u.id)) continue
+      const id = \`\${src}:\${u.id}\`
+      out.push({ ...repriced(u, prices.get(id)), id })
+    }
+  }
+  return out
+}
+
+export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
-  if (!data.sharedUnitIds?.length) return data
-  const sm = await load('space-marines')
-  const idSet = new Set(data.sharedUnitIds)
+  const extra = allies && data.allies?.length ? await allyUnits(data) : []
+  if (!data.sharedUnitIds?.length && !extra.length) return data
+  const sm = data.sharedUnitIds?.length ? await load('space-marines') : null
+  const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
     .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
-  const units = [...data.units, ...shared].sort((a, b) => a.name.localeCompare(b.name))
+  const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units }
 }
 
@@ -1553,6 +1738,10 @@ if (report.loadoutFixed.length) {
   console.log(`  default-loadout substitutions (appdata names another datasheet's weapon — see LOADOUT_ITEM_FIXES):`)
   for (const l of [...new Set(report.loadoutFixed)]) console.log(`    - ${l}`)
 }
+const ally = report.allies
+console.log(`  allies: ${ally.groups} allied contexts across the factions, ${ally.units} unit slots`)
+if (ally.empty.length) console.log(`    no unit resolved (skipped): ${ally.empty.join('; ')}`)
+for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle

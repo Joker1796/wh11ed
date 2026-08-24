@@ -2478,5 +2478,100 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "astra-militarum",
+      "name": "Astra Militarum",
+      "ids": [
+        "astra-militarum:aegis-defence-line",
+        "astra-militarum:armoured-sentinels",
+        "astra-militarum:artillery-team",
+        "astra-militarum:attilan-rough-riders",
+        "astra-militarum:baneblade",
+        "astra-militarum:banehammer",
+        "astra-militarum:banesword",
+        "astra-militarum:basilisk",
+        "astra-militarum:cadian-castellan",
+        "astra-militarum:cadian-command-squad",
+        "astra-militarum:cadian-heavy-weapons-squad",
+        "astra-militarum:cadian-recon-squad",
+        "astra-militarum:cadian-shock-troops",
+        "astra-militarum:catachan-command-squad",
+        "astra-militarum:catachan-heavy-weapons-squad",
+        "astra-militarum:catachan-jungle-fighters",
+        "astra-militarum:centaur-rsv",
+        "astra-militarum:chimera",
+        "astra-militarum:cyclops-demolition-vehicle",
+        "astra-militarum:death-korps-of-krieg",
+        "astra-militarum:death-riders",
+        "astra-militarum:deathstrike",
+        "astra-militarum:doomhammer",
+        "astra-militarum:field-ordnance-battery",
+        "astra-militarum:hellhammer",
+        "astra-militarum:hellhound",
+        "astra-militarum:hippogriff-afv",
+        "astra-militarum:hydra",
+        "astra-militarum:kasrkin",
+        "astra-militarum:krieg-combat-engineers",
+        "astra-militarum:krieg-command-squad",
+        "astra-militarum:krieg-heavy-weapons-squad",
+        "astra-militarum:leman-russ-battle-tank",
+        "astra-militarum:leman-russ-commander",
+        "astra-militarum:leman-russ-demolisher",
+        "astra-militarum:leman-russ-eradicator",
+        "astra-militarum:leman-russ-executioner",
+        "astra-militarum:leman-russ-exterminator",
+        "astra-militarum:leman-russ-punisher",
+        "astra-militarum:leman-russ-vanquisher",
+        "astra-militarum:manticore",
+        "astra-militarum:primaris-psyker",
+        "astra-militarum:rogal-dorn-battle-tank",
+        "astra-militarum:rogal-dorn-commander",
+        "astra-militarum:scout-sentinels",
+        "astra-militarum:shadowsword",
+        "astra-militarum:stormlord",
+        "astra-militarum:stormsword",
+        "astra-militarum:taurox",
+        "astra-militarum:wyvern"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 1000,
+        "onslaught": 1500
+      },
+      "dets": [
+        "Brood Brothers Auxilia"
+      ]
+    },
+    {
+      "key": "tyranids",
+      "name": "Tyranids",
+      "ids": [
+        "tyranids:deathleaper",
+        "tyranids:gargoyles",
+        "tyranids:hyperadapted-raveners",
+        "tyranids:lictor",
+        "tyranids:mawloc",
+        "tyranids:neurolictor",
+        "tyranids:parasite-of-mortrex",
+        "tyranids:raveners",
+        "tyranids:the-red-terror",
+        "tyranids:trygon",
+        "tyranids:tyrannocyte",
+        "tyranids:von-ryans-leapers",
+        "tyranids:winged-hive-tyrant",
+        "tyranids:winged-tyranid-prime"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 1000,
+        "onslaught": 1500
+      },
+      "dets": [
+        "Final Day"
+      ],
+      "enh": 1
+    }
   ]
 }

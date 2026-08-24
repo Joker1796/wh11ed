@@ -29,7 +29,9 @@ export function useRosterEditing(rosterId) {
     if (!slug) { factionData.value = null; return }
     loadingFaction.value = true
     try {
-      factionData.value = await loadRosterFaction(slug)
+      // Allies always, on both screens this drives: the browser has to be able to OFFER them,
+      // and the editor has to be able to price a list that already holds one.
+      factionData.value = await loadRosterFaction(slug, { allies: true })
     } finally {
       loadingFaction.value = false
     }
