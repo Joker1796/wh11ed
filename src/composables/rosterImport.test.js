@@ -1976,3 +1976,134 @@ describe('matchRoster — a WTC list that states an attachment by its rule', () 
     expect(payload.units.find((u) => u.warlord).id).toBe('militarum-tempestus-command-squad')
   })
 })
+
+
+// A T'au export, abridged: every Crisis suit's swaps show up ONLY as a changed count of a weapon
+// its printed loadout already names, and its Commander carries three of one weapon out of a group
+// that allows three. Both are shapes the reader used to be blind to.
+const TAU = `Drop Zone Clear (2000 points)
+
+T’au Empire
+Retaliation Cadre (3 Detachment Points)
+Strike Force (2000 points)
+
+Attached Units
+Attached Unit 1
+
+Commander in Enforcer Battlesuit (80 points)
+• Attached as: Leader (Character)
+• Warlord
+• 1x Battlesuit fists
+1x Cyclic ion blaster
+3x Missile pod
+2x Shield Drone
+
+Crisis Fireknife Battlesuits (130 points)
+• Attached as: Bodyguard
+• 1x Crisis Fireknife Shas’vre
+• 1x Battlesuit fists
+1x Marker Drone
+2x Missile pod
+1x Shield Drone
+• 2x Crisis Fireknife Shas’ui
+• 2x Battlesuit fists
+2x Gun Drone
+2x Marker Drone
+4x Missile pod
+
+OTHER DATASHEETS
+
+Crisis Fireknife Battlesuits (100 points)
+• 1x Crisis Fireknife Shas’vre
+• 1x Battlesuit fists
+1x Marker Drone
+2x Plasma rifle
+1x Shield Drone
+• 2x Crisis Fireknife Shas’ui
+• 2x Battlesuit fists
+4x Plasma rifle
+
+Crisis Starscythe Battlesuits (90 points)
+• 1x Crisis Starscythe Shas’vre
+• 1x Battlesuit fists
+2x Burst cannon
+1x Marker Drone
+1x Shield Drone
+• 2x Crisis Starscythe Shas’ui
+• 2x Battlesuit fists
+4x Burst cannon
+2x Gun Drone
+2x Shield Drone
+
+Crisis Starscythe Battlesuits (120 points)
+• 1x Crisis Starscythe Shas’vre
+• 1x Battlesuit fists
+1x Marker Drone
+1x Shield Drone
+2x T’au flamer
+• 2x Crisis Starscythe Shas’ui
+• 2x Battlesuit fists
+2x Gun Drone
+2x Shield Drone
+4x T’au flamer
+
+Crisis Starscythe Battlesuits (115 points)
+• 1x Crisis Starscythe Shas’vre
+• 1x Battlesuit fists
+1x Burst cannon
+1x T’au flamer
+• 2x Crisis Starscythe Shas’ui
+• 2x Battlesuit fists
+2x Burst cannon
+2x T’au flamer
+
+Exported from listhammer.info: https://listhammer.info/list/b34db9516d9b3997ea`
+
+describe('matchRoster — a swap that only shows as a count', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/tau-empire.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+
+  it('prices every Crisis suit exactly as the site did', () => {
+    const { report } = matchRoster(parseList(TAU), ctx)
+    expect(report.missing).toEqual([])
+    for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
+    for (const u of report.units) expect([u.name, u.gear.missing]).toEqual([u.name, []])
+  })
+
+  // A Fireknife comes with a plasma rifle AND a missile pod and can trade either for the other, so
+  // both directions read as nothing but a count: "2x Missile pod" where one was printed, or a
+  // plasma rifle where the pod should be. Read by name alone, neither was a pick.
+  it('reads the swap in both directions', () => {
+    const { payload } = matchRoster(parseList(TAU), ctx)
+    const def = ctx.faction.units.find((u) => u.id === 'crisis-fireknife-battlesuits')
+    const pods = def.gear.findIndex((g) => g.o.some((o) => o[1] === 5))   // the paid missile pod
+    const rifles = def.gear.findIndex((g, i) => i !== pods && g.dr)       // …and the way back
+    const [all, none] = payload.units.filter((u) => u.id === 'crisis-fireknife-battlesuits')
+    expect(all.wg.find((w) => w[0] === pods)).toEqual([pods, 0, 3])
+    expect(none.wg.find((w) => w[0] === rifles)).toEqual([rifles, 0, 3])
+    // The squad that changed nothing records nothing either.
+    const stock = payload.units.filter((u) => u.id === 'crisis-starscythe-battlesuits')[2]
+    const starscythe = ctx.faction.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
+    const swaps = starscythe.gear.map((g, i) => i).filter((i) => starscythe.gear[i].rep?.length)
+    expect((stock.wg || []).filter((w) => swaps.includes(w[0]))).toEqual([])
+  })
+
+  // "This model can be equipped with up to three of the following, and can take duplicates" is a
+  // checkbox with a cap of 3 — three of one weapon is ONE pick counted three times, not three
+  // picks. Spilling the extras into the group that replaces his burst cannon (which allows one)
+  // made a legal Commander illegal.
+  it('keeps several copies of one weapon inside the group that allows them', () => {
+    const { payload } = matchRoster(parseList(TAU), ctx)
+    const def = ctx.faction.units.find((u) => u.id === 'commander-in-enforcer-battlesuit')
+    const cmd = payload.units.find((u) => u.id === 'commander-in-enforcer-battlesuit')
+    const oneOf = def.gear.findIndex((g) => g.rep?.length)
+    expect(cmd.wg.filter((w) => w[0] === oneOf).length).toBe(1)
+    expect(cmd.wg.some((w) => w[2] === 3)).toBe(true)
+  })
+})

@@ -1448,6 +1448,12 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // Miniatures (for labelling gear/loadout groups). A single-profile unit needs no list.
   if (minis.length > 1) unit.minis = minis.map((m) => ({ n: enOf(m).name }))
 
+  // The models one profile fields at its default bracket — the divisor for a profile-total count,
+  // and the same reading the per-copy pass below takes.
+  const profileModels = (m) => {
+    const bracket = (unit.sizes || []).find((x) => x.default) || (unit.sizes || [])[0]
+    return (bracket?.comp || []).find(([mi]) => mi === m)?.[1] ?? (bracket?.per?.[0] ?? 1)
+  }
   // Default loadout: what each miniature starts equipped with.
   const fixItem = (uuid) => {
     const to = LOADOUT_ITEM_FIXES[bd.id]?.[uuid]
@@ -1463,13 +1469,22 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       .map(([uuid, count]) => [fx.item(fixItem(uuid)), count])
     if (items.length) defaults.push([miniIdx.get(b.miniatureId) ?? 0, items])
   }
-  // Whether the counts below are PER MODEL (base_miniature_loadout's own reading) or the TOTAL the
-  // profile fields (a "Default Wargear" group's) — the two tables count differently, and only the
-  // per-copy reading further down has to tell them apart.
-  let defaultsAreTotals = false
+  // The two tables COUNT differently: a `base_miniature_loadout` row is per model, a "Default
+  // Wargear" group is the total the profile fields ("Burst cannon 2" for the two Crisis Starscythe
+  // Shas'ui, one each). So a group's counts are divided by the models that profile fields, and
+  // everything downstream — display, points, per-copy swaps — reads one convention: per model,
+  // unless the entry carries the TOTAL marker below. Where the count doesn't divide it IS a total
+  // and nothing else (a Sanctifiers Missionary's plasma gun: one of the two carries it).
   if (!defaults.length) {
-    for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])])
-    if (defaults.length) { report.staticDefaults++; defaultsAreTotals = true }
+    for (const [m, items] of staticLoadout(bd.id, miniIdx)) {
+      const models = profileModels(m)
+      defaults.push([m, items.map(([uuid, c]) => {
+        const id = fx.item(fixItem(uuid))
+        if (models < 2) return [id, c]
+        return c % models === 0 ? [id, c / models] : [id, c, 1]
+      })])
+    }
+    if (defaults.length) report.staticDefaults++
   } else {
     // The two tables can disagree, and where they do it is the loadout ROW that is short: a
     // Servitor Battleclade's Gun Servitors carry a heavy bolter and a heavy arc rifle between them
@@ -1510,7 +1525,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   //
   // Emitted as money per model (`dw: [[miniIndex, points]]`) rather than as items, because the
   // awkward part is here: a "Default Wargear" group counts the copies the whole profile fields
-  // where a loadout row counts one model's (`defaultsAreTotals`), and either can be the source.
+  // where a loadout row counts one model's, and either can be the source.
   // The engine multiplies by the models actually fielded, which the bracket cannot do — it is flat
   // across 6-10 models where the hammers are not.
   const paidDefaults = new Map()
@@ -1520,12 +1535,6 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), o.points)
     }
   }
-  // The models one profile fields at its default bracket — the divisor for a profile-total count,
-  // and the same reading the per-copy pass below takes.
-  const profileModels = (m) => {
-    const bracket = (unit.sizes || []).find((x) => x.default) || (unit.sizes || [])[0]
-    return (bracket?.comp || []).find(([mi]) => mi === m)?.[1] ?? (bracket?.per?.[0] ?? 1)
-  }
   // Per-model price of each paid default, by profile — the swap refunds below read it too.
   const paidPerMini = new Map()
   for (const [m, items] of paidDefaults.size ? defaults : []) {
@@ -1533,7 +1542,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     for (const [id, c, total] of items) {
       const pts = paidDefaults.get(id)
       if (!pts) continue
-      const per = total || defaultsAreTotals ? c / profileModels(m) : c
+      const per = total ? c / profileModels(m) : c
       // A count that doesn't divide among the profile's models is one of the loadout rows that
       // records a squad total (one of two Gun Servitors carries the heavy bolter). Charging a
       // fraction of it per model would be worse than not charging it, so it is reported instead.
@@ -1622,7 +1631,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       const hit = row.find(([id]) => id === fx.item(uuid))
       if (!hit) return 1
       const n = hit[1] || 1
-      const total = defaultsAreTotals || hit.length > 2
+      const total = hit.length > 2
       if (!total) return n
       return perProfile > 0 && n % perProfile === 0 ? n / perProfile : 1
     }))

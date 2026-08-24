@@ -28,7 +28,7 @@
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
-import { allySourceOf, leadTypeFor, optionItems, optionLabel, unitPoints } from './rosterEngine.js'
+import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, unitPoints, wargearGroupCap } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
@@ -585,7 +585,7 @@ export function matchFaction(name) {
 // "1 hyperphase sword and 1 dispersion shield" arrives as two lines; indexing only single-item
 // options left both unplaceable and the swap untaken, which silently imported a Lychguard unit
 // still holding its printed warscythes.
-function optionIndex(def, items) {
+function optionIndex(def, items, entry) {
   const idx = new Map()
   const put = (key, ref) => {
     if (!key) return
@@ -595,7 +595,13 @@ function optionIndex(def, items) {
   }
   def?.gear?.forEach((g, gi) => {
     g.o?.forEach((o, oi) => {
-      const ref = { gi, oi, m: g.m ?? 0, stepper: g.in === 'stepper' }
+      // Stepper or single pick — read exactly as the editor reads it (UnitEditorFields' mode()):
+      // a group whose cap allows several picks is a set of steppers sharing one budget whatever
+      // appdata calls its input. A T'au Commander's "up to three of the following, and can take
+      // duplicates" is a checkbox with a cap of 3, and counting it as one pick per copy spilled
+      // his second and third missile pods into the group that replaces his burst cannon — a
+      // second pick in a group that allows one, so a legal Commander came out illegal.
+      const ref = { gi, oi, m: g.m ?? 0, stepper: g.in === 'stepper' || (wargearGroupCap(def, entry, gi)?.limit || 0) > 1 }
       put(norm(optionLabel(o, items)), ref)
       for (const [id] of optionItems(o)) put(norm(items?.[id]), ref)
     })
@@ -879,7 +885,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // Wargear: only what DEVIATES from the printed loadout is a pick. Everything the datasheet
     // already comes with is in the text too, and must not be read as a choice.
     const printed = defaultNames(def, items)
-    const idx = optionIndex(def, items)
+    const idx = optionIndex(def, items, entry)
 
     // A bundle the export writes as ONE name: "2 with Sergeant's autogun and close combat weapon"
     // is the pair our data offers as a single option, whose own label joins its items with " + " —
@@ -903,11 +909,24 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const k = norm(w.name)
       listed.set(k, (listed.get(k) || 0) + (w.n || 1))
     }
+    // How many of each item the PRINTED loadout puts on the table — per profile where the export
+    // says which profile a weapon is on, and unit-wide as the fallback. `defaults` counts one
+    // model's (see gen-roster-data.mjs), except an entry marked TOTAL, which is the profile's.
+    const perProfile = modelsPerMini(def, entry)
+    const printedPer = new Map()  // `${miniIndex|*}:${item}` → copies
     const printedCount = new Map()
-    for (const [, list] of def.defaults || []) {
-      for (const [id, n] of list || []) {
+    const bump = (map, k, n) => map.set(k, (map.get(k) || 0) + n)
+    for (const [m, list] of def.defaults || []) {
+      const n = perProfile?.get(m) || 0
+      for (const [id, c, total] of list || []) {
         const k = norm(items?.[id])
-        if (k) printedCount.set(k, (printedCount.get(k) || 0) + (n || 1))
+        if (!k) continue
+        // Where the models can't be split between profiles at all (two open-ended ones — see
+        // modelsPerMini, the Deathwatch kill teams) the printed loadout absorbs the item whatever
+        // the count, which is exactly how this read before counting came into it.
+        const copies = !perProfile ? Infinity : total ? (c || 1) : (c || 1) * n
+        bump(printedPer, `${m}:${k}`, copies)
+        bump(printedCount, k, copies)
       }
     }
     const untouched = (gi) => {
@@ -922,6 +941,17 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const picks = new Map()
     const key2 = (r) => `${r.gi}:${r.oi}`
     const usedGroups = new Set()
+    // Whether a group can still take a pick, read as the editor reads it (UnitEditorFields' mode):
+    // a stepper spends its cap, a one-of group holds exactly one. Without this the leftovers of a
+    // weapon a Commander carries three of went back into the group that swaps his burst cannon —
+    // which allows one pick — and the list came out illegal on wargear it is entitled to.
+    const roomIn = (gi) => {
+      const cap = wargearGroupCap(def, entry, gi)?.limit ?? null
+      const limit = def.gear?.[gi]?.in === 'stepper' || (cap || 0) > 1 ? (cap ?? Infinity) : 1
+      let used = 0
+      for (const p of picks.values()) if (p.gi === gi) used += p.stepper ? stepperCount(p) : p.n
+      return used < limit
+    }
     // How well an option ANSWERS the list: a bundled option ("1 boltstorm gauntlet, 1 power fist
     // and 1 relic blade") is one pick that puts three weapons on the model, and the Captain in
     // Gravis Armour offers three such bundles differing only in the last item. Scoring each
@@ -935,11 +965,43 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (names.length < 2) return 1
       return names.reduce((n, x) => n + (listed.has(x) ? 1 : -1), 0)
     }
+    // What the printed loadout already accounts for is not a pick — but by COUNT, not by name. A
+    // Crisis Fireknife comes with a plasma rifle and a missile pod and can trade either for the
+    // other, so its swaps show up only as "2x Missile pod" where one was printed. Reading the name
+    // alone made both directions invisible: three swaps, 15 points, on a squad that also pays for
+    // the pod it starts with.
+    const perLeft = new Map(printedPer)
+    const anyLeft = new Map(printedCount)
+    const absorb = (w, key) => {
+      let n = w.n || 1
+      const draw = (amount, pk) => {
+        if (!amount) return
+        if (pk) perLeft.set(pk, (perLeft.get(pk) || 0) - amount)
+        anyLeft.set(key, (anyLeft.get(key) || 0) - amount)
+        n -= amount
+      }
+      const mi = miniIndexOf(def, w.mini)
+      const pk = mi == null ? null : `${mi}:${key}`
+      if (pk) draw(Math.min(perLeft.get(pk) || 0, anyLeft.get(key) || 0, n), pk)
+      // The profile the export named has none of this left — but a datasheet can field several
+      // profiles under one NAME (an Aquila Kill Team lists four "Deathwatch Veteran"s, each with
+      // its own loadout), and the name is all the export gives. So what the rest of the unit still
+      // has printed answers for it before it counts as a deviation; the unit-wide stock is what
+      // keeps the total honest either way.
+      draw(Math.min(anyLeft.get(key) || 0, n), null)
+      return n
+    }
     for (const w of weapons) {
       const key = norm(w.name)
-      if (!key || printed.has(key)) continue
+      if (!key) continue
+      const extra = absorb(w, key)
+      if (extra <= 0) continue
       const refs = idx.get(key)
-      if (!refs?.length) { line.gear.missing.push(w.name); continue }
+      // More of an item than the printed loadout records, and no option on the datasheet grants it:
+      // the printed COUNT is what's short (appdata gives a Defiler one excruciator cannon where its
+      // own loadout text and the model both say two), and reporting that would blame the list for
+      // our data. Only a name the datasheet doesn't know at all is unmatched wargear.
+      if (!refs?.length) { if (!printed.has(key)) line.gear.missing.push(w.name); continue }
       const want = miniIndexOf(def, w.mini)
       const own = want != null ? refs.filter((r) => r.m === want) : []
       const all = own.length ? own : refs
@@ -966,7 +1028,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const hit = opt ? optionItems(opt).find(([id]) => norm(items?.[id]) === key) : null
         return Math.max(1, hit?.[1] || 1)
       }
-      let left = w.n || 1
+      let left = extra
       while (left > 0) {
         // Where this weapon goes, in order:
         //  1. an option already picked that does NOT yet list this weapon — the other half of a
@@ -979,6 +1041,8 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const ref = pool.find((r) => picks.has(key2(r)) && !holds(r))
           || pool.find((r) => !usedGroups.has(r.gi))
           || rest.find((r) => !usedGroups.has(r.gi))
+          || pool.find((r) => !picks.has(key2(r)) && roomIn(r.gi))
+          || rest.find((r) => !picks.has(key2(r)) && roomIn(r.gi))
           || pool.find((r) => !picks.has(key2(r)))
           || pool[0]
         const k = key2(ref)
