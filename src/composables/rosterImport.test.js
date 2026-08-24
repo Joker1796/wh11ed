@@ -980,17 +980,21 @@ describe('matchRoster — an ally in the WTC format', () => {
       .toEqual(['Pennant of Silvered Fury', 'Wyrmslayer Divination'])
   })
 
-  // The one thing it cannot place: Sir Hekhtur is a datasheet of his own that arrives when Canis
-  // Rex is destroyed, and appdata gives him no points or composition, so the roster layer drops him
-  // (the generator names him as its single drop). His two weapons are reported rather than
-  // silently swallowed — the points are unaffected, since the entry is Canis Rex's own 415.
-  it('reports the weapons of a profile the roster data does not carry', async () => {
+  // Sir Hekhtur is a datasheet of his own that arrives when Canis Rex is destroyed, and appdata
+  // gives him no points or composition, so the roster layer drops him and records the name
+  // (`noBuild`). Every exporter still prints him and his two weapons inside the Canis Rex entry,
+  // because that is how the datasheet reads — they are neither models of the unit nor wargear it
+  // could take, so they are passed over instead of reported at a reader who could do nothing
+  // about them.
+  it('passes over a profile no list can buy, without counting or reporting it', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const { default: items } = await import('../data/roster/items.js')
     const faction = await loadRosterFaction('imperial-knights', { allies: true })
+    expect(faction.noBuild).toEqual(['Sir Hekhtur'])
     const { report } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
     const rex = report.units.find((u) => u.name === 'Canis Rex')
-    expect(rex.points.computed).toBe(415)
-    expect(rex.gear.missing).toEqual(['Close combat weapon', "Hekhtur's pistol"])
+    expect([rex.models, rex.points.computed]).toEqual([1, 415])   // one Knight, not two models
+    expect(rex.gear.missing).toEqual([])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })

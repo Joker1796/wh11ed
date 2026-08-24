@@ -1549,10 +1549,15 @@ async function genFaction(slug) {
   for (const d of bundle.datasheets || []) nameToDsId.set(normApost(d.name), d.id)
 
   // A handful of datasheets carry no points/composition (special epic heroes or
-  // detachment-only variants) — not buildable matched-play line entries, so drop them.
+  // detachment-only variants) — not buildable matched-play line entries, so drop them. Their NAMES
+  // are kept (`noBuild` below): a list export still prints such a profile as part of the unit it
+  // comes with — the app prints "1x Sir Hekhtur" under Canis Rex, because that is who climbs out
+  // when the Knight dies — and the importer has to know that its weapons belong to a profile
+  // nobody can buy rather than report them as wargear it failed to place.
+  const noBuild = []
   const bundleUnits = (bundle.datasheets || []).filter((d) => {
     if (cpDatasheetIds.has(d.id)) return false
-    if (!(d.points && d.points.length)) { report.noPoints.push(`${slug}: ${d.name}`); return false }
+    if (!(d.points && d.points.length)) { report.noPoints.push(`${slug}: ${d.name}`); noBuild.push(d.name); return false }
     return true
   })
   // Keyword -> datasheets, for the keyword-defined bodyguard groups. A Chapter's bundle doesn't
@@ -1588,6 +1593,7 @@ async function genFaction(slug) {
   // limits — so a faction file stays one chunk; loadRosterFaction pulls the source bundles.
   const allies = await alliesFor(bundle.faction?.id, new Set(units.map((u) => u.id)), slug)
   if (allies.length) data.allies = allies
+  if (noBuild.length) data.noBuild = noBuild.sort()
   // SM-Chapter fold: a Chapter's bundle lists only its own units; the shared Adeptus Astartes
   // pool lives in space-marines.js. Reuse the exact `sharedUnitIds` the datasheet layer already
   // computed (data/datasheets/<chapter>.js) so the roster shows the same unit list as the rules

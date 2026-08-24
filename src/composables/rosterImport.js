@@ -359,6 +359,9 @@ function parseWtc(text) {
       if (unit) {
         if (!unit.fromProfiles) { unit.models = 0; unit.fromProfiles = true }
         unit.models += n
+        // Kept as well as counted, the same way gwBody keeps them: matchRoster is the only place
+        // that knows whether a profile is one of this datasheet's own.
+        ;(unit.modelLines || (unit.modelLines = [])).push({ n, name: mini })
         if (cut !== -1) unit.weapons.push(...wtcGear(body.slice(cut + 1)).map((g) => ({ ...g, mini })))
       }
       continue
@@ -581,6 +584,22 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // profile is passed on as gear instead, where it may still match a wargear option.
     let models = pu.models
     let weapons = pu.weapons || []
+    let modelLines = pu.modelLines || []
+    // A profile the game HAS but no list can buy. Sir Hekhtur is the pilot who climbs out when
+    // Canis Rex is destroyed: appdata gives him no points and no composition, so the roster layer
+    // drops him and records the name (`noBuild`) — but every exporter still prints "1x Sir Hekhtur"
+    // and his two weapons inside the Canis Rex entry, because that is how the datasheet reads. His
+    // lines are neither models of this unit nor wargear it could take, so they are passed over
+    // rather than reported: the entry costs what it costs, and there is nothing to fix.
+    const noBuild = new Set((faction.noBuild || []).map((n) => norm(n)))
+    if (noBuild.size) {
+      const isNoBuild = (name) => noBuild.has(norm(name))
+      const dropped = modelLines.filter((l) => isNoBuild(l.name))
+      modelLines = modelLines.filter((l) => !isNoBuild(l.name))
+      weapons = weapons.filter((w) => !isNoBuild(w.mini) && !isNoBuild(w.name))
+      // The model count is the sum of those profile lines in both parsers, so it loses them too.
+      if (dropped.length && models != null) models = models - dropped.reduce((n, l) => n + (l.n || 1), 0) || null
+    }
     // …and a single-profile datasheet has no `minis` at all, so it answers under its own name
     // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place. Its models
     // are named in the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that
@@ -591,7 +610,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const self = bare(def.name)
     const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
     const isModel = (name) => known.has(norm(name)) || bare(name) === self
-    const lines = pu.modelLines || []
+    const lines = modelLines
     if (lines.length) {
       const real = lines.filter((l) => isModel(l.name))
       if (real.length && real.length !== lines.length) {
