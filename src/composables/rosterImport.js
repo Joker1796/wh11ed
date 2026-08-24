@@ -119,6 +119,10 @@ function parseGw(text) {
   let entries = []
   let group = null       // the `Attached Unit N` this unit belongs to, if any
   let seenHeader = false
+  // The header is everything before the army starts being described: the title (which can run to a
+  // dozen lines), the faction, the detachment line, the battle size. A priced line inside it is the
+  // LIST's points, not a unit's — a title can print its own points several lines below its name.
+  let inHeader = true
   const plains = []      // the bare lines: the title's own continuation lines, and the faction
 
   const flush = () => {
@@ -143,10 +147,10 @@ function parseGw(text) {
     const t = line.trim()
 
     if (/^Exported (with|from)/i.test(t)) { flush(); break }
-    if (/^attached units$/i.test(t)) { flush(); continue }
+    if (/^attached units$/i.test(t)) { flush(); inHeader = false; continue }
     const att = t.match(/^attached unit (\d+)$/i)
-    if (att) { flush(); group = `g${att[1]}`; continue }
-    if (SECTIONS.test(t)) { flush(); group = null; continue }
+    if (att) { flush(); inHeader = false; group = `g${att[1]}`; continue }
+    if (SECTIONS.test(t)) { flush(); inHeader = false; group = null; continue }
     if (/^Force Dispositions?:/i.test(t)) continue
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
@@ -156,6 +160,7 @@ function parseGw(text) {
       // and no punctuation says where one ends. Splitting here can only guess, so the raw line is
       // carried through as well and matchRoster — which knows the faction's actual detachments —
       // resolves it against them.
+      inHeader = false
       out.detachmentLine = dets[1].trim()
       out.detachments = dets[1].split(/,\s*|\s+and\s+/).map((s) => s.trim()).filter(Boolean)
       continue
@@ -165,8 +170,17 @@ function parseGw(text) {
     if (head) {
       const name = head[1].trim()
       const pts = num(head[2])
-      if (!seenHeader) { out.name = name; out.stated = pts; seenHeader = true; continue }
-      if (BATTLE_SIZES.test(name)) { out.limit = pts; continue }
+      if (BATTLE_SIZES.test(name)) { out.limit = pts; inHeader = false; continue }
+      // Still in the header, and the list's own points haven't been read yet: this line is the
+      // title's, whether or not the title already gave its name on a bare line above. A poem for a
+      // list name ends "(A poem written by Luis Untermeyer c. 1922) (2000 points)", and reading
+      // that as a 2000-point unit also cost the list its faction — the faction line below it was
+      // swallowed as part of that unit's body.
+      if (inHeader && !out.stated) {
+        if (!seenHeader) { out.name = name; seenHeader = true }
+        out.stated = pts
+        continue
+      }
       flush()
       unit = { name, pts, group, role: null, warlord: false, enh: null, alleg: null, attachedAs: null }
       continue
@@ -193,6 +207,7 @@ function parseGw(text) {
     // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
     // faction names is the faction, though, so a paste that starts at that line still works.
     if (!seenHeader && !isFactionName(t)) { out.name = t; seenHeader = true; continue }
+    if (isFactionName(t)) inHeader = false          // the title is over once the army is named
     plains.push(t)
   }
   flush()
@@ -665,6 +680,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     }
     const picks = new Map()
     const key2 = (r) => `${r.gi}:${r.oi}`
+    const usedGroups = new Set()
     for (const w of weapons) {
       const key = norm(w.name)
       if (!key || printed.has(key)) continue
@@ -682,7 +698,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // named once per profile is ONE pick, not two (two triples would charge for it twice).
       let left = w.n || 1
       while (left > 0) {
-        const ref = pool.find((r) => !picks.has(key2(r))) || pool[0]
+        // A free GROUP first, and only then a free option inside a group already used: a group is
+        // one model's choice ("this model's scatter laser can be replaced with one of…"), so two
+        // different weapons that both appear in it came from two different groups. A Falcon lists a
+        // bright lance and a shuriken cannon, and the shuriken cannon is offered by the scatter
+        // laser's group as well as by the twin shuriken catapult's — taking it from the first put
+        // two picks in a group that allows one.
+        const ref = pool.find((r) => !usedGroups.has(r.gi)) || pool.find((r) => !picks.has(key2(r))) || pool[0]
         const k = key2(ref)
         const at = picks.get(k)
         if (at) {
@@ -693,6 +715,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
           at.names.add(key)
           break
         }
+        usedGroups.add(ref.gi)
         picks.set(k, { gi: ref.gi, oi: ref.oi, n: ref.stepper ? left : 1, names: new Set([key]) })
         if (ref.stepper) break
         left -= 1

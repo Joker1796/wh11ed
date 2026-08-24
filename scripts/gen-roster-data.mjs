@@ -290,7 +290,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, allies: { groups: 0, units: 0, empty: [], missing: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -365,7 +365,7 @@ function staticLoadout(datasheetId, miniIdx) {
     if ((enOf(g).instructionText || '').trim().toLowerCase() !== 'default wargear') continue
     const items = (woByGroup.get(g.id) || [])
       .sort((a, b) => a.displayOrder - b.displayOrder)
-      .map((o) => [o.wargearItemId, 1])
+      .map((o) => [o.wargearItemId, o.defaultValue > 0 ? o.defaultValue : 1])
       .filter(([uuid]) => uuid)
     if (items.length) out.push([idx.get(g.miniatureId) ?? 0, items])
   }
@@ -1195,13 +1195,20 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
 
   const groups = bgByLeader.get(bd.id) || []
   const leads = []
+  const leadKw = []
   for (const g of groups) {
     let targets = bgDatasheets.get(g.id) || []
     if (!targets.length && bgKeywords.has(g.id)) {
-      // Resolved against THIS faction's datasheets only. The four Inquisitor groups ("any Imperium
-      // Battleline Infantry unit") name units that live in other factions' bundles, so they stay
-      // unresolved — the editor builds one faction at a time, and inventing cross-faction targets
-      // here would be a different feature, not this fix.
+      // Resolved against THIS faction's datasheets here, and the KEYWORDS themselves are emitted
+      // as well (`leadKw`), because a resolved id cannot travel: Inquisitor Draxus leads "any
+      // IMPERIUM BATTLELINE INFANTRY unit", and as an ally in an Adeptus Mechanicus army the unit
+      // she joins is a Skitarii Vanguard that her own bundle has never heard of. The runtime
+      // answers the keyword question against whatever is actually in the list (rosterEngine's
+      // leadTypeFor).
+      const kw = { kw: bgKeywords.get(g.id).filter(Boolean), type: g.bodyguardType }
+      if (g.requiredDetachmentId) kw.reqDet = g.requiredDetachmentId
+      if (g.excludedDetachmentId) kw.exclDet = g.excludedDetachmentId
+      if (kw.kw.length) leadKw.push(kw)
       const want = bgKeywords.get(g.id).map(norm).filter(Boolean)
       targets = (kwIndex ? want.map((k) => kwIndex.get(k) || []).reduce((a, b) => a.filter((x) => b.includes(x)), want.length ? kwIndex.get(want[0]) || [] : []) : [])
         .filter((id) => id !== bd.id)
@@ -1223,6 +1230,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     return seenLead.has(k) ? false : (seenLead.add(k), true)
   })
   if (uniqueLeads.length) unit.leads = uniqueLeads
+  if (leadKw.length) unit.leadKw = leadKw
 
   // Miniatures (for labelling gear/loadout groups). A single-profile unit needs no list.
   if (minis.length > 1) unit.minis = minis.map((m) => ({ n: enOf(m).name }))
@@ -1245,6 +1253,34 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   if (!defaults.length) {
     for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])])
     if (defaults.length) report.staticDefaults++
+  } else {
+    // The two tables can disagree, and where they do it is the loadout ROW that is short: a
+    // Servitor Battleclade's Gun Servitors carry a heavy bolter and a heavy arc rifle between them
+    // and the row records neither, an Archon loses its Shadowfield, Inquisitor Coteaz his
+    // psyber-eagle. Seven miniatures game-wide, one of them the Death Company Dreadnought whose row
+    // names another datasheet's weapons outright (LOADOUT_ITEM_FIXES above). So anything the
+    // "Default Wargear" group names and the row does not is added to it.
+    //
+    // The two tables also COUNT differently: a row is per model ("Servo-claw 1", twice over), the
+    // group is the total the profile fields ("Servo-claw 2", "Heavy bolter 1" — one of the two Gun
+    // Servitors has it). A quantity that cannot be divided among the models is therefore marked as
+    // a TOTAL with a third element, which is how the editor and the export know not to multiply it.
+    const compOf = (m) => {
+      const size = bd.points?.length ? (unit.sizes || []).find((x) => x.default) || (unit.sizes || [])[0] : null
+      return (size?.comp || []).find(([mi]) => mi === m)?.[1] || 1
+    }
+    for (const [m, items] of staticLoadout(bd.id, miniIdx)) {
+      const at = defaults.find(([mi]) => mi === m)
+      if (!at) { defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])]); continue }
+      const have = new Set(at[1].map(([id]) => id))
+      for (const [uuid, c] of items) {
+        const id = fx.item(fixItem(uuid))
+        if (have.has(id)) continue
+        const models = compOf(m)
+        at[1].push(models > 1 ? [id, c, 1] : [id, c])
+        report.defaultsMerged.push(`${bd.name} / ${enOf((minisByDs.get(bd.id) || []).find((x) => (miniIdx.get(x.id) ?? 0) === m)).name || m}: ${wgItemName.get(uuid)}${models > 1 ? ` (${c} for the profile)` : ''}`)
+      }
+    }
   }
   if (defaults.length) unit.defaults = defaults
 
@@ -1766,6 +1802,10 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
+if (report.defaultsMerged.length) {
+  console.log(`    ${report.defaultsMerged.length} more items the loadout row leaves out, taken from that group:`)
+  for (const l of report.defaultsMerged) console.log(`      - ${l}`)
+}
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)

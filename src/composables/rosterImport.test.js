@@ -998,3 +998,119 @@ describe('matchRoster — an ally in the WTC format', () => {
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })
+
+// The Adeptus Mechanicus list whose name is a whole poem. Its points sit at the end of the LAST
+// title line rather than on the first, and reading that line as a 2000-point unit also cost the
+// list its faction: the "Adeptus Mechanicus" line below it was swallowed as part of that unit's
+// body. Four real shapes at once — a long title, two detachments that both contain "and", an ally,
+// and a datasheet whose default loadout appdata records in two disagreeing tables.
+const POEM = `PORTRAIT OF A MACHINE
+
+What nudity is beautiful as this
+obedient monster purring as its toil;
+
+(A poem written by Luis Untermeyer c. 1922) (2000 points)
+
+Adeptus Mechanicus
+Lords of the Forge and Skitarii Hunter Cohort (3 Detachment Points)
+Priority Assets
+Strike Force (2000 points)
+
+Attached Units
+Attached Unit 1
+
+Inquisitor Draxus (110 points)
+• Attached as: Leader
+• 1x Dirgesinger
+1x Power fist
+1x Psychic Tempest
+
+Skitarii Vanguard (85 points)
+• Attached as: Bodyguard (Battleline)
+• 1x Skitarii Vanguard Alpha
+• 1x Alpha combat weapon
+1x Close combat weapon
+1x Radium carbine
+• 9x Skitarii Vanguard
+• 1x Arc rifle
+9x Close combat weapon
+1x Omnispex
+1x Plasma caliver
+6x Radium carbine
+1x Transuranic arquebus
+
+OTHER DATASHEETS
+
+Servitor Battleclade (65 points)
+• 1x Servitor Underseer
+• 1x Dataspikes
+1x Mechanicus pistol
+• 2x Gun Servitor
+• 1x Heavy arc rifle
+1x Heavy bolter
+2x Servo-claw
+• 6x Combat Servitor
+• 6x Phosphor blaster
+6x Servo-claw
+
+Exported from listhammer.info: https://listhammer.info/list/94559d44c02a833b0d`
+
+describe('matchRoster — a title that prices itself several lines down', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('adeptus-mechanicus', { allies: true }), core: rosterCore, items: items.items }
+  })
+
+  it('reads the points as the list’s own, and still finds the faction below them', () => {
+    const p = parseList(POEM)
+    expect(p.name).toBe('PORTRAIT OF A MACHINE')
+    expect([p.stated, p.limit]).toEqual([2000, 2000])
+    expect(matchFaction(p.faction)).toBe('adeptus-mechanicus')
+    const { report } = matchRoster(p, ctx)
+    expect(report.missing).toEqual([])                       // the poem's last line is not a unit
+    expect(report.detachments).toEqual({ matched: ['Lords of the Forge', 'Skitarii Hunter Cohort'], missing: [] })
+  })
+
+  // Two Gun Servitors carry a heavy arc rifle and a heavy bolter between them. appdata's loadout
+  // ROW records neither (only the servo-claw); its "Default Wargear" group records all three, and
+  // the generator now merges what the row leaves out — so these two stop being reported as wargear
+  // we could not place.
+  it('knows the default weapons appdata keeps in its other table', () => {
+    const { report } = matchRoster(parseList(POEM), ctx)
+    const clade = report.units.find((u) => u.name === 'Servitor Battleclade')
+    expect(clade.gear.missing).toEqual([])
+    expect(clade.points.computed).toBe(65)
+  })
+
+  // Draxus leads "any IMPERIUM BATTLELINE INFANTRY unit" — a keyword, not a list of names, which is
+  // the only way an allied leader can join anything in the army it was lent to.
+  it('attaches an allied leader to a host unit it can join by keyword', async () => {
+    const { payload } = matchRoster(parseList(POEM), ctx)
+    const { validateRoster } = await import('./rosterValidation.js')
+    const draxus = payload.units.find((u) => u.id === 'imperial-agents:inquisitor-draxus')
+    const vanguard = payload.units.find((u) => u.id === 'skitarii-vanguard')
+    expect(draxus.leaderOf).toBe(vanguard.uid)
+    const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
+    expect(codes).not.toContain('leaderTargetInvalid')
+  })
+})
+
+// One weapon offered by two of a datasheet's groups, where the OTHER weapon in the list is offered
+// by only one of them: a Falcon's shuriken cannon can replace either the scatter laser or the twin
+// shuriken catapult, and its bright lance can only be the scatter laser's. Taking the cannon from
+// the scatter laser's group too put two picks in a group that allows one.
+describe('matchRoster — two picks that share a group', () => {
+  it('spends a fresh group before a second option of one already used', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('aeldari')
+    const text = `Falcons (2000 points)\n\nAeldari\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\nFalcon (130 Points)\n• 1x Bright lance\n• 1x Pulse laser\n• 1x Shuriken cannon\n• 1x Wraithbone hull`
+    const { payload, report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(report.units[0].gear.missing).toEqual([])
+    expect(payload.units[0].wg.map(([gi]) => gi).sort()).toEqual([0, 1])
+  })
+})

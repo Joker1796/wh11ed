@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor, allegKeyword } from './rosterEngine.js'
+import { hasKeyword, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor, allegKeyword } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -268,9 +268,10 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!u.leaderOf) continue
     const def = defOf(u.id)
     const target = units.find((x) => x.uid === u.leaderOf)
-    // leadsFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list.
-    const canJoin = new Set(leadsFor(def, u, detachments).map((l) => l.to))
-    if (!target || !canJoin.has(target.id)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
+    // leadTypeFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list,
+    // and a datasheet can name its targets by KEYWORD rather than by name — which is the only way
+    // an allied leader can join anything in the army it was lent to.
+    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
   }
 
   // A Bodyguard unit takes one Leader AND one Support at a time (the two are independent slots —
@@ -281,8 +282,7 @@ export function validateRoster(roster, { faction, core } = {}) {
     const byTargetType = new Map()
     for (const u of units) {
       if (!u.leaderOf) continue
-      const type = leadsFor(defOf(u.id), u, detachments)
-        .find((l) => l.to === units.find((x) => x.uid === u.leaderOf)?.id)?.type || ''
+      const type = leadTypeFor(defOf(u.id), u, defOf(units.find((x) => x.uid === u.leaderOf)?.id), detachments) || ''
       const key = `${u.leaderOf}:${type}`
       if (!byTargetType.has(key)) byTargetType.set(key, [])
       byTargetType.get(key).push(u)
