@@ -290,7 +290,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -1329,6 +1329,22 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // folding them first lets its cap land on the one group that remains.
   drafts = mergeMiniatureDuplicates(drafts, report.limit)
   linkWargearLimits(bd.id, bd.name, miniIdx, drafts, report.limit)
+  // Where appdata records no limited-choice set at all, the instruction is the only statement of
+  // the allowance there is — and it is often a real cap: "This model can be equipped with up to two
+  // of the following, but cannot take duplicates" (a Grand Master in Nemesis Dreadknight, which
+  // takes a Sublimator AND a heavy psycannon at 15 points each). Without it the group had no cap,
+  // and validateRoster's conservative fallback — one pick per model of that profile — called a
+  // legal two-weapon Dreadknight illegal. Read only where the prose states a plain number
+  // (proseAllowance already refuses "for every 5 models" and "any number of"), and never over a
+  // cap appdata itself gave.
+  for (const d of drafts) {
+    if (d.lim) continue
+    const said = proseAllowance(d.text)
+    if (!said) continue
+    const dup = /cannot take duplicates/i.test(d.text) ? 1 : 0
+    d.lim = [dup ? [0, said, dup] : [0, said]]
+    report.limit.fromProse++
+  }
   const gear = []
   const gearIndex = new Map() // draft -> its final index in `gear`
   drafts.forEach((d, i) => gearIndex.set(d, i))
@@ -1839,7 +1855,7 @@ if (report.defaultsMerged.length) {
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
-console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity); no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity), ${lm.fromProse} more from their own instruction where appdata records no set; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
   for (const c of lm.conflict) console.log(`    - ${c}`)

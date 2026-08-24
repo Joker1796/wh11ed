@@ -1329,3 +1329,66 @@ Pyrovores (95 points)
     expect(report.points.computed).toBe(report.points.statedUnits)
   })
 })
+
+// The Grey Knights list that showed a legal Dreadknight as illegal: appdata records no
+// limited-choice set for that group, so its own instruction is the only statement of the cap.
+describe('matchRoster — a group capped by its own instruction', () => {
+  const GK = `I am Warpbane-- and I could kill you...but death would only end your agony. (475 points)
+
+Grey Knights
+Warpbane Task Force (3 Detachment Points)
+Strike Force (2000 points)
+
+CHARACTERS
+
+Grand Master in Nemesis Dreadknight (230 points)
+• 1x Fragstorm grenade launcher
+1x Heavy psycannon
+1x Nemesis daemon greathammer
+1x Sublimator
+
+Strike Squad (115 points)
+• 1x Justicar
+• 1x Nemesis force weapon
+1x Storm bolter
+• 4x Grey Knight
+• 4x Nemesis force weapon
+4x Storm bolter
+
+Purifier Squad (130 points)
+• 1x Knight of the Flame
+• 1x Nemesis force weapon
+1x Purifying Flame
+1x Storm bolter
+• 4x Purifier
+• 4x Nemesis force weapon
+4x Purifying Flame
+4x Storm bolter`
+
+  it('accepts the two weapons the instruction allows', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const { validateRoster } = await import('./rosterValidation.js')
+    const faction = await loadRosterFaction('grey-knights')
+    const { report, payload } = matchRoster(parseList(GK), { faction, core: rosterCore, items: items.items })
+    const gm = report.units.find((u) => u.name === 'Grand Master in Nemesis Dreadknight')
+    // 200 base + a Sublimator and a heavy psycannon at 15 each — "up to two of the following".
+    expect([gm.points.computed, gm.points.stated]).toEqual([230, 230])
+    const codes = validateRoster(payload, { faction, core: rosterCore }).issues.map((i) => i.code)
+    expect(codes).not.toContain('overWargearLimit')
+  })
+
+  // The title of that list is a quote with "--" and "..." in it, and a stray "Forwarded" line the
+  // sender's messenger added lands where nothing can place it — reported, never swallowed.
+  it('reads a title full of punctuation, and names a line that is not part of the list', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('grey-knights')
+    const text = GK.replace('Purifier Squad (130 points)', 'Forwarded\nPurifier Squad (130 points)')
+    const parsed = parseList(text)
+    expect(parsed.name).toBe('I am Warpbane-- and I could kill you...but death would only end your agony.')
+    const { report } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
+    expect(report.missing).toEqual([])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual(['Forwarded'])
+  })
+})

@@ -66,6 +66,22 @@ element**: `[itemId, count, 1]` marks a quantity that belongs to the PROFILE rat
 its models (one of the two Gun Servitors has the heavy bolter). `defaultLoadoutLines` and the
 export print such an item as recorded instead of multiplying it by the model count.
 
+### A group capped by its own instruction
+
+Pick limits come from appdata's `limited_wargear_choice_set` family (261 groups). Where appdata
+records no set at all, the group's **instruction text** is the only statement of the allowance
+there is — and it is often a real cap: *"This model can be equipped with up to two of the
+following, but cannot take duplicates"* is what lets a Grand Master in Nemesis Dreadknight carry a
+Sublimator AND a heavy psycannon (15 points each, and the list's own price says so). Without a cap,
+`validateRoster` falls back to its conservative reading — one pick per model of that profile — and
+called a legal two-weapon Dreadknight illegal.
+
+`proseAllowance` (already used to cross-check appdata's own numbers) now also fills the gap: 108
+groups gain a cap this way, never over one appdata itself gave, and only where the prose states a
+plain number — it refuses "for every 5 models", "if this unit contains" and "any number of", which
+are scaled or conditional and belong to the threshold table. "cannot take duplicates" becomes the
+duplicate cap in the same entry.
+
 ### Attachments named by keyword
 
 A datasheet can say who it joins with a keyword instead of a list — "this model can be attached to
