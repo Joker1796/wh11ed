@@ -14,6 +14,7 @@ import chaosDaemons from '../../data/roster/chaos-daemons.js'
 // Mounted against REAL generated data: what this guards is the path from the generator's bundled
 // options to what the player actually reads, which a fixture would hide.
 const wracks = drukhari.units.find((u) => u.id === 'wracks')
+const wraithlord = aeldari.units.find((u) => u.id === 'wraithlord')
 const mountFor = (def, entry = {}) => mount(UnitEditorFields, {
   props: { entry: { uid: 'u1', id: def.id, size: 0, ...entry }, def, items: rosterItems.items, texts: rosterItems.texts },
   global: { stubs: { Teleport: true } },
@@ -108,6 +109,17 @@ describe('UnitEditorFields — unit composition', () => {
     const wargearSteppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = ruststalkers.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     expect(wargearSteppers[before].props('max')).toBe(9)
+  })
+
+  it('lets a model swap every copy of a weapon it carries twice', () => {
+    // A Wraithlord's two shuriken catapults each become a flamer — one model, two picks. The
+    // per-model ceiling alone stopped the stepper at one, so the second flamer was unbuildable.
+    const gi = wraithlord.gear.findIndex((g) => g.cp)
+    expect(gi).toBeGreaterThan(-1)
+    const w = mountFor(wraithlord)
+    const steppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const before = wraithlord.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
+    expect(steppers[before].props('max')).toBe(2)
   })
 })
 

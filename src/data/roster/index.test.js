@@ -238,6 +238,21 @@ describe('replaced-item links', () => {
     expect(repNames(g)).toEqual(['Fleshborer'])
   })
 
+  it('counts the copies of a weapon a per-copy swap replaces', () => {
+    // "Each of this model's shuriken catapults can be replaced with 1 flamer" — a Wraithlord
+    // carries two, so the group is worth two picks, and the model-count fallback that would
+    // otherwise cap it at one called an ordinary Wraithlord illegal. The bundled form ("this
+    // model's 2 twin heavy flamers can be replaced with 2 twin heavy bolters") is one pick and
+    // must NOT gain a count.
+    const wraithlord = groupsOf('aeldari', 'wraithlord')
+    const swap = wraithlord.gear.find((x) => /shuriken catapults/i.test(textOf(x)))
+    expect(swap.cp).toBe(2)
+    const ravager = groupsOf('drukhari', 'ravager').gear.find((x) => /dark lances/i.test(textOf(x)))
+    expect(ravager.cp).toBe(3)
+    const bundled = groupsOf('astra-militarum', 'shadowsword').gear.find((x) => /twin heavy flamers/i.test(textOf(x)))
+    expect(bundled.cp).toBeUndefined()
+  })
+
   it('reads a name appdata spells two ways across its own tables', () => {
     // The prose says "kustom-mega blasta"; the item table says "Kustom mega-blasta".
     const u = groupsOf('orks', 'big-mek-in-mega-armour')
