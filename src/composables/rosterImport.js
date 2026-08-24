@@ -823,7 +823,12 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const body = members.find((m) => /^bodyguard/i.test(m.attachedAs || ''))
     if (!body) continue
     for (const m of members) {
-      if (m === body || !/^(leader|support)/i.test(m.attachedAs || '')) continue
+      if (m === body) continue
+      // A missing "Attached as:" line is not a missing attachment. An Attached Unit block exists to
+      // say who joined whom, so anything else in a block that HAS a bodyguard is attached to it —
+      // one export prints "Attached as: Bodyguard" under the Tyrant Guard and nothing at all under
+      // the Hive Tyrant above it, and reading only the label left the character standing alone.
+      if (m.attachedAs && !/^(leader|support)/i.test(m.attachedAs)) continue
       m.entry.leaderOf = body.entry.uid
     }
   }

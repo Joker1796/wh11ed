@@ -1210,3 +1210,42 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })
+
+// An Attached Unit block whose LEADER carries no "Attached as:" line at all — the block itself is
+// the statement that they fight together, so the label's absence is not the absence of an
+// attachment. (Same export also prints its two attached Tyrant Guard a second time under OTHER
+// DATASHEETS, which is why the list's own units add up to 320 more than its header says; that is
+// the list's arithmetic, not ours, and the import reports it rather than repairing it.)
+const UNLABELLED = `tired and afraid (2000 points)
+
+Tyranids
+Talons of the Norn Queen (3 Detachment Points)
+Strike Force (2000 points)
+
+CHARACTERS
+Attached Units
+Attached Unit 1
+
+Hive Tyrant (195 points)
+• 1x Heavy venom cannon
+1x Monstrous bonesword and lash whip
+
+Tyrant Guard (160 points)
+• Attached as: Bodyguard
+• 6x Tyrant Guard
+• 6x Scything talons and rending claws
+
+Exported from listhammer.info: https://listhammer.info/list/3d9af12ee8fe7f4043`
+
+describe('matchRoster — an attached block that never says "Leader"', () => {
+  it('attaches the character above the bodyguard anyway', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('tyranids')
+    const { payload, report } = matchRoster(parseList(UNLABELLED), { faction, core: rosterCore, items: items.items })
+    const tyrant = payload.units.find((u) => u.id === 'hive-tyrant')
+    const guard = payload.units.find((u) => u.id === 'tyrant-guard')
+    expect(tyrant.leaderOf).toBe(guard.uid)
+    expect(report.points.computed).toBe(report.points.statedUnits)
+  })
+})
