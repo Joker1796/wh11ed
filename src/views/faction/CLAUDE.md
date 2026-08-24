@@ -19,6 +19,16 @@ sidecar (`src/data/sourceIds.json`), rule-granted keywords
 
 In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionDatasheetView`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field. **A printed/granted keyword is clickable** (`keywordLinksEnabled` prop, opt-in per caller — off by default) and emits `keyword-click`; `FactionDatasheetView` catches it and opens `KeywordUnitsModal.vue` listing every other unit in the SAME faction's roster carrying that keyword (`src/utils/keywordUnits.js`, checks both `keywords` and per-model `keywordsByModel`), each linking to its own datasheet page. Faction keywords (ORKS, ADEPTUS ASTARTES…) are deliberately never clickable — virtually the whole roster shares those. `CombatPatrolFactionView` passes no `keyword-links-enabled` (units render inline on one page, not as separate routes, so there's nowhere for the modal's links to go — see `src/views/combat-patrol/CLAUDE.md`) — keywords there stay plain text.
 
+**The way back from a unit page.** `/factions/:slug/datasheets/:unit` renders with `hero=false`
+(no faction header, no in-page tabs) and the desktop keeps the same links in `.subnav` — which is
+hidden ≤900px. So a phone had no way back to the faction's unit list at all: you left through the
+drawer and walked in again through Factions → faction → Units. `FactionLayout` contributes a
+back-to-units button to `MobileUtilityBar` for that page (`useContributeMobileActions(
+'faction-back-to-units', …)`), offered at any scroll position rather than only once scrolled down,
+and it calls `router.back()` when the list is where the page came from — the router restores the
+saved scroll position on a real back, so the reader lands on the row they tapped instead of the top
+of a ninety-unit list.
+
 ## See also
 
 **Mobile faction hero tabs** (in-page Rules/Units switch that promotes to `MobileUtilityBar` once scrolled out of view, via `useContributeMobileActions('faction-tabs', …)` in `FactionLayout.vue`) — documented in root `CLAUDE.md`'s Navigation model section since it's part of the shared mobile-chrome mechanism, not specific to this directory.
