@@ -676,6 +676,121 @@ Rangers (110 Points)
   })
 })
 
+// listhammer's plain-text mode: the same body grammar, a LABELLED header closed by a row of '+',
+// section headings that end in a colon, "pts" for "points", model lines that fold the loadout into
+// the name, and the detachment keyword printed as if it were wargear.
+const LH_TEXT = `List Name: All Dogs go to Heaven
+Factions Used: Chaos Knights, Heretic Astartes
+Army Points: 440
+Army Enhancements (list on which model): Final Howl (Aura) (on War Dog Brigand), Preyslayer's Mantle (on War Dog Karnivore)
+Disposition: Take and Hold
+Detachment(s): Iconoclast Fiefdom, Houndpack Lance
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+BATTLELINE:
+Cultist Mob (50 pts)
+\u2022 Cultist Champion
+\u2022 Autopistol
+\u2022 Brutal assault weapon
+\u2022 9x Cultist w/ autopistol and brutal assault weapon
+\u2022 9x Autopistol
+\u2022 9x Brutal assault weapon
+
+War Dog Brigand (160 pts)
+\u2022 Armoured feet
+\u2022 Avenger chaincannon
+\u2022 Daemonbreath spear
+\u2022 Havoc multi-launcher
+\u2022 Houndpack Lance Character
+\u2022 Enhancement: Final Howl (Aura)
+
+War Dog Karnivore (170 pts)
+\u2022 Havoc multi-launcher
+\u2022 Houndpack Lance Character
+\u2022 Reaper chaintalon
+\u2022 Slaughterclaw
+\u2022 Warlord
+\u2022 Enhancement: Preyslayer's Mantle
+
+
+OTHER DATASHEETS:
+Fellgor Beastmen (60 pts)
+\u2022 7x Beastman
+\u2022 7x Autopistol
+\u2022 7x Close combat weapon
+\u2022 Beastman w/ corrupted stave
+\u2022 Autopistol
+\u2022 Corrupted stave
+\u2022 Beastman w/ great weapon
+\u2022 Autopistol
+\u2022 Great weapon
+\u2022 Fellgor Champion
+\u2022 Chainsword
+\u2022 Plasma pistol
+
+Exported from listhammer.info: https://listhammer.info/list/6861330b3cc3b03832`
+
+describe('parseList — listhammer.info, plain-text mode', () => {
+  const p = parseList(LH_TEXT)
+
+  it('is the same grammar again, so the same parser reads it', () => {
+    expect(detectFormat(LH_TEXT)).toBe('gw')
+  })
+
+  // Nothing here has to be guessed at: the header says which line is what. Read as bare lines,
+  // the title came out as "List Name: All Dogs go to Heaven" and the faction as the whole
+  // "Factions Used:" line, which matched no army at all.
+  it('reads the header from its labels', () => {
+    expect(p.name).toBe('All Dogs go to Heaven')
+    expect(p.stated).toBe(440)
+    expect(p.faction).toBe('Chaos Knights')          // the army's own; the rest of the line is its allies
+    expect(p.detachmentLine).toBe('Iconoclast Fiefdom, Houndpack Lance')
+  })
+
+  it('reads "pts" as points, and a section heading that ends in a colon as a heading', () => {
+    expect(p.units.map((u) => u.name)).toEqual(['Cultist Mob', 'War Dog Brigand', 'War Dog Karnivore', 'Fellgor Beastmen'])
+    expect(p.units[2].weapons.map((w) => w.name)).not.toContain('OTHER DATASHEETS:')
+  })
+})
+
+describe('matchRoster — listhammer.info, plain-text mode', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('chaos-knights', { allies: true }), core: rosterCore, items: items.items }
+  })
+
+  // This export names a profile more briefly than appdata does — "Beastman" for a FELLGOR
+  // BEASTMEN profile — and folds the loadout into the name, so only the champion answered as a
+  // model and a ten-model mob came out as one. A count no bracket allows is not a count.
+  it('counts the models even where it does not recognise their names', () => {
+    const { report } = matchRoster(parseList(LH_TEXT), ctx)
+    const cultists = report.units.find((u) => u.name === 'Cultist Mob')
+    expect([cultists.models, cultists.points.computed]).toEqual([10, 50])
+    const beastmen = report.units.find((u) => u.name === 'Fellgor Beastmen')
+    expect([beastmen.models, beastmen.points.computed]).toEqual([10, 60])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+  })
+
+  it('reads the detachment keyword printed among the wargear', () => {
+    const { payload } = matchRoster(parseList(LH_TEXT), ctx)
+    const brigand = payload.units.find((u) => u.id === 'war-dog-brigand')
+    expect(brigand.alleg).toBe('Character')          // Houndpack Lance's "those units have CHARACTER"
+    expect(brigand.enh).toBe('Final Howl (Aura)')
+  })
+
+  it('places the whole list at the points it states', () => {
+    const { report } = matchRoster(parseList(LH_TEXT), ctx)
+    expect(report.missing).toEqual([])
+    expect(report.detachments).toEqual({ matched: ['Iconoclast Fiefdom', 'Houndpack Lance'], missing: [] })
+    expect(report.points.computed).toBe(440)
+    expect(report.points.computed).toBe(report.points.stated)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')

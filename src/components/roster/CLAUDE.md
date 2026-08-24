@@ -229,7 +229,12 @@ directory; still part of this feature:
   ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
   keyword an allegiance upgrade handed the entry, because that keyword is what made `enhOptionsFor`
   offer the enhancement in the first place; without it the editor offered Honoured Fallen to a
-  Telemon Dreadnought and this file called the same list illegal.
+  Telemon Dreadnought and this file called the same list illegal. `warlordIneligible` reads the same
+  keyword for the same reason (`canBeWarlord(def, detachments, granted)`, and both editors pass it
+  too): Houndpack Lance's "select three WAR DOG units; those units have the CHARACTER keyword" makes
+  a War Dog Karnivore a Character in every sense the rules use the word, the nomination of a Warlord
+  included. A unit BARRED from the title (`noWarlord`) stays barred — the grant adds a keyword, it
+  does not overrule a rule written about that datasheet.
   **A rule that says "must be your WARLORD" does not say "only one such unit".** The Muster step
   (`src/data/muster.js`) spells it out: *"Some units have a rule on their datasheet stating that
   they must be your WARLORD. If you want to include one or more of these units in your army, you
@@ -275,7 +280,7 @@ directory; still part of this feature:
   know which tool and which points data (`APP_DATA_VERSION`) wrote the list.
 - `rosterImport.js` — the way back in: read a list somebody else's tool wrote (`detectFormat` →
   `parseList` → `matchFaction` → `matchRoster`), in the formats `rosterExport.js` writes — the GW
-  app's 11th-edition export and the WTC/New Recruit header format — plus **both listhammer.info
+  app's 11th-edition export and the WTC/New Recruit header format — plus **all three listhammer.info
   modes** (added 2026-08-24). `RosterImportModal.vue`
   (from the roster list's "Import" button) shows the report and only then creates the list, landing
   the reader in the EDITOR, because whatever failed to match is theirs to finish.
@@ -319,6 +324,36 @@ directory; still part of this feature:
   Force Disposition line where the app writes a labelled one — **which is why the faction is the
   FIRST bare line and not the last**, or the army comes out as "Take and Hold".
 
+  **Its plain-text mode is that grammar again with a LABELLED header**, and goes through the same
+  parser too. `List Name:`, `Factions Used:`, `Army Points:`, `Detachment(s):` — read from their
+  labels, which is strictly better than inferring them: read as bare lines, the title came out as
+  "List Name: All Dogs go to Heaven" and the faction as the whole "Factions Used: Chaos Knights,
+  Heretic Astartes" line, which matches no army at all (the army's own faction is the first name on
+  that line; the rest are its allies). The header closes with a row of `+` — not the WTC `+++`
+  block, which is told apart by its `+ FACTION KEYWORD:` lines — after which section headings end in
+  a colon (`BATTLELINE:`), so `SECTIONS` tolerates one; without that, `OTHER DATASHEETS:` was read
+  as a weapon of the unit above it. Points are abbreviated (`140 pts`), which is now written once as
+  `PTS` and shared with the WTC parser and with `detectFormat` — before that the format was not
+  detected at all and the import simply refused the list.
+
+  Two more things this mode does inside a unit's body:
+  - **It names a profile more briefly than appdata does, and folds the loadout into the name**:
+    "9x Cultist w/ autopistol and brutal assault weapon" for a CHAOS CULTIST, "Beastman" for a
+    FELLGOR BEASTMEN. Only the champion answered `isModel`, so a ten-model mob came out as one model
+    — priced right by luck, since one is below the smallest bracket and falls back to it, but a
+    20-Cultist mob would have been charged as 10. `fitsBracket` is the guard: **a count no bracket
+    allows is not a count**, and only then are the lines the datasheet cannot place as WARGEAR read
+    as models instead — and only if THAT count fits a bracket. A line we merely failed to understand
+    still changes nothing, and a unit whose models we did read is never touched (which is what keeps
+    "1x Ammo Runt" beside "9x Flash Git" from becoming a tenth model).
+  - **The allegiance keyword is printed as if it were wargear.** "• Houndpack Lance Character" is
+    the entry's `alleg` choice, with no label to tell it from a weapon (the app writes "Mark of
+    Chaos: Khorne", which `parseGw` reads at parse time). `matchRoster` recognises it against what
+    the datasheet offers — `def.alleg`'s own name, its detachment's name, and the option — and moves
+    it out of the wargear. Getting this wrong cost the list five errors, not one: without CHARACTER
+    the three enhancements were ineligible, the allegiance group was under its minimum, and the
+    Warlord was "not a Character".
+
   **`listhammer-compact` is its short mode and needs its own parser.** One line per unit, an
   attached unit written as its members joined with `" + "` (leaders first, the unit they joined
   last — the Bodyguard/Leader/Support roles are reconstructed from that order), counts in MODELS,
@@ -329,7 +364,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Thirteen more things real lists turned up, none of them about listhammer's spelling:
+  Thirteen more things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects

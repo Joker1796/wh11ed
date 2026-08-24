@@ -181,7 +181,10 @@ export function validateRoster(roster, { faction, core } = {}) {
   if (warlords.length > 1) add('manyWarlords', 'error', { uid: warlords[1].uid })
   for (const w of warlords) {
     const def = defOf(w.id)
-    if (def && !canBeWarlord(def, detachments)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
+    // The allegiance keyword counts here for the same reason it counts for enhancements below: a
+    // War Dog that took Houndpack Lance's CHARACTER is a Character.
+    const granted = [allegKeyword(def, w, detachments)].filter(Boolean)
+    if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
   }
   // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
   // Yncarne) — every detachment's own list is an OR-alternative, flattened across all selected

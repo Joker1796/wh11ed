@@ -139,7 +139,7 @@
                       :detachments="curDetachments"
                       :units="roster.units"
                       :def-of="defOf"
-                      :can-warlord="canBeWarlord(defOf(e.id), curDetachments)"
+                      :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
                       :is-warlord="e.warlord === true"
                       :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"
                       :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
@@ -221,7 +221,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints,
-  canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
 } from '../../composables/rosterEngine.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'

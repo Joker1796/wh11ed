@@ -7,6 +7,9 @@
 //        the differences it tolerates rather than forks over are all cosmetic: capitalised
 //        "Points", a thousands separator (2.000), `◦` for the weapons under a model line, plural
 //        "Enhancements:", and a bare Force Disposition line where the app writes a labelled one.
+//        The same site's plain-text mode is the same grammar again, with a LABELLED header
+//        ("List Name:", "Factions Used:", "Army Points:", "Detachment(s):") closed by a row of
+//        '+', section headings that end in a colon, and "pts" for "points".
 //   listhammer-compact  the same site's short mode: one line per unit, attached units joined with
 //        " + ", model counts, and no wargear. What shapes the import screen is what it does NOT
 //        carry: no faction, no detachment and no battle size anywhere in the text, so the faction
@@ -29,15 +32,19 @@ import { allySourceOf, optionItems, optionLabel, unitPoints } from './rosterEngi
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
-const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS)$/m
+const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS):?$/m
 const BATTLE_SIZES = /^(Combat Patrol|Incursion|Strike Force|Onslaught|Custom)$/
 
 // Bullets. The app writes `•` at every depth; listhammer writes `•` for a model line and `◦` for
 // the weapons under it. Both mean "this line is a bullet", which is the tell the nesting rule in
 // gwBody() reads — miss it and every weapon is taken for a model.
 const BULLET = '[\u2022\u25e6\u2023\u25aa*]'
-// "Khârn the Betrayer (115 points)", "Ghazghkull Thraka (235 Points)", "Dakka  (2.000 Points)".
-const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*points?\\)$`, 'i')
+// How the two words for points are written: the app spells it out, listhammer's plain-text mode
+// abbreviates it.
+const PTS = '(?:pts?|points?)'
+// "Khârn the Betrayer (115 points)", "Ghazghkull Thraka (235 Points)", "Dakka  (2.000 Points)",
+// "War Dog Brigand (140 pts)".
+const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)$`, 'i')
 // Points are whole numbers: a dot, comma or space inside one is a thousands separator, not a
 // decimal point — listhammer writes a 2000-point list as "2.000 Points".
 const num = (s) => +String(s).replace(/\D/g, '')
@@ -64,7 +71,7 @@ export function detectFormat(text) {
   if (/^attached units?( \d+)?$/im.test(t) || /^Exported with App Version:/m.test(t) || SECTIONS.test(t)) return 'gw'
   // Last resort: any line that prices something. Not just the first — a list's own title line is
   // sometimes unpriced, and then the only points in the file are on its units.
-  if (/\((\d[\d.,\u00a0 ]*)\s*points?\)/i.test(t)) return 'gw'
+  if (new RegExp(`\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)`, 'i').test(t)) return 'gw'
   return null
 }
 
@@ -153,6 +160,7 @@ function parseGw(text) {
   // dozen lines), the faction, the detachment line, the battle size. A priced line inside it is the
   // LIST's points, not a unit's — a title can print its own points several lines below its name.
   let inHeader = true
+  let labelledFaction = ''   // set when the header names the faction outright, rather than by a bare line
   const plains = []      // the bare lines: the title's own continuation lines, and the faction
 
   const flush = () => {
@@ -182,6 +190,33 @@ function parseGw(text) {
     if (att) { flush(); inHeader = false; group = `g${att[1]}`; continue }
     if (SECTIONS.test(t)) { flush(); inHeader = false; group = null; continue }
     if (/^Force Dispositions?:/i.test(t)) continue
+
+    // listhammer's plain-text mode LABELS its header instead of writing it as bare lines, and
+    // closes it with a row of '+'. What is labelled is read from the label — inferring which bare
+    // line is the faction (below) is only needed when nothing says which.
+    if (inHeader) {
+      if (/^\++$/.test(t)) { inHeader = false; continue }
+      const kv = t.match(/^([^:]{2,40}):\s*(.*)$/)
+      const key = kv && kv[1].replace(/\s*\([^)]*\)/g, '').trim().toLowerCase()
+      const val = kv && kv[2].trim()
+      if (key === 'list name') { out.name = val; seenHeader = true; continue }
+      // "Chaos Knights, Heretic Astartes" — the army's own faction first, its allies after. The
+      // allied units come with the ally's own datasheets, which is a matter for the faction data,
+      // not for this line.
+      if (key === 'faction' || key === 'factions' || key === 'factions used') {
+        labelledFaction = val.split(',').map((f) => f.trim()).find((f) => matchFaction(f)) || val
+        continue
+      }
+      if (key === 'army points' || key === 'total points') { out.stated = num(val); continue }
+      if (key === 'detachment' || key === 'detachments') {
+        out.detachmentLine = val
+        out.detachments = val.split(/,\s*|\s+and\s+/).map((d) => d.trim()).filter(Boolean)
+        continue
+      }
+      // Labels with nothing to add: the enhancements are printed again under the units that carry
+      // them, and the disposition is not part of a list we can store.
+      if (/^(disposition|army enhancements|mission)$/.test(key || '')) continue
+    }
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
     if (dets) {
@@ -253,7 +288,7 @@ function parseGw(text) {
   dropRepeatedAttachments(out)
   const answers = plains.filter(isFactionName)
   const loose = plains.filter((t) => matchFaction(t))
-  out.faction = answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
+  out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
   return out
 }
 
@@ -320,7 +355,6 @@ function parseListhammerCompact(text) {
 // tolerant: `•` or `*` bullets, `pts`/`points`/`pt`, a quantity with or without its `x`, and any
 // `Char1:` / `Infa6:`-style reference prefix.
 
-const PTS = '(?:pts?|points?)'
 const REF = '[A-Za-z]+\\d+'
 
 const wtcGear = (tail) => (tail || '')
@@ -526,6 +560,10 @@ const defaultNames = (def, items) => new Set(
   (def?.defaults || []).flatMap(([, list]) => list.map(([id]) => norm(items?.[id]))).filter(Boolean),
 )
 
+// Whether a model count is one the datasheet can actually be fielded at.
+const fitsBracket = (def, models) => models != null
+  && (def?.sizes || []).some((s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1))
+
 // The size bracket whose model range holds `models`; the datasheet's own default when the list
 // doesn't say (a single-model unit, or a format that omits the count).
 // `perMini` is what the list says about the SPLIT between profiles, when it says anything. Two
@@ -678,6 +716,26 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // The model count is the sum of those profile lines in both parsers, so it loses them too.
       if (dropped.length && models != null) models = models - dropped.reduce((n, l) => n + (l.n || 1), 0) || null
     }
+    // The detachment keyword an entry chose for itself is printed among the model's own lines —
+    // "• Houndpack Lance Character" — with nothing to mark it as anything but wargear, so it is
+    // recognised by what the datasheet offers: the allegiance group's own name and its options.
+    // (The app labels the mark instead, "Mark of Chaos: Khorne", which parseGw has already read.)
+    let alleg = pu.alleg
+    if (!alleg && def.alleg?.o?.length) {
+      const forms = new Map()
+      for (const o of def.alleg.o || []) {
+        for (const f of [o.n, `${def.alleg.det || ''} ${o.n}`, `${def.alleg.t || ''} ${o.n}`, `${def.alleg.t || ''}: ${o.n}`]) {
+          if (norm(f)) forms.set(norm(f), o.n)
+        }
+      }
+      const hit = weapons.find((w) => forms.has(norm(w.name))) || modelLines.find((l) => forms.has(norm(l.name)))
+      if (hit) {
+        alleg = forms.get(norm(hit.name))
+        weapons = weapons.filter((w) => w !== hit)
+        modelLines = modelLines.filter((l) => l !== hit)
+      }
+    }
+
     // …and a single-profile datasheet has no `minis` at all, so it answers under its own name
     // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place. Its models
     // are named in the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that
@@ -700,6 +758,24 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
           : [...weapons, ...lines.filter((l) => !isModel(l.name)).map((l) => ({ n: l.n, name: l.name, mini: null }))]
       }
     }
+    // A count no bracket allows is not a count. Exports do not agree on how a profile is named:
+    // listhammer's plain-text mode writes "Beastman" for a FELLGOR BEASTMEN profile and folds the
+    // loadout into the name ("9x Cultist w/ autopistol and brutal assault weapon" for a CHAOS
+    // CULTIST), so only the champion answered `isModel` and a ten-model mob came out as one model
+    // — priced right by luck, since one model is below the smallest bracket and falls back to it.
+    // So when the count is impossible, the lines the datasheet cannot place as WARGEAR either are
+    // read as models instead, and only if THAT count fits a bracket: a line we merely failed to
+    // understand still changes nothing, and a unit whose models we did read is never touched.
+    if (pu.flatBody && lines.length && !fitsBracket(def, models)) {
+      const held = defaultNames(def, items)
+      for (const key of optionIndex(def, items).keys()) held.add(key)
+      const strays = lines.filter((l) => !held.has(norm(l.name)))
+      const loose = strays.reduce((n, l) => n + (l.n || 1), 0)
+      if (loose && fitsBracket(def, loose)) {
+        models = loose
+        weapons = weapons.filter((w) => !strays.includes(w))
+      }
+    }
 
     // What the list says about the split between profiles, for the bracket choice below.
     const perMini = new Map()
@@ -712,7 +788,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }
     if (models && (bracket?.per?.[1] ?? 0) > (bracket?.per?.[0] ?? 0)) entry.count = models
     if (pu.warlord) entry.warlord = true
-    if (pu.alleg) entry.alleg = pu.alleg
+    if (alleg) entry.alleg = alleg
 
     const line = { name: def.name, id: def.id, models: models || null, gear: { picked: [], missing: [] }, enh: null, points: { stated: pu.pts, computed: 0 } }
 

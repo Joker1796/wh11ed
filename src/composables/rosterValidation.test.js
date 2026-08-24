@@ -167,6 +167,18 @@ describe('validateRoster — warlord', () => {
   it('flags an ineligible warlord', () => {
     expect(codes(roster({ units: [U('intercessor-squad', { warlord: true })] }))).toContain('warlordIneligible')
   })
+  // Houndpack Lance hands three War Dogs the CHARACTER keyword, and one of them can then be the
+  // Warlord — the keyword the ENTRY chose, not the one its datasheet prints.
+  it('accepts a warlord whose allegiance choice made it a Character', () => {
+    const warDog = {
+      id: 'war-dog', name: 'War Dog', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 155, per: [1, 1], default: 1 }],
+      alleg: { g: 'houndpack', t: 'Houndpack Lance Keyword', det: 'Gladius', max: 3, o: [{ n: 'Character' }] },
+    }
+    const f = { ...faction, units: [...faction.units, warDog] }
+    const codesOf = (extra) => validateRoster(roster({ units: [U('war-dog', { warlord: true, ...extra })] }), { faction: f, core }).issues.map((i) => i.code)
+    expect(codesOf({})).toContain('warlordIneligible')
+    expect(codesOf({ alleg: 'Character' })).not.toContain('warlordIneligible')
+  })
   it('warns when a mandatory warlord is not the chosen one', () => {
     const det = { ...detachment, mandWarlord: ['marneus'] }
     const f = { ...faction, detachments: [det] }

@@ -166,9 +166,18 @@ export function wargearGroupSpent(entry, gi, exceptOi = null) {
 // currently just Tyranids' "Vanguard Onslaught" lifting Deathleaper's normal `cannotBeWarlord`).
 // `detachments` is optional so existing callers that don't have it handy (or a def with no id,
 // e.g. a plain test fixture) fall back to the ordinary flag check.
-export function canBeWarlord(def, detachments) {
+//
+// `granted` are keywords the ENTRY gained rather than the datasheet printing them — the same
+// allegiance upgrades enhEligible() reads. Houndpack Lance's "select three WAR DOG units; those
+// units have the CHARACTER keyword" makes a War Dog Karnivore a Character in every sense the
+// rules use the word, the nomination of a Warlord included, and the army's app exports one as
+// the Warlord. A unit BARRED from being the Warlord stays barred: the grant adds a keyword, it
+// does not overrule a rule written about this datasheet.
+export function canBeWarlord(def, detachments, granted = []) {
   if (def?.id && (detachments || []).some((d) => d.grantedWarlord?.includes(def.id))) return true
-  return !def?.flags?.noWarlord && !!(def?.flags?.char || def?.flags?.nonCharWarlordOk)
+  if (def?.flags?.noWarlord) return false
+  if (granted.some((k) => String(k).toLowerCase() === 'character')) return true
+  return !!(def?.flags?.char || def?.flags?.nonCharWarlordOk)
 }
 
 // A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
