@@ -554,6 +554,32 @@ Deathwatch Kill Team (190 points)
   })
 })
 
+// "This model's lasher tendrils can be replaced with 2 magma cutters" is ONE swap, and the export
+// prints what the model ends up holding.
+describe('matchRoster — an option that grants two of a weapon', () => {
+  it('reads two of them as one pick, not two', async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    const faction = await loadRosterFaction('emperors-children')
+    const text = `Fiends (2000 points)
+
+Emperor’s Children
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Maulerfiend (120 points)
+  • 2x Magma cutters
+    1x Maulerfiend fists`
+    const { payload, report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(payload.units[0].wg).toEqual([[0, 0, 1]])
+    expect(report.units[0].gear.missing).toEqual([])
+    expect(report.units[0].points.computed).toBe(120)
+  })
+})
+
 describe('matchRoster — a bundled wargear option', () => {
   it('takes the swap from either half of the bundle, once, for the right number of models', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([

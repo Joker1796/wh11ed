@@ -383,7 +383,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Fourteen more things real lists turned up, none of them about how an export spells things:
+  Fifteen more things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -453,6 +453,12 @@ directory; still part of this feature:
     objects with `weapons`, so `matchRoster` moves one across rather than counting it twice — and
     the datasheet decides which is which. A 20-model Berzerker squad had been importing as a
     5-model one, with its own profiles reported as unplaceable wargear.
+  - **An option can grant two of a weapon.** "This model's lasher tendrils can be replaced with 2
+    magma cutters" is one swap (`o: [[[item, 2]]]`, labelled "2× Magma cutters"), and the export
+    prints what the model ends up holding — "2x Magma cutters". Counted line for line that was two
+    picks in a group that allows one, and a stock Maulerfiend came out illegal. The pick count is
+    divided by what one pick of that option grants (`per(ref)`), for steppers and checkbox repeats
+    alike.
   - **A bundle's shared half counts for nothing.** A Deathwatch Kill Team offers a frag cannon, an
     infernus heavy bolter and a Deathwatch shotgun, each "and 1 close combat weapon" — so "4x Close
     combat weapon" over two frag cannons and two infernus bolters is four models split between two
