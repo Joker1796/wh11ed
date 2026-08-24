@@ -196,7 +196,7 @@ describe('parseList — WTC-Compact and the loose spellings around it', () => {
   })
 
   it('reads the attachment line the format has for it', () => {
-    expect(p.units.find((u) => u.name === 'Khârn the Betrayer').attachedTo).toBe('Khorne Berzerkers')
+    expect(p.units.find((u) => u.name === 'Khârn the Betrayer').attachedTo).toEqual(['Khorne Berzerkers'])
   })
 })
 
@@ -1831,5 +1831,70 @@ describe('matchRoster — a list that writes the plural its own way', () => {
 • 10x Genestealer Claws & Talons`)
     const { payload } = matchRoster(parseList(text), ctx)
     expect(payload.units.every((u) => !u.leaderOf || u.id === 'winged-tyranid-prime')).toBe(true)
+  })
+})
+
+
+// A WTC export that states each attachment TWICE — on the character ("Supporting Boyz[1]") and on
+// the unit ("Attached to Bannernob[1]") — and tells three units of the same name apart by an index.
+// Every attachment in it was lost: the index matched no unit, and a mob that holds two characters
+// kept only the line that came last.
+const ORK = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Xenos - Orks
++ DETACHMENT: Equatorial Hordes
++ TOTAL ARMY POINTS: 785pts
++
++ WARLORD: Char1: Ghazghkull Thraka
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Char3: 1x Bannernob (50 pts): Choppa, Shoota
+Supporting Boyz[1]
+Char4: 1x Bannernob (50 pts): Choppa, Shoota
+Supporting Boyz[2]
+Char1: 2x Ghazghkull Thraka (235 pts): Warlord
+• 1x Ghazghkull Thraka: Gork’s Klaw, Mork’s Roar
+• 1x Makari: Makari’s stabba
+Leading Boyz[1]
+Char2: 1x Wazdakka Gutsmek (175 pts): Fixit's wrench, Grabba dragga, Psyko-gatler, Speeding bulk and flaming exhaust
+
+20x Boyz (160 pts)
+• 1x Boss Nob: Slugga, Power klaw
+• 19x Boy: 19 with Choppa, Shoota, Slugga
+Attached to Ghazghkull Thraka
+Attached to Bannernob[1]
+20x Boyz (160 pts)
+• 1x Boss Nob: Slugga, Power klaw
+• 19x Boy: 19 with Choppa, Shoota, Slugga
+Attached to Bannernob[2]
+
+Exported from listhammer.info: https://listhammer.info/list/d041eaf384f433909e`
+
+describe('matchRoster — a WTC list that indexes what a character joined', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('orks'), core: rosterCore, items: items.items }
+  })
+
+  // "Attached to Bannernob[2]" is the SECOND Bannernob the list prints, not whichever one was
+  // stored last — and the mob that holds both Ghazghkull and a Bannernob keeps both.
+  it('gives each mob the characters its own lines name', () => {
+    const { payload } = matchRoster(parseList(ORK), ctx)
+    const boyz = payload.units.filter((u) => u.id === 'boyz')
+    const nobs = payload.units.filter((u) => u.id === 'bannernob')
+    const ghaz = payload.units.find((u) => u.id === 'ghazghkull-thraka')
+    expect([nobs[0].leaderOf, nobs[1].leaderOf]).toEqual([boyz[0].uid, boyz[1].uid])
+    expect(ghaz.leaderOf).toBe(boyz[0].uid)
+    expect(payload.units.find((u) => u.id === 'wazdakka-gutsmek').leaderOf).toBeUndefined()
+  })
+
+  // Appdata spells this weapon with a non-breaking hyphen (U+2011) and the list with the one on the
+  // keyboard — 25 weapon names in the game are typed that way.
+  it('places a weapon appdata spells with a unicode hyphen', () => {
+    const { report } = matchRoster(parseList(ORK), ctx)
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })

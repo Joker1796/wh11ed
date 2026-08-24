@@ -360,8 +360,18 @@ directory; still part of this feature:
   only the header — faction, detachment, warlord, enhancements — is read as WTC. Both paths end in
   `fromHeader()`, which is what applies the header's warlord and enhancements to the units.
 
-  **An attachment is a line, and either side can carry it** (`Attached to <unit>`), so the matcher
-  makes the CHARACTER of the pair the leader whichever way round it was written.
+  **An attachment is a line, and either side can carry it** (`Attached to <unit>`, and the character's
+  own `Leading <unit>` / `Supporting <unit>`), so the matcher makes the CHARACTER of the pair the
+  leader whichever way round it was written. Two details of that line, both of which used to lose
+  attachments outright:
+
+  - **The lines accumulate** (`attachedTo` is a LIST). A mob holds a Leader and a Support at once,
+    and a listhammer export states each of them on its own line — reading one per unit kept only
+    the last, so a Boyz mob with Ghazghkull and a Bannernob came in with one of them.
+  - **The target may be indexed**: `Attached to Warboss[2]` is the SECOND Warboss the list prints.
+    An army fielding three of a datasheet writes nothing else to tell them apart, and without the
+    index every line resolved to whichever copy was stored last — one mob with three characters on
+    it and two mobs alone. `rowsOf` keeps the rows in list order for that.
 
   **listhammer.info's detailed mode is the GW app's grammar**, so it goes through the same parser
   rather than a fork of it. Everything that differs is cosmetic and is tolerated in one place each:
@@ -545,6 +555,11 @@ directory; still part of this feature:
     items fold together — the only names that do are one weapon written both ways (Bolt pistol /
     Bolt pistols). Getting this wrong costs points, not just tidiness: the Warriors' own model line
     read as wargear dropped a six-model unit into the three-model bracket, at half price.
+  - **A unicode hyphen is a hyphen.** Appdata types 25 weapon names with a non-breaking (U+2011) or
+    unicode (U+2010) hyphen — `Psyko‑gatler`, `Kombi‑rokkit`, every Space Wolves `master‑crafted`
+    weapon, the Votann `Autoch‑pattern bolter` — where the rest of the game uses the plain one. No
+    export writes them that way, so each of those weapons came back as wargear that could not be
+    placed. `norm` folds every dash variant to `-`.
   - **An ampersand is "and".** listhammer writes `Genestealer Claws & Talons` where the datasheet
     reads "claws and talons" — every Tyranid melee weapon in a list is spelled that way, and each
     one was reported as wargear that could not be placed. No name in our data contains an
