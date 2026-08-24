@@ -153,6 +153,12 @@ models can be your WARLORD, and they cannot be given Enhancements"* (`allyWarlor
 clause, and Ynnari units are exactly what the Devoted of Ynnead Detachment's Enhancements are for.
 `canTakeEnhancements` is appdata's own field (`enh`) and overrides the ban where it is set.
 
+**One group, two rules.** An army can be offered the same allied faction by two rows — Deathwatch
+gets the general Agents of the Imperium list (written for ADEPTUS ASTARTES) and its own, which is
+that list minus the five Deathwatch datasheets its own bundle already carries. The generator keeps
+the rule written closest to this army (the taker naming the faction itself beats one naming a
+parent) and reports the drop; otherwise the group would be capped twice and printed twice.
+
 **Which group a unit counts against is decided by the Detachment, not by the user.** Drukhari can
 reach the same Troupe through two groups — Harlequins under Reaper's Wager (500 pts, Enhancements
 allowed) and the corsair group under eight other Detachments (250 pts) — and they can never be
@@ -290,7 +296,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Eight more things real lists turned up, none of them about listhammer's spelling:
+  Eleven more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -299,6 +305,20 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **A paired swap is counted per PROFILE.** A stepper group counts models; within one profile a
+    line naming the other half of a bundle restates the same models ("1x Storm Shield" then "1x
+    Thunder hammer" is one swapped model), while across profiles the swaps are different models and
+    add up. A Deathwatch Terminator Squad prints its sergeant's pair apart from the squad's, and
+    folding all four lines into one bucket charged three swapped models instead of two — five points
+    a squad, and the list came in over its limit.
+  - **A bundled option is chosen by how much of it the list names.** The Captain in Gravis Armour
+    offers three bundles differing only in the last weapon ("1 boltstorm gauntlet, 1 power fist and
+    1 relic blade / chainsword / fist"); reading them one weapon at a time spent two of them. Each
+    candidate is scored by the items of its bundle the list does name, minus the ones it doesn't.
+  - **Two brackets can hold the same models and differ only in the SPLIT.** An Indomitor Kill Team
+    is either ten Heavy Intercessors or three-to-sixteen models mixed from all three profiles, both
+    at 275 points. `sizeIndexFor` takes the per-profile counts into account, because under the first
+    bracket the other two profiles have no models and every wargear group of theirs capped at zero.
   - **A title can print its points several lines below its name.** The header runs until the army
     is named (a bare line that answers as a faction), the detachment line, or the first section /
     Attached Units marker; a priced line inside it is the LIST's points, not a unit's. A list whose
