@@ -794,10 +794,20 @@ function nearName(words, name) {
   return off === 1
 }
 
+// appdata types its instruction prose by hand and its item rows separately, so the same weapon is
+// spelled with a plain hyphen in one table and a U+2010 one in the other — the Tempestus Command
+// Squad's medi-pack bullet reads "1 hot‐shot lasgun, 1 hot‐shot laspistol and 1 medi‐pack" while
+// every one of those items is stored with an ASCII hyphen. Character-level only and
+// length-preserving, so the match offsets that order the set stay meaningful; `norm` is not usable
+// here because it also strips a trailing "(...)", which belongs to names and not to sentences.
+const flatText = (s) => (s || '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[‐‑–—]/g, '-')
+
 // The group's own items named in one statement, in order, with the count written in front of
 // them ("2 Mortifier flamers"). Longest name first so a name containing another ("master-crafted
 // power weapon" vs "power weapon") wins the match.
-function itemsNamedIn(clause, vocab) {
+function itemsNamedIn(rawClause, rawVocab) {
+  const clause = flatText(rawClause)
+  const vocab = rawVocab.map((v) => ({ uuid: v.uuid, name: flatText(v.name) }))
   const sorted = [...vocab].sort((a, b) => b.name.length - a.name.length)
   const re = new RegExp(`(?:(\\d+)\\s+)?\\b(${sorted.map((v) => reEsc(v.name)).join('|')})(?:e?s)?\\b`, 'gi')
   const out = []
