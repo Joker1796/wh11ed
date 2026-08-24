@@ -410,6 +410,27 @@ function parseWtc(text) {
   const lines = (text || '').split(/\r?\n/).map((l) => l.replace(/\u00a0/g, ' '))
   const out = { format: 'wtc', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [], enhancements: [], warlord: null }
   const start = wtcHeader(lines, out)
+  const body = lines.slice(start).join('\n')
+
+  // A list can arrive as the WTC HEADER over somebody else's body: listhammer re-exports a New
+  // Recruit list that way, keeping the `+++` block and printing the army in its own grammar —
+  // "Attached Unit 1" blocks, section headings, "Attached as:" lines, and bullets that mix model
+  // lines with weapons. Read as WTC every bullet counted as a profile (a ten-model Death Company
+  // came out as 31 models and half price) and the attachments were lost outright. The body is
+  // whose grammar it is, so it goes to that parser; the header above it still says what only the
+  // header says (faction, detachment, warlord, enhancements).
+  if (/^attached units?( \d+)?$/im.test(body) || SECTIONS.test(body)) {
+    const gw = parseGw(body)
+    out.units = gw.units
+    out.name = out.name || gw.name
+    if (!out.stated) out.stated = gw.stated
+    if (!out.limit) out.limit = gw.limit
+    if (!out.detachments.length && gw.detachments.length) {
+      out.detachments = gw.detachments
+      if (gw.detachmentLine) out.detachmentLine = gw.detachmentLine
+    }
+    return fromHeader(out)
+  }
 
   let unit = null
   let mini = null          // the profile the following indented lines belong to
@@ -474,8 +495,12 @@ function parseWtc(text) {
   }
   flush()
 
-  // The header names the warlord and every enhancement, by reference or by name. A compact export
-  // may say it ONLY there, so the header is read as a source and not merely as a summary.
+  return fromHeader(out)
+}
+
+// The header names the warlord and every enhancement, by reference or by name. A compact export
+// may say it ONLY there, so the header is read as a source and not merely as a summary.
+function fromHeader(out) {
   if (out.warlord) {
     const want = norm(out.warlord.name)
     const hit = out.units.find((u) => u.ref === out.warlord.ref) || out.units.find((u) => norm(u.name) === want)

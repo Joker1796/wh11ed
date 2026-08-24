@@ -1150,6 +1150,108 @@ Char6: 1x Watch Captain Artemis (65 pts): Hellfire Extremis, Master-crafted powe
 
 Created with newrecruit.eu v35.61`
 
+// A list can arrive as the WTC HEADER over somebody else's body — listhammer re-exports a New
+// Recruit list that way. Read as WTC, every bullet counted as a profile and the attachments were
+// lost with them.
+const WTC_GW_BODY = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Imperium - Adeptus Astartes - Blood Angels
++ DETACHMENT: Stormlance Task Force, Vengeful Hosts (Lightning Assault)
++ TOTAL ARMY POINTS: 355pts
++
++ WARLORD: Char1: Commander Dante
++ ENHANCEMENT: Orksbane (on Char3: Captain with Jump Pack)
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Attached Units
+Attached Unit 1
+
+Captain with Jump Pack (100 pts)
+\u2022 Attached as: Leader (Character)
+\u2022 1x Orksbane
+\u2022 1x Relic Shield
+\u2022 1x Thunder Hammer
+
+Sanguinary Guard (125 pts)
+\u2022 Attached as: Bodyguard
+\u2022 3x Sanguinary Guard
+\u2022 3x Encarmine Spear
+\u2022 2x Angelus Boltgun
+\u2022 1x Inferno Pistol
+\u2022 Sanguinary Banner
+
+OTHER DATASHEETS
+
+Scout Squad (65 pts)
+\u2022 1x Scout Sergeant
+\u2022 1x Bolt pistol
+\u2022 1x Close combat weapon
+\u2022 1x Astartes Chainsword
+\u2022 4x Scouts
+\u2022 4x Bolt pistol
+\u2022 4x Close combat weapon
+\u2022 4x Combat Knife
+
+Vindicator (185 pts)
+\u2022 1x Armoured Tracks
+\u2022 1x Demolisher Cannon
+\u2022 1x Hunter-killer missile
+\u2022 1x Storm bolter
+
+Created with newrecruit.eu v35.49`
+
+describe('parseList — a WTC header over a listhammer body', () => {
+  const p = parseList(WTC_GW_BODY)
+
+  it('keeps what only the header says, and reads the body as what it is', () => {
+    expect(detectFormat(WTC_GW_BODY)).toBe('wtc')
+    expect(p.faction).toBe('Adeptus Astartes - Blood Angels')
+    expect(p.detachments).toEqual(['Stormlance Task Force', 'Vengeful Hosts'])
+    expect(p.stated).toBe(355)
+    // The attachment block is the body's, and the "Attached as:" line is not a model of anything.
+    const [captain, guard] = p.units
+    expect(captain.group).toBe(guard.group)
+    expect(captain.attachedAs).toBe('Leader (Character)')
+    expect(p.units.flatMap((u) => u.weapons.map((w) => w.name))).not.toContain('Leader (Character)')
+  })
+
+  it('takes the warlord and the enhancement from the header, by name', () => {
+    expect(p.units.find((u) => u.name === 'Captain with Jump Pack').enh).toBe('Orksbane')
+    expect(p.warlord.name).toBe('Commander Dante')
+  })
+})
+
+describe('matchRoster — a WTC header over a listhammer body', () => {
+  it('places every unit at its stated points, attachments and all', async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    const faction = await loadRosterFaction('blood-angels')
+    const { report, payload } = matchRoster(parseList(WTC_GW_BODY), { faction, core: rosterCore, items: items.items })
+    expect(report.missing).toEqual([])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+    expect(report.points.computed).toBe(report.points.statedUnits)
+    // A ten-model squad printed as "1x Scout Sergeant" + "4x Scouts" is five models, not one.
+    expect(report.units.find((u) => u.name === 'Scout Squad').models).toBe(5)
+    expect(payload.units.find((u) => u.id === 'captain-with-jump-pack').leaderOf).toBeTruthy()
+  })
+
+  // Codex: Space Marines detachments are the Chapters' too — appdata says which, and what they
+  // cost each of them (Stormlance Task Force is 3 DP for a Codex army, 2 for Blood Angels).
+  it('finds a Codex detachment in a Chapter army', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const ba = await loadRosterFaction('blood-angels')
+    const stormlance = ba.detachments.find((d) => d.name === 'Stormlance Task Force')
+    expect(stormlance).toBeTruthy()
+    expect(stormlance.dp).toBe(2)
+    expect(ba.detachments.find((d) => d.name === 'Angelic Inheritors')).toBeTruthy()
+    // Black Templars have no Librarians, and appdata does not offer them the Conclave.
+    const bt = await loadRosterFaction('black-templars')
+    expect(bt.detachments.find((d) => d.name === 'Librarius Conclave')).toBeFalsy()
+    expect(bt.detachments.find((d) => d.name === 'Gladius Task Force')).toBeTruthy()
+  })
+})
+
 describe('matchRoster — an ally in the WTC format', () => {
   it('places it and lands on the stated total', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')

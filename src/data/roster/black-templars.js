@@ -2537,5 +2537,25 @@ export default {
     "vanguard-veteran-squad-with-jump-packs",
     "vindicator",
     "whirlwind"
-  ]
+  ],
+  "sharedDetachments": [
+    "Anvil Siege Force",
+    "Armoured Speartip",
+    "Bastion Task Force",
+    "Ceramite Sentinels",
+    "Firestorm Assault Force",
+    "Fulguris Task Force",
+    "Gladius Task Force",
+    "Headhunter Task Force",
+    "Ironstorm Spearhead",
+    "Orbital Assault Force",
+    "Stormlance Task Force",
+    "Subversion Assets",
+    "Vanguard Spearhead",
+    "Vengeful Hosts"
+  ],
+  "detachmentDp": {
+    "Stormlance Task Force": 2,
+    "Bastion Task Force": 3
+  }
 }

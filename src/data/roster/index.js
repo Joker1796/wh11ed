@@ -68,14 +68,24 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
   const extra = allies && data.allies?.length ? await allyUnits(data) : []
-  if (!data.sharedUnitIds?.length && !extra.length) return data
-  const sm = data.sharedUnitIds?.length ? await load('space-marines') : null
+  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.length)
+  if (!needSm && !extra.length) return data
+  const sm = needSm ? await load('space-marines') : null
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
     .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
   const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
-  return { ...data, units }
+  // …and the Codex detachments this Chapter may field, which live in space-marines.js for the
+  // same reason its shared units do. A different Detachment Points cost for this Chapter comes
+  // with them (`detachmentDp`), so the budget the editor spends is the Chapter's own.
+  if (!data.sharedDetachments?.length) return { ...data, units }
+  const want = new Set(data.sharedDetachments)
+  const dets = (sm?.detachments || [])
+    .filter((d) => want.has(d.name))
+    .map((d) => (data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 }))
+  const detachments = [...data.detachments, ...dets].sort((a, b) => a.name.localeCompare(b.name))
+  return { ...data, units, detachments }
 }
 
 export { default as rosterCore } from './core.js'

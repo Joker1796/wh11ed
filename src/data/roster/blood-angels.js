@@ -2154,5 +2154,26 @@ export default {
       "5": 110,
       "10": 220
     }
+  },
+  "sharedDetachments": [
+    "1st Company Task Force",
+    "Anvil Siege Force",
+    "Armoured Speartip",
+    "Bastion Task Force",
+    "Ceramite Sentinels",
+    "Firestorm Assault Force",
+    "Fulguris Task Force",
+    "Gladius Task Force",
+    "Headhunter Task Force",
+    "Ironstorm Spearhead",
+    "Librarius Conclave",
+    "Orbital Assault Force",
+    "Stormlance Task Force",
+    "Subversion Assets",
+    "Vanguard Spearhead",
+    "Vengeful Hosts"
+  ],
+  "detachmentDp": {
+    "Stormlance Task Force": 2
   }
 }
