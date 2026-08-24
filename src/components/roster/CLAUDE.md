@@ -112,10 +112,17 @@ records neither, an Archon loses its Shadowfield, Coteaz his psyber-eagle — so
 whatever the group names and the row does not (9 items, 9 miniatures game-wide; the run prints each
 one). The same disagreement is why `LOADOUT_ITEM_FIXES` exists for the Death Company Dreadnought.
 
-The two tables also COUNT differently, and that is why a `defaults` item can carry a **third
-element**: `[itemId, count, 1]` marks a quantity that belongs to the PROFILE rather than to each of
-its models (one of the two Gun Servitors has the heavy bolter). `defaultLoadoutLines` and the
-export print such an item as recorded instead of multiplying it by the model count.
+The two tables also COUNT differently: a row is one model's, a group is the profile's total. So a
+group's counts are **divided by the models that profile fields** (the two Crisis Starscythe Shas'ui
+share "Burst cannon 2" — one each, as their datasheet says), and everything downstream reads one
+convention: per model. Where the count does not divide it is a total and nothing else, and it keeps
+the **third element**: `[itemId, count, 1]` (one of the two Gun Servitors has the heavy bolter, one
+of two Sanctifiers Missionaries the plasma gun). `defaultLoadoutLines`, the points and the export
+print or spend such an item as recorded instead of multiplying it.
+
+Only 4 datasheets carried a count above 1 on a multi-model profile this way, but the reading matters
+beyond display: the importer now compares COUNTS against the printed loadout (below), so a wrong
+expectation is a phantom swap or a lost one.
 
 ### A Chapter's Codex detachments
 
@@ -246,6 +253,36 @@ not — a seven-model squad is 345. So it is a term of its own in `unitPoints()`
 No option in the corpus is both priced and flagged default, so `unitWargearPoints()` and
 `defaultWargearPoints()` cannot double-charge; the old `def`-flag branch that assumed otherwise is
 gone.
+
+### Reading a swap that only shows as a count (added 2026-08-24)
+
+An export prints what the models are HOLDING, not what changed. `matchRoster` used to call a weapon
+a pick when its name was not in the printed loadout — which is blind to the commonest T'au swap
+shape: a Crisis Fireknife starts with a plasma rifle AND a missile pod and can trade either for the
+other, so "2x Missile pod" on a Shas'vre is a swap and a squad with no missile pods at all is three
+of them. Both read as "nothing to see". Three swaps, 15 points, on a unit that also pays for the
+pod it starts with.
+
+So the printed loadout is now spent by COUNT: it absorbs the first N copies of each item and only
+the surplus is a pick. The stock is kept twice — per profile (so a weapon named under a profile
+prefers that profile's groups) and unit-wide, both drawn from together, because a datasheet can
+field several profiles under one NAME (an Aquila Kill Team lists four "Deathwatch Veteran"s, each
+with its own loadout) and the name is all the export gives. Where the models cannot be split between
+profiles at all (`modelsPerMini` returns null — the Deathwatch kill teams) the printed loadout
+absorbs whatever the count, exactly as it read before.
+
+Two guards keep this from blaming the list for our data:
+
+- A surplus of a printed item that NO option on the datasheet grants is absorbed silently, not
+  reported as unmatched wargear: appdata gives a Defiler one excruciator cannon where its own
+  loadout text and the model both say two.
+- Steppers are read as the editor reads them (`UnitEditorFields`' `mode()`): a group whose CAP
+  allows several picks is a stepper whatever appdata calls its input, and when a weapon still has
+  copies to place, a group with room takes them before one that is already full. A T'au Commander's
+  "up to three of the following, and can take duplicates" is a checkbox with a cap of 3; counted as
+  one pick per copy, his second and third missile pods spilled into the group that replaces his
+  burst cannon — a second pick in a group that allows one, so a legal Commander imported as an
+  illegal one.
 
 ## Allies (added 2026-08-24)
 

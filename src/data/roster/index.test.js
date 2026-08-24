@@ -816,5 +816,9 @@ describe('a default loadout that costs points', () => {
     const unit = tau.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
     expect(unit.dw).toEqual([[0, 5], [1, 5]])
     expect(unitPoints(unit, { size: 0 })).toBe(105) // 90 + three flamers
+    // …and the loadout reads per model everywhere, which is what the datasheet says: "Every model
+    // is equipped with: burst cannon; T'au flamer; battlesuit fists."
+    const lines = defaultLoadoutLines(unit, rosterItems.items, { size: 0 })
+    expect(lines.find((l) => /Shas’ui/.test(l.mini)).items).toBe('Burst cannon, T’au flamer, Battlesuit fists')
   })
 })
