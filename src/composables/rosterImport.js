@@ -151,6 +151,12 @@ function parseGw(text) {
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
     if (dets) {
+      // The line joins several detachments with commas and a final "and" — but a detachment name
+      // can CONTAIN "and" ("Legends of Saga and Song and Saga of the Great Wolf" is two of them),
+      // and no punctuation says where one ends. Splitting here can only guess, so the raw line is
+      // carried through as well and matchRoster — which knows the faction's actual detachments —
+      // resolves it against them.
+      out.detachmentLine = dets[1].trim()
       out.detachments = dets[1].split(/,\s*|\s+and\s+/).map((s) => s.trim()).filter(Boolean)
       continue
     }
@@ -485,6 +491,41 @@ function sizeIndexFor(def, models) {
 
 // Turn a parsed list into a roster payload plus a report of everything that did not land.
 // `faction` is the ROSTER bundle (src/data/roster/<slug>.js), not the rules one.
+// The app writes every selected detachment on one line, joined with commas and a final "and" —
+// and half a dozen detachment names contain "and" themselves, so the line is genuinely ambiguous
+// as text. It stops being ambiguous once the faction's own detachments are known: carve the
+// longest known names out of the line first (a longer name wins over a shorter one inside it),
+// and whatever text is left over, minus the separators, is a detachment we don't have.
+//
+// Case and apostrophe folding only — both leave the string's length alone, so an index into the
+// folded copy is an index into the original and the leftovers can be reported as written.
+const fold = (s) => String(s || '').replace(/[‘’ʼ`´]/g, "'").toLowerCase()
+export function resolveDetachmentLine(line, known) {
+  const hay = fold(line)
+  const taken = new Array(hay.length).fill(false)
+  const free = (at, len) => { for (let i = at; i < at + len; i++) if (taken[i]) return false; return true }
+  const hits = []
+  for (const det of [...known].sort((a, b) => (b.name || '').length - (a.name || '').length)) {
+    const needle = fold(det.name)
+    if (!needle) continue
+    for (let from = 0; ; ) {
+      const at = hay.indexOf(needle, from)
+      if (at < 0) break
+      if (free(at, needle.length)) {
+        for (let i = at; i < at + needle.length; i++) taken[i] = true
+        hits.push({ at, name: det.name })
+        break                                   // one detachment can only be selected once
+      }
+      from = at + 1
+    }
+  }
+  const rest = [...line].map((c, i) => (taken[i] ? ' ' : c)).join('')
+  return {
+    matched: hits.sort((a, b) => a.at - b.at).map((h) => h.name),
+    missing: rest.split(/,|\band\b/i).map((x) => x.trim()).filter(Boolean),
+  }
+}
+
 export function matchRoster(parsed, { faction, core, items } = {}) {
   // `stated` is the list's own header total (which includes units we may have failed to match);
   // `statedUnits` sums only the units that DID match, so the two figures beside `computed` say
@@ -492,10 +533,16 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   const report = { name: parsed?.name || '', units: [], missing: [], detachments: { matched: [], missing: [] }, points: { stated: parsed?.stated || 0, statedUnits: 0, computed: 0 } }
   if (!parsed || !faction) return { payload: null, report }
 
-  for (const d of parsed.detachments || []) {
-    const hit = (faction.detachments || []).find((x) => norm(x.name) === norm(d))
-    if (hit) report.detachments.matched.push(hit.name)
-    else report.detachments.missing.push(d)
+  if (parsed.detachmentLine) {
+    const { matched, missing } = resolveDetachmentLine(parsed.detachmentLine, faction.detachments || [])
+    report.detachments.matched = matched
+    report.detachments.missing = missing
+  } else {
+    for (const d of parsed.detachments || []) {
+      const hit = (faction.detachments || []).find((x) => norm(x.name) === norm(d))
+      if (hit) report.detachments.matched.push(hit.name)
+      else report.detachments.missing.push(d)
+    }
   }
 
   const battle = (core?.battleSizes || []).find((b) => b.points === parsed.limit)

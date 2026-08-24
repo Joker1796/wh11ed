@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { detectFormat, matchFaction, matchRoster, parseList } from './rosterImport.js'
+import { detectFormat, matchFaction, matchRoster, parseList, resolveDetachmentLine } from './rosterImport.js'
 import rosterCore from '../data/roster/core.js'
 
 // A real export from the Warhammer 40,000 app, abridged: the shapes that matter are all here — an
@@ -886,5 +886,52 @@ describe('matchRoster — an allied unit', () => {
     const text = `Priests (2000 points)\n\nAstra Militarum\nStrike Force (2000 points)\n\nCHARACTERS\n\nMinistorum Priest (35 points)\n  • 1x Laspistol`
     const { payload } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
     expect(payload.units[0].id).toBe('ministorum-priest')
+  })
+})
+
+// "Legends of Saga and Song and Saga of the Great Wolf" is TWO detachments, and both of them
+// contain "and" — the line cannot be split as text at all, only against the faction's own list.
+describe('the detachment line', () => {
+  const known = [
+    { name: 'Legends of Saga and Song' }, { name: 'Saga of the Great Wolf' },
+    { name: 'Champions of Russ' }, { name: 'Stormlance Task Force' },
+  ]
+
+  it('carves the longest known names out of it', () => {
+    expect(resolveDetachmentLine('Legends of Saga and Song and Saga of the Great Wolf', known))
+      .toEqual({ matched: ['Legends of Saga and Song', 'Saga of the Great Wolf'], missing: [] })
+  })
+
+  it('keeps them in the order the line writes them', () => {
+    expect(resolveDetachmentLine('Champions of Russ, Stormlance Task Force', known).matched)
+      .toEqual(['Champions of Russ', 'Stormlance Task Force'])
+  })
+
+  // Whatever is left after the known names are taken out is a detachment we don't have — reported
+  // as written, not folded to lower case.
+  it('reports what it could not place', () => {
+    expect(resolveDetachmentLine('Champions of Russ and Wolves of Fenris', known))
+      .toEqual({ matched: ['Champions of Russ'], missing: ['Wolves of Fenris'] })
+  })
+
+  it('reads a real list whose two detachments both contain “and”', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const text = `Saga (2000 points)
+
+Space Marines
+Space Wolves
+Legends of Saga and Song and Saga of the Great Wolf (3 Detachment Points)
+Strike Force (2000 points)
+
+CHARACTERS
+
+Logan Grimnar (100 points)
+• Warlord
+• 1x Axe Morkai`
+    const faction = await loadRosterFaction('space-wolves')
+    const { report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(report.detachments).toEqual({ matched: ['Legends of Saga and Song', 'Saga of the Great Wolf'], missing: [] })
+    expect(report.missing).toEqual([])
   })
 })
