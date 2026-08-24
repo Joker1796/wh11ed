@@ -341,6 +341,21 @@ const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: 
 //
 // Skipped, loudly, the day appdata grows a real group for one of them: this is a stand-in for
 // missing data, not an opinion about it.
+// A leader that does NOT take the single Leader slot. The core rule reads "unless otherwise
+// stated, each bodyguard unit can only have one leader unit and one support unit attached to it",
+// and six Death Guard datasheets state otherwise: "You can attach this model to a PLAGUE MARINES
+// unit, even if one other Leader unit has already been attached to it (you cannot attach more than
+// one of the same Leader to the same unit)" — the Plague Marines blob every Death Guard army is
+// built around. appdata types them `leader` like any other (its bodyguardType has no third value),
+// so as generated the editor refused the second character and the validator called the army
+// illegal. The parenthetical is the only limit that survives, and it is the one kept: not two of
+// the SAME leader on one unit.
+const ALONGSIDE_RE = /even if one other Leader unit has already been attached/i
+const alongsideDs = new Set(table('datasheet_rule')
+  .filter((r) => ALONGSIDE_RE.test(enOf(r).rules || ''))
+  .map((r) => r.datasheetId))
+report.alongside = alongsideDs.size
+
 const PROSE_ATTACH = [['Ogryn Bodyguard', 'Command Squad'], ['Nork Deddog', 'Command Squad']]
 for (const [dsName, kwName] of PROSE_ATTACH) {
   const ds = table('datasheet').find((d) => enOf(d).name === dsName)
@@ -1205,6 +1220,8 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   if (minis.some((m) => m.canBeNonCharacterWarlord)) flags.nonCharWarlordOk = 1
   if (minis.length && minis.every((m) => m.cannotBeWarlord)) flags.noWarlord = 1
   if (minis.length && minis.every((m) => m.excludedFromEnhancements)) flags.noEnh = 1
+  // …and it may join a unit that already has a Leader (see alongsideDs above).
+  if (alongsideDs.has(bd.id)) flags.alongside = 1
 
   // A datasheet can flag several compositions `default` (appdata groups by
   // referenceGroupingKeywordId); the editor pre-selects exactly one, so keep the flag only
@@ -1986,6 +2003,7 @@ for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
 if (report.proseAttach.length) {
   console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
 }
+console.log(`  ${report.alongside} leaders may join a unit that already has one (flags.alongside)`)
 const lk = report.leadKw
 console.log(`  ${report.proseAttachAdded} attachment${report.proseAttachAdded === 1 ? '' : 's'} appdata states only in prose, added by hand (PROSE_ATTACH)`)
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)

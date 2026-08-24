@@ -360,6 +360,8 @@ export function mandatoryEnhancementFor(def, detachments) {
 // is enough until the leader is an ALLY: Inquisitor Draxus in an Adeptus Mechanicus army joins a
 // Skitarii Vanguard, a unit her own bundle has never heard of, so the question has to be asked of
 // the target that is actually in the list.
+export { occupies as leaderOccupies }
+
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
@@ -368,6 +370,16 @@ export function leadTypeFor(def, entry, targetDef, detachments = []) {
   const hit = kwGroups.find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
   return hit ? hit.type : null
 }
+
+// Whether a leader already attached to a unit fills the slot a second leader wants. Normally one
+// leader and one support is all a bodyguard unit may have (core rules), but a datasheet can state
+// otherwise — the Death Guard characters that join a Plague Marines unit "even if one other Leader
+// unit has already been attached to it (you cannot attach more than one of the same Leader to the
+// same unit)", `flags.alongside`. Such a leader neither takes the slot nor is blocked by one; the
+// parenthetical is the only limit left, so it blocks nothing but another copy of ITSELF.
+const occupies = (def, other) => (def?.flags?.alongside || other?.flags?.alongside
+  ? def?.id != null && def.id === other?.id
+  : true)
 
 export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
@@ -386,7 +398,8 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
       const type = typeOf(u.id)
       const used = (units || []).some((o) => {
         if (o.uid === excludeUid || o.uid === u.uid || o.leaderOf !== u.uid) return false
-        return leadTypeFor(defOf(o.id), o, defOf(u.id), detachments) === type
+        if (leadTypeFor(defOf(o.id), o, defOf(u.id), detachments) !== type) return false
+        return occupies(def, defOf(o.id))
       })
       return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
     })

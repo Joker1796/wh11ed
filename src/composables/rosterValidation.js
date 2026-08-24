@@ -284,7 +284,11 @@ export function validateRoster(roster, { faction, core } = {}) {
     for (const u of units) {
       if (!u.leaderOf) continue
       const type = leadTypeFor(defOf(u.id), u, defOf(units.find((x) => x.uid === u.leaderOf)?.id), detachments) || ''
-      const key = `${u.leaderOf}:${type}`
+      // …unless the datasheet says otherwise (`flags.alongside`, see leaderOccupies): the Death
+      // Guard characters join a Plague Marines unit that already has a Leader, and only a second
+      // copy of the SAME one is barred — which is what keying them by their own id leaves.
+      const own = defOf(u.id)
+      const key = own?.flags?.alongside ? `${u.leaderOf}:${type}:${u.id}` : `${u.leaderOf}:${type}`
       if (!byTargetType.has(key)) byTargetType.set(key, [])
       byTargetType.get(key).push(u)
     }

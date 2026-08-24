@@ -565,3 +565,56 @@ describe('validateRoster — allies', () => {
     expect(allyCodes(own)).not.toContain('allyWarlord')
   })
 })
+
+// "Unless otherwise stated, each bodyguard unit can only have one leader unit and one support unit
+// attached to it" (core rules). Six Death Guard datasheets state otherwise, and the Plague Marines
+// blob every Death Guard army is built around was called illegal.
+describe('validateRoster — a leader that does not take the slot', () => {
+  let ctx, units
+  beforeAll(async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const faction = await loadRosterFaction('death-guard')
+    ctx = { faction, core }
+    units = (list) => ({
+      name: 'Blob', faction: 'death-guard', battleSize: 'strike-force',
+      detachments: [faction.detachments[0].name], units: list,
+    })
+  })
+  const at = (id, uid, leaderOf, extra = {}) => ({ uid, id, size: 0, ...(leaderOf ? { leaderOf } : {}), ...extra })
+
+  it('lets a Plague Marines unit hold a Malignant Plaguecaster and the characters that join alongside', () => {
+    const r = units([
+      at('plague-marines', 'i1'),
+      at('malignant-plaguecaster', 'i2', 'i1', { warlord: true }),
+      at('noxious-blightbringer', 'i3', 'i1'),
+      at('tallyman', 'i4', 'i1'),
+      at('foul-blightspawn', 'i5', 'i1'),
+    ])
+    expect(validateRoster(r, ctx).issues.map((i) => i.code)).toEqual([])
+  })
+
+  // "(you cannot attach more than one of the same Leader to the same unit)" — the one limit left.
+  it('still refuses a second copy of the same one', () => {
+    const r = units([
+      at('plague-marines', 'i1'),
+      at('malignant-plaguecaster', 'i2', 'i1', { warlord: true }),
+      at('tallyman', 'i3', 'i1'),
+      at('tallyman', 'i4', 'i1'),
+    ])
+    const issues = validateRoster(r, ctx).issues.filter((i) => i.code === 'manyLeaders')
+    expect(issues.map((i) => i.uid)).toEqual(['i4'])
+  })
+
+  // …and the editor's picker agrees, or the second character could not be attached in the first
+  // place: an occupied target is disabled by `used`.
+  it('does not mark the target used for the next one', async () => {
+    const { leaderTargetsFor } = await import('./rosterEngine.js')
+    const list = [at('plague-marines', 'i1'), at('noxious-blightbringer', 'i2', 'i1'), at('tallyman', 'i3')]
+    const defOf = (id) => ctx.faction.units.find((u) => u.id === id)
+    const [target] = leaderTargetsFor(defOf('tallyman'), list, 'i3', defOf, ctx.faction.detachments.slice(0, 1))
+    expect(target.used).toBe(false)
+    // A normal leader is not blocked by one of them either — the slot it wants is still free.
+    const [plain] = leaderTargetsFor(defOf('malignant-plaguecaster'), list, 'i3', defOf, ctx.faction.detachments.slice(0, 1))
+    expect(plain.used).toBe(false)
+  })
+})

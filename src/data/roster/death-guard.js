@@ -59,7 +59,8 @@ export default {
         "Nurgle"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
@@ -1165,7 +1166,8 @@ export default {
         "Nurgle"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
@@ -1418,7 +1420,8 @@ export default {
         "Nurgle"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
@@ -1813,7 +1816,8 @@ export default {
         "Nurgle"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
@@ -2332,7 +2336,8 @@ export default {
         "Plague Surgeon"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
@@ -2659,7 +2664,8 @@ export default {
         "Tallyman"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "alongside": 1
       },
       "sizes": [
         {
