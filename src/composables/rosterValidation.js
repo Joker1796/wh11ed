@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword } from './rosterEngine.js'
+import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -280,20 +280,46 @@ export function validateRoster(roster, { faction, core } = {}) {
   // The picker already disables an occupied target of the same type; this catches it anyway for
   // data that predates that guard (or a detachment swap that left two of the same type attached).
   {
-    const byTargetType = new Map()
+    const byTarget = new Map()
     for (const u of units) {
       if (!u.leaderOf) continue
-      const type = leadTypeFor(defOf(u.id), u, defOf(units.find((x) => x.uid === u.leaderOf)?.id), detachments) || ''
-      // …unless the datasheet says otherwise (`flags.alongside`, see leaderOccupies): the Death
-      // Guard characters join a Plague Marines unit that already has a Leader, and only a second
-      // copy of the SAME one is barred — which is what keying them by their own id leaves.
-      const own = defOf(u.id)
-      const key = own?.flags?.alongside ? `${u.leaderOf}:${type}:${u.id}` : `${u.leaderOf}:${type}`
-      if (!byTargetType.has(key)) byTargetType.set(key, [])
-      byTargetType.get(key).push(u)
+      if (!byTarget.has(u.leaderOf)) byTarget.set(u.leaderOf, [])
+      byTarget.get(u.leaderOf).push(u)
     }
-    for (const leaders of byTargetType.values()) {
-      if (leaders.length > 1) for (const u of leaders.slice(1)) add('manyLeaders', 'error', { uid: u.uid })
+    const flagged = new Set()
+    const tooMany = (u) => { if (!flagged.has(u.uid)) { flagged.add(u.uid); add('manyLeaders', 'error', { uid: u.uid }) } }
+    for (const [uid, list] of byTarget) {
+      const host = units.find((x) => x.uid === uid)
+      const hostDef = defOf(host?.id)
+      // How many the HOST may hold: one of each type, unless its own datasheet says otherwise —
+      // an Astra Militarum squad takes two Leaders as long as only one is a Command Squad, Kroot
+      // Carnivores take two once twenty strong (`hosts`, see hostLimitsFor).
+      const lim = hostLimitsFor(hostDef, host)
+      const slots = new Map()
+      for (const u of list) {
+        const own = defOf(u.id)
+        const type = leadTypeFor(own, u, hostDef, detachments) || ''
+        // …and a leader that takes no slot at all (`flags.alongside`, see leaderOccupies): the
+        // Death Guard characters join a Plague Marines unit that already has a Leader, and only a
+        // second copy of the SAME one is barred — which is what keying them by their own id leaves.
+        const key = own?.flags?.alongside ? `${type}:${u.id}` : type
+        if (!slots.has(key)) slots.set(key, { type, own: !!own?.flags?.alongside, list: [] })
+        slots.get(key).list.push(u)
+      }
+      for (const slot of slots.values()) {
+        const max = slot.own ? 1 : (slot.type === 'leader' ? lim.leader : lim.support)
+        for (const u of slot.list.slice(max)) tooMany(u)
+      }
+      // The mix the datasheet limits, where it does: "provided no more than one of those units is
+      // a COMMAND SQUAD unit", "provided those Leaders are not duplicates".
+      if (lim.oneKw) {
+        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, lim.oneKw) })
+        for (const u of named.slice(1)) tooMany(u)
+      }
+      if (lim.noDup) {
+        const seen = new Set()
+        for (const u of list) { if (seen.has(u.id)) tooMany(u); seen.add(u.id) }
+      }
     }
   }
 

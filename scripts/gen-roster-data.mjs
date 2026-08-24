@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -368,6 +368,45 @@ report.alongside = alongsideDs.size
 // Read conservatively. The clause before "can be attached to" restricts who this applies to — a
 // **CHAPLAIN** model, a **CAPTAIN** or **CHAPTER MASTER** unit, everyone but an EPIC HERO — and a
 // rule whose source unit cannot be resolved is reported and skipped rather than guessed at.
+// The other side of the same question: a BODYGUARD unit that may hold more than the one leader the
+// core rules give it ("unless otherwise stated, each bodyguard unit can only have one leader unit
+// and one support unit attached to it"). Five datasheets state otherwise on their own side — the
+// four Astra Militarum squads that "can have up to two Leader units attached to it, provided no
+// more than one of those units is a **COMMAND SQUAD** unit" (Cadian Shock Troops, Catachan Jungle
+// Fighters, Death Korps of Krieg, Tempestus Scions — a Castellan AND a Command Squad on one squad
+// is the ordinary way that army is built), and Kroot Carnivores, who may hold two Leaders once
+// twenty strong, "provided those Leaders are not duplicates".
+//
+// appdata puts neither in a table: the AM clause lives in the datasheet's own `unitComposition`
+// text and the Kroot one in a datasheet rule. Both are read here, with every qualifier the sentence
+// carries — the keyword only one of the leaders may have, the no-duplicates clause, the Starting
+// Strength the exception waits for. A sentence whose qualifiers we recognise none of is reported
+// rather than taken as "two leaders, no conditions".
+const HOST_COUNT = { two: 2, three: 3 }
+const HOST_RE = /up to (two|three) Leader units/i
+const hostsByDs = new Map()
+{
+  const kwCanon = new Map(table('keyword').map((k) => [norm(enOf(k).name || ''), enOf(k).name]))
+  const rulesByDs = new Map()
+  for (const r of table('datasheet_rule')) {
+    if (!rulesByDs.has(r.datasheetId)) rulesByDs.set(r.datasheetId, [])
+    rulesByDs.get(r.datasheetId).push(enOf(r).rules || '')
+  }
+  for (const d of table('datasheet')) {
+    const text = [enOf(d).unitComposition || '', ...(rulesByDs.get(d.id) || [])].find((t) => HOST_RE.test(t))
+    if (!text) continue
+    const hosts = { n: HOST_COUNT[text.match(HOST_RE)[1].toLowerCase()] || 2 }
+    const one = text.match(/no more than one of those units is an?\s*\*+\s*\*\*([^*]+)\*\*/)
+    if (one) hosts.oneKw = kwCanon.get(norm(one[1])) || one[1].trim()
+    if (/not duplicates/i.test(text)) hosts.noDup = 1
+    const min = text.match(/Starting Strength of (\d+)/i)
+    if (min) hosts.minModels = +min[1]
+    if (!hosts.oneKw && !hosts.noDup) report.hosts.unread.push(enOf(d).name || d.id)
+    hostsByDs.set(d.id, hosts)
+    report.hosts.read.push(`${enOf(d).name}: up to ${hosts.n}${hosts.oneKw ? `, one ${hosts.oneKw}` : ''}${hosts.noDup ? ', no duplicates' : ''}${hosts.minModels ? `, at ${hosts.minModels} models` : ''}`)
+  }
+}
+
 const MIRROR_ATTACH = []
 {
   const dsByName = new Map()
@@ -1255,6 +1294,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   if (minis.length && minis.every((m) => m.excludedFromEnhancements)) flags.noEnh = 1
   // …and it may join a unit that already has a Leader (see alongsideDs above).
   if (alongsideDs.has(bd.id)) flags.alongside = 1
+  const hosts = hostsByDs.get(bd.id)
 
   // A datasheet can flag several compositions `default` (appdata groups by
   // referenceGroupingKeywordId); the editor pre-selects exactly one, so keep the flag only
@@ -1401,6 +1441,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     const k = `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}`
     return seenLead.has(k) ? false : (seenLead.add(k), true)
   })
+  if (hosts) unit.hosts = hosts
   if (uniqueLeads.length) unit.leads = uniqueLeads
   if (leadKw.length) unit.leadKw = leadKw
 
@@ -2060,6 +2101,9 @@ if (report.proseAttach.length) {
   console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
 }
 console.log(`  ${report.alongside} leaders may join a unit that already has one (flags.alongside)`)
+console.log(`  ${report.hosts.read.length} bodyguard units may hold more than one leader (hosts):`)
+for (const l of report.hosts.read) console.log(`      - ${l}`)
+if (report.hosts.unread.length) console.log(`    !! ${report.hosts.unread.length} with no qualifier we recognised: ${report.hosts.unread.join(', ')}`)
 {
   const seen = [...new Set(report.mirror.added)]
   console.log(`  ${report.mirror.rules} "attached to this unit instead" rules read; ${seen.length} link${seen.length === 1 ? '' : 's'} appdata's own tables did not carry:`)

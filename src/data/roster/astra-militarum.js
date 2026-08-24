@@ -1653,6 +1653,10 @@ export default {
         }
       ],
       "linked": 1,
+      "hosts": {
+        "n": 2,
+        "oneKw": "Command Squad"
+      },
       "minis": [
         {
           "n": "Shock Trooper Sergeant"
@@ -2116,6 +2120,10 @@ export default {
         }
       ],
       "linked": 1,
+      "hosts": {
+        "n": 2,
+        "oneKw": "Command Squad"
+      },
       "minis": [
         {
           "n": "Jungle Fighter Sergeant"
@@ -2735,6 +2743,10 @@ export default {
         }
       ],
       "linked": 1,
+      "hosts": {
+        "n": 2,
+        "oneKw": "Command Squad"
+      },
       "minis": [
         {
           "n": "Death Korps Watchmaster"
@@ -7797,6 +7809,10 @@ export default {
         "pts": 10
       },
       "condBattleline": 1,
+      "hosts": {
+        "n": 2,
+        "oneKw": "Command Squad"
+      },
       "minis": [
         {
           "n": "Tempestor"

@@ -618,3 +618,75 @@ describe('validateRoster — a leader that does not take the slot', () => {
     expect(plain.used).toBe(false)
   })
 })
+
+// The other side of the same question: the datasheet of the BODYGUARD unit says how many leaders it
+// may hold. Four Astra Militarum squads take two "provided no more than one of those units is a
+// COMMAND SQUAD unit" — a Castellan and a Command Squad on one squad is how that army is ordinarily
+// built, and calling it illegal was our own reading, not the game's.
+describe('validateRoster — a bodyguard unit that holds two leaders', () => {
+  let am, tau
+  beforeAll(async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    ;[am, tau] = await Promise.all([loadRosterFaction('astra-militarum'), loadRosterFaction('tau-empire')])
+  })
+  const at = (id, uid, leaderOf, extra = {}) => ({ uid, id, size: 0, ...(leaderOf ? { leaderOf } : {}), ...extra })
+  const codes = (faction, units) => validateRoster({
+    name: 'x', faction: faction.slug, battleSize: 'strike-force',
+    detachments: [faction.detachments[0].name], units,
+  }, { faction, core }).issues.filter((i) => i.code === 'manyLeaders').map((i) => i.uid)
+
+  it('takes a Castellan and a Command Squad on one squad of Shock Troops', () => {
+    expect(codes(am, [
+      at('cadian-shock-troops', 'i1'),
+      at('cadian-castellan', 'i2', 'i1', { warlord: true }),
+      at('cadian-command-squad', 'i3', 'i1'),
+    ])).toEqual([])
+  })
+
+  // "…provided no more than one of those units is a COMMAND SQUAD unit."
+  it('refuses two Command Squads on it, and a third leader of any kind', () => {
+    expect(codes(am, [
+      at('cadian-shock-troops', 'i1'),
+      at('cadian-command-squad', 'i2', 'i1', { warlord: true }),
+      at('cadian-command-squad', 'i3', 'i1'),
+    ])).toEqual(['i3'])
+    expect(codes(am, [
+      at('cadian-shock-troops', 'i1'),
+      at('cadian-castellan', 'i2', 'i1', { warlord: true }),
+      at('cadian-command-squad', 'i3', 'i1'),
+      at('ursula-creed', 'i4', 'i1'),
+    ])).toEqual(['i4'])
+  })
+
+  // Kroot Carnivores earn the second slot at twenty models, and never for two of the same leader.
+  it('gives Kroot Carnivores the second slot only at twenty models', () => {
+    const big = { size: 1, count: 20 }
+    expect(codes(tau, [
+      { uid: 'i1', id: 'kroot-carnivores', ...big },
+      at('kroot-war-shaper', 'i2', 'i1', { warlord: true }),
+      at('kroot-flesh-shaper', 'i3', 'i1'),
+    ])).toEqual([])
+    expect(codes(tau, [
+      { uid: 'i1', id: 'kroot-carnivores', ...big },
+      at('kroot-war-shaper', 'i2', 'i1', { warlord: true }),
+      at('kroot-war-shaper', 'i3', 'i1'),
+    ])).toEqual(['i3'])
+    expect(codes(tau, [
+      { uid: 'i1', id: 'kroot-carnivores', size: 1, count: 15 },
+      at('kroot-war-shaper', 'i2', 'i1', { warlord: true }),
+      at('kroot-flesh-shaper', 'i3', 'i1'),
+    ])).toEqual(['i3'])
+  })
+
+  // The editor's picker has to agree, or the second leader could never be attached in the first
+  // place — one shared answer (`hostSlotTaken`) is what keeps them from drifting apart.
+  it('leaves the squad on offer for the second leader, but not the third', async () => {
+    const { leaderTargetsFor } = await import('./rosterEngine.js')
+    const defOf = (id) => am.units.find((u) => u.id === id)
+    const dets = am.detachments.slice(0, 1)
+    const one = [at('cadian-shock-troops', 'i1'), at('cadian-castellan', 'i2', 'i1'), at('cadian-command-squad', 'i3')]
+    expect(leaderTargetsFor(defOf('cadian-command-squad'), one, 'i3', defOf, dets)[0].used).toBe(false)
+    const two = [...one.slice(0, 2), at('cadian-command-squad', 'i3', 'i1'), at('ursula-creed', 'i4')]
+    expect(leaderTargetsFor(defOf('ursula-creed'), two, 'i4', defOf, dets)[0].used).toBe(true)
+  })
+})

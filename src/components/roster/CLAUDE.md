@@ -45,6 +45,21 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   datasheet+miniature) have no structural field in appdata linking them — the generator infers
   it; see the "deviation" comments in `gen-roster-data.mjs` around
   `base_miniature_loadout_wargear_option` before touching that logic.
+- **`hosts`** — a BODYGUARD unit that may hold more than the one leader the core rules give it
+  ("unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one
+  **support** unit attached to it"). Five datasheets state otherwise **on their own side of the
+  attachment**, which is why reading only the leaders' rules missed them: the four Astra Militarum
+  squads that "can have up to two Leader units attached to it, provided no more than one of those
+  units is a **COMMAND SQUAD** unit" (Cadian Shock Troops, Catachan Jungle Fighters, Death Korps of
+  Krieg, Tempestus Scions — a Castellan AND a Command Squad on one squad is the ordinary way that
+  army is built, and calling it illegal was our reading, not the game's), and Kroot Carnivores, who
+  take two once twenty strong "provided those Leaders are not duplicates". appdata puts neither in
+  a table — the AM clause is in the datasheet's `unitComposition` text, the Kroot one in a datasheet
+  rule — so the generator reads the sentence with every qualifier it carries (`{ n, oneKw, noDup,
+  minModels }`) and reports one whose qualifiers it recognised none of rather than taking it as "two
+  leaders, no conditions". `hostLimitsFor` turns that into an allowance and `hostSlotTaken` answers
+  the one question both the picker (`used`) and `manyLeaders` ask, so the editor can never offer
+  what the validator refuses.
 - **`flags.alongside`** — a leader that does NOT take the single Leader slot. The core rules read
   "unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one
   **support** unit attached to it", and six Death Guard datasheets state otherwise: "You can attach
