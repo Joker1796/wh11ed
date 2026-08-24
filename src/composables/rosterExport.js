@@ -24,7 +24,7 @@
 // fielded loadout with swaps applied (the same modelsPerMini/swapsByMini accounting the editor
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
-  allegFor, bucketOf, enhancementPoints, mandatoryEnhancementFor, modelsPerMini,
+  allegFor, bucketOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   optionItems, optionLabel, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
@@ -232,7 +232,13 @@ function gwText(m, version) {
     lines.push('', 'Attached Units')
     m.attached.forEach((g, i) => {
       lines.push(`Attached Unit ${i + 1}`)
-      for (const l of g.leaders) lines.push('', ...gwUnit(l, 'Leader (Character)'))
+      // The two attaching roles are different words in the app: a Support unit joins the same
+      // bodyguard a Leader does, and calling Masters of the Maelstrom a Leader (Character) both
+      // misstates what it is and loses which of the host's two slots it fills.
+      for (const l of g.leaders) {
+        const type = leadTypeFor(l.def, l.entry, g.body.def, m.detachments)
+        lines.push('', ...gwUnit(l, type === 'support' ? 'Support' : 'Leader (Character)'))
+      }
       const role = g.body.bucket === 'battleline' ? 'Bodyguard (Battleline)' : 'Bodyguard'
       lines.push('', ...gwUnit(g.body, role), '')
     })

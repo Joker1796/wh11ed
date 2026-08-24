@@ -65,6 +65,20 @@ describe('buildRosterText — the GW app’s own 11th-edition shape', () => {
     expect(txt).not.toContain('Leading:')
   })
 
+  // A Support unit joins the same bodyguard a Leader does but fills the host's OTHER slot, and the
+  // app names it by that role. Calling it "Leader (Character)" both misstates what it is and loses
+  // which slot is taken — Masters of the Maelstrom is a Support to a Chosen squad, not its leader.
+  it('names a Support attachment by its own role', () => {
+    const supporter = { ...lt, id: 'sup', name: 'Support Squad', leads: [{ to: 'intercessor-squad', type: 'support' }] }
+    const txt2 = buildRosterText(
+      { ...roster, units: [...roster.units, { uid: 'e', id: 'sup', size: 0, leaderOf: 'b' }] },
+      { ...ctx, faction: { ...faction, units: [...faction.units, supporter] } },
+      'gw',
+    )
+    expect(txt2).toContain('Support Squad (70 points)\n• Attached as: Support')
+    expect(txt2).toContain('Lieutenant (70 points)\n• Attached as: Leader (Character)')
+  })
+
   // Weapons come out as TOTALS per model profile, with the swap already spent — the same
   // accounting the editor shows, not the raw picks.
   it('prints the whole fielded loadout, per model profile', () => {
