@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1501,6 +1501,52 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   }
   if (defaults.length) unit.defaults = defaults
 
+  // ── What the DEFAULT loadout costs ──────────────────────────────────────────────────────────
+  // Since 11th edition a datasheet's default wargear can carry a price of its own: appdata marks a
+  // Terminator Assault Squad's thunder hammer both `defaultValue` and `points: 5`, and GW's own app
+  // prices a ten-model squad at 360 where the Munitorum bracket says 310. Eleven such options over
+  // seven datasheets, and nothing downstream saw them — the bracket is the naked price, and
+  // `wargear_option.points` was only ever read for options the player PICKS.
+  //
+  // Emitted as money per model (`dw: [[miniIndex, points]]`) rather than as items, because the
+  // awkward part is here: a "Default Wargear" group counts the copies the whole profile fields
+  // where a loadout row counts one model's (`defaultsAreTotals`), and either can be the source.
+  // The engine multiplies by the models actually fielded, which the bracket cannot do — it is flat
+  // across 6-10 models where the hammers are not.
+  const paidDefaults = new Map()
+  for (const g of wogByDs.get(bd.id) || []) {
+    for (const o of woByGroup.get(g.id) || []) {
+      if (!(o.points > 0) || !(o.defaultValue > 0)) continue
+      paidDefaults.set(fx.item(LOADOUT_ITEM_FIXES[bd.id]?.[o.wargearItemId] || o.wargearItemId), o.points)
+    }
+  }
+  // The models one profile fields at its default bracket — the divisor for a profile-total count,
+  // and the same reading the per-copy pass below takes.
+  const profileModels = (m) => {
+    const bracket = (unit.sizes || []).find((x) => x.default) || (unit.sizes || [])[0]
+    return (bracket?.comp || []).find(([mi]) => mi === m)?.[1] ?? (bracket?.per?.[0] ?? 1)
+  }
+  // Per-model price of each paid default, by profile — the swap refunds below read it too.
+  const paidPerMini = new Map()
+  for (const [m, items] of paidDefaults.size ? defaults : []) {
+    const row = new Map()
+    for (const [id, c, total] of items) {
+      const pts = paidDefaults.get(id)
+      if (!pts) continue
+      const per = total || defaultsAreTotals ? c / profileModels(m) : c
+      // A count that doesn't divide among the profile's models is one of the loadout rows that
+      // records a squad total (one of two Gun Servitors carries the heavy bolter). Charging a
+      // fraction of it per model would be worse than not charging it, so it is reported instead.
+      if (!Number.isInteger(per) || per < 1) { report.paidDefault.odd.push(`${bd.name}: profile ${m} has ${c} of a ${pts}pt default over ${profileModels(m)} models`); continue }
+      row.set(id, per * pts)
+    }
+    if (row.size) paidPerMini.set(m, row)
+  }
+  if (paidPerMini.size) {
+    unit.dw = [...paidPerMini].map(([m, row]) => [m, [...row.values()].reduce((a, b) => a + b, 0)])
+    report.paidDefault.units++
+  }
+
   // Wargear option groups: the atomic "replace/add one of {…}" choices. Drop the redundant
   // "Default Wargear" groups (base loadout already carries those) — keep real choices, with
   // their per-option points (0 when free) and default flag. Built as raw drafts first (original
@@ -1605,6 +1651,22 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     if (d.lim) grp.lim = d.lim
     if (d.cp) grp.cp = d.cp
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
+    // A model that trades a paid default away stops paying for it: `dr` is what one pick in this
+    // group gives back — per COPY where the group is per-copy, since that is how `n` is counted.
+    if (paidPerMini.size && d.rep?.length) {
+      const back = d.rep.reduce((sum, uuid) => {
+        const id = fx.item(uuid)
+        // A unit-wide group belongs to no profile. Every profile that carries the item prices it
+        // the same on all seven datasheets, so the cheapest is both the answer and the reading that
+        // can only ever undercharge.
+        const seen = (d.all ? [...paidPerMini.values()] : [paidPerMini.get(d.m)])
+          .map((row) => row?.get(id)).filter(Boolean)
+        return sum + (seen.length ? Math.min(...seen) : 0)
+      }, 0)
+      const per = back / (d.cp || 1)
+      if (per > 0 && Number.isInteger(per)) grp.dr = per
+      else if (back > 0) report.paidDefault.odd.push(`${bd.name}: ${back}pt refund over ${d.cp} copies`)
+    }
     // How many models one ticked option takes the swap away from. A stepper says so itself; a
     // CHECKBOX is one yes/no, and one tick means one model — "1 model's boltgun can be replaced
     // with one of the following" arms a single Battle Sister, not all nine. Only the "all models /
@@ -2116,6 +2178,8 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
+console.log(`  paid defaults: ${report.paidDefault.units} units start with wargear that costs points on top of the bracket`)
+if (report.paidDefault.odd.length) console.log(`    not charged (count does not divide): ${report.paidDefault.odd.join('; ')}`)
 console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.defaultsMerged.length) {
   console.log(`    ${report.defaultsMerged.length} more items the loadout row leaves out, taken from that group:`)

@@ -79,9 +79,14 @@
       </div>
     </section>
 
-    <!-- Default loadout (read-only) -->
+    <!-- Default loadout (read-only). Its own points, where it has any, are marked on the heading:
+         the size pill shows the Munitorum bracket, and without this the difference between that
+         and the unit's total (a Terminator Assault Squad's ten thunder hammers, +50) is invisible. -->
     <section v-if="defaultLines.length" class="ues-sec">
-      <h4 class="ues-h">{{ labels.rosterDefaultWargear }}</h4>
+      <h4 class="ues-h">
+        {{ labels.rosterDefaultWargear }}
+        <em v-if="defaultPts" class="ues-req">+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
+      </h4>
       <p v-for="(l, i) in defaultLines" :key="i" class="ues-default">
         <span v-if="l.mini" class="ues-mini">{{ l.mini }}:</span> {{ l.items }}
       </p>
@@ -243,7 +248,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -395,6 +400,7 @@ const sizeTells = computed(() => {
 
 // ── Default loadout summary ──
 const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, props.entry))
+const defaultPts = computed(() => defaultWargearPoints(props.def, props.entry))
 
 // ── Wargear selection: entry.wg = [[groupIdx, optIdx, count], …] (deviations only) ──
 function wg() { return props.entry.wg || [] }
