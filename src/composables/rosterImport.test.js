@@ -580,6 +580,54 @@ Maulerfiend (120 points)
   })
 })
 
+// Two groups on one datasheet grant the same weapon, and the list holds three of it: the jaws
+// bundle gives one, the pair that replaces the Hades autocannons gives two. Both swaps were made,
+// and only counting both gets the Forgefiend to the 155 points its own export prints.
+describe('matchRoster — a weapon two groups both grant', () => {
+  it('spills the copies the best-fitting option cannot hold into the other group', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    const text = `Engines (2000 points)
+
+World Eaters
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Forgefiend (155 points)
+  • 2x Ectoplasma cannon
+  • 1x Ectoplasma cannon
+  • 1x Forgefiend claws`
+    const { payload, report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(payload.units[0].wg).toEqual([[1, 0, 1], [0, 0, 1]])
+    expect(report.units[0].gear.missing).toEqual([])
+    expect(report.units[0].points.computed).toBe(155)
+  })
+
+  it('leaves the second group alone when its own weapons are still listed', async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    const text = `Engines (2000 points)
+
+World Eaters
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Forgefiend (145 points)
+  • 2x Hades autocannon
+  • 1x Ectoplasma cannon
+  • 1x Forgefiend claws`
+    const { payload, report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
+    expect(payload.units[0].wg).toEqual([[1, 0, 1]])
+    expect(report.units[0].points.computed).toBe(145)
+  })
+})
+
 describe('matchRoster — a bundled wargear option', () => {
   it('takes the swap from either half of the bundle, once, for the right number of models', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([

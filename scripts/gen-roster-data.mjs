@@ -696,11 +696,16 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
       // bolter reads 1/3/5), so the prose is the only source. Written onto the existing options
       // in place: unlike a bundle this changes no option's INDEX, so stored picks stay valid and
       // SCHEMA_VERSION doesn't move.
+      // The POINTS come with the count. appdata prices the option row per item — a Forgefiend's
+      // ectoplasma cannon is 5 whether it is bought as the one that replaces the jaws or as one of
+      // the two that replace the Hades autocannons — so an option granting two of them costs 10,
+      // which is what the army apps print (a Forgefiend with all three cannons is 155, not 145).
+      // The other bundle shape sums its member rows the same way, two lines down.
       const qty = new Map(sets.flat().map(([uuid, n]) => [uuid, n]))
       let counted = false
       for (const o of d.opts) {
         const n = qty.get(o.uuid) || 1
-        if (n > 1) { o.items = [[o.uuid, n]]; counted = true }
+        if (n > 1) { o.items = [[o.uuid, n]]; o.pts = (o.pts || 0) * n; counted = true }
       }
       if (counted) stats.quantified++
       continue

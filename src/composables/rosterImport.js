@@ -887,6 +887,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const fitted = touched.length ? touched : all
       const best = Math.max(...fitted.map(fitOf))
       const pool = fitted.filter((r) => fitOf(r) === best)
+      // The rest, best first — where a weapon the list holds SEVERAL of spills once the best-fitting
+      // option has taken its share. A Forgefiend with three ectoplasma cannons has made both of its
+      // swaps: the jaws bundle (which fits two of the printed names, so it wins the first cannon)
+      // grants one, and the pair that replaces the Hades autocannons grants the other two. Without
+      // the spill the leftovers were absorbed into the bundle already picked and the second swap —
+      // ten points of it — went missing.
+      const rest = fitted.filter((r) => fitOf(r) !== best).sort((a, b) => fitOf(b) - fitOf(a))
       // Does this name pick out a group at all, or is it the half several of them have in common?
       const shared = new Set(pool.map((r) => r.gi)).size > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
@@ -911,6 +918,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         //  3. an option of a group already used, and failing that the first candidate.
         const ref = pool.find((r) => picks.has(key2(r)) && !holds(r))
           || pool.find((r) => !usedGroups.has(r.gi))
+          || rest.find((r) => !usedGroups.has(r.gi))
           || pool.find((r) => !picks.has(key2(r)))
           || pool[0]
         const k = key2(ref)

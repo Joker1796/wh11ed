@@ -1090,7 +1090,7 @@ export default {
                   2
                 ]
               ],
-              5
+              10
             ]
           ],
           "rep": [

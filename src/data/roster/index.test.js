@@ -253,6 +253,15 @@ describe('replaced-item links', () => {
     expect(bundled.cp).toBeUndefined()
   })
 
+  it('prices a quantity in the option by the item, not by the pick', () => {
+    // "This model's 2 Hades autocannons can be replaced with 2 ectoplasma cannons": appdata prices
+    // the cannon at 5 whichever group buys it, so the pair costs 10 — which is what puts a
+    // three-cannon Forgefiend at the 155 points its own export prints.
+    const g = groupsOf('world-eaters', 'forgefiend').gear.find((x) => /2 Hades autocannons/i.test(textOf(x)))
+    expect(optionItems(g.o[0])).toEqual([[expect.any(Number), 2]])
+    expect(g.o[0][1]).toBe(10)
+  })
+
   it('reads a name appdata spells two ways across its own tables', () => {
     // The prose says "kustom-mega blasta"; the item table says "Kustom mega-blasta".
     const u = groupsOf('orks', 'big-mek-in-mega-armour')
