@@ -38,6 +38,7 @@
           {{ labels.rosterImportPoints.replace('{computed}', String(report.points.computed)).replace('{stated}', String(report.points.stated || report.points.statedUnits)) }}
         </p>
         <p v-if="pointsDiffer" class="rim-note">{{ labels.rosterImportPointsNote }}</p>
+        <p v-if="repriced.length" class="rim-note">{{ labels.rosterImportPointsUnits.replace('{n}', repriced.join(', ')) }}</p>
         <!-- Not a warning: the export printed those units twice on purpose, and the list's own
              total says so. Said out loud anyway, because the unit count is two short of what the
              text shows and nobody should have to wonder why. -->
@@ -147,12 +148,19 @@ async function read() {
 
 const missingGear = computed(() => [...new Set((report.value?.units || []).flatMap((u) => u.gear.missing))])
 const missingEnh = computed(() => [...new Set((report.value?.units || []).filter((u) => u.enh && !u.enh.ok).map((u) => u.enh.name))])
+// A total that differs is a question the reader should not have to answer by hand: the units whose
+// own printed points are not what they cost here are named, so a data-version difference is one
+// line to check instead of a fifteen-unit diff.
+const repriced = computed(() => (report.value?.units || [])
+  .filter((u) => u.points.stated && u.points.stated !== u.points.computed)
+  .map((u) => `${u.name} (${u.points.computed} / ${u.points.stated})`))
 const pointsDiffer = computed(() => !!report.value && report.value.points.computed !== (report.value.points.statedUnits || report.value.points.stated))
 const clean = computed(() => !!report.value
   && !report.value.missing.length
   && !report.value.detachments.missing.length
   && !missingGear.value.length
   && !missingEnh.value.length
+  && !repriced.value.length
   && !pointsDiffer.value)
 
 function create() {
