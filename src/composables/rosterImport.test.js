@@ -935,3 +935,62 @@ Logan Grimnar (100 points)
     expect(report.missing).toEqual([])
   })
 })
+
+// A New Recruit / WTC list with an ally in it: an Imperial Knights army whose sixth entry is an
+// Agents of the Imperium character. The header format carries no bullets and no sections, so this
+// pins the OTHER parser against the same feature — plus two enhancements, one of them declared on a
+// continuation line of the header block.
+const WTC_ALLY = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Imperium - Imperial Knights
++ DETACHMENT: Questoris Companions (Heroes of Legend)
++ TOTAL ARMY POINTS: 2000pts
++ WARLORD: Char1: Canis Rex
++ ENHANCEMENT: Pennant of Silvered Fury (on Char3: Cerastus Knight Lancer)
+& Wyrmslayer Divination (on Char4: Knight Crusader)
++ NUMBER OF UNITS: 6
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Char1: 2x Canis Rex (415 pts): Warlord
+• 1x Canis Rex: Freedom's Hand, Las-impulsor, Questoris multi-laser
+• 1x Sir Hekhtur: Close combat weapon, Hekhtur's pistol
+Char2: 1x Cerastus Knight Atrapos (405 pts): Atrapos lascutter, Graviton singularity cannon
+Char3: 1x Cerastus Knight Lancer (430 pts): Cerastus shock lance
+Enhancement: Pennant of Silvered Fury (+15 pts)
+Char4: 1x Knight Crusader (420 pts): Avenger gatling cannon, Heavy flamer, Titanic feet, Questoris heavy stubber, Questoris heavy stubber, Rapid-fire battle cannon
+Enhancement: Wyrmslayer Divination (+10 pts)
+Char5: 1x Knight Destrier (265 pts): Questoris heavy stubber, Titanic feet, Chastiser gatling cannon, Frag bombard
+
+Char6: 1x Watch Captain Artemis (65 pts): Hellfire Extremis, Master-crafted power weapon
+
+Created with newrecruit.eu v35.61`
+
+describe('matchRoster — an ally in the WTC format', () => {
+  it('places it and lands on the stated total', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('imperial-knights', { allies: true })
+    const { report, payload } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
+    expect(report.missing).toEqual([])
+    expect(payload.units.map((u) => u.id)).toContain('imperial-agents:watch-captain-artemis')
+    expect(report.points.computed).toBe(2000)
+    expect(report.points.computed).toBe(report.points.statedUnits)
+    // Both enhancements, one of them declared on the header's continuation line — and their points
+    // are already inside the unit prices the list states, never added twice.
+    expect(report.units.filter((u) => u.enh?.ok).map((u) => u.enh.name))
+      .toEqual(['Pennant of Silvered Fury', 'Wyrmslayer Divination'])
+  })
+
+  // The one thing it cannot place: Sir Hekhtur is a datasheet of his own that arrives when Canis
+  // Rex is destroyed, and appdata gives him no points or composition, so the roster layer drops him
+  // (the generator names him as its single drop). His two weapons are reported rather than
+  // silently swallowed — the points are unaffected, since the entry is Canis Rex's own 415.
+  it('reports the weapons of a profile the roster data does not carry', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('imperial-knights', { allies: true })
+    const { report } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
+    const rex = report.units.find((u) => u.name === 'Canis Rex')
+    expect(rex.points.computed).toBe(415)
+    expect(rex.gear.missing).toEqual(['Close combat weapon', "Hekhtur's pistol"])
+  })
+})
