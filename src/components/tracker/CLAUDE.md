@@ -17,6 +17,14 @@ Architecture section) — its own state/data below.
 
 **Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + **attacker/defender role** + battle ready); step 2 "Mission" (active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Battlefield" (recommended layout A/B/C via `LayoutCard`); step 4 "Deployment" (who goes first, Track CP, and the twist). The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
 
+**The two army cards use `minmax(0, 1fr)`, not `1fr`.** A grid item's automatic minimum is its
+MIN-CONTENT width, and the attached-roster line inside a card is `white-space: nowrap` so it can
+ellipsize — which makes its min-content the WHOLE name. A list called "We build thick city on rock
+and roll" therefore widened the card past the screen and the whole page scrolled sideways, ellipsis
+and all (an ellipsis only clips a box that was allowed to be narrower than its text). `EditSetupModal`
+carries the same pair of cards and the same fix; the history page's roster pills take `max-width:
+100%` for the same reason.
+
 The **twist** is chosen on step 4 via a "Choose twist" button that opens `TwistPickerModal.vue` — a full-screen (bottom-sheet on mobile) accordion list of the twist rules with per-twist "Select" + a "Random twist" button; picking one returns to step 4. Mirrored World's shared-mission sub-picker stays inline on step 4.
 
 **Setup is persisted as a draft** (`setupDraft` in `useTracker.js`, localStorage `wh11ed-tracker-setup-draft`, same auto-save machinery as `current`/`history`): the in-progress wizard (step + players + settings) survives reloads and navigating away. The Tracker home shows a **"Continue setup"** button when a draft exists; "New game" clears the draft and starts fresh; `start()`/cancel clear it. **Starting a new game (or resuming a past one) while a game is in progress does NOT discard the live game** — `TrackerHomeView` first archives it to history via the normal end flow (`finishGame('early')` + `archiveGame()`), so it's saved at its current score and stays resumable. GameSetup hydrates from the draft at init (before its reset watchers register) and deep-watches its state back into the draft. This same hydrate-from-draft mechanism is what `rosterHandoff.js` (Roster Builder) writes into to pre-fill setup from a saved roster.

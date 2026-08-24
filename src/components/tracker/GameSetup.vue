@@ -826,7 +826,12 @@ function cancel() {
 }
 .players {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, …), not 1fr: a grid item's automatic minimum is its MIN-CONTENT width, and the
+     roster line inside a card is `white-space: nowrap` (it ellipsizes). Nowrap makes its
+     min-content the whole string, so a long list name — "We build thick city on rock and roll" —
+     pushed the card wider than the screen and the whole page scrolled sideways. The ellipsis never
+     got a chance: it only clips a box that was allowed to be narrower than its text. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
 }
 .player-card,
@@ -1209,7 +1214,7 @@ function cancel() {
   cursor: pointer;
 }
 @media (max-width: 700px) {
-  .players { grid-template-columns: 1fr; }
+  .players { grid-template-columns: minmax(0, 1fr); }
   .tab-word { display: none; }
   .tab { min-width: 44px; min-height: 44px; }
 }
