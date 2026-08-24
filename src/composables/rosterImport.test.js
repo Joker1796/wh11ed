@@ -910,6 +910,110 @@ describe('matchRoster — listhammer.info, plain-text mode', () => {
   })
 })
 
+// The same site again, in the mode that FENCES its labelled header between two rows of '+' and
+// heads an attached block with its members' names instead of "Attached Unit N". Model lines carry
+// the model's loadout in their own name.
+const LH_FENCED = `+++++++++++++++++++++++++++++++++++++++++++++++
+List Name: double FF zerk warband
+Factions Used: World Eaters
+Army Points: 330
+Army Enhancements (list on which model): Berzerker Glaive (on Master of Executions)
+Disposition: Purge the Foe
+Detachment(s): Berzerker Warband
++++++++++++++++++++++++++++++++++++++++++++++++
+
+ATTACHED UNITS:
+Master of Executions + Khorne Berzerkers (265 pts)
+Master of Executions (95 pts)
+\u2022 Axe of dismemberment
+\u2022 Bolt pistol
+\u2022 Enhancement: Berzerker Glaive
+Khorne Berzerkers (170 pts)
+\u2022 7x Khorne Berzerker
+\u2022 7x Bolt pistol
+\u2022 7x Chainblade
+\u2022 Khorne Berzerker Champion
+\u2022 Chainblade
+\u2022 Icon of Khorne
+\u2022 Plasma pistol
+\u2022 2x Khorne Berzerker w/ eviscerator and plasma pistol
+\u2022 2x Khornate eviscerator
+\u2022 2x Plasma pistol
+
+OTHER DATASHEETS:
+Jakhals (65 pts)
+\u2022 7x Jakhal
+\u2022 7x Autopistol
+\u2022 7x Chainblades
+\u2022 Jakhal w/ mauler chainblade
+\u2022 Autopistol
+\u2022 Mauler chainblade
+\u2022 Dishonoured w/ skullsmasher and mangler
+\u2022 Skullsmasher and mangler
+\u2022 Icon of Khorne
+\u2022 Jakhal Pack Leader
+\u2022 Autopistol
+\u2022 Chainblades
+
+Exported from listhammer.info: https://listhammer.info/list/3a08869390c828a528`
+
+describe('parseList — listhammer.info, labelled header between two rows of +', () => {
+  const p = parseList(LH_FENCED)
+
+  // The row of '+' that CLOSES the header also opens it here, and closing on the opening row lost
+  // every label below it: the title read "List Name: …", and the army had no points, no faction
+  // and no detachment at all.
+  it('reads the header out of the fence', () => {
+    expect(p.name).toBe('double FF zerk warband')
+    expect(p.stated).toBe(330)
+    expect(p.faction).toBe('World Eaters')
+    expect(p.detachmentLine).toBe('Berzerker Warband')
+  })
+
+  // "Master of Executions + Khorne Berzerkers (265 pts)" is the BLOCK, not a datasheet: read as a
+  // unit it was one nobody could find, and the two under it stood alone.
+  it('reads a block headed by its members instead of by a number', () => {
+    expect(p.units.map((u) => u.name)).toEqual(['Master of Executions', 'Khorne Berzerkers', 'Jakhals'])
+    expect(p.units[0].group).toBe(p.units[1].group)
+    expect(p.units[2].group).toBe(null)
+  })
+})
+
+describe('matchRoster — listhammer.info, labelled header between two rows of +', () => {
+  let out
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    out = matchRoster(parseList(LH_FENCED), { faction, core: rosterCore, items: items.items })
+  })
+
+  it('attaches the block, and charges the enhancement its detachment allows', () => {
+    const [moe, zerks] = out.payload.units
+    expect(moe.leaderOf).toBe(zerks.uid)
+    expect(out.report.units[0].enh).toEqual({ name: 'Berzerker Glaive', ok: true })
+    expect(out.report.units[0].points.computed).toBe(95)
+    expect(out.report.missing).toEqual([])
+  })
+
+  // "Jakhal w/ mauler chainblade" is one Jakhal, and the weapon is printed again on its own line
+  // below. Read whole, the line named no profile this datasheet has and those models went
+  // uncounted — a ten-model pack came out as eight.
+  it('counts a model whose loadout is folded into its name', () => {
+    const jakhals = out.report.units.find((u) => u.name === 'Jakhals')
+    expect(jakhals.models).toBe(10)
+    const zerks = out.report.units[1]
+    expect(zerks.models).toBe(10)
+    expect(zerks.points.computed).toBe(170)
+  })
+
+  it('places the whole list at the points it states', () => {
+    expect(out.report.points.computed).toBe(330)
+    expect(out.report.points.computed).toBe(out.report.points.stated)
+  })
+})
+
 describe('matchFaction', () => {
   it('reads a faction name through the apostrophe it was written with', () => {
     expect(matchFaction("T'au Empire")).toBe('tau-empire')

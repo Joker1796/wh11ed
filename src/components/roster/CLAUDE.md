@@ -567,6 +567,36 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
+  **The same header, FENCED (added 2026-08-24).** The site also writes that labelled header between
+  two identical rows of `+`, and closing on the first one lost everything below it: the title read
+  "List Name: …" and the army had no points, no faction and no detachment — and with no detachment
+  its enhancement was rejected as one this army cannot take, so a 1995-point list came out at 1960
+  with a "no detachment" warning against it. A row of `+` now closes the header only once a
+  labelled field has been read; before that it is the fence OPENING it.
+
+  Two more things that mode does, both about the block that says who joined whom:
+  - **The block is headed by its members' names joined with `" + "` and the pair's total** ("Master
+    of Executions + Khorne Berzerkers (265 pts)"), under an `ATTACHED UNITS:` heading that carries
+    the colon the app's own heading does not — so neither the heading nor the block header was
+    recognised, the header lines came out as four datasheets nobody could find, and the eight units
+    under them stood alone. The header line opens a block instead of becoming a unit; its points are
+    the pair's and are never counted. The members carry no "Attached as:" labels either, which is
+    the unlabelled case `matchRoster` already resolves from the datasheets themselves.
+  - **`w/` folds a model's loadout into its name on a MODEL line**: "Jakhal w/ mauler chainblade",
+    "2x Khorne Berzerker w/ eviscerator and plasma pistol". The head names the profile and the
+    loadout is printed again on its own lines underneath, so `profileHead` cuts it off for both
+    `isModel` and `miniIndexOf`; without it those models went uncounted and a ten-model Jakhal pack
+    came out as eight. (The plain-text mode does this too — see `fitsBracket` above — but there the
+    arithmetic guard was all that rescued the count, and it only fires when the count is impossible.)
+
+  Left unread on purpose in that mode: it restates a wargear group's STATE as a line of its own
+  ("2 Hades autocannons" above the "2x Hades autocannon" it expands to, "1 mauler chainblade, 7
+  chainblades" above the models). Those lines name no option and no item, so they are reported as
+  wargear that could not be placed — which is the honest answer for a line we do not understand.
+  Dropping them would need a rule for telling a restatement from real wargear, and every rule that
+  suggests itself (a count written without its `x`, a comma, items restated below) would also drop
+  something a list might mean.
+
   Fifteen more things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
