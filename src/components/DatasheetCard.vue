@@ -903,6 +903,9 @@ function abilityStateLabel(st) {
 /* …and the same for a weapons table immediately followed by the modifier footnotes: they explain
    the numbers in that table, so they have to read as attached to it. */
 .ds-weapons:has(+ .ds-mods-h) { margin-bottom: 0.3rem; }
+/* …but the pill variant carries a border, and 0.3rem from the weapon table's last row reads as
+   part of it. Only matters when there is nothing in play and "possible" follows the table alone. */
+.ds-weapons:has(+ .ds-mods-btn) { margin-bottom: 0.55rem; }
 .ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .ds-weapons th {
   text-align: center;
@@ -1125,14 +1128,28 @@ function abilityStateLabel(st) {
   color: var(--accent);
   margin: 0 0 0.2rem;
 }
-/* The "possible modifiers" heading is also the accordion's handle: same plate, full width, with
-   the chevron every other collapsing block on this card uses. */
+/* The "possible modifiers" heading is also the accordion's handle, and unlike every other block on
+   this card it can stand alone: closed, the plate was the last thing rendered before the abilities,
+   so a bare accent caps line sat 0.2rem above "Core: Leader, Deep Strike" with nothing between them
+   and read as that block's heading. The separator it used to borrow lives on the list INSIDE the
+   accordion, which is exactly what is not there when it is shut.
+   So it takes the dashed pill RosterViewView's roster-wide version of this same block already
+   uses (`.rvp-head`) — quiet until hovered, and unmistakably its own thing rather than a heading
+   for what follows. Muted rather than accent on purpose: "in play" above it keeps the accent, and
+   what is merely possible should not shout louder than what is true. */
 .ds-mods-btn {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  width: 100%; padding: 0; border: 0; background: none; font: inherit;
+  width: 100%; padding: 0.35rem 0.55rem; background: none; font: inherit;
+  border: 1px dashed var(--border); border-radius: 6px;
   font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--accent); cursor: pointer; text-align: left;
+  color: var(--text-muted); cursor: pointer; text-align: left;
+  margin: 0 0 0.4rem;
+  transition: border-color var(--motion-fast), color var(--motion-fast);
 }
+.ds-mods-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* Open, the list below closes the section with its own rule and margin; shut, the pill is the
+   section, and it needs that room itself or the abilities crowd it again. */
+.ds-mods-btn[aria-expanded="false"] { margin-bottom: 0.9rem; }
 .ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
 .ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .ds-mod-src { color: var(--text-primary); }

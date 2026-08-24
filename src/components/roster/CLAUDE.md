@@ -1790,7 +1790,12 @@ this modifier in force right now? — and the card renders the two apart (`noteS
   **Only off the table.** In a game the caller passes `hidePossible` and they are not
   rendered at all: a block headed "in play" must not list what is not, and mid-battle a list of what
   MIGHT be true is one more thing to scroll past. Nothing is lost — the condition and its switch are
-  on the rule block below the card, which is where it is flipped.
+  on the rule block below the card, which is where it is flipped. **Its handle is a dashed pill**
+  (`.ds-mods-btn`), the same one the roster-wide block below uses: closed, the accordion is the last
+  thing before the abilities, and its separator lives on the list INSIDE it — so a bare caps line
+  sat on top of "Core: Leader, Deep Strike" and read as that block's heading. Quiet (muted, accent
+  on hover) on purpose: «in play» above it keeps the accent, and what is merely possible must not
+  shout louder than what is true.
 - Above the unit list, out of a game, the same idea at roster scale: **`RosterViewView`'s
   `possibleGroups`** collects the not-live notes of the roster-wide sources only (army rule,
   detachment rule) from the cards' own notes, deduped per rule, and shows them in the
