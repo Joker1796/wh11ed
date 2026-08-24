@@ -266,7 +266,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Four more things real lists turned up, none of them about listhammer's spelling:
+  Five more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -275,6 +275,13 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **The detachment line cannot be split as text.** The app writes every selected detachment on
+    one line joined with commas and a final "and" — and detachment names contain "and" themselves:
+    "Legends of Saga and Song and Saga of the Great Wolf" is TWO of them, and splitting on " and "
+    gave three, of which one matched. `parseGw` therefore carries the raw line through as
+    `detachmentLine`, and `resolveDetachmentLine` (in `matchRoster`, where the faction's own
+    detachments are known) carves the longest known names out of it; whatever text is left, minus
+    the separators, is reported as a detachment we don't have.
   - **A body can arrive with its indentation stripped** (pasted out of a rendered page rather than
     off the clipboard): every line at column 0, bullets and all, and nothing in the TEXT separating
     a model line from a weapon. `gwBody` then offers every line as a candidate model line — sharing
