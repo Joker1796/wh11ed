@@ -934,8 +934,19 @@ weapon-table trim.
 `gen-roster-data.mjs`'s **`linkWargearBundles`** parses the pairing out of the prose and then
 **verifies it against structure**: `loadout_choice` enumerates each miniature's complete legal
 loadouts (1145 of 1146 datasheets have them), so every set the prose yields must fit inside one
-of them. Prose alone would be a guess. 172 groups are rewritten this way; the run prints the ones
+of them. Prose alone would be a guess. 174 groups are rewritten this way; the run prints the ones
 left flat, by name, so a "missing swap" report can be checked against that list.
+
+**The instruction may misspell an item its own wargear row spells right** (added 2026-08-24) — the
+Venatari lance is replaced with "1 kinetic destroyer and 1 **tarsus** buckler" and the item is the
+**Tarsis** buckler; the Rogal Dorn's turret with "1 **co-axial** autocannon" for the **Coaxial**
+autocannon. Matched exactly, such a sentence names only ONE item, so the pair is emitted as two
+independent options — a model can take half of a swap it has to take whole, and where the swap
+refunds points each half claims the refund (six Venatari Custodians came out at 320 against the
+army apps' 325). So an option the sentence hasn't named gets a second chance at one word of its
+name, five letters or more, everything else identical (`nearName`), and a plural is not that word
+("1 powerblades" must not claim the Powerblade array's bullet). The pair it produces still has to
+sit inside an enumerated legal loadout, which is what makes the tolerance safe.
 
 Two guards keep it fail-open, and both currently reject real groups — don't remove them to raise
 the number: every option appdata lists must be named by the prose (else the prose is describing
@@ -956,7 +967,9 @@ what `loadoutItemIds`, `wargearNames`, the editor rows and the data-shape tests 
 
 Because a pick is stored as an INDEX into the option list, rewriting the lists renumbered them —
 hence `useRosters.js` SCHEMA_VERSION 2, which drops `wg` from rosters saved under v1 rather than
-re-interpreting an old index as a different weapon.
+re-interpreting an old index as a different weapon. **v5 is the same event on a smaller scale**:
+the misspelling rule above reached exactly two datasheets, so it drops the picks of those two
+units only — a blanket wipe of every roster's wargear costs far more than it repairs.
 
 ## One bullet, recorded once per miniature
 

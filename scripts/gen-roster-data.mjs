@@ -759,6 +759,41 @@ const FOOTNOTE_RE = /^\*/
 const VALUE_SPLIT = /\b(?:replaced with|replaced by|equipped with)\b/i
 const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+// Two spellings of one word, differing by a single letter. appdata's instruction prose is typed
+// by hand and its item rows are not, so a group can name its own option slightly wrong — the
+// Venatari lance is replaced with "1 kinetic destroyer and 1 tarsus buckler", and the item is the
+// Tarsis buckler. Exact-only matching reads that sentence as naming ONE item, so the pair is
+// emitted as two independent options: the editor lets a model take half of a swap it has to take
+// whole, and each half claims the swap's points refund (6 Venatari came out 5 points light).
+// Deliberately narrow — one word of the name, five letters or more, everything else identical —
+// and the pair it produces still has to sit inside an enumerated legal loadout to be used.
+function within1(a, b) {
+  if (Math.abs(a.length - b.length) > 1) return false
+  let i = 0, j = 0, edits = 0
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue }
+    if (++edits > 1) return false
+    if (a.length > b.length) i++
+    else if (a.length < b.length) j++
+    else { i++; j++ }
+  }
+  return edits + (a.length - i) + (b.length - j) <= 1
+}
+// A plural is not a misspelling: the prose writes "1 powerblades" for the Powerblades and
+// "1 powerblade array" for the Powerblade array, and counting the missing 's' as the one allowed
+// difference would let the second bullet claim the first one's item too.
+const samePlural = (a, b) => a === b || a.replace(/s$/, '') === b.replace(/s$/, '')
+function nearName(words, name) {
+  const want = name.split(' ')
+  if (words.length !== want.length) return false
+  let off = 0
+  for (let k = 0; k < want.length; k++) {
+    if (samePlural(words[k], want[k])) continue
+    if (++off > 1 || want[k].length < 5 || !within1(words[k], want[k])) return false
+  }
+  return off === 1
+}
+
 // The group's own items named in one statement, in order, with the count written in front of
 // them ("2 Mortifier flamers"). Longest name first so a name containing another ("master-crafted
 // power weapon" vs "power weapon") wins the match.
@@ -769,9 +804,22 @@ function itemsNamedIn(clause, vocab) {
   for (const m of clause.matchAll(re)) {
     const hit = sorted.find((v) => v.name === m[2].toLowerCase())
     if (!hit || out.some(([uuid]) => uuid === hit.uuid)) continue
-    out.push([hit.uuid, Number(m[1]) || 1])
+    out.push([hit.uuid, Number(m[1]) || 1, m.index])
   }
-  return out
+  // Second chance for the options the sentence still hasn't named, one misspelled word apart.
+  const toks = [...clause.toLowerCase().matchAll(/[a-z\u2019'-]+|\d+/g)]
+  for (const v of sorted) {
+    if (out.some(([uuid]) => uuid === v.uuid)) continue
+    const len = v.name.split(' ').length
+    for (let i = 0; i + len <= toks.length; i++) {
+      const win = toks.slice(i, i + len)
+      if (!nearName(win.map((t) => t[0]), v.name)) continue
+      out.push([v.uuid, Number(i > 0 && /^\d+$/.test(toks[i - 1][0]) ? toks[i - 1][0] : 0) || 1, win[0].index])
+      break
+    }
+  }
+  out.sort((a, b) => a[2] - b[2])
+  return out.map(([uuid, n]) => [uuid, n])
 }
 
 function linkWargearBundles(datasheetId, unitName, drafts, stats) {

@@ -847,3 +847,31 @@ describe('an allowance the instruction states without naming a number', () => {
     }
   })
 })
+
+// A swap that hands over two items at once is one option, and the generator reads the pairing out
+// of the group's own instruction. The instruction is typed by hand and can misspell an item its
+// own wargear row spells right, which used to split the pair into two independent options — a
+// model could then take half of it, and (where the swap refunds points) each half claimed the
+// refund: six Venatari Custodians came out at 320 where the army apps print 325.
+describe('a pair whose instruction misspells one of its items', () => {
+  const unitOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
+
+  // "…replaced with 1 kinetic destroyer and 1 tarsus buckler" — the item is the Tarsis buckler.
+  it('pairs the Venatari lance swap and prices it once', () => {
+    const unit = unitOf('adeptus-custodes', 'venatari-custodians')
+    expect(unit.gear).toHaveLength(1)
+    expect(unit.gear[0].o).toHaveLength(1)
+    expect(optionLabel(unit.gear[0].o[0], rosterItems.items)).toBe('Kinetic destroyer + Tarsis buckler')
+    // 300 for the 4-6 bracket, six lances at 5 apiece, minus the one lance handed back.
+    expect(unitPoints(unit, { size: 1, count: 6, wg: [[0, 0, 1]] })).toBe(325)
+  })
+
+  // "…replaced with 1 oppressor cannon and 1 co-axial autocannon" — the item is the Coaxial
+  // autocannon. Nothing is priced here; what was wrong is that the cannon could be taken alone.
+  it('pairs the Rogal Dorn turret swap', () => {
+    const unit = unitOf('astra-militarum', 'rogal-dorn-battle-tank')
+    const g = unit.gear.find((x) => optionItems(x.o[0]).length > 1)
+    expect(g.o).toHaveLength(1)
+    expect(optionLabel(g.o[0], rosterItems.items)).toBe('Oppressor cannon + Coaxial autocannon')
+  })
+})
