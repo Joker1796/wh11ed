@@ -113,6 +113,36 @@ function gwBody(entries) {
   return { models: models || null, weapons, modelLines }
 }
 
+// Some exports print an attached unit TWICE — once inside its `Attached Unit N` block, so the
+// reader can see who joined whom, and once under its own section, so the army list is complete. A
+// Tyranids list shows its two Tyrant Guard in both places and then states a total that counts them
+// once: 2000, where the printed entries add up to 2320.
+//
+// Which is why this is decided by ARITHMETIC and never by shape. Repeats are only folded away when
+// the excess over the list's own stated total is EXACTLY the entries that appear in both places —
+// otherwise a Deathwatch list that really does field one Indomitor Kill Team attached and another
+// on its own (the entries add up to the stated total, so there is no excess) would silently lose
+// 275 points. Each attached entry can account for at most one loose copy, and it is the loose copy
+// that goes: the attached one carries the attachment.
+function dropRepeatedAttachments(out) {
+  const stated = out.stated
+  if (!stated) return
+  const over = out.units.reduce((n, u) => n + (u.pts || 0), 0) - stated
+  if (over <= 0) return
+  const claimed = new Set()
+  const dupes = []
+  for (const u of out.units) {
+    if (u.group) continue
+    const twin = out.units.find((a) => a.group && !claimed.has(a) && a.pts === u.pts && norm(a.name) === norm(u.name))
+    if (!twin) continue
+    claimed.add(twin)
+    dupes.push(u)
+  }
+  if (!dupes.length || dupes.reduce((n, u) => n + (u.pts || 0), 0) !== over) return
+  out.units = out.units.filter((u) => !dupes.includes(u))
+  out.repeated = dupes.length
+}
+
 function parseGw(text) {
   const out = { format: 'gw', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
   let unit = null
@@ -220,6 +250,7 @@ function parseGw(text) {
   // The LAST such line, because a Chapter is printed under its parent ("Space Marines" then "Dark
   // Angels") and the Chapter is the army: taking the first gave a Dark Angels list the Space
   // Marines data, which has no Azrael, no Deathwing Knights and neither of its detachments.
+  dropRepeatedAttachments(out)
   const answers = plains.filter(isFactionName)
   const loose = plains.filter((t) => matchFaction(t))
   out.faction = answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
@@ -580,7 +611,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // `stated` is the list's own header total (which includes units we may have failed to match);
   // `statedUnits` sums only the units that DID match, so the two figures beside `computed` say
   // whether a difference is our points data or a unit that went missing.
-  const report = { name: parsed?.name || '', units: [], missing: [], detachments: { matched: [], missing: [] }, points: { stated: parsed?.stated || 0, statedUnits: 0, computed: 0 } }
+  const report = { name: parsed?.name || '', units: [], missing: [], repeated: parsed?.repeated || 0, detachments: { matched: [], missing: [] }, points: { stated: parsed?.stated || 0, statedUnits: 0, computed: 0 } }
   if (!parsed || !faction) return { payload: null, report }
 
   if (parsed.detachmentLine) {
