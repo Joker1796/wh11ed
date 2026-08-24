@@ -4,17 +4,21 @@
       <p v-if="!issues.length" class="ri-clean">
         <i class="bi bi-check-circle-fill"></i> {{ labels.rosterNoIssues }}
       </p>
-      <button
+      <component
+        :is="iss.uid ? 'button' : 'div'"
         v-for="(iss, i) in sorted"
         :key="i"
-        type="button"
+        :type="iss.uid ? 'button' : null"
         class="ri-item"
-        :class="iss.level"
+        :class="[iss.level, { 'is-link': iss.uid }]"
         @click="iss.uid && $emit('goto', iss.uid)"
       >
         <i class="bi" :class="iss.level === 'error' ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"></i>
         <span class="ri-msg">{{ message(iss) }}</span>
-      </button>
+        <!-- The message names the unit; this says the row will take you to it. An issue about the
+             army as a whole (points, detachment) has nowhere to go, and does not pretend to. -->
+        <i v-if="iss.uid" class="bi bi-chevron-right ri-go"></i>
+      </component>
     </div>
   </BaseModal>
 </template>
@@ -59,13 +63,15 @@ function message(iss) {
   border-left-width: 3px;
   background: var(--bg-secondary);
   border-radius: 4px;
-  cursor: pointer;
+  cursor: default;
   font-size: 0.85rem;
 }
+.ri-item.is-link { cursor: pointer; }
 .ri-item.error { border-left-color: #c0392b; }
 .ri-item.warn { border-left-color: #d98a2b; }
 .ri-item .bi { margin-top: 0.1rem; flex-shrink: 0; }
 .ri-item.error .bi { color: #c0392b; }
 .ri-item.warn .bi { color: #d98a2b; }
-.ri-msg { color: var(--text-primary); }
+.ri-msg { color: var(--text-primary); flex: 1; }
+.ri-go { margin-top: 0.1rem; color: var(--text-muted); font-size: 0.8rem; }
 </style>

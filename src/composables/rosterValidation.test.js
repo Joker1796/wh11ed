@@ -436,7 +436,7 @@ describe('validateRoster — allegiance', () => {
     const iss = codesOf([{ ...U('chaos-vindicator'), warlord: false }, { ...U('captain'), warlord: true }], ['Pactbound Zealots'])
       .find((i) => i.code === 'allegMissing')
     expect(iss).toBeTruthy()
-    expect(iss.params).toMatchObject({ name: 'Chaos Vindicator', group: 'Mark of Chaos' })
+    expect(iss.params).toMatchObject({ unit: 'Chaos Vindicator', group: 'Mark of Chaos' })
   })
 
   it('says nothing when the gating detachment is absent — there is no mark to choose', () => {
@@ -492,7 +492,7 @@ describe('validateRoster — allegiance', () => {
     const target = { ...U('chaos-vindicator'), uid: 'v1', alleg: 'Nurgle' }
     const leader = { ...U('chaos-lord'), uid: 'l1', alleg: 'Khorne', leaderOf: 'v1', warlord: true }
     const iss = codesOf([target, leader], ['Pactbound Zealots']).find((i) => i.code === 'allegMismatch')
-    expect(iss.params).toMatchObject({ name: 'Chaos Lord', own: 'Khorne', target: 'Chaos Vindicator', theirs: 'Nurgle' })
+    expect(iss.params).toMatchObject({ unit: 'Chaos Lord', own: 'Khorne', target: 'Chaos Vindicator', theirs: 'Nurgle' })
   })
 })
 
@@ -550,7 +550,7 @@ describe('validateRoster — allies', () => {
   it('flags a unit whose group the selected detachment does not unlock', () => {
     const r = roster({ units: [U(captain.id, { warlord: true }), U(daemon.id)] })
     const issue = validateRoster(r, { faction: allyFaction, core }).issues.find((i) => i.code === 'allyLocked')
-    expect(issue.params).toMatchObject({ name: 'Bloodletters', dets: 'Khorne Daemonkin' })
+    expect(issue.params).toMatchObject({ unit: 'Bloodletters', dets: 'Khorne Daemonkin' })
     expect(allyCodes(roster({ detachments: ['Khorne Daemonkin'], units: [U(captain.id, { warlord: true }), U(daemon.id)] }))).toEqual([])
   })
 
@@ -688,5 +688,59 @@ describe('validateRoster — a bodyguard unit that holds two leaders', () => {
     expect(leaderTargetsFor(defOf('cadian-command-squad'), one, 'i3', defOf, dets)[0].used).toBe(false)
     const two = [...one.slice(0, 2), at('cadian-command-squad', 'i3', 'i1'), at('ursula-creed', 'i4')]
     expect(leaderTargetsFor(defOf('ursula-creed'), two, 'i4', defOf, dets)[0].used).toBe(true)
+  })
+})
+
+// Which unit an issue is about used to be answered only by tapping the row: several messages named
+// no unit at all, and an army holding three of a datasheet gave three identical lines.
+describe('validateRoster — every issue says which unit it is about', () => {
+  let faction
+  beforeAll(async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    faction = await loadRosterFaction('astra-militarum')
+  })
+
+  it('fills the unit name into every issue tied to an entry', () => {
+    const units = [
+      { uid: 'i1', id: 'cadian-shock-troops', size: 0 },
+      { uid: 'i2', id: 'cadian-castellan', size: 0, leaderOf: 'i1', enh: 'Not A Real Enhancement' },
+      { uid: 'i3', id: 'ogryn-bodyguard', size: 0, leaderOf: 'i1' },
+    ]
+    const r = { name: 'x', faction: 'astra-militarum', battleSize: 'strike-force', detachments: [faction.detachments[0].name], units }
+    const issues = validateRoster(r, { faction, core }).issues.filter((i) => i.uid)
+    expect(issues.length).toBeGreaterThan(0)
+    for (const i of issues) expect(i.params?.unit, i.code).toBeTruthy()
+    // …including the unit it could not be attached to, so the message can name both ends.
+    const bad = issues.find((i) => i.code === 'leaderTargetInvalid')
+    expect(bad.params).toMatchObject({ unit: 'Ogryn Bodyguard', target: 'Cadian Shock Troops' })
+  })
+
+  // Three Cadian Castellans, three identical messages — the number says which row the modal will
+  // jump to. A name held by one entry alone stays as it is.
+  it('numbers a name the roster holds more than once', () => {
+    const units = [
+      { uid: 'i1', id: 'cadian-castellan', size: 0, warlord: true },
+      { uid: 'i2', id: 'cadian-castellan', size: 0, warlord: true },
+      { uid: 'i3', id: 'cadian-shock-troops', size: 0 },
+    ]
+    const r = { name: 'x', faction: 'astra-militarum', battleSize: 'strike-force', detachments: [faction.detachments[0].name], units }
+    const issue = validateRoster(r, { faction, core }).issues.find((i) => i.code === 'manyWarlords')
+    expect(issue.params.unit).toBe('Cadian Castellan (2)')
+  })
+
+  // Every placeholder a message asks for has to be one the validator actually sends, in both
+  // locales — a template naming a param nobody fills renders as a blank.
+  it('asks for nothing the validator does not send', async () => {
+    const { ui } = await import('../i18n/ui.js')
+    const known = new Set(['unit', 'target', 'id', 'count', 'limit', 'over', 'spent', 'group',
+      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs'])
+    for (const loc of ['en', 'ru']) {
+      for (const [key, tpl] of Object.entries(ui[loc])) {
+        if (!key.startsWith('issue_')) continue
+        for (const [, p] of String(tpl).matchAll(/\{(\w+)\}/g)) expect(known, `${loc}.${key}`).toContain(p)
+      }
+    }
+    expect(Object.keys(ui.en).filter((k) => k.startsWith('issue_')))
+      .toEqual(Object.keys(ui.ru).filter((k) => k.startsWith('issue_')))
   })
 })
