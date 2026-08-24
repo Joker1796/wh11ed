@@ -1725,6 +1725,11 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "hosts": {
+        "n": 2,
+        "noDup": 1,
+        "minModels": 20
+      },
       "minis": [
         {
           "n": "Long-quill"

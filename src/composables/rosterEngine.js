@@ -362,6 +362,36 @@ export function mandatoryEnhancementFor(def, detachments) {
 // the target that is actually in the list.
 export { occupies as leaderOccupies }
 
+// How many leader units a BODYGUARD unit may hold, and what its datasheet says about the mix. The
+// core rules give it one leader and one support ("unless otherwise stated"), and five datasheets
+// state otherwise on their own side — `hosts`, read out of appdata's prose by gen-roster-data.mjs:
+// the four Astra Militarum squads that take two Leaders "provided no more than one of those units
+// is a COMMAND SQUAD unit" (a Castellan AND a Command Squad on one squad is how that army is
+// ordinarily built), and Kroot Carnivores, who take two once twenty strong and never two the same.
+export function hostLimitsFor(def, entry) {
+  const h = def?.hosts
+  if (!h) return { leader: 1, support: 1 }
+  if (h.minModels) {
+    const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+    const models = entry?.count ?? size?.per?.[0] ?? 1
+    if (models < h.minModels) return { leader: 1, support: 1 }
+  }
+  return { leader: h.n || 1, support: 1, oneKw: h.oneKw, noDup: h.noDup }
+}
+
+// Whether attaching `def` to the unit `host` would break one of those limits — the one question the
+// editor's picker and the validator both ask, so they can never disagree about it. `attached` is
+// every leader already on that host except the one being placed.
+export function hostSlotTaken(def, entry, host, hostDef, attached, detachments = []) {
+  const lim = hostLimitsFor(hostDef, host)
+  const type = leadTypeFor(def, entry, hostDef, detachments)
+  const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments) === type && occupies(def, o.def))
+  if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
+  if (lim.oneKw && hasKeyword(def, lim.oneKw) && attached.some((o) => o.def && hasKeyword(o.def, lim.oneKw))) return true
+  if (lim.noDup && attached.some((o) => o.def?.id === def?.id)) return true
+  return false
+}
+
 export function leadTypeFor(def, entry, targetDef, detachments = []) {
   if (!def || !targetDef) return null
   const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
@@ -396,11 +426,10 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
     .filter((u) => !ownMark || !u.alleg || u.alleg === ownMark)
     .map((u) => {
       const type = typeOf(u.id)
-      const used = (units || []).some((o) => {
-        if (o.uid === excludeUid || o.uid === u.uid || o.leaderOf !== u.uid) return false
-        if (leadTypeFor(defOf(o.id), o, defOf(u.id), detachments) !== type) return false
-        return occupies(def, defOf(o.id))
-      })
+      const attached = (units || [])
+        .filter((o) => o.uid !== excludeUid && o.uid !== u.uid && o.leaderOf === u.uid)
+        .map((o) => ({ entry: o, def: defOf(o.id) }))
+      const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
       return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
     })
 }
