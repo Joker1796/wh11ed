@@ -50,12 +50,26 @@ const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)$
 const num = (s) => +String(s).replace(/\D/g, '')
 
 // Apostrophes are the single most common reason a name fails to match: the app writes T’au with a
-// typographic one, our data and half the community write T'au.
+// typographic one, our data and half the community write T'au. The ampersand is the second:
+// listhammer prints "Genestealer Claws & Talons" where the datasheet reads "claws and talons",
+// and every Tyranid melee weapon in a list is written that way. Nothing in our data spells a name
+// with an ampersand, so the two forms can only ever be the same name.
+//
+// And the third is the plural, which the two sides disagree about in BOTH directions and in any
+// word of a name: our data has "Genestealers claws and talons" against the list's "Genestealer
+// Claws & Talons", "Tyranid Warrior" against "5x Tyranid Warriors", "Rangers" against "5x
+// Ranger". So every word gives up its final s. Nothing in the game is told apart by that letter:
+// across all 30 factions no two datasheets, detachments, enhancements, profiles or wargear items
+// fold together, and the only names that do are one weapon written both ways (Bolt pistol / Bolt
+// pistols). The count and the price ride on this — a plural read as wargear drops a six-model unit
+// into the three-model bracket.
 export const norm = (s) => (s || '')
   .replace(/[‘’ʼ`´]/g, "'")
+  .replace(/&/g, ' and ')
   .replace(/\s+/g, ' ')
   .trim()
   .toLowerCase()
+  .replace(/s\b/g, '')
 
 // Exactly one of our own faction names — used to tell a list titled after its author from a list
 // whose header line is the faction itself. Deliberately strict, unlike matchFaction's fallback
@@ -773,15 +787,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     }
 
     // …and a single-profile datasheet has no `minis` at all, so it answers under its own name
-    // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place. Its models
-    // are named in the SINGULAR while the datasheet is plural ("• 5x Ranger" on Rangers), so that
-    // one comparison folds the plural — 158 datasheets game-wide are named that way, and on
-    // several of them (Rangers: 5 models 60pts, 6-10 models 110pts) the count decides the price.
-    // Only for the datasheet's own name: a profile name is compared exactly, as it is written.
-    const bare = (t) => norm(t).replace(/s$/, '')
-    const self = bare(def.name)
+    // ("• 2x Chaos Spawn"), which is otherwise reported as wargear nobody could place — 158
+    // datasheets game-wide are named that way, and on several of them (Rangers: 5 models 60pts,
+    // 6-10 models 110pts) the count decides the price. Both comparisons go through `norm`, which
+    // folds the plural: a list may print either number of either name.
+    const self = norm(def.name)
     const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
-    const isModel = (name) => known.has(norm(name)) || bare(name) === self
+    const isModel = (name) => known.has(norm(name)) || norm(name) === self
     const lines = modelLines
     if (lines.length) {
       const real = lines.filter((l) => isModel(l.name))

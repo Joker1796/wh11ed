@@ -1728,3 +1728,87 @@ Purifier Squad (130 points)
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual(['Forwarded'])
   })
 })
+
+// listhammer names a profile from the datasheet's composition, which is written in whatever number
+// the composition uses — and it spells a weapon with an ampersand where the datasheet writes "and".
+// Between them, five of this list's units read wrong: the Warriors' own models were taken for
+// wargear and the unit dropped into the three-model bracket at half its price.
+const TYR = `Van (1995 points)
+
+Tyranids
+Strike Force (2000 Point)
+Vanguard Onslaught, Ambush Predators (3 Detachment Points)
+
+ATTACHED UNITS
+
+Attached Unit 1
+
+Hyperadapted Raveners (165 points)
+• 1x Ravener Prime
+• 1x Prime Claws & Talons
+• 3x Ravener
+• 3x Ravener Heavy Claws & Talons
+• 1x Ravener with Venom Bolt
+• 1x Ravener Heavy Claws & Talons
+• 1x Venom Bolt
+
+Raveners (125 points)
+• 5x Ravener
+• 5x Ravener Claws & Talons
+
+Attached Unit 2
+
+Winged Tyranid Prime (65 points)
+• 1x Prime talons
+
+Tyranid Warriors With Melee Bio-weapons (150 points)
+• 1x Tyranid Prime
+• 1x Bio-weapons
+• 5x Tyranid Warriors
+• 5x Bio-weapons
+
+OTHER DATASHEETS
+
+Genestealers (140 points)
+• 10x Genestealers
+• 10x Genestealer Claws & Talons
+
+Exported from listhammer.info: https://listhammer.info/list/34e769a8311189b311`
+
+describe('matchRoster — a list that writes the plural its own way', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('tyranids'), core: rosterCore, items: items.items }
+  })
+
+  // "5x Tyranid Warriors" against a profile our data calls "Tyranid Warrior" — six models, 150
+  // points, and the unit is only the second bracket if all six were counted.
+  it('counts a profile the list names in the plural', () => {
+    const { report, payload } = matchRoster(parseList(TYR), ctx)
+    const warriors = report.units.find((u) => u.name.startsWith('Tyranid Warriors'))
+    expect([warriors.models, warriors.points.computed]).toEqual([6, 150])
+    expect(payload.units.find((u) => u.id === 'tyranid-warriors-with-melee-bio-weapons').size).toBe(1)
+  })
+
+  // …and "10x Genestealers" against a profile called "Genestealer", whose weapon our data holds as
+  // "Genestealers claws and talons" — the plural is on the other side in each case.
+  it('counts a profile the list names in the singular, and places its weapon', () => {
+    const { report } = matchRoster(parseList(TYR), ctx)
+    const stealers = report.units.find((u) => u.name === 'Genestealers')
+    expect([stealers.models, stealers.points.computed]).toEqual([10, 140])
+    expect(stealers.gear.missing).toEqual([])
+  })
+
+  // A printed loadout the list writes with ampersands is still the printed loadout: nothing here
+  // is a swap, and nothing is left over for the report to warn about.
+  it('reads a weapon written with an ampersand as the one the datasheet prints', () => {
+    const { report, payload } = matchRoster(parseList(TYR), ctx)
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual(['Bio-weapons', 'Bio-weapons'])
+    expect(payload.units.every((u) => !u.wg)).toBe(true)
+    expect(report.units.find((u) => u.name === 'Hyperadapted Raveners').models).toBe(5)
+  })
+})
