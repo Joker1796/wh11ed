@@ -575,21 +575,52 @@ export function parseList(text, format = null) {
 
 // ── matching a parsed list against our own data ──────────────────────────────────────────────
 
+// The Chapters that have no book of their own and play out of Codex: Space Marines — the six
+// `space-marines.js` lists as its `chapters`. An export names the Chapter, not the codex, and the
+// five Chapters that DO have their own data file (Black Templars, Blood Angels, Dark Angels,
+// Deathwatch, Space Wolves) are already factions here and match by name.
+// Through norm(), which takes the final s off every word — spelling these out by hand is how the
+// first version of this matched Raven Guard and nothing else.
+const CODEX_CHAPTERS = new Set(['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'].map(norm))
+const ASTARTES_KEYWORD = norm('Adeptus Astartes')
+
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
 export function matchFaction(name) {
   const want = norm(name)
   if (!want) return null
-  for (const g of factionGroups) {
-    for (const f of g.factions) {
-      if (norm(f.name) === want) return f.slug
+  // An export can name SEVERAL, most specific first: "Factions Used: Raven Guard, Adeptus Astartes"
+  // is one army, stated as its Chapter and then as the keyword every Astartes army shares. Read as
+  // one string it matched nothing at all, and a list whose faction doesn't resolve imports as
+  // nothing — every unit in it is looked up against that faction's data. So each part is a
+  // candidate, in the order written, and the whole string stays the first of them so a name that
+  // legitimately contains a comma is unaffected.
+  const parts = want.split(',').map((s) => s.trim()).filter(Boolean)
+  const cands = parts.length > 1 ? [want, ...parts] : [want]
+  for (const w of cands) {
+    for (const g of factionGroups) {
+      for (const f of g.factions) {
+        if (norm(f.name) === w) return f.slug
+      }
     }
   }
+  // A Chapter before the looser reading below: it is the more specific statement of the two, and
+  // that reading would answer "Ultramarines" with nothing anyway.
+  for (const w of cands) if (CODEX_CHAPTERS.has(w)) return 'space-marines'
+  // The looser reading stays on the WHOLE string, as it always was. Running it per part would let a
+  // fragment be matched by the "a faction name contains it" direction — a list titled "Blood, Sweat
+  // and Tears" would come back as Blood Angels — and it gains nothing: a part that CONTAINS a
+  // faction name is contained in the whole string too, so that direction is already covered.
   for (const g of factionGroups) {
     for (const f of g.factions) {
       if (want.includes(norm(f.name)) || norm(f.name).includes(want)) return f.slug
     }
   }
+  // Last, and only if nothing above spoke: the keyword covers every Astartes army, so it is a guess
+  // — but it is the codex of that name, and the alternative is importing nothing. A list that is
+  // really Blood Angels says so first (WTC and the GW app both do), and a wrong guess is visible
+  // rather than silent: its units come back as ones we don't have.
+  if (cands.includes(ASTARTES_KEYWORD)) return 'space-marines'
   return null
 }
 
@@ -1013,6 +1044,24 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       draw(Math.min(anyLeft.get(key) || 0, n), null)
       return n
     }
+    // An export can name a model's loadout as ONE composite line and then print the items it is
+    // made of underneath — "2x Cyclone Missile Launcher & Storm Bolter" above its own "2x Cyclone
+    // missile launcher" and "2x Storm bolter", "Bolt Rifle w/ Grenade Launcher" above "Bolt Rifle"
+    // and "Astartes grenade launcher". The composite names no weapon any datasheet has, so it was
+    // reported as wargear we could not place: three such lines on a Space Marines list whose every
+    // point, pick and model count was right.
+    //
+    // Only when every half is ALSO named on its own line in the same unit. Then the composite is a
+    // restatement and its items are already counted — dropping it loses nothing, and re-feeding the
+    // halves instead would count them twice (two cyclone missile launchers become four, and the
+    // squad takes a swap it is not entitled to). A composite standing ALONE still gets reported: it
+    // is then the only statement of that loadout there is, and we did fail to place it.
+    const restates = (w) => {
+      const parts = String(w.name || '').split(/\s+(?:&|w\/|and)\s+/i).map(norm).filter(Boolean)
+      if (parts.length < 2) return false
+      const others = weapons.filter((o) => o !== w).map((o) => norm(o.name))
+      return parts.every((p) => others.some((o) => o === p || o.endsWith(` ${p}`)))
+    }
     for (const w of weapons) {
       const key = norm(w.name)
       if (!key) continue
@@ -1023,7 +1072,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // the printed COUNT is what's short (appdata gives a Defiler one excruciator cannon where its
       // own loadout text and the model both say two), and reporting that would blame the list for
       // our data. Only a name the datasheet doesn't know at all is unmatched wargear.
-      if (!refs?.length) { if (!printed.has(key)) line.gear.missing.push(w.name); continue }
+      if (!refs?.length) { if (!printed.has(key) && !restates(w)) line.gear.missing.push(w.name); continue }
       const want = miniIndexOf(def, w.mini)
       const own = want != null ? refs.filter((r) => r.m === want) : []
       const all = own.length ? own : refs
