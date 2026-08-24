@@ -1143,9 +1143,10 @@ function stratKey(strat) {
   overflow-wrap: anywhere;
 }
 /* Full size on a desktop, smaller as the viewport narrows — a phone is where a quote-as-a-name
-   turns into a wall, a wide screen fits it in a line or two. */
-.rv-name.long { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.2; }
-.rv-name.xlong { font-size: clamp(0.95rem, 3.4vw, 1.45rem); line-height: 1.25; }
+   turns into a wall, a wide screen fits it in a line or two. A merely two-line name ('wrap')
+   carries no size at all: it got the row to itself, which was the whole problem. */
+.rv-name.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); line-height: 1.2; }
+.rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.25; }
 .rv-meta { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; flex-shrink: 0; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
