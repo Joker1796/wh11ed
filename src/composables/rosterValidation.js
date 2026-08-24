@@ -190,18 +190,18 @@ export function validateRoster(roster, { faction, core } = {}) {
   if (mandWarlords.length && warlords.length === 1 && !mandWarlords.includes(warlords[0].id)) {
     add('mandatoryWarlord', 'warn', { uid: warlords[0].uid })
   }
-  // Supreme Commander ("if this model is in your army, it must be your Warlord" — a hard RAW
-  // rule, unlike the detachment-level mandatory pick above): 17 datasheets in the game carry this
-  // (Guilliman, Ghazghkull, Abaddon, …). Two of them (Belisarius Cawl / Thulia Ghuld) can legally
-  // be fielded in the SAME army — nothing in wh40k-appdata prevents it — which makes the rule
-  // impossible to satisfy for both at once, so that combination is flagged as its own conflict
-  // rather than silently picking a winner.
+  // Supreme Commander ("if this model is in your army, it must be your Warlord") — 17 datasheets
+  // carry it. SEVERAL of them may be in one army: the Muster step (src/data/muster.js) says so
+  // outright — "Some units have a rule on their datasheet stating that they must be your WARLORD.
+  // If you want to include one or more of these units in your army, you must select one of them to
+  // be your WARLORD." So the rule is not "one such unit", it is "one of them wears the title", and
+  // Belisarius Cawl beside Thulia Ghuld is a legal Adeptus Mechanicus list, not the unresolvable
+  // conflict this used to call it.
   const supremeUnits = units.filter((u) => defOf(u.id)?.flags?.supreme)
-  const supremeIds = new Set(supremeUnits.map((u) => u.id))
-  if (supremeIds.size > 1) {
-    for (const u of supremeUnits) add('supremeCommanderConflict', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name } })
-  } else if (supremeUnits.length === 1 && !supremeUnits[0].warlord) {
-    add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid, params: { name: defOf(supremeUnits[0].id)?.name } })
+  if (supremeUnits.length && !supremeUnits.some((u) => u.warlord)) {
+    const names = supremeUnits.map((u) => defOf(u.id)?.name).filter(Boolean)
+    if (supremeUnits.length === 1) add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid, params: { name: names[0] } })
+    else add('supremeCommanderPick', 'error', { uid: supremeUnits[0].uid, params: { names: [...new Set(names)].join(', ') } })
   }
 
   // Enhancements: each up to its own per-name cap (an "(Upgrade)" enhancement — see

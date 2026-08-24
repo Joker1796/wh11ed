@@ -182,9 +182,8 @@ describe('validateRoster — warlord', () => {
     expect(validateRoster(roster({ units: [U('lieutenant', { warlord: true }), U('captain')] }), { faction: f, core }).issues.map((i) => i.code)).not.toContain('mandatoryWarlord')
   })
 
-  // Supreme Commander: "if this model is in your army, it must be your Warlord" — a hard rule,
-  // distinct from the detachment-level mandatory pick above. Two Supreme-Commander-flagged units
-  // in the same roster (e.g. Belisarius Cawl + Thulia Ghuld) can never both be satisfied.
+  // Supreme Commander: "if this model is in your army, it must be your Warlord" — distinct from
+  // the detachment-level mandatory pick above.
   it('requires a Supreme Commander unit to be the Warlord', () => {
     const supreme = { id: 'marneus-supreme', name: 'Roboute Guilliman', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1, supreme: 1 }, sizes: [{ pts: 195, per: [1, 1] }] }
     const f = { ...faction, units: [...faction.units, supreme] }
@@ -195,12 +194,20 @@ describe('validateRoster — warlord', () => {
     const r2 = roster({ units: [U('marneus-supreme', { warlord: true })] })
     expect(validateRoster(r2, { faction: f, core }).issues.map((i) => i.code)).not.toContain('supremeCommanderNotWarlord')
   })
-  it('flags two different Supreme Commander units as an unresolvable conflict', () => {
+  // Two of them in one army is LEGAL — the Muster step says "if you want to include one or more of
+  // these units in your army, you must select one of them to be your WARLORD". Belisarius Cawl
+  // beside Thulia Ghuld is an ordinary Adeptus Mechanicus list, and calling it an unresolvable
+  // conflict told players their legal army was illegal.
+  it('lets two Supreme Commanders stand together, one of them wearing the title', () => {
     const s1 = { id: 's1', name: 'Belisarius Cawl', kws: ['Character'], flags: { char: 1, supreme: 1 }, sizes: [{ pts: 195, per: [1, 1] }] }
     const s2 = { id: 's2', name: 'Thulia Ghuld', kws: ['Character'], flags: { char: 1, supreme: 1 }, sizes: [{ pts: 90, per: [1, 1] }] }
     const f = { ...faction, units: [...faction.units, s1, s2] }
-    const r = roster({ units: [U('s1', { warlord: true }), U('s2')] })
-    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('supremeCommanderConflict')
+    const codesOf = (r) => validateRoster(r, { faction: f, core }).issues.map((i) => i.code)
+    expect(codesOf(roster({ units: [U('s1', { warlord: true }), U('s2')] }))).toEqual([])
+    // …but one of them has to: a third character wearing the title leaves both rules unsatisfied.
+    const neither = roster({ units: [U('captain', { warlord: true }), U('s1'), U('s2')] })
+    expect(codesOf(neither)).toContain('supremeCommanderPick')
+    expect(codesOf(neither)).not.toContain('supremeCommanderNotWarlord')
   })
 })
 
