@@ -40,7 +40,28 @@ export function validateRoster(roster, { faction, core } = {}) {
 
   const points = rosterPoints(units, defOf, detachments)
   const issues = []
-  const add = (code, level, extra) => issues.push({ code, level, ...extra })
+  // Every issue tied to an entry names it. The message templates cannot do that on their own — the
+  // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled
+  // in here for anything with a `uid`, and the templates only have to leave room for it. An army
+  // holding three Warbosses would then say the same thing three times, so a name shared by several
+  // entries gets that entry's number in the list: the reader can tell which row the modal will jump
+  // to before they tap it.
+  const nameOf = (uid) => {
+    const at = units.findIndex((u) => u.uid === uid)
+    const def = at < 0 ? null : defOf(units[at].id)
+    if (!def) return null
+    const same = units.filter((u) => u.id === units[at].id)
+    if (same.length < 2) return def.name
+    return `${def.name} (${same.findIndex((u) => u.uid === uid) + 1})`
+  }
+  const add = (code, level, extra) => {
+    const iss = { code, level, ...extra }
+    if (iss.uid) {
+      const unit = nameOf(iss.uid)
+      if (unit) iss.params = { unit, ...(iss.params || {}) }
+    }
+    issues.push(iss)
+  }
 
   // Incompleteness (soft).
   if (!roster?.faction) add('noFaction', 'warn')
@@ -97,7 +118,7 @@ export function validateRoster(roster, { faction, core } = {}) {
       const limit = duplicateLimit(def, battle.dupLimit)
       if (list.length > limit) {
         const over = defOf(list[limit].id) || def
-        add('overDuplicate', 'error', { uid: list[limit].uid, params: { name: over.name, count: list.length, limit } })
+        add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
       }
     }
   }
@@ -119,17 +140,17 @@ export function validateRoster(roster, { faction, core } = {}) {
         const own = wargearGroupFallbackCap(def, u, gi)
         const used = wargearGroupSpent(u, gi)
         if (own != null && used > own) {
-          add('overWargearLimit', 'error', { uid: u.uid, params: { name: def.name, count: used, limit: own } })
+          add('overWargearLimit', 'error', { uid: u.uid, params: { count: used, limit: own } })
         }
         continue
       }
       const spent = wargearGroupSpent(u, gi)
       if (spent > cap.limit) {
-        add('overWargearLimit', 'error', { uid: u.uid, params: { name: def.name, count: spent, limit: cap.limit } })
+        add('overWargearLimit', 'error', { uid: u.uid, params: { count: spent, limit: cap.limit } })
         continue
       }
       const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
-      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { name: def.name, count: over[2] || 1, limit: cap.dup } })
+      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { count: over[2] || 1, limit: cap.dup } })
     }
   }
 
@@ -141,7 +162,7 @@ export function validateRoster(roster, { faction, core } = {}) {
       const a = allegFor(def, detachments)
       if (!a) continue
       if (u.alleg) spentByGroup.set(a.g, (spentByGroup.get(a.g) || 0) + 1)
-      else if (a.req) add('allegMissing', 'error', { uid: u.uid, params: { name: def.name, group: a.t || a.g } })
+      else if (a.req) add('allegMissing', 'error', { uid: u.uid, params: { group: a.t || a.g } })
     }
     // "Select up to 3 …" is a cap; "select 3 …" (Chaos Knights' Houndpack Lance, min 3 / max 3) is
     // also a floor, and a list one War Dog short of it is illegal in the same way one over is.
@@ -168,7 +189,7 @@ export function validateRoster(roster, { faction, core } = {}) {
       if (!target?.alleg || target.alleg === u.alleg) continue
       add('allegMismatch', 'error', {
         uid: u.uid,
-        params: { name: defOf(u.id)?.name, own: u.alleg, target: defOf(target.id)?.name, theirs: target.alleg },
+        params: { own: u.alleg, target: nameOf(target.uid) || defOf(target.id)?.name, theirs: target.alleg },
       })
     }
   }
@@ -182,7 +203,7 @@ export function validateRoster(roster, { faction, core } = {}) {
     // The allegiance keyword counts here for the same reason it counts for enhancements below: a
     // War Dog that took Houndpack Lance's CHARACTER is a Character.
     const granted = [allegKeyword(def, w, detachments)].filter(Boolean)
-    if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
+    if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid })
   }
   // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
   // Yncarne) — every detachment's own list is an OR-alternative, flattened across all selected
@@ -201,7 +222,7 @@ export function validateRoster(roster, { faction, core } = {}) {
   const supremeUnits = units.filter((u) => defOf(u.id)?.flags?.supreme)
   if (supremeUnits.length && !supremeUnits.some((u) => u.warlord)) {
     const names = supremeUnits.map((u) => defOf(u.id)?.name).filter(Boolean)
-    if (supremeUnits.length === 1) add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid, params: { name: names[0] } })
+    if (supremeUnits.length === 1) add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid })
     else add('supremeCommanderPick', 'error', { uid: supremeUnits[0].uid, params: { names: [...new Set(names)].join(', ') } })
   }
 
@@ -272,7 +293,9 @@ export function validateRoster(roster, { faction, core } = {}) {
     // leadTypeFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list,
     // and a datasheet can name its targets by KEYWORD rather than by name — which is the only way
     // an allied leader can join anything in the army it was lent to.
-    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
+    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments)) {
+      add('leaderTargetInvalid', 'warn', { uid: u.uid, params: { target: (target && nameOf(target.uid)) || '—' } })
+    }
   }
 
   // A Bodyguard unit takes one Leader AND one Support at a time (the two are independent slots —
@@ -287,7 +310,11 @@ export function validateRoster(roster, { faction, core } = {}) {
       byTarget.get(u.leaderOf).push(u)
     }
     const flagged = new Set()
-    const tooMany = (u) => { if (!flagged.has(u.uid)) { flagged.add(u.uid); add('manyLeaders', 'error', { uid: u.uid }) } }
+    const tooMany = (u, host) => {
+      if (flagged.has(u.uid)) return
+      flagged.add(u.uid)
+      add('manyLeaders', 'error', { uid: u.uid, params: { target: nameOf(host) || '—' } })
+    }
     for (const [uid, list] of byTarget) {
       const host = units.find((x) => x.uid === uid)
       const hostDef = defOf(host?.id)
@@ -308,17 +335,17 @@ export function validateRoster(roster, { faction, core } = {}) {
       }
       for (const slot of slots.values()) {
         const max = slot.own ? 1 : (slot.type === 'leader' ? lim.leader : lim.support)
-        for (const u of slot.list.slice(max)) tooMany(u)
+        for (const u of slot.list.slice(max)) tooMany(u, uid)
       }
       // The mix the datasheet limits, where it does: "provided no more than one of those units is
       // a COMMAND SQUAD unit", "provided those Leaders are not duplicates".
       if (lim.oneKw) {
         const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, lim.oneKw) })
-        for (const u of named.slice(1)) tooMany(u)
+        for (const u of named.slice(1)) tooMany(u, uid)
       }
       if (lim.noDup) {
         const seen = new Set()
-        for (const u of list) { if (seen.has(u.id)) tooMany(u); seen.add(u.id) }
+        for (const u of list) { if (seen.has(u.id)) tooMany(u, uid); seen.add(u.id) }
       }
     }
   }
@@ -343,7 +370,7 @@ export function validateRoster(roster, { faction, core } = {}) {
         // Listed as an ally, but no group that offers it is open — the Detachment that unlocks it
         // isn't selected. The unit is in the list and priced; it just can't legally be there.
         const dets = [...new Set(groups.flatMap((g) => g.dets || []))]
-        add('allyLocked', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id, dets: dets.join(', ') } })
+        add('allyLocked', 'error', { uid: u.uid, params: { dets: dets.join(', ') } })
         continue
       }
       if (!byGroup.has(mine.key)) byGroup.set(mine.key, [])
@@ -374,8 +401,8 @@ export function validateRoster(roster, { faction, core } = {}) {
       if (g.mutex && used.length > 1) add('allyMutex', 'error', { params: { group: g.name, kws: used.join(', ') } })
       if (!cross.length) continue
       for (const u of cross) {
-        if (u.warlord) add('allyWarlord', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id } })
-        if (u.enh && !g.enh) add('allyEnh', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id, enh: u.enh } })
+        if (u.warlord) add('allyWarlord', 'error', { uid: u.uid })
+        if (u.enh && !g.enh) add('allyEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
       }
     }
   }
@@ -383,7 +410,7 @@ export function validateRoster(roster, { faction, core } = {}) {
   // Detachment-excluded datasheets (union across the selected detachments).
   const excl = new Set(detachments.flatMap((d) => d.excludedUnits || []))
   if (excl.size) {
-    for (const u of units) if (excl.has(u.id)) add('unitExcluded', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id } })
+    for (const u of units) if (excl.has(u.id)) add('unitExcluded', 'error', { uid: u.uid })
   }
 
   const errorCount = issues.filter((i) => i.level === 'error').length

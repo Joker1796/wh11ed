@@ -309,7 +309,16 @@ directory; still part of this feature:
 - `rosterValidation.js` — `validateRoster()`. Philosophy: **never block**, like the official
   app — always compute a total and surface `{ code, level: 'error'|'warn', uid?, params? }`
   issues for the user to judge rather than preventing an illegal list. `code` maps to an i18n
-  message rendered by `RosterIssuesModal`. Per-unit duplicate cap: the battle size's limit,
+  message rendered by `RosterIssuesModal`.
+  **An issue tied to an entry always names it.** The templates cannot do that for themselves — one
+  code is raised from several places and some carry no unit at all — so `add()` fills `params.unit`
+  for anything with a `uid`, and every unit-scoped message leaves room for it (`{unit}`; the
+  attachment ones also get `{target}`, the unit at the other end). A name the roster holds more than
+  once carries that entry's number in the list (`Cadian Castellan (2)`), which is the only thing
+  telling three identical messages apart, and `RosterIssuesModal` renders the row as a link only
+  when there is a unit to jump to. `rosterValidation.test.js` guards both halves: every issue with a
+  `uid` has a `unit`, and no message asks for a placeholder the validator does not send.
+  Per-unit duplicate cap: the battle size's limit,
   doubled for Battleline/Dedicated Transport, hard-capped at 1 for every Epic Hero regardless
   of battle size (rule 25).
   **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
