@@ -45,6 +45,19 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   datasheet+miniature) have no structural field in appdata linking them — the generator infers
   it; see the "deviation" comments in `gen-roster-data.mjs` around
   `base_miniature_loadout_wargear_option` before touching that logic.
+- **`flags.alongside`** — a leader that does NOT take the single Leader slot. The core rules read
+  "unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one
+  **support** unit attached to it", and six Death Guard datasheets state otherwise: "You can attach
+  this model to a **PLAGUE MARINES** unit, even if one other Leader unit has already been attached
+  to it (you cannot attach more than one of the same Leader to the same unit)" — the blob every
+  Death Guard army is built around. appdata types them `leader` like anything else (its
+  `bodyguardType` has no third value), so the editor's picker disabled the target for the second
+  character and the validator called the army illegal. The generator reads the sentence out of
+  `datasheet_rule` (`ALONGSIDE_RE`); `leaderOccupies` in rosterEngine and the `manyLeaders` key in
+  rosterValidation both go through it, and the parenthetical is the only limit kept — not two of the
+  SAME leader on one unit. Checked against the whole game: `bodyguardType` agrees with the rule's
+  own name ("Leader"/"Support") on all 304 datasheets that have a group, so this is the one
+  exception class, not a symptom of a wider typing problem.
 - **`PROSE_ATTACH`** — two attachments appdata states in prose and in no table at all. The Ogryn
   Bodyguard and Nork Deddog "must join one **COMMAND SQUAD** unit from your army" (their Loyal
   Protector rule) and have no `datasheet_bodyguard_group` of any kind, so as generated they could
