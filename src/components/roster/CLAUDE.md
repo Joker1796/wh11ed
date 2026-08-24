@@ -329,7 +329,9 @@ directory; still part of this feature:
   **Points are recomputed, never trusted.** `report.points` carries three numbers: what the list
   STATED in its header, what its matched units stated (`statedUnits`), and what those units cost
   HERE. A difference is normally a data-version difference, and saying so is the whole reason the
-  stated figure is kept.
+  stated figure is kept. The screen also NAMES the units behind it (`repriced`): a 2000-point list
+  is fifteen units, and "50 points short" is only checkable once it reads "Terminator Assault Squad
+  (310 / 360)" — an Imperial Fists export from data v913, priced before MFM v1.2.
 
   Two parsing details that took a real export to find:
   - **The bullet, not the indent, tells a model line from a weapon.** `  • 2x Chaos Spawn` with

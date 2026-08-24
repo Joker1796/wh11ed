@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, it, expect } from 'vitest'
 import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
 import RosterImportModal from './RosterImportModal.vue'
+import { ui } from '../../i18n/ui.js'
 
 // BaseModal teleports to body, so the fields live outside the mounted wrapper's own root.
 const body = () => new DOMWrapper(document.body)
@@ -102,6 +103,20 @@ Exported from listhammer.info: https://listhammer.info/list/abc`
     const report = body().find('.rim-report')
     expect(report.exists()).toBe(true)
     expect(report.text()).toContain('World Eaters')
+    w.unmount()
+  })
+
+  // A list exported against an older points version differs by one unit, not by a lump sum: naming
+  // the unit is what turns "50 points short" into something the reader can check in a second.
+  it('names the units that cost something else here', async () => {
+    const STALE = LIST.replace('Chaos Spawn (95 points)', 'Chaos Spawn (195 points)')
+    const w = mount(RosterImportModal)
+    await body().find('textarea').setValue(STALE)
+    await body().find('.rim-btn').trigger('click')
+    await settle()
+    const report = body().find('.rim-report')
+    expect(report.text()).toContain('Chaos Spawn (95 / 195)')
+    expect(report.text()).not.toContain(ui.en.rosterImportClean)
     w.unmount()
   })
 

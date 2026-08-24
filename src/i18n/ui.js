@@ -430,6 +430,8 @@ export const ui = {
     rosterImportNoDets: 'This list names no detachment. Pick one in the editor afterwards, or the enhancements above cannot be applied.',
     rosterImportPoints: '{computed} pts here, {stated} pts in the list',
     rosterImportPointsNote: 'Points are always recomputed from our own data. A difference usually means the list was built against another version — check it before a game.',
+    // …and which units those are, so the reader does not have to diff fifteen of them by hand.
+    rosterImportPointsUnits: 'Priced differently here (ours / the list): {n}',
     rosterImportClean: 'Everything matched.',
     rosterExportTitle: 'Export roster',
     // The three text shapes the community passes lists around in (rosterExport.js).
@@ -1098,6 +1100,7 @@ export const ui = {
     rosterImportNoDets: 'В листе не указан детачмент. Выберите его потом в редакторе, иначе усиления выше применить не к чему.',
     rosterImportPoints: '{computed} очк. у нас, {stated} очк. в листе',
     rosterImportPointsNote: 'Очки всегда пересчитываются по нашим данным. Расхождение обычно значит, что лист собран по другой версии — проверьте перед партией.',
+    rosterImportPointsUnits: 'Оценены иначе (у нас / в листе): {n}',
     rosterImportClean: 'Всё сопоставилось.',
     rosterExportTitle: 'Экспорт листа',
     rosterFmtGw: 'Приложение GW',
