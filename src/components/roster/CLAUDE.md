@@ -296,7 +296,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Twelve more things real lists turned up, none of them about listhammer's spelling:
+  Thirteen more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -305,6 +305,16 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **An export can print an attached unit TWICE** — inside its `Attached Unit N` block, so the
+    reader sees who joined whom, and again under its own section, so the army list reads complete.
+    A Tyranids list shows its two Tyrant Guard in both places and then states a total that counts
+    them once (2000, where the printed entries add up to 2320). `dropRepeatedAttachments` folds the
+    loose copy away — but only when the excess over the list's OWN stated total is exactly the
+    entries that appear in both places. Decided by arithmetic, never by shape: a Deathwatch list
+    really does field one Indomitor Kill Team attached and another on its own, its entries add up to
+    its stated total, and a shape-based rule would have made it 275 points lighter. The number
+    folded away is reported on the import screen, since the unit count is otherwise short of what
+    the pasted text shows.
   - **A missing "Attached as:" line is not a missing attachment.** An `Attached Unit N` block
     exists to say who joined whom, so anything else inside a block that HAS a bodyguard is attached
     to it. One export labels the Tyrant Guard and prints nothing at all under the Hive Tyrant above

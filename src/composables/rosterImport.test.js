@@ -1249,3 +1249,72 @@ describe('matchRoster — an attached block that never says "Leader"', () => {
     expect(report.points.computed).toBe(report.points.statedUnits)
   })
 })
+
+// Some exports print an attached unit twice — inside its Attached Unit block, so the reader sees
+// who joined whom, and again under its own section, so the army list is complete. The list's own
+// stated total counts it once, which is the only safe way to tell that apart from a list that
+// really does field two.
+describe('matchRoster — an export that prints attached units twice', () => {
+  const TWICE = `tired and afraid (725 points)
+
+Tyranids
+Talons of the Norn Queen (3 Detachment Points)
+Strike Force (2000 points)
+
+CHARACTERS
+Attached Units
+Attached Unit 1
+
+Hive Tyrant (195 points)
+• 1x Heavy venom cannon
+1x Monstrous bonesword and lash whip
+
+Tyrant Guard (160 points)
+• Attached as: Bodyguard
+• 6x Tyrant Guard
+• 6x Scything talons and rending claws
+
+OTHER DATASHEETS
+
+Norn Assimilator (275 points)
+• 1x Monstrous scything talons
+1x Toxinjector Harpoon
+• Enhancement: Synaptoprescience (Upgrade)
+
+Tyrant Guard (160 points)
+• 6x Tyrant Guard
+• 6x Scything talons and rending claws
+
+Pyrovores (95 points)
+• 3x Pyrovore
+• 3x Chitin-barbed limbs
+3x Flamespurt`
+
+  it('counts the repeat once, and says so', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('tyranids')
+    const parsed = parseList(TWICE)
+    expect(parsed.repeated).toBe(1)
+    const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
+    expect(report.repeated).toBe(1)
+    expect(payload.units.filter((u) => u.id === 'tyrant-guard')).toHaveLength(1)
+    expect(report.points.computed).toBe(195 + 160 + 275 + 95)
+    // …and the surviving copy is the attached one, so the attachment is not lost with the repeat.
+    const tyrant = payload.units.find((u) => u.id === 'hive-tyrant')
+    expect(tyrant.leaderOf).toBe(payload.units.find((u) => u.id === 'tyrant-guard').uid)
+  })
+
+  // The same shape, arithmetically: a list whose entries add up to its OWN stated total holds two
+  // real units, and folding one away would quietly make it 160 points lighter.
+  it('leaves a list alone when its own total counts both', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('tyranids')
+    const parsed = parseList(TWICE.replace('(725 points)', `(${195 + 160 + 275 + 160 + 95} points)`))
+    expect(parsed.repeated).toBeUndefined()
+    const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
+    expect(payload.units.filter((u) => u.id === 'tyrant-guard')).toHaveLength(2)
+    expect(report.points.computed).toBe(report.points.statedUnits)
+  })
+})

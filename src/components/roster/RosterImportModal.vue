@@ -38,6 +38,10 @@
           {{ labels.rosterImportPoints.replace('{computed}', String(report.points.computed)).replace('{stated}', String(report.points.stated || report.points.statedUnits)) }}
         </p>
         <p v-if="pointsDiffer" class="rim-note">{{ labels.rosterImportPointsNote }}</p>
+        <!-- Not a warning: the export printed those units twice on purpose, and the list's own
+             total says so. Said out loud anyway, because the unit count is two short of what the
+             text shows and nobody should have to wonder why. -->
+        <p v-if="report.repeated" class="rim-note">{{ labels.rosterImportRepeated.replace('{n}', String(report.repeated)) }}</p>
 
         <div v-if="report.missing.length" class="rim-warn">
           <span class="rim-warn-h">{{ labels.rosterImportMissingUnits }}</span>
