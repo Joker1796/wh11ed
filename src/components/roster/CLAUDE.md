@@ -296,7 +296,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Eleven more things real lists turned up, none of them about listhammer's spelling:
+  Twelve more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -305,6 +305,10 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **A missing "Attached as:" line is not a missing attachment.** An `Attached Unit N` block
+    exists to say who joined whom, so anything else inside a block that HAS a bodyguard is attached
+    to it. One export labels the Tyrant Guard and prints nothing at all under the Hive Tyrant above
+    it, and reading only the label left the character standing alone.
   - **A paired swap is counted per PROFILE.** A stepper group counts models; within one profile a
     line naming the other half of a bundle restates the same models ("1x Storm Shield" then "1x
     Thunder hammer" is one swapped model), while across profiles the swaps are different models and
