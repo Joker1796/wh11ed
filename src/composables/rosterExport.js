@@ -77,7 +77,10 @@ function loadoutGroups(def, entry, items) {
     const removed = swapsByMini(def, entry, perMini)
     for (const [m, list] of def.defaults) {
       const models = perMini?.get(m)
-      for (const [id, c] of list) {
+      for (const [id, c, total] of list) {
+        // A `total` quantity is the profile's, not each model's (one of the two Gun Servitors has
+        // the heavy bolter), so it is printed as recorded rather than multiplied out.
+        if (total) { add(m, items[id], c); continue }
         const take = removed.get(`${m}:${id}`) || 0
         add(m, items[id], models == null ? c : c * Math.max(0, models - take))
       }

@@ -67,16 +67,24 @@ export default {
           "type": "leader"
         }
       ],
+      "leadKw": [
+        {
+          "kw": [
+            "Sternguard Veteran Squad"
+          ],
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1092,
+              1094,
               1
             ],
             [
-              683,
+              685,
               1
             ]
           ]
@@ -147,20 +155,28 @@ export default {
           "type": "leader"
         }
       ],
+      "leadKw": [
+        {
+          "kw": [
+            "Sternguard Veteran Squad"
+          ],
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1093,
-              1
-            ],
-            [
-              1094,
-              1
-            ],
-            [
               1095,
+              1
+            ],
+            [
+              1096,
+              1
+            ],
+            [
+              1097,
               1
             ]
           ]
@@ -219,11 +235,11 @@ export default {
           0,
           [
             [
-              1096,
+              1098,
               1
             ],
             [
-              1097,
+              1099,
               1
             ]
           ]
@@ -280,7 +296,7 @@ export default {
           1,
           [
             [
-              1098,
+              1100,
               1
             ]
           ]
@@ -289,7 +305,7 @@ export default {
           0,
           [
             [
-              1099,
+              1101,
               1
             ]
           ]
@@ -302,7 +318,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1100
+              1102
             ]
           ],
           "lim": [
@@ -318,11 +334,11 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1101
+              1103
             ]
           ],
           "rep": [
-            1099
+            1101
           ]
         },
         {
@@ -331,11 +347,11 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1102
+              1104
             ]
           ],
           "rep": [
-            1098
+            1100
           ]
         }
       ]
@@ -404,7 +420,7 @@ export default {
           1,
           [
             [
-              689,
+              691,
               1
             ],
             [
@@ -421,7 +437,7 @@ export default {
               1
             ],
             [
-              736,
+              738,
               1
             ]
           ]
@@ -434,7 +450,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1100
+              1102
             ]
           ],
           "lim": [
@@ -450,11 +466,11 @@ export default {
           "in": "stepper",
           "o": [
             [
-              735
+              737
             ]
           ],
           "rep": [
-            689
+            691
           ]
         },
         {
@@ -465,7 +481,7 @@ export default {
             [
               [
                 [
-                  733,
+                  735,
                   1
                 ]
               ]
@@ -473,7 +489,7 @@ export default {
             [
               [
                 [
-                  493,
+                  495,
                   1
                 ]
               ]
@@ -481,7 +497,7 @@ export default {
             [
               [
                 [
-                  1103,
+                  1105,
                   1
                 ]
               ]
@@ -493,7 +509,7 @@ export default {
                   1
                 ],
                 [
-                  734,
+                  736,
                   1
                 ]
               ]
@@ -566,24 +582,32 @@ export default {
           "type": "leader"
         }
       ],
+      "leadKw": [
+        {
+          "kw": [
+            "Sternguard Veteran Squad"
+          ],
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
-            [
-              1104,
-              1
-            ],
-            [
-              1105,
-              1
-            ],
             [
               1106,
               1
             ],
             [
               1107,
+              1
+            ],
+            [
+              1108,
+              1
+            ],
+            [
+              1109,
               1
             ]
           ]
@@ -629,11 +653,11 @@ export default {
           0,
           [
             [
-              683,
+              685,
               1
             ],
             [
-              1108,
+              1110,
               1
             ]
           ]
@@ -673,11 +697,11 @@ export default {
           0,
           [
             [
-              724,
+              726,
               1
             ],
             [
-              1110,
+              1112,
               1
             ],
             [
@@ -694,7 +718,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              733
+              735
             ]
           ],
           "rep": [
@@ -763,12 +787,20 @@ export default {
           "type": "leader"
         }
       ],
+      "leadKw": [
+        {
+          "kw": [
+            "Sternguard Veteran Squad"
+          ],
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1109,
+              1111,
               1
             ],
             [
@@ -813,11 +845,11 @@ export default {
           0,
           [
             [
-              1111,
+              1113,
               1
             ],
             [
-              1112,
+              1114,
               1
             ]
           ]
@@ -857,15 +889,15 @@ export default {
               1
             ],
             [
-              712,
+              714,
               1
             ],
             [
-              1113,
+              1115,
               1
             ],
             [
-              1114,
+              1116,
               1
             ]
           ]
@@ -878,11 +910,11 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1115
+              1117
             ]
           ],
           "rep": [
-            1113
+            1115
           ]
         }
       ]
@@ -955,11 +987,11 @@ export default {
               1
             ],
             [
-              1116,
+              1118,
               1
             ],
             [
-              1117,
+              1119,
               1
             ]
           ]
@@ -968,7 +1000,7 @@ export default {
           1,
           [
             [
-              1117,
+              1119,
               1
             ],
             [
@@ -976,7 +1008,7 @@ export default {
               1
             ],
             [
-              1116,
+              1118,
               1
             ]
           ]
@@ -989,7 +1021,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              758
+              760
             ]
           ],
           "lim": [
@@ -1003,7 +1035,7 @@ export default {
             ]
           ],
           "rep": [
-            1116
+            1118
           ]
         }
       ]
@@ -1078,7 +1110,7 @@ export default {
           2,
           [
             [
-              1116,
+              1118,
               1
             ],
             [
@@ -1086,7 +1118,7 @@ export default {
               1
             ],
             [
-              1117,
+              1119,
               1
             ]
           ]
@@ -1095,11 +1127,11 @@ export default {
           1,
           [
             [
-              1117,
+              1119,
               1
             ],
             [
-              1116,
+              1118,
               1
             ],
             [
@@ -1112,7 +1144,7 @@ export default {
           0,
           [
             [
-              1116,
+              1118,
               1
             ],
             [
@@ -1120,7 +1152,7 @@ export default {
               1
             ],
             [
-              1118,
+              1120,
               1
             ]
           ]
@@ -1133,7 +1165,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              758
+              760
             ]
           ],
           "lim": [
@@ -1143,7 +1175,7 @@ export default {
             ]
           ],
           "rep": [
-            1116
+            1118
           ]
         }
       ]
@@ -1177,11 +1209,11 @@ export default {
           0,
           [
             [
-              1119,
+              1121,
               1
             ],
             [
-              710,
+              712,
               2
             ],
             [
@@ -1225,7 +1257,7 @@ export default {
               1
             ],
             [
-              724,
+              726,
               1
             ]
           ]
@@ -1238,7 +1270,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              733
+              735
             ]
           ],
           "rep": [
@@ -1293,7 +1325,7 @@ export default {
           0,
           [
             [
-              1120,
+              1122,
               1
             ],
             [
@@ -1301,11 +1333,11 @@ export default {
               1
             ],
             [
-              1121,
+              1123,
               1
             ],
             [
-              1122,
+              1124,
               1
             ]
           ]

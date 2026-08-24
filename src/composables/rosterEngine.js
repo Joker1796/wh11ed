@@ -330,24 +330,40 @@ export function mandatoryEnhancementFor(def, detachments) {
 // already claimed by a DIFFERENT entry of the SAME type is flagged `used` so the picker can
 // disable it, the same "eligible but already spoken for" treatment enhOptionsFor gives a used
 // enhancement — this entry's own current target is never "used" against itself.
+// Which kind of attachment this leader offers THIS target: 'leader', 'support', or null. Two
+// sources, in order — the datasheet's own list of units it can join, and the keyword groups a
+// datasheet writes instead of a list ("this model can be attached to any IMPERIUM BATTLELINE
+// INFANTRY unit"). The generator resolves those keywords against the leader's own faction, which
+// is enough until the leader is an ALLY: Inquisitor Draxus in an Adeptus Mechanicus army joins a
+// Skitarii Vanguard, a unit her own bundle has never heard of, so the question has to be asked of
+// the target that is actually in the list.
+export function leadTypeFor(def, entry, targetDef, detachments = []) {
+  if (!def || !targetDef) return null
+  const direct = leadsFor(def, entry, detachments).find((l) => l.to === targetDef.id)
+  if (direct) return direct.type
+  const kwGroups = gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
+  const hit = kwGroups.find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
+  return hit ? hit.type : null
+}
+
 export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const leads = leadsFor(def, entry, detachments)
-  if (!leads.length) return []
-  const typeByTarget = new Map(leads.map((l) => [l.to, l.type]))
+  if (!leads.length && !def?.leadKw?.length) return []
+  const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments)
   // Marks of Chaos: "a Character unit can only be attached to a unit if both units share the same
   // keyword". Scoped to that group by key — it is that detachment rule's own clause, not something
   // allegiances do in general, and the CHARACTER-granting upgrades carry no such restriction. A
   // target that hasn't chosen yet stays offered: the mark is picked per unit, in any order.
   const ownMark = allegFor(def, detachments)?.g === 'mark-of-chaos' ? entry?.alleg : null
   return (units || [])
-    .filter((u) => u.uid !== excludeUid && typeByTarget.has(u.id))
+    .filter((u) => u.uid !== excludeUid && typeOf(u.id))
     .filter((u) => !ownMark || !u.alleg || u.alleg === ownMark)
     .map((u) => {
-      const type = typeByTarget.get(u.id)
+      const type = typeOf(u.id)
       const used = (units || []).some((o) => {
         if (o.uid === excludeUid || o.uid === u.uid || o.leaderOf !== u.uid) return false
-        return leadsFor(defOf(o.id), o, detachments).find((l) => l.to === u.id)?.type === type
+        return leadTypeFor(defOf(o.id), o, defOf(u.id), detachments) === type
       })
       return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
     })
@@ -540,7 +556,11 @@ export function defaultLoadoutLines(def, items, entry) {
   return (def?.defaults || []).flatMap(([m, list]) => {
     const models = perMini?.get(m)
     const parts = []
-    for (const [id, c] of list) {
+    for (const [id, c, total] of list) {
+      // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
+      // one of the two Gun Servitors in a Servitor Battleclade carries the heavy bolter (see the
+      // generator's default-loadout merge) — so it is printed as it stands, never multiplied.
+      if (total) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       const take = removed.get(`${m}:${id}`) || 0
       if (!take || models == null) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
       // take is a MODEL count (how many models of THIS profile swapped the item away); c is the

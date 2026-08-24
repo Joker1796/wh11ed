@@ -51,6 +51,30 @@ memory and reports which files would change, writing nothing. Without it an appd
 largest generated surface of this feature quietly stale — every other generated sidecar in the repo
 had a check and this one didn't.
 
+### Two tables for one default loadout
+
+appdata records what a model starts with twice: `base_miniature_loadout` (per model) and a
+wargear_option_group whose instruction is literally "Default Wargear" (the totals the profile
+fields). Most datasheets agree. Where they don't it is the ROW that is short — a Servitor
+Battleclade's Gun Servitors carry a heavy bolter and a heavy arc rifle between them and the row
+records neither, an Archon loses its Shadowfield, Coteaz his psyber-eagle — so the generator adds
+whatever the group names and the row does not (9 items, 9 miniatures game-wide; the run prints each
+one). The same disagreement is why `LOADOUT_ITEM_FIXES` exists for the Death Company Dreadnought.
+
+The two tables also COUNT differently, and that is why a `defaults` item can carry a **third
+element**: `[itemId, count, 1]` marks a quantity that belongs to the PROFILE rather than to each of
+its models (one of the two Gun Servitors has the heavy bolter). `defaultLoadoutLines` and the
+export print such an item as recorded instead of multiplying it by the model count.
+
+### Attachments named by keyword
+
+A datasheet can say who it joins with a keyword instead of a list — "this model can be attached to
+any **IMPERIUM BATTLELINE INFANTRY** unit". The generator resolves those against the leader's own
+faction AND emits the keywords themselves (`leadKw`), because a resolved id cannot travel: Inquisitor
+Draxus allied into an Adeptus Mechanicus army joins a Skitarii Vanguard her own bundle has never
+heard of. `rosterEngine.leadTypeFor` answers the question against the unit actually in the list, and
+both the target picker and `leaderTargetInvalid` go through it.
+
 ### Points
 
 **The brackets are appdata's, the prices are the Munitorum Field Manual's** (`src/data/mfm/*.js`,
@@ -266,7 +290,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Six more things real lists turned up, none of them about listhammer's spelling:
+  Eight more things real lists turned up, none of them about listhammer's spelling:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -275,6 +299,17 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **A title can print its points several lines below its name.** The header runs until the army
+    is named (a bare line that answers as a faction), the detachment line, or the first section /
+    Attached Units marker; a priced line inside it is the LIST's points, not a unit's. A list whose
+    name is a whole poem ends "(A poem written by Luis Untermeyer c. 1922) (2000 points)", and
+    reading that as a 2000-point unit also cost the list its faction — the faction line below it was
+    swallowed as that unit's body.
+  - **Two picks can share a group.** A weapon offered by two of a datasheet's groups goes to a
+    group nothing has been taken from yet, before a second option of one already used: a Falcon's
+    shuriken cannon can replace either the scatter laser or the twin shuriken catapult, and its
+    bright lance can only be the scatter laser's — taking the cannon from that group too put two
+    picks in a group that allows one.
   - **A profile no list can buy still appears in the text.** Sir Hekhtur is the pilot who climbs
     out when Canis Rex is destroyed — his own datasheet, with no points and no composition in
     appdata, so the roster layer drops him (the generator's single drop) and records the name in

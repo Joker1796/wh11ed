@@ -623,3 +623,41 @@ describe('allies', () => {
     expect(plain.units.some((u) => u.id.includes(':'))).toBe(false)
   })
 })
+
+// The default loadout appdata keeps in two tables that can disagree — the per-model `base_
+// miniature_loadout` row and the per-profile "Default Wargear" group. Where the row is short, the
+// group fills it in; a quantity that belongs to the PROFILE rather than to each of its models
+// carries a third element so nothing multiplies it out.
+describe('default loadouts merged from the Default Wargear group', () => {
+  it('gives the Gun Servitors the weapons their loadout row leaves out', async () => {
+    const admech = await loadRosterFaction('adeptus-mechanicus')
+    const clade = admech.units.find((u) => u.id === 'servitor-battleclade')
+    const gun = clade.minis.findIndex((m) => m.n === 'Gun Servitor')
+    const list = clade.defaults.find(([m]) => m === gun)[1]
+    const named = list.map(([id]) => rosterItems.items[id])
+    expect(named).toEqual(expect.arrayContaining(['Heavy arc rifle', 'Heavy bolter', 'Servo-claw']))
+    // One heavy bolter for the two models, not one each.
+    for (const [id, c, total] of list) {
+      if (rosterItems.items[id] === 'Heavy bolter') expect([c, total]).toEqual([1, 1])
+      if (rosterItems.items[id] === 'Servo-claw') expect(total).toBeUndefined()
+    }
+  })
+
+  it('gives an Archon its Shadowfield', async () => {
+    const drukhari = await loadRosterFaction('drukhari')
+    const archon = drukhari.units.find((u) => u.id === 'archon')
+    expect(archon.defaults.flatMap(([, l]) => l.map(([id]) => rosterItems.items[id]))).toContain('Shadowfield')
+  })
+})
+
+// A datasheet that names the units it can join by KEYWORD rather than by name keeps those keywords,
+// because a resolved id cannot travel: Draxus leads "any IMPERIUM BATTLELINE INFANTRY unit", and as
+// an ally she joins units her own bundle has never heard of.
+describe('keyword-defined attachments', () => {
+  it('keeps the keywords beside the ids the generator could resolve', async () => {
+    const agents = await loadRosterFaction('imperial-agents')
+    const draxus = agents.units.find((u) => u.id === 'inquisitor-draxus')
+    expect(draxus.leadKw).toEqual([{ kw: ['Imperium', 'Battleline', 'Infantry'], type: 'leader' }])
+    expect(draxus.leads.length).toBeGreaterThan(0)
+  })
+})
