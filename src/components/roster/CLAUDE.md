@@ -619,7 +619,7 @@ directory; still part of this feature:
   into four and had the squad take a swap it is not entitled to. Three such lines on one Space
   Marines list whose every point, pick and model count was right.
 
-  Fifteen more things real lists turned up, none of them about how an export spells things:
+  More things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -824,6 +824,60 @@ directory; still part of this feature:
   **What each format cannot carry**, pinned by the round-trip tests: neither WTC shape has a field
   for the list's own NAME, so an imported one comes back as "Roster" — everything else, attachment
   included, survives. The GW format survives a round trip whole.
+  - **A WTC header is not always where the format says it is** (added 2026-08-25). Real lists put
+    the player's own notes above the opening row of `+` ("VALIDE", their name, a link to a video of
+    the army), print only the CLOSING row, or print no row at all. `wtcHeader` required the block on
+    the first non-blank line and answered "no header" otherwise — which cost the faction, the
+    points, the detachment, the warlord and every enhancement on **15 of the 45** WTC lists in a
+    604-list corpus, not one of which resolved to a faction. It now finds the block by its FIELDS
+    (`+ KEY: value`, continued by `& …`) and reads a row of `+` as its end, never as its beginning.
+  - **A player can NAME a model, and the app prints that name after the points**: "Palatine (60
+    points) - Palatine Eristine". `POINTS_LINE` ended at the closing parenthesis, so those were not
+    unit lines at all — four characters in one Sororitas list went missing, 280 points of it, and
+    the one printed under a squad was read as that squad's wargear. The suffix is tolerated and
+    dropped: the name is the player's, not a datasheet's.
+  - **…or TAG one in the same field**: "Commander in Enforcer Battlesuit (Blue)" beside "(Black)".
+    No datasheet in the game is named with a trailing parenthesis (checked across all 30 factions),
+    so `matchRoster` retries the lookup without one.
+  - **A list can arrive through a broken encoding** — UTF-8 read back as cp1252, so "T’au Empire" is
+    "Tâ€™au Empire" and every bullet is "â€¢". Never slightly wrong: the faction is unrecognisable
+    AND no line is a bullet any more, so the nesting `gwBody` reads is gone with it. `repairMojibake`
+    puts the text back through the bytes once, before `detectFormat` and `parseList` see it, and
+    bails out whole on anything that is not that damage (an emoji in the title has no byte to go
+    back to).
+  - **The faction can also be stated as a chain, without an apostrophe, or as a keyword**: "Imperium
+    - Adeptus Astartes - Ultramarines" (the alliance is stripped at the FIRST hyphen, which leaves
+    the Chapter behind another one), "Tau Empire", "Legiones Daemonica". `matchFaction` splits its
+    candidates on `,` and ` - `, compares apostrophe-blind after the exact pass, and holds a
+    keyword→faction map for the keywords that belong to exactly one faction — HERETIC ASTARTES is
+    four of them and is deliberately not in it.
+  - **…and some lists state it only in their TITLE**: "Big Mek Marian - Orks", or a header line
+    reading "Thousand Sons - Priority Assets - Grand Coven (2000 Points)". Read last, after every
+    bare line has failed, and strictly by our own names part by part: the looser reading turned a
+    Custodes list its author called "Orks Orks Orks" into an Orks one, where asking the reader which
+    faction it is was the honest answer and the one they got before.
+  - **A weapon a bundle grants ONE of does not account for a line naming three.** Joining an option
+    already picked used to end the line's placement, so a Forgefiend printing "3x Ectoplasma cannon"
+    made one swap instead of two and cost 165 where the list said 175. The join now consumes only
+    what that option grants and the rest spills into a group that can still grant it. `at.names.add`
+    must stay BEFORE the stepper's `break`, or the same name lands in the same stepper twice and a
+    Baneblade's two sponsons come out as one group of two — which validation then calls illegal.
+
+**Checking the importer against real lists** (2026-08-25). `scripts/fetch-listhammer.py` pulls army
+lists off listhammer.info: `--corpus out.json` walks the 28 40k faction pages and takes the ~25
+recent tournament lists each of them publishes, full text and all; a URL argument prints one list as
+the app's own export writes it. (The site is Nuxt with SSR, so every list is already in the page's
+`__NUXT_DATA__` payload and nothing needs executing — it 403s a plain fetcher but not curl.) Then
+`npm run roster:imports -- corpus.json` runs the lot through `detectFormat → parseList →
+matchFaction → matchRoster → validateRoster` and reports what each list lost. **Read its summary
+before its lines:** most lists in any real corpus were exported against an OLDER points file and are
+supposed to disagree with ours, so the checker buckets them by the `Data Version` in the export
+footer against `APP_DATA_VERSION` — only the current-version bucket means anything. In the 604-list
+corpus of 2026-08-25 that split was 217 current lists, 3 of which disagreed on points (all three
+fixed above) against 214 that matched to the point. Neither the corpus nor the scripts are app data:
+they live outside `src/`, nothing imports them, and the whole batch of fixes above added 891 bytes
+to one existing chunk.
+
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without

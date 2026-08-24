@@ -44,7 +44,11 @@ const BULLET = '[\u2022\u25e6\u2023\u25aa*]'
 const PTS = '(?:pts?|points?)'
 // "Khârn the Betrayer (115 points)", "Ghazghkull Thraka (235 Points)", "Dakka  (2.000 Points)",
 // "War Dog Brigand (140 pts)".
-const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)$`, 'i')
+// …and the app lets a player NAME a model, which it then prints after the points: "Palatine (60
+// points) - Palatine Eristine". Four such characters in one Sororitas list matched nothing at all
+// and went missing — 280 points of it — and the one printed under a squad was read as that squad's
+// wargear. The name they chose is theirs, not a datasheet's, so it is tolerated and dropped.
+const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)(?:\\s*[-\u2013\u2014]\\s*\\S.*)?$`, 'i')
 // Points are whole numbers: a dot, comma or space inside one is a thousands separator, not a
 // decimal point — listhammer writes a 2000-point list as "2.000 Points".
 const num = (s) => +String(s).replace(/\D/g, '')
@@ -77,6 +81,32 @@ export const norm = (s) => (s || '')
   .toLowerCase()
   .replace(/s\b/g, '')
 
+// A list that arrived through a broken encoding: UTF-8 bytes read back as Windows-1252. It is
+// never slightly wrong — "T’au Empire" comes out as "Tâ€™au Empire", so the faction is unknown,
+// and EVERY bullet as "â€¢", so no line is a bullet and the nesting the parser reads is gone. One
+// pass back through the bytes fixes the whole list at once, and the damage says itself: those
+// sequences are what a cp1252 reader makes of the three bytes of a typographic apostrophe.
+const MOJIBAKE = /\u00e2\u20ac|\u00c3[\u0080-\u00bf]/
+// cp1252 differs from latin1 only in 0x80–0x9f; every other character is its own byte. The unused
+// slots are spelled as their control codes, which cannot appear in text a cp1252 reader produced.
+const CP1252 = '\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f'
+  + '\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178'
+function repairMojibake(text) {
+  const t = text || ''
+  if (!MOJIBAKE.test(t)) return t
+  const bytes = new Uint8Array(t.length)
+  for (let i = 0; i < t.length; i++) {
+    const code = t.charCodeAt(i)
+    if (code <= 0xff) { bytes[i] = code; continue }
+    const at = CP1252.indexOf(t[i])
+    // Anything else — an emoji in the list's title, a name in Cyrillic — is not damage of this
+    // kind and has no byte to go back to, so the list is left exactly as it was pasted.
+    if (at < 0) return t
+    bytes[i] = 0x80 + at
+  }
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(bytes) } catch { return t }
+}
+
 // Exactly one of our own faction names — used to tell a list titled after its author from a list
 // whose header line is the faction itself. Deliberately strict, unlike matchFaction's fallback
 // pass: a loose match here would eat the title of a list called "Orks go fast".
@@ -85,7 +115,7 @@ const isFactionName = (t) => factionGroups.some((g) => g.factions.some((f) => no
 // ── format detection ─────────────────────────────────────────────────────────────────────────
 
 export function detectFormat(text) {
-  const t = text || ''
+  const t = repairMojibake(text)
   if (/^\s*\++\s*$/m.test(t) && /^\+ (FACTION KEYWORD|TOTAL ARMY POINTS):/m.test(t)) return 'wtc'
   if (isCompactList(t)) return 'listhammer-compact'
   if (/^attached units?( \d+)?$/im.test(t) || /^Exported with App Version:/m.test(t) || SECTIONS.test(t)) return 'gw'
@@ -200,6 +230,7 @@ function parseGw(text) {
   let inHeader = true
   let labelledFaction = ''   // set when the header names the faction outright, rather than by a bare line
   const plains = []      // the bare lines: the title's own continuation lines, and the faction
+  const titles = []      // what the list calls itself — the last thing asked which faction it is
 
   const flush = () => {
     if (!unit) return
@@ -292,6 +323,7 @@ function parseGw(text) {
       // swallowed as part of that unit's body.
       if (inHeader && !out.stated) {
         if (!seenHeader) { out.name = name; seenHeader = true }
+        titles.push(name)
         out.stated = pts
         continue
       }
@@ -320,7 +352,7 @@ function parseGw(text) {
     // header of some lists, and without this the name took the faction's place and the import
     // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
     // faction names is the faction, though, so a paste that starts at that line still works.
-    if (!seenHeader && !isFactionName(t)) { out.name = t; seenHeader = true; continue }
+    if (!seenHeader && !isFactionName(t)) { out.name = t; titles.push(t); seenHeader = true; continue }
     if (isFactionName(t)) inHeader = false          // the title is over once the army is named
     plains.push(t)
   }
@@ -337,7 +369,14 @@ function parseGw(text) {
   foldRepeatedAttachments(out)
   const answers = plains.filter(isFactionName)
   const loose = plains.filter((t) => matchFaction(t))
-  out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
+  // Then the TITLE, before the blind fallback below it. A list called "Big Mek Marian - Orks", or
+  // one whose only header line is "Thousand Sons - Priority Assets - Grand Coven (2000 Points)",
+  // names its army in the one place it was ever going to — and having read those lines as the
+  // title, nothing else in the file says which army it is. By our own NAMES only, part by part:
+  // the looser reading turned a Custodes list titled "Orks Orks Orks" into an Orks one, where
+  // asking the reader which faction it is was the honest answer and the one they got before.
+  const titled = titles.flatMap((t) => t.split(/ - /)).map((t) => t.trim()).find(isFactionName) || ''
+  out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || titled || plains[0] || ''
   return out
 }
 
@@ -417,14 +456,24 @@ const wtcGear = (tail) => (tail || '')
 
 // The `+++ … +++` block. Returns where the body starts, so a list with no header at all still
 // parses from line 0.
+//
+// The rows of '+' are NOT a dependable border, and requiring the block to open with one cost the
+// header entirely — the loop below stops at the first row it sees, which was then the opening one —
+// and with it the faction, the points, the detachment, the warlord and every enhancement, on
+// fifteen of the forty-five WTC lists in a corpus of real tournament lists, not one of which
+// resolved to a faction. Real lists arrive with the player's own notes above the opening row
+// ("VALIDE", their name, a link to a video of the army), with no opening row at all, and with only
+// the CLOSING one. What IS dependable is the fields — `+ KEY: value` lines, continued by `& …` — so
+// the header is wherever they are, and a row of '+' is read as its end rather than its beginning.
 function wtcHeader(lines, out) {
-  let i = 0
-  while (i < lines.length && !lines[i].trim()) i++
-  if (!lines[i]?.trim().startsWith('+++')) return 0
-  i++
-  for (; i < lines.length && !lines[i].trim().startsWith('+++'); i++) {
+  const isField = (t) => /^\+\s*\S/.test(t) && !t.startsWith('++')
+  let i = lines.findIndex((l) => isField(l.trim()))
+  if (i < 0) return 0
+  for (; i < lines.length; i++) {
     const t = lines[i].trim()
-    if (!/^[+&]/.test(t)) continue
+    if (t.startsWith('+++')) return i + 1   // the row that closes the block
+    if (!t) continue
+    if (!/^[+&]/.test(t)) return i          // no closing row: the army itself ends the header
     const content = t.slice(1).trim()
 
     // `& …` continues the ENHANCEMENT list above it.
@@ -452,7 +501,7 @@ function wtcHeader(lines, out) {
     const wl = content.match(new RegExp(`^WARLORD:\\s*(${REF})?\\s*:?\\s*(.*)$`, 'i'))
     if (wl) { out.warlord = { ref: wl[1] || null, name: wl[2]?.trim() || '' }; continue }
   }
-  return i + 1
+  return i
 }
 
 function parseWtc(text) {
@@ -581,10 +630,11 @@ function fromHeader(out) {
 }
 
 export function parseList(text, format = null) {
-  const f = format || detectFormat(text)
-  if (f === 'wtc') return parseWtc(text)
-  if (f === 'listhammer-compact') return parseListhammerCompact(text)
-  if (f === 'gw') return parseGw(text)
+  const t = repairMojibake(text)
+  const f = format || detectFormat(t)
+  if (f === 'wtc') return parseWtc(t)
+  if (f === 'listhammer-compact') return parseListhammerCompact(t)
+  if (f === 'gw') return parseGw(t)
   return null
 }
 
@@ -598,6 +648,9 @@ export function parseList(text, format = null) {
 // first version of this matched Raven Guard and nothing else.
 const CODEX_CHAPTERS = new Set(['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'].map(norm))
 const ASTARTES_KEYWORD = norm('Adeptus Astartes')
+// Faction keywords that are one faction's and nobody else's, where the keyword is not the name we
+// file that faction under.
+const KEYWORD_FACTIONS = new Map([[norm('Legiones Daemonica'), 'chaos-daemons']])
 
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
@@ -610,12 +663,32 @@ export function matchFaction(name) {
   // nothing — every unit in it is looked up against that faction's data. So each part is a
   // candidate, in the order written, and the whole string stays the first of them so a name that
   // legitimately contains a comma is unaffected.
-  const parts = want.split(',').map((s) => s.trim()).filter(Boolean)
+  // The same list can also name it as a CHAIN, widest first: "Imperium - Adeptus Astartes -
+  // Ultramarines". parseWtc strips the alliance in front (everything up to the first hyphen), which
+  // leaves the Chapter still behind one, so every part of the chain is a candidate too — the
+  // Chapter is the last of them and the most specific.
+  const parts = want.split(/,| - /).map((s) => s.trim()).filter(Boolean)
   const cands = parts.length > 1 ? [want, ...parts] : [want]
   for (const w of cands) {
     for (const g of factionGroups) {
       for (const f of g.factions) {
         if (norm(f.name) === w) return f.slug
+      }
+    }
+  }
+  // Two names, one faction: an export can print the faction KEYWORD where our data prints the
+  // codex. Only where the keyword belongs to exactly one of ours — HERETIC ASTARTES is four
+  // factions and says nothing on its own, so it is not here.
+  for (const w of cands) if (KEYWORD_FACTIONS.has(w)) return KEYWORD_FACTIONS.get(w)
+  // The apostrophe is the one character the two sides never agree about — a list writes "Tau
+  // Empire" as often as "T’au Empire", and norm() folds the typographic one onto the plain one but
+  // cannot invent one that isn't there. Nothing else tells two faction names apart, so a match
+  // that ignores it is still an exact match.
+  const bare = (x) => x.replace(/'/g, '')
+  for (const w of cands) {
+    for (const g of factionGroups) {
+      for (const f of g.factions) {
+        if (bare(norm(f.name)) === bare(w)) return f.slug
       }
     }
   }
@@ -836,8 +909,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   const attachments = []
   const loose = []
 
+  // A player can tag two copies of one datasheet apart in the app's own name field — "Commander in
+  // Enforcer Battlesuit (Blue)" beside "(Black)" — and no datasheet in the game is named with a
+  // trailing parenthesis, so a name that only matches without one is that name with a note on it.
+  const defOf = (name) => byName.get(norm(name))
+    || byName.get(norm(String(name || '').replace(/\s*\([^()]*\)\s*$/, '')))
   for (const pu of parsed.units || []) {
-    const def = byName.get(norm(pu.name))
+    const def = defOf(pu.name)
     if (!def) { report.missing.push({ name: pu.name, pts: pu.pts }); continue }
 
     // A top-level bullet is a MODEL only if the datasheet has a profile by that name. Both the app
@@ -1135,9 +1213,14 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const at = picks.get(k)
         const step = per(ref)
         if (at) {
-          if (ref.stepper) count(at, w.mini, key, Math.ceil(left / step), shared)
           at.names.add(key)
-          break
+          if (ref.stepper) { count(at, w.mini, key, Math.ceil(left / step), shared); break }
+          // What that option grants of this weapon, and no more. A Forgefiend's jaws bundle grants
+          // ONE ectoplasma cannon, so a line reading "3x Ectoplasma cannon" has two left to place —
+          // in the group that replaces the Hades autocannons, which is the second swap and the ten
+          // points that went missing when joining the bundle was taken to account for the line.
+          left -= step
+          continue
         }
         usedGroups.add(ref.gi)
         const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), shared: new Set(), names: new Set([key]) }

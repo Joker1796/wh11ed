@@ -2391,3 +2391,202 @@ ${tail}`
     expect(report.units[0].gear.missing).toEqual(['Cyclone Missile Launcher & Storm Bolter'])
   })
 })
+
+// ── what 604 real tournament lists off listhammer.info do that no export we wrote ever did ────
+
+describe('parseList — a WTC header that is not where the format says it is', () => {
+  const fields = `+ FACTION KEYWORD: Chaos - Chaos Knights
++ DETACHMENT: Houndpack Lance, Iconoclast Fiefdom (Marked Prey)
++ TOTAL ARMY POINTS: 1995pts
++
++ WARLORD: Char1: War Dog Brigand`
+  const body = `Char1: 1x War Dog Brigand (140 pts): Havoc multi-launcher, Reaper chainblade`
+
+  // Half the WTC lists in the corpus have something above the block: the player's verdict on their
+  // own army, their name, a link to a video of it. Read from line 0 the loop stopped at the OPENING
+  // row of '+' and the header was skipped whole — no faction, no points, no detachment, no warlord.
+  it('reads a header the player wrote notes above', () => {
+    const p = parseList(`Woof woof bark grrrr\n\n+++++++++++++++++++++\n${fields}\n+++++++++++++++++++++\n\n${body}`)
+    expect(p.faction).toBe('Chaos Knights')
+    expect(p.stated).toBe(1995)
+    expect(p.detachments).toEqual(['Houndpack Lance', 'Iconoclast Fiefdom'])
+    expect(p.units.map((u) => u.name)).toEqual(['War Dog Brigand'])
+  })
+
+  // …and some print only the row that CLOSES the block, so the fence cannot be what opens it.
+  it('reads a header that has only a closing row of +', () => {
+    const p = parseList(`A Wing and a Prayer\n${fields}\n+++++++++++++++++++++\n\n${body}`)
+    expect(p.faction).toBe('Chaos Knights')
+    expect(p.stated).toBe(1995)
+    expect(p.units).toHaveLength(1)
+  })
+
+  // …and some print no row at all: the army itself is what ends the header.
+  it('reads a header with no rows of + around it', () => {
+    const p = parseList(`${fields}\n\n${body}`)
+    expect(p.faction).toBe('Chaos Knights')
+    expect(p.warlord).toEqual({ ref: 'Char1', name: 'War Dog Brigand' })
+    expect(p.units).toHaveLength(1)
+  })
+})
+
+describe('parseList — the name a player gave a model', () => {
+  const list = `Evangeline and the Ordo Luminis Redemptrix (2000 points)
+
+Adepta Sororitas
+Bringers of Flame (3 Detachment Points)
+Strike Force (2000 points)
+
+Attached Units
+Attached Unit 1
+
+Palatine (60 points) - Palatine Eristine
+• Attached as: Leader (Character)
+• 1x Bolt pistol
+
+Celestian Sacresants (150 points)
+• Attached as: Bodyguard
+• 10x Celestian Sacresant`
+
+  // The app prints it after the points, and the line then ends in something no datasheet is named
+  // after. Four such characters in one list went missing — 280 points — and one printed under a
+  // squad was read as that squad's wargear.
+  it('reads the unit and drops the name', () => {
+    const p = parseList(list)
+    expect(p.units.map((u) => u.name)).toEqual(['Palatine', 'Celestian Sacresants'])
+    expect(p.units[0].pts).toBe(60)
+    expect(p.units[0].attachedAs).toBe('Leader (Character)')
+  })
+})
+
+describe('matchRoster — a tag the player added to a unit name', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/tau-empire.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+
+  // Two of one datasheet, told apart in the app's own name field. No datasheet in the game is named
+  // with a trailing parenthesis, so a name that only answers without one is that name with a note.
+  it('matches the datasheet through it', () => {
+    const text = `Dopamine hit (195 points)
+
+T'au Empire
+Strike Force (2000 points)
+
+CHARACTERS
+
+Commander in Enforcer Battlesuit (Blue) (100 points)
+• 1x Battlesuit fists
+
+Commander in Enforcer Battlesuit (Black)(95 points)
+• 1x Battlesuit fists`
+    const { report } = matchRoster(parseList(text), ctx)
+    expect(report.missing).toEqual([])
+    expect(report.units.map((u) => u.id)).toEqual(['commander-in-enforcer-battlesuit', 'commander-in-enforcer-battlesuit'])
+  })
+})
+
+describe('parseList — a list that arrived through a broken encoding', () => {
+  // UTF-8 read back as cp1252. It is never slightly wrong: the faction is unrecognisable AND every
+  // bullet stops being one, so the nesting the parser reads is gone with it.
+  const broken = `Cadre (1995 points)
+
+Tâ€™au Empire
+Retaliation Cadre (3 Detachment Points)
+Strike Force (2000 points)
+
+Attached units
+Attached unit 1
+
+Commander in Enforcer Battlesuit (100 points)
+â€¢ Attached as: Leader (Character)
+â€¢ 1x Battlesuit fists`
+
+  it('repairs the text before reading it', () => {
+    const p = parseList(broken)
+    expect(p.faction).toBe('T’au Empire')
+    expect(matchFaction(p.faction)).toBe('tau-empire')
+    expect(p.units[0].attachedAs).toBe('Leader (Character)')
+  })
+
+  it('leaves a list that merely has characters in it alone', () => {
+    const p = parseList(broken.replace('Tâ€™au Empire', 'T’au Empire').replace(/â€¢/g, '•'))
+    expect(p.faction).toBe('T’au Empire')
+    expect(p.units[0].attachedAs).toBe('Leader (Character)')
+  })
+})
+
+describe('matchFaction — the ways an export names an army', () => {
+  // "Imperium - Adeptus Astartes - Ultramarines": parseWtc strips the alliance in front, which
+  // leaves the Chapter still behind a hyphen.
+  it('reads a Chapter out of an alliance chain', () => {
+    expect(matchFaction('Adeptus Astartes - Ultramarines')).toBe('space-marines')
+    expect(matchFaction('Chaos - Chaos Knights')).toBe('chaos-knights')
+  })
+
+  it('reads a faction name written without its apostrophe', () => {
+    expect(matchFaction('Tau Empire')).toBe('tau-empire')
+  })
+
+  // The faction keyword where our data prints the codex — only where the keyword is one faction's
+  // and nobody else's.
+  it('answers a faction keyword of its own', () => {
+    expect(matchFaction('Legiones Daemonica')).toBe('chaos-daemons')
+    expect(matchFaction('Heretic Astartes')).toBe(null)
+  })
+})
+
+describe('parseList — the faction a list only states in its title', () => {
+  const body = `\nStrike Force (2000 points)\n\nCHARACTERS\n\nWarpsmith (100 points)\n• 1x Exalted power axe`
+
+  it('reads it, by our own names, part by part', () => {
+    expect(parseList(`Big Mek Marian - Orks${body}`).faction).toBe('Orks')
+    expect(parseList(`Thousand Sons - Priority Assets - Grand Coven (2000 Points)${body}`).faction).toBe('Thousand Sons')
+  })
+
+  // Strictly by name: the looser reading turned a Custodes list its author called "Orks Orks Orks"
+  // into an Orks one, where asking the reader which faction it is was the honest answer.
+  it('says nothing when the title merely mentions one', () => {
+    expect(matchFaction(parseList(`Orks Orks Orks${body}`).faction)).toBe(null)
+  })
+})
+
+describe('matchRoster — a weapon a bundle grants only one of', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/chaos-space-marines.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+
+  const list = (weapons) => `Test (175 points)
+
+Chaos Space Marines
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Forgefiend (175 points)
+${weapons}`
+
+  // A Forgefiend has two swaps to make and one name to say it with. The jaws bundle grants ONE
+  // ectoplasma cannon, so a line reading "3x Ectoplasma cannon" has two left to place — in the
+  // group that replaces the Hades autocannons. Taking the bundle to account for the whole line lost
+  // that second swap, and the ten points of it.
+  it('places the rest of the line in the group that can still grant it', () => {
+    const { payload, report } = matchRoster(parseList(list('• 1x Armoured limbs\n3x Ectoplasma cannon')), ctx)
+    expect(report.units[0].points.computed).toBe(175)
+    expect(payload.units[0].wg).toHaveLength(2)
+  })
+
+  it('leaves the one swap alone when the list names one', () => {
+    const { report } = matchRoster(parseList(list('• 1x Armoured limbs\n1x Ectoplasma cannon\n2x Hades autocannon')), ctx)
+    expect(report.units[0].points.computed).toBe(165)
+  })
+})

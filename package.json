@@ -13,6 +13,7 @@
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
     "roster:data": "node scripts/gen-roster-data.mjs",
     "roster:data:check": "node scripts/gen-roster-data.mjs --check",
+    "roster:imports": "npx vite-node scripts/check-roster-imports.mjs",
     "faction-rules:index": "node scripts/gen-faction-rules-index.mjs",
     "combat-patrol:index": "node scripts/gen-combat-patrol-search-index.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
