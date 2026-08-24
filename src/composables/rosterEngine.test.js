@@ -142,6 +142,16 @@ describe('canBeWarlord', () => {
     expect(canBeWarlord(deathleaper, [{ name: 'Other Detachment' }])).toBe(false)
     expect(canBeWarlord(deathleaper, [{ name: 'Vanguard Onslaught', grantedWarlord: ['deathleaper'] }])).toBe(true)
   })
+
+  // Houndpack Lance: "select three WAR DOG units; those units have the CHARACTER keyword". A
+  // Character in every sense the rules use the word, the nomination of a Warlord included — the
+  // same grant enhEligible already reads. A unit BARRED from the title stays barred.
+  it('accepts a keyword the entry was granted, but does not overrule a bar', () => {
+    const karnivore = { id: 'war-dog-karnivore', kws: ['Vehicle', 'War Dog'], flags: {} }
+    expect(canBeWarlord(karnivore)).toBe(false)
+    expect(canBeWarlord(karnivore, [], ['Character'])).toBe(true)
+    expect(canBeWarlord({ flags: { noWarlord: 1 } }, [], ['Character'])).toBe(false)
+  })
 })
 
 describe('enhEligible', () => {
