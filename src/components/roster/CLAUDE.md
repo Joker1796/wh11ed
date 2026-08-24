@@ -146,6 +146,14 @@ prints them.
 **Import**: allied units resolve by name like any other, but the army's OWN datasheet always wins a
 name collision — an Astra Militarum list saying "Ministorum Priest" means its own.
 
+**Known gap — the modifier overlay is army-only.** `RosterViewView` now loads each ally faction's
+datasheets (and its RU overlay), so an allied row has its statline, keywords and ability text like
+any other. What it does not load is that faction's `rosterModifiers` records, which are matched by
+bare unit id against one `factionEn` bundle: merging a second faction's records would need a second
+rule-body source and a scoping story for records that address "your army". So an allied unit shows
+its base statline and no Tier-C chips of its own. Its printed card is unaffected —
+`RosterUnitRulesModal` is given the ally's own slug and bare id and loads that faction itself.
+
 ## Pure logic (`src/composables/roster*.js`)
 
 No Vue, no store — testable without mounting anything. Not colocated with this component

@@ -392,12 +392,17 @@ watch(() => roster.value?.faction, async (slug) => {
 // is enough — the plates are numbers/pips, not translated text — RosterUnitRulesModal does its
 // own separate RU-localized fetch for the modal content.
 const fullSheets = ref(new Map())
-watch(() => roster.value?.faction, async (slug) => {
+// Keyed by the id the ROSTER uses, which for an allied unit is namespaced: its datasheet lives in
+// its own faction's file (Draxus is an Imperial Agents sheet), and without this every ally row
+// would quietly lose its statline plates and its live rules.
+const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u) => allySourceOf(u.id)?.[0]).filter(Boolean))])
+watch([() => roster.value?.faction, allySlugs], async ([slug, srcs]) => {
   if (!slug) { fullSheets.value = new Map(); return }
-  const list = await loadDatasheets(slug)
+  const lists = await Promise.all([loadDatasheets(slug), ...srcs.map((s) => loadDatasheets(s))])
   if (roster.value?.faction !== slug) return
   const m = new Map()
-  for (const d of list || []) m.set(d.id, d)
+  for (const d of lists[0] || []) m.set(d.id, d)
+  srcs.forEach((src, i) => { for (const d of lists[i + 1] || []) m.set(`${src}:${d.id}`, d) })
   fullSheets.value = m
 }, { immediate: true })
 
@@ -410,17 +415,23 @@ watch(() => roster.value?.faction, async (slug) => {
 const ruleInfo = ref(new Map())
 watch([() => roster.value?.faction, fullSheets, locale], async ([slug, sheets, loc]) => {
   if (!slug || !sheets.size) { ruleInfo.value = new Map(); return }
-  let ru = null
   let localizeSheet = null
+  // One RU overlay per faction on screen — the army's own and each ally's, since an allied unit's
+  // translation lives with its own datasheets.
+  const ruBySlug = new Map()
   if (loc === 'ru') {
     ;({ localizeSheet } = await import('../../data/datasheets/ru/index.js'))
     const { loadDatasheetsRu } = await import('../../data/datasheets/ru/index.js')
-    ru = await loadDatasheetsRu(slug)
+    const slugs = [slug, ...allySlugs.value]
+    const loaded = await Promise.all(slugs.map((s) => loadDatasheetsRu(s)))
     if (roster.value?.faction !== slug) return
+    slugs.forEach((s, i) => ruBySlug.set(s, loaded[i]))
   }
   const m = new Map()
   for (const [id, en] of sheets) {
-    const sheet = ru ? localizeSheet(en, ru?.default?.[id], ru?.abilityNamesRu) : en
+    const src = allySourceOf(id)
+    const ru = ruBySlug.get(src?.[0] || slug)
+    const sheet = ru ? localizeSheet(en, ru?.default?.[src?.[1] || id], ru?.abilityNamesRu) : en
     const byEn = new Map()
     // Keyed by the ENGLISH name, which is what a record holds; `nameEn` is set only when the RU
     // overlay actually renamed the header, so an untranslated ability keys off its own name.
