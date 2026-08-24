@@ -152,6 +152,20 @@ export function wargearGroupCap(def, entry, gi) {
   return { limit: row[1], dup: row[2] || 0 }
 }
 
+// The ceiling a group with NO structural cap has: one pick per model of the profile it belongs to
+// — "any number of Sicarian Ruststalkers can each have their transonic razor replaced" excludes the
+// Princeps — times the copies of the weapon each of those models carries (`cp`, five groups
+// game-wide: a Wraithlord's two shuriken catapults, a Ravager's three dark lances, a Deff Dread's
+// two big shootas and two dread klaws, a War Walker's two shuriken cannons, which at 2 models is
+// four swaps). Deliberately conservative: `null` where the group belongs to no single profile, so
+// the caller keeps its own behaviour rather than being handed a guess.
+export function wargearGroupFallbackCap(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  if (!g || g.all || g.m == null) return null
+  const own = modelsPerMini(def, entry)?.get(g.m)
+  return own == null ? null : own * (g.cp || 1)
+}
+
 // What the entry has already spent in a group, optionally ignoring one option (so a stepper can
 // ask "how much room is left for ME").
 export function wargearGroupSpent(entry, gi, exceptOi = null) {

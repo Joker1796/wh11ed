@@ -781,6 +781,19 @@ several models becomes per-option steppers sharing one budget (`stepMax` = remai
 never more than the duplicate cap), whatever appdata calls it — "Up to 2 Vigilants can each…"
 was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle.
 
+**A model may swap every COPY of the weapon it gives up** (`cp` on the group,
+`wargearGroupFallbackCap` in the engine). Where nothing caps a group, the ceiling used to be one
+pick per model of that profile — but a Wraithlord carries two shuriken catapults and may turn both
+into flamers, a Ravager three dark lances, a Deff Dread two big shootas and two dread klaws, and a
+War Walker two shuriken cannons per model (four in a two-model squad). So the ordinary builds of
+five groups were reported illegal and their steppers stopped at one. The generator reads the count
+out of the printed loadout, guarded three ways, because the far more common shape is the opposite
+one: "this model's 2 twin heavy flamers can be replaced with 2 twin heavy bolters" is ONE pick
+granting two items (44 such groups). The guards are the word "each" in the instruction, every
+option granting exactly one item, and — where the loadout row is the profile's TOTAL rather than
+one model's — dividing by the models that profile fields, which is what keeps a Crisis Starscythe's
+"2 burst cannons" (one each for its two Shas'ui) from reading as two per model.
+
 `validateRoster` reports `overWargearLimit` / `overWargearDup` rather than trimming: the editor
 caps as you click, so a violation means the list was legal and then the unit shrank, and which
 weapon to give up is the player's call.

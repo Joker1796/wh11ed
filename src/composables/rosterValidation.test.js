@@ -96,6 +96,22 @@ describe('validateRoster — wargear pick limits', () => {
     expect(run([[0, 0, 10]])[0].params).toMatchObject({ count: 10, limit: 9 })
   })
 
+  it('lets a model swap every copy of the weapon it carries several of', () => {
+    // A Wraithlord's two shuriken catapults, each replaceable with a flamer: one model, two picks.
+    // Without `cp` the profile's model count was the ceiling and the second flamer was an error.
+    const walker = {
+      id: 'walker', name: 'Walker', kws: ['Vehicle'], flags: {},
+      sizes: [{ pts: 100, per: [1, 1], default: 1 }, { pts: 200, per: [2, 2] }],
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[1]], rep: [2], cp: 2 }],
+    }
+    const ff = { ...faction, units: [...faction.units, walker] }
+    const run = (size, wg) => validateRoster(roster({ units: [{ ...U('walker', { size, wg }), warlord: true }] }), { faction: ff, core })
+      .issues.filter((i) => i.code === 'overWargearLimit')
+    expect(run(0, [[0, 0, 2]])).toHaveLength(0)
+    expect(run(0, [[0, 0, 3]])[0].params).toMatchObject({ count: 3, limit: 2 })
+    expect(run(1, [[0, 0, 4]])).toHaveLength(0)   // two models, two catapults each
+  })
+
   it('flags too many of the same option separately from the total', () => {
     const u = U('squad', { size: 1, wg: [[0, 0, 3]] }) // 3 of a kind, cap 2 — total 3 is under 4
     const codes2 = check(roster({ units: [{ ...u, warlord: true }] })).map((i) => i.code)

@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -1321,9 +1321,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       .map(([uuid, count]) => [fx.item(fixItem(uuid)), count])
     if (items.length) defaults.push([miniIdx.get(b.miniatureId) ?? 0, items])
   }
+  // Whether the counts below are PER MODEL (base_miniature_loadout's own reading) or the TOTAL the
+  // profile fields (a "Default Wargear" group's) — the two tables count differently, and only the
+  // per-copy reading further down has to tell them apart.
+  let defaultsAreTotals = false
   if (!defaults.length) {
     for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])])
-    if (defaults.length) report.staticDefaults++
+    if (defaults.length) { report.staticDefaults++; defaultsAreTotals = true }
   } else {
     // The two tables can disagree, and where they do it is the loadout ROW that is short: a
     // Servitor Battleclade's Gun Servitors carry a heavy bolter and a heavy arc rifle between them
@@ -1401,6 +1405,41 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     d.lim = [dup ? [0, said, dup] : [0, said]]
     report.limit.fromProse++
   }
+  // A swap a model may make ONCE PER COPY of the weapon it gives up: "Each of this model's
+  // shuriken catapults can be replaced with 1 flamer" (a Wraithlord carries two), "Any number of
+  // this model's dark lances can each be replaced with 1 disintegrator cannon" (a Ravager carries
+  // three), "This model's big shootas can each be replaced with one of the following" (a Deff
+  // Dread). The allowance is nowhere in the sentence and nowhere in appdata either — it is how
+  // many of that weapon the printed loadout gives the model — so validateRoster's one-pick-per-
+  // model fallback called every one of those ordinary builds illegal and the editor's stepper
+  // stopped at one. `cp` records the copies per MODEL; the engine multiplies by the models of that
+  // profile, which is what "each model can have each shuriken cannon it is equipped with replaced"
+  // (War Walkers, 2 models × 2 cannons) needs.
+  //
+  // A bundled swap is not this and must not be read as it: "This model's 2 twin heavy flamers can
+  // be replaced with 2 twin heavy bolters" is ONE pick that grants two items (44 groups corpus-
+  // wide, against 6 per-copy ones), so the option granting exactly one item is what tells them
+  // apart — together with the word "each", which every per-copy wording has and no bundled one does.
+  const grantCount = (o) => (o.items ? o.items.reduce((n, [, c]) => n + (c || 1), 0) : 1)
+  for (const d of drafts) {
+    if (d.lim || !d.rep?.length || !/\beach\b/i.test(d.text.split('\n')[0])) continue
+    if (!d.opts.every((o) => grantCount(o) === 1)) continue
+    const row = defaults.find(([m]) => m === d.m)?.[1] || []
+    // A count that is the profile's TOTAL rather than one model's has to be divided by the models
+    // that profile fields, or a Crisis Starscythe's "2 burst cannons" — one each for its two
+    // Shas'ui — would read as two per model and hand every model a swap it doesn't have.
+    const bracket = (unit.sizes || []).find((x) => x.default) || (unit.sizes || [])[0]
+    const perProfile = (bracket?.comp || []).find(([mi]) => mi === d.m)?.[1] ?? (bracket?.per?.[0] ?? 1)
+    const copies = Math.min(...d.rep.map((uuid) => {
+      const hit = row.find(([id]) => id === fx.item(uuid))
+      if (!hit) return 1
+      const n = hit[1] || 1
+      const total = defaultsAreTotals || hit.length > 2
+      if (!total) return n
+      return perProfile > 0 && n % perProfile === 0 ? n / perProfile : 1
+    }))
+    if (copies > 1) { d.cp = copies; report.limit.perCopy++ }
+  }
   const gear = []
   const gearIndex = new Map() // draft -> its final index in `gear`
   drafts.forEach((d, i) => gearIndex.set(d, i))
@@ -1422,6 +1461,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       }),
     }
     if (d.lim) grp.lim = d.lim
+    if (d.cp) grp.cp = d.cp
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
     // How many models one ticked option takes the swap away from. A stepper says so itself; a
     // CHECKBOX is one yes/no, and one tick means one model — "1 model's boltgun can be replaced
@@ -1928,7 +1968,7 @@ if (report.defaultsMerged.length) {
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
-console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity), ${lm.fromProse} more from their own instruction where appdata records no set; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity), ${lm.fromProse} more from their own instruction where appdata records no set, ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
   for (const c of lm.conflict) console.log(`    - ${c}`)

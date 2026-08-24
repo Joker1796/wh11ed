@@ -243,7 +243,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -468,10 +468,11 @@ function stepMax(gi, oi) {
   // No cap of any kind: the group can be taken by every model it belongs to — which on a
   // multi-profile datasheet is that PROFILE's model count, not the squad's. "Any number of
   // Sicarian Ruststalkers can each have their transonic razor replaced" excludes the Princeps,
-  // so a 10-model squad allows 9. 62 groups were over by their squad's leader models.
-  const g = props.def.gear[gi]
-  const own = g.all || g.m == null ? null : perMini.value?.get(g.m)
-  return own ?? models.value
+  // so a 10-model squad allows 9. 62 groups were over by their squad's leader models. A model
+  // that carries the replaced weapon SEVERAL times may swap each copy (`cp`), which is what lets
+  // a Wraithlord take its second flamer.
+  const cp = props.def.gear[gi].cp || 1
+  return wargearGroupFallbackCap(props.def, props.entry, gi) ?? models.value * cp
 }
 
 function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
