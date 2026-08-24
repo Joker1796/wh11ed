@@ -676,3 +676,25 @@ describe('keyword-defined attachments', () => {
     expect(draxus.leads.length).toBeGreaterThan(0)
   })
 })
+
+// A detachment can bar a datasheet that belongs to ANOTHER faction, and the id has to say so.
+// Black Spear Task Force bars the Codex: Imperial Agents Watch Master — the ally you would
+// otherwise bring alongside your own — not the Index: Deathwatch datasheet the army is built
+// around. Resolving the exclusion by NAME made those the same unit, and every Deathwatch list with
+// a Watch Master in it read as illegal.
+describe('detachment exclusions across factions', () => {
+  it('bars the allied copy, not the army’s own datasheet', async () => {
+    const dw = await loadRosterFaction('deathwatch', { allies: true })
+    const det = dw.detachments.find((d) => d.name === 'Black Spear Task Force')
+    expect(det.excludedUnits).toContain('imperial-agents:watch-master')
+    expect(det.excludedUnits).not.toContain('watch-master')
+    expect(dw.units.some((u) => u.id === 'watch-master')).toBe(true)
+  })
+
+  it('still bars a unit of this army’s own pool by its bare id', async () => {
+    const dw = await loadRosterFaction('deathwatch')
+    const det = dw.detachments.find((d) => d.name === 'Black Spear Task Force')
+    // The Codex: Space Marines squads a Chapter folds in are this bundle's own units.
+    expect(det.excludedUnits).toEqual(expect.arrayContaining(['tactical-squad', 'devastator-squad']))
+  })
+})

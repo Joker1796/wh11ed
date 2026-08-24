@@ -1209,6 +1209,17 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     expect(report.points.computed).toBe(report.points.statedUnits)
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
+
+  // Black Spear Task Force bars the Imperial Agents Watch Master, not the Deathwatch one — the
+  // exclusion used to be resolved by name and hit this army's own datasheet.
+  it('keeps a Watch Master the detachment does not actually bar', async () => {
+    const text = DW.replace('OTHER DATASHEETS', 'OTHER DATASHEETS\n\nWatch Master (95 points)\n• 1x Vigil spear\n')
+    const { payload } = matchRoster(parseList(text), ctx)
+    const { validateRoster } = await import('./rosterValidation.js')
+    expect(payload.units.some((u) => u.id === 'watch-master')).toBe(true)
+    const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
+    expect(codes).not.toContain('unitExcluded')
+  })
 })
 
 // An Attached Unit block whose LEADER carries no "Attached as:" line at all — the block itself is
