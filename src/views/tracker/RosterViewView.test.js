@@ -68,8 +68,8 @@ describe('RosterViewView', () => {
   })
 
   // Exports name a list with a whole quote often enough that the header has to expect one:
-  // five lines of display type used to squeeze the points and the pencil against the text.
-  it('gives a wordy list name the header row to itself, a size smaller', async () => {
+  // five lines of display type used to fill a phone screen before the units began.
+  it('steps a quote-as-a-name down two sizes', async () => {
     const store = useRosters()
     const quote = 'I am Warpbane-- and I could kill you...but death would only end your agony--and silence your shame.'
     const r = store.createRoster(quote)
@@ -77,31 +77,22 @@ describe('RosterViewView', () => {
     const w = mount(RosterViewView, { global: { stubs } })
     await flushPromises()
 
-    expect(w.find('.rv-head').classes()).toContain('wrapped')
     expect(w.find('.rv-name').classes()).toContain('xlong')
   })
 
-  // Two lines of header type are not a problem: the name gets the row, and keeps its size.
-  it('gives a two-line name the row without shrinking it', async () => {
+  // The points and the pencil live in their own row of the header, whatever the name is: at
+  // phone width even a 21-character all-caps name takes two lines, so deciding this from the
+  // text would only make the header rearrange itself per list.
+  it('keeps an ordinary name at full size, with the points in their own row', async () => {
     const store = useRosters()
-    const r = store.createRoster("It's not what it used to be '-_-")
+    const r = store.createRoster('PORTRAIT OF A MACHINE')
+    r.faction = 'adeptus-mechanicus'
     ROSTER_ID = r.id
     const w = mount(RosterViewView, { global: { stubs } })
     await flushPromises()
 
-    expect(w.find('.rv-head').classes()).toContain('wrapped')
-    expect(w.find('.rv-name').classes()).toEqual(['rv-name', 'wrap'])
-  })
-
-  it('leaves an ordinary list name in the usual header', async () => {
-    const store = useRosters()
-    const r = store.createRoster('Warpbane Task Force')
-    ROSTER_ID = r.id
-    const w = mount(RosterViewView, { global: { stubs } })
-    await flushPromises()
-
-    expect(w.find('.rv-head').classes()).not.toContain('wrapped')
     expect(w.find('.rv-name').classes()).toEqual(['rv-name'])
+    expect(w.find('.rv-meta .rv-points').exists()).toBe(true)
   })
 
   // Off the table nothing can be in force, so the switch strip's place above the list is taken by
