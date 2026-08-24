@@ -13,9 +13,10 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegKeyword, allegItems } from './rosterEngine.js'
-import { slugify } from '../data/slugify.js'
-import conditionalKeywords from '../data/conditionalKeywords.json'
+import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegKeyword, allegItems, grantedKeywordsFor } from './rosterEngine.js'
+// Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
+// carry an enhancement; re-exported here because this is where every caller already imports them.
+export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 
 // Name matching between two independently-generated datasets: wargear item names live in
 // src/data/roster/items.js (interned from appdata's `wargear_item`), weapon rows live in
@@ -140,22 +141,6 @@ function filterWeapons(sheet, def, entry, items) {
   return out
 }
 
-// ── Rule-granted keywords ────────────────────────────────────────────────────────────────────
-// src/data/conditionalKeywords.json already lists the keywords a unit GAINS from an army or
-// detachment rule (see the root CLAUDE.md); FactionDatasheetView gates them on the detachment
-// picked in useFactionChoice. Here the gate is the roster's own selected detachments instead —
-// same sidecar, same DatasheetCard `grantedKeywords` prop, different source of "which detachment
-// is active". Nothing new is generated for this.
-
-// The sidecar keys detachments by their wh11ed id, the roster refers to them by their appdata
-// display name, so matching means slugifying the name. NOT the shared slugify() alone: appdata
-// spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to `d-lve-assault-shift`
-// and would silently fail to match the `delve-assault-shift` id (24 of 25 gated grants matched
-// without this, one didn't — the same silent-no-op class as the enhancement apostrophe bug).
-// Stripping combining marks first fixes it; slugify() itself is load-bearing for DOM ids and the
-// search index, so it stays untouched.
-const detKey = (name) => slugify((name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
-
 // Enhancement names disagree between the roster layer (src/data/roster/<slug>.js, straight from
 // appdata: typographic ’, "(Aura)"/"(Upgrade)" baked into the name) and the hand-authored faction
 // files (ASCII, those two carried as separate booleans) — 132 of 898 names differ, none of them a
@@ -171,33 +156,6 @@ export function enhKey(s) {
     .trim()
 }
 
-// Same job for a detachment name, which needs no such stripping — exported so the modal matches
-// the roster's detachment names to the faction file's exactly the way grantedKeywordsFor does.
-export { detKey }
-
-// `detachments` accepts either the resolved detachment objects the editor/browser pass around
-// (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
-// keeps a call site from silently wiring the wrong one.
-export function grantedKeywordsFor(unitId, factionSlug, detachments) {
-  const grants = conditionalKeywords[factionSlug]?.[unitId]
-  if (!grants?.length) return []
-  const picked = new Map() // detKey -> display name, for the footnote
-  for (const d of detachments || []) {
-    const name = typeof d === 'string' ? d : d?.name
-    if (name) picked.set(detKey(name), name)
-  }
-  const out = []
-  const seen = new Set()
-  // Army-wide grants first: when the same keyword arrives both ways, the unconditional claim is
-  // the truer one to footnote.
-  for (const g of [...grants.filter((g) => !g.det), ...grants.filter((g) => g.det)]) {
-    if (g.det && !picked.has(g.det)) continue
-    if (seen.has(g.kw)) continue
-    seen.add(g.kw)
-    out.push({ kw: g.kw, detName: g.det ? picked.get(g.det) : null, extra: !!g.extra })
-  }
-  return out
-}
 
 // ── Entry context ────────────────────────────────────────────────────────────────────────────
 // The handful of roster facts that aren't on the datasheet at all and would otherwise force the

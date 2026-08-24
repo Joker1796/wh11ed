@@ -915,3 +915,19 @@ describe('allies', () => {
     expect([sec.locked, sec.items.map((i) => i.uid)]).toEqual([true, ['c']])
   })
 })
+
+// The editor must offer exactly what the validator accepts — both go through grantedKeywords().
+describe('an enhancement whose keyword a detachment grants', () => {
+  it('offers Rollin\' Deff\'s upgrades to the Kill Rig it made a Wagon', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const orks = await loadRosterFaction('orks')
+    const det = orks.detachments.find((d) => d.name === "Rollin' Deff")
+    const killRig = orks.units.find((u) => u.id === 'kill-rig')
+    const trukk = orks.units.find((u) => u.id === 'trukk')
+    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'orks').filter((o) => o.eligible).map((o) => o.name)
+    expect(eligible(killRig)).toContain('Boarding Ramps (Upgrade)')
+    expect(eligible(trukk)).not.toContain('Boarding Ramps (Upgrade)')
+    // and without the faction to look the grant up in, the printed sheet is all there is
+    expect(enhOptionsFor(killRig, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain('Boarding Ramps (Upgrade)')
+  })
+})

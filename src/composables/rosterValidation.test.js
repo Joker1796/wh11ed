@@ -744,3 +744,23 @@ describe('validateRoster — every issue says which unit it is about', () => {
       .toEqual(Object.keys(ui.ru).filter((k) => k.startsWith('issue_')))
   })
 })
+
+// Against the real Orks bundle and the real sidecar: a stub cannot exercise this, because
+// conditionalKeywords.json is keyed by the faction slug and the datasheet's own id.
+describe('an enhancement whose keyword a detachment grants', () => {
+  // Rollin' Deff makes a Battlewagon, a Hunta Rig and a Kill Rig WAGON, and "Wagon unit only" is
+  // what Boarding Ramps asks for. No Ork datasheet PRINTS that keyword, so every upgrade in that
+  // detachment was ineligible for every unit in the game and a legal list came back with an error
+  // on each Kill Rig carrying one.
+  it('accepts the upgrade on the unit that detachment made a Wagon', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const orks = await loadRosterFaction('orks')
+    const codes = (id) => validateRoster(
+      { faction: 'orks', detachments: ["Rollin' Deff"], battleSize: 'strike-force', units: [{ uid: 'u1', id, size: 0, enh: 'Boarding Ramps (Upgrade)' }] },
+      { faction: orks, core },
+    ).issues.map((i) => i.code)
+    expect(codes('kill-rig')).not.toContain('enhIneligible')
+    // …and refuses it on an Ork unit the same detachment does not name.
+    expect(codes('trukk')).toContain('enhIneligible')
+  })
+})
