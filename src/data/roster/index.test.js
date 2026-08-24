@@ -739,3 +739,19 @@ describe('detachment exclusions across factions', () => {
     expect(det.excludedUnits).toEqual(expect.arrayContaining(['tactical-squad', 'devastator-squad']))
   })
 })
+
+// An attachment appdata states in prose and in no table: the Ogryn Bodyguard and Nork Deddog "must
+// join one COMMAND SQUAD unit from your army" and have no bodyguard group of any kind, so as
+// generated they could join nothing at all (PROSE_ATTACH in the generator).
+describe('an attachment appdata states only in prose', () => {
+  it('lets a Loyal Protector join the Command Squads it belongs to', async () => {
+    const am = await loadRosterFaction('astra-militarum')
+    for (const id of ['ogryn-bodyguard', 'nork-deddog']) {
+      const unit = am.units.find((u) => u.id === id)
+      expect(unit.leadKw).toEqual([{ kw: ['Command Squad'], type: 'support' }])
+      expect(unit.leads.map((l) => l.to)).toContain('cadian-command-squad')
+      // `support`, so the squad's own Leader slot — it leads Cadian Shock Troops itself — is free.
+      expect(unit.leads.every((l) => l.type === 'support')).toBe(true)
+    }
+  })
+})

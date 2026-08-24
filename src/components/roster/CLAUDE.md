@@ -45,6 +45,16 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   datasheet+miniature) have no structural field in appdata linking them — the generator infers
   it; see the "deviation" comments in `gen-roster-data.mjs` around
   `base_miniature_loadout_wargear_option` before touching that logic.
+- **`PROSE_ATTACH`** — two attachments appdata states in prose and in no table at all. The Ogryn
+  Bodyguard and Nork Deddog "must join one **COMMAND SQUAD** unit from your army" (their Loyal
+  Protector rule) and have no `datasheet_bodyguard_group` of any kind, so as generated they could
+  join nothing: an army fielding one could not be built here, and a list holding one imported with
+  the model standing alone. Written as the keyword group appdata would have used, `support` — a
+  Command Squad is itself a Leader unit and its own Leader slot is a different thing, and the rule's
+  own limit ("a COMMAND SQUAD cannot have more than one LOYAL PROTECTOR model joined to it") is then
+  exactly what the per-type `manyLeaders` check already enforces. The generator prints a line for
+  each and refuses to apply one the day appdata grows its own group: this is a stand-in for missing
+  data, not an opinion about it.
 
 **`npm run roster:data:check`** (`--check`, and part of `npm run sync`) regenerates everything in
 memory and reports which files would change, writing nothing. Without it an appdata bump left the
@@ -536,6 +546,14 @@ directory; still part of this feature:
     fell into the 5-model bracket and priced Flash Gitz at half. `gwBody` keeps the lines,
     `matchRoster` checks them against `def.minis` and passes the strays on as gear — where an
     attached extra may still match a wargear option.
+
+    **But only a FLAT body decides that by name alone.** There every line was offered as a candidate
+    and a known profile is the only evidence there is (the arithmetic fallback may still promote the
+    rest). A body with STRUCTURE — the app's nesting, WTC's bullets — already said which lines are
+    models and the parser counted them, so the only ones that leave the count are those the
+    datasheet knows as WARGEAR. A model line under a name we simply do not have is still a model
+    line: a WTC export collapses Gaunt's Ghosts' five named Ghosts into `5x Tanith Ghost`, and
+    dropping it left the unit with one model of six.
   - **A bundled option is matched by either half.** "Their warscythe replaced with 1 hyperphase
     sword and 1 dispersion shield" is ONE option; no export names the option, they name what the
     models carry, so it arrives as two lines. `optionIndex` indexes every item inside an option,
@@ -555,6 +573,11 @@ directory; still part of this feature:
     items fold together — the only names that do are one weapon written both ways (Bolt pistol /
     Bolt pistols). Getting this wrong costs points, not just tidiness: the Warriors' own model line
     read as wargear dropped a six-model unit into the three-model bracket, at half price.
+  - **A bundle may arrive as ONE name.** `2 with Sergeant's autogun and close combat weapon` is a
+    single option of two items, and `optionLabel` joins those with ` + ` — so the line answered to
+    neither the label nor an item and the pick was lost silently (the option is free, so the points
+    said nothing). A name is split on ` and ` only when the whole of it is unknown and every part is
+    known: `Genestealer claws and talons` is one weapon and resolves as one.
   - **A unicode hyphen is a hyphen.** Appdata types 25 weapon names with a non-breaking (U+2011) or
     unicode (U+2010) hyphen — `Psyko‑gatler`, `Kombi‑rokkit`, every Space Wolves `master‑crafted`
     weapon, the Votann `Autoch‑pattern bolter` — where the rest of the game uses the plain one. No
