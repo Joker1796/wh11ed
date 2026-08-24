@@ -1114,3 +1114,99 @@ describe('matchRoster — two picks that share a group', () => {
     expect(payload.units[0].wg.map(([gi]) => gi).sort()).toEqual([0, 1])
   })
 })
+
+// A Deathwatch list, which turned out to hold three separate faults at once — and was the one that
+// came in OVER the points limit.
+const DW = `purge those foes (2000 points)
+
+Space Marines
+Deathwatch
+Black Spear Task Force (3 Detachment Points)
+Strike Force (2000 points)
+
+CHARACTERS
+
+Captain in Gravis Armour (105 points)
+• Warlord
+• 1x Boltstorm gauntlet
+1x Power fist
+1x Relic blade
+• Enhancement: Thief of Secrets
+
+OTHER DATASHEETS
+
+Deathwatch Terminator Squad (190 points)
+• 1x Deathwatch Terminator Sergeant
+• 1x Storm Shield
+1x Thunder hammer
+• 4x Deathwatch Terminator
+• 3x Cyclone missile launcher
+3x Power fist
+1x Storm Shield
+3x Storm bolter
+1x Thunder hammer
+
+Indomitor Kill Team (275 points)
+• 4x Kill Team Heavy Intercessors
+• 4x Bolt pistol
+4x Close combat weapon
+2x Deathwatch heavy bolt rifle
+2x Deathwatch heavy bolter
+• 3x Kill Team Heavy Intercessor with power fists
+• 3x Flamestorm gauntlets
+3x Twin power fists
+• 3x Kill Team Heavy Intercessor with melta rifle
+• 3x Bolt pistol
+3x Close combat weapon
+2x Melta rifle
+1x Multi-melta
+
+Exported from listhammer.info: https://listhammer.info/list/203446373405ffec85`
+
+describe('matchRoster — a squad that swaps in pairs', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('deathwatch', { allies: true }), core: rosterCore, items: items.items }
+  })
+
+  // A stepper counts MODELS, per profile. The sergeant's thunder hammer and storm shield are one
+  // swapped model and the squad's are another; folding all four lines into one bucket counted three
+  // swapped models at 5 points each and put the whole army 10 points over its limit.
+  it('counts a paired swap once per profile, not once per line', () => {
+    const { report, payload } = matchRoster(parseList(DW), ctx)
+    const term = report.units.find((u) => u.name === 'Deathwatch Terminator Squad')
+    expect([term.points.computed, term.points.stated]).toEqual([190, 190])
+    const wg = payload.units.find((u) => u.id === 'deathwatch-terminator-squad').wg
+    expect(wg.find(([gi, oi]) => gi === 1 && oi === 2)[2]).toBe(2)     // two models took the pair
+  })
+
+  // Three bundled options differ only in their last weapon ("1 boltstorm gauntlet, 1 power fist and
+  // 1 relic blade / chainsword / fist"). Reading them one weapon at a time spent two of them.
+  it('takes the bundle the list actually names, as one pick', async () => {
+    const { payload } = matchRoster(parseList(DW), ctx)
+    const captain = payload.units.find((u) => u.id === 'captain-in-gravis-armour')
+    expect(captain.wg).toHaveLength(1)
+    const { validateRoster } = await import('./rosterValidation.js')
+    const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
+    expect(codes.filter((c) => c === 'overWargearLimit')).toEqual([])
+  })
+
+  // Two brackets, same ten models, same 275 points: "ten Heavy Intercessors" or "3-16 mixed". A
+  // 4/3/3 kill team is the second — under the first, the other two profiles have no models at all
+  // and every wargear group belonging to them capped at zero.
+  it('picks the bracket whose composition the list fits', () => {
+    const { payload } = matchRoster(parseList(DW), ctx)
+    const kt = payload.units.find((u) => u.id === 'indomitor-kill-team')
+    expect(kt.size).toBe(1)
+  })
+
+  it('lands on the stated total', () => {
+    const { report } = matchRoster(parseList(DW), ctx)
+    expect(report.points.computed).toBe(report.points.statedUnits)
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+  })
+})

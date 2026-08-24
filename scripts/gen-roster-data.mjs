@@ -290,7 +290,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -1012,10 +1012,18 @@ async function alliedPricesOf(slug) {
 }
 
 async function alliesFor(factionKeywordId, ownUnitIds, slug) {
-  const mine = new Set(fkChain(factionKeywordId))
+  const chain = fkChain(factionKeywordId)
+  const mine = new Map(chain.map((id, i) => [id, i]))     // keyword -> how far up the chain it is
   const out = []
   for (const af of alliedRows) {
-    if (!(alliedTakers.get(af.id) || []).some((t) => mine.has(t.factionKeywordId))) continue
+    const takers = (alliedTakers.get(af.id) || []).filter((t) => mine.has(t.factionKeywordId))
+    if (!takers.length) continue
+    // How specifically this army is named: 0 when the rule names the faction itself, higher when it
+    // names a parent. Deathwatch is offered the Agents of the Imperium list twice — the general one
+    // (written for ADEPTUS ASTARTES) and its own, which is that list minus the five Deathwatch
+    // datasheets its own bundle already has. Both are real rows; the one written FOR this army is
+    // the one that applies, and emitting both would also print the group twice on screen.
+    const distance = Math.min(...takers.map((t) => mine.get(t.factionKeywordId)))
     const names = (alliedParents.get(af.id) || []).map((p) => fkwName.get(p.factionKeywordId)).filter(Boolean)
     const group = { key: slugify(names.join(' ')), name: names.join(' / ') }
     const ids = []
@@ -1060,11 +1068,18 @@ async function alliesFor(factionKeywordId, ownUnitIds, slug) {
     if (af.canTakeEnhancements) group.enh = 1
     if (Object.keys(up).length) group.up = up
     if (missing.length) report.allies.missing.push(`${slug}/${group.name}: ${missing.join(', ')}`)
-    report.allies.groups++
-    report.allies.units += ids.length
-    out.push(group)
+    out.push({ group, distance })
   }
-  return out.sort((a, b) => a.name.localeCompare(b.name))
+  const best = new Map()
+  for (const { group, distance } of out) {
+    const had = best.get(group.key)
+    if (!had || distance < had.distance) best.set(group.key, { group, distance })
+    if (had) report.allies.narrowed.push(`${slug}: ${group.name} (${(had.distance <= distance ? group : had.group).ids.length} ids dropped for the closer rule)`)
+  }
+  const kept = [...best.values()].map((x) => x.group)
+  report.allies.groups += kept.length
+  for (const g of kept) report.allies.units += g.ids.length
+  return kept.sort((a, b) => a.name.localeCompare(b.name))
 }
 
 // What the shared Codex: Space Marines units cost THIS Chapter. A Chapter's bundle doesn't repeat
@@ -1783,6 +1798,7 @@ if (report.loadoutFixed.length) {
 const ally = report.allies
 console.log(`  allies: ${ally.groups} allied contexts across the factions, ${ally.units} unit slots`)
 if (ally.empty.length) console.log(`    no unit resolved (skipped): ${ally.empty.join('; ')}`)
+for (const l of ally.narrowed) console.log(`    two rules for one group, kept the one written for this army — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)

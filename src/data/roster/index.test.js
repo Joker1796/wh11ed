@@ -587,6 +587,21 @@ describe('allies', () => {
 
   // Limits are tabulated per battle size and must use the ids core.js does, or a cap silently
   // never applies.
+  // Two rules can offer one army the same allied faction: Deathwatch is given the general Agents
+  // of the Imperium list (written for ADEPTUS ASTARTES) and its own, which is that list minus the
+  // five Deathwatch datasheets its own bundle already carries. The rule written FOR this army wins,
+  // or the group would also appear twice on screen.
+  it('keeps one rule per group — the one written closest to this army', () => {
+    for (const { slug, data } of withAllies) {
+      const keys = data.allies.map((g) => g.key)
+      expect([slug, keys.length]).toEqual([slug, new Set(keys).size])
+    }
+    const dw = bySlug.get('deathwatch').allies.find((g) => g.key === 'agents-of-the-imperium')
+    expect(dw.ids).not.toContain('imperial-agents:watch-master')     // Deathwatch has its own
+    expect(bySlug.get('space-marines').allies.find((g) => g.key === 'agents-of-the-imperium').ids)
+      .toContain('imperial-agents:watch-master')
+  })
+
   it('keys every limit by a real battle size', () => {
     const sizes = new Set(rosterCore.battleSizes.map((b) => b.id))
     for (const { data } of withAllies) {

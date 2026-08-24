@@ -497,10 +497,23 @@ const defaultNames = (def, items) => new Set(
 
 // The size bracket whose model range holds `models`; the datasheet's own default when the list
 // doesn't say (a single-model unit, or a format that omits the count).
-function sizeIndexFor(def, models) {
+// `perMini` is what the list says about the SPLIT between profiles, when it says anything. Two
+// brackets can hold the same number of models and differ only in how they may be divided: an
+// Indomitor Kill Team is either ten Heavy Intercessors (`comp` [[0,10],[1,0],[2,0]]) or three to
+// sixteen models mixed from all three profiles, both at 275 points. Taking the first that fits the
+// COUNT gave a 4/3/3 kill team the ten-of-one bracket, where the other two profiles have no models
+// — and every wargear group belonging to them was then capped at zero.
+function sizeIndexFor(def, models, perMini = null) {
   const sizes = def?.sizes || []
+  const inRange = (s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1)
+  const admits = (s) => !perMini?.size || !s.comp?.length || s.comp.every(([mi, a, b]) => {
+    const n = perMini.get(mi) || 0
+    return b == null ? n === a : n >= a && n <= b
+  })
   if (models) {
-    const hit = sizes.findIndex((s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1))
+    const fits = sizes.findIndex((s) => inRange(s) && admits(s))
+    if (fits >= 0) return fits
+    const hit = sizes.findIndex(inRange)
     if (hit >= 0) return hit
   }
   const def0 = sizes.findIndex((s) => s.default)
@@ -542,6 +555,25 @@ export function resolveDetachmentLine(line, known) {
     matched: hits.sort((a, b) => a.at - b.at).map((h) => h.name),
     missing: rest.split(/,|\band\b/i).map((x) => x.trim()).filter(Boolean),
   }
+}
+
+// A stepper group counts MODELS, and the count has to be read PER PROFILE. Within one profile a
+// line naming the other half of a bundle is restating the same models ("1x Storm Shield" then "1x
+// Thunder hammer" is one swapped model, not two) so the halves take the larger figure, while the
+// same weapon named twice adds. Across profiles the swaps are different models and add up: a
+// Deathwatch Terminator Squad prints its sergeant's thunder hammer and storm shield apart from the
+// squad's, and folding all four lines into one bucket charged for three swapped models instead of
+// two — five points a squad.
+function count(pick, mini, key, n) {
+  const at = mini || ''
+  const by = pick.byMini.get(at) || new Map()
+  by.set(key, (by.get(key) || 0) + n)
+  pick.byMini.set(at, by)
+}
+function stepperCount(pick) {
+  let total = 0
+  for (const by of pick.byMini.values()) total += Math.max(...by.values())
+  return total || 1
 }
 
 export function matchRoster(parsed, { faction, core, items } = {}) {
@@ -638,7 +670,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
     }
 
-    const size = sizeIndexFor(def, models)
+    // What the list says about the split between profiles, for the bracket choice below.
+    const perMini = new Map()
+    for (const l of modelLines) {
+      const mi = miniIndexOf(def, l.name)
+      if (mi != null) perMini.set(mi, (perMini.get(mi) || 0) + (l.n || 1))
+    }
+    const size = sizeIndexFor(def, models, perMini)
     const bracket = def.sizes?.[size]
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }
     if (models && (bracket?.per?.[1] ?? 0) > (bracket?.per?.[0] ?? 0)) entry.count = models
@@ -681,6 +719,19 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const picks = new Map()
     const key2 = (r) => `${r.gi}:${r.oi}`
     const usedGroups = new Set()
+    // How well an option ANSWERS the list: a bundled option ("1 boltstorm gauntlet, 1 power fist
+    // and 1 relic blade") is one pick that puts three weapons on the model, and the Captain in
+    // Gravis Armour offers three such bundles differing only in the last item. Scoring each
+    // candidate by how much of it the list actually names — minus what it does not — is what tells
+    // the relic-blade bundle from the relic-chainsword one; a plain single-item option scores 1
+    // either way, so nothing else changes.
+    const fitOf = (r) => {
+      const opt = def.gear?.[r.gi]?.o?.[r.oi]
+      if (!opt) return 0
+      const names = optionItems(opt).map(([id]) => norm(items?.[id])).filter(Boolean)
+      if (names.length < 2) return 1
+      return names.reduce((n, x) => n + (listed.has(x) ? 1 : -1), 0)
+    }
     for (const w of weapons) {
       const key = norm(w.name)
       if (!key || printed.has(key)) continue
@@ -690,39 +741,41 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const own = want != null ? refs.filter((r) => r.m === want) : []
       const all = own.length ? own : refs
       const touched = all.filter((r) => !untouched(r.gi))
-      const pool = touched.length ? touched : all
-      // One weapon name can be offered by SEVERAL groups — a Defiler may swap its baleflamer AND
-      // its missile launcher for a heavy reaper autocannon, two paid picks in two groups spelled
-      // by two identical lines. So a repeat looks for a group that hasn't been used yet before it
-      // falls back to the one already picked, where the old rule still holds: the same option
-      // named once per profile is ONE pick, not two (two triples would charge for it twice).
+      const fitted = touched.length ? touched : all
+      const best = Math.max(...fitted.map(fitOf))
+      const pool = fitted.filter((r) => fitOf(r) === best)
+      const holds = (r) => picks.get(key2(r))?.names.has(key)
       let left = w.n || 1
       while (left > 0) {
-        // A free GROUP first, and only then a free option inside a group already used: a group is
-        // one model's choice ("this model's scatter laser can be replaced with one of…"), so two
-        // different weapons that both appear in it came from two different groups. A Falcon lists a
-        // bright lance and a shuriken cannon, and the shuriken cannon is offered by the scatter
-        // laser's group as well as by the twin shuriken catapult's — taking it from the first put
-        // two picks in a group that allows one.
-        const ref = pool.find((r) => !usedGroups.has(r.gi)) || pool.find((r) => !picks.has(key2(r))) || pool[0]
+        // Where this weapon goes, in order:
+        //  1. an option already picked that does NOT yet list this weapon — the other half of a
+        //     bundle, not a second choice (the Captain's power fist joins his boltstorm gauntlet);
+        //  2. a group nothing has been spent from — a group is one model's choice, so two
+        //     different weapons offered by it came from two different groups (a Falcon's bright
+        //     lance and shuriken cannon), and a REPEAT of one weapon is a second swap in a second
+        //     group (a Defiler's two heavy reaper autocannons);
+        //  3. an option of a group already used, and failing that the first candidate.
+        const ref = pool.find((r) => picks.has(key2(r)) && !holds(r))
+          || pool.find((r) => !usedGroups.has(r.gi))
+          || pool.find((r) => !picks.has(key2(r)))
+          || pool[0]
         const k = key2(ref)
         const at = picks.get(k)
         if (at) {
-          // A stepper counts MODELS. Another line naming the same weapon adds to that count; a line
-          // naming the OTHER HALF of a bundle is restating the same models ("10x Hyperphase sword"
-          // then "10x Dispersion Shield" is ten swaps, not twenty), so it takes the larger figure.
-          if (ref.stepper) at.n = at.names.has(key) ? at.n + left : Math.max(at.n, left)
+          if (ref.stepper) count(at, w.mini, key, left)
           at.names.add(key)
           break
         }
         usedGroups.add(ref.gi)
-        picks.set(k, { gi: ref.gi, oi: ref.oi, n: ref.stepper ? left : 1, names: new Set([key]) })
+        const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), names: new Set([key]) }
+        if (ref.stepper) count(pick, w.mini, key, left)
+        picks.set(k, pick)
         if (ref.stepper) break
         left -= 1
       }
       line.gear.picked.push(w.name)
     }
-    if (picks.size) entry.wg = [...picks.values()].map((p) => [p.gi, p.oi, p.n])
+    if (picks.size) entry.wg = [...picks.values()].map((p) => [p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
 
     if (pu.enh) {
       const found = (faction.detachments || [])
