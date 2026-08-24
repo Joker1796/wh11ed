@@ -751,7 +751,10 @@ non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearin
 cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
 `--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
 overlapping it — matches by class name alone, regardless of which view rendered it),
-`RosterViewView` (read-only; Units / Rules / Stratagems tabs, the latter two loading faction
+`RosterViewView` (read-only; **shows what the list breaks at the top** — the same
+`validateRoster` verdict as the editor's footer badge, opening the same `RosterIssuesModal`,
+because a list is read far more often than it is edited and the reason behind the list page's
+warning count used to be two screens away; Units / Rules / Stratagems tabs, the latter two loading faction
 rule text via `loadFaction()` from `data/factions/index.js` — **async**, not the old sync
 `getFaction()`, see below — on first open of either tab, sharing one fetch since a detachment
 object carries both `.rule` and `.stratagems`). Its Stratagems tab is deliberately the same
