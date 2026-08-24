@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -355,6 +355,39 @@ const alongsideDs = new Set(table('datasheet_rule')
   .filter((r) => ALONGSIDE_RE.test(enOf(r).rules || ''))
   .map((r) => r.datasheetId))
 report.alongside = alongsideDs.size
+
+// A datasheet can also say that whoever may join ANOTHER unit may join it instead: "If a
+// **CHARACTER** unit from your army with the Leader ability can be attached to an **INTERCESSOR
+// SQUAD**, it can be attached to this unit instead." 33 datasheets carry such a rule (Deathwing
+// Terminator Squad, Sword Brethren, Death Company, Tankbustas, Sanctifiers…), and appdata usually —
+// but not always — writes the resulting links into the bodyguard tables as well. The ones it left
+// out are attachments the game allows and the editor refused, so they are derived here instead of
+// listed by hand: the rule is read once, and applied per faction bundle in buildUnit against the
+// leads that unit actually has, at the same type the original attachment had.
+//
+// Read conservatively. The clause before "can be attached to" restricts who this applies to — a
+// **CHAPLAIN** model, a **CAPTAIN** or **CHAPTER MASTER** unit, everyone but an EPIC HERO — and a
+// rule whose source unit cannot be resolved is reported and skipped rather than guessed at.
+const MIRROR_ATTACH = []
+{
+  const dsByName = new Map()
+  for (const d of table('datasheet')) {
+    const k = norm(enOf(d).name || '')
+    if (!dsByName.has(k)) dsByName.set(k, [])
+    dsByName.get(k).push(d.id)
+  }
+  for (const r of table('datasheet_rule')) {
+    const text = enOf(r).rules || ''
+    if (!/attached to this unit instead/i.test(text)) continue
+    const m = text.match(/can be attached to an?\s+\*\*([^*]+)\*\*/)
+    const from = m && (dsByName.get(norm(m[1])) || dsByName.get(norm(m[1]).replace(/s$/, '')))
+    if (!from) { report.mirror.unread.push(enOf(dsById.get(r.datasheetId)).name || r.datasheetId); continue }
+    const head = text.split(/can be attached to/i)[0]
+    const need = [...head.matchAll(/\*\*([^*]+)\*\*/g)].map((x) => x[1].trim()).filter((k) => norm(k) !== 'character')
+    MIRROR_ATTACH.push({ to: r.datasheetId, from: new Set(from), need, noEpic: /excluding[^)]*epic/i.test(head) })
+  }
+  report.mirror.rules = MIRROR_ATTACH.length
+}
 
 const PROSE_ATTACH = [['Ogryn Bodyguard', 'Command Squad'], ['Nork Deddog', 'Command Squad']]
 for (const [dsName, kwName] of PROSE_ATTACH) {
@@ -1311,6 +1344,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
 
   const groups = bgByLeader.get(bd.id) || []
   const leads = []
+  const rawTargets = new Map()   // appdata datasheet uuid -> the lead built for it
   const leadKw = []
   for (const g of groups) {
     let targets = bgDatasheets.get(g.id) || []
@@ -1336,7 +1370,29 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       if (g.requiredDetachmentId) lead.reqDet = g.requiredDetachmentId
       if (g.excludedDetachmentId) lead.exclDet = g.excludedDetachmentId
       leads.push(lead)
+      // …kept by appdata uuid as well, for the mirror rules below: they ask which units this one
+      // may join, and a name is not what identifies those.
+      if (!rawTargets.has(targetDsId)) rawTargets.set(targetDsId, lead)
     }
+  }
+
+  // A unit that says "whoever may join THAT unit may join me instead" (MIRROR_ATTACH). Only within
+  // this bundle — the leads are ids in it — and only at the type the original attachment had: a
+  // Support unit borrowed by the rule is still Support. appdata carries most of these links itself;
+  // this fills the ones it does not, and adds nothing where it already has them.
+  for (const m of MIRROR_ATTACH) {
+    if (m.to === bd.id) continue
+    const to = idMap.get(m.to)
+    if (!to || leads.some((l) => l.to === to)) continue
+    if (m.noEpic && flags.epic) continue
+    if (m.need.length && !m.need.some((k) => keyword(kws, k))) continue
+    const via = [...m.from].map((uuid) => rawTargets.get(uuid)).find(Boolean)
+    if (!via) continue
+    const lead = { to, type: via.type }
+    if (via.reqDet) lead.reqDet = via.reqDet
+    if (via.exclDet) lead.exclDet = via.exclDet
+    leads.push(lead)
+    report.mirror.added.push(`${bd.name} → ${to}`)
   }
   // Deduped: a keyword group ("any Imperium Battleline Infantry unit") and a listed group can name
   // the same unit, and the picker would offer it twice.
@@ -2004,6 +2060,12 @@ if (report.proseAttach.length) {
   console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
 }
 console.log(`  ${report.alongside} leaders may join a unit that already has one (flags.alongside)`)
+{
+  const seen = [...new Set(report.mirror.added)]
+  console.log(`  ${report.mirror.rules} "attached to this unit instead" rules read; ${seen.length} link${seen.length === 1 ? '' : 's'} appdata's own tables did not carry:`)
+  for (const l of seen) console.log(`      - ${l}`)
+  if (report.mirror.unread.length) console.log(`    !! ${report.mirror.unread.length} could not be read: ${report.mirror.unread.join(', ')}`)
+}
 const lk = report.leadKw
 console.log(`  ${report.proseAttachAdded} attachment${report.proseAttachAdded === 1 ? '' : 's'} appdata states only in prose, added by hand (PROSE_ATTACH)`)
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)

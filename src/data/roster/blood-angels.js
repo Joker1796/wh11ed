@@ -213,6 +213,10 @@ export default {
         {
           "to": "tactical-squad",
           "type": "leader"
+        },
+        {
+          "to": "victrix-honour-guard",
+          "type": "leader"
         }
       ],
       "leadKw": [
