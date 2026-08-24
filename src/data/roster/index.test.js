@@ -554,3 +554,72 @@ describe('allegiance choices', () => {
     expect(vindicator.alleg.o.map((o) => o.n)).toContain('Khorne')
   })
 })
+
+// ── Allies ──
+// The allied contexts (gen-roster-data.mjs's Allies section). What matters structurally is that
+// every id in a group resolves to a real unit — namespaced ones in the source bundle they name,
+// bare ones in this faction's own file — since a group that names nothing would silently offer an
+// empty section and cost nothing to a list that used it.
+describe('allies', () => {
+  const bySlug = new Map(factions.map((f) => [f.slug, f.data]))
+  const withAllies = factions.filter((f) => f.data.allies?.length)
+
+  it('reaches the armies that can take one', () => {
+    expect(withAllies.length).toBeGreaterThan(15)
+    for (const chapter of ['dark-angels', 'space-marines', 'adeptus-custodes']) {
+      expect(bySlug.get(chapter).allies.map((g) => g.key)).toContain('agents-of-the-imperium')
+    }
+  })
+
+  it('resolves every unit a group names', () => {
+    for (const { slug, data } of withAllies) {
+      for (const g of data.allies) {
+        expect([slug, g.key, g.ids.length > 0]).toEqual([slug, g.key, true])
+        for (const id of g.ids) {
+          const at = id.indexOf(':')
+          const src = at < 0 ? data : bySlug.get(id.slice(0, at))
+          const unitId = at < 0 ? id : id.slice(at + 1)
+          expect([slug, g.key, id, !!src?.units.some((u) => u.id === unitId)]).toEqual([slug, g.key, id, true])
+        }
+      }
+    }
+  })
+
+  // Limits are tabulated per battle size and must use the ids core.js does, or a cap silently
+  // never applies.
+  it('keys every limit by a real battle size', () => {
+    const sizes = new Set(rosterCore.battleSizes.map((b) => b.id))
+    for (const { data } of withAllies) {
+      for (const g of data.allies) {
+        for (const size of Object.keys(g.pts || {})) expect(sizes.has(size)).toBe(true)
+        for (const bySize of Object.values(g.lim || {})) {
+          for (const size of Object.keys(bySize)) expect(sizes.has(size)).toBe(true)
+        }
+      }
+    }
+  })
+
+  // The MFM prints a second, dearer list for Agents of the Imperium — what those units cost in
+  // somebody else's army. Their own bundle keeps the cheaper one.
+  it('prices an allied unit off the allied list', async () => {
+    const custodes = await loadRosterFaction('adeptus-custodes', { allies: true })
+    const agents = await loadRosterFaction('imperial-agents')
+    expect(custodes.units.find((u) => u.id === 'imperial-agents:inquisitor-draxus').sizes[0].pts).toBe(110)
+    expect(agents.units.find((u) => u.id === 'inquisitor-draxus').sizes[0].pts).toBe(75)
+  })
+
+  // Merging must not collide with the army's own datasheets — the reason ids are namespaced at
+  // all is that Astra Militarum and Imperial Agents each have a Ministorum Priest.
+  it('merges without shadowing a unit the army already has', async () => {
+    const am = await loadRosterFaction('astra-militarum', { allies: true })
+    const ids = am.units.map((u) => u.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(ids).toContain('ministorum-priest')
+    expect(ids).toContain('imperial-agents:ministorum-priest')
+  })
+
+  it('leaves the units out until they are asked for', async () => {
+    const plain = await loadRosterFaction('adeptus-custodes')
+    expect(plain.units.some((u) => u.id.includes(':'))).toBe(false)
+  })
+})

@@ -35,6 +35,7 @@ export const help = {
         title: 'Building an army list',
         body: `**Rosters** builds a list against the points from the current Munitorum Field Manual: pick units, wargear, leaders and enhancements, and the running total and the rules limits are checked as you go.
 ▪ **Already have a list elsewhere?** "Import" reads the text export from the Warhammer 40,000 app, from listhammer.info (with wargear or without) and from New Recruit (WTC and WTC-Compact). Everything we could not match is listed instead of silently dropped.
+▪ **Allies** are there too: Agents of the Imperium in an Imperium army, a Knight or a Titan, Daemons with Chaos Space Marines, Brood Brothers in a Genestealer Cults list. They get their own section, cost what they cost as allies, and their limits — how many, how many points, which detachment unlocks them — are checked like everything else.
 ▪ **Export** writes the list back out in four shapes: the GW app's own format (what a tournament organiser asks for), WTC, WTC-Compact, and a short one for a chat.
 ▪ **Share** turns a list into a link. The list travels inside the link itself, so it never reaches a server, and whoever opens it needs no account.
 ▪ A finished list can be handed to the tracker, and then its rules — auras, stratagems, states like Battle-shocked — are shown on the unit cards during the game.`,
@@ -91,6 +92,7 @@ export const help = {
         title: 'Собрать армейский лист',
         body: `**Ростеры** собирают лист по очкам текущего Munitorum Field Manual: юниты, вооружение, лидеры и улучшения, а сумма и ограничения правил проверяются по ходу.
 ▪ **Лист уже собран где-то ещё?** «Импорт» читает текстовую выгрузку из приложения Warhammer 40,000, с listhammer.info (с вооружением и без) и из New Recruit (WTC и WTC-Compact). Всё, что не удалось сопоставить, показывается списком, а не пропадает молча.
+▪ **Союзники** тоже на месте: Agents of the Imperium в имперской армии, рыцарь или титан, демоны у Chaos Space Marines, Brood Brothers в листе Genestealer Cults. У них своя секция, цена именно союзная, а ограничения — сколько штук, на сколько очков и какой детачмент их открывает — проверяются наравне со всем остальным.
 ▪ **Экспорт** отдаёт лист обратно в четырёх видах: формат приложения GW (его просят на турнирах), WTC, WTC-Compact и короткий для чата.
 ▪ **Поделиться** превращает лист в ссылку. Лист едет внутри самой ссылки, то есть не попадает на сервер, а тому, кто её откроет, не нужен аккаунт.
 ▪ Готовый лист можно передать в трекер — и тогда его правила (ауры, стратагемы, состояния вроде Battle-shocked) видны на карточках юнитов прямо во время партии.`,

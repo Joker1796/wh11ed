@@ -13,6 +13,7 @@
     <RosterUnitBrowser
       v-else-if="factionData"
       :units="factionData.units"
+      :allies="factionData.allies || []"
       :faction-slug="roster.faction"
       :added-ids="roster.units.map((u) => u.id)"
       :detachments="curDetachments"

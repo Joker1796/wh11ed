@@ -602,6 +602,42 @@ export function allyGroupOf(faction, id, detachments = []) {
   return allyGroupsFor(faction, detachments).find((g) => (g.ids || []).includes(id)) || null
 }
 
+// One split shared by every screen that lists units — the add-units browser, the editor and the
+// read-only view. Allies don't belong in the battlefield-role buckets: they are a separate part of
+// the army with their own ceiling, and two of them (Drukhari's Harlequins, a Chapter's Knights)
+// would otherwise sit in "Other" with nothing saying where their points come from. Units of a
+// group whose Detachment requirement isn't met are not offered by the browser at all — they can't
+// legally be there, which is also what validateRoster says about them — but a list that already
+// holds one still shows it (`keepLocked`), under the group it belongs to.
+//
+// `items` are whatever the caller lists (unit defs in the browser, roster entries elsewhere);
+// `idOf` pulls the unit id out of one.
+export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x) => x?.id, keepLocked = false } = {}) {
+  const all = faction?.allies || []
+  const active = allyGroupsFor(faction, detachments)
+  const activeKeys = new Set(active.map((g) => g.key))
+  const byKey = new Map(all.map((g) => [g.key, []]))
+  const roles = new Map(UNIT_GROUPS.map((id) => [id, []]))
+  for (const it of items || []) {
+    const id = idOf(it)
+    const def = defOf ? defOf(id) : it
+    if (!def) continue
+    const groups = all.filter((g) => (g.ids || []).includes(id))
+    const mine = groups.find((g) => activeKeys.has(g.key)) || groups[0]
+    if (mine) { byKey.get(mine.key).push(it); continue }
+    roles.get(bucketOf(def))?.push(it)
+  }
+  // Active groups always (the browser offers them even while empty); a locked one only where the
+  // caller keeps locked units — the editor and the read-only view must still show a unit that is
+  // in the list, or its points would go missing from the screen but not from the total.
+  const groupSection = (g) => ({ id: `ally:${g.key}`, ally: g, locked: !activeKeys.has(g.key), items: byKey.get(g.key) })
+  return [
+    ...UNIT_GROUPS.map((id) => ({ id, items: roles.get(id) })),
+    ...active.map(groupSection),
+    ...(keepLocked ? all.filter((g) => !activeKeys.has(g.key) && byKey.get(g.key).length).map(groupSection) : []),
+  ]
+}
+
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total
 // and borrows the duplicate / enhancement / DP limits of the standard bracket it falls within.
 export function effectiveBattle(roster, core) {

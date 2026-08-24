@@ -98,7 +98,10 @@
 
         <template v-for="g in groupedUnits" :key="g.id">
           <template v-if="g.entries.length">
-            <h3 class="rvg-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
+            <h3 class="rvg-head" :class="{ locked: g.locked }">
+              {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
+              <em v-if="g.ally" class="rvg-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
+            </h3>
             <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
                  own state switches under the stats, and a button cannot hold buttons. Opening the
                  card stays a button of its own, covering everything but the switches. -->
@@ -241,8 +244,8 @@
 
     <RosterUnitRulesModal
       v-if="viewingUid && viewingDef"
-      :unit-id="viewingDef.id"
-      :faction-slug="roster.faction"
+      :unit-id="viewingSrc?.[1] || viewingDef.id"
+      :faction-slug="viewingSrc?.[0] || roster.faction"
       :ctx="{
         def: viewingDef,
         entry: viewingEntry,
@@ -278,7 +281,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, allyGroupOf, allySourceOf, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -865,11 +868,15 @@ const entryMeta = computed(() => {
 })
 const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
 
+// Allies read as their own part of the list, exactly as the editor shows them (rosterEngine's
+// sectionsOf); `keepLocked` so a unit whose group the Detachment doesn't unlock is still on screen.
 const groupedUnits = computed(() =>
-  UNIT_GROUPS.map((id) => ({
-    id,
-    entries: (roster.value?.units || []).filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
-  })))
+  sectionsOf(roster.value?.units, {
+    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
+  }).map((sec) => ({ ...sec, entries: sec.items })))
+
+// The datasheet behind an allied unit belongs to its own faction, and the namespaced id says so.
+const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
   return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
@@ -1124,6 +1131,18 @@ function stratKey(strat) {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--border);
 }
+/* Same ally tag as the editor's heading — the group's name plus what kind of heading it is. */
+.rvg-ally {
+  margin-left: 0.5em;
+  font-family: var(--font-body, inherit);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.rvg-head.locked .rvg-ally { color: #c0392b; }
 .rvunit {
   width: 100%;
   background: var(--bg-card);

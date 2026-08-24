@@ -191,3 +191,29 @@ describe('RosterUnitBrowser', () => {
     expect(alpha.text()).toContain('80') // unaffected — not this enhancement's unit
   })
 })
+
+describe('RosterUnitBrowser — allies', () => {
+  const ally = { id: 'imperial-agents:inquisitor', name: 'Inquisitor', flags: { char: true }, kws: ['Character'], sizes: [{ pts: 65, per: [1, 1] }] }
+  const locked = { id: 'imperial-knights:armiger-helverin', name: 'Armiger Helverin', kws: ['Armiger'], sizes: [{ pts: 150, per: [1, 1] }] }
+  const allies = [
+    { key: 'agents', name: 'Agents of the Imperium', ids: [ally.id], lim: { Character: { 'strike-force': 2 } } },
+    { key: 'knights', name: 'Imperial Knights', ids: [locked.id], dets: ['Questor Forgepact'] },
+  ]
+  const battle = { id: 'strike-force', base: 'strike-force', dupLimit: 3 }
+  const mountWith = (detachments = []) => mountBrowser({ units: [...units, ally, locked], allies, battle, detachments })
+
+  // An ally is a part of the army in its own right, with its own ceiling — printing it among the
+  // Characters would leave nothing on screen saying where its points come from.
+  it('lists an allied unit under its group, with the group’s cap', () => {
+    const w = mountWith()
+    const head = w.findAll('.rub-head').find((h) => h.text().includes('Agents of the Imperium'))
+    expect(head.text()).toContain('2× Character')
+    const chars = w.findAll('.rub-group').find((g) => g.text().includes('Bravo Character'))
+    expect(chars.text()).not.toContain('Inquisitor')
+  })
+
+  it('does not offer a group the selected detachment has not unlocked', () => {
+    expect(mountWith().text()).not.toContain('Armiger Helverin')
+    expect(mountWith([{ name: 'Questor Forgepact', enhancements: [] }]).text()).toContain('Armiger Helverin')
+  })
+})

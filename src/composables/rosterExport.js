@@ -129,6 +129,11 @@ function resolve(roster, { faction, core, items } = {}) {
   // Copy index per datasheet id, in list order — the 2nd and 3rd copy pay the step surcharge, and
   // the export has to sum points exactly as the editor does.
   const seen = new Map()
+  // Every unit the faction data files under an allied context, whichever group and whether or not
+  // the selected Detachment unlocks it: the export prints what the list HOLDS, and an allied unit
+  // is worth naming as one even when it is there illegally (the issues list is where legality is
+  // argued). Attached allies stay inside their Attached Unit block, exactly as the app prints them.
+  const allyIds = new Set((faction?.allies || []).flatMap((g) => g.ids || []))
   const rows = []
   for (const entry of roster?.units || []) {
     const def = defOf(entry.id)
@@ -143,6 +148,7 @@ function resolve(roster, { faction, core, items } = {}) {
       def,
       name: def.name,
       bucket: bucketOf(def),
+      ally: allyIds.has(entry.id),
       pts: unitPoints(def, entry, copy, detachments),
       models: entry.count ?? size?.per?.[0] ?? 1,
       warlord: !!entry.warlord,
@@ -230,10 +236,19 @@ function gwText(m, version) {
   }
 
   for (const section of GW_SECTIONS) {
-    const rows = m.loose.filter((r) => section.buckets.includes(r.bucket))
+    const rows = m.loose.filter((r) => !r.ally && section.buckets.includes(r.bucket))
     if (!rows.length) continue
     lines.push(section.title)
     for (const r of rows) lines.push('', ...gwUnit(r, null))
+    lines.push('')
+  }
+
+  // The app's own heading for units that are in the army without its Faction keyword — and one our
+  // own importer already reads, so a list exported here comes back in whole.
+  const allies = m.loose.filter((r) => r.ally)
+  if (allies.length) {
+    lines.push('ALLIED UNITS')
+    for (const r of allies) lines.push('', ...gwUnit(r, null))
     lines.push('')
   }
 

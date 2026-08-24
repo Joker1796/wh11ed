@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf } from './rosterEngine.js'
+import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -794,5 +794,51 @@ describe('attaching under Marks of Chaos', () => {
 
   it('still offers a squad that hasn\'t chosen yet — marks are picked in any order', () => {
     expect(targets('Nurgle', null)).toEqual(['them'])
+  })
+})
+
+describe('allies', () => {
+  const inquisitor = { id: 'imperial-agents:inquisitor', name: 'Inquisitor', kws: ['Character'], flags: { char: 1 }, sizes: [{ pts: 65, per: [1, 1] }] }
+  const bloodletters = { id: 'bloodletters', name: 'Bloodletters', kws: ['Infantry'], flags: {}, sizes: [{ pts: 110, per: [10, 10] }] }
+  const captain = { id: 'captain', name: 'Captain', kws: ['Character'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1] }] }
+  const faction = {
+    units: [captain, inquisitor, bloodletters],
+    allies: [
+      { key: 'agents', name: 'Agents of the Imperium', ids: [inquisitor.id] },
+      { key: 'daemons', name: 'Blood Legions', ids: [bloodletters.id], dets: ['Khorne Daemonkin'] },
+    ],
+  }
+  const defOf = (id) => faction.units.find((u) => u.id === id)
+
+  // The namespaced id is the ONLY mark an allied unit carries, and it says which bundle the unit
+  // (and its datasheet page) belongs to.
+  it('reads the source faction out of a unit id', () => {
+    expect(allySourceOf('imperial-agents:inquisitor')).toEqual(['imperial-agents', 'inquisitor'])
+    expect(allySourceOf('captain')).toBe(null)
+    expect(usesAllies({ units: [{ id: 'captain' }] })).toBe(false)
+    expect(usesAllies({ units: [{ id: 'captain' }, { id: 'imperial-agents:inquisitor' }] })).toBe(true)
+  })
+
+  it('opens a detachment-gated group only under that detachment', () => {
+    expect(allyGroupsFor(faction, []).map((g) => g.key)).toEqual(['agents'])
+    expect(allyGroupsFor(faction, [{ name: 'Khorne Daemonkin' }]).map((g) => g.key)).toEqual(['agents', 'daemons'])
+  })
+
+  // Allies are their own sections, never filed under a battlefield role — and a group the
+  // detachment doesn't unlock isn't offered at all, which is what the add-units browser needs.
+  it('splits units into role buckets and ally sections', () => {
+    const items = [{ uid: 'a', id: 'captain' }, { uid: 'b', id: 'imperial-agents:inquisitor' }, { uid: 'c', id: 'bloodletters' }]
+    const secs = sectionsOf(items, { faction, defOf })
+    expect(secs.find((s) => s.id === 'characters').items.map((i) => i.uid)).toEqual(['a'])
+    expect(secs.find((s) => s.id === 'ally:agents').items.map((i) => i.uid)).toEqual(['b'])
+    expect(secs.find((s) => s.id === 'ally:daemons')).toBeUndefined()
+  })
+
+  // …but a list that already HOLDS such a unit still shows it, or its points would vanish from the
+  // screen while staying in the total.
+  it('keeps a locked group for the screens that display a saved list', () => {
+    const items = [{ uid: 'c', id: 'bloodletters' }]
+    const sec = sectionsOf(items, { faction, defOf, keepLocked: true }).find((s) => s.id === 'ally:daemons')
+    expect([sec.locked, sec.items.map((i) => i.uid)]).toEqual([true, ['c']])
   })
 })

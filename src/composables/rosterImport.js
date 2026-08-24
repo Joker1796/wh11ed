@@ -25,7 +25,7 @@
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
-import { optionItems, optionLabel, unitPoints } from './rosterEngine.js'
+import { allySourceOf, optionItems, optionLabel, unitPoints } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
@@ -508,7 +508,17 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   }
   if (!battle && parsed.limit) payload.customPoints = parsed.limit
 
-  const byName = new Map((faction.units || []).map((u) => [norm(u.name), u]))
+  // Name -> datasheet. Allied units are in this list too (the import screen loads them), and two
+  // datasheets can share a name across that line: Astra Militarum and Imperial Agents each have a
+  // Ministorum Priest, and an AM list saying "Ministorum Priest" means its own. So the army's own
+  // entry always wins; an allied one is taken only where the army has nothing by that name — which
+  // is what lets an Inquisitor Draxus in a Custodes list resolve at all.
+  const byName = new Map()
+  for (const u of faction.units || []) {
+    const key = norm(u.name)
+    const prev = byName.get(key)
+    if (!prev || (allySourceOf(prev.id) && !allySourceOf(u.id))) byName.set(key, u)
+  }
   const copies = new Map()
   const groups = new Map()
   const attachments = []

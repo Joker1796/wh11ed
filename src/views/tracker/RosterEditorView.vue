@@ -85,7 +85,10 @@
         <div v-else class="redu-list">
           <template v-for="g in groupedUnits" :key="g.id">
             <template v-if="g.entries.length">
-              <h3 class="rug-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
+              <h3 class="rug-head" :class="{ locked: g.locked }">
+                {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
+                <em v-if="g.ally" class="rug-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
+              </h3>
               <div v-for="e in g.entries" :key="e.uid" class="redu-unit">
                 <!-- The row is itself a button (it opens the config), so the delete sits BESIDE
                      it rather than inside — a button inside a button is invalid and doesn't get
@@ -131,7 +134,7 @@
                       :def="defOf(e.id)"
                       :items="rosterItems.items"
                       :texts="rosterItems.texts"
-                      :faction-slug="roster.faction"
+                      :faction-slug="slugFor(e.id)"
                       :detachments="curDetachments"
                       :units="roster.units"
                       :def-of="defOf"
@@ -216,7 +219,7 @@ import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints,
+  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints,
   canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
 } from '../../composables/rosterEngine.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
@@ -380,11 +383,18 @@ const entryMeta = computed(() => {
 const issuesOpen = ref(false)
 const exportOpen = ref(false)
 
+// Allies get their own headings rather than being filed under a battlefield role — same split
+// the add-units browser uses (rosterEngine's sectionsOf). `keepLocked` because a list can already
+// hold a unit whose group the current Detachment doesn't unlock: it stays visible, under its group
+// and marked, instead of vanishing from the screen while still counting in the total.
 const groupedUnits = computed(() =>
-  UNIT_GROUPS.map((id) => ({
-    id,
-    entries: (roster.value?.units || []).filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
-  })))
+  sectionsOf(roster.value?.units, {
+    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
+  }).map((sec) => ({ ...sec, entries: sec.items })))
+
+// An allied unit's datasheet belongs to ITS faction (Draxus is an Imperial Agents sheet), which
+// is what the namespaced id records.
+function slugFor(id) { return allySourceOf(id)?.[0] || roster.value?.faction }
 
 function rename(name) {
   roster.value.name = name
@@ -596,6 +606,19 @@ function rename(name) {
   border-bottom: 1px solid var(--border);
 }
 .rug-head:first-child { margin-top: 0; }
+/* An ally heading names the group; the tag after it says what the group IS, so the reader isn't
+   left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
+.rug-ally {
+  margin-left: 0.5em;
+  font-family: var(--font-body, inherit);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.rug-head.locked .rug-ally { color: #c0392b; }
 
 /* Loadout accordion — same card/row language as the creation wizard's step 3. */
 .redu-unit {
