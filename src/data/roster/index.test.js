@@ -875,3 +875,50 @@ describe('a pair whose instruction misspells one of its items', () => {
     expect(optionLabel(g.o[0], rosterItems.items)).toBe('Oppressor cannon + Coaxial autocannon')
   })
 })
+
+describe('a pair whose instruction spells an item with a U+2010 hyphen', () => {
+  const unitOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
+  const textOf = (g) => rosterItems.texts[g.t] || ''
+
+  // "…can be replaced with one of the following: ◦ 1 hot-shot laspistol and 1 medi-pack ◦ 1 hot‐shot
+  // lasgun, 1 hot‐shot laspistol and 1 medi‐pack" — the second bullet is typed with U+2010 hyphens
+  // and every item it names is stored with a plain one. Read literally it resolved nothing, so the
+  // whole group stayed unbundled: three loose options under a cap of one pick, which made the medi-
+  // pack Scion every army app prints illegal on import.
+  it('bundles both readings of the Tempestus medi-pack bullet', () => {
+    const g = unitOf('astra-militarum', 'militarum-tempestus-command-squad').gear
+      .find((x) => /medi‐pack/.test(textOf(x)))
+    expect(g.o.map((o) => optionLabel(o, rosterItems.items))).toEqual([
+      'Hot-shot laspistol + Medi-pack',
+      'Hot-shot lasgun + Hot-shot laspistol + Medi-pack',
+    ])
+    expect(g.lim).toEqual([[0, 1]])
+  })
+
+  // Same hyphen, and here the pairing is the whole group: one option, not two.
+  it('bundles the Steeljack Theyn swap', () => {
+    const g = unitOf('leagues-of-votann', 'ironkin-steeljacks-with-heavy-volkanite-disintegrators')
+      .gear.find((x) => /Autoch‑pattern bolter/.test(textOf(x)))
+    expect(g.o).toHaveLength(1)
+    expect(optionLabel(g.o[0], rosterItems.items)).toBe('Autoch-pattern bolter + Plasma sword')
+  })
+
+  // Two identical options are what makes a limited-choice set ambiguous, so folding the pair also
+  // let the "for every 5 models, 1 model" cap appdata records for it find its group at last.
+  it('pairs the Deathwatch Veterans stalker swap and picks up its cap', () => {
+    const g = unitOf('deathwatch', 'deathwatch-veterans').gear
+      .find((x) => /stalker‐pattern boltgun/.test(textOf(x)))
+    expect(g.o).toHaveLength(1)
+    expect(optionLabel(g.o[0], rosterItems.items)).toBe('Stalker-pattern boltgun + Close combat weapon')
+    expect(g.lim).toEqual([[5, 1], [10, 2]])
+  })
+
+  // The same sentence can state a COUNT rather than a pair — "replaced with 2 hot‐shot laspistols"
+  // is one option granting two of one item, and it reads through the hyphen the same way.
+  it('counts the two laspistols an Aquilon gives up its lascarbine for', () => {
+    const g = unitOf('astra-militarum', 'tempestus-aquilons').gear
+      .find((x) => /2 hot‐shot laspistols/.test(textOf(x)))
+    expect(optionItems(g.o[0])).toEqual([[optionItems(g.o[0])[0][0], 2]])
+    expect(optionLabel(g.o[0], rosterItems.items)).toBe('2× Hot-shot laspistol')
+  })
+})

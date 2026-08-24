@@ -219,3 +219,36 @@ describe('schema → v5', () => {
     expect(r.units[2].wg).toEqual([[0, 1, 1]])
   })
 })
+
+describe('schema → v6', () => {
+  it('drops the picks of the five datasheets the hyphen fix renumbered, and nobody else’s', async () => {
+    // appdata spells an item with a U+2010 hyphen in the instruction that names it and a plain one
+    // in the item table, so five groups that state a pairing were read as separate options. Each
+    // folded into one bundled option, which moved the option indices after it — on those five
+    // datasheets and nowhere else.
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 5,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        createdAt: 1,
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'militarum-tempestus-command-squad', wg: [[4, 2, 1]] },
+          { uid: 'u2', id: 'cadian-recon-squad', size: 1, count: 10, wg: [[3, 1, 1]] },
+          { uid: 'u3', id: 'astra-militarum/deathwatch-kill-team', wg: [[5, 1, 1]] },
+          { uid: 'u4', id: 'ironkin-steeljacks-with-heavy-volkanite-disintegrators', wg: [[0, 1, 1]] },
+          { uid: 'u5', id: 'kasrkin', wg: [[0, 1, 1]], enh: 'Grim Demeanour' },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units.map((u) => u.wg)).toEqual([
+      undefined, undefined, undefined, undefined, [[0, 1, 1]],
+    ])
+    expect(r.units[1].count).toBe(10) // the size and everything else stay
+    expect(r.units[4].enh).toBe('Grim Demeanour')
+  })
+})

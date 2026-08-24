@@ -10,7 +10,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 5
+export const SCHEMA_VERSION = 6
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -71,6 +71,10 @@ export function isValidRoster(r) {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+// The datasheets whose option lists renumbered in v6, matched with or without a faction prefix
+// (an allied unit is stored as "astra-militarum/deathwatch-kill-team").
+const V6_RENUMBERED = /(^|\/)(cadian-recon-squad|militarum-tempestus-command-squad|deathwatch-veterans|deathwatch-kill-team|ironkin-steeljacks-with-heavy-volkanite-disintegrators)$/
+
 // Bring ONE roster up to the current shape. Shared by the stored envelope below and by an imported
 // share payload, which is the same shape carried in a URL and can be just as old — importing used
 // to skip this entirely, so a link built under an older schema was saved with indices pointing at
@@ -105,6 +109,17 @@ export function migrateRoster(r, v) {
   if (!(v >= 5)) {
     for (const u of r.units || []) {
       if (/(^|\/)(venatari-custodians|rogal-dorn-battle-tank)$/.test(u.id || '')) delete u.wg
+    }
+  }
+
+  // → v6: the same event again, on five datasheets. appdata spells an item one way in its item
+  // table and another way in the instruction that names it — "1 hot‐shot laspistol and 1
+  // medi‐pack" with a U+2010 hyphen where the item itself is stored with a plain one — so
+  // pairings the prose does state were read as separate options. Reading through the hyphen folded
+  // each of them into one bundled option, which moved every option index after it.
+  if (!(v >= 6)) {
+    for (const u of r.units || []) {
+      if (V6_RENUMBERED.test(u.id || '')) delete u.wg
     }
   }
   return r

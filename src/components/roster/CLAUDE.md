@@ -934,7 +934,7 @@ weapon-table trim.
 `gen-roster-data.mjs`'s **`linkWargearBundles`** parses the pairing out of the prose and then
 **verifies it against structure**: `loadout_choice` enumerates each miniature's complete legal
 loadouts (1145 of 1146 datasheets have them), so every set the prose yields must fit inside one
-of them. Prose alone would be a guess. 174 groups are rewritten this way; the run prints the ones
+of them. Prose alone would be a guess. 182 groups are rewritten this way; the run prints the ones
 left flat, by name, so a "missing swap" report can be checked against that list.
 
 **The instruction may misspell an item its own wargear row spells right** (added 2026-08-24) — the
@@ -947,6 +947,20 @@ army apps' 325). So an option the sentence hasn't named gets a second chance at 
 name, five letters or more, everything else identical (`nearName`), and a plural is not that word
 ("1 powerblades" must not claim the Powerblade array's bullet). The pair it produces still has to
 sit inside an enumerated legal loadout, which is what makes the tolerance safe.
+
+**The instruction may also spell an item with a different HYPHEN than the item table does** (added
+2026-08-24) — appdata's prose is typed by hand and its item rows are not, so "1 hot‐shot laspistol
+and 1 medi‐pack" carries U+2010 where both items are stored with a plain `-`, and "1 Autoch‑pattern
+bolter and 1 plasma sword" carries U+2011. A literal match resolves nothing in such a statement, and
+a group with even one unreadable statement is left entirely alone — the Militarum Tempestus Command
+Squad's medi-pack bullet shipped as three loose options under a cap of one pick, so the medi-pack
+Scion every army app prints failed validation on import. `flatText` folds the hyphen and apostrophe
+variants on both sides before matching (character-level and length-preserving, so the offsets that
+order a set still mean something; `norm` is not usable here because it also strips a trailing
+`(…)`, which belongs to names and not to sentences). Five groups gained a pairing this way and two
+gained a count, and folding the Deathwatch Veterans' pair also let the "for every 5 models, 1 model"
+cap appdata records for it match its group at last — two identical options are exactly what makes a
+limited-choice set ambiguous.
 
 Two guards keep it fail-open, and both currently reject real groups — don't remove them to raise
 the number: every option appdata lists must be named by the prose (else the prose is describing
@@ -967,9 +981,12 @@ what `loadoutItemIds`, `wargearNames`, the editor rows and the data-shape tests 
 
 Because a pick is stored as an INDEX into the option list, rewriting the lists renumbered them —
 hence `useRosters.js` SCHEMA_VERSION 2, which drops `wg` from rosters saved under v1 rather than
-re-interpreting an old index as a different weapon. **v5 is the same event on a smaller scale**:
-the misspelling rule above reached exactly two datasheets, so it drops the picks of those two
-units only — a blanket wipe of every roster's wargear costs far more than it repairs.
+re-interpreting an old index as a different weapon. **v5 and v6 are the same event on a smaller
+scale**: the misspelling rule reached exactly two datasheets and the hyphen rule five, so each drops
+the picks of those units only — a blanket wipe of every roster's wargear costs far more than it
+repairs. A rule of this shape is worth expecting again: when one lands, measure it by regenerating
+and diffing the data (option COUNT changing is what renumbers; a count written onto an existing
+option does not), and name the datasheets in the migration.
 
 ## One bullet, recorded once per miniature
 
