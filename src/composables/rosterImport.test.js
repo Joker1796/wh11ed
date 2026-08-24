@@ -1898,3 +1898,81 @@ describe('matchRoster — a WTC list that indexes what a character joined', () =
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
   })
 })
+
+
+
+// A WTC export from newrecruit, where an attachment can be stated by the NAME OF THE RULE that
+// makes it ("Loyal Protector Cadian Command Squad[1]"), a bundle is written as one name, a profile
+// is named something the datasheet never calls it, and the warlord token sits on the model that is
+// the warlord rather than on the unit's own line.
+const AM = `+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Imperium - Astra Militarum
++ DETACHMENT: Bridgehead Strike
++ TOTAL ARMY POINTS: 425pts
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Char5: 5x Cadian Command Squad (60 pts)
+• 4x Cadian Veteran Guardsman
+1 with Power fist, Plasma pistol
+1 with Plasma gun
+• 1x Cadian Commander: Power fist, Plasma pistol
+Attached to Ogryn Bodyguard[1]
+Leading Cadian Shock Troops[1]
+Char1: 6x Gaunt’s Ghosts (95 pts)
+• 5x Tanith Ghost
+• 1x Ibram Gaunt
+Char7: 5x Militarum Tempestus Command Squad (85 pts)
+• 4x Tempestus Scion
+1 with Plasma gun
+• 1x Tempestor Prime: Warlord, Command rod
+Char9: 1x Ogryn Bodyguard (40 pts): Huge knife, Ripper gun
+Loyal Protector Cadian Command Squad[1]
+
+20x Cadian Shock Troops (145 pts)
+• 18x Shock Trooper
+• 2x Shock Trooper Sergeant: 2 with Sergeant's autogun and close combat weapon
+Attached to Cadian Command Squad[1]
+
+Created with newrecruit.eu v35.56`
+
+describe('matchRoster — a WTC list that states an attachment by its rule', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('astra-militarum'), core: rosterCore, items: items.items }
+  })
+
+  // Both units are Characters, so which one leads is a question only the datasheets answer: the
+  // Ogryn joins the Command Squad, and the Command Squad goes on to lead the Shock Troops.
+  it('reads a line marked only by the name of the rule that attaches', () => {
+    const { payload } = matchRoster(parseList(AM), ctx)
+    const squad = payload.units.find((u) => u.id === 'cadian-command-squad')
+    const ogryn = payload.units.find((u) => u.id === 'ogryn-bodyguard')
+    expect(ogryn.leaderOf).toBe(squad.uid)
+    expect(squad.leaderOf).toBe(payload.units.find((u) => u.id === 'cadian-shock-troops').uid)
+  })
+
+  // "2 with Sergeant's autogun and close combat weapon" is one option of two items, whose own label
+  // joins them with " + ". It is free, so nothing but the missing pick said it had been lost.
+  it('reads a bundle the export writes as one name', () => {
+    const { report, payload } = matchRoster(parseList(AM), ctx)
+    expect(payload.units.find((u) => u.id === 'cadian-shock-troops').wg).toEqual([[1, 0, 2]])
+    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+  })
+
+  // A structured body already said which lines are models. "5x Tanith Ghost" is a name the
+  // datasheet does not have — it lists the five Ghosts by their own names — and dropping it left
+  // Gaunt's Ghosts with one model of six.
+  it('keeps a model line the datasheet has no name for', () => {
+    const { report } = matchRoster(parseList(AM), ctx)
+    expect(report.units.find((u) => u.name.endsWith('Ghosts')).models).toBe(6)
+  })
+
+  it('takes the warlord from the model that carries the token', () => {
+    const { payload } = matchRoster(parseList(AM), ctx)
+    expect(payload.units.find((u) => u.warlord).id).toBe('militarum-tempestus-command-squad')
+  })
+})

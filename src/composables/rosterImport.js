@@ -486,7 +486,14 @@ function parseWtc(text) {
         // Kept as well as counted, the same way gwBody keeps them: matchRoster is the only place
         // that knows whether a profile is one of this datasheet's own.
         ;(unit.modelLines || (unit.modelLines = [])).push({ n, name: mini })
-        if (cut !== -1) unit.weapons.push(...wtcGear(body.slice(cut + 1)).map((g) => ({ ...g, mini })))
+        // "• 1x Tempestor Prime: Warlord, Command rod" — the app writes the token on the unit's
+        // own line, this export writes it on the model that IS the warlord.
+        if (cut !== -1) {
+          for (const g of wtcGear(body.slice(cut + 1))) {
+            if (/^warlord$/i.test(g.name)) { unit.warlord = true; continue }
+            unit.weapons.push({ ...g, mini })
+          }
+        }
       }
       continue
     }
@@ -506,7 +513,7 @@ function parseWtc(text) {
     if (head) {
       flush()
       const [, ref, n, name, pts, tail] = head
-      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: [], models: n ? +n : null, weapons: [], fromProfiles: false }
+      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: [], loose: [], models: n ? +n : null, weapons: [], fromProfiles: false }
       mini = null
       for (const g of wtcGear(tail)) {
         if (/^warlord$/i.test(g.name)) { unit.warlord = true; continue }
@@ -514,7 +521,14 @@ function parseWtc(text) {
         if (mark) { unit.alleg = mark[2]; continue }
         unit.weapons.push({ ...g, mini: null })
       }
+      continue
     }
+
+    // Anything else inside a unit's block. Kept rather than dropped: one export states an
+    // attachment with no vocabulary we could match on, naming the RULE that does the attaching
+    // ("Loyal Protector Cadian Command Squad[1]"), and matchRoster is the only place that can tell
+    // such a line from a stray — it alone knows what the other units in the list are.
+    if (unit) unit.loose.push(t)
   }
   flush()
 
@@ -747,6 +761,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   const copies = new Map()
   const groups = new Map()
   const attachments = []
+  const loose = []
 
   for (const pu of parsed.units || []) {
     const def = byName.get(norm(pu.name))
@@ -804,15 +819,29 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
     const isModel = (name) => known.has(norm(name)) || norm(name) === self
     const lines = modelLines
+    const held = defaultNames(def, items)
+    for (const key of optionIndex(def, items).keys()) held.add(key)
     if (lines.length) {
       const real = lines.filter((l) => isModel(l.name))
-      if (real.length && real.length !== lines.length) {
+      // A flat body offered every line as a candidate, so only the lines the datasheet knows as
+      // profiles are models — anything else it cannot vouch for is wargear until proven otherwise
+      // (the arithmetic below is what may still promote it).
+      if (pu.flatBody && real.length && real.length !== lines.length) {
         models = real.reduce((n, l) => n + l.n, 0) || null
-        // An indented body listed its model lines apart from the weapons, so the strays join them;
-        // a flat one listed everything together, so the real model lines leave (same objects).
-        weapons = pu.flatBody
-          ? weapons.filter((w) => !real.includes(w))
-          : [...weapons, ...lines.filter((l) => !isModel(l.name)).map((l) => ({ n: l.n, name: l.name, mini: null }))]
+        weapons = weapons.filter((w) => !real.includes(w))
+      }
+      // A body with structure already SAID which lines are models, and the parser counted them. So
+      // the only ones that leave are those the datasheet knows as WARGEAR: an attached extra is
+      // printed exactly like a model ("• 1x Ammo Runt" beside "• 9x Flash Git") and counting it
+      // drops a ten-Git unit into the five-model bracket, at half price. A model line under a name
+      // we simply do not have — a WTC export collapses Gaunt's Ghosts' five named Ghosts into "5x
+      // Tanith Ghost" — is still a model line, and dropping those cost the unit five of its six.
+      if (!pu.flatBody) {
+        const gearLines = lines.filter((l) => !isModel(l.name) && held.has(norm(l.name)))
+        if (gearLines.length && real.length) {
+          models = (models || 0) - gearLines.reduce((n, l) => n + (l.n || 1), 0) || null
+          weapons = [...weapons, ...gearLines.map((l) => ({ n: l.n, name: l.name, mini: null }))]
+        }
       }
     }
     // A count no bracket allows is not a count. Exports do not agree on how a profile is named:
@@ -824,12 +853,10 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // read as models instead, and only if THAT count fits a bracket: a line we merely failed to
     // understand still changes nothing, and a unit whose models we did read is never touched.
     if (pu.flatBody && lines.length && !fitsBracket(def, models)) {
-      const held = defaultNames(def, items)
-      for (const key of optionIndex(def, items).keys()) held.add(key)
       const strays = lines.filter((l) => !held.has(norm(l.name)))
-      const loose = strays.reduce((n, l) => n + (l.n || 1), 0)
-      if (loose && fitsBracket(def, loose)) {
-        models = loose
+      const promoted = strays.reduce((n, l) => n + (l.n || 1), 0)
+      if (promoted && fitsBracket(def, promoted)) {
+        models = promoted
         weapons = weapons.filter((w) => !strays.includes(w))
       }
     }
@@ -853,6 +880,18 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // already comes with is in the text too, and must not be read as a choice.
     const printed = defaultNames(def, items)
     const idx = optionIndex(def, items)
+
+    // A bundle the export writes as ONE name: "2 with Sergeant's autogun and close combat weapon"
+    // is the pair our data offers as a single option, whose own label joins its items with " + " —
+    // so the line answered to neither the label nor an item, and the swap was lost silently (it is
+    // free, so the points said nothing). Split only when the whole name is unknown and EVERY part
+    // is known: "Genestealer claws and talons" is one weapon, and it resolves as one.
+    const knownGear = (name) => { const k = norm(name); return !!k && (printed.has(k) || idx.has(k)) }
+    weapons = weapons.flatMap((w) => {
+      if (knownGear(w.name) || !/ and /i.test(w.name)) return [w]
+      const parts = w.name.split(/ and /i).map((x) => x.trim())
+      return parts.every(knownGear) ? parts.map((name) => ({ ...w, name })) : [w]
+    })
 
     // A swap TAKES SOMETHING AWAY, and the export lists what the models are actually holding — so a
     // group whose replaced items are all still there in full was not taken. That is the only thing
@@ -985,6 +1024,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       groups.get(pu.group).push({ entry, def, attachedAs: pu.attachedAs })
     }
     for (const target of pu.attachedTo || []) attachments.push({ entry, def, target })
+    for (const line of pu.loose || []) loose.push({ entry, def, line })
   }
 
   // WTC states the pair as a line on one of them ("Attached to X") — but not always on the same
@@ -994,6 +1034,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // the SECOND Warboss the list prints. Without the index every such line pointed at whichever
   // Warboss was stored last, and three characters piled onto one mob — so the rows are kept in list
   // order and the index picks among them.
+  const dets = (faction.detachments || []).filter((d) => payload.detachments.includes(d.name))
   const rowsOf = new Map()
   payload.units.forEach((u, i) => {
     const key = norm(report.units[i]?.name)
@@ -1005,20 +1046,47 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const rows = rowsOf.get(norm(at ? at[1] : target)) || []
     return at ? rows[+at[2] - 1] : rows[0]
   }
-  for (const a of attachments) {
-    const other = rowFor(a.target)
-    if (!other || other.entry === a.entry) continue
-    const isChar = (d) => !!(d?.flags?.char || d?.flags?.epic)
+  //
+  // Which of the two is the leader is a question the DATASHEETS answer, and only where they have no
+  // answer does the Character flag decide it. Both units in a pair can be Characters — an Ogryn
+  // Bodyguard joins a Cadian Command Squad, which is itself a Character unit leading Shock Troops —
+  // and taking the line's own subject as the leader got that backwards. It cost the attachment
+  // outright: a leader holds one link, so the wrong one silently replaced the right one.
+  const isChar = (d) => !!(d?.flags?.char || d?.flags?.epic)
+  const linkFor = (a, other) => {
+    if (!other || other.entry === a.entry) return null
+    const forward = leadTypeFor(a.def, a.entry, other.def, dets)
+    const back = leadTypeFor(other.def, other.entry, a.def, dets)
+    if (forward && !back) return { leader: a, body: other, legal: true }
+    if (back && !forward) return { leader: other, body: a, legal: true }
     const leader = isChar(a.def) ? a : (isChar(other.def) ? other : null)
-    if (!leader) continue
-    const body = leader === a ? other : a
-    leader.entry.leaderOf = body.entry.uid
+    return leader ? { leader, body: leader === a ? other : a, legal: !!forward } : null
+  }
+  const links = attachments.map((a) => linkFor(a, rowFor(a.target))).filter(Boolean)
+
+  // A line whose only mark is the name of the rule that attaches: an Ogryn Bodyguard says "Loyal
+  // Protector Cadian Command Squad[1]" where every other export writes "Attached to". The
+  // vocabulary is open — the rule's name is whatever its datasheet calls it — so the line is read
+  // by what it RESOLVES to: the longest tail naming another unit in the list, kept only when the
+  // datasheets say the two may attach. Everything else stays what it was, a line we did not read.
+  for (const l of loose) {
+    const words = l.line.split(' ')
+    for (let i = 1; i < words.length; i++) {
+      const link = linkFor(l, rowFor(words.slice(i).join(' ')))
+      if (link?.legal) { links.push(link); break }
+    }
+  }
+
+  // The legal pairings are made first: a link the rules allow is never displaced by one that only
+  // the Character flag suggested, whichever order the list happened to state them in.
+  for (const link of [...links.filter((l) => l.legal), ...links.filter((l) => !l.legal)]) {
+    if (link.leader.entry.leaderOf) continue
+    link.leader.entry.leaderOf = link.body.entry.uid
   }
 
   // The GW app blocks a leader with the unit it joined, so there the block IS the link. Both
   // attaching roles count: a bodyguard unit holds a Leader and a Support at once (two independent
   // slots — see leaderTargetsFor in rosterEngine.js), and the app names them exactly that way.
-  const dets = (faction.detachments || []).filter((d) => payload.detachments.includes(d.name))
   for (const members of groups.values()) {
     // A block may carry no labels at all: listhammer prints "Attached Unit 3" and then the two
     // datasheets, and the header is the whole statement. The DATASHEETS then say which of them is

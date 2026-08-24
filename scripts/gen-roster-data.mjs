@@ -328,7 +328,30 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+
+// …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
+// Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
+// Protector rule), and neither has a bodyguard group of any kind — so as generated they can join
+// nothing: an army that fields one cannot be built here, and a list holding one imports with the
+// model standing alone beside the squad it belongs to. Written as the keyword group appdata would
+// have used. `support`, because a Command Squad is itself a Leader unit and its own Leader slot is
+// a different thing — and because the rule's own limit ("a COMMAND SQUAD cannot have more than one
+// LOYAL PROTECTOR model joined to it") is then exactly what the per-type check already enforces.
+//
+// Skipped, loudly, the day appdata grows a real group for one of them: this is a stand-in for
+// missing data, not an opinion about it.
+const PROSE_ATTACH = [['Ogryn Bodyguard', 'Command Squad'], ['Nork Deddog', 'Command Squad']]
+for (const [dsName, kwName] of PROSE_ATTACH) {
+  const ds = table('datasheet').find((d) => enOf(d).name === dsName)
+  const kw = table('keyword').find((k) => enOf(k).name === kwName)
+  if (!ds || !kw) { report.proseAttach.push(`${dsName}: no ${ds ? 'keyword' : 'datasheet'} by that name`); continue }
+  if (bgByLeader.has(ds.id)) { report.proseAttach.push(`${dsName}: appdata now has its own group — drop this entry`); continue }
+  const gid = `prose:${ds.id}`
+  bgKeywords.set(gid, [kwName])
+  bgByLeader.set(ds.id, [{ id: gid, datasheetId: ds.id, bodyguardType: 'support' }])
+  report.proseAttachAdded++
+}
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -1960,7 +1983,11 @@ for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)
 const cmp = report.comp
 console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
 for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
+if (report.proseAttach.length) {
+  console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
+}
 const lk = report.leadKw
+console.log(`  ${report.proseAttachAdded} attachment${report.proseAttachAdded === 1 ? '' : 's'} appdata states only in prose, added by hand (PROSE_ATTACH)`)
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep

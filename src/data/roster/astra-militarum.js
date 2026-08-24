@@ -6160,6 +6160,32 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "cadian-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "catachan-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "krieg-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "militarum-tempestus-command-squad",
+          "type": "support"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Command Squad"
+          ],
+          "type": "support"
+        }
+      ],
       "defaults": [
         [
           0,
@@ -6205,6 +6231,32 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "cadian-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "catachan-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "krieg-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "militarum-tempestus-command-squad",
+          "type": "support"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Command Squad"
+          ],
+          "type": "support"
+        }
+      ],
       "defaults": [
         [
           0,
