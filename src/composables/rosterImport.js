@@ -50,7 +50,12 @@ const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)$
 const num = (s) => +String(s).replace(/\D/g, '')
 
 // Apostrophes are the single most common reason a name fails to match: the app writes T’au with a
-// typographic one, our data and half the community write T'au. The ampersand is the second:
+// typographic one, our data and half the community write T'au. Appdata does the same with the
+// hyphen, inconsistently and in its own data rather than in anyone's export: 25 weapon names carry
+// a non-breaking (U+2011) or unicode (U+2010) hyphen where the rest of the game uses a plain one —
+// "Psyko‑gatler", "Kombi‑rokkit", every "master‑crafted" weapon Space Wolves field, the Votann
+// "Autoch‑pattern bolter". Every list writes them with the hyphen on the keyboard, and every one
+// of those weapons came back as wargear that could not be placed. The ampersand is the third:
 // listhammer prints "Genestealer Claws & Talons" where the datasheet reads "claws and talons",
 // and every Tyranid melee weapon in a list is written that way. Nothing in our data spells a name
 // with an ampersand, so the two forms can only ever be the same name.
@@ -65,6 +70,7 @@ const num = (s) => +String(s).replace(/\D/g, '')
 // into the three-model bracket.
 export const norm = (s) => (s || '')
   .replace(/[‘’ʼ`´]/g, "'")
+  .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-')
   .replace(/&/g, ' and ')
   .replace(/\s+/g, ' ')
   .trim()
@@ -458,11 +464,14 @@ function parseWtc(text) {
     const enh = t.match(new RegExp(`^(?:[•*]\\s*)?Enhancement:\\s*(.*?)\\s*\\(\\+?\\d+ ?${PTS}\\)$`, 'i'))
     if (enh && unit) { unit.enh = enh[1]; continue }
 
-    // Who this unit joined. Which side of the pair carries the line varies, so only the LINK is
-    // recorded here; the matcher decides which of the two is the leader once it knows the
-    // datasheets (rosterImport's `attachedTo` handling).
-    const att = t.match(/^Attached to\s+(.+)$/i)
-    if (att && unit) { unit.attachedTo = att[1].trim(); continue }
+    // Who this unit joined. Which side of the pair carries the line varies, and one export carries
+    // it on BOTH — the unit says "Attached to Warboss[2]" and the Warboss says "Leading Boyz[3]" —
+    // so only the LINK is recorded here; the matcher decides which of the two is the leader once it
+    // knows the datasheets (rosterImport's `attachedTo` handling). They accumulate: a bodyguard
+    // unit holds a Leader and a Support at once, and reading one line per unit dropped whichever
+    // came first (a Boyz mob attached to Ghazghkull AND a Bannernob kept only the Bannernob).
+    const att = t.match(/^(?:Attached to|Leading|Supporting)\s+(.+)$/i)
+    if (att && unit) { unit.attachedTo.push(att[1].trim()); continue }
 
     if (/^[•*]/.test(t)) {
       const body = t.slice(1).trim()
@@ -497,7 +506,7 @@ function parseWtc(text) {
     if (head) {
       flush()
       const [, ref, n, name, pts, tail] = head
-      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: null, models: n ? +n : null, weapons: [], fromProfiles: false }
+      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: [], models: n ? +n : null, weapons: [], fromProfiles: false }
       mini = null
       for (const g of wtcGear(tail)) {
         if (/^warlord$/i.test(g.name)) { unit.warlord = true; continue }
@@ -975,14 +984,29 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (!groups.has(pu.group)) groups.set(pu.group, [])
       groups.get(pu.group).push({ entry, def, attachedAs: pu.attachedAs })
     }
-    if (pu.attachedTo) attachments.push({ entry, def, target: pu.attachedTo })
+    for (const target of pu.attachedTo || []) attachments.push({ entry, def, target })
   }
 
   // WTC states the pair as a line on one of them ("Attached to X") — but not always on the same
   // side, so the CHARACTER of the two is taken as the leader whichever way round it was written.
-  const rowOf = new Map(payload.units.map((u, i) => [norm(report.units[i]?.name), { entry: u, def: byName.get(norm(report.units[i]?.name)) }]))
+  //
+  // The line names a unit, and a list holds three units of that name: "Attached to Warboss[2]" is
+  // the SECOND Warboss the list prints. Without the index every such line pointed at whichever
+  // Warboss was stored last, and three characters piled onto one mob — so the rows are kept in list
+  // order and the index picks among them.
+  const rowsOf = new Map()
+  payload.units.forEach((u, i) => {
+    const key = norm(report.units[i]?.name)
+    if (!rowsOf.has(key)) rowsOf.set(key, [])
+    rowsOf.get(key).push({ entry: u, def: byName.get(key) })
+  })
+  const rowFor = (target) => {
+    const at = String(target || '').match(/^(.*?)\s*\[(\d+)\]$/)
+    const rows = rowsOf.get(norm(at ? at[1] : target)) || []
+    return at ? rows[+at[2] - 1] : rows[0]
+  }
   for (const a of attachments) {
-    const other = rowOf.get(norm(a.target))
+    const other = rowFor(a.target)
     if (!other || other.entry === a.entry) continue
     const isChar = (d) => !!(d?.flags?.char || d?.flags?.epic)
     const leader = isChar(a.def) ? a : (isChar(other.def) ? other : null)
