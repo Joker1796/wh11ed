@@ -557,6 +557,14 @@ directory; still part of this feature:
   `leaderTargetsFor`), and the app names them that way; matching only `Leader` left the second
   character of a block unattached.
 
+  **A block may say nothing but its header.** The app writes `Attached as: Bodyguard` / `Leader
+  (Character)` under each member, and the linking used to need that label; listhammer prints
+  `Attached Unit 3` and then the two datasheets, and every attachment in such a list was lost. So an
+  unlabelled block is resolved from the DATASHEETS instead — `leadTypeFor` says which member the
+  others may join, and the link is made only when exactly one member fits and only for members that
+  may actually join it. Two units left standing alone is a smaller lie than an attachment the rules
+  forbid, and it is what the reader can see and fix.
+
   Both listhammer modes are pinned end to end against the real generated Orks bundle: every unit of
   the detailed export prices exactly as the site stated it, and the short export — given the faction
   and detachments the screen asks for — comes out as the same army.

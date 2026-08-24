@@ -28,7 +28,7 @@
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
-import { allySourceOf, optionItems, optionLabel, unitPoints } from './rosterEngine.js'
+import { allySourceOf, leadTypeFor, optionItems, optionLabel, unitPoints } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
@@ -973,7 +973,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
 
     if (pu.group) {
       if (!groups.has(pu.group)) groups.set(pu.group, [])
-      groups.get(pu.group).push({ entry, attachedAs: pu.attachedAs })
+      groups.get(pu.group).push({ entry, def, attachedAs: pu.attachedAs })
     }
     if (pu.attachedTo) attachments.push({ entry, def, target: pu.attachedTo })
   }
@@ -994,8 +994,20 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // The GW app blocks a leader with the unit it joined, so there the block IS the link. Both
   // attaching roles count: a bodyguard unit holds a Leader and a Support at once (two independent
   // slots — see leaderTargetsFor in rosterEngine.js), and the app names them exactly that way.
+  const dets = (faction.detachments || []).filter((d) => payload.detachments.includes(d.name))
   for (const members of groups.values()) {
-    const body = members.find((m) => /^bodyguard/i.test(m.attachedAs || ''))
+    // A block may carry no labels at all: listhammer prints "Attached Unit 3" and then the two
+    // datasheets, and the header is the whole statement. The DATASHEETS then say which of them is
+    // the bodyguard — the one the others are allowed to join — and only a pairing the rules permit
+    // is made, so a block we read wrong leaves its units standing alone rather than attached to
+    // something they may not join.
+    const unlabelled = members.every((m) => !m.attachedAs)
+    const canLead = (m, host) => m !== host && !!leadTypeFor(m.def, m.entry, host.def, dets)
+    let body = members.find((m) => /^bodyguard/i.test(m.attachedAs || ''))
+    if (!body && unlabelled && members.length > 1) {
+      const fits = members.filter((host) => members.some((m) => canLead(m, host)))
+      if (fits.length === 1) [body] = fits
+    }
     if (!body) continue
     for (const m of members) {
       if (m === body) continue
@@ -1004,6 +1016,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // one export prints "Attached as: Bodyguard" under the Tyrant Guard and nothing at all under
       // the Hive Tyrant above it, and reading only the label left the character standing alone.
       if (m.attachedAs && !/^(leader|support)/i.test(m.attachedAs)) continue
+      if (unlabelled && !canLead(m, body)) continue
       m.entry.leaderOf = body.entry.uid
     }
   }
