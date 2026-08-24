@@ -214,6 +214,14 @@ directory; still part of this feature:
   keyword an allegiance upgrade handed the entry, because that keyword is what made `enhOptionsFor`
   offer the enhancement in the first place; without it the editor offered Honoured Fallen to a
   Telemon Dreadnought and this file called the same list illegal.
+  **A rule that says "must be your WARLORD" does not say "only one such unit".** The Muster step
+  (`src/data/muster.js`) spells it out: *"Some units have a rule on their datasheet stating that
+  they must be your WARLORD. If you want to include one or more of these units in your army, you
+  must select one of them to be your WARLORD."* So Belisarius Cawl beside Thulia Ghuld is a legal
+  Adeptus Mechanicus list — `supremeCommanderPick` asks for the choice when none of them wears the
+  title, and the old `supremeCommanderConflict`, which called that pairing unresolvable, is gone.
+  The lesson is the general one: when appdata's per-datasheet text looks contradictory, the core
+  rules this app already ships usually settle it.
   `unknownUnit` is the one issue about the DATA rather than the list: a roster outlives the
   generated files it was built against, and an id that no longer resolves is filtered out by every
   other reader (the grouped lists, the export, the points), so the unit used to vanish and the army
