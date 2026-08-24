@@ -124,7 +124,10 @@
       <div v-else class="rc-cfg">
         <template v-for="g in groupedUnits" :key="g.id">
           <template v-if="g.entries.length">
-            <h3 class="rcg-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
+            <h3 class="rcg-head" :class="{ locked: g.locked }">
+              {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
+              <em v-if="g.ally" class="rcg-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
+            </h3>
             <div v-for="e in g.entries" :key="e.uid" class="rcunit">
               <button
                 type="button"
@@ -156,7 +159,7 @@
                     :def="defOf(e.id)"
                     :items="rosterItems.items"
                     :texts="rosterItems.texts"
-                    :faction-slug="factionSlug"
+                    :faction-slug="slugFor(e.id)"
                     :detachments="curDetachments"
                     :units="units"
                     :def-of="defOf"
@@ -238,7 +241,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
+  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints, rosterPoints,
   canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
   addUnitEntry, removeUnitEntry,
 } from '../../composables/rosterEngine.js'
@@ -405,11 +408,16 @@ const entryMeta = computed(() => {
   }
   return m
 })
+// Same split the editor and the browser use — allies under their own heading (rosterEngine's
+// sectionsOf), a group the detachment doesn't unlock kept visible once something is in it.
 const groupedUnits = computed(() =>
-  UNIT_GROUPS.map((id) => ({
-    id,
-    entries: units.value.filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
-  })))
+  sectionsOf(units.value, {
+    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
+  }).map((sec) => ({ ...sec, entries: sec.items })))
+
+// An allied unit's datasheet belongs to its own faction; the namespaced id says which.
+function slugFor(id) { return allySourceOf(id)?.[0] || factionSlug.value }
+
 
 // ── The draft: this wizard's persistence ──────────────────────────────────────────────────────
 // Everything collected here lives in a stored roster from the moment a FACTION is picked — the
@@ -720,6 +728,18 @@ watchEffect(() => {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--border);
 }
+/* The ally tag beside a group heading — same wording and weight as the editor's. */
+.rcg-ally {
+  margin-left: 0.5em;
+  font-family: var(--font-body, inherit);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.rcg-head.locked .rcg-ally { color: #c0392b; }
 .rcg-head:first-child { margin-top: 0; }
 .rcunit {
   background: var(--bg-card);
