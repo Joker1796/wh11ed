@@ -4,9 +4,11 @@
       <i class="bi bi-chevron-left"></i> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
     </RouterLink>
 
-    <!-- A wordy name takes the row to itself and the points + pencil drop below it, rather than
-         being squeezed against a five-line block of display type. See rosterNameFit. -->
-    <header class="rv-head" :class="{ wrapped: !!nameFit }">
+    <!-- On a phone the name takes the row to itself and the points + pencil sit under it, rather
+         than being squeezed against a block of display type. Not conditional on the name: at this
+         width even a short one wraps ("PORTRAIT OF A MACHINE" is 21 characters and two lines), and
+         a header that rearranges itself per list is worse than one that always looks the same. -->
+    <header class="rv-head">
       <h1 class="rv-name" :class="nameFit">{{ roster.name || labels.rosterUntitled }}</h1>
       <div class="rv-meta">
         <div v-if="roster.faction" class="rv-points" :class="{ over: points > limit }">
@@ -1124,16 +1126,19 @@ function stratKey(strat) {
 
 .rv-head {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
   margin: 0.75rem 0 1rem;
   padding-bottom: 0.6rem;
   border-bottom: 2px solid var(--accent);
 }
-.rv-head.wrapped { flex-wrap: wrap; align-items: flex-start; gap: 0.4rem 0.75rem; }
-.rv-head.wrapped .rv-name { flex: 1 0 100%; }
+/* A wide screen fits nearly any name beside the points, so there the header stays one line. */
+@media (min-width: 700px) {
+  .rv-head { flex-direction: row; align-items: center; gap: 0.75rem; }
+  .rv-head .rv-name { flex: 1; }
+}
 .rv-name {
-  flex: 1;
   min-width: 0;
   font-family: var(--font-display);
   font-size: 1.7rem;
@@ -1143,11 +1148,11 @@ function stratKey(strat) {
   overflow-wrap: anywhere;
 }
 /* Full size on a desktop, smaller as the viewport narrows — a phone is where a quote-as-a-name
-   turns into a wall, a wide screen fits it in a line or two. A merely two-line name ('wrap')
-   carries no size at all: it got the row to itself, which was the whole problem. */
+   turns into a wall, a wide screen fits it in a line or two. A name that merely reaches a second
+   line gets no step at all: two lines of a header are fine. */
 .rv-name.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); line-height: 1.2; }
 .rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.25; }
-.rv-meta { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; flex-shrink: 0; }
+.rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem; margin-left: auto; flex-shrink: 0; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: #c0392b; }

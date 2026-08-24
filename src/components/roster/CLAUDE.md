@@ -822,17 +822,22 @@ If this is revisited, check git history around 2026-08 for what didn't work befo
 **A list name can be a whole quote, and usually is.** listhammer/GW exports name a list with its
 epigraph ("I am Warpbane-- and I could kill you...but death would only end your agony--and silence
 your shame."), which at the view header's 1.7rem display size ran five lines down a phone screen
-and left the points and the pencil floating against the middle of the text. `utils/rosterNameFit.js`
-buckets a name by length (`'' | 'wrap' | 'long' | 'xlong'`, at 26 / 45 / 88 characters — **two
-separate decisions**: giving the name its own row costs nothing and starts as soon as it wraps at
-all, while shrinking the type is a real loss and waits until the name is a wall. A phone fits ~22
-characters to a line at 1.7rem, so up to two lines keep the full size, and the steps aim to bring a
-longer name back to two or three lines) and both headers use the bucket as a class: `RosterViewView` gives a bucketed name the whole header row (`.rv-head.wrapped`,
-points + pencil drop below it in `.rv-meta`) and steps the size down with `clamp(…, vw, …)` so a
-desktop keeps the full size and only a narrow screen shrinks; `RosterEditorView`'s name input takes
-the same size step. Nothing is truncated on those two screens — the name is the header. Places where
-the name is only a label truncate instead: the list card and the picker row clamp to two lines, the
-add-units subtitle to one, and the tracker's setup cards/history pills were fixed separately
+and left the points and the pencil floating against the middle of the text.
+
+Two separate answers, and the split matters. **Placement is not decided from the name at all**:
+below 700px `.rv-head` is a column — name, then the points + pencil right-aligned under it — and
+only a wide screen puts them on one row. Deciding that from the text was tried and reverted twice:
+at phone width "PORTRAIT OF A MACHINE" is 21 characters and two lines while a longer lowercase name
+is one, so a length threshold both misfires and makes the header rearrange itself per list.
+**Size is** decided from the name, by `utils/rosterNameFit.js` → `'' | 'long' | 'xlong'` at 60 and
+100, counting a capital as 1.4 lowercase letters wide (an ALL-CAPS name is not a short one). The
+bucket is a class on both the view header's `h1` and the editor's name input, and steps down with
+`clamp(…, vw, …)` so a desktop keeps the full size. Two lines keep the full size — the step is for
+a wall of text, not for a name that merely wraps.
+
+Nothing is truncated on those two screens — the name IS the header. Places where the name is only
+a label truncate instead: the list card and the picker row clamp to two lines, the add-units
+subtitle to one, and the tracker's setup cards/history pills were fixed separately
 (`minmax(0, 1fr)`, see `components/tracker/CLAUDE.md`).
 
 ## Components (this directory)
