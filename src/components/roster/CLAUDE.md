@@ -58,6 +58,19 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   SAME leader on one unit. Checked against the whole game: `bodyguardType` agrees with the rule's
   own name ("Leader"/"Support") on all 304 datasheets that have a group, so this is the one
   exception class, not a symptom of a wider typing problem.
+- **`MIRROR_ATTACH`** — an attachment one datasheet borrows from another: "If a **CHARACTER** unit
+  from your army with the Leader ability can be attached to an **INTERCESSOR SQUAD**, it can be
+  attached to this unit instead." 33 datasheets carry a rule of that shape (Deathwing Terminator
+  Squad, Sword Brethren, Death Company, Tankbustas, Sanctifiers…) and appdata writes most of the
+  resulting links into its own bodyguard tables — but not all: **9** were missing, and each was an
+  attachment the game allows and the editor refused (Mek → Breaka Boyz, Tech-Priest Enginseer →
+  Servitor Battleclade / both Hastarii, four CAPTAINs → Victrix Honour Guard). Derived rather than
+  listed by hand: the rule is parsed once, then applied inside `buildUnit` per faction bundle
+  against the leads that unit actually has, at the type the borrowed attachment already had (a
+  Support link stays Support). The clause before "can be attached to" is a restriction and is kept
+  — a **CHAPLAIN** model, a **CAPTAIN** or **CHAPTER MASTER** unit, everyone but an EPIC HERO — and
+  a rule whose source unit cannot be resolved is reported, not guessed at. Nothing is added where
+  appdata already has the link, so the run report's list is exactly the gap.
 - **`PROSE_ATTACH`** — two attachments appdata states in prose and in no table at all. The Ogryn
   Bodyguard and Nork Deddog "must join one **COMMAND SQUAD** unit from your army" (their Loyal
   Protector rule) and have no `datasheet_bodyguard_group` of any kind, so as generated they could

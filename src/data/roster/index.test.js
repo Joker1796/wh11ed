@@ -755,3 +755,26 @@ describe('an attachment appdata states only in prose', () => {
     }
   })
 })
+
+// "If a CHARACTER unit from your army with the Leader ability can be attached to a BOYZ unit, it
+// can be attached to this unit instead" — 33 datasheets carry a rule of that shape, and appdata
+// writes most (not all) of the resulting links into its own tables (MIRROR_ATTACH in the generator).
+describe('an attachment one unit borrows from another', () => {
+  it('gives a leader the mirrored unit at the type it already had', async () => {
+    const orks = await loadRosterFaction('orks')
+    const mek = orks.units.find((u) => u.id === 'mek')
+    const viaBoyz = mek.leads.find((l) => l.to === 'boyz')
+    expect(mek.leads.find((l) => l.to === 'breaka-boyz')).toEqual({ to: 'breaka-boyz', type: viaBoyz.type })
+  })
+
+  // The clause before "can be attached to" is a restriction, and it is kept: Victrix Honour Guard
+  // borrows the Company Heroes attachment for a CAPTAIN or CHAPTER MASTER, and the Lieutenant —
+  // who leads Company Heroes as well, but is neither — does not get it.
+  it('keeps the restriction the rule states', async () => {
+    const sm = await loadRosterFaction('space-marines')
+    const leads = (id) => (sm.units.find((u) => u.id === id)?.leads || []).map((l) => l.to)
+    expect(leads('pedro-kantor')).toEqual(expect.arrayContaining(['company-heroes', 'victrix-honour-guard']))
+    expect(leads('lieutenant')).toContain('company-heroes')
+    expect(leads('lieutenant')).not.toContain('victrix-honour-guard')
+  })
+})

@@ -2624,6 +2624,18 @@ export default {
         {
           "to": "skitarii-vanguard",
           "type": "leader"
+        },
+        {
+          "to": "servitor-battleclade",
+          "type": "leader"
+        },
+        {
+          "to": "hastarii-exterminators",
+          "type": "leader"
+        },
+        {
+          "to": "hastarii-fusiliers",
+          "type": "leader"
         }
       ],
       "defaults": [
