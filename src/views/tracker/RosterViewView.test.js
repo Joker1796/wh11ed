@@ -67,6 +67,31 @@ describe('RosterViewView', () => {
     expect(w.find('.rv-tabs').exists()).toBe(false)
   })
 
+  // Exports name a list with a whole quote often enough that the header has to expect one:
+  // five lines of display type used to squeeze the points and the pencil against the text.
+  it('gives a wordy list name the header row to itself, a size smaller', async () => {
+    const store = useRosters()
+    const quote = 'I am Warpbane-- and I could kill you...but death would only end your agony.'
+    const r = store.createRoster(quote)
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await flushPromises()
+
+    expect(w.find('.rv-head').classes()).toContain('wrapped')
+    expect(w.find('.rv-name').classes()).toContain('xlong')
+  })
+
+  it('leaves an ordinary list name in the usual header', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Warpbane Task Force')
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await flushPromises()
+
+    expect(w.find('.rv-head').classes()).not.toContain('wrapped')
+    expect(w.find('.rv-name').classes()).toEqual(['rv-name'])
+  })
+
   // Off the table nothing can be in force, so the switch strip's place above the list is taken by
   // what WOULD apply once the battle proves it — closed, and only the rules that bear on the whole
   // list (an ability or a wargear rule belongs to one unit and is on that unit's card).

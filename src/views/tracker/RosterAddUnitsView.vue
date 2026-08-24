@@ -103,7 +103,11 @@ const accentStyle = computed(() => (factionColor.value
 .back:hover { color: var(--text-primary); }
 .ra-head { margin: 0.5rem 0 0.8rem; }
 .ra-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 500; margin: 0; color: var(--text-primary); }
-.ra-sub { margin: 0.1rem 0 0; color: var(--text-muted); font-size: 0.9rem; }
+/* One line under the page title — which list is being filled, not the list's whole epigraph. */
+.ra-sub {
+  margin: 0.1rem 0 0; color: var(--text-muted); font-size: 0.9rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .ra-hint { color: var(--text-muted); font-size: 0.95rem; padding: 1.2rem 0; text-align: center; }
 
 /* Button recipe, copied alongside `.rc-sticky` below for the same reason: scoped styles don't

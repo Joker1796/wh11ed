@@ -819,6 +819,19 @@ than one card, and the merged-unit case looked worse than just showing each data
 If this is revisited, check git history around 2026-08 for what didn't work before repeating it.
 `RosterSharedView` (import landing for a `rosterShare.js` link).
 
+**A list name can be a whole quote, and usually is.** listhammer/GW exports name a list with its
+epigraph ("I am Warpbane-- and I could kill you...but death would only end your agony--and silence
+your shame."), which at the view header's 1.7rem display size ran five lines down a phone screen
+and left the points and the pencil floating against the middle of the text. `utils/rosterNameFit.js`
+buckets a name by length (`'' | 'long' | 'xlong'`, at 26 and 56 characters) and both headers use the
+bucket as a class: `RosterViewView` gives a bucketed name the whole header row (`.rv-head.wrapped`,
+points + pencil drop below it in `.rv-meta`) and steps the size down with `clamp(…, vw, …)` so a
+desktop keeps the full size and only a narrow screen shrinks; `RosterEditorView`'s name input takes
+the same size step. Nothing is truncated on those two screens — the name is the header. Places where
+the name is only a label truncate instead: the list card and the picker row clamp to two lines, the
+add-units subtitle to one, and the tracker's setup cards/history pills were fixed separately
+(`minmax(0, 1fr)`, see `components/tracker/CLAUDE.md`).
+
 ## Components (this directory)
 
 `RosterUnitBrowser` (add-unit list/search), `UnitEditorFields` (wargear/enhancement/warlord

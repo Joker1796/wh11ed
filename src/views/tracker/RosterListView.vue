@@ -381,7 +381,13 @@ function confirmDelete() {
   .roster.themed:hover { border-color: var(--fa-dark, var(--accent)); }
 }
 .roster-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
-.rname { font-weight: 600; color: var(--text-primary); font-size: 0.98rem; }
+/* A card is a card: a name that runs on is cut at two lines rather than stretching the row.
+   The whole thing is readable on the list's own page. */
+.rname {
+  font-weight: 600; color: var(--text-primary); font-size: 0.98rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
 .kebab {
   flex-shrink: 0;
   display: inline-flex;

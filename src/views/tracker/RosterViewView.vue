@@ -4,16 +4,20 @@
       <i class="bi bi-chevron-left"></i> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
     </RouterLink>
 
-    <header class="rv-head">
-      <h1 class="rv-name">{{ roster.name || labels.rosterUntitled }}</h1>
-      <div v-if="roster.faction" class="rv-points" :class="{ over: points > limit }">
-        <span class="rp-used">{{ points }}</span>
-        <span class="rp-sep">/</span>
-        <span class="rp-cap">{{ limit }}</span>
+    <!-- A wordy name takes the row to itself and the points + pencil drop below it, rather than
+         being squeezed against a five-line block of display type. See rosterNameFit. -->
+    <header class="rv-head" :class="{ wrapped: !!nameFit }">
+      <h1 class="rv-name" :class="nameFit">{{ roster.name || labels.rosterUntitled }}</h1>
+      <div class="rv-meta">
+        <div v-if="roster.faction" class="rv-points" :class="{ over: points > limit }">
+          <span class="rp-used">{{ points }}</span>
+          <span class="rp-sep">/</span>
+          <span class="rp-cap">{{ limit }}</span>
+        </div>
+        <RouterLink v-if="!inGame" :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
+          <i class="bi bi-pencil"></i>
+        </RouterLink>
       </div>
-      <RouterLink v-if="!inGame" :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
-        <i class="bi bi-pencil"></i>
-      </RouterLink>
     </header>
 
     <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
@@ -312,6 +316,7 @@ import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratag
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
+import { rosterNameFit } from '../../utils/rosterNameFit.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -898,6 +903,7 @@ const entryMeta = computed(() => {
   }
   return m
 })
+const nameFit = computed(() => rosterNameFit(roster.value?.name))
 const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
 
 // The same verdict the editor's footer badge shows, on the screen people actually read. Computed
@@ -1124,6 +1130,8 @@ function stratKey(strat) {
   padding-bottom: 0.6rem;
   border-bottom: 2px solid var(--accent);
 }
+.rv-head.wrapped { flex-wrap: wrap; align-items: flex-start; gap: 0.4rem 0.75rem; }
+.rv-head.wrapped .rv-name { flex: 1 0 100%; }
 .rv-name {
   flex: 1;
   min-width: 0;
@@ -1132,7 +1140,13 @@ function stratKey(strat) {
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
+  overflow-wrap: anywhere;
 }
+/* Full size on a desktop, smaller as the viewport narrows — a phone is where a quote-as-a-name
+   turns into a wall, a wide screen fits it in a line or two. */
+.rv-name.long { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.2; }
+.rv-name.xlong { font-size: clamp(0.95rem, 3.4vw, 1.45rem); line-height: 1.25; }
+.rv-meta { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; flex-shrink: 0; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: #c0392b; }
