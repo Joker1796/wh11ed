@@ -23,7 +23,7 @@ describe('createRoster', () => {
     expect(r.units).toEqual([])
     expect(store.rosters.value).toHaveLength(1)
     // saveNow() wrote synchronously in the current schema envelope
-    expect(stored()).toEqual({ v: 4, rosters: [r] })
+    expect(stored()).toEqual({ v: mod.SCHEMA_VERSION, rosters: [r] })
   })
 
   it('prepends new rosters (most recent first)', () => {
@@ -189,3 +189,33 @@ describe('schema → v4', () => {
   })
 })
 
+
+describe('schema → v5', () => {
+  it('drops the picks of the two units whose options became one bundle, and nobody else’s', async () => {
+    // The generator learned to read a pairing whose instruction misspells one of its own items
+    // ("1 tarsus buckler" for the Tarsis buckler): the Venatari Custodians' lance swap and the
+    // Rogal Dorn's turret swap each went from two options to one. Only those two can hold a stale
+    // index, so a blanket wipe of every roster's wargear would cost far more than it fixes.
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 4,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        createdAt: 1,
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'venatari-custodians', size: 1, count: 6, wg: [[0, 1, 1]] },
+          { uid: 'u2', id: 'astra-militarum/rogal-dorn-battle-tank', wg: [[0, 1, 1]] },
+          { uid: 'u3', id: 'wracks', size: 2, count: 9, wg: [[0, 1, 1]], enh: 'Murdermind' },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units[0].wg).toBeUndefined()
+    expect(r.units[0].count).toBe(6) // the size and everything else stay
+    expect(r.units[1].wg).toBeUndefined()
+    expect(r.units[2].wg).toEqual([[0, 1, 1]])
+  })
+})

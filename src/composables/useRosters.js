@@ -10,7 +10,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 4
+export const SCHEMA_VERSION = 5
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -97,6 +97,16 @@ export function migrateRoster(r, v) {
   // Imperium). 42 brackets disappeared, so an old index can point at a different size. The size
   // falls back to the unit's default bracket instead of being re-read; everything else stays.
   if (!(v >= 4)) for (const u of r.units || []) { delete u.size; delete u.count }
+
+  // → v5: the same renumbering as v3, but this time it reached exactly two datasheets, so only
+  // they are touched. The generator learned to read a pairing whose instruction misspells one of
+  // its own items ("1 tarsus buckler" for the Tarsis buckler), and the Venatari Custodians' lance
+  // swap and the Rogal Dorn's turret swap each became ONE bundled option where they had been two.
+  if (!(v >= 5)) {
+    for (const u of r.units || []) {
+      if (/(^|\/)(venatari-custodians|rogal-dorn-battle-tank)$/.test(u.id || '')) delete u.wg
+    }
+  }
   return r
 }
 
