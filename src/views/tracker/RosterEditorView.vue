@@ -441,8 +441,8 @@ function rename(name) {
 }
 /* One line of input either way — the step down is what lets a wordy name be read while it is
    being typed, instead of scrolling three words at a time. Same buckets as the view header. */
-.rname-input.long { font-size: clamp(1.15rem, 4.4vw, 1.7rem); }
-.rname-input.xlong { font-size: clamp(0.95rem, 3.4vw, 1.45rem); }
+.rname-input.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); }
+.rname-input.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); }
 .rname-input:hover { border-bottom-color: var(--border); }
 .rname-input:focus { outline: none; border-bottom-color: var(--accent); }
 .issues-badge {

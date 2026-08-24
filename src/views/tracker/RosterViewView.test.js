@@ -71,7 +71,7 @@ describe('RosterViewView', () => {
   // five lines of display type used to squeeze the points and the pencil against the text.
   it('gives a wordy list name the header row to itself, a size smaller', async () => {
     const store = useRosters()
-    const quote = 'I am Warpbane-- and I could kill you...but death would only end your agony.'
+    const quote = 'I am Warpbane-- and I could kill you...but death would only end your agony--and silence your shame.'
     const r = store.createRoster(quote)
     ROSTER_ID = r.id
     const w = mount(RosterViewView, { global: { stubs } })
@@ -79,6 +79,18 @@ describe('RosterViewView', () => {
 
     expect(w.find('.rv-head').classes()).toContain('wrapped')
     expect(w.find('.rv-name').classes()).toContain('xlong')
+  })
+
+  // Two lines of header type are not a problem: the name gets the row, and keeps its size.
+  it('gives a two-line name the row without shrinking it', async () => {
+    const store = useRosters()
+    const r = store.createRoster("It's not what it used to be '-_-")
+    ROSTER_ID = r.id
+    const w = mount(RosterViewView, { global: { stubs } })
+    await flushPromises()
+
+    expect(w.find('.rv-head').classes()).toContain('wrapped')
+    expect(w.find('.rv-name').classes()).toEqual(['rv-name', 'wrap'])
   })
 
   it('leaves an ordinary list name in the usual header', async () => {

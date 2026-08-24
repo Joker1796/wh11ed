@@ -823,8 +823,11 @@ If this is revisited, check git history around 2026-08 for what didn't work befo
 epigraph ("I am Warpbane-- and I could kill you...but death would only end your agony--and silence
 your shame."), which at the view header's 1.7rem display size ran five lines down a phone screen
 and left the points and the pencil floating against the middle of the text. `utils/rosterNameFit.js`
-buckets a name by length (`'' | 'long' | 'xlong'`, at 26 and 56 characters) and both headers use the
-bucket as a class: `RosterViewView` gives a bucketed name the whole header row (`.rv-head.wrapped`,
+buckets a name by length (`'' | 'wrap' | 'long' | 'xlong'`, at 26 / 45 / 88 characters — **two
+separate decisions**: giving the name its own row costs nothing and starts as soon as it wraps at
+all, while shrinking the type is a real loss and waits until the name is a wall. A phone fits ~22
+characters to a line at 1.7rem, so up to two lines keep the full size, and the steps aim to bring a
+longer name back to two or three lines) and both headers use the bucket as a class: `RosterViewView` gives a bucketed name the whole header row (`.rv-head.wrapped`,
 points + pencil drop below it in `.rv-meta`) and steps the size down with `clamp(…, vw, …)` so a
 desktop keeps the full size and only a narrow screen shrinks; `RosterEditorView`'s name input takes
 the same size step. Nothing is truncated on those two screens — the name is the header. Places where
