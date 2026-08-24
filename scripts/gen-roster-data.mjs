@@ -113,6 +113,44 @@ for (const r of table('datasheet_bodyguard_group_datasheet')) {
 //  B. An OPTIONAL detachment upgrade capped across the army: "select up to 3 ADEPTUS ASTARTES
 //     VEHICLE units; they gain CHARACTER" (44 datasheets across 5 detachments).
 const detById = new Map(table('detachment').map((d) => [d.id, d]))
+
+// Which detachments a faction KEYWORD may take, and what they cost it. appdata states both
+// outright (detachment_faction_keyword, 
+// detachment_faction_detachment_points_cost) and it is the only place a Chapter's entitlement to
+// the Codex detachments is written down: Blood Angels may field 16 of Codex: Space Marines' 23,
+// Black Templars 14 (no Librarius Conclave — they have no Librarians). Without this the roster
+// offered a Blood Angels player their 8 Chapter detachments and nothing else, so a Gladius or
+// Stormlance army — the commonest thing a Chapter fields — could be neither built nor imported.
+const detsByKeyword = new Map()
+for (const r of table('detachment_faction_keyword')) {
+  const list = detsByKeyword.get(r.factionKeywordId) || []
+  list.push(r.detachmentId)
+  detsByKeyword.set(r.factionKeywordId, list)
+}
+const kwByName = new Map(table('faction_keyword').map((k) => [norm(enOf(k).name || ''), k.id]))
+const dpOverride = new Map(table('detachment_faction_detachment_points_cost')
+  .map((r) => [`${r.factionKeywordId}|${r.detachmentId}`, r.detachmentPointsCost]))
+
+// The Codex detachments this Chapter may field, as names to fold in from space-marines.js at load
+// time (the same shape and the same reason as sharedUnitIds), plus any that cost it a different
+// number of Detachment Points — Stormlance Task Force is 3 DP for a Codex army and 2 for Blood
+// Angels, Black Templars and Deathwatch.
+function sharedDetachmentsFor(factionName, own) {
+  const kw = kwByName.get(norm(factionName || ''))
+  if (!kw) return null
+  const mine = new Set((own || []).map((d) => norm(d.name)))
+  const names = []
+  const dp = {}
+  for (const id of detsByKeyword.get(kw) || []) {
+    const det = detById.get(id)
+    const name = enOf(det).name
+    if (!det || !name || det.isCombatPatrol || mine.has(norm(name))) continue
+    names.push(name)
+    const cost = dpOverride.get(`${kw}|${id}`)
+    if (cost != null) dp[name] = cost
+  }
+  return names.length ? { names: names.sort(), dp: Object.keys(dp).length ? dp : null } : null
+}
 const allegGroups = new Map(table('allegiance_ability_group').map((g) => [g.id, g]))
 const allegByGroup = new Map()
 for (const a of table('allegiance_ability')) {
@@ -290,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -1704,6 +1742,12 @@ async function genFaction(slug) {
     const smMfm = (await loadModule(path.join(ROOT, 'src/data/mfm', 'space-marines.js')))?.default
     const over = chapterUnitPoints(mfmFaction, smMfm, shared, unitIdMap('space-marines'), nameToDsId)
     if (over) { data.unitPoints = over; report.price.chapterOverrides += Object.keys(over).length }
+    const sharedDets = sharedDetachmentsFor(data.name, detachments)
+    if (sharedDets) {
+      data.sharedDetachments = sharedDets.names
+      if (sharedDets.dp) data.detachmentDp = sharedDets.dp
+      report.sharedDets += sharedDets.names.length
+    }
   }
   const body = `${HEAD}export default ${stableJson(data)}\n`
   writeOut(`${slug}.js`, body)
@@ -1796,14 +1840,24 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   const data = await load(slug)
   if (!data) return null
   const extra = allies && data.allies?.length ? await allyUnits(data) : []
-  if (!data.sharedUnitIds?.length && !extra.length) return data
-  const sm = data.sharedUnitIds?.length ? await load('space-marines') : null
+  const needSm = !!(data.sharedUnitIds?.length || data.sharedDetachments?.length)
+  if (!needSm && !extra.length) return data
+  const sm = needSm ? await load('space-marines') : null
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
     .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
   const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
-  return { ...data, units }
+  // …and the Codex detachments this Chapter may field, which live in space-marines.js for the
+  // same reason its shared units do. A different Detachment Points cost for this Chapter comes
+  // with them (\`detachmentDp\`), so the budget the editor spends is the Chapter's own.
+  if (!data.sharedDetachments?.length) return { ...data, units }
+  const want = new Set(data.sharedDetachments)
+  const dets = (sm?.detachments || [])
+    .filter((d) => want.has(d.name))
+    .map((d) => (data.detachmentDp?.[d.name] != null ? { ...d, dp: data.detachmentDp[d.name], shared: 1 } : { ...d, shared: 1 }))
+  const detachments = [...data.detachments, ...dets].sort((a, b) => a.name.localeCompare(b.name))
+  return { ...data, units, detachments }
 }
 
 export { default as rosterCore } from './core.js'
@@ -1866,6 +1920,7 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
+console.log(`  Chapter detachments: ${report.sharedDets} Codex entitlements folded in at load time`)
 if (report.defaultsMerged.length) {
   console.log(`    ${report.defaultsMerged.length} more items the loadout row leaves out, taken from that group:`)
   for (const l of report.defaultsMerged) console.log(`      - ${l}`)

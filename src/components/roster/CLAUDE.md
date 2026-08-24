@@ -66,6 +66,23 @@ element**: `[itemId, count, 1]` marks a quantity that belongs to the PROFILE rat
 its models (one of the two Gun Servitors has the heavy bolter). `defaultLoadoutLines` and the
 export print such an item as recorded instead of multiplying it by the model count.
 
+### A Chapter's Codex detachments
+
+A Blood Angels army may field Codex: Space Marines detachments as well as its own eight, and the
+only place that entitlement is written down is appdata's `detachment_faction_keyword`: Blood
+Angels, Dark Angels, Space Wolves and Deathwatch may take 16 of the Codex's 23, Black Templars 14
+(no Librarius Conclave — they have no Librarians). `detachment_faction_detachment_points_cost`
+then says what one costs THEM: Stormlance Task Force is 3 DP for a Codex army and 2 for Blood
+Angels, Black Templars and Deathwatch.
+
+The generator emits both per Chapter — `sharedDetachments` (names) and `detachmentDp` (the
+overrides) — and `loadRosterFaction` folds the detachments in from space-marines.js at load time,
+exactly as it already did for `sharedUnitIds`, marking each `shared: 1`. Until this landed the
+editor offered a Blood Angels player their eight Chapter detachments and nothing else, so a Gladius
+or Stormlance army — the commonest thing a Chapter fields — could be neither built nor imported.
+The RULES side already handled it: `RosterViewView` and the stratagems page fall back to the
+space-marines faction file for a detachment the Chapter's own file doesn't define.
+
 ### A group of nothing but defaults is a loadout
 
 appdata records a miniature's starting gear as a `wargear_option_group` when there is no
@@ -331,6 +348,15 @@ directory; still part of this feature:
   counts MODELS, so each item it lists is carried that many times over. The `+++` header is read as
   a SOURCE, not a summary: a compact export often states an enhancement only there, and the warlord
   only by its `Char1:` reference.
+
+  **A WTC header can sit over somebody else's body.** listhammer re-exports a New Recruit list that
+  way: the `+++` block on top, the army printed in listhammer's own grammar underneath — "Attached
+  Unit 1" blocks, section headings, "Attached as:" lines, and bullets that mix model lines with
+  weapons. Read as WTC (where every bullet IS a profile) a ten-model Death Company came out as 31
+  models at half price, and the attachments were lost with them. `parseWtc` therefore looks at the
+  body: GW markers in it (`Attached Unit N`, a section heading) mean the body is `parseGw`'s, and
+  only the header — faction, detachment, warlord, enhancements — is read as WTC. Both paths end in
+  `fromHeader()`, which is what applies the header's warlord and enhancements to the units.
 
   **An attachment is a line, and either side can carry it** (`Attached to <unit>`), so the matcher
   makes the CHARACTER of the pair the leader whichever way round it was written.
