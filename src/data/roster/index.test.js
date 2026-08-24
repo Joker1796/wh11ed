@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -820,5 +820,30 @@ describe('a default loadout that costs points', () => {
     // is equipped with: burst cannon; T'au flamer; battlesuit fists."
     const lines = defaultLoadoutLines(unit, rosterItems.items, { size: 0 })
     expect(lines.find((l) => /Shas’ui/.test(l.mini)).items).toBe('Burst cannon, T’au flamer, Battlesuit fists')
+  })
+})
+
+describe('an allowance the instruction states without naming a number', () => {
+  const gearOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id).gear
+  const headOf = (g) => (rosterItems.texts[g.t] || '').split('\n')[0]
+
+  // "This model can be equipped with any of the following:" — the list IS the number, one of
+  // each. Without it the group had no cap at all, and the conservative fallback (one pick per
+  // model) called a Battlewagon with both a grabbin' klaw and a wreckin' ball illegal.
+  it('reads "any of the following" as one of each option', () => {
+    const gear = gearOf('orks', 'battlewagon')
+    const gi = gear.findIndex((g) => /any of the following/i.test(headOf(g)))
+    expect(gear[gi].o.length).toBe(3)
+    expect(wargearGroupCap({ gear }, {}, gi)).toEqual({ limit: 3, dup: 1 })
+  })
+
+  // "…can be replaced with two different weapons from the following list" — the Sergeant gives up
+  // both his bolt pistol and his boltgun, so it is two picks, never the same weapon twice.
+  it('reads "two different weapons from the following list" as two picks', () => {
+    for (const id of ['devastator-squad', 'tactical-squad']) {
+      const gear = gearOf('space-marines', id)
+      const gi = gear.findIndex((g) => /different weapons from the following list/i.test(headOf(g)))
+      expect(wargearGroupCap({ gear }, {}, gi)).toEqual({ limit: 2, dup: 1 })
+    }
   })
 })
