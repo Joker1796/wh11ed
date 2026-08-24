@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, modelsPerMini, defaultLoadoutLines } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -776,5 +776,45 @@ describe('an attachment one unit borrows from another', () => {
     expect(leads('pedro-kantor')).toEqual(expect.arrayContaining(['company-heroes', 'victrix-honour-guard']))
     expect(leads('lieutenant')).toContain('company-heroes')
     expect(leads('lieutenant')).not.toContain('victrix-honour-guard')
+  })
+})
+
+
+// Wargear that costs points and is already on the model: appdata prices it (`points` on an option
+// it also marks `defaultValue`) and the Munitorum bracket does not include it, so it has to be
+// charged on top — see defaultWargearPoints in rosterEngine.js.
+describe('a default loadout that costs points', () => {
+  it('prices a Terminator Assault Squad the way GW\'s own export does', async () => {
+    const sm = await loadRosterFaction('space-marines')
+    const unit = sm.units.find((u) => u.id === 'terminator-assault-squad')
+    expect(unit.dw).toEqual([[0, 5], [1, 5]])       // thunder hammer, +5 on either profile
+    expect(unit.sizes[1].pts).toBe(310)             // the bracket stays the Munitorum's
+    expect(unitPoints(unit, { size: 1, count: 10 })).toBe(360)
+    // …and the group that trades the hammer away knows what it hands back.
+    expect(unit.gear.find((g) => g.dr)?.dr).toBe(5)
+    expect(unitPoints(unit, { size: 1, count: 10, wg: [[unit.gear.findIndex((g) => g.dr), 0, 10]] })).toBe(310)
+  })
+
+  it('is confined to the datasheets appdata prices that way', async () => {
+    const seen = []
+    for (const { slug, data } of factions) for (const u of data.units || []) if (u.dw) seen.push(`${slug}/${u.id}`)
+    expect(seen.sort()).toEqual([
+      'adeptus-custodes/venatari-custodians',
+      'drukhari/ravager',
+      'genestealer-cults/achilles-ridgerunners',
+      'space-marines/terminator-assault-squad',
+      'space-marines/victrix-honour-guard',
+      'tau-empire/crisis-fireknife-battlesuits',
+      'tau-empire/crisis-starscythe-battlesuits',
+    ])
+  })
+
+  // A "Default Wargear" group counts the copies the whole profile fields where a loadout row
+  // counts one model's; the Starscythe's two Shas'ui carry one T'au flamer each, not two.
+  it('divides a profile-total count among its models', async () => {
+    const tau = await loadRosterFaction('tau-empire')
+    const unit = tau.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
+    expect(unit.dw).toEqual([[0, 5], [1, 5]])
+    expect(unitPoints(unit, { size: 0 })).toBe(105) // 90 + three flamers
   })
 })

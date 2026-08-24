@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -44,20 +44,20 @@ describe('unitBasePoints', () => {
 })
 
 describe('unitWargearPoints', () => {
-  // gear group option = [itemId, pts?, def?]. A paid add-on (def 0) charges; a free swap or a
-  // default-selected paid option does not.
+  // gear group option = [itemId, pts?]. Only what the player picks on top of the printed loadout is
+  // counted here — what the loadout itself costs is defaultWargearPoints (below).
   const crisis = {
     id: 'crisis',
     sizes: [{ pts: 130, per: [3, 3], default: 1 }],
     gear: [
-      { m: 0, t: 1, in: 'stepper', o: [[10, 5]] },        // Missile pod +5, def 0 → charges
-      { m: 0, t: 2, in: 'checkbox', o: [[11], [12, 5, 1]] }, // free swap; +5 but default → no charge
+      { m: 0, t: 1, in: 'stepper', o: [[10, 5]] },   // Missile pod +5 → charges
+      { m: 0, t: 2, in: 'checkbox', o: [[11], [12]] }, // free swap → no charge
     ],
   }
-  it('charges paid non-default selections by count', () => {
+  it('charges paid selections by count', () => {
     expect(unitWargearPoints(crisis, { wg: [[0, 0, 2]] })).toBe(10) // 2× Missile pod
   })
-  it('ignores free swaps and default-selected paid options', () => {
+  it('ignores free swaps', () => {
     expect(unitWargearPoints(crisis, { wg: [[1, 0, 1], [1, 1, 1]] })).toBe(0)
   })
   it('is safe with no selections', () => {
@@ -66,6 +66,69 @@ describe('unitWargearPoints', () => {
   })
   it('folds wargear into unitPoints', () => {
     expect(unitPoints(crisis, { size: 0, wg: [[0, 0, 1]] }, 1)).toBe(135)
+  })
+})
+
+describe('defaultWargearPoints', () => {
+  // Terminator Assault Squad: the Munitorum bracket is 310 for 6-10 models and every model's
+  // thunder hammer is +5 on top of it, so GW's own app prices a full ten at 360. `all` group,
+  // giving the pair up for twin lightning claws hands back the 5.
+  const assault = {
+    id: 'terminator-assault-squad',
+    sizes: [
+      { pts: 155, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] },
+      { pts: 310, per: [6, 10], comp: [[0, 1], [1, 5, 9]] },
+    ],
+    minis: [{ n: 'Assault Terminator Sergeant' }, { n: 'Assault Terminator' }],
+    defaults: [[0, [[1, 1], [2, 1]]], [1, [[1, 1], [2, 1]]]],
+    dw: [[0, 5], [1, 5]],
+    gear: [{ all: 1, t: 1, in: 'stepper', o: [[3]], rep: [2, 1], dr: 5 }],
+  }
+  it('charges the printed loadout per model actually fielded', () => {
+    expect(unitPoints(assault, { size: 1, count: 10 })).toBe(360)
+    expect(unitPoints(assault, { size: 1, count: 7 })).toBe(345) // flat bracket, seven hammers
+    expect(unitPoints(assault, { size: 0 })).toBe(180)
+  })
+  it('stops charging for a model that swapped the item away', () => {
+    expect(unitPoints(assault, { size: 1, count: 10, wg: [[0, 0, 3]] })).toBe(345)
+    expect(unitPoints(assault, { size: 1, count: 10, wg: [[0, 0, 10]] })).toBe(310)
+  })
+  it('never refunds more than the unit carries', () => {
+    expect(defaultWargearPoints(assault, { size: 1, count: 10, wg: [[0, 0, 99]] })).toBe(0)
+  })
+  it('is nothing for a datasheet whose loadout is free', () => {
+    expect(defaultWargearPoints(intercessor, { size: 0 })).toBe(0)
+  })
+
+  // A per-copy group counts copies of the weapon, not models: a Ravager's three dark lances are
+  // +5 each, and it can trade them for disintegrator cannons one at a time.
+  const ravager = {
+    id: 'ravager',
+    sizes: [{ pts: 110, per: [1, 1], default: 1 }],
+    defaults: [[0, [[1, 1], [2, 3]]]],
+    dw: [[0, 15]],
+    gear: [{ m: 0, t: 1, in: 'stepper', cp: 3, o: [[3]], rep: [2], dr: 5 }],
+  }
+  it('refunds per copy where the group is counted per copy', () => {
+    expect(unitPoints(ravager, { size: 0 })).toBe(125)
+    expect(unitPoints(ravager, { size: 0, wg: [[0, 0, 1]] })).toBe(120)
+    expect(unitPoints(ravager, { size: 0, wg: [[0, 0, 3]] })).toBe(110)
+  })
+
+  // Profiles priced differently (Victrix Honour Guard's Champion and Ancient) need the per-profile
+  // model counts; a bracket that can't supply them is left uncharged rather than guessed at.
+  const victrix = {
+    id: 'victrix-honour-guard',
+    sizes: [{ pts: 110, per: [3, 3], default: 1, comp: [[0, 1], [1, 1], [2, 1]] }],
+    minis: [{ n: 'Chapter Ancient' }, { n: 'Chapter Champion' }, { n: 'Victrix Honour Guard' }],
+    dw: [[1, 10], [0, 15]],
+  }
+  it('charges each profile its own loadout', () => {
+    expect(unitPoints(victrix, { size: 0 })).toBe(135)
+  })
+  it('charges nothing when the profiles cost differently and the split is unknown', () => {
+    const open = { ...victrix, sizes: [{ pts: 110, per: [3, 6], comp: [[0, 1, 3], [1, 1, 3], [2, 1]] }] }
+    expect(defaultWargearPoints(open, { size: 0, count: 4 })).toBe(0)
   })
 })
 

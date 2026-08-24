@@ -215,6 +215,38 @@ say blood fists. One entry today, applied only where the printed loadout and the
 against the table, and every application is printed by the run — a test pins the result so the table
 gets dropped the moment upstream fixes the row.
 
+### A default loadout that costs points (added 2026-08-24)
+
+Since 11th edition the wargear a model **already has** can carry a price. appdata says so plainly —
+a `wargear_option` with both `points: 5` and `defaultValue` — and the Munitorum bracket does not
+include it: a Terminator Assault Squad is 310 for 6-10 models, and GW's own export prices ten of
+them, thunder hammers and all, at **360**. Eleven such options over seven datasheets (Terminator
+Assault Squad, Victrix Honour Guard, Ravager, Venatari Custodians, Achilles Ridgerunners, Crisis
+Fireknife/Starscythe), and until this the roster read `wargear_option.points` only for options the
+player PICKS, so all seven came out short.
+
+It cannot be folded into the bracket: the bracket is flat from 6 to 10 models and the hammers are
+not — a seven-model squad is 345. So it is a term of its own in `unitPoints()`:
+
+- **`dw: [[miniIndex, points], …]`** on the unit — what one model of that profile pays for its
+  printed loadout. Money per model, not items, because the awkward readings are all on the
+  generator's side: a "Default Wargear" group counts the copies the whole profile fields where a
+  `base_miniature_loadout` row counts one model's (`defaultsAreTotals` — the Starscythe's two
+  Shas'ui carry one T'au flamer each, not two), and a count that doesn't divide among the models is
+  reported and left uncharged rather than charged as a fraction.
+- **`dr`** on a gear group — what one pick there gives back, since a model that trades the item away
+  stops paying for it. Per COPY where the group is per-copy (`cp`), matching how the entry's count
+  is stored: a Ravager's three dark lances are +5 each and go one at a time.
+- `defaultWargearPoints()` multiplies `dw` by the models actually fielded (`modelsPerMini`), then
+  subtracts the refunds. Where the bracket can't say how the models split between profiles it
+  charges only if every profile costs the same — never a guess. The editor marks the total on the
+  "Default wargear" heading (`+50pts`), because the size pill shows the Munitorum bracket and the
+  difference would otherwise be invisible.
+
+No option in the corpus is both priced and flagged default, so `unitWargearPoints()` and
+`defaultWargearPoints()` cannot double-charge; the old `def`-flag branch that assumed otherwise is
+gone.
+
 ## Allies (added 2026-08-24)
 
 An army can hold units that do not have its Faction keyword. **All 21 allied contexts appdata

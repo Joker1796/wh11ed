@@ -46,21 +46,61 @@ export function unitBasePoints(unitDef, sizeIdx = 0, copyIndex = 1) {
 }
 
 // Points from a unit's selected wargear. Selections live on the entry as `wg: [[gi,oi,n],…]`
-// (group index, option index, count) — only choices the user made. A paid option that's
-// selected-by-default (its `def` flag) is already priced into the base bracket, so it never
-// adds again; everything else adds its points × count. (The exact default-swap accounting is
-// refined in the validation phase.)
+// (group index, option index, count) — only choices the user made, so this is the money a unit
+// spends ON TOP of the loadout it comes with. What that loadout itself costs is
+// defaultWargearPoints() below; the two never overlap (no option in the corpus is both priced and
+// flagged default — the priced defaults are the ones nobody picks, they are simply there).
 export function unitWargearPoints(def, entry) {
   if (!def?.gear || !entry?.wg?.length) return 0
   let pts = 0
   for (const [gi, oi, n] of entry.wg) {
     const opt = def.gear[gi]?.o?.[oi]
     if (!opt || !wargearGroupLive(def, entry, gi)) continue
-    const p = opt[1] || 0
-    const isDefault = opt[2] || 0
-    if (p && !isDefault) pts += p * (n || 1)
+    pts += (opt[1] || 0) * (n || 1)
   }
   return pts
+}
+
+// Points for the wargear a unit already has. Since 11th edition a DEFAULT loadout can cost points
+// of its own — a Terminator Assault Squad's thunder hammer is +5 a model, so GW's app prices ten of
+// them at 360 where the Munitorum bracket reads 310 — and that surcharge cannot live in the
+// bracket: the bracket is flat from 6 to 10 models and the hammers are not. So it is a term of its
+// own, scaling with the models actually fielded, and a model that trades the item away stops paying
+// for it (`dr`, what one pick in that group gives back).
+//
+// `dw` (per-model money by profile) and `dr` are gen-roster-data.mjs's, which is where the appdata
+// readings behind them belong — a profile's total copies vs one model's, and groups counted per
+// copy of a weapon rather than per model. Seven datasheets have any of this.
+export function defaultWargearPoints(def, entry) {
+  if (!def?.dw?.length) return 0
+  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+  const models = entry?.count ?? size?.per?.[0] ?? 1
+  const perMini = modelsPerMini(def, entry)
+  let pts = 0
+  if (perMini) {
+    for (const [m, p] of def.dw) pts += p * (perMini.get(m) || 0)
+  } else {
+    // Two open-ended profiles: the split is the player's and the data doesn't record it (see
+    // modelsPerMini). Only safe where every profile costs the same, which is the shape all but one
+    // of the seven have; the odd one out (Victrix Honour Guard, whose Champion and Ancient are
+    // priced differently) has a fixed composition and never lands here.
+    if (def.dw.length !== (def.minis?.length || 1) || def.dw.some(([, p]) => p !== def.dw[0][1])) return 0
+    pts = def.dw[0][1] * models
+  }
+  for (const [gi, , n] of entry?.wg || []) {
+    const g = def.gear?.[gi]
+    if (!g?.dr || !wargearGroupLive(def, entry, gi)) continue
+    // A unit-wide group swaps for the squad; a per-profile one only for its own models. Steppers
+    // count what the player set (in copies where the group is per copy of the weapon), a checkbox
+    // is one model unless its instruction hands the swap to the whole profile (`repall`).
+    const scope = g.all ? models : perMini?.get(g.m ?? 0)
+    if (scope == null) continue
+    const consumed = g.in === 'stepper'
+      ? Math.min(n || 1, scope * (g.cp || 1))
+      : Math.min(g.repall ? scope : 1, scope)
+    pts -= g.dr * consumed
+  }
+  return Math.max(0, pts)
 }
 
 // A handful of wargear groups are only on offer depending on whether a SIBLING group on the same
@@ -490,10 +530,13 @@ export function enhancementPoints(detachments, entry, def) {
   return mandatoryEnhancementFor(def, detachments)?.pts || 0
 }
 
-// Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement
-// (chosen or mandatory).
+// Full points for one unit entry: base bracket (+ copy tax), the loadout it comes with, the wargear
+// picked on top of it, and its enhancement (chosen or mandatory).
 export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
-  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry, def)
+  return unitBasePoints(def, entry?.size ?? 0, copyIndex)
+    + defaultWargearPoints(def, entry)
+    + unitWargearPoints(def, entry)
+    + enhancementPoints(detachments, entry, def)
 }
 
 // ── Adding and removing a unit entry ──────────────────────────────────────────────────────────
