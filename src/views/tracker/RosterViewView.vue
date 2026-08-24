@@ -16,6 +16,18 @@
       </RouterLink>
     </header>
 
+    <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
+         but a list is read far more often than it is edited, and "why is this illegal" was two
+         screens away — the list page shows a warning count and this page said nothing at all. -->
+    <button v-if="issues.length" type="button" class="rv-issues" :class="{ err: errorCount }" @click="issuesOpen = true">
+      <i class="bi" :class="errorCount ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"></i>
+      <span class="rvi-txt">
+        {{ (errorCount ? labels.rosterViewIssues : labels.rosterViewWarns).replace('{n}', String(errorCount || issues.length)) }}
+      </span>
+      <span v-if="errorCount && warnCount" class="rvi-more">{{ labels.rosterViewWarns.replace('{n}', String(warnCount)) }}</span>
+      <i class="bi bi-chevron-right rvi-go"></i>
+    </button>
+
     <!-- Where the editor's Save lands: the bar is how that click reports whether the list also
          reached the cloud. Not inside a game — there this page is a read of a snapshot. -->
     <RosterCloudBar v-if="!inGame" />
@@ -242,6 +254,13 @@
       </div>
     </template>
 
+    <RosterIssuesModal
+      v-if="issuesOpen"
+      :issues="validation.issues"
+      @goto="(uid) => { issuesOpen = false; tab = 'units'; viewingUid = uid }"
+      @close="issuesOpen = false"
+    />
+
     <RosterUnitRulesModal
       v-if="viewingUid && viewingDef"
       :unit-id="viewingSrc?.[1] || viewingDef.id"
@@ -272,12 +291,14 @@ import StratCard from '../../components/StratCard.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
+import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRosters } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
+import { validateRoster } from '../../composables/rosterValidation.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -879,6 +900,17 @@ const entryMeta = computed(() => {
 })
 const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
 
+// The same verdict the editor's footer badge shows, on the screen people actually read. Computed
+// only once the faction data is in — before that every unit id looks unknown and the list would
+// accuse itself of holding units that don't exist.
+const issuesOpen = ref(false)
+const validation = computed(() => (factionData.value && roster.value
+  ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
+  : { issues: [], errorCount: 0 }))
+const issues = computed(() => validation.value.issues)
+const errorCount = computed(() => validation.value.errorCount)
+const warnCount = computed(() => issues.value.length - errorCount.value)
+
 // Allies read as their own part of the list, exactly as the editor shows them (rosterEngine's
 // sectionsOf); `keepLocked` so a unit whose group the Detachment doesn't unlock is still on screen.
 const groupedUnits = computed(() =>
@@ -1132,6 +1164,31 @@ function stratKey(strat) {
   margin-bottom: -1px;
 }
 .rv-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+.rv-issues {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0 0 0.8rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--warning, #b8860b) 45%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--warning, #b8860b) 10%, transparent);
+  color: var(--warning, #b8860b);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.rv-issues.err {
+  border-color: color-mix(in srgb, #c0392b 50%, transparent);
+  background: color-mix(in srgb, #c0392b 12%, transparent);
+  color: #e05c4b;
+}
+.rvi-txt { flex: 1; min-width: 0; }
+.rvi-more { color: var(--text-muted); font-weight: 500; }
+.rvi-go { flex: none; opacity: 0.7; }
 
 .rvg-head {
   font-family: var(--font-display);

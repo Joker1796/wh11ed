@@ -98,6 +98,45 @@ describe('RosterViewView', () => {
     expect(w.find('.rvp-head').attributes('aria-expanded')).toBe('true')
   })
 
+
+  // A list is read far more often than it is edited, and what it BREAKS used to live behind the
+  // editor's footer badge — two screens from the page that shows the list.
+  it('says what the list breaks, and opens the same issues modal the editor uses', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Illegal list')
+    r.faction = 'space-marines'
+    r.battleSize = 'incursion'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })   // no warlord, no detachment
+    ROSTER_ID = r.id
+
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    await waitForSelector(w, '.rv-issues')
+
+    const { ui } = await import('../../i18n/ui.js')
+    const strip = w.find('.rv-issues')
+    expect(strip.classes()).toContain('err')
+    expect(strip.text()).toContain(ui.en.rosterViewIssues.replace('{n}', '1'))   // noWarlord
+    await strip.trigger('click')
+    await flushPromises()
+    expect(document.body.textContent).toContain(ui.en.issue_noWarlord)
+    w.unmount()
+    document.body.innerHTML = ''
+  })
+
+  it('stays quiet about a list that breaks nothing', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Fine list')
+    r.faction = 'space-marines'
+    r.detachments = ['Gladius Task Force']
+    r.units.push({ uid: 'u1', id: 'captain-in-terminator-armour', size: 0, warlord: true })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitFor(w, 'Captain in Terminator Armour')
+    expect(w.find('.rv-issues').exists()).toBe(false)
+  })
+
   it('lists units grouped by role, with points, and links Edit to the full editor', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
