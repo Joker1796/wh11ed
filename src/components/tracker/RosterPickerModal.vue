@@ -147,7 +147,11 @@ async function useLink() {
 .rp-row.off:hover { border-color: var(--border); }
 .rp-note { margin: 0 0 0.25rem; color: var(--text-muted); font-size: 0.78rem; line-height: 1.4; }
 .rp-row.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.rp-name { font-weight: 600; font-size: 0.9rem; }
+.rp-name {
+  font-weight: 600; font-size: 0.9rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
 .rp-meta { color: var(--text-muted); font-size: 0.78rem; }
 .rp-link { margin-top: 0.5rem; border-top: 1px solid var(--border); padding-top: 0.75rem; }
 .rp-link-label { display: block; color: var(--text-muted); font-size: 0.78rem; margin-bottom: 0.35rem; }
