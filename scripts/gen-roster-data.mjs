@@ -930,15 +930,30 @@ const groupKey = (opts) => opts.map((o) => itemsKey((o.items || [[o.uuid]]).map(
 // models") is left to the step table, which expresses those properly; this only reads the flat
 // "up to 2 Dominions…" / "1 model's boltgun…" forms, which is where a wrong match would show up.
 const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 }
-function proseAllowance(text) {
+function proseAllowance(text, optCount = 0) {
   const t = text.split('\n')[0]
   if (/\bfor every \d+\b|\bif this unit contains\b|\bany number of\b/i.test(t)) return null
   const up = t.match(/\bup to (\d+|one|two|three|four|five)\b/i)
   if (up) return WORD_NUM[up[1].toLowerCase()] || Number(up[1])
   const lead = t.match(/^\s*(\d+|one|two|three|four|five)\b/i)
   if (lead) return WORD_NUM[lead[1].toLowerCase()] || Number(lead[1])
+  // "…can be equipped with ANY of the following:" — every option is on offer at once, one of
+  // each, and the sentence names no number because the list itself is the number. Without this
+  // the group had no cap and read as a one-of: a Battlewagon could not take both a grabbin' klaw
+  // and a wreckin' ball in the editor, and a list that did was reported illegal on import.
+  // "Two DIFFERENT weapons from the following list" (a Devastator/Tactical Sergeant giving up
+  // both his bolt pistol and boltgun) is the same shape with the number spelled out.
+  if (/\bany of the following\b/i.test(t) && optCount > 1) return optCount
+  const diff = t.match(/\b(one|two|three|four|five) different weapons\b/i)
+  if (diff) return WORD_NUM[diff[1].toLowerCase()]
   return null
 }
+// Wordings that let the model take several of the group but never the same one twice.
+// ("cannot take duplicates" is often a footnote below the instruction, so it is read from the
+// whole text; the other two are statements of the allowance itself and only count in it.)
+const proseNoDuplicates = (text) =>
+  /cannot take duplicates/i.test(text) ||
+  /\bany of the following\b|\bdifferent weapons\b/i.test(text.split('\n')[0])
 
 function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
   const sets = limitedSetsByDs.get(datasheetId) || []
@@ -1596,9 +1611,9 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // cap appdata itself gave.
   for (const d of drafts) {
     if (d.lim) continue
-    const said = proseAllowance(d.text)
+    const said = proseAllowance(d.text, d.opts.length)
     if (!said) continue
-    const dup = /cannot take duplicates/i.test(d.text) ? 1 : 0
+    const dup = proseNoDuplicates(d.text) ? 1 : 0
     d.lim = [dup ? [0, said, dup] : [0, said]]
     report.limit.fromProse++
   }

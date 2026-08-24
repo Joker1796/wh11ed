@@ -176,6 +176,23 @@ plain number — it refuses "for every 5 models", "if this unit contains" and "a
 are scaled or conditional and belong to the threshold table. "cannot take duplicates" becomes the
 duplicate cap in the same entry.
 
+**Two wordings state an allowance without naming a number** (added 2026-08-24), and both used to
+fall through to the one-pick fallback:
+
+- *"This model can be equipped with **any** of the following:"* — every option is on offer at once,
+  one of each, so the list itself is the number (`limit = options, dup = 1`). One group corpus-wide,
+  and it is the Battlewagon's: a grabbin' klaw AND a wreckin' ball is an ordinary build that the
+  editor would not let you make and that came in from an export reported illegal.
+- *"…can be replaced with **two different weapons** from the following list"* — the Devastator and
+  Tactical Sergeants give up a bolt pistol and a boltgun, so it is two picks and never the same
+  weapon twice. The Tactical Sergeant's *"1 twin lightning claws, **or** two different weapons"* is
+  read as the same 2 — the exclusive "or" is not modelled, which allows one combination the rules
+  don't; a cap that is one too wide is the tolerable direction here, one too tight is not.
+
+Both read the FIRST line only, as every allowance does. "cannot take duplicates", by contrast, is
+read from the whole text: it is usually a footnote under the list (two T'au groups keep their
+duplicate cap only because of that).
+
 ### Attachments named by keyword
 
 A datasheet can say who it joins with a keyword instead of a list — "this model can be attached to
