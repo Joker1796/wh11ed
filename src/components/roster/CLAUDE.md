@@ -66,6 +66,25 @@ element**: `[itemId, count, 1]` marks a quantity that belongs to the PROFILE rat
 its models (one of the two Gun Servitors has the heavy bolter). `defaultLoadoutLines` and the
 export print such an item as recorded instead of multiplying it by the model count.
 
+### A group of nothing but defaults is a loadout
+
+appdata records a miniature's starting gear as a `wargear_option_group` when there is no
+`base_miniature_loadout` row — the instruction is literally "Default Wargear", 899 groups. Eight
+more say the same thing in prose: "One other Navis Armsman is equipped with:", "Every other
+Voidsman is equipped with:", the Tesseract Vault's "Powers of the C'tan", an Eradicator squad's
+"Eradicator", and two datasheets that misspell the title ("Defualt Wargear", "Default Wargesr").
+Matching on the TITLE read those eight as choices, so the Breachers' second armsman — who carries a
+heavy shotgun AND an Endurant Shield AND a close combat weapon — became a group of three
+alternatives capped at one, and a legal list came out illegal.
+
+`isDefaultGroup()` therefore tests the SHAPE: **a group every option of which appdata marks as a
+default (`defaultValue > 0`) is not a choice.** All three readers use it — `staticLoadout`, the
+draft loop that builds the choices, and the name index the replaced-item prose resolves against.
+That last one matters as much as the first: the Breachers' las-volley is named ONLY by such a
+group, and forgetting it there left "1 Navis Armsman's Navis las-volley can be replaced with…"
+replacing nothing. Six units' data changed, each of them gaining printed gear it had been offering
+as a pick; `index.test.js` pins the Breachers and the Vault.
+
 ### A group capped by its own instruction
 
 Pick limits come from appdata's `limited_wargear_choice_set` family (261 groups). Where appdata
@@ -364,7 +383,7 @@ directory; still part of this feature:
   light `factionsIndex`, not the tracker's picker, which would drag `mfmFactions` into the roster
   list's chunk) and says plainly that enhancements cannot be placed until a detachment is chosen.
 
-  Thirteen more things real lists turned up, none of them about how an export spells things:
+  Fourteen more things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
     to as many lines as the player is funny ("Meta? Never Heard of Her." over five lines, with its
     points on a line of their own), and the Force Disposition is a bare line too. `parseGw` collects
@@ -434,6 +453,14 @@ directory; still part of this feature:
     objects with `weapons`, so `matchRoster` moves one across rather than counting it twice — and
     the datasheet decides which is which. A 20-model Berzerker squad had been importing as a
     5-model one, with its own profiles reported as unplaceable wargear.
+  - **A bundle's shared half counts for nothing.** A Deathwatch Kill Team offers a frag cannon, an
+    infernus heavy bolter and a Deathwatch shotgun, each "and 1 close combat weapon" — so "4x Close
+    combat weapon" over two frag cannons and two infernus bolters is four models split between two
+    groups. Attributed whole to the first (a stepper group takes the LARGER of a bundle's halves,
+    since both name the same models), it read as four frag cannons in a group that allows two.
+    `stepperCount` now counts a bundle by the item that IDENTIFIES it — `pick.shared` records the
+    names whose candidate pool spanned more than one group — and falls back to the shared ones only
+    when there is nothing else to go on.
   - **A swap TAKES SOMETHING AWAY.** Two groups can offer the same weapon (a Forgefiend's ectoplasma
     cannon comes either from its autocannons or from its jaws), and the only thing telling them
     apart is what is MISSING from the list: with "2x Hades autocannon" still there, that group was

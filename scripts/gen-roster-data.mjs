@@ -357,12 +357,27 @@ function keyword(kws, name) {
 // for Tier A's weapon trim to subtract from. Returns the same `[[miniatureIndex, [[uuid, count]]]]`
 // shape as the loadout table so the caller can't tell the two sources apart; count is 1, which is
 // all a wargear_option can express.
+// Which groups are that starting gear. Nearly all of them SAY so — the instruction is literally
+// "Default Wargear", 899 groups — but four state it in prose instead ("One other Navis Armsman is
+// equipped with:", "One Voidsman is equipped with:", the Tesseract Vault's "Powers of the C'tan"),
+// and appdata marks their options the same way either title does: every one of them a default.
+// Read as choices, those four became a group of alternatives capped at one, and a legal list came
+// out illegal — the Breachers' second armsman carries a heavy shotgun AND an Endurant Shield AND a
+// close combat weapon, which is three picks in a group that allows one. So the test is the SHAPE:
+// a group every option of which is a default is not a choice, whatever it calls itself.
+function isDefaultGroup(g) {
+  const text = (enOf(g).instructionText || '').trim().toLowerCase()
+  if (text === 'default wargear' || text === 'defualt wargear') return true
+  const opts = woByGroup.get(g.id) || []
+  return opts.length > 1 && opts.every((o) => o.defaultValue > 0)
+}
+
 function staticLoadout(datasheetId, miniIdx) {
   const idx = miniIdx || new Map((minisByDs.get(datasheetId) || []).slice()
     .sort((a, b) => a.displayOrder - b.displayOrder).map((m, i) => [m.id, i]))
   const out = []
   for (const g of wogByDs.get(datasheetId) || []) {
-    if ((enOf(g).instructionText || '').trim().toLowerCase() !== 'default wargear') continue
+    if (!isDefaultGroup(g)) continue
     const items = (woByGroup.get(g.id) || [])
       .sort((a, b) => a.displayOrder - b.displayOrder)
       .map((o) => [o.wargearItemId, o.defaultValue > 0 ? o.defaultValue : 1])
@@ -403,7 +418,10 @@ function linkWargearConditions(datasheetId, drafts) {
   // 144 datasheets have no base_miniature_loadout row at all — for 136 of them the starting gear
   // is a "Default Wargear" option group instead (see staticLoadout), and those groups are dropped
   // before the drafts are built, so their items have to be collected here too or a swap on one of
-  // them ("this model's heavy bolt pistol can be replaced with…") resolves nothing.
+  // them ("this model's heavy bolt pistol can be replaced with…") resolves nothing. Same test as
+  // staticLoadout uses — by SHAPE, not by title: the Breachers' las-volley is named only by a
+  // group that says "One Navis Armsman is equipped with:", and reading that group as a choice is
+  // what left "1 Navis Armsman's Navis las-volley can be replaced with…" replacing nothing.
   const defaultsByMini = new Map()
   const addDefault = (miniatureId, uuid) => {
     if (!uuid) return
@@ -415,7 +433,7 @@ function linkWargearConditions(datasheetId, drafts) {
     for (const o of b.opts) addDefault(b.miniatureId, woById.get(o.wargearOptionId)?.wargearItemId)
   }
   for (const g of wogByDs.get(datasheetId) || []) {
-    if ((enOf(g).instructionText || '').trim().toLowerCase() !== 'default wargear') continue
+    if (!isDefaultGroup(g)) continue
     for (const o of woByGroup.get(g.id) || []) addDefault(g.miniatureId, o.wargearItemId)
   }
   for (const d of drafts) for (const o of d.opts) remember(o.uuid)
@@ -1312,7 +1330,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   let drafts = []
   for (const g of (wogByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)) {
     const text = (enOf(g).instructionText || '').trim()
-    if (!text || text.toLowerCase() === 'default wargear') continue
+    if (!text || isDefaultGroup(g)) continue
     const rawOpts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder)
     if (!rawOpts.length) continue
     drafts.push({

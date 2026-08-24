@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { detectFormat, matchFaction, matchRoster, parseList, resolveDetachmentLine } from './rosterImport.js'
 import rosterCore from '../data/roster/core.js'
+import { optionItems } from './rosterEngine.js'
 
 // A real export from the Warhammer 40,000 app, abridged: the shapes that matter are all here — an
 // attached block, a single-model character, a multi-profile squad, a uniform multi-model unit, an
@@ -509,6 +510,50 @@ Defiler (330 Points)
 // dispersion shield"). No export ever names the option — they name what the models carry — so the
 // two halves arrive as two lines, and indexing only single-item options left both unplaceable and
 // the swap untaken: the unit imported still holding the printed warscythes, at the same price.
+// A Deathwatch Kill Team offers a frag cannon, an infernus heavy bolter and a Deathwatch shotgun,
+// each "and 1 close combat weapon" — so the close combat weapons in the list belong to no group in
+// particular, and a line counting all of them said nothing about how many of any one swap was made.
+describe('matchRoster — a bundle half that several groups share', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ loadRosterFaction }, { default: items }] = await Promise.all([
+      import('../data/roster/index.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('imperial-agents'), core: rosterCore, items: items.items }
+  })
+
+  it('counts a bundle by the item that identifies it', async () => {
+    const text = `Kill teams (2000 points)
+
+Imperial Agents
+Strike Force (2000 points)
+
+BATTLELINE
+
+Deathwatch Kill Team (190 points)
+  • 1x Watch Sergeant
+    • 1x Astartes shield
+      1x Xenophase blade
+  • 9x Deathwatch Veterans
+    • 1x Astartes shield
+      4x Close combat weapon
+      4x Deathwatch thunder hammer
+      2x Frag cannon
+      2x Infernus heavy bolter
+      1x Power weapon`
+    const { payload, report } = matchRoster(parseList(text), ctx)
+    const { faction } = ctx
+    const def = faction.units.find((u) => u.id === 'deathwatch-kill-team')
+    const gearOf = (weapon) => def.gear.findIndex((g) => (g.o || []).some((o) => optionItems(o).some(([id]) => ctx.items[id] === weapon)))
+    const wg = new Map(payload.units[0].wg.map(([gi, , n]) => [gi, n]))
+    expect(wg.get(gearOf('Frag cannon'))).toBe(2)              // two, not the four close combat weapons
+    expect(wg.get(gearOf('Infernus heavy bolter'))).toBe(2)
+    expect(wg.get(gearOf('Deathwatch thunder hammer'))).toBe(4)
+    expect(report.units[0].gear.missing).toEqual([])
+  })
+})
+
 describe('matchRoster — a bundled wargear option', () => {
   it('takes the swap from either half of the bundle, once, for the right number of models', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([

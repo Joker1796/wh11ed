@@ -633,15 +633,26 @@ export function resolveDetachmentLine(line, known) {
 // Deathwatch Terminator Squad prints its sergeant's thunder hammer and storm shield apart from the
 // squad's, and folding all four lines into one bucket charged for three swapped models instead of
 // two — five points a squad.
-function count(pick, mini, key, n) {
+// …and a weapon SEVERAL groups offer says nothing about how many models any one of them swapped.
+// A Deathwatch Kill Team's frag cannon, infernus heavy bolter and Deathwatch shotgun each come
+// "and 1 close combat weapon", so a line reading "4x Close combat weapon" over two frag cannons
+// and two infernus bolters is four models split between two groups — attributed whole to the
+// first, it read as four frag cannons in a group that allows two, and called a legal list illegal.
+// So a bundle is counted by the item that IDENTIFIES it, and a shared one only when there is
+// nothing else to go on.
+function count(pick, mini, key, n, shared) {
   const at = mini || ''
   const by = pick.byMini.get(at) || new Map()
   by.set(key, (by.get(key) || 0) + n)
   pick.byMini.set(at, by)
+  if (shared) pick.shared.add(key)
 }
 function stepperCount(pick) {
   let total = 0
-  for (const by of pick.byMini.values()) total += Math.max(...by.values())
+  for (const by of pick.byMini.values()) {
+    const own = [...by].filter(([key]) => !pick.shared.has(key)).map(([, n]) => n)
+    total += Math.max(...(own.length ? own : [...by.values()]))
+  }
   return total || 1
 }
 
@@ -851,6 +862,8 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const fitted = touched.length ? touched : all
       const best = Math.max(...fitted.map(fitOf))
       const pool = fitted.filter((r) => fitOf(r) === best)
+      // Does this name pick out a group at all, or is it the half several of them have in common?
+      const shared = new Set(pool.map((r) => r.gi)).size > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
       let left = w.n || 1
       while (left > 0) {
@@ -869,13 +882,13 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const k = key2(ref)
         const at = picks.get(k)
         if (at) {
-          if (ref.stepper) count(at, w.mini, key, left)
+          if (ref.stepper) count(at, w.mini, key, left, shared)
           at.names.add(key)
           break
         }
         usedGroups.add(ref.gi)
-        const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), names: new Set([key]) }
-        if (ref.stepper) count(pick, w.mini, key, left)
+        const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), shared: new Set(), names: new Set([key]) }
+        if (ref.stepper) count(pick, w.mini, key, left, shared)
         picks.set(k, pick)
         if (ref.stepper) break
         left -= 1

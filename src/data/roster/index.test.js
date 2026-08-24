@@ -270,6 +270,23 @@ describe('replaced-item links', () => {
     expect(line.some((l) => l.items.includes(`Boltgun ×${models - 1}`))).toBe(true)
   })
 
+  // A group whose every option appdata marks as a default is the miniature's starting gear, not a
+  // choice — whatever the instruction calls itself. Read as a choice, the Breachers' second armsman
+  // became three alternatives capped at one, and a legal list (he carries all three) came out
+  // illegal. Eight groups game-wide say it in prose rather than as "Default Wargear".
+  it('reads a group of nothing but defaults as the loadout, not as a choice', () => {
+    const names = (u, m) => (u.defaults.find(([mi]) => mi === m) || [, []])[1].map(([id]) => rosterItems.items[id])
+    const breachers = groupsOf('imperial-agents', 'imperial-navy-breachers')
+    expect(names(breachers, 1)).toEqual(expect.arrayContaining(['Navis heavy shotgun', 'Endurant Shield', 'Navis las-volley']))
+    expect(breachers.gear.map(textOf)).not.toContain('One other Navis Armsman is equipped with:')
+    // …and the swap that names one of those items still knows what it replaces.
+    const swap = breachers.gear.find((g) => /las-volley can be replaced/i.test(textOf(g)))
+    expect(repNames(swap)).toEqual(['Navis las-volley'])
+    // The Tesseract Vault really does have all three Powers of the C’tan.
+    const vault = groupsOf('necrons', 'tesseract-vault')
+    expect(names(vault, 0)).toEqual(expect.arrayContaining(['Antimatter Meteor', 'Cosmic Fire', 'Time’s Arrow']))
+  })
+
   it('leaves almost nothing unparsed across the corpus', () => {
     // Two leftovers remain, both "X or Y" where the profile holds both alternatives, and both
     // fail-open by design. The number is here so a parser regression shows up as a jump.
