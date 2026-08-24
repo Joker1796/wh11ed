@@ -55,7 +55,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import { ui } from '../i18n/ui.js'
@@ -68,6 +68,7 @@ import { useContributeMobileActions } from '../composables/useMobileActionBar.js
 const props = defineProps({ hero: { type: Boolean, default: true } })
 
 const route = useRoute()
+const router = useRouter()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -120,6 +121,26 @@ useContributeMobileActions('faction-tabs', () =>
     ? otherTabs.value.map((t) => ({ key: t.path, to: t.path, icon: t.icon, label: t.label }))
     : [],
 )
+
+// The per-unit page has no hero and no tabs of its own, and `.subnav` — where the desktop keeps
+// the same links — is hidden on mobile. So a phone had no way back to the faction's unit list at
+// all: you left through the drawer and walked in again through Factions → faction → Units. This
+// button is that way back, and it is offered at any scroll position, not only once scrolled down.
+const unitsTab = computed(() => tabs.value[1])
+useContributeMobileActions('faction-back-to-units', () =>
+  faction.value && !props.hero && route.params.unit
+    ? [{ key: 'units', icon: unitsTab.value.icon, label: unitsTab.value.label, onClick: backToUnits }]
+    : [],
+)
+
+// Back, not a fresh push, when this page WAS opened from that list: the router restores the saved
+// scroll position on a real back, so the reader returns to the row they tapped instead of the top
+// of a list that can run to ninety units.
+function backToUnits() {
+  const to = unitsTab.value.path
+  if (String(history.state?.back || '').startsWith(to)) router.back()
+  else router.push(to)
+}
 </script>
 
 <style scoped>
