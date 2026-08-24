@@ -75,12 +75,15 @@ if (!game.value) router.replace('/tracker')
 .hv-rosters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
 .hv-roster {
   display: inline-flex; align-items: center; gap: 0.4rem;
+  /* A list can be named anything, including a whole poem — the pill gives way rather than
+     widening the page (same reason .players uses minmax(0, 1fr); see GameSetup.vue). */
+  max-width: 100%; min-width: 0;
   padding: 0.4rem 0.75rem; border: 1px solid var(--border); border-radius: 999px;
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
 .hv-roster:hover { border-color: var(--accent); color: var(--accent); }
 .hv-roster-who { color: var(--text-muted); }
-.hv-roster-name { font-weight: 600; }
+.hv-roster-name { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .history-view {
   padding-top: 0.5rem;

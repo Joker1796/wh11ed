@@ -266,7 +266,8 @@ function save() {
 }
 .players {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0, …) so a long roster name can't widen the card — see GameSetup.vue's .players. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -450,7 +451,7 @@ function save() {
   cursor: pointer;
 }
 @media (max-width: 700px) {
-  .players { grid-template-columns: 1fr; }
+  .players { grid-template-columns: minmax(0, 1fr); }
   .tab-word { display: none; }
   .tab { min-width: 44px; min-height: 44px; }
 }
