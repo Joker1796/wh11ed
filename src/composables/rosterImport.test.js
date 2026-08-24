@@ -1796,6 +1796,106 @@ Pyrovores (95 points)
   })
 })
 
+// A unit can also stand in TWO Attached Unit blocks, because it plays a different part in each:
+// Masters of the Maelstrom is the bodyguard Huron Blackheart joins AND the Support unit attached
+// to a Chosen squad. The export prints it under both headings and charges for it once.
+describe('matchRoster — a unit printed in two attached blocks', () => {
+  const CHAIN = `1 CSM Fun (410 Points)
+
+Chaos Space Marines
+Renegade Raiders (3 Detachment Points)
+Strike Force (2,000 Points)
+
+ATTACHED UNITS
+
+Attached unit 1
+
+Huron Blackheart (130 Points)
+• Attached as: Leader (Character)
+• Warlord
+• 1x Tyrant’s Claw and exalted power weapon
+• 1x Tyrant’s Claw heavy flamer
+
+Masters of the Maelstrom (145 Points)
+• Attached as: Bodyguard
+• 1x Garreon the Corpsemaster
+◦ 1x Absolvor bolt pistol
+◦ 1x Reductor array
+
+Attached unit 2
+
+Masters of the Maelstrom (145 Points)
+• Attached as: Support
+• 1x Garreon the Corpsemaster
+◦ 1x Absolvor bolt pistol
+◦ 1x Reductor array
+
+Chosen (135 Points)
+• Attached as: Bodyguard
+• 1x Chosen Champion
+◦ 1x Boltgun
+◦ 1x Power fist
+• 4x Chosen
+◦ 4x Accursed weapon
+◦ 4x Bolt pistol`
+
+  it('keeps one entry and both of its attachments', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { default: items } = await import('../data/roster/items.js')
+    const faction = await loadRosterFaction('chaos-space-marines')
+    const parsed = parseList(CHAIN)
+    expect(parsed.repeated).toBe(1)
+    const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
+    expect(payload.units.filter((u) => u.id === 'masters-of-the-maelstrom')).toHaveLength(1)
+    expect(report.points.computed).toBe(130 + 145 + 135)
+    // Huron joined the Masters, and the Masters are the Support of the Chosen: the chain the two
+    // blocks state together, which dropping either copy would have cut in half.
+    const [huron, masters, chosen] = ['huron-blackheart', 'masters-of-the-maelstrom', 'chosen']
+      .map((id) => payload.units.find((u) => u.id === id))
+    expect(huron.leaderOf).toBe(masters.uid)
+    expect(masters.leaderOf).toBe(chosen.uid)
+  })
+
+  // Two blocks naming a unit in the SAME part are two units, however alike and however short the
+  // list's own total is — one bodyguard and one attaching role is all a single unit can play.
+  it('leaves two bodyguards of the same name alone', async () => {
+    const twoBodies = `Two of them (345 Points)
+
+Chaos Space Marines
+Renegade Raiders (3 Detachment Points)
+Strike Force (2,000 Points)
+
+ATTACHED UNITS
+
+Attached unit 1
+
+Kravek Morne (120 Points)
+• Attached as: Leader (Character)
+• 1x Baleflamer
+
+Chosen (135 Points)
+• Attached as: Bodyguard
+• 5x Chosen
+◦ 5x Accursed weapon
+◦ 5x Bolt pistol
+
+Attached unit 2
+
+Cypher (90 Points)
+• Attached as: Leader (Character)
+• 1x Cypher’s bolt pistol
+
+Chosen (135 Points)
+• Attached as: Bodyguard
+• 5x Chosen
+◦ 5x Accursed weapon
+◦ 5x Bolt pistol`
+    const parsed = parseList(twoBodies)
+    expect(parsed.repeated).toBeUndefined()
+    expect(parsed.units.filter((u) => u.name === 'Chosen')).toHaveLength(2)
+  })
+})
+
 // The Grey Knights list that showed a legal Dreadknight as illegal: appdata records no
 // limited-choice set for that group, so its own instruction is the only statement of the cap.
 describe('matchRoster — a group capped by its own instruction', () => {

@@ -145,25 +145,40 @@ function gwBody(entries) {
 // Tyranids list shows its two Tyrant Guard in both places and then states a total that counts them
 // once: 2000, where the printed entries add up to 2320.
 //
+// A unit can also stand in TWO blocks, because it plays a different part in each: Masters of the
+// Maelstrom is the bodyguard Huron Blackheart joins, and the Support unit attached to a Chosen
+// squad, so the export prints it under both headings and charges for it once. That repeat is not
+// dropped — each of its two blocks states an attachment we would otherwise lose — it is folded
+// onto the copy that stays, which joins both blocks (`also`).
+//
 // Which is why this is decided by ARITHMETIC and never by shape. Repeats are only folded away when
-// the excess over the list's own stated total is EXACTLY the entries that appear in both places —
-// otherwise a Deathwatch list that really does field one Indomitor Kill Team attached and another
-// on its own (the entries add up to the stated total, so there is no excess) would silently lose
-// 275 points. Each attached entry can account for at most one loose copy, and it is the loose copy
-// that goes: the attached one carries the attachment.
-function dropRepeatedAttachments(out) {
+// the excess over the list's own stated total is EXACTLY the entries that appear twice — otherwise
+// a Deathwatch list that really does field one Indomitor Kill Team attached and another on its own
+// (the entries add up to the stated total, so there is no excess) would silently lose 275 points.
+// Each surviving entry can account for at most one repeat. Against a loose copy the attached one
+// stays, because it is the one carrying the attachment; between two blocks the parts are carried
+// by whichever copy stays, so it takes on the other's as well.
+function foldRepeatedAttachments(out) {
   const stated = out.stated
   if (!stated) return
   const over = out.units.reduce((n, u) => n + (u.pts || 0), 0) - stated
   if (over <= 0) return
   const claimed = new Set()
   const dupes = []
+  const twinOf = (u, fits) => out.units.find((a) => a !== u && !claimed.has(a) && !dupes.includes(a)
+    && a.pts === u.pts && norm(a.name) === norm(u.name) && fits(a))
+  const body = (u) => /^bodyguard/i.test(u.attachedAs || '')
   for (const u of out.units) {
-    if (u.group) continue
-    const twin = out.units.find((a) => a.group && !claimed.has(a) && a.pts === u.pts && norm(a.name) === norm(u.name))
+    // The parts a unit can play are one bodyguard and one attaching role (Leader or Support), so
+    // two blocks naming it in the SAME part are two units, however alike. Blocks that label
+    // nothing say nothing either way, and are left alone.
+    const twin = u.group
+      ? twinOf(u, (a) => a.group && a.group !== u.group && !!a.attachedAs && !!u.attachedAs && body(a) !== body(u))
+      : twinOf(u, (a) => !!a.group)
     if (!twin) continue
     claimed.add(twin)
     dupes.push(u)
+    if (u.group) (twin.also = twin.also || []).push({ group: u.group, attachedAs: u.attachedAs })
   }
   if (!dupes.length || dupes.reduce((n, u) => n + (u.pts || 0), 0) !== over) return
   out.units = out.units.filter((u) => !dupes.includes(u))
@@ -319,7 +334,7 @@ function parseGw(text) {
   // The LAST such line, because a Chapter is printed under its parent ("Space Marines" then "Dark
   // Angels") and the Chapter is the army: taking the first gave a Dark Angels list the Space
   // Marines data, which has no Azrael, no Deathwing Knights and neither of its detachments.
-  dropRepeatedAttachments(out)
+  foldRepeatedAttachments(out)
   const answers = plains.filter(isFactionName)
   const loose = plains.filter((t) => matchFaction(t))
   out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || plains[0] || ''
@@ -1154,9 +1169,12 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     payload.units.push(entry)
     report.units.push(line)
 
-    if (pu.group) {
-      if (!groups.has(pu.group)) groups.set(pu.group, [])
-      groups.get(pu.group).push({ entry, def, attachedAs: pu.attachedAs })
+    // One entry, possibly two blocks: a Support unit that is itself led stands in the block it
+    // supports and in the one its own leader joined it in (see foldRepeatedAttachments).
+    for (const m of [{ group: pu.group, attachedAs: pu.attachedAs }, ...(pu.also || [])]) {
+      if (!m.group) continue
+      if (!groups.has(m.group)) groups.set(m.group, [])
+      groups.get(m.group).push({ entry, def, attachedAs: m.attachedAs })
     }
     for (const target of pu.attachedTo || []) attachments.push({ entry, def, target })
     for (const line of pu.loose || []) loose.push({ entry, def, line })

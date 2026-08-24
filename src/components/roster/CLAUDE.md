@@ -644,13 +644,26 @@ directory; still part of this feature:
   - **An export can print an attached unit TWICE** — inside its `Attached Unit N` block, so the
     reader sees who joined whom, and again under its own section, so the army list reads complete.
     A Tyranids list shows its two Tyrant Guard in both places and then states a total that counts
-    them once (2000, where the printed entries add up to 2320). `dropRepeatedAttachments` folds the
+    them once (2000, where the printed entries add up to 2320). `foldRepeatedAttachments` folds the
     loose copy away — but only when the excess over the list's OWN stated total is exactly the
     entries that appear in both places. Decided by arithmetic, never by shape: a Deathwatch list
     really does field one Indomitor Kill Team attached and another on its own, its entries add up to
     its stated total, and a shape-based rule would have made it 275 points lighter. The number
     folded away is reported on the import screen, since the unit count is otherwise short of what
     the pasted text shows.
+  - **…or in TWO blocks, because it plays a different part in each.** Masters of the Maelstrom is
+    the bodyguard Huron Blackheart joins and the Support unit attached to a Chosen squad, so a
+    1,990-point list prints it under both headings and charges 145 for it once — read as two units
+    it came out 2,135 points with a duplicate-unit error on a datasheet limited to one. Here
+    neither copy may simply go: each block states an attachment. The repeat is folded ONTO the copy
+    that stays (`also`, a second `{group, attachedAs}` the entry joins in `matchRoster`), which
+    imports the chain the two blocks state together — Huron leads the Masters, the Masters support
+    the Chosen. Same arithmetic gate as above, plus the roles: one bodyguard and one attaching role
+    is all a single unit can play, so two blocks naming it in the SAME part are two units however
+    alike, and blocks that label nothing say nothing either way.
+  - **A Support attachment is exported as `Support`, not as `Leader (Character)`.** Both fill a
+    slot on the same bodyguard, but they are the host's two INDEPENDENT slots and the app names
+    them apart; `gwText` asks `leadTypeFor` which one this is rather than assuming a leader.
   - **A missing "Attached as:" line is not a missing attachment.** An `Attached Unit N` block
     exists to say who joined whom, so anything else inside a block that HAS a bodyguard is attached
     to it. One export labels the Tyrant Guard and prints nothing at all under the Hive Tyrant above
