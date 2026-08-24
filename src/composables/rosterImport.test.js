@@ -1021,6 +1021,32 @@ describe('matchFaction', () => {
     expect(matchFaction('World Eaters')).toBe('world-eaters')
     expect(matchFaction('Squats')).toBe(null)
   })
+
+  // A Chapter of the Codex Astartes is not a faction here — it plays out of space-marines.js — but
+  // it is what an export names. Unanswered, the whole list imports as nothing.
+  it('answers a Codex Chapter with Space Marines', () => {
+    expect(matchFaction('Raven Guard')).toBe('space-marines')
+    expect(matchFaction('Ultramarines')).toBe('space-marines')
+    // A Chapter with a book of its own is a faction here and stays itself.
+    expect(matchFaction('Blood Angels')).toBe('blood-angels')
+  })
+
+  // "Factions Used: Raven Guard, Adeptus Astartes" — one army, named most specific first.
+  it('takes the most specific of several names, whichever order they are written in', () => {
+    expect(matchFaction('Raven Guard, Adeptus Astartes')).toBe('space-marines')
+    expect(matchFaction('Blood Angels, Adeptus Astartes')).toBe('blood-angels')
+    expect(matchFaction('Adeptus Astartes, Blood Angels')).toBe('blood-angels')
+    // WTC states the keyword alone ("FACTION KEYWORD: Imperium - Adeptus Astartes"), and then the
+    // codex of that name is the only answer there is.
+    expect(matchFaction('Adeptus Astartes')).toBe('space-marines')
+  })
+
+  // The looser reading stays on the whole string: a bare line is how a list with no labelled header
+  // states its faction, and its TITLE is a bare line too.
+  it('does not read a faction out of a fragment of a list name', () => {
+    expect(matchFaction('Blood, Sweat and Tears')).toBe(null)
+    expect(matchFaction('Blood Angels Rock')).toBe('blood-angels')
+  })
 })
 
 // End to end against the real generated roster bundle — the only test that proves the names in a
@@ -2209,5 +2235,59 @@ describe('matchRoster — a swap that only shows as a count', () => {
     const oneOf = def.gear.findIndex((g) => g.rep?.length)
     expect(cmd.wg.filter((w) => w[0] === oneOf).length).toBe(1)
     expect(cmd.wg.some((w) => w[2] === 3)).toBe(true)
+  })
+})
+
+// An export can state a model's loadout TWICE: once as the composite name of the option that grants
+// it, once as the items themselves. The composite names no weapon any datasheet has.
+describe('matchRoster — a loadout the export names twice', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: rosterCore }, { loadRosterFaction, rosterItems }] = await Promise.all([
+      import('../data/roster/core.js'),
+      import('../data/roster/index.js'),
+    ])
+    ctx = { faction: await loadRosterFaction('space-marines'), core: rosterCore, items: rosterItems.items }
+  })
+
+  const head = `Twice told (2000 points)
+
+Space Marines
+Gladius Task Force (3 Detachment Points)
+Strike Force (2000 points)
+
+OTHER DATASHEETS
+
+Terminator Squad (320 points)
+• Terminator Sergeant
+• Power fist
+• Storm bolter
+• 2x Terminator w/ Heavy Weapon
+• 2x Cyclone Missile Launcher & Storm Bolter`
+
+  const tail = `• 2x Power fist
+• 7x Terminator w/ Power Fist
+• 7x Power fist
+• 7x Storm bolter`
+
+  it('says nothing about the composite when both halves are named on their own lines', () => {
+    const text = `${head}
+• 2x Cyclone missile launcher
+• 2x Storm bolter
+${tail}`
+    const { payload, report } = matchRoster(parseList(text), ctx)
+    expect(report.units[0].gear.missing).toEqual([])
+    expect(report.units[0].points.computed).toBe(320)
+    // and the swap it describes is taken, twice — once per Terminator with a heavy weapon
+    const def = ctx.faction.units.find((u) => u.id === 'terminator-squad')
+    const gi = def.gear.findIndex((g) => (g.o || []).some((o) => optionItems(o).length > 1))
+    expect(payload.units[0].wg.find(([g]) => g === gi)?.[2]).toBe(2)
+  })
+
+  // The other half of the rule: standing alone, that line is the only statement of the loadout
+  // there is, and we did fail to place it. Silencing it there would hide a real miss.
+  it('reports a composite that nothing else in the unit accounts for', () => {
+    const { report } = matchRoster(parseList(`${head}\n${tail}`), ctx)
+    expect(report.units[0].gear.missing).toEqual(['Cyclone Missile Launcher & Storm Bolter'])
   })
 })

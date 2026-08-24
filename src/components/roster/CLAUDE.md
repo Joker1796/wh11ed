@@ -589,13 +589,23 @@ directory; still part of this feature:
     came out as eight. (The plain-text mode does this too — see `fitsBracket` above — but there the
     arithmetic guard was all that rescued the count, and it only fires when the count is impossible.)
 
-  Left unread on purpose in that mode: it restates a wargear group's STATE as a line of its own
-  ("2 Hades autocannons" above the "2x Hades autocannon" it expands to, "1 mauler chainblade, 7
-  chainblades" above the models). Those lines name no option and no item, so they are reported as
-  wargear that could not be placed — which is the honest answer for a line we do not understand.
-  Dropping them would need a rule for telling a restatement from real wargear, and every rule that
-  suggests itself (a count written without its `x`, a comma, items restated below) would also drop
-  something a list might mean.
+  Left unread in that mode: it restates a wargear group's STATE as a line of its own ("2 Hades
+  autocannons" above the "2x Hades autocannon" it expands to, "1 mauler chainblade, 7 chainblades"
+  above the models). Those lines name no option and no item, so they are reported as wargear that
+  could not be placed — the honest answer for a line we do not understand. A rule for telling a
+  restatement from real wargear by its SHAPE (a count written without its `x`, a comma) would also
+  drop something a list might mean.
+
+  One shape of it does have a safe rule, added 2026-08-24: **the composite loadout name**, "2x
+  Cyclone Missile Launcher & Storm Bolter" above its own "2x Cyclone missile launcher" and "2x Storm
+  bolter", "Bolt Rifle w/ Grenade Launcher", "Ectoplasma cannon and claws". `restates` in
+  `matchRoster` drops one only when **every half is also named on its own line in the same unit** —
+  then it is a restatement and the items are already counted. Not by shape, which is what makes it
+  safe: a composite standing ALONE stays reported, because it is then the only statement of that
+  loadout there is and we did fail to place it. And it is dropped, never re-fed as its halves —
+  those halves are already in the list, so counting them again turned two cyclone missile launchers
+  into four and had the squad take a swap it is not entitled to. Three such lines on one Space
+  Marines list whose every point, pick and model count was right.
 
   Fifteen more things real lists turned up, none of them about how an export spells things:
   - **The faction is the bare line that ANSWERS as one**, not the second line down. A list name runs
@@ -606,6 +616,19 @@ directory; still part of this feature:
     such line, because a Chapter is printed under its parent ("Space Marines" then "Dark Angels")
     and the Chapter is the army — taking the first gave a Dark Angels list the Space Marines bundle,
     which has no Azrael, no Deathwing Knights and neither of that list's detachments.
+  - **A Chapter with no book of its own is still what the export names** (added 2026-08-24).
+    "Factions Used: Raven Guard, Adeptus Astartes" answered nothing at all, and a list whose faction
+    does not resolve imports as NOTHING — every unit in it is looked up against that faction's data.
+    `matchFaction` now reads each comma-separated part in turn: our own faction names first, then
+    the six Chapters `space-marines.js` lists as its `chapters` (the five with their own book are
+    factions here already and match by name), and last, only if nothing else spoke, the bare
+    `Adeptus Astartes` keyword — a guess, but it is the codex of that name, WTC states it alone
+    ("FACTION KEYWORD: Imperium - Adeptus Astartes"), and a wrong guess is visible rather than
+    silent: its units come back as ones we do not have. The **looser substring reading stays on the
+    whole string**, deliberately: run per part it would answer a list titled "Blood, Sweat and
+    Tears" with Blood Angels, and it gains nothing — a part containing a faction name is contained
+    in the whole string too. The chapter names go through `norm`, which takes the final s off every
+    word; spelled out by hand they matched Raven Guard and nothing else.
   - **An export can print an attached unit TWICE** — inside its `Attached Unit N` block, so the
     reader sees who joined whom, and again under its own section, so the army list reads complete.
     A Tyranids list shows its two Tyrant Guard in both places and then states a total that counts
