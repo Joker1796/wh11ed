@@ -10,7 +10,7 @@
     <Teleport v-if="rulesOpen" to="body">
       <FactionAccentScope :faction-slug="factionSlug">
         <RosterUnitRulesModal
-          :unit-id="def.id"
+          :unit-id="sheetId"
           :faction-slug="factionSlug"
           :ctx="{ def, entry, items, detachments, leaderTargets, units }"
           @close="rulesOpen = false"
@@ -20,7 +20,7 @@
     <Teleport v-if="weaponInfoNames" to="body">
       <FactionAccentScope :faction-slug="factionSlug">
         <WeaponProfileModal
-          :unit-id="def.id"
+          :unit-id="sheetId"
           :faction-slug="factionSlug"
           :names="weaponInfoNames"
           @close="weaponInfoNames = null"
@@ -243,7 +243,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -270,6 +270,11 @@ defineEmits(['toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// An allied unit's id is namespaced with the faction its DATASHEET belongs to (see
+// data/roster/index.js); the rules and weapon modals are given that faction's slug, so they must
+// be given the bare id to look up in it.
+const sheetId = computed(() => allySourceOf(props.def.id)?.[1] || props.def.id)
 
 // Wargear group instructions in Russian (src/data/roster/ru/texts.js, generated — see
 // scripts/gen-roster-texts-ru.mjs). Lazily loaded so an EN reader never downloads the file, and
