@@ -444,6 +444,12 @@ directory; still part of this feature:
     offers three bundles differing only in the last weapon ("1 boltstorm gauntlet, 1 power fist and
     1 relic blade / chainsword / fist"); reading them one weapon at a time spent two of them. Each
     candidate is scored by the items of its bundle the list does name, minus the ones it doesn't.
+  - **…and the copies it cannot hold spill into the next group.** Two groups on a Forgefiend both
+    grant an ectoplasma cannon, and a list holding three of them has taken both swaps: the jaws
+    bundle (which names two of the listed weapons, so it wins the first cannon) grants one, the
+    pair replacing the Hades autocannons grants two. Absorbing the leftovers into the option
+    already picked lost the second swap. Spilling is safe because `untouched(gi)` has already
+    dropped every group whose replaced weapons the list still shows in full.
   - **Two brackets can hold the same models and differ only in the SPLIT.** An Indomitor Kill Team
     is either ten Heavy Intercessors or three-to-sixteen models mixed from all three profiles, both
     at 275 points. `sizeIndexFor` takes the per-profile counts into account, because under the first
@@ -712,6 +718,13 @@ Two guards keep it fail-open, and both currently reject real groups — don't re
 the number: every option appdata lists must be named by the prose (else the prose is describing
 something else), and a multi-item set must be backed by the enumeration. A rejected group is
 emitted exactly as appdata lists it, never as a guessed pair.
+
+**The points come with the quantity.** appdata prices an option row per ITEM — a Forgefiend's
+ectoplasma cannon is 5 whether it is the one that replaces its jaws or one of the two that replace
+its Hades autocannons — so an option the prose gives a count to is priced `row × count` (three
+options game-wide, all of them that Forgefiend). The multi-item bundles sum their member rows,
+which is the same rule. Read as one flat 5 the model came out 10 points light and the list 20 short
+of its own printed total.
 
 **Slot 0 of an option is therefore polymorphic** — an item id, or the full `[[id, count], …]`
 set. **`optionItems(o)`/`optionLabel(o, items)` in `rosterEngine.js` are the only readers of that
