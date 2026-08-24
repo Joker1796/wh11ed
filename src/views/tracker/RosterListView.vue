@@ -145,7 +145,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
-import { effectiveBattle } from '../../composables/rosterEngine.js'
+import { effectiveBattle, usesAllies } from '../../composables/rosterEngine.js'
 import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
@@ -175,7 +175,7 @@ async function onExport(id) {
   exportBusy.value = true
   try {
     const { loadRosterFaction } = await import('../../data/roster/index.js')
-    exportFaction.value = await loadRosterFaction(r.faction)
+    exportFaction.value = await loadRosterFaction(r.faction, { allies: usesAllies(r) })
     exportRoster.value = r
     menuFor.value = null
   } finally {

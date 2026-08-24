@@ -129,7 +129,7 @@ async function read() {
     // The roster bundle for one faction is ~100 KB of generated data, so it is fetched only once a
     // list actually names that faction — the same lazy load the editor does.
     const [{ loadRosterFaction, rosterItems }] = await Promise.all([import('../../data/roster/index.js')])
-    const faction = await loadRosterFaction(slug)
+    const faction = await loadRosterFaction(slug, { allies: true })
     if (!faction) { error.value = labels.value.rosterImportNoFaction.replace('{n}', parsed.faction || '—'); return }
     factionName.value = faction.name
     const res = matchRoster(parsed, { faction, core: rosterCore, items: rosterItems.items })

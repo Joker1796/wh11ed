@@ -3759,5 +3759,81 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "adeptus-titanicus",
+      "name": "Adeptus Titanicus",
+      "ids": [
+        "titan-legions:reaver-titan",
+        "titan-legions:warbringer-nemesis-titan",
+        "titan-legions:warhound-titan",
+        "titan-legions:warlord-titan"
+      ],
+      "lim": {
+        "Reaver Titan": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "Warbringer Nemesis Titan": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "Warhound Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Warlord Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        }
+      },
+      "mutex": 1
+    },
+    {
+      "key": "imperial-knights",
+      "name": "Imperial Knights",
+      "ids": [
+        "imperial-knights:acastus-knight-asterius",
+        "imperial-knights:acastus-knight-porphyrion",
+        "imperial-knights:armiger-helverin",
+        "imperial-knights:armiger-moirax",
+        "imperial-knights:armiger-warglaive",
+        "imperial-knights:canis-rex",
+        "imperial-knights:cerastus-knight-acheron",
+        "imperial-knights:cerastus-knight-atrapos",
+        "imperial-knights:cerastus-knight-castigator",
+        "imperial-knights:cerastus-knight-lancer",
+        "imperial-knights:knight-castellan",
+        "imperial-knights:knight-crusader",
+        "imperial-knights:knight-defender",
+        "imperial-knights:knight-destrier",
+        "imperial-knights:knight-errant",
+        "imperial-knights:knight-gallant",
+        "imperial-knights:knight-paladin",
+        "imperial-knights:knight-preceptor",
+        "imperial-knights:knight-valiant",
+        "imperial-knights:knight-warden",
+        "imperial-knights:questoris-knight-magaera",
+        "imperial-knights:questoris-knight-styrix"
+      ],
+      "lim": {
+        "Armiger": {
+          "strike-force": 3,
+          "incursion": 3,
+          "onslaught": 3
+        },
+        "Titanic": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        }
+      },
+      "mutex": 1
+    }
   ]
 }

@@ -3837,5 +3837,115 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "chaos-knights",
+      "name": "Chaos Knights",
+      "ids": [
+        "chaos-knights:chaos-acastus-knight-asterius",
+        "chaos-knights:chaos-acastus-knight-porphyrion",
+        "chaos-knights:chaos-cerastus-knight-acheron",
+        "chaos-knights:chaos-cerastus-knight-atrapos",
+        "chaos-knights:chaos-cerastus-knight-castigator",
+        "chaos-knights:chaos-cerastus-knight-lancer",
+        "chaos-knights:chaos-questoris-knight-magaera",
+        "chaos-knights:chaos-questoris-knight-styrix",
+        "chaos-knights:knight-abominant",
+        "chaos-knights:knight-desecrator",
+        "chaos-knights:knight-despoiler",
+        "chaos-knights:knight-rampager",
+        "chaos-knights:knight-ruinator",
+        "chaos-knights:knight-tyrant",
+        "chaos-knights:war-dog-brigand",
+        "chaos-knights:war-dog-executioner",
+        "chaos-knights:war-dog-huntsman",
+        "chaos-knights:war-dog-karnivore",
+        "chaos-knights:war-dog-moirax",
+        "chaos-knights:war-dog-stalker"
+      ],
+      "lim": {
+        "Titanic": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "War Dog": {
+          "incursion": 3,
+          "strike-force": 3,
+          "onslaught": 3
+        }
+      },
+      "mutex": 1
+    },
+    {
+      "key": "heretic-astartes",
+      "name": "Heretic Astartes",
+      "ids": [
+        "chaos-space-marines:accursed-cultists",
+        "chaos-space-marines:chaos-lord",
+        "chaos-space-marines:chaos-lord-in-terminator-armour",
+        "chaos-space-marines:chaos-lord-with-jump-pack",
+        "chaos-space-marines:chaos-terminator-squad",
+        "chaos-space-marines:chosen",
+        "chaos-space-marines:cultist-firebrand",
+        "chaos-space-marines:cultist-mob",
+        "chaos-space-marines:dark-apostle",
+        "chaos-space-marines:dark-commune",
+        "chaos-space-marines:fellgor-beastmen",
+        "chaos-space-marines:havocs",
+        "chaos-space-marines:legionaries",
+        "chaos-space-marines:master-of-possession",
+        "chaos-space-marines:possessed",
+        "chaos-space-marines:raptors",
+        "chaos-space-marines:sorcerer",
+        "chaos-space-marines:sorcerer-in-terminator-armour",
+        "chaos-space-marines:traitor-enforcer",
+        "chaos-space-marines:traitor-guardsmen-squad",
+        "chaos-space-marines:warp-talons"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 1000,
+        "onslaught": 1500
+      },
+      "dets": [
+        "Shadow Legion"
+      ],
+      "enh": 1
+    },
+    {
+      "key": "titanicus-traitoris",
+      "name": "Titanicus Traitoris",
+      "ids": [
+        "chaos-titan-legions:chaos-reaver-titan",
+        "chaos-titan-legions:chaos-warbringer-nemesis-titan",
+        "chaos-titan-legions:chaos-warhound-titan",
+        "chaos-titan-legions:chaos-warlord-titan"
+      ],
+      "lim": {
+        "Warhound Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Warbringer Nemesis Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        },
+        "Warlord Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Reaver Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        }
+      },
+      "mutex": 1
+    }
   ]
 }

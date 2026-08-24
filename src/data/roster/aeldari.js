@@ -7663,5 +7663,41 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "harlequins",
+      "name": "Harlequins",
+      "ids": [
+        "death-jester",
+        "shadowseer",
+        "skyweavers",
+        "solitaire",
+        "starweaver",
+        "troupe",
+        "troupe-master",
+        "voidweaver"
+      ]
+    },
+    {
+      "key": "ynnari",
+      "name": "Ynnari",
+      "ids": [
+        "the-visarch",
+        "the-yncarne",
+        "ynnari-archon",
+        "ynnari-incubi",
+        "ynnari-kabalite-warriors",
+        "ynnari-raider",
+        "ynnari-reavers",
+        "ynnari-succubus",
+        "ynnari-venom",
+        "ynnari-wyches",
+        "yvraine"
+      ],
+      "dets": [
+        "Devoted of Ynnead"
+      ]
+    }
   ]
 }

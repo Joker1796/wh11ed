@@ -7569,5 +7569,176 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "chaos-knights",
+      "name": "Chaos Knights",
+      "ids": [
+        "chaos-knights:chaos-acastus-knight-asterius",
+        "chaos-knights:chaos-acastus-knight-porphyrion",
+        "chaos-knights:chaos-cerastus-knight-acheron",
+        "chaos-knights:chaos-cerastus-knight-atrapos",
+        "chaos-knights:chaos-cerastus-knight-castigator",
+        "chaos-knights:chaos-cerastus-knight-lancer",
+        "chaos-knights:chaos-questoris-knight-magaera",
+        "chaos-knights:chaos-questoris-knight-styrix",
+        "chaos-knights:knight-abominant",
+        "chaos-knights:knight-desecrator",
+        "chaos-knights:knight-despoiler",
+        "chaos-knights:knight-rampager",
+        "chaos-knights:knight-ruinator",
+        "chaos-knights:knight-tyrant",
+        "chaos-knights:war-dog-brigand",
+        "chaos-knights:war-dog-executioner",
+        "chaos-knights:war-dog-huntsman",
+        "chaos-knights:war-dog-karnivore",
+        "chaos-knights:war-dog-moirax",
+        "chaos-knights:war-dog-stalker"
+      ],
+      "lim": {
+        "Titanic": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
+        },
+        "War Dog": {
+          "incursion": 3,
+          "strike-force": 3,
+          "onslaught": 3
+        }
+      },
+      "mutex": 1
+    },
+    {
+      "key": "emperor-s-children-death-guard-thousand-sons-world-eaters",
+      "name": "Emperor’s Children / Death Guard / Thousand Sons / World Eaters",
+      "ids": [
+        "death-guard:plague-marines",
+        "emperors-children:noise-marines",
+        "thousand-sons:rubric-marines",
+        "world-eaters:khorne-berzerkers"
+      ],
+      "pts": {
+        "incursion": 250,
+        "strike-force": 500,
+        "onslaught": 750
+      },
+      "dets": [
+        "Cabal of Chaos",
+        "Chaos Cult",
+        "Creations of Bile",
+        "Cult of the Arkifane",
+        "Deceptors",
+        "Devotees of Destruction",
+        "Dread Talons",
+        "Fellhammer Siege-host",
+        "Huron’s Marauders",
+        "Murdertalon Raiders",
+        "Nightmare Hunt",
+        "Pactbound Zealots",
+        "Renegade Raiders",
+        "Soulforged Warpack",
+        "Veterans of the Long War",
+        "Warpstrike Champions"
+      ]
+    },
+    {
+      "key": "legiones-daemonica",
+      "name": "Legiones Daemonica",
+      "ids": [
+        "chaos-daemons:beasts-of-nurgle",
+        "chaos-daemons:belakor",
+        "chaos-daemons:bloodcrushers",
+        "chaos-daemons:bloodletters",
+        "chaos-daemons:bloodmaster",
+        "chaos-daemons:bloodthirster",
+        "chaos-daemons:blue-horrors",
+        "chaos-daemons:burning-chariot",
+        "chaos-daemons:changecaster",
+        "chaos-daemons:contorted-epitome",
+        "chaos-daemons:daemon-prince-of-chaos",
+        "chaos-daemons:daemon-prince-of-chaos-with-wings",
+        "chaos-daemons:daemonettes",
+        "chaos-daemons:epidemius",
+        "chaos-daemons:exalted-flamer",
+        "chaos-daemons:fateskimmer",
+        "chaos-daemons:feculent-gnarlmaw",
+        "chaos-daemons:fiends",
+        "chaos-daemons:flamers",
+        "chaos-daemons:flesh-hounds",
+        "chaos-daemons:fluxmaster",
+        "chaos-daemons:great-unclean-one",
+        "chaos-daemons:hellflayers",
+        "chaos-daemons:horticulous-slimux",
+        "chaos-daemons:infernal-enrapturess",
+        "chaos-daemons:kairos-fateweaver",
+        "chaos-daemons:karanak",
+        "chaos-daemons:keeper-of-secrets",
+        "chaos-daemons:lord-of-change",
+        "chaos-daemons:nurglings",
+        "chaos-daemons:pink-horrors",
+        "chaos-daemons:plague-drones",
+        "chaos-daemons:plaguebearers",
+        "chaos-daemons:poxbringer",
+        "chaos-daemons:rendmaster-on-blood-throne",
+        "chaos-daemons:rotigus",
+        "chaos-daemons:screamers",
+        "chaos-daemons:seekers",
+        "chaos-daemons:shalaxi-helbane",
+        "chaos-daemons:skarbrand",
+        "chaos-daemons:skull-altar",
+        "chaos-daemons:skull-cannon",
+        "chaos-daemons:skullmaster",
+        "chaos-daemons:skulltaker",
+        "chaos-daemons:sloppity-bilepiper",
+        "chaos-daemons:soul-grinder",
+        "chaos-daemons:spoilpox-scrivener",
+        "chaos-daemons:syllesske",
+        "chaos-daemons:the-blue-scribes",
+        "chaos-daemons:the-changeling",
+        "chaos-daemons:the-masque-of-slaanesh",
+        "chaos-daemons:tormentbringer",
+        "chaos-daemons:tranceweaver"
+      ],
+      "pts": {
+        "incursion": 250,
+        "strike-force": 500,
+        "onslaught": 750
+      }
+    },
+    {
+      "key": "titanicus-traitoris",
+      "name": "Titanicus Traitoris",
+      "ids": [
+        "chaos-titan-legions:chaos-reaver-titan",
+        "chaos-titan-legions:chaos-warbringer-nemesis-titan",
+        "chaos-titan-legions:chaos-warhound-titan",
+        "chaos-titan-legions:chaos-warlord-titan"
+      ],
+      "lim": {
+        "Warhound Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Warbringer Nemesis Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        },
+        "Warlord Titan": {
+          "onslaught": 1,
+          "strike-force": 1,
+          "incursion": 1
+        },
+        "Reaver Titan": {
+          "onslaught": 1,
+          "incursion": 1,
+          "strike-force": 1
+        }
+      },
+      "mutex": 1
+    }
   ]
 }

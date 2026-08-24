@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor, allegKeyword } from './rosterEngine.js'
+import { hasKeyword, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor, allegKeyword } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -289,6 +289,63 @@ export function validateRoster(roster, { faction, core } = {}) {
     }
     for (const leaders of byTargetType.values()) {
       if (leaders.length > 1) for (const u of leaders.slice(1)) add('manyLeaders', 'error', { uid: u.uid })
+    }
+  }
+
+  // Allies. Every limit here is appdata's own (see the generator's Allies section): which
+  // Detachment unlocks the group, how many units of a keyword each battle size allows, and what
+  // their combined points may reach. What is NOT in the data is the sentence every cross-faction
+  // allied rule ends with — "None of these models can be your WARLORD, and they cannot be given
+  // Enhancements" — so those two are applied to cross-faction groups only. In-bundle groups don't
+  // get them: Aeldari's Harlequins rule has no such clause, and Ynnari units are precisely what
+  // the Devoted of Ynnead Detachment's Enhancements exist for.
+  if (faction?.allies?.length) {
+    const active = allyGroupsFor(faction, detachments)
+    const activeKeys = new Set(active.map((g) => g.key))
+    const size = battle.base || battle.id
+    const byGroup = new Map()          // group key -> entries counting against it
+    for (const u of units) {
+      const groups = allyGroupsOf(faction, u.id)
+      if (!groups.length) continue
+      const mine = groups.find((g) => activeKeys.has(g.key))
+      if (!mine) {
+        // Listed as an ally, but no group that offers it is open — the Detachment that unlocks it
+        // isn't selected. The unit is in the list and priced; it just can't legally be there.
+        const dets = [...new Set(groups.flatMap((g) => g.dets || []))]
+        add('allyLocked', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id, dets: dets.join(', ') } })
+        continue
+      }
+      if (!byGroup.has(mine.key)) byGroup.set(mine.key, [])
+      byGroup.get(mine.key).push(u)
+    }
+    for (const g of active) {
+      const list = byGroup.get(g.key) || []
+      if (!list.length) continue
+      const cross = list.filter((u) => allySourceOf(u.id))
+      // Points ceiling for the group ("Up to 500 pts" at Strike Force), counted the same way the
+      // army total is — brackets, wargear, copy tax — so the two numbers can't disagree.
+      const limit = g.pts?.[size]
+      if (limit != null) {
+        const spent = rosterPoints(list, defOf, detachments)
+        if (spent > limit) add('allyOverPoints', 'error', { params: { group: g.name, points: spent, limit } })
+      }
+      // Per-keyword counts. `mutex` marks the either/or rule the Knight and Titan groups are
+      // written with ("either one TITANIC model or up to three ARMIGER models"), so using two of
+      // the keywords at once is itself the violation, on top of each one's own cap.
+      const used = []
+      for (const [kw, bySize] of Object.entries(g.lim || {})) {
+        const cap = bySize[size]
+        if (cap == null) continue
+        const n = list.filter((u) => hasKeyword(defOf(u.id), kw)).length
+        if (n) used.push(kw)
+        if (n > cap) add('allyOverLimit', 'error', { params: { group: g.name, kw, count: n, limit: cap } })
+      }
+      if (g.mutex && used.length > 1) add('allyMutex', 'error', { params: { group: g.name, kws: used.join(', ') } })
+      if (!cross.length) continue
+      for (const u of cross) {
+        if (u.warlord) add('allyWarlord', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id } })
+        if (u.enh && !g.enh) add('allyEnh', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id, enh: u.enh } })
+      }
     }
   }
 

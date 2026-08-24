@@ -2788,5 +2788,65 @@ export default {
         }
       ]
     }
+  ],
+  "allies": [
+    {
+      "key": "harlequins",
+      "name": "Harlequins",
+      "ids": [
+        "aeldari:death-jester",
+        "aeldari:shadowseer",
+        "aeldari:skyweavers",
+        "aeldari:solitaire",
+        "aeldari:starweaver",
+        "aeldari:troupe",
+        "aeldari:troupe-master",
+        "aeldari:voidweaver"
+      ],
+      "pts": {
+        "incursion": 500,
+        "strike-force": 1000,
+        "onslaught": 1500
+      },
+      "dets": [
+        "Reaper’s Wager"
+      ],
+      "enh": 1
+    },
+    {
+      "key": "harlequins-asuryani",
+      "name": "Harlequins / Asuryani",
+      "ids": [
+        "aeldari:corsair-skyreavers",
+        "aeldari:corsair-voidreavers",
+        "aeldari:corsair-voidscarred",
+        "aeldari:death-jester",
+        "aeldari:kharseth",
+        "aeldari:prince-yriel",
+        "aeldari:shadowseer",
+        "aeldari:skyweavers",
+        "aeldari:solitaire",
+        "aeldari:starfangs",
+        "aeldari:starweaver",
+        "aeldari:troupe",
+        "aeldari:troupe-master",
+        "aeldari:voidweaver"
+      ],
+      "pts": {
+        "incursion": 250,
+        "strike-force": 500,
+        "onslaught": 750
+      },
+      "dets": [
+        "Covenite Coterie",
+        "Exhibition of Slaughter",
+        "Kabalite Agonysts",
+        "Kabalite Cartel",
+        "Realspace Raiders",
+        "Skysplinter Assault",
+        "Spectacle of Spite",
+        "Tools of Torment"
+      ]
+    }
   ]
 }

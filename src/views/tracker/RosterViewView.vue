@@ -278,7 +278,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, allyGroupOf, allySourceOf, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -380,7 +380,7 @@ const accentStyle = computed(() => factionColor.value
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
 const factionData = ref(null)
 watch(() => roster.value?.faction, async (slug) => {
-  factionData.value = slug ? await loadRosterFaction(slug) : null
+  factionData.value = slug ? await loadRosterFaction(slug, { allies: usesAllies(roster.value) }) : null
 }, { immediate: true })
 
 // ── Base statline (M/T/SV/W/LD/OC + invuln) for the compact unit rows — not in the compact

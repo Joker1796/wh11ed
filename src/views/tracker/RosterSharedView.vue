@@ -21,6 +21,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
+import { usesAllies } from '../../composables/rosterEngine.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
@@ -42,7 +43,7 @@ onMounted(async () => {
   const decoded = await decodeRoster(decodeURIComponent(m[1]))
   if (!decoded) { error.value = true; return }
   payload.value = decoded
-  if (decoded.faction) faction.value = await loadRosterFaction(decoded.faction)
+  if (decoded.faction) faction.value = await loadRosterFaction(decoded.faction, { allies: usesAllies(decoded) })
 })
 
 // `items` is what turns a wargear pick into a weapon name — without it buildRosterText silently
