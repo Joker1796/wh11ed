@@ -175,7 +175,10 @@ function parseGw(text) {
   let unit = null
   let entries = []
   let group = null       // the `Attached Unit N` this unit belongs to, if any
+  let groups = 0         // …numbered here when the block is headed by its members' names instead
+  let inAttached = false // inside the ATTACHED UNITS section
   let seenHeader = false
+  let labelled = false   // a labelled header field has been read, so the next '+' row closes it
   // The header is everything before the army starts being described: the title (which can run to a
   // dozen lines), the faction, the detachment line, the battle size. A priced line inside it is the
   // LIST's points, not a unit's — a title can print its own points several lines below its name.
@@ -205,37 +208,43 @@ function parseGw(text) {
     const t = line.trim()
 
     if (/^Exported (with|from)/i.test(t)) { flush(); break }
-    if (/^attached units$/i.test(t)) { flush(); inHeader = false; continue }
-    const att = t.match(/^attached unit (\d+)$/i)
-    if (att) { flush(); inHeader = false; group = `g${att[1]}`; continue }
-    if (SECTIONS.test(t)) { flush(); inHeader = false; group = null; continue }
+    if (/^attached units:?$/i.test(t)) { flush(); inHeader = false; inAttached = true; continue }
+    const att = t.match(/^attached unit (\d+):?$/i)
+    if (att) { flush(); inHeader = false; inAttached = true; group = `g${att[1]}`; continue }
+    if (SECTIONS.test(t)) { flush(); inHeader = false; inAttached = false; group = null; continue }
     if (/^Force Dispositions?:/i.test(t)) continue
 
     // listhammer's plain-text mode LABELS its header instead of writing it as bare lines, and
     // closes it with a row of '+'. What is labelled is read from the label — inferring which bare
     // line is the faction (below) is only needed when nothing says which.
     if (inHeader) {
-      if (/^\++$/.test(t)) { inHeader = false; continue }
+      // A row of '+' CLOSES that header — but the same site also writes it as a fence, opening the
+      // block with an identical row. Closing on the opening one lost the whole header: the title
+      // came out as "List Name: …", the army had no points, no faction and no detachment, and with
+      // no detachment its enhancement was rejected as one this army cannot take.
+      if (/^\++$/.test(t)) { if (labelled) inHeader = false; continue }
       const kv = t.match(/^([^:]{2,40}):\s*(.*)$/)
       const key = kv && kv[1].replace(/\s*\([^)]*\)/g, '').trim().toLowerCase()
       const val = kv && kv[2].trim()
-      if (key === 'list name') { out.name = val; seenHeader = true; continue }
+      if (key === 'list name') { out.name = val; seenHeader = true; labelled = true; continue }
       // "Chaos Knights, Heretic Astartes" — the army's own faction first, its allies after. The
       // allied units come with the ally's own datasheets, which is a matter for the faction data,
       // not for this line.
       if (key === 'faction' || key === 'factions' || key === 'factions used') {
         labelledFaction = val.split(',').map((f) => f.trim()).find((f) => matchFaction(f)) || val
+        labelled = true
         continue
       }
-      if (key === 'army points' || key === 'total points') { out.stated = num(val); continue }
+      if (key === 'army points' || key === 'total points') { out.stated = num(val); labelled = true; continue }
       if (key === 'detachment' || key === 'detachments') {
         out.detachmentLine = val
         out.detachments = val.split(/,\s*|\s+and\s+/).map((d) => d.trim()).filter(Boolean)
+        labelled = true
         continue
       }
       // Labels with nothing to add: the enhancements are printed again under the units that carry
       // them, and the disposition is not part of a list we can store.
-      if (/^(disposition|army enhancements|mission)$/.test(key || '')) continue
+      if (/^(disposition|army enhancements|mission)$/.test(key || '')) { labelled = true; continue }
     }
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
@@ -256,6 +265,11 @@ function parseGw(text) {
       const name = head[1].trim()
       const pts = num(head[2])
       if (BATTLE_SIZES.test(name)) { out.limit = pts; inHeader = false; continue }
+      // An attached block can be headed by its MEMBERS' names joined with " + " and the pair's
+      // total, instead of by "Attached Unit N" — the same shape the site's compact mode uses. The
+      // line is the block, not a unit: read as one it was a datasheet nobody could find, and the
+      // units under it stood alone because nothing said they belonged together.
+      if (inAttached && / \+ /.test(name)) { flush(); group = `g${++groups}`; continue }
       // Still in the header, and the list's own points haven't been read yet: this line is the
       // title's, whether or not the title already gave its name on a bare line above. A poem for a
       // list name ends "(A poem written by Luis Untermeyer c. 1922) (2000 points)", and reading
@@ -609,12 +623,19 @@ function optionIndex(def, items, entry) {
   return idx
 }
 
+// A model line can carry the model's loadout in its own name — "Jakhal w/ mauler chainblade",
+// "2x Khorne Berzerker w/ eviscerator and plasma pistol", "9x Cultist w/ autopistol and brutal
+// assault weapon". Only the head names the profile, and the loadout is printed again as its own
+// lines underneath, so nothing is lost by cutting it: read whole, the line named no profile the
+// datasheet has, so those models went uncounted (a ten-model Jakhal pack came out as eight).
+const profileHead = (name) => String(name || '').split(/\s+w\/\s+/i)[0].trim()
+
 // Which miniature profile a weapon line was printed under, as an index into `def.minis` — the
 // sergeant and the squad often have a group each offering the same weapon, and picking the wrong
 // one prices the unit wrong.
 function miniIndexOf(def, name) {
   if (!name || !(def?.minis?.length > 1)) return null
-  const want = norm(name)
+  const want = norm(profileHead(name))
   const hit = def.minis.findIndex((m) => norm(m?.n) === want)
   return hit >= 0 ? hit : null
 }
@@ -824,6 +845,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     const self = norm(def.name)
     const known = new Set((def.minis || []).map((m) => norm(m?.n)).filter(Boolean))
     const isModel = (name) => known.has(norm(name)) || norm(name) === self
+      || known.has(norm(profileHead(name))) || norm(profileHead(name)) === self
     const lines = modelLines
     const held = defaultNames(def, items)
     for (const key of optionIndex(def, items).keys()) held.add(key)
