@@ -409,9 +409,21 @@ directory; still part of this feature:
   of battle size (rule 25).
   **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
   ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
-  keyword an allegiance upgrade handed the entry, because that keyword is what made `enhOptionsFor`
-  offer the enhancement in the first place; without it the editor offered Honoured Fallen to a
-  Telemon Dreadnought and this file called the same list illegal. `warlordIneligible` reads the same
+  keywords the entry has but its datasheet does not print, and both it and `enhOptionsFor` get them
+  from one helper, **`grantedKeywords(def, entry, detachments, factionSlug)`** in `rosterEngine.js`,
+  so the two cannot answer differently. It merges the two sources:
+  - the keyword an **allegiance upgrade** handed the entry — without it the editor offered Honoured
+    Fallen to a Telemon Dreadnought and this file called the same list illegal;
+  - the keyword a **detachment rule** grants a named datasheet (`conditionalKeywords.json`, the same
+    sidecar the datasheet page reads, gated here on the roster's own detachments — added
+    2026-08-24). Rollin' Deff makes a Battlewagon, a Hunta Rig and a Kill Rig **WAGON**, and "Wagon
+    unit only" is what Boarding Ramps asks for. No Ork datasheet PRINTS that keyword, so every
+    upgrade in that detachment was ineligible for every unit in the game — 129 unit×enhancement
+    pairs across 5 factions were, including Chaos Daemons' whole Shadow Legion (its four
+    enhancements all require the SHADOW LEGION keyword the detachment itself grants), and a legal
+    Orks list came back with an error on each Kill Rig carrying one. Nothing lost eligibility.
+    `factionSlug` is what the sidecar is keyed by, which is why `enhOptionsFor` takes it as a fifth
+    argument and both editors pass it. `warlordIneligible` reads the same
   keyword for the same reason (`canBeWarlord(def, detachments, granted)`, and both editors pass it
   too): Houndpack Lance's "select three WAR DOG units; those units have the CHARACTER keyword" makes
   a War Dog Karnivore a Character in every sense the rules use the word, the nomination of a Warlord
@@ -1312,7 +1324,9 @@ Tier A does four things:
    `slugify(name.normalize('NFD') minus combining marks)` — **not the shared `slugify()` alone**,
    which drops the diaeresis in "Dëlve Assault Shift" and silently misses that grant (24/25
    without the strip, 25/25 with it). `slugify()` itself is load-bearing for DOM ids and the
-   search index, so it stays as it is.
+   search index, so it stays as it is. `grantedKeywordsFor`/`detKey` themselves live in
+   `rosterEngine.js` (re-exported here) since 2026-08-24: the same grant decides whether a unit can
+   carry an enhancement, and the engine cannot import this file without a cycle.
 3. **Hides the build-choice blocks** — Unit Composition, the default-loadout sentence and Wargear
    Options (`DatasheetCard`'s `hideChoices` prop). Each describes a decision the roster has already
    made, and the printed loadout sentence contradicts the weapon tables once those are trimmed.

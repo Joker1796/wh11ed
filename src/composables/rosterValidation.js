@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword } from './rosterEngine.js'
+import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword, grantedKeywords } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -258,11 +258,12 @@ export function validateRoster(roster, { faction, core } = {}) {
     const e = findEnhancement(detachments, u.enh)
     const def = defOf(u.id)
     // Asked about the ENTRY, not the printed datasheet — the same question enhOptionsFor answers
-    // when the editor offers the enhancement in the first place. An allegiance upgrade can hand a
-    // vehicle CHARACTER (Solar Spearhead, Steel Hammer), and that is exactly what lets it carry one;
-    // reading only `def` here made the editor offer Honoured Fallen to a Telemon Dreadnought and
-    // the validator call the same list illegal.
-    const granted = [allegKeyword(def, u, detachments)].filter(Boolean)
+    // when the editor offers the enhancement in the first place, through the same helper so the two
+    // cannot drift. An allegiance upgrade can hand a vehicle CHARACTER (Solar Spearhead, Steel
+    // Hammer), and a detachment rule can hand a Kill Rig WAGON; either is exactly what lets the unit
+    // carry the enhancement. Reading only `def` here made the editor offer Honoured Fallen to a
+    // Telemon Dreadnought and the validator call the same list illegal.
+    const granted = grantedKeywords(def, u, detachments, faction?.slug)
     if (!e || (def && !enhEligible(e, def, granted))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
 

@@ -141,7 +141,7 @@
                       :def-of="defOf"
                       :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
                       :is-warlord="e.warlord === true"
-                      :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"
+                      :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
                       :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
                       @toggle-warlord="toggleWarlord(e.uid)"
                     />

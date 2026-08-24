@@ -1,5 +1,7 @@
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
+import { slugify } from '../data/slugify.js'
+import conditionalKeywords from '../data/conditionalKeywords.json'
 
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
 // order. Derived from keywords (which stay English — see CLAUDE.md), Epic Hero and Character
@@ -259,6 +261,22 @@ function lockedToExactUnit(enh, def) {
 // inverted eligibility for all 13 attach-granting enhancements — Murdermind was offered on
 // Skorpekh Destroyers and refused to every Cryptek. That source was removed on 2026-08-19; if a
 // future audit sees `lockDs` on an enhancement that is not in ENH_LOCK_FIXES, it has come back.
+// Every keyword an ENTRY has that its datasheet does not print — the two sources together, because
+// both can be the thing that lets a unit carry an enhancement and a caller that asks only one gets
+// a different answer from the caller that asks the other:
+//   • a detachment rule grants it to a named datasheet (conditionalKeywords.json) — Rollin' Deff
+//     makes a Battlewagon, a Hunta Rig and a Kill Rig WAGON, which is what "Wagon unit only"
+//     enhancements like Boarding Ramps ask for. No Ork datasheet PRINTS that keyword, so without
+//     this every one of that detachment's upgrades was ineligible for every unit in the game, and a
+//     legal list came back with two errors on it;
+//   • an allegiance upgrade the entry chose for itself hands a vehicle CHARACTER.
+export function grantedKeywords(def, entry, detachments, factionSlug) {
+  return [
+    ...grantedKeywordsFor(def?.id, factionSlug, detachments).map((g) => g.kw),
+    ...[allegKeyword(def, entry, detachments)].filter(Boolean),
+  ]
+}
+
 export function enhEligible(enh, def, granted = []) {
   if (!enh || !def) return false
   // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
@@ -277,6 +295,50 @@ export function enhEligible(enh, def, granted = []) {
     if (!ok) return false
   }
   return true
+}
+
+// ── Rule-granted keywords ────────────────────────────────────────────────────────────────────
+// src/data/conditionalKeywords.json already lists the keywords a unit GAINS from an army or
+// detachment rule (see the root CLAUDE.md); FactionDatasheetView gates them on the detachment
+// picked in useFactionChoice. Here the gate is the roster's own selected detachments instead —
+// same sidecar, same DatasheetCard `grantedKeywords` prop, different source of "which detachment
+// is active". Nothing new is generated for this.
+
+// The sidecar keys detachments by their wh11ed id, the roster refers to them by their appdata
+// display name, so matching means slugifying the name. NOT the shared slugify() alone: appdata
+// spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to `d-lve-assault-shift`
+// and would silently fail to match the `delve-assault-shift` id (24 of 25 gated grants matched
+// without this, one didn't — the same silent-no-op class as the enhancement apostrophe bug).
+// Stripping combining marks first fixes it; slugify() itself is load-bearing for DOM ids and the
+// search index, so it stays untouched.
+const detKey = (name) => slugify((name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+
+// Same job for a detachment name, which needs no such stripping — exported so the modal matches
+// the roster's detachment names to the faction file's exactly the way grantedKeywordsFor does.
+export { detKey }
+
+// `detachments` accepts either the resolved detachment objects the editor/browser pass around
+// (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
+// keeps a call site from silently wiring the wrong one.
+export function grantedKeywordsFor(unitId, factionSlug, detachments) {
+  const grants = conditionalKeywords[factionSlug]?.[unitId]
+  if (!grants?.length) return []
+  const picked = new Map() // detKey -> display name, for the footnote
+  for (const d of detachments || []) {
+    const name = typeof d === 'string' ? d : d?.name
+    if (name) picked.set(detKey(name), name)
+  }
+  const out = []
+  const seen = new Set()
+  // Army-wide grants first: when the same keyword arrives both ways, the unconditional claim is
+  // the truer one to footnote.
+  for (const g of [...grants.filter((g) => !g.det), ...grants.filter((g) => g.det)]) {
+    if (g.det && !picked.has(g.det)) continue
+    if (seen.has(g.kw)) continue
+    seen.add(g.kw)
+    out.push({ kw: g.kw, detName: g.det ? picked.get(g.det) : null, extra: !!g.extra })
+  }
+  return out
 }
 
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
@@ -345,11 +407,11 @@ export function findEnhancement(detachments, name) {
 // its own "used" flag. `mandatory` enhancements still show (so the list explains why the unit
 // costs more) but are never a player pick — the caller renders them locked "on" when `eligible`
 // (see mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
-export function enhOptionsFor(def, detachments, units, excludeUid) {
+export function enhOptionsFor(def, detachments, units, excludeUid, factionSlug) {
   // An allegiance upgrade can hand a vehicle CHARACTER, and that is what makes it able to carry an
   // enhancement at all — so eligibility is asked about the ENTRY, not just the printed sheet.
   const entry = (units || []).find((u) => u.uid === excludeUid)
-  const granted = [allegKeyword(def, entry, detachments)].filter(Boolean)
+  const granted = grantedKeywords(def, entry, detachments, factionSlug)
   if (!detachments?.length || !def) return []
   const countElsewhere = new Map()
   for (const u of units || []) {
