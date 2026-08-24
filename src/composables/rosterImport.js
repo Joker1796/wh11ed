@@ -865,6 +865,15 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // Does this name pick out a group at all, or is it the half several of them have in common?
       const shared = new Set(pool.map((r) => r.gi)).size > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
+      // How many of this weapon ONE pick of that option grants. "This model's lasher tendrils can
+      // be replaced with 2 magma cutters" is a single swap, and the export prints what the model
+      // ends up holding ("2x Magma cutters") — counted as two picks it filled a group that allows
+      // one, and called a stock Maulerfiend illegal.
+      const per = (r) => {
+        const opt = def.gear?.[r.gi]?.o?.[r.oi]
+        const hit = opt ? optionItems(opt).find(([id]) => norm(items?.[id]) === key) : null
+        return Math.max(1, hit?.[1] || 1)
+      }
       let left = w.n || 1
       while (left > 0) {
         // Where this weapon goes, in order:
@@ -881,17 +890,18 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
           || pool[0]
         const k = key2(ref)
         const at = picks.get(k)
+        const step = per(ref)
         if (at) {
-          if (ref.stepper) count(at, w.mini, key, left, shared)
+          if (ref.stepper) count(at, w.mini, key, Math.ceil(left / step), shared)
           at.names.add(key)
           break
         }
         usedGroups.add(ref.gi)
         const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), shared: new Set(), names: new Set([key]) }
-        if (ref.stepper) count(pick, w.mini, key, left, shared)
+        if (ref.stepper) count(pick, w.mini, key, Math.ceil(left / step), shared)
         picks.set(k, pick)
         if (ref.stepper) break
-        left -= 1
+        left -= step
       }
       line.gear.picked.push(w.name)
     }
