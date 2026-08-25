@@ -99,8 +99,6 @@ const accentStyle = computed(() => (factionColor.value
 
 <style scoped>
 .roster-add { padding-bottom: 4.5rem; }
-.back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
-.back:hover { color: var(--text-primary); }
 .ra-head { margin: 0.5rem 0 0.8rem; }
 .ra-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 500; margin: 0; color: var(--text-primary); }
 /* One line under the page title — which list is being filled, not the list's whole epigraph. */
@@ -110,80 +108,14 @@ const accentStyle = computed(() => (factionColor.value
 }
 .ra-hint { color: var(--text-muted); font-size: 0.95rem; padding: 1.2rem 0; text-align: center; }
 
-/* Button recipe, copied alongside `.rc-sticky` below for the same reason: scoped styles don't
-   cross a component, and the bar's actions have to look identical on all three screens that
-   render it. Without this the "Done" link rendered as bare text. */
-.btn-primary, .btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.3rem;
-  border-radius: 5px;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
 /* Copied from RosterEditorView/RosterCreateView, which copy it from each other: scoped
    styles cannot cross a component, and `.rc-sticky` is matched BY NAME from App.vue
    (`.app-layout:has(.rc-sticky)` reserves its height for MobileUtilityBar). Keep the three
    copies in step. */
-.rc-sticky {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
-}
-@media (max-width: 900px) {
-  .rc-sticky {
-    bottom: calc(52px + var(--safe-bottom, 0px));
-    padding-bottom: 0.6rem;
-  }
-}
-.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
-.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rc-points.over { color: #c0392b; }
-.rc-sticky-actions { display: flex; gap: 0.5rem; }
 @media (max-width: 400px) {
-  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
-  .rc-points { font-size: 0.85rem; }
-  .rc-sticky-info { gap: 0.35rem; }
-  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
-  .rc-sticky-actions { gap: 0.35rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }
-
-.issues-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-card);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
-.issues-badge.ok { color: #3c9a5f; }
 
 .roster-add.themed {
   --accent: var(--fa-light, var(--accent));

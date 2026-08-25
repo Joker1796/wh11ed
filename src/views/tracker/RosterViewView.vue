@@ -1,8 +1,15 @@
 <template>
   <div v-if="roster" class="roster-view themed" :style="accentStyle">
-    <RouterLink :to="backTo" class="back">
-      <i class="bi bi-chevron-left"></i> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
-    </RouterLink>
+    <!-- The way back on the left, and — opposite it — the answer to the Save that landed here.
+         The status used to sit mid-page under the issues bar, which put a transient line in the
+         middle of the reading column; up here it is out of the way and still in view. -->
+    <div class="rv-top">
+      <RouterLink :to="backTo" class="back">
+        <i class="bi bi-chevron-left"></i> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
+      </RouterLink>
+      <!-- Not inside a game — there this page is a read of a snapshot, with nothing to save. -->
+      <RosterCloudBar v-if="!inGame" class="rv-cloud" />
+    </div>
 
     <!-- On a phone the name takes the row to itself and the points + pencil sit under it, rather
          than being squeezed against a block of display type. Not conditional on the name: at this
@@ -33,10 +40,6 @@
       <span v-if="errorCount && warnCount" class="rvi-more">{{ labels.rosterViewWarns.replace('{n}', String(warnCount)) }}</span>
       <i class="bi bi-chevron-right rvi-go"></i>
     </button>
-
-    <!-- Where the editor's Save lands: the bar is how that click reports whether the list also
-         reached the cloud. Not inside a game — there this page is a read of a snapshot. -->
-    <RosterCloudBar v-if="!inGame" />
 
     <!-- How this list has done on the table. Saved lists only: in a game the answer is the game.
          The full record — matchups, missions, cards — is behind the link. -->
@@ -84,29 +87,7 @@
         </CollapseTransition>
       </section>
 
-      <div class="rv-tabs" role="tablist">
-        <button
-          class="rv-tab"
-          :class="{ on: tab === 'units' }"
-          role="tab"
-          :aria-selected="tab === 'units'"
-          @click="tab = 'units'"
-        >{{ labels.rosterViewTabUnits }}</button>
-        <button
-          class="rv-tab"
-          :class="{ on: tab === 'rules' }"
-          role="tab"
-          :aria-selected="tab === 'rules'"
-          @click="tab = 'rules'"
-        >{{ labels.rosterViewTabRules }}</button>
-        <button
-          class="rv-tab"
-          :class="{ on: tab === 'stratagems' }"
-          role="tab"
-          :aria-selected="tab === 'stratagems'"
-          @click="tab = 'stratagems'"
-        >{{ labels.rosterViewTabStratagems }}</button>
-      </div>
+      <PageTabs class="rv-tabs" :tabs="viewTabs" @select="tab = $event" />
 
       <!-- Compact read-only unit list, grouped like the editor. Clicking a row opens the full
            rules card in RosterUnitRulesModal — not an inline accordion, that read badly nested
@@ -299,6 +280,7 @@ import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.v
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
+import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
@@ -400,6 +382,15 @@ watch([roster, gameRoster], () => {
 }, { immediate: true })
 
 const tab = ref('units')
+// PageTabs only draws; which one is open is this page's own state.
+const viewTabs = computed(() => {
+  const l = labels.value
+  return [
+    { key: 'units', label: l.rosterViewTabUnits, active: tab.value === 'units' },
+    { key: 'rules', label: l.rosterViewTabRules, active: tab.value === 'rules' },
+    { key: 'stratagems', label: l.rosterViewTabStratagems, active: tab.value === 'stratagems' },
+  ]
+})
 
 // ── Faction accent (mirrors the editor) ──
 const allFactions = factionGroups.flatMap((g) => g.factions)
@@ -1083,7 +1074,6 @@ function stratKey(strat) {
   padding: 0.4rem 0.6rem;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 6px;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.8rem;
@@ -1100,7 +1090,7 @@ function stratKey(strat) {
 .rvp-head {
   display: flex; align-items: center; gap: 0.5rem;
   width: 100%; padding: 0.4rem 0.6rem;
-  border: 1px dashed var(--border); border-radius: 6px;
+  border: 1px dashed var(--border);
   background: none; color: var(--text-muted); cursor: pointer;
   font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
   transition: border-color var(--motion-fast), color var(--motion-fast);
@@ -1121,8 +1111,6 @@ function stratKey(strat) {
 .rvp-cond { flex-basis: 100%; font-style: italic; }
 
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
-.back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
-.back:hover { color: var(--accent); }
 
 .rv-head {
   display: flex;
@@ -1162,7 +1150,6 @@ function stratKey(strat) {
   align-items: center;
   padding: 0.35rem 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   background: var(--bg-card);
   color: var(--text-muted);
   text-decoration: none;
@@ -1171,19 +1158,27 @@ function stratKey(strat) {
 
 .rv-hint { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 
-.rv-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
-.rv-tab {
-  padding: 0.5rem 1rem;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-bottom: -1px;
+/* The same folder tabs the faction pages wear (PageTabs) — three halves of one list, not three
+   filters above it. They pick up this list's faction accent through --accent. */
+.rv-tabs { margin-bottom: 1rem; }
+
+/* Desktop has the room to separate the tabs from the army-wide strip above them, so the tab row
+   reads as the start of the list rather than as one more bar stacked on the others. A phone does
+   not: there the same gap is just scrolling before the content. */
+@media (min-width: 700px) {
+  .rv-tabs { margin-top: 1rem; }
 }
-.rv-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* The bar centres itself and reserves a line of its own; here it is the right half of a row.
+   `margin-left: auto` rather than space-between so it still hugs the right edge on the narrow
+   screens where it wraps to a line of its own. */
+.rv-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.rv-top .rv-cloud { margin: 0 0 0 auto; }
 
 .rv-issues {
   display: flex;
@@ -1193,7 +1188,6 @@ function stratKey(strat) {
   margin: 0 0 0.8rem;
   padding: 0.5rem 0.7rem;
   border: 1px solid color-mix(in srgb, var(--warning, #b8860b) 45%, transparent);
-  border-radius: 6px;
   background: color-mix(in srgb, var(--warning, #b8860b) 10%, transparent);
   color: var(--warning, #b8860b);
   font-size: 0.82rem;
@@ -1235,7 +1229,6 @@ function stratKey(strat) {
   width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   margin-bottom: 0.5rem;
 }
 .rvunit:hover { border-color: var(--accent); }
@@ -1265,7 +1258,7 @@ function stratKey(strat) {
 .rvunit-more {
   display: inline-flex; align-items: center; gap: 0.25rem;
   flex-shrink: 0; padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border); border-radius: 999px;
+  border: 1px solid var(--border);
   background: none; color: var(--text-muted); cursor: pointer;
   font-size: 0.7rem; line-height: 1;
   transition: border-color var(--motion-fast), color var(--motion-fast);
@@ -1340,7 +1333,6 @@ function stratKey(strat) {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -1357,7 +1349,6 @@ function stratKey(strat) {
   width: 100%;
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -1374,11 +1365,6 @@ function stratKey(strat) {
 .phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-grid { padding-top: 0.75rem; }
 
-.strat-grid { column-count: 2; column-gap: 1rem; }
-.strat-grid > * { break-inside: avoid; margin-bottom: 1rem; }
-@media (max-width: 640px) {
-  .strat-grid { column-count: 1; }
-}
 @media (max-width: 480px) {
   .strat-toggle-label { display: none; }
 }

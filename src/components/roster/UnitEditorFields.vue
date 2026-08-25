@@ -518,7 +518,6 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   margin-left: 0.35rem;
   padding: 0.05rem 0.35rem;
   border: 1px solid var(--border);
-  border-radius: 3px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
@@ -540,7 +539,6 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   color: var(--text-muted);
-  border-radius: 4px;
   cursor: pointer;
 }
 .pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
@@ -560,7 +558,6 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   align-items: stretch;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
-  border-radius: 5px;
 }
 .opt-tile.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .opt-tile.disabled { opacity: 0.45; }

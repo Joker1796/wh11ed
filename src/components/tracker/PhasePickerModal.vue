@@ -2,14 +2,11 @@
   <!-- Where in the battle round the game is. Ten rows — five phases per player — in play order,
        split into the first-turn player's half and the second's, because "Shooting phase" on its
        own is ambiguous at the table and the rules that care always say WHOSE. -->
-  <BaseModal max-width="380px" @close="$emit('close')">
-    <template #header>
-      <header class="modal-head">
-        <h3 class="mh-title">{{ labels.trackerPhaseHeading }}</h3>
-        <button class="mh-close" :aria-label="labels.modalClose" @click="$emit('close')">✕</button>
-      </header>
-    </template>
-
+  <!-- Header by `title`, not a hand-rolled one in the #header slot: BaseModal's own header is
+       exactly this (heading + close), and its styles are scoped to BaseModal — a copy in the slot
+       renders in THIS component's scope, where those rules cannot reach it, so it comes out as
+       bare browser defaults. Passing the title also gives the dialog its aria-labelledby. -->
+  <BaseModal :title="labels.trackerPhaseHeading" max-width="380px" @close="$emit('close')">
     <div class="modal-body pp-body">
       <section v-for="(t, ti) in turns" :key="ti" class="pp-turn">
         <h4 class="pp-who">
@@ -53,6 +50,8 @@ const turns = computed(() => props.names.map((name) => ({ name })))
 </script>
 
 <style scoped>
+/* Body padding is per-dialog (it is not part of the global modal chrome) — same values as the
+   other tracker pickers. */
 .pp-body { display: flex; flex-direction: column; gap: 0.9rem; }
 .pp-turn { display: flex; flex-direction: column; gap: 0.3rem; }
 .pp-who {
@@ -71,7 +70,6 @@ const turns = computed(() => props.names.map((name) => ({ name })))
   text-align: left;
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-card);
   color: var(--text-dim);
   font-size: 0.9rem;

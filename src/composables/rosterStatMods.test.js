@@ -149,6 +149,70 @@ describe('applyStatMods', () => {
     expect(out.marks).toEqual([])
   })
 
+  // "Dead Shiny Shootas": ranged attacks get [RAPID FIRE 1] — OR, if the attack already has RAPID
+  // FIRE, +1 to that value. The two halves are one rule, authored as a pair of effects whose
+  // `only` clauses are each other's inverse, so every row is hit by exactly one of them.
+  describe('an ability the weapon already has, with a bigger number', () => {
+    const deadShiny = {
+      name: 'Dead Shiny Shootas', det: 'More Dakka!', kind: 'enhancement', body: 'x',
+      effects: [
+        { on: 'ranged', stat: 'ability', op: 'grant', value: 'RAPID FIRE 1', only: { notTag: 'RAPID FIRE' }, when: null },
+        { on: 'ranged', stat: 'ability', op: 'add', value: 'RAPID FIRE 1', only: { tag: 'RAPID FIRE' }, when: null },
+      ],
+    }
+    const orkSheet = (tags) => {
+      const s = sheet()
+      s.ranged = [{ name: 'Shoota', tags, a: '2', bs: '5+', s: '4', ap: '0', d: '1' }]
+      return s
+    }
+
+    it('bumps the printed value instead of adding a second copy', () => {
+      const out = applyStatMods(orkSheet(['RAPID FIRE 1']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 2'])
+      expect(out.marks).toContain('ranged:tags:0')
+    })
+
+    it('counts up from whatever the datasheet prints', () => {
+      const out = applyStatMods(orkSheet(['RAPID FIRE 2', 'TWIN-LINKED']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 3', 'TWIN-LINKED'])
+    })
+
+    // The other half of the same rule, on a row the bump cannot touch.
+    it('grants it outright where the weapon has none', () => {
+      const out = applyStatMods(orkSheet(['DEVASTATING WOUNDS']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['DEVASTATING WOUNDS', 'RAPID FIRE 1'])
+    })
+
+    // The regression the pair itself produced: run in order on one evolving sheet, the grant added
+    // RAPID FIRE 1 and the bump then found it and made it 2 — every weapon taking BOTH halves of an
+    // either/or. `only` is judged against the row as the record found it, so each row takes one.
+    it('never lets one half of the rule feed the other', () => {
+      const out = applyStatMods(orkSheet([]), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 1'])
+    })
+
+    // …and that has to hold after some earlier record has already forced the working copy into
+    // existence, which is when the "as found" rows stop being the original object.
+    it('holds when another modifier wrote to the sheet first', () => {
+      const plusOne = { name: 'Earlier', det: 'D', kind: 'detachmentRule', body: 'x',
+        effects: [{ on: 'ranged', stat: 'a', op: 'add', value: 1, when: null }] }
+      const out = applyStatMods(orkSheet([]), [plusOne, deadShiny], destroyer)
+      expect(out.sheet.ranged[0].a).toBe('3')
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 1'])
+    })
+
+    // An ability with no number of its own cannot be bumped, and guessing one would be worse than
+    // leaving it: the note still says what the rule does, the sheet just does not lie about it.
+    it('leaves a numberless ability alone', () => {
+      const bump = { name: 'B', det: 'D', kind: 'enhancement', body: 'x',
+        effects: [{ on: 'ranged', stat: 'ability', op: 'add', value: 'TWIN-LINKED 1', only: { tag: 'TWIN-LINKED' }, when: null }] }
+      const out = applyStatMods(orkSheet(['TWIN-LINKED']), [bump], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['TWIN-LINKED'])
+      expect(out.marks).toEqual([])
+      expect(out.notes[0].applied).toBe(false)
+    })
+  })
+
   it('reports a granted keyword instead of touching the sheet', () => {
     const grant = { name: 'Destroyer Ankh', det: 'Cursed Legion', kind: 'enhancement', body: 'x',
       effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Destroyer Cult', when: null }] }

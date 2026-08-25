@@ -92,6 +92,13 @@ describe('rosterModifiers data', () => {
           expect(typeof eff.value === 'string' && eff.value.length > 0, where).toBe(true)
           const onUnit = eff.stat === 'keyword' || eff.stat === 'core'
           expect(onUnit ? eff.on === 'unit' : eff.on !== 'unit' && eff.on !== 'profile', where).toBe(true)
+        } else if (eff.stat === 'ability' && eff.op === 'add') {
+          // The one non-grant use of `ability`: the number inside an ability the weapon ALREADY
+          // prints ("+1 to the value of that [RAPID FIRE]"). The value then carries the name and
+          // the amount, so it has to end in a number — a bare name has nothing to add to — and it
+          // lands on a weapon row like any other ability.
+          expect(/^\S.*\s-?\d+$/.test(String(eff.value)), `${where}: ability bump needs "NAME N"`).toBe(true)
+          expect(eff.on !== 'unit' && eff.on !== 'profile', where).toBe(true)
         } else {
           expect(['keyword', 'core', 'ability'].includes(eff.stat), where).toBe(false)
         }

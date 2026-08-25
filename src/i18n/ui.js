@@ -215,7 +215,6 @@ export const ui = {
     subNavTrackerHome: 'Game Tracker',
     subNavTrackerGame: 'Current Game',
     trackerIntroHeading: 'Game Tracker',
-    trackerIntroDesc: 'Track a 2-player game: missions, victory points and command points across the 5 battle rounds. Saved on this device.',
     trackerNewGame: 'New Game',
     trackerResume: 'Resume game',
     resumeGameBar: 'Back to game',
@@ -267,7 +266,6 @@ export const ui = {
     statsRosterDeleted: 'list no longer saved',
     // Roster builder
     rostersHeading: 'Rosters',
-    rostersDesc: 'Build and save army lists, then bring one into the tracker. Saved on this device.',
     rosterNew: 'New roster',
     rosterNewName: 'New roster',
     rosterUntitled: 'Untitled roster',
@@ -401,7 +399,7 @@ export const ui = {
     rosterCustom: 'Custom',
     rosterExport: 'Export',
     // One label, several places: the link from an empty screen to the part of /help that answers it.
-    helpLearnMore: 'How this works',
+    helpSection: 'Section help',
     helpContents: 'Contents',
     // First-visit card. Three facts, because a fourth would not be read.
     welcomeTitle: 'Welcome',
@@ -891,7 +889,6 @@ export const ui = {
     subNavTrackerHome: 'Трекер игры',
     subNavTrackerGame: 'Текущая игра',
     trackerIntroHeading: 'Трекер игры',
-    trackerIntroDesc: 'Ведите партию на двоих: миссии, очки победы и командные очки по 5 раундам боя. Сохраняется на этом устройстве.',
     trackerNewGame: 'Новая игра',
     trackerResume: 'Продолжить игру',
     resumeGameBar: 'Вернуться к партии',
@@ -940,7 +937,6 @@ export const ui = {
     statsRosterDeleted: 'лист не сохранён',
     // Roster builder
     rostersHeading: 'Ростеры',
-    rostersDesc: 'Собирайте и сохраняйте армейские листы, затем передавайте в трекер. Хранится на этом устройстве.',
     rosterNew: 'Создать лист',
     rosterNewName: 'Новый лист',
     rosterUntitled: 'Без названия',
@@ -1072,7 +1068,7 @@ export const ui = {
     issue_allyEnh: '{unit} — союзный юнит, ему нельзя дать «{enh}»',
     rosterCustom: 'Свой',
     rosterExport: 'Экспорт',
-    helpLearnMore: 'Как это работает',
+    helpSection: 'Справка по разделу',
     helpContents: 'Содержание',
     welcomeTitle: 'Добро пожаловать',
     welcomeLead: 'Бесплатное приложение для игры в Warhammer 40,000 11-й редакции — правила, ваш ростер и сама партия.',

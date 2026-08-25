@@ -800,7 +800,6 @@ function cancel() {
   color: var(--text-dim);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
 }
 .step.on {
   color: #fff;
@@ -841,7 +840,6 @@ function cancel() {
   --pc-pad: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: var(--pc-pad);
 }
 .settings {
@@ -905,18 +903,10 @@ function cancel() {
   gap: 0.3rem;
   margin-bottom: 0.7rem;
 }
-.field > span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .field input[type="text"],
 .field select {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -982,7 +972,6 @@ function cancel() {
   min-height: 44px;
   padding: 0.6rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -996,7 +985,6 @@ function cancel() {
 .twist-chosen {
   margin-top: 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-card);
 }
 .twist-chosen > summary {
@@ -1010,18 +998,6 @@ function cancel() {
 }
 .twist-chosen-body { padding: 0 0.7rem 0.6rem; font-size: 0.86rem; line-height: 1.5; }
 .twist-mission { margin-top: 0.8rem; }
-.help-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 0 0.2rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  vertical-align: middle;
-}
-.help-btn:hover { color: var(--accent); }
-.modal-body { padding: 0.9rem; }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 
@@ -1034,7 +1010,7 @@ function cancel() {
 .rp-open {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 44px; padding: 0 0.7rem;
-  border: 1px solid var(--border); border-radius: 4px;
+  border: 1px solid var(--border);
   background: var(--bg-secondary); color: var(--text-muted);
   font-size: 1rem; cursor: pointer;
 }
@@ -1045,7 +1021,7 @@ function cancel() {
 .rl-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rl-clear {
   flex-shrink: 0; background: none; border: none; color: var(--text-muted);
-  font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.3rem; border-radius: 4px;
+  font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.3rem;
 }
 .rl-clear:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
@@ -1054,7 +1030,6 @@ function cancel() {
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   color: var(--text-muted);
-  border-radius: 999px;
   font-size: 0.74rem;
   cursor: pointer;
 }
@@ -1063,69 +1038,12 @@ function cancel() {
 .ro {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-muted);
   font-size: 0.9rem;
 }
 .seg-wrap { flex-wrap: wrap; }
-.seg {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-}
-.seg button {
-  padding: 0.45rem 0.8rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button {
-  border-left: 1px solid var(--border);
-}
-.seg button.on {
-  background: var(--accent);
-  color: #fff;
-}
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
-.check {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-secondary);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.check:hover { border-color: var(--accent); }
-.check.on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.check.on span { color: var(--text-primary); }
-.check-note {
-  display: block;
-  font-style: normal;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.check input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
 .br-check { margin-top: 0.2rem; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a
    full-bleed accordion. The accordion spans the player-card's whole content width; its tinted
@@ -1148,40 +1066,11 @@ function cancel() {
 .primary-card :deep(.mcard) {
   border: none;
   border-bottom: 1px solid var(--border);
-  border-radius: 0;
   padding: 0 0 0.7rem;
-}
-/* Header bar runs edge to edge (no rounded corners against the card sides). */
-.primary-card :deep(.mcard.collapsible > .mcard-head) {
-  border-radius: 0;
 }
 /* Small inset for the expanded content so the scoring rows don't collide with the card border. */
 .primary-card :deep(.mcard-body) {
   padding: 0 0.35rem;
-}
-
-/* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
-.tabs {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
-}
-.tab {
-  padding: 0.4rem 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.04rem;
-  transition: background 0.12s, border-color 0.12s;
-}
-.tab:hover { border-color: var(--accent); }
-.tab.active {
-  background: var(--accent);
-  color: var(--text-on-accent);
-  border-color: var(--accent);
 }
 
 .actions {
@@ -1189,29 +1078,6 @@ function cancel() {
   justify-content: flex-end;
   gap: 0.6rem;
   margin-top: 1.25rem;
-}
-.btn-primary {
-  padding: 0.6rem 1.4rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.btn-primary:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.btn-ghost {
-  padding: 0.6rem 1.1rem;
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }

@@ -6,9 +6,23 @@
 // you know they exist (Ctrl+K, import, share, handing a roster to the tracker). Everything a
 // button already says is left to the button.
 //
+// A section that describes one of the app's own sections carries `to` (the path, language-agnostic)
+// and `toLabel` (its own, per locale): the article ends with a door into the thing it just
+// explained, which is where a reader who came from the contents wants to go next. The three
+// cross-cutting topics — search, offline, data — describe no single section and carry neither.
+//
+// EACH SECTION IS ITS OWN PAGE. `/help` lists them; `/help/<slug>` renders one, where the slug is
+// the `id` without its `help-` prefix (`help-tracker` → `/help/tracker`). The id stays as the
+// anchor so links written before the split still resolve — the `/help` route redirects a
+// `#help-x` hash to the page. Renaming an id therefore changes a public URL: add a redirect.
+//
 // `body` uses the same block markup RuleBlock/renderRichText parse (`▪` bullets, `**bold**`,
 // `[KEYWORD]`, `(NN.NN)` cross-refs), and the EN/RU halves must keep the same marker counts —
 // the bilingual parity rule in wh11ed/CLAUDE.md applies here exactly as it does to rule text.
+// `help-tracker` → `tracker`. One derivation, shared by the index, the topic page and the router's
+// legacy-anchor redirect, so the three can never disagree about what a topic's URL is.
+export const slugOf = (section) => section.id.replace(/^help-/, '')
+
 export const help = {
   en: {
     title: 'How to use this',
@@ -24,6 +38,8 @@ export const help = {
       {
         id: 'help-rules',
         title: 'Rules and factions',
+        to: '/rules',
+        toLabel: 'Open the rules',
         body: `**Every faction is here in full** — all 30 of them: the army rule, every detachment with its rule, stratagems and enhancements, and the datasheet of every unit, in both languages. That is the bulk of what this app is for.
 ▪ On a faction page, pick your detachment once — it is remembered, and the stratagems, enhancements and datasheet rules follow it everywhere.
 ▪ A datasheet carries its weapons, abilities, keywords and base sizes; the faction's own FAQ and errata sit on their own tab.
@@ -33,17 +49,21 @@ export const help = {
       {
         id: 'help-rosters',
         title: 'Building an army list',
+        to: '/roster',
+        toLabel: 'Open the roster builder',
         body: `**Rosters** builds a list against the points from the current Munitorum Field Manual: pick units, wargear, leaders and enhancements, and the running total and the rules limits are checked as you go.
 ▪ **Already have a list elsewhere?** "Import" reads the text export from the Warhammer 40,000 app, from listhammer.info (with wargear or without) and from New Recruit (WTC and WTC-Compact). Everything we could not match is listed instead of silently dropped.
 ▪ **Allies** are there too: Agents of the Imperium in an Imperium army, a Knight or a Titan, Daemons with Chaos Space Marines, Brood Brothers in a Genestealer Cults list. They get their own section, cost what they cost as allies, and their limits — how many, how many points, which detachment unlocks them — are checked like everything else.
-▪ **Export** writes the list back out in four shapes: the GW app's own format (what a tournament organiser asks for), WTC, WTC-Compact, and a short one for a chat.
+▪ **Export** writes the list back out in four shapes: the GW app's own format, WTC, WTC-Compact, and a short one for a chat.
 ▪ **Share** turns a list into a link. The list travels inside the link itself, so it never reaches a server, and whoever opens it needs no account.
 ▪ A finished list can be handed to the tracker, and then its rules — auras, stratagems, states like Battle-shocked — are shown on the unit cards during the game.`,
       },
       {
         id: 'help-tracker',
         title: 'Tracking a game',
-        body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result. It is meant to be used with one thumb while the other hand holds dice.
+        to: '/tracker',
+        toLabel: 'Open the tracker',
+        body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result.
 ▪ Start a game, and the app remembers it — closing the tab or losing signal mid-game changes nothing.
 ▪ Finished games go to the history, where you can look back at how the score was made.
 ▪ Enough of them and the **statistics** page builds itself: win rate, average score, how you do on the play and on the receive, which factions beat you and which secondary cards actually pay. Under five games it shows counts rather than percentages, because three games are not a percentage.
@@ -81,6 +101,8 @@ export const help = {
       {
         id: 'help-rules',
         title: 'Правила и фракции',
+        to: '/rules',
+        toLabel: 'Открыть правила',
         body: `**Каждая фракция есть целиком** — все 30: правило армии, все детачменты со своим правилом, стратагемами и улучшениями, и датащит каждого юнита, на двух языках. Это основной объём того, ради чего приложение существует.
 ▪ На странице фракции один раз выберите детачмент — выбор запоминается, и стратагемы, улучшения и правила датащитов следуют за ним повсюду.
 ▪ У датащита есть его оружие, способности, ключевые слова и размеры баз; FAQ и эррата фракции живут на отдельной вкладке.
@@ -90,17 +112,21 @@ export const help = {
       {
         id: 'help-rosters',
         title: 'Собрать армейский лист',
+        to: '/roster',
+        toLabel: 'Открыть конструктор ростеров',
         body: `**Ростеры** собирают лист по очкам текущего Munitorum Field Manual: юниты, вооружение, лидеры и улучшения, а сумма и ограничения правил проверяются по ходу.
 ▪ **Лист уже собран где-то ещё?** «Импорт» читает текстовую выгрузку из приложения Warhammer 40,000, с listhammer.info (с вооружением и без) и из New Recruit (WTC и WTC-Compact). Всё, что не удалось сопоставить, показывается списком, а не пропадает молча.
 ▪ **Союзники** тоже на месте: Agents of the Imperium в имперской армии, рыцарь или титан, демоны у Chaos Space Marines, Brood Brothers в листе Genestealer Cults. У них своя секция, цена именно союзная, а ограничения — сколько штук, на сколько очков и какой детачмент их открывает — проверяются наравне со всем остальным.
-▪ **Экспорт** отдаёт лист обратно в четырёх видах: формат приложения GW (его просят на турнирах), WTC, WTC-Compact и короткий для чата.
+▪ **Экспорт** отдаёт лист обратно в четырёх видах: формат приложения GW, WTC, WTC-Compact и короткий для чата.
 ▪ **Поделиться** превращает лист в ссылку. Лист едет внутри самой ссылки, то есть не попадает на сервер, а тому, кто её откроет, не нужен аккаунт.
 ▪ Готовый лист можно передать в трекер — и тогда его правила (ауры, стратагемы, состояния вроде Battle-shocked) видны на карточках юнитов прямо во время партии.`,
       },
       {
         id: 'help-tracker',
         title: 'Вести партию',
-        body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points. Он рассчитан на то, что вы работаете одним пальцем, а во второй руке кубики.
+        to: '/tracker',
+        toLabel: 'Открыть трекер',
+        body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points.
 ▪ Начатая партия запоминается — закрыть вкладку или потерять сеть посреди игры ничего не меняет.
 ▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
 ▪ Из них сама собой складывается **статистика**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.

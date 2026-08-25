@@ -75,7 +75,6 @@ function isPerEach(text) {
 <style scoped>
 .mcard {
   border: 1px solid var(--border);
-  border-radius: 8px;
   background: var(--bg-card);
   padding: 0.85rem 0.95rem 0.95rem;
 }
@@ -96,7 +95,6 @@ function isPerEach(text) {
   gap: 0.5rem;
   background: var(--bg-secondary);
   border: none;
-  border-radius: 5px;
   padding: 0.5rem 0.6rem;
   margin-bottom: 0.7rem;
   font: inherit;
@@ -180,7 +178,7 @@ function isPerEach(text) {
 .m-bhead { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem; }
 .kind {
   font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-  padding: 1px 5px; border-radius: 2px;
+  padding: 1px 5px;
 }
 .kind.fixed { background: #b3401b; color: #fff; }
 .kind.tactical { background: #1f3a5f; color: #fff; }
@@ -191,7 +189,6 @@ function isPerEach(text) {
   align-items: flex-start;
   padding: 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   margin-top: 0.35rem;
   background: var(--bg-secondary);
 }

@@ -23,6 +23,8 @@
     "sync:text": "node scripts/sync-faction-text.mjs",
     "sync:mfm": "node scripts/sync-mfm-points.mjs",
     "parity": "node scripts/parity-check.mjs",
+    "radii": "node scripts/check-radii.mjs",
+    "dupes": "node scripts/check-css-dupes.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
     "screenshots": "node scripts/gen-pwa-screenshots.mjs",

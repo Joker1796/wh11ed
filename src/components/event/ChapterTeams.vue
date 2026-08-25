@@ -61,10 +61,6 @@ const chunks = computed(() => chunkBlocks(teams.value.blocks))
 </script>
 
 <style scoped>
-.lead {
-  margin: 0 0 1.25rem;
-  line-height: 1.6;
-}
 .table-section {
   margin: 1rem 0;
 }

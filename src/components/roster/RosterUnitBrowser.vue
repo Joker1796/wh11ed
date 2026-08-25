@@ -218,7 +218,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   margin: 0 0 0.6rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -235,7 +234,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   width: 100%;
   padding: 0.5rem 0.6rem;
   border: none;
-  border-radius: 5px;
   background: none;
   color: var(--text-dim);
   cursor: pointer;
@@ -266,7 +264,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   align-items: stretch;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
   opacity: 0.55;

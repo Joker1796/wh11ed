@@ -89,21 +89,6 @@ watch(
 /* Custom header (BaseModal's default #header slot only takes a plain title string — this needs
    the points badge alongside it), duplicating BaseModal's own header look, same as every other
    custom-header modal in the app (e.g. DetachmentPickerModal.vue). */
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .erm-head-pts { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent); }
 
 .modal-body { padding: 0.9rem; overflow-y: auto; font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
@@ -115,7 +100,6 @@ watch(
   letter-spacing: 0.5px;
   color: var(--text-muted);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0.1rem 0.4rem;
 }
 .erm-flavor { font-style: italic; color: var(--text-muted); margin: 0 0 0.5rem; }

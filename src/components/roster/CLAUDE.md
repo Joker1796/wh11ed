@@ -1791,9 +1791,30 @@ survive regeneration. The shape, fixed since the layer was built:
 - `on` — `profile` | `ranged` | `melee` | `weapon` (both weapon tables) | `unit` (keyword grants)
 - `stat` — datasheet keys `m/t/sv/w/ld/oc/inv`, weapon `a/bs/ws/s/ap/d/range`, plus `ability` and
   `keyword` for grants (`op: 'grant'`, `value` the name — `SUSTAINED HITS 1`, unbracketed)
-- `op` — `add` | `set` | `improve`. `improve` is only for roll-shaped characteristics (saves, Ld,
-  BS/WS), where better means lower. For a plain number the reviewer writes `add` with the sign the
-  rule implies: AP is printed negative, so "+1 AP" is `add: -1`.
+- `op` — `add` | `set` | `improve` | `grant`. `improve` is only for roll-shaped characteristics
+  (saves, Ld, BS/WS), where better means lower. For a plain number the reviewer writes `add` with
+  the sign the rule implies: AP is printed negative, so "+1 AP" is `add: -1`.
+- **`stat: 'ability'` also takes `add`** — the number inside an ability the weapon ALREADY prints:
+  "…or, if that attack already has [RAPID FIRE], +1 to the value of that [RAPID FIRE]". The value
+  then carries the name AND the amount (`'RAPID FIRE 1'` = +1 to RAPID FIRE), matching the shape of
+  the grant it is paired with. An ability that prints no number of its own is left alone rather
+  than guessed at. One rule in the whole dataset needs this (Orks' *Dead Shiny Shootas*) — the
+  wording was searched for across all 30 factions before the op was added.
+- **An ability-set option's condition sits with its PICK, not with the ability.** Pulse Jet
+  (Wazdakka) is the one record in the dataset gated both ways — the option has to be the one
+  selected this round AND the unit has to have Advanced — and the second half used to live only
+  inside the accordion the ability is read in, several taps down from the chip that selects it.
+  `RosterUnitRulesModal`'s `pickCondSwitches` lifts the conditions of the PICKED option into the
+  picks block, and `abilitySwitches` skips `ref.set` records so the card never shows one chip
+  twice. Auto-applying the modifier on the pick alone was considered and rejected: the engine is
+  chosen in the Command phase for the whole turn, the unit may then move normally, and Pulse Jet
+  REPLACES the Advance roll rather than adding to it — so the +6" would be wrong on any turn the
+  unit did not Advance.
+- **`only` is judged against the row as THIS record found it**, not against the running sheet: the
+  two clauses of one rule describe the printed profile, not each other's output. Authored as a
+  pair with inverse gates (`only: {notTag:'RAPID FIRE'}` for the grant, `only: {tag:'RAPID FIRE'}`
+  for the bump), so every row takes exactly one. Without that snapshot the grant added the tag and
+  the bump then found it, and every weapon took both halves of an either/or.
 - `when: null` means unconditional — and unconditional is the only thing that rewrites a number
   without proof. Anything else needs both a bilingual `when` and a `cond`.
 - A rule whose reading is "changes no printed number" is kept with `effects: []` and

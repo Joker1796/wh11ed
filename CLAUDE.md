@@ -86,6 +86,8 @@ npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deplo
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
 npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
+npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
+npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
@@ -341,6 +343,92 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   ~300ms while Safari scrolls the page itself. `SearchModal` blurs its input before closing to start
   that dismissal a beat earlier, and a `touchstart`/`wheel` from the reader cancels the 400ms
   follow-up correction — once they are scrolling, the page is theirs.
+
+## Help pages
+
+`/help` is the guide's **contents**; each of its six topics is its own page at `/help/<slug>`,
+rendered by `HelpTopicView.vue` from `src/data/help.js`.
+
+- **The slug is derived, not stored:** `slugOf(section)` strips the `help-` prefix off the section
+  id (`help-tracker` → `/help/tracker`). One derivation shared by the index, the topic page and the
+  router, so the three cannot disagree about a topic's URL. **Renaming an id changes a public URL** —
+  add a redirect if you do.
+- **The old anchors still work.** Until 2026-08-25 this was one page with six `#help-*` anchors;
+  the `/help` route's `beforeEnter` sends such a hash to the page that section became
+  (`src/router/helpRedirects.test.js`).
+- **A section of the app links at its own topic**, not at the guide: "Section help"
+  (`labels.helpSection`) on the tracker home → `/help/tracker`, the roster list → `/help/rosters`,
+  the rules landing → `/help/rules`. Adding a topic means adding its link where it belongs.
+- **New topic = three edits:** the section in `help.js` (both locales, marker counts matching —
+  the parity rule applies here as to rule text), a `ROUTES` entry in `useSeoMeta.js`, and the path
+  in `scripts/gen-seo-routes.mjs` so it is crawlable and gets its index.html key on deploy.
+
+## Shared UI primitives
+
+Scoped styles do not cross a component boundary, so "these two screens need the same button"
+kept getting answered with a paste. **What is genuinely one control lives in `style.css`;** what
+is genuinely per-screen stays scoped and overrides it (a scoped selector is `0,2,0` with its
+`data-v` attribute and outranks the `0,1,0` global, so an override needs only the declarations
+it actually changes). `npm run dupes` fails when one rule body appears verbatim in 3+ components.
+
+- **What is global** (each with a `── Name ──` banner in `style.css`): `.btn-primary` /
+  `.btn-ghost` / `.btn-lg`, the modal chrome (see Modals), `.modal-body` + `.modal-list`,
+  `.seg` (a joined either/or inside a form), `.tabs`/`.tab` (a row of separate boxes, one lit),
+  `.back`, `.check` + `.check-note`, `.field > span`, `.help-btn`, `.fsection` /
+  `.fsection-title`, `.rc-sticky*` + `.issues-badge` (the roster wizard's footer bar), `.lead`,
+  `.split-block`, `.strat-grid`.
+- **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
+  PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
+  is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.
+- **What is deliberately NOT global:** `.hero`/`.hero-title` — a page hero is page identity
+  (landing 3.74rem, faction 3rem, changelog 2rem), and the four plain index pages agreeing is a
+  coincidence, not a contract. It is allowlisted in `scripts/check-css-dupes.mjs` with that
+  reason; add to that list rather than deleting the check.
+- **Repeated markup is a component, not a rule to copy.** The three tracker pickers
+  (mission / secondary / twist) drew the same expanding row three times; it is now
+  `components/tracker/PickerRow.vue`, and they differ only in what they slot into it.
+
+## Modals
+
+Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/Escape).
+
+- **The header chrome is global, in `style.css` ("Modal chrome"): `.modal-head`, `.mh-title`,
+  `.mh-sub`, `.mh-right`, `.mh-close`.** Not scoped to `BaseModal`, and this is the whole point:
+  a consumer's own `<template #header>` renders in **its** scope, which BaseModal's scoped rules
+  can never reach. That is why twelve dialogs each carried a private copy of the same four rules
+  — and why the thirteenth (`PhasePickerModal`) shipped a header in raw browser defaults until
+  2026-08-25. Don't re-add a local copy; a dialog that must differ overrides only the
+  declarations it cares about (its scoped `.modal-head` is `0,2,0` and outranks the global
+  `0,1,0`) — four do, for a two-line heading or a denser close button.
+- **Prefer the `title` prop over the `#header` slot.** BaseModal's own header is exactly heading
+  + close, already wired to `aria-labelledby`. Use the slot only for a header carrying more than
+  that (a subtitle, a VP counter, extra buttons).
+- **`.modal-body` is per-dialog** and deliberately NOT part of the chrome: twelve dialogs, twelve
+  paddings, no majority. Only its shared scroll behaviour (`overscroll-behavior: contain`) is
+  global. A new dialog has to set its own padding — nothing will do it for you.
+
+## Corners & surfaces
+
+**Corners are square.** `border-radius` is not a default we reach for — it is an exception that
+has to earn its place, and `npm run radii` fails the build of anyone who forgets.
+
+- Until 2026-08-25 the app carried **314 radius declarations in 100 files**, at 4px, 5px or 6px
+  depending on the day the file was written — cards, buttons and inputs each rounded three
+  different ways. None of it meant anything; it was sediment, not a system. All 300 of those were
+  deleted, not set to `0` (a screenful of no-op CSS in every component is worse than none).
+- The angular look was already the house style before the sweep, it just wasn't enforced:
+  `PageTabs` ("classic folder tabs, square corners"), `DatasheetCard`'s 10th-ed chamfered stat
+  boxes, and a dozen `@media` rules squaring cards once they bled to the screen edge.
+- **What is still allowed**, and nothing else — the list lives in `scripts/check-radii.mjs`:
+  circles (`50%`: spinners, dots, the round counter, list markers), the mobile bottom sheet's top
+  edge in `BaseModal` (the rounding is what says it slid up from the bottom), the focus ring, the
+  scrollbar thumb, and the search-hit highlight. The statistics bars were kept round at first and
+  squared on sight — on a page of square everything, two rounded strips read as a mistake.
+- Adding one is fine when it is a decision: put it in `ALLOWED` with the reason. Forgetting to is
+  what the check is for.
+- The flip side of square corners: **the frame does the work rounding used to do.** A surface is
+  told from its background by `--border`/`--bg-card`, so don't drop a border "because it looks
+  flat" — that is the only thing separating two panels now.
 
 ## Deployment
 

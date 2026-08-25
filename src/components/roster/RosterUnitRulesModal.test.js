@@ -493,6 +493,62 @@ describe('RosterUnitRulesModal', () => {
     expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-stationary')
   })
 
+  // Wazdakka's engine is an ability SET: "select one of the abilities in this section", so Pulse
+  // Jet's +6" M waits on TWO things — the unit having Advanced, and Pulse Jet being the option up
+  // this round. The second used to be reachable only by opening the ability that names it; both
+  // halves of one answer now sit together, under the set's own chips.
+  it('shows the picked set option\'s remaining condition beside the pick, not inside the ability', async () => {
+    const mods = (await import('../../data/rosterModifiers/orks.js')).default
+    const pulse = mods.entries.find((e) => e.name === 'Wazdakka Gutsmek: Pulse Jet')
+    const rf = await import('../../data/roster/orks.js')
+    const def = rf.default.units.find((u) => u.id === 'wazdakka-gutsmek')
+    const open = (chosen) => mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'wazdakka-gutsmek',
+        factionSlug: 'orks',
+        ctx: { def, entry: { uid: 'a', id: 'wazdakka-gutsmek' }, units: [] },
+        gameCtx: {
+          active: new Set(),
+          chosen,
+          picks: [{
+            id: pulse.sid, label: { en: 'Pulse Jet', ru: 'Pulse Jet' }, on: chosen.has(pulse.sid),
+            auto: false, pick: true, group: 'set:Throttlerokkit Shokka Engine', groupLimit: 1,
+            from: { set: 'Throttlerokkit Shokka Engine' },
+          }],
+          switches: [{ id: 'unit-advanced', label: { en: 'Advanced', ru: 'Совершил Advance' }, on: false, auto: false, scope: 'unit' }],
+          armySwitches: [],
+        },
+      },
+    })
+    const settle = async () => {
+      await waitFor('Pulse Jet')
+      for (let i = 0; i < 60 && !document.querySelector('.ds-ability'); i++) {
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 25))
+      }
+    }
+
+    // Nothing picked: the set's own chips are all there is to say.
+    const idle = open(new Set())
+    await settle()
+    expect(body().find('.rum-pick-conds').exists()).toBe(false)
+    expect(body().find('.ds-ab-conds').exists()).toBe(false)
+    idle.unmount()
+    document.body.innerHTML = ''
+
+    // Picked: the condition it still waits on appears under the pick — and stays out of the
+    // accordion, so the card never shows the same chip twice.
+    const up = open(new Set([pulse.sid]))
+    await settle()
+    const chips = body().findAll('.rum-pick-conds .cond-chip')
+    expect(chips).toHaveLength(1)
+    expect(chips[0].text()).toContain('Advanced')
+    expect(body().find('.ds-ab-conds').exists()).toBe(false)
+    await chips[0].trigger('click')
+    expect(up.emitted('toggle-cond')[0][0].id).toBe('unit-advanced')
+    up.unmount()
+  })
+
   // A chip on the card names a rule printed somewhere the reader is not looking (an ability set's
   // option, an aura from another model), so its "i" has to open that rule.
   it('opens a chip\'s own rule from the card', async () => {

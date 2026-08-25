@@ -46,7 +46,6 @@ function bump(delta) {
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-primary);
-  border-radius: 4px;
   font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;

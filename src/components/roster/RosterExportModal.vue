@@ -97,7 +97,6 @@ async function copy(value, which) {
   color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 5px;
 }
 .rex-fmts { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 .rex-fmt {
@@ -107,7 +106,6 @@ async function copy(value, which) {
   color: var(--text-secondary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 999px;
   cursor: pointer;
 }
 .rex-fmt.on { color: #fff; background: var(--accent); border-color: var(--accent); }
@@ -121,7 +119,6 @@ async function copy(value, which) {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 5px;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;

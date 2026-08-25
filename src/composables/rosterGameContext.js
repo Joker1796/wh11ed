@@ -81,6 +81,14 @@ const AUTO = {
     && player?.army?.selectionByRound?.[round] === 'protector',
   'imperative-conqueror': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
     && player?.army?.selectionByRound?.[round] === 'conqueror',
+  // World Eaters — a `multi` spec: up to two Blessings of Khorne are active each round, stored as
+  // that round's array of option ids. Two of the six carry a modifier, so only those two are in the
+  // condition vocabulary; the tracker already knows which are up, and asking again on the card
+  // would be a second source for one fact.
+  'blessing-martial-excellence': (player, round) => player?.factionSlug === 'world-eaters'
+    && (player?.army?.multiByRound?.[round] || []).includes('martial-excellence'),
+  'blessing-warp-blades': (player, round) => player?.factionSlug === 'world-eaters'
+    && (player?.army?.multiByRound?.[round] || []).includes('warp-blades'),
 }
 
 export const isAuto = (id) => Object.hasOwn(AUTO, id)

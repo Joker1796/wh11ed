@@ -123,6 +123,10 @@ const trackerSubNavItems = computed(() => {
     { path: '/tracker', label: l.subNavTrackerHome },
     { path: '/tracker/game', label: l.subNavTrackerGame },
     { path: '/stratagems', label: l.navStratagemsShort },
+    // Last: the first three are what a game runs on, this is what it leaves behind. The record bar
+    // on the tracker home is hidden at this width precisely because this tab exists — one way in
+    // per viewport, not two stacked on the same screen.
+    { path: '/tracker/stats', label: l.statsTitle },
   ]
 })
 
@@ -278,7 +282,6 @@ const subNavItems = computed(() => {
   padding: 0.9rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 

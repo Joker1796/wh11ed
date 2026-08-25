@@ -2,18 +2,19 @@
   <div class="roster-list">
     <div class="hero">
       <h1>{{ labels.rostersHeading }}</h1>
-      <p class="hero-desc">{{ labels.rostersDesc }}</p>
-      <!-- The builder can do more than the screen shows (import, share, hand-off to the tracker),
-           so the explanation is one tap from the screen itself rather than buried in a footer. -->
-      <RouterLink class="hero-help" to="/help#help-rosters">{{ labels.helpLearnMore }}</RouterLink>
     </div>
 
-    <!-- One line of cloud status. Everything it can say is produced by the single pass below;
-         there is no manual "Sync" button, on purpose. -->
-    <RosterCloudBar hint />
+    <!-- Same row the tracker home carries above its buttons: this section's page of the guide on
+         the left (the builder does more than the screen shows — import, share, hand-off to the
+         tracker), the cloud on the right. Everything that line can say is produced by the single
+         sync pass on entry; there is no manual "Sync" button, on purpose. -->
+    <div class="cloud-bar">
+      <RouterLink class="hero-help" to="/help/rosters">{{ labels.helpSection }}</RouterLink>
+      <RosterCloudBar hint class="rl-cloud" />
+    </div>
 
     <div class="cta">
-      <button class="btn-primary" @click="onNew">
+      <button class="btn-primary btn-lg" @click="onNew">
         <i class="bi bi-plus-lg"></i> {{ labels.rosterNew }}
       </button>
       <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
@@ -26,14 +27,7 @@
     <!-- Saved lists and unfinished ones are the same kind of card but not the same kind of thing:
          a draft is a wizard run that hasn't been saved yet, so it lives behind its own tab and
          opens back into the wizard rather than into the read-only view. -->
-    <div class="rl-tabs seg">
-      <button :class="{ on: tab === 'saved' }" @click="tab = 'saved'">
-        {{ labels.rosterTabSaved }} <span class="tab-n">{{ savedRosters.length }}</span>
-      </button>
-      <button :class="{ on: tab === 'drafts' }" @click="tab = 'drafts'">
-        {{ labels.rosterTabDrafts }} <span class="tab-n">{{ draftRosters.length }}</span>
-      </button>
-    </div>
+    <PageTabs class="rl-tabs" :tabs="tabs" @select="tab = $event" />
 
     <!-- An empty screen is where somebody stands who has not decided this is worth their evening,
          so it is also where the explanation belongs — not three taps away in a help menu. -->
@@ -139,6 +133,7 @@ import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import RosterImportModal from '../../components/roster/RosterImportModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
@@ -161,6 +156,10 @@ const { ensureSession } = useAuth()
 const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
+const tabs = computed(() => [
+  { key: 'saved', label: labels.value.rosterTabSaved, count: savedRosters.value.length, active: tab.value === 'saved' },
+  { key: 'drafts', label: labels.value.rosterTabDrafts, count: draftRosters.value.length, active: tab.value === 'drafts' },
+])
 const importOpen = ref(false)
 
 // Exporting needs the faction's generated bundle (unit names, wargear, points), which this screen
@@ -280,42 +279,25 @@ function confirmDelete() {
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
-.hero-desc { color: var(--text-muted); font-size: 0.95rem; }
-.hero-help { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-size: 0.85rem; }
+.hero-help { color: var(--accent); font-size: 0.85rem; }
+/* Help on the left, cloud on the right — `margin-left: auto` rather than space-between, so a row
+   that wraps on a phone puts the two on their own lines instead of stretching one of them. */
+.cloud-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+.cloud-bar .rl-cloud { margin: 0 0 0 auto; }
 .cta { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.7rem 1.6rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-/* The second way in — quieter than "New roster", because building one here is still the main
-   path and pasting one is the shortcut for a list that already exists elsewhere. */
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.7rem 1.2rem;
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.btn-ghost:hover { color: var(--text-primary); border-color: var(--accent); }
-
 /* Same treatment as the tracker's CTA row on phones: button-sized buttons on one line, not two
    stretched panels. */
 @media (max-width: 480px) {
+  /* Display type at 2.64rem is a lot of height on a 360px screen, and the heading is the least
+     useful thing on it — the list under it is what the reader came for. */
+  .hero h1 { font-size: 2.2rem; }
   .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
   .cta .btn-primary,
   .cta .btn-ghost {
@@ -326,28 +308,9 @@ function confirmDelete() {
   }
 }
 
-/* Same segmented control the wizard and GameSetup use for a small either/or choice. */
-.rl-tabs { margin: 0 auto 1rem; }
-.seg {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-}
-.seg button {
-  padding: 0.45rem 0.9rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button { border-left: 1px solid var(--border); }
-.seg button.on { background: var(--accent); color: #fff; }
-.tab-n { font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.75; }
+/* The same folder tabs the faction pages use (PageTabs) — the list below them is the tab's
+   content, so it reads as one panel rather than a filter sitting above a list. */
+.rl-tabs { margin-bottom: 1rem; }
 .empty { color: var(--text-muted); font-style: italic; text-align: center; }
 /* Sits where a saved list shows its issue count — for a draft, how far it got is the useful fact. */
 .rstep {
@@ -368,7 +331,6 @@ function confirmDelete() {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-left: 3px solid var(--border);
-  border-radius: 6px;
   padding: 0.7rem 0.9rem;
   cursor: pointer;
   transition: border-color 0.15s;
@@ -397,7 +359,6 @@ function confirmDelete() {
   min-height: 32px;
   background: none;
   border: none;
-  border-radius: 4px;
   color: var(--text-dim);
   cursor: pointer;
   font-size: 0.95rem;
@@ -425,20 +386,14 @@ function confirmDelete() {
 .issues { color: #d98a2b; display: inline-flex; align-items: center; gap: 0.25rem; }
 
 /* Per-card actions modal (mirrors SecondaryDeck's custom-header actions sheet). */
-.modal-head {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
-  padding: 0.8rem 0.9rem; border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 32px; min-height: 32px; border-radius: 4px; flex-shrink: 0;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-.modal-body { padding: 0.6rem 0.9rem 0.9rem; overflow-y: auto; }
+/* The heading here is two lines deep, so the close button rides at the top of it rather than
+   centred against the whole block. */
+.modal-head { align-items: flex-start; }
+/* Denser header, and a long title must not squeeze the button out of shape. */
+.mh-close { min-width: 32px; min-height: 32px; flex-shrink: 0; }
 .act-list { display: flex; flex-direction: column; gap: 0.5rem; }
 .act-btn {
-  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 5px;
+  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border);
   background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }

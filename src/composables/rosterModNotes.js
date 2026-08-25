@@ -59,6 +59,16 @@ const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 
 // no translating of its own beyond the condition text the record already carries bilingually.
 export function modDelta(n) {
   const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
+  // A granted name is the whole thing — "+RAPID FIRE 1", "+FEEL NO PAIN 5+", "+FLY". There is no
+  // characteristic to name after it, and appending the word ABILITY told the reader nothing.
+  if (n.op === 'grant') return `+${n.value}`
+  // Its counterpart: an ability the weapon already has, with a bigger number. The value carries the
+  // name and the amount ("RAPID FIRE 1" = +1 to RAPID FIRE), so it has to read as the delta it is —
+  // the two halves of such a rule land on adjacent lines and must not look identical.
+  if (n.stat === 'ability') {
+    const m = /^(.*?)\s+(-?\d+)$/.exec(String(n.value).trim())
+    if (m) return `${m[1]} ${Number(m[2]) < 0 ? '' : '+'}${m[2]}`
+  }
   if (n.op === 'set') return `${stat} = ${n.value}`
   if (n.op === 'improve') return `${stat} −${n.value}`
   // A value can be a dice expression ("D3") on a conditional modifier, which Number() can't sign.

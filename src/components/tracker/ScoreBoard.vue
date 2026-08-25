@@ -70,7 +70,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 0.8rem;
   text-align: center;
 }
@@ -93,7 +92,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   color: #1a1a1a;
   background: #e3b341;
   padding: 1px 6px;
-  border-radius: 999px;
 }
 .grand {
   font-family: var(--font-display);
@@ -122,7 +120,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   text-transform: uppercase;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 999px;
   padding: 1px 8px;
   color: var(--text-dim);
 }

@@ -105,13 +105,13 @@ function secondaries(pi) {
 .bd-toggle {
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
   width: 100%; padding: 0.6rem 1rem;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border);
   color: var(--text-primary); font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 .bd-toggle:hover { border-color: var(--accent); }
 .bd-body { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
 .bd-player {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem;
+  background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
 .bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
 .bd-name.win { color: var(--accent); }
@@ -137,7 +137,6 @@ function secondaries(pi) {
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
-  border-radius: 3px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;

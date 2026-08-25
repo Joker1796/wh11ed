@@ -85,6 +85,8 @@ export const conditions = {
   'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
   'discipline-biomancy': { scope: 'army', duration: 'round', group: 'psychic-discipline', label: { en: 'Biomancy Discipline', ru: 'Biomancy Discipline' } },
   'discipline-pyromancy': { scope: 'army', duration: 'round', group: 'psychic-discipline', label: { en: 'Pyromancy Discipline', ru: 'Pyromancy Discipline' } },
+  // Both Blessings that carry a modifier have an auto reader (rosterGameContext's AUTO): the World
+  // Eaters army-rule tracker already records which up-to-two are active this round.
   'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
   'blessing-warp-blades': { scope: 'army', duration: 'round', label: { en: 'Warp Blades', ru: 'Warp Blades' } },
   'tactic-furor': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Furor Tactics', ru: 'Furor Tactics' } },

@@ -240,7 +240,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    await w.findAll('.rv-tab')[1].trigger('click') // Rules tab
+    await w.findAll('.page-tab')[1].trigger('click') // Rules tab
     await waitFor(w, '1st Company Task Force')
     expect(w.text()).toContain('1st Company Task Force')
   })
@@ -255,7 +255,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    await w.findAll('.rv-tab')[2].trigger('click') // Stratagems tab
+    await w.findAll('.page-tab')[2].trigger('click') // Stratagems tab
     await waitFor(w, '1st Company Task Force')
     expect(w.text()).toContain('1st Company Task Force')
     expect(w.find('.strat-grid').exists()).toBe(true)
@@ -279,11 +279,11 @@ describe('RosterViewView', () => {
 
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Intercessor Squad')
-      await w.findAll('.rv-tab')[1].trigger('click')   // Rules
+      await w.findAll('.page-tab')[1].trigger('click')   // Rules
       await waitFor(w, 'Клятва момента')               // the army rule's RU name, under "Oath of Moment"
       expect(w.text()).toContain('Oath of Moment')
       expect(w.text()).toContain('Боевые доктрины')    // …and the detachment rule's
-      await w.findAll('.rv-tab')[2].trigger('click')   // Stratagems
+      await w.findAll('.page-tab')[2].trigger('click')   // Stratagems
       await waitFor(w, 'Броня презрения')
       expect(w.text()).toContain('Armour of Contempt')
     } finally {
@@ -301,7 +301,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    await w.findAll('.rv-tab')[2].trigger('click') // Stratagems tab
+    await w.findAll('.page-tab')[2].trigger('click') // Stratagems tab
     await waitFor(w, '1st Company Task Force')
 
     expect(w.find('.phase-group').exists()).toBe(false) // flat list by default
@@ -327,7 +327,7 @@ describe('RosterViewView', () => {
 
     const w = mount(RosterViewView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    await w.findAll('.rv-tab')[2].trigger('click') // Stratagems tab
+    await w.findAll('.page-tab')[2].trigger('click') // Stratagems tab
     const { ui } = await import('../../i18n/ui.js')
     await waitFor(w, ui.en.rosterViewNoDetachment)
     expect(w.text()).toContain(ui.en.rosterViewNoDetachment)
@@ -667,14 +667,14 @@ describe('RosterViewView', () => {
       GAME_PI = '0'
       const w1 = mount(RosterViewView, { global: { stubs } })
       await waitFor(w1, 'Fielded List')
-      await w1.findAll('.rv-tab').at(-1).trigger('click')
+      await w1.findAll('.page-tab').at(-1).trigger('click')
       await flushPromises()
       expect(w1.find('.now-toggle').exists()).toBe(false)   // the game doesn't track phases
 
       t.updateSetup({ settings: { ...t.current.value.settings, trackPhases: true } })
       const w2 = mount(RosterViewView, { global: { stubs } })
       await waitFor(w2, 'Fielded List')
-      await w2.findAll('.rv-tab').at(-1).trigger('click')
+      await w2.findAll('.page-tab').at(-1).trigger('click')
       await flushPromises()
       expect(w2.find('.now-toggle').exists()).toBe(true)
     })
@@ -685,7 +685,7 @@ describe('RosterViewView', () => {
       GAME_PI = '0'
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Fielded List')
-      await w.findAll('.rv-tab').at(-1).trigger('click')
+      await w.findAll('.page-tab').at(-1).trigger('click')
       await flushPromises()
 
       const all = w.findAll('.strat-grid > *').length

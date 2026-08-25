@@ -12,6 +12,15 @@ describe('ConditionChips', () => {
     expect(w.find('.cond-group-h').exists()).toBe(false)
   })
 
+  // The box is square in both states: these are checkboxes, and a round one would promise the
+  // either/or behaviour of a radio button that they do not have.
+  it('draws its on/off box square', () => {
+    const w = mount(ConditionChips, { props: { switches: [sw('a', { on: true }), sw('b')] } })
+    const boxes = w.findAll('.cond-chip .bi')
+    expect(boxes[0].classes()).toContain('bi-check-square-fill')
+    expect(boxes[1].classes()).toContain('bi-square')
+  })
+
   // A pick-exactly-one group already reads as radio buttons, so it gets no counter either — only a
   // set that HOLDS several needs to say how full it is.
   it('leaves a single-slot group unboxed', () => {

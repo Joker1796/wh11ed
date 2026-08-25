@@ -418,7 +418,6 @@ const groupedUnits = computed(() =>
 // An allied unit's datasheet belongs to its own faction; the namespaced id says which.
 function slugFor(id) { return allySourceOf(id)?.[0] || factionSlug.value }
 
-
 // ── The draft: this wizard's persistence ──────────────────────────────────────────────────────
 // Everything collected here lives in a stored roster from the moment a FACTION is picked — the
 // first choice that means anything, and the one every later step depends on. Until then, opening
@@ -529,8 +528,6 @@ watchEffect(() => {
 
 <style scoped>
 .roster-create { padding-top: 0.75rem; padding-bottom: 2rem; }
-.back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
-.back:hover { color: var(--accent); }
 
 .rc-steps { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 1.25rem; font-size: 0.85rem; }
 /* Buttons now, but they must keep reading as a progress row rather than a toolbar — so the
@@ -576,22 +573,13 @@ watchEffect(() => {
   gap: 0.7rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 1rem;
 }
 .field { display: flex; flex-direction: column; gap: 0.3rem; }
-.field > span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .field input[type="text"],
 .field input[type="number"] {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -599,41 +587,6 @@ watchEffect(() => {
 .field input:focus { outline: none; border-color: var(--accent); }
 @media (pointer: coarse) {
   .field input[type="text"], .field input[type="number"] { font-size: 16px; }
-}
-
-/* Checkbox row — same recipe as the tracker's GameSetup.vue .check (scoped styles don't cross
-   component boundaries, so it's copied rather than shared). */
-.check {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-secondary);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.check:hover { border-color: var(--accent); }
-.check.on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.check.on span { color: var(--text-primary); }
-.check-note {
-  display: block;
-  font-style: normal;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.check input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
 }
 
 .btn-choose {
@@ -645,7 +598,6 @@ watchEffect(() => {
   min-height: 44px;
   padding: 0.6rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -667,41 +619,11 @@ watchEffect(() => {
 }
 .dp-count.over { color: #c0392b; }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
-.help-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 0 0.2rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  vertical-align: middle;
-}
-.help-btn:hover { color: var(--accent); }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
-.modal-body { padding: 0.9rem; }
 
-.seg {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-}
-.seg button {
-  padding: 0.45rem 0.8rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.78rem;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button { border-left: 1px solid var(--border); }
-.seg button.on { background: var(--accent); color: #fff; }
+/* This one picks a points level, so its labels are numbers — mono, like every other number in
+   the builder. The rest is the global segmented control (style.css). */
+.seg button { font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; }
 
 .bsize-input {
   margin-top: 0.4rem;
@@ -710,7 +632,6 @@ watchEffect(() => {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   border: 1px solid var(--accent);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
 }
@@ -744,7 +665,6 @@ watchEffect(() => {
 .rcunit {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
@@ -780,21 +700,6 @@ watchEffect(() => {
 }
 
 .rc-actions { display: flex; justify-content: flex-end; }
-.btn-primary, .btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.3rem;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border: none;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Fixed (not sticky) — the unit list can run to 90+ rows, far taller than the viewport, so a
    flow-sticky footer would only engage once scrolled all the way to the list's end. Glued
@@ -805,56 +710,12 @@ watchEffect(() => {
    .app-layout) and MobileUtilityBar's own bottom offset adds it, so its buttons float above
    this bar instead of over it. Don't also offset this bar's own bottom by --mobile-bar-h —
    that would just push the collision the other way. */
-.rc-sticky {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
-}
-@media (max-width: 900px) {
-  .rc-sticky {
-    bottom: calc(52px + var(--safe-bottom, 0px));
-    padding-bottom: 0.6rem;
-  }
-}
-.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
-.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rc-points.over { color: #c0392b; }
 /* Same badge as RosterEditorView's header (.issues-badge/.hdr-icon there) — copied, not shared,
    scoped styles don't cross component boundaries. Opens RosterIssuesModal on click. */
-.issues-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-card);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
-.issues-badge.ok { color: #3c9a5f; }
-.rc-sticky-actions { display: flex; gap: 0.5rem; }
 /* Small phones, down to a 320px viewport: shrink the sticky bar's padding/gaps and the
    Back/Done buttons themselves (same treatment as RoundTracker's round-actions row) so the
    points readout + both buttons keep to one line instead of wrapping or overflowing. */
 @media (max-width: 400px) {
-  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
-  .rc-points { font-size: 0.85rem; }
-  .rc-sticky-info { gap: 0.35rem; }
-  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
-  .rc-sticky-actions { gap: 0.35rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }

@@ -14,7 +14,8 @@
       </span>
       <!-- A chip and, for one that names somebody's printed rule, the "i" beside it: "The Fiery
            Heart" is a name, not a rule, and the card explaining it is three screens away. A button
-           cannot hold a button, so the pair shares a wrapper. -->
+           cannot hold a button, so the pair shares a wrapper — and reads as one control split in
+           two, the chip's own right edge being the line between them. -->
       <span v-for="sw in g.items" :key="sw.id" class="cond-item">
         <button
           type="button"
@@ -25,7 +26,9 @@
           :title="blockedHint(sw)"
           @click="$emit('toggle', sw)"
         >
-          <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+          <!-- A square box, not a round one: this is a checkbox (each state stands alone), and
+               round is the shape the app reserves for a radio-style either/or. -->
+          <i class="bi" :class="sw.on ? 'bi-check-square-fill' : 'bi-square'"></i>
           <span class="cond-chip-text">
             {{ sw.label[locale] || sw.label.en }}
             <!-- The second line: this chip's own translated name (a stratagem's, which stays
@@ -120,21 +123,32 @@ const groups = computed(() => {
 .cond-group { display: contents; }
 .cond-group.capped {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
-  padding: 0.35rem 0.5rem; border: 1px dashed var(--border); border-radius: 10px;
+  padding: 0.35rem 0.5rem; border: 1px dashed var(--border);
 }
 .cond-group-h { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
 /* The unit whose card these options are printed on — the first thing in the box, on its own line. */
 .cond-group-owner { flex-basis: 100%; color: var(--text-primary); font-weight: 700; }
-.cond-item { display: inline-flex; align-items: center; gap: 0.15rem; }
+/* stretch, not center: the "i" takes its height from the chip it is attached to, including the
+   taller two-line variant below. */
+.cond-item { display: inline-flex; align-items: stretch; }
+/* Attached to the chip rather than floating beside it: both halves keep a full frame and the "i"
+   is pulled one pixel left, so their edges land on top of each other as a single dividing line. */
 .cond-info {
   display: inline-flex; align-items: center;
-  padding: 0.2rem; margin-left: -0.2rem;
-  border: 0; background: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem;
+  padding: 0 0.45rem; margin-left: -1px;
+  border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-muted); cursor: pointer; font-size: 0.8rem;
 }
-.cond-info:hover { color: var(--accent); }
+.cond-info:hover { color: var(--accent); border-color: var(--accent); }
+/* …and whichever half is lit paints its own frame over that shared line. Without this the two
+   grey pixels of the quiet half sit on top and the accent frame stops halfway, open on the side
+   where the halves meet. Source order settles the tie, so a hovered "i" wins over a lit chip. */
+.cond-chip.on,
+.cond-chip:hover:not(:disabled),
+.cond-info:hover { position: relative; z-index: 1; }
 .cond-chip {
   display: inline-flex; align-items: center; gap: 0.35rem;
-  padding: 0.3rem 0.65rem; border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.3rem 0.65rem; border: 1px solid var(--border);
   background: var(--bg-card); color: var(--text-muted); font-size: 0.78rem; cursor: pointer;
 }
 .cond-chip:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
@@ -142,8 +156,8 @@ const groups = computed(() => {
 /* An inert chip has to LOOK inert: `cursor: default` says nothing on a touch screen, and a chip
    that cannot be tapped but reads exactly like one that can is indistinguishable from a bug. */
 .cond-chip.auto { cursor: default; opacity: 0.55; border-style: dashed; }
-/* Two lines need square-ish corners and a left-aligned text column; a pill only suits one. */
-.cond-chip.stacked { align-items: flex-start; border-radius: 12px; padding-top: 0.28rem; padding-bottom: 0.28rem; }
+/* Two lines need a left-aligned text column and a little more room top and bottom. */
+.cond-chip.stacked { align-items: flex-start; padding-top: 0.28rem; padding-bottom: 0.28rem; }
 .cond-chip.stacked .bi { margin-top: 0.1rem; }
 .cond-chip-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; text-align: left; }
 .cond-chip-sub { color: var(--text-muted); font-size: 0.68rem; font-weight: 400; }

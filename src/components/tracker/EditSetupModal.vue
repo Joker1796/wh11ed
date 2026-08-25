@@ -254,12 +254,10 @@ function save() {
 </script>
 
 <style scoped>
-.modal-body { padding: 0.9rem; overflow-y: auto; }
 .es-note {
   margin: 0 0 0.9rem;
   padding: 0.6rem 0.7rem;
   background: var(--bg-secondary);
-  border-radius: 6px;
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.45;
@@ -274,7 +272,6 @@ function save() {
 .player-card, .settings {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 1rem;
 }
 .settings {
@@ -290,7 +287,7 @@ function save() {
 .roster-line {
   display: flex; align-items: center; gap: 0.35rem;
   padding: 0.45rem 0.55rem;
-  border: 1px solid var(--accent); border-radius: 5px; background: var(--bg-card);
+  border: 1px solid var(--accent); background: var(--bg-card);
 }
 .rl-text {
   flex: 1; min-width: 0;
@@ -305,7 +302,7 @@ function save() {
 .rp-open {
   display: flex; align-items: center; gap: 0.4rem; width: 100%;
   padding: 0.45rem 0.55rem;
-  border: 1px dashed var(--border); border-radius: 5px; background: none;
+  border: 1px dashed var(--border); background: none;
   color: var(--text-muted); font-size: 0.82rem; font-family: inherit; text-align: left; cursor: pointer;
 }
 .rp-open:hover { border-color: var(--accent); color: var(--text-primary); }
@@ -327,17 +324,9 @@ function save() {
   gap: 0.3rem;
   margin-bottom: 0.7rem;
 }
-.field > span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .field input[type="text"] {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -346,62 +335,6 @@ function save() {
 @media (pointer: coarse) {
   .field input[type="text"] { font-size: 16px; }
 }
-.check {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-secondary);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.check:hover { border-color: var(--accent); }
-.check.on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.check.on span { color: var(--text-primary); }
-.check input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
-.seg {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-}
-.seg button {
-  padding: 0.45rem 0.8rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button { border-left: 1px solid var(--border); }
-.seg button.on { background: var(--accent); color: #fff; }
-.help-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 0 0.2rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  vertical-align: middle;
-}
-.help-btn:hover { color: var(--accent); }
 .block-head {
   font-family: var(--font-display);
   font-size: 1.21rem;
@@ -409,20 +342,6 @@ function save() {
   color: var(--accent);
   margin: 0 0 0.6rem;
 }
-.tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
-.tab {
-  padding: 0.4rem 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.04rem;
-  transition: background 0.12s, border-color 0.12s;
-}
-.tab:hover { border-color: var(--accent); }
-.tab.active { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
 
 .modal-foot {
   display: flex;
@@ -430,25 +349,6 @@ function save() {
   gap: 0.6rem;
   padding: 0.7rem 0.9rem;
   border-top: 1px solid var(--border);
-}
-.btn-primary {
-  padding: 0.6rem 1.4rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.btn-ghost {
-  padding: 0.6rem 1.1rem;
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }

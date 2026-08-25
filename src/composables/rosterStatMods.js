@@ -113,6 +113,27 @@ export function applyValue(current, op, value) {
   return null // "D6+2", "N/A", a range like "18-36" — annotate instead of guessing
 }
 
+// The number inside a weapon ability: "RAPID FIRE 2" → 2. Abilities that carry one always print it
+// last; one that carries none ("TWIN-LINKED") returns null and is left alone rather than guessed at.
+const TAGGED = /^(.*?)\s+(-?\d+)$/
+export function bumpTag(tag, name, delta) {
+  const m = TAGGED.exec(String(tag).trim())
+  if (!m) return null
+  if (norm(m[1]) !== norm(name)) return null
+  return `${m[1]} ${Number(m[2]) + Number(delta)}`
+}
+
+// Just the two fields an `only` clause reads, copied off the working sheet so a later write to it
+// cannot change what an earlier clause of the same record was looking at.
+const ROW_TABLES = ['ranged', 'melee', 'profiles']
+function snapshotRows(sheet) {
+  const out = {}
+  for (const t of ROW_TABLES) {
+    if (sheet[t]) out[t] = sheet[t].map((r) => ({ name: r.name, tags: r.tags ? [...r.tags] : r.tags }))
+  }
+  return out
+}
+
 // A grant is an effect whose "value" is a name rather than a number: `stat: 'keyword'` gives the
 // unit a keyword (which can then make OTHER rules apply to it — Necrons' Destroyer Ankh grants
 // DESTROYER CULT, and Cold Fervour's first bullet gives every DESTROYER CULT model +2 Strength),
@@ -211,6 +232,17 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
   }
 
   for (const entry of entries) {
+    // The rows as THIS record found them. `only` clauses are judged against this rather than
+    // against the running copy, because the clauses of one rule describe the printed profile, not
+    // each other's output: "[RAPID FIRE 1] — or, if the attack already HAS [RAPID FIRE], +1 to that
+    // value" is an either/or, and reading the second clause after the first had granted the tag
+    // made every weapon take both and land one higher than the rule allows. Effects of DIFFERENT
+    // records still chain, which is the stacking the running copy exists for.
+    //
+    // A real copy of the two fields `only` reads, not a reference: a grant rewrites `row.tags` on
+    // the working sheet in place, and once any earlier record has forced that copy into existence
+    // `current()` IS the object being written to.
+    const asFound = (entry.effects || []).some((e) => e.only) ? snapshotRows(current()) : current()
     // `entry.scopes` is an aura's keyword gate, carried on the record (ref.scopes, derived from the
     // prose by the generator) because the record itself holds no prose to read it from here.
     const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
@@ -273,7 +305,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         for (const table of WEAPON_TABLES[effect.on] || []) {
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
-            if (!rowMatchesOnly(current()[table][i], effect.only)) continue
+            if (!rowMatchesOnly(asFound[table][i], effect.only)) continue
             const tags = current()[table][i].tags || []
             if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
             const dest = target()[table][i]
@@ -286,6 +318,32 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         continue
       }
 
+      // The other half of "…or, if that attack already HAS [RAPID FIRE], +1 to the value of that
+      // [RAPID FIRE]". `value` carries the ability's name and the amount to add ("RAPID FIRE 1" =
+      // +1 to RAPID FIRE) — the same shape the grant above uses, because the two halves of such a
+      // rule are authored as a pair and read side by side in the data. Gate the row with
+      // `only.tag`, exactly as the grant half gates itself with `only.notTag`.
+      if (effect.stat === 'ability' && effect.op === 'add') {
+        const at = TAGGED.exec(String(effect.value).trim())
+        let bumped = false
+        if (at) {
+          for (const table of WEAPON_TABLES[effect.on] || []) {
+            const rows = current()[table] || []
+            for (let i = 0; i < rows.length; i++) {
+              if (!rowMatchesOnly(asFound[table][i], effect.only)) continue
+              const tags = current()[table][i].tags || []
+              const next = tags.map((t) => bumpTag(t, at[1], at[2]) ?? t)
+              if (next.every((t, k) => t === tags[k])) continue
+              target()[table][i].tags = next
+              marks.add(`${table}:tags:${i}`)
+              bumped = true
+            }
+          }
+        }
+        notes.push(noteOf(entry, effect, bumped, via))
+        continue
+      }
+
       const tables = effect.on === 'profile' ? ['profiles'] : (WEAPON_TABLES[effect.on] || [])
       const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
@@ -294,7 +352,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         const rows = current()[table] || []
         for (let i = 0; i < rows.length; i++) {
           // `only` never applies to a model profile — it names weapons.
-          if (table !== 'profiles' && !rowMatchesOnly(current()[table][i], effect.only)) continue
+          if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
           const before = current()[table][i][effect.stat]
           const next = applyValue(before, effect.op, effect.value)
           if (next == null || next === String(before)) continue

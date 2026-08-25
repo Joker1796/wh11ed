@@ -62,7 +62,6 @@ function message(iss) {
   border: 1px solid var(--border);
   border-left-width: 3px;
   background: var(--bg-secondary);
-  border-radius: 4px;
   cursor: default;
   font-size: 0.85rem;
 }

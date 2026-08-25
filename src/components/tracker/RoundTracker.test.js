@@ -88,10 +88,12 @@ describe('RoundTracker — the phase row', () => {
     expect(mountTracker().find('.phase-bar').exists()).toBe(false)
   })
 
-  it('names whose turn it is and which phase, by player name', () => {
+  // The nickname is deliberately NOT here: the clock is read at a glance mid-turn, and "Me" (or
+  // whatever the player typed) does not say whose phase it is. Both fixture players ARE named.
+  it('names the side whose turn it is and which phase, never the nickname', () => {
     startGame({}, {}, { trackPhases: true })
     const w = mountTracker()
-    expect(w.find('.pb-who').text()).toBe('Me')
+    expect(w.find('.pb-who').text()).toBe('You')
     expect(w.find('.pb-phase').text()).toBe('Command phase')
   })
 
@@ -100,7 +102,7 @@ describe('RoundTracker — the phase row', () => {
     const w = mountTracker()
     tracker.goToPhase(1, 'shooting')
     await w.vm.$nextTick()
-    expect(w.find('.pb-who').text()).toBe('Opp')
+    expect(w.find('.pb-who').text()).toBe('Opponent')
     expect(w.find('.pb-phase').text()).toBe('Shooting phase')
   })
 
@@ -120,6 +122,11 @@ describe('RoundTracker — the phase row', () => {
     // The picker teleports to <body> (BaseModal), so look for its rows there.
     const rows = document.body.querySelectorAll('.pp-phase')
     expect(rows).toHaveLength(10) // five phases per player
+    // The header comes from BaseModal itself. A hand-rolled copy in the #header slot renders in
+    // the picker's scope, out of reach of BaseModal's scoped CSS — it looked like raw browser
+    // defaults, and left the dialog with no accessible name. Both facts are checked by this line.
+    const dialog = document.body.querySelector('[role="dialog"]')
+    expect(document.getElementById(dialog.getAttribute('aria-labelledby')).textContent).toBe('Phase')
     rows[8].click() // the second player's Charge phase
     await w.vm.$nextTick()
     expect(tracker.current.value.currentTurn).toBe(1)

@@ -219,7 +219,6 @@ const abilityRows = computed(() => [
     padding: 0 0.1rem 0.3rem;
     background: none;
     color: var(--accent);
-    border-radius: 0;
     font-size: 0.64rem;
   }
   .wpm-weapons tbody tr {
@@ -229,7 +228,6 @@ const abilityRows = computed(() => [
     margin-bottom: 0.35rem;
     padding: 0.5rem 0.55rem 0.55rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
     background: color-mix(in srgb, var(--text-primary) 3%, transparent);
   }
   .wpm-weapons tbody tr:last-child { margin-bottom: 0; }
@@ -277,9 +275,6 @@ const abilityRows = computed(() => [
     margin-bottom: 0;
     border-bottom: none;
   }
-  .wpm-weapons tbody tr.wg-start { border-radius: 6px 6px 0 0; }
-  .wpm-weapons tbody tr.wg-mid { border-radius: 0; }
-  .wpm-weapons tbody tr.wg-end { border-radius: 0 0 6px 6px; }
   .wpm-weapons tbody tr.wg-mid,
   .wpm-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }

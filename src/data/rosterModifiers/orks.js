@@ -1646,6 +1646,16 @@ export default {
             "notTag": "RAPID FIRE"
           },
           "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "add",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "tag": "RAPID FIRE"
+          },
+          "when": null
         }
       ]
     },

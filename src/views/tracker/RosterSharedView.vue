@@ -62,8 +62,6 @@ function save() {
 
 <style scoped>
 .roster-shared { padding-top: 0.75rem; }
-.back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
-.back:hover { color: var(--accent); }
 .rs-title { font-family: var(--font-display); font-weight: 500; color: var(--text-primary); margin: 0.75rem 0 1rem; }
 .rs-error { color: #c0392b; display: flex; align-items: center; gap: 0.4rem; }
 .rs-loading { color: var(--text-muted); }
@@ -77,7 +75,6 @@ function save() {
   color: var(--text-primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 0.8rem 0.9rem;
   overflow-x: auto;
 }
@@ -90,7 +87,6 @@ function save() {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 5px;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
