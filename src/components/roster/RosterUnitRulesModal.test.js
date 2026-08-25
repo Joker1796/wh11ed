@@ -400,6 +400,60 @@ describe('RosterUnitRulesModal', () => {
   // A stratagem's name stays English on the chip (project convention) — the translation rides
   // under it, keyed by the English name off the faction's RU module, the same map the faction page
   // uses. Nothing else in this modal holds that map, which is why the chips are built here.
+  // In a phase where two of nine can be spent, seven greyed chips are what you read past to find
+  // them — so what cannot be used folds away. One tap brings it back, because "where did my
+  // stratagem go" is a worse question than "why is this one grey".
+  describe('the stratagems that cannot be spent right now', () => {
+    const strat = (id, blocked = null) => ({
+      id, label: { en: id, ru: id }, on: false, auto: !!blocked,
+      blocked: !!blocked, blockedBy: blocked,
+    })
+    const open = async (strats) => {
+      const w = mount(RosterUnitRulesModal, {
+        props: {
+          unitId: 'necron-warriors',
+          factionSlug: 'necrons',
+          gameCtx: { active: new Set(), strats },
+        },
+      })
+      await waitFor('Necron Warriors')
+      return w
+    }
+
+    // CollapseTransition keeps its slot mounted and clips it, so the two lists are told apart by
+    // which ConditionChips they are in, and the fold's state by aria-expanded.
+    const openChips = () => body().findAll('.cond-chips:not(.rum-strats-blocked) .cond-chip').map((c) => c.text())
+    const foldedChips = () => body().findAll('.rum-strats-blocked .cond-chip').map((c) => c.text())
+
+    it('folds them away, keeping the count and the ones that can', async () => {
+      const w = await open([strat('Ready'), strat('Wrong Phase', 'wrongPhase'), strat('Spent', 'usedPhase')])
+      expect(openChips().some((t) => t.includes('Ready'))).toBe(true)
+      expect(openChips().some((t) => t.includes('Wrong Phase'))).toBe(false)
+      expect(foldedChips()).toHaveLength(2)
+
+      const more = body().find('.rum-strats-more')
+      expect(more.text()).toContain('2')
+      expect(more.attributes('aria-expanded')).toBe('false')
+      await more.trigger('click')
+      expect(body().find('.rum-strats-more').attributes('aria-expanded')).toBe('true')
+      w.unmount()
+    })
+
+    // The fold can never swallow one that is actually running: stratagemsFor only asks whether a
+    // stratagem is blocked once it is OFF, so `on` and `blocked` are never both true.
+    it('never hides one that is in force', async () => {
+      const w = await open([{ ...strat('Running'), on: true }, strat('Wrong Phase', 'wrongPhase')])
+      expect(openChips().some((t) => t.includes('Running'))).toBe(true)
+      w.unmount()
+    })
+
+    it('says so when the whole block is folded away', async () => {
+      const w = await open([strat('Wrong Phase', 'wrongPhase')])
+      expect(body().find('.rum-strats-empty').exists()).toBe(true)
+      w.unmount()
+    })
+  })
+
   it('writes the RU stratagem name under the English one', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()
@@ -605,8 +659,11 @@ describe('RosterUnitRulesModal', () => {
     expect(granted.attributes('title')).toContain('Icon of the Valorous Heart')
   })
 
-  it('has no switch strip of its own any more', async () => {
-    mount(RosterUnitRulesModal, {
+  // The strip came back on 2026-08-25. It was removed because it said nothing about which rule it
+  // fed; a set now carries the rule that named it, and the numbers it changes are on THIS card —
+  // before, flipping it meant the accordion on the row and reading it meant opening the card.
+  it('carries this unit\'s own states at the top, and flipping one asks the parent', async () => {
+    const w = mount(RosterUnitRulesModal, {
       props: {
         unitId: 'intercessor-squad',
         factionSlug: 'space-marines',
@@ -617,7 +674,10 @@ describe('RosterUnitRulesModal', () => {
       },
     })
     await waitFor('Intercessor Squad')
-    expect(body().find('.cond-chip').exists()).toBe(false)
+    const chip = body().findAll('.cond-chip').find((c) => c.text().includes('Made a Charge move'))
+    expect(chip).toBeDefined()
+    await chip.trigger('click')
+    expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-charged')
   })
 
   // An ability that opens "While this model is leading a unit" is answered by the LIST, so the card

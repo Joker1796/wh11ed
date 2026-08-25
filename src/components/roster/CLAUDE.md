@@ -2040,6 +2040,21 @@ READ, never in a strip that says nothing about which rule it feeds):
 - **Inside the rule**, in the "In effect for this unit" block, army-wide ones included
   (`gameCtx.armySwitches`) — the place a player MEETS Creations of Bile's augmentations is the
   detachment rule on a unit's card.
+- **At the top of the card** (`gameCtx.switches`) — restored 2026-08-25, having been removed in
+  the settling above. The rule it was removed for ("never in a strip that says nothing about which
+  rule it feeds") stopped applying when a set of chips gained the rule that named it: "BATTLEFIELD
+  BUTCHERY · Empowered" is not an anonymous strip. And the number it changes is on THIS card —
+  before, flipping Empowered meant the accordion on the unit's row and reading what it did meant
+  opening the card afterwards. The chips inside the abilities and rules below stay: they sit in
+  collapsed bodies, and it is one store either way.
+
+**What cannot be spent right now is folded away, not greyed** (2026-08-25). The stratagem block on
+a unit's card shows what can be used and puts the rest behind a one-tap count. In a phase where two
+of nine are usable, seven inert chips are what the reader scans past to find them; the reason each
+one is blocked is still there, one tap down, because "where did my stratagem go" is a worse
+question than "why is this one grey". Safe because `stratagemsFor` only asks whether a stratagem is
+blocked once it is OFF — `on` and `blocked` are never both true, so the fold can never swallow one
+that is actually running.
 
 **A set of chips says whose rule it is** (2026-08-25). Six chips reading "Adrenalight", "Hypex",
 "Serpentin"… are unreadable: finding out that they are **Combat Drugs**, off the Spectacle of Spite

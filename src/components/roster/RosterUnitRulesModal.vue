@@ -35,16 +35,36 @@
              of its own rather than sitting among the states, and each chip says how long it lasts.
              Flipping one rewrites the card and the row in the list behind it; the clock takes it
              back down on its own. -->
-        <div v-if="gameCtx?.strats?.length" class="rum-strats">
+        <div v-if="gameCtx?.strats?.length" class="rum-strats rum-boxed">
           <h4 class="rum-strats-h">
             {{ labels.srcStratagem }}
-            <!-- The chips are inert rather than hidden — what you cannot spend right now is still
-                 worth knowing you have — and the reason that applies to the WHOLE block is said
-                 once here (Battle-shock, or the unit having been targeted this phase already). A
-                 reason that hits one chip only ("already used this phase") rides on that chip. -->
+            <!-- The reason that applies to the WHOLE block is said once here (Battle-shock, or the
+                 unit having been targeted this phase already). -->
             <span v-if="stratsBlockedNote" class="rum-strats-note">{{ stratsBlockedNote }}</span>
+            <!-- What cannot be spent right now is FOLDED AWAY rather than shown inert: in a phase
+                 where two of nine are usable, seven greyed chips are what you read past to find
+                 them. It stays one tap away, because "where did my stratagem go" is a worse
+                 question than "why is this one grey" — and a stratagem already in force is never
+                 counted as blocked (stratagemsFor only asks once it is off), so nothing that is
+                 actually running can hide in here. -->
+            <button
+              v-if="blockedChips.length"
+              type="button"
+              class="rum-strats-more"
+              :aria-expanded="showBlocked"
+              @click="showBlocked = !showBlocked"
+            >{{ labels.stratBlockedCount.replace('{n}', String(blockedChips.length)) }}</button>
           </h4>
-          <ConditionChips :switches="stratChips" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
+          <ConditionChips :switches="openChips" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
+          <p v-if="!openChips.length && !showBlocked" class="rum-strats-empty">{{ labels.stratNowEmpty }}</p>
+          <CollapseTransition :show="showBlocked">
+            <ConditionChips
+              class="rum-strats-blocked"
+              :switches="blockedChips"
+              @toggle="$emit('toggle-strat', $event)"
+              @info="openChipInfo"
+            />
+          </CollapseTransition>
         </div>
         <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
              Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
@@ -71,11 +91,18 @@
           <h4 class="rum-strats-h">{{ labels.dsAuras }}</h4>
           <ConditionChips :switches="gameCtx.auras" @toggle="$emit('toggle-aura', $event)" @info="openChipInfo" />
         </div>
-        <!-- No strip of switches here any more. A state is flipped where the thing it changes is
-             read: on the ability that names it (DatasheetCard's `abilitySwitches`) or inside the
-             rule that does (the "In effect" block below) — and, for the states a player sets every
-             turn, on the unit's own row in the list behind this card. One store, one state, and
-             never a fourth place showing the same chip. -->
+        <!-- This unit's own states. There USED to be no strip here, on the rule that a state is
+             flipped where the thing it changes is read — never in a strip that says nothing about
+             which rule it feeds. That objection is what changed: a set of chips now carries the
+             rule that named it (ConditionChips' groupOwner/groupInfo), so "BATTLEFIELD BUTCHERY ·
+             Empowered" is not an anonymous strip. And the thing it changes is on THIS card: before
+             this, seeing what Empowered does meant opening the accordion on the row to flip it and
+             then opening the card to read the number. The chips inside the abilities and rules
+             below stay — they sit in collapsed bodies, and are the same store either way. -->
+        <div v-if="gameCtx?.switches?.length" class="rum-strats">
+          <h4 class="rum-strats-h">{{ labels.rosterUnitStates }}</h4>
+          <ConditionChips :switches="gameCtx.switches" @toggle="$emit('toggle-cond', $event)" @info="openChipInfo" />
+        </div>
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
              datasheet. See src/components/roster/CLAUDE.md for what each tier adds. -->
@@ -153,6 +180,7 @@ import DatasheetCard from '../DatasheetCard.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import DsAccordion from '../DsAccordion.vue'
 import ConditionChips from '../ConditionChips.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -600,6 +628,12 @@ const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
 // Battle-shock and "this unit was already targeted this phase" block every chip in the block, so
 // they are stated in its header; a reason belonging to ONE stratagem (its phase, or having been
 // spent already) is written on that chip's own second line (ConditionChips' subLine).
+// What can be spent now, and what cannot. `blocked` is never true for a stratagem already in
+// force (stratagemsFor only asks once it is off), so the fold can never swallow a running one.
+const showBlocked = ref(false)
+const openChips = computed(() => stratChips.value.filter((st) => !st.blocked))
+const blockedChips = computed(() => stratChips.value.filter((st) => st.blocked))
+
 const stratsBlockedNote = computed(() => {
   const blocked = (props.gameCtx?.strats || []).filter((st) => st.blocked)
   if (blocked.some((st) => st.blockedBy === 'shock')) return labels.value.stratBlockedShock
@@ -665,6 +699,22 @@ const ruleBlocks = computed(() => {
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
 .rum-rule-conds { margin-bottom: 0.5rem; }
 .rum-strats { margin-bottom: 0.6rem; }
+/* The stratagems are the one block here that SPENDS something — the others are states you are in
+   — so they get a frame of their own instead of being the first of four look-alike rows. */
+.rum-boxed {
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.rum-strats-more {
+  margin-left: 0.4rem; padding: 0;
+  border: none; background: none;
+  color: var(--text-dim); font: inherit; text-transform: none; letter-spacing: 0;
+  cursor: pointer; text-decoration: underline;
+}
+.rum-strats-more:hover { color: var(--accent); }
+.rum-strats-blocked { margin-top: 0.4rem; }
+.rum-strats-empty { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 /* A second row under the set's own chips: what the picked option still waits on. */
 .rum-pick-conds { margin-top: 0.4rem; }
 
