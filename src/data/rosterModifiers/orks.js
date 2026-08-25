@@ -697,7 +697,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -720,7 +720,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1414,7 +1414,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1436,7 +1437,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 9\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1480,7 +1482,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1502,7 +1505,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1526,7 +1530,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "melee",
@@ -1539,7 +1544,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "melee",
@@ -1552,7 +1558,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1578,7 +1585,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1812,7 +1820,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2496,26 +2505,20 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-MONSTER 4+",
-          "when": {
-            "en": "excluding Torrent weapons",
-            "ru": "кроме Torrent-оружия"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "TORRENT"
+          }
         },
         {
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-VEHICLE 4+",
-          "when": {
-            "en": "excluding Torrent weapons",
-            "ru": "кроме Torrent-оружия"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "TORRENT"
+          }
         }
       ],
       "dur": "phase"
@@ -2584,7 +2587,7 @@ export default {
           "cond": [
             "never"
           ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },

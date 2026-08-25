@@ -233,7 +233,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -256,7 +256,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -405,6 +405,49 @@ export default {
       ]
     },
     {
+      "sid": "e52a05c5-4532-4ec3-a992-0b603e1c7474",
+      "kind": "detachmentRule",
+      "name": "Exquisite Swordsmanship",
+      "det": "Peerless Bladesmen",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "peerless-bladesmen"
+      },
+      "hash": "7922a85c",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while resolving a fight after a Charge move, if this is the ability selected",
+            "ru": "при разрешении боя после Charge, если выбрана эта способность"
+          },
+          "cond": [
+            "swordsmanship-lethal",
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while resolving a fight after a Charge move, if this is the ability selected",
+            "ru": "при разрешении боя после Charge, если выбрана эта способность"
+          },
+          "cond": [
+            "swordsmanship-sustained",
+            "unit-charged"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "74798d62-5f94-461d-9f8d-6e074b85f7ad",
       "kind": "detachmentRule",
       "name": "Entitled to Victory",
@@ -545,7 +588,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -569,7 +613,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "profile",
@@ -582,7 +627,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -841,7 +887,8 @@ export default {
           },
           "cond": [
             "unit-favoured-champions"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -865,7 +912,8 @@ export default {
           },
           "cond": [
             "unit-favoured-champions"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {

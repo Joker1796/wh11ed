@@ -125,7 +125,14 @@ export default {
           },
           "cond": [
             "unit-empowered"
-          ]
+          ],
+          "only": {
+            "notName": [
+              "blast pistol",
+              "blaster",
+              "dark lance"
+            ]
+          }
         },
         {
           "on": "weapon",
@@ -138,7 +145,14 @@ export default {
           },
           "cond": [
             "unit-empowered"
-          ]
+          ],
+          "only": {
+            "notName": [
+              "blast pistol",
+              "blaster",
+              "dark lance"
+            ]
+          }
         }
       ]
     },
@@ -226,6 +240,79 @@ export default {
       "effects": []
     },
     {
+      "sid": "79f38f0b-a72b-4c58-846c-cbc390ffedb2:lady-malys",
+      "kind": "ability",
+      "name": "Lady Malys: Archon of the Poisoned Tongue",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lady-malys"
+      },
+      "hash": "0714182d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while Empowered, if this ability was the one selected",
+            "ru": "пока Empowered, если выбрана эта способность"
+          },
+          "cond": [
+            "unit-empowered",
+            "malys-sustained"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered, if this ability was the one selected",
+            "ru": "пока Empowered, если выбрана эта способность"
+          },
+          "cond": [
+            "unit-empowered",
+            "malys-lethal"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while Empowered, if this ability was the one selected",
+            "ru": "пока Empowered, если выбрана эта способность"
+          },
+          "cond": [
+            "unit-empowered",
+            "malys-sustained"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Empowered, if this ability was the one selected",
+            "ru": "пока Empowered, если выбрана эта способность"
+          },
+          "cond": [
+            "unit-empowered",
+            "malys-lethal"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "3efecd52-2d60-42d1-928d-6c868233d11d:lelith-hesperax",
       "kind": "ability",
       "name": "Lelith Hesperax: Blur of Blades",
@@ -243,7 +330,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -261,6 +348,32 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while its unit is Empowered with a Pain token",
+            "ru": "пока отряд Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while its unit is Empowered with a Pain token",
+            "ru": "пока отряд Empowered за Pain token"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
+        },
         {
           "on": "melee",
           "stat": "s",
@@ -500,7 +613,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -554,11 +667,12 @@ export default {
           "op": "set",
           "value": "3",
           "when": {
-            "en": "while Empowered, if this option is chosen (non-CHARACTER models)",
-            "ru": "пока Empowered, если выбран этот вариант (кроме CHARACTER)"
+            "en": "while Empowered, if Attacks 3 was chosen",
+            "ru": "пока Empowered, если выбран вариант Attacks 3"
           },
           "cond": [
-            "blocked-subset"
+            "unit-empowered",
+            "wrack-attacks-3"
           ]
         },
         {
@@ -567,11 +681,26 @@ export default {
           "op": "set",
           "value": "4",
           "when": {
-            "en": "while Empowered, if the other option is chosen (non-CHARACTER models, HAZARDOUS)",
-            "ru": "пока Empowered, если выбран другой вариант (кроме CHARACTER, HAZARDOUS)"
+            "en": "while Empowered, if Attacks 4 was chosen",
+            "ru": "пока Empowered, если выбран вариант Attacks 4"
           },
           "cond": [
-            "blocked-subset"
+            "unit-empowered",
+            "wrack-attacks-4"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "while Empowered, if Attacks 4 was chosen",
+            "ru": "пока Empowered, если выбран вариант Attacks 4"
+          },
+          "cond": [
+            "unit-empowered",
+            "wrack-attacks-4"
           ]
         }
       ]
@@ -862,7 +991,8 @@ export default {
           "stat": "t",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -1084,7 +1214,16 @@ export default {
       "hash": "bc7df3f6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "a8e27f43-6f0f-487e-9969-c65087ccdefe",
@@ -1155,7 +1294,24 @@ export default {
       "hash": "fa8a9425",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8f4da3ed-14af-43a6-8708-64f2bca26258",
@@ -1175,7 +1331,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1197,7 +1354,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1213,7 +1371,22 @@ export default {
       "hash": "052f254b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "21a18c7b-916b-47d4-a50b-8af59f3c03dc",

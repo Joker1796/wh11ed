@@ -122,6 +122,13 @@ const CANDIDATE = new RegExp([
   '(?:halve|halves|double[sd]?|triple[sd]?) (?:the|its|their) [^.]{0,45}characteristic',
   // "Change the Attacks characteristic of the bearer's killa jet – burna weapon to 3D6".
   'change the [^.]{0,45}characteristic of [^.]{0,70} to ',
+  // A choice of weapon abilities written INLINE rather than as an ability set — "select one of the
+  // following abilities: [SUSTAINED HITS 1]; [LETHAL HITS] … weapons equipped by models in that
+  // unit have that selected ability". The bracketed names sit in the picking sentence and the
+  // grant sentence says only "that ability", so neither of the two grant patterns above sees it.
+  // Excludes "…of the abilities in the <X> section", which is an ability SET: appdata carries its
+  // options as subAbilities and every one of them is already a source in its own right.
+  'select (?:one|two) of the (?:following )?abilities(?! in )',
 ].join('|'), 'i')
 
 export function isCandidate(text) {

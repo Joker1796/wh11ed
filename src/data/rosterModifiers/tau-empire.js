@@ -104,7 +104,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -166,7 +166,7 @@ export default {
           "op": "set",
           "value": "12\"",
           "when": null,
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "ranged",
@@ -174,7 +174,7 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -252,7 +252,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -344,7 +344,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 6+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -368,7 +368,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1155,7 +1155,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "ranged",
@@ -1168,7 +1169,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },

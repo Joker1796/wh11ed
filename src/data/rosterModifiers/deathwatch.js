@@ -164,7 +164,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -240,7 +240,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -393,26 +394,20 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-INFANTRY 2+",
-          "when": {
-            "en": "excluding Devastating Wounds weapons",
-            "ru": "кроме оружия с Devastating Wounds"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "DEVASTATING WOUNDS"
+          }
         },
         {
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-MONSTER 5+",
-          "when": {
-            "en": "excluding Devastating Wounds weapons",
-            "ru": "кроме оружия с Devastating Wounds"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "DEVASTATING WOUNDS"
+          }
         }
       ],
       "dur": "phase"

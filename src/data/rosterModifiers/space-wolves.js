@@ -90,7 +90,7 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null,
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "profile",
@@ -104,7 +104,7 @@ export default {
           "cond": [
             "unit-advanced"
           ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -225,7 +225,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -548,7 +548,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -679,7 +680,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -758,7 +760,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 7\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

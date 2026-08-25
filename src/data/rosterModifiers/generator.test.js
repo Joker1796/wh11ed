@@ -30,12 +30,23 @@ describe('isCandidate', () => {
     ['a characteristic set as "is N"', 'While this unit is not within 6" of a CHAPLAIN, its Objective Control characteristic is 0.'],
     ['a multiplied characteristic', 'Until the end of the turn, double the Objective Control characteristic of models in your unit.'],
     ['a characteristic changed to a value', 'Change the Attacks characteristic of the bearer’s killa jet – burna weapon to 3D6.'],
+    // Added 2026-08-25: the ability is named in the PICKING sentence and the grant sentence says
+    // only "that selected ability", so neither bracket pattern above sees it. Ten rules sat behind
+    // this one, Chaos Space Marines' army rule among them.
+    ['an inline choice of weapon abilities', 'If you do, select one of the following abilities: [SUSTAINED HITS 1]; [LETHAL HITS]. Until the end of the phase, weapons equipped by models in that unit have that selected ability.'],
   ])('proposes %s', (_label, prose) => {
     expect(isCandidate(prose)).toBe(true)
   })
 
   it('still says no to prose that changes no printed number', () => {
     expect(isCandidate('Each time a model in this unit makes an attack, you can re-roll the Hit roll.')).toBe(false)
+  })
+
+  // …and no to an ability SET's picking instruction: appdata carries its options as subAbilities,
+  // every one of them is already a source, and a record for the parent would be a second copy of
+  // a choice that changes no number by itself.
+  it('leaves an ability set\'s own instruction to its options', () => {
+    expect(isCandidate('At the start of your Command phase, select one of the abilities in the Canticles of the Omnissiah section.')).toBe(false)
   })
 })
 

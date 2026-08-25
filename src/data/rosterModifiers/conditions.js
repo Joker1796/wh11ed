@@ -34,9 +34,14 @@ export const SENTINELS = {
   // whole unit. Fixable by moving the subset into the record's `scope` (a Tier C data change).
   'blocked-subset': { en: 'applies to part of the unit only', ru: 'действует только на часть отряда' },
   // Restricted to a weapon subset Tier C's `on` (ranged / melee / weapon / profile) cannot
-  // address. The ones named by a weapon ABILITY (PSYCHIC, TORRENT, PISTOL…) or by name now carry
-  // an `only` filter instead and are no longer blocked; what is left needs a choice the data does
-  // not record — "one melee weapon, selected at the start of the battle".
+  // address. The ones named by a weapon ABILITY (PSYCHIC, TORRENT, PISTOL…) or by name carry an
+  // `only` filter instead and are no longer blocked — including, since 2026-08-25, ten effects
+  // whose restriction was an EXCLUSION ("excluding [ONE SHOT] weapons", "excluding Devastating
+  // Wounds weapons") that had been left here although `only.notTag` could always say it.
+  // What is left needs a choice the data does not record — "one melee weapon, selected at the
+  // start of the battle", the Helbrute's two weapons "in addition to its close combat weapon" —
+  // or a name matched anywhere but the start ("weapon profiles with 'Plasma' in their name"),
+  // which `only.name` cannot express: it is a prefix.
   'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
 }
 
@@ -54,6 +59,13 @@ export const SENTINELS = {
 export const GROUP_LIMITS = {
   // Creations of Bile — "either select one from the list below, or randomly determine two".
   augmentation: 2,
+  // Zephyrim — one ability each time the unit fights, "or select both abilities above instead" in
+  // a turn it made a Charge move. The charge is what buys the second; the effects say so in their
+  // `when`, and the group only has to allow the state the rule can reach.
+  'embodied-prophecy': 2,
+  // Preternatural Precision — "select one of the following abilities, or select two … if you
+  // removed an Aspect Shrine token during this usage".
+  'preternatural-precision': 2,
 }
 // An ability set's options are NOT in this vocabulary: which one is up is a choice about one model,
 // keyed by the option's own record (`ref.set` / `ref.pickLimit`, stored in `ctx.picks`), the same
@@ -149,6 +161,39 @@ export const conditions = {
   // but says nothing about which unit was Empowered with one, so this stays a switch; the window
   // the rules give it is the phase it was spent in.
   'unit-empowered': { scope: 'unit', duration: 'phase', label: { en: 'Empowered', ru: 'Empowered' } },
+  // Two Drukhari Pain abilities ask a SECOND question when the token is spent — which of the
+  // options the Empowerment buys. The pick lasts as long as the Empowerment does (the phase) and
+  // one is up at a time, so each option is its own switch inside a group of the default size.
+  // Without them the effects had nowhere to hang: Lady Malys had no record at all and the Wracks'
+  // two lines were parked on `blocked-subset`.
+  'malys-sustained': { scope: 'unit', duration: 'phase', group: 'malys-poisoned-tongue', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
+  'malys-lethal': { scope: 'unit', duration: 'phase', group: 'malys-poisoned-tongue', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'wrack-attacks-3': { scope: 'unit', duration: 'phase', group: 'wrack-enhancement', label: { en: 'Attacks 3', ru: 'Атаки 3' } },
+  'wrack-attacks-4': { scope: 'unit', duration: 'phase', group: 'wrack-enhancement', label: { en: 'Attacks 4, [HAZARDOUS]', ru: 'Атаки 4, [HAZARDOUS]' } },
+  // The same shape, faction by faction: a rule that hands a unit ONE of several weapon abilities
+  // for the phase, written inline rather than as an ability set. Which one is up is the player's
+  // to say and nothing else can answer it, so each option is a switch and the group holds one —
+  // except where the rule itself allows two (see GROUP_LIMITS).
+  'prophecy-sustained': { scope: 'unit', duration: 'phase', group: 'embodied-prophecy', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
+  'prophecy-lethal': { scope: 'unit', duration: 'phase', group: 'embodied-prophecy', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'jester-ignores-cover': { scope: 'unit', duration: 'phase', group: 'cruel-amusement', label: { en: 'IGNORES COVER', ru: 'IGNORES COVER' } },
+  'jester-precision': { scope: 'unit', duration: 'phase', group: 'cruel-amusement', label: { en: 'PRECISION', ru: 'PRECISION' } },
+  'jester-sustained-3': { scope: 'unit', duration: 'phase', group: 'cruel-amusement', label: { en: 'SUSTAINED HITS 3', ru: 'SUSTAINED HITS 3' } },
+  'harbinger-lethal': { scope: 'unit', duration: 'phase', group: 'harbinger-of-death', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'harbinger-precision': { scope: 'unit', duration: 'phase', group: 'harbinger-of-death', label: { en: 'PRECISION', ru: 'PRECISION' } },
+  'harbinger-sustained': { scope: 'unit', duration: 'phase', group: 'harbinger-of-death', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
+  'magicks-ignores-cover': { scope: 'unit', duration: 'phase', group: 'master-of-magicks', label: { en: 'IGNORES COVER', ru: 'IGNORES COVER' } },
+  'magicks-lethal': { scope: 'unit', duration: 'phase', group: 'master-of-magicks', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'magicks-sustained': { scope: 'unit', duration: 'phase', group: 'master-of-magicks', label: { en: 'SUSTAINED HITS D3', ru: 'SUSTAINED HITS D3' } },
+  // Dark Pacts is taken per activation, by a unit that passed (or failed) its Leadership test —
+  // the test is the player's business, the ability chosen is what the card has to show.
+  'pact-lethal': { scope: 'unit', duration: 'phase', group: 'dark-pact', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'pact-sustained': { scope: 'unit', duration: 'phase', group: 'dark-pact', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
+  'swordsmanship-lethal': { scope: 'unit', duration: 'phase', group: 'exquisite-swordsmanship', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'swordsmanship-sustained': { scope: 'unit', duration: 'phase', group: 'exquisite-swordsmanship', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
+  'preternatural-ignores-cover': { scope: 'unit', duration: 'phase', group: 'preternatural-precision', label: { en: 'IGNORES COVER', ru: 'IGNORES COVER' } },
+  'preternatural-lethal': { scope: 'unit', duration: 'phase', group: 'preternatural-precision', label: { en: 'LETHAL HITS', ru: 'LETHAL HITS' } },
+  'preternatural-sustained': { scope: 'unit', duration: 'phase', group: 'preternatural-precision', label: { en: 'SUSTAINED HITS 1', ru: 'SUSTAINED HITS 1' } },
   // Adeptus Mechanicus — a Cybernetica Datasmith puts the KASTELAN ROBOTS it leads into one
   // protocol, "and it remains in that protocol until it enters a different one": battle-long, and
   // exactly one at a time.

@@ -370,7 +370,7 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -463,7 +463,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -485,7 +485,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1051,7 +1051,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Infiltrators",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1073,7 +1074,8 @@ export default {
           "stat": "range",
           "op": "add",
           "value": 6,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1105,7 +1107,8 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 2,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "melee",
@@ -1238,7 +1241,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1260,7 +1264,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1358,7 +1363,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

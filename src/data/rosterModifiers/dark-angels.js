@@ -26,7 +26,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -104,7 +104,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -630,7 +630,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 9\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -720,7 +721,8 @@ export default {
           },
           "cond": [
             "unit-not-battle-shocked"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1351,7 +1353,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     }

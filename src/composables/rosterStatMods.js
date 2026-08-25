@@ -30,6 +30,11 @@ const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged',
 // matches the weapon by name. Prefix-matched and case-insensitive, because a tag carries its value
 // with it ("RAPID FIRE 1") and a name can be qualified ("Plague Wind – overcharge").
 //
+// `only.notName` is the same match, inverted, and a LIST — because the wording that needs it is a
+// list: "weapons equipped by models in this unit (excluding blast pistols, blasters and dark
+// lances)". One name at a time could not say that, so the Drukhari rule granting it was applied to
+// every weapon on the card, including the three the rule names to leave out.
+//
 // Without this the restriction had nowhere to live but the `when` prose, which meant the modifier
 // could never be applied at all — a unit-wide +1 Strength would have hit weapons the rule doesn't
 // touch. See conditions.js's `blocked-weapon`.
@@ -41,6 +46,7 @@ function rowMatchesOnly(row, only) {
   if (only.tag && !has(only.tag)) return false
   if (only.notTag && has(only.notTag)) return false
   if (only.name && !norm(row?.name).startsWith(norm(only.name))) return false
+  if (only.notName?.some((n) => norm(row?.name).startsWith(norm(n)))) return false
   return true
 }
 
@@ -176,10 +182,16 @@ function noteOf(entry, effect, applied, via = null, live = true) {
   }
 }
 
+// `unit-leading` is the one condition a RECORD can prove by itself: an effect that arrived on this
+// card `from: 'led'` is here only because a Leader carrying it is attached to this unit, so asking
+// the roster again — against the bodyguard entry, which leads nobody — would answer no and gate off
+// a rule that plainly applies. Everything else is answered by `active` alone.
+const proven = (id, active, entry) => !!active?.has(id) || (id === 'unit-leading' && entry?.from === 'led')
+
 // Does the game say every condition on this effect holds? An effect with no `cond` at all is
 // unreviewed markup, and is treated as unproven — never as unconditional.
-function condHolds(cond, active) {
-  return Array.isArray(cond) && cond.length > 0 && cond.every((id) => active?.has(id))
+function condHolds(cond, active, entry = null) {
+  return Array.isArray(cond) && cond.length > 0 && cond.every((id) => proven(id, active, entry))
 }
 
 // Is a CONDITIONAL effect proven right now? One predicate for all three passes (alternates, the
@@ -197,7 +209,7 @@ function condHolds(cond, active) {
 const byChoice = (entry) => entry.kind === 'stratagem' || !!entry.ref?.set
 function effectLive(entry, effect, active, chosen) {
   if (byChoice(entry) && !chosen?.has(entry.sid)) return false
-  if (effect.cond?.length) return condHolds(effect.cond, active)
+  if (effect.cond?.length) return condHolds(effect.cond, active, entry)
   return byChoice(entry)
 }
 
@@ -404,9 +416,17 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
 // An ABILITY has three directions, and which one a record takes is stated by its effect's
 // `target`:
 //   self    (the default) the ability is printed on this unit's own card
-//   led     it is printed on an attached LEADER's card and addresses the unit being led
-//           ("…add 1 to the Strength characteristic of melee weapons equipped by Bodyguard models
-//           in that unit" — Fabius Bile's Enhanced Warriors)
+//   led     it is printed on an attached LEADER's card and addresses the unit being led, WITHOUT
+//           that leader ("…add 1 to the Strength characteristic of melee weapons equipped by
+//           Bodyguard models in that unit" — Fabius Bile's Enhanced Warriors). GW writes
+//           "Bodyguard models" exactly when it means to leave the Character out, which is rare.
+//   unit    "while this model is leading a unit, models in that unit have…" — the ordinary Leader
+//           wording, and the one that includes the leader himself: Core Rules 19.04, "abilities
+//           that affect a unit (or models in it) apply to EVERY model in an attached unit". So it
+//           lands on both cards — the led unit's, and the leader's own while he is leading one
+//           (a leader standing alone leads nobody, and the rule says nothing). Until 2026-08-25
+//           these were written `led`, which is why a Succubus's own blades never got the
+//           [SUSTAINED HITS 1] her Storm of Blades hands the Wyches she is standing in.
 //   leader  it is printed on the BODYGUARD unit's card and addresses the Character leading it
 //           ("while a CHARACTER model is leading this unit, that model has Feel No Pain 4+")
 // The two cross directions are why this is a separate resolver: every other record in this layer
@@ -454,6 +474,12 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     // inside the aura with no distance to judge, and any entry the player has marked. Same keyword
     // gate as an ability aura — `ref.scopes`, read off the prose by the generator.
     if (rec.ref?.kind === 'enhancement') {
+      // "Models in the bearer's unit have the Deep Strike ability" — a relic that addresses the
+      // whole unit rather than the one model 19.04 reserves for an enhancement's own effects. The
+      // BEARER's card gets it from resolveModifierEntries like any other enhancement line; here it
+      // reaches the unit he joined, which is the card the wearer is not on.
+      const led = (rec.effects || []).filter((e) => e.target === 'led')
+      if (led.length && leaderEnhNames?.has(rec.name)) out.push({ ...rec, body: '', effects: led, from: 'led' })
       const aura = (rec.effects || []).filter((e) => e.target === 'aura')
       if (!aura.length) continue
       const scopes = rec.ref.scopes || null
@@ -471,11 +497,21 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       if (own.length && rec.ref.unit === unitId && itemNames?.has(rec.ref.item)) {
         out.push({ ...rec, body: '', effects: own, ...split, from: 'wargear' })
       }
-      // …or worn by a Leader attached to this unit, for the five items whose rule reads "while the
-      // bearer is leading a unit" (a Kustom Force Field, an Inquisitor's Blessed Wardings).
+      // …or worn by a Leader attached to this unit, for the handful of items whose rule reads
+      // "while the bearer is leading a unit" (a Kustom Force Field, an Inquisitor's Blessed
+      // Wardings). `unit` covers the model wearing it as well (19.04, above); `led` is the
+      // Bodyguard-only wording, which no wargear rule uses today.
       const led = (rec.effects || []).filter((e) => e.target === 'led')
       if (led.length && leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
         out.push({ ...rec, body: '', effects: led, ...split, from: 'led' })
+      }
+      const whole = (rec.effects || []).filter((e) => e.target === 'unit')
+      if (whole.length) {
+        if (rec.ref.unit === unitId && itemNames?.has(rec.ref.item) && ledUnitId) {
+          out.push({ ...rec, body: '', effects: whole, ...split, from: 'self' })
+        } else if (leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
+          out.push({ ...rec, body: '', effects: whole, ...split, from: 'led' })
+        }
       }
       // A wargear AURA (a Plague Marine's Icon of Despair) reaches units around the model wearing
       // it — including, by 22.01, its own. Same keyword gate as an ability aura.
@@ -510,12 +546,16 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     }
     if (rec.ref.unit === unitId) {
       push(of('self'), 'self')
+      // 19.04, on the leader's own card: his "models in that unit" reaches him too — but only
+      // once there IS a unit, which the roster answers and no player has to be asked.
+      if (ledUnitId) push(of('unit'), 'self')
       // 22.01: "while a model with an aura ability is on the battlefield, it is always within
       // range of its own aura ability" — so the bearer's own unit needs no switch and no range.
       pushAura('self')
     }
     if (leaderUnitIds.includes(rec.ref.unit)) {
       push(of('led'), 'led')
+      push(of('unit'), 'led')
       // The aura's model is INSIDE this unit, at 0" — same certainty, from the list alone.
       pushAura('led')
     }

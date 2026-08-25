@@ -75,7 +75,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -284,7 +284,7 @@ export default {
           "op": "add",
           "value": 2,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1091,7 +1091,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
