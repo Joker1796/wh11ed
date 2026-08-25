@@ -42,7 +42,6 @@ const labels = computed(() => ui[locale.value])
   color: var(--text-dim);
   opacity: 0.55;
   font-size: 0.95rem;
-  border-radius: 4px;
   cursor: pointer;
   transition: opacity 0.15s, background 0.15s;
 }

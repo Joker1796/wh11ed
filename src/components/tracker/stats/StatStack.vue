@@ -56,7 +56,7 @@ function fmt(v) {
   font-size: 0.82rem;
 }
 .ss-who { color: var(--text-secondary); }
-.ss-bar { display: flex; height: 0.8rem; border-radius: 4px; overflow: hidden; background: var(--bg-secondary); }
+.ss-bar { display: flex; height: 0.8rem; overflow: hidden; background: var(--bg-secondary); }
 .ss-seg { display: block; height: 100%; }
 .ss-primary { background: var(--accent); }
 .ss-secondary { background: var(--text-muted); }
@@ -74,5 +74,5 @@ function fmt(v) {
   color: var(--text-muted);
 }
 .ss-legend b { color: var(--text-primary); font-weight: 600; margin-left: 0.15rem; }
-.ss-key { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 2px; margin-right: 0.3rem; }
+.ss-key { display: inline-block; width: 0.6rem; height: 0.6rem; margin-right: 0.3rem; }
 </style>

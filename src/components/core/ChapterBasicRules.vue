@@ -134,7 +134,6 @@ const sections = useBilingualSections(basicRules, (section, ruSection) =>
   display: block;
   max-width: 100%;
   margin: 1rem 0 1.5rem;
-  border-radius: 4px;
 }
 
 /* Section-level lead image (the one right under a SectionHeader) closes with a rule.
@@ -154,7 +153,6 @@ const sections = useBilingualSections(basicRules, (section, ruSection) =>
 }
 
 .section-illustration :deep(img) {
-  border-radius: 4px;
   max-width: 100%;
   height: auto;
   flex: 1 1 auto;

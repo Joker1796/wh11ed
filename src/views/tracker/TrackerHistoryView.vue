@@ -78,7 +78,7 @@ if (!game.value) router.replace('/tracker')
   /* A list can be named anything, including a whole poem — the pill gives way rather than
      widening the page (same reason .players uses minmax(0, 1fr); see GameSetup.vue). */
   max-width: 100%; min-width: 0;
-  padding: 0.4rem 0.75rem; border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.4rem 0.75rem; border: 1px solid var(--border);
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
 .hv-roster:hover { border-color: var(--accent); color: var(--accent); }
@@ -88,21 +88,8 @@ if (!game.value) router.replace('/tracker')
 .history-view {
   padding-top: 0.5rem;
 }
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  cursor: pointer;
-  padding: 0.3rem 0;
-  margin-bottom: 0.5rem;
-}
-.back:hover {
-  color: var(--accent);
-}
+/* Sits above the page heading rather than inline with the content, so it keeps its own spacing. */
+.back { padding: 0.3rem 0; margin-bottom: 0.5rem; }
 .hv-head {
   display: flex;
   align-items: baseline;

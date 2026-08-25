@@ -285,7 +285,6 @@ function closeRulesMenu() {
   font-size: 0.85rem;
   font-weight: 500;
   color: rgba(255,255,255,0.65);
-  border-radius: 3px;
   transition: color 0.15s, background 0.15s;
   white-space: nowrap;
 }
@@ -346,7 +345,6 @@ function closeRulesMenu() {
   padding: 0.9rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 
@@ -398,7 +396,6 @@ a.nd-link:hover {
   letter-spacing: 0.5px;
   color: var(--text-dim);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0 4px;
   align-self: center;
 }
@@ -418,7 +415,6 @@ a.nd-link:hover {
   width: 3.2rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 4px;
   padding: 0;
   cursor: pointer;
   overflow: hidden;
@@ -439,7 +435,6 @@ a.nd-link:hover {
   width: 50%;
   background: color-mix(in srgb, var(--accent) 55%, transparent);
   border: 1px solid var(--accent);
-  border-radius: 3px;
   transition: left 0.18s ease;
 }
 
@@ -474,7 +469,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0 0.65rem;
   cursor: pointer;
   font-size: 1.05rem;
@@ -495,7 +489,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0 0.65rem;
   cursor: pointer;
   font-size: 1.05rem;
@@ -527,7 +520,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0.3rem 0.55rem;
   cursor: pointer;
   font-size: 0.9rem;
@@ -563,7 +555,6 @@ a.nd-link:hover {
   padding: 0.3rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 
@@ -575,7 +566,6 @@ a.nd-link:hover {
   padding: 0.6rem 0.7rem;
   background: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   text-align: left;
   font-size: 0.85rem;
@@ -606,7 +596,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.7);
-  border-radius: 4px;
   padding: 0 0.85rem;
   cursor: pointer;
   font-size: 0.88rem;
@@ -643,7 +632,6 @@ a.nd-link:hover {
   width: 22px;
   height: 2px;
   background: rgba(255,255,255,0.75);
-  border-radius: 2px;
   transition: transform 0.25s ease, opacity 0.2s ease;
   transform-origin: center;
 }

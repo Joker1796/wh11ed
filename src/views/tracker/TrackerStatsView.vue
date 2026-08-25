@@ -242,16 +242,6 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
 <style scoped>
 .stats-view { padding-top: 0.5rem; max-width: 46rem; margin: 0 auto; }
 
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.85rem;
-}
-.back:hover { color: var(--accent); }
-
 .hero { padding: 0.8rem 0 0.6rem; border-bottom: 2px solid var(--accent); margin-bottom: 1.2rem; }
 .hero h1 { font-family: var(--font-display); font-size: 2.4rem; font-weight: 400; color: var(--text-primary); }
 .hero-desc { margin: 0.35rem 0 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; }
@@ -270,7 +260,6 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
   padding: 0.6rem 0.7rem;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 6px;
 }
 .c-val {
   display: block;

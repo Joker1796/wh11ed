@@ -303,10 +303,6 @@ async function copyName() {
 </script>
 
 <style scoped>
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
 
 /* Datasheet header band: the name row is a solid faction-color plate (same visual
    language as the weapon-table headers in DatasheetCard — --ds-th-bg is the accent in
@@ -320,7 +316,6 @@ async function copyName() {
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
   background: var(--ds-th-bg, var(--accent));
-  border-radius: 6px 6px 0 0;
   --ds-th-bg: var(--accent);
 }
 @media (prefers-color-scheme: dark) {
@@ -371,7 +366,6 @@ async function copyName() {
   min-height: 36px;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
   color: rgba(255, 255, 255, 0.85);
   font-size: 1rem;
   cursor: pointer;
@@ -405,7 +399,6 @@ async function copyName() {
   z-index: 500;
   background: var(--bg-insert);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   padding: 0.75rem 2.1rem 0.8rem 0.9rem;
 }
@@ -461,7 +454,6 @@ async function copyName() {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     padding: 0.5rem 0.4rem 0.45rem;
-    border-radius: 0;
   }
   .ds-btn {
     min-width: 30px;

@@ -51,6 +51,17 @@
         <div v-if="gameCtx?.picks?.length" class="rum-strats">
           <h4 class="rum-strats-h">{{ gameCtx.picks[0].from?.set || labels.dsAbilities }}</h4>
           <ConditionChips :switches="gameCtx.picks" @toggle="$emit('toggle-pick', $event)" @info="openChipInfo" />
+          <!-- What the option that is UP still waits on. Pulse Jet's +6" M needs two things — the
+               option picked and the unit having Advanced — and the second used to live only inside
+               the ability that names it, several taps down. Both halves of one answer, together;
+               this is why the ability itself no longer carries them (see pickCondSwitches). -->
+          <ConditionChips
+            v-if="pickCondSwitches.length"
+            class="rum-pick-conds"
+            :switches="pickCondSwitches"
+            @toggle="$emit('toggle-cond', $event)"
+            @info="openChipInfo"
+          />
         </div>
         <!-- Auras of other units in the list that reach this one. The chips are also on this
              unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
@@ -507,12 +518,32 @@ const abilitySwitches = computed(() => {
   const out = {}
   for (const rec of abilityModifiers.value) {
     if (rec.from !== 'self') continue
+    // An option of an ability SET is answered by two things, and they belong together: its chip is
+    // in the picks block at the top of the card, so its CONDITION goes there too (pickCondSwitches)
+    // rather than staying buried in the accordion this ability is read in.
+    if (rec.ref?.set) continue
     const ids = new Set()
     for (const eff of rec.effects || []) for (const id of eff.cond || []) ids.add(id)
     const switches = all.filter((sw) => ids.has(sw.id))
     if (switches.length) out[rec.name] = switches
   }
   return out
+})
+
+// The states the ability-set option that is UP still waits on. Only the picked one's: an option
+// nobody selected has nothing pending, and three engines' worth of conditions beside three chips
+// would say less than one.
+const pickCondSwitches = computed(() => {
+  if (!props.gameCtx?.picks?.length) return []
+  const all = [...(props.gameCtx?.switches || []), ...(props.gameCtx?.armySwitches || [])]
+  const chosen = props.gameCtx?.chosen
+  if (!all.length || !chosen?.size) return []
+  const ids = new Set()
+  for (const rec of abilityModifiers.value) {
+    if (!rec.ref?.set || !chosen.has(rec.sid)) continue
+    for (const eff of rec.effects || []) for (const id of eff.cond || []) ids.add(id)
+  }
+  return all.filter((sw) => ids.has(sw.id))
 })
 
 // The stratagem card behind a chip, found the way modSource finds a detachment rule: by the
@@ -618,14 +649,13 @@ const ruleBlocks = computed(() => {
 </script>
 
 <style scoped>
-.modal-body { padding: 0.9rem; overflow-y: auto; }
 
 /* Context chips above the card. Muted, low-contrast on purpose — this is roster metadata, not
    part of the datasheet, and must not compete with the card's own accent-coloured header band. */
 .rum-ctx { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
 .rum-chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
-  padding: 0.2rem 0.5rem; border-radius: 4px;
+  padding: 0.2rem 0.5rem;
   background: color-mix(in srgb, var(--text-primary) 7%, transparent);
   color: var(--text-muted); font-size: 0.8rem; line-height: 1.3;
 }
@@ -635,6 +665,9 @@ const ruleBlocks = computed(() => {
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
 .rum-rule-conds { margin-bottom: 0.5rem; }
 .rum-strats { margin-bottom: 0.6rem; }
+/* A second row under the set's own chips: what the picked option still waits on. */
+.rum-pick-conds { margin-top: 0.4rem; }
+
 .rum-strats-h {
   margin: 0 0 0.3rem; color: var(--text-muted);
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
@@ -665,7 +698,6 @@ const ruleBlocks = computed(() => {
   margin: 0.6rem 0;
   border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--border));
   border-left: 3px solid var(--accent);
-  border-radius: 0 4px 4px 0;
   background: color-mix(in srgb, var(--accent) 4%, transparent);
   padding: 0.35rem 0.7rem 0.45rem;
   font-size: 0.85rem;
@@ -725,7 +757,6 @@ const ruleBlocks = computed(() => {
   .modal-body :deep(.ds-card) {
     width: auto;
     margin-left: 0;
-    border-radius: 6px;
   }
 }
 </style>

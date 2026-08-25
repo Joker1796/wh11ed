@@ -24,7 +24,7 @@
     <div v-if="current.settings.trackPhases" class="phase-bar">
       <button class="pb-nav" :disabled="!canStepPhase(-1)" :aria-label="labels.ariaPrevPhase" @click="stepPhase(-1)">‹</button>
       <button class="pb-now" @click="phasePickerOpen = true">
-        <span class="pb-who">{{ playerName(turnIndex) }}</span>
+        <span class="pb-who">{{ playerSide(turnIndex) }}</span>
         <span class="pb-phase">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
       </button>
       <button class="pb-nav" :disabled="!canStepPhase(1)" :aria-label="labels.ariaNextPhase" @click="stepPhase(1)">›</button>
@@ -169,11 +169,18 @@ const phasePickerOpen = ref(false)
 // players[0] is always the first-turn player, so the turn IS a player index (useTracker).
 const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
 
-// One naming rule for both the player cards and the clock: their own name if they gave one,
-// otherwise You/Opponent by who they are — never by position, since first turn reorders them.
-function playerName(i) {
+// Which side a player is — by who they are, never by position, since first turn reorders them.
+// The clock prints this and nothing else: it is read at a glance in the middle of a turn, and a
+// nickname does not answer the question it is there to answer. "You" does, in one word.
+function playerSide(i) {
   const pl = current.value.players[i]
-  return pl.name || ((pl.isYou ?? i === 0) ? labels.value.trackerYou : labels.value.trackerOpponent)
+  return (pl.isYou ?? i === 0) ? labels.value.trackerYou : labels.value.trackerOpponent
+}
+
+// Their own name if they gave one, otherwise the side. For the places with room for a name and a
+// reason to print one: the player cards, and the phase picker's two turn headings.
+function playerName(i) {
+  return current.value.players[i].name || playerSide(i)
 }
 
 function onPickPhase(turn, phase) {
@@ -249,7 +256,6 @@ function onEndBattle(reason) {
   min-width: 32px;
   padding: 0.3rem 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-card);
   color: var(--text-dim);
   font-size: 1rem;
@@ -262,7 +268,6 @@ function onEndBattle(reason) {
   gap: 0.4rem;
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-card);
   font-family: inherit;
   font-size: 0.85rem;
@@ -276,7 +281,6 @@ function onEndBattle(reason) {
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-primary);
-  border-radius: 4px;
   font-size: 1.2rem;
   cursor: pointer;
 }
@@ -285,7 +289,6 @@ function onEndBattle(reason) {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-card);
 }
 .twist-card > summary {
@@ -309,15 +312,15 @@ function onEndBattle(reason) {
   line-height: 1.5;
   color: var(--text-muted);
 }
-/* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and a pill next to
-   those square buttons read as a different kind of thing. One class for both of the row's army
+/* Built to NumberStepper's `.step-btn` recipe — it shares a row with one, and anything else
+   next to those buttons read as a different kind of thing. One class for both of the row's army
    links (the attached list, or the faction's datasheets) so the slot looks the same either way.
    It says just "Roster": the list's own name is on the page it opens, and a long one used to
    squeeze the row. */
 .proster {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
   height: 40px; padding: 0 0.75rem;
-  border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card);
+  border: 1px solid var(--border); background: var(--bg-card);
   color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
   transition: background 0.15s, border-color 0.15s;
 }
@@ -326,7 +329,6 @@ function onEndBattle(reason) {
 .player {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 0.8rem;
 }
 .ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
@@ -348,7 +350,6 @@ function onEndBattle(reason) {
   gap: 0.5rem;
   padding: 0.55rem 0.65rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   background: var(--bg-secondary);
   cursor: pointer;
   text-align: left;
@@ -376,14 +377,6 @@ function onEndBattle(reason) {
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
 .actions { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.25rem; }
 .actions-left { display: flex; gap: 0.6rem; }
-.btn-primary {
-  padding: 0.6rem 1.4rem; background: var(--accent); color: #fff;
-  border: none; border-radius: 4px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
-}
-.btn-ghost {
-  padding: 0.6rem 1.1rem; background: none; color: var(--text-muted);
-  border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; cursor: pointer;
-}
 .btn-icon {
   display: inline-flex; align-items: center; gap: 0.25rem;
   padding: 0.6rem 0.7rem; font-size: 1rem; line-height: 1;

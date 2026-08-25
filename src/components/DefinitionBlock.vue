@@ -30,7 +30,6 @@ function renderLines(text) {
 <style scoped>
 .definition-block {
   background: var(--bg-definition);
-  border-radius: 4px;
   margin-top: 1rem;
   overflow: hidden;
 }

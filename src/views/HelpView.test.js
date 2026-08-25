@@ -1,10 +1,19 @@
-import { afterEach, describe, it, expect } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
+
+// HelpTopicView reads the topic off the route; the rest of this file mounts plain content views.
+let TOPIC = 'search'
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ params: { get topic() { return TOPIC } } }),
+  useRouter: () => ({ replace: vi.fn() }),
+  RouterLink: { name: 'RouterLink', props: ['to'], template: '<a :href="to"><slot /></a>' },
+}))
 import { mount } from '@vue/test-utils'
 import HelpView from './HelpView.vue'
-import { help } from '../data/help.js'
+import HelpTopicView from './HelpTopicView.vue'
+import { help, slugOf } from '../data/help.js'
 import { useLocale } from '../composables/useLocale.js'
 
-const stubs = { RouterLink: { props: ['to'], template: '<a><slot /></a>' } }
+const stubs = { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } }
 const { locale } = useLocale()
 afterEach(() => { locale.value = 'en' })
 
@@ -14,6 +23,12 @@ describe('help content', () => {
   it('keeps the EN and RU halves structurally identical', () => {
     const bullets = (b) => (b.match(/^▪/gm) || []).length
     expect(help.ru.sections.map((s) => s.id)).toEqual(help.en.sections.map((s) => s.id))
+    // A `to` is a path (language-agnostic) and must match; a `toLabel` is copy and must exist on
+    // both halves whenever it does. A link on one side only would be a dead end in one language.
+    expect(help.ru.sections.map((s) => s.to)).toEqual(help.en.sections.map((s) => s.to))
+    for (const loc of ['en', 'ru']) {
+      for (const s of help[loc].sections) expect(Boolean(s.to), `${loc} ${s.id}`).toBe(Boolean(s.toLabel))
+    }
     for (const [i, en] of help.en.sections.entries()) {
       const ru = help.ru.sections[i]
       expect(bullets(ru.body), en.id).toBe(bullets(en.body))
@@ -48,41 +63,39 @@ describe('help content', () => {
   })
 })
 
-describe('HelpView', () => {
-  it('renders every section with an anchor, and a table of contents to reach it', () => {
+describe('HelpView — the contents', () => {
+  it('lists every topic, in order, as a link to its own page', () => {
     const w = mount(HelpView, { global: { stubs } })
-    const ids = w.findAll('.help-section').map((s) => s.attributes('id'))
-    expect(ids).toEqual(help.en.sections.map((s) => s.id))
     const nav = w.findAll('.help-nav-item')
     expect(nav).toHaveLength(help.en.sections.length)
-    expect(nav[0].attributes('href')).toBe('#help-search')
-    // Reads as a contents list, not as a row of tags: numbered, one per line, titled — and with
-    // no furniture around it (no panel, no chevrons), which is the second thing it was.
+    expect(nav.map((a) => a.attributes('href'))).toEqual(help.en.sections.map((s) => `/help/${slugOf(s)}`))
+    // Reads as a contents list, not as a row of tags: numbered, one per line, titled.
     expect(w.find('.help-nav-h').text()).toBe('Contents')
     expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1.', '2.', '3.', '4.', '5.', '6.'])
     expect(nav[0].find('.help-nav-t').text()).toBe(help.en.sections[0].title)
   })
 
-  // The lit row is what makes it navigation rather than a list of links: it says where you are.
-  it('lights the row for the section being read', async () => {
-    const w = mount(HelpView, { global: { stubs }, attachTo: document.body })
-    // jsdom lays nothing out, so place the sections by hand: the second one is just above the
-    // header line, the ones after it are still below the fold.
-    help.en.sections.forEach((s, i) => {
-      const el = document.getElementById(s.id)
-      el.getBoundingClientRect = () => ({ top: i <= 1 ? 50 : 800, height: 200 })
-    })
-    window.dispatchEvent(new Event('scroll'))
-    await new Promise((r) => setTimeout(r, 40))
-    const lit = w.findAll('.help-nav-item').filter((a) => a.classes().includes('on'))
-    expect(lit).toHaveLength(1)
-    expect(lit[0].attributes('href')).toBe(`#${help.en.sections[1].id}`)
-    expect(lit[0].attributes('aria-current')).toBe('true')
-    w.unmount()
+  // The index is a way in, not the guide: the bodies live on the topic pages now, and printing
+  // them here as well would put the whole thing back on one page.
+  it('carries no section bodies of its own', () => {
+    const w = mount(HelpView, { global: { stubs } })
+    expect(w.find('.help-body').exists()).toBe(false)
+    expect(w.text()).not.toContain('Ctrl + K')
   })
 
-  it('renders the body through the shared block renderer, not as flat text', () => {
+  it('follows the locale', () => {
+    locale.value = 'ru'
     const w = mount(HelpView, { global: { stubs } })
+    expect(w.find('.hero-title').text()).toBe('Как пользоваться')
+    expect(w.text()).toContain(help.ru.sections[2].title)
+  })
+})
+
+describe('HelpTopicView — one topic', () => {
+  const mountTopic = (topic) => { TOPIC = topic; return mount(HelpTopicView, { global: { stubs } }) }
+
+  it('renders the body through the shared block renderer, not as flat text', () => {
+    const w = mountTopic('search')
     const html = w.find('.help-body').html()
     expect(html).toContain('<ul>')                  // the ▪ lines became a real list
     expect(html).toContain('<strong>')              // **bold** was rendered
@@ -90,10 +103,24 @@ describe('HelpView', () => {
     expect(w.text()).not.toContain('▪')
   })
 
-  it('follows the locale', () => {
-    locale.value = 'ru'
-    const w = mount(HelpView, { global: { stubs } })
-    expect(w.find('.hero-title').text()).toBe('Как пользоваться')
-    expect(w.text()).toContain('Собрать армейский лист')
+  // Three of the six describe a section of the app and end with a door into it; the other three
+  // (search, offline, data) describe no single section and must not invent one.
+  it('ends with a link into the section it describes, where there is one', () => {
+    const w = mountTopic('tracker')
+    expect(w.find('.help-go').attributes('href')).toBe('/tracker')
+    expect(w.find('.help-go').text()).toContain('Open the tracker')
+    expect(mountTopic('offline').find('.help-go').exists()).toBe(false)
+  })
+
+  // Six topics read in order as often as they are arrived at singly, so each page offers its
+  // neighbours — the first has no previous, the last no next.
+  it('offers the neighbouring topics, and only the ones that exist', () => {
+    const first = mountTopic(slugOf(help.en.sections[0]))
+    expect(first.find('.ha-prev').exists()).toBe(false)
+    expect(first.find('.ha-next').attributes('href')).toBe(`/help/${slugOf(help.en.sections[1])}`)
+
+    const last = mountTopic(slugOf(help.en.sections.at(-1)))
+    expect(last.find('.ha-next').exists()).toBe(false)
+    expect(last.find('.ha-prev').attributes('href')).toBe(`/help/${slugOf(help.en.sections.at(-2))}`)
   })
 })

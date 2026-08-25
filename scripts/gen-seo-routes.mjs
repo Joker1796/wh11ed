@@ -37,6 +37,13 @@ const STATIC_ROUTES = [
   '/stratagems',
   '/links',
   '/help',
+  // The guide's six topic pages (src/data/help.js) — each is a real URL since 2026-08-25.
+  '/help/search',
+  '/help/rules',
+  '/help/rosters',
+  '/help/tracker',
+  '/help/offline',
+  '/help/data',
   '/disclaimer',
   '/changelog',
 ]

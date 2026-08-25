@@ -54,7 +54,6 @@ function dismiss() {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 5px;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;

@@ -187,7 +187,6 @@ function handleDefClick(e) {
   float: left;
   max-width: var(--side-image-width, 50%);
   margin: 0 1.5rem 1rem 0;
-  border-radius: 4px;
 }
 
 @media (max-width: 700px) {

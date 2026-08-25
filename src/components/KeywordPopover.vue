@@ -118,7 +118,6 @@ const positionStyle = computed(() => {
   z-index: 500;
   background: var(--bg-insert);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }

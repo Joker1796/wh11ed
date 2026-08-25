@@ -184,7 +184,6 @@ function create() {
   color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 5px;
 }
 .rim-error { margin: 0; font-size: 0.8rem; color: var(--danger, #c0392b); }
 .rim-faction { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
@@ -194,7 +193,6 @@ function create() {
   color: var(--text-primary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 5px;
 }
 .rim-warn-note { color: var(--text-muted); font-weight: 400; }
 .rim-report { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -210,7 +208,6 @@ function create() {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 5px;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;

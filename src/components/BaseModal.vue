@@ -19,7 +19,10 @@
       tabindex="-1"
       :style="{ '--modal-max-w': maxWidth, '--modal-max-h': maxHeight }"
     >
-      <!-- Custom header: the consumer supplies its own <header class="modal-head"> -->
+      <!-- Custom header: the consumer supplies its own <header class="modal-head">, and gets the
+           shared look for free — the chrome classes are global (style.css), not scoped here.
+           Prefer `title` when the header is only a heading and a close button; this slot is for
+           the ones that carry more (a subtitle, a VP counter). -->
       <slot v-if="$slots.header" name="header" :close="() => $emit('close')" />
       <!-- Default header: title + close -->
       <header v-else-if="title" class="modal-head">
@@ -74,29 +77,17 @@ useModalA11y(root, () => emit('close'))
   flex-direction: column;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 .modal:focus { outline: none; }
-/* Default header (custom headers carry their own .modal-head in the consumer's scope). */
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+/* .modal-head / .mh-title / .mh-close are global (style.css, "Modal chrome") rather than scoped
+   here: a consumer's own #header renders in ITS scope, which these rules would never reach. */
 
 @media (max-width: 560px) {
   .modal-overlay { padding: 0; align-items: flex-end; }
+  /* The only rounded corners in the app: on a phone the modal is a sheet that slides up from
+     the bottom edge, and the rounded top is what says so. */
   .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
 }
 

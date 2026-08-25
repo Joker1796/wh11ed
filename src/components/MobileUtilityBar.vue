@@ -116,7 +116,6 @@ defineExpose({ visible })
   height: 2.2rem;
   flex-shrink: 0;
   border: none;
-  border-radius: 8px;
   /* Light theme: a light chip (--bg-card) with a dark border/icon (--bg-insert, the
      bottom-nav's own always-dark tone — used here as an outline instead of a fill). Dark
      theme: back to plain --bg-primary + the app accent, as before. --mb-icon-bg/--mb-icon-tint

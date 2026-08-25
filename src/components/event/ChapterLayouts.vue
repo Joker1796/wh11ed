@@ -226,10 +226,6 @@ const currentLayout = computed(() =>
 </script>
 
 <style scoped>
-.lead {
-  margin: 0 0 1.25rem;
-  line-height: 1.6;
-}
 
 .key-note {
   margin: 1.25rem 0;
@@ -243,7 +239,6 @@ const currentLayout = computed(() =>
   padding: 0.8rem 1rem;
   border: 1px solid var(--accent);
   border-left-width: 3px;
-  border-radius: 6px;
   background: var(--bg-row-hover);
   line-height: 1.5;
   font-size: 0.95rem;
@@ -259,7 +254,6 @@ const currentLayout = computed(() =>
   margin: 2rem 0;
   padding: 1.25rem 1.5rem 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
   background: var(--bg-card);
 }
 .key-header {
@@ -290,7 +284,6 @@ const currentLayout = computed(() =>
   flex-shrink: 0;
   padding: 0.35rem 0.8rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
@@ -320,7 +313,6 @@ const currentLayout = computed(() =>
   width: 40px;
   height: 40px;
   object-fit: contain;
-  border-radius: 4px;
 }
 
 .legend-subheading {
@@ -350,7 +342,6 @@ const currentLayout = computed(() =>
 .legend-terrain .legend-icon {
   width: 92px;
   height: 68px;
-  border-radius: 6px;
 }
 
 /* Battlefield edges — full-width bars, label above each, as on the source page. */
@@ -416,7 +407,6 @@ const currentLayout = computed(() =>
 .matchup {
   margin-top: 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
   padding: 1.25rem;
   background: var(--bg-card);
 }
@@ -484,7 +474,6 @@ const currentLayout = computed(() =>
   flex-shrink: 0;
   padding: 0.35rem 0.8rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
@@ -499,15 +488,6 @@ const currentLayout = computed(() =>
   color: var(--accent);
   border-color: var(--accent);
 }
-.tab {
-  padding: 0.4rem 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
-}
 .tab-main {
   font-family: var(--font-display);
   font-size: 1.04rem;
@@ -516,14 +496,6 @@ const currentLayout = computed(() =>
   font-size: 0.7rem;
   color: var(--text-muted);
   white-space: nowrap;
-}
-.tab:hover {
-  border-color: var(--accent);
-}
-.tab.active {
-  background: var(--accent);
-  color: var(--text-on-accent);
-  border-color: var(--accent);
 }
 .tab.active .tab-map {
   color: var(--text-on-accent);
@@ -539,7 +511,6 @@ const currentLayout = computed(() =>
     flex-direction: column;
     align-items: center;
     gap: 0.1rem;
-    border-radius: 14px;
   }
 }
 
@@ -562,7 +533,6 @@ const currentLayout = computed(() =>
   .key-toggle {
     min-height: 40px;
     padding: 0.5rem 1rem;
-    border-radius: 8px;
   }
   .legend-objectives { gap: 1.25rem 1.5rem; }
 
@@ -574,7 +544,6 @@ const currentLayout = computed(() =>
     min-width: 44px;
     min-height: 44px;
     padding: 0.4rem;
-    border-radius: 8px;
     font-size: 1.1rem;
   }
   .tab-main { font-size: 1.1rem; }

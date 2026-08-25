@@ -154,26 +154,6 @@ const filteredPrimaryGroups = computed(() =>
   gap: 0.7rem;
   margin-bottom: 1.75rem;
 }
-.seg {
-  display: inline-flex;
-  width: fit-content;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-.seg button {
-  padding: 0.4rem 0.9rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button { border-left: 1px solid var(--border); }
-.seg button.on { background: var(--accent); color: var(--text-on-accent); }
-.seg button:not(.on):hover { color: var(--text-primary); }
 
 .dispo-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .chip {
@@ -182,7 +162,6 @@ const filteredPrimaryGroups = computed(() =>
   gap: 0.35rem;
   padding: 0.32rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-secondary);
   color: var(--text-muted);
   cursor: pointer;

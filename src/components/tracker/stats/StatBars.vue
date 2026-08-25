@@ -46,7 +46,6 @@ function width(ratio) {
 .sb-sub { color: var(--text-dim); font-size: 0.72rem; margin-left: 0.35rem; }
 .sb-track {
   height: 0.5rem;
-  border-radius: 999px;
   background: var(--bg-secondary);
   overflow: hidden;
 }
@@ -54,7 +53,6 @@ function width(ratio) {
   display: block;
   height: 100%;
   background: var(--accent);
-  border-radius: 999px;
 }
 .sb-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sb-row.dim .sb-fill { background: var(--text-dim); opacity: 0.55; }

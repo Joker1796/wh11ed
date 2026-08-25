@@ -1,6 +1,6 @@
 <template>
   <BaseModal :title="labels.navRules" @close="$emit('close')">
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <RouterLink
         v-for="s in t.sections"
         :key="s.key"
@@ -33,13 +33,8 @@ const t = computed(() => rulesLanding[locale.value])
 </script>
 
 <style scoped>
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
+/* Roomier than the default list — these rows are cards, not one-liners. */
+.modal-list { gap: 0.5rem; }
 
 .rule-link {
   display: flex;
@@ -48,7 +43,6 @@ const t = computed(() => rulesLanding[locale.value])
   padding: 0.7rem 0.8rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
-  border-radius: 4px;
   text-decoration: none;
   transition: border-color 0.15s;
 }

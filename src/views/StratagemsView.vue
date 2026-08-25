@@ -290,7 +290,6 @@ function togglePhase(key) {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -320,7 +319,6 @@ function togglePhase(key) {
   width: 100%;
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -365,7 +363,6 @@ function togglePhase(key) {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -388,22 +385,6 @@ function togglePhase(key) {
   font-style: italic;
   padding: 1.5rem 0;
   text-align: center;
-}
-
-.strat-grid {
-  column-count: 2;
-  column-gap: 1rem;
-}
-
-.strat-grid > * {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 640px) {
-  .strat-grid {
-    column-count: 1;
-  }
 }
 
 /* Narrow phones: with a game on there are 4 toolbar buttons (3 filters + the toggle),

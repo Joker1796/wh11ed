@@ -700,7 +700,6 @@ function abilityStateLabel(st) {
 .ds-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 0.9rem 1rem 1rem;
 }
 
@@ -853,7 +852,6 @@ function abilityStateLabel(st) {
   padding: 0.55rem 1rem 0.75rem;
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-top: 1px solid var(--border);
-  border-radius: 0 0 5px 5px;
 }
 .ds-points-title {
   font-size: 0.68rem;
@@ -975,7 +973,6 @@ function abilityStateLabel(st) {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     padding: 0.9rem 0.4rem 0.6rem;
-    border-radius: 0;
   }
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
@@ -985,10 +982,6 @@ function abilityStateLabel(st) {
   .ds-weapons {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
-  }
-  .ds-weapons th:first-child,
-  .ds-weapons th:last-child {
-    border-radius: 0;
   }
   .ds-points table {
     font-size: 0.72rem;
@@ -1015,8 +1008,8 @@ function abilityStateLabel(st) {
    cell keeps one source for the text (and its translation) instead of adding a second one. */
 @media (max-width: 560px) {
   .ds-weapons { overflow-x: visible; }
-  /* Cancel the ≤480px edge bleed: these are bordered, rounded cards now, and running them off
-     the screen would clip the rounding on both sides. */
+  /* Cancel the ≤480px edge bleed: these are bordered cards now, and running them off the
+     screen would cut their frame open on both sides. */
   .ds-weapons { margin-left: 0; margin-right: 0; }
   /* A real gap between the ranged block and the melee block — they are two labelled sections
      now, not two halves of one table (the base rule tightens them to 0.05rem). */
@@ -1035,7 +1028,6 @@ function abilityStateLabel(st) {
     padding: 0 0.1rem 0.3rem;
     background: none;
     color: var(--accent);
-    border-radius: 0;
     font-size: 0.64rem;
   }
 
@@ -1047,7 +1039,6 @@ function abilityStateLabel(st) {
     margin-bottom: 0.35rem;
     padding: 0.5rem 0.55rem 0.55rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
     background: color-mix(in srgb, var(--text-primary) 3%, transparent);
   }
   .ds-weapons tbody tr:last-child { margin-bottom: 0; }
@@ -1101,9 +1092,6 @@ function abilityStateLabel(st) {
     margin-bottom: 0;
     border-bottom: none;
   }
-  .ds-weapons tbody tr.wg-start { border-radius: 6px 6px 0 0; }
-  .ds-weapons tbody tr.wg-mid { border-radius: 0; }
-  .ds-weapons tbody tr.wg-end { border-radius: 0 0 6px 6px; }
   .ds-weapons tbody tr.wg-mid,
   .ds-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }
@@ -1140,7 +1128,7 @@ function abilityStateLabel(st) {
 .ds-mods-btn {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
   width: 100%; padding: 0.35rem 0.55rem; background: none; font: inherit;
-  border: 1px dashed var(--border); border-radius: 6px;
+  border: 1px dashed var(--border);
   font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
   color: var(--text-muted); cursor: pointer; text-align: left;
   margin: 0 0 0.4rem;
@@ -1279,7 +1267,6 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
    distinct groups rather than one undifferentiated list. */
 .ds-ability-group {
   margin: 0.6rem 0;
-  border-radius: 4px;
   overflow: hidden;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   font-size: 0.85rem;
@@ -1300,7 +1287,6 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   padding: 0.5rem 0.7rem;
   border-left: 3px solid #c0392b;
   background: color-mix(in srgb, #c0392b 8%, transparent);
-  border-radius: 0 4px 4px 0;
   font-size: 0.82rem;
 }
 
@@ -1312,7 +1298,6 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   .ds-ability-group {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
-    border-radius: 0;
   }
 }
 

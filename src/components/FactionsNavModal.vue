@@ -1,6 +1,6 @@
 <template>
   <BaseModal :title="labels.navFactions" @close="$emit('close')">
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <template v-if="pinned.length">
         <h4 class="fp-group">{{ labels.favPinnedGroup }}</h4>
         <div v-for="f in pinned" :key="'pin-' + f.slug" class="fac">
@@ -63,13 +63,6 @@ function groupLabelKey(id) {
 </script>
 
 <style scoped>
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
 .fp-group {
   font-size: 0.72rem;
   font-weight: 700;
@@ -88,7 +81,6 @@ function groupLabelKey(id) {
   padding: 0.5rem 0.55rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
-  border-radius: 4px;
   transition: border-color 0.15s;
 }
 .fac:has(.fac-link:hover) { border-color: var(--accent); }
@@ -112,7 +104,6 @@ function groupLabelKey(id) {
   letter-spacing: 1px;
   color: var(--text-dim);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 1px 5px;
   flex-shrink: 0;
 }

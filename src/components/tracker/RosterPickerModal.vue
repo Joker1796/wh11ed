@@ -7,7 +7,7 @@
       </header>
     </template>
 
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <p v-if="faction" class="rp-note">{{ labels.trackerRosterFactionOnly }}</p>
       <p v-if="!savedRosters.length" class="rp-empty">{{ labels.trackerRosterNone }}</p>
 
@@ -121,25 +121,12 @@ async function useLink() {
    …). It has to be repeated here: BaseModal's own `.modal-head` rules are scoped to BaseModal and
    styles a SLOTTED header in the consumer's scope instead, so a custom header inherits nothing —
    which is what left this one with no padding, no rule under it and a half-size title. */
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-.modal-body { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem; overflow-y: auto; }
+/* Roomier than the default list — these rows are cards, not one-liners. */
+.modal-list { gap: 0.5rem; }
 .rp-empty { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.25rem; }
 .rp-row {
   display: flex; flex-direction: column; gap: 0.15rem; text-align: left;
-  padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 6px;
+  padding: 0.6rem 0.75rem; border: 1px solid var(--border);
   background: var(--bg-card); color: var(--text-primary); cursor: pointer;
 }
 .rp-row:hover { border-color: var(--accent); }
@@ -158,16 +145,16 @@ async function useLink() {
 .rp-link-row { display: flex; gap: 0.4rem; }
 .rp-link-row input {
   flex: 1; min-width: 0; padding: 0.5rem 0.6rem; font-size: 0.85rem;
-  border: 1px solid var(--border); border-radius: 5px; background: var(--bg-input, var(--bg-card)); color: var(--text-primary);
+  border: 1px solid var(--border); background: var(--bg-input, var(--bg-card)); color: var(--text-primary);
 }
 .rp-link-btn {
-  padding: 0.5rem 0.8rem; border: none; border-radius: 5px; background: var(--accent); color: #fff;
+  padding: 0.5rem 0.8rem; border: none; background: var(--accent); color: #fff;
   font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 .rp-link-btn:disabled { opacity: 0.5; cursor: default; }
 .rp-link-error { color: #c0392b; font-size: 0.8rem; margin: 0.4rem 0 0; }
 .rp-clear {
-  margin-top: 0.5rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: 5px;
+  margin-top: 0.5rem; padding: 0.5rem; border: 1px solid var(--border);
   background: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer;
 }
 .rp-clear:hover { color: var(--text-primary); }

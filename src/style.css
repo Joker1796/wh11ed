@@ -140,12 +140,11 @@
   transform: scale(0.6);
 }
 
-/* Round-square floating action buttons — the faction hero-page FABs and the back-to-top
-   button. Outline/ghost look (surface fill, accent frame + icon) that fills with the accent
-   on hover; picks up the local --accent, so faction pages get their faction colour for free.
-   Only transform + colours animate (GPU-cheap); the frame is an inset box-shadow, not a
-   border, so its rounded corners stay antialiased on the transform-promoted GPU layer
-   (a `border` rasterises jagged there). */
+/* Square floating action buttons — the faction hero-page FABs and the back-to-top button.
+   Outline/ghost look (surface fill, accent frame + icon) that fills with the accent on hover;
+   picks up the local --accent, so faction pages get their faction colour for free. Only
+   transform + colours animate (GPU-cheap); the frame is an inset box-shadow rather than a
+   border so it shares one paint with the drop shadow below it. */
 .fab-btn {
   display: flex;
   align-items: center;
@@ -153,7 +152,6 @@
   width: 60px;
   height: 60px;
   border: none;
-  border-radius: 12px;
   background: var(--bg-primary);
   color: var(--accent);
   font-size: 1.6rem;
@@ -219,6 +217,17 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Corners are square app-wide (see "Corners & surfaces" in CLAUDE.md) — stated once, here,
+   instead of in every component. It has to be stated at all because form controls are the one
+   thing browsers round on their own: iOS Safari gives <button>/<input> a radius of its own
+   unless told otherwise, which would have quietly re-rounded every button in the app. */
+button,
+input,
+select,
+textarea {
+  border-radius: 0;
 }
 
 /* Kill double-tap-to-zoom (and the legacy 300ms tap delay) on tap targets — rapid taps on
@@ -482,7 +491,6 @@ tr:hover td {
   background: color-mix(in srgb, var(--link-accent) 12%, transparent);
   color: var(--link-accent);
   border: 1px solid color-mix(in srgb, var(--link-accent) 35%, transparent);
-  border-radius: 2px;
   padding: 0 5px;
   font-size: 0.78em;
   font-weight: 600;
@@ -496,7 +504,6 @@ tr:hover td {
   display: inline-block;
   background: var(--accent);
   color: var(--text-on-accent);
-  border-radius: 2px;
   padding: 1px 7px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -511,7 +518,6 @@ tr:hover td {
   background: var(--bg-insert);
   color: var(--text-on-dark);
   border-left: 3px solid var(--accent);
-  border-radius: 0 4px 4px 0;
   padding: 0.85rem 1.1rem;
   margin: 0.9rem 0;
   font-size: 0.9rem;
@@ -553,7 +559,6 @@ strong {
 .example-block {
   background: var(--bg-secondary);
   border-left: 3px solid var(--text-muted);
-  border-radius: 0 4px 4px 0;
   padding: 0.85rem 1.1rem;
   margin: 0.9rem 0;
   font-size: 0.92rem;
@@ -630,6 +635,326 @@ strong {
   .view-hero h1 { font-size: 1.6rem !important; }
 }
 
+/* ── Boxed switch ──────────────────────────────────────────────────────────
+   A row of separate boxes picking one of a few (the wizard's first-turn choice, the Event
+   Companion's layout A/B/C). Neither PageTabs (which changes what the page shows) nor .seg
+   (which is one joined control): these read as three buttons where exactly one is lit. */
+.tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+
+.tab {
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 1.04rem;
+  transition: background var(--motion-fast), border-color var(--motion-fast);
+}
+
+.tab:hover { border-color: var(--accent); }
+.tab.active { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+
+/* ── Roster wizard footer bar ──────────────────────────────────────────────
+   The fixed bar under the three roster-building screens: points and issue count on the left,
+   the actions on the right. All three drew it, identically, down to the two breakpoints.
+   `.rc-sticky` is also matched BY NAME from App.vue — don't rename it here. */
+.rc-sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+
+.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
+.rc-sticky-actions { display: flex; gap: 0.5rem; }
+.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.rc-points.over { color: #c0392b; }
+
+.issues-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
+.issues-badge.ok { color: #3c9a5f; }
+
+/* Clear of the mobile bottom-nav (52px — .bn-item's min-height in App.vue). */
+@media (max-width: 900px) {
+  .rc-sticky { bottom: calc(52px + var(--safe-bottom, 0px)); padding-bottom: 0.6rem; }
+}
+
+@media (max-width: 400px) {
+  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
+  .rc-sticky-info { gap: 0.35rem; }
+  .rc-sticky-actions { gap: 0.35rem; }
+  .rc-points { font-size: 0.85rem; }
+  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
+}
+
+/* ── Odds and ends shared by several screens ───────────────────────────────
+   Small rules that three or four components each wrote out in full. */
+
+/* A chapter's opening paragraph (Core Rules / Event Companion). */
+.lead { margin: 0 0 1.25rem; line-height: 1.6; }
+
+/* An anchorable block inside a rules chapter — the scroll-margin keeps it clear of the sticky
+   header when search or a cross-ref jumps to it, same as .fsection above. */
+.split-block { margin-bottom: 1rem; scroll-margin-top: var(--header-total); }
+
+/* Stratagem cards flow in newspaper columns rather than a grid, so a tall card does not leave a
+   hole beside a short one. */
+.strat-grid { column-count: 2; column-gap: 1rem; }
+.strat-grid > * { break-inside: avoid; margin-bottom: 1rem; }
+@media (max-width: 640px) {
+  .strat-grid { column-count: 1; }
+}
+
+/* A labelled form field's caption, and the little "?" that opens an explanation beside it. */
+.field > span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.help-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.help-btn:hover { color: var(--accent); }
+
+/* ── Segmented control ─────────────────────────────────────────────────────
+   A small either/or (or one-of-four) sitting INSIDE a form or a filter row — not to be confused
+   with PageTabs, which switches what the whole page is showing. Four screens carried the same
+   five rules. A .seg that needs another type (the roster wizard's points selector is numeric, so
+   it goes mono) says so in one line of its own. */
+.seg {
+  display: flex;
+  width: fit-content;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.seg button {
+  padding: 0.45rem 0.85rem;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button:not(.on):hover { color: var(--text-primary); }
+.seg button.on { background: var(--accent); color: var(--text-on-accent); }
+
+/* ── Back link ─────────────────────────────────────────────────────────────
+   The quiet "← somewhere" above a screen's content. Seven tracker/roster views drew it, six of
+   them identically. Reset as a button too — one of the seven goes back through history rather
+   than to a route — and defended against the global `a:hover` underline. */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.back:hover { color: var(--accent); }
+a.back,
+a.back:hover { text-decoration: none; }
+
+/* ── Checkbox row ──────────────────────────────────────────────────────────
+   A labelled option box with a real <input type="checkbox"> inside — the setup wizard's and the
+   roster wizard's settings. Four screens carried the same four rules. */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color var(--motion-fast), background var(--motion-fast);
+}
+
+.check:hover { border-color: var(--accent); }
+.check.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+.check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* The label brightens when the box is ticked; the small print under it does not. */
+.check.on span { color: var(--text-primary); }
+.check-note { display: block; font-style: normal; font-size: 0.72rem; color: var(--text-dim); }
+
+/* ── Faction / Combat Patrol page sections ────────────────────────────────
+   A titled block on a faction page (army rule, detachments, datasheets, FAQ) and on a Combat
+   Patrol box. Five views rendered the identical pair of rules; the scroll-margin is what keeps a
+   section from landing under the sticky navbar when the search or a cross-ref jumps to it. */
+.fsection {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: var(--header-total);
+}
+
+.fsection-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 0.8rem;
+}
+
+@media (max-width: 640px) {
+  .fsection-title { font-size: 1.6rem; }
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────────
+   `.btn-primary` (the action) and `.btn-ghost` (the way out standing beside it). Global for the
+   same reason the modal chrome below is: ten views and dialogs each carried a private copy, and
+   the copies had drifted — five paddings, three font sizes, two weights and four different ghost
+   colours for what is nominally one button. One canon here; a screen that genuinely needs another
+   size says so in a line of its own.
+
+   Both classes dress a <button> AND a <RouterLink>, so they restate font-family (buttons do not
+   inherit it) and defend against the global `a` / `a:hover` rules above, which would otherwise
+   recolour and underline the linked ones. */
+.btn-primary,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.3rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+a.btn-primary,
+a.btn-primary:hover { color: #fff; text-decoration: none; }
+
+.btn-ghost { background: none; color: var(--text-muted); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+a.btn-ghost { color: var(--text-muted); text-decoration: none; }
+a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
+
+.btn-primary:disabled,
+.btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* The one size modifier: a page's own call to action, standing on its own rather than in a row of
+   ordinary controls. Two screens use it — the tracker home and the roster list. */
+.btn-lg { padding: 0.7rem 1.6rem; font-size: 0.95rem; }
+
+/* ── Modal chrome ──────────────────────────────────────────────────────────
+   The header every BaseModal dialog wears: a title on the left, a close button on the right,
+   a rule under both. Global and unscoped ON PURPOSE — a consumer that supplies its own
+   `<template #header>` renders it in ITS OWN scope, where BaseModal's scoped rules cannot
+   reach it, so 12 dialogs each carried a private copy of these four rules and the thirteenth
+   (PhasePickerModal) forgot, shipping a header in bare browser defaults.
+
+   A dialog that needs to differ still can: its scoped `.modal-head` (0,2,0 with the data-v
+   attribute) outranks these, so it overrides just the declarations it cares about. Four of
+   them do exactly that — see the `align-items: flex-start` and 32px-button overrides.
+
+   `.modal-body` is deliberately NOT here: its padding is genuinely per-dialog (twelve
+   different values, none of them a majority), and only its scroll behaviour is shared. */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mh-title {
+  font-family: var(--font-display);
+  font-size: 1.49rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* The two things a header carries besides the title: a subtitle under it, and a group of
+   controls sharing the right-hand side with the close button. Identical in every dialog that
+   has them (three and seven copies respectively before this moved here). */
+.mh-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin: 0.1rem 0 0;
+}
+
+.mh-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.mh-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.mh-close:hover {
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  color: var(--text-primary);
+}
+
 /* iOS safe-area: every tracker dialog shares the `.modal-overlay > .modal`
    bottom-sheet pattern on phones (flush to the bottom edge). One global rule
    keeps their footer / last row above the home indicator — no per-modal edit. */
@@ -639,11 +964,23 @@ strong {
   }
 }
 
-/* iOS: keep a modal's inner scroll from chaining to the page behind it
-   (rubber-band drag past the end of the list). `.modal-body` is the shared
-   scroll container across every tracker dialog. */
+/* The scrolling half of a dialog, under the chrome above. The padding used to be written out in
+   every dialog — thirty-three times, in fifteen values that differ by a pixel or two — so it is a
+   default here now and a dialog states only a padding it actually means.
+   `overscroll-behavior` is the load-bearing one: on iOS a rubber-band drag past the end of the
+   list would otherwise chain to the page behind the modal. */
 .modal-body {
+  padding: 0.7rem 0.9rem 0.9rem;
+  overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+/* A body that is a LIST of choices rather than prose — the faction/detachment/keyword pickers. */
+.modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.75rem;
 }
 
 /* "Hide lore" mode — hides non-rules flavour text */

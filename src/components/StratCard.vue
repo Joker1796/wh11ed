@@ -98,7 +98,6 @@ const renderField = text => (text ? renderRichText(text) : '')
 .strat-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -245,7 +244,6 @@ const renderField = text => (text ? renderRichText(text) : '')
   background: var(--turn-color);
   color: #fff;
   padding: 0.2rem 0.5rem;
-  border-radius: 3px;
   margin-bottom: 0.3rem;
 }
 

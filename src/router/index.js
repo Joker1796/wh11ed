@@ -22,6 +22,7 @@ const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
 const HelpView          = () => import('../views/HelpView.vue')
+const HelpTopicView     = () => import('../views/HelpTopicView.vue')
 const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
@@ -372,7 +373,15 @@ export const router = createRouter({
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
-    { path: '/help', component: HelpView },
+    // The guide was one page with six anchors until 2026-08-25. Links written against it — ours,
+    // and anyone's bookmark — arrive as /help#help-tracker; send those to the page that section
+    // became. An unknown topic bounces back to the contents from HelpTopicView itself.
+    {
+      path: '/help',
+      component: HelpView,
+      beforeEnter: (to) => (/^#help-[a-z-]+$/.test(to.hash) ? `/help/${to.hash.slice(6)}` : true),
+    },
+    { path: '/help/:topic', component: HelpTopicView },
     { path: '/changelog', component: ChangelogView },
     { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
     { path: '/factions/:slug',             component: FactionRuleView, meta: { section: 'faction' } },

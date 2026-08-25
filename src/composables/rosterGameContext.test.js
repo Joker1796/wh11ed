@@ -53,12 +53,23 @@ describe('activeConditions', () => {
     expect(activeConditions(p, 2, null).has('imperative-protector')).toBe(false)
   })
 
+  // World Eaters run up to TWO Blessings a round, so the tracker stores an array — the reader has
+  // to look inside it rather than compare, the way the single-pick Imperative does.
+  it('reads the Blessings of Khorne that are up this round', () => {
+    const p = player({}, { multiByRound: { 3: ['warp-blades', 'total-carnage'] } }, 'world-eaters')
+    expect(activeConditions(p, 3, null).has('blessing-warp-blades')).toBe(true)
+    expect(activeConditions(p, 3, null).has('blessing-martial-excellence')).toBe(false)
+    expect(activeConditions(p, 4, null).has('blessing-warp-blades')).toBe(false)
+    expect(isAuto('blessing-warp-blades')).toBe(true)
+  })
+
   // The specs are built from shared primitives, so `toggleRounds` means "Waaagh!" only for Orks.
   // Without the faction check, the next faction to get a toggle spec would inherit it.
   it('does not read another faction\'s tracker primitive as its own', () => {
-    const p = player({}, { toggleRounds: [1], selectionByRound: { 1: 'conqueror' } }, 'death-guard')
+    const p = player({}, { toggleRounds: [1], selectionByRound: { 1: 'conqueror' }, multiByRound: { 1: ['warp-blades'] } }, 'death-guard')
     expect(activeConditions(p, 1, null).has('waaagh-active')).toBe(false)
     expect(activeConditions(p, 1, null).has('imperative-conqueror')).toBe(false)
+    expect(activeConditions(p, 1, null).has('blessing-warp-blades')).toBe(false)
   })
 
   it('answers "is leading a unit" from the list itself', () => {

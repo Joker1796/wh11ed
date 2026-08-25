@@ -2,14 +2,14 @@
   <div class="tracker-home">
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
-      <p class="hero-desc">{{ labels.trackerIntroDesc }}</p>
-      <!-- The first-timer's question ("does this keep the game if my phone sleeps?") is answered
-           on /help, not here — one link rather than a paragraph nobody reads twice. -->
-      <RouterLink class="hero-help" to="/help#help-tracker">{{ labels.helpLearnMore }}</RouterLink>
     </div>
 
-    <!-- Cloud backup: account info / sign-in hint, kept separate from the action buttons below. -->
+    <!-- One row above the actions: the way to this section's help on the left, the account on the
+         right. The help link used to sit under the title beside a paragraph describing what a
+         tracker is — which the heading and the buttons already say. On a phone the row wraps and
+         the link lands back under the title, which is where it was. -->
     <div class="cloud-bar">
+      <RouterLink class="hero-help" to="/help/tracker">{{ labels.helpSection }}</RouterLink>
       <template v-if="status === 'authed'">
         <span class="cloud-account">
           <i class="bi bi-cloud-check-fill"></i>
@@ -25,9 +25,11 @@
     </div>
 
     <div class="cta">
-      <RouterLink v-if="current" to="/tracker/game" class="btn-primary">{{ labels.trackerResume }}</RouterLink>
-      <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary">{{ labels.trackerContinueSetup }}</RouterLink>
-      <button class="btn-primary" :class="{ ghost: current || setupDraft }" @click="startNew">{{ labels.trackerNewGame }}</button>
+      <RouterLink v-if="current" to="/tracker/game" class="btn-primary btn-lg">{{ labels.trackerResume }}</RouterLink>
+      <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary btn-lg">{{ labels.trackerContinueSetup }}</RouterLink>
+      <!-- Starting a new game is the quiet option once one is already running: it is the way to
+           throw away what is on screen, not the way forward. -->
+      <button class="btn-lg" :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'" @click="startNew">{{ labels.trackerNewGame }}</button>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. -->
       <button v-if="status === 'anon'" class="ya-btn" @click="onSignIn">
@@ -340,12 +342,17 @@ function footLine(g) {
   padding: 0.5rem 0.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 6px;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.85rem;
 }
 .record-bar:hover { border-color: var(--accent); color: var(--text-primary); }
+/* Above the subnav's breakpoint the Statistics tab is on screen already, so this bar would be a
+   second door to the same page a centimetre below the first. Below it there is no subnav, and
+   this is the only way through. */
+@media (min-width: 901px) {
+  .record-bar { display: none; }
+}
 .rb-rec {
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -364,7 +371,6 @@ function footLine(g) {
   background: #fc3f1d;
   color: #fff;
   border: none;
-  border-radius: 5px;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 0.95rem;
@@ -402,18 +408,20 @@ function footLine(g) {
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
-.hero-help { display: inline-block; margin-top: 0.4rem; color: var(--accent); font-size: 0.85rem; }
-.hero-desc { color: var(--text-muted); font-size: 0.95rem; }
+.hero-help { color: var(--accent); font-size: 0.85rem; }
+/* Help on the left, account on the right — `margin-left: auto` on the account rather than
+   space-between, so a wrapped row on a phone still puts the two on their own lines instead of
+   stretching one of them across the width. */
 .cloud-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
   color: var(--text-dim);
 }
+.cloud-bar > .hero-help + * { margin-left: auto; }
 .cloud-account { display: inline-flex; align-items: center; gap: 0.4rem; }
 .cloud-account .bi { color: var(--accent); }
 .cloud-hint { color: var(--text-muted); }
@@ -434,32 +442,18 @@ function footLine(g) {
   gap: 0.75rem;
   margin-bottom: 2rem;
 }
-.cta .btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; }
-.btn-primary {
-  padding: 0.7rem 1.6rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-}
-.btn-primary.ghost {
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-}
 
 /* Phones: these are three ordinary buttons (resume / new game / sign in), not three panels. They
    stay the size of their own label — stretching them to share the row only turns the longest one
    into a two-line block, which is how they got big in the first place — and the label is kept on
    one line, which at this size fits even a 320px screen. */
 @media (max-width: 480px) {
+  /* Same trim as the roster list's heading: display type at 2.64rem eats a phone's first screen,
+     and the heading is the least useful thing on it. */
+  .hero h1 { font-size: 2.2rem; }
   .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
   .cta .btn-primary,
+  .cta .btn-ghost,
   .cta .ya-btn {
     flex: 0 0 auto;
     padding: 0.45rem 0.8rem;
@@ -517,7 +511,6 @@ function footLine(g) {
   overflow: hidden;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
   padding: 0.6rem 0.5rem 0.65rem;
   cursor: pointer;
   transition: border-color 0.15s;
@@ -598,7 +591,6 @@ function footLine(g) {
   background: none;
   color: var(--text-muted);
   border: 1px solid var(--border);
-  border-radius: 5px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;

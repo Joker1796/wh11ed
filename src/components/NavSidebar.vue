@@ -368,7 +368,6 @@ async function handleAnchorClick(group, id, filter) {
   color: var(--text-muted);
   font-size: 1.1rem;
   cursor: pointer;
-  border-radius: 4px;
   transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
 }

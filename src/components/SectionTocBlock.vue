@@ -38,7 +38,6 @@ async function go(item) {
 .section-toc {
   background: var(--bg-card);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 4px 4px;
   padding: 1rem 1.2rem;
   margin-bottom: 1.4rem;
 }

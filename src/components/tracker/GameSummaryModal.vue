@@ -52,22 +52,9 @@ const endReasonLabel = computed(() => {
 </script>
 
 <style scoped>
-.modal-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0.1rem 0 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-.modal-body { padding: 0.8rem 0.9rem; overflow-y: auto; }
+/* The heading here is two lines deep, so the close button rides at the top of it rather than
+   centred against the whole block. */
+.modal-head { align-items: flex-start; }
 .gs-reason { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.75rem; }
 
 .modal-foot { padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); }
@@ -78,7 +65,6 @@ const endReasonLabel = computed(() => {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 6px;
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;

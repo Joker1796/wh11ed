@@ -10,7 +10,7 @@
       </header>
     </template>
 
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <button
         v-for="d in detachments"
         :key="d.name"
@@ -63,21 +63,6 @@ const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTa
 </script>
 
 <style scoped>
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .dp-modal-count {
   font-size: 0.82rem;
   font-family: var(--font-mono);
@@ -86,14 +71,6 @@ const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTa
 }
 .dp-modal-count.over { color: #c0392b; }
 [data-theme='dark'] .dp-modal-count.over { color: #ef6e60; }
-
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
 
 .det {
   display: flex;
@@ -104,7 +81,6 @@ const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTa
   padding: 0.4rem 0.55rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
-  border-radius: 4px;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
   width: 100%;

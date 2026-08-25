@@ -124,7 +124,6 @@ function navigate(item) {
 
 .search-box {
   background: var(--bg-card);
-  border-radius: 8px;
   box-shadow: 0 20px 60px rgba(4, 3, 3, 0.45);
   width: 100%;
   max-width: 600px;
@@ -162,7 +161,6 @@ function navigate(item) {
 .search-close {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0.15rem 0.45rem;
   font-size: 0.72rem;
   font-family: var(--font-mono);
@@ -291,7 +289,6 @@ function navigate(item) {
   }
 
   .search-box {
-    border-radius: 0;
     height: 100dvh;
     max-width: none;
     display: flex;

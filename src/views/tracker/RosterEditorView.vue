@@ -237,7 +237,6 @@ const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
 
-
 // Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
 // tracker home if a live game is in progress, so we never clobber it).
 function useInTracker() {
@@ -271,7 +270,6 @@ const {
 watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
 
 const nameFit = computed(() => rosterNameFit(roster.value?.name))
-
 
 // ── Army choices ──
 const allFactions = factionGroups.flatMap((g) => g.factions)
@@ -319,7 +317,6 @@ function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 // ── Units (added/removed on the Units tab) ──
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
-
 
 // ── Loadout tab: only one tile's fields open at a time (classic accordion) ──
 const openUid = ref(null)
@@ -412,13 +409,11 @@ function rename(name) {
 .redu-del {
   flex: none; display: flex; align-items: center; justify-content: center;
   width: 2.1rem; padding: 0; border: none; background: none;
-  color: var(--text-muted); font-size: 0.95rem; cursor: pointer; border-radius: 6px;
+  color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
 .redu-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
 
 .roster-editor { padding-top: 0.75rem; padding-bottom: 5rem; }
-.back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
-.back:hover { color: var(--accent); }
 
 .red-head {
   display: flex;
@@ -445,27 +440,11 @@ function rename(name) {
 .rname-input.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); }
 .rname-input:hover { border-bottom-color: var(--border); }
 .rname-input:focus { outline: none; border-bottom-color: var(--accent); }
-.issues-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-card);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
-.issues-badge.ok { color: #3c9a5f; }
 .hdr-icon {
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -511,7 +490,6 @@ function rename(name) {
   margin-bottom: 0.7rem;
   padding: 0.6rem;
   border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--border));
-  border-radius: 6px;
   background: color-mix(in srgb, var(--accent) 6%, transparent);
   color: var(--accent);
   font-weight: 600;
@@ -533,7 +511,6 @@ function rename(name) {
   padding: 0.5rem 0.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   cursor: pointer;
   position: relative;
   min-width: 8rem;
@@ -552,7 +529,6 @@ function rename(name) {
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   color: var(--text-muted);
-  border-radius: 4px;
   cursor: pointer;
 }
 .bsize-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -562,46 +538,10 @@ function rename(name) {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   border: 1px solid var(--accent);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
 }
 .bsize-input:focus { outline: none; }
-
-/* Checkbox row — same recipe as the tracker's GameSetup.vue .check (scoped styles don't cross
-   component boundaries, so it's copied rather than shared). */
-.check {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-secondary);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.check:hover { border-color: var(--accent); }
-.check.on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.check.on span { color: var(--text-primary); }
-.check-note {
-  display: block;
-  font-style: normal;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.check input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 .rug-head {
@@ -632,7 +572,6 @@ function rename(name) {
 .redu-unit {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
@@ -667,26 +606,6 @@ function rename(name) {
   .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 }
 
-/* Same button pair language as RosterCreateView.vue's own .rc-actions buttons — copied, not
-   shared (scoped styles don't cross component boundaries). */
-.btn-primary, .btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.3rem;
-  border-radius: 5px;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
 /* Fixed footer bar — same recipe as RosterCreateView.vue's own .rc-sticky (copied, not shared):
    glued flush to the mobile bottom-nav (52px — .bn-item's min-height in App.vue), always
    visible here (not gated to a completed wizard step, so every tab reserves room for it via
@@ -694,36 +613,7 @@ function rename(name) {
    App.vue reserves this exact bar's height via --roster-sticky-h (:has(.rc-sticky) on
    .app-layout, matched by class name alone, regardless of which view rendered it) — so don't
    rename this class without updating that selector too. */
-.rc-sticky {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 150;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
-}
-@media (max-width: 900px) {
-  .rc-sticky {
-    bottom: calc(52px + var(--safe-bottom, 0px));
-    padding-bottom: 0.6rem;
-  }
-}
-.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
-.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rc-points.over { color: #c0392b; }
-.rc-sticky-actions { display: flex; gap: 0.5rem; }
 @media (max-width: 400px) {
-  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
-  .rc-points { font-size: 0.85rem; }
-  .rc-sticky-info { gap: 0.35rem; }
-  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
-  .rc-sticky-actions { gap: 0.35rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }

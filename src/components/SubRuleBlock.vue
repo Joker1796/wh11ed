@@ -87,7 +87,6 @@ function handleDefClick(e) {
 .sub-rule {
   margin: 0.85rem 0;
   border: 1px solid var(--sub-rule-border);
-  border-radius: 6px;
   background: var(--sub-rule-bg);
   scroll-margin-top: 100px;
   overflow: hidden;
