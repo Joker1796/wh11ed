@@ -68,29 +68,15 @@
             <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
+      </div>
 
-        <label class="check" :class="{ on: settings.trackCP }">
-          <input type="checkbox" v-model="settings.trackCP" />
-          <span>{{ labels.trackerTrackCp }}</span>
-        </label>
-
-        <label v-if="armyYouTrackable" class="check" :class="{ on: settings.trackArmyYou }">
-          <input type="checkbox" v-model="settings.trackArmyYou" />
-          <span>{{ labels.trackerTrackArmyYou }}</span>
-        </label>
-
-        <label v-if="armyOppTrackable" class="check" :class="{ on: settings.trackArmyOpp }">
-          <input type="checkbox" v-model="settings.trackArmyOpp" />
-          <span>{{ labels.trackerTrackArmyOpp }}</span>
-        </label>
-
-        <!-- Reads the DRAFT's rosters, not the game's: a list attached in this very dialog should
-             make the setting available before Save, and it is the only way a game that started
-             without a list can ever get phases. -->
-        <label v-if="anyRoster" class="check" :class="{ on: settings.trackPhases }">
-          <input type="checkbox" v-model="settings.trackPhases" />
-          <span>{{ labels.trackerTrackPhases }}</span>
-        </label>
+      <!-- The same block as the wizard's, off the same table — a row offered there is offered
+           here. Its ctx reads the DRAFT's rosters, not the game's: a list attached in this very
+           dialog should make the phase row available before Save, and this is the only way a game
+           that started without a list can ever get the clock. -->
+      <div class="settings">
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="game" />
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="roster" heading="trackerRosterHeading" />
       </div>
 
       <div class="settings layout-block" v-if="layouts.length">
@@ -131,6 +117,8 @@ import LayoutCard from '../event/LayoutCard.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
+import TrackOptions from './TrackOptions.vue'
+import { trackSettingsOf, normalizeTrackSettings } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
@@ -157,13 +145,9 @@ const players = reactive(game.players.map(p => ({
   detachments: [...(p.detachments || [])],
 })))
 const settings = reactive({
-  trackCP: game.settings.trackCP,
-  // Older games predate the clock → off.
-  trackPhases: game.settings.trackPhases ?? false,
-  // Split you/opponent army-rule toggles; older games lack them → fall back to the old single flag,
-  // then default on (matches the in-game "missing = on" fallback).
-  trackArmyYou: game.settings.trackArmyYou ?? game.settings.trackArmyRule ?? true,
-  trackArmyOpp: game.settings.trackArmyOpp ?? game.settings.trackArmyRule ?? true,
+  // Every "what to track" flag, filled in for a game saved before it existed — the table owns the
+  // back-compat (retired field names, per-option defaults), so this dialog carries none of it.
+  ...trackSettingsOf(game.settings),
   // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
   // actual "who's first" lives in player order, so derive the toggle from that instead.
   firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
@@ -227,22 +211,33 @@ function detMismatch(p) {
   return a.length !== b.length || a.some(d => !b.includes(d))
 }
 
-// Show each "Track army rule" toggle only if that player's faction has a tracker spec (factions are
-// fixed once a game starts, so resolve once). Mapped by isYou, since players are reordered by first
-// turn. Same lazy registry import as the in-game card.
+// Whether each side's faction has an interactive tracker spec, or only the rule's text to show —
+// the caption's "reference only" note, not the row's existence. It used to gate the row itself
+// here while the wizard gated it on the faction alone, which meant a game whose faction had no
+// spec showed a card with no way to turn it off. Factions are fixed once a game starts, so this
+// resolves once; same lazy registry import as the in-game card.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
+// Mapped by isYou, since players are reordered by first turn.
+const you = game.players.find(p => p.isYou) ?? game.players[0]
+const opp = game.players.find(p => !p.isYou) ?? game.players[1]
 ;(async () => {
   const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
-  const you = game.players.find(p => p.isYou) ?? game.players[0]
-  const opp = game.players.find(p => !p.isYou) ?? game.players[1]
   armyYouTrackable.value = !!(you?.factionSlug && resolveArmyTracker(you.factionSlug))
   armyOppTrackable.value = !!(opp?.factionSlug && resolveArmyTracker(opp.factionSlug))
 })()
 
+const trackCtx = computed(() => ({
+  you: { faction: you?.factionSlug, trackable: armyYouTrackable.value },
+  opp: { faction: opp?.factionSlug, trackable: armyOppTrackable.value },
+  anyRoster: anyRoster.value,
+}))
+
 function save() {
   updateSetup({
-    settings: { ...settings },
+    // Same rule as the wizard's Start: a row this game cannot offer is stored off, not at the
+    // value a disabled checkbox happened to be carrying.
+    settings: normalizeTrackSettings(settings, trackCtx.value),
     players: players.map(p => ({
       name: p.name, battleReady: p.battleReady,
       rosterId: p.rosterId, roster: p.roster,

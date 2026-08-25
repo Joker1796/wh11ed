@@ -19,9 +19,8 @@
     </div>
 
     <!-- The clock, one row under the rounds: whose turn and which phase. Only for a game that
-         asked for it — the setting is offered when a roster is attached, because that is the only
-         thing on screen that reads the phase. A game without it looks exactly as it did. -->
-    <div v-if="current.settings.trackPhases" class="phase-bar">
+         asked for it; a game without it looks exactly as it did. -->
+    <div v-if="phasesOn" class="phase-bar">
       <button class="pb-nav" :disabled="!canStepPhase(-1)" :aria-label="labels.ariaPrevPhase" @click="stepPhase(-1)">‹</button>
       <button class="pb-now" @click="phasePickerOpen = true">
         <span class="pb-who">{{ playerSide(turnIndex) }}</span>
@@ -29,6 +28,9 @@
       </button>
       <button class="pb-nav" :disabled="!canStepPhase(1)" :aria-label="labels.ariaNextPhase" @click="stepPhase(1)">›</button>
     </div>
+
+    <!-- …and, under it, what has something to say in the slot the clock is standing on. -->
+    <PhaseRules v-if="phasesOn && tracks(current.settings, 'trackPhaseRules')" />
 
     <PhasePickerModal
       v-if="phasePickerOpen"
@@ -58,6 +60,8 @@
           <span class="card-name">{{ primaryName(i) }}</span>
           <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
         </button>
+        <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no card
+             to tick. The missions themselves are not optional — see trackerOptions.js. -->
         <div v-else class="score-row">
           <NumberStepper
             :modelValue="pl.rounds[current.currentRound - 1].primary"
@@ -77,8 +81,8 @@
              the better answer (only this army's units, with the game's live modifiers), and
              without one the faction's datasheets are the next best thing. It reads the player
              it belongs to, so the opponent's army is one tap away from their own card. -->
-        <div v-if="current.settings.trackCP || pl.roster || pl.factionSlug" class="score-row cp-row">
-          <template v-if="current.settings.trackCP">
+        <div v-if="cpOn || pl.roster || pl.factionSlug" class="score-row cp-row">
+          <template v-if="cpOn">
             <span class="sr-label">{{ labels.trackerCp }}</span>
             <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
           </template>
@@ -150,16 +154,23 @@ import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
 import PhasePickerModal from './PhasePickerModal.vue'
+import PhaseRules from './PhaseRules.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
+import { tracks } from '../../data/trackerOptions.js'
 import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, stepPhase, goToPhase, canStepPhase, finishGame } = useTracker()
+
+// Read through `tracks` so a game saved before the option existed arrives with its default
+// rather than undefined.
+const cpOn = computed(() => tracks(current.value.settings, 'trackCP'))
+const phasesOn = computed(() => tracks(current.value.settings, 'trackPhases'))
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
@@ -189,12 +200,10 @@ function onPickPhase(turn, phase) {
 }
 
 // Show a player's army-rule card per the split you/opponent toggles (mapped by isYou, not index,
-// since players are reordered by first turn). Back-compat: games saved with the old single
-// `trackArmyRule` flag, and any missing flag, default to on.
+// since players are reordered by first turn). `tracks` supplies the back-compat — the old single
+// `trackArmyRule` flag, and any flag a saved game predates.
 function armyRuleOn(pl) {
-  const s = current.value.settings
-  const key = (pl.isYou ?? false) ? s.trackArmyYou : s.trackArmyOpp
-  return (key ?? s.trackArmyRule ?? true) !== false
+  return tracks(current.value.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
 }
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored

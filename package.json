@@ -15,6 +15,7 @@
     "roster:data:check": "node scripts/gen-roster-data.mjs --check",
     "roster:imports": "npx vite-node scripts/check-roster-imports.mjs",
     "faction-rules:index": "node scripts/gen-faction-rules-index.mjs",
+    "phases:index": "node scripts/gen-phase-index.mjs",
     "combat-patrol:index": "node scripts/gen-combat-patrol-search-index.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",

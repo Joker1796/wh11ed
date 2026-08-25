@@ -40,7 +40,7 @@
           <div class="g-total">{{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}</div>
 
           <!-- CP -->
-          <template v-if="game.settings.trackCP">
+          <template v-if="showCp">
             <div class="g-label">{{ labels.trackerCp }}</div>
             <div class="g-cell g-span5"></div>
             <div class="g-total">{{ pl.cp }}</div>
@@ -62,6 +62,7 @@ import {
   missionBySlug, dispositionName,
 } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, leader as leaderOf } from '../../composables/gameScoring.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
 const props = defineProps({ game: { type: Object, default: null } })
@@ -69,6 +70,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
+// Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
+const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)

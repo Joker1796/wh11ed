@@ -23,6 +23,7 @@
 // way: a switch that has gone stale would silently rewrite a number.
 
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
+import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 // turn it is (`mine`), which phase, and whether the game is keeping phases at all. Built once by
 // the caller and passed down, rather than each function digging into the game object.
 export function clockOf(game, pi = 0) {
-  const tracked = !!game?.settings?.trackPhases
+  const tracked = tracks(game?.settings, 'trackPhases')
   return {
     round: game?.currentRound || 1,
     turn: game?.currentTurn === 1 ? 1 : 0,
@@ -137,7 +138,16 @@ function clockHolds(c, clock) {
 // Every condition currently true for one roster entry. `player` is the tracker's player object,
 // `clock` what the game is standing on (clockOf(); a bare round number still works), `entry` the
 // roster line the card is being drawn for.
-export function activeConditions(player, clock, entry) {
+//
+// `opts` says which families of hand-flipped switch this game is keeping (settings.trackArmyStates
+// / trackUnitStates — see src/data/trackerOptions.js). A family switched off stops being CONSULTED;
+// what the player flipped stays in the game untouched, and the effects that hung on it fall back to
+// being listed with their condition, which is the same honest degradation a game without phases
+// has. The other three sources are never gated: `auto` (the tracker already knows), `clock` and
+// `roster` cost the player nothing to maintain, so there is nothing to switch off.
+export function activeConditions(player, clock, entry, opts = {}) {
+  const army = opts.army !== false
+  const unit = opts.unit !== false
   const round = normaliseClock(clock).round
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
@@ -145,8 +155,8 @@ export function activeConditions(player, clock, entry) {
     if (c.scope === 'clock') on = clockHolds(c, clock)
     else if (isAuto(id)) on = AUTO[id](player, round)
     else if (c.scope === 'roster') on = rosterAnswers(id, entry)
-    else if (c.scope === 'army') on = switchOn(player?.ctx?.army, id, clock)
-    else if (entry?.uid) on = switchOn(player?.ctx?.units?.[entry.uid], id, clock)
+    else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
+    else if (entry?.uid) on = unit && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
     if (on) out.add(id)
   }
   capGroups(out, player, entry)

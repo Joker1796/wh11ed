@@ -296,6 +296,7 @@ import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
+import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseSidesOf, phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -347,6 +348,13 @@ const gameClock = computed(() => clockOf(game.value, gamePi.value))
 // A record is not editable; only a game in progress offers the switches.
 const canSwitch = computed(() => inGame.value && !historyId.value)
 
+// What this game asked the modifier layer to keep (src/data/trackerOptions.js). OFF THE TABLE
+// everything is on: there is no game to have settings, and a list read in the builder gets the
+// whole layer. `tracks` answers for a game saved before an option existed, and it is what knows
+// that the five families hang off the master — this file never spells that tree out.
+const keeps = (setting) => !inGame.value || tracks(game.value?.settings, setting)
+const modsOn = computed(() => keeps('trackModifiers'))
+
 watch([gamePi, historyId], async ([pi]) => {
   if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
   const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
@@ -370,7 +378,10 @@ const record = computed(() => {
 // answers for itself (an enhancement gated on "while the bearer is leading a unit" is proven by the
 // roster) — the same call RosterUnitRulesModal makes, so a row and the card behind it agree.
 const activeFor = (entry) => (inGame.value
-  ? activeConditions(gamePlayer.value, gameClock.value, entry)
+  ? activeConditions(gamePlayer.value, gameClock.value, entry, {
+      army: keeps('trackArmyStates'),
+      unit: keeps('trackUnitStates'),
+    })
   : rosterConditions(entry))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
@@ -593,7 +604,7 @@ function attachmentCtxOf(entry) {
     itemNames: loadoutItemNames(defOf(entry.id), entry, rosterItems.items),
     // The auras the player has marked as reaching this unit. The bearer's own unit and the unit it
     // is attached to are not in here — 22.01 answers those from the list itself.
-    auraOn: activeAuras(gamePlayer.value, gameClock.value, entry),
+    auraOn: keeps('trackAuras') ? activeAuras(gamePlayer.value, gameClock.value, entry) : new Set(),
     // …and which detachments are on the table, because one kind of aura hangs off a detachment rule
     // rather than off a model in this list.
     detIds: fieldedDetIds.value,
@@ -618,14 +629,18 @@ function attachmentCtxOf(entry) {
 // condition, and rosterStatMods answers for them through one set.
 function chosenFor(entry, resolved) {
   return new Set([
-    ...activeStratagems(gamePlayer.value, gameClock.value, entry, resolved),
+    ...(keeps('trackStratagems') ? activeStratagems(gamePlayer.value, gameClock.value, entry, resolved) : []),
     // Picks are read army-wide, not per entry: a relic picked on the Triumph feeds an aura that
     // lands on the Sisters, whose own picks know nothing about it (see allPicks).
-    ...allPicks(gamePlayer.value, gameClock.value),
+    ...(keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : []),
   ])
 }
 
 function statModsFor(entry, sheet) {
+  // The master, in the one place that can answer for all of it: no rewritten numbers, no marks,
+  // no notes — so the plates, the card behind them and the "possible" summary all fall back to the
+  // printed datasheet together. Nothing downstream needs its own gate.
+  if (!modsOn.value) return { sheet, marks: [] }
   if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
   const resolved = resolvedFor(entry)
   if (!resolved.length) return { sheet, marks: [] }
@@ -677,7 +692,7 @@ const possibleCount = computed(() => possibleGroups.value.reduce((n, g) => n + g
 // one unit. Per-unit ones live on the unit's own card (RosterUnitRulesModal) — that is where the
 // number they change is shown, and a wall of per-unit switches here would be unreadable.
 const armySwitches = computed(() => {
-  if (!canSwitch.value) return []
+  if (!canSwitch.value || !keeps('trackArmyStates')) return []
   const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
   return withRuleInfo(switchesFor(all, 'army', gamePlayer.value, gameClock.value, null))
 })
@@ -685,7 +700,7 @@ const armySwitches = computed(() => {
 // can never disagree; cached per entry because the template asks for them on every render.
 const unitSwitchCache = computed(() => {
   const m = new Map()
-  if (!canSwitch.value) return m
+  if (!canSwitch.value || !keeps('trackUnitStates')) return m
   for (const e of roster.value?.units || []) {
     m.set(e.uid, withRuleInfo(switchesFor(resolvedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
   }
@@ -699,7 +714,7 @@ function unitSwitchesOf(entry) { return unitSwitchCache.value.get(entry.uid) || 
 // (source in this list, keyword gate passed, not already certain from 22.01).
 const auraSwitchCache = computed(() => {
   const m = new Map()
-  if (!canSwitch.value) return m
+  if (!canSwitch.value || !keeps('trackAuras')) return m
   const units = (roster.value?.units || []).map((u) => ({
     uid: u.uid,
     id: u.id,
@@ -736,7 +751,7 @@ const auraSwitchCache = computed(() => {
 // explains it is behind the row anyway.
 const pickSwitchCache = computed(() => {
   const m = new Map()
-  if (!canSwitch.value) return m
+  if (!canSwitch.value || !keeps('trackAbilitySets')) return m
   for (const e of roster.value?.units || []) {
     const chips = pickSwitchesFor(pickRecords.value, gamePlayer.value, gameClock.value, e)
     if (chips.length) m.set(e.uid, withRuleInfo(chips))
@@ -814,18 +829,20 @@ const viewingGameCtx = computed(() => {
     // Which stratagems are spent on this unit right now, and which its detachments offer that
     // would change a number on this card. Only in a live game: a record's clock is what expires
     // them, and a finished game's clock stopped where the battle did.
-    strats: canSwitch.value ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value) : [],
+    strats: canSwitch.value && keeps('trackStratagems')
+      ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value)
+      : [],
     // …and the auras of other entries that reach it, the same chips its row carries.
     auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     // …and which option of its own ability set is up, likewise the row's chips.
     picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
-    chosen: canSwitch.value ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
-    switches: canSwitch.value
+    chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
+    switches: canSwitch.value && keeps('trackUnitStates')
       ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
-    armySwitches: canSwitch.value
+    armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
   }
@@ -1018,7 +1035,7 @@ const allStratagems = computed(() => selectedDetachmentRules.value.flatMap((det)
 // now" is not a question that record can answer.
 const nowSlot = computed(() => {
   const g = game.value
-  if (!g || historyId.value || !g.settings?.trackPhases) return null
+  if (!g || historyId.value || !tracks(g.settings, 'trackPhases')) return null
   return {
     phase: g.currentPhase || 'command',
     // The turn is a player index (useTracker), so "mine" is whether it is this roster's owner's.

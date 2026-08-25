@@ -65,6 +65,7 @@ export const help = {
         toLabel: 'Open the tracker',
         body: `The tracker keeps score for both players: the mission and its secondaries, command points, and the per-round totals with a running Battle Points result.
 ▪ Start a game, and the app remembers it — closing the tab or losing signal mid-game changes nothing.
+▪ **Not everything has to be tracked.** The last step of the setup — and the ✎ button during the game — lists the aids the app will keep alongside the missions: command points, each side's army rule, the turn-and-phase clock and its reminder of what applies in the phase you are in, and, with an army list attached, how much of that list's own rules it should follow — stratagems spent, auras, unit states, the sets you pick one option of each round. Turning one off only hides it: what it had recorded stays and comes back with it, and a rule that goes unclaimed is still printed on the card with the condition it is waiting for. Every row carries an "i" saying what it costs you.
 ▪ Finished games go to the history, where you can look back at how the score was made.
 ▪ Enough of them and the **statistics** page builds itself: win rate, average score, how you do on the play and on the receive, which factions beat you and which secondary cards actually pay. Under five games it shows counts rather than percentages, because three games are not a percentage.
 ▪ Sign in, and the history and your army lists keep themselves in step across your devices — nothing to press, and a new phone starts where the old one left off.`,
@@ -128,6 +129,7 @@ export const help = {
         toLabel: 'Открыть трекер',
         body: `Трекер считает за обоих игроков: миссию и вторичные задачи, командные очки и суммы по раундам с текущим результатом в Battle Points.
 ▪ Начатая партия запоминается — закрыть вкладку или потерять сеть посреди игры ничего не меняет.
+▪ **Отслеживать всё необязательно.** На последнем шаге настройки — и по кнопке ✎ во время партии — перечислено, что приложение будет вести рядом с миссиями: командные очки, армейское правило каждой стороны, часы «ход и фаза» и напоминание о том, что действует в текущей фазе, а с прикреплённым листом — насколько подробно следовать правилам самого списка: потраченные стратагемы, ауры, состояния юнитов, наборы, из которых каждый раунд выбирают одно. Выключенное только прячется: записанное остаётся и вернётся вместе с ним, а незаявленное правило по-прежнему выписано на карточке вместе с условием, которого оно ждёт. У каждой строки есть «i» с объяснением, чего вы лишаетесь.
 ▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
 ▪ Из них сама собой складывается **статистика**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.
 ▪ Войдите в аккаунт — и история с армейскими листами сами держатся в актуальном состоянии на всех ваших устройствах: нажимать ничего не нужно, а новый телефон начинает с того же места.`,
