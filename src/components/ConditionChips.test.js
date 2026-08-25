@@ -8,7 +8,7 @@ describe('ConditionChips', () => {
   it('renders ungrouped switches flat, with no box of their own', () => {
     const w = mount(ConditionChips, { props: { switches: [sw('a'), sw('b')] } })
     expect(w.findAll('.cond-chip')).toHaveLength(2)
-    expect(w.find('.cond-group.capped').exists()).toBe(false)
+    expect(w.find('.cond-group.boxed').exists()).toBe(false)
     expect(w.find('.cond-group-h').exists()).toBe(false)
   })
 
@@ -25,7 +25,7 @@ describe('ConditionChips', () => {
   // set that HOLDS several needs to say how full it is.
   it('leaves a single-slot group unboxed', () => {
     const items = [sw('x', { group: 'order', groupLimit: 1 }), sw('y', { group: 'order', groupLimit: 1 })]
-    expect(mount(ConditionChips, { props: { switches: items } }).find('.cond-group.capped').exists()).toBe(false)
+    expect(mount(ConditionChips, { props: { switches: items } }).find('.cond-group.boxed').exists()).toBe(false)
   })
 
   it('boxes a group that holds several and counts what is chosen', () => {
@@ -35,7 +35,7 @@ describe('ConditionChips', () => {
       sw('a3', { group: 'augmentation', groupLimit: 2 }),
     ]
     const w = mount(ConditionChips, { props: { switches: items } })
-    expect(w.find('.cond-group.capped').exists()).toBe(true)
+    expect(w.find('.cond-group.boxed').exists()).toBe(true)
     expect(w.find('.cond-group-h').text()).toBe('chosen: 1 of 2')
   })
 
@@ -90,5 +90,42 @@ describe('ConditionChips', () => {
     await chips[0].trigger('click')
     expect(w.emitted('toggle')[0][0].id).toBe('a')
     expect(chips[1].attributes('disabled')).toBeDefined()
+  })
+})
+
+// Six chips reading "Adrenalight"/"Hypex"/… say nothing until something calls them Combat Drugs.
+// A set that names its rule is boxed under that name, whether or not it holds more than one.
+describe('ConditionChips — a set that names its rule', () => {
+  const drug = (id) => sw(id, { groupOwner: 'Spectacle of Spite · Combat Drugs', groupInfo: { name: 'Combat Drugs', text: 'Pick one each round.' } })
+
+  it('boxes an ungrouped set under its rule and shows the rule once', () => {
+    const w = mount(ConditionChips, { props: { switches: [drug('d1'), drug('d2')] } })
+    expect(w.find('.cond-group.boxed').exists()).toBe(true)
+    expect(w.find('.cond-group-owner').text()).toContain('Combat Drugs')
+    // One set, one rule, one button — on the heading.
+    expect(w.findAll('.cond-group-info')).toHaveLength(1)
+    expect(w.findAll('.cond-info')).toHaveLength(0)
+  })
+
+  // …but a set whose options each have their OWN rule keeps its per-chip buttons. Both are "a set
+  // with an owner", so the owner is not what decides it.
+  it('leaves a per-option set its own buttons', () => {
+    const relic = (id) => sw(id, { groupOwner: 'Triumph · Relics', info: { name: id, text: 'its own aura' } })
+    const w = mount(ConditionChips, { props: { switches: [relic('r1'), relic('r2')] } })
+    expect(w.findAll('.cond-group-info')).toHaveLength(0)
+    expect(w.findAll('.cond-info')).toHaveLength(2)
+  })
+
+  it('emits that rule when the heading\'s "i" is pressed', async () => {
+    const w = mount(ConditionChips, { props: { switches: [drug('d1')] } })
+    await w.find('.cond-group-info').trigger('click')
+    expect(w.emitted('info')[0][0].info.name).toBe('Combat Drugs')
+  })
+
+  // Two rules' ungrouped chips must not share one bucket — the heading would lie about half of them.
+  it('keeps two rules apart', () => {
+    const other = sw('o1', { groupOwner: 'Another Rule' })
+    const w = mount(ConditionChips, { props: { switches: [drug('d1'), other] } })
+    expect(w.findAll('.cond-group.boxed')).toHaveLength(2)
   })
 })

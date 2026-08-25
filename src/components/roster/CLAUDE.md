@@ -2041,6 +2041,24 @@ READ, never in a strip that says nothing about which rule it feeds):
   (`gameCtx.armySwitches`) — the place a player MEETS Creations of Bile's augmentations is the
   detachment rule on a unit's card.
 
+**A set of chips says whose rule it is** (2026-08-25). Six chips reading "Adrenalight", "Hypex",
+"Serpentin"… are unreadable: finding out that they are **Combat Drugs**, off the Spectacle of Spite
+detachment, meant opening units one at a time and expanding their abilities. `switchesFor` now
+returns `src` — the first record that named each condition (`kind`/`name`/`det`/`unit`) — and
+`RosterViewView.srcInfo` turns that into the owner's name and the rule's body, which the pure layer
+could not do because it has no faction data. 24 of the 27 army-scope conditions are named by a
+detachment rule or an army rule, two by an enhancement, one by a datasheet ability; that last case
+still gets its rule NAMED, which is most of the answer, and the text stays on that unit's card.
+
+`ConditionChips` boxes a group that has an owner, not only one that is `capped` (the class is now
+`boxed`), and buckets ungrouped chips by `groupOwner` — without that second key two rules' chips
+would share one bucket and one heading, which would be a heading that lies about half of them.
+
+**`groupInfo` is a different field from `info`, and the difference is load-bearing.** A set
+explained by ONE rule puts that rule's "i" on the heading; a set whose options each have their own
+(the Triumph's six relics, one aura each) keeps an "i" per chip. Both are "a set with an owner", so
+the owner cannot be what decides it — the caller says which kind it has.
+
 **Every chip that raises a question answers it — through the "i" beside it** (2026-08-23).
 `ConditionChips` has always drawn that button for a switch carrying `info: { name, text }`, which
 until now only an ability-set pick and an aura had. Two more kinds now do:
