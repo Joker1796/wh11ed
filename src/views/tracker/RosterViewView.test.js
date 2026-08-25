@@ -657,6 +657,48 @@ describe('RosterViewView', () => {
       expect(w.find('.rvst-mod').exists()).toBe(true)
     })
 
+    // ── What the game asked the modifier layer to keep (src/data/trackerOptions.js) ──────────
+    // A family switched off stops being CONSULTED. Nothing is cleared, and nothing becomes wrong:
+    // an effect that hung on it goes back to being listed with the condition it waits for.
+    describe('the modifier options', () => {
+      const boyz = {
+        id: 'r5', name: 'Waaagh List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      // Open the list inside a game whose settings say `over`, once the plates have resolved.
+      async function open(over = {}) {
+        const t = await startGame(boyz, 'orks')
+        t.fireArmyToggle(0, 1)   // a called Waaagh! — auto-answered, so it needs no chip
+        t.updateSetup({ settings: { ...t.current.value.settings, ...over } })
+        GAME_PI = '0'
+        const w = mount(RosterViewView, { global: { stubs } })
+        await waitFor(w, 'Waaagh List')
+        await flushPromises()
+        return w
+      }
+
+      it('rewrites numbers and offers chips by default', async () => {
+        const w = await open()
+        await waitForSelector(w, '.rvst-mod')
+        expect(w.find('.rvst-mod').exists()).toBe(true)
+        expect(w.find('.rvunit-conds .cond-chip').exists()).toBe(true)
+      })
+
+      it('shows the printed datasheet with the master off', async () => {
+        const w = await open({ trackModifiers: false })
+        expect(w.find('.rvst-mod').exists()).toBe(false)
+        expect(w.find('.cond-chip').exists()).toBe(false)   // the families go with it
+      })
+
+      it('drops the unit chips on their own, and keeps the numbers nobody has to claim', async () => {
+        const w = await open({ trackUnitStates: false })
+        await waitForSelector(w, '.rvst-mod')
+        // The Waaagh! is read from the tracker, not from a chip, so it still rewrites the row.
+        expect(w.find('.rvst-mod').exists()).toBe(true)
+        expect(w.find('.rvunit-conds .cond-chip').exists()).toBe(false)
+      })
+    })
+
     // The stratagem filter: only where there is a clock to read, and it answers for the player
     // whose list is open, not for whoever's turn it happens to be.
     // A list with a detachment, so there are stratagems on the tab at all.

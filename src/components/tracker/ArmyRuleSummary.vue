@@ -44,6 +44,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { tracks } from '../../data/trackerOptions.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const props = defineProps({ game: { type: Object, default: null } })
@@ -54,12 +55,10 @@ const game = computed(() => props.game || current.value)
 
 const open = ref(false)
 
-// Tracking opt-in gate, mirroring RoundTracker: per-player trackArmyYou/Opp, falling back to the
-// legacy single trackArmyRule flag, defaulting to on.
+// Tracking opt-in gate, the same one RoundTracker applies: per-player trackArmyYou/Opp, through
+// the option table's reader so the legacy flag and the missing-flag default are answered once.
 function trackedFor(g, pl) {
-  const s = g.settings || {}
-  const key = (pl.isYou ?? false) ? s.trackArmyYou : s.trackArmyOpp
-  return (key ?? s.trackArmyRule ?? true) !== false
+  return tracks(g.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
 }
 // Did the player actually record anything? (Tracking defaults on, so an untouched mechanic would
 // otherwise show an empty block on games where nobody used it.)

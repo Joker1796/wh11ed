@@ -148,6 +148,32 @@
 
     <!-- ───────── Step 2 — Mission ───────── -->
     <div v-show="step === 2" :ref="el => (panelEls[1] = el)" class="step-panel">
+      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. FIRST on this
+           page, because it is what decides the mission shown under it: Scrambled Communications
+           swaps the two primaries and Mirrored World replaces both, and `derivePrimary` reads
+           `settings.twist`, so the preview below already depends on this button. Chosen on the
+           last step, as it was until 2026-08-25, it rewrote a card the player had already read
+           and moved on from. Not offered for Combat Patrol (the box's own rules don't mention it
+           either way; keeping this simple, matching how basic-box play works). -->
+      <div v-if="!settings.combatPatrol" class="settings twist-block">
+        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
+        <button class="btn-choose-twist" @click="twistPickerOpen = true">
+          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+          <i class="bi bi-chevron-right ct-chev"></i>
+        </button>
+        <details v-if="chosenTwist" class="twist-chosen">
+          <summary>{{ labels.trackerTwistRules }}</summary>
+          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
+        </details>
+        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
+          <span>{{ labels.trackerTwistMission }}</span>
+          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+        </div>
+      </div>
+
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
           <h3 class="player-head">{{ playerLabel(i) }}</h3>
@@ -206,7 +232,7 @@
       </div>
     </div>
 
-    <!-- ───────── Step 3 — Battlefield (layout) ───────── -->
+    <!-- ───────── Step 3 — Field & deployment (layout, first turn) ───────── -->
     <div v-show="step === 3" :ref="el => (panelEls[2] = el)" class="step-panel">
       <div class="settings layout-block">
         <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
@@ -227,14 +253,8 @@
         <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
       </div>
 
-      <div class="actions">
-        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
-      </div>
-    </div>
-
-    <!-- ───────── Step 4 — Deployment (first turn, CP, twist) ───────── -->
-    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
+      <!-- Who deploys first sits with the layout: both answer "where and in what order do we set
+           up", and neither is a setting of the app. -->
       <div class="settings deploy-opts">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
@@ -243,7 +263,17 @@
             <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerOpponent }}</button>
           </div>
         </label>
+      </div>
 
+      <div class="actions">
+        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
+      </div>
+    </div>
+
+    <!-- ───────── Step 4 — Settings (how the app runs this game) ───────── -->
+    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
+      <div class="settings deploy-opts">
         <label class="field">
           <span>
             {{ labels.trackerScoreMode }}
@@ -254,56 +284,11 @@
             <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
-
-        <label class="check" :class="{ on: settings.trackCP }">
-          <input type="checkbox" v-model="settings.trackCP" />
-          <span>{{ labels.trackerTrackCp }}</span>
-        </label>
-
-        <label v-if="players[0].factionSlug" class="check" :class="{ on: settings.trackArmyYou }">
-          <input type="checkbox" v-model="settings.trackArmyYou" />
-          <span>
-            {{ labels.trackerTrackArmyYou }}
-            <em v-if="!armyYouTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
-          </span>
-        </label>
-
-        <label v-if="players[1].factionSlug" class="check" :class="{ on: settings.trackArmyOpp }">
-          <input type="checkbox" v-model="settings.trackArmyOpp" />
-          <span>
-            {{ labels.trackerTrackArmyOpp }}
-            <em v-if="!armyOppTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
-          </span>
-        </label>
-
-        <!-- Phases are offered only when a list is attached: the roster screen is the only thing
-             that reads the phase, so without one the row would be a clock nobody consults. -->
-        <label v-if="anyRoster" class="check" :class="{ on: settings.trackPhases }">
-          <input type="checkbox" v-model="settings.trackPhases" />
-          <span>{{ labels.trackerTrackPhases }}</span>
-        </label>
       </div>
 
-      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. Not offered for
-           Combat Patrol (the box's own rules don't mention it either way; keeping this step
-           simple, matching how basic-box play works). -->
-      <div v-if="!settings.combatPatrol" class="settings twist-block">
-        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
-        <button class="btn-choose-twist" @click="twistPickerOpen = true">
-          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="bi bi-chevron-right ct-chev"></i>
-        </button>
-        <details v-if="chosenTwist" class="twist-chosen">
-          <summary>{{ labels.trackerTwistRules }}</summary>
-          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
-        </details>
-        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
-          <span>{{ labels.trackerTwistMission }}</span>
-          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
-          </button>
-        </div>
+      <div class="settings">
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="game" />
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="roster" heading="trackerRosterHeading" guide />
       </div>
 
       <div class="actions">
@@ -380,6 +365,8 @@ import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary,
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import RosterPickerModal from './RosterPickerModal.vue'
+import TrackOptions from './TrackOptions.vue'
+import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -394,14 +381,10 @@ const lastYouName = lastGame
   : ''
 // Default the score mode to the last game's choice (older games lack it → fall back to VP).
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
-// Remember the Track CP toggle from the last game (older games lack it → default on).
-const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
-// Same for the army-rule tracker toggles (split you/opponent; fall back to the old single flag).
+// What the game keeps track of: each option's own default, overridden by the last finished game's
+// choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
+// is added there and nothing here changes.
 const lastS = history.value[0]?.settings ?? {}
-const lastTrackArmyYou = lastS.trackArmyYou ?? lastS.trackArmyRule ?? true
-const lastTrackArmyOpp = lastS.trackArmyOpp ?? lastS.trackArmyRule ?? true
-// Phases default OFF, like the roster itself: an optional ornament, never a precondition.
-const lastTrackPhases = lastS.trackPhases ?? false
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -417,7 +400,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null }
 }
-const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, trackPhases: lastTrackPhases, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -436,11 +419,22 @@ const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
 // fallback). These two flags only control the setup checkbox's caption ("reference only, no
 // counter" vs nothing extra) — resolved per player, lazily (the registry is dynamic-imported,
 // same as the in-game card), whenever the picked factions change.
+// They travel to TrackOptions inside `trackCtx` below, which is what decides which rows the
+// block can offer at all.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
 
 // Either player having a list is enough: the clock belongs to the game, not to one side.
 const anyRoster = computed(() => players.some((p) => !!p.roster))
+
+// What the option table needs to know about this game, keyed by SIDE — in the wizard players[0]
+// is always You, but once the game starts the array is reordered by first turn, so the block
+// never indexes players itself.
+const trackCtx = computed(() => ({
+  you: { faction: players[0].factionSlug, trackable: armyYouTrackable.value },
+  opp: { faction: players[1].factionSlug, trackable: armyOppTrackable.value },
+  anyRoster: anyRoster.value,
+}))
 watch(
   () => players.map(p => p.factionSlug).join('|'),
   async () => {
@@ -732,10 +726,11 @@ const canMission = computed(() =>
   !!primaryName(0) && !!primaryName(1)
 )
 
-// Step 3 (Battlefield): layout always has a default → gate only on the earlier steps.
+// Step 3 (Field & deployment): layout and first turn both always have a default → gate only
+// on the earlier steps.
 const canBattlefield = computed(() => canMission.value)
 
-// Step 4 (Deployment): roles set (always defaulted) — gate on the earlier steps too.
+// Step 4 (Settings): every row has a default — gate on the earlier steps too.
 const canStart = computed(() =>
   canMission.value && players.every(p => p.role)
 )
@@ -751,7 +746,9 @@ function clearDraft() { setupDraft.value = null }
 function start() {
   clearDraft()
   emit('start', {
-    settings: { ...settings },
+    // Rows this game cannot offer are written OFF rather than at whatever the last game left in
+    // them — the checkbox was disabled, so the value behind it was never the player's answer.
+    settings: normalizeTrackSettings(settings, trackCtx.value),
     players: players.map(p => ({ ...p })),
   })
 }
@@ -823,6 +820,10 @@ function cancel() {
   .steps { display: none; }
   .steps-compact { display: block; }
 }
+/* The gap between the two army cards, and — since the twist block on step 2 stands directly above
+   them — the space under it too. One custom property so the two can't drift apart: without it the
+   twist card sat flush against "You" and read as part of it. */
+.setup { --stack-gap: 1rem; }
 .players {
   display: grid;
   /* minmax(0, …), not 1fr: a grid item's automatic minimum is its MIN-CONTENT width, and the
@@ -831,8 +832,9 @@ function cancel() {
      pushed the card wider than the screen and the whole page scrolled sideways. The ellipsis never
      got a chance: it only clips a box that was allowed to be narrower than its text. */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
+  gap: var(--stack-gap);
 }
+.twist-block { margin-bottom: var(--stack-gap); }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
@@ -855,7 +857,7 @@ function cancel() {
 /* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
    step) wastes a lot of the limited width — tighten it and the inter-card gap. */
 @media (max-width: 560px) {
-  .players { gap: 0.55rem; }
+  .setup { --stack-gap: 0.55rem; }
   .player-card,
   .settings { --pc-pad: 0.6rem; }
 }
@@ -863,7 +865,7 @@ function cancel() {
   .player-card,
   .settings { --pc-pad: 0.5rem; }
 }
-/* Step 4 (Deployment): stack the options vertically, each on its own line. */
+/* The two-or-three control cards on steps 3 and 4: stacked, each on its own line. */
 .deploy-opts {
   flex-direction: column;
   align-items: stretch;

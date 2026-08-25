@@ -129,18 +129,24 @@ describe('EditSetupModal — attaching an army list to a running game', () => {
   })
 })
 
-// The clock is only offered where something reads it, and a list can arrive here mid-game.
-describe('EditSetupModal — the phase setting', () => {
-  it('is hidden while no list is attached, and appears the moment one is', async () => {
+// The modifier rows only mean something with a list, and a list can arrive here mid-game. The row
+// is listed either way — being told the option exists is the point — so what changes is whether it
+// can be flipped. (The CLOCK is not one of these: PhaseRules reads it with no list in sight, so it
+// is offered in every game.)
+describe('EditSetupModal — the roster settings', () => {
+  it('disables the modifier rows while no list is attached, and lights them up when one arrives', async () => {
     startGame()
     const w = mount(EditSetupModal)
-    const phaseCheck = () => body().findAll('.check').find(c => c.text().includes('Track phases'))
-    expect(phaseCheck()).toBeUndefined()
+    const rowOf = (name) => body().findAll('.opt-row').find(r => r.text().includes(name))
+    expect(rowOf('Live modifiers')).toBeDefined()
+    expect(rowOf('Live modifiers').find('input').element.disabled).toBe(true)
+    expect(rowOf('Live modifiers').text()).toContain('Available once an army list is attached')
+    expect(rowOf('Track phases').find('input').element.disabled).toBe(false)
 
     await body().findAll('.es-roster .rp-open')[0].trigger('click')
     w.findComponent(RosterPickerModal).vm.$emit('pick', list())
     await flushPromises()
-    expect(phaseCheck()).toBeDefined()
+    expect(rowOf('Live modifiers').find('input').element.disabled).toBe(false)
   })
 })
 

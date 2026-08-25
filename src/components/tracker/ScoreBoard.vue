@@ -20,7 +20,7 @@
       <dl v-if="!finished" class="breakdown">
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
         <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
-        <div v-if="game.settings.trackCP"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
+        <div v-if="showCp"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
       </dl>
     </div>
     <div v-if="leaderIdx === -1" class="tie">{{ labels.trackerTie }}</div>
@@ -34,6 +34,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
 const props = defineProps({
@@ -49,6 +50,7 @@ const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const grandTotal = (i) => grandTotalOf(game.value, i)
 const leaderIdx = computed(() => leaderOf(game.value))
+const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 // Battle Points are a finished-game metric — only shown on results when scoreMode is 'bp'.
 const bpMode = computed(() => props.finished && game.value?.settings?.scoreMode === 'bp')
 const bp = computed(() => battlePointsOf(game.value))

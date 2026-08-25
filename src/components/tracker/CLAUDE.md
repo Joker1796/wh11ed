@@ -11,11 +11,123 @@ Architecture section) — its own state/data below.
 
 ## State
 
-`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{trackCP,firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce',twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
+`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce',twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
+
+## What to track
+
+**`src/data/trackerOptions.js` is the table of everything a game can be asked to keep** — one row
+per option, carrying its `setting` field, its ui.js label and help keys, its `default`, whether it
+`remember`s the last game's choice, any retired field name (`legacy`), and an `available(ctx)`
+predicate. `TrackOptions.vue` draws the table and is mounted **both** in the wizard's step 4 and in
+`EditSetupModal`, so a row offered in one is offered in the other. That is not tidiness: the two
+hand-written copies it replaced had already drifted — the wizard offered the army-rule toggle for
+any chosen faction, the dialog only for a faction with an interactive tracker spec, so a game whose
+faction had none showed a card that could never be turned off.
+
+`ctx` is `{ you:{faction,trackable}, opp:{faction,trackable}, anyRoster }`, keyed by **side**, never
+by index: `players[0]` is the first-turn player once a game starts, so the block must not index the
+array itself.
+
+**`tracks(settings, key)` is the only reader.** It resolves the retired name, the row's default
+(which is what answers for every game saved before an option existed) and the `requires` tree — no
+caller writes its own `?? true` or remembers which rows hang off which.
+`defaultTrackSettings(lastSettings)` seeds the wizard, `trackSettingsOf(settings)` fills an older
+game in for the edit dialog, and **`normalizeTrackSettings(settings, ctx)` is what gets written on
+Start/Save**: a row the game cannot offer is stored OFF, because a disabled checkbox never carried
+the player's answer. Without it "Track phases", remembered from a game that had a list, raised the
+phase row in a game that had none.
+
+**Two groups.** `group: 'game'` is the tracker's own screen: CP, the army rule per side
+(`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`), the clock (`trackPhases`) and the phase
+reminder under it (`trackPhaseRules`, `requires: 'trackPhases'`). `group: 'roster'` only means
+anything with an army list attached: the modifier master (`trackModifiers`) and the five families
+of switch under it (`trackUnitStates`, `trackArmyStates`, `trackStratagems`, `trackAuras`,
+`trackAbilitySets`, each `requires: 'trackModifiers'`). What each family governs on the roster
+screen is in `src/components/roster/CLAUDE.md`.
+
+**The clock moved out of the roster group on 2026-08-25, and the reason is worth keeping.** It was
+offered only alongside an attached list, because the roster screen was the only thing that read a
+phase. `PhaseRules` is the second reader **and it needs no list** — an army rule and a detachment
+rule name their phase in any game — so the gate went with its justification. Do not put it back
+without checking who reads the clock now.
+
+**Every row is always drawn.** A row this game cannot offer is disabled with the reason under its
+caption, never hidden. Hiding made the list a different length in every game, and it meant "Track
+phases" was seen only by someone who had already attached a list — the people who needed telling
+were exactly the ones who never saw it. Its help button stays live: what a greyed-out option would
+do is precisely what you want to read while it is greyed out.
+
+**What may NOT become a row: the missions.** Rows for the secondaries and for scoring the primary
+by conditions were built and removed the same day (2026-08-25) — the primary, the secondaries and
+the way they are scored *are* what the tracker is for, and a switch that hides them offers to turn
+the app into a notepad. A row has to be an aid **around** the game — a counter, a reference card, a
+clock — never the game itself. By the same rule the ~990 **unconditional** modifier effects are not
+five more rows: they are this list's correct numbers, not tracking, and they hang off the master
+alone.
+
+**Turning an option off hides a block; it never clears what that block recorded.** A CP count, a
+flipped condition and a spent stratagem all stay in the game, so a toggle flipped mid-game is fully
+reversible. For the modifier families that means a switched-off family stops PROVING its conditions
+and the numbers it held fall back into the "possible" list with their condition text — the same
+honest degradation a game without phases already has. **A disabled family can make a card say less;
+it can never make it say something false.**
+
+**The help "i" sits OUTSIDE the `<label>`, not in it.** A label forwards every click inside it to
+its control, so a help button in there flips the very setting it explains. The two share a dividing
+line instead — the same attached pair as the roster's condition chips (`ConditionChips.vue`'s
+`.cond-info`), including the `z-index` on the lit half. `OptionHelpModal.vue` is one dialog for all
+of them (prose, blank line = new paragraph); a setting whose answer is a *table* keeps its own
+(`ScoreHelpModal`). `src/data/trackerOptions.test.js` gates that every row's label and help exist in
+**both** locales — `ui.js` has no parity check of its own.
+
+## The phase reminder (`PhaseRules.vue`)
+
+Under the clock, one accordion: **what has something to say in the phase the game is standing on**,
+for both players. `settings.trackPhaseRules`, on by default, and it needs the clock (`requires`).
+
+**Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
+your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a
+player forgets — in the opponent's turn they are not thinking about their own cards. `usableInSlot`
+from `stratagemPhases.js` answers per player, `mine` differing; it is the same predicate the
+stratagem filter uses, so the two can never disagree about what "your Shooting phase" means.
+
+**The data is a generated sidecar, `src/data/phaseIndex.js` (`npm run phases:index`)** — names and
+phases, **no rule text at all**, ~600 abilities on 553 units plus 98 army/detachment rules, 76 KB
+for all 30 factions. This screen imports neither `data/factions/<slug>.js` (~88 KB) nor
+`data/datasheets/<slug>.js` (~132 KB, plus ~104 KB for the RU overlay) — `GameSetup` is
+`defineAsyncComponent`-loaded for exactly that reason — and pulling four heavy chunks onto the
+playing screen to show five lines would fight the product's central decision. A line shows a name
+and the reader taps through to where the text already lives. Re-run the generator after editing a
+faction rule or a datasheet ability, as with the other four indices.
+
+**Keyed by what the caller already holds.** Detachments are keyed by NAME, not id, because the game
+and the roster both store names — an id would mean loading the faction bundle to translate one.
+Unit names ride in the index for the same reason (no second import just for names). An allied
+unit's id carries its own faction (`agents-of-the-imperium:callidus-assassin`, `allySourceOf`), so
+it is looked up in that faction's entry rather than missed.
+
+**No classification of "activatable" vs "passive", deliberately.** It was tried and it does not
+survive contact with the data: "in your Command phase, you can return 1 destroyed model" and "In
+your opponent's Movement phase, if an enemy unit ends a move within 8"…" are both exactly what a
+reminder is for, and no phrasing test separates them from a passive mention. Naming the phase is
+the whole test — erring towards SHOWING, the same call `usableInSlot` already makes.
+
+**Stratagems are a link, not a list.** `/stratagems` is in this same subnav, already groups by
+phase and already knows both players' detachments; a second list would be two copies of one thing
+that drift apart. There is no count beside the link because counting would mean loading the faction
+rules bundle onto the playing screen — the one thing the index exists to avoid.
+
+**Closed by default, count in the header, remembered** (`wh11ed-phase-rules-open`). An open block
+pushes the round's actual scoring down the screen, which is why CP and the army-rule card were put
+BELOW the secondaries in the first place; "3 rules in this phase" does the reminding from the
+closed state. One line per RULE, with the units that carry it named under it — three Intercessor
+Squads with the same ability are one reminder, not three identical lines.
 
 ## Setup wizard
 
-**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + **attacker/defender role** + battle ready); step 2 "Mission" (active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Battlefield" (recommended layout A/B/C via `LayoutCard`); step 4 "Deployment" (who goes first, Track CP, and the twist). The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
+**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + **attacker/defender role** + battle ready); step 2 "Mission" (**the twist**, then active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Field & deployment" (recommended layout A/B/C via `LayoutCard`, then who goes first); step 4 "Settings" (the score mode and the two option blocks).
+
+**The steps were re-cut on 2026-08-25** rather than a fifth being added for the roster options, and two of the moves were fixes rather than tidying. **The twist belongs with the mission because it CHANGES it**: Scrambled Communications swaps the two primaries, Mirrored World replaces both, and step 2's own preview goes through `derivePrimary(disp, disp, settings)` — which reads `settings.twist`. Chosen on the last step, as it was, it rewrote a card the player had already read and walked away from. **Who goes first belongs with the layout** — both answer "where and in what order do we set up", and step 3 was otherwise one tab row and a picture. What was left, the score mode and the toggles, is a settings page and now says so. The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
 
 **The two army cards use `minmax(0, 1fr)`, not `1fr`.** A grid item's automatic minimum is its
 MIN-CONTENT width, and the attached-roster line inside a card is `white-space: nowrap` so it can
@@ -59,7 +171,7 @@ Views `src/views/tracker/{TrackerHomeView,TrackerGameView}.vue`; components `src
 
 **The clock — round, turn, phase.** `currentRound` has always been there; `currentTurn` (0/1) and `currentPhase` (a phase key) joined it on 2026-08-22. The field could not be called `phase`: that one is the GAME's state (`setup`/`playing`/`finished`). "Whose turn" needs no new concept — `players[0]` is **always** the first-turn player (`newGame` reorders, `updateSetup` keeps it so), so a turn index IS a player index. `stepPhase(±1)` walks the ten slots of a battle round and rolls over into the neighbour **through `goToRound`**, so the tactical-secondary housekeeping there still runs; `goToRound` in turn resets the clock to the first-turn player's Command phase, because a phase left over from the round you just left would read as "now" (stepping backwards writes the clock after that reset, which is how it lands on Fight). `canStepPhase` gates the arrows at the ends of the battle, like the round bar's own.
 
-The row under the round bar (arrows + a "name · phase" button opening `PhasePickerModal`, which lists all ten slots split into the first-turn player's five and the second's) appears only for a game that asked: `settings.trackPhases`, offered in the wizard and in `EditSetupModal` **only when a list is attached** — the roster screen is the only thing that reads a phase. Off by default, remembered from the last game like `trackCP`. Games saved before any of this read as the opening phase and start writing the clock on their first step; no migration. What the clock is FOR lives in `src/components/roster/CLAUDE.md` (switch durations, phase-gated modifiers, the stratagem filter).
+The row under the round bar (arrows + a "name · phase" button opening `PhasePickerModal`, which lists all ten slots split into the first-turn player's five and the second's) appears only for a game that asked: `settings.trackPhases`, a row of the option table above whose `available` is **a list being attached** — the roster screen is the only thing that reads a phase. Off by default, remembered from the last game. Games saved before any of this read as the opening phase and start writing the clock on their first step; no migration. What the clock is FOR lives in `src/components/roster/CLAUDE.md` (switch durations, phase-gated modifiers, the stratagem filter).
 
 **A game can also carry each player's army list** (`player.rosterId` + `player.roster`, a self-contained snapshot). Attached in step 1 of the wizard — an icon button in the faction row opens `RosterPickerModal.vue` — automatically when the game was started from a roster, **or after the game has started**, from `EditSetupModal.vue` (the same picker, in the player card); **optional on both sides — a game with no lists is the normal case, and nothing here may require one.** An attached list decides that player's faction and detachments (`resolveArmyChoice`), so it **replaces the faction picker** with a `faction · list name ✕` line; detaching hands the picker back with that faction still selected. (The `resolveArmyChoice` guard that detaches on a faction change is therefore unreachable from the wizard now, and kept for a restored draft whose halves are out of step.) `RoundTracker` gives each player card **one army button**, sharing the CP row **below** the secondaries (both are things you consult between scoring passes, and above they pushed the round's actual scoring down): with a list attached it links to `/tracker/game/roster/:pi`, which renders the Roster Builder's own read-only view from the snapshot; without one it falls back to that player's faction datasheets (`/factions/:slug/datasheets`). Never both — the list is strictly the better answer when it exists (this army's units, with the game's live modifiers), and there's no room for two links beside the CP stepper. Because the button reads the player it belongs to, the opponent's army is one tap from their own card; that is what replaced the bottom nav's conditional «Units» item (root `CLAUDE.md`). The row renders for either half alone, and drops out entirely only for a legacy game with no `factionSlug` and CP off. **Attaching mid-game is deliberately weaker than the wizard's.** In the wizard the list IS the army: it decides the faction and the detachments. Once play has started neither is the list's to decide — missions, the army-rule tracker and the points already scored hang on the faction, the stratagems and DP on the detachments — so `EditSetupModal` only fills in what is still blank (a faction on a game saved before one was mandatory; detachments never chosen) and reports a detachment disagreement as a warning line instead of resolving it. The picker takes an optional `faction` prop for this: lists of another faction stay **visible but disabled** (hiding them makes a collection look empty and reads as "my list is gone"), and a pasted share link of the wrong faction is refused with its own message. Detaching, as in the wizard, leaves the faction and detachments alone. `updateSetup` carries the four fields, and the modal's local draft means Cancel discards the attachment. Nothing measures the game at attach time — see `rosterGameLink.test.js` for why two full lists can't approach the cap. The snapshot deliberately stores the roster's compact stored form — a synced game is capped at 64 KB by `wh11ed-api`. Mechanics and rationale: `src/composables/rosterGameLink.js` + the "roster attached to a game" section in `src/components/roster/CLAUDE.md`.
 

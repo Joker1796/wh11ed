@@ -90,6 +90,7 @@ npm run radii        # fail on any border-radius outside the listed exceptions (
 npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
+npm run phases:index # regenerate the per-phase rule index the tracker's phase reminder reads (see Game Tracker)
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
 npm run screenshots  # regenerate the manifest install-dialog screenshots (see PWA)
 npm run splash       # regenerate the iOS apple-touch-startup-image launch screens (see PWA)

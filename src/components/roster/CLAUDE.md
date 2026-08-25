@@ -2014,7 +2014,8 @@ last a phase by their own rules and four last a turn; with the round as the only
 stayed true through phases they had no business being true in.
 
 Two things degrade it, both deliberately: a game not keeping phases (`settings.trackPhases`, off by
-default) records round-only stamps, and a game saved before stamps existed holds a bare round
+default — and since 2026-08-25 offered in EVERY game, not only one with a list, because the
+tracker's phase reminder reads the clock too) records round-only stamps, and a game saved before stamps existed holds a bare round
 number — which can never be mistaken for a stamp, since the smallest real one is 100. Either way
 every duration falls back to the round boundary, which is what this layer did before the clock
 existed. Clearing EARLY is the safe direction: a stale switch would silently rewrite a number.
@@ -2094,6 +2095,34 @@ filter — what this player can use in the slot the game is standing on. `phases
 by the standalone stratagems page too) is deliberately untouched; `phaseSidesOf` is the extra half
 that reads WHOSE phase the timing names, and `usableInSlot` is the predicate. A history record is
 excluded: its clock stopped where the game ended.
+
+**What the game asked this layer to keep** (2026-08-25). `game.settings` carries a master and five
+family switches — the table and their help live in `src/data/trackerOptions.js`; what they do to
+THIS screen is here. The master (`trackModifiers`) is answered in exactly one place, `statModsFor`
+in `RosterViewView`: off, it returns the printed sheet with no marks and no notes, so the row
+plates, the card behind them and the "possible" summary fall back together and nothing downstream
+needs a gate of its own. The five families each gate one source:
+
+- `trackUnitStates` / `trackArmyStates` → `activeConditions(player, clock, entry, { unit, army })`.
+  The other three sources in that loop — `auto`, `clock`, `roster` — are **never** gated: they cost
+  the player nothing to maintain, so there is nothing to switch off, and a called Waaagh! keeps
+  rewriting the card in a game that offers no army chips at all.
+- `trackStratagems` / `trackAbilitySets` → the two halves of `chosenFor`, plus `gameCtx.strats` and
+  `gameCtx.picks`.
+- `trackAuras` → `auraOn` inside `attachmentCtxOf`, plus the aura chip cache.
+
+**Off the table every gate is open.** A list read in the builder has no game to carry settings, and
+`keeps()` says so — the whole layer applies, as it always did.
+
+**The degradation is one-directional and that is the point.** A family that is not consulted leaves
+its effects unproven, which is exactly the state an effect is in before the battle proves it: listed
+on the card with the condition it waits for. A switched-off family can make a card say LESS; it can
+never make it say something false. The player's own switches are untouched in `player.ctx`, so
+turning a family back on mid-game restores every one of them.
+
+**Unconditional effects are not a sixth family.** They ask nothing of the player — they are this
+list's correct numbers — so they hang off the master alone. Offering to switch them off separately
+would be offering to make the card wrong.
 
 **User decisions behind all of this** (2026-08-20/22), none derivable from the code: both players
 may have a list and neither must; the roster link is an ornament, never a precondition; context

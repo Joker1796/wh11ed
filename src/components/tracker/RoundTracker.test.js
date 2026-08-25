@@ -135,3 +135,18 @@ describe('RoundTracker — the phase row', () => {
   })
 })
 
+describe('RoundTracker — what the game keeps track of', () => {
+  // The option HIDES a block; it never clears what the block recorded, so it is reversible
+  // mid-game. The missions are deliberately not switchable — see src/data/trackerOptions.js.
+  it('drops the CP stepper when the game is not counting CP', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
+    expect(mountTracker().find('.sr-label').exists()).toBe(false)
+  })
+
+  it('keeps the mission blocks whatever the settings say', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackCP: false })
+    const w = mountTracker()
+    expect(w.findAll('secondary-deck-stub')).toHaveLength(2)
+    expect(w.findAll('.card-open').length + w.findAll('.score-row').length).toBeGreaterThan(0)
+  })
+})
