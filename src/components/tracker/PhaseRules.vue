@@ -16,11 +16,16 @@
           <h4 class="pr-who">{{ side.name }}</h4>
           <ul class="pr-list">
             <li v-for="r in side.rules" :key="r.key" class="pr-rule">
-              <span class="pr-src">{{ r.src }}</span>
-              <span class="pr-name">
-                {{ r.name }}
-                <small v-if="r.sub" class="pr-sub">{{ r.sub }}</small>
-              </span>
+              <!-- A name the reader cannot get to is half a reminder, so every line is a way in:
+                   a unit to its card, a rule to its place on the faction page. -->
+              <button type="button" class="pr-go-btn" @click="go(r)">
+                <span class="pr-src">{{ r.src }}</span>
+                <span class="pr-name">
+                  {{ r.name }}
+                  <small v-if="r.sub" class="pr-sub">{{ r.sub }}</small>
+                </span>
+                <i class="bi bi-chevron-right pr-go"></i>
+              </button>
             </li>
           </ul>
         </div>
@@ -53,6 +58,7 @@
 // at all (see scripts/gen-phase-index.mjs for why): this screen deliberately imports neither the
 // faction bundle nor the datasheets, and it is not going to start.
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -60,10 +66,15 @@ import { useTracker } from '../../composables/useTracker.js'
 import { usableInSlot, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
 import { allySourceOf } from '../../composables/rosterEngine.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { useRefNavigation } from '../../composables/useRefNavigation.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
+const router = useRouter()
+const { setDetachment } = useFactionChoice()
+const { navigateTo } = useRefNavigation()
 
 const OPEN_KEY = 'wh11ed-phase-rules-open'
 const open = ref(getItem(OPEN_KEY) === '1')
@@ -96,7 +107,7 @@ function rulesFor(pi) {
   const out = []
   const take = (e, src, sub = null) => {
     if (e && usableInSlot(e.p, e.s, phase.value, mine)) {
-      out.push({ key: `${src}|${e.n}`, src, name: nameOf(e), sub })
+      out.push({ key: `${src}|${e.n}`, src, name: nameOf(e), sub, slug: pl.factionSlug, at: e.at, det: e.id })
     }
   }
 
@@ -126,17 +137,57 @@ function rulesFor(pi) {
       // One line per RULE: three Intercessor Squads with the same ability are one reminder with
       // three names under it, not three identical lines.
       const key = `${e.n}`
-      if (!byRule.has(key)) byRule.set(key, { key: `u|${key}`, src: labels.value.trackerPhaseUnit, name: nameOf(e), units: new Set() })
-      byRule.get(key).units.add(rec.n)
+      if (!byRule.has(key)) {
+        byRule.set(key, {
+          key: `u|${key}`,
+          src: labels.value.trackerPhaseUnit,
+          name: nameOf(e),
+          units: new Set(),
+          // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
+          // up carrying the rule: with three Intercessor Squads there is no single card to mean,
+          // so the line lets the reader pick. Counted by entry, not by name — three squads of
+          // the same datasheet are three cards, even though the line names "Boyz" once.
+          to: cardOf(pl, pi, u, ally),
+          entries: 0,
+        })
+      }
+      const r = byRule.get(key)
+      if (++r.entries > 1) r.to = listOf(pl, pi)
+      r.units.add(rec.n)
     }
   }
   for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
   return out
 }
 
+// The unit's card: inside the attached list when the game carries one — that is where this game's
+// own modifiers are applied — and the faction's datasheet page otherwise.
+function cardOf(pl, pi, entry, ally) {
+  if (pl.roster) return { path: `/tracker/game/roster/${pi}`, query: { unit: entry.uid } }
+  const slug = ally ? ally[0] : pl.factionSlug
+  const id = ally ? ally[1] : entry.id
+  return `/factions/${slug}/datasheets/${id}`
+}
+function listOf(pl, pi) {
+  return pl.roster ? `/tracker/game/roster/${pi}` : `/factions/${pl.factionSlug}/datasheets`
+}
+
 // The RU name where the datasheet overlay had one; rule and unit names stay English by convention.
 function nameOf(e) {
   return locale.value === 'ru' && e.ru ? e.ru : e.n
+}
+
+// Where a line leads. A unit goes to its card — inside the attached list when there is one (the
+// game's own numbers apply there), on the faction's datasheet page when there is not. A rule goes
+// to its anchor on the faction page, and a DETACHMENT rule has to be selected first, because that
+// page renders only the active one — the same two steps a search result takes.
+async function go(r) {
+  if (r.to) {
+    await router.push(r.to)
+    return
+  }
+  if (r.det) setDetachment(r.slug, r.det)
+  await navigateTo({ route: `/factions/${r.slug}`, anchor: r.at || undefined })
 }
 
 function playerName(pi) {
@@ -193,14 +244,22 @@ const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0)
   color: var(--text-dim);
 }
 .pr-list { list-style: none; margin: 0; padding: 0; }
-.pr-rule {
-  display: flex;
-  gap: 0.45rem;
-  padding: 0.25rem 0;
-  font-size: 0.82rem;
-  border-top: 1px solid var(--border);
-}
+.pr-rule { border-top: 1px solid var(--border); }
 .pr-rule:first-child { border-top: none; }
+.pr-go-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.3rem 0;
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+.pr-go-btn:hover .pr-name,
+.pr-go-btn:hover .pr-go { color: var(--accent); }
 .pr-src {
   flex: 0 0 auto;
   max-width: 40%;
@@ -208,7 +267,7 @@ const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0)
   font-size: 0.72rem;
   line-height: 1.5;
 }
-.pr-name { color: var(--text-primary); }
+.pr-name { flex: 1; min-width: 0; color: var(--text-primary); }
 .pr-sub { display: block; color: var(--text-muted); font-size: 0.72rem; }
 .pr-strats {
   display: flex;
@@ -221,5 +280,5 @@ const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0)
   color: var(--text-muted);
 }
 .pr-strats:hover { color: var(--accent); }
-.pr-go { margin-left: auto; font-size: 0.75rem; }
+.pr-go { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; color: var(--text-dim); }
 </style>

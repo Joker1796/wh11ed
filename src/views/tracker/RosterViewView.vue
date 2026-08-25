@@ -505,7 +505,11 @@ function openChipInfo(sw, rect) {
 }
 
 // ── Unit rules modal ──
-const viewingUid = ref(null)
+// `?unit=<uid>` opens that unit's card straight away — how the tracker's phase reminder gets a
+// reader from "Brides of Death (Pain), Lelith Hesperax" to the card that says what it does. The
+// query is read once, on arrival; closing the card leaves it in the URL, which is harmless (it
+// only ever seeds the initial value) and keeps a reload on the same card.
+const viewingUid = ref(route.query?.unit ? String(route.query.unit) : null)
 const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
 // The entry, not just its datasheet: the modal's overlay (rosterModifiers.js) needs this unit's
 // own wargear picks to show the loadout it actually fields rather than every option on the sheet.

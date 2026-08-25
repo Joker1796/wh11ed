@@ -91,9 +91,9 @@ player forgets — in the opponent's turn they are not thinking about their own 
 from `stratagemPhases.js` answers per player, `mine` differing; it is the same predicate the
 stratagem filter uses, so the two can never disagree about what "your Shooting phase" means.
 
-**The data is a generated sidecar, `src/data/phaseIndex.js` (`npm run phases:index`)** — names and
-phases, **no rule text at all**, ~600 abilities on 553 units plus 98 army/detachment rules, 76 KB
-for all 30 factions. This screen imports neither `data/factions/<slug>.js` (~88 KB) nor
+**The data is a generated sidecar, `src/data/phaseIndex.js` (`npm run phases:index`)** — names,
+phases and anchors, **no rule text at all**, ~600 abilities on 553 units plus 98 army/detachment
+rules, 81 KB for all 30 factions. This screen imports neither `data/factions/<slug>.js` (~88 KB) nor
 `data/datasheets/<slug>.js` (~132 KB, plus ~104 KB for the RU overlay) — `GameSetup` is
 `defineAsyncComponent`-loaded for exactly that reason — and pulling four heavy chunks onto the
 playing screen to show five lines would fight the product's central decision. A line shows a name
@@ -120,6 +120,16 @@ the phase** (`/stratagems?phase=fight`) and `StratagemsView` reads it into the I
 `byPhase`/`openPhases` — not by assigning them afterwards, which would fire the persist watcher
 and remember a view mode the reader never chose. Landing on six collapsed accordions is what makes
 such a link pointless.
+
+**Every line is a way in.** A name the reader cannot get to is half a reminder, so a line
+navigates: a unit to its card — inside the attached list (`/tracker/game/roster/:pi?unit=<uid>`,
+which `RosterViewView` reads into its initial `viewingUid`) so the game's own modifiers apply, or
+to `/factions/:slug/datasheets/:id` when that player fielded no list; a rule to its anchor on the
+faction page. A **detachment** rule has to be selected through `useFactionChoice` first, because
+that page renders only the active one — the same two steps a search result takes, which is why the
+index stores the same anchor ids the search index does. A rule carried by more than one ENTRY opens
+the list instead of a card: three squads of the same datasheet are three cards, and there is no
+single one to mean (counted by entry, not by name — the line still says "Boyz" once).
 
 **Closed by default, count in the header, remembered** (`wh11ed-phase-rules-open`). An open block
 pushes the round's actual scoring down the screen, which is why CP and the army-rule card were put
