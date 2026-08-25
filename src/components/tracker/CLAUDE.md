@@ -115,7 +115,11 @@ the whole test — erring towards SHOWING, the same call `usableInSlot` already 
 **Stratagems are a link, not a list.** `/stratagems` is in this same subnav, already groups by
 phase and already knows both players' detachments; a second list would be two copies of one thing
 that drift apart. There is no count beside the link because counting would mean loading the faction
-rules bundle onto the playing screen — the one thing the index exists to avoid.
+rules bundle onto the playing screen — the one thing the index exists to avoid. **The link carries
+the phase** (`/stratagems?phase=fight`) and `StratagemsView` reads it into the INITIAL values of
+`byPhase`/`openPhases` — not by assigning them afterwards, which would fire the persist watcher
+and remember a view mode the reader never chose. Landing on six collapsed accordions is what makes
+such a link pointless.
 
 **Closed by default, count in the header, remembered** (`wh11ed-phase-rules-open`). An open block
 pushes the round's actual scoring down the screen, which is why CP and the army-rule card were put

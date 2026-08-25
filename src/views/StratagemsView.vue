@@ -66,6 +66,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import StratCard from '../components/StratCard.vue'
 import CollapseTransition from '../components/CollapseTransition.vue'
 import { battlefields } from '../data/battlefields.js'
@@ -76,6 +77,7 @@ import { useTracker } from '../composables/useTracker.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
+const route = useRoute()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -240,9 +242,15 @@ function stratKey(strat) {
 // Accordions start collapsed — the user expands whichever phase they need. The chosen
 // view mode is remembered across visits.
 const VIEW_KEY = 'wh11ed-stratagems-by-phase'
-const byPhase = ref(getItem(VIEW_KEY) === '1')
+// …unless the link that brought the reader here named a phase (`?phase=shooting`, from the
+// tracker's phase reminder): that is a request to see THAT phase, open. Both are read here, into
+// the refs' INITIAL values, rather than assigned afterwards — going through the toggle would fire
+// the watcher below and persist a view mode the reader never chose. `route` is optional-chained:
+// the page renders fine mounted without a router, and a missing query is not a reason to fail.
+const wantedPhase = PHASE_ORDER.includes(String(route?.query?.phase)) ? String(route.query.phase) : null
+const byPhase = ref(wantedPhase ? true : getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
-const openPhases = ref(new Set())
+const openPhases = ref(new Set(wantedPhase ? [wantedPhase] : []))
 
 const phaseGroups = computed(() => {
   // A stratagem can span several phases (its `_phases` array), so it appears under each.

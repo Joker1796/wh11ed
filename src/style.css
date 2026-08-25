@@ -816,8 +816,12 @@ a.back:hover { text-decoration: none; }
   transition: border-color var(--motion-fast), background var(--motion-fast);
 }
 
+/* The frame is the POINTER's, not the state's: a screenful of ticked options all wearing an accent
+   border reads as one solid block of red and stops distinguishing anything. What a ticked row is
+   saying it says with the tint, the brighter label and the box itself; the border is reserved for
+   the row under the cursor. */
 .check:hover { border-color: var(--accent); }
-.check.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.check.on { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 .check input[type="checkbox"] {
   width: 20px;

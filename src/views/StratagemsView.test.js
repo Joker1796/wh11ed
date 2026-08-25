@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 // A live game with a Space Marine (Gladius) player and an Ork (Green Tide) opponent.
@@ -17,6 +17,12 @@ vi.mock('../composables/useTracker.js', async () => {
   const { ref } = await import('vue')
   return { useTracker: () => ({ current: ref(activeGame) }) }
 })
+
+// The view reads `route.query.phase`. `useRoute` resolves through inject, which a bare mount has
+// no provider for, so the router is mocked rather than installed — this view uses no RouterLink.
+const { routeQuery } = vi.hoisted(() => ({ routeQuery: { value: {} } }))
+vi.mock('vue-router', () => ({ useRoute: () => ({ query: routeQuery.value }) }))
+beforeEach(() => { routeQuery.value = {} })
 
 import StratagemsView from './StratagemsView.vue'
 
@@ -59,4 +65,31 @@ describe('StratagemsView with an active game', () => {
     // per-faction lazy chunks (as data/factions/ru/ and data/datasheets/ already do) would make
     // this test load two factions instead of thirty and let the timeout come back down.
   }, 20000)
+})
+
+// A link from the tracker's phase reminder names the phase it wants (`/stratagems?phase=fight`).
+// Landing on six collapsed accordions would make that link pointless.
+describe('StratagemsView opened on a phase', () => {
+  it('switches to the grouped view and expands the phase the link named', async () => {
+    routeQuery.value = { phase: 'fight' }
+    const w = mount(StratagemsView)
+    await vi.waitFor(() => expect(w.findAll('.phase-head').length).toBeGreaterThan(1), WAIT)
+
+    const open = w.findAll('.phase-head').filter((h) => h.attributes('aria-expanded') === 'true')
+    expect(open).toHaveLength(1)
+    expect(open[0].text()).toContain('Fight phase')
+  })
+
+  it('does not persist a view mode the reader never chose', async () => {
+    routeQuery.value = { phase: 'fight' }
+    mount(StratagemsView)
+    await vi.waitFor(() => expect(localStorage.getItem('wh11ed-stratagems-by-phase')).toBeNull(), WAIT)
+  })
+
+  it('ignores a phase that is not one', async () => {
+    routeQuery.value = { phase: 'elevenses' }
+    const w = mount(StratagemsView)
+    await vi.waitFor(() => expect(w.find('.strat-grid').exists()).toBe(true), WAIT)
+    expect(w.findAll('.phase-head')).toHaveLength(0)
+  })
 })

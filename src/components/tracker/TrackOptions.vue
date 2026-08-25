@@ -120,9 +120,9 @@ function reasonOf(o) {
   font-size: 0.9rem;
   cursor: pointer;
 }
-/* Whichever half is lit paints its own frame over that shared line — without this the quiet
-   half's grey pixels sit on top and the accent frame stops halfway. */
-.check.on,
+/* Whichever half is hovered paints its own frame over that shared line — without this the quiet
+   half's grey pixels sit on top and the accent frame stops halfway. Only hover: a ticked row no
+   longer takes an accent border, so it has no frame to win with. */
 .check:hover,
 .opt-info:hover { position: relative; z-index: 1; }
 .opt-info:hover { color: var(--accent); border-color: var(--accent); }
