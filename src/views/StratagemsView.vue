@@ -51,7 +51,7 @@
         </button>
         <CollapseTransition :show="openPhases.has(g.key)">
           <div class="strat-grid phase-grid">
-            <StratCard v-for="strat in g.strats" :key="stratKey(strat)" :strat="strat" />
+            <StratCard v-for="strat in g.strats" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
           </div>
         </CollapseTransition>
       </div>
@@ -59,7 +59,7 @@
 
     <!-- Flat list -->
     <div v-else class="strat-grid">
-      <StratCard v-for="strat in visibleStratagems" :key="stratKey(strat)" :strat="strat" />
+      <StratCard v-for="strat in visibleStratagems" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
     </div>
   </div>
 </template>
@@ -214,28 +214,58 @@ watch(
   { immediate: true },
 )
 
-const filter = ref('core')
-// Reset to Core whenever a game ends, so the hidden filter state can't strand the view.
-watch(hasGame, (on) => { if (!on) filter.value = 'core' })
+// Mid-game the useful question is "what can anyone play right now", not "whose deck am I in" —
+// so All is the default while a game is on, and the three narrower tabs are there for when you
+// do want one deck. Without a game there is nothing to combine and the page stays core-only.
+const filter = ref(hasGame.value ? 'all' : 'core')
+// A game ending strands the combined view (its two thirds are gone), and a game starting is the
+// moment All becomes the useful default.
+watch(hasGame, (on) => { filter.value = on ? 'all' : 'core' })
 
 const filters = computed(() => {
   if (!hasGame.value) return []
   return [
+    { key: 'all', label: labels.value.stratFilterAll },
     { key: 'core', label: labels.value.stratFilterCore },
     { key: 'you', label: labels.value.stratFilterYou },
     { key: 'opp', label: labels.value.stratFilterOpp },
   ]
 })
 
+// In the combined list a card has to say whose it is: two players can field the SAME detachment
+// (a mirror match), and then the two copies are identical down to the sublabel. `_owner` answers
+// that, and keeps their keys apart.
+const owned = (strats, key) => strats.map((s) => ({ ...s, _owner: key }))
+const allStrats = computed(() => [
+  ...coreStrats.value,
+  ...owned(youStrats.value, 'you'),
+  ...owned(oppStrats.value, 'opp'),
+])
+
 const visibleStratagems = computed(() => {
-  if (!hasGame.value || filter.value === 'core') return coreStrats.value
+  if (!hasGame.value) return coreStrats.value
+  if (filter.value === 'all') return allStrats.value
   if (filter.value === 'you') return youStrats.value
   if (filter.value === 'opp') return oppStrats.value
   return coreStrats.value
 })
 
+// The player's own name where they gave one, else the tab's word for them.
+function ownerName(key) {
+  const pl = key === 'you' ? you.value : opp.value
+  return pl?.name || (key === 'you' ? labels.value.stratFilterYou : labels.value.stratFilterOpp)
+}
+
+// A detachment stratagem carries its own sublabel ("Gladius Task Force – Battle Tactic
+// Stratagem"); a core one carries none and StratCard falls back to "CORE STRATAGEM". Passing it
+// at all is the fix for every detachment card on this page having claimed to be a core one.
+function sublabelOf(strat) {
+  if (!strat.sublabel) return null
+  return strat._owner ? `${ownerName(strat._owner)} · ${strat.sublabel}` : strat.sublabel
+}
+
 function stratKey(strat) {
-  return strat.num || `${strat.sublabel || ''}|${strat.name}`
+  return `${strat._owner || ''}|${strat.num || `${strat.sublabel || ''}|${strat.name}`}`
 }
 
 // Group-by-phase view: a toggle swaps the flat grid for one accordion per phase.
