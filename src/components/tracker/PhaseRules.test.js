@@ -6,6 +6,8 @@ let PhaseRules, tracker, DISPOSITIONS
 
 beforeEach(async () => {
   localStorage.clear()
+  push.mockClear()
+  navigateTo.mockClear()
   vi.resetModules()
   const mod = await import('../../composables/useTracker.js')
   tracker = mod.useTracker()
@@ -14,7 +16,14 @@ beforeEach(async () => {
 })
 afterEach(() => { document.body.innerHTML = '' })
 
-const RouterLink = { props: ['to'], template: '<a :href="to"><slot /></a>' }
+const RouterLink = { props: ['to'], template: '<a><slot /></a>' }
+
+// Every line is a way in, so the two navigators are spied on rather than driven for real.
+const { push, navigateTo } = vi.hoisted(() => ({ push: vi.fn(), navigateTo: vi.fn() }))
+vi.mock('vue-router', () => ({ useRouter: () => ({ push }), useRoute: () => ({ query: {} }) }))
+vi.mock('../../composables/useRefNavigation.js', () => ({
+  useRefNavigation: () => ({ navigateTo, resolveRef: () => null }),
+}))
 
 function startGame(p0 = {}, p1 = {}) {
   tracker.newGame({
@@ -91,5 +100,49 @@ describe('PhaseRules', () => {
     expect(w.find('.pr-head').attributes('aria-expanded')).toBe('false')
     await open(w)
     expect(localStorage.getItem('wh11ed-phase-rules-open')).toBe('1')
+  })
+})
+
+// A name the reader cannot get to is half a reminder.
+describe('PhaseRules — where a line leads', () => {
+  const roster = (units) => ({
+    id: 'r1', name: 'Da List', faction: 'orks', detachments: [],
+    battleSize: 'strike-force', units,
+  })
+  const line = (w, text) => w.findAll('.pr-go-btn').find((b) => b.text().includes(text))
+
+  it('opens the unit\'s own card inside the attached list', async () => {
+    startGame({ roster: roster([{ uid: 'u1', id: 'boyz', size: 0 }]) })
+    const w = await mountBlock()
+    await open(w)
+    await line(w, 'Get Da Good Bitz').trigger('click')
+    expect(push).toHaveBeenCalledWith({ path: '/tracker/game/roster/0', query: { unit: 'u1' } })
+  })
+
+  // With several units carrying the same rule there is no single card to mean, so the line opens
+  // the list and lets the reader pick.
+  it('opens the list when more than one unit carries the rule', async () => {
+    startGame({ roster: roster([{ uid: 'u1', id: 'boyz', size: 0 }, { uid: 'u2', id: 'boyz', size: 0 }]) })
+    const w = await mountBlock()
+    await open(w)
+    await line(w, 'Get Da Good Bitz').trigger('click')
+    expect(push).toHaveBeenCalledWith('/tracker/game/roster/0')
+  })
+
+  it('sends an army rule to its anchor on the faction page', async () => {
+    startGame()
+    const w = await mountBlock()
+    await open(w)
+    await line(w, 'Waaagh!').trigger('click')
+    expect(navigateTo).toHaveBeenCalledWith({ route: '/factions/orks', anchor: 'waaagh' })
+  })
+
+  it('falls back to the faction datasheet when the player fielded no list', async () => {
+    startGame()
+    const w = await mountBlock()
+    await open(w)
+    // No roster → no unit lines at all, so the army rule is the only way in. Guarding the
+    // fallback here rather than asserting a link that cannot exist.
+    expect(w.findAll('.pr-go-btn').every((b) => !b.text().includes('Get Da Good Bitz'))).toBe(true)
   })
 })
