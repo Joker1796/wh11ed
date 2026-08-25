@@ -141,7 +141,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -163,8 +163,71 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs mortal wounds and Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "9abb08e6-5ea7-4b69-a350-20ae551ce99e:daemon-prince-of-chaos-with-wings",
+      "kind": "ability",
+      "name": "Daemon Prince of Chaos with Wings: Harbinger of Death",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "daemon-prince-of-chaos-with-wings"
+      },
+      "hash": "bbbc232b",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "harbinger-lethal"
+          ],
+          "only": {
+            "name": "Hellforged weapons"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "harbinger-precision"
+          ],
+          "only": {
+            "name": "Hellforged weapons"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "harbinger-sustained"
+          ],
+          "only": {
+            "name": "Hellforged weapons"
+          }
         }
       ]
     },
@@ -291,7 +354,7 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -314,7 +377,7 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -337,7 +400,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -557,6 +620,69 @@ export default {
       ]
     },
     {
+      "sid": "0effb863-11f6-4097-9d2f-780cbb275a00:lord-of-change",
+      "kind": "ability",
+      "name": "Lord of Change: Master of Magicks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-change"
+      },
+      "hash": "4682d5b5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-ignores-cover"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-lethal"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-sustained"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
+        }
+      ]
+    },
+    {
       "sid": "b056eee6-6e63-4855-af76-8794c8659a37:rendmaster-on-blood-throne",
       "kind": "ability",
       "name": "Rendmaster on Blood Throne: Blood Throne",
@@ -650,7 +776,7 @@ export default {
           "only": {
             "name": "Juggernaut’s bladed horn"
           },
-          "target": "led",
+          "target": "unit",
           "when": {
             "en": "for the turn, after that unit ends a Charge move",
             "ru": "на ход, после того как отряд закончил Charge"
@@ -680,7 +806,7 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -703,7 +829,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -726,7 +852,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -749,7 +875,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1385,7 +1511,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 9\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

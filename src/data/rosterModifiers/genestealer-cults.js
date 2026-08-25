@@ -39,7 +39,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -63,7 +63,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -161,7 +161,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -208,7 +208,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -246,7 +246,7 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -494,7 +494,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Infiltrators",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -544,14 +545,16 @@ export default {
           "stat": "ld",
           "op": "improve",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "profile",
           "stat": "oc",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -625,7 +628,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },

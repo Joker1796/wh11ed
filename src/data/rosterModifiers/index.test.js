@@ -148,7 +148,7 @@ describe('rosterModifiers data', () => {
         // the generator) — but not every aura has one: prose the extractor cannot read leaves it
         // absent, and the effect applies ungated, the same fail-open direction ruleTargets takes.
         if (eff.target !== undefined) {
-          expect(['self', 'led', 'leader', 'aura'], `${where}: target`).toContain(eff.target)
+          expect(['self', 'unit', 'led', 'leader', 'aura'], `${where}: target`).toContain(eff.target)
           // An ENHANCEMENT joined them on 2026-08-23, for `aura` alone: a relic that buffs units
           // AROUND its bearer addresses other cards, so it needs the keyword gate and the chip an
           // aura carries, while every other enhancement effect addresses its own bearer and would
@@ -156,9 +156,21 @@ describe('rosterModifiers data', () => {
           // …and a DETACHMENT RULE on the same day, also for `aura` alone: three of them hand out an
           // aura ability by keyword ("friendly IMPERIAL KNIGHTS models have…") rather than by
           // datasheet, so there is no entry to hang it on and the chip names the detachment instead.
-          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule'] : ['ability', 'wargear']
+          // `led` joined them for an ENHANCEMENT on 2026-08-25: a relic whose prose addresses the
+          // bearer's UNIT ("models in the bearer's unit have the Deep Strike ability") reaches the
+          // unit he joined as well as his own card, which is the one direction 19.04 gives an
+          // enhancement beyond the single model it is worn by.
+          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule']
+            : eff.target === 'led' ? ['ability', 'wargear', 'enhancement']
+              : ['ability', 'wargear']
           expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
-          if (e.kind === 'wargear' && eff.target !== 'aura') expect(eff.target, `${where}: wargear target`).toBe('led')
+          // A wargear rule addresses its bearer (no target), an aura's range, or the unit its
+          // bearer joined — `unit` where the rule reads "while the bearer is leading a unit"
+          // (19.04 puts the bearer inside it), `led` where it reads "models in the bearer's unit"
+          // and so already covers the bearer through his own card. Nothing else.
+          if (e.kind === 'wargear' && eff.target !== 'aura') {
+            expect(['unit', 'led'], `${where}: wargear target`).toContain(eff.target)
+          }
           // A detachment rule addresses the WHOLE ARMY, so its aura is the one that may not fail
           // open: without a gate read off the reach clause the buff would land on every unit in the
           // list. The generator writes `ref.scopes` when it can read exactly one such clause
@@ -174,8 +186,14 @@ describe('rosterModifiers data', () => {
           const keys = Object.keys(eff.only)
           expect(keys.length, `${where}: only`).toBeGreaterThan(0)
           for (const k of keys) {
-            expect(['tag', 'notTag', 'name'], `${where}: only.${k}`).toContain(k)
-            expect(typeof eff.only[k], `${where}: only.${k}`).toBe('string')
+            expect(['tag', 'notTag', 'name', 'notName'], `${where}: only.${k}`).toContain(k)
+            // `notName` is the one list: the rules that need it name several weapons to leave out.
+            if (k === 'notName') {
+              expect(Array.isArray(eff.only.notName) && eff.only.notName.length > 0, `${where}: only.notName`).toBe(true)
+              for (const n of eff.only.notName) expect(typeof n, `${where}: only.notName`).toBe('string')
+            } else {
+              expect(typeof eff.only[k], `${where}: only.${k}`).toBe('string')
+            }
           }
           // It filters weapon ROWS, so an effect on a model profile has no business carrying one.
           expect(eff.on, `${where}: only on a profile effect`).not.toBe('profile')

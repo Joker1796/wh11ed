@@ -40,7 +40,7 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -533,7 +533,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -773,7 +773,8 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "melee",
@@ -786,7 +787,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1059,7 +1061,8 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 2,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

@@ -26,7 +26,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -79,7 +79,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -170,7 +170,7 @@ export default {
             "name": "Purifying flame"
           },
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -541,7 +541,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -728,7 +729,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

@@ -54,7 +54,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -261,7 +261,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -284,7 +284,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "melee",
@@ -292,7 +292,7 @@ export default {
           "op": "grant",
           "value": "LANCE",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -468,7 +468,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -609,7 +609,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -679,7 +680,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -748,7 +750,8 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -776,7 +779,8 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {

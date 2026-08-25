@@ -68,7 +68,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -105,7 +105,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -142,7 +142,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -215,7 +215,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -358,7 +358,7 @@ export default {
           "cond": [
             "unit-charged"
           ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -463,7 +463,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs mortal wounds)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -556,7 +556,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks and mortal wounds)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -951,7 +951,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1005,7 +1005,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1043,7 +1043,7 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null,
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "melee",
@@ -1051,7 +1051,7 @@ export default {
           "op": "grant",
           "value": "LANCE",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1087,7 +1087,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1124,7 +1124,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1148,7 +1148,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1171,7 +1171,7 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1193,7 +1193,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1217,7 +1217,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1240,7 +1240,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1263,7 +1263,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1770,7 +1770,7 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -2230,6 +2230,20 @@ export default {
           "op": "grant",
           "value": "Feel No Pain 5+",
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "until the end of a phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца фазы, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2260,7 +2274,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -2327,7 +2342,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2370,7 +2386,8 @@ export default {
           "cond": [
             "phase-shooting",
             "unit-disembarked"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2403,13 +2420,10 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "RAPID FIRE 1",
-          "when": {
-            "en": "the unit's bolt rifle weapons only",
-            "ru": "только для оружия bolt rifle в этом юните"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "name": "Bolt rifle"
+          }
         }
       ],
       "note": "names one weapon by name, a subset of the table this format cannot single out"
@@ -2428,7 +2442,8 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -2474,7 +2489,8 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2609,7 +2625,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2631,7 +2648,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2662,7 +2680,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -2697,7 +2716,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -2772,7 +2792,8 @@ export default {
           "when": null,
           "only": {
             "tag": "TORRENT"
-          }
+          },
+          "target": "led"
         }
       ],
       "ref": {
@@ -2870,7 +2891,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -2958,7 +2980,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -2993,7 +3016,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -3171,7 +3195,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -3189,7 +3214,8 @@ export default {
           "stat": "inv",
           "op": "set",
           "value": "5+",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -4591,13 +4617,10 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "SUSTAINED HITS 1",
-          "when": {
-            "en": "for weapons that already had [ASSAULT]",
-            "ru": "для оружия, у которого уже был [ASSAULT]"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "ASSAULT"
+          }
         }
       ],
       "dur": "phase"

@@ -212,6 +212,69 @@ export default {
       ]
     },
     {
+      "sid": "6e60a9be-7fab-4b2c-b529-5a66ec1048d0:death-jester",
+      "kind": "ability",
+      "name": "Death Jester: Cruel Amusement",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "death-jester"
+      },
+      "hash": "092439fb",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "jester-ignores-cover"
+          ],
+          "only": {
+            "name": "Shrieker cannon"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "jester-precision"
+          ],
+          "only": {
+            "name": "Shrieker cannon"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 3",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "jester-sustained-3"
+          ],
+          "only": {
+            "name": "Shrieker cannon"
+          }
+        }
+      ]
+    },
+    {
       "sid": "0444e121-929b-4e43-a7a6-f14049b7a81a:dire-avengers",
       "kind": "ability",
       "name": "Dire Avengers: Bladestorm",
@@ -289,7 +352,7 @@ export default {
             "tag": "MELTA"
           },
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -318,7 +381,7 @@ export default {
           "cond": [
             "unit-advanced"
           ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -444,7 +507,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -698,7 +761,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Fights First",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1236,7 +1299,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1315,6 +1378,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "8ec06eb8-c47f-4443-b3d6-831c588f7eb1",
+      "kind": "detachmentRule",
+      "name": "Path of the Warrior",
+      "det": "Aspect Host",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "aspect-host"
+      },
+      "hash": "e9a4c1e1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "8ec01895-99aa-488d-9ee9-e49c6deb3585",
@@ -1523,7 +1600,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1559,7 +1637,8 @@ export default {
           "stat": "inv",
           "op": "set",
           "value": "5+",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -1585,7 +1664,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1654,7 +1734,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "LANCE",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1676,14 +1757,16 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-MONSTER 5+",
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-VEHICLE 5+",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1873,6 +1956,20 @@ export default {
       "note": "the +12\" is real and unconditional, but it applies to a SUBSET of the weapon table this format cannot address, so it annotates instead of rewriting every range"
     },
     {
+      "sid": "aadd7a8b-5a65-42f3-81fc-ec7af02d3685",
+      "kind": "enhancement",
+      "name": "Fanged Leer",
+      "det": "Serpent’s Brood",
+      "ref": {
+        "kind": "enhancement",
+        "det": "serpents-brood"
+      },
+      "hash": "2e53e4e8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "39ac87c1-1d96-4aaf-909b-6addb2fa6cad",
       "kind": "enhancement",
       "name": "Key of Ghosts",
@@ -1890,7 +1987,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2097,7 +2195,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 9\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2199,6 +2298,62 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cd5eaa9d-3a56-4cc5-8b88-b644f4c6afe3",
+      "kind": "stratagem",
+      "name": "Preternatural Precision",
+      "det": "Aspect Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "aspect-host",
+        "name": "Preternatural Precision"
+      },
+      "hash": "b371afef",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is an ability selected for this Stratagem (two only if an Aspect Shrine token was removed)",
+            "ru": "пока эта способность выбрана для этой стратагемы (две — только если снят Aspect Shrine token)"
+          },
+          "cond": [
+            "preternatural-ignores-cover"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is an ability selected for this Stratagem (two only if an Aspect Shrine token was removed)",
+            "ru": "пока эта способность выбрана для этой стратагемы (две — только если снят Aspect Shrine token)"
+          },
+          "cond": [
+            "preternatural-lethal"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this is an ability selected for this Stratagem (two only if an Aspect Shrine token was removed)",
+            "ru": "пока эта способность выбрана для этой стратагемы (две — только если снят Aspect Shrine token)"
+          },
+          "cond": [
+            "preternatural-sustained"
+          ]
         }
       ],
       "dur": "phase"

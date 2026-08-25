@@ -296,7 +296,7 @@ export default {
           "op": "set",
           "value": "5+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1116,6 +1116,46 @@ export default {
       "effects": []
     },
     {
+      "sid": "2a48b48d-4c98-479f-be11-754b83d5a47d",
+      "kind": "armyRule",
+      "name": "Dark Pacts",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "28ea3658",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability the unit made its Dark Pact for",
+            "ru": "пока это способность, взятая отрядом по Dark Pact"
+          },
+          "cond": [
+            "pact-lethal"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this is the ability the unit made its Dark Pact for",
+            "ru": "пока это способность, взятая отрядом по Dark Pact"
+          },
+          "cond": [
+            "pact-sustained"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "94c913b5-2ba2-423b-bc8e-c1e05512044c",
       "kind": "detachmentRule",
       "name": "Empyric Wellspring",
@@ -1565,7 +1605,8 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "melee",
@@ -1578,7 +1619,8 @@ export default {
           },
           "cond": [
             "blocked-subset"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1706,7 +1748,8 @@ export default {
           "stat": "keyword",
           "op": "grant",
           "value": "Soul Forge",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1814,7 +1857,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1944,7 +1988,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1966,7 +2011,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2053,7 +2099,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2089,7 +2136,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2495,13 +2543,10 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PISTOL",
-          "when": {
-            "en": "excluding Blast weapons",
-            "ru": "кроме Blast-оружия"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "BLAST"
+          }
         }
       ],
       "dur": "phase"

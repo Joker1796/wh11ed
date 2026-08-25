@@ -432,6 +432,32 @@ describe('RosterViewView', () => {
       expect(t.current.value.players[0].ctx.units.u1['unit-stationary']).toBeDefined()
     })
 
+    // 19.01 — a Leader and the unit it joined are ONE unit, so a state belongs to both cards. One
+    // Pain token Empowers the whole attached unit; one Battle-shock test is taken by the unit.
+    it('writes a unit state to every card of an attached unit', async () => {
+      const sm = {
+        id: 'r3a', name: 'Attached List', faction: 'space-marines', detachments: [],
+        battleSize: 'strike-force',
+        units: [{ uid: 'u1', id: 'intercessor-squad', size: 0 }, { uid: 'u2', id: 'captain', size: 0, leaderOf: 'u1' }],
+      }
+      const t = await startGame(sm, 'space-marines')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
+
+      const chip = w.findAll('.rvunit-conds .cond-chip').find((c) => c.text().includes('Battle-shocked'))
+      await chip.trigger('click')
+      const units = t.current.value.players[0].ctx.units
+      expect(units.u1['unit-battle-shocked']).toBeDefined()
+      expect(units.u2['unit-battle-shocked']).toBeDefined()
+
+      // …and off the same way, or the two halves of one unit would start disagreeing.
+      await w.findAll('.rvunit-conds .cond-chip').find((c) => c.text().includes('Battle-shocked')).trigger('click')
+      expect(t.current.value.players[0].ctx.units?.u1?.['unit-battle-shocked']).toBeUndefined()
+      expect(t.current.value.players[0].ctx.units?.u2?.['unit-battle-shocked']).toBeUndefined()
+    })
+
     // A state the CORE rules define answers for itself: the "i" beside Battle-shocked says what
     // being Battle-shocked costs — including the stratagem ban this card enforces. A state that is
     // some faction's rule (a Waaagh!) has no such definition to give, and carries no button.

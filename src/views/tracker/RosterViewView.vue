@@ -836,18 +836,34 @@ function toggleUnitChip(entry, sw) {
   }
   toggleUnitCondFor(entry, sw)
 }
+// Every entry of one ATTACHED unit — the bodyguard and whoever is leading it, including the entry
+// asked about. Core Rules 19.01: they are one unit for rules purposes, so a state is one state.
+function attachedEntries(entry) {
+  const units = roster.value?.units || []
+  const hostUid = entry.leaderOf || entry.uid
+  const group = units.filter((u) => u.uid === hostUid || u.leaderOf === hostUid)
+  return group.length ? group : [entry]
+}
+
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
 // ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
 // not be affected by one is the contradiction the player would have to notice and undo by hand.
+//
+// It is written to every card of the attached unit at once, because that is what the state IS: one
+// Pain token Empowers the whole attached unit ("the Pain abilities of all Leader and Bodyguard
+// units in that unit take effect"), one Battle-shock test is taken by the unit, and one Charge move
+// is made by all of it. Two cards with two switches for one fact is how they come to disagree.
 function toggleUnitCondFor(entry, sw) {
   if (sw.auto) return
   const at = stampOf(gameClock.value)
-  if (!sw.on) {
-    for (const sid of stratagemsClearedBy(sw.id, resolvedFor(entry), gamePlayer.value, gameClock.value, entry)) {
-      tracker.value?.setUnitStratagem(gamePi.value, entry.uid, sid, at, false)
+  for (const part of attachedEntries(entry)) {
+    if (!sw.on) {
+      for (const sid of stratagemsClearedBy(sw.id, resolvedFor(part), gamePlayer.value, gameClock.value, part)) {
+        tracker.value?.setUnitStratagem(gamePi.value, part.uid, sid, at, false)
+      }
     }
+    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on)
   }
-  tracker.value?.setUnitCondition(gamePi.value, entry.uid, sw.id, at, !sw.on)
 }
 
 function toggleArmyCond(sw) {

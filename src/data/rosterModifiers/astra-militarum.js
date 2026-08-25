@@ -68,7 +68,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -476,7 +476,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -554,7 +554,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 4+ (vs Psychic Attacks)",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -1504,13 +1504,10 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "HAZARDOUS",
-          "when": {
-            "en": "excluding [ONE SHOT] weapons",
-            "ru": "кроме оружия [ONE SHOT]"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "ONE SHOT"
+          }
         }
       ],
       "dur": "round"

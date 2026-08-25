@@ -578,6 +578,35 @@ describe('datasheetEntriesFor', () => {
     expect(datasheetEntriesFor(records, { unitId: 'lord-of-contagion' })).toEqual([])
   })
 
+  // Core Rules 19.04: an ability that affects "models in that unit" reaches every model of the
+  // attached unit, the leader included — GW writes "Bodyguard models" (Fabius Bile, above) exactly
+  // when it means to leave him out. So the ordinary Leader wording lands on both cards.
+  const stormOfBlades = {
+    kind: 'ability',
+    name: 'Succubus: Storm of Blades',
+    ref: { kind: 'ability', unit: 'succubus' },
+    effects: [{ on: 'melee', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', when: null, target: 'unit' }],
+  }
+
+  it('gives a leader its own "models in that unit" ability while it is leading one', () => {
+    const out = datasheetEntriesFor([stormOfBlades], { unitId: 'succubus', ledUnitId: 'wyches' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+    expect(out[0].effects[0].value).toBe('SUSTAINED HITS 1')
+  })
+
+  it('gives the led unit the same ability, tagged as the leader\'s', () => {
+    const out = datasheetEntriesFor([stormOfBlades], { unitId: 'wyches', leaderUnitIds: ['succubus'] })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+  })
+
+  // …and nothing at all when it leads nobody: "while this model is leading a unit" is a condition
+  // the roster answers, so a Succubus standing alone is not quietly buffed.
+  it('gives a leader nothing while it leads nobody', () => {
+    expect(datasheetEntriesFor([stormOfBlades], { unitId: 'succubus' })).toEqual([])
+  })
+
   it('ignores every record that is not a datasheet ability', () => {
     const det = { kind: 'detachmentRule', name: 'X', ref: { kind: 'detachmentRule', det: 'y' }, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }] }
     expect(datasheetEntriesFor([det], { unitId: 'anything' })).toEqual([])
@@ -606,7 +635,7 @@ describe('datasheetEntriesFor — wargear', () => {
     kind: 'wargear',
     name: 'Big Mek in Mega Armour: Kustom Force Field',
     ref: { kind: 'wargear', unit: 'big-mek-in-mega-armour', item: 'kustom force field' },
-    effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '4+', when: { en: 'x', ru: 'x' }, cond: ['never'], target: 'led' }],
+    effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '4+', when: { en: 'x', ru: 'x' }, cond: ['never'], target: 'unit' }],
   }
 
   it('applies a wargear rule only to a unit that took the item', () => {
@@ -631,6 +660,38 @@ describe('datasheetEntriesFor — wargear', () => {
     expect(out[0].owner).toBe('Big Mek in Mega Armour')
     // …and not when the Big Mek left it at home.
     expect(datasheetEntriesFor([forceField], { ...ctx, leaderItemNames: new Set() })).toEqual([])
+  })
+
+  // "While the bearer is leading a unit, models in that unit have a 4+ invulnerable save" — the
+  // Big Mek is one of those models (19.04), so his own card carries it too, and only while he is
+  // leading somebody.
+  it('gives the bearer the same rule while it is leading a unit', () => {
+    const worn = { unitId: 'big-mek-in-mega-armour', itemNames: new Set(['kustom force field']) }
+    expect(datasheetEntriesFor([forceField], worn)).toEqual([])
+    const out = datasheetEntriesFor([forceField], { ...worn, ledUnitId: 'boyz' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+  })
+})
+
+describe('datasheetEntriesFor — enhancement', () => {
+  // "Models in the bearer's unit have the Deep Strike ability" (Drukhari's Webway Awl). The bearer's
+  // own card gets it from resolveModifierEntries, which is the entry that took the relic; this is
+  // the other card 19.04 gives it — the unit he joined.
+  const webwayAwl = {
+    kind: 'enhancement',
+    name: 'Webway Awl',
+    ref: { kind: 'enhancement', det: 'kabalite-cartel' },
+    effects: [{ on: 'unit', stat: 'core', op: 'grant', value: 'Deep Strike', when: null, target: 'led' }],
+  }
+
+  it('reaches the unit its bearer joined', () => {
+    const out = datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors', leaderEnhNames: new Set(['Webway Awl']) })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+    expect(out[0].effects[0].value).toBe('Deep Strike')
+    // …and nobody else's: an enhancement with no aura has no range to reach across.
+    expect(datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors' })).toEqual([])
   })
 })
 

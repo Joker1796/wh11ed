@@ -196,7 +196,7 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -247,7 +247,7 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -279,6 +279,69 @@ export default {
           "value": 1,
           "target": "aura",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0effb863-11f6-4097-9d2f-780cbb275a00:lord-of-change",
+      "kind": "ability",
+      "name": "Lord of Change: Master of Magicks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-of-change"
+      },
+      "hash": "4682d5b5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-ignores-cover"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-lethal"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS D3",
+          "when": {
+            "en": "while this is the ability selected for this phase",
+            "ru": "пока на эту фазу выбрана эта способность"
+          },
+          "cond": [
+            "magicks-sustained"
+          ],
+          "only": {
+            "name": "Bolt of Change"
+          }
         }
       ]
     },
@@ -430,7 +493,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -467,7 +530,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -869,7 +932,8 @@ export default {
           "when": null,
           "only": {
             "tag": "PSYCHIC"
-          }
+          },
+          "target": "led"
         },
         {
           "on": "weapon",
@@ -883,7 +947,8 @@ export default {
           "cond": [
             "never"
           ],
-          "alt": 0
+          "alt": 0,
+          "target": "led"
         }
       ],
       "ref": {

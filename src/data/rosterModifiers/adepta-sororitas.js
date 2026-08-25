@@ -26,7 +26,7 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -243,7 +243,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -279,7 +279,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -303,7 +303,7 @@ export default {
           "op": "set",
           "value": "2+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "profile",
@@ -311,7 +311,7 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -478,7 +478,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -790,6 +790,47 @@ export default {
       ]
     },
     {
+      "sid": "ef7b879b-c102-4e3e-a60d-20b3fa69cd4c:zephyrim-squad",
+      "kind": "ability",
+      "name": "Zephyrim Squad: Embodied Prophecy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zephyrim-squad"
+      },
+      "hash": "c7fff5e7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this is an ability selected for this fight — both only in a turn the unit made a Charge move",
+            "ru": "пока эта способность выбрана на этот бой — обе только в ход с Charge"
+          },
+          "cond": [
+            "prophecy-sustained"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this is an ability selected for this fight — both only in a turn the unit made a Charge move",
+            "ru": "пока эта способность выбрана на этот бой — обе только в ход с Charge"
+          },
+          "cond": [
+            "prophecy-lethal"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "cf5a5f6f-6690-416e-816e-f519b647adb8",
       "kind": "detachmentRule",
       "name": "Fervent Purgation",
@@ -1069,7 +1110,8 @@ export default {
           ],
           "only": {
             "tag": "TORRENT"
-          }
+          },
+          "target": "led"
         },
         {
           "on": "ranged",
@@ -1085,7 +1127,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1361,7 +1404,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {

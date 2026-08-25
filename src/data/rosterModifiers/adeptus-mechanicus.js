@@ -155,7 +155,7 @@ export default {
           "cond": [
             "protocol-protector"
           ],
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "melee",
@@ -169,7 +169,7 @@ export default {
           "cond": [
             "protocol-conqueror"
           ],
-          "target": "led"
+          "target": "unit"
         },
         {
           "on": "profile",
@@ -183,7 +183,7 @@ export default {
           "cond": [
             "protocol-aegis"
           ],
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -395,7 +395,7 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Feel No Pain 5+",
-          "target": "led",
+          "target": "unit",
           "when": null
         }
       ]
@@ -551,7 +551,7 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -574,7 +574,7 @@ export default {
           "op": "add",
           "value": 1,
           "when": null,
-          "target": "led"
+          "target": "unit"
         }
       ]
     },
@@ -1084,14 +1084,16 @@ export default {
           "stat": "range",
           "op": "add",
           "value": 6,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "ranged",
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ],
       "ref": {
@@ -1117,7 +1119,8 @@ export default {
           "stat": "keyword",
           "op": "grant",
           "value": "Skitarii",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1177,7 +1180,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1246,7 +1250,8 @@ export default {
           "stat": "range",
           "op": "add",
           "value": 6,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1274,7 +1279,8 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1386,7 +1392,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ]
     },

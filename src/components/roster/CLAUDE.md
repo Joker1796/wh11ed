@@ -1704,6 +1704,15 @@ in `conditions.js` so the rule is stated once rather than as an id spelled out i
   the card of a unit that may not be affected by one is a contradiction the player would otherwise
   have to spot and undo by hand.
 
+A unit state is written to EVERY card of an attached unit (`attachedEntries` → `toggleUnitCondFor`).
+Core Rules 19.01 makes a Leader and the unit it joined one unit, and the states this vocabulary holds
+are the unit's: one Battle-shock test is taken by the unit, one Charge move is made by all of it, and
+one Pain token Empowers the whole of it ("while an Attached unit is Empowered, the Pain abilities of
+all Leader and Bodyguard units in that unit take effect"). Before 2026-08-25 each entry kept its own
+switch, so a player Empowering a Succubus-led Wych squad had to flip two chips and could leave the
+two halves of one unit disagreeing. Auras are deliberately NOT mirrored: `aurasReaching` already
+answers the attachment from the list (22.01), so a partner's chip list would not even hold the mark.
+
 A battle-long stratagem is deliberately left alone: its effect (Daemonic Possession's DAEMON) was
 resolved when it was spent and nothing takes it back, while a phase- or turn-long one is still
 affecting the unit. Both handlers — the row's chips and the card's — go through `toggleUnitCondFor`
@@ -1714,11 +1723,23 @@ Three things are specific to the ABILITY source:
 - **It can address another unit.** "If this unit is attached to a unit … add 1 to the Strength
   characteristic of melee weapons equipped by Bodyguard models in that unit" is printed on Fabius
   Bile's card and rewrites the card of whoever he joined. An effect therefore carries `target`:
-  absent (self), `led` (the unit this one is attached to — 94 effects), or `leader` (the Character
-  leading THIS unit — the direction exists and is tested, but no record needs it yet: every ability
-  pointing that way modifies a Wound roll or grants Feel No Pain, neither of which is a statline).
-  `datasheetEntriesFor()` resolves both cross directions from the attachment the roster records; the
+  absent (self), `unit`, `led`, or `leader` (the Character leading THIS unit — the direction exists
+  and is tested, but no record needs it yet: every ability pointing that way modifies a Wound roll
+  or grants Feel No Pain, neither of which is a statline).
+  `datasheetEntriesFor()` resolves every cross direction from the attachment the roster records; the
   ordinary resolver skips `ref.kind === 'ability'` entirely.
+- **`unit` vs `led` is Core Rules 19.04, and getting it wrong loses the leader his own buff.**
+  19.04: "abilities/rules that affect a unit (or models in it) apply to EVERY model in an attached
+  unit". So the ordinary Leader wording — "while this model is leading a unit, models in that unit
+  have [SUSTAINED HITS 1]" — reaches the leader too, and is `unit`: it lands on the led unit's card
+  and on the leader's own **while he is leading somebody**, which the roster answers. `led` is the
+  narrow case GW writes deliberately, "**Bodyguard** models in that unit" — one record in the game
+  (Fabius Bile's Enhanced Warriors). Until 2026-08-25 all 105 of them were written `led`, so a
+  Succubus's own blades never got the ability her Storm of Blades hands the Wyches she is standing
+  in; the sweep is `target` alone, and the prose ("leading" vs "Bodyguard models") decides it.
+  A rule that says "this model's unit" with no leading clause is a third shape: it applies with
+  nobody attached, so it stays two effects — an unconditional `self` and a `led` (Astorath's Mass of
+  Doom, Lelith's Brides of Death — 12 records).
 - **No keyword gate.** An ability is printed on the card it addresses, so `SCOPELESS` includes it
   alongside enhancements, allegiance abilities and wargear — there is no prose naming who it bears on.
 - **`sid` is not a bare uuid here.** 56 abilities are published once and printed on several
@@ -1756,6 +1777,13 @@ Three things hold this together and are easy to break:
   a multiplied one ("double the Objective Control characteristic"), and "change the Attacks
   characteristic … to 3D6". Keep the gate loose: a false positive costs one line in the queue, a
   false negative costs a rule nobody will ever see again. `generator.test.js` pins all five.
+  A SIXTH was patched on 2026-08-25, found while auditing Drukhari: a choice of weapon abilities
+  written inline — "select one of the following abilities: [SUSTAINED HITS 1]; [LETHAL HITS] …
+  weapons equipped by models in that unit have **that selected ability**". The bracketed names are
+  in the picking sentence and the grant sentence says only "that ability", so neither grant pattern
+  saw it. Ten rules were invisible behind it, Chaos Space Marines' whole ARMY RULE (Dark Pacts)
+  among them. The pattern excludes "…of the abilities **in the** <X> section", which is an ability
+  SET: appdata carries those options as subAbilities and each is already a source of its own.
 - **`bodyText()` must keep every text field of a block, not the first.** A `triggerEffectAccordion`
   holds the condition in `trigger` and the RULE in `effect`, and `text || trigger || effect` kept
   the trigger and threw the rule away — Aeldari's Battle Focus manoeuvres ("add 2" to the Move
@@ -1963,9 +1991,13 @@ at all. Three files, one idea:
   restriction instead of the prose, and both are worth knowing before authoring a record:
   - **`only`** — a target narrower than `on` can express. `{ tag }` / `{ notTag }` match the
     weapon's printed ability (PSYCHIC, TORRENT, PISTOL, RAPID FIRE — which is exactly what those
-    phrases name), `{ name }` matches the weapon by name; both prefix-matched, since a tag carries
-    its value ("RAPID FIRE 1"). What is left blocked needs a choice the data doesn't record — "one
-    melee weapon, selected at the start of the battle".
+    phrases name), `{ name }` matches the weapon by name, `{ notName: [...] }` excludes several by
+    name; all prefix-matched, since a tag carries its value ("RAPID FIRE 1") and a name can be
+    qualified ("Plague Wind – overcharge"). `notName` is a LIST because the wording that needs it is
+    one — "weapons equipped by models in this unit (excluding blast pistols, blasters and dark
+    lances)", the Hand of the Archon's Assassins' Poisons, which without it granted LETHAL HITS and
+    PRECISION to the three weapons the rule names to leave out. What is left blocked needs a choice
+    the data doesn't record — "one melee weapon, selected at the start of the battle".
   - **`alt`** — the index, within the same record, of the effect this one REPLACES. While an
     alternate is in force its base is skipped entirely, so "+1, or +2 instead" can never become
     +3. An alternate must be conditional (an unconditional one would suppress its base forever)
@@ -2209,6 +2241,21 @@ radiating entry through `ref.unit` — the datasheet the rule is printed on. An 
   certain by 22.01, no chip) and `auraOn` (anyone the player marked);
 - `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
   `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
+
+**An enhancement can also address the bearer's UNIT** (2026-08-25), which is not the same as an aura
+and far more common — 89 relics of the 961. "Models in the bearer's unit have the Deep Strike
+ability", "while the bearer is leading a unit, ranged weapons equipped by models in that unit have
+[IGNORES COVER]": 19.04 gives an enhancement exactly one direction beyond the single model it is worn
+by, and this is it. Those effects carry `target: 'led'` — `resolveModifierEntries` still hands them
+to the BEARER (its `own` split is "everything that is not an aura"), and `datasheetEntriesFor` now
+hands the same effects to the unit he joined, keyed on `leaderEnhNames`. Until then they were `self`
+and stopped at the bearer's card, so a Captain's Seals of Reconquest gave nobody but the Captain his
+own 5+ invulnerable save. Two things decide the split when authoring one:
+- a sentence that names the BEARER ("add 1 to the bearer's Wounds characteristic") stays `self`,
+  even when the next sentence in the same relic is unit-wide — eleven relics mix the two;
+- `while the bearer is leading a unit` keeps its `cond: ['unit-leading']`. The bearer's own card is
+  gated by it as before; on the card it reached `from: 'led'` the condition is proven by arrival
+  (`proven()` in rosterStatMods), because that record is only there because a Leader is attached.
 
 **A DETACHMENT RULE can grant an aura too** (2026-08-23) — "Friendly IMPERIAL KNIGHTS models have
 the following ability: Assisted Targeting (Aura): while a friendly ADEPTUS MECHANICUS unit is within
