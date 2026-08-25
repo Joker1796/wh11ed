@@ -481,14 +481,49 @@ const ruleInfoOf = (unitId, enName) => ruleInfo.value.get(unitId)?.get(enName) |
 // itself the way that card does, is headed by the unit it belongs to, and carries the text for the
 // info button. A plain game state — "this unit charged" — carries the core rule that defines it,
 // if the vocabulary knows one.
+// The rule a condition switch came from, as something a reader can see: who owns it, and the text
+// behind its "i". `switchesFor` only knows WHICH record named the id — turning that into a name and
+// a body needs the faction data, which is this view's to hold.
+function srcInfo(src) {
+  if (!src) return null
+  if (src.kind === 'detachmentRule') {
+    const det = curDetachments.value.find((d) => d.id === src.det)
+    if (det?.rule) return { owner: det.name, name: det.rule.name, text: det.rule.body }
+  }
+  if (src.kind === 'armyRule') {
+    const ar = rulesFaction.value?.armyRule
+    if (ar) return { owner: labels.value.factionArmyRule, name: ar.name, text: ar.body }
+  }
+  if (src.kind === 'enhancement') {
+    for (const det of curDetachments.value) {
+      const enh = (det.enhancements || []).find((e) => normName(e.name) === normName(src.name))
+      if (enh) return { owner: labels.value.rosterEnhancement, name: enh.name, text: enh.body }
+    }
+  }
+  // Anything else (a datasheet ability naming an army-wide state — one case in the whole dataset)
+  // still gets its rule NAMED, which is most of the answer; the text stays on that unit's card.
+  return { owner: null, name: src.name, text: null }
+}
+
 function withRuleInfo(list) {
   return (list || []).map((sw) => {
     // A state the CORE rules define carries its definition instead: "Made a Charge move" is a
     // question about the rules, not about somebody's card, and the answer is a paragraph away in
-    // the vocabulary itself (conditions.js `hint`). Faction states have none and stay plain.
+    // the vocabulary itself (conditions.js `hint`). A FACTION state names its own rule instead —
+    // six chips reading "Adrenalight"/"Hypex"/… are unreadable until something says they are
+    // Combat Drugs, off the Spectacle of Spite detachment.
     if (!sw.from) {
       const hint = sw.info ? null : conditions[sw.id]?.hint
-      return hint ? { ...sw, info: { name: sw.label[locale.value] || sw.label.en, text: hint[locale.value] || hint.en } } : sw
+      if (hint) return { ...sw, info: { name: sw.label[locale.value] || sw.label.en, text: hint[locale.value] || hint.en } }
+      const src = srcInfo(sw.src)
+      if (!src) return sw
+      return {
+        ...sw,
+        groupOwner: src.owner ? `${src.owner} · ${src.name}` : src.name,
+        // On the heading, not on each chip: these six ARE one rule, unlike an ability set whose
+        // options each have their own (see ConditionChips' groups()).
+        groupInfo: src.text ? { name: src.name, text: src.text } : null,
+      }
     }
     const info = ruleInfoOf(sw.from.unit, sw.from.ability)
     const set = ruleInfoOf(sw.from.unit, sw.from.set)
@@ -1103,7 +1138,9 @@ function stratKey(strat) {
 .rvr-rec { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
 .rvr-lab { flex: 1; }
 
-.rv-conds { margin: 0.6rem 0 0.2rem; }
+/* The strip is a boxed, titled set now, not a loose row of chips, so it needs a little air under
+   it on a phone too — hugging the tab row was what made the chips read as part of the tabs. */
+.rv-conds { margin: 0.6rem 0 0.75rem; }
 
 /* "Possible modifiers" — the out-of-game stand-in for the switch strip above. Quieter than a
    phase accordion: it is reference, and the list itself is what the page is for. */

@@ -429,6 +429,12 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
 // a switch that cannot change anything on screen is worse than no switch at all.
 export function switchesFor(resolvedEntries, scope, player, clock, entry) {
   const ids = new Set()
+  // …and WHICH rule named each one. A chip reading "Adrenalight" says nothing on its own: finding
+  // out that the six of them are Combat Drugs, off the Spectacle of Spite detachment, meant
+  // opening units one by one and expanding their abilities. The first record to name an id is
+  // taken — a condition is named by one rule in all but a handful of cases, and the second would
+  // be the same rule under another unit anyway.
+  const namedBy = new Map()
   const answerable = (id) => {
     const c = conditions[id]
     if (!c) return false
@@ -443,7 +449,11 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
       // without which an effect whose other half can be flipped would offer a switch that changes
       // nothing on screen.
       if (!eff.cond.every(answerable)) continue
-      for (const id of eff.cond) if (conditions[id].scope === scope) ids.add(id)
+      for (const id of eff.cond) {
+        if (conditions[id].scope !== scope) continue
+        ids.add(id)
+        if (!namedBy.has(id)) namedBy.set(id, rec)
+      }
     }
   }
   const active = activeConditions(player, clock, entry)
@@ -461,5 +471,13 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     // showing it, because a group of six chips that silently holds two needs to say so.
     group: conditions[id].group || null,
     groupLimit: groupLimitOf(conditions[id].group),
+    // Enough for a view to name the rule and find its text; resolving either needs the faction
+    // data, which this pure layer does not have (see RosterViewView's withRuleInfo).
+    src: srcOf(namedBy.get(id)),
   }))
+}
+
+function srcOf(rec) {
+  if (!rec) return null
+  return { kind: rec.kind, name: rec.name, det: rec.ref?.det || null, unit: rec.ref?.unit || null }
 }

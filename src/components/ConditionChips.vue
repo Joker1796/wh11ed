@@ -1,14 +1,27 @@
 <template>
   <div v-if="switches.length" class="cond-chips">
-    <!-- Chips are boxed only when their group HOLDS more than one (Creations of Bile picks two of
-         six augmentations): that set has to say how full it is, because turning a third one on
-         quietly drops the oldest. Everything else — ungrouped states, and the ordinary
-         pick-exactly-one groups whose chips already read as radio buttons — renders flat, through
-         a `display: contents` wrapper that adds no box of its own. -->
-    <div v-for="g in groups" :key="g.key" class="cond-group" :class="{ capped: g.limit > 1 }">
+    <!-- Chips are boxed when the set has something to say about itself: a group that HOLDS more
+         than one (Creations of Bile picks two of six augmentations) has to say how full it is,
+         because turning a third one on quietly drops the oldest — and a set that names its rule
+         has to say WHICH, since six chips reading "Adrenalight"/"Hypex"/… are unreadable until
+         something calls them Combat Drugs. Plain ungrouped states render flat, through a
+         `display: contents` wrapper that adds no box of its own. -->
+    <div v-for="g in groups" :key="g.key" class="cond-group" :class="{ boxed: g.limit > 1 || g.owner }">
       <!-- A set of options printed on one unit's card is switched here, far from that card, so the
            group says whose rule it is before it says how full it is. -->
-      <span v-if="g.owner" class="cond-group-h cond-group-owner">{{ g.owner }}</span>
+      <span v-if="g.owner" class="cond-group-h cond-group-owner">
+        {{ g.owner }}
+        <!-- The rule's own text, where the set knows it — the answer to "what IS this?", one tap
+             from the chips instead of three screens away on somebody's card. -->
+        <button
+          v-if="g.info"
+          type="button"
+          class="cond-group-info"
+          data-kw-open
+          :aria-label="g.owner"
+          @click="$emit('info', { info: g.info }, $event.currentTarget.getBoundingClientRect())"
+        ><i class="bi bi-info-circle"></i></button>
+      </span>
       <span v-if="g.limit > 1" class="cond-group-h">
         {{ labels.rosterCondPicked.replace('{n}', g.picked).replace('{max}', g.limit) }}
       </span>
@@ -102,14 +115,22 @@ const groups = computed(() => {
   const out = []
   const byKey = new Map()
   for (const sw of props.switches) {
-    const key = sw.group || ''
+    // Bucketed by the group where there is one, else by the RULE the chips came from — without
+    // that second key, two rules' ungrouped chips would share one bucket and one owner heading,
+    // which would be a heading that lies about half of them.
+    const key = sw.group || sw.groupOwner || ''
     let g = byKey.get(key)
     if (!g) {
-      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [], owner: sw.groupOwner || null }
+      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [], owner: sw.groupOwner || null, info: null }
       byKey.set(key, g)
       out.push(g)
     }
     if (!g.owner && sw.groupOwner) g.owner = sw.groupOwner
+    // `groupInfo`, not `info`: a set explained by ONE rule (six Combat Drugs off one detachment
+    // rule) puts that rule on the heading, while a set whose options each have their OWN rule (the
+    // Triumph's six relics, one aura each) keeps an "i" per chip. Both are "a set with an owner",
+    // so the owner cannot be what decides it — the caller says which it has.
+    if (!g.info && sw.groupInfo) g.info = sw.groupInfo
     g.items.push(sw)
     if (sw.on) g.picked++
   }
@@ -121,13 +142,19 @@ const groups = computed(() => {
 .cond-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 /* An uncapped bucket is not a box: it hands its chips straight to the flex row above. */
 .cond-group { display: contents; }
-.cond-group.capped {
+.cond-group.boxed {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
   padding: 0.35rem 0.5rem; border: 1px dashed var(--border);
 }
 .cond-group-h { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
 /* The unit whose card these options are printed on — the first thing in the box, on its own line. */
-.cond-group-owner { flex-basis: 100%; color: var(--text-primary); font-weight: 700; }
+.cond-group-owner { flex-basis: 100%; display: flex; align-items: center; gap: 0.3rem; color: var(--text-primary); font-weight: 700; }
+.cond-group-info {
+  display: inline-flex; align-items: center;
+  padding: 0; border: none; background: none;
+  color: var(--text-muted); cursor: pointer; font-size: 0.85rem;
+}
+.cond-group-info:hover { color: var(--accent); }
 /* stretch, not center: the "i" takes its height from the chip it is attached to, including the
    taller two-line variant below. */
 .cond-item { display: inline-flex; align-items: stretch; }
