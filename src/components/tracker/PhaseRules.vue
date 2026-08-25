@@ -26,10 +26,11 @@
         </div>
         <!-- Stratagems have their own page in this same subnav, which already groups by phase and
              already knows both players' detachments. A second list here would be two copies of one
-             thing, and they would drift — so this is a door, not a duplicate. No count beside it:
+             thing, and they would drift — so this is a door, not a duplicate. The phase rides in
+             the query so that page opens on it instead of on six collapsed accordions. No count:
              counting would mean loading the faction rules bundle onto the playing screen, which is
              the whole thing this block's index exists to avoid. -->
-        <RouterLink class="pr-strats" to="/stratagems">
+        <RouterLink class="pr-strats" :to="{ path: '/stratagems', query: { phase } }">
           <i class="bi bi-lightning-charge"></i>
           {{ labels.trackerPhaseStrats }}
           <i class="bi bi-chevron-right pr-go"></i>
