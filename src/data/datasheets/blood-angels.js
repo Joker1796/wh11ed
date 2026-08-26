@@ -197,7 +197,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Death Company Marines with Boltguns and Jump Packs",
-        "Death Company Marines With Jump Packs"
+        "Death Company Marines with Jump Packs"
       ]
     },
     "keywords": [
@@ -688,9 +688,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Sanguinary Guard",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -966,7 +966,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Company Marines With Jump Packs"
+        "Death Company Marines with Jump Packs"
       ]
     },
     "keywords": [
@@ -1577,7 +1577,7 @@ export default [
   },
   {
     "id": "death-company-marines-with-jump-packs",
-    "name": "Death Company Marines With Jump Packs",
+    "name": "Death Company Marines with Jump Packs",
     "points": [
       {
         "models": 5,
@@ -1603,7 +1603,7 @@ export default [
     "flavor": "The savagery induced by the Black Rage cannot be cured and so must be utilised to its fullest extent. When equipped with jump packs, Death Company Marines are lent great speed and mobility that, when allied to their vengeful rage, renders them lethal shock troops.",
     "profiles": [
       {
-        "name": "Death Company Marines With Jump Packs",
+        "name": "Death Company Marines with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -1830,7 +1830,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Company Marines With Jump Packs",
+        "Death Company Marines with Jump Packs",
         "Death Company Marines with Boltguns and Jump Packs"
       ]
     },

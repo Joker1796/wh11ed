@@ -1221,7 +1221,7 @@ export default [
   },
   {
     "id": "convergence-of-dominion",
-    "name": "Convergence Of Dominion",
+    "name": "Convergence of Dominion",
     "points": [
       {
         "models": 1,
@@ -1239,7 +1239,7 @@ export default [
     "flavor": "Starsteles were placed upon worlds as territorial markers and silent guardians by jealous Necron nobles. Over the millennia they have become forgotten archaeological curios, or feared sources of superstitious rumour about vanishments and strange lights. Now they awaken again as their masters do.",
     "profiles": [
       {
-        "name": "Convergence Of Dominion",
+        "name": "Convergence of Dominion",
         "m": "-",
         "t": "9",
         "sv": "3+",
@@ -2119,7 +2119,7 @@ export default [
   },
   {
     "id": "imotekh-the-stormlord",
-    "name": "Imotekh The Stormlord",
+    "name": "Imotekh the Stormlord",
     "points": [
       {
         "models": 1,
@@ -2129,7 +2129,7 @@ export default [
     "flavor": "Imotekh is a sublimely skilled strategist, wielding his armies with hyperlogical skill and unleashing deadly strategic ploys. In battle he incinerates enemies with his Gauntlet of Fire, blasts them with pan-dimensional energies from his Staff of the Destroyer or humbles them in punishing one-on-one duels.",
     "profiles": [
       {
-        "name": "Imotekh The Stormlord",
+        "name": "Imotekh the Stormlord",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3147,7 +3147,7 @@ export default [
   },
   {
     "id": "orikan-the-diviner",
-    "name": "Orikan The Diviner",
+    "name": "Orikan the Diviner",
     "points": [
       {
         "models": 1,
@@ -3157,7 +3157,7 @@ export default [
     "flavor": "Orikan is a master astromancer, using his knowledge of astral conjunctions to predict the tides of battle and empower himself with cosmic energies. He supplements these skills with chronomantic abilities that allow him to see events before they happen and know just where to aim his blows.",
     "profiles": [
       {
-        "name": "Orikan The Diviner",
+        "name": "Orikan the Diviner",
         "m": "5\"",
         "t": "4",
         "sv": "4+",
@@ -3342,7 +3342,7 @@ export default [
   },
   {
     "id": "overlord-with-translocation-shroud",
-    "name": "Overlord with translocation shroud",
+    "name": "Overlord with Translocation Shroud",
     "points": [
       {
         "models": 1,
@@ -3406,7 +3406,7 @@ export default [
       ]
     },
     "keywords": [
-      "Overlord with translocation shroud",
+      "Overlord with Translocation Shroud",
       "Infantry",
       "Noble",
       "Overlord",
@@ -4552,7 +4552,7 @@ export default [
   },
   {
     "id": "trazyn-the-infinite",
-    "name": "Trazyn The Infinite",
+    "name": "Trazyn the Infinite",
     "points": [
       {
         "models": 1,
@@ -4562,7 +4562,7 @@ export default [
     "flavor": "A thief of moments in history, Trazyn takes to the battlefield to acquire that which cunning cannot secure. His Empathic Obliterator triggers psionic shock waves that kill not only his immediate victim, but those of a like mind nearby, while his ability to leap from one surrogate body to the next ensures he is hard to slay indeed.",
     "profiles": [
       {
-        "name": "Trazyn The Infinite",
+        "name": "Trazyn the Infinite",
         "m": "5\"",
         "t": "5",
         "sv": "2+",

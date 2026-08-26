@@ -282,7 +282,7 @@ export default [
   },
   {
     "id": "acolyte-hybrids-with-autopistols",
-    "name": "Acolyte Hybrids With Autopistols",
+    "name": "Acolyte Hybrids with Autopistols",
     "points": [
       {
         "models": 5,
@@ -378,7 +378,7 @@ export default [
       "Grenades",
       "Great Devourer",
       "Acolyte Hybrids",
-      "Acolyte Hybrids With Autopistols",
+      "Acolyte Hybrids with Autopistols",
       "Infantry",
       "Battleline"
     ],
@@ -389,7 +389,7 @@ export default [
   },
   {
     "id": "acolyte-hybrids-with-hand-flamers",
-    "name": "Acolyte Hybrids With Hand Flamers",
+    "name": "Acolyte Hybrids with Hand Flamers",
     "points": [
       {
         "models": 5,
@@ -403,7 +403,7 @@ export default [
     "flavor": "Equipped with hand flamers and using their hulking strength andxenos dexterity to wield pilfered explosive charges, Acolyte Hybrids excel in bold missions of arson and ruination. Denying the oppressors any opportunity of a foothold, their destructive acts are often so wholesale that few witnesses survive their operations.",
     "profiles": [
       {
-        "name": "Acolyte Hybrids With Hand Flamers",
+        "name": "Acolyte Hybrids with Hand Flamers",
         "m": "6\"",
         "t": "4",
         "sv": "5+",
@@ -488,7 +488,7 @@ export default [
       "The Acolyte Leader’s cult claws and knife can be replaced with 1 Leader’s bio-weapons."
     ],
     "keywords": [
-      "Acolyte Hybrids With Hand Flamers",
+      "Acolyte Hybrids with Hand Flamers",
       "Grenades",
       "Battleline",
       "Infantry",
@@ -564,8 +564,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols",
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ]
@@ -846,8 +846,8 @@ export default [
       "units": [
         "Neophyte Hybrids",
         "Hybrid Metamorphs",
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols"
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols"
       ]
     },
     "keywords": [
@@ -948,8 +948,8 @@ export default [
       "units": [
         "Neophyte Hybrids",
         "Hybrid Metamorphs",
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols",
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols",
         "Aberrants"
       ],
     },
@@ -1028,8 +1028,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols",
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
@@ -1627,8 +1627,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols",
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
@@ -1717,8 +1717,8 @@ export default [
       "units": [
         "Neophyte Hybrids",
         "Hybrid Metamorphs",
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols"
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols"
       ]
     },
     "keywords": [
@@ -2012,8 +2012,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols",
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
@@ -2189,8 +2189,8 @@ export default [
       "units": [
         "Neophyte Hybrids",
         "Hybrid Metamorphs",
-        "Acolyte Hybrids With Hand Flamers",
-        "Acolyte Hybrids With Autopistols"
+        "Acolyte Hybrids with Hand Flamers",
+        "Acolyte Hybrids with Autopistols"
       ]
     },
     "keywords": [

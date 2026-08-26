@@ -417,7 +417,7 @@ export default [
   },
   {
     "id": "corpuscarii-electro-priests",
-    "name": "Corpuscarii Electro-priests",
+    "name": "Corpuscarii Electro-Priests",
     "points": [
       {
         "models": 5,
@@ -431,7 +431,7 @@ export default [
     "flavor": "Electro-Priests of the Corpuscarii faction build up huge electrical potential as they zealously chant their canticles of battle. They conduct the Motive Force through their bodies, eager to share its illumination, releasing it from their gauntlets in coruscating arcs of electrical power that leap from target to target.",
     "profiles": [
       {
-        "name": "Corpuscarii Electro-priests",
+        "name": "Corpuscarii Electro-Priests",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -579,7 +579,7 @@ export default [
   },
   {
     "id": "fulgurite-electro-priests",
-    "name": "Fulgurite Electro-priests",
+    "name": "Fulgurite Electro-Priests",
     "points": [
       {
         "models": 5,
@@ -593,7 +593,7 @@ export default [
     "flavor": "Crackling with power stolen from those they slay, Fulgurite Electro- Priests are fanatical cultists of the Machine God. With their heavy, copper-bound staves, they smite blasphemers that waste the Motive Force, leeching it from heretic warriors and harnessing the holy energy in their capacitors where it empowers their voltagheist field.",
     "profiles": [
       {
-        "name": "Fulgurite Electro-priests",
+        "name": "Fulgurite Electro-Priests",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -2995,7 +2995,7 @@ export default [
   },
   {
     "id": "sydonian-dragoons-with-radium-jezzails",
-    "name": "Sydonian Dragoons With Radium Jezzails",
+    "name": "Sydonian Dragoons with Radium Jezzails",
     "points": [
       {
         "models": 1,
@@ -3095,7 +3095,7 @@ export default [
   },
   {
     "id": "sydonian-dragoons-with-taser-lances",
-    "name": "Sydonian Dragoons With Taser Lances",
+    "name": "Sydonian Dragoons with Taser Lances",
     "points": [
       {
         "models": 1,
@@ -3300,7 +3300,7 @@ export default [
   },
   {
     "id": "tech-priest-dominus",
-    "name": "Tech-priest Dominus",
+    "name": "Tech-Priest Dominus",
     "points": [
       {
         "models": 1,
@@ -3310,7 +3310,7 @@ export default [
     "flavor": "Tech-Priests Dominus are the theocratic generals of a forge world’s armies. They lead congregations of warriors in binharic prayer and direct those beneath them with precision strategies. They are masters of machines, as capable of healing damage to their creations as they are at destroying the enemy’s corrupted engines.",
     "profiles": [
       {
-        "name": "Tech-priest Dominus",
+        "name": "Tech-Priest Dominus",
         "m": "6\"",
         "t": "4",
         "sv": "2+",
@@ -3420,8 +3420,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Fulgurite Electro-priests",
-        "Corpuscarii Electro-priests"
+        "Fulgurite Electro-Priests",
+        "Corpuscarii Electro-Priests"
       ]
     },
     "keywords": [
@@ -3439,7 +3439,7 @@ export default [
   },
   {
     "id": "tech-priest-enginseer",
-    "name": "Tech-priest Enginseer",
+    "name": "Tech-Priest Enginseer",
     "points": [
       {
         "models": 1,
@@ -3449,7 +3449,7 @@ export default [
     "flavor": "The most widespread of a forge world’s priesthood, Enginseers maintain many of the Imperium’s mechanisms, such as reactors, battle tanks and even starships. They have an intuitive connection with holy apparatuses, and can awaken the most recalcitrant of engine spirits with whispered machine cant.",
     "profiles": [
       {
-        "name": "Tech-priest Enginseer",
+        "name": "Tech-Priest Enginseer",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -3519,8 +3519,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Corpuscarii Electro-priests",
-        "Fulgurite Electro-priests",
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests",
         "Kataphron Breachers",
         "Kataphron Destroyers",
         "Skitarii Rangers",
@@ -3542,7 +3542,7 @@ export default [
   },
   {
     "id": "tech-priest-manipulus",
-    "name": "Tech-priest Manipulus",
+    "name": "Tech-Priest Manipulus",
     "points": [
       {
         "models": 1,
@@ -3552,7 +3552,7 @@ export default [
     "flavor": "Amongst the augmentations of a Tech-Priest Manipulus is a galvanic cell from which they channel powerful charges of the Motive Force. They drain power sources dry and use the energy to overcharge the cells of their warriors’ armaments, all while defending their divine work with blasts from their own arcane weapons.",
     "profiles": [
       {
-        "name": "Tech-priest Manipulus",
+        "name": "Tech-Priest Manipulus",
         "m": "6\"",
         "t": "4",
         "sv": "2+",
@@ -3629,8 +3629,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Fulgurite Electro-priests",
-        "Corpuscarii Electro-priests"
+        "Fulgurite Electro-Priests",
+        "Corpuscarii Electro-Priests"
       ]
     },
     "keywords": [
@@ -3723,8 +3723,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Corpuscarii Electro-priests",
-        "Fulgurite Electro-priests"
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests"
       ]
     },
     "keywords": [

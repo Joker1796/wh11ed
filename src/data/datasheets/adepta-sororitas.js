@@ -4,7 +4,7 @@
 export default [
   {
     "id": "aestred-thurga-and-agathae-dolan",
-    "name": "Aestred Thurga And Agathae Dolan",
+    "name": "Aestred Thurga and Agathae Dolan",
     "points": [
       {
         "models": 2,
@@ -4246,7 +4246,7 @@ export default [
   },
   {
     "id": "triumph-of-saint-katherine",
-    "name": "Triumph Of Saint Katherine",
+    "name": "Triumph of Saint Katherine",
     "points": [
       {
         "models": 1,
@@ -4256,7 +4256,7 @@ export default [
     "flavor": "At the centre of the Triumph is the blessed bier upon which lie the mortal remains of Saint Katherine, beneath the sconce containing her fiery heart. Wherever the Triumph goes, the Emperor’s radiance goes with it. The glory of the martyred Matriarch is spread and Battle Sisters are filled with conviction to purge the foes of Mankind.",
     "profiles": [
       {
-        "name": "Triumph Of Saint Katherine",
+        "name": "Triumph of Saint Katherine",
         "m": "6\"",
         "t": "3",
         "sv": "3+",

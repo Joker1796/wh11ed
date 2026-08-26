@@ -3156,7 +3156,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -3376,7 +3376,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Cadian Shock Troops",
         "Kasrkin",
         "Krieg Combat Engineers",
@@ -3506,7 +3506,7 @@ export default [
       "units": [
         "Krieg Combat Engineers",
         "Kasrkin",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
         "Tempestus Scions"
@@ -3608,7 +3608,7 @@ export default [
   },
   {
     "id": "death-korps-of-krieg",
-    "name": "Death Korps Of Krieg",
+    "name": "Death Korps of Krieg",
     "points": [
       {
         "models": 10,
@@ -3622,7 +3622,7 @@ export default [
     "flavor": "The grim regiments of the Death Korps of Krieg excel in the most gruelling of conditions, their famous siege regiments resolutely holding key positions no matter the onslaught unleashed upon them. They are extollers of a pitiless cult of sacrifice, but with their legendary endurance, death often claims their foes first.",
     "profiles": [
       {
-        "name": "Death Korps Of Krieg",
+        "name": "Death Korps of Krieg",
         "m": "6\"",
         "t": "3",
         "sv": "5+",
@@ -5815,7 +5815,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Krieg Combat Engineers",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -7809,7 +7809,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Cadian Shock Troops",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Catachan Jungle Fighters",
         "Kasrkin",
         "Krieg Combat Engineers",
@@ -8328,7 +8328,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -8734,7 +8734,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -10203,7 +10203,7 @@ export default [
         "Krieg Combat Engineers",
         "Catachan Jungle Fighters",
         "Kasrkin",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Cadian Shock Troops"
       ]
     },

@@ -474,7 +474,7 @@ export default [
   },
   {
     "id": "beastboss-on-squigosaur",
-    "name": "Beastboss On Squigosaur",
+    "name": "Beastboss on Squigosaur",
     "points": [
       {
         "models": 1,
@@ -484,7 +484,7 @@ export default [
     "flavor": "Beastbosses have the strength and violent temperament to subdue the most ferocious creatures. Squiqosaurs, meanwhile, are single-minded predators that can bite through adamantine and shrug off enemg fire as though they were armour-plated. If a Beostboss wishes to ride one he must first beat it within an inch of its life to teach it respect, all without getting devoured in the process.",
     "profiles": [
       {
-        "name": "Beastboss On Squigosaur",
+        "name": "Beastboss on Squigosaur",
         "m": "10\"",
         "t": "8",
         "sv": "3+",
@@ -777,7 +777,7 @@ export default [
   },
   {
     "id": "big-mek-in-mega-armour",
-    "name": "Big Mek In Mega Armour",
+    "name": "Big Mek in Mega Armour",
     "points": [
       {
         "models": 1,
@@ -787,7 +787,7 @@ export default [
     "flavor": "For all that its weight is akin to wearing half a tank, mega armour is incredibly resilient. Big Meks often build and wear it, adding unstable kustom weaponry, force field projectors, crushing klaws or even tellyport blastas that kill victims by beaming their component parts across a wide area, much to the Orks’ amusement.",
     "profiles": [
       {
-        "name": "Big Mek In Mega Armour",
+        "name": "Big Mek in Mega Armour",
         "m": "5\"",
         "t": "6",
         "sv": "2+",
@@ -919,7 +919,7 @@ export default [
   },
   {
     "id": "big-mek-with-shokk-attack-gun",
-    "name": "Big Mek With Shokk Attack Gun",
+    "name": "Big Mek with Shokk Attack Gun",
     "points": [
       {
         "models": 1,
@@ -935,7 +935,7 @@ export default [
     "flavor": "Big Moks arc musters of insane but highly destructive weaponry. Amongst the strangest devices that some lug to battle is the shokk attack gun which opens a tunnel through the warp to its target, then launches screaming Snot lings down it. I he ammunition remoteriolise os a terror-maddened, clawing, biting swarm. If this happens inside the target, the results orc swift and horrific.",
     "profiles": [
       {
-        "name": "Big Mek With Shokk Attack Gun",
+        "name": "Big Mek with Shokk Attack Gun",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
@@ -5903,7 +5903,7 @@ export default [
   },
   {
     "id": "warboss-in-mega-armour",
-    "name": "Warboss In Mega Armour",
+    "name": "Warboss in Mega Armour",
     "points": [
       {
         "models": 1,
@@ -5913,7 +5913,7 @@ export default [
     "flavor": "Any good Ork hunter knows the safest way to deal with a rampaging Warboss is to hit them with tank-busting artillery from as far away as possible. By donning a piston-driven suit of incredibly durable mega armour, the Warboss makes a mockery of such underhanded enemy tactics, much to the terror of his foes.",
     "profiles": [
       {
-        "name": "Warboss In Mega Armour",
+        "name": "Warboss in Mega Armour",
         "m": "5\"",
         "t": "6",
         "sv": "2+",

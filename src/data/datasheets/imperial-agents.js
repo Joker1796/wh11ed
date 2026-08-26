@@ -2758,7 +2758,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Voidsmen-at-arms",
+        "Voidsmen-at-Arms",
         "Imperial Navy Breachers"
       ]
     },
@@ -2927,7 +2927,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Voidsmen-at-arms",
+        "Voidsmen-at-Arms",
         "Imperial Navy Breachers"
       ]
     },
@@ -3937,7 +3937,7 @@ export default [
   },
   {
     "id": "voidsmen-at-arms",
-    "name": "Voidsmen-at-arms",
+    "name": "Voidsmen-at-Arms",
     "points": [
       {
         "models": 6,
@@ -3952,7 +3952,7 @@ export default [
     "flavor": "Voidsmen-at-Arms provide security on the ships of many Rogue Traders. Well drilled and often well equipped, they are highly adept at fighting in vessel corridors and other close-quarters environments.",
     "profiles": [
       {
-        "name": "Voidsmen-at-arms",
+        "name": "Voidsmen-at-Arms",
         "m": "6\"",
         "t": "3",
         "sv": "4+",

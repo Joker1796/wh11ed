@@ -2450,7 +2450,7 @@ export default [
   },
   {
     "id": "kh-rn-the-betrayer",
-    "name": "Khârn The Betrayer",
+    "name": "Khârn the Betrayer",
     "points": [
       {
         "models": 1,
@@ -2460,7 +2460,7 @@ export default [
     "flavor": "Khârn is a raging storm of slaughter, the embodiment of the eightfold path of Khorne. As he sprints into battle, his bellowed war cries boom from the vox-grille of his helm. Khârn’s mantra – ‘Kill! Maim! Burn!’ – has become infamous across the Imperium, a terrifying harbinger of the carnage to come.",
     "profiles": [
       {
-        "name": "Khârn The Betrayer",
+        "name": "Khârn the Betrayer",
         "m": "8\"",
         "t": "4",
         "sv": "3+",
