@@ -117,6 +117,15 @@ cd ../wh11ed && npm run sync
 - **Осиротевший keyword `"DNU"`** (Do Not Use) — appdata-артефакт, не привязан ни к одному
   реальному требованию. Если improvement/enhancement ссылается на него как на required
   keyword — подставлять реальное per-юнитное требование, не переводить `"DNU"` как есть.
+- **Регистр имён юнитов: `norm()` его не видит, а заголовок — видит.** Все сверки имён в
+  `sync-appdata.mjs` шли через `norm()`, который приводит к нижнему регистру, поэтому 77 имён
+  годами расходились с каноном (`Captain In Phobos Armour` против `Captain in Phobos Armour`,
+  `Tech-priest Dominus` против `Tech-Priest Dominus`) и уезжали прямо в `<title>`/`<h1>`, которые
+  генерит `gen-seo-routes.mjs`. С 2026-08-26 скрипт сравнивает имена И как есть — строка
+  `⟲ datasheet name case differs`. Она означает настоящее расхождение, а не шум: канон — appdata.
+  Единственные осознанные исключения — массивы кейвордов (кейворд печатается капсом, appdata сам
+  хранит имя-кейворд тайтл-кейсом) и боксовый `Assault Force Vanguard Veteran Squad With Jump
+  Packs`. Подробности — `APPDATA-SYNC-LESSONS.md`, урок 47.
 - **UNIQUE-теги детачментов: MFM важнее прозы appdata.** Тег (`unique`) — конструкт самого MFM,
   и когда его страница печатает «UNIQUE TAG REMOVED», это и есть решение GW, даже если проза
   кодекса в appdata всё ещё несёт фразу «cannot be taken with another X detachment». Так было на
@@ -178,6 +187,15 @@ sourceids`). Файл `TRANSLATION-QUEUE.local.json` гитигнорнут — 
 ```bash
 node scripts/gen-translation-queue.mjs --done <appId>
 ```
+
+**Отдельно: `src/data/factionFaqRu.json` — оверлей ПО ИНДЕКСУ.** `FactionFaqView.vue` кладёт
+`ru.entries[i]` поверх `en.entries[i]`, ключа между ними нет. `npm run faq` пересобирает EN-сторону
+из appdata, и любой бамп вставляет/убирает записи — после этого весь хвост перевода у затронутой
+фракции показывается под чужими вопросами, молча. Порядок: пересобрать EN, выровнять RU (старые
+EN-записи сматчить с новыми по точному JSON, RU перенести, на новые оставить дырку), перевести
+дырки. После — проверить инвариант: длины по каждой фракции совпадают и
+`ru.entries[i].type === en.entries[i].type`. На бампе 931 это дало +38/−21 и вскрыло два СТАРЫХ
+сдвига (см. `APPDATA-SYNC-LESSONS.md`, урок 46).
 
 Блоки независимы, так что проход можно бить на части/распараллеливать. Гейт — в §6.
 

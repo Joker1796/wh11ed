@@ -873,3 +873,55 @@ and appdata state fresh; a data model can change between now and when this is ne
     a new bug (appdata's `allied_faction*` tables remain purely structural with no rules-text field
     to transcribe from). Noting the updated count so a future pass doesn't have to re-derive that
     this is the same open question, just with more detachments now matching the pattern.
+44. **Classify a prose diff before reading any of it: a core-ability rewrite arrives as hundreds of
+    findings that are one edit.** The 925→931 bump reported 437 changed prose fields. 380 of them
+    were the SAME sentence — appdata denormalises `Deadly Demise` onto every datasheet that has it,
+    so GW changing "each time a model **in this unit** is destroyed" to "a model **with this
+    ability**" (and dropping the worked example) landed 380 times. Another 29 were a global
+    `▪` → `■` bullet-glyph swap, which wh11ed does not mirror at all. 23 were real. The cheap
+    triage, before reading a single diff: normalise away bullet glyphs and `&#xNN;` entities,
+    compare, then cluster what survives by entity NAME — the clusters ARE the story, and one line
+    of wh11ed usually answers a whole cluster (`Deadly Demise` lives once, in `reference.js` 24.08).
+45. **A faction bundle can carry TWO army rules with the same name, and `.find()` picks the wrong
+    one.** Death Guard's `Nurgle's Gift (Aura)` exists twice in appdata — a 9-node Codex version and
+    a 13-node one from the newer publication. The 26 August errata (Skullsquirm Blight gaining a
+    ranged clause) landed on the 13-node copy only, so a `.find(x => /Nurgle/.test(x.name))` "diff"
+    showed no change at all and nearly wrote the bump off as noise. `changes.mjs` matches by stable
+    id and got it right; `sync-faction-text.mjs` also picks the right one. When hand-checking a
+    finding, look it up by the id `changes.json` gives you, never by name.
+46. **`src/data/factionFaqRu.json` is an INDEX-ALIGNED overlay, so an EN insert silently
+    mistranslates everything after it.** `FactionFaqView.vue` merges `ru.entries[i]` onto
+    `en.entries[i]` — nothing keys them together. `npm run faq` regenerates the EN side from
+    appdata, and this bump moved it by +38/−21 entries across 21 factions. The realign is
+    mechanical (match old EN entries to new by exact JSON, carry the RU across, leave a hole where
+    the EN is new) and worth scripting rather than eyeballing. Doing it surfaced TWO pre-existing
+    drifts nobody had noticed: necrons carried "Night Scythe" twice and chaos-space-marines carried
+    a Dark Pact Q&A the app had since dropped, so every translation after those points had been
+    showing under the wrong question. Cheap invariant to assert after any `npm run faq`: same
+    length per faction, and `ru.entries[i].type === en.entries[i].type`.
+47. **`norm()` lowercases, so every name check in `sync-appdata.mjs` was blind to capitalisation —
+    and capitalisation is exactly what a heading shows.** 77 unit names were spelled against the
+    canon: 59 with title-cased small words (`Captain In Phobos Armour` for appdata's `Captain in
+    Phobos Armour`, `Beasts Of Nurgle`, `Abaddon The Despoiler`) and 18 with the reverse over
+    hyphens (`Tech-priest Dominus` for `Tech-Priest Dominus`, `Lion El'jonson`, `Screamer-killer`).
+    `gen-seo-routes.mjs` puts `unit.name` straight into `<title>` and `<h1>`, so the static pages
+    shipped a heading contradicting the unit-composition line below it. `sync-appdata.mjs` now
+    compares names as written as well as normalised. Adding that check immediately found the 18
+    hyphen cases AND a duplicate the blindness had hidden: Horticulous Slimux listed "Beasts of
+    Nurgle" and "Beasts Of Nurgle" as two separate bodyguard units. Deliberately NOT renamed:
+    keyword arrays (a keyword prints ALL-CAPS and appdata stores the unit-name keyword title-cased
+    regardless) and the Combat Patrol box "Assault Force Vanguard Veteran Squad With Jump Packs",
+    the one name appdata itself capitalises that way.
+48. **When the MFM and appdata's prose disagree about a DETACHMENT TAG, the MFM wins — see
+    `DATA-SYNC.md` §3.** MFM v1.3 printed "UNIQUE TAG REMOVED" over three tag pairs; appdata's codex
+    prose still carried the sentence enforcing them. The tag is the MFM's own construct. The cost is
+    a permanent `sync:text` finding on three detachments, which is why it is written down in two
+    places. Note the asymmetry that decided World Eaters' ONSLAUGHT: the MFM has never printed that
+    tag in any version and never marked it removed, so it rests on the rule's own prose. "The MFM is
+    silent" is not "the MFM struck it".
+49. **A points drop can be a points drop PLUS a new paid default, and only the generated data shows
+    it.** v1.3 cut the Leman Russ family ~25pts and simultaneously started charging 5 for the hull
+    weapon the tank starts with: `wargear_option` rows with both `points > 0` and `defaultValue > 0`
+    went 11 → 19. `sync-mfm-points.mjs` sees only the bracket, so it reported a clean price cut;
+    the paid default surfaced as eight new `dw` entries in `npm run roster:data` and broke a test
+    that pins the list of units with one. That test floor is the guardrail — keep it.
