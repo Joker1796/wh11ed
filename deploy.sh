@@ -162,20 +162,30 @@ if [ -f dist/.seo-routes.txt ] && [ -f dist/index.html ]; then
   MIRROR="$(mktemp -d)"
   trap 'rm -rf "$MIRROR"' EXIT
   PARENTS=0
+  MISSING=0
   while IFS= read -r route; do
     [ -n "$route" ] || continue
     key="${route#/}"
+    # Each route now has its OWN html (real title, description, canonical and body) generated into
+    # seo-html/ by gen-seo-routes.mjs. It lives outside dist/ on purpose: vite's globPatterns
+    # precaches **/*.html, and 3141 pages in the service worker's precache would wreck the
+    # "light tab" requirement. Fall back to the plain shell if a page is somehow absent — a
+    # generic page is bad, a 404 is worse.
+    SRC="seo-html/$key.html"
+    if [ ! -f "$SRC" ]; then SRC="dist/index.html"; MISSING=$((MISSING + 1)); fi
     if grep -q "^/$key/" dist/.seo-routes.txt; then
-      aws s3 cp dist/index.html "$BUCKET/$key" \
+      aws s3 cp "$SRC" "$BUCKET/$key" \
         --cache-control "public, max-age=3600" \
         --content-type "text/html; charset=utf-8" \
         --metadata-directive REPLACE >/dev/null
       PARENTS=$((PARENTS + 1))
     else
       mkdir -p "$MIRROR/$(dirname "$key")"
-      cp dist/index.html "$MIRROR/$key"
+      cp "$SRC" "$MIRROR/$key"
     fi
   done < dist/.seo-routes.txt
+  [ "$MISSING" -gt 0 ] && echo "  ⚠ $MISSING route(s) had no generated page — uploaded the plain shell"
+
   # Fresh mtimes on every mirror file ⇒ sync always uploads them.
   aws s3 sync "$MIRROR" "$BUCKET" \
     --cache-control "public, max-age=3600" \
