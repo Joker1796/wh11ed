@@ -48,6 +48,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { stripLocale } from '../router/locale.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import PageTabs from './PageTabs.vue'
@@ -87,7 +88,11 @@ const tabs = computed(() => {
   ]
 })
 
-const isTabActive = (t) => route.path === t.to || (t.prefix && route.path.startsWith(t.to + '/'))
+// Tab targets are written bare (`/factions/x/datasheets`); the address may carry `/ru`.
+const isTabActive = (t) => {
+  const p = stripLocale(route.path)
+  return p === t.to || (t.prefix && p.startsWith(t.to + '/'))
+}
 
 // PageTabs draws whatever it is handed and asks the caller which one is open — here that is
 // the route, so the highlight follows navigation rather than a click.

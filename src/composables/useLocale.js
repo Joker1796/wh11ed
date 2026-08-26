@@ -1,34 +1,46 @@
 import { ref, watch } from 'vue'
 import { getItem, setItem } from './safeStorage.js'
+import { localeOfPath } from '../router/locale.js'
 
-// Locale resolution order: ?lang= URL param (so EN/RU are crawlable as distinct
-// URLs for hreflang) → saved preference → default 'en'.
+// Locale resolution order: the URL's own `/ru` prefix → the legacy `?lang=` param → the saved
+// preference → 'en'.
+//
+// The address is the source of truth for what language is on screen; the saved preference only
+// decides where a reader who followed a bare link should be SENT (the router does that, see the
+// locale guards in router/index.js). Until 2026-08-26 this was inverted — the preference decided
+// the language and the composable wrote `?lang=ru` back into the address with `replaceState` —
+// which is why the two could disagree and why a Russian page had no address of its own.
 function readInitialLocale() {
-  const fromUrl = new URLSearchParams(window.location.search).get('lang')
-  if (fromUrl === 'ru' || fromUrl === 'en') return fromUrl
+  if (typeof window === 'undefined') return 'en'
+  if (localeOfPath(window.location.pathname) === 'ru') return 'ru'
+  const fromQuery = new URLSearchParams(window.location.search).get('lang')
+  if (fromQuery === 'ru' || fromQuery === 'en') return fromQuery
+  return readStoredLocale()
+}
+
+/** The saved preference alone — no URL, no default beyond 'en'. The router reads this to decide
+ *  whether a bare path should be redirected to its Russian twin. */
+export function readStoredLocale() {
   return getItem('locale') === 'ru' ? 'ru' : 'en'
 }
 
-const locale = ref(readInitialLocale())
+export const locale = ref(readInitialLocale())
 
-// Keep <html lang> and the ?lang= URL param in sync with the active locale so
-// crawlers see the right language and the RU page has a stable, shareable URL.
+// Keep <html lang> honest. The URL is no longer touched here — navigation owns it.
 function syncDocument(loc) {
-  document.documentElement.lang = loc
-  const url = new URL(window.location.href)
-  if (loc === 'en') url.searchParams.delete('lang')
-  else url.searchParams.set('lang', loc)
-  // replaceState: change the URL without a navigation/reload.
-  window.history.replaceState(window.history.state, '', url)
+  if (typeof document !== 'undefined') document.documentElement.lang = loc
 }
 
 syncDocument(locale.value)
 watch(locale, syncDocument)
 
+/** Remember the reader's choice. Changing what is on screen is a NAVIGATION (to the paired
+ *  address), so the caller does that — see AppNavbar.vue. */
+export function setLocale(loc) {
+  setItem('locale', loc)
+  locale.value = loc
+}
+
 export function useLocale() {
-  function toggleLocale() {
-    locale.value = locale.value === 'en' ? 'ru' : 'en'
-    setItem('locale', locale.value)
-  }
-  return { locale, toggleLocale }
+  return { locale, setLocale }
 }

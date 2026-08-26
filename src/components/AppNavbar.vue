@@ -154,7 +154,9 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
+import { localePath } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
@@ -168,7 +170,19 @@ defineProps({
 })
 const emit = defineEmits(['toggle-mobile-nav', 'open-search', 'open-install-hint'])
 
-const { locale, toggleLocale } = useLocale()
+const { locale, setLocale } = useLocale()
+const route = useRoute()
+const router = useRouter()
+
+// Switching language is a navigation now (RU lives at /ru/…), not a rewrite of the current
+// address. `replace` keeps the back button meaningful — a reader who toggles twice should end up
+// where they started, not three entries deep — and the router's scrollBehavior recognises a
+// locale-only change and leaves the scroll position alone, so the page doesn't jump.
+function toggleLocale() {
+  const next = locale.value === 'en' ? 'ru' : 'en'
+  setLocale(next)
+  router.replace({ path: localePath(route.path, next), query: route.query, hash: route.hash })
+}
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
