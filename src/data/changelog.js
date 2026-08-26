@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.3.1',
+    date: '2026-08-26',
+    en: [
+      'The Russian version now has addresses of its own — every page lives at /ru/… . Share a link and it stays Russian for whoever opens it. Every link written before today keeps working.',
+    ],
+    ru: [
+      'У русской версии появились собственные адреса — каждая страница живёт на /ru/… . Ссылкой теперь можно поделиться, и она откроется по-русски у того, кому вы её отправили. Все ссылки, сохранённые раньше, продолжают работать.',
+    ],
+  },
+  {
     version: '2.3.0',
     date: '2026-08-26',
     en: [
