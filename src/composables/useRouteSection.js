@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { stripLocale } from '../router/locale.js'
 
 // Route-derived section flags, shared by App.vue and its nav sub-components (AppNavbar/
 // AppSubnav/AppBottomNav) — one definition of "what counts as Core Rules / Event
@@ -30,13 +31,13 @@ export function useRouteSection() {
   const isRosterRoute = computed(() => route.meta.section === 'roster')
   // GameSetup (wizard) and the active/finished game screen both render on this one route —
   // the footer would otherwise push below the fold under the fixed "Back to game" bar / bottom nav.
-  const isTrackerGameRoute = computed(() => route.path === '/tracker/game')
+  const isTrackerGameRoute = computed(() => stripLocale(route.path) === '/tracker/game')
   // A roster opened out of the live game (/tracker/game/roster/:pi) counts as a tracker route,
   // but it is NOT the game: it's a long read — several screens of units and stratagem cards —
   // and the shared "Back to game" button is how you leave a long read everywhere else. The
   // history variant (/tracker/history/:gid/roster/:pi) is deliberately excluded: that record
   // belongs to a finished game, not to whatever is being played right now.
-  const isGameRosterRoute = computed(() => route.path.startsWith('/tracker/game/roster/'))
+  const isGameRosterRoute = computed(() => stripLocale(route.path).startsWith('/tracker/game/roster/'))
   const isCoreRoute = computed(() => route.meta.section === 'core')
   // The "Rules" umbrella (navbar dropdown / bottom-nav button) is active on its own landing
   // page and on any of the 3 sections it groups — Core Rules, Event Companion, Combat Patrol.

@@ -20,6 +20,7 @@
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 import { SITE_ORIGIN } from '../config.js'
+import { localePath, stripLocale } from '../router/locale.js'
 
 const ORIGIN = SITE_ORIGIN
 
@@ -284,7 +285,7 @@ function removeCanonicalTags() {
 }
 
 // Canonical + og:url + hreflang for the indexable routes. Each language variant is
-// self-canonical (EN = clean path, RU = path?lang=ru) with hreflang pointing at its
+// self-canonical (EN = /path, RU = /ru/path) with hreflang pointing at its
 // sibling — canonicalizing RU onto EN would deindex the RU pages. Non-indexable paths
 // (tracker game/history/auth-callback, unknown → NotFoundView with its noindex) get the
 // canonical trio removed instead of pointing somewhere misleading.
@@ -295,7 +296,7 @@ function applyCanonical(path, loc) {
     return
   }
   const enUrl = `${ORIGIN}${path}`
-  const ruUrl = path === '/' ? `${ORIGIN}/?lang=ru` : `${enUrl}?lang=ru`
+  const ruUrl = `${ORIGIN}${localePath(path, 'ru')}`
   const canonical = loc === 'ru' ? ruUrl : enUrl
   upsertLink('canonical', canonical)
   upsertLink('alternate', enUrl, 'en')
@@ -315,7 +316,8 @@ let _lastLocale = 'en'
 
 /** Called by FactionDatasheetView once its datasheet loads, to replace the slug-derived unit
  *  name in the title/description with the real one (unit names are never translated). */
-export function setDatasheetName(path, name) {
+export function setDatasheetName(rawPath, name) {
+  const path = stripLocale(rawPath)
   if (!name || unitNames.get(path) === name) return
   unitNames.set(path, name)
   if (path === _lastPath) applyRouteMeta(_lastPath, _lastLocale)
@@ -323,8 +325,11 @@ export function setDatasheetName(path, name) {
 
 /** Set document.title, <meta name="description"> and the canonical/og:url/hreflang trio
  *  for the given route + locale. */
-export function applyRouteMeta(path, locale) {
+// `rawPath` may carry the `/ru` prefix; everything below is keyed on the bare path, so the two
+// language variants of a page share one entry in ROUTES rather than needing one each.
+export function applyRouteMeta(rawPath, locale) {
   if (typeof document === 'undefined') return
+  const path = stripLocale(rawPath)
   const loc = pick(locale)
   _lastPath = path
   _lastLocale = locale

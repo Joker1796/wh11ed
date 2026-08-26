@@ -132,6 +132,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { stripLocale } from '../router/locale.js'
 import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, rosterGroups, rosterGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu, CORE_PATH, EVENT_PATH } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -170,7 +171,7 @@ const localizedRulesGroups = computed(() => {
 // hidden on mobile.
 const localizedFactionGroups = computed(() => {
   const base = locale.value === 'ru' ? factionGroupsRu : factionGroups
-  const slug = route.path.startsWith('/factions/') ? route.params.slug : null
+  const slug = stripLocale(route.path).startsWith('/factions/') ? route.params.slug : null
   if (!slug) return base
   const l = labels.value
   const root = `/factions/${slug}`
@@ -188,7 +189,7 @@ const navSections = computed(() => [
 ])
 
 const currentSection = computed(() => {
-  const p = route.path
+  const p = stripLocale(route.path)
   if (p.startsWith('/tracker')) return 'tracker'
   if (p.startsWith('/roster')) return 'roster'
   if (p.startsWith('/factions')) return 'factions'
@@ -206,18 +207,18 @@ function groupKey(group) {
 // Which group's subsections are open (one at a time), which "rules" subsection
 // (Core Rules / Event Companion / Combat Patrol) is expanded (also one at a time), and
 // which top-level section accordion is expanded (also one at a time). All follow the route.
-const expandedKey = ref(route.path + route.hash)
+const expandedKey = ref(stripLocale(route.path) + route.hash)
 const openSection = ref(currentSection.value)
 const expandedSubsection = ref(currentRulesSubsectionKey())
 
 watch(() => route.fullPath, () => {
-  expandedKey.value = route.path + route.hash
+  expandedKey.value = stripLocale(route.path) + route.hash
   openSection.value = currentSection.value
   expandedSubsection.value = currentRulesSubsectionKey()
 })
 
 function currentRulesSubsectionKey() {
-  const p = route.path
+  const p = stripLocale(route.path)
   if (p === EVENT_PATH || p.startsWith(EVENT_PATH + '/')) return 'event'
   if (p === COMBAT_PATROL_PATH || p.startsWith(COMBAT_PATROL_PATH + '/')) return 'combat-patrol'
   if (p === CORE_PATH || p.startsWith(CORE_PATH + '/')) return 'core'
@@ -229,7 +230,7 @@ function isSubsectionActive(item) {
 }
 
 function isActive(group, groups) {
-  if (route.path !== group.path) return false
+  if (stripLocale(route.path) !== group.path) return false
   if (!group.hash) return true
   // Landing on a merged page (/core-rules, /event-companion) with no hash means the top of
   // the page = its first chapter. `groups` is the subsection's own group list — find the
@@ -253,14 +254,14 @@ function isDirect(section) {
 function goToSection(section) {
   const path = section.groups.find((g) => g.path)?.path
   if (!path) return
-  if (route.path !== path) router.push(path)
+  if (stripLocale(route.path) !== path) router.push(path)
   emit('close')
 }
 
 // Tap a "rules" subsection label (Core Rules / Event Companion / Combat Patrol) → go to
 // its own landing page. The chevron toggles which subsection's group list is expanded.
 function goToSubsection(item) {
-  if (route.path !== item.path) router.push(item.path)
+  if (stripLocale(route.path) !== item.path) router.push(item.path)
   emit('close')
 }
 
@@ -271,7 +272,7 @@ function toggleSubsection(item) {
 function goToGroup(group) {
   // A Core Rules chapter is an anchor on the shared page, not a page of its own.
   if (group.hash) return handleAnchorClick(group, group.hash.slice(1))
-  if (route.path !== group.path) router.push(group.path)
+  if (stripLocale(route.path) !== group.path) router.push(group.path)
   emit('close')
 }
 
@@ -286,7 +287,7 @@ async function handleAnchorClick(group, id, filter) {
   // Groups that anchor within a page (Core Rules chapters) put the anchor in the URL so the
   // position is shareable; the others navigate to the page and scroll inside it.
   const target = group.hash ? { path: group.path, hash: '#' + id } : group.path
-  if (route.path !== group.path || (group.hash && route.hash !== '#' + id)) {
+  if (stripLocale(route.path) !== group.path || (group.hash && route.hash !== '#' + id)) {
     await router.push(target)
   }
   // scrollToAnchor polls for the element rather than guessing a delay — needed on the Core

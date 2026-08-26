@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { scrollToAnchor } from './useRefNavigation.js'
 import { isStandaloneDisplay } from './standalone.js'
 import { LAST_ROUTE_KEY, SKIP_RESTORE } from '../router/index.js'
+import { stripLocale } from '../router/locale.js'
 
 // PWA-only "resume where I left off". The router (router/index.js) restores the saved
 // `path#section` on first launch; this composable owns PERSISTENCE — it tracks which
@@ -48,7 +49,9 @@ export function useViewRestore() {
   const route = useRoute()
 
   function persist() {
-    if (SKIP_RESTORE.has(route.path)) return
+    // SKIP_RESTORE holds bare paths; the address may carry `/ru`. What gets STORED keeps the
+    // prefix on purpose — reopening the app should reopen the language it was left in.
+    if (SKIP_RESTORE.has(stripLocale(route.path))) return
     // Prefer the scrolled-to section; fall back to an explicit URL hash (cross-ref /
     // subnav navigation) while still at the top of a freshly opened page.
     const anchor = currentSectionId() || (route.hash ? route.hash.slice(1) : null)

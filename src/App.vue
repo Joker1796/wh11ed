@@ -23,7 +23,7 @@
     <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute }">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="appPath" />
         </Transition>
       </RouterView>
       <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute" />
@@ -74,6 +74,7 @@ import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
+import { stripLocale } from './router/locale.js'
 
 const route = useRoute()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
@@ -88,6 +89,10 @@ function toggleMobileNav() {
 }
 
 const { locale } = useLocale()
+
+// The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
+// without it, or every predicate written against a bare path quietly stops matching in Russian.
+const appPath = computed(() => stripLocale(route.path))
 
 // Per-route <title> + meta description (read-only w.r.t. the router; hash routing unchanged).
 watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { immediate: true })
@@ -106,10 +111,10 @@ const {
 // creation wizard / editor (not the roster list, the shared-link landing, or a roster's
 // read-only view — those are browsing, not configuring).
 const isRosterEditRoute = computed(() =>
-  route.path.startsWith('/roster') &&
-  route.path !== '/roster' &&
-  route.path !== '/roster/shared' &&
-  !route.path.endsWith('/view')
+  appPath.value.startsWith('/roster') &&
+  appPath.value !== '/roster' &&
+  appPath.value !== '/roster/shared' &&
+  !appPath.value.endsWith('/view')
 )
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
@@ -176,7 +181,7 @@ const welcomeOpen = ref(false)
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
-  welcomeOpen.value = shouldWelcome(route.path)
+  welcomeOpen.value = shouldWelcome(appPath.value)
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)

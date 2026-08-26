@@ -97,20 +97,20 @@ describe('applyRouteMeta', () => {
     expect(canonicalHref()).toBe('https://wh-rules.ru/core-rules')
     expect(ogUrl()).toBe('https://wh-rules.ru/core-rules')
     expect(alternateHref('en')).toBe('https://wh-rules.ru/core-rules')
-    expect(alternateHref('ru')).toBe('https://wh-rules.ru/core-rules?lang=ru')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/ru/core-rules')
     expect(alternateHref('x-default')).toBe('https://wh-rules.ru/core-rules')
   })
 
-  it('canonicalizes the RU variant to itself (?lang=ru), not to the EN URL', () => {
+  it('canonicalizes the RU variant to itself (/ru/...), not to the EN URL', () => {
     applyRouteMeta('/core-rules', 'ru')
-    expect(canonicalHref()).toBe('https://wh-rules.ru/core-rules?lang=ru')
-    expect(ogUrl()).toBe('https://wh-rules.ru/core-rules?lang=ru')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/ru/core-rules')
+    expect(ogUrl()).toBe('https://wh-rules.ru/ru/core-rules')
   })
 
-  it('uses /?lang=ru (not //?lang=ru) for the home RU alternate', () => {
+  it('uses /ru (not /ru/) for the home RU alternate', () => {
     applyRouteMeta('/', 'en')
     expect(canonicalHref()).toBe('https://wh-rules.ru/')
-    expect(alternateHref('ru')).toBe('https://wh-rules.ru/?lang=ru')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/ru')
   })
 
   it('reuses single canonical/alternate elements across navigations', () => {
@@ -140,7 +140,7 @@ describe('applyRouteMeta', () => {
     expect(document.title).toBe('Space Marines — Army Rules & Detachments — Warhammer 40,000 11th Ed')
     expect(descContent()).toMatch(/army rule, detachments, stratagems/i)
     expect(canonicalHref()).toBe('https://wh-rules.ru/factions/space-marines')
-    expect(alternateHref('ru')).toBe('https://wh-rules.ru/factions/space-marines?lang=ru')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/ru/factions/space-marines')
   })
 
   it('titles the datasheets list page per faction', () => {

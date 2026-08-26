@@ -1,6 +1,6 @@
 // Generate the SEO route artifacts for history-mode routing (run AFTER `vite build`):
 //
-//   dist/sitemap.xml      — every indexable URL, with EN + ?lang=ru hreflang variants
+//   dist/sitemap.xml      — every indexable URL, EN (/path) and RU (/ru/path), hreflang-paired
 //   dist/.seo-routes.txt  — the same paths, one per line, consumed by deploy.sh, which
 //                           uploads an index.html copy under each path as its bucket key
 //                           so deep links return HTTP 200 (the bucket's ErrorDocument
@@ -16,6 +16,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
+// Same helper the router and useSeoMeta use — one definition of what a Russian URL looks like.
+import { localePath } from '../src/router/locale.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const DIST = join(ROOT, 'dist')
@@ -106,7 +108,7 @@ function priority(path) {
 
 function urlEntry(loc, path, lastmod) {
   const en = `${ORIGIN}${path}`
-  const ru = path === '/' ? `${ORIGIN}/?lang=ru` : `${en}?lang=ru`
+  const ru = `${ORIGIN}${localePath(path, 'ru')}`
   return `  <url>
     <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
@@ -131,7 +133,7 @@ async function main() {
   // matching the self-canonical scheme in useSeoMeta.js.
   const entries = routes.flatMap((path) => {
     const en = `${ORIGIN}${path}`
-    const ru = path === '/' ? `${ORIGIN}/?lang=ru` : `${en}?lang=ru`
+    const ru = `${ORIGIN}${localePath(path, 'ru')}`
     return [urlEntry(en, path, lastmod), urlEntry(ru, path, lastmod)]
   })
 
@@ -147,8 +149,13 @@ ${entries.join('\n')}
   // domain as the site, otherwise search engines distrust a cross-host Sitemap directive.
   writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`)
 
-  // "/" is excluded: the bucket's IndexDocument already serves index.html at the root.
-  const keyRoutes = routes.filter((p) => p !== '/')
+  // Every route needs its Russian twin as a bucket key too, or `/ru/rules` would fall through
+  // to the ErrorDocument's 404 and the crawler we care about would never index it. `/ru` itself
+  // IS a key (unlike `/`, which the bucket's IndexDocument already covers).
+  const keyRoutes = [
+    ...routes.filter((p) => p !== '/'),
+    ...routes.map((p) => localePath(p, 'ru')),
+  ]
   writeFileSync(join(DIST, '.seo-routes.txt'), keyRoutes.join('\n') + '\n')
 
   console.log(`gen-seo-routes: ${routes.length} routes → sitemap.xml (${entries.length} URLs), robots.txt, .seo-routes.txt (${keyRoutes.length} keys)`)

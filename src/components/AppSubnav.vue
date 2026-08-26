@@ -11,7 +11,7 @@
             <RouterLink
               :to="item.path"
               class="subnav-link"
-              :class="{ active: route.path === item.path || (item.prefix && route.path.startsWith(item.path + '/')) }"
+              :class="{ active: isItemActive(item) }"
             >{{ item.label }}</RouterLink>
             <div class="subnav-dropdown-menu">
               <div class="subnav-dropdown-panel">
@@ -39,7 +39,7 @@
             v-else
             :to="item.path"
             class="subnav-link"
-            :class="{ active: route.path === item.path || (item.prefix && route.path.startsWith(item.path + '/')) }"
+            :class="{ active: isItemActive(item) }"
           >{{ item.label }}</RouterLink>
         </template>
       </div>
@@ -50,6 +50,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { stripLocale } from '../router/locale.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { activeSectionId } from '../composables/useActiveSection.js'
@@ -58,6 +59,12 @@ import { navGroups, navGroupsRu, CORE_PATH, eventGroups, eventGroupsRu, EVENT_PA
 import { ui } from '../i18n/ui.js'
 
 const route = useRoute()
+
+// Subnav targets are bare paths; the address may carry the `/ru` prefix.
+const isItemActive = (item) => {
+  const p = stripLocale(route.path)
+  return p === item.path || (item.prefix && p.startsWith(item.path + '/'))
+}
 const { locale } = useLocale()
 const { navigateTo } = useRefNavigation()
 const {
