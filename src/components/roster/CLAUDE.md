@@ -1296,6 +1296,21 @@ than one card, and the merged-unit case looked worse than just showing each data
 If this is revisited, check git history around 2026-08 for what didn't work before repeating it.
 `RosterSharedView` (import landing for a `rosterShare.js` link).
 
+**The creation wizard's way back is its own problem, and it is solved outside the wizard.**
+Leaving mid-build is normal use — the question a half-built list raises ("what does this detachment actually do?") is
+answered on a page that isn't this one — and the draft survives that on its own. What didn't
+survive was the route home: `/roster` opens on the **Saved** tab, so a reader returning through
+the nav saw a list without their roster in it and concluded it was gone. `RosterCreateView`
+therefore notes its draft id in `useRosterDraftResume.js` as it unmounts (and drops it on the way
+in, whichever door was used); `App.vue` re-checks the roster is still a draft — it may have been
+saved or deleted while the chip was up — and `MobileUtilityBar` floats a "to roster" chip over
+whatever the reader went off to read, linking at `?draft=<id>` so the wizard resumes THAT list.
+That memory is deliberately **in-memory and session-scoped, not "a draft exists"**: a draft can
+sit on the Drafts tab for weeks, and pinning a chip to every page until someone deletes it would
+be nagging rather than helping. A relaunch doesn't need it either — the stored last route now
+carries the wizard's own `?draft=` (see the PWA section of the root `CLAUDE.md`). **Mobile only**,
+same as the "back to game" chip it mirrors; desktop has no floating-resume surface for either.
+
 **A list name can be a whole quote, and usually is.** listhammer/GW exports name a list with its
 epigraph ("I am Warpbane-- and I could kill you...but death would only end your agony--and silence
 your shame."), which at the view header's 1.7rem display size ran five lines down a phone screen

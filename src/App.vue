@@ -37,7 +37,7 @@
     <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
     <RulesNavModal v-if="showRules" @close="showRules = false" />
     <KeywordPopover />
-    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
+    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" :resume-draft-id="resumeDraftId" />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
@@ -72,6 +72,8 @@ import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
+import { useRosters } from './composables/useRosters.js'
+import { useRosterDraftResume } from './composables/useRosterDraftResume.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { stripLocale } from './router/locale.js'
@@ -130,6 +132,21 @@ const showResumeGame = computed(() =>
   !installHintOpen.value &&
   !mobileNavOpen.value
 )
+// "Back to your roster": the same idea one screen over. The creation wizard is left on purpose
+// mid-build — to go read what a detachment does — and its draft survives that, but the way back
+// didn't: /roster opens on Saved lists and the draft is one tab over, so a returning reader saw a
+// list without their roster in it. RosterCreateView notes the draft as it unmounts; the id is a
+// hint, so re-check it's still a draft — it may have been saved (finish() clears the flags) or
+// deleted from the list while the chip was up.
+const { rosterById } = useRosters()
+const { pendingDraftId } = useRosterDraftResume()
+const resumeDraftId = computed(() => {
+  const id = pendingDraftId.value
+  if (!id || appPath.value === '/roster/new') return null
+  if (isLanding.value || searchOpen.value || installHintOpen.value || mobileNavOpen.value) return null
+  return rosterById(id)?.draft ? id : null
+})
+
 // MobileUtilityBar decides its own visibility (resume / faction tabs / scroll-to-top, any
 // combination); this just mirrors that via the template ref so --mobile-bar-h stays in sync
 // without duplicating the logic.

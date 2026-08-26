@@ -314,6 +314,10 @@ export const ui = {
     rosterTabDrafts: 'Drafts',
     rosterDraftStep: 'step {n} of 3',
     rosterDraftsEmpty: 'No drafts. A list you start but haven\'t saved yet waits here.',
+    // The floating "back to the half-built list" chip (MobileUtilityBar), shown while a draft
+    // is left open behind whatever the reader went off to look up.
+    rosterResumeDraftBar: 'Back to your roster',
+    rosterResumeDraftShort: 'To roster',
     // Cloud sync status line (RosterCloudBar.vue). Saved lists only — drafts stay on the device.
     rosterCloudHint: 'Lists live on this device. Sign in on the Tracker page to sync them.',
     rosterCloudSyncing: 'Syncing\u2026',
@@ -1017,6 +1021,8 @@ export const ui = {
     rosterTabDrafts: 'Черновики',
     rosterDraftStep: 'шаг {n} из 3',
     rosterDraftsEmpty: 'Черновиков нет. Начатый, но ещё не сохранённый лист ждёт здесь.',
+    rosterResumeDraftBar: 'Вернуться к сборке ростера',
+    rosterResumeDraftShort: 'К ростеру',
     rosterCloudHint: 'Списки хранятся на этом устройстве. Войдите на странице трекера, чтобы синхронизировать их.',
     rosterCloudSyncing: 'Синхронизация\u2026',
     rosterCloudSynced: 'Списки в облаке',

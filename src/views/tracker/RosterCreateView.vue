@@ -222,7 +222,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch, watchEffect } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
@@ -237,6 +237,7 @@ import { useRosters, uid } from '../../composables/useRosters.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
+import { forgetDraft, rememberDraft } from '../../composables/useRosterDraftResume.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -451,6 +452,15 @@ if (resumed) {
   rosterId.value = resumed.id
   step.value = resumed.draftStep || 1
 }
+
+// Leaving mid-build is the normal way to use this screen — the question a half-built list
+// raises ("what does this detachment actually do?") is answered on a page that isn't this one.
+// The draft survives that on its own, but the way BACK didn't: /roster opens on Saved lists, so
+// a reader returning through the nav saw a list without their roster in it. Note the draft on
+// the way out and App.vue floats a "to roster" chip over whatever they went to read.
+onBeforeUnmount(() => rememberDraft(rosterId.value))
+// ...and drop it on the way in, whichever door was used — the chip's whole job is being here.
+forgetDraft()
 function step1Patch() {
   return {
     name: name.value.trim() || labels.value.rosterNewName,

@@ -11,7 +11,7 @@ vi.mock('vue-router', () => ({
   useRoute: () => ({ query }),
 }))
 
-let RosterCreateView, useRosters
+let RosterCreateView, useRosters, draftResume
 
 beforeEach(async () => {
   localStorage.clear()
@@ -20,6 +20,7 @@ beforeEach(async () => {
   replace.mockClear()
   for (const k of Object.keys(query)) delete query[k]
   ;({ useRosters } = await import('../../composables/useRosters.js'))
+  draftResume = (await import('../../composables/useRosterDraftResume.js')).useRosterDraftResume()
   ;({ default: RosterCreateView } = await import('./RosterCreateView.vue'))
 })
 
@@ -346,5 +347,45 @@ describe('RosterCreateView', () => {
     await flushPromises()
     expect(w.findAll('.rc-panel')[0].isVisible()).toBe(true) // fresh wizard, step 1
     expect(w.find('input[type="text"]').element.value).toBe('')
+  })
+
+  // Leaving this screen to go read a rule is the normal way to use it, and the draft survives
+  // that on its own — but the way BACK didn't, since /roster opens on Saved lists and a draft
+  // isn't one. The wizard notes itself on the way out; App.vue turns that into a floating chip.
+  describe('the way back', () => {
+    function startedDraft() {
+      const store = useRosters()
+      const r = store.createRoster('Half-built')
+      store.updateRoster(r.id, { faction: 'space-marines', draft: true, draftStep: 2 })
+      return r
+    }
+
+    it('remembers the draft it was showing when it unmounts', async () => {
+      const r = startedDraft()
+      query.draft = r.id
+
+      const w = mount(RosterCreateView, { global: { stubs } })
+      await flushPromises()
+      w.unmount()
+
+      expect(draftResume.pendingDraftId.value).toBe(r.id)
+    })
+
+    it('forgets it on the way in — being here IS the way back', async () => {
+      const r = startedDraft()
+      draftResume.rememberDraft(r.id)
+      query.draft = r.id
+
+      mount(RosterCreateView, { global: { stubs } })
+      expect(draftResume.pendingDraftId.value).toBeNull()
+    })
+
+    it('has nothing to offer when no faction was picked, since there is no draft yet', async () => {
+      const w = mount(RosterCreateView, { global: { stubs } })
+      await flushPromises()
+      w.unmount()
+
+      expect(draftResume.pendingDraftId.value).toBeNull()
+    })
   })
 })

@@ -44,6 +44,25 @@ export function currentSectionId() {
   return anchor
 }
 
+/**
+ * What gets stored as "where I was": the address WITH its query, plus the section at the top of
+ * the viewport. The query is not decoration — `?draft=` is what tells the roster wizard which
+ * draft to resume, `?unit=`/`?phase=` which unit or phase a screen was opened on. Storing the
+ * bare path reopened the wizard empty, and the next faction pick started a SECOND draft, leaving
+ * the first orphaned on the Drafts tab.
+ *
+ * The hash is dropped and re-added rather than kept, because `anchor` is usually the scroll-spy's
+ * answer (where the reader actually is) rather than the URL's own — and one `#` is all a stored
+ * location may carry. A hash that IS the payload (a share link's `#r=…`) has no scroll-spy answer
+ * to displace it, so it survives as the anchor.
+ *
+ * Exported for unit testing.
+ */
+export function storedLocation(fullPath, anchor) {
+  const base = fullPath.split('#')[0]
+  return anchor ? `${base}#${anchor}` : base
+}
+
 export function useViewRestore() {
   if (!isStandaloneDisplay()) return // normal browser tab — leave the URL/storage untouched
   const route = useRoute()
@@ -56,7 +75,7 @@ export function useViewRestore() {
     // subnav navigation) while still at the top of a freshly opened page.
     const anchor = currentSectionId() || (route.hash ? route.hash.slice(1) : null)
     try {
-      localStorage.setItem(LAST_ROUTE_KEY, anchor ? `${route.path}#${anchor}` : route.path)
+      localStorage.setItem(LAST_ROUTE_KEY, storedLocation(route.fullPath, anchor))
     } catch { /* quota / private mode — ignore */ }
   }
 
