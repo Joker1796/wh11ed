@@ -137,7 +137,6 @@ useUpdateNotice().markSeen()
   background: none;
   color: var(--text-muted);
   border: 1px solid var(--border);
-  border-radius: 5px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;

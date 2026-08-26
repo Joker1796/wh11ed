@@ -12,8 +12,17 @@ const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
+const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
+const RosterListView    = () => import('../views/tracker/RosterListView.vue')
+const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
+const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
+const RosterAddUnitsView = () => import('../views/tracker/RosterAddUnitsView.vue')
+const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
+const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
+const HelpView          = () => import('../views/HelpView.vue')
+const HelpTopicView     = () => import('../views/HelpTopicView.vue')
 const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
@@ -280,6 +289,17 @@ export const trackerGroupsRu = [
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
+// Roster Builder — its own top-level section, next to the Tracker (no longer folded into
+// it). One entry, like factionGroups below — the list page (/roster) is the section's own
+// landing page; the wizard/editor/shared-link routes underneath it aren't in the nav.
+export const rosterGroups = [
+  { label: 'Rosters', path: '/roster', sections: [] },
+]
+
+export const rosterGroupsRu = [
+  { label: 'Ростеры', path: '/roster', sections: [] },
+]
+
 // Factions — top-level section. List page (/factions) + two per-faction pages:
 // /factions/:slug (army rule + detachments, merged) and .../datasheets (units). The old
 // .../detachments URL redirects to the merged page. On desktop those two ride in the subnav
@@ -330,10 +350,38 @@ export const router = createRouter({
     })),
     { path: '/tracker',      component: TrackerHomeView, meta: { section: 'tracker' } },
     { path: '/tracker/game', component: TrackerGameView, meta: { section: 'tracker' } },
+    // Roster builder rides with the Tracker section (subnav + nav highlight) — public list
+    // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
+    // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static
+    // /roster/new and /roster/shared must precede the :id route so neither is captured as an id.
+    { path: '/roster',        component: RosterListView, meta: { section: 'roster' } },
+    { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
+    { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
+    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    { path: '/roster/:id/add',  component: RosterAddUnitsView, meta: { section: 'roster' } },
+    { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
+    // The army list attached to a player of the CURRENT game (:pi = 0|1). Same view as
+    // /roster/:id/view, reading the game's own snapshot instead of the saved-roster store — see
+    // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
+    { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
+    // Your battle record, read out of the same history. Private like /tracker/game: it is a view
+    // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
+    { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
+    // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
+    { path: '/tracker/history/:gid/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
+    // The guide was one page with six anchors until 2026-08-25. Links written against it — ours,
+    // and anyone's bookmark — arrive as /help#help-tracker; send those to the page that section
+    // became. An unknown topic bounces back to the contents from HelpTopicView itself.
+    {
+      path: '/help',
+      component: HelpView,
+      beforeEnter: (to) => (/^#help-[a-z-]+$/.test(to.hash) ? `/help/${to.hash.slice(6)}` : true),
+    },
+    { path: '/help/:topic', component: HelpTopicView },
     { path: '/changelog', component: ChangelogView },
     { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
     { path: '/factions/:slug',             component: FactionRuleView, meta: { section: 'faction' } },

@@ -1,18 +1,21 @@
 <template>
-  <!-- Mobile bottom nav — quick switch between the global sections -->
+  <!-- Mobile bottom nav — quick switch between the global sections. Fixed five items: nothing
+       appears or disappears under the thumb. A jump to a faction's datasheets used to be a sixth,
+       conditional item here; it now lives on the player's card in the tracker (RoundTracker.vue),
+       which knows WHOSE faction it is and so covers the opponent too. -->
   <nav class="bottom-nav">
     <button type="button" class="bn-item" :class="{ active: isRulesRoute }" @click="$emit('open-rules')">
       <i class="bi bi-book-half"></i>
       <span>{{ labels.navRules }}</span>
     </button>
-    <button type="button" class="bn-item" :class="{ active: isFactionRoute && !isUnitsRoute }" @click="$emit('open-factions')">
+    <RouterLink to="/roster" class="bn-item" :class="{ active: isRosterRoute }">
+      <i class="bi bi-clipboard-plus"></i>
+      <span>{{ labels.navRoster }}</span>
+    </RouterLink>
+    <button type="button" class="bn-item" :class="{ active: isFactionRoute }" @click="$emit('open-factions')">
       <i class="bi bi-shield-shaded"></i>
       <span>{{ labels.navFactions }}</span>
     </button>
-    <RouterLink v-if="unitsNavPath" :to="unitsNavPath" class="bn-item" :class="{ active: isUnitsRoute }">
-      <i class="bi bi-people-fill"></i>
-      <span>{{ labels.factionDatasheets }}</span>
-    </RouterLink>
     <RouterLink to="/stratagems" class="bn-item" :class="{ active: isStratagemsRoute }">
       <i class="bi bi-lightning-charge"></i>
       <span>{{ labels.navStratagemsShort }}</span>
@@ -36,8 +39,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const {
-  isRulesRoute, isFactionRoute, isUnitsRoute, unitsNavPath,
-  isStratagemsRoute, isTrackerRoute,
+  isRulesRoute, isFactionRoute,
+  isStratagemsRoute, isTrackerRoute, isRosterRoute,
 } = useRouteSection()
 </script>
 

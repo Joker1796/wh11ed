@@ -31,3 +31,16 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     dispatchEvent() { return false },
   })
 }
+
+// jsdom has no IntersectionObserver, and components that watch whether something is on screen
+// (FactionLayout's hero tabs, deciding whether the floating buttons are needed) construct one as
+// soon as they mount. A stub that never reports an intersection is enough: a test that cares
+// about the observed state drives it directly.
+if (typeof globalThis.IntersectionObserver === 'undefined') {
+  globalThis.IntersectionObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() { return [] }
+  }
+}

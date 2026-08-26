@@ -4,10 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**WH Rules** is a bilingual (EN/RU) reference for the **Warhammer 40,000 11th edition** rules plus
-an offline tracker for a game in progress — live at [wh-rules.ru](https://wh-rules.ru). This repo
-is the frontend, and the frontend is ~99% of the product: every rule, every page and the tracker
-all live here, with no backend involved.
+**WH Rules** is a bilingual (EN/RU) app for **playing Warhammer 40,000 11th edition** — live at
+[wh-rules.ru](https://wh-rules.ru). It began as a rules reference and that is still its foundation,
+but the centre of the product has moved: the arc is now **look a rule up → build the army list →
+run the game with that list's rules applied** (the roster builder, and the modifier overlay the
+tracker shows on a unit's card). Position it that way in any user-facing copy. This repo is the
+frontend, and the frontend is ~99% of the product: every rule, every page, the roster builder and
+the tracker all live here, with no backend involved — **and nothing in the app requires an
+account**; signing in only syncs lists and history between devices.
 
 > **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** **`MIGRATION.md` —
 > источник правды**, читать его в начале любой сессии на любой машине (память Claude между
@@ -17,8 +21,8 @@ all live here, with no backend involved.
 > новый домен. Осталась Фаза 3 — переключить старый бакет в 301.
 
 > **Имя продукта — «WH Rules»** (`short_name` в манифесте, iOS-title, og:site_name, JSON-LD,
-> вордмарк на скриншотах установки); полное — «Warhammer 40,000 11th Edition — Rules, Factions &
-> Tracker». Старое `WH11ED` в UI/метаданных не осталось. **Но `wh11ed-*` ключи `localStorage` и
+> вордмарк на скриншотах установки); полное — «Warhammer 40,000 11th Edition — Rules, Rosters &
+> Game Tracker». Старое `WH11ED` в UI/метаданных не осталось. **Но `wh11ed-*` ключи `localStorage` и
 > имя рантайм-кэша `wh11ed-images` НЕ переименовывать** — это пользовательские данные: смена
 > префикса потеряет всю историю партий, избранное и настройки, а смена имени кэша заставит
 > установленные PWA заново качать ~27 МБ картинок.
@@ -44,6 +48,15 @@ on bad reception. That shapes most of the decisions below.
 
 **Where to start:** *Architecture* below is the map — the data→view pipeline and the navigation
 model. This file is the engineering reference; `README.md` is the product overview for users.
+
+**Large features have their own scoped `CLAUDE.md`**, loaded contextually instead of living
+here — read the one for the directory you're touching: `src/components/core/CLAUDE.md` (Core
+Rules), `src/components/event/CLAUDE.md` (Event Companion), `src/components/tracker/CLAUDE.md`
+(Game Tracker), `src/components/tracker/stats/CLAUDE.md` (Statistics — the battle-record page),
+`src/components/roster/CLAUDE.md` (Roster Builder), `src/views/faction/CLAUDE.md`
+(faction pages), `src/views/combat-patrol/CLAUDE.md` (Combat Patrol), `public/images/CLAUDE.md`
+(image pipeline). This file covers what's shared across all of them (the rendering engine, nav,
+search, deployment, bilingual conventions) plus anything without a dedicated directory.
 
 ## How this repo relates to the others
 
@@ -72,8 +85,12 @@ npm run preview  # preview the production build
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
+npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
+npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
+npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
+npm run phases:index # regenerate the per-phase rule index the tracker's phase reminder reads (see Game Tracker)
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
 npm run screenshots  # regenerate the manifest install-dialog screenshots (see PWA)
 npm run splash       # regenerate the iOS apple-touch-startup-image launch screens (see PWA)
@@ -91,13 +108,34 @@ Vue 3 SPA using HTML5 history routing (`createWebHistory`) — clean paths like 
 - Unknown paths render `NotFoundView` (catch-all route) which injects `noindex` while mounted.
 - Old `/#/path` links are rewritten by a tiny inline shim at the top of `index.html` (`location.replace`, keeps the query even inside the hash — the pre-migration OAuth callback relies on that). Keep the shim — it's what makes old bookmarks/shared links work forever.
 
+**`/help` — "How to use this"** (`src/data/help.js` + `views/HelpView.vue`): the one page of
+product documentation, bilingual, rendered through the shared block renderer so a `[KEYWORD]` or a
+`(NN.NN)` in it behaves as it does inside a rule. **It carries only what a reader cannot see for
+themselves** — the offline split (a tab is deliberately light, the installed app is not), where
+their lists actually live, why our points can disagree with a list built elsewhere, and the
+features with no visible entry point (Ctrl+K, roster import/export/share, handing a roster to the
+tracker). Anything a button already says stays on the button. Like `/links` it is **not** in the
+navbar or the drawer, **and deliberately not in the footer either** — nobody looks for "how does
+this work" at the bottom of the page. It is reached from the screens that raise the question: the
+landing (under its description), the roster list's hero (→ `#help-rosters`) and the tracker home
+(→ `#help-tracker`). `HelpView.test.js` guards the EN↔RU marker parity the same way the rule data
+is guarded.
+
+**First-visit card** (`WelcomeModal.vue` + `useWelcome.js`, key `wh11ed-welcome-seen`): three facts
+a reader cannot get from the screen — what is here, that the *installed* app goes fully offline, and
+that their lists live on the device — plus a link to `/help`. **Landing page only**: most visitors
+arrive from a search engine straight into a rule and are mid-question, and a card across that is an
+interruption, not a welcome. Shown once; dismissing (or following the link) is permanent, and the
+decision is taken on mount rather than in a route watcher, so navigating to `/` later in a session
+never raises it.
+
 **Navigation model:** Two levels.
 
 - **Top navbar** (`App.vue`) — sections "Core Rules", "Event Companion", "Tracker", "Factions". (The `/links` page of source PDFs is deliberately NOT in the navbar or the drawer — only its card on the landing page links to it.) `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders. **Factions** is a `.nav-dropdown`: the link still navigates to `/factions`, but on **hover / focus-within** (desktop only — `.navbar-links` is `display:none` ≤900px) it opens a pure-CSS grouped mega-menu of all factions (2-column grid from `data/factionsIndex.js` via `groupLabelKey`, links to `/factions/:slug`, "coming soon" for non-ready). No JS state — reveal is CSS `:hover`/`:focus-within` with a transparent `padding-top` bridge.
 - **Subnav** (sticky bar below navbar) — for Core Rules: **anchor** links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference / Muster), since all seven are chapters of the one `/core-rules` page; the highlight follows the scroll-spy (`activeSectionId` in `useActiveSection.js`), not the URL. For Event Companion, the same anchor-link recipe on the merged `/event-companion` page: Introduction / Sequence / Missions / Terrain & Layouts / Pairings / Teams / FAQs. For Tracker: Game Tracker / Current Game / Stratagems. The `/stratagems` page rides with the **tracker** subnav (`subNavItems` returns `trackerSubNavItems` when `isTrackerRoute || isStratagemsRoute`) so reaching it from the tracker keeps those tabs in view (desktop has no "Back to game" bar).
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
-- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with icons: Core Rules / **Factions** / **Stratagems** (`/stratagems`) / Tracker. **Factions** is a `<button>` (not a link) that opens `FactionsNavModal.vue` — a lightweight grouped faction list (driven by the light `data/factionsIndex.js`, links to `/factions/:slug`, closes on pick). On any faction-with-slug page (rules page, datasheets list, or a single unit's datasheet) an **additional** «Units» link is inserted in the middle, pointing to that faction's `/factions/:slug/datasheets` list — also shown, pointing at the "You" player's faction, from anywhere while a tracker game is in progress. The two are mutually exclusive: `isUnitsRoute` (`isFactionDetailRoute && path.includes('/datasheets')`) highlights **Units** and suppresses **Factions**' own `isFactionRoute` highlight, so only one is ever lit — browsing a faction's rules page lights Factions, browsing its datasheets list or a single unit lights Units instead. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы»; Factions/Units reuse `navFactions`/`factionDatasheets`) so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — Missions is no longer in the bottom nav, only reachable via the Event subnav/drawer). `isStratagemsRoute` highlights its item. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it); the Factions `<button>` gets a native-chrome reset (`button.bn-item`).
-- **Mobile utility bar** (`MobileUtilityBar.vue`, mobile only, floats just above the bottom nav): one shared strip of small icon buttons for everything that would otherwise fight over that corner — additive, not exclusive, all can show together: **resume** (a game in progress, `useTracker().current.phase === 'playing'`, on any non-tracker/non-landing route with no full-screen modal/drawer open — `showResumeGame` in `App.vue`) → an icon button to `/tracker/game`; **faction tabs** (on a faction hero page with its in-page tab nav scrolled out of view) → the mobile equivalent of the desktop FAB column below, contributed via `useContributeMobileActions('faction-tabs', …)` in `FactionLayout.vue`; **back-to-top**, always rightmost, only once actually scrolled past the threshold. The bar itself hides only when none of the three apply. A shared `--mobile-bar-h` var (set on `.app-layout`, sized whenever the bar is visible) lifts the content bottom-padding and the offline-warmup toast above it so nothing overlaps. Back-to-top's scroll-threshold logic (`useBackToTop.js`) is shared with the desktop-only `BackToTopButton.vue` and `FactionLayout.vue`'s own FAB.
+- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with **five fixed** icons: Rules / **Rosters** (`/roster`) / **Factions** / **Stratagems** (`/stratagems`) / Tracker — nothing appears or disappears under the thumb. **Factions** is a `<button>` (not a link) that opens `FactionsNavModal.vue` — a lightweight grouped faction list (driven by the light `data/factionsIndex.js`, links to `/factions/:slug`, closes on pick). A sixth, **conditional** «Units» item used to be inserted here (on any faction-with-slug page, and — pointing at the "You" player's faction — anywhere during a tracker game); it was **removed** in favour of a button on the player's card in the tracker (`RoundTracker.vue`), which knows *whose* faction it is and so reaches the opponent's datasheets too, while the faction pages already carry their own Rules/Units tabs in the hero (`FactionLayout.vue` → `MobileUtilityBar`). `isUnitsRoute`/`unitsNavPath` went with it, and **Factions** simply lights on any faction route again. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы»; Factions reuses `navFactions`) so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — Missions is no longer in the bottom nav, only reachable via the Event subnav/drawer). `isStratagemsRoute` highlights its item. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it); the Factions `<button>` gets a native-chrome reset (`button.bn-item`).
+- **Mobile utility bar** (`MobileUtilityBar.vue`, mobile only, floats just above the bottom nav): one shared strip of small icon buttons for everything that would otherwise fight over that corner — additive, not exclusive, all can show together: **resume** (a game in progress, `useTracker().current.phase === 'playing'`, on any non-tracker/non-landing route with no full-screen modal/drawer open — `showResumeGame` in `App.vue`) → an icon button to `/tracker/game`; **faction tabs** (on a faction hero page with its in-page tab nav scrolled out of view) → the mobile equivalent of the desktop FAB column below, contributed via `useContributeMobileActions('faction-tabs', …)` in `FactionLayout.vue`; **back-to-top**, always rightmost, only once actually scrolled past the threshold. The bar itself hides only when none of the three apply. A shared `--mobile-bar-h` var (set on `.app-layout`, sized whenever the bar is visible) lifts the content bottom-padding and the offline-warmup toast above it so nothing overlaps. Back-to-top's scroll-threshold logic (`useBackToTop.js`) is shared with the desktop-only `BackToTopButton.vue` and `FactionLayout.vue`'s own FAB. The reverse case — a fixed bar from a *view* claiming that same bottom-right corner, like the Roster Builder wizard's Back/Next bar (`RosterCreateView.vue`'s `.rc-sticky`, see `src/components/roster/CLAUDE.md`) — doesn't move; `App.vue` reserves its height in `--roster-sticky-h` (`.app-layout:has(.rc-sticky)`) and `MobileUtilityBar`'s own bottom offset adds it, so the utility bar rises above it instead of overlapping it and blocking the click.
 
 **Data → View pipeline:**
 
@@ -107,32 +145,13 @@ src/data/*.js  →  src/views/*View.vue  →  src/components/RuleBlock.vue
 
 Each view imports its data file, iterates sections/subsections, and renders them via `RuleBlock` (the universal rule renderer). Views handle special cases themselves.
 
-**The Core Rules are one page.** `/core-rules` (`src/views/CoreRulesView.vue`) renders all seven chapters at once, each as its own component in `src/components/core/` (`ChapterIntro`, `ChapterBasicRules`, …) — the chapter components are what own the data import, the EN/RU merge and their own special blocks (`ChapterBattlefields` renders the stratagem card grid; `ChapterBasicRules` the wound table, illustrations and definitions). Notes:
-
-- The seven **former** routes (`/introduction`, `/basic-rules`, …) still resolve — they redirect to their chapter's anchor. `CORE_CHAPTER_ANCHORS` in `router/index.js` is the single registry for that mapping and for the `hash` on each `navGroups` entry; every core group now shares `path: '/core-rules'` and differs only by `hash`, so anything keying off a group must use path+hash (see `groupKey` in `NavSidebar.vue`).
-- Each chapter's wrapper `<section>` carries `content-visibility: auto` so offscreen chapters cost no layout. Consequence: a chapter that hasn't been revealed yet has collapsed geometry, so **in-page jumps must go through `scrollToAnchor()`** (it polls for the element and re-scrolls after 400 ms) — a one-shot `getBoundingClientRect()` will land in the wrong place.
-- The chapter components render **fragments** (no wrapper element), so scoped CSS in them can't rely on DOM nesting — use a modifier class instead (e.g. `.section-img--lead`).
-- On desktop (≥1024px) rules are laid out in **two columns**: `.rule-columns` (`style.css`) is the same multicol masonry as `.strat-grid`, and `composables/columnChunks.js` decides what goes into a group. Wide blocks (anything with an `illustration`/`image`/`sideImage` or an `[img:` line in its body, plus tables and the stratagem grid) are lifted **out** of the group there — `column-span: all` only works on a direct child, and an image inside a rule body can't escape its column at all. The column CSS is inside a `min-width: 1024px` query, so below it the page is laid out exactly as it was when the chapters were seven pages. `/core-rules` is also the only page widened past 860px (`.main-content--wide`, 1280px).
-
-**The Event Companion is one page too.** `/event-companion` (`src/views/EventCompanionView.vue`) renders all seven chapters at once, each as its own component in `src/components/event/` (`ChapterIntro`, `ChapterSequence`, `ChapterMissions`, `ChapterLayouts`, `ChapterPairings`, `ChapterTeams`, `ChapterFaq`). Same recipe as Core Rules — `content-visibility: auto` per chapter `<section>`, `scrollToAnchor()` for in-page jumps, a two-variant `EventCompanionToc.vue` (`page`/`modal`, calqued on `CoreRulesToc.vue`) — but the underlying data has no `sectionNum` to key off, so it needed its own pieces:
-
-- The six **former** routes (`/event-companion/sequence`, `/event-companion/missions`, …) still resolve — they redirect to their chapter's anchor. `EVENT_CHAPTER_ANCHORS` in `router/index.js` is the registry for that mapping and for the `hash` on each `eventGroups` entry; `/event-companion` itself was already the shortest of the seven paths, so it's reused as the merged page's own path rather than minting a new one the way `/core-rules` was. Every event group shares `path: EVENT_PATH` and differs only by `hash`, same convention as `navGroups`.
-- Event Companion blocks (`sequence.blocks`, `pairings.blocks`, `teams.blocks`, …) carry no `sectionNum` at all, so `composables/columnChunks.js` can't be reused — reusing it as-is would read every block as "always full" and silently disable columning. `composables/blockColumnChunks.js` is the analogous chunker, keyed on whether a block carries its own `table` instead. Two-column layout applies only to the four prose chapters (Introduction, Sequence, Pairings, Teams); Missions/Layouts/FAQ are self-made widgets (filter bar + masonry cards, the interactive matrix, an FAQ list) that stay full width.
-- `useRefNavigation.js`'s `EC:<key>` cross-reference tokens (used throughout the prose) resolve to a **default chapter anchor** when the ref names no more specific `#anchor` of its own — most refs have none, so without this default they'd land on the top of the merged page instead of their chapter.
-- Teams was added to the TOC/subnav/search for the first time here (previously reachable only via a direct link, hidden from the app's own navigation) — once everything is one page, hiding one of the seven chapters would have been an arbitrary exception.
-
-**Data file shapes — all bilingual `{ en: Section[], ru: Section[] }`:**
-
-- `basicRules.js` — EN and RU arrays merged by index at runtime in `ChapterBasicRules`.
-- `battleRound.js`, `battlefields.js`, `advancedRules.js` — same bilingual shape; views merge EN/RU the same way.
-- `reference.js` — exports `abilityIntro`, `coreAbilities`, `appendix`, `faqs`; each is `{ en: [...], ru: [...] }`. `coreAbilities` is the lookup table for `KeywordPopover`.
-- `intro.js` — the welcome/intro page; shape is `{ en: {...}, ru: {...} }` (a single object, **not** an array). Rendered by `HomeView.vue`.
-- `eventCompanion.js` — the Event Companion section (`{ en, ru }`, single objects). Exports `getEventContent(locale)` which deep-merges `ru` over `en` by index/key (RU carries only translated fields; ids/images, mission-deck card names, and disposition/legend `icon` paths inherit from EN). Prose chapters render via `RuleBlock`; `src/components/event/` holds the chapter components (see *The Event Companion is one page too* above). The `glossary[]` feeds `KeywordPopover` for event terms; within-section links use `EC:<key>` tokens resolved by `useRefNavigation.js`.
-  - **Missions catalogue:** `ChapterMissions.vue` browses all 25 primary (grouped by the 5 Force Dispositions) + 18 secondary missions, rendered from the tracker's mission data via `getMissions(locale)` (in `missions.js`) and a read-only `MissionCard.vue` (styled like the tracker `ScoringModal` rows). Has a filter bar: type (All / Primary / Secondary / **Twists**) + Force Disposition chips (primary only). Attacker/Defender secondary pools are identical, so it lists the 18 once. The **Twists** filter shows the 6 optional pre-game modifiers (`eventCompanion.js` `twists`, rendered by `TwistCard.vue`); they're also selectable in the Game Tracker setup.
-  - **Terrain & Layouts (one chapter):** `ChapterLayouts.vue` = terrain prose + footprints `DataTable` + the collapsible **LAYOUTS KEY** legend (show/hide persisted to `localStorage` key `wh11ed-event-key-hidden`) + the interactive 5×5 `MissionMatrix.vue` + matchup viewer (`LayoutCard.vue`).
-  - **Data shapes:** `dispositions[]` = the 5 Force Dispositions (`{ id, name, icon }`); `matchups[]` (15, generated) each carry `layouts:[{id:'A'|'B'|'C', image, edge:'h'|'v'}]` resolved from the `layoutImages`/`layoutEdges` lookups keyed by `${a}|${b}`; `terrain.legend[]` = the LAYOUTS KEY entries (`{ id, label, desc, icon }`, grouped in the view by id into terrain / zones / edges / objectives).
-  - **Edge bars per layout:** `LayoutCard` draws the attacker (red ✕) / defender (blue shield) battlefield-edge bars on the sides given by `layout.edge` — `'h'` = top/bottom (`marker-{attacker,defender}.webp`), `'v'` = left/right (`marker-{attacker,defender}-v.webp`). The `edge` orientation per layout was read from the source PDF's vector marker lines (red line = attacker edge, blue = defender) for all 45 layouts; gutters are equal in both orientations so the image size doesn't jump across A/B/C tabs.
-  - **Assets** (`public/images/event/`) are all extracted from the source PDF: 45 layout diagrams `layout-<a>-<b>-<letter>`, the `marker-attacker`/`marker-defender` edge bars, `legend-*` key icons, and `dispo-*` disposition emblems. On disk these are now **WebP** (see Image organization) though the data still references them by their `.jpg`/`.png` paths. The matrix is text-only on desktop and icon-only on mobile (fits without horizontal scroll).
+**The Core Rules are one page** (`/core-rules`) and **the Event Companion is one page too**
+(`/event-companion`) — each renders all seven of its chapters at once, each chapter its own
+component (`content-visibility: auto`, `scrollToAnchor()` for in-page jumps, former per-chapter
+routes still resolve via redirect). See `src/components/core/CLAUDE.md` and
+`src/components/event/CLAUDE.md` for the mechanics, the two-column layout, and each one's
+data file shapes (`basicRules.js`/`battleRound.js`/`battlefields.js`/`advancedRules.js`/
+`reference.js`/`intro.js` for Core; `eventCompanion.js`/`missions.js` for Event).
 
 Locale is a singleton (`useLocale.js`, `'en' | 'ru'`, persisted to localStorage); views pick `ru[i]` over `en[i]` via the merge pattern and inherit non-translated fields (`id`, `image`, `illustration`, `definitions`) from EN.
 
@@ -167,11 +186,15 @@ A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsec
 
 **Keyword popover** — `useKeywordPopover.js` is a singleton; any click on `.keyword` span opens `KeywordPopover.vue` with the ability text looked up from `reference.js` (`coreAbilities`) / the Event Companion glossary. **Perf:** those two big data files are **dynamically `import()`ed on first keyword click** (not statically), so they stay out of the entry chunk that loads on every page — `open()` is async. Keep it that way (don't re-add a static import).
 
-**Stratagem cards** — `StratCard.vue` renders core rulebook stratagems in `BattlefieldsView` (section 15) **and** on the standalone **`StratagemsView.vue`** (`/stratagems`) — a stripped-down game-time quick reference (just the card grid, no surrounding prose), reusing `BattlefieldsView`'s EN/RU `useBilingualSections` merge to pull section 15's `stratagems`. That page is reachable only via the mobile bottom-nav (and direct URL on desktop) — deliberately not in `navGroups`/`NavSidebar`/the top navbar. **When a tracker game is in progress** (`useTracker().current.phase === 'playing'`) it also shows each player's **detachment** stratagems behind a filter bar (Core / Mine / Opponent's); with no active game it stays core-only with no filters. Detachment stratagems come from the faction rules data (`data/factions/*`), **dynamically `import()`ed** so the heavy faction bundle never enters this page's chunk unless a game is on. MFM detachment names (from the tracker) are matched to faction-data detachments **apostrophe/case-insensitively**, and the five Codex-sharing chapters (Black Templars, Blood Angels, Dark Angels, Deathwatch, Space Wolves) fall back to `space-marines` data for the shared detachments (Gladius Task Force, etc.). RU cards + name sublines reuse the faction RU overlay (`loadFactionRu`/`deepOverlay`/`stratNamesRu`, same as `useFactionPage`).
+**Stratagem cards** — `StratCard.vue` renders core rulebook stratagems in `ChapterBattlefields.vue` (`src/components/core/`, section 15) **and** on the standalone **`StratagemsView.vue`** (`/stratagems`) — a stripped-down game-time quick reference (just the card grid, no surrounding prose), reusing the same EN/RU `useBilingualSections` merge to pull section 15's `stratagems`. That page is reachable only via the mobile bottom-nav (and direct URL on desktop) — deliberately not in `navGroups`/`NavSidebar`/the top navbar. **When a tracker game is in progress** (`useTracker().current.phase === 'playing'`) it also shows each player's **detachment** stratagems behind a filter bar (**All** / Core / Mine / Opponent's). **All is the default while a game is on** — mid-game the question is "what can anyone play right now", not "whose deck am I in" — and in it each detachment card's sublabel is prefixed with its owner's name, because two players can field the SAME detachment and the two copies are otherwise identical (that prefix is also what keeps their `stratKey`s apart). With no active game the page stays core-only with no filters. Detachment stratagems come from the faction rules data (`data/factions/*`), **dynamically `import()`ed** so the heavy faction bundle never enters this page's chunk unless a game is on. MFM detachment names (from the tracker) are matched to faction-data detachments **apostrophe/case-insensitively**, and the five Codex-sharing chapters (Black Templars, Blood Angels, Dark Angels, Deathwatch, Space Wolves) fall back to `space-marines` data for the shared detachments (Gladius Task Force, etc.). RU cards + name sublines reuse the faction RU overlay (`loadFactionRu`/`deepOverlay`/`stratNamesRu`, same as `useFactionPage`).
 
 A **"By phase / As list" toggle** (persisted to `localStorage['wh11ed-stratagems-by-phase']`) regroups the visible cards into collapsible per-phase accordions (Command / Movement / Shooting / Charge / Fight / Any, via `CollapseTransition`, **closed by default**). Phase is derived from the **English** `when` timing text by `src/composables/stratagemPhases.js` (`phasesOf`) — never the localized string — so the grouping is identical EN/RU (core keys off `battlefields.en` §15 by index, detachment strats off `data.en`). A stratagem spanning several phases ("…Shooting phase or the Fight phase") shows under **each** of them; the `any` group is reserved for stratagems that literally work in "any phase" (plus a no-phase-detected fallback). On ≤480px the toolbar's toggle collapses to icon-only so all buttons fit one row.
 
-**Faction pages** — `FactionRuleView.vue` (`/factions/:slug`, army rule + the active detachment's rule / stratagems / enhancements) and `FactionDatasheetView.vue` (`/factions/:slug/datasheets/:unit`, a `DatasheetCard`) both read faction data via `useFactionPage.js`. The **active detachment** and, for Space Marines, the chosen **Chapter** are one shared "army choice" held in `src/composables/useFactionChoice.js` — a **module singleton** persisted per faction slug to `localStorage['wh11ed-faction-choice']` (`{ slug: { det, chapter } }`; migrates the pre-chapter `wh11ed-faction-detachment` map once), so a pick on the rules page is reflected on the datasheets page and vice-versa. The UI is **`FactionPickerBar.vue`** — a bar sticky under the navbar (full-viewport-bleed background) that renders the Chapter and/or Detachment as compact "label + value + chevron" pill buttons opening `FactionDetachmentPickerModal.vue` (a `BaseModal`-based option list reused for both, via its optional `title`/`tag` props); it only renders when a faction has >1 detachment. Chapter↔detachment consistency (a chapter-locked detachment implies its chapter) lives in the bar, not the store. In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionDatasheetView`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field. **A printed/granted keyword is clickable** (`keywordLinksEnabled` prop, opt-in per caller — off by default) and emits `keyword-click`; `FactionDatasheetView` catches it and opens `KeywordUnitsModal.vue` listing every other unit in the SAME faction's roster carrying that keyword (`src/utils/keywordUnits.js`, checks both `keywords` and per-model `keywordsByModel`), each linking to its own datasheet page. Faction keywords (ORKS, ADEPTUS ASTARTES…) are deliberately never clickable — virtually the whole roster shares those. `CombatPatrolFactionView` passes no `keyword-links-enabled` (units render inline on one page, not as separate routes, so there's nowhere for the modal's links to go) — keywords there stay plain text.
+**Faction pages** (`FactionRuleView.vue`/`FactionDatasheetView.vue`, army choice persisted via
+`useFactionChoice.js`, `FactionPickerBar.vue`) — see `src/views/faction/CLAUDE.md`.
+
+**Combat Patrol** (`/combat-patrol/:slug`, fixed-roster starter-box content, its own compact
+search index) — see `src/views/combat-patrol/CLAUDE.md`.
 
 **`sourceId` map (`src/data/sourceIds.json`)** — a generated **sidecar** mapping each faction
 entity (army rule, detachments, stratagems, enhancements, datasheets) to its stable source UUID
@@ -242,67 +265,28 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 
 The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdftotext -layout`, and bold runs with `pdftohtml -s -i -noframes -hidden <pdf> out.html` (yields `<b>` tags).
 
-**Image/vector extraction (Event Companion assets)** uses **pymupdf** (`pip install pymupdf`) against `sources/eng_12-06_warhammer40000_event_companion-*.pdf`. Layout pages are printed pp. 9–53 = page indices 8–52. Techniques used: layout diagrams cropped to the battlefield-frame rect `fitz.Rect(128, 277.8, 468.1, 740.2)`; transparent vector elements (edge-marker bars, objective/legend icons) via `page.add_redact_annot(bbox)` + `apply_redactions(images=PDF_REDACT_IMAGE_REMOVE, graphics=PDF_REDACT_LINE_ART_NONE)` then `get_pixmap(..., alpha=True)` (strips the raster parchment background, keeps the vector); disposition emblems are raster XObjects with soft masks, extracted by combining `fitz.Pixmap(doc, xref)` (CMYK→RGB) with `fitz.Pixmap(doc, smask)` for transparency.
+**Event Companion asset extraction** (layout diagrams, edge markers, legend icons — pymupdf
+against the source PDF) — see `src/components/event/CLAUDE.md`.
 
 ## Game Tracker
 
-Third top-level section (`/tracker`) — a client-side, offline 2-player VP tracker for a game of 40k 11th ed. **Not part of the rules-reference data pipeline above.**
-
-**State:** `src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{trackCP,firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce',twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
-
-**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + **attacker/defender role** + battle ready); step 2 "Mission" (active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Battlefield" (recommended layout A/B/C via `LayoutCard`); step 4 "Deployment" (who goes first, Track CP, and the twist). The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
-
-The **twist** is chosen on step 4 via a "Choose twist" button that opens `TwistPickerModal.vue` — a full-screen (bottom-sheet on mobile) accordion list of the twist rules with per-twist "Select" + a "Random twist" button; picking one returns to step 4. Mirrored World's shared-mission sub-picker stays inline on step 4.
-
-**Setup is persisted as a draft** (`setupDraft` in `useTracker.js`, localStorage `wh11ed-tracker-setup-draft`, same auto-save machinery as `current`/`history`): the in-progress wizard (step + players + settings) survives reloads and navigating away. The Tracker home shows a **"Continue setup"** button when a draft exists; "New game" clears the draft and starts fresh; `start()`/cancel clear it. **Starting a new game (or resuming a past one) while a game is in progress does NOT discard the live game** — `TrackerHomeView` first archives it to history via the normal end flow (`finishGame('early')` + `archiveGame()`), so it's saved at its current score and stays resumable. GameSetup hydrates from the draft at init (before its reset watchers register) and deep-watches its state back into the draft.
-
-**Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round**, **45/game**; fixed secondary **20** each; secondary **45** total; Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only. **`or` brackets are mutually exclusive:** setting one bracket row clears the competing rows in its group (`orSiblingKeys` in `setPrimaryRow`/`scoreSecondaryRow`); per-tally "For each…/Each time…" `or` rows stay independent (and don't show the "Or" label).
-
-**Tactical secondaries** (`SecondaryDeck.vue`): random "Draw card", **"Choose"** a specific card from a picker modal, and a per-card "⋯" actions modal — *Set aside* (`discardFromHand`, keeps VP) or *Return to deck* (`returnSecondaryToDeck`, full undo: drops the card's VP, redrawable). `drawSpecificSecondary`/`returnSecondaryToDeck` live in `useTracker.js`. Fixed mode is locked at setup. Tapping a card opens `ScoringModal`, which also shows the mission **`briefing`** and — for cards whose briefing has a **WHEN DRAWN** action (`mission.whenDrawn`, see Data) — a one-tap redraw button: `redrawSecondary(pi, slug, mode)` drops the just-drawn card (it has scored nothing) and draws a random replacement; `mode:'shuffle'` returns it to the deck, `mode:'discard'` removes it from play. It's offered only in tactical mode, auto-gated where the condition is computable (`gate:'first-round'` → only round 1; `gate:{pairedActive}` → only while the paired card is in hand) and always offered for board-state conditions the app can't check.
-
-**Data:** `src/data/missions.js` (`{ en, ru:en }`, 25 primary + 36 secondary; primary auto-selected by the two players' dispositions via `primaryFor`; also exports `getMissions(locale)` for the Event Companion Missions page); `src/data/missionsRu.js` (RU overlay of block text — **mission names & dispositions stay English**). Some cards carry an optional **`briefing`** (the intro text above the scoring blocks — only the ~26 cards that have one): an array of parts, each `{ label?, text }` (a paragraph) or `{ action, rows:[{label,text}] }` (an OBJECTIVE ACTION block like Cleanse/Plunder), transcribed from the card fronts (cards that defer to "(see reverse)" have none). RU `briefing` mirrors the EN structure and is swapped in **wholesale** (not merged per-field) by `localize`/`localizeMission`; rendered by the shared `MissionBriefing.vue` (used by both `MissionCard.vue` and the tracker `ScoringModal.vue`) above the blocks. Secondaries whose briefing is a WHEN DRAWN deck action also carry a language-agnostic **`whenDrawn`** `{ mode:'discard'|'shuffle', gate?:'first-round'|{pairedActive} }` (EN-only logic field, survives the RU overlay via the `...m` spread) — see the Tactical secondaries note for how the tracker applies it. detachments/factions come from `src/data/mfmFactions.js` via `src/composables/trackerFactions.js` (`FACTIONS`, `FACTION_GROUPS`, `detachmentsFor`, `detachmentInfo`) — **split out of `useTracker.js` on purpose** so the heavy ~290 KB faction dataset only loads with the setup wizard (`GameSetup` is `defineAsyncComponent`-loaded in `TrackerGameView`, with a `SetupLoading` spinner), not on every in-game/finished screen. The store (`useTracker.js`) no longer imports `mfmFactions.js`; don't re-add it. The mission rules themselves are published only as card images, so `missions.js` was vision-transcribed (see `scripts/fetch-mission-cards.py`); MFM points data is scraped by `scripts/scrape-mfm.py`.
-
-**Files:** views `src/views/tracker/{TrackerHomeView,TrackerGameView}.vue`; components `src/components/tracker/{GameSetup,RoundTracker,SecondaryDeck,ScoringModal,ScoreBoard,ScoreBreakdown,NumberStepper,SetupLoading}.vue`. The finished screen shows score boxes + a collapsible GDM-style per-round breakdown grid (`ScoreBreakdown.vue`). Dates are formatted via the shared `useFormatDate` composable. Out of scope: Deployment Zones.
-
-**Modals** — every dialog uses the shared `src/components/BaseModal.vue` (overlay shell, `.modal-head` + localized close button, props `title`/`maxWidth`/`maxHeight`/`zIndex`, default-header or `#header` slot for custom headers) which wires `src/composables/useModalA11y.js` (Escape-to-close, Tab focus-trap, initial focus into the dialog, focus-restore to the trigger, `aria-labelledby`). **Do NOT add a body scroll-lock** there — on iOS Safari `body{overflow:hidden}` resets scroll (sticky-modal bug); background scroll-chaining is already contained by the global `.modal-body { overscroll-behavior: contain }` in `style.css`. iOS safe-area padding for the bottom-sheet modals is a global rule (`.modal-overlay > .modal`) — BaseModal keeps that class/structure. New dialogs should wrap `BaseModal`, not re-implement the shell. (`KeywordPopover` stays custom — it's an anchored non-blocking popover, not a dialog.) For yes/no confirmations use the reusable `src/components/ConfirmModal.vue` (wraps `BaseModal`; props `title`/`message`/`confirmLabel`/`cancelLabel`; emits `confirm`/`close`; parent shows it with `v-if` and runs its action on `@confirm`) — **never `window.confirm`**.
-
-**Twists** (optional pre-game modifiers, rule data in `eventCompanion.js` `twists` and browsable on the Missions page — see Event Companion) are selectable in setup step 2 (pick / **Random** / **No Twist**). The chosen `settings.twist` applies to both players for the whole game and is shown as a collapsible reminder in `RoundTracker`. Two twists change the Primary Mission **mechanically** via `derivePrimary(myDisp, oppDisp, settings)` (the single primary-derivation point, used by both `makePlayer` and the setup preview): **Scrambled Communications** swaps the two players' primaries; **Mirrored World** sets both players to one shared mission from `MIRROR_MISSIONS` (the five `mirror:true` primaries) — chosen in setup or randomly resolved in `newGame` (persisted to `settings.twistMission`).
-
-**RU-locale terms in the tracker stay English on purpose:** mission names, **Force Disposition**, "Battle Ready", "Attacker"/"Defender", "CP" — only mission *rules text* is translated. (Note: in the core rules RU, **Charge** is translated as «нападение» — "Фаза нападения"; **Surge** keeps «рывок».)
-
-**Command Point / CP** (glossary: `sources/Vse_pamyatki_i_glossarii_po_vakhe.docx`) — in the **rules** RU text, full mentions read «командное очко (CP)» / «командные очки (CP)» (English kept in parens); inline costs/numbers stay English («1 CP», «+1 CP»). The tracker/`ui.js` keep bare «CP» (see above).
+Third top-level section (`/tracker`) — a client-side, offline 2-player VP tracker for a game
+of 40k 11th ed. **Not part of the rules-reference data pipeline above.** See
+`src/components/tracker/CLAUDE.md` for the setup wizard, scoring, secondaries, twists and
+data shapes. **Statistics** (`/tracker/stats`) reads those finished games back as a battle record —
+win rate, turn order, matchups, secondary cards, per-roster records — see
+`src/components/tracker/stats/CLAUDE.md` (in particular the `MIN_SAMPLE` rule: no percentage under
+five games). **Roster Builder** (`/roster*`) is its own top-level nav section (next to
+Tracker, not nested in it) and hands a built roster off to this one — see
+`src/components/roster/CLAUDE.md`.
 
 ## Adding content
 
-**New core-rules section:** Add data to the appropriate file in `src/data/` following the `Section` shape. The search index updates automatically. If it's a new chapter: add to `navGroups`/`navGroupsRu` in `src/router/index.js` (with its `hash`), create a component in `src/components/core/` and list it in `CoreRulesView`'s `chapters` — not a route.
+**New core-rules section** — see `src/components/core/CLAUDE.md`.
 
 ## Image organization
 
-`public/images/` has one folder per rules chapter (`intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire`, `shoot`). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`. RU variants use a `-ru` suffix on the filename (e.g. `making-a-charge-move-ru.png`).
-
-**The `-ru` suffix is applied at RUNTIME** for section `image`/`sideImage`/`illustration` — `BasicRulesView`/`AdvancedRulesView`/`BattlefieldsView` rewrite the src in the RU locale (`ruSrc`/`.replace('.png','-ru.png')`). So the data holds the BASE path and the `-ru.webp` files won't show up in a static grep — **don't "clean up" `-ru` images as unused.** (Body `[img:]` images instead carry explicit `-ru` paths in the RU data.)
-
-**Battle-round "Turn Structure" diagram (07.02):** `TurnStructureDiagram.vue` (`src/components/core/`), not baked-image banners — each locale's `battleRound.js` subsection carries a plain `steps: [{ icon, title, desc }]` array (7 entries: Start of Turn Step, the 5 phases, End of Turn Step), rendered as real (translatable, searchable) HTML rows. The **icon** is the only per-step asset, and it's shared by both locales — `turn/icon-<key>.webp` (`command`/`movement`/`shooting`/`charge`/`fight`/`turn-step`, the last shared by Start and End) is a small monochrome silhouette applied via CSS `mask-image` + `background-color: var(--text-muted)`, so it recolors for free with the light/dark theme instead of needing baked-color variants. These were cut once from the old EN banner plates (luminance-thresholded to an alpha mask, see git history for the extraction script) and are ~0.4–0.9 KB each — replacing the old per-locale baked banners (`turn/<slug>-banner-ru.webp` + the EN `turn/<slug>-PHASE.webp` plates, ~150–280 KB per locale) which had the title/description text burned into the raster. The subsection is marked `wide: true` (see `columnChunks.js`) so the diagram always spans the full measure instead of fighting the two-column balancer.
-
-**Illustrations are stored as WebP** (for the app-like build). The data files and components still reference the original `.jpg`/`.png` paths — the `AppImage` component (`src/components/AppImage.vue`) maps the extension to WebP at render time, serving `<name>.webp` on desktop and an 800px `<name>-sm.webp` via `<picture>` at `≤640px`. So **keep writing `.jpg`/`.png` paths in data** (including the runtime `-ru` suffix); do not rewrite them to `.webp`.
-
-**Rendering path:** every illustration `<img>` goes through `AppImage` — in `RuleBlock.vue` (`sideImage`, inline `[img:]` body images, `img-group`), `BasicRulesView.vue` (section `image`, `illustration`), and `LayoutCard.vue` (`layout.image`). Icons stay as plain `<img>` (markers, `icon:` dispo/legend, the QR). `AppImage` uses `inheritAttrs:false` + `v-bind="$attrs"` to forward `class`/`style` onto the inner `<img>`, and its `<picture>` is `display:contents` so the img stays the float/flex child of the parent. Consequence: **parent scoped CSS that targets the img must use `:deep()`** (e.g. `:deep(.side-image)`, `.section-illustration :deep(img)`), since the img now lives inside the child component.
-
-`scripts/gen-webp.mjs` (`npm run images:webp`, needs the `sharp` devDep) does the conversion. It handles two cases and **deletes the original** in both:
-
-- **Illustrations** → `<name>.webp` + `<name>-sm.webp` (800px mobile copy). `isIllustration()`: all `*.jpg/*.jpeg` **except** `event/legend-*.jpg`, plus `intro/datasheet.png` and `turn/*.png`. JPEG sources → lossy WebP; PNG sources → lossless WebP (preserves alpha).
-- **Icons** (`iconSpec()`, matched by basename) → a single downscaled `<name>.webp` (no `-sm`), sized ~2× their CSS display: `marker-*` 800px lossless, `dispo-*` 128px lossy, `legend-*` 192px lossy. They render via plain `<img>` (the `icon:` data field / hardcoded `src`), **not** `AppImage`.
-
-The script is idempotent and re-runnable — add a new image as `.jpg/.png`, run it, and it converts + deletes the original (back-filling a missing `-sm.webp` next to an existing illustration `.webp`; icons are skipped in back-fill).
-
-**Left as-is:** `wh40k-app-qr.png` — a 288px 1-bit (2-colour) indexed PNG (~640 B), pre-sized to ~2× its display; kept out of the WebP pipeline on purpose (WebP can't store a 1-bit palette, so it'd be larger and softer). And `favicon.svg`.
-
-**Re-cutting illustrations from the core-rules PDF** (used for the `command/battle-shock-examples*` panels — straight, consistent crops that replace crooked hand-cut ones; the old EN phase placards `turn/*PHASE*`/`*TURN-STEP*` this recipe used to also produce are gone, see the Turn Structure diagram note above). General recipe, with Python+PIL (or pymupdf) + `cwebp`:
-
-1. **Render** the page at 600 dpi: `pdftoppm -f N -l N -r 600 -png sources/WH40k_11ed_CORE-Rules_*.pdf /tmp/p` → a 3780×5434 PNG (page index = printed page no.).
-2. **Crop axis-aligned bboxes.** The source elements are straight, so a rectangular bbox auto-fixes human crookedness. Detect bands by brightness/colour (page bg cream ~RGB 245 on p.31); **stacked elements share one left/right `x` range** — derive it from the cleanest element and reuse, varying only the per-element `y`. Downscale (LANCZOS) to the existing file's width (battle-shock 1190).
-3. **Battle-shock panels (p.31):** `x[355:2221]`, 4 y-bands (~1865×1075). Crops can land on the cream page edge → thin **white/light border lines**; trim outer rows/cols whose mean brightness `>140` before resizing.
-4. **Encode directly with `cwebp`, not `npm run images:webp`** — `gen-webp.mjs` forces *lossless* for `.png` and ignores `command/*.png` (not an illustration there), and a `.jpg` intermediate would double-compress. Use lossy: `cwebp -q 74` / `-q 70` with `-resize 800 0` for the `-sm`. Overwrite the existing `.webp` + `-sm.webp` **keeping the same filenames**. Then `npm run build`. Note: these are photographic, so lossy ≈ the old quality in bytes; lower `q` is what makes them lighter. (History: PRs #26/#28/#29.)
+`public/images/` — one folder per rules chapter, WebP conversion pipeline (`scripts/gen-webp.mjs`), the `AppImage` rendering component, and the illustration re-cutting recipe. See `public/images/CLAUDE.md`.
 
 ## PWA
 
@@ -349,6 +333,103 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
   keyed on `$route.path`. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
   `useRefNavigation.js`) polls the DOM for ~1.5s so the short mount delay doesn't break it.
+- **Programmatic scrolling never animates** (`instantly()` in `useRefNavigation.js`). `html` carries
+  `scroll-behavior: smooth` for the reader's own anchor clicks, and `behavior: 'instant'` is NOT
+  enough to opt out of it: Safari only understood that value from **17.4**, so before this each of
+  `scrollToAnchor`'s two scrolls became an animation and the second interrupted the first — the
+  "search sometimes lands in the wrong place" an iPhone reader sees. The CSS is switched off around
+  the scroll and restored after; don't go back to trusting the option. `scrollToAnchor` also waits
+  for the **visual viewport** to hold still for two frames before aligning (capped at 500ms): on
+  iOS the search palette has the on-screen keyboard up, and dismissing it resizes the viewport for
+  ~300ms while Safari scrolls the page itself. `SearchModal` blurs its input before closing to start
+  that dismissal a beat earlier, and a `touchstart`/`wheel` from the reader cancels the 400ms
+  follow-up correction — once they are scrolling, the page is theirs.
+
+## Help pages
+
+`/help` is the guide's **contents**; each of its six topics is its own page at `/help/<slug>`,
+rendered by `HelpTopicView.vue` from `src/data/help.js`.
+
+- **The slug is derived, not stored:** `slugOf(section)` strips the `help-` prefix off the section
+  id (`help-tracker` → `/help/tracker`). One derivation shared by the index, the topic page and the
+  router, so the three cannot disagree about a topic's URL. **Renaming an id changes a public URL** —
+  add a redirect if you do.
+- **The old anchors still work.** Until 2026-08-25 this was one page with six `#help-*` anchors;
+  the `/help` route's `beforeEnter` sends such a hash to the page that section became
+  (`src/router/helpRedirects.test.js`).
+- **A section of the app links at its own topic**, not at the guide: "Section help"
+  (`labels.helpSection`) on the tracker home → `/help/tracker`, the roster list → `/help/rosters`,
+  the rules landing → `/help/rules`. Adding a topic means adding its link where it belongs.
+- **New topic = three edits:** the section in `help.js` (both locales, marker counts matching —
+  the parity rule applies here as to rule text), a `ROUTES` entry in `useSeoMeta.js`, and the path
+  in `scripts/gen-seo-routes.mjs` so it is crawlable and gets its index.html key on deploy.
+
+## Shared UI primitives
+
+Scoped styles do not cross a component boundary, so "these two screens need the same button"
+kept getting answered with a paste. **What is genuinely one control lives in `style.css`;** what
+is genuinely per-screen stays scoped and overrides it (a scoped selector is `0,2,0` with its
+`data-v` attribute and outranks the `0,1,0` global, so an override needs only the declarations
+it actually changes). `npm run dupes` fails when one rule body appears verbatim in 3+ components.
+
+- **What is global** (each with a `── Name ──` banner in `style.css`): `.btn-primary` /
+  `.btn-ghost` / `.btn-lg`, the modal chrome (see Modals), `.modal-body` + `.modal-list`,
+  `.seg` (a joined either/or inside a form), `.tabs`/`.tab` (a row of separate boxes, one lit),
+  `.back`, `.check` + `.check-note`, `.field > span`, `.help-btn`, `.fsection` /
+  `.fsection-title`, `.rc-sticky*` + `.issues-badge` (the roster wizard's footer bar), `.lead`,
+  `.split-block`, `.strat-grid`.
+- **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
+  PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
+  is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.
+- **What is deliberately NOT global:** `.hero`/`.hero-title` — a page hero is page identity
+  (landing 3.74rem, faction 3rem, changelog 2rem), and the four plain index pages agreeing is a
+  coincidence, not a contract. It is allowlisted in `scripts/check-css-dupes.mjs` with that
+  reason; add to that list rather than deleting the check.
+- **Repeated markup is a component, not a rule to copy.** The three tracker pickers
+  (mission / secondary / twist) drew the same expanding row three times; it is now
+  `components/tracker/PickerRow.vue`, and they differ only in what they slot into it.
+
+## Modals
+
+Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/Escape).
+
+- **The header chrome is global, in `style.css` ("Modal chrome"): `.modal-head`, `.mh-title`,
+  `.mh-sub`, `.mh-right`, `.mh-close`.** Not scoped to `BaseModal`, and this is the whole point:
+  a consumer's own `<template #header>` renders in **its** scope, which BaseModal's scoped rules
+  can never reach. That is why twelve dialogs each carried a private copy of the same four rules
+  — and why the thirteenth (`PhasePickerModal`) shipped a header in raw browser defaults until
+  2026-08-25. Don't re-add a local copy; a dialog that must differ overrides only the
+  declarations it cares about (its scoped `.modal-head` is `0,2,0` and outranks the global
+  `0,1,0`) — four do, for a two-line heading or a denser close button.
+- **Prefer the `title` prop over the `#header` slot.** BaseModal's own header is exactly heading
+  + close, already wired to `aria-labelledby`. Use the slot only for a header carrying more than
+  that (a subtitle, a VP counter, extra buttons).
+- **`.modal-body` is per-dialog** and deliberately NOT part of the chrome: twelve dialogs, twelve
+  paddings, no majority. Only its shared scroll behaviour (`overscroll-behavior: contain`) is
+  global. A new dialog has to set its own padding — nothing will do it for you.
+
+## Corners & surfaces
+
+**Corners are square.** `border-radius` is not a default we reach for — it is an exception that
+has to earn its place, and `npm run radii` fails the build of anyone who forgets.
+
+- Until 2026-08-25 the app carried **314 radius declarations in 100 files**, at 4px, 5px or 6px
+  depending on the day the file was written — cards, buttons and inputs each rounded three
+  different ways. None of it meant anything; it was sediment, not a system. All 300 of those were
+  deleted, not set to `0` (a screenful of no-op CSS in every component is worse than none).
+- The angular look was already the house style before the sweep, it just wasn't enforced:
+  `PageTabs` ("classic folder tabs, square corners"), `DatasheetCard`'s 10th-ed chamfered stat
+  boxes, and a dozen `@media` rules squaring cards once they bled to the screen edge.
+- **What is still allowed**, and nothing else — the list lives in `scripts/check-radii.mjs`:
+  circles (`50%`: spinners, dots, the round counter, list markers), the mobile bottom sheet's top
+  edge in `BaseModal` (the rounding is what says it slid up from the bottom), the focus ring, the
+  scrollbar thumb, and the search-hit highlight. The statistics bars were kept round at first and
+  squared on sight — on a page of square everything, two rounded strips read as a mistake.
+- Adding one is fine when it is a decision: put it in `ALLOWED` with the reason. Forgetting to is
+  what the check is for.
+- The flip side of square corners: **the frame does the work rounding used to do.** A surface is
+  told from its background by `--border`/`--bg-card`, so don't drop a border "because it looks
+  flat" — that is the only thing separating two panels now.
 
 ## Deployment
 

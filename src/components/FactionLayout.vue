@@ -3,17 +3,9 @@
     <div v-if="hero" class="hero">
       <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
       <h1 class="hero-title">{{ faction ? faction.name : labels.factionsHeading }}</h1>
-      <!-- Mobile-only page tabs: the desktop subnav (App.vue) is hidden ≤900px, where the
-           drawer is the only other way to switch between the three faction pages. -->
-      <nav v-if="faction" ref="tabsEl" class="faction-tabs" :aria-label="labels.navFactions">
-        <RouterLink
-          v-for="t in tabs"
-          :key="t.path"
-          :to="t.path"
-          class="faction-tab"
-          :class="{ active: isTabActive(t) }"
-        ><i class="faction-tab-icon" :class="t.icon"></i>{{ t.label }}</RouterLink>
-      </nav>
+      <!-- Page tabs (also the only way to switch between the three faction pages ≤900px,
+           where the desktop subnav in App.vue is hidden and only the drawer is left). -->
+      <PageTabs v-if="faction" ref="tabsEl" class="hero-tabs" :tabs="navTabs" :aria-label="labels.navFactions" />
     </div>
 
     <slot v-if="faction" />
@@ -28,8 +20,8 @@
       <TransitionGroup v-if="!tabsInView" name="fab">
         <RouterLink
           v-for="t in otherTabs"
-          :key="t.path"
-          :to="t.path"
+          :key="t.to"
+          :to="t.to"
           class="fab-btn"
           :title="t.label"
           :aria-label="t.label"
@@ -55,9 +47,10 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
+import PageTabs from './PageTabs.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { scrollToTop } from '../composables/useBackToTop.js'
@@ -68,6 +61,7 @@ import { useContributeMobileActions } from '../composables/useMobileActionBar.js
 const props = defineProps({ hero: { type: Boolean, default: true } })
 
 const route = useRoute()
+const router = useRouter()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -85,15 +79,19 @@ const tabs = computed(() => {
   return [
     // Army rule + detachments are merged onto the base page. Icons match the mobile
     // bottom nav (bi-shield-shaded = faction, bi-people-fill = units) — used by the FAB.
-    { path: base, label: l.factionRules, icon: 'bi bi-shield-shaded' },
+    { to: base, label: l.factionRules, icon: 'bi bi-shield-shaded' },
     // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
-    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'bi bi-people-fill' },
+    { to: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'bi bi-people-fill' },
     // Official GW FAQ & errata for the faction (src/data/factionFaq.json).
-    { path: `${base}/faq`, label: l.factionFaq, icon: 'bi bi-patch-question' },
+    { to: `${base}/faq`, label: l.factionFaq, icon: 'bi bi-patch-question' },
   ]
 })
 
-const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
+const isTabActive = (t) => route.path === t.to || (t.prefix && route.path.startsWith(t.to + '/'))
+
+// PageTabs draws whatever it is handed and asks the caller which one is open — here that is
+// the route, so the highlight follows navigation rather than a click.
+const navTabs = computed(() => tabs.value.map((t) => ({ ...t, active: isTabActive(t) })))
 
 // The tab FABs jump straight to either of the two tabs NOT currently open (Rules/Units/FAQ
 // minus the active one, in their original order) — one tap to any other page, no cycling.
@@ -107,9 +105,11 @@ let tabsObserver = null
 watch(tabsEl, (el) => {
   tabsObserver?.disconnect()
   tabsObserver = null
-  if (!el) { tabsInView.value = true; return }
+  // tabsEl is a component now, so what needs observing is its root <nav>, not the instance.
+  const node = el?.$el ?? el
+  if (!node) { tabsInView.value = true; return }
   tabsObserver = new IntersectionObserver(([entry]) => { tabsInView.value = entry.isIntersecting })
-  tabsObserver.observe(el)
+  tabsObserver.observe(node)
 })
 onBeforeUnmount(() => tabsObserver?.disconnect())
 
@@ -117,9 +117,29 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
 // the shared MobileUtilityBar (App.vue) whenever the hero tabs are scrolled out of view.
 useContributeMobileActions('faction-tabs', () =>
   faction.value && props.hero && !tabsInView.value
-    ? otherTabs.value.map((t) => ({ key: t.path, to: t.path, icon: t.icon, label: t.label }))
+    ? otherTabs.value.map((t) => ({ key: t.to, to: t.to, icon: t.icon, label: t.label }))
     : [],
 )
+
+// The per-unit page has no hero and no tabs of its own, and `.subnav` — where the desktop keeps
+// the same links — is hidden on mobile. So a phone had no way back to the faction's unit list at
+// all: you left through the drawer and walked in again through Factions → faction → Units. This
+// button is that way back, and it is offered at any scroll position, not only once scrolled down.
+const unitsTab = computed(() => tabs.value[1])
+useContributeMobileActions('faction-back-to-units', () =>
+  faction.value && !props.hero && route.params.unit
+    ? [{ key: 'units', icon: unitsTab.value.icon, label: unitsTab.value.label, onClick: backToUnits }]
+    : [],
+)
+
+// Back, not a fresh push, when this page WAS opened from that list: the router restores the saved
+// scroll position on a real back, so the reader returns to the row they tapped instead of the top
+// of a list that can run to ninety units.
+function backToUnits() {
+  const to = unitsTab.value.to
+  if (String(history.state?.back || '').startsWith(to)) router.back()
+  else router.push(to)
+}
 </script>
 
 <style scoped>
@@ -180,55 +200,9 @@ useContributeMobileActions('faction-tabs', () =>
   line-height: 1;
 }
 
-/* Angular 40k-style tabs under the faction name (both mobile and desktop — on desktop they
-   replace the App.vue subnav for faction hero pages). Classic folder tabs, square corners:
-   the closed (inactive) tabs are recessed (--bg-secondary) boxes whose bottom sits flush with a
-   full-width faction-accent line; the open (active) tab is a content-coloured (--bg-primary) box
-   with an accent frame whose bottom border matches the content, erasing the line under it so it
-   merges into the content. The open/closed states are told apart by their background colour. */
-.faction-tabs {
-  display: flex;
-  gap: 0;
+/* The tabs sit under the faction name; PageTabs itself brings no outer spacing. */
+.hero-tabs {
   margin-top: 1rem;
-  /* full-width faction-accent line the tabs sit on */
-  border-bottom: 1px solid var(--accent);
-}
-
-.faction-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: var(--text-muted);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-bottom: 1px solid var(--accent);
-  border-radius: 0;
-  padding: 0.55rem 1.3rem;
-  margin-bottom: -1px; /* overlap the container's accent line */
-  text-decoration: none;
-  transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
-}
-
-.faction-tab:hover {
-  color: var(--text-primary);
-}
-
-.faction-tab.active {
-  color: var(--accent);
-  background: var(--bg-primary);
-  border-color: var(--accent);
-  border-bottom-color: var(--bg-primary); /* erase the accent line under the open tab → merge with content */
-}
-
-/* Same icons as the desktop FAB and the mobile bottom nav — the visual link between
-   the three ways of reaching these pages. Slightly smaller than the tab text so the
-   display-font label stays the anchor. */
-.faction-tab-icon {
-  font-size: 0.9em;
 }
 
 .fsoon {
@@ -256,14 +230,6 @@ useContributeMobileActions('faction-tabs', () =>
 
 @media (max-width: 640px) {
   .hero-title { font-size: 2.2rem; }
-  /* Three tabs now share the row — tighten them so they fit on a phone without scrolling. */
-  .faction-tab {
-    flex: 1 1 0;
-    justify-content: center;
-    gap: 0.35rem;
-    font-size: 1rem;
-    padding: 0.5rem 0.4rem;
-  }
 }
 </style>
 

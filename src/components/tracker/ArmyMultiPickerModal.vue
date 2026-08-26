@@ -10,7 +10,7 @@
       </header>
     </template>
 
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <!-- Each option is a toggle. The cap is enforced by the store (a tap past `max` is a no-op), so
            the options are never disabled/faded — all rules stay readable while two are active. -->
       <button
@@ -55,31 +55,11 @@ const labels = computed(() => ui[locale.value])
 
 <style scoped>
 /* Header mirrors the other tracker picker modals (DetachmentPickerModal). */
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .pick-count { font-size: 0.85rem; font-family: var(--font-mono); color: var(--text-muted); font-style: normal; }
 .pick-count.full { color: var(--accent); }
 
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
+/* Roomier than the default list — these rows are cards, not one-liners. */
+.modal-list { gap: 0.4rem; }
 
 /* Option rows use the same tokens as the other tracker pickers (TwistPickerModal `.tp-item`,
    DetachmentPickerModal `.det`): bg-secondary tile + border, accent tint/border when selected.
@@ -93,7 +73,6 @@ const labels = computed(() => ui[locale.value])
   padding: 0.55rem 0.65rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 6px;
   cursor: pointer;
   text-align: left;
   font-family: inherit;

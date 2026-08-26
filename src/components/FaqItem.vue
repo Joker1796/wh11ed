@@ -32,7 +32,6 @@ const { renderInline, renderRichText } = useRenderInline()
 .faq-item {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -69,7 +68,6 @@ const { renderInline, renderRichText } = useRenderInline()
   height: 22px;
   min-width: 22px;
   background: var(--accent);
-  border-radius: 3px;
   font-weight: 700;
   font-size: 0.75rem;
   color: var(--text-on-accent);

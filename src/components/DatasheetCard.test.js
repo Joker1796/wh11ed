@@ -133,3 +133,150 @@ describe('DatasheetCard leader/attached-unit list', () => {
     expect(leaderNames(w)).toEqual(['Terminator Squad'])
   })
 })
+
+// The phone layout (≤560px) turns each weapon row into its own small card via CSS alone —
+// `tr { display: grid }`, `display: contents` on the name cell, and the column labels restored
+// from `data-label` since the shared `thead` is hidden. None of that is testable in jsdom, but
+// the markup contract it depends on is, and losing any part of it would silently flatten the
+// layout back to an unlabelled column of numbers.
+describe('DatasheetCard — weapon row markup the phone layout depends on', () => {
+  const sheet = {
+    name: 'Annihilation Barge',
+    ranged: [{ name: 'Gauss cannon', tags: ['LETHAL HITS'], range: '24"', a: '3', bs: '3+', s: '5', ap: '-2', d: '2' }],
+    melee: [{ name: 'Armoured bulk', tags: [], a: '3', ws: '4+', s: '6', ap: '0', d: '1' }],
+    keywords: ['Vehicle'],
+    factionKeywords: ['Necrons'],
+  }
+
+  it('labels every stat cell, with WS in melee where ranged has BS', () => {
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const labels = (i) => w.findAll('.ds-weapons')[i].findAll('tbody td[data-label]').map((c) => c.attributes('data-label'))
+    expect(labels(0)).toEqual(['Range', 'A', 'BS', 'S', 'AP', 'D'])
+    expect(labels(1)).toEqual(['Range', 'A', 'WS', 'S', 'AP', 'D'])
+  })
+
+  it('keeps the name and the ability tags in separate children of the name cell', () => {
+    // They become grid items in their own right on a phone (the name on the first line, the tags
+    // after the statline) — one merged text node could not be laid out that way.
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const cell = w.find('.ds-weapons tbody td.wname')
+    expect(cell.find('.wname-text').text()).toBe('Gauss cannon')
+    expect(cell.find('.wtags').text()).toContain('LETHAL HITS')
+  })
+
+  it('keeps the section caption in the header row, which the phone layout reuses', () => {
+    // On a phone the six stat headers are hidden and this first cell survives as the "Ranged
+    // Weapons" / "Melee Weapons" label above the stacked cards — the only thing telling the two
+    // blocks apart there. Removing it would leave the phone layout unlabelled.
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const captions = w.findAll('.ds-weapons').map((t) => t.find('thead th.wname').text())
+    expect(captions).toEqual(['Ranged Weapons', 'Melee Weapons'])
+  })
+
+  it('renders no tag wrapper at all for a weapon without tags', () => {
+    const w = mount(DatasheetCard, { props: { sheet } })
+    expect(w.findAll('.ds-weapons')[1].find('.wtags').exists()).toBe(false)
+  })
+})
+
+describe('DatasheetCard modifier notes', () => {
+  const note = (over) => ({ on: 'profile', stat: 't', op: 'add', value: 1, when: null, applied: true, ...over })
+
+  // Read in application order the footnotes are four rules' worth of lines with nothing between
+  // them. The heading is what tells a reader which source each number came from.
+  it('groups the notes by source and names each source', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations' }),
+          note({ kind: 'ability', from: 'led', owner: 'Fabius Bile', source: 'Enhanced Warriors', stat: 's', on: 'melee' }),
+          note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations', stat: 'm' }),
+          note({ kind: 'ability', from: 'self', owner: 'Chosen', source: 'Veterans of the Long War' }),
+          note({ kind: 'armyRule', det: null, source: 'Dark Pacts' }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mod-src-h').map((n) => n.text()))
+      .toEqual(['Detachment · Creations of Bile', 'Leader · Fabius Bile', 'Ability', 'Army rule'])
+    // …and the two detachment lines sit together under their one heading.
+    expect(w.findAll('.ds-mod-src-h')[0].element.nextElementSibling.textContent).toContain('Experimental Augmentations')
+  })
+
+  // Two lists, never one: what is in force now, and — off the table — what would be. A block
+  // headed "modifiers in play" must not list what is not in play.
+  it('puts what is not in force under a heading of its own', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'armyRule', source: 'Dark Pacts', applied: false, live: false, when: { en: 'while a pact is invoked', ru: 'x' } }),
+        ],
+      },
+    })
+    const heads = w.findAll('.ds-mods-h').map((n) => n.text())
+    expect(heads).toEqual(['Modifiers in play', 'Possible modifiers'])
+    const lists = w.findAll('.ds-mods')
+    expect(lists[0].text()).toContain('Cold Fervour')
+    expect(lists[0].text()).not.toContain('Dark Pacts')
+    expect(lists[1].text()).toContain('Dark Pacts')
+    // …and the second one is the collapsing block, closed.
+    expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+  })
+
+  // A core rule is the same for every army in every game, so against one roster it says nothing:
+  // Battle-shock's OC would otherwise be a line on every unit of every list being planned.
+  it('never offers a core rule as a possible modifier', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'core', source: 'Battle-shock', stat: 'oc', op: 'set', value: '-', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.text()).not.toContain('Battle-shock')
+  })
+
+  // In a game the card answers "what is true right now", so a modifier that is not in force is not
+  // the card's business at all — its condition and its switch live on the rule block below.
+  it('drops them entirely when the caller says a game is on', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        hidePossible: true,
+        sheet: sheet(),
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'core', source: 'Battle-shock', applied: false, live: false, when: { en: 'while Battle-shocked', ru: 'x' } }),
+        ],
+      },
+    })
+    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.find('.ds-mods').text()).not.toContain('Battle-shock')
+  })
+
+  // A modifier IS in force but had nothing computable to change (a dice value, no matching weapon
+  // row): it belongs with the ones that did rewrite a number, not with the waiting ones.
+  it('keeps a live modifier that changed nothing in the in-play list', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        hidePossible: true,
+        sheet: sheet(),
+        statNotes: [note({ kind: 'armyRule', source: 'Dark Pacts', value: 'D3', applied: false })],
+      },
+    })
+    expect(w.find('.ds-mods').text()).toContain('Dark Pacts')
+  })
+
+  // The heading already says which detachment it is; repeating it on every line was the noise
+  // this grouping exists to remove.
+  it('does not repeat the detachment on each line', () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet(), statNotes: [note({ kind: 'detachmentRule', det: 'Creations of Bile', source: 'Experimental Augmentations' })] },
+    })
+    expect(w.find('.ds-mod-src').text()).toBe('Experimental Augmentations')
+  })
+})

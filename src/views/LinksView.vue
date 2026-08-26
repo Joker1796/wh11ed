@@ -81,7 +81,6 @@ const LINKS = [
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 1.1rem 1.25rem;
   transition: border-top-color 0.15s, box-shadow 0.15s;
   text-decoration: none;

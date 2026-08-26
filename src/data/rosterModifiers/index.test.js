@@ -1,0 +1,356 @@
+import { describe, it, expect } from 'vitest'
+import { usableEntries } from './index.js'
+import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
+
+// Every faction file in this directory, read eagerly — this is a test, not the app (the app
+// loads one faction at a time; see index.js).
+const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./*.test.js'], { eager: true, import: 'default' })
+
+const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
+const OP = new Set(['add', 'set', 'improve', 'grant'])
+const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'core', 'ability'])
+
+const allEntries = Object.entries(files).flatMap(([file, data]) =>
+  (data?.entries || []).map((e) => ({ file, e })))
+
+describe('rosterModifiers data', () => {
+  it('ships a file per faction, each with the current format version', () => {
+    expect(Object.keys(files).length).toBeGreaterThanOrEqual(30)
+    for (const [file, data] of Object.entries(files)) {
+      expect(data.formatVersion, file).toBe(1)
+      expect(typeof data.slug, file).toBe('string')
+      expect(Array.isArray(data.entries), file).toBe(true)
+    }
+  })
+
+  it('identifies every record by a unique appdata uuid within its faction', () => {
+    // The uuid is the record's identity — it is what survives GW renaming a rule. Two records
+    // sharing one would make the generator's stale/orphan classification ambiguous.
+    for (const [file, data] of Object.entries(files)) {
+      const sids = (data.entries || []).map((e) => e.sid)
+      expect(new Set(sids).size, file).toBe(sids.length)
+    }
+  })
+
+  it('pins every record to the prose it was read from', () => {
+    for (const { file, e } of allEntries) {
+      // The appdata uuid, optionally suffixed with the datasheet it was attached to: 56 abilities
+      // are published once and printed on several datasheets, and each needs its own record
+      // (a different `ref.unit`). The uuid still leads, so the identity is unchanged.
+      expect(e.sid, `${file} ${e.name}`).toMatch(/^[0-9a-f-]{36}(:[a-z0-9-]+)?$/)
+      expect(e.hash, `${file} ${e.name}`).toMatch(/^[0-9a-f]{8}$/)
+      expect(typeof e.ver, `${file} ${e.name}`).toBe('number')
+    }
+  })
+
+  it('accepts effects only on a reviewed record', () => {
+    // The reverse — effects sitting on an unreviewed skeleton — would mean somebody authored a
+    // modifier and forgot to mark it read, and usableEntries would silently drop it.
+    for (const { file, e } of allEntries) {
+      if (e.effects?.length) expect(e.reviewed, `${file} ${e.name}`).toBe(true)
+    }
+  })
+
+  // A stratagem is spent for a stated window, and the window is the whole reason it can be applied
+  // at all: without it the card would keep the rewritten number for the rest of the battle.
+  it('gives every stratagem record with effects a duration', () => {
+    for (const { file, e } of allEntries) {
+      if (e.kind !== 'stratagem' || !e.effects?.length) continue
+      // 'round' is the window for "until the start of your next Command phase" and "until the end
+      // of the battle round" — longer than the player turn, shorter than the battle.
+      expect(['phase', 'turn', 'round', 'battle'], `${file} ${e.name}: dur`).toContain(e.dur)
+    }
+    // …and nothing else carries one, since nothing else is spent.
+    for (const { file, e } of allEntries) {
+      if (e.kind !== 'stratagem') expect(e.dur, `${file} ${e.name}: dur on a standing rule`).toBeUndefined()
+    }
+  })
+
+  it('validates every hand-authored effect', () => {
+    for (const { file, e } of allEntries) {
+      for (const [i, eff] of (e.effects || []).entries()) {
+        const where = `${file} ${e.name}`
+        expect(ON.has(eff.on), `${where}: on=${eff.on}`).toBe(true)
+        expect(OP.has(eff.op), `${where}: op=${eff.op}`).toBe(true)
+        expect(STAT.has(eff.stat), `${where}: stat=${eff.stat}`).toBe(true)
+        expect(['number', 'string'], where).toContain(typeof eff.value)
+        if (eff.scope != null) expect(Number.isInteger(eff.scope) && eff.scope >= 0, where).toBe(true)
+        // `improve` means "a lower number is better", which is only true of the roll-shaped
+        // characteristics. applyValue REFUSES it anywhere else, so an effect written that way
+        // reads as reviewed and silently does nothing — which is what happened to six AP
+        // modifiers (found 2026-08-23, the Triumph's Petals among them). For AP the reviewer
+        // writes `add: -1`, for Attacks `add: 1`.
+        if (eff.op === 'improve') {
+          expect(['sv', 'bs', 'ws', 'ld', 'inv'], `${where}: improve on ${eff.stat}`).toContain(eff.stat)
+        }
+        // A grant names a keyword or a weapon ability, so its value is always a non-empty string,
+        // and only `grant` may carry those two stats.
+        if (eff.op === 'grant') {
+          // `keyword` and `core` land on the unit (a keyword the rules read, a core ability the
+          // card prints on its Core line); `ability` lands on a weapon row.
+          expect(['keyword', 'core', 'ability'], where).toContain(eff.stat)
+          expect(typeof eff.value === 'string' && eff.value.length > 0, where).toBe(true)
+          const onUnit = eff.stat === 'keyword' || eff.stat === 'core'
+          expect(onUnit ? eff.on === 'unit' : eff.on !== 'unit' && eff.on !== 'profile', where).toBe(true)
+        } else if (eff.stat === 'ability' && eff.op === 'add') {
+          // The one non-grant use of `ability`: the number inside an ability the weapon ALREADY
+          // prints ("+1 to the value of that [RAPID FIRE]"). The value then carries the name and
+          // the amount, so it has to end in a number — a bare name has nothing to add to — and it
+          // lands on a weapon row like any other ability.
+          expect(/^\S.*\s-?\d+$/.test(String(eff.value)), `${where}: ability bump needs "NAME N"`).toBe(true)
+          expect(eff.on !== 'unit' && eff.on !== 'profile', where).toBe(true)
+        } else {
+          expect(['keyword', 'core', 'ability'].includes(eff.stat), where).toBe(false)
+        }
+        // A conditional effect must say its condition in BOTH languages: it is rendered as an
+        // annotation next to the characteristic, and a missing side would show blank in that
+        // locale. `null` is the deliberate "this always applies" value, not a missing field.
+        if (eff.when !== null) {
+          expect(typeof eff.when?.en, `${where}: when.en`).toBe('string')
+          expect(typeof eff.when?.ru, `${where}: when.ru`).toBe('string')
+          expect(eff.when.en.length, `${where}: when.en`).toBeGreaterThan(0)
+          expect(eff.when.ru.length, `${where}: when.ru`).toBeGreaterThan(0)
+          // …and its machine-readable half, so "cannot be automated" and "nobody has looked at
+          // this yet" can never look the same. A sentinel IS an answer; a missing `cond` is not.
+          // Two kinds are the exception: a STRATAGEM (being spent is itself the condition) and an
+          // ability set's OPTION (being the one picked is), both answered by the record's own id.
+          // `cond` there is only for what the rule asks ON TOP ("…against MONSTER targets") and
+          // may be absent.
+          if (e.kind !== 'stratagem' && !e.ref?.set) {
+            expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
+          }
+          for (const id of eff.cond || []) {
+            expect(isSentinel(id) || !!conditions[id], `${where}: unknown condition "${id}"`).toBe(true)
+          }
+        } else {
+          expect(eff.cond, `${where}: cond on an unconditional effect`).toBeUndefined()
+        }
+        // An "instead" variant names the effect it replaces, by index into this record's own
+        // effects. A dangling or self-referential index would silently suppress the wrong line —
+        // or nothing at all.
+        if (eff.alt !== undefined) {
+          expect(Number.isInteger(eff.alt), `${where}: alt`).toBe(true)
+          expect(eff.alt, `${where}: alt`).toBeGreaterThanOrEqual(0)
+          expect(eff.alt, `${where}: alt out of range`).toBeLessThan(e.effects.length)
+          expect(eff.alt, `${where}: alt points at itself`).not.toBe(i)
+          // An UNCONDITIONAL alternate would suppress its base forever, which is not what
+          // "instead" means — the replacement always depends on something.
+          expect(eff.when, `${where}: unconditional alternate`).not.toBeNull()
+        }
+        // WHOSE card the effect lands on. Only a record that hangs off a DATASHEET can address
+        // another unit — an ability printed on a Leader's card, a Kustom Force Field worn by one —
+        // and everything else rewrites the card its rule was already shown on, so a stray `target`
+        // there would apply to nobody and still look reviewed. `leader` is an ability's alone: a
+        // wargear rule pointing back at the Character has no way to say which item it came from.
+        // `aura` is the fourth: it addresses whole units at a range, so it reaches the bearer's own
+        // unit (Core Rules 22.01), the unit the bearer is attached to, and any other entry the
+        // player marks. Its keyword gate travels on the record (`ref.scopes`, read off the prose by
+        // the generator) — but not every aura has one: prose the extractor cannot read leaves it
+        // absent, and the effect applies ungated, the same fail-open direction ruleTargets takes.
+        if (eff.target !== undefined) {
+          expect(['self', 'unit', 'led', 'leader', 'aura'], `${where}: target`).toContain(eff.target)
+          // An ENHANCEMENT joined them on 2026-08-23, for `aura` alone: a relic that buffs units
+          // AROUND its bearer addresses other cards, so it needs the keyword gate and the chip an
+          // aura carries, while every other enhancement effect addresses its own bearer and would
+          // be applied to nobody if it claimed a target.
+          // …and a DETACHMENT RULE on the same day, also for `aura` alone: three of them hand out an
+          // aura ability by keyword ("friendly IMPERIAL KNIGHTS models have…") rather than by
+          // datasheet, so there is no entry to hang it on and the chip names the detachment instead.
+          // `led` joined them for an ENHANCEMENT on 2026-08-25: a relic whose prose addresses the
+          // bearer's UNIT ("models in the bearer's unit have the Deep Strike ability") reaches the
+          // unit he joined as well as his own card, which is the one direction 19.04 gives an
+          // enhancement beyond the single model it is worn by.
+          const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule']
+            : eff.target === 'led' ? ['ability', 'wargear', 'enhancement']
+              : ['ability', 'wargear']
+          expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
+          // A wargear rule addresses its bearer (no target), an aura's range, or the unit its
+          // bearer joined — `unit` where the rule reads "while the bearer is leading a unit"
+          // (19.04 puts the bearer inside it), `led` where it reads "models in the bearer's unit"
+          // and so already covers the bearer through his own card. Nothing else.
+          if (e.kind === 'wargear' && eff.target !== 'aura') {
+            expect(['unit', 'led'], `${where}: wargear target`).toContain(eff.target)
+          }
+          // A detachment rule addresses the WHOLE ARMY, so its aura is the one that may not fail
+          // open: without a gate read off the reach clause the buff would land on every unit in the
+          // list. The generator writes `ref.scopes` when it can read exactly one such clause
+          // (detachmentAuraScopes) and nothing when it cannot — and then this effect may not exist.
+          if (eff.target === 'aura' && e.kind === 'detachmentRule') {
+            expect(e.ref?.scopes?.length, `${where}: a detachment aura needs a keyword gate`).toBeGreaterThan(0)
+            expect(eff.scope, `${where}: a detachment aura is gated by ref.scopes, not by a scope index`).toBeUndefined()
+          }
+          expect(eff.target, `${where}: target 'self' is the default, leave it out`).not.toBe('self')
+        }
+        // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.
+        if (eff.only !== undefined) {
+          const keys = Object.keys(eff.only)
+          expect(keys.length, `${where}: only`).toBeGreaterThan(0)
+          for (const k of keys) {
+            expect(['tag', 'notTag', 'name', 'notName'], `${where}: only.${k}`).toContain(k)
+            // `notName` is the one list: the rules that need it name several weapons to leave out.
+            if (k === 'notName') {
+              expect(Array.isArray(eff.only.notName) && eff.only.notName.length > 0, `${where}: only.notName`).toBe(true)
+              for (const n of eff.only.notName) expect(typeof n, `${where}: only.notName`).toBe('string')
+            } else {
+              expect(typeof eff.only[k], `${where}: only.${k}`).toBe('string')
+            }
+          }
+          // It filters weapon ROWS, so an effect on a model profile has no business carrying one.
+          expect(eff.on, `${where}: only on a profile effect`).not.toBe('profile')
+        }
+      }
+    }
+  })
+
+  // The vocabulary is only worth having if it stays tied to the corpus: an id nothing uses is
+  // dead weight that reads as supported, and a label missing a locale would render blank on the
+  // switch that turns the effect on.
+  it('keeps the condition vocabulary in step with the records that use it', () => {
+    const used = new Set()
+    for (const { e } of allEntries) for (const eff of e.effects || []) for (const id of eff.cond || []) used.add(id)
+    for (const id of Object.keys(conditions)) {
+      expect(used.has(id), `condition "${id}" is defined but no effect uses it`).toBe(true)
+    }
+    for (const [id, c] of Object.entries(conditions)) {
+      expect(['army', 'unit', 'roster', 'clock'], `${id}.scope`).toContain(c.scope)
+      // A clock condition has to say WHAT it asks the clock: a phase (and whose) or a round window.
+      if (c.scope === 'clock') expect(!!c.phase || Array.isArray(c.rounds), `${id} asks the clock what?`).toBe(true)
+      expect(['phase', 'turn', 'round', 'battle'], `${id}.duration`).toContain(c.duration)
+      expect(c.label?.en?.length, `${id}.label.en`).toBeGreaterThan(0)
+      expect(c.label?.ru?.length, `${id}.label.ru`).toBeGreaterThan(0)
+    }
+    for (const [id, s] of Object.entries(SENTINELS)) {
+      expect(s.en?.length, `${id}.en`).toBeGreaterThan(0)
+      expect(s.ru?.length, `${id}.ru`).toBeGreaterThan(0)
+    }
+  })
+
+  it('answers only what it can actually answer', () => {
+    expect(isAnswerable(['waaagh-active'])).toBe(true)
+    expect(isAnswerable(['waaagh-active', 'unit-charged'])).toBe(true)
+    expect(isAnswerable(['never'])).toBe(false)
+    expect(isAnswerable(['blocked-subset'])).toBe(false)
+    // One un-answerable half is enough to keep the whole effect a note. A phase is answerable
+    // only in a game keeping phases, so a Waaagh!-in-the-Shooting-phase bonus is a note by default
+    // and a number once the clock is running.
+    expect(isAnswerable(['waaagh-active', 'phase-shooting'])).toBe(false)
+    expect(isAnswerable(['waaagh-active', 'phase-shooting'], { phases: true })).toBe(true)
+    // A battle-round window needs no clock setting — every game knows its round.
+    expect(isAnswerable(['rounds-3-5'])).toBe(true)
+    expect(isAnswerable(['made-this-up'])).toBe(false)
+    expect(isAnswerable([])).toBe(false)
+    expect(isAnswerable(undefined)).toBe(false)
+  })
+
+  // The card prints a granted core ability as a CLICKABLE keyword, and KeywordPopover resolves it
+  // by matching the rulebook's name against the START of the text. A qualifier therefore has to
+  // ride behind the name ("Feel No Pain 4+ (vs mortal wounds)"), never in front of it — and the
+  // qualifier itself is not optional: 94 of these grants only bite against mortal wounds or
+  // Psychic Attacks, and a bare "Feel No Pain 4+" on the Core line would be a plain error.
+  it('names a granted core ability the way the popover can resolve it', () => {
+    const CORE = ['Deadly Demise', 'Deep Strike', 'Feel No Pain', 'Fights First', 'Firing Deck',
+      'Hover', 'Infiltrators', 'Lone Operative', 'Scouts', 'Stealth']
+    for (const { file, e } of allEntries) {
+      for (const eff of e.effects || []) {
+        if (eff.stat !== 'core') continue
+        const where = `${file} ${e.name}: "${eff.value}"`
+        expect(CORE.some((c) => eff.value.startsWith(c)), where).toBe(true)
+        expect(eff.value, where).not.toMatch(/ against /i)   // spelled "(vs …)", one way only
+      }
+    }
+  })
+
+  // Aeldari's Battle Focus reaches the layer only if bodyText() keeps the EFFECT half of a
+  // trigger/effect block (see generator.test.js). The record is the end of that thread.
+  it('carries the Battle Focus manoeuvre that a truncated body hid', async () => {
+    const aeldari = await files['./aeldari.js']
+    const rec = aeldari.entries.find((e) => e.name === 'Battle Focus')
+    expect(rec?.effects).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stat: 'm', op: 'add', value: 2, cond: ['unit-manoeuvre-swift-as-the-wind'] }),
+    ]))
+  })
+
+  // The two detachment auras, pinned by their GATE: ruleScopes silently drops a "X, Y or Z"
+  // disjunction (Aeldari's Shepherds of the Dead keeps only WRAITHLORD of three keywords), so a
+  // gate is only as good as the reading behind it and a generator change must not move these.
+  it.each([
+    ['./leagues-of-votann.js', 'Mobile Sensor Relays', 'LEAGUES OF VOTANN INFANTRY'],
+    ['./thousand-sons.js', 'Ensorcelled Animus', 'SEKHETAR ROBOTS'],
+  ])('gates %s\'s aura on the unit it reaches', async (file, name, target) => {
+    const data = await files[file]
+    const rec = data.entries.find((e) => e.name === name)
+    expect(rec.ref.scopes).toEqual([{ targets: [target], excludes: [] }])
+    expect(rec.effects.some((eff) => eff.target === 'aura')).toBe(true)
+  })
+
+  it('exposes only reviewed records that actually carry an effect', () => {
+    const data = { entries: [
+      { reviewed: true, effects: [{ on: 'profile' }] },
+      { reviewed: true, effects: [] }, // reviewed and found to change nothing
+      { reviewed: false, effects: [{ on: 'profile' }] }, // authored but not signed off
+    ] }
+    expect(usableEntries(data)).toHaveLength(1)
+    expect(usableEntries(null)).toEqual([])
+  })
+})
+
+describe('core rules as a modifier source', () => {
+  it('states Battle-shock as one reviewed effect, on a condition the app can answer', async () => {
+    const { coreModifiers } = await import('./coreRules.js')
+    expect(coreModifiers).toHaveLength(1)
+    const [bs] = coreModifiers
+    expect(bs.kind).toBe('core')
+    expect(bs.effects).toEqual([{
+      on: 'profile', stat: 'oc', op: 'set', value: '-',
+      when: { en: 'while this unit is Battle-shocked', ru: 'пока отряд Battle-shocked' },
+      cond: ['unit-battle-shocked'],
+    }])
+    expect(conditions['unit-battle-shocked']).toBeTruthy()
+  })
+
+  it('is not globbed as a faction file', async () => {
+    expect(Object.keys(files).some((f) => f.includes('coreRules'))).toBe(false)
+  })
+})
+
+// A hint is a paraphrase of a printed rule, and it names the rule it paraphrases: the number is a
+// live cross-ref (renderInline turns `(01.07)` into one), so a section that got renumbered has to
+// be caught here rather than by a reader tapping a dead link.
+describe('the hints behind a game-state chip', () => {
+  const sectionIds = async () => {
+    const [b, a, r] = await Promise.all([
+      import('../basicRules.js'), import('../advancedRules.js'), import('../battleRound.js'),
+    ])
+    const ids = new Set()
+    const walk = (node) => {
+      if (Array.isArray(node)) return node.forEach(walk)
+      if (!node || typeof node !== 'object') return
+      if (typeof node.id === 'string' && node.id.startsWith('section-')) ids.add(node.id)
+      for (const v of Object.values(node)) walk(v)
+    }
+    walk([b.basicRules, a.advancedRules, r.battleRound])
+    return ids
+  }
+
+  it('writes every hint in both locales, and only for a state the core rules define', async () => {
+    const hinted = Object.entries(conditions).filter(([, c]) => c.hint)
+    expect(hinted.length).toBeGreaterThan(0)
+    for (const [id, c] of hinted) {
+      expect(c.hint.en, id).toBeTruthy()
+      expect(c.hint.ru, id).toBeTruthy()
+      expect(id.startsWith('unit-'), id).toBe(true)
+    }
+  })
+
+  it('points every hint at a section that still exists', async () => {
+    const ids = await sectionIds()
+    for (const [id, c] of Object.entries(conditions)) {
+      if (!c.hint) continue
+      for (const text of [c.hint.en, c.hint.ru]) {
+        for (const [, num] of text.matchAll(/\((\d{2}(?:\.\d{2}){1,2})\)/g)) {
+          expect(ids.has(`section-${num.replace(/\./g, '-')}`), `${id} → ${num}`).toBe(true)
+        }
+      }
+    }
+  })
+})

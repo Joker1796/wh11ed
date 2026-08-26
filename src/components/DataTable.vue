@@ -51,7 +51,6 @@ defineProps({
   overflow-x: auto;
   margin: 1.25rem 0;
   border: 1px solid var(--border);
-  border-radius: 6px;
 }
 
 td:last-child,

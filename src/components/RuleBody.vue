@@ -252,7 +252,6 @@ p {
 
 .flow-list {
   border: 1px solid var(--border);
-  border-radius: 4px;
   margin: 0.5rem 0 0.7rem;
   overflow: hidden;
 }
@@ -279,7 +278,6 @@ p {
 
 .result-table {
   border: 1px solid var(--border);
-  border-radius: 4px;
   overflow: hidden;
   margin: 0.5rem auto 0.7rem;
 }
@@ -329,7 +327,6 @@ p {
   display: block;
   max-width: 100%;
   margin: 0.5rem 0;
-  border-radius: 4px;
 }
 
 /* A "type card" (◈…) — move/shoot/charge/fight/deploy TYPE rules. Paired with the
@@ -347,7 +344,6 @@ p {
    both themes without hand-tuning two separate palettes. */
 .info-card {
   border: 1px solid color-mix(in srgb, var(--text-primary) 18%, var(--bg-card));
-  border-radius: 6px;
   overflow: hidden;
   margin: 0.5rem 0;
   font-size: 0.88rem;

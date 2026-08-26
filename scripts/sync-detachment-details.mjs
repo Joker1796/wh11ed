@@ -39,7 +39,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, loadJson, loadModule, sourceIds as sourceIdsMap, table as read } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, loadJson, loadModule, norm, sourceIds as sourceIdsMap, table as read } from './lib/sync-common.mjs'
 
 
 // Common words that appear in nearly every detachment rule regardless of content — excluded from
@@ -76,6 +76,16 @@ for (const r of bp) {
 }
 
 // appdata detachmentId → [{ title, bullets }]
+// The detachment TAG ("this detachment has the DYNASTY tag and cannot be taken with another
+// DYNASTY detachment", core rules 25.04). wh11ed carries it as `detachment.unique`, shown on the
+// reference page and enforced by the roster editor, and it comes from the mfm scrape — which is
+// exactly the kind of source that can go quiet after a site change. This checks it against
+// appdata's own structural table. A tag lost silently means the editor stops barring an illegal
+// pair, so the drift has to be loud.
+const keywordName = new Map(read('keyword.json').map((k) => [k.id, k.localisations?.en?.name]))
+const tagByUuid = new Map()
+for (const r of read('detachment_unique_keyword.json')) tagByUuid.set(r.detachmentId, keywordName.get(r.keywordId))
+
 const detailsByDetachment = new Map()
 for (const r of read('detachment_detail.json')) {
   const arr = detailsByDetachment.get(r.detachmentId) || []
@@ -102,6 +112,8 @@ const THRESHOLD = 0.7
 const files = fs.readdirSync(path.join(ROOT, 'src/data/factions')).filter((f) => f.endsWith('.js') && f !== 'index.js')
 
 const flagged = []
+const tagDrift = []
+let tagsOk = 0
 let scanned = 0
 let unbridged = 0
 let noDetail = 0
@@ -118,6 +130,11 @@ for (const f of files) {
       unbridged++
       continue
     }
+    const appTag = tagByUuid.get(uuid)
+    const ourTag = d.unique
+    if (norm(appTag) !== norm(ourTag)) tagDrift.push(`${slug} · ${d.name}: wh11ed ${ourTag ? `«${ourTag}»` : '—'} vs appdata ${appTag ? `«${appTag}»` : '—'}`)
+    else if (ourTag) tagsOk++
+
     const details = detailsByDetachment.get(uuid)
     if (!details?.length) {
       noDetail++
@@ -141,6 +158,15 @@ for (const f of files) {
 console.log(
   `detachment Restrictions/Keywords: ${scanned} wh11ed detachments scanned, ${unbridged} not bridged by sourceIds, ${noDetail} have no appdata detail row, ${flagged.length} FLAGGED.`,
 )
+console.log(`detachment tags: ${tagsOk} agree with appdata, ${tagDrift.length} differ.`)
+if (tagDrift.length) {
+  console.log('\n  ⚠ detachment tag differs between wh11ed and appdata (a lost tag stops the roster editor barring an illegal pair):')
+  for (const line of tagDrift) console.log(`    ${line}`)
+  console.log(
+    "\n  The two ONSLAUGHT detachments (World Eaters) are known to be wh11ed-only — appdata's table\n"
+    + '  has never carried them. Anything else here is either a new tag to add or a scrape that broke.',
+  )
+}
 if (flagged.length) {
   console.log("\n  ✗ appdata carries a Restrictions/Keywords bullet this detachment's wh11ed rule body appears to be missing:")
   for (const r of flagged) {

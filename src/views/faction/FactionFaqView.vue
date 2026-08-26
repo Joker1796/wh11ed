@@ -122,18 +122,6 @@ const activeView = computed(() => {
 </script>
 
 <style scoped>
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
-
-.fsection-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
-}
 
 .faq-updated {
   font-size: 0.8rem;
@@ -145,7 +133,7 @@ const activeView = computed(() => {
   margin-top: 0.15rem;
 }
 
-/* Errata | FAQ segmented switch (pill buttons, same look as the stratagems filters). */
+/* Errata | FAQ segmented switch (same look as the stratagems filters). */
 .faq-switch {
   display: flex;
   gap: 0.4rem;
@@ -158,7 +146,6 @@ const activeView = computed(() => {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -190,7 +177,6 @@ const activeView = computed(() => {
 .errata-block {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 0.8rem 1rem;
 }
 
@@ -224,7 +210,4 @@ const activeView = computed(() => {
   font-size: 1rem;
 }
 
-@media (max-width: 640px) {
-  .fsection-title { font-size: 1.6rem; }
-}
 </style>

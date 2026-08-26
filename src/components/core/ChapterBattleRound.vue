@@ -96,10 +96,3 @@ function expandSteps(subs) {
   return out
 }
 </script>
-
-<style scoped>
-.split-block {
-  margin-bottom: 1rem;
-  scroll-margin-top: var(--header-total);
-}
-</style>

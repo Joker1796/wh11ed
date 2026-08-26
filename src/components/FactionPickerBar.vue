@@ -132,7 +132,7 @@ function pickChapter(id) {
   border-bottom: 1px solid var(--border);
 }
 
-/* Both pickers are compact "label + current value + chevron" pill buttons on every
+/* Both pickers are compact "label + current value + chevron" buttons on every
    viewport — no separate eyebrow line, so the pinned bar stays low. Side by side on
    wide screens, stacked on narrow. */
 .fpb-inner {
@@ -155,7 +155,7 @@ function pickChapter(id) {
   }
 }
 
-/* Trigger — a compact pill that opens the picker modal. The label rides inside it as a
+/* Trigger — a compact button that opens the picker modal. The label rides inside it as a
    quiet dim prefix (no eyebrow line above), keeping the whole bar to a single row height. */
 .fpb-trigger {
   flex: 1;
@@ -167,7 +167,6 @@ function pickChapter(id) {
   min-height: 34px;
   padding: 0.3rem 0.65rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;

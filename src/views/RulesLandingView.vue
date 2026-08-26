@@ -2,6 +2,8 @@
   <div class="rules-landing">
     <div class="hero">
       <h1 class="hero-title">{{ labels.navRules }}</h1>
+      <!-- Same door the tracker and the roster list carry: this section's page of the guide. -->
+      <RouterLink class="hero-help" to="/help/rules">{{ labels.helpSection }}</RouterLink>
     </div>
 
     <div class="section-grid">
@@ -51,6 +53,8 @@ const t = computed(() => rulesLanding[locale.value])
   color: var(--text-primary);
 }
 
+.hero-help { display: inline-block; margin-top: 0.3rem; color: var(--accent); font-size: 0.85rem; }
+
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -62,7 +66,6 @@ const t = computed(() => rulesLanding[locale.value])
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 1.25rem 1.35rem;
   transition: border-top-color 0.15s, box-shadow 0.15s;
   text-decoration: none;
@@ -85,7 +88,6 @@ const t = computed(() => rulesLanding[locale.value])
   font-family: var(--font-mono);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   padding: 2px 7px;
-  border-radius: 2px;
 }
 
 .section-card-title {

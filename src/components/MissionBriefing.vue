@@ -48,7 +48,6 @@ defineProps({
 .m-action {
   margin: 0.5rem 0;
   border: 1px solid var(--border);
-  border-radius: 5px;
   overflow: hidden;
   background: var(--bg-secondary);
 }

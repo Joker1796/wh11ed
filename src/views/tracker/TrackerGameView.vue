@@ -97,24 +97,4 @@ function backToTracker() {
   gap: 0.75rem;
   margin-top: 1.5rem;
 }
-.btn-primary {
-  padding: 0.65rem 1.5rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.92rem;
-  cursor: pointer;
-}
-.btn-ghost {
-  padding: 0.65rem 1.3rem;
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  font-size: 0.92rem;
-  cursor: pointer;
-}
-.btn-ghost:hover { color: var(--text-primary); border-color: var(--accent); }
 </style>

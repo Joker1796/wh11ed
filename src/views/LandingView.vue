@@ -6,6 +6,7 @@
     </div>
 
     <p class="landing-desc">{{ t.description }}</p>
+    <p class="landing-help"><RouterLink to="/help">{{ t.footer.helpLink }} →</RouterLink></p>
 
     <div class="section-grid">
       <RouterLink
@@ -73,6 +74,14 @@ const t = computed(() => landing[locale.value])
   font-size: 1rem;
 }
 
+.landing-help {
+  text-align: center;
+  margin: -0.6rem 0 1.4rem;
+  font-size: 0.88rem;
+}
+.landing-help a { color: var(--accent); text-decoration: none; }
+.landing-help a:hover { text-decoration: underline; }
+
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -84,7 +93,6 @@ const t = computed(() => landing[locale.value])
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 1.25rem 1.35rem;
   transition: border-top-color 0.15s, box-shadow 0.15s;
   text-decoration: none;
@@ -107,7 +115,6 @@ const t = computed(() => landing[locale.value])
   font-family: var(--font-mono);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   padding: 2px 7px;
-  border-radius: 2px;
 }
 
 .section-card-title {

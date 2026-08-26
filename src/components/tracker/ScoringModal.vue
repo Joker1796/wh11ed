@@ -104,28 +104,16 @@ function toggleBriefing() {
 </script>
 
 <style scoped>
-.modal-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0.1rem 0 0; }
-.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+/* The heading here is two lines deep, so the close button rides at the top of it rather than
+   centred against the whole block. */
+.modal-head { align-items: flex-start; }
 .mh-vp { font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-size: 0.95rem; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 32px; min-height: 32px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-.modal-body { padding: 0.5rem 0.9rem 0.9rem; overflow-y: auto; }
+/* Denser header than the default. */
+.mh-close { min-width: 32px; min-height: 32px; }
 .brief-toggle {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
   width: 100%; margin-top: 0.35rem; padding: 0.45rem 0.7rem;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border);
   color: var(--text-primary); font-size: 0.78rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer;
 }
@@ -141,7 +129,6 @@ function toggleBriefing() {
   color: #1a1206;
   background: #c8961e;
   border: 1px solid #a87c14;
-  border-radius: 6px;
   cursor: pointer;
 }
 .redraw-btn:hover { background: #d8a52a; }
@@ -149,7 +136,7 @@ function toggleBriefing() {
 .m-bhead { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem; }
 .kind {
   font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-  padding: 1px 5px; border-radius: 2px;
+  padding: 1px 5px;
 }
 .kind.fixed { background: #b3401b; color: #fff; }
 .kind.tactical { background: #1f3a5f; color: #fff; }
@@ -161,7 +148,6 @@ function toggleBriefing() {
   gap: 0.55rem;
   padding: 0.5rem 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   margin-top: 0.35rem;
   cursor: pointer;
   background: var(--bg-secondary);
@@ -186,7 +172,6 @@ function toggleBriefing() {
   gap: 0.4rem;
   margin: 0 0 0.5rem;
   padding: 0.4rem 0.6rem;
-  border-radius: 5px;
   background: var(--bg-secondary);
   border: 1px dashed var(--border);
   font-size: 0.76rem;

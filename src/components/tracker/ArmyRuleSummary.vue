@@ -44,6 +44,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { tracks } from '../../data/trackerOptions.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const props = defineProps({ game: { type: Object, default: null } })
@@ -54,12 +55,10 @@ const game = computed(() => props.game || current.value)
 
 const open = ref(false)
 
-// Tracking opt-in gate, mirroring RoundTracker: per-player trackArmyYou/Opp, falling back to the
-// legacy single trackArmyRule flag, defaulting to on.
+// Tracking opt-in gate, the same one RoundTracker applies: per-player trackArmyYou/Opp, through
+// the option table's reader so the legacy flag and the missing-flag default are answered once.
 function trackedFor(g, pl) {
-  const s = g.settings || {}
-  const key = (pl.isYou ?? false) ? s.trackArmyYou : s.trackArmyOpp
-  return (key ?? s.trackArmyRule ?? true) !== false
+  return tracks(g.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
 }
 // Did the player actually record anything? (Tracking defaults on, so an untouched mechanic would
 // otherwise show an empty block on games where nobody used it.)
@@ -160,13 +159,13 @@ watch([game, locale], build, { immediate: true })
 .as-toggle {
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
   width: 100%; padding: 0.6rem 1rem;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border);
   color: var(--text-primary); font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 .as-toggle:hover { border-color: var(--accent); }
 .as-body { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
 .as-player {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem;
+  background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
 .as-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.15rem; }
 .as-mech { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.55rem; }
@@ -180,7 +179,6 @@ watch([game, locale], build, { immediate: true })
   flex-shrink: 0;
   min-width: 1.9rem;
   padding: 0.1rem 0.35rem;
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-dim);
   font-size: 0.72rem;

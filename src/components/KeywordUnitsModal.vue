@@ -2,7 +2,7 @@
   <BaseModal :title="title" max-width="480px" @close="$emit('close')">
     <!-- `modal-body` carries the global `overscroll-behavior: contain` (style.css) — see
          FactionDetachmentPickerModal.vue's identical comment. -->
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <RouterLink
         v-for="u in units"
         :key="u.id"
@@ -40,13 +40,6 @@ const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', pro
 </script>
 
 <style scoped>
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
 
 @media (max-width: 560px) {
   .modal-body {
@@ -62,7 +55,6 @@ const title = computed(() => labels.value.dsUnitsWithKeyword.replace('{kw}', pro
   padding: 0.5rem 0.65rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 4px;
   text-decoration: none;
   transition: border-color var(--motion-fast), background var(--motion-fast);
 }

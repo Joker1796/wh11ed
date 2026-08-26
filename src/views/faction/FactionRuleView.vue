@@ -108,10 +108,6 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
 </script>
 
 <style scoped>
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
 
 /* Detachment meta (DP / disposition / unique) */
 .det-meta {
@@ -129,21 +125,12 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   color: var(--text-muted);
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 2px 7px;
 }
 
 .det-meta-unique {
   color: var(--accent);
   border-color: var(--accent);
-}
-
-.fsection-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
 }
 
 /* RU translation of the detachment name — small muted line tucked under the heading */
@@ -193,7 +180,6 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--accent);
-  border-radius: 0 0 6px 6px;
   padding: 0.9rem 1.1rem 1rem;
 }
 
@@ -235,7 +221,6 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   letter-spacing: 1px;
   color: var(--accent);
   border: 1px solid var(--accent);
-  border-radius: 3px;
   padding: 1px 5px;
 }
 
@@ -269,14 +254,10 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   padding: 0.5rem 0.7rem;
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border-left: 3px solid var(--accent);
-  border-radius: 0 4px 4px 0;
   font-size: 0.82rem;
   font-style: italic;
   line-height: 1.45;
   color: var(--text-muted);
 }
 
-@media (max-width: 640px) {
-  .fsection-title { font-size: 1.6rem; }
-}
 </style>

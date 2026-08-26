@@ -38,7 +38,6 @@ defineProps({
   letter-spacing: 1.5px;
   text-transform: uppercase;
   padding: 0.2rem 0.6rem;
-  border-radius: 2px 2px 0 0;
   margin-bottom: 0;
 }
 

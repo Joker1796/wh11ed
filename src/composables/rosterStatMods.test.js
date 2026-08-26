@@ -1,0 +1,1012 @@
+import { describe, it, expect } from 'vitest'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching } from './rosterStatMods.js'
+
+const sheet = () => ({
+  name: 'Skorpekh Destroyers',
+  profiles: [{ name: 'Skorpekh Destroyers', m: '6"', t: '6', sv: '4+', w: '3', ld: '7+', oc: '1' }],
+  ranged: [{ name: 'Gauss cannon', a: '3', bs: '3+', s: '5', ap: '-2', d: '2' }],
+  melee: [{ name: 'Hyperphase weapon', a: '4', ws: '3+', s: '6', ap: '-2', d: '2' }, { name: 'Plasmacyte', a: '1', ws: '5+', s: '3', ap: '0', d: 'D3' }],
+})
+
+const destroyer = ['Skorpekh Destroyers', 'Destroyer Cult', 'Infantry', 'Necrons']
+const warrior = ['Necron Warriors', 'Battleline', 'Infantry', 'Necrons']
+
+const coldFervour = {
+  name: 'Cold Fervour',
+  det: 'Cursed Legion',
+  kind: 'detachmentRule',
+  body: [
+    '▪ Add 2 to the Strength characteristic of weapons equipped by Destroyer Cult models from your army.',
+    '▪ …add 2 to the Strength characteristic of weapons equipped by friendly Necrons models (excluding Destroyer Cult, Monster and Titanic models).',
+  ].join('\n'),
+  effects: [
+    { scope: 0, on: 'weapon', stat: 's', op: 'add', value: 2, when: null },
+    { scope: 1, on: 'weapon', stat: 's', op: 'add', value: 2, when: { en: 'after a kill', ru: 'после убийства' } },
+  ],
+}
+
+describe('applyValue', () => {
+  it('adds to a plain characteristic', () => {
+    expect(applyValue('5', 'add', 2)).toBe('7')
+    expect(applyValue('5', 'add', -1)).toBe('4')
+  })
+
+  it('keeps the inch mark on a distance', () => {
+    expect(applyValue('6"', 'add', 3)).toBe('9"')
+  })
+
+  it('improves a roll downwards and never past 2+', () => {
+    expect(applyValue('4+', 'improve', 1)).toBe('3+')
+    expect(applyValue('2+', 'improve', 1)).toBe('2+')
+    expect(applyValue('3+', 'add', 1)).toBe('4+') // a worsening modifier still goes up
+    expect(applyValue('6+', 'add', 2)).toBe('6+') // …and never past 6+
+  })
+
+  it('sets a value verbatim', () => {
+    expect(applyValue('—', 'set', '5+')).toBe('5+')
+  })
+
+  it('grants a characteristic the sheet never printed', () => {
+    // "The bearer has a 5+ invulnerable save" on a unit with no printed invulnerable.
+    expect(applyValue(undefined, 'set', '5+')).toBe('5+')
+  })
+
+  it('keeps Armour Penetration signed and unclamped', () => {
+    // AP prints negative and "improve the AP by 1" is authored as add:-1 — clamping at zero
+    // would silently turn -3 into 0, the single most damaging rounding this file could do.
+    expect(applyValue('-2', 'add', -1)).toBe('-3')
+    expect(applyValue('0', 'add', -1)).toBe('-1')
+  })
+
+  it('refuses to invent arithmetic on a dice expression', () => {
+    // "D6+2" plus 1 has no honest answer — the caller turns this into an annotation.
+    expect(applyValue('D6+2', 'add', 1)).toBeNull()
+    expect(applyValue('', 'add', 1)).toBeNull()
+    expect(applyValue('5', 'improve', 1)).toBeNull() // improve is for rolls, not plain numbers
+  })
+})
+
+describe('applyStatMods', () => {
+  it('does nothing at all without records', () => {
+    const s = sheet()
+    const out = applyStatMods(s, [], destroyer)
+    expect(out.sheet).toBe(s) // identity preserved — no needless re-render
+    expect(out.notes).toEqual([])
+    expect(out.marks).toEqual([])
+  })
+
+  it('applies an unconditional effect and marks the cells it rewrote', () => {
+    const out = applyStatMods(sheet(), [coldFervour], destroyer)
+    expect(out.sheet.ranged[0].s).toBe('7')
+    expect(out.sheet.melee[0].s).toBe('8')
+    expect(out.marks).toEqual(expect.arrayContaining(['ranged:s:0', 'melee:s:0', 'melee:s:1']))
+    expect(out.notes.find((n) => n.applied)).toMatchObject({ source: 'Cold Fervour', stat: 's', value: 2 })
+  })
+
+  it('never rewrites a number for a conditional effect', () => {
+    // The Necron Warrior is covered by Cold Fervour's SECOND bullet, which is conditional.
+    const before = sheet()
+    const out = applyStatMods(before, [coldFervour], warrior)
+    expect(out.sheet.ranged[0].s).toBe('5')
+    expect(out.sheet.melee[0].s).toBe('6')
+    expect(out.marks).toEqual([])
+    const note = out.notes.find((n) => n.when)
+    expect(note.applied).toBe(false)
+    expect(note.when.ru).toBe('после убийства')
+  })
+
+  it('binds an effect to its own statement of the rule', () => {
+    // Bullet 0 names DESTROYER CULT; a Necron Warrior must not get its unconditional +2.
+    const out = applyStatMods(sheet(), [coldFervour], warrior)
+    expect(out.notes.some((n) => n.applied)).toBe(false)
+  })
+
+  it('leaves a value it cannot compute alone but still reports the modifier', () => {
+    const dmg = { ...coldFervour, effects: [{ scope: 0, on: 'melee', stat: 'd', op: 'add', value: 1, when: null }] }
+    const s = sheet()
+    const out = applyStatMods(s, [dmg], destroyer)
+    expect(out.sheet.melee[0].d).toBe('3') // "2" is computable
+    expect(out.sheet.melee[1].d).toBe('D3') // "D3" is not — untouched
+    expect(out.notes).toHaveLength(1)
+  })
+
+  it('applies an enhancement to its bearer without consulting the keyword layer', () => {
+    const enh = {
+      name: 'Tuff Git', det: 'War Horde', kind: 'enhancement',
+      body: 'The bearer has +1 Toughness.',
+      effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }],
+    }
+    const out = applyStatMods(sheet(), [enh], destroyer)
+    expect(out.sheet.profiles[0].t).toBe('7')
+    expect(out.marks).toContain('profile:t:0')
+  })
+
+  it('stacks two modifiers on the same cell instead of the second overwriting the first', () => {
+    // Both read the value as it stands, not the printed one — otherwise a unit under an
+    // enhancement's +2 and a detachment rule's +1 ends up at +1.
+    const plusTwo = { ...coldFervour, name: 'A', effects: [{ scope: 0, on: 'melee', stat: 'a', op: 'add', value: 2, when: null }] }
+    const plusOne = { ...coldFervour, name: 'B', effects: [{ scope: 0, on: 'melee', stat: 'a', op: 'add', value: 1, when: null }] }
+    const out = applyStatMods(sheet(), [plusTwo, plusOne], destroyer)
+    expect(out.sheet.melee[0].a).toBe('7') // printed 4, +2, +1
+  })
+
+  it('keeps both granted weapon abilities when two rules grant one each', () => {
+    const grant = (name, value) => ({
+      name, det: 'D', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value, when: null }],
+    })
+    const out = applyStatMods(sheet(), [grant('A', 'ASSAULT'), grant('B', 'RAPID FIRE 1')], destroyer)
+    expect(out.sheet.ranged[0].tags).toEqual(['ASSAULT', 'RAPID FIRE 1'])
+  })
+
+  it('does not add a weapon ability the row already prints', () => {
+    const s = sheet()
+    s.ranged[0].tags = ['ASSAULT']
+    const grant = { name: 'A', det: 'D', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'assault', when: null }] }
+    const out = applyStatMods(s, [grant], destroyer)
+    expect(out.sheet.ranged[0].tags).toEqual(['ASSAULT'])
+    expect(out.marks).toEqual([])
+  })
+
+  // "Dead Shiny Shootas": ranged attacks get [RAPID FIRE 1] — OR, if the attack already has RAPID
+  // FIRE, +1 to that value. The two halves are one rule, authored as a pair of effects whose
+  // `only` clauses are each other's inverse, so every row is hit by exactly one of them.
+  describe('an ability the weapon already has, with a bigger number', () => {
+    const deadShiny = {
+      name: 'Dead Shiny Shootas', det: 'More Dakka!', kind: 'enhancement', body: 'x',
+      effects: [
+        { on: 'ranged', stat: 'ability', op: 'grant', value: 'RAPID FIRE 1', only: { notTag: 'RAPID FIRE' }, when: null },
+        { on: 'ranged', stat: 'ability', op: 'add', value: 'RAPID FIRE 1', only: { tag: 'RAPID FIRE' }, when: null },
+      ],
+    }
+    const orkSheet = (tags) => {
+      const s = sheet()
+      s.ranged = [{ name: 'Shoota', tags, a: '2', bs: '5+', s: '4', ap: '0', d: '1' }]
+      return s
+    }
+
+    it('bumps the printed value instead of adding a second copy', () => {
+      const out = applyStatMods(orkSheet(['RAPID FIRE 1']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 2'])
+      expect(out.marks).toContain('ranged:tags:0')
+    })
+
+    it('counts up from whatever the datasheet prints', () => {
+      const out = applyStatMods(orkSheet(['RAPID FIRE 2', 'TWIN-LINKED']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 3', 'TWIN-LINKED'])
+    })
+
+    // The other half of the same rule, on a row the bump cannot touch.
+    it('grants it outright where the weapon has none', () => {
+      const out = applyStatMods(orkSheet(['DEVASTATING WOUNDS']), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['DEVASTATING WOUNDS', 'RAPID FIRE 1'])
+    })
+
+    // The regression the pair itself produced: run in order on one evolving sheet, the grant added
+    // RAPID FIRE 1 and the bump then found it and made it 2 — every weapon taking BOTH halves of an
+    // either/or. `only` is judged against the row as the record found it, so each row takes one.
+    it('never lets one half of the rule feed the other', () => {
+      const out = applyStatMods(orkSheet([]), [deadShiny], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 1'])
+    })
+
+    // …and that has to hold after some earlier record has already forced the working copy into
+    // existence, which is when the "as found" rows stop being the original object.
+    it('holds when another modifier wrote to the sheet first', () => {
+      const plusOne = { name: 'Earlier', det: 'D', kind: 'detachmentRule', body: 'x',
+        effects: [{ on: 'ranged', stat: 'a', op: 'add', value: 1, when: null }] }
+      const out = applyStatMods(orkSheet([]), [plusOne, deadShiny], destroyer)
+      expect(out.sheet.ranged[0].a).toBe('3')
+      expect(out.sheet.ranged[0].tags).toEqual(['RAPID FIRE 1'])
+    })
+
+    // An ability with no number of its own cannot be bumped, and guessing one would be worse than
+    // leaving it: the note still says what the rule does, the sheet just does not lie about it.
+    it('leaves a numberless ability alone', () => {
+      const bump = { name: 'B', det: 'D', kind: 'enhancement', body: 'x',
+        effects: [{ on: 'ranged', stat: 'ability', op: 'add', value: 'TWIN-LINKED 1', only: { tag: 'TWIN-LINKED' }, when: null }] }
+      const out = applyStatMods(orkSheet(['TWIN-LINKED']), [bump], destroyer)
+      expect(out.sheet.ranged[0].tags).toEqual(['TWIN-LINKED'])
+      expect(out.marks).toEqual([])
+      expect(out.notes[0].applied).toBe(false)
+    })
+  })
+
+  it('reports a granted keyword instead of touching the sheet', () => {
+    const grant = { name: 'Destroyer Ankh', det: 'Cursed Legion', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Destroyer Cult', when: null }] }
+    const s = sheet()
+    const out = applyStatMods(s, [grant], destroyer)
+    expect(out.sheet).toBe(s)
+    expect(out.keywords).toEqual([{ kw: 'Destroyer Cult', source: 'Destroyer Ankh', det: 'Cursed Legion' }])
+  })
+
+  it('does not mutate the sheet it was given', () => {
+    const s = sheet()
+    applyStatMods(s, [coldFervour], destroyer)
+    expect(s.ranged[0].s).toBe('5')
+    expect(s.melee[0].s).toBe('6')
+  })
+
+  it('still applies when the rule names a keyword no unit in the faction has', () => {
+    // Mirrors ruleTargets.js's third escape: the prose block shows such a rule to everyone, so
+    // its reviewed modifier must not silently apply to nobody.
+    const stale = {
+      name: 'Tyrannical Court', det: 'Lords of Dread', kind: 'detachmentRule',
+      body: 'Improve the Objective Control characteristic of Chaos Knights Character models from your army by 2.',
+      effects: [{ on: 'profile', stat: 'oc', op: 'add', value: 2, when: null }],
+    }
+    const out = applyStatMods(sheet(), [stale], destroyer, [destroyer, warrior])
+    expect(out.sheet.profiles[0].oc).toBe('3')
+  })
+})
+
+// The gating shared by the unit-rules modal and the roster's read-only list. Two copies of this
+// would drift, and a modifier applied on the card but not on the list plate (or the reverse) is
+// exactly the bug that follows.
+describe('resolveModifierEntries', () => {
+  const facEn = {
+    armyRule: { id: 'waaagh', name: 'Waaagh!', body: 'army rule body' },
+    detachments: [
+      { id: 'war-horde', name: 'War Horde', rule: { name: 'Get Stuck In!', body: 'detachment body' },
+        enhancements: [{ name: 'Tuff Git', body: 'enhancement body' }] },
+      { id: 'bully-boyz', name: 'Bully Boyz', rule: { name: 'Big Boss', body: 'other body' }, enhancements: [] },
+    ],
+  }
+  const rec = (over) => ({ name: 'x', reviewed: true, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1 }], ...over })
+
+  it('resolves an army rule regardless of detachment', () => {
+    const out = resolveModifierEntries([rec({ name: 'Waaagh!', ref: { kind: 'armyRule' } })], facEn, [], null)
+    expect(out).toHaveLength(1)
+    expect(out[0].body).toBe('army rule body')
+  })
+
+  // appdata publishes several army rules per faction and we model one, so `ref: {kind:'armyRule'}`
+  // can only ever point at that one. A record written against a rule we do not model separately
+  // used to read the wrong prose — T'au's `Drones` resolving to `For the Greater Good` — and gate
+  // its effects on that rule's targets.
+  it('drops an army-rule record written against a rule we do not model', () => {
+    expect(resolveModifierEntries([rec({ name: 'Drones', ref: { kind: 'armyRule' } })], facEn, [], null)).toEqual([])
+  })
+
+  // Our own names are sometimes a deliberate merge of two published rules, and a record named for
+  // either half still belongs to it.
+  it('accepts a record whose name is one half of a merged one', () => {
+    const merged = { ...facEn, armyRule: { name: 'Synapse & Shadow in the Warp', body: 'merged body' } }
+    expect(resolveModifierEntries([rec({ name: 'Synapse', ref: { kind: 'armyRule' } })], merged, [], null)).toHaveLength(1)
+    // …and an apostrophe of a different shape is the same name.
+    const katah = { ...facEn, armyRule: { name: "Martial Ka'tah", body: 'b' } }
+    expect(resolveModifierEntries([rec({ name: 'Martial Ka’tah', ref: { kind: 'armyRule' } })], katah, [], null)).toHaveLength(1)
+  })
+
+  it('drops a detachment the roster does not field', () => {
+    const r = [rec({ ref: { kind: 'detachmentRule', det: 'bully-boyz' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['Bully Boyz'], null)).toHaveLength(1)
+  })
+
+  it('applies an enhancement only to the unit carrying it', () => {
+    const r = [rec({ name: 'Tuff Git', ref: { kind: 'enhancement', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Some Other')).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Tuff Git')).toHaveLength(1)
+  })
+
+  it('matches names through the shared normalisers', () => {
+    // The roster layer spells detachments and enhancements with appdata's own glyphs.
+    const r = [rec({ name: 'Tuff Git (Upgrade)', ref: { kind: 'enhancement', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Tuff Git')).toHaveLength(1)
+  })
+
+  it('drops a record with no wh11ed-side pointer, and needs a faction bundle', () => {
+    expect(resolveModifierEntries([rec({ ref: null })], facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries([rec({ ref: { kind: 'armyRule' } })], null, [], null)).toEqual([])
+  })
+
+  it('accepts detachment objects as well as names', () => {
+    const r = [rec({ ref: { kind: 'detachmentRule', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, [{ name: 'War Horde' }], null)).toHaveLength(1)
+  })
+})
+
+
+describe('allegiance modifiers', () => {
+  // Daemonic Allegiance is the rare structural characteristic change in this game's data: pick a
+  // mark and the model's own statline changes. It applies to the model that CHOSE it and nothing
+  // else, so resolution is by the choice, not by prose targeting.
+  const facEn = { armyRule: null, detachments: [] }
+  const rec = (opt, effects) => ({
+    name: `Daemonic Allegiance: ${opt}`, kind: 'allegiance', reviewed: true,
+    ref: { kind: 'allegiance', g: 'daemonic-allegiance', opt }, effects,
+  })
+  const records = [
+    rec('Nurgle', [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }]),
+    rec('Slaanesh', [{ on: 'profile', stat: 'm', op: 'add', value: 2, when: null }]),
+  ]
+
+  it('resolves only the mark the unit actually took', () => {
+    const got = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Nurgle' })
+    expect(got.map((r) => r.name)).toEqual(['Daemonic Allegiance: Nurgle'])
+  })
+
+  it('resolves nothing when no mark is chosen, or the group is another datasheet\'s', () => {
+    expect(resolveModifierEntries(records, facEn, [], null, null)).toEqual([])
+    expect(resolveModifierEntries(records, facEn, [], null, { g: 'mark-of-chaos', opt: 'Nurgle' })).toEqual([])
+  })
+
+  it('changes the printed characteristic', () => {
+    const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Nurgle' })
+    const { sheet: out, marks } = applyStatMods(sheet(), entries, destroyer, [])
+    expect(out.profiles[0].t).toBe('7')
+    expect(marks).toContain('profile:t:0')
+  })
+
+  it('handles the distance one too — "add 2\" to this model\'s Move"', () => {
+    const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Slaanesh' })
+    const { sheet: out } = applyStatMods(sheet(), entries, destroyer, [])
+    expect(out.profiles[0].m).toBe('8"')
+  })
+})
+
+// The game context is what turns "would change" into "has changed" — the whole point of opening a
+// list mid-battle. It never loosens the rule that a printed number is only rewritten when the
+// modifier is PROVEN to apply; it just supplies the proof.
+describe('applyStatMods with a live game context', () => {
+  const waaagh = {
+    name: 'Waaagh!',
+    kind: 'armyRule',
+    det: null,
+    body: 'Add 1 to the Strength characteristic of melee weapons equipped by models from your army.',
+    effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'while the Waaagh! is active', ru: 'пока активен Waaagh!' }, cond: ['waaagh-active'] }],
+  }
+
+  it('rewrites the number once the condition is proven, and says what proved it', () => {
+    const out = applyStatMods(sheet(), [waaagh], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.marks).toContain('melee:s:0')
+    const note = out.notes[0]
+    expect(note.applied).toBe(true)
+    expect(note.via).toEqual(['waaagh-active'])
+    // The condition text stays: a value that is only true while a switch is on must never read
+    // as a printed one.
+    expect(note.when.en).toBe('while the Waaagh! is active')
+  })
+
+  it('leaves it alone when the condition is not on', () => {
+    const out = applyStatMods(sheet(), [waaagh], destroyer, [], new Set())
+    expect(out.sheet.melee[0].s).toBe('6')
+    expect(out.notes[0]).toMatchObject({ applied: false, via: null })
+  })
+
+  it('needs EVERY condition, not just one', () => {
+    const both = { ...waaagh, effects: [{ ...waaagh.effects[0], cond: ['waaagh-active', 'unit-charged'] }] }
+    expect(applyStatMods(sheet(), [both], destroyer, [], new Set(['waaagh-active'])).sheet.melee[0].s).toBe('6')
+    expect(applyStatMods(sheet(), [both], destroyer, [], new Set(['waaagh-active', 'unit-charged'])).sheet.melee[0].s).toBe('7')
+  })
+
+  // An effect that predates the condition markup, or one a reviewer left unmarked, is UNPROVEN —
+  // not unconditional. Treating a missing `cond` as "always on" would rewrite numbers nobody
+  // signed off on.
+  it('treats a conditional effect with no markup as unproven', () => {
+    const unmarked = { ...waaagh, effects: [{ ...waaagh.effects[0], cond: undefined }] }
+    const out = applyStatMods(sheet(), [unmarked], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('6')
+    expect(out.notes[0].applied).toBe(false)
+  })
+
+  it('leaves the unconditional path exactly as it was', () => {
+    const out = applyStatMods(sheet(), [coldFervour], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('8')
+    expect(out.notes.find((n) => n.applied).via).toBeNull()
+  })
+
+  it('lets a proven grant hand over its keyword, and withholds it otherwise', () => {
+    const ankh = {
+      name: 'Destroyer Ankh', kind: 'enhancement', det: 'Cursed Legion', body: '',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Destroyer Cult', when: { en: 'while leading', ru: 'пока ведёт' }, cond: ['unit-leading'] }],
+    }
+    expect(grantedKeywordsFrom([ankh], warrior, [], new Set(['unit-leading']))).toEqual([
+      { kw: 'Destroyer Cult', source: 'Destroyer Ankh', det: 'Cursed Legion' },
+    ])
+    expect(grantedKeywordsFrom([ankh], warrior, [], new Set())).toEqual([])
+  })
+})
+
+// "the bearer's Psychic weapons only" — a restriction finer than `on` can express. It used to live
+// in the `when` prose, which meant the modifier was never applied at all; as a filter it applies to
+// exactly the rows the rule names.
+describe('applyStatMods with a weapon filter', () => {
+  const psychicSheet = () => ({
+    name: 'Sorcerer',
+    profiles: [{ m: '6"', t: '4', sv: '3+', w: '4', ld: '6+', oc: '1' }],
+    ranged: [
+      { name: 'Inferno bolt pistol', tags: ['PISTOL'], s: '4', ap: '-1', d: '1' },
+      { name: 'Warp blast', tags: ['BLAST', 'PSYCHIC'], s: '6', ap: '-1', d: 'D3' },
+    ],
+    melee: [
+      { name: 'Force stave', tags: ['PSYCHIC'], s: '6', ap: '-1', d: '2' },
+      { name: 'Close combat weapon', tags: ['EXTRA ATTACKS'], s: '4', ap: '0', d: '1' },
+    ],
+  })
+  const rec = (only, on = 'weapon') => ({
+    name: 'Power of the Hive Mind', kind: 'enhancement', det: 'Synaptic Nexus', body: '',
+    effects: [{ on, stat: 's', op: 'add', value: 1, when: null, only }],
+  })
+
+  it('rewrites only the rows carrying the named ability', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ tag: 'PSYCHIC' })], destroyer, [])
+    expect(out.sheet.ranged[0].s).toBe('4') // pistol untouched
+    expect(out.sheet.ranged[1].s).toBe('7')
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.sheet.melee[1].s).toBe('4') // no PSYCHIC tag
+    expect(out.marks).toEqual(expect.arrayContaining(['ranged:s:1', 'melee:s:0']))
+    expect(out.marks).not.toContain('ranged:s:0')
+  })
+
+  // A tag carries its value with it ("RAPID FIRE 1"), so the match is by prefix.
+  it('matches a tag that carries a number', () => {
+    const sheetRF = { ...psychicSheet(), ranged: [{ name: 'Lasgun', tags: ['RAPID FIRE 1'], a: '1' }] }
+    const out = applyStatMods(sheetRF, [{ ...rec({ tag: 'RAPID FIRE' }, 'ranged'), effects: [{ on: 'ranged', stat: 'a', op: 'add', value: 1, when: null, only: { tag: 'RAPID FIRE' } }] }], destroyer, [])
+    expect(out.sheet.ranged[0].a).toBe('2')
+  })
+
+  it('can exclude instead of include', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ notTag: 'EXTRA ATTACKS' }, 'melee')], destroyer, [])
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.sheet.melee[1].s).toBe('4')
+  })
+
+  it('matches by weapon name for a rule that names one', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ name: 'Warp blast' }, 'ranged')], destroyer, [])
+    expect(out.sheet.ranged[1].s).toBe('7')
+    expect(out.sheet.ranged[0].s).toBe('4')
+  })
+
+  // The filter has to hold for a GRANT too, which is how the 2026-08-23 pass could state rules
+  // that hand one named weapon a tag ("the bearer's Eldritch Storm weapon has [DEVASTATING
+  // WOUNDS]") — and, with notTag, one that hands out a tag only where it is not already printed:
+  // Orks' Dead Shiny Shootas gives [RAPID FIRE 1] to everything that has no RAPID FIRE, and
+  // stapling it onto a [RAPID FIRE 2] row would print a second, wrong value.
+  it('filters a granted weapon ability the same way', () => {
+    const grant = (only) => ({
+      name: 'Gaze of Ynnead', kind: 'enhancement', det: 'Windrider Host', body: '',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'DEVASTATING WOUNDS', when: null, only }],
+    })
+    const named = applyStatMods(psychicSheet(), [grant({ name: 'Warp blast' })], destroyer, [])
+    expect(named.sheet.ranged[1].tags).toContain('DEVASTATING WOUNDS')
+    expect(named.sheet.ranged[0].tags).not.toContain('DEVASTATING WOUNDS')
+
+    const rf = { ...psychicSheet(), ranged: [{ name: 'Shoota', tags: [] }, { name: 'Big shoota', tags: ['RAPID FIRE 2'] }] }
+    const out = applyStatMods(rf, [{ ...grant({ notTag: 'RAPID FIRE' }), effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'RAPID FIRE 1', when: null, only: { notTag: 'RAPID FIRE' } }] }], destroyer, [])
+    expect(out.sheet.ranged[0].tags).toContain('RAPID FIRE 1')
+    expect(out.sheet.ranged[1].tags).toEqual(['RAPID FIRE 2'])
+  })
+
+  it('leaves model profiles alone — a weapon filter has nothing to say about them', () => {
+    const prof = { ...rec({ tag: 'PSYCHIC' }, 'profile'), effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null, only: { tag: 'PSYCHIC' } }] }
+    const out = applyStatMods(psychicSheet(), [prof], destroyer, [])
+    expect(out.sheet.profiles[0].t).toBe('5')
+  })
+})
+
+// "…add 2 to the Attacks characteristic INSTEAD." Two effects, one number: while the alternate is
+// in force the base must not also land, or +1 and +2 quietly become +3.
+describe('applyStatMods with an "instead" variant', () => {
+  const rec = {
+    name: 'Weapons of the First Legion', kind: 'enhancement', det: 'Unforgiven Task Force', body: '',
+    effects: [
+      { on: 'melee', stat: 'a', op: 'add', value: 1, when: null },
+      { on: 'melee', stat: 'a', op: 'add', value: 2, when: { en: 'while Battle-shocked', ru: 'пока Battle-shocked' }, cond: ['unit-battle-shocked'], alt: 0 },
+    ],
+  }
+
+  it('applies the base while the alternate is not in force', () => {
+    const out = applyStatMods(sheet(), [rec], destroyer, [], new Set())
+    expect(out.sheet.melee[0].a).toBe('5') // printed 4, +1
+    expect(out.notes.filter((n) => n.applied)).toHaveLength(1)
+  })
+
+  it('replaces it, rather than stacking, once the condition holds', () => {
+    const out = applyStatMods(sheet(), [rec], destroyer, [], new Set(['unit-battle-shocked']))
+    expect(out.sheet.melee[0].a).toBe('6') // 4 + 2, NOT 4 + 1 + 2
+    // Only the alternate reports; its own "instead" wording is what explains the missing base.
+    const applied = out.notes.filter((n) => n.applied)
+    expect(applied).toHaveLength(1)
+    expect(applied[0].value).toBe(2)
+  })
+})
+
+describe('datasheetEntriesFor', () => {
+  // Fabius Bile's Enhanced Warriors is printed on HIS card and addresses the unit he joins, which
+  // is the first thing in this layer that rewrites a card other than the one it was found on.
+  const enhancedWarriors = {
+    kind: 'ability',
+    name: 'Fabius Bile: Enhanced Warriors',
+    ref: { kind: 'ability', unit: 'fabius-bile' },
+    effects: [
+      { on: 'melee', stat: 's', op: 'add', value: 1, when: null, target: 'led' },
+      { on: 'profile', stat: 't', op: 'add', value: 1, when: null, target: 'led' },
+    ],
+  }
+  const ownAbility = {
+    kind: 'ability',
+    name: 'Fabius Bile: Surgeon Acolyte',
+    ref: { kind: 'ability', unit: 'fabius-bile' },
+    effects: [{ on: 'profile', stat: 'w', op: 'add', value: 1, when: null }],
+  }
+  const onTheBodyguard = {
+    kind: 'ability',
+    name: 'Poxwalkers: Curse of the Walking Pox',
+    ref: { kind: 'ability', unit: 'poxwalkers' },
+    effects: [{ on: 'profile', stat: 'sv', op: 'improve', value: 1, when: null, target: 'leader' }],
+  }
+  const records = [enhancedWarriors, ownAbility, onTheBodyguard]
+
+  it('gives a unit its own abilities, split into owner and rule name', () => {
+    const out = datasheetEntriesFor(records, { unitId: 'fabius-bile' })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Surgeon Acolyte')
+    expect(out[0].owner).toBe('Fabius Bile')
+    expect(out[0].from).toBe('self')
+    expect(out[0].effects).toHaveLength(1)
+  })
+
+  // The card labels this "leader · Fabius Bile" and names the rule separately, so the two halves
+  // have to arrive apart rather than as one glued string.
+  it('gives the led unit the leader\'s ability, tagged with where it came from', () => {
+    const out = datasheetEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Enhanced Warriors')
+    expect(out[0].owner).toBe('Fabius Bile')
+    expect(out[0].from).toBe('led')
+    expect(out[0].effects.map((e) => e.stat)).toEqual(['s', 't'])
+  })
+
+  it('gives the leader an ability printed on the unit it leads', () => {
+    const out = datasheetEntriesFor(records, { unitId: 'lord-of-contagion', ledUnitId: 'poxwalkers' })
+    expect(out).toHaveLength(1)
+    expect(out[0].name).toBe('Curse of the Walking Pox')
+    expect(out[0].owner).toBe('Poxwalkers')
+    expect(out[0].from).toBe('leader')
+  })
+
+  // The leader standing alone gets nothing from a `led` effect — the roster says it is attached to
+  // nobody, so there is no unit for the ability to reach.
+  it('applies nothing across an attachment the roster does not record', () => {
+    expect(datasheetEntriesFor(records, { unitId: 'chaos-space-marines' })).toEqual([])
+    expect(datasheetEntriesFor(records, { unitId: 'lord-of-contagion' })).toEqual([])
+  })
+
+  // Core Rules 19.04: an ability that affects "models in that unit" reaches every model of the
+  // attached unit, the leader included — GW writes "Bodyguard models" (Fabius Bile, above) exactly
+  // when it means to leave him out. So the ordinary Leader wording lands on both cards.
+  const stormOfBlades = {
+    kind: 'ability',
+    name: 'Succubus: Storm of Blades',
+    ref: { kind: 'ability', unit: 'succubus' },
+    effects: [{ on: 'melee', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', when: null, target: 'unit' }],
+  }
+
+  it('gives a leader its own "models in that unit" ability while it is leading one', () => {
+    const out = datasheetEntriesFor([stormOfBlades], { unitId: 'succubus', ledUnitId: 'wyches' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+    expect(out[0].effects[0].value).toBe('SUSTAINED HITS 1')
+  })
+
+  it('gives the led unit the same ability, tagged as the leader\'s', () => {
+    const out = datasheetEntriesFor([stormOfBlades], { unitId: 'wyches', leaderUnitIds: ['succubus'] })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+  })
+
+  // …and nothing at all when it leads nobody: "while this model is leading a unit" is a condition
+  // the roster answers, so a Succubus standing alone is not quietly buffed.
+  it('gives a leader nothing while it leads nobody', () => {
+    expect(datasheetEntriesFor([stormOfBlades], { unitId: 'succubus' })).toEqual([])
+  })
+
+  it('ignores every record that is not a datasheet ability', () => {
+    const det = { kind: 'detachmentRule', name: 'X', ref: { kind: 'detachmentRule', det: 'y' }, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }] }
+    expect(datasheetEntriesFor([det], { unitId: 'anything' })).toEqual([])
+  })
+
+  it('is applied with no keyword gate — the ability is printed on the card it addresses', () => {
+    const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '5' }], melee: [{ name: 'Blade', a: '4', s: '4' }] })
+    const [rec] = datasheetEntriesFor(records, { unitId: 'chaos-space-marines', leaderUnitIds: ['fabius-bile'] })
+    const out = applyStatMods(sheet(), [rec], [], [], new Set())
+    expect(out.sheet.profiles[0].t).toBe('5')
+    expect(out.sheet.melee[0].s).toBe('5')
+  })
+})
+
+describe('datasheetEntriesFor — wargear', () => {
+  const sarcophagus = {
+    kind: 'wargear',
+    name: 'Mortifiers: Anchorite Sarcophagus',
+    ref: { kind: 'wargear', unit: 'mortifiers', item: 'anchorite sarcophagus' },
+    effects: [
+      { on: 'profile', stat: 'm', op: 'set', value: '7"', when: null },
+      { on: 'profile', stat: 'sv', op: 'set', value: '3+', when: null },
+    ],
+  }
+  const forceField = {
+    kind: 'wargear',
+    name: 'Big Mek in Mega Armour: Kustom Force Field',
+    ref: { kind: 'wargear', unit: 'big-mek-in-mega-armour', item: 'kustom force field' },
+    effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '4+', when: { en: 'x', ru: 'x' }, cond: ['never'], target: 'unit' }],
+  }
+
+  it('applies a wargear rule only to a unit that took the item', () => {
+    const took = datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers', itemNames: new Set(['anchorite sarcophagus']) })
+    expect(took).toHaveLength(1)
+    expect(took[0].name).toBe('Anchorite Sarcophagus')
+    expect(took[0].from).toBe('wargear')
+    expect(datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers', itemNames: new Set(['heavy bolter']) })).toEqual([])
+  })
+
+  // No loadout at all (the add-unit preview) is not "equipped with everything": a wargear rule has
+  // no printed line it would be hiding, so silence is the safe direction.
+  it('says nothing when the caller cannot name the loadout', () => {
+    expect(datasheetEntriesFor([sarcophagus], { unitId: 'mortifiers' })).toEqual([])
+  })
+
+  it('reaches the led unit when the LEADER is the one carrying it', () => {
+    const ctx = { unitId: 'boyz', leaderUnitIds: ['big-mek-in-mega-armour'], leaderItemNames: new Set(['kustom force field']) }
+    const out = datasheetEntriesFor([forceField], ctx)
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+    expect(out[0].owner).toBe('Big Mek in Mega Armour')
+    // …and not when the Big Mek left it at home.
+    expect(datasheetEntriesFor([forceField], { ...ctx, leaderItemNames: new Set() })).toEqual([])
+  })
+
+  // "While the bearer is leading a unit, models in that unit have a 4+ invulnerable save" — the
+  // Big Mek is one of those models (19.04), so his own card carries it too, and only while he is
+  // leading somebody.
+  it('gives the bearer the same rule while it is leading a unit', () => {
+    const worn = { unitId: 'big-mek-in-mega-armour', itemNames: new Set(['kustom force field']) }
+    expect(datasheetEntriesFor([forceField], worn)).toEqual([])
+    const out = datasheetEntriesFor([forceField], { ...worn, ledUnitId: 'boyz' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+  })
+})
+
+describe('datasheetEntriesFor — enhancement', () => {
+  // "Models in the bearer's unit have the Deep Strike ability" (Drukhari's Webway Awl). The bearer's
+  // own card gets it from resolveModifierEntries, which is the entry that took the relic; this is
+  // the other card 19.04 gives it — the unit he joined.
+  const webwayAwl = {
+    kind: 'enhancement',
+    name: 'Webway Awl',
+    ref: { kind: 'enhancement', det: 'kabalite-cartel' },
+    effects: [{ on: 'unit', stat: 'core', op: 'grant', value: 'Deep Strike', when: null, target: 'led' }],
+  }
+
+  it('reaches the unit its bearer joined', () => {
+    const out = datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors', leaderEnhNames: new Set(['Webway Awl']) })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('led')
+    expect(out[0].effects[0].value).toBe('Deep Strike')
+    // …and nobody else's: an enhancement with no aura has no range to reach across.
+    expect(datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors' })).toEqual([])
+  })
+})
+
+// `live` is what the card sorts by: in force now, or waiting on something. It is not `applied` —
+// a modifier can be in force and still change no number it can compute.
+// Core Rules 22.01: "while a model with an aura ability is on the battlefield, it is always within
+// range of its own aura ability" — so the bearer needs no switch, and neither does the unit its
+// model is standing in. Everyone else is a distance on the table, which only the player knows.
+// The chip needs to know when a stratagem may be used, and only this pass has both the record and
+// the faction data it was read from.
+describe('resolveModifierEntries — a stratagem\'s timing', () => {
+  const facEn = {
+    detachments: [{
+      id: 'gladius-task-force',
+      name: 'Gladius Task Force',
+      stratagems: [{ name: 'Armour of Contempt', when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets." }],
+    }],
+  }
+  const rec = {
+    sid: 'aoc', kind: 'stratagem', name: 'Armour of Contempt', det: 'Gladius Task Force',
+    ref: { kind: 'stratagem', det: 'gladius-task-force', name: 'Armour of Contempt' },
+    effects: [{ on: 'melee', stat: 'ap', op: 'add', value: -1, when: null }],
+  }
+
+  it('reads the phases and the side off the English timing line', () => {
+    const [out] = resolveModifierEntries([rec], facEn, ['Gladius Task Force'], null, null)
+    expect(out.slot.phases).toEqual(['shooting', 'fight'])
+    expect(out.slot.sides.shooting).toBe('opp')
+  })
+
+  it('leaves it null when the stratagem cannot be found', () => {
+    const orphan = { ...rec, ref: { ...rec.ref, name: 'Renamed by GW' }, name: 'Renamed by GW' }
+    const [out] = resolveModifierEntries([orphan], facEn, ['Gladius Task Force'], null, null)
+    expect(out.slot).toBeNull()
+  })
+})
+
+describe('an aura ability', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const aura = {
+    sid: 'fiery-heart', kind: 'ability', name: 'Triumph of Saint Katherine: The Fiery Heart (Aura)',
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', scopes: [{ targets: ['ADEPTA SORORITAS'], excludes: [] }] },
+    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, target: 'aura', when: null }],
+  }
+
+  it('reaches the bearer with no switch at all', () => {
+    const out = datasheetEntriesFor([aura], { unitId: 'triumph-of-saint-katherine' })
+    expect(out).toHaveLength(1)
+    expect(out[0].from).toBe('self')
+    expect(out[0].scopes).toEqual(aura.ref.scopes)
+  })
+
+  it('reaches the unit the bearer is attached to, and the Character standing in it', () => {
+    expect(datasheetEntriesFor([aura], { unitId: 'battle-sisters-squad', leaderUnitIds: ['triumph-of-saint-katherine'] })[0])
+      .toMatchObject({ from: 'led' })
+    expect(datasheetEntriesFor([aura], { unitId: 'canoness', ledUnitId: 'triumph-of-saint-katherine' })[0])
+      .toMatchObject({ from: 'leader' })
+  })
+
+  it('reaches anyone else only once the player marks it', () => {
+    const ctx = { unitId: 'battle-sisters-squad' }
+    expect(datasheetEntriesFor([aura], ctx)).toEqual([])
+    expect(datasheetEntriesFor([aura], { ...ctx, auraOn: new Set(['fiery-heart']) })[0]).toMatchObject({ from: 'aura' })
+  })
+
+  // The gate an ordinary ability does not need: this one is printed on one card and addresses
+  // another, so "a friendly ADEPTA SORORITAS unit" has to be checked against the unit it lands on.
+  it('is gated by the keywords its own prose named', () => {
+    const entries = datasheetEntriesFor([aura], { unitId: 'battle-sisters-squad', auraOn: new Set(['fiery-heart']) })
+    expect(applyStatMods(sheet(), entries, ['Adepta Sororitas', 'Infantry'], []).sheet.profiles[0].m).toBe('8"')
+    expect(applyStatMods(sheet(), entries, ['Astra Militarum'], []).sheet.profiles[0].m).toBe('6"')
+  })
+
+  it('offers a chip only for a source in this list that the unit can be reached by', () => {
+    const units = [
+      { uid: 'a', id: 'triumph-of-saint-katherine', name: 'Triumph of Saint Katherine' },
+      { uid: 'b', id: 'battle-sisters-squad', name: 'Battle Sisters Squad' },
+    ]
+    const ctx = { unitId: 'battle-sisters-squad', entryUid: 'b', rosterUnits: units, keywords: ['Adepta Sororitas'] }
+    expect(aurasReaching([aura], ctx)).toEqual([
+      { sid: 'fiery-heart', source: 'Triumph of Saint Katherine', sourceUid: 'a', unit: 'triumph-of-saint-katherine', name: 'The Fiery Heart (Aura)' },
+    ])
+    // …not for a unit the aura's own prose does not address,
+    expect(aurasReaching([aura], { ...ctx, keywords: ['Astra Militarum'] })).toEqual([])
+    // …not on the bearer's own card, and not where the list already answers (22.01),
+    expect(aurasReaching([aura], { ...ctx, unitId: 'triumph-of-saint-katherine', entryUid: 'a' })).toEqual([])
+    expect(aurasReaching([aura], { ...ctx, leaderUnitIds: ['triumph-of-saint-katherine'] })).toEqual([])
+    // …and not for a source that is not in this list at all.
+    expect(aurasReaching([aura], { ...ctx, rosterUnits: [units[1]] })).toEqual([])
+  })
+})
+
+// An ability set's option is proven the same way a stratagem is: by the player choosing it. Its
+// effects carry no `cond` — the choice IS the condition.
+// The two grants that land on the UNIT rather than on a row: a keyword the rules read, and a core
+// ability the card prints on its Core line.
+// The trap this pins: `improve` only means something for a roll (3+ → 2+). For AP the rule's
+// "improve by 1" is authored as `add: -1`, and writing `improve` there applied nothing at all
+// while still reading as a reviewed effect.
+// An enhancement aura is the one enhancement effect that does not simply address its bearer, so it
+// is resolved like an ability aura: gated by the keywords its prose named, certain for the unit the
+// bearer joined, and a chip for anyone else. Added 2026-08-23 — before it, twelve relics that buff
+// the units AROUND their bearer could not be stated at all.
+describe('an enhancement that is an aura', () => {
+  const relic = {
+    sid: 'tear', kind: 'enhancement', name: 'Sanguinary Tear (Aura)', det: 'Rage-cursed Onslaught',
+    ref: { kind: 'enhancement', det: 'rage-cursed-onslaught', scopes: [{ targets: ['DEATH COMPANY'], excludes: [] }] },
+    effects: [{ on: 'weapon', stat: 's', op: 'add', value: 1, target: 'aura', when: null }],
+  }
+  const facEn = { detachments: [{ id: 'rage-cursed-onslaught', name: 'Rage-cursed Onslaught', enhancements: [{ name: 'Sanguinary Tear (Aura)', body: 'While a friendly DEATH COMPANY unit is within 6" of the bearer…' }] }] }
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4' }], melee: [{ name: 'Chainsword', s: '4' }] })
+  const bearer = ['Captain', 'Adeptus Astartes']
+  const company = ['Death Company', 'Adeptus Astartes']
+
+  it('buffs its own bearer only when the bearer passes the gate', () => {
+    const resolved = resolveModifierEntries([relic], facEn, ['Rage-cursed Onslaught'], 'Sanguinary Tear (Aura)', null)
+    expect(applyStatMods(sheet(), resolved, bearer, []).sheet.melee[0].s).toBe('4')
+    expect(applyStatMods(sheet(), resolved, company, []).sheet.melee[0].s).toBe('5')
+  })
+
+  it('offers a chip on another entry of the list, and only to a unit it could reach', () => {
+    const ctx = {
+      unitId: 'death-company-marines', entryUid: 'dc', keywords: company,
+      rosterUnits: [
+        { uid: 'cap', id: 'captain', name: 'Captain', enh: 'Sanguinary Tear (Aura)' },
+        { uid: 'dc', id: 'death-company-marines', name: 'Death Company Marines', enh: null },
+      ],
+    }
+    expect(aurasReaching([relic], ctx)).toEqual([
+      { sid: 'tear', source: 'Captain', sourceUid: 'cap', unit: 'captain', name: 'Sanguinary Tear (Aura)' },
+    ])
+    expect(aurasReaching([relic], { ...ctx, keywords: ['Intercessor Squad', 'Adeptus Astartes'] })).toEqual([])
+    // …and none at all for the unit the bearer is standing in: 22.01 answers that from the list.
+    expect(aurasReaching([relic], { ...ctx, leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })).toEqual([])
+  })
+
+  it('lands once marked, and lands unasked on the unit the bearer joined', () => {
+    const marked = datasheetEntriesFor([relic], { unitId: 'death-company-marines', auraOn: new Set(['tear']) })
+    expect(marked.map((e) => e.from)).toEqual(['aura'])
+    expect(applyStatMods(sheet(), marked, company, []).sheet.melee[0].s).toBe('5')
+    const led = datasheetEntriesFor([relic], { unitId: 'death-company-marines', leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })
+    expect(led.map((e) => e.from)).toEqual(['led'])
+    expect(applyStatMods(sheet(), led, company, []).sheet.melee[0].s).toBe('5')
+  })
+})
+
+describe('a detachment rule that is an aura', () => {
+  // Brandfast Oathband's Firebase Control: the TRANSPORT carries it, the INFANTRY around it collects
+  // it. Two keywords in one rule, which is why the gate is read off the reach clause alone — over
+  // the whole body ruleScopes merges them and the transport would buff itself.
+  const rule = {
+    sid: 'relays', kind: 'detachmentRule', name: 'Mobile Sensor Relays', det: 'Brandfast Oathband',
+    ref: { kind: 'detachmentRule', det: 'brandfast-oathband', scopes: [{ targets: ['LEAGUES OF VOTANN INFANTRY'], excludes: [] }] },
+    effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', target: 'aura', when: null }],
+  }
+  const facEn = { detachments: [{ id: 'brandfast-oathband', name: 'Brandfast Oathband', rule: { name: 'Mobile Sensor Relays', body: 'LEAGUES OF VOTANN TRANSPORT units…' } }] }
+  const sheet = () => ({ ranged: [{ name: 'Ion beamer' }] })
+  const infantry = ['Hearthkyn Warriors', 'Leagues of Votann', 'Infantry']
+  const transport = ['Sagitaur', 'Leagues of Votann', 'Transport']
+  const facSets = [infantry, transport]
+
+  it('does not apply itself: nothing in the list says who is standing near the transport', () => {
+    const resolved = resolveModifierEntries([rule], facEn, ['Brandfast Oathband'], null, null)
+    expect(resolved).toEqual([])
+  })
+
+  it('offers one chip per gated unit, and only while that detachment is fielded', () => {
+    const ctx = { unitId: 'hearthkyn-warriors', entryUid: 'a', keywords: infantry, factionKeywordSets: facSets, detIds: new Set(['brandfast-oathband']) }
+    expect(aurasReaching([rule], ctx)).toEqual([
+      { sid: 'relays', source: 'Brandfast Oathband', sourceUid: null, unit: null, name: 'Mobile Sensor Relays', det: 'brandfast-oathband' },
+    ])
+    // the transport carrying it is not the unit it reaches…
+    expect(aurasReaching([rule], { ...ctx, keywords: transport })).toEqual([])
+    // …and a rule from a detachment this army is not playing offers nothing at all.
+    expect(aurasReaching([rule], { ...ctx, detIds: new Set(['oathband-of-the-ancestors']) })).toEqual([])
+    expect(aurasReaching([rule], { ...ctx, detIds: null })).toEqual([])
+  })
+
+  it('lands on the marked unit, gated by the reach clause', () => {
+    const marked = datasheetEntriesFor([rule], { unitId: 'hearthkyn-warriors', auraOn: new Set(['relays']), detIds: new Set(['brandfast-oathband']) })
+    expect(marked.map((e) => e.from)).toEqual(['aura'])
+    expect(applyStatMods(sheet(), marked, infantry, facSets).sheet.ranged[0].tags).toEqual(['SUSTAINED HITS 1'])
+    expect(applyStatMods(sheet(), marked, transport, facSets).sheet.ranged[0].tags).toBeUndefined()
+    // a mark left over from another detachment is not honoured
+    expect(datasheetEntriesFor([rule], { unitId: 'hearthkyn-warriors', auraOn: new Set(['relays']), detIds: new Set(['other']) })).toEqual([])
+  })
+
+  it('reaches nobody when its gate names a faction this army cannot field', () => {
+    // Questor Forgepact's aura buffs ADEPTUS MECHANICUS allies. For every other record a gate that
+    // matches no datasheet is treated as a misreading and dropped (fail-open); for an army-wide rule
+    // that would hand the buff to every Knight in the list.
+    const admech = { ...rule, ref: { ...rule.ref, scopes: [{ targets: ['ADEPTUS MECHANICUS'], excludes: [] }] } }
+    const ctx = { unitId: 'knight-paladin', entryUid: 'a', keywords: ['Knight Paladin', 'Imperial Knights'], factionKeywordSets: [['Knight Paladin', 'Imperial Knights']], detIds: new Set(['brandfast-oathband']) }
+    expect(aurasReaching([admech], ctx)).toEqual([])
+    const marked = datasheetEntriesFor([admech], { unitId: 'knight-paladin', auraOn: new Set(['relays']) })
+    expect(applyStatMods(sheet(), marked, ctx.keywords, ctx.factionKeywordSets).sheet.ranged[0].tags).toBeUndefined()
+  })
+})
+
+describe('improving a characteristic', () => {
+  it('improves a roll and refuses a plain number', () => {
+    expect(applyValue('3+', 'improve', 1)).toBe('2+')
+    expect(applyValue('-2', 'improve', 1)).toBeNull()
+    expect(applyValue('-2', 'add', -1)).toBe('-3')
+  })
+})
+
+describe('a granted core ability', () => {
+  const sheet = () => ({ core: 'Leader', profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const rec = (over) => ({
+    kind: 'ability', name: 'Hospitaller: Medicus Ministorum', body: '',
+    effects: [{ on: 'unit', stat: 'core', op: 'grant', value: 'Feel No Pain 5+', when: null, ...over }],
+  })
+
+  it('is returned for the card to print, and never touches the statline', () => {
+    const out = applyStatMods(sheet(), [rec()], [], [])
+    expect(out.core).toEqual([{ ability: 'Feel No Pain 5+', source: 'Hospitaller: Medicus Ministorum', det: undefined }])
+    expect(out.sheet.core).toBe('Leader')     // the printed line is not rewritten
+    expect(out.notes[0]).toMatchObject({ stat: 'core', applied: true })
+  })
+})
+
+describe('an ability-set option', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const relic = {
+    sid: 'fiery', kind: 'ability', name: 'The Fiery Heart (Aura)', body: '',
+    ref: { kind: 'ability', unit: 'triumph-of-saint-katherine', set: 'Relics of the Matriarchs', pickLimit: 2 },
+    effects: [{ on: 'profile', stat: 'm', op: 'add', value: 2, when: null }],
+  }
+
+  it('changes nothing until it is the option picked', () => {
+    expect(applyStatMods(sheet(), [relic], [], [], new Set(), new Set()).sheet.profiles[0].m).toBe('6"')
+    expect(applyStatMods(sheet(), [relic], [], [], new Set(), new Set(['fiery'])).sheet.profiles[0].m).toBe('8"')
+  })
+
+  it('is not offered as an aura chip while it is unpicked', () => {
+    const aura = { ...relic, effects: [{ ...relic.effects[0], target: 'aura' }] }
+    const ctx = {
+      unitId: 'battle-sisters-squad',
+      entryUid: 'b',
+      rosterUnits: [{ uid: 'a', id: 'triumph-of-saint-katherine', name: 'Triumph of Saint Katherine' }],
+      keywords: ['Adepta Sororitas'],
+    }
+    expect(aurasReaching([aura], ctx)).toEqual([])
+    expect(aurasReaching([aura], { ...ctx, chosen: new Set(['fiery']) })).toHaveLength(1)
+  })
+})
+
+describe('the live flag on a note', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
+  const rule = (over) => ({
+    kind: 'detachmentRule', name: 'Cold Fervour', det: 'Cursed Legion', body: '',
+    effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, ...over }],
+  })
+
+  it('marks an unconditional modifier live', () => {
+    const out = applyStatMods(sheet(), [rule()], [], [], new Set(), new Set())
+    expect(out.notes[0]).toMatchObject({ live: true, applied: true })
+  })
+
+  it('marks a conditional one live only once its condition holds', () => {
+    const conditional = rule({ when: { en: 'while charged', ru: 'x' }, cond: ['unit-charged'] })
+    expect(applyStatMods(sheet(), [conditional], [], [], new Set(), new Set()).notes[0])
+      .toMatchObject({ live: false, applied: false })
+    expect(applyStatMods(sheet(), [conditional], [], [], new Set(['unit-charged']), new Set()).notes[0])
+      .toMatchObject({ live: true, applied: true })
+  })
+
+  // In force, but there was no row to change (this unit carries no melee weapon). It stays with
+  // the modifiers in play — it IS one — even though no cell was rewritten.
+  it('keeps a live modifier live when it changed nothing', () => {
+    const out = applyStatMods(sheet(), [rule({ on: 'melee', stat: 'a' })], [], [], new Set(), new Set())
+    expect(out.notes[0]).toMatchObject({ live: true, applied: false })
+  })
+})
+
+describe('a spent stratagem', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }], melee: [{ name: 'Blade', a: '4', s: '4', ap: '-1', tags: [] }] })
+  const strat = {
+    sid: 'divine-guidance', kind: 'stratagem', name: 'Divine Guidance', det: 'Army of Faith', dur: 'phase',
+    effects: [{ on: 'melee', stat: 'ap', op: 'add', value: -1, when: { en: 'while this stratagem is in force', ru: 'пока действует стратагема' } }],
+  }
+  const gated = {
+    sid: 'reprise', kind: 'stratagem', name: 'Devastating Reprise', det: 'Chorus', dur: 'phase',
+    effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'DEVASTATING WOUNDS', when: { en: 'against the named unit', ru: 'против названного юнита' }, cond: ['never'] }],
+  }
+
+  // The bug this pins: a stratagem's effects carry no `cond` (being spent IS the condition), and
+  // the "is it proven" test demanded a non-empty one — so every stratagem stayed a footnote no
+  // matter how many chips were lit.
+  it('rewrites the number once it is in force', () => {
+    const off = applyStatMods(sheet(), [strat], [], [], new Set(), new Set())
+    expect(off.sheet.melee[0].ap).toBe('-1')            // untouched
+    expect(off.notes[0].applied).toBe(false)
+
+    const on = applyStatMods(sheet(), [strat], [], [], new Set(), new Set(['divine-guidance']))
+    expect(on.sheet.melee[0].ap).toBe('-2')
+    expect(on.notes[0].applied).toBe(true)
+    expect(on.marks).toContain('melee:ap:0')
+  })
+
+  // A `cond` on a stratagem means what it asks BEYOND being spent, so it still gates.
+  it('keeps a further condition as a footnote even while in force', () => {
+    const out = applyStatMods(sheet(), [gated], [], [], new Set(), new Set(['reprise']))
+    expect(out.notes[0].applied).toBe(false)
+  })
+
+  it('hands out a keyword only while in force', () => {
+    const kw = {
+      sid: 'possession', kind: 'stratagem', name: 'Daemonic Possession', dur: 'battle',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Daemon', when: { en: 'x', ru: 'x' } }],
+    }
+    expect(grantedKeywordsFrom([kw], [], [], new Set(), new Set())).toEqual([])
+    expect(grantedKeywordsFrom([kw], [], [], new Set(), new Set(['possession']))).toEqual([
+      { kw: 'Daemon', source: 'Daemonic Possession', det: undefined },
+    ])
+  })
+})

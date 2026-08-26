@@ -27,12 +27,12 @@ const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
 const DEFAULT = {
   title: {
-    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
-    ru: 'Warhammer 40,000 11-я редакция — правила, фракции и трекер',
+    en: 'Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker',
+    ru: 'Warhammer 40,000 11-я редакция — правила, ростеры и трекер партии',
   },
   description: {
-    en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus an offline game tracker — searchable, free.',
-    ru: 'Двуязычный (EN/RU) интерактивный справочник по Warhammer 40,000 11-й редакции: основные правила, Event Companion, правила фракций и листы данных юнитов, плюс офлайн-трекер партии — с поиском, бесплатно.',
+    en: 'A free bilingual (EN/RU) app for playing Warhammer 40,000 11th edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder, and a game tracker that applies your army\'s own rules. Offline, no account needed.',
+    ru: 'Бесплатное двуязычное (EN/RU) приложение для игры в Warhammer 40,000 11-й редакции: основные правила и Event Companion, правила фракций и листы данных юнитов, конструктор армейских листов и трекер партии, применяющий правила вашей армии. Офлайн, без аккаунта.',
   },
 }
 
@@ -41,12 +41,12 @@ const DEFAULT = {
 // scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
 const LANDING = {
   title: {
-    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
-    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила и фракции на русском',
+    en: 'Warhammer 40,000 11th Edition — rules, army lists and a live game tracker',
+    ru: 'Warhammer 40 000 (Вархаммер) 11-я редакция на русском — правила, ростеры и трекер партии',
   },
   description: {
-    en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free offline game tracker. Searchable, installable, free.',
-    ru: 'Справочник по Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила фракций и листы данных юнитов, трекер очков. С поиском, офлайн, бесплатно.',
+    en: 'Everything the table needs for Warhammer 40,000 11th edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder priced against the current MFM, and a tracker that applies your army\'s own rules while you play. Bilingual, installable, fully offline, free — and it all works without an account.',
+    ru: 'Всё, что нужно за столом в Warhammer 40 000 (Вархаммер) 11-й редакции: основные правила и Event Companion, правила фракций и листы данных юнитов, конструктор ростеров по актуальному MFM и трекер партии, применяющий правила вашей армии. Двуязычно, офлайн, бесплатно — и всё работает без аккаунта.',
   },
 }
 
@@ -102,6 +102,64 @@ const ROUTES = {
     description: {
       en: 'Free offline 2-player VP / Battle Points tracker for a game of Warhammer 40,000 11th edition — missions, secondaries and scoring.',
       ru: 'Бесплатный офлайн-трекер очков на 2 игроков для партии Warhammer 40,000 11-й редакции — миссии, вторичные задачи и подсчёт.',
+    },
+  },
+  '/roster': {
+    title: { en: 'Roster Builder', ru: 'Ростербилдер' },
+    description: {
+      en: 'Free army list builder for Warhammer 40,000 11th edition — pick units, wargear, leaders and enhancements, cost your list and check restrictions offline.',
+      ru: 'Бесплатный конструктор армейских листов для Warhammer 40,000 11-й редакции — юниты, вооружение, лидеры и улучшения, подсчёт очков и проверка ограничений офлайн.',
+    },
+  },
+  '/help': {
+    title: { en: 'How to use this', ru: 'Как пользоваться' },
+    description: {
+      en: 'A short guide to WH Rules: searching the Warhammer 40,000 11th edition rules, building and importing army lists, tracking a game, working offline, and where your data is kept.',
+      ru: 'Короткий гид: как искать правила Warhammer 40,000 11-й редакции, собирать и импортировать армейские листы, вести партию, работать офлайн и где хранятся ваши данные.',
+    },
+  },
+  // The guide's six topics, each its own crawlable page. Kept here rather than derived from
+  // help.js so the whole guide's text does not ride in the entry chunk for the sake of a title.
+  '/help/search': {
+    title: { en: 'Finding a rule fast', ru: 'Быстрый поиск правила' },
+    description: {
+      en: 'Search every Warhammer 40,000 11th edition rule at once — core rules, faction rules, stratagems and unit datasheets — and open a keyword or a rule number where you tapped it.',
+      ru: 'Поиск сразу по всем правилам Warhammer 40,000 11-й редакции — основные правила, правила фракций, стратагемы и листы данных — плюс кейворды и номера правил прямо в тексте.',
+    },
+  },
+  '/help/rules': {
+    title: { en: 'Rules and factions', ru: 'Правила и фракции' },
+    description: {
+      en: 'What the rules section holds: all 30 Warhammer 40,000 11th edition factions in full — army rules, detachments, stratagems, enhancements and datasheets — plus the Core Rules and Event Companion.',
+      ru: 'Что есть в разделе правил: все 30 фракций Warhammer 40,000 11-й редакции целиком — армейские правила, детачменты, стратагемы, улучшения и листы данных — плюс основные правила и Event Companion.',
+    },
+  },
+  '/help/rosters': {
+    title: { en: 'Building an army list', ru: 'Сборка армейского листа' },
+    description: {
+      en: 'How the army list builder works: units, wargear, leaders, enhancements and allies costed against the current Munitorum Field Manual, plus importing, exporting and sharing a list.',
+      ru: 'Как работает конструктор ростеров: юниты, вооружение, лидеры, улучшения и союзники по актуальному Munitorum Field Manual, а также импорт, экспорт и обмен листом.',
+    },
+  },
+  '/help/tracker': {
+    title: { en: 'Tracking a game', ru: 'Ведение партии' },
+    description: {
+      en: 'How the game tracker works: missions and secondaries, victory and command points across the five battle rounds, game history and statistics, with your army list\'s own rules applied.',
+      ru: 'Как работает трекер партии: миссии и секондари, очки победы и командные очки по пяти раундам, история игр и статистика, с применением правил вашего листа.',
+    },
+  },
+  '/help/offline': {
+    title: { en: 'Offline, and installing the app', ru: 'Офлайн и установка' },
+    description: {
+      en: 'A browser tab stays light; the installed app goes fully offline. How to install WH Rules on a phone, and what it downloads for a venue with no signal.',
+      ru: 'Вкладка в браузере остаётся лёгкой, установленное приложение работает полностью офлайн. Как установить WH Rules на телефон и что оно скачивает для площадки без связи.',
+    },
+  },
+  '/help/data': {
+    title: { en: 'Your data, and ours', ru: 'Ваши данные и наши' },
+    description: {
+      en: 'Where your army lists and games are kept, what signing in changes, and why our Warhammer 40,000 points can disagree with a list built somewhere else.',
+      ru: 'Где хранятся ваши листы и партии, что меняет вход в аккаунт и почему наши очки Warhammer 40,000 могут расходиться с листом, собранным в другом месте.',
     },
   },
   '/links': {

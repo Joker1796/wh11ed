@@ -58,6 +58,16 @@ function loadGlossary() {
   return glossPromise
 }
 
+// A button that opens the popover ITSELF, rather than being a `.keyword` span App.vue recognises,
+// must say so — `data-kw-open` — because the same click then bubbles to App's document listener,
+// whose job is "a click anywhere else closes the popover". Without the marker the popover opens and
+// closes in one gesture, which is exactly what happened to the chips' "i" (2026-08-23) and to every
+// rule button on a card that is not inside a modal.
+export const KW_OPENER_ATTR = 'data-kw-open'
+export function opensPopover(el) {
+  return !!(el && typeof el.closest === 'function' && el.closest(`[${KW_OPENER_ATTR}]`))
+}
+
 export function useKeywordPopover() {
   async function open(rawText, rect) {
     const data = await loadData()
@@ -83,8 +93,21 @@ export function useKeywordPopover() {
     anchor.value = rect
     visible.value = true
   }
+  // A rule the CALLER already has the text for — the army rule behind a datasheet's "Faction:"
+  // line, opened from the roster's unit modal. Unlike open()/openGloss() there's no lookup table
+  // to consult: the faction bundle is already loaded by the caller, and it would be wasteful (and
+  // wrong, since the text is per-locale there) to re-resolve it here. Same { name, num, fullText }
+  // shape, so the popover renders it exactly like a core ability.
+  // `sub` is a display line under the name, for a rule whose name stays English by project
+  // convention while its translation travels beside it (a stratagem's, on the roster's chips).
+  function openRule(name, text, rect, sub = null) {
+    if (!name || !text) return
+    activeKeyword.value = { name, num: '', sub, fullText: text, kind: 'rule' }
+    anchor.value = rect
+    visible.value = true
+  }
   function close() {
     visible.value = false
   }
-  return { visible, activeKeyword, anchor, open, openGloss, close }
+  return { visible, activeKeyword, anchor, open, openGloss, openRule, close }
 }

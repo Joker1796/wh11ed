@@ -28,10 +28,3 @@ defineEmits(['close', 'select'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 </script>
-
-<style scoped>
-.modal-body {
-  padding: 0.6rem 0.9rem 0.9rem;
-  overflow-y: auto;
-}
-</style>
