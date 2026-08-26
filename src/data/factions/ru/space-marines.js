@@ -428,7 +428,7 @@ export default {
         },
         {
           flavor: 'Этот командир и его воины упорно удерживают позицию даже против подавляющей численности.',
-          body: `Только модель Adeptus Astartes. Пока [gloss:bearer:носитель] [gloss:lead:возглавляет] юнит, модели того юнита имеют способность Feel No Pain 6+, пока находятся в дистанции до контролируемого вами [gloss:objective-marker:маркера цели], а пока тот юнит [gloss:battle-shocked:в боевом шоке], характеристика [gloss:objective-control:контроля над целью] его моделей делится пополам вместо того, чтобы становиться 0.`,
+          body: `Только модель Adeptus Astartes. Пока [gloss:bearer:носитель] [gloss:lead:возглавляет] юнит, модели того юнита имеют способность Feel No Pain 6+, пока находятся в пределах контролируемой вами [gloss:objective-marker:цели], а пока тот юнит [gloss:battle-shocked:в боевом шоке], характеристика [gloss:objective-control:контроля над целью] его моделей делится пополам вместо того, чтобы становиться «-».`,
         },
       ],
     },
@@ -903,7 +903,7 @@ export default {
           flavor: 'Со стальной дисциплиной боевые братья космодесанта стремительно грузятся на борт, даже когда враг приближается.',
           when: 'Конец фазы ближнего боя.',
           target: 'Один юнит Adeptus Astartes Infantry вашей армии, не находящийся в [gloss:engagement-range:радиусе связывания] с одним или более вражескими юнитами, и один [gloss:friendly:дружественный] Heavy Transport, в который он способен погрузиться.',
-          effect: 'Если ваш юнит Adeptus Astartes Infantry [gloss:wholly-within:целиком в пределах] 6" от того Heavy Transport, он может [gloss:embark:погрузиться] в него.',
+          effect: 'Если ваш юнит Adeptus Astartes Infantry [gloss:wholly-within:целиком в пределах] 6" от того Heavy Transport, он может [gloss:embark:погрузиться] в него. Ваш юнит может погрузиться в тот Transport в ход, в который он [gloss:disembark:высадился] из Transport.',
           restrictions: '',
         },
         {

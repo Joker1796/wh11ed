@@ -178,11 +178,11 @@ export default [
       },
       {
         "models": 5,
-        "points": 185
+        "points": 180
       },
       {
         "models": 10,
-        "points": 370
+        "points": 360
       }
     ],
     "flavor": "Blightlord Terminators are incredibly tough, thanks to their Cataphractii armour and Nurgle’s gifts, and they are experts in breach assaults, boarding actions and sudden teleport strikes. Due to long periods spent aboard pox-ridden warships, they are saturated with foulness, which pours off them to rot flesh and corrode metal.",
@@ -1255,7 +1255,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 340,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -1650,7 +1650,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "Embedded into a Foul Blightspawn’s body is a malignant churn. As he cranks its rusted handle, he mixes a foul concoction of bubbling diseases and pollutants. Once satisfied his burbling blend of choking stew is ready, he levels his plague sprayer at the foe. Out his mixture surges like projectile vomit, melting whatever it touches.",
@@ -2633,7 +2633,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 390
+        "points": 375
       }
     ],
     "flavor": "To stand in Mortarion’s presence is lethal, such is the pestilential aura that surrounds him. Wielding his gigantic scythe, Silence, he cuts apart entire enemy squads in seconds. With furious blasts of Lantern, his devastating sidearm of unknown provenance, he disintegrates heavy infantry and armour alike.",
@@ -2775,11 +2775,11 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 95
       },
       {
         "models": 2,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "Belching stinking gases that hang thick in the air, Myphitic Blight-haulers use their all-terrain mobility and heavy armaments to hunt down the enemy’s tanks and provide fire support even in the most dangerous environments. Should the enemy get too close, these Daemon Engines pounce with fanged maws and sprays of bile.",
@@ -2889,7 +2889,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 50
       }
     ],
     "flavor": "Tocsins of misery and cursed plague bells tolling, Noxious Blightbringers sow weakness among the enemy. Each rippling sound wave erodes the enemy’s will to fight, shatters bone and metal alike, and spawns metaphysical maggots in the minds of psykers. To the Death Guard, every distorted peal is invigorating, and upon hearing them, they surge eagerly into the fray.",
@@ -3570,12 +3570,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185,
+        "points": 170,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 210,
+        "points": 200,
         "note": "2nd+"
       }
     ],

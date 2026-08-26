@@ -476,7 +476,7 @@ Once you have made your selections, remove those units from the battlefield and 
           when: 'Your Movement phase.',
           // Faction-Pack Rules Update: target now excludes MONSTER units.
           target:
-            'One Necrons unit from your army (excluding Monster units) that is arriving using the Deep Strike or Hyperphasing abilities this phase.',
+            'One Necrons unit from your army (excluding Monster units) that is arriving using an ingress move this phase.',
           effect:
             'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy models.',
           restrictions: 'A unit targeted with this Stratagem is not eligible to declare a charge in the same turn.',
@@ -1147,7 +1147,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           flavor: 'The android soldiery of the cursed legion are maddened with the desire to engage and slay their victims at close quarters.',
           when: "End of your opponent's Charge phase.",
           target: 'One Necrons unit (excluding Monsters and Vehicles) from your army that is within 6" of one or more enemy units and would be eligible to declare a charge against one or more of those enemy units if it were your Charge phase.',
-          effect: 'Your unit now declares a charge that only targets one or more of those enemy units, and you resolve that charge. Note that even if this charge is successful, your unit does not receive any Charge bonus this turn.',
+          effect: 'Your unit now declares a charge that only targets one or more of those enemy units, and you resolve that charge.',
           restrictions: '',
         },
       ],

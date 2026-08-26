@@ -1317,12 +1317,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 90,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 100,
+        "points": 110,
         "note": "3rd+"
       }
     ],
@@ -4808,7 +4808,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 220
+        "points": 230
       }
     ],
     "flavor": "Shas’ri Locai and Shas’ri Lantar fight with an aggression rarely seen amongst the Fire caste. There is a focus to their ferocity, however, leaping close to their foes in jet-assisted bounds and unleashing punishing firepower before discharging kinetic shock waves built up by their neocapacitor shields and retreating again amidst the resultant carnage.",
@@ -5185,12 +5185,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 375,
+        "points": 395,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 425,
+        "points": 445,
         "note": "2nd+"
       }
     ],

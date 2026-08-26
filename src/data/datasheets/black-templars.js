@@ -79,6 +79,16 @@ export const sharedUnitIds = [
   "whirlwind"
 ]
 
+// appdata and the MFM price these shared units differently for this Chapter than the
+// space-marines.js base price — src/data/datasheets/index.js's loadDatasheets swaps in this
+// `points` array on the folded-in entry. See blood-angels.js for the full mechanism.
+export const pointsOverrides = {
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
+}
+
 export default [
   {
     "id": "gladiator-lancer",
@@ -2304,22 +2314,22 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 105,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 125,
         "note": "1st-2nd"
       },
       {
         "models": 9,
-        "points": 235,
+        "points": 225,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 260,
+        "points": 250,
         "note": "1st-2nd"
       },
       {
@@ -2334,12 +2344,12 @@ export default [
       },
       {
         "models": 9,
-        "points": 250,
+        "points": 245,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 275,
+        "points": 270,
         "note": "3rd+"
       }
     ],

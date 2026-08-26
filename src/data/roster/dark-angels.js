@@ -970,6 +970,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "minis": [
         {
           "n": "Ravenwing Huntmaster"
@@ -1086,11 +1090,11 @@ export default {
       },
       "leads": [
         {
-          "to": "ravenwing-black-knights",
+          "to": "outrider-squad",
           "type": "support"
         },
         {
-          "to": "outrider-squad",
+          "to": "ravenwing-black-knights",
           "type": "support"
         }
       ],
@@ -1301,7 +1305,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -1390,7 +1394,7 @@ export default {
         },
         {
           "name": "Recon Hunter",
-          "pts": 20,
+          "pts": 30,
           "type": "miniature",
           "req": [
             {
@@ -2013,6 +2017,9 @@ export default {
     "whirlwind"
   ],
   "unitPoints": {
+    "centurion-devastator-squad": {
+      "6": 350
+    },
     "repulsor-executioner": {
       "1": 230
     }

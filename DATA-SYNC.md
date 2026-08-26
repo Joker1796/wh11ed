@@ -117,6 +117,15 @@ cd ../wh11ed && npm run sync
 - **Осиротевший keyword `"DNU"`** (Do Not Use) — appdata-артефакт, не привязан ни к одному
   реальному требованию. Если improvement/enhancement ссылается на него как на required
   keyword — подставлять реальное per-юнитное требование, не переводить `"DNU"` как есть.
+- **UNIQUE-теги детачментов: MFM важнее прозы appdata.** Тег (`unique`) — конструкт самого MFM,
+  и когда его страница печатает «UNIQUE TAG REMOVED», это и есть решение GW, даже если проза
+  кодекса в appdata всё ещё несёт фразу «cannot be taken with another X detachment». Так было на
+  бампе 931 (MFM v1.3): сняты `WAR DOGS` у Chaos Knights и `FLYBLOWN`/`ENGINES` у Death Guard —
+  и поле `unique`, и фраза в теле правила. Из-за этого `sync:text` теперь вечно репортит у трёх
+  детачментов «appdata has (missing in wh11ed): this detachment has the … tag» — **это осознанное
+  расхождение, не чинить**. Отдельно: у World Eaters тег `ONSLAUGHT` MFM не печатал НИКОГДА (ни
+  v1.2, ни v1.3) и «UNIQUE TAG REMOVED» над ним не ставил — он держится на прозе самого правила,
+  поэтому его не трогали. «MFM молчит» ≠ «MFM снял».
 - **Обязательная надбавка очков, замаскированная под «улучшение».** Формулировка вида «each
   `<unit>` from your army has the relevant ability… you must increase the points cost» — это
   не пик игрока, а обязательное повышение цены; иногда задублирована в `datasheet.points[]`

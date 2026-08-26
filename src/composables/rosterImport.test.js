@@ -672,7 +672,7 @@ Strike Force (2000 points)
 Attached Units
 Attached Unit 1
 
-Khorne Berzerkers (330 points)
+Khorne Berzerkers (320 points)
 • Attached as: Bodyguard (Battleline)
 • 1x Khorne Berzerker Champion
 • 1x Chainblade
@@ -748,7 +748,7 @@ describe('matchRoster — the flat body, against our own data', () => {
     const { report } = matchRoster(parseList(FLAT), ctx)
     const zerks = report.units.find((u) => u.name === 'Khorne Berzerkers')
     expect(zerks.models).toBe(20)                    // the champion and nineteen berzerkers
-    expect(zerks.points.computed).toBe(330)
+    expect(zerks.points.computed).toBe(320)
     expect(zerks.gear.missing).toEqual([])
   })
 
@@ -800,7 +800,7 @@ Rangers (110 Points)
 // the name, and the detachment keyword printed as if it were wargear.
 const LH_TEXT = `List Name: All Dogs go to Heaven
 Factions Used: Chaos Knights, Heretic Astartes
-Army Points: 440
+Army Points: 425
 Army Enhancements (list on which model): Final Howl (Aura) (on War Dog Brigand), Preyslayer's Mantle (on War Dog Karnivore)
 Disposition: Take and Hold
 Detachment(s): Iconoclast Fiefdom, Houndpack Lance
@@ -815,7 +815,7 @@ Cultist Mob (50 pts)
 \u2022 9x Autopistol
 \u2022 9x Brutal assault weapon
 
-War Dog Brigand (160 pts)
+War Dog Brigand (155 pts)
 \u2022 Armoured feet
 \u2022 Avenger chaincannon
 \u2022 Daemonbreath spear
@@ -823,7 +823,7 @@ War Dog Brigand (160 pts)
 \u2022 Houndpack Lance Character
 \u2022 Enhancement: Final Howl (Aura)
 
-War Dog Karnivore (170 pts)
+War Dog Karnivore (160 pts)
 \u2022 Havoc multi-launcher
 \u2022 Houndpack Lance Character
 \u2022 Reaper chaintalon
@@ -861,7 +861,7 @@ describe('parseList — listhammer.info, plain-text mode', () => {
   // "Factions Used:" line, which matched no army at all.
   it('reads the header from its labels', () => {
     expect(p.name).toBe('All Dogs go to Heaven')
-    expect(p.stated).toBe(440)
+    expect(p.stated).toBe(425)
     expect(p.faction).toBe('Chaos Knights')          // the army's own; the rest of the line is its allies
     expect(p.detachmentLine).toBe('Iconoclast Fiefdom, Houndpack Lance')
   })
@@ -905,7 +905,7 @@ describe('matchRoster — listhammer.info, plain-text mode', () => {
     const { report } = matchRoster(parseList(LH_TEXT), ctx)
     expect(report.missing).toEqual([])
     expect(report.detachments).toEqual({ matched: ['Iconoclast Fiefdom', 'Houndpack Lance'], missing: [] })
-    expect(report.points.computed).toBe(440)
+    expect(report.points.computed).toBe(425)
     expect(report.points.computed).toBe(report.points.stated)
   })
 })
@@ -916,19 +916,19 @@ describe('matchRoster — listhammer.info, plain-text mode', () => {
 const LH_FENCED = `+++++++++++++++++++++++++++++++++++++++++++++++
 List Name: double FF zerk warband
 Factions Used: World Eaters
-Army Points: 330
+Army Points: 320
 Army Enhancements (list on which model): Berzerker Glaive (on Master of Executions)
 Disposition: Purge the Foe
 Detachment(s): Berzerker Warband
 +++++++++++++++++++++++++++++++++++++++++++++++
 
 ATTACHED UNITS:
-Master of Executions + Khorne Berzerkers (265 pts)
+Master of Executions + Khorne Berzerkers (255 pts)
 Master of Executions (95 pts)
 \u2022 Axe of dismemberment
 \u2022 Bolt pistol
 \u2022 Enhancement: Berzerker Glaive
-Khorne Berzerkers (170 pts)
+Khorne Berzerkers (160 pts)
 \u2022 7x Khorne Berzerker
 \u2022 7x Bolt pistol
 \u2022 7x Chainblade
@@ -965,12 +965,12 @@ describe('parseList — listhammer.info, labelled header between two rows of +',
   // and no detachment at all.
   it('reads the header out of the fence', () => {
     expect(p.name).toBe('double FF zerk warband')
-    expect(p.stated).toBe(330)
+    expect(p.stated).toBe(320)
     expect(p.faction).toBe('World Eaters')
     expect(p.detachmentLine).toBe('Berzerker Warband')
   })
 
-  // "Master of Executions + Khorne Berzerkers (265 pts)" is the BLOCK, not a datasheet: read as a
+  // "Master of Executions + Khorne Berzerkers (255 pts)" is the BLOCK, not a datasheet: read as a
   // unit it was one nobody could find, and the two under it stood alone.
   it('reads a block headed by its members instead of by a number', () => {
     expect(p.units.map((u) => u.name)).toEqual(['Master of Executions', 'Khorne Berzerkers', 'Jakhals'])
@@ -1005,11 +1005,11 @@ describe('matchRoster — listhammer.info, labelled header between two rows of +
     expect(jakhals.models).toBe(10)
     const zerks = out.report.units[1]
     expect(zerks.models).toBe(10)
-    expect(zerks.points.computed).toBe(170)
+    expect(zerks.points.computed).toBe(160)
   })
 
   it('places the whole list at the points it states', () => {
-    expect(out.report.points.computed).toBe(330)
+    expect(out.report.points.computed).toBe(320)
     expect(out.report.points.computed).toBe(out.report.points.stated)
   })
 })
@@ -1334,7 +1334,7 @@ Created with newrecruit.eu v35.61`
 const WTC_GW_BODY = `+++++++++++++++++++++++++++++++++++++++++++++++
 + FACTION KEYWORD: Imperium - Adeptus Astartes - Blood Angels
 + DETACHMENT: Stormlance Task Force, Vengeful Hosts (Lightning Assault)
-+ TOTAL ARMY POINTS: 355pts
++ TOTAL ARMY POINTS: 350pts
 +
 + WARLORD: Char1: Commander Dante
 + ENHANCEMENT: Orksbane (on Char3: Captain with Jump Pack)
@@ -1349,7 +1349,7 @@ Captain with Jump Pack (100 pts)
 \u2022 1x Relic Shield
 \u2022 1x Thunder Hammer
 
-Sanguinary Guard (125 pts)
+Sanguinary Guard (120 pts)
 \u2022 Attached as: Bodyguard
 \u2022 3x Sanguinary Guard
 \u2022 3x Encarmine Spear
@@ -1384,7 +1384,7 @@ describe('parseList — a WTC header over a listhammer body', () => {
     expect(detectFormat(WTC_GW_BODY)).toBe('wtc')
     expect(p.faction).toBe('Adeptus Astartes - Blood Angels')
     expect(p.detachments).toEqual(['Stormlance Task Force', 'Vengeful Hosts'])
-    expect(p.stated).toBe(355)
+    expect(p.stated).toBe(350)
     // The attachment block is the body's, and the "Attached as:" line is not a model of anything.
     const [captain, guard] = p.units
     expect(captain.group).toBe(guard.group)
@@ -1707,7 +1707,7 @@ Hive Tyrant (195 points)
 • 1x Heavy venom cannon
 1x Monstrous bonesword and lash whip
 
-Tyrant Guard (160 points)
+Tyrant Guard (170 points)
 • Attached as: Bodyguard
 • 6x Tyrant Guard
 • 6x Scything talons and rending claws
@@ -1732,7 +1732,7 @@ describe('matchRoster — an attached block that never says "Leader"', () => {
 // stated total counts it once, which is the only safe way to tell that apart from a list that
 // really does field two.
 describe('matchRoster — an export that prints attached units twice', () => {
-  const TWICE = `tired and afraid (725 points)
+  const TWICE = `tired and afraid (745 points)
 
 Tyranids
 Talons of the Norn Queen (3 Detachment Points)
@@ -1746,23 +1746,23 @@ Hive Tyrant (195 points)
 • 1x Heavy venom cannon
 1x Monstrous bonesword and lash whip
 
-Tyrant Guard (160 points)
+Tyrant Guard (170 points)
 • Attached as: Bodyguard
 • 6x Tyrant Guard
 • 6x Scything talons and rending claws
 
 OTHER DATASHEETS
 
-Norn Assimilator (275 points)
+Norn Assimilator (280 points)
 • 1x Monstrous scything talons
 1x Toxinjector Harpoon
 • Enhancement: Synaptoprescience (Upgrade)
 
-Tyrant Guard (160 points)
+Tyrant Guard (170 points)
 • 6x Tyrant Guard
 • 6x Scything talons and rending claws
 
-Pyrovores (95 points)
+Pyrovores (100 points)
 • 3x Pyrovore
 • 3x Chitin-barbed limbs
 3x Flamespurt`
@@ -1776,19 +1776,19 @@ Pyrovores (95 points)
     const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
     expect(report.repeated).toBe(1)
     expect(payload.units.filter((u) => u.id === 'tyrant-guard')).toHaveLength(1)
-    expect(report.points.computed).toBe(195 + 160 + 275 + 95)
+    expect(report.points.computed).toBe(195 + 170 + 280 + 100)
     // …and the surviving copy is the attached one, so the attachment is not lost with the repeat.
     const tyrant = payload.units.find((u) => u.id === 'hive-tyrant')
     expect(tyrant.leaderOf).toBe(payload.units.find((u) => u.id === 'tyrant-guard').uid)
   })
 
   // The same shape, arithmetically: a list whose entries add up to its OWN stated total holds two
-  // real units, and folding one away would quietly make it 160 points lighter.
+  // real units, and folding one away would quietly make it 170 points lighter.
   it('leaves a list alone when its own total counts both', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const { default: items } = await import('../data/roster/items.js')
     const faction = await loadRosterFaction('tyranids')
-    const parsed = parseList(TWICE.replace('(725 points)', `(${195 + 160 + 275 + 160 + 95} points)`))
+    const parsed = parseList(TWICE.replace('(745 points)', `(${195 + 170 + 280 + 170 + 100} points)`))
     expect(parsed.repeated).toBeUndefined()
     const { report, payload } = matchRoster(parsed, { faction, core: rosterCore, items: items.items })
     expect(payload.units.filter((u) => u.id === 'tyrant-guard')).toHaveLength(2)
@@ -2253,7 +2253,7 @@ Crisis Fireknife Battlesuits (100 points)
 • 2x Battlesuit fists
 4x Plasma rifle
 
-Crisis Starscythe Battlesuits (90 points)
+Crisis Starscythe Battlesuits (100 points)
 • 1x Crisis Starscythe Shas’vre
 • 1x Battlesuit fists
 2x Burst cannon
@@ -2265,7 +2265,7 @@ Crisis Starscythe Battlesuits (90 points)
 2x Gun Drone
 2x Shield Drone
 
-Crisis Starscythe Battlesuits (120 points)
+Crisis Starscythe Battlesuits (130 points)
 • 1x Crisis Starscythe Shas’vre
 • 1x Battlesuit fists
 1x Marker Drone
@@ -2277,7 +2277,7 @@ Crisis Starscythe Battlesuits (120 points)
 2x Shield Drone
 4x T’au flamer
 
-Crisis Starscythe Battlesuits (115 points)
+Crisis Starscythe Battlesuits (125 points)
 • 1x Crisis Starscythe Shas’vre
 • 1x Battlesuit fists
 1x Burst cannon

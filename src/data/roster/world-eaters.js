@@ -1997,7 +1997,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 170,
+          "pts": 160,
           "per": [
             10,
             10
@@ -2015,7 +2015,7 @@ export default {
           ]
         },
         {
-          "pts": 330,
+          "pts": 320,
           "per": [
             11,
             20

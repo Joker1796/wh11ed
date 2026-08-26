@@ -195,19 +195,43 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 110
+        "points": 110,
+        "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 165
+        "points": 165,
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 275
+        "points": 280,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 330
+        "points": 340,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 140,
+        "note": "3rd+"
+      },
+      {
+        "models": 3,
+        "points": 195,
+        "note": "3rd+"
+      },
+      {
+        "models": 5,
+        "points": 310,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 370,
+        "note": "3rd+"
       }
     ],
     "flavor": "Even amongst the Adeptus Custodes, Allarus Custodians are renowned for their deeds. Teleporting into the most dangerous enemy strongholds, they rely upon the indomitable resilience of their Terminator plate to protect them as they hunt down demagogues and generals. Fighting as individual heroes, they swiftly tear the heart from their foe’s defence.",
@@ -3008,11 +3032,23 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 145
+        "points": 145,
+        "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 215
+        "points": 215,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 170,
+        "note": "3rd+"
+      },
+      {
+        "models": 3,
+        "points": 240,
+        "note": "3rd+"
       }
     ],
     "flavor": "Veteran warriors who have seen battle on a hundred worlds, these Custodians know that the value of speed is in directing their might precisely where and when it is needed most. Master combatants and marksmen both, they can place piercing strikes and deadly salvoes with precision even when travelling at immense speeds.",

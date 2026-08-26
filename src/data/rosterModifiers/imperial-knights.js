@@ -665,8 +665,8 @@ export default {
         "kind": "detachmentRule",
         "det": "gate-warden-lance"
       },
-      "hash": "99549537",
-      "ver": 925,
+      "hash": "d9aa7c8e",
+      "ver": 931,
       "reviewed": true,
       "effects": [
         {

@@ -244,7 +244,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 170,
           "per": [
             4,
             6
@@ -353,7 +353,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 95,
           "per": [
             5,
             5
@@ -361,7 +361,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 200,
+          "pts": 190,
           "per": [
             6,
             10
@@ -457,7 +457,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             2,
             2
@@ -825,7 +825,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             10,
             10
@@ -1360,7 +1360,7 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 170,
           "per": [
             4,
             6
@@ -1461,7 +1461,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             3,
             3
@@ -1479,7 +1479,7 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             4,
             6
@@ -1727,7 +1727,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 65,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1735,7 +1735,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 130,
+          "pts": 140,
           "per": [
             2,
             2
@@ -1743,6 +1743,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,

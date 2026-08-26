@@ -149,11 +149,24 @@ function replacePoints(src, id, rows) {
   return `${src.slice(0, start)}[\n${body}\n    ]${src.slice(end + 1)}`
 }
 
-// Replace the whole pointsOverrides object (Chapter-file style, unquoted keys).
+// Replace the whole pointsOverrides object (Chapter-file style, unquoted keys). A Chapter file
+// only carries the block once a shared unit's price has actually diverged from the Codex, so on
+// the bump that first splits one (v1.3 raised Centurion Devastators for Codex: Space Marines but
+// not for the four Chapter supplements) there is nothing to replace — write the block in, just
+// above the datasheet array, rather than dying on a file that is simply still in sync.
 function replaceOverrides(src, overrides) {
   const key = 'export const pointsOverrides = {'
-  const at = src.indexOf(key)
-  if (at === -1) throw new Error('pointsOverrides block not found')
+  let at = src.indexOf(key)
+  if (at === -1) {
+    if (!Object.keys(overrides).length) return src
+    const anchor = src.indexOf('export default [')
+    if (anchor === -1) throw new Error('neither pointsOverrides nor the datasheet array found')
+    const preamble = '// appdata and the MFM price these shared units differently for this Chapter than the\n'
+      + '// space-marines.js base price — src/data/datasheets/index.js\'s loadDatasheets swaps in this\n'
+      + '// `points` array on the folded-in entry. See blood-angels.js for the full mechanism.\n'
+    src = `${src.slice(0, anchor)}${preamble}${key}\n}\n\n${src.slice(anchor)}`
+    at = src.indexOf(key)
+  }
   const start = at + key.length - 1
   const end = matchBracket(src, start, '{', '}')
   const body = Object.keys(overrides).sort().map((id) => {

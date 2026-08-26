@@ -2866,7 +2866,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 350
+        "points": 365
       }
     ],
     "flavor": "Centurion Devastator Squads dominate the field of battle, their presence dictating the flow of action. They frequently operate with Stormraven Gunships, which transport the Space Marines inside their bulky warsuits to the next position, where they function as an armoured firebase to clear enemy-held positions of all opposition.",
@@ -7349,12 +7349,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 250,
+        "points": 260,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 270,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -7842,7 +7842,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 85
       }
     ],
     "flavor": "The powers of a Chapter’s Librarians lend a lethal psychic edge to its elite infantry spearheads. Whether it be gruelling boarding actions, ferocious urban combat or on the front line against overwhelming enemy numbers, Librarians in Terminator armour blast at the foe with their powerful psychic energies.",
@@ -12776,7 +12776,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 95
       }
     ],
     "flavor": "Striding into battle with the weapons of his Primarch in his hands, the Forgefather lays low all who oppose him. Seeker of the lost relics of Vulkan, He’stan is relentless in his quest, willing to fight through any foe and face down any danger in order to see his oaths fulfilled.",

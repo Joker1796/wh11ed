@@ -266,7 +266,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Stoic Defender',
           points: 15,
           flavor: 'This commander and their warriors hold their ground tenaciously against even overwhelming numbers.',
-          body: `Adeptus Astartes model only. While the [gloss:bearer:bearer] is [gloss:lead:leading] a unit, models in that unit have the Feel No Pain 6+ ability while they are within range of an [gloss:objective-marker:objective marker] you control and, while that unit is [gloss:battle-shocked:Battle-shocked], halve the [gloss:objective-control:Objective Control] characteristic of models in that unit instead of changing it to 0.`,
+          body: `Adeptus Astartes model only. While the [gloss:bearer:bearer] is [gloss:lead:leading] a unit, models in that unit have the Feel No Pain 6+ ability while they are within an [gloss:objective-marker:objective] you control and, while that unit is [gloss:battle-shocked:Battle-shocked], halve the [gloss:objective-control:Objective Control] characteristic of models in that unit instead of changing it to ‘-’.`,
         },
       ],
     },
@@ -991,7 +991,7 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a [glo
           flavor: 'With steely discipline, Space Marine battle-brothers mount up swiftly, even as the enemy closes in.',
           when: 'End of the Fight phase.',
           target: 'One Adeptus Astartes Infantry unit from your army that is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, and one [gloss:friendly:friendly] Heavy Transport it is able to embark within.',
-          effect: 'If your Adeptus Astartes Infantry unit is [gloss:wholly-within:wholly within] 6" of that Heavy Transport, it can [gloss:embark:embark] within it.',
+          effect: 'If your Adeptus Astartes Infantry unit is [gloss:wholly-within:wholly within] 6" of that Heavy Transport, it can [gloss:embark:embark] within it. Your unit can embark within that Transport in a turn it [gloss:disembark:disembarked] from a Transport.',
           restrictions: '',
         },
         {

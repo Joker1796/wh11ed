@@ -582,13 +582,13 @@ Until the start of your next Command phase, the unit you selected is affected by
       id: "recon-element",
       name: "Recon Element",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Reconnaissance",
       unique: "RECON",
       rule: {
         name: "Masters of Camouflage",
         flavor: "Reconnaissance infantry use face paint, camo-pattern fatigues, ghillie suits and more to conceal themselves from the foe. Vehicles are camouflaged using netting and disruptive camo patterns, enabling them to blend into surrounding terrain. Suitably outfitted, recon forces need only rely upon stealth and concealment rather than heavy armour for protection.",
-        body: "Astra Militarum Walker and Regiment units from your army have the Benefit of Cover. While such a unit has the Benefit of Cover for any other reason, improve the Save characteristic of that unit by 1 (to a maximum of 3+).",
+        body: "Friendly Astra Militarum units (excluding Titanic units) have Stealth.",
       },
       stratagems: [
         {

@@ -1162,8 +1162,8 @@ export default {
       "kind": "detachmentRule",
       "name": "Da Hunt Is On",
       "det": "Da Big Hunt",
-      "hash": "887fbe72",
-      "ver": 925,
+      "hash": "9f322ba1",
+      "ver": 931,
       "reviewed": true,
       "effects": [
         {

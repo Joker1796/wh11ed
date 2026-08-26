@@ -565,7 +565,7 @@ export default [
       "footer": "You must attach this model to a KASTELAN ROBOTS unit. If you cannot attach this model to a KASTELAN ROBOTS unit, this model cannot be deployed and counts as having been destroyed during the first battle round. While attached to a KASTELAN ROBOTS unit, this model loses the INFANTRY keyword."
     },
     "keywords": [
-      "Infantry",
+      "Vehicle",
       "Character",
       "Cybernetica Datasmith",
       "Tech-Priest",
@@ -990,12 +990,12 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 160,
+        "points": 150,
         "note": "1st"
       },
       {
         "models": 4,
-        "points": 320,
+        "points": 300,
         "note": "1st"
       },
       {
@@ -1005,7 +1005,7 @@ export default [
       },
       {
         "models": 4,
-        "points": 340,
+        "points": 330,
         "note": "2nd+"
       }
     ],
@@ -1540,7 +1540,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
@@ -1550,7 +1550,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
@@ -1652,22 +1652,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -1994,7 +1994,13 @@ export default [
     "points": [
       {
         "models": 9,
-        "points": 65
+        "points": 65,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 9,
+        "points": 75,
+        "note": "3rd+"
       }
     ],
     "flavor": "Servitor Battleclades provide their Adeptus Mechanicus masters with expendable and extremely versatile combat assets in the field. Often sent to recover vital archeotech or data, their mix of firepower, close quarters punch, and array of servo-tools allows their Underseers to achieve whatever task is assigned to them.",
@@ -3298,7 +3304,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "Tech-Priests Dominus are the theocratic generals of a forge world’s armies. They lead congregations of warriors in binharic prayer and direct those beneath them with precision strategies. They are masters of machines, as capable of healing damage to their creations as they are at destroying the enemy’s corrupted engines.",

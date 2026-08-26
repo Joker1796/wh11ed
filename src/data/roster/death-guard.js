@@ -131,7 +131,7 @@ export default {
           ]
         },
         {
-          "pts": 185,
+          "pts": 180,
           "per": [
             4,
             5
@@ -149,7 +149,7 @@ export default {
           ]
         },
         {
-          "pts": 370,
+          "pts": 360,
           "per": [
             6,
             10
@@ -940,7 +940,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 40
+        "pts": 50
       },
       "defaults": [
         [
@@ -1171,7 +1171,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 60,
           "per": [
             1,
             1
@@ -1720,7 +1720,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 390,
+          "pts": 375,
           "per": [
             1,
             1
@@ -1764,7 +1764,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 95,
           "per": [
             1,
             1
@@ -1772,7 +1772,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 200,
+          "pts": 190,
           "per": [
             2,
             2
@@ -1821,7 +1821,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 50,
           "per": [
             1,
             1
@@ -2493,7 +2493,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 185,
+          "pts": 170,
           "per": [
             1,
             1
@@ -2504,7 +2504,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 25
+        "pts": 30
       },
       "defaults": [
         [
@@ -2762,7 +2762,6 @@ export default {
       "sid": "ac958d83-3ee2-4279-8115-2b164658da08",
       "dp": 2,
       "fd": "Take and Hold",
-      "unique": "FLYBLOWN",
       "enhancements": [
         {
           "name": "Final Ingredient",
@@ -2819,7 +2818,6 @@ export default {
       "sid": "80f1f5cf-8331-4b71-87fa-fe4caaa92633",
       "dp": 1,
       "fd": "Reconnaissance",
-      "unique": "ENGINES",
       "enhancements": [
         {
           "name": "Parasitic Woe‑reaper (Upgrade)",
@@ -2921,7 +2919,6 @@ export default {
       "sid": "9a41d668-c9ee-41c8-81e7-58585d6d8efb",
       "dp": 1,
       "fd": "Reconnaissance",
-      "unique": "FLYBLOWN",
       "enhancements": [
         {
           "name": "Insectile Murmuration (Upgrade)",
@@ -2964,7 +2961,6 @@ export default {
       "sid": "b3a2a4b5-40a0-4875-8017-bc455d657040",
       "dp": 2,
       "fd": "Purge the Foe",
-      "unique": "ENGINES",
       "enhancements": [
         {
           "name": "Eye of Affliction",

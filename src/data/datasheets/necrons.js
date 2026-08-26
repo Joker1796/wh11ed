@@ -2234,27 +2234,27 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 175,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 50,
+        "points": 70,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 65,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 110,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 205,
         "note": "3rd+"
       }
     ],
@@ -2333,7 +2333,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 160,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
@@ -2348,7 +2348,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 170,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -2435,7 +2435,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Lokhust Lords skim into battle on swift grav-sled bodies. Driven by nihilistic hatred, their every optimised strike slaughters swathes of the foe. Meanwhile, should the enemy wound a Lokhust Lord, in return they must watch in despair as minute repair-scarabs spill from his phylactery in a silvery tide to repair his rent form.",
@@ -2693,7 +2693,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and must be set up wholly within 6\" of this unit and not engaged with any enemy units. That unit cannot make a charge move this turn."
+        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and while making that ingress move, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent\u2019s deployment zone. That unit cannot make a charge move this turn."
       }
     ],
     "damaged": {
@@ -2726,7 +2726,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 80
+        "points": 85
       },
       {
         "models": 20,
@@ -3077,7 +3077,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 145,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -3087,7 +3087,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 155,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -3423,7 +3423,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 60
       }
     ],
     "flavor": "Plasmancers are unsubtle annihilators. They are capable of wielding energy as a weapon itself rather than needing to bind it to other forms. Arcs of unstable lightning leap from their forms to wrack nearby foes, and with a gesture these Crypteks can channel those same energies into searing ranged blasts.",
@@ -3854,12 +3854,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90,
+        "points": 95,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 100,
+        "points": 105,
         "note": "3rd+"
       }
     ],

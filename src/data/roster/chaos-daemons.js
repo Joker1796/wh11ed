@@ -63,7 +63,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 80,
           "per": [
             1,
             1
@@ -71,7 +71,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 140,
+          "pts": 150,
           "per": [
             2,
             2
@@ -123,7 +123,7 @@ export default {
           ]
         },
         {
-          "pts": 190,
+          "pts": 200,
           "per": [
             4,
             6
@@ -144,7 +144,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 20
+        "pts": 40
       },
       "minis": [
         {
@@ -629,7 +629,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 115,
           "per": [
             1,
             1
@@ -638,6 +638,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "leads": [
         {
           "to": "daemonettes",
@@ -796,7 +800,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
           "per": [
             10,
             10
@@ -1094,7 +1098,7 @@ export default {
           ]
         },
         {
-          "pts": 180,
+          "pts": 190,
           "per": [
             4,
             6
@@ -1113,6 +1117,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
       "minis": [
         {
           "n": "Blissbringer"
@@ -1722,7 +1730,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 255,
+          "pts": 265,
           "per": [
             1,
             1
@@ -2277,7 +2285,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 60,
           "per": [
             1,
             1
@@ -2286,6 +2294,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "leads": [
         {
           "to": "plaguebearers",
@@ -2321,7 +2333,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 150,
+          "pts": 160,
           "per": [
             1,
             1
@@ -2452,7 +2464,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 85,
           "per": [
             5,
             5
@@ -2704,7 +2716,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
           "per": [
             1,
             1
@@ -3421,7 +3433,7 @@ export default {
       "name": "Daemonic Incursion",
       "sid": "5357f63c-7c70-459e-aa3b-1ea9c4ef48bb",
       "dp": 3,
-      "fd": "Disruption",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "A’rgath, The King of Blades",

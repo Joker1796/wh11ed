@@ -1031,7 +1031,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
           "per": [
             3,
             3
@@ -3473,7 +3473,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
             2,
             2
@@ -3690,7 +3690,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 375,
+          "pts": 395,
           "per": [
             1,
             1
@@ -4201,7 +4201,7 @@ export default {
         },
         {
           "name": "Strike Swiftly",
-          "pts": 35,
+          "pts": 45,
           "type": "miniature",
           "req": [
             {

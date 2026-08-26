@@ -311,7 +311,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 135,
           "per": [
             1,
             1
@@ -498,7 +498,6 @@ export default {
       "name": "Harridan",
       "kws": [
         "Fly",
-        "Frame",
         "Great Devourer",
         "Harridan",
         "Monster",
@@ -1007,7 +1006,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 190,
+          "pts": 180,
           "per": [
             1,
             1
@@ -1525,7 +1524,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 45,
+          "pts": 40,
           "per": [
             1,
             1
@@ -1533,14 +1532,14 @@ export default {
           "default": 1
         },
         {
-          "pts": 65,
+          "pts": 70,
           "per": [
             2,
             2
           ]
         },
         {
-          "pts": 95,
+          "pts": 100,
           "per": [
             3,
             3
@@ -2508,7 +2507,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 170,
           "per": [
             1,
             1
@@ -2581,7 +2580,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 170,
           "per": [
             4,
             6
@@ -2853,7 +2852,7 @@ export default {
           ]
         },
         {
-          "pts": 200,
+          "pts": 190,
           "per": [
             4,
             6
@@ -3297,7 +3296,7 @@ export default {
         },
         {
           "name": "Synaptoprescience (Upgrade)",
-          "pts": 25,
+          "pts": 30,
           "type": "upgrade",
           "nonCharOk": 1,
           "limit": 3,

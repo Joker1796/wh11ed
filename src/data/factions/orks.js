@@ -60,7 +60,7 @@ const en = {
           flavor: 'If their vehicle is on its last legs, any sensible Ork driver will aim its fiery remains into the nearest foe.',
           when: 'Any phase, just after an Orks Vehicle unit from your army with the Deadly Demise ability is destroyed.',
           target: 'That destroyed Orks Vehicle unit, if you rolled a 6 for its Deadly Demise ability. You can use this Stratagem on that unit even though it was just destroyed.',
-          effect: 'Your unit can make a Normal or Fall Back move before its Deadly Demise ability is resolved, and before any embarked units perform an Emergency Disembarkation. When making this move, your unit can move over enemy units (excluding Monsters and Vehicles) as if they were not there.',
+          effect: 'Your unit can make a Normal or Fall Back move before its Deadly Demise ability is resolved, and before any embarked units perform an emergency disembark move. When making this move, your unit can move over enemy units (excluding Monsters and Vehicles) as if they were not there.',
           restrictions: '',
         },
         {
@@ -1072,7 +1072,7 @@ Designer's Note: When a unit uses its turbo, the models in that unit cannot pivo
           flavor: 'As Orkoid vehicles thunder into battle at high speed, hatches and ramps swing open, unleashing eager mobs into the thick of the fight.',
           when: 'Your Movement phase.',
           target: 'One Battlewagon, Kill Rig or Hunta Rig unit from your army that has not been selected to move this phase.',
-          effect: 'Until the end of the turn, each time a unit disembarks from your unit after your unit makes a Normal move, that disembarked unit is still eligible to declare a charge this turn.',
+          effect: 'When this unit ends a Normal move, units embarked within this unit can make an assault disembark move (Core Rules, 18.06).',
           restrictions: '',
         },
         {

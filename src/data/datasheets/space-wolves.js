@@ -91,6 +91,10 @@ export const sharedUnitIds = [
 // (unit_composition_required_faction_keyword: 'Space Wolves') than the space-marines.js base
 // price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
 export const pointsOverrides = {
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "repulsor-executioner": [
     { models: 1, points: 230, note: "1st-2nd" },
     { models: 1, points: 250, note: "3rd+" },
@@ -1167,12 +1171,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 110,
+        "points": 130,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 210,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -1854,22 +1858,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 150,
+        "points": 155,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 300,
+        "points": 310,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 165,
+        "points": 195,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 315,
+        "points": 350,
         "note": "3rd+"
       }
     ],

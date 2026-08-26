@@ -1514,11 +1514,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 95
       },
       {
         "models": 10,
-        "points": 210
+        "points": 200
       }
     ],
     "flavor": "Dark Reapers unleash firestorms with their long-ranged Reaper launchers, whether using infantry-shredding starswarm missiles or armour-piercing starshot variants. These salvoes are chillingly accurate, thanks to advanced targeting systems but also the Reapers’ armour, which anchors them firmly to the ground while they fire.",
@@ -1756,11 +1756,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 70
       },
       {
         "models": 10,
-        "points": 150
+        "points": 140
       }
     ],
     "flavor": "Furious in attack and immovable in defence, Dire Avengers wield Avenger catapults that unleash punishing bursts of monomolecular shurikens. Drawing on their faultless battle instincts, they always know when to launch lightning-fast assaults and when to fall back and draw the enemy into a kill zone.",
@@ -2005,7 +2005,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "One of the most potent Aeldari psykers ever to have lived, when Eldrad Ulthran takes to the field his enemies’ plans are already known to him. Such is Eldrad’s psychic might that he can break Titans and banish the mightiest of daemons, and over the millennia he has slain kings and champions beyond number.",
@@ -2083,11 +2083,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Warlock Conclave",
         "Storm Guardians",
         "Guardian Defenders"
-      ],
-      "footer": "* If this model is not already attached to a unit, you can attach this model to a unit even if one Warlocks unit has already been attached to it."
+      ]
     },
     "keywords": [
       "Infantry",
@@ -2370,7 +2368,6 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Warlock Conclave",
         "Storm Guardians",
         "Guardian Defenders"
       ]
@@ -4964,7 +4961,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 50
       }
     ],
     "flavor": "It falls to the Spiritseers to commune with the souls of the dead. In this capacity, they guide ghost warriors through the inferno of battle, bringing the world around them into greater focus. Aided in this way, ghost warriors become yet more lethal, their strikes and shots ensuring the swift demise of their foes.",
@@ -5334,7 +5331,7 @@ export default [
     "points": [
       {
         "models": 11,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Storm Guardians often support Aspect Warriors in close combat, wielding their pistols and blades with all the grace and skill of their kind. Other Storm Guardians bring special weapons to bear, burning foes out of cover with bursts from their flamers or melting through armoured bunkers with their fusion guns.",
@@ -5784,7 +5781,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "The Visarch darts amongst the foe, taking off limbs and heads with the Cronesword Asu-var, the Sword of Silent Screams. The many faces that adorn his ancient suit of Bel-Anshoc armour represent the personalities he can take in battle, which include the sure blade of an Exarch and the acrobatic prowess of a Drukhari Wych.",
@@ -5837,7 +5834,7 @@ export default [
         "d": "3"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus, Disparate Paths",
     "abilities": [
       {
@@ -5866,12 +5863,9 @@ export default [
         "Corsair Voidscarred",
         "Guardian Defenders",
         "Storm Guardians",
-        "Ynnari Incubi",
         "Ynnari Kabalite Warriors",
-        "Ynnari Wyches",
-        "Yvraine"
-      ],
-      "footer": "* You can attach this unit to one of the above units, even if Yvraine has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
+        "Ynnari Wyches"
+      ]
     },
     "keywords": [
       "Character",
@@ -6600,7 +6594,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 80
       },
       {
         "models": 2,
@@ -6731,7 +6725,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45
+        "points": 40
       }
     ],
     "flavor": "Seers who have trained as Aspect Warriors find it easier to develop destructive psychic powers. These Aeldari are called Warlocks. In battle, they frequently band together in conclaves to pool their eldritch power, or else lead other Aeldari squads such as Guardians from the front. Casting the runes of battle, they wreak havoc on the foe.",
@@ -6943,7 +6937,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus",
     "abilities": [
       {
@@ -6978,8 +6972,7 @@ export default [
       "units": [
         "Guardian Defenders",
         "Storm Guardians"
-      ],
-      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Guardian Defenders or Storm Guardians unit from your army (a unit cannot have more than one Warlock Conclave unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      ]
     }
   },
   {
@@ -6988,7 +6981,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 45
       },
       {
         "models": 2,
@@ -7087,7 +7080,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus",
     "abilities": [
       {
@@ -7122,8 +7115,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Windriders"
-      ],
-      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Windriders unit from your army (a unit cannot have more than one Warlock Skyrunners unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      ]
     }
   },
   {
