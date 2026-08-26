@@ -9,6 +9,16 @@
       <span class="hv-date">{{ formatDate(game.finishedAt || game.createdAt) }}</span>
     </div>
 
+    <!-- The lists that were fielded, if they were attached at setup — the game carries its own
+         snapshot of each, so this still works long after the saved roster changed or went away. -->
+    <div v-if="rosterLinks.length" class="hv-rosters">
+      <RouterLink v-for="l in rosterLinks" :key="l.pi" class="hv-roster" :to="`/tracker/history/${game.id}/roster/${l.pi}`">
+        <i class="bi bi-card-list"></i>
+        <span class="hv-roster-who">{{ l.who }}</span>
+        <span class="hv-roster-name">{{ l.name }}</span>
+      </RouterLink>
+    </div>
+
     <ScoreBoard :game="game" :finished="true" />
     <ScoreBreakdown :game="game" />
     <ArmyRuleSummary :game="game" />
@@ -42,6 +52,10 @@ const { history } = useTracker()
 
 const game = computed(() => history.value.find((g) => g.id === route.params.id) || null)
 
+const rosterLinks = computed(() => (game.value?.players || [])
+  .map((p, pi) => ({ pi, name: p.roster?.name || '', who: p.name || (p.isYou ? labels.value.trackerYou : labels.value.trackerOpponent), has: !!p.roster?.units }))
+  .filter((l) => l.has))
+
 // Battlefield layout diagram — recommended (by dispositions + letter) or a custom pick.
 const layout = computed(() => {
   const g = game.value
@@ -58,24 +72,24 @@ if (!game.value) router.replace('/tracker')
 </script>
 
 <style scoped>
+.hv-rosters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
+.hv-roster {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  /* A list can be named anything, including a whole poem — the pill gives way rather than
+     widening the page (same reason .players uses minmax(0, 1fr); see GameSetup.vue). */
+  max-width: 100%; min-width: 0;
+  padding: 0.4rem 0.75rem; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
+}
+.hv-roster:hover { border-color: var(--accent); color: var(--accent); }
+.hv-roster-who { color: var(--text-muted); }
+.hv-roster-name { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 .history-view {
   padding-top: 0.5rem;
 }
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  cursor: pointer;
-  padding: 0.3rem 0;
-  margin-bottom: 0.5rem;
-}
-.back:hover {
-  color: var(--accent);
-}
+/* Sits above the page heading rather than inline with the content, so it keeps its own spacing. */
+.back { padding: 0.3rem 0; margin-bottom: 0.5rem; }
 .hv-head {
   display: flex;
   align-items: baseline;

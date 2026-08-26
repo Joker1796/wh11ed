@@ -383,3 +383,214 @@ describe('applyArmyBonus / undoArmyBonus (GSC round-1 start bonus)', () => {
     expect(tracker.current.value.players[0].army.counter).toBeUndefined()
   })
 })
+
+// Rule-condition switches — what the app cannot know and the player tells it (rosterGameContext.js
+// reads these back). Stored as the battle ROUND they were flipped in, which is what lets a
+// "until the end of the turn" state expire on its own.
+describe('setArmyCondition / setUnitCondition', () => {
+  beforeEach(() => {
+    tracker.newGame(setupGame())
+  })
+
+  it('records the round an army switch was flipped in, and clears it again', () => {
+    const t = tracker
+    t.setArmyCondition(0, 'imperative-protector', 2, true)
+    expect(t.current.value.players[0].ctx.army['imperative-protector']).toBe(2)
+    t.setArmyCondition(0, 'imperative-protector', 3, false)
+    expect(t.current.value.players[0].ctx.army['imperative-protector']).toBeUndefined()
+  })
+
+  it('keys unit switches by the roster entry and tidies up after itself', () => {
+    const t = tracker
+    t.setUnitCondition(0, 'u1', 'unit-charged', 1, true)
+    t.setUnitCondition(0, 'u1', 'unit-advanced', 1, true)
+    expect(t.current.value.players[0].ctx.units.u1).toEqual({ 'unit-charged': 1, 'unit-advanced': 1 })
+
+    t.setUnitCondition(0, 'u1', 'unit-charged', 1, false)
+    t.setUnitCondition(0, 'u1', 'unit-advanced', 1, false)
+    // The entry goes with its last switch — an empty bag per unit would grow with every unit
+    // ever touched, in a payload capped at 64 KB by the API.
+    expect(t.current.value.players[0].ctx.units.u1).toBeUndefined()
+  })
+
+  it('keeps the two players apart', () => {
+    const t = tracker
+    t.setArmyCondition(1, 'drug-hypex', 1, true)
+    expect(t.current.value.players[0].ctx).toBeUndefined()
+    expect(t.current.value.players[1].ctx.army['drug-hypex']).toBe(1)
+  })
+})
+
+// ── The clock (battle round → whose turn → phase) ──────────────────────────────────────────────
+// `players[0]` is always the first-turn player, so a turn index IS a player index; the phase row
+// in RoundTracker reads these two fields and nothing else.
+describe('the phase clock', () => {
+  it('a new game starts at the first-turn player\'s Command phase', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('steps through five phases, then hands the turn over', () => {
+    tracker.newGame(setupGame())
+    for (let i = 0; i < 4; i++) tracker.stepPhase(1)
+    expect(tracker.current.value.currentPhase).toBe('fight')
+    expect(tracker.current.value.currentTurn).toBe(0)
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('rolls into the next battle round after the second player\'s Fight phase', () => {
+    tracker.newGame(setupGame())
+    for (let i = 0; i < 10; i++) tracker.stepPhase(1)
+    const g = tracker.current.value
+    expect(g.currentRound).toBe(2)
+    expect(g.currentTurn).toBe(0)
+    expect(g.currentPhase).toBe('command')
+  })
+
+  it('steps back across the round boundary onto the second player\'s Fight phase', () => {
+    tracker.newGame(setupGame())
+    tracker.goToRound(3)
+    tracker.stepPhase(-1)
+    const g = tracker.current.value
+    expect(g.currentRound).toBe(2)
+    expect(g.currentTurn).toBe(1)
+    expect(g.currentPhase).toBe('fight')
+  })
+
+  it('never steps off either end of the battle', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.canStepPhase(-1)).toBe(false)
+    tracker.stepPhase(-1)
+    expect(tracker.current.value.currentRound).toBe(1)
+    tracker.goToRound(mod.ROUND_COUNT)
+    tracker.goToPhase(1, 'fight')
+    expect(tracker.canStepPhase(1)).toBe(false)
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentRound).toBe(mod.ROUND_COUNT)
+    expect(tracker.current.value.currentPhase).toBe('fight')
+  })
+
+  it('changing the round resets the clock — a leftover phase would read as "now"', () => {
+    tracker.newGame(setupGame())
+    tracker.goToPhase(1, 'charge')
+    tracker.goToRound(4)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('command')
+  })
+
+  it('goToPhase ignores a phase that is not one', () => {
+    tracker.newGame(setupGame())
+    tracker.goToPhase(1, 'psychic')
+    expect(tracker.current.value.currentPhase).toBe('command')
+    expect(tracker.current.value.currentTurn).toBe(0)
+  })
+
+  it('a game saved before the clock existed reads as the opening phase and steps from there', () => {
+    tracker.newGame(setupGame())
+    delete tracker.current.value.currentTurn
+    delete tracker.current.value.currentPhase
+    tracker.stepPhase(1)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(tracker.current.value.currentPhase).toBe('movement')
+  })
+})
+
+// ── Rule-condition switches ───────────────────────────────────────────────────────────────────
+describe('condition switches', () => {
+  it('records when a switch was flipped, and clears it on the way back off', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, true)
+    expect(tracker.current.value.players[0].ctx.units.u1['unit-charged']).toBe(205)
+    tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, false)
+    expect(tracker.current.value.players[0].ctx.units).toEqual({})
+  })
+
+  // "A unit can only be affected by one Order at a time (any Order subsequently issued to that
+  // unit replaces the current one)" — the rule replaces, so the store does too.
+  it('an alternative replaces its sibling instead of stacking with it', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitCondition(0, 'u1', 'order-take-aim', 101, true)
+    tracker.setUnitCondition(0, 'u1', 'order-fix-bayonets', 102, true)
+    expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102 })
+  })
+
+  // Creations of Bile: "either select one from the list below, or randomly determine two". Two fit
+  // in the group; a third one pushes out the one that has been on longest.
+  it('lets a capped group hold its whole allowance, then evicts the oldest', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'augment-cholinergic-accelerants', 101, true)
+    tracker.setArmyCondition(0, 'augment-hyperadrenal-infusion', 102, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-cholinergic-accelerants', 'augment-hyperadrenal-infusion'])
+    tracker.setArmyCondition(0, 'augment-macrotensile-sinews', 103, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-hyperadrenal-infusion', 'augment-macrotensile-sinews'])
+  })
+
+  // Switches flipped in the same phase share a stamp, so the sort has nothing to go on but the
+  // order they were written in — and that order is still "which one has been on longest".
+  it('breaks a tie on insertion order when a whole group shares one stamp', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'augment-paraneural-reactions', 101, true)
+    tracker.setArmyCondition(0, 'augment-supracutaneous-chitination', 101, true)
+    tracker.setArmyCondition(0, 'augment-ophthalmic-enhancement', 101, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['augment-ophthalmic-enhancement', 'augment-supracutaneous-chitination'])
+  })
+
+  it('leaves ungrouped switches alone — some rules really do allow several', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'blessing-martial-excellence', 101, true)
+    tracker.setArmyCondition(0, 'blessing-warp-blades', 101, true)
+    expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
+      .toEqual(['blessing-martial-excellence', 'blessing-warp-blades'])
+  })
+
+  // A stratagem is spent, not switched: several can be up on one unit at once, and each is keyed by
+  // the record it came from rather than by a condition id.
+  it('records a stratagem spent on a unit, and forgets it when taken back', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitStratagem(0, 'u1', 'strat-a', 205, true)
+    tracker.setUnitStratagem(0, 'u1', 'strat-b', 205, true)
+    expect(tracker.current.value.players[0].ctx.strats.u1).toEqual({ 'strat-a': 205, 'strat-b': 205 })
+    tracker.setUnitStratagem(0, 'u1', 'strat-a', 205, false)
+    expect(tracker.current.value.players[0].ctx.strats.u1).toEqual({ 'strat-b': 205 })
+    tracker.setUnitStratagem(0, 'u1', 'strat-b', 205, false)
+    expect(tracker.current.value.players[0].ctx.strats).toEqual({})
+  })
+
+  // An ability set's choice is that model's, keyed by the option's own record — and the set's size
+  // caps it: picking a third relic drops the one that has been up longest.
+  it('records an ability-set pick, and evicts the oldest when the set is full', () => {
+    tracker.newGame(setupGame())
+    const set = { siblings: ['a', 'b', 'c'], limit: 2 }
+    tracker.setUnitPick(0, 'u1', 'a', 201, true, set)
+    tracker.setUnitPick(0, 'u1', 'b', 202, true, set)
+    expect(tracker.current.value.players[0].ctx.picks.u1).toEqual({ a: 201, b: 202 })
+    tracker.setUnitPick(0, 'u1', 'c', 203, true, set)
+    expect(tracker.current.value.players[0].ctx.picks.u1).toEqual({ b: 202, c: 203 })
+    tracker.setUnitPick(0, 'u1', 'b', 203, false, set)
+    tracker.setUnitPick(0, 'u1', 'c', 203, false, set)
+    expect(tracker.current.value.players[0].ctx.picks).toEqual({})
+  })
+
+  // An aura is a relationship with another model, not a state of this one — so it is keyed by the
+  // record it radiates from, in its own map, exactly like a spent stratagem.
+  it('records an aura marked on a unit, and forgets it when unmarked', () => {
+    tracker.newGame(setupGame())
+    tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, true)
+    expect(tracker.current.value.players[0].ctx.auras.u1).toEqual({ 'fiery-heart': 205 })
+    tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, false)
+    expect(tracker.current.value.players[0].ctx.auras).toEqual({})
+  })
+
+  it('keeps the two players\' contexts apart', () => {
+    tracker.newGame(setupGame())
+    tracker.setArmyCondition(0, 'tactic-furor', 101, true)
+    expect(tracker.current.value.players[1].ctx).toBeUndefined()
+  })
+})
+

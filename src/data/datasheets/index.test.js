@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { loadDatasheets, sharedIdsFor } from './index.js'
-import { loadDatasheetsRu } from './ru/index.js'
+import { loadDatasheetsRu, localizeSheet } from './ru/index.js'
 
 // Deathwatch is one of the 5 SM-Chapter codex factions that shares most of its roster
 // with space-marines.js instead of duplicating it (see index.js / deathwatch.js).
@@ -28,5 +28,33 @@ describe('SM-Chapter datasheet dedup', () => {
     // Deathwatch's own overlay file never mentions it.
     expect(mod).toBeTruthy()
     expect(typeof mod.default).toBe('object')
+  })
+})
+
+describe('the English ability name survives translation', () => {
+  const sheet = {
+    id: 'x',
+    abilities: [{ name: 'Enhanced Warriors', text: 'If this unit is attached…' }],
+    abilitySets: [{ name: 'Warlord Traits', options: [{ name: 'Rites of Teleportation', text: '…' }] }],
+  }
+
+  it('records nameEn wherever the header actually changed', () => {
+    const out = localizeSheet(sheet, {}, { 'Enhanced Warriors': 'Усиленные воины' })
+    expect(out.abilities[0].name).toBe('Усиленные воины')
+    expect(out.abilities[0].nameEn).toBe('Enhanced Warriors')
+    // Shared names translate from SHARED_RULE_NAMES without any faction map of their own.
+    expect(out.abilitySets[0].options[0].nameEn).toBe('Rites of Teleportation')
+  })
+
+  it('leaves an untranslated name with no nameEn — there is nothing to show', () => {
+    const out = localizeSheet(sheet, {}, {})
+    expect(out.abilities[0].name).toBe('Enhanced Warriors')
+    expect(out.abilities[0].nameEn).toBeUndefined()
+  })
+
+  it('records it for the overlay\'s own { name, text } form too', () => {
+    const out = localizeSheet(sheet, { abilities: { 'Enhanced Warriors': { name: 'Улучшенные', text: 'т' } } }, {})
+    expect(out.abilities[0].name).toBe('Улучшенные')
+    expect(out.abilities[0].nameEn).toBe('Enhanced Warriors')
   })
 })

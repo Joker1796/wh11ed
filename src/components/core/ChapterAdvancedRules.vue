@@ -82,10 +82,6 @@ const sections = useBilingualSections(advancedRules, (section, ruSection) =>
 </script>
 
 <style scoped>
-.split-block {
-  margin-bottom: 1rem;
-  scroll-margin-top: var(--header-total);
-}
 
 .table-block {
   margin: 1rem 0 1.5rem;

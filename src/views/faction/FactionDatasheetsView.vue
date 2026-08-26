@@ -166,18 +166,6 @@ const groupedDatasheets = computed(() => {
 </script>
 
 <style scoped>
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
-
-.fsection-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
-}
 
 .ds-search {
   width: 100%;
@@ -187,7 +175,6 @@ const groupedDatasheets = computed(() => {
   color: var(--text-primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
   margin-bottom: 0.9rem;
 }
 
@@ -230,7 +217,6 @@ const groupedDatasheets = computed(() => {
   padding: 0.35rem 1.9rem 0.35rem 0.55rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
@@ -250,7 +236,6 @@ const groupedDatasheets = computed(() => {
   padding: 0;
   background: none;
   border: none;
-  border-radius: 4px;
   color: var(--text-muted);
   font-size: 0.85rem;
   line-height: 1;
@@ -306,7 +291,4 @@ const groupedDatasheets = computed(() => {
   font-size: 1rem;
 }
 
-@media (max-width: 640px) {
-  .fsection-title { font-size: 1.6rem; }
-}
 </style>

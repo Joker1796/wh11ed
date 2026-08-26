@@ -1,0 +1,419 @@
+// Roster validation — a pure module (no Vue, no store). Philosophy: NEVER block. Like the
+// official app, we always compute a total and surface violations for the user to judge, rather
+// than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
+// to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
+// (incomplete / soft). `uid` ties an issue to a specific unit entry.
+import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword, grantedKeywords } from './rosterEngine.js'
+
+// Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
+// and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
+export function duplicateLimit(def, dupLimit) {
+  if (def.flags?.epic) return 1
+  if (hasKeyword(def, 'Battleline') || def.condBattleline || hasKeyword(def, 'Dedicated Transport')) return dupLimit * 2
+  return dupLimit
+}
+
+// How many roster entries currently occupy each duplicate-cap "slot" (rosterEngine.js's
+// capKeyOf — normally one per datasheet id, but a future same-character/multiple-datasheets
+// case would share a key). Shared by validateRoster's own check below and
+// RosterUnitBrowser.vue's live add-button guard, so the two never disagree about the count.
+export function duplicateCounts(units, defOf) {
+  const m = new Map()
+  for (const u of units || []) {
+    const def = defOf(u.id)
+    if (!def) continue
+    const key = capKeyOf(def)
+    m.set(key, (m.get(key) || 0) + 1)
+  }
+  return m
+}
+
+export function validateRoster(roster, { faction, core } = {}) {
+  const units = roster?.units || []
+  const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
+  const defOf = (id) => defMap.get(id)
+  const battle = effectiveBattle(roster, core)
+  // Selected detachments (roster stores names, like the tracker) → their data objects.
+  const detachments = (roster?.detachments || [])
+    .map((name) => (faction?.detachments || []).find((d) => d.name === name))
+    .filter(Boolean)
+
+  const points = rosterPoints(units, defOf, detachments)
+  const issues = []
+  // Every issue tied to an entry names it. The message templates cannot do that on their own — the
+  // same code is raised from a dozen places and several carry no unit at all — so `unit` is filled
+  // in here for anything with a `uid`, and the templates only have to leave room for it. An army
+  // holding three Warbosses would then say the same thing three times, so a name shared by several
+  // entries gets that entry's number in the list: the reader can tell which row the modal will jump
+  // to before they tap it.
+  const nameOf = (uid) => {
+    const at = units.findIndex((u) => u.uid === uid)
+    const def = at < 0 ? null : defOf(units[at].id)
+    if (!def) return null
+    const same = units.filter((u) => u.id === units[at].id)
+    if (same.length < 2) return def.name
+    return `${def.name} (${same.findIndex((u) => u.uid === uid) + 1})`
+  }
+  const add = (code, level, extra) => {
+    const iss = { code, level, ...extra }
+    if (iss.uid) {
+      const unit = nameOf(iss.uid)
+      if (unit) iss.params = { unit, ...(iss.params || {}) }
+    }
+    issues.push(iss)
+  }
+
+  // Incompleteness (soft).
+  if (!roster?.faction) add('noFaction', 'warn')
+  else if (!roster?.detachments?.length) add('noDetachment', 'warn')
+
+  // An entry whose datasheet the faction data no longer has. Rosters live in localStorage for as
+  // long as the user keeps them and the generated data is replaced on every deploy, so a GW rename
+  // (or a unit dropped from the codex) leaves entries pointing at nothing. Every other reader
+  // filters those out — the grouped lists, the export, the points total — so without this the unit
+  // silently vanishes and the army quietly gets cheaper. Reported, not removed: which unit to put
+  // back is the player's call, and the entry still carries their wargear picks.
+  if (faction) {
+    for (const u of units) if (u.id && !defOf(u.id)) add('unknownUnit', 'error', { uid: u.uid, params: { id: u.id } })
+  }
+
+  // Points limit.
+  if (points > battle.points) {
+    add('overPoints', 'error', { params: { over: points - battle.points, limit: battle.points } })
+  }
+
+  // Detachment-Points budget: the selected detachments' costs must fit the battle size's DP.
+  const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
+  if (dpSpent > battle.dp) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
+
+  // Detachment tags: "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY
+  // detachment" (core rules 25.04). 26 tags across 17 factions, and 19 of those pairs fit inside a
+  // 3 DP budget, so this is reachable in two clicks — the editor's picker greys the second one out,
+  // and this catches a list that was imported or built before the tag was known.
+  {
+    const byTag = new Map()
+    for (const d of detachments) {
+      if (!d.unique) continue
+      if (!byTag.has(d.unique)) byTag.set(d.unique, [])
+      byTag.get(d.unique).push(d.name)
+    }
+    for (const [tag, names] of byTag) {
+      if (names.length > 1) add('detachmentTagClash', 'error', { params: { tag, names: names.join(', ') } })
+    }
+  }
+
+  // Duplicate datasheet limits — grouped by capKeyOf, not raw id, so a future same-character/
+  // multiple-datasheets case (see rosterEngine.js's capKeyOf) is capped as one slot.
+  {
+    const byKey = new Map()
+    for (const u of units) {
+      const def = defOf(u.id)
+      if (!def) continue
+      const key = capKeyOf(def)
+      if (!byKey.has(key)) byKey.set(key, [])
+      byKey.get(key).push(u)
+    }
+    for (const list of byKey.values()) {
+      const def = defOf(list[0].id)
+      const limit = duplicateLimit(def, battle.dupLimit)
+      if (list.length > limit) {
+        const over = defOf(list[limit].id) || def
+        add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
+      }
+    }
+  }
+
+  // Wargear pick limits. The editor caps the steppers as you click, so this can only fire on a
+  // list that was legal when it was built and stopped being one — almost always by SHRINKING the
+  // unit ("up to 4 at 10 models" → 2 when it drops to 5). Reported, never auto-trimmed: which
+  // weapon to give up is the player's call, not ours.
+  for (const u of units) {
+    const def = defOf(u.id)
+    for (const [gi] of (def?.gear || []).entries()) {
+      const cap = wargearGroupCap(def, u, gi)
+      if (!wargearGroupLive(def, u, gi)) continue
+      if (!cap) {
+        // No structural cap: the ceiling is however many models the group belongs to (times the
+        // copies of the weapon each carries — see wargearGroupFallbackCap). Deliberately
+        // conservative — a "for every 5 models" group has a tighter limit still, but its wording
+        // isn't available here, so this only reports what it can prove, never a guess.
+        const own = wargearGroupFallbackCap(def, u, gi)
+        const used = wargearGroupSpent(u, gi)
+        if (own != null && used > own) {
+          add('overWargearLimit', 'error', { uid: u.uid, params: { count: used, limit: own } })
+        }
+        continue
+      }
+      const spent = wargearGroupSpent(u, gi)
+      if (spent > cap.limit) {
+        add('overWargearLimit', 'error', { uid: u.uid, params: { count: spent, limit: cap.limit } })
+        continue
+      }
+      const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
+      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { count: over[2] || 1, limit: cap.dup } })
+    }
+  }
+
+  // Allegiance choices — the mark a unit must pick, and the army-wide cap on the optional upgrades.
+  {
+    const spentByGroup = new Map()
+    for (const u of units) {
+      const def = defOf(u.id)
+      const a = allegFor(def, detachments)
+      if (!a) continue
+      if (u.alleg) spentByGroup.set(a.g, (spentByGroup.get(a.g) || 0) + 1)
+      else if (a.req) add('allegMissing', 'error', { uid: u.uid, params: { group: a.t || a.g } })
+    }
+    // "Select up to 3 …" is a cap; "select 3 …" (Chaos Knights' Houndpack Lance, min 3 / max 3) is
+    // also a floor, and a list one War Dog short of it is illegal in the same way one over is.
+    const capOf = new Map()
+    for (const u of units) {
+      const a = allegFor(defOf(u.id), detachments)
+      if (a?.max || a?.min) capOf.set(a.g, { max: a.max, min: a.min, t: a.t || a.g })
+    }
+    for (const [g, { max, min, t }] of capOf) {
+      const spent = spentByGroup.get(g) || 0
+      if (max && spent > max) add('allegOverLimit', 'error', { params: { group: t, count: spent, limit: max } })
+      if (min && spent < min) add('allegUnderLimit', 'error', { params: { group: t, count: spent, limit: min } })
+    }
+
+    // "A Character unit can only be attached to a unit if both units share the same keyword" —
+    // the restriction printed in the Marks of Chaos detachment rule. Scoped to that group by key,
+    // because it is that rule's own wording, not a property of allegiances in general: the
+    // CHARACTER-granting upgrades carry no such clause.
+    for (const u of units) {
+      if (!u.leaderOf || !u.alleg) continue
+      const own = allegFor(defOf(u.id), detachments)
+      if (own?.g !== 'mark-of-chaos') continue
+      const target = units.find((x) => x.uid === u.leaderOf)
+      if (!target?.alleg || target.alleg === u.alleg) continue
+      add('allegMismatch', 'error', {
+        uid: u.uid,
+        params: { own: u.alleg, target: nameOf(target.uid) || defOf(target.id)?.name, theirs: target.alleg },
+      })
+    }
+  }
+
+  // Warlord: exactly one, eligible, and matching a mandatory warlord if the detachment sets one.
+  const warlords = units.filter((u) => u.warlord)
+  if (units.length && warlords.length === 0) add('noWarlord', 'error')
+  if (warlords.length > 1) add('manyWarlords', 'error', { uid: warlords[1].uid })
+  for (const w of warlords) {
+    const def = defOf(w.id)
+    // The allegiance keyword counts here for the same reason it counts for enhancements below: a
+    // War Dog that took Houndpack Lance's CHARACTER is a Character.
+    const granted = [allegKeyword(def, w, detachments)].filter(Boolean)
+    if (def && !canBeWarlord(def, detachments, granted)) add('warlordIneligible', 'error', { uid: w.uid })
+  }
+  // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
+  // Yncarne) — every detachment's own list is an OR-alternative, flattened across all selected
+  // detachments (gen-roster-data.mjs's detMandWarlord already collects every row per detachment).
+  const mandWarlords = detachments.flatMap((d) => d.mandWarlord || [])
+  if (mandWarlords.length && warlords.length === 1 && !mandWarlords.includes(warlords[0].id)) {
+    add('mandatoryWarlord', 'warn', { uid: warlords[0].uid })
+  }
+  // Supreme Commander ("if this model is in your army, it must be your Warlord") — 17 datasheets
+  // carry it. SEVERAL of them may be in one army: the Muster step (src/data/muster.js) says so
+  // outright — "Some units have a rule on their datasheet stating that they must be your WARLORD.
+  // If you want to include one or more of these units in your army, you must select one of them to
+  // be your WARLORD." So the rule is not "one such unit", it is "one of them wears the title", and
+  // Belisarius Cawl beside Thulia Ghuld is a legal Adeptus Mechanicus list, not the unresolvable
+  // conflict this used to call it.
+  const supremeUnits = units.filter((u) => defOf(u.id)?.flags?.supreme)
+  if (supremeUnits.length && !supremeUnits.some((u) => u.warlord)) {
+    const names = supremeUnits.map((u) => defOf(u.id)?.name).filter(Boolean)
+    if (supremeUnits.length === 1) add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid })
+    else add('supremeCommanderPick', 'error', { uid: supremeUnits[0].uid, params: { names: [...new Set(names)].join(', ') } })
+  }
+
+  // Enhancements: each up to its own per-name cap (an "(Upgrade)" enhancement — see
+  // rosterEngine.js's enhOptionsFor — explicitly allows several units to share the same one,
+  // ordinary enhancements cap at 1), within the army-wide enhancement-slot limit (counted ones
+  // only), on a legal unit.
+  // An enhancement its own rules bar from the Warlord (World Eaters' Disciple of Khorne).
+  for (const w of warlords) {
+    const e = w.enh && findEnhancement(detachments, w.enh)
+    if (e?.notWarlord) add('enhNotWarlord', 'error', { uid: w.uid, params: { enh: w.enh } })
+  }
+
+  const enhUnits = units.filter((u) => u.enh)
+  const byEnhName = new Map()
+  for (const u of enhUnits) {
+    if (!byEnhName.has(u.enh)) byEnhName.set(u.enh, [])
+    byEnhName.get(u.enh).push(u)
+  }
+  for (const [name, list] of byEnhName) {
+    const limit = findEnhancement(detachments, name)?.limit || 1
+    for (const u of list.slice(limit)) add('dupEnh', 'error', { uid: u.uid, params: { enh: name } })
+  }
+  if (detachments.length) {
+    const counted = enhUnits.filter((u) => {
+      const e = findEnhancement(detachments, u.enh)
+      return e && !e.uncounted
+    }).length
+    if (counted > battle.enhLimit) add('overEnhLimit', 'error', { params: { count: counted, limit: battle.enhLimit } })
+  }
+  for (const u of enhUnits) {
+    if (!detachments.length) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
+    const e = findEnhancement(detachments, u.enh)
+    const def = defOf(u.id)
+    // Asked about the ENTRY, not the printed datasheet — the same question enhOptionsFor answers
+    // when the editor offers the enhancement in the first place, through the same helper so the two
+    // cannot drift. An allegiance upgrade can hand a vehicle CHARACTER (Solar Spearhead, Steel
+    // Hammer), and a detachment rule can hand a Kill Rig WAGON; either is exactly what lets the unit
+    // carry the enhancement. Reading only `def` here made the editor offer Honoured Fallen to a
+    // Telemon Dreadnought and the validator call the same list illegal.
+    const granted = grantedKeywords(def, u, detachments, faction?.slug)
+    if (!e || (def && !enhEligible(e, def, granted))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
+  }
+
+  // "No unit (including ATTACHED units) can have more than one enhancement" (core rules, Muster —
+  // src/data/muster.js). Every check above asks about one entry; an attached unit is several
+  // entries that fight as a single unit, so a Leader with an enhancement joining a bodyguard unit
+  // whose other Leader also has one breaks the rule without any single entry being wrong. Grouped
+  // by the unit that is actually on the table: the attach target, or the entry itself.
+  {
+    const byUnit = new Map()
+    for (const u of enhUnits) {
+      const host = u.leaderOf || u.uid
+      if (!byUnit.has(host)) byUnit.set(host, [])
+      byUnit.get(host).push(u)
+    }
+    for (const list of byUnit.values()) {
+      // Flag the extras, not the whole group — the same shape dupEnh uses, so the issue points at
+      // an entry the reader can act on rather than at every part of the attached unit.
+      for (const u of list.slice(1)) add('enhAttachedDup', 'error', { uid: u.uid, params: { enh: u.enh } })
+    }
+  }
+
+  // Leader attachments must point at a unit in the roster that this leader can actually join.
+  for (const u of units) {
+    if (!u.leaderOf) continue
+    const def = defOf(u.id)
+    const target = units.find((x) => x.uid === u.leaderOf)
+    // leadTypeFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list,
+    // and a datasheet can name its targets by KEYWORD rather than by name — which is the only way
+    // an allied leader can join anything in the army it was lent to.
+    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments)) {
+      add('leaderTargetInvalid', 'warn', { uid: u.uid, params: { target: (target && nameOf(target.uid)) || '—' } })
+    }
+  }
+
+  // A Bodyguard unit takes one Leader AND one Support at a time (the two are independent slots —
+  // see rosterEngine.js leaderTargetsFor), so group by (target, type) rather than target alone.
+  // The picker already disables an occupied target of the same type; this catches it anyway for
+  // data that predates that guard (or a detachment swap that left two of the same type attached).
+  {
+    const byTarget = new Map()
+    for (const u of units) {
+      if (!u.leaderOf) continue
+      if (!byTarget.has(u.leaderOf)) byTarget.set(u.leaderOf, [])
+      byTarget.get(u.leaderOf).push(u)
+    }
+    const flagged = new Set()
+    const tooMany = (u, host) => {
+      if (flagged.has(u.uid)) return
+      flagged.add(u.uid)
+      add('manyLeaders', 'error', { uid: u.uid, params: { target: nameOf(host) || '—' } })
+    }
+    for (const [uid, list] of byTarget) {
+      const host = units.find((x) => x.uid === uid)
+      const hostDef = defOf(host?.id)
+      // How many the HOST may hold: one of each type, unless its own datasheet says otherwise —
+      // an Astra Militarum squad takes two Leaders as long as only one is a Command Squad, Kroot
+      // Carnivores take two once twenty strong (`hosts`, see hostLimitsFor).
+      const lim = hostLimitsFor(hostDef, host)
+      const slots = new Map()
+      for (const u of list) {
+        const own = defOf(u.id)
+        const type = leadTypeFor(own, u, hostDef, detachments) || ''
+        // …and a leader that takes no slot at all (`flags.alongside`, see leaderOccupies): the
+        // Death Guard characters join a Plague Marines unit that already has a Leader, and only a
+        // second copy of the SAME one is barred — which is what keying them by their own id leaves.
+        const key = own?.flags?.alongside ? `${type}:${u.id}` : type
+        if (!slots.has(key)) slots.set(key, { type, own: !!own?.flags?.alongside, list: [] })
+        slots.get(key).list.push(u)
+      }
+      for (const slot of slots.values()) {
+        const max = slot.own ? 1 : (slot.type === 'leader' ? lim.leader : lim.support)
+        for (const u of slot.list.slice(max)) tooMany(u, uid)
+      }
+      // The mix the datasheet limits, where it does: "provided no more than one of those units is
+      // a COMMAND SQUAD unit", "provided those Leaders are not duplicates".
+      if (lim.oneKw) {
+        const named = list.filter((u) => { const d = defOf(u.id); return d && hasKeyword(d, lim.oneKw) })
+        for (const u of named.slice(1)) tooMany(u, uid)
+      }
+      if (lim.noDup) {
+        const seen = new Set()
+        for (const u of list) { if (seen.has(u.id)) tooMany(u, uid); seen.add(u.id) }
+      }
+    }
+  }
+
+  // Allies. Every limit here is appdata's own (see the generator's Allies section): which
+  // Detachment unlocks the group, how many units of a keyword each battle size allows, and what
+  // their combined points may reach. What is NOT in the data is the sentence every cross-faction
+  // allied rule ends with — "None of these models can be your WARLORD, and they cannot be given
+  // Enhancements" — so those two are applied to cross-faction groups only. In-bundle groups don't
+  // get them: Aeldari's Harlequins rule has no such clause, and Ynnari units are precisely what
+  // the Devoted of Ynnead Detachment's Enhancements exist for.
+  if (faction?.allies?.length) {
+    const active = allyGroupsFor(faction, detachments)
+    const activeKeys = new Set(active.map((g) => g.key))
+    const size = battle.base || battle.id
+    const byGroup = new Map()          // group key -> entries counting against it
+    for (const u of units) {
+      const groups = allyGroupsOf(faction, u.id)
+      if (!groups.length) continue
+      const mine = groups.find((g) => activeKeys.has(g.key))
+      if (!mine) {
+        // Listed as an ally, but no group that offers it is open — the Detachment that unlocks it
+        // isn't selected. The unit is in the list and priced; it just can't legally be there.
+        const dets = [...new Set(groups.flatMap((g) => g.dets || []))]
+        add('allyLocked', 'error', { uid: u.uid, params: { dets: dets.join(', ') } })
+        continue
+      }
+      if (!byGroup.has(mine.key)) byGroup.set(mine.key, [])
+      byGroup.get(mine.key).push(u)
+    }
+    for (const g of active) {
+      const list = byGroup.get(g.key) || []
+      if (!list.length) continue
+      const cross = list.filter((u) => allySourceOf(u.id))
+      // Points ceiling for the group ("Up to 500 pts" at Strike Force), counted the same way the
+      // army total is — brackets, wargear, copy tax — so the two numbers can't disagree.
+      const limit = g.pts?.[size]
+      if (limit != null) {
+        const spent = rosterPoints(list, defOf, detachments)
+        if (spent > limit) add('allyOverPoints', 'error', { params: { group: g.name, points: spent, limit } })
+      }
+      // Per-keyword counts. `mutex` marks the either/or rule the Knight and Titan groups are
+      // written with ("either one TITANIC model or up to three ARMIGER models"), so using two of
+      // the keywords at once is itself the violation, on top of each one's own cap.
+      const used = []
+      for (const [kw, bySize] of Object.entries(g.lim || {})) {
+        const cap = bySize[size]
+        if (cap == null) continue
+        const n = list.filter((u) => hasKeyword(defOf(u.id), kw)).length
+        if (n) used.push(kw)
+        if (n > cap) add('allyOverLimit', 'error', { params: { group: g.name, kw, count: n, limit: cap } })
+      }
+      if (g.mutex && used.length > 1) add('allyMutex', 'error', { params: { group: g.name, kws: used.join(', ') } })
+      if (!cross.length) continue
+      for (const u of cross) {
+        if (u.warlord) add('allyWarlord', 'error', { uid: u.uid })
+        if (u.enh && !g.enh) add('allyEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
+      }
+    }
+  }
+
+  // Detachment-excluded datasheets (union across the selected detachments).
+  const excl = new Set(detachments.flatMap((d) => d.excludedUnits || []))
+  if (excl.size) {
+    for (const u of units) if (excl.has(u.id)) add('unitExcluded', 'error', { uid: u.uid })
+  }
+
+  const errorCount = issues.filter((i) => i.level === 'error').length
+  return { points, issues, errorCount }
+}

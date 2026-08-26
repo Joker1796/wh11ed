@@ -13,7 +13,12 @@
         @click.stop
       >
         <div class="kw-popover-header">
-          <span :class="activeKeyword.kind === 'gloss' ? 'gloss-name' : 'keyword kw-name'">{{ activeKeyword.name }}</span>
+          <span class="kw-heading">
+            <span :class="activeKeyword.kind === 'gloss' ? 'gloss-name' : 'keyword kw-name'">{{ activeKeyword.name }}</span>
+            <!-- A name that stays English carries its translation under it, the way StratCard
+                 prints the pair on the card itself. -->
+            <span v-if="activeKeyword.sub" class="kw-name-ru">{{ activeKeyword.sub }}</span>
+          </span>
           <span v-if="activeKeyword.num" class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
           <button class="kw-close" :class="{ 'kw-close-push': !activeKeyword.num }" @click="close" :aria-label="labels.modalClose">✕</button>
         </div>
@@ -113,7 +118,6 @@ const positionStyle = computed(() => {
   z-index: 500;
   background: var(--bg-insert);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }
@@ -134,8 +138,21 @@ const positionStyle = computed(() => {
   cursor: default;
 }
 
+.kw-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
 .kw-name {
   font-size: 0.8rem;
+}
+
+.kw-name-ru {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .gloss-name {

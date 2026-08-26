@@ -13,12 +13,12 @@
           <!-- Stat labels only once, above the first profile's row -->
           <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
             <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
-            <span class="ds-stat-box">{{ s.value }}</span>
+            <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
           </div>
           <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
             <div class="ds-stat ds-inv-box">
-              <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
+              <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
             </div>
             <div class="ds-inv-side">
               <span class="ds-inv-band">Invulnerable Save</span>
@@ -37,8 +37,8 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-            <td>{{ w.range }}</td><td>{{ w.a }}</td><td>{{ w.bs }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td data-label="Range">{{ w.range }}</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }">{{ w.a }}<sup v-if="isMarked('ranged', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="BS" :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }">{{ w.bs }}<sup v-if="isMarked('ranged', 'bs', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }">{{ w.s }}<sup v-if="isMarked('ranged', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('ranged', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }">{{ w.d }}<sup v-if="isMarked('ranged', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
       </table>
@@ -50,107 +50,307 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-            <td>Melee</td><td>{{ w.a }}</td><td>{{ w.ws }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td data-label="Range">Melee</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }">{{ w.a }}<sup v-if="isMarked('melee', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="WS" :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }">{{ w.ws }}<sup v-if="isMarked('melee', 'ws', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }">{{ w.s }}<sup v-if="isMarked('melee', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('melee', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }">{{ w.d }}<sup v-if="isMarked('melee', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
+         carries a `*`; this is where the `*` is explained.
+         TWO sections, never one list: what is in force NOW ("Modifiers in play"), and — off the
+         table, where nothing can be in force — what WOULD change once the conditions are met
+         ("Possible modifiers", an accordion, closed). In a game the second one is not rendered at
+         all (`hidePossible`): a block that says "in play" must not list what is not, and the
+         conditions themselves stay one tap away on the rule blocks below, with their switches. -->
+    <template v-for="sec in noteSections" :key="sec.key">
+      <DsAccordion :collapsible="sec.collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="sec.collapsible" type="button" class="ds-mods-h ds-mods-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ sec.label }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <p v-else class="ds-mods-h">{{ sec.label }}</p>
+        </template>
+        <ul class="ds-mods">
+          <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
+               detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
+               Read in application order the list is four rules' worth of lines with nothing
+               separating them; the group heading is what tells a reader which of them they can do
+               anything about. -->
+          <template v-for="g in sec.groups" :key="g.key">
+          <li class="ds-mod-src-h">{{ g.label }}</li>
+          <li v-for="(n, i) in g.notes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
+            <span class="ds-mod-delta">{{ modDelta(n) }}</span>
+            <!-- The rule behind the number. A note whose caller could resolve the prose carries
+                 `hasSource`, and then the name itself opens it in the same popover a core ability
+                 or the faction line uses — otherwise the reader has to go find "Experimental
+                 Augmentations" in another block of the same card. -->
+            <button
+              v-if="n.hasSource"
+              type="button"
+              class="ds-mod-src ds-mod-srcbtn"
+              data-kw-open
+              @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
+            >{{ n.source }}<i class="bi bi-info-circle"></i></button>
+            <span v-else class="ds-mod-src">{{ n.source }}</span>
+            <!-- `via` means the condition was PROVEN by the game in progress, so the number above
+                 was rewritten after all. The condition still shows — a value that is only true
+                 while something is switched on must never read as a printed one. -->
+            <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
+          </li>
+          </template>
+        </ul>
+      </DsAccordion>
+    </template>
+
     <!-- Abilities -->
     <div class="ds-abilities">
       <!-- Core abilities are clickable keywords: Leader, Deep Strike, Scouts 9"… all
            resolve in KeywordPopover via the coreAbilities lookup (exact or prefix match). -->
-      <p v-if="sheet.core" class="ds-ability-line">
+      <p v-if="sheet.core || extraCore.length" class="ds-ability-line">
         <strong>{{ labels.dsCore }}:</strong>
         <template v-for="(c, i) in coreParts" :key="c">{{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span></template>
+        <!-- Handed to this unit by a rule rather than printed on it (a Hospitaller's Feel No Pain,
+             the Triumph's Icon aura): same line, same popover, and the `*` the whole card uses for
+             a value the modifier layer put there. -->
+        <template v-for="(c, i) in extraCore" :key="c.ability">{{ (coreParts.length || i) ? ', ' : ' ' }}<span
+          class="keyword ds-core-granted"
+          :title="c.det ? `${c.source} · ${c.det}` : c.source"
+        >{{ c.ability }}<sup class="ds-mod-star" aria-hidden="true">*</sup></span></template>
       </p>
+      <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
+           passes its name in `linkedFactionRules`; that part then renders as a `.keyword` and
+           opens in the same popover a core ability does, which is where the army rule belongs —
+           the datasheet's own faction line is its statement of which army rule it has, so a sheet
+           without one (128 of them: Anathema Psykana, Aeldari wraith constructs, aircraft…)
+           correctly offers nothing to open. Parts with no match stay plain text. -->
       <p v-if="sheet.faction" class="ds-ability-line">
-        <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
+        <strong>{{ labels.dsFaction }}:</strong>
+        <template v-for="(f, i) in factionParts" :key="f">{{ i ? ', ' : ' ' }}<span
+          v-if="linkedFactionRule(f)"
+          class="keyword"
+          data-kw-open
+          @click="$emit('faction-rule-click', linkedFactionRule(f), $event.currentTarget.getBoundingClientRect())"
+        >{{ f }}</span><span v-else class="ds-faction-rule">{{ f }}</span></template>
       </p>
-      <template v-if="sheet.abilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsAbilities }}</h5>
-          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+      <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
+           Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
+           weapons and keywords never do (see the sections above/below). DsAccordion is headless
+           (no markup/CSS of its own): the header slot keeps writing the exact same
+           `.ds-group-title` element this always had, so none of this block's own styling moved. -->
+      <div v-if="sheet.abilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsAbilities }}</h5>
+          </template>
+          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.wargearAbilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
-          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+        </DsAccordion>
+      </div>
+      <div v-if="sheet.wargearAbilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsWargearAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
+          </template>
+          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.specialAbilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
-          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+        </DsAccordion>
+      </div>
+      <div v-if="sheet.specialAbilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsSpecialAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
+          </template>
+          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
-        </div>
-      </template>
+        </DsAccordion>
+      </div>
       <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
            the parent ability's name, so its "(see below)" reference resolves to this block. -->
-      <template v-if="sheet.abilitySets">
-        <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
-          <h5 class="ds-group-title">{{ set.name }}</h5>
-          <div v-for="a in set.options" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
+      <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></h5>
+          </template>
+          <div v-for="a in set.options" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
+            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
+            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
+              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
+            </span>
+            <span v-html="dsRichText(a.text)"></span>
+            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+            <ConditionChips
+              v-if="abilitySwitchesOf(a).length"
+              class="ds-ab-conds"
+              :switches="abilitySwitchesOf(a)"
+              @toggle="$emit('toggle-cond', $event)"
+            />
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.rules">
-        <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
-          <h5 class="ds-group-title">{{ r.name }}</h5>
+        </DsAccordion>
+      </div>
+      <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></h5>
+          </template>
           <div class="ds-ability">
             <span v-html="dsRichText(r.text)"></span>
           </div>
-        </div>
-      </template>
+        </DsAccordion>
+      </div>
       <div v-if="sheet.damaged" class="ds-damaged">
-        <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
-        <div v-html="dsRichText(sheet.damaged.text)"></div>
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-damaged-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
+          </template>
+          <div v-html="dsRichText(sheet.damaged.text)"></div>
+        </DsAccordion>
       </div>
     </div>
 
     <!-- Transport / Leader -->
-    <div v-if="sheet.transport" class="ds-block">
-      <h5 class="ds-group-title">{{ labels.dsTransport }}</h5>
-      <div v-html="dsRichText(sheet.transport)"></div>
+    <div v-if="sheet.transport" class="ds-ability-group">
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsTransport }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsTransport }}</h5>
+        </template>
+        <div class="ds-ability" v-html="dsRichText(sheet.transport)"></div>
+      </DsAccordion>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ leaderGroupLabel }}</h5>
-      <div class="ds-ability">
-        <div v-html="dsRichText(sheet.leader.text)"></div>
-        <ul class="ds-list">
-          <li v-for="u in visibleLeaderUnits" :key="u">
-            <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
-            <template v-else>{{ u }}</template>
-          </li>
-        </ul>
-        <div v-if="sheet.leader.footer" v-html="dsRichText(sheet.leader.footer)"></div>
-      </div>
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ leaderGroupLabel }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ leaderGroupLabel }}</h5>
+        </template>
+        <div class="ds-ability">
+          <div v-html="dsRichText(sheet.leader.text)"></div>
+          <ul class="ds-list">
+            <li v-for="u in visibleLeaderUnits" :key="u">
+              <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
+              <template v-else>{{ u }}</template>
+            </li>
+          </ul>
+          <div v-if="sheet.leader.footer" v-html="dsRichText(sheet.leader.footer)"></div>
+        </div>
+      </DsAccordion>
     </div>
 
-    <!-- Composition / loadout / options -->
-    <div v-if="sheet.composition || sheet.loadout" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsComposition }}</h5>
-      <div class="ds-ability">
-        <ul v-if="sheet.composition" class="ds-list">
-          <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
-        </ul>
-        <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
-      </div>
+    <!-- Composition / loadout / options.
+         Hidden entirely under `hideChoices` (the roster builder): every one of these three
+         describes a decision the roster has ALREADY made — how many models, what they start
+         equipped with, what may be swapped — and the printed default loadout actively
+         contradicts the card above it there, since the weapon tables are filtered to the
+         entry's real loadout (see src/components/roster/CLAUDE.md). -->
+    <div v-if="!hideChoices && (sheet.composition || sheet.loadout)" class="ds-ability-group">
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsComposition }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsComposition }}</h5>
+        </template>
+        <div class="ds-ability">
+          <ul v-if="sheet.composition" class="ds-list">
+            <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
+          </ul>
+          <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
+        </div>
+      </DsAccordion>
     </div>
-    <div v-if="sheet.options" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsOptions }}</h5>
-      <div class="ds-ability">
-        <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
-      </div>
+    <div v-if="!hideChoices && sheet.options" class="ds-ability-group">
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsOptions }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsOptions }}</h5>
+        </template>
+        <div class="ds-ability">
+          <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+        </div>
+      </DsAccordion>
     </div>
+
+    <!-- Anything a caller wants to sit inside the card, above its closing Keywords line — the
+         roster's "in effect for this unit" rule blocks land here so they read as part of the
+         card rather than as something appended after it. Empty for every other caller. -->
+    <slot name="before-keywords"></slot>
 
     <!-- Keywords -->
     <div class="ds-keywords">
@@ -174,7 +374,7 @@
          Always the LAST section of the card (mirrors the source books: costs live at the
          bottom of a datasheet, never in its header) — an accent-tinted band like the
          statline zone at the top, so the card is framed by the faction colour. -->
-    <div v-if="pointsTable" class="ds-points">
+    <div v-if="pointsTable && !collapsible" class="ds-points">
       <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
       <table>
         <thead>
@@ -201,6 +401,10 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
+import { withGroupPos } from '../utils/weaponGroups.js'
+import { groupModNotes, modDelta, possibleModNotes } from '../composables/rosterModNotes.js'
+import DsAccordion from './DsAccordion.vue'
+import ConditionChips from './ConditionChips.vue'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
@@ -210,6 +414,12 @@ const props = defineProps({
   // just render as plain text then, same as before this feature existed.
   unitIndex: { type: Object, default: null },
   factionSlug: { type: String, default: '' },
+  // Modal usage (RosterUnitRulesModal — the roster builder's single "show this unit in a
+  // modal" component): every info block except stats/weapons/keywords collapses into an
+  // accordion, and Points is hidden outright (the unit's tile in the roster editor already
+  // shows its points). The standalone datasheet page never sets this — full page, nothing to
+  // save space on, so everything renders exactly as it always has.
+  collapsible: { type: Boolean, default: false },
   // Keywords this unit GAINS from an army/detachment rule rather than having printed on its
   // sheet (e.g. Deathwing/Ravenwing via Dark Angels' The Unforgiven, or Battleline granted by a
   // detachment) — computed by the caller from the active army choice and merged into the keyword
@@ -224,6 +434,8 @@ const props = defineProps({
   // Warlord requirement) that isn't itself modelled — the footnote adds a caveat instead of
   // implying that context is the whole story.
   grantedKeywords: { type: Array, default: () => [] },
+  // Core abilities a rule handed this unit: [{ ability, source, det }] from applyStatMods.
+  grantedCore: { type: Array, default: () => [] },
   // Leader/Attached-unit bodyguard-unit names to hide from `sheet.leader.units` entirely,
   // rather than render as a dead (unlinked) name — used for a name that resolves to a REAL
   // datasheet, just on a different faction's page (e.g. Dark Angels' shared "Ancient in
@@ -234,6 +446,35 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
+  // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
+  // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
+  // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
+  // printed, and the note is the only thing that says the value can change. One with both
+  // `applied` and `via` is a conditional whose condition the live game proved — applied, but
+  // still shown with its condition. A note may also carry `hasSource: true`, meaning the caller
+  // holds the prose of the rule it came from and wants the name to open it (`mod-source-click`).
+  // Empty for every caller outside the roster.
+  statMarks: { type: Array, default: () => [] },
+  statNotes: { type: Array, default: () => [] },
+  // In a game: drop the modifiers that are not in force instead of listing them separately.
+  hidePossible: { type: Boolean, default: false },
+  // Whether an ability's own precondition holds right now, keyed by ENGLISH ability name (see
+  // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
+  // datasheet — and every caller outside the roster — passes nothing and renders as before.
+  abilityStates: { type: Object, default: null },
+  // The condition switches each ability's own modifier records are gated on, keyed by ENGLISH
+  // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
+  // effects name a condition the player may flip; `toggle-cond` reports the click.
+  abilitySwitches: { type: Object, default: null },
+  // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
+  // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
+  // are settled questions, and the loadout sentence disagrees with the weapon tables once those
+  // are trimmed to what the entry actually fields. Off everywhere except the roster's unit modal.
+  hideChoices: { type: Boolean, default: false },
+  // Army-rule names this card's caller can open (see the faction line above). Matched against the
+  // comma-separated parts of `sheet.faction` apostrophe- and case-insensitively, because the
+  // datasheets and the faction files disagree on the glyph ("Martial Ka’tah" vs "Martial Ka'tah").
+  linkedFactionRules: { type: Array, default: () => [] },
   // Whether printed/granted keywords open the "units with this keyword" modal. Off by default
   // for callers with no per-unit route to link to (Combat Patrol's fixed roster renders every
   // unit inline on one page, not as separate routed datasheets) — keywords there just stay
@@ -245,7 +486,7 @@ const props = defineProps({
 // faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
 // virtually every unit on the page shares those, so a "units with this keyword" list would
 // just be the whole roster.
-defineEmits(['keyword-click'])
+defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click', 'toggle-cond'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -253,6 +494,25 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+// Core abilities a rule granted (grantedCore prop), minus any the sheet already prints — a unit
+// with Feel No Pain 5+ of its own does not gain a second one from a Hospitaller.
+const extraCore = computed(() => {
+  const printed = new Set(coreParts.value.map((c) => c.toLowerCase()))
+  const seen = new Set()
+  return props.grantedCore.filter((g) => {
+    const key = String(g.ability).toLowerCase()
+    if (printed.has(key) || seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+})
+// The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen"), and
+// only the part the caller can actually open should look clickable.
+const factionParts = computed(() => (props.sheet.faction ? props.sheet.faction.split(/,\s*/) : []))
+const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+function linkedFactionRule(part) {
+  return props.linkedFactionRules.find((n) => fkey(n) === fkey(part)) || null
+}
 
 // The "Leader" ability-group heading above the bodyguard-unit list: a handful of
 // characters carry the "Support" core ability instead of "Leader" (a Faction-Pack
@@ -308,25 +568,6 @@ const extraKeywordNotes = computed(() => {
   return [...groups.entries()].map(([note, kws]) => ({ note, kws }))
 })
 
-// Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
-// suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about
-// the dash — some entries use an en-dash "–", others a plain hyphen "-" (e.g. Ghazghkull's
-// "Gork's Klaw - strike") — so split on a SPACED dash of any kind (hyphen / en / em). The
-// surrounding spaces keep AP values like "-3" (a separate field anyway) from ever matching.
-function weaponBase(name) { return (name || '').split(/ [-–—] /)[0].trim() }
-function withGroupPos(list) {
-  const rows = list || []
-  return rows.map((w, i) => {
-    const base = weaponBase(w.name)
-    const prevSame = i > 0 && weaponBase(rows[i - 1].name) === base
-    const nextSame = i < rows.length - 1 && weaponBase(rows[i + 1].name) === base
-    let gpos = 'single'
-    if (prevSame && nextSame) gpos = 'mid'
-    else if (nextSame) gpos = 'start'
-    else if (prevSame) gpos = 'end'
-    return { ...w, gpos }
-  })
-}
 const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
 const meleeRows = computed(() => withGroupPos(props.sheet.melee))
 
@@ -410,21 +651,55 @@ function dsRichText(text) {
 
 function statCells(p) {
   return [
-    { label: 'M', value: p.m },
-    { label: 'T', value: p.t },
-    { label: 'SV', value: p.sv },
-    { label: 'W', value: p.w },
-    { label: 'LD', value: p.ld },
-    { label: 'OC', value: p.oc },
+    { key: 'm', label: 'M', value: p.m },
+    { key: 't', label: 'T', value: p.t },
+    { key: 'sv', label: 'SV', value: p.sv },
+    { key: 'w', label: 'W', value: p.w },
+    { key: 'ld', label: 'LD', value: p.ld },
+    { key: 'oc', label: 'OC', value: p.oc },
   ]
 }
+
+// A cell whose printed number was rewritten by the roster's modifier layer (Tier C). The mark is
+// the same `*` the granted-keyword treatment uses, and for the same reason: the value on screen
+// is no longer what the card prints, and the reader is owed both that signal and the footnote
+// naming the rule responsible.
+const markSet = computed(() => new Set(props.statMarks))
+const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
+
+const noteSections = computed(() => {
+  const out = []
+  const live = props.statNotes.filter((n) => n.live !== false)
+  const possible = props.hidePossible ? [] : possibleModNotes(props.statNotes)
+  const l = labels.value
+  if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
+  if (possible.length) {
+    out.push({ key: 'possible', label: l.dsModifiersPossible, collapsible: true, groups: groupModNotes(possible, l) })
+  }
+  return out
+})
+
+// An ability's precondition, keyed by the English name — which is what `nameEn` carries once the
+// RU overlay has renamed the header (see src/data/datasheets/ru/index.js).
+const abilityState = (a) => props.abilityStates?.[a.nameEn || a.name] || null
+const abilitySwitchesOf = (a) => props.abilitySwitches?.[a.nameEn || a.name] || []
+// The badge deliberately states the FACT the roster knows ("leading Chaos Space Marines"), not the
+// conclusion that the rule is therefore doing something: several of these abilities carry a second
+// condition in the same sentence ("…leading a unit that is below its Starting Strength"). The
+// negative side is the one that can be stated outright — not attached is not in effect, always.
+function abilityStateLabel(st) {
+  const l = labels.value
+  if (st.id === 'led') return st.on ? l.dsAbilityLed : l.dsAbilityNotLed
+  if (!st.on) return l.dsAbilityNotLeading
+  return st.subject ? l.dsAbilityLeading.replace('{name}', st.subject) : l.dsAbilityLeadingAny
+}
+
 </script>
 
 <style scoped>
 .ds-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 0.9rem 1rem 1rem;
 }
 
@@ -577,7 +852,6 @@ function statCells(p) {
   padding: 0.55rem 1rem 0.75rem;
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-top: 1px solid var(--border);
-  border-radius: 0 0 5px 5px;
 }
 .ds-points-title {
   font-size: 0.68rem;
@@ -620,6 +894,16 @@ function statCells(p) {
 
 /* Weapons */
 .ds-weapons { overflow-x: auto; margin-bottom: 0.7rem; }
+/* Ranged immediately followed by melee: tighten the gap between the two tables — the 0.7rem
+   above is for what comes after the LAST weapons table (abilities/keywords/points), which still
+   wants the fuller gap. */
+.ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.05rem; }
+/* …and the same for a weapons table immediately followed by the modifier footnotes: they explain
+   the numbers in that table, so they have to read as attached to it. */
+.ds-weapons:has(+ .ds-mods-h) { margin-bottom: 0.3rem; }
+/* …but the pill variant carries a border, and 0.3rem from the weapon table's last row reads as
+   part of it. Only matters when there is nothing in play and "possible" follows the table alone. */
+.ds-weapons:has(+ .ds-mods-btn) { margin-bottom: 0.55rem; }
 .ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .ds-weapons th {
   text-align: center;
@@ -643,6 +927,7 @@ function statCells(p) {
   white-space: nowrap;
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
+.wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 /* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
    sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
@@ -688,7 +973,6 @@ function statCells(p) {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     padding: 0.9rem 0.4rem 0.6rem;
-    border-radius: 0;
   }
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
@@ -699,51 +983,215 @@ function statCells(p) {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
   }
-  .ds-weapons th:first-child,
-  .ds-weapons th:last-child {
-    border-radius: 0;
-  }
-  /* One uniform body font for every cell — name and stats alike — bumped up from the old
-     0.68rem. The extra room for the stats comes from the narrower .wname floor below (the
-     name wraps), NOT from a bigger font on the stat columns only, which read as ragged
-     mismatched sizes within one table. */
-  .ds-weapons table {
-    font-size: 0.82rem;
-  }
   .ds-points table {
     font-size: 0.72rem;
-  }
-  /* Wider horizontal cell padding than the ≤480 default so the stat columns claim a bit
-     more of the table's width (auto layout: a column's used width includes its padding,
-     so more padding = wider stat columns, drawn from the slack the wrapping name column
-     would otherwise absorb). */
-  .ds-weapons th,
-  .ds-weapons td {
-    padding: 0.2rem 0.28rem;
-  }
-  /* The table bleeds edge-to-edge, so the first/last columns' content would otherwise sit
-     flush against the screen edge — inset just those two so the text clears the edge while
-     the header band still spans full width. */
-  .ds-weapons th:first-child,
-  .ds-weapons td:first-child {
-    padding-left: 0.5rem;
-  }
-  .ds-weapons th:last-child,
-  .ds-weapons td:last-child {
-    padding-right: 0.5rem;
-  }
-  /* Header labels stay a single small uppercase size across all columns. */
-  .ds-weapons th {
-    font-size: 0.56rem;
-  }
-  .ds-weapons .wname {
-    min-width: 4rem;
   }
   .ds-points th,
   .ds-points td {
     padding: 0.2rem 0.3rem;
   }
 }
+
+/* Phones: the weapon tables stop being tables.
+   A six-column statline plus a weapon name never fits a phone without either a horizontal
+   scroll or columns squeezed past legibility — this file used to do the latter. Below 560px
+   (the same width BaseModal treats as "phone"; tablets start at 600) each row becomes its own
+   small card: the weapon name on its own line, then the statline as a labelled six-column grid,
+   then its ability tags. Same markup either way — no second template, no JS media query, and no
+   risk of the two drifting — via `tr { display: grid }` plus `display: contents` on the name
+   cell so its name and tags become grid items in their own right. The column labels come back as
+   `td::before { content: attr(data-label) }`, since the shared `thead` is gone.
+
+   The `thead` is not hidden outright: its FIRST cell is the "Ranged Weapons"/"Melee Weapons"
+   caption, which is the only thing telling the two blocks apart once they are stacked cards, so
+   it survives as a section label above the group while the six stat headers go. Reusing that
+   cell keeps one source for the text (and its translation) instead of adding a second one. */
+@media (max-width: 560px) {
+  .ds-weapons { overflow-x: visible; }
+  /* Cancel the ≤480px edge bleed: these are bordered cards now, and running them off the
+     screen would cut their frame open on both sides. */
+  .ds-weapons { margin-left: 0; margin-right: 0; }
+  /* A real gap between the ranged block and the melee block — they are two labelled sections
+     now, not two halves of one table (the base rule tightens them to 0.05rem). */
+  .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.8rem; }
+
+  .ds-weapons table,
+  .ds-weapons thead,
+  .ds-weapons tbody,
+  .ds-weapons thead tr { display: block; }
+  /* Section caption: the accent-coloured label above the group, not the filled bar it is on a
+     table (there is no row of columns left for it to head). */
+  .ds-weapons th { display: none; }
+  .ds-weapons th.wname {
+    display: block;
+    min-width: 0;
+    padding: 0 0.1rem 0.3rem;
+    background: none;
+    color: var(--accent);
+    font-size: 0.64rem;
+  }
+
+  /* Each weapon (or each group of profiles) is its own card. */
+  .ds-weapons tbody tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.1rem 0.2rem;
+    margin-bottom: 0.35rem;
+    padding: 0.5rem 0.55rem 0.55rem;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+  }
+  .ds-weapons tbody tr:last-child { margin-bottom: 0; }
+  .ds-weapons td {
+    display: block;
+    padding: 0;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+  }
+  /* The name cell dissolves so its two children lay out as grid items themselves: the name on
+     the first row, the tags after the stats (hence `order`, which the stat cells leave at 0). */
+  .ds-weapons td.wname { display: contents; }
+  .ds-weapons .wname-text {
+    grid-column: 1 / -1;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .ds-weapons .wtags {
+    grid-column: 1 / -1;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0.3rem 0 0;
+  }
+  .ds-weapons td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* A multi-profile weapon stays ONE card: the profiles keep the group tint, lose the gap
+     between them, and share the rounding — only the group's ends are rounded, and the seams
+     between profiles are drawn as internal dividers. */
+  .ds-weapons tbody tr.wg-start,
+  .ds-weapons tbody tr.wg-mid,
+  .ds-weapons tbody tr.wg-end {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .ds-weapons tr.wg-start td,
+  .ds-weapons tr.wg-mid td,
+  .ds-weapons tr.wg-end td { background: none; }
+  .ds-weapons tbody tr.wg-start,
+  .ds-weapons tbody tr.wg-mid {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+  .ds-weapons tbody tr.wg-mid,
+  .ds-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
+}
+
+/* Modifier footnotes — quiet, small, and clearly secondary to the card's own content: they
+   explain the `*` on a rewritten value, they are not part of the printed datasheet. */
+/* Sits with the weapon tables it annotates, not floating between them and the abilities below:
+   the gap above is closed (see the `:has` rule under .ds-weapons) and a rule + a wider gap
+   separate it from whatever follows. Symmetric margins made it read as belonging to neither. */
+.ds-mods {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0 0 0.7rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.76rem;
+}
+.ds-mods-h {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin: 0 0 0.2rem;
+}
+/* The "possible modifiers" heading is also the accordion's handle, and unlike every other block on
+   this card it can stand alone: closed, the plate was the last thing rendered before the abilities,
+   so a bare accent caps line sat 0.2rem above "Core: Leader, Deep Strike" with nothing between them
+   and read as that block's heading. The separator it used to borrow lives on the list INSIDE the
+   accordion, which is exactly what is not there when it is shut.
+   So it takes the dashed pill RosterViewView's roster-wide version of this same block already
+   uses (`.rvp-head`) — quiet until hovered, and unmistakably its own thing rather than a heading
+   for what follows. Muted rather than accent on purpose: "in play" above it keeps the accent, and
+   what is merely possible should not shout louder than what is true. */
+.ds-mods-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  width: 100%; padding: 0.35rem 0.55rem; background: none; font: inherit;
+  border: 1px dashed var(--border);
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-muted); cursor: pointer; text-align: left;
+  margin: 0 0 0.4rem;
+  transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.ds-mods-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* Open, the list below closes the section with its own rule and margin; shut, the pill is the
+   section, and it needs that room itself or the abilities crowd it again. */
+.ds-mods-btn[aria-expanded="false"] { margin-bottom: 0.9rem; }
+.ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
+.ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.ds-mod-src { color: var(--text-primary); }
+/* The source a group of notes came from. Same quiet ALL-CAPS plate the rule block above uses, so
+   "detachment · Creations of Bile" reads the same wherever it appears on the card. */
+.ds-mod-src-h {
+  margin-top: 0.35rem; color: var(--text-muted);
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ds-mod-src-h:first-of-type { margin-top: 0; }
+.ds-mod-srcbtn {
+  display: inline-flex; align-items: baseline; gap: 0.25rem;
+  padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
+  cursor: pointer; text-align: left;
+}
+.ds-mod-srcbtn:hover { color: var(--accent); }
+.ds-mod-srcbtn .bi { font-size: 0.85em; color: var(--text-muted); }
+.ds-mod-srcbtn:hover .bi { color: var(--accent); }
+.ds-mod-det { color: var(--text-muted); }
+/* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
+   glance, and the condition follows. */
+.ds-mod-when .ds-mod-delta { font-weight: 600; color: var(--text-muted); }
+.ds-mod-cond { flex-basis: 100%; padding-left: 0.1rem; font-style: italic; }
+/* Applied because the game says so, not because it is printed — the accent marks the difference
+   at a glance, the italic condition beside it says what would take it away again. */
+.ds-mod-live .ds-mod-cond { color: var(--accent); font-style: normal; }
+.ds-mod-live .ds-mod-delta { color: var(--accent); }
+/* The `*` on a value the layer rewrote, and its cell. Same asterisk convention as the granted
+   keywords' `.ds-kw-star`.
+   `line-height: 0` + `position: relative` instead of the default `vertical-align: super`: a real
+   superscript grows the line box UPWARDS, and since the line starts right under the column label
+   in the phone layout, that pushed the marked value's baseline down and left it sitting lower
+   than its neighbours in the stat row. This raises the glyph without it occupying any height.
+   The value itself is marked by COLOUR rather than an underline — an underline spans the whole
+   grid cell, label included, which read as a heavy bar under one column. The `::before` label
+   sets its own colour, so it stays muted. */
+/* A core ability the layer added, marked like every other value it put on this card. */
+.ds-core-granted { border-style: dashed; }
+.ds-mod-star {
+  position: relative;
+  top: -0.4em;
+  vertical-align: baseline;
+  line-height: 0;
+  font-size: 0.7em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 1px;
+}
+/* Both hosts set their own `color` at a higher specificity than a bare class — `.ds-weapons td`
+   and `.ds-stat-box` are class+element — so the mark has to match that or the value stays the
+   default colour and only the asterisk shows. */
+.ds-weapons td.ds-stat-mod,
+.ds-weapons tbody td.ds-stat-mod,
+span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
@@ -756,6 +1204,23 @@ function statCells(p) {
   letter-spacing: 0.2px;
 }
 .ds-ability { margin-bottom: 0.45rem; }
+/* An ability's own precondition, answered by the army list: whether this model is leading a unit
+   (or being led). Inline with the name, quiet when it holds — the ability reads normally, the chip
+   is a confirmation — and the whole row dims when it does not, because a printed ability that
+   cannot be doing anything is exactly what a reader keeps re-reading. */
+.ds-ab-state {
+  display: inline-flex; align-items: baseline; gap: 0.2rem; margin-right: 0.3rem;
+  color: var(--text-muted); font-size: 0.78em; font-style: italic;
+}
+.ds-ab-state.on { color: var(--accent); font-style: normal; }
+.ds-ab-state .bi { font-size: 0.9em; font-style: normal; }
+.ds-ability-idle { opacity: 0.62; }
+.ds-ab-conds { margin-top: 0.35rem; }
+
+/* The English original beside a translated ability name (RU locale only — in EN there is nothing
+   to keep). Deliberately quiet: it is a lookup key for the codex and for talking to an opponent,
+   not a second title, so it never competes with the name it follows. */
+.ds-name-en { font-weight: 400; font-size: 0.85em; color: var(--text-muted); text-transform: none; letter-spacing: 0; }
 .ds-group-title {
   font-size: 0.68rem;
   font-weight: 700;
@@ -764,12 +1229,44 @@ function statCells(p) {
   color: var(--accent);
   margin: 0.7rem 0 0.3rem;
 }
+/* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to
+   a full-width clickable row with the chevron at the end. Non-collapsible callers never render
+   this class (see the h5 fallback in the template), so the plain page is untouched. */
+.ds-group-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.ds-chev { font-size: 0.7rem; flex-shrink: 0; }
+/* Damaged's own header isn't a `.ds-group-title` (no uppercase/accent styling — it's the same
+   bold inline label the box always had); the accordion button variant just adds the chevron row
+   layout on top of that, using the surrounding red instead of the accent colour. */
+.ds-damaged-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
 /* Plain and special abilities each sit in a faction-accent-tinted card with a solid-fill
    header bar (same idiom as the weapon table headers), so the two categories read as
    distinct groups rather than one undifferentiated list. */
 .ds-ability-group {
   margin: 0.6rem 0;
-  border-radius: 4px;
   overflow: hidden;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   font-size: 0.85rem;
@@ -790,7 +1287,6 @@ function statCells(p) {
   padding: 0.5rem 0.7rem;
   border-left: 3px solid #c0392b;
   background: color-mix(in srgb, #c0392b 8%, transparent);
-  border-radius: 0 4px 4px 0;
   font-size: 0.82rem;
 }
 
@@ -802,11 +1298,9 @@ function statCells(p) {
   .ds-ability-group {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
-    border-radius: 0;
   }
 }
 
-.ds-block { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); margin-top: 0.5rem; }
 .ds-list { margin: 0.2rem 0 0.3rem 1.1rem; padding: 0; }
 .ds-loadout, .ds-option { margin-bottom: 0.3rem; white-space: pre-line; }
 

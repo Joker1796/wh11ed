@@ -100,28 +100,9 @@ const sections = useBilingualSections(battlefields, (section, ruSection) =>
 </script>
 
 <style scoped>
-.split-block {
-  margin-bottom: 1rem;
-  scroll-margin-top: var(--header-total);
-}
 
 .stratagems-section {
   margin: 1.5rem 0 2rem;
 }
 
-.strat-grid {
-  column-count: 2;
-  column-gap: 1rem;
-}
-
-.strat-grid > * {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 640px) {
-  .strat-grid {
-    column-count: 1;
-  }
-}
 </style>

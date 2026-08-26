@@ -35,7 +35,6 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-.modal-body { padding: 0.8rem 0.9rem 0.9rem; overflow-y: auto; }
 
 .sh-text { margin: 0 0 0.8rem; font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
 .sh-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }

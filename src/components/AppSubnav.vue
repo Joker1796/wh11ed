@@ -1,7 +1,7 @@
 <template>
   <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
   <Transition name="fade">
-    <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
+    <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
       <div class="subnav-inner" :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }">
         <template v-for="item in subNavItems" :key="item.path || item.hash">
           <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
@@ -63,7 +63,7 @@ const { navigateTo } = useRefNavigation()
 const {
   isLanding, isLinksRoute, isRulesLandingRoute, isCombatPatrolRoute,
   isFactionRoute, isFactionUnitPage, isFactionDetailRoute,
-  isEventRoute, isTrackerRoute, isStratagemsRoute,
+  isEventRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
 } = useRouteSection()
 
 const labels = computed(() => ui[locale.value])
@@ -123,6 +123,10 @@ const trackerSubNavItems = computed(() => {
     { path: '/tracker', label: l.subNavTrackerHome },
     { path: '/tracker/game', label: l.subNavTrackerGame },
     { path: '/stratagems', label: l.navStratagemsShort },
+    // Last: the first three are what a game runs on, this is what it leaves behind. The record bar
+    // on the tracker home is hidden at this width precisely because this tab exists — one way in
+    // per viewport, not two stacked on the same screen.
+    { path: '/tracker/stats', label: l.statsTitle },
   ]
 })
 
@@ -278,7 +282,6 @@ const subNavItems = computed(() => {
   padding: 0.9rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 

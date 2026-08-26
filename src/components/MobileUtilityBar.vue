@@ -77,7 +77,9 @@ defineExpose({ visible })
 <style scoped>
 /* Fixed strip, full width, floating just above .bottom-nav (52px + safe-bottom) — same tier
    as the old .resume-bar/.faction-fabs/.back-to-top (z-index 195, below the drawer
-   overlay/modals). */
+   overlay/modals). On the roster creation wizard, its own fixed Back/Next bar (.rc-sticky)
+   already occupies that same corner and doesn't move (see App.vue's --roster-sticky-h) — this
+   bar rises above it instead, so the two never overlap and back-to-top never blocks Next/Done. */
 .mobile-bar {
   display: flex;
   align-items: center;
@@ -87,7 +89,7 @@ defineExpose({ visible })
   /* Small gap above .bottom-nav — none of these are a flush full-width bar (the icon buttons
      float with their own margins either side), so a seam right against the nav read as a
      mistake rather than one continuous bar. */
-  bottom: calc(52px + var(--safe-bottom, 0px) + 0.5rem);
+  bottom: calc(52px + var(--safe-bottom, 0px) + 0.5rem + var(--roster-sticky-h, 0px));
   z-index: 195;
   height: 3rem;
   padding: 0 calc(1rem + var(--safe-right)) 0 calc(1rem + var(--safe-left));
@@ -114,7 +116,6 @@ defineExpose({ visible })
   height: 2.2rem;
   flex-shrink: 0;
   border: none;
-  border-radius: 8px;
   /* Light theme: a light chip (--bg-card) with a dark border/icon (--bg-insert, the
      bottom-nav's own always-dark tone — used here as an outline instead of a fill). Dark
      theme: back to plain --bg-primary + the app accent, as before. --mb-icon-bg/--mb-icon-tint

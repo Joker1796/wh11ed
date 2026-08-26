@@ -3,6 +3,7 @@ import { missions } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
+  ROUND_COUNT,
   PRIMARY_GAME_CAP,
   TACTICAL_SECONDARY_CAP,
   primaryTotal as primaryTotalOf,
@@ -10,6 +11,9 @@ import {
   grandTotal as grandTotalOf,
   leader as leaderOf,
 } from './gameScoring.js'
+import { BATTLE_PHASES } from './stratagemPhases.js'
+import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
+import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -18,10 +22,10 @@ import {
 // 20 per fixed secondary) match the official caps.
 
 const CUR_KEY = 'wh11ed-tracker-current'
-const HIST_KEY = 'wh11ed-tracker-history'
+// Where the finished games live. The key is defined in gameStats.js — the read-only side, used by
+// screens that show a record without this store; this module remains their only WRITER.
 const DRAFT_KEY = 'wh11ed-tracker-setup-draft'
 
-export const ROUND_COUNT = 5
 // Battle sizes (rule 25.03): each sets the Detachment-Points budget used in setup.
 export const BATTLE_SIZES = [
   { id: 'incursion', name: 'Incursion', points: 1000, maxDp: 2 },
@@ -32,6 +36,7 @@ export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
 // importers (RoundTracker, ScoreBreakdown).
 export {
+  ROUND_COUNT,
   PRIMARY_GAME_CAP,
   FIXED_SECONDARY_CAP,
   TACTICAL_SECONDARY_CAP,
@@ -296,6 +301,13 @@ function makePlayer(p, opponent, settings, isYou = false) {
     role: p.role,
     secondaryMode,                             // tactical | fixed — chosen per player
     battleReady: !!p.battleReady,              // +10 VP if the army is battle-ready
+    // The army list this player fielded, attached in the setup wizard and OPTIONAL on both sides —
+    // a game with no rosters is the normal case. `roster` is a self-contained snapshot (so a game
+    // in history still renders the list that was played even after the saved roster is edited or
+    // deleted) and `rosterId` is provenance only, and may dangle. Built/read by rosterGameLink.js;
+    // stored in the roster's own compact form (ids + indices) to stay inside the API's 64 KB cap.
+    rosterId: p.rosterId || null,
+    roster: p.roster || null,
     primarySlug: primary ? primary.slug : null,
     cp: 0,
     // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob
@@ -339,6 +351,13 @@ export function useTracker() {
       createdAt: new Date().toISOString(),
       phase: 'playing',
       currentRound: 1,
+      // The clock. `phase` above is the GAME's state (playing/finished), so the battle phase had
+      // to be called something else. "Whose turn" needs no new concept: players[0] is always the
+      // first-turn player (see the reorder above), so currentTurn is simply that player's index.
+      // Both are written even when settings.trackPhases is off — the row is hidden, not the state,
+      // so turning the setting on mid-game finds a sane clock rather than an empty one.
+      currentTurn: 0,
+      currentPhase: BATTLE_PHASES[0],
       settings,
       players: youFirst
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
@@ -425,6 +444,121 @@ export function useTracker() {
     if (!pl.army) pl.army = {}
     if (pl.army.choice === id) delete pl.army.choice
     else pl.army.choice = id
+  }
+
+  // ── Rule-condition switches (roster-in-game) ──────────────────────────────────────────────
+  // What the app cannot know and the player tells it: an army-wide rule state, or one unit's
+  // state (charged, Battle-shocked, carrying an Order). Read by rosterGameContext.js, which
+  // decides whether a conditional Tier C modifier may rewrite a printed number.
+  //
+  // The stored value is WHEN the switch was flipped — a clock stamp from rosterGameContext's
+  // stampOf(), which is what lets a state that lasts a phase or a turn expire on its own instead
+  // of quietly staying true for the rest of the game. Games saved before stamps existed hold a
+  // bare round number here; that layer recognises them (a stamp is never below 100) and reads
+  // them as rounds. Absent on games older still, so every write defaults it.
+  // Alternatives are enforced HERE rather than in the view, so no caller can forget: a condition
+  // with a `group` excludes its siblings once the group is full, because the rules say so in words
+  // ("select one of the Orders below"; "any Order subsequently issued to that unit replaces the
+  // current one"). A card showing a unit under two Orders at once is not a state the game has.
+  //
+  // Most groups hold ONE, and then this is the plain "turning one on turns the others off" it has
+  // always been. A group whose rule allows several (Creations of Bile picks two augmentations)
+  // carries its size in GROUP_LIMITS, and the OLDEST sibling makes way — evicting rather than
+  // refusing keeps a full group changeable in one tap, the same way a single-slot group is.
+  function enforceGroupLimit(store, id) {
+    const group = conditions[id]?.group
+    if (!group || !store) return
+    const limit = groupLimitOf(group)
+    // Insertion order is the tie-break: two switches flipped in the same phase share a stamp, and
+    // the one flipped first is still the one that has been on longest.
+    const siblings = Object.keys(store)
+      .filter((other) => other !== id && conditions[other]?.group === group)
+      .map((other, i) => ({ id: other, at: store[other], i }))
+      .sort((a, b) => a.at - b.at || a.i - b.i)
+    // `id` itself is about to occupy a slot, so the others may keep limit - 1 of them.
+    for (const s of siblings.slice(0, Math.max(0, siblings.length - (limit - 1)))) delete store[s.id]
+  }
+
+  function setArmyCondition(pi, id, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.army) pl.ctx.army = {}
+    if (on) {
+      enforceGroupLimit(pl.ctx.army, id)
+      pl.ctx.army[id] = at
+    } else delete pl.ctx.army[id]
+  }
+
+  // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
+  // uids are stable for the life of the game whatever happens to the saved roster.
+  function setUnitCondition(pi, uid, id, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.units) pl.ctx.units = {}
+    if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
+    if (on) {
+      enforceGroupLimit(pl.ctx.units[uid], id)
+      pl.ctx.units[uid][id] = at
+    } else delete pl.ctx.units[uid][id]
+    if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
+  }
+
+  // A stratagem SPENT on one unit. Keyed by the roster entry's uid and then by the modifier
+  // record's sid, storing the clock stamp it was spent at — the record's own `dur` decides when
+  // that stops meaning anything (rosterGameContext's activeStratagems). Kept apart from `ctx.units`
+  // because a stratagem is not a state of the unit: several can be up at once, they are alternatives
+  // to nothing, and they are identified by the record they came from rather than by a condition id.
+  function setUnitStratagem(pi, uid, sid, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.strats) pl.ctx.strats = {}
+    if (!pl.ctx.strats[uid]) pl.ctx.strats[uid] = {}
+    if (on) pl.ctx.strats[uid][sid] = at
+    else delete pl.ctx.strats[uid][sid]
+    if (!Object.keys(pl.ctx.strats[uid]).length) delete pl.ctx.strats[uid]
+  }
+
+  // An ABILITY SET's choice — "select up to two of the abilities in the Relics of the Matriarchs
+  // section; until the start of the next battle round this model has those abilities". Keyed like
+  // a spent stratagem (roster entry uid → the option record's sid → the stamp it was picked at),
+  // because it is a choice this model made rather than a state it is in, and because the set's
+  // options are records, not vocabulary.
+  //
+  // `siblings` are the set's other option sids and `limit` how many it holds, both from the record
+  // (`ref.set` / `ref.pickLimit`): the store enforces the cap without knowing what a set IS,
+  // evicting the OLDEST pick the same way a condition group does.
+  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.picks) pl.ctx.picks = {}
+    if (!pl.ctx.picks[uid]) pl.ctx.picks[uid] = {}
+    const store = pl.ctx.picks[uid]
+    if (on) {
+      const held = siblings
+        .filter((other) => other !== sid && store[other] != null)
+        .map((other, i) => ({ sid: other, at: store[other], i }))
+        .sort((a, b) => a.at - b.at || a.i - b.i)
+      for (const h of held.slice(0, Math.max(0, held.length - (limit - 1)))) delete store[h.sid]
+      store[sid] = at
+    } else delete store[sid]
+    if (!Object.keys(store).length) delete pl.ctx.picks[uid]
+  }
+
+  // An AURA the player says is reaching this unit — keyed by the roster entry's uid and then by
+  // the modifier record's sid, exactly like a spent stratagem and for the same reason: it is not a
+  // state of the unit but a relationship with another model, identified by the record it comes
+  // from. Stored with the clock stamp it was marked at, and read back through the record's own
+  // window (rosterGameContext's activeAuras — a battle round, since what changes it is movement).
+  // The bearer's own unit and the unit it is attached to are never in here: Core Rules 22.01 makes
+  // those certain, and the app answers them from the list.
+  function setUnitAura(pi, uid, sid, at, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.auras) pl.ctx.auras = {}
+    if (!pl.ctx.auras[uid]) pl.ctx.auras[uid] = {}
+    if (on) pl.ctx.auras[uid][sid] = at
+    else delete pl.ctx.auras[uid][sid]
+    if (!Object.keys(pl.ctx.auras[uid]).length) delete pl.ctx.auras[uid]
   }
 
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
@@ -648,6 +782,62 @@ export function useTracker() {
       }
     }
     current.value.currentRound = target
+    // A new round starts at the first-turn player's Command phase. A phase left over from the
+    // round you just left would read as "now", and it isn't. stepPhase() writes the clock AFTER
+    // calling this, which is how stepping backwards across the boundary lands on Fight instead.
+    current.value.currentTurn = 0
+    current.value.currentPhase = BATTLE_PHASES[0]
+  }
+
+  // ── The clock: battle round → whose turn → phase ───────────────────────────────────────────
+  // A game created before this existed has neither field; both read as the first-turn player's
+  // Command phase until something moves them, so no migration is needed.
+  function phaseIndex(g) {
+    const i = BATTLE_PHASES.indexOf(g?.currentPhase)
+    return i === -1 ? 0 : i
+  }
+
+  // Position within the battle round, 0..9 — two turns of five phases.
+  function clockSlot(g) {
+    return (g?.currentTurn === 1 ? 1 : 0) * BATTLE_PHASES.length + phaseIndex(g)
+  }
+
+  const SLOTS = BATTLE_PHASES.length * 2
+
+  // Can the clock move by `delta` at all? Round 1's opening phase and round 5's closing one are
+  // the ends of the game — same convention as the round bar's own arrows.
+  function canStepPhase(delta) {
+    const g = current.value
+    if (!g) return false
+    const next = clockSlot(g) + delta
+    if (next < 0) return g.currentRound > 1
+    if (next >= SLOTS) return g.currentRound < ROUND_COUNT
+    return true
+  }
+
+  // One phase forward or back, rolling over into the neighbouring battle round. Crossing a
+  // boundary goes through goToRound so the secondary-card housekeeping there still happens.
+  function stepPhase(delta) {
+    const g = current.value
+    if (!g || !canStepPhase(delta)) return
+    let next = clockSlot(g) + delta
+    if (next < 0) {
+      goToRound(g.currentRound - 1)
+      next = SLOTS - 1
+    } else if (next >= SLOTS) {
+      goToRound(g.currentRound + 1)
+      next = 0
+    }
+    g.currentTurn = next >= BATTLE_PHASES.length ? 1 : 0
+    g.currentPhase = BATTLE_PHASES[next % BATTLE_PHASES.length]
+  }
+
+  // Jump straight to one phase of one player's turn (the phase picker).
+  function goToPhase(turn, phaseKey) {
+    const g = current.value
+    if (!g || !BATTLE_PHASES.includes(phaseKey)) return
+    g.currentTurn = turn === 1 ? 1 : 0
+    g.currentPhase = phaseKey
   }
 
   // Finish = show the final summary; the game stays current so it can be resumed.
@@ -676,6 +866,15 @@ export function useTracker() {
       if (!p || !pl) return
       if (p.name !== undefined) pl.name = p.name
       if (p.battleReady !== undefined) pl.battleReady = !!p.battleReady
+      // The army list can be attached (or detached) after the game has started — see
+      // EditSetupModal. `factionSlug`/`detachments` come with it only in the narrow cases that
+      // modal allows (a legacy game that never had a faction; detachments still empty): mid-game
+      // they are load-bearing — missions, the army-rule tracker, the points already scored and
+      // the stratagem list all hang on them — so the list never overwrites a standing choice.
+      if (p.rosterId !== undefined) pl.rosterId = p.rosterId
+      if (p.roster !== undefined) pl.roster = p.roster
+      if (p.factionSlug !== undefined) pl.factionSlug = p.factionSlug
+      if (p.detachments !== undefined) pl.detachments = [...p.detachments]
     })
     if (settings) {
       // players[0] is always the first-turn player (see newGame) and firstTurn itself
@@ -742,12 +941,13 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
+    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }

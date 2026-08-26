@@ -182,12 +182,12 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .sec-actions { display: flex; gap: 0.4rem; }
 .draw-btn {
   padding: 0.35rem 0.8rem; background: var(--accent); color: #fff; border: none;
-  border-radius: 4px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
 }
 .draw-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .choose-btn {
   padding: 0.35rem 0.8rem; background: transparent; color: var(--text-muted);
-  border: 1px solid var(--border); border-radius: 4px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--border); font-size: 0.78rem; font-weight: 600; cursor: pointer;
 }
 .choose-btn:hover { color: var(--text-primary); border-color: var(--accent); }
 .cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; position: relative; }
@@ -206,7 +206,6 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   gap: 0.5rem;
   padding: 0.55rem 0.65rem;
   border: 1px solid var(--border);
-  border-radius: 5px;
   background: var(--bg-secondary);
   cursor: pointer;
   text-align: left;
@@ -215,7 +214,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
 .card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }
 .manage {
-  background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-dim);
+  background: none; border: 1px solid var(--border); color: var(--text-dim);
   cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 0.55rem; flex-shrink: 0;
 }
 .manage:hover { color: var(--accent); border-color: var(--accent); }
@@ -235,30 +234,22 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   letter-spacing: 0.03em;
   color: var(--text-dim);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0 0.28rem;
   vertical-align: middle;
   white-space: nowrap;
 }
 
 /* Custom header for the per-card actions modal (others use BaseModal's default header). */
-.modal-head {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
-  padding: 0.8rem 0.9rem; border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0.1rem 0 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 32px; min-height: 32px; border-radius: 4px; flex-shrink: 0;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
-.modal-body { padding: 0.6rem 0.9rem 0.9rem; overflow-y: auto; }
+/* The heading here is two lines deep, so the close button rides at the top of it rather than
+   centred against the whole block. */
+.modal-head { align-items: flex-start; }
+/* Denser header, and a long title must not squeeze the button out of shape. */
+.mh-close { min-width: 32px; min-height: 32px; flex-shrink: 0; }
 
 .pick-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .pick-item {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 5px;
+  padding: 0.6rem 0.7rem; border: 1px solid var(--border);
   background: var(--bg-secondary); cursor: pointer; text-align: left;
 }
 .pick-item:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
@@ -268,7 +259,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 
 .act-list { display: flex; flex-direction: column; gap: 0.5rem; }
 .act-btn {
-  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 5px;
+  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border);
   background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }

@@ -44,12 +44,38 @@
             <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
           </label>
 
+          <!-- An attached list IS the army: it decides the faction, so it stands in the faction
+               picker's place rather than beside one that could contradict it, and the button that
+               attaches one sits in the same row — the two answer the same question. Detaching with
+               the ✕ leaves the faction the list chose selected, and hands the picker back. -->
           <div class="field">
-            <span>{{ labels.trackerFaction }}</span>
-            <button class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
-              <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
-              <i class="bi bi-chevron-right ct-chev"></i>
-            </button>
+            <span>{{ p.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
+            <div class="faction-row">
+              <div v-if="p.roster" class="ro roster-line">
+                <span class="rl-text">
+                  <template v-if="p.roster.faction">{{ factionName(p.roster.faction) }} · </template>{{ p.roster.name || labels.rosterUntitled }}
+                </span>
+                <button
+                  type="button"
+                  class="rl-clear"
+                  :aria-label="labels.trackerRosterDetach"
+                  :title="labels.trackerRosterDetach"
+                  @click="clearRoster(p)"
+                >✕</button>
+              </div>
+              <button v-else class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
+                <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
+                <i class="bi bi-chevron-right ct-chev"></i>
+              </button>
+              <button
+                type="button"
+                class="rp-open"
+                :class="{ on: !!p.roster }"
+                :aria-label="labels.trackerRosterAttach"
+                :title="labels.trackerRosterAttach"
+                @click="rosterPickerIdx = i"
+              ><i class="bi bi-card-list"></i></button>
+            </div>
             <FactionPickerModal
               v-if="factionPickerIdx === i"
               :selected="p.factionSlug"
@@ -57,10 +83,22 @@
               @pick="slug => selectFaction(p, slug)"
               @close="factionPickerIdx = -1"
             />
+            <RosterPickerModal
+              v-if="rosterPickerIdx === i"
+              :selected="p.roster ? (p.rosterId || '') : null"
+              @pick="r => pickRoster(p, r)"
+              @clear="clearRoster(p)"
+              @close="rosterPickerIdx = -1"
+            />
           </div>
 
           <div v-if="!settings.combatPatrol" class="field">
-            <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
+            <span>
+              {{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em>
+              <button v-if="p.detachments.length === 1 && dpSpent(p) > maxDp" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
+                <i class="bi bi-question-circle"></i>
+              </button>
+            </span>
             <button
               v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
               class="btn-choose-twist"
@@ -110,6 +148,32 @@
 
     <!-- ───────── Step 2 — Mission ───────── -->
     <div v-show="step === 2" :ref="el => (panelEls[1] = el)" class="step-panel">
+      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. FIRST on this
+           page, because it is what decides the mission shown under it: Scrambled Communications
+           swaps the two primaries and Mirrored World replaces both, and `derivePrimary` reads
+           `settings.twist`, so the preview below already depends on this button. Chosen on the
+           last step, as it was until 2026-08-25, it rewrote a card the player had already read
+           and moved on from. Not offered for Combat Patrol (the box's own rules don't mention it
+           either way; keeping this simple, matching how basic-box play works). -->
+      <div v-if="!settings.combatPatrol" class="settings twist-block">
+        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
+        <button class="btn-choose-twist" @click="twistPickerOpen = true">
+          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+          <i class="bi bi-chevron-right ct-chev"></i>
+        </button>
+        <details v-if="chosenTwist" class="twist-chosen">
+          <summary>{{ labels.trackerTwistRules }}</summary>
+          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
+        </details>
+        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
+          <span>{{ labels.trackerTwistMission }}</span>
+          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+        </div>
+      </div>
+
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
           <h3 class="player-head">{{ playerLabel(i) }}</h3>
@@ -168,7 +232,7 @@
       </div>
     </div>
 
-    <!-- ───────── Step 3 — Battlefield (layout) ───────── -->
+    <!-- ───────── Step 3 — Field & deployment (layout, first turn) ───────── -->
     <div v-show="step === 3" :ref="el => (panelEls[2] = el)" class="step-panel">
       <div class="settings layout-block">
         <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
@@ -189,14 +253,8 @@
         <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
       </div>
 
-      <div class="actions">
-        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
-      </div>
-    </div>
-
-    <!-- ───────── Step 4 — Deployment (first turn, CP, twist) ───────── -->
-    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
+      <!-- Who deploys first sits with the layout: both answer "where and in what order do we set
+           up", and neither is a setting of the app. -->
       <div class="settings deploy-opts">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
@@ -205,7 +263,17 @@
             <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerOpponent }}</button>
           </div>
         </label>
+      </div>
 
+      <div class="actions">
+        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
+      </div>
+    </div>
+
+    <!-- ───────── Step 4 — Settings (how the app runs this game) ───────── -->
+    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
+      <div class="settings deploy-opts">
         <label class="field">
           <span>
             {{ labels.trackerScoreMode }}
@@ -216,49 +284,11 @@
             <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
-
-        <label class="check" :class="{ on: settings.trackCP }">
-          <input type="checkbox" v-model="settings.trackCP" />
-          <span>{{ labels.trackerTrackCp }}</span>
-        </label>
-
-        <label v-if="players[0].factionSlug" class="check" :class="{ on: settings.trackArmyYou }">
-          <input type="checkbox" v-model="settings.trackArmyYou" />
-          <span>
-            {{ labels.trackerTrackArmyYou }}
-            <em v-if="!armyYouTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
-          </span>
-        </label>
-
-        <label v-if="players[1].factionSlug" class="check" :class="{ on: settings.trackArmyOpp }">
-          <input type="checkbox" v-model="settings.trackArmyOpp" />
-          <span>
-            {{ labels.trackerTrackArmyOpp }}
-            <em v-if="!armyOppTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
-          </span>
-        </label>
       </div>
 
-      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. Not offered for
-           Combat Patrol (the box's own rules don't mention it either way; keeping this step
-           simple, matching how basic-box play works). -->
-      <div v-if="!settings.combatPatrol" class="settings twist-block">
-        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
-        <button class="btn-choose-twist" @click="twistPickerOpen = true">
-          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="bi bi-chevron-right ct-chev"></i>
-        </button>
-        <details v-if="chosenTwist" class="twist-chosen">
-          <summary>{{ labels.trackerTwistRules }}</summary>
-          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
-        </details>
-        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
-          <span>{{ labels.trackerTwistMission }}</span>
-          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
-          </button>
-        </div>
+      <div class="settings">
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="game" />
+        <TrackOptions :settings="settings" :ctx="trackCtx" group="roster" heading="trackerRosterHeading" guide />
       </div>
 
       <div class="actions">
@@ -305,11 +335,18 @@
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />
+
+    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+      <div class="modal-body">
+        <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
+      </div>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, computed, watch, nextTick } from 'vue'
+import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
@@ -326,6 +363,10 @@ import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
+import { rosterSnapshot } from '../../composables/rosterGameLink.js'
+import RosterPickerModal from './RosterPickerModal.vue'
+import TrackOptions from './TrackOptions.vue'
+import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -340,12 +381,10 @@ const lastYouName = lastGame
   : ''
 // Default the score mode to the last game's choice (older games lack it → fall back to VP).
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
-// Remember the Track CP toggle from the last game (older games lack it → default on).
-const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
-// Same for the army-rule tracker toggles (split you/opponent; fall back to the old single flag).
+// What the game keeps track of: each option's own default, overridden by the last finished game's
+// choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
+// is added there and nothing here changes.
 const lastS = history.value[0]?.settings ?? {}
-const lastTrackArmyYou = lastS.trackArmyYou ?? lastS.trackArmyRule ?? true
-const lastTrackArmyOpp = lastS.trackArmyOpp ?? lastS.trackArmyRule ?? true
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -359,9 +398,9 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
 function defaultPlayer(role, name = '') {
-  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
+  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null }
 }
-const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -380,8 +419,22 @@ const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
 // fallback). These two flags only control the setup checkbox's caption ("reference only, no
 // counter" vs nothing extra) — resolved per player, lazily (the registry is dynamic-imported,
 // same as the in-game card), whenever the picked factions change.
+// They travel to TrackOptions inside `trackCtx` below, which is what decides which rows the
+// block can offer at all.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
+
+// Either player having a list is enough: the clock belongs to the game, not to one side.
+const anyRoster = computed(() => players.some((p) => !!p.roster))
+
+// What the option table needs to know about this game, keyed by SIDE — in the wizard players[0]
+// is always You, but once the game starts the array is reordered by first turn, so the block
+// never indexes players itself.
+const trackCtx = computed(() => ({
+  you: { faction: players[0].factionSlug, trackable: armyYouTrackable.value },
+  opp: { faction: players[1].factionSlug, trackable: armyOppTrackable.value },
+  anyRoster: anyRoster.value,
+}))
 watch(
   () => players.map(p => p.factionSlug).join('|'),
   async () => {
@@ -425,6 +478,7 @@ function randomTwist() {
 }
 
 const scoreHelpOpen = ref(false)
+const dpHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
@@ -478,17 +532,30 @@ function cpFactionFor(p) {
 }
 
 // Single source of truth for a player's detachment/disposition, re-derived whenever their
-// faction OR the game type changes: cleared for a normal game (manual pick downstream), or
-// auto-resolved from the CP box's one fixed detachment + Force Disposition — no manual steps.
+// faction OR the game type changes: taken from an attached roster, cleared for a normal game
+// (manual pick downstream), or auto-resolved from the CP box's one fixed detachment + Force
+// Disposition — no manual steps.
 async function resolveArmyChoice(p) {
+  // An attached list describes ONE army. Switching the player to another faction makes it a
+  // description of something else, so it detaches rather than lingering as a wrong label. Step 1
+  // no longer offers that switch — the list stands in the picker's place and you detach first —
+  // so this now only catches a restored draft whose two halves are out of step.
+  if (p.roster && p.roster.faction !== p.factionSlug) { p.roster = null; p.rosterId = null }
   p.detachments = []
   p.disposition = null
-  if (!settings.combatPatrol || !p.factionSlug) return
-  const list = await loadCombatPatrolData()
-  const cp = list.find(f => f.slug === p.factionSlug)
-  if (!cp) return
-  p.detachments = [cp.rule.name]
-  p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+  if (!p.factionSlug) return
+  if (settings.combatPatrol) {
+    const list = await loadCombatPatrolData()
+    const cp = list.find(f => f.slug === p.factionSlug)
+    if (!cp) return
+    p.detachments = [cp.rule.name]
+    p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+    return
+  }
+  // A roster is built against its detachments (its enhancements and legality depend on them), so
+  // it dictates them here instead of being checked against a separate pick. Beyond the DP budget
+  // is possible in principle; the budget readout flags it exactly as a manual pick would.
+  if (p.roster?.detachments?.length) p.detachments = [...p.roster.detachments]
 }
 
 function setCombatPatrol(on) {
@@ -509,6 +576,26 @@ function toggleFixed(p, slug) {
 const fixedPickerFor = ref(-1)
 const detPickerIdx = ref(-1)
 const factionPickerIdx = ref(-1)
+const rosterPickerIdx = ref(-1)
+
+// Attaching a roster is what DECIDES the army, so it sets the faction (and, through the faction
+// watcher, resolveArmyChoice's detachments) rather than being validated against an earlier pick.
+// Same faction already selected → no watcher fires, so re-derive here.
+function pickRoster(p, roster) {
+  p.rosterId = roster.id || null
+  p.roster = rosterSnapshot(roster)
+  rosterPickerIdx.value = -1
+  if (roster.faction && p.factionSlug !== roster.faction) p.factionSlug = roster.faction
+  else resolveArmyChoice(p)
+}
+
+// Detaching leaves the faction and detachments alone — they are legitimate choices in their own
+// right, and clearing them would undo a step the player may have made by hand.
+function clearRoster(p) {
+  p.rosterId = null
+  p.roster = null
+  rosterPickerIdx.value = -1
+}
 
 // Faction is single-select: picking one applies it and closes the modal immediately.
 function selectFaction(p, slug) {
@@ -639,10 +726,11 @@ const canMission = computed(() =>
   !!primaryName(0) && !!primaryName(1)
 )
 
-// Step 3 (Battlefield): layout always has a default → gate only on the earlier steps.
+// Step 3 (Field & deployment): layout and first turn both always have a default → gate only
+// on the earlier steps.
 const canBattlefield = computed(() => canMission.value)
 
-// Step 4 (Deployment): roles set (always defaulted) — gate on the earlier steps too.
+// Step 4 (Settings): every row has a default — gate on the earlier steps too.
 const canStart = computed(() =>
   canMission.value && players.every(p => p.role)
 )
@@ -658,7 +746,9 @@ function clearDraft() { setupDraft.value = null }
 function start() {
   clearDraft()
   emit('start', {
-    settings: { ...settings },
+    // Rows this game cannot offer are written OFF rather than at whatever the last game left in
+    // them — the checkbox was disabled, so the value behind it was never the player's answer.
+    settings: normalizeTrackSettings(settings, trackCtx.value),
     players: players.map(p => ({ ...p })),
   })
 }
@@ -707,7 +797,6 @@ function cancel() {
   color: var(--text-dim);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
 }
 .step.on {
   color: #fff;
@@ -731,11 +820,21 @@ function cancel() {
   .steps { display: none; }
   .steps-compact { display: block; }
 }
+/* The gap between the two army cards, and — since the twist block on step 2 stands directly above
+   them — the space under it too. One custom property so the two can't drift apart: without it the
+   twist card sat flush against "You" and read as part of it. */
+.setup { --stack-gap: 1rem; }
 .players {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  /* minmax(0, …), not 1fr: a grid item's automatic minimum is its MIN-CONTENT width, and the
+     roster line inside a card is `white-space: nowrap` (it ellipsizes). Nowrap makes its
+     min-content the whole string, so a long list name — "We build thick city on rock and roll" —
+     pushed the card wider than the screen and the whole page scrolled sideways. The ellipsis never
+     got a chance: it only clips a box that was allowed to be narrower than its text. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--stack-gap);
 }
+.twist-block { margin-bottom: var(--stack-gap); }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
@@ -743,7 +842,6 @@ function cancel() {
   --pc-pad: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   padding: var(--pc-pad);
 }
 .settings {
@@ -759,7 +857,7 @@ function cancel() {
 /* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
    step) wastes a lot of the limited width — tighten it and the inter-card gap. */
 @media (max-width: 560px) {
-  .players { gap: 0.55rem; }
+  .setup { --stack-gap: 0.55rem; }
   .player-card,
   .settings { --pc-pad: 0.6rem; }
 }
@@ -767,7 +865,7 @@ function cancel() {
   .player-card,
   .settings { --pc-pad: 0.5rem; }
 }
-/* Step 4 (Deployment): stack the options vertically, each on its own line. */
+/* The two-or-three control cards on steps 3 and 4: stacked, each on its own line. */
 .deploy-opts {
   flex-direction: column;
   align-items: stretch;
@@ -807,18 +905,10 @@ function cancel() {
   gap: 0.3rem;
   margin-bottom: 0.7rem;
 }
-.field > span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .field input[type="text"],
 .field select {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -884,7 +974,6 @@ function cancel() {
   min-height: 44px;
   padding: 0.6rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -898,7 +987,6 @@ function cancel() {
 .twist-chosen {
   margin-top: 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-card);
 }
 .twist-chosen > summary {
@@ -912,25 +1000,38 @@ function cancel() {
 }
 .twist-chosen-body { padding: 0 0.7rem 0.6rem; font-size: 0.86rem; line-height: 1.5; }
 .twist-mission { margin-top: 0.8rem; }
-.help-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 0 0.2rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  vertical-align: middle;
-}
-.help-btn:hover { color: var(--accent); }
+.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
+
+/* The faction control and "attach a list" share a row; the button stretches to whichever of the
+   two is beside it (the picker is min-height 44px, the attached line is shorter) instead of
+   carrying a height of its own. */
+.faction-row { display: flex; align-items: stretch; gap: 0.4rem; }
+.faction-row > .btn-choose-twist,
+.faction-row > .roster-line { flex: 1; min-width: 0; }
+.rp-open {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; padding: 0 0.7rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary); color: var(--text-muted);
+  font-size: 1rem; cursor: pointer;
+}
+.rp-open:hover { border-color: var(--accent); color: var(--text-primary); }
+.rp-open.on { border-color: var(--accent); color: var(--accent); }
+/* Stands where the faction picker would be, so it keeps `.ro`'s shape and only adds the ✕. */
+.roster-line { display: flex; align-items: center; gap: 0.5rem; }
+.rl-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rl-clear {
+  flex-shrink: 0; background: none; border: none; color: var(--text-muted);
+  font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.3rem;
+}
+.rl-clear:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .chip {
   padding: 0.3rem 0.55rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   color: var(--text-muted);
-  border-radius: 999px;
   font-size: 0.74rem;
   cursor: pointer;
 }
@@ -939,69 +1040,12 @@ function cancel() {
 .ro {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
   background: var(--bg-secondary);
   color: var(--text-muted);
   font-size: 0.9rem;
 }
 .seg-wrap { flex-wrap: wrap; }
-.seg {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-}
-.seg button {
-  padding: 0.45rem 0.8rem;
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  transition: background 0.15s, color 0.15s;
-}
-.seg button + button {
-  border-left: 1px solid var(--border);
-}
-.seg button.on {
-  background: var(--accent);
-  color: #fff;
-}
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
-.check {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-secondary);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.check:hover { border-color: var(--accent); }
-.check.on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-.check.on span { color: var(--text-primary); }
-.check-note {
-  display: block;
-  font-style: normal;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.check input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
 .br-check { margin-top: 0.2rem; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a
    full-bleed accordion. The accordion spans the player-card's whole content width; its tinted
@@ -1024,40 +1068,11 @@ function cancel() {
 .primary-card :deep(.mcard) {
   border: none;
   border-bottom: 1px solid var(--border);
-  border-radius: 0;
   padding: 0 0 0.7rem;
-}
-/* Header bar runs edge to edge (no rounded corners against the card sides). */
-.primary-card :deep(.mcard.collapsible > .mcard-head) {
-  border-radius: 0;
 }
 /* Small inset for the expanded content so the scoring rows don't collide with the card border. */
 .primary-card :deep(.mcard-body) {
   padding: 0 0.35rem;
-}
-
-/* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
-.tabs {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
-}
-.tab {
-  padding: 0.4rem 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.04rem;
-  transition: background 0.12s, border-color 0.12s;
-}
-.tab:hover { border-color: var(--accent); }
-.tab.active {
-  background: var(--accent);
-  color: var(--text-on-accent);
-  border-color: var(--accent);
 }
 
 .actions {
@@ -1066,31 +1081,8 @@ function cancel() {
   gap: 0.6rem;
   margin-top: 1.25rem;
 }
-.btn-primary {
-  padding: 0.6rem 1.4rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.btn-primary:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.btn-ghost {
-  padding: 0.6rem 1.1rem;
-  background: none;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
 @media (max-width: 700px) {
-  .players { grid-template-columns: 1fr; }
+  .players { grid-template-columns: minmax(0, 1fr); }
   .tab-word { display: none; }
   .tab { min-width: 44px; min-height: 44px; }
 }

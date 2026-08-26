@@ -51,7 +51,6 @@ function pick(m, l) {
 </script>
 
 <style scoped>
-.modal-body { padding: 0.5rem 0.9rem 0.9rem; overflow-y: auto; }
 
 .lp-hint { text-align: center; font-size: 0.84rem; color: var(--text-muted); margin: 0.5rem 0 0.5rem; }
 .lp-matchup {
@@ -64,13 +63,12 @@ function pick(m, l) {
 }
 .lp-layouts { display: flex; flex-direction: column; gap: 0.9rem; }
 .lp-layout { display: flex; flex-direction: column; gap: 0.4rem; }
-.lp-layout.on { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.lp-layout.on { outline: 2px solid var(--accent); outline-offset: 2px; }
 .lp-pick {
   align-self: center;
   min-height: 40px;
   padding: 0.4rem 1.4rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--accent);
   font-size: 0.84rem;

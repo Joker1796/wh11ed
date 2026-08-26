@@ -93,6 +93,11 @@ function goToSelected() {
 }
 
 function navigate(item) {
+  // Let go of the input BEFORE unmounting, so iOS starts dismissing the on-screen keyboard a beat
+  // earlier: while it animates, Safari resizes the visual viewport and scrolls the page itself,
+  // and scrollToAnchor is waiting that out (useRefNavigation's viewportSettled). Blurring first
+  // shortens the wait — and on a browser with no keyboard it costs nothing.
+  document.activeElement?.blur?.()
   emit('close')
   // A faction-rules result (detachment/stratagem/enhancement) anchors to its detachment's
   // section — but FactionRuleView only renders the ACTIVE detachment (useFactionChoice), so it
@@ -119,7 +124,6 @@ function navigate(item) {
 
 .search-box {
   background: var(--bg-card);
-  border-radius: 8px;
   box-shadow: 0 20px 60px rgba(4, 3, 3, 0.45);
   width: 100%;
   max-width: 600px;
@@ -157,7 +161,6 @@ function navigate(item) {
 .search-close {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0.15rem 0.45rem;
   font-size: 0.72rem;
   font-family: var(--font-mono);
@@ -286,7 +289,6 @@ function navigate(item) {
   }
 
   .search-box {
-    border-radius: 0;
     height: 100dvh;
     max-width: none;
     display: flex;

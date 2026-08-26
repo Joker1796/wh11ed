@@ -3,6 +3,7 @@ import { mount, DOMWrapper } from '@vue/test-utils'
 import GameEndModal from './GameEndModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
+import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import ScoringModal from './ScoringModal.vue'
 import { BP_TABLE } from '../../composables/gameScoring.js'
 
@@ -96,5 +97,34 @@ describe('TwistPickerModal', () => {
     await acts[1].trigger('click')
     expect(w.emitted('random')).toBeTruthy()
     expect(w.emitted('none')).toBeTruthy()
+  })
+})
+
+// The row itself (name + chevron + Select + the body it expands) is one shared component; the
+// three pickers differ only in what they slot into it and in how many entries may be picked.
+describe('SecondaryPickerModal — the shared PickerRow', () => {
+  const missions = [
+    { slug: 'a', name: 'Alpha', category: 'cat', blocks: [] },
+    { slug: 'b', name: 'Beta', category: 'cat', blocks: [] },
+    { slug: 'c', name: 'Gamma', category: 'cat', blocks: [] },
+  ]
+  it('expands one entry at a time and toggles the picked ones', async () => {
+    const w = mount(SecondaryPickerModal, { props: { missions, selected: [], max: 2 } })
+    const toggles = body().findAll('.tp-toggle')
+    await toggles[1].trigger('click')
+    expect(toggles[1].attributes('aria-expanded')).toBe('true')
+    expect(toggles[0].attributes('aria-expanded')).toBe('false')
+    await body().findAll('.tp-pick')[1].trigger('click')
+    expect(w.emitted('toggle')[0]).toEqual(['b'])
+  })
+
+  // Once the cap is reached the rows that are NOT chosen stop accepting a tap — the chosen ones
+  // must stay live, or there would be no way to swap one out.
+  it('locks the unchosen rows at the cap and leaves the chosen ones alone', () => {
+    mount(SecondaryPickerModal, { props: { missions, selected: ['a', 'b'], max: 2 } })
+    const picks = body().findAll('.tp-pick')
+    expect(picks[0].attributes('disabled')).toBeUndefined()
+    expect(picks[1].attributes('disabled')).toBeUndefined()
+    expect(picks[2].attributes('disabled')).toBeDefined()
   })
 })

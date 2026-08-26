@@ -72,7 +72,6 @@ const activeChapter = computed(() => {
 .event-toc {
   border: 1px solid var(--border);
   border-top: 3px solid var(--accent);
-  border-radius: 0 0 6px 6px;
   background: var(--bg-card);
   padding: 0.55rem 1rem 0.75rem;
   margin-bottom: 1.75rem;
@@ -81,7 +80,6 @@ const activeChapter = computed(() => {
 /* Inside the modal BaseModal already draws the surface and the title. */
 .event-toc--modal {
   border: none;
-  border-radius: 0;
   background: none;
   padding: 0;
   margin-bottom: 0;

@@ -12,7 +12,8 @@ export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', '
 // wh11ed faction slug → wh40k-appdata bundle/faction-keyword slug, for the 7 factions GW renamed
 // between the app dump and wh11ed's own filenames. Every other faction shares the same slug in both.
 // Single source of truth — imported by the reconciliation scripts (gen-source-ids, sync-appdata,
-// sync-tracker, gen-faction-faq). Invert it (appdata slug → wh11ed slug) when going the other way.
+// sync-tracker, gen-faction-faq, gen-roster-data). Invert it (appdata slug → wh11ed slug) when
+// going the other way.
 export const SLUG_MAP = {
   'space-marines': 'adeptus-astartes',
   'chaos-space-marines': 'heretic-astartes',
@@ -72,10 +73,17 @@ export function appdataToMarkup(text) {
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
 // converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
 // stores flavour in a separate `flavor` field, so including them would flag every rule.
+//
+// A block can carry SEVERAL of these fields, and every one of them is rule text: a
+// `triggerEffectAccordion` (Aeldari's Battle Focus manoeuvres) keeps the condition in `trigger`
+// and the rule itself in `effect`. Reading `text || trigger || effect` kept the trigger and threw
+// the effect away — "add 2\" to the Move characteristic of models in that unit" was in no reader's
+// hands, so gen-roster-modifiers proposed no record for it and the text-drift guards
+// (sync-faction-text, appdata-text-diff) compared our full prose against a half of appdata's.
 export function bodyText(body) {
   return (body || [])
     .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
-    .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
+    .map((b) => [b.text, b.trigger, b.effect].filter(Boolean).map(appdataToMarkup).filter(Boolean).join('\n'))
     .filter(Boolean)
     .join('\n')
 }

@@ -132,7 +132,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu, CORE_PATH, EVENT_PATH } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, rosterGroups, rosterGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu, CORE_PATH, EVENT_PATH } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -150,6 +150,7 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
+const localizedRosterGroups = computed(() => locale.value === 'ru' ? rosterGroupsRu : rosterGroups)
 const localizedCombatPatrolGroups = computed(() => locale.value === 'ru' ? combatPatrolGroupsRu : combatPatrolGroups)
 const COMBAT_PATROL_PATH = '/combat-patrol'
 
@@ -183,11 +184,13 @@ const navSections = computed(() => [
   { key: 'rules',    label: labels.value.navRules,         groups: localizedRulesGroups.value },
   { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
+  { key: 'roster',   label: labels.value.navRoster,        groups: localizedRosterGroups.value },
 ])
 
 const currentSection = computed(() => {
   const p = route.path
   if (p.startsWith('/tracker')) return 'tracker'
+  if (p.startsWith('/roster')) return 'roster'
   if (p.startsWith('/factions')) return 'factions'
   // Core Rules, Event Companion, Combat Patrol, /rules itself, and everything else
   // (landing, links, disclaimer, …) all fall under the merged "rules" section.
@@ -365,7 +368,6 @@ async function handleAnchorClick(group, id, filter) {
   color: var(--text-muted);
   font-size: 1.1rem;
   cursor: pointer;
-  border-radius: 4px;
   transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
 }

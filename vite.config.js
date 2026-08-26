@@ -68,12 +68,12 @@ export default defineConfig({
         // Explicit `id` keeps the app identity stable across deploys even if
         // start_url ever changes (avoids duplicate installs).
         id: '/',
-        name: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
+        name: 'Warhammer 40,000 11th Edition — Rules, Rosters & Game Tracker',
         // Shown under the installed icon — this is the app's user-facing name. Keep it short
         // enough not to be truncated on a phone home screen (~12 chars).
         short_name: 'WH Rules',
         description:
-          'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition: core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker.',
+          'A bilingual (EN/RU) app for playing Warhammer 40,000 11th Edition: core rules and the Event Companion, faction rules and unit datasheets, an army list builder, and a game tracker that applies your army\'s own rules. Works fully offline, no account needed.',
         lang: 'en',
         dir: 'ltr',
         start_url: '/',
@@ -96,6 +96,12 @@ export default defineConfig({
             icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
           },
           {
+            name: 'Army Lists',
+            short_name: 'Rosters',
+            url: '/roster',
+            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+          },
+          {
             name: 'Missions',
             short_name: 'Missions',
             url: '/event-companion/missions',
@@ -108,7 +114,7 @@ export default defineConfig({
             sizes: '1280x720',
             type: 'image/png',
             form_factor: 'wide',
-            label: 'Warhammer 40,000 11th Edition rules reference',
+            label: 'Warhammer 40,000 11th Edition rules, rosters and game tracker',
           },
           {
             src: 'screenshot-narrow.png',
