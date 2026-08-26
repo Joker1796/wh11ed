@@ -2417,7 +2417,7 @@ export default [
   },
   {
     "id": "magnus-the-red",
-    "name": "Magnus The Red",
+    "name": "Magnus the Red",
     "points": [
       {
         "models": 1,
@@ -2427,7 +2427,7 @@ export default [
     "flavor": "None dare meet the one-eyed gaze of the Crimson King. He is a nexus of sorcerous energies, a sentient confluence of fate and magic bound within the shimmering flesh of a daemonic demigod. Magnus unleashes his magicks in an unstoppable tempest, and the luckiest of his victims are those who die swiftly.",
     "profiles": [
       {
-        "name": "Magnus The Red",
+        "name": "Magnus the Red",
         "m": "14\"",
         "t": "11",
         "sv": "2+",
@@ -3597,7 +3597,7 @@ export default [
   },
   {
     "id": "sorcerer-in-terminator-armour",
-    "name": "Sorcerer In Terminator Armour",
+    "name": "Sorcerer in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -3613,7 +3613,7 @@ export default [
     "flavor": "Clad in hulking Terminator plate, a Sorcerer of the Thousand Sons can shrug off even the punishing fire of anti-tank weaponry. So protected, they can unleash their mutative magicks with impunity, leading offensives into even the most heavily defended enemy strongpoints and laying low any who bar their path.",
     "profiles": [
       {
-        "name": "Sorcerer In Terminator Armour",
+        "name": "Sorcerer in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3692,7 +3692,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Sorcerer In Terminator Armour"
+      "1 Sorcerer in Terminator Armour"
     ],
     "loadout": "**This model is equipped with:** Gaze of Hate; inferno combi-bolter; force weapon.",
     "options": [

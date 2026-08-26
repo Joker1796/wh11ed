@@ -4,7 +4,7 @@
 export default [
   {
     "id": "abaddon-the-despoiler",
-    "name": "Abaddon The Despoiler",
+    "name": "Abaddon the Despoiler",
     "points": [
       {
         "models": 1,
@@ -14,7 +14,7 @@ export default [
     "flavor": "The Warmaster of Chaos is the greatest threat to the Imperium. He rules his Black Legion with an iron-taloned fist and stands as the embodiment of the Long War. Clad in Terminator armour and wielding his howling daemon sword, Drach’nyen, Abaddon slays any weakling champions sent to challenge him.",
     "profiles": [
       {
-        "name": "Abaddon The Despoiler",
+        "name": "Abaddon the Despoiler",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -695,7 +695,7 @@ export default [
   },
   {
     "id": "chaos-lord-in-terminator-armour",
-    "name": "Chaos Lord In Terminator Armour",
+    "name": "Chaos Lord in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -705,7 +705,7 @@ export default [
     "flavor": "Chaos Lords’ underlings expect them to fight from the front, and few kinds of armour enable them to do so as effectively as archaic Terminator plate. Formidably resilient, such a suit protects the Lord against all but the most devastating firepower and enables him to deploy by teleportation right into the heart of the foe.",
     "profiles": [
       {
-        "name": "Chaos Lord In Terminator Armour",
+        "name": "Chaos Lord in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3737,7 +3737,7 @@ export default [
   },
   {
     "id": "heretic-astartes-daemon-prince-with-wings",
-    "name": "Heretic Astartes Daemon Prince With Wings",
+    "name": "Heretic Astartes Daemon Prince with Wings",
     "points": [
       {
         "models": 1,
@@ -3747,7 +3747,7 @@ export default [
     "flavor": "The final form of those who give up their souls to the Dark Gods can be infinite in variety. From some, dark wings burst from their churning flesh, a hideous blessing that enables these monstrous warrior-lords to hunt down those who seek to flee their bestial wrath.",
     "profiles": [
       {
-        "name": "Heretic Astartes Daemon Prince With Wings",
+        "name": "Heretic Astartes Daemon Prince with Wings",
         "m": "12\"",
         "t": "9",
         "sv": "2+",
@@ -3932,7 +3932,7 @@ export default [
   },
   {
     "id": "khorne-lord-of-skulls",
-    "name": "Khorne Lord Of Skulls",
+    "name": "Khorne Lord of Skulls",
     "points": [
       {
         "models": 1,
@@ -3948,7 +3948,7 @@ export default [
     "flavor": "Lords of Skulls are insane, monolithic creations fuelled by boiling blood and dedicated to slaughtering in the name of Khorne. They plough through the enemy’s ranks, crushing infantry beneath their tracks, hacking tanks into kindling with sweeps of their cleaver and hurling brazen projectiles or burning ichor at the survivors.",
     "profiles": [
       {
-        "name": "Khorne Lord Of Skulls",
+        "name": "Khorne Lord of Skulls",
         "m": "8\"",
         "t": "13",
         "sv": "3+",
@@ -4476,7 +4476,7 @@ export default [
   },
   {
     "id": "lord-discordant-on-helstalker",
-    "name": "Lord Discordant On Helstalker",
+    "name": "Lord Discordant on Helstalker",
     "points": [
       {
         "models": 1,
@@ -4486,7 +4486,7 @@ export default [
     "flavor": "Technocrats and spirit-thieves, Lords Discordant hunt the foe’s war engines. Atop daemonic Helstalkers, these heretics cut through enemy infantry before lunging at their quarry with saw-toothed polearms. Each mount tears its mechanical prey open as the Lord Discordant siphons off the victim’s spirit to reinvigorate other Daemon Engines.",
     "profiles": [
       {
-        "name": "Lord Discordant On Helstalker",
+        "name": "Lord Discordant on Helstalker",
         "m": "14\"",
         "t": "9",
         "sv": "2+",
@@ -4614,7 +4614,7 @@ export default [
   },
   {
     "id": "master-of-executions",
-    "name": "Master Of Executions",
+    "name": "Master of Executions",
     "points": [
       {
         "models": 1,
@@ -4624,7 +4624,7 @@ export default [
     "flavor": "These corrupted axemen are the executioners of Heretic Astartes warbands. Able to perceive the empyric soul-stuff of the foe’s greatest champions, they single-mindedly seek them out in battle, bellowing a fatal decree before crashing forward and hacking through armour, flesh and bone.",
     "profiles": [
       {
-        "name": "Master Of Executions",
+        "name": "Master of Executions",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -4700,7 +4700,7 @@ export default [
   },
   {
     "id": "master-of-possession",
-    "name": "Master Of Possession",
+    "name": "Master of Possession",
     "points": [
       {
         "models": 1,
@@ -4710,7 +4710,7 @@ export default [
     "flavor": "Masters of Possession are psykers who specialise in channelling daemons into living hosts; they bolster their possessed kin with empyric energies that strengthen and reinvigorate such tainted unions. In battle, they unleash daemonic forces into the foe, ripping apart their souls to channel them to greater use.",
     "profiles": [
       {
-        "name": "Master Of Possession",
+        "name": "Master of Possession",
         "m": "8\"",
         "t": "4",
         "sv": "3+",
@@ -6295,7 +6295,7 @@ export default [
   },
   {
     "id": "sorcerer-in-terminator-armour",
-    "name": "Sorcerer In Terminator Armour",
+    "name": "Sorcerer in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -6305,7 +6305,7 @@ export default [
     "flavor": "The powers of a warband’s Sorcerers lend a sickening occult advantage to elite infantry spearheads. Girded in warsuits of sigil-etched Terminator armour, they are able to support gruelling boarding actions, assault through daemon-haunted labyrinths or fight on the front line against swarming, ignorant loyalists.",
     "profiles": [
       {
-        "name": "Sorcerer In Terminator Armour",
+        "name": "Sorcerer in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -6737,7 +6737,7 @@ export default [
   },
   {
     "id": "vashtorr-the-arkifane",
-    "name": "Vashtorr The Arkifane",
+    "name": "Vashtorr the Arkifane",
     "points": [
       {
         "models": 1,
@@ -6747,7 +6747,7 @@ export default [
     "flavor": "Vashtorr is a horror of pallid flesh stretched over infernal mechanisms. He soars to battle amidst a cloud of dark lightning and smog, dealing destruction and unleashing techno-gheist curses upon the foe even as he fashions enhancements for his indentured Daemon Engines from the raw stuff of realspace.",
     "profiles": [
       {
-        "name": "Vashtorr The Arkifane",
+        "name": "Vashtorr the Arkifane",
         "m": "12\"",
         "t": "10",
         "sv": "2+",

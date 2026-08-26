@@ -427,7 +427,7 @@ export default [
   },
   {
     "id": "ancient-in-terminator-armour",
-    "name": "Ancient In Terminator Armour",
+    "name": "Ancient in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -437,7 +437,7 @@ export default [
     "flavor": "Carrying the Space Marines’ sacred banners is a most vital task. Symbols of the Chapter’s might, Space Marines will gladly die to preserve them. This makes Ancients frequent targets. Clad in Terminator armour, they are near impervious to enemy fire, ensuring the standard always flies proud.",
     "profiles": [
       {
-        "name": "Ancient In Terminator Armour",
+        "name": "Ancient in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -914,7 +914,7 @@ export default [
   },
   {
     "id": "assault-intercessors-with-jump-packs",
-    "name": "Assault Intercessors With Jump Packs",
+    "name": "Assault Intercessors with Jump Packs",
     "points": [
       {
         "models": 5,
@@ -940,7 +940,7 @@ export default [
     "flavor": "Thanks to their powerful jump packs, these warriors soar over the battlefield, slamming into the foe and cutting them down with point-blank bolt pistol fire and furious chainsword hacks before shooting off to their next target.",
     "profiles": [
       {
-        "name": "Assault Intercessors With Jump Packs",
+        "name": "Assault Intercessors with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -1050,7 +1050,7 @@ export default [
       "The Assault Intercessor Sergeant with Jump Pack’s heavy bolt pistol can be replaced with one of the following:\n▪ 1 hand flamer\n▪ 1 plasma pistol"
     ],
     "keywords": [
-      "Assault Intercessors With Jump Packs",
+      "Assault Intercessors with Jump Packs",
       "Infantry",
       "Jump Pack",
       "Grenades",
@@ -1993,7 +1993,7 @@ export default [
   },
   {
     "id": "captain-in-gravis-armour",
-    "name": "Captain In Gravis Armour",
+    "name": "Captain in Gravis Armour",
     "points": [
       {
         "models": 1,
@@ -2003,7 +2003,7 @@ export default [
     "flavor": "Clad in a suit of indomitable Gravis armour, a Space Marine Captain can fearlessly stride into the very fiercest battlefield firestorms. To don Gravis armour is to demonstrate the greatest determination to crush the enemy, no matter how deeply they are entrenched.",
     "profiles": [
       {
-        "name": "Captain In Gravis Armour",
+        "name": "Captain in Gravis Armour",
         "m": "5\"",
         "t": "6",
         "sv": "3+",
@@ -2136,7 +2136,7 @@ export default [
   },
   {
     "id": "captain-in-phobos-armour",
-    "name": "Captain In Phobos Armour",
+    "name": "Captain in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -2146,7 +2146,7 @@ export default [
     "flavor": "All Primaris Space Marines are trained in reconnaissance, stealth and sabotage while in the 10th Company. Donning his Phobos armour, a Captain will combine these skills with his incredible martial prowess and hard-won strategic expertise to lead strike forces of Vanguard warriors on dangerous covert missions.",
     "profiles": [
       {
-        "name": "Captain In Phobos Armour",
+        "name": "Captain in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -2236,7 +2236,7 @@ export default [
   },
   {
     "id": "captain-in-terminator-armour",
-    "name": "Captain In Terminator Armour",
+    "name": "Captain in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -2246,7 +2246,7 @@ export default [
     "flavor": "Space Marine Captains are expected to fight from the front, and few kinds of armour enable them to do so as effectively as Terminator plate. Formidably resilient, such a suit protects the Captain against all but the most devastating enemy fire and enables him to deploy by teleport strike right into the heart of the foe.",
     "profiles": [
       {
-        "name": "Captain In Terminator Armour",
+        "name": "Captain in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -2467,7 +2467,7 @@ export default [
   },
   {
     "id": "captain-with-jump-pack",
-    "name": "Captain With Jump Pack",
+    "name": "Captain with Jump Pack",
     "points": [
       {
         "models": 1,
@@ -2477,7 +2477,7 @@ export default [
     "flavor": "Many a Space Marine Captain favours fury and speed, and devises ingenious strategies to use these to devastating effect against their enemies. Being superlative warriors and inspiring leaders, they have no place but at the very forefront of battle. With a jump pack, Captains can lead their warriors as speartips for their assaults.",
     "profiles": [
       {
-        "name": "Captain With Jump Pack",
+        "name": "Captain with Jump Pack",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -2611,12 +2611,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
         "Sanguinary Guard",
         "Skyclaws",
         "Talonstrike Kill Team",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -3085,7 +3085,7 @@ export default [
   },
   {
     "id": "chaplain-in-terminator-armour",
-    "name": "Chaplain In Terminator Armour",
+    "name": "Chaplain in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -3095,7 +3095,7 @@ export default [
     "flavor": "Every Space Marine is roused to war by the litanies of their Chaplains, and never is this spiritual fortification more vital than amidst the blood and horror of boarding actions and beachhead strikes. Thus, Chaplains are trained to wear formidable Terminator armour so they can fight alongside Veteran battle-brothers.",
     "profiles": [
       {
-        "name": "Chaplain In Terminator Armour",
+        "name": "Chaplain in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3181,7 +3181,7 @@ export default [
   },
   {
     "id": "chaplain-on-bike",
-    "name": "Chaplain On Bike",
+    "name": "Chaplain on Bike",
     "points": [
       {
         "models": 1,
@@ -3191,7 +3191,7 @@ export default [
     "flavor": "When a Chaplain takes to the field on a Raider-pattern bike, he is able to keep pace with even the swiftest armoured advance or spearhead breakthrough. Fighting in such an action, he will urge his brothers to victory as he bellows his catechisms and charges headlong into the foe, crozius arcanum swinging.",
     "profiles": [
       {
-        "name": "Chaplain On Bike",
+        "name": "Chaplain on Bike",
         "m": "12\"",
         "t": "5",
         "sv": "3+",
@@ -3277,7 +3277,7 @@ export default [
   },
   {
     "id": "chaplain-with-jump-pack",
-    "name": "Chaplain With Jump Pack",
+    "name": "Chaplain with Jump Pack",
     "points": [
       {
         "models": 1,
@@ -3287,7 +3287,7 @@ export default [
     "flavor": "Ever are the roared litanies of the Chaplains needed all over the battlefield, to stir the hearts of battle-brothers and drive fear into the enemy. With a jump pack a Chaplain can thunder to wherever he is most needed, or spearhead furious assaults into the enemy’s positions himself.",
     "profiles": [
       {
-        "name": "Chaplain With Jump Pack",
+        "name": "Chaplain with Jump Pack",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -3466,13 +3466,13 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
         "Death Company Marines with Boltguns and Jump Packs",
-        "Death Company Marines With Jump Packs",
+        "Death Company Marines with Jump Packs",
         "Skyclaws",
         "Talonstrike Kill Team",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -6946,9 +6946,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -7723,7 +7723,7 @@ export default [
   },
   {
     "id": "librarian-in-phobos-armour",
-    "name": "Librarian In Phobos Armour",
+    "name": "Librarian in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -7733,7 +7733,7 @@ export default [
     "flavor": "Many Librarians learn the arcane arts of obscuration and illusion as part of their long and dangerous training. Donning Phobos armour, they take to the field and use these skills to fog the minds of their enemies, prise vital battle plans from their foes’ minds and turn the enemy’s shadows against them.",
     "profiles": [
       {
-        "name": "Librarian In Phobos Armour",
+        "name": "Librarian in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -7838,7 +7838,7 @@ export default [
   },
   {
     "id": "librarian-in-terminator-armour",
-    "name": "Librarian In Terminator Armour",
+    "name": "Librarian in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -7848,7 +7848,7 @@ export default [
     "flavor": "The powers of a Chapter’s Librarians lend a lethal psychic edge to its elite infantry spearheads. Whether it be gruelling boarding actions, ferocious urban combat or on the front line against overwhelming enemy numbers, Librarians in Terminator armour blast at the foe with their powerful psychic energies.",
     "profiles": [
       {
-        "name": "Librarian In Terminator Armour",
+        "name": "Librarian in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -8159,7 +8159,7 @@ export default [
   },
   {
     "id": "lieutenant-in-phobos-armour",
-    "name": "Lieutenant In Phobos Armour",
+    "name": "Lieutenant in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -8169,7 +8169,7 @@ export default [
     "flavor": "Highly capable combat commanders, Lieutenants can lead independent reconnaissance, sabotage and assassination forces far beyond Imperial lines. They are deadly warriors, and the last sensation of countless foes has been the cold press of a Space Marine Lieutenant’s knife to their neck.",
     "profiles": [
       {
-        "name": "Lieutenant In Phobos Armour",
+        "name": "Lieutenant in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -8256,7 +8256,7 @@ export default [
   },
   {
     "id": "lieutenant-in-reiver-armour",
-    "name": "Lieutenant In Reiver Armour",
+    "name": "Lieutenant in Reiver Armour",
     "points": [
       {
         "models": 1,
@@ -8266,7 +8266,7 @@ export default [
     "flavor": "When a Space Marine commander needs the enemy broken in terror, he unleashes detachments led by Lieutenants clad in the wargear of the Reiver Squads. With the masterful leadership of the Lieutenant, these forces become more powerful than the sum of their parts, and drive contingents of the foe to flight.",
     "profiles": [
       {
-        "name": "Lieutenant In Reiver Armour",
+        "name": "Lieutenant in Reiver Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -8343,7 +8343,7 @@ export default [
   },
   {
     "id": "lieutenant-with-combi-weapon",
-    "name": "Lieutenant With Combi-weapon",
+    "name": "Lieutenant with Combi-weapon",
     "points": [
       {
         "models": 1,
@@ -8353,7 +8353,7 @@ export default [
     "flavor": "Some Lieutenants in Phobos armour are tasked with operating behind enemy lines, acting as skilled assassins and intelligence gatherers. By the time the main Space Marine task force has arrived they have cast the enemy into disarray and collected incredible tactical data that will all but guarantee the assault’s success.",
     "profiles": [
       {
-        "name": "Lieutenant With Combi-weapon",
+        "name": "Lieutenant with Combi-weapon",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -12362,7 +12362,7 @@ export default [
   },
   {
     "id": "vanguard-veteran-squad-with-jump-packs",
-    "name": "Vanguard Veteran Squad With Jump Packs",
+    "name": "Vanguard Veteran Squad with Jump Packs",
     "points": [
       {
         "models": 5,
@@ -12388,7 +12388,7 @@ export default [
     "flavor": "On the battlefield, Vanguard Veteran Squads with jump packs are peerless rapid- response troops as well as line-breakers. With great plumes of fire extending behind them they can arrive at the perfect time and place to ensure the decisiveness of an assault or utterly break an enemy incursion.",
     "profiles": [
       {
-        "name": "Vanguard Veteran Squad With Jump Packs",
+        "name": "Vanguard Veteran Squad with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",

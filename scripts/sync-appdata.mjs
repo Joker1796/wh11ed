@@ -287,6 +287,11 @@ async function syncFaction(slug) {
     if (!srcId) continue
     const appDs = appDsById.get(srcId)
     if (appDs && norm(appDs.name) !== norm(d.name)) lines.push(`  ⟲ datasheet renamed in appdata: wh11ed "${d.name}" [${d.id}] → appdata "${appDs.name}"`)
+    // …and the same comparison WITHOUT norm(), because norm() lowercases and so is blind to the
+    // one difference that shows up in a heading: 59 units were spelled "Captain In Phobos Armour"
+    // against appdata's "Captain in Phobos Armour", and it reached every <h1> and <title> the SEO
+    // pass generates while every check here stayed green (found 2026-08-26).
+    else if (appDs && appDs.name !== d.name) lines.push(`  ⟲ datasheet name case differs: wh11ed "${d.name}" [${d.id}] → appdata "${appDs.name}"`)
   }
   for (const d of en.detachments || []) {
     const srcId = smap[`det:${d.id || norm(d.name)}`]

@@ -665,7 +665,7 @@ export default [
   },
   {
     "id": "commander-in-coldstar-battlesuit",
-    "name": "Commander In Coldstar Battlesuit",
+    "name": "Commander in Coldstar Battlesuit",
     "points": [
       {
         "models": 1,
@@ -675,7 +675,7 @@ export default [
     "flavor": "Capable of soaring at high speed over the battlefield, or even operating in the cold void of space, the XV86 Battlesuit is an exceptionally advanced weapon of war. It is favoured by those Commanders who seek to be everywhere at once, striking and fading wherever they are needed most.",
     "profiles": [
       {
-        "name": "Commander In Coldstar Battlesuit",
+        "name": "Commander in Coldstar Battlesuit",
         "m": "12\"",
         "t": "5",
         "sv": "3+",
@@ -873,7 +873,7 @@ export default [
   },
   {
     "id": "commander-in-enforcer-battlesuit",
-    "name": "Commander In Enforcer Battlesuit",
+    "name": "Commander in Enforcer Battlesuit",
     "points": [
       {
         "models": 1,
@@ -883,7 +883,7 @@ export default [
     "flavor": "Those Commanders who exhibit the most aggressive temperaments often choose to take to the field piloting an XV85 Enforcer Battlesuit. Especially large and formidable, these battlesuits boast heavier armour and an impressive array of weaponry and wargear. They are particularly suited to the close and deadly confines of urban warfare.",
     "profiles": [
       {
-        "name": "Commander In Enforcer Battlesuit",
+        "name": "Commander in Enforcer Battlesuit",
         "m": "8\"",
         "t": "5",
         "sv": "2+",
@@ -2659,7 +2659,7 @@ export default [
   },
   {
     "id": "kroot-lone-spear",
-    "name": "Kroot Lone-Spear",
+    "name": "Kroot Lone-spear",
     "points": [
       {
         "models": 1,
@@ -2669,7 +2669,7 @@ export default [
     "flavor": "Whether loners or grizzled mercenaries unable to fit within Kroot society, Lone-spears prefer the company of beasts and the surrounds of the wild. Mounted upon chameleonic Kalamondras, they make for talented long-range scouts. Moreover, armed with suitably potent firearms the Lone-spears excel in picking off valuable enemy targets and even eliminating armoured fighting vehicles.",
     "profiles": [
       {
-        "name": "Kroot Lone-Spear",
+        "name": "Kroot Lone-spear",
         "m": "12\"",
         "t": "5",
         "sv": "5+",
@@ -2751,7 +2751,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Kroot Lone-Spear"
+      "1 Kroot Lone-spear"
     ],
     "loadout": "**This model is equipped with:** Kroot long gun; close combat weapon; Kalamandra’s bite.",
     "options": [

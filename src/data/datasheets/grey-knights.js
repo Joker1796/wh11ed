@@ -4,7 +4,7 @@
 export default [
   {
     "id": "brother-captain",
-    "name": "Brother-captain",
+    "name": "Brother-Captain",
     "points": [
       {
         "models": 1,
@@ -14,7 +14,7 @@ export default [
     "flavor": "As the strong left hands of their Grand Masters, the Brother-Captains are seasoned battlefield commanders and potent warriors. They turn their prodigious psychic gifts to the swift annihilation of their enemies, augmenting their battle-brothers’ strength, sensing the foe’s hidden weaknesses, and setting an uncompromising example to those who follow them.",
     "profiles": [
       {
-        "name": "Brother-captain",
+        "name": "Brother-Captain",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -902,7 +902,7 @@ export default [
   },
   {
     "id": "grand-master-in-nemesis-dreadknight",
-    "name": "Grand Master In Nemesis Dreadknight",
+    "name": "Grand Master in Nemesis Dreadknight",
     "points": [
       {
         "models": 1,
@@ -918,7 +918,7 @@ export default [
     "flavor": "Piloting a Nemesis Dreadknight allows a Grand Master to wield the kind of ordnance usually restricted to battle tanks. Augmented with his psychic puissance and the servo-driven strength to wield huge and terrifying melee weapons, the sheer killing power of such a warrior is terrifying indeed.",
     "profiles": [
       {
-        "name": "Grand Master In Nemesis Dreadknight",
+        "name": "Grand Master in Nemesis Dreadknight",
         "m": "8\"",
         "t": "8",
         "sv": "2+",

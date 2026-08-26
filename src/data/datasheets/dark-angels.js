@@ -1173,7 +1173,7 @@ export default [
   },
   {
     "id": "lion-eljonson",
-    "name": "Lion El’jonson",
+    "name": "Lion El’Jonson",
     "points": [
       {
         "models": 1,
@@ -1183,7 +1183,7 @@ export default [
     "flavor": "Lion El’Jonson stalks from mist-wreathed shadow realms like an ancient questing knight hunting down the galaxy’s terrors. With the immense blade, Fealty, the Primarch cleaves apart the most heinous of monstrosities, while the Emperor’s Shield erupts in blazes of light and force in response to his foes’ savage blows.",
     "profiles": [
       {
-        "name": "Lion El’jonson",
+        "name": "Lion El’Jonson",
         "m": "8\"",
         "t": "9",
         "sv": "2+",

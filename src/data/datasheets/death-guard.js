@@ -1467,7 +1467,7 @@ export default [
   },
   {
     "id": "foetid-bloat-drone",
-    "name": "Foetid Bloat-drone",
+    "name": "Foetid Bloat-Drone",
     "points": [
       {
         "models": 1,
@@ -1480,10 +1480,10 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Foetid Bloat-drones are Daemon Engines that skim across the battlefield on clattering turbines. Adept at providing point support wherever needed, some mount grisly fleshmowers that allow them to charge the enemy lines in a blizzard of mangled flesh. Others are fitted with plaguespitters, sucking up battlefield filth before spewing it in diseased gouts across the foe.",
+    "flavor": "Foetid Bloat-Drones are Daemon Engines that skim across the battlefield on clattering turbines. Adept at providing point support wherever needed, some mount grisly fleshmowers that allow them to charge the enemy lines in a blizzard of mangled flesh. Others are fitted with plaguespitters, sucking up battlefield filth before spewing it in diseased gouts across the foe.",
     "profiles": [
       {
-        "name": "Foetid Bloat-drone",
+        "name": "Foetid Bloat-Drone",
         "m": "10\"",
         "t": "9",
         "sv": "3+",
@@ -1542,7 +1542,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Foetid Bloat-drone"
+      "1 Foetid Bloat-Drone"
     ],
     "loadout": "**This model is equipped with:** fleshmower; plague probe.",
     "options": [
@@ -1554,7 +1554,7 @@ export default [
       "Vehicle",
       "Daemon",
       "Nurgle",
-      "Foetid Bloat-drone"
+      "Foetid Bloat-Drone"
     ],
     "factionKeywords": [
       "Death Guard",
@@ -1564,7 +1564,7 @@ export default [
   },
   {
     "id": "foetid-bloat-drone-with-heavy-blight-launcher",
-    "name": "Foetid Bloat-drone with Heavy Blight Launcher",
+    "name": "Foetid Bloat-Drone with Heavy Blight Launcher",
     "points": [
       {
         "models": 1,
@@ -1577,10 +1577,10 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Some Foetid Bloat-drones carry heavy blight launchers and the bulky ammo hoppers required to feed them. Thrumming ponderously into firing positions, these airborne monsters bombard the enemy with volleys of explosive shells. Each detonation unleashes swift-spreading blights that chew through flesh, rust metal and even corrode souls.",
+    "flavor": "Some Foetid Bloat-Drones carry heavy blight launchers and the bulky ammo hoppers required to feed them. Thrumming ponderously into firing positions, these airborne monsters bombard the enemy with volleys of explosive shells. Each detonation unleashes swift-spreading blights that chew through flesh, rust metal and even corrode souls.",
     "profiles": [
       {
-        "name": "Foetid Bloat-drone",
+        "name": "Foetid Bloat-Drone",
         "m": "10\"",
         "t": "9",
         "sv": "3+",
@@ -1627,7 +1627,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Foetid Bloat-drone"
+      "1 Foetid Bloat-Drone"
     ],
     "loadout": "**This model is equipped with:** heavy blight launcher; plague probe.",
     "keywords": [
@@ -1635,7 +1635,7 @@ export default [
       "Nurgle",
       "Chaos",
       "Fly",
-      "Foetid Bloat-drone with Heavy Blight Launcher",
+      "Foetid Bloat-Drone with Heavy Blight Launcher",
       "Daemon"
     ],
     "factionKeywords": [

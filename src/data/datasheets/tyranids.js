@@ -2374,7 +2374,7 @@ export default [
   },
   {
     "id": "parasite-of-mortrex",
-    "name": "Parasite Of Mortrex",
+    "name": "Parasite of Mortrex",
     "points": [
       {
         "models": 1,
@@ -2384,7 +2384,7 @@ export default [
     "flavor": "Swooping on leathery wings, Parasites of Mortrex use their barbed ovipositors to drive Ripper gestation pods deep into their victims’ bodies, from where the swiftly growing creatures soon eat their way out. Such was the doom of the defenders of Mortrex, the world first cursed by the Parasites’ onslaught.",
     "profiles": [
       {
-        "name": "Parasite Of Mortrex",
+        "name": "Parasite of Mortrex",
         "m": "12\"",
         "t": "5",
         "sv": "4+",
@@ -2772,7 +2772,7 @@ export default [
   },
   {
     "id": "screamer-killer",
-    "name": "Screamer-killer",
+    "name": "Screamer-Killer",
     "points": [
       {
         "models": 1,
@@ -2788,7 +2788,7 @@ export default [
     "flavor": "An older adaptation of the basic Carnifex strain, the Screamer-Killer was christened by terrified Imperial troops for the distinctive howl it emits as it generates then unleashes its bio-plasmic blasts. Screamer-Killers are often seen at the forefront of a Tyranid assault, where they can inflict the most damage quickly.",
     "profiles": [
       {
-        "name": "Screamer-killer",
+        "name": "Screamer-Killer",
         "m": "8\"",
         "t": "9",
         "sv": "2+",
@@ -2814,7 +2814,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Screamer-killer talons",
+        "name": "Screamer-Killer talons",
         "tags": [],
         "a": "10",
         "ws": "3+",
@@ -3607,8 +3607,8 @@ export default [
       "units": [
         "Termagants",
         "Hormagaunts",
-        "Tyranid Warriors With Ranged Bio-weapons",
-        "Tyranid Warriors With Melee Bio-weapons"
+        "Tyranid Warriors with Ranged Bio-weapons",
+        "Tyranid Warriors with Melee Bio-weapons"
       ]
     },
     "keywords": [
@@ -3625,7 +3625,7 @@ export default [
   },
   {
     "id": "tyranid-warriors-with-melee-bio-weapons",
-    "name": "Tyranid Warriors With Melee Bio-weapons",
+    "name": "Tyranid Warriors with Melee Bio-weapons",
     "points": [
       {
         "models": 3,
@@ -3639,7 +3639,7 @@ export default [
     "flavor": "When adapted for close-quarters battle with an array of vicious talons, claws and chitinous blades, Tyranid Warriors excel in leading the onslaught from the front. Even as they slaughter elite prey and send lesser foes fleeing in terror, the Tyranid Warriors act as nodal relays for the insidious Hive Mind and ensure the attack is pressed home with unstoppable ferocity.",
     "profiles": [
       {
-        "name": "Tyranid Warriors With Melee Bio-weapons",
+        "name": "Tyranid Warriors with Melee Bio-weapons",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
@@ -3686,7 +3686,7 @@ export default [
   },
   {
     "id": "tyranid-warriors-with-ranged-bio-weapons",
-    "name": "Tyranid Warriors With Ranged Bio-weapons",
+    "name": "Tyranid Warriors with Ranged Bio-weapons",
     "points": [
       {
         "models": 3,
@@ -3700,7 +3700,7 @@ export default [
     "flavor": "Strong, swift, independently intelligent and amongst the Hive Mind’s most adaptable bioforms, Tyranid Warriors are the backbone of many Tyranid invasions. Their synaptic link imbues them with advanced martial abilities, and also allows them to serve as synaptic linchpins within the wider swarms during battle.",
     "profiles": [
       {
-        "name": "Tyranid Warriors With Ranged Bio-weapons",
+        "name": "Tyranid Warriors with Ranged Bio-weapons",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
@@ -4376,8 +4376,8 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Gargoyles",
-        "Tyranid Warriors With Melee Bio-weapons",
-        "Tyranid Warriors With Ranged Bio-weapons"
+        "Tyranid Warriors with Melee Bio-weapons",
+        "Tyranid Warriors with Ranged Bio-weapons"
       ]
     },
     "keywords": [
