@@ -34,8 +34,9 @@ is implemented and tested.
    with blobs fetched only for what changed, last-write-wins on the client's `updatedAt`,
    server-side tombstones for deletes (a client-only note turned out to propagate nothing —
    the other device just re-uploaded its copy), and the whole collection uploads on first sign-in.
-   Full rationale in `src/components/roster/CLAUDE.md` → "Cloud sync". **The backend half is
-   written but NOT deployed** — see the deploy checklist at the end of this file.
+   Full rationale in `src/components/roster/CLAUDE.md` → "Cloud sync". **Shipped 2026-08-26**:
+   the `rosters` table is migrated, the function serves `/rosters` on both api hosts, and a list
+   saved in the installed PWA was confirmed to reappear in a browser on the same account.
 3. **Stale comment** in `scripts/gen-roster-data.mjs`'s header claiming it "emits units
    without gear for now" — **fixed 2026-08-19** while working on item 5.
 
@@ -509,29 +510,18 @@ The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `B
 commit message (`git log --grep "Merge branch 'main' into feat/roster-builder"`), not
 repeated here — this file is about the feature's own state, not that housekeeping.
 
-## Deploy checklist for roster cloud sync (2026-08-22, NOT done yet)
+## How roster cloud sync actually went out (2026-08-26)
 
-The backend half lives in the sibling repo `wh11ed-api` (branch `main`): new `rosters` table,
-`domain/roster.ts`, `db/rosters.repo.ts`, `routes/rosters.ts`, mounted at `/rosters`.
-`npm test` (30 tests) and `npm run build` pass there. Until it is deployed the frontend simply
-behaves as if the cloud were off — every call is best-effort and the lists stay local.
+Shipped in the documented order — schema, function, smoke, frontend — as part of the v2.3.0
+release. Two things the checklist that used to live here got wrong, both now corrected in
+`wh11ed-api/README.md`, which is the permanent home for this procedure:
 
-Order matters: **schema first, then the function, then the frontend.**
+- **Terraform is not an option.** Its state was a local file in a checkout that no longer exists;
+  an apply from an empty state would try to create all eleven resources, the users' database
+  among them. The function went out with `yc serverless function version create`, mirroring the
+  live version's config.
+- **`npm run migrate` did not run** — ydb-sdk keeps `Driver` on its ESM default export only, which
+  esbuild hides and Node does not. Fixed the same day; the command works from the repo again.
 
-1. `cd wh11ed-api && npm run migrate` — creates the `rosters` table. Idempotent
-   (`CREATE TABLE IF NOT EXISTS`), touches nothing existing. Needs `YDB_ENDPOINT`/`YDB_DATABASE`
-   and a `YDB_ACCESS_TOKEN` (`yc iam create-token`).
-2. Deploy the function: `bash scripts/deploy.sh` (build + zip + `terraform apply`), or a direct
-   `yc serverless function version create` the way the host-aware fix went out in 2026-08 — the
-   Terraform state has known harmless content drift.
-3. Smoke-test with a real token: `GET /rosters` → `{"rosters":[]}`, then a `PUT`/`GET`/`DELETE`
-   round trip on one id.
-4. Frontend: nothing to deploy separately — it ships with the roster branch whenever that merges.
-   Before then, `/roster` against the un-deployed API just shows its offline/anon state.
-
-Anyone can do steps 1–4 from this repo pair; a Claude session must be told **explicitly** to run
-2 (it deploys production) and 1 (it touches the production database).
-
-The same order — schema, function, smoke, frontend — is written down permanently in
-`wh11ed-api/README.md` → "Rolling out a change that touches the schema", which is where to look
-next time; this section is only the state of THIS rollout and goes away once it ships.
+The env defaults moved to `wh-rules.ru` in the same function version, which also closed step 1 of
+the domain cutover (`MIGRATION.md`, Phase 3).
