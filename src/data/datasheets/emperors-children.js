@@ -642,7 +642,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 90
+        "points": 100
       }
     ],
     "flavor": "Known to mortals as the handmaidens of Slaanesh, these daemons are a mixture of the beautiful and the monstrous, made all the more disturbing by the visceral clash of both. They delight in the carnage of battle, weaving around enemies’ clumsy blows as they shrill and sigh their delight amidst swift-taloned slaughter.",
@@ -724,7 +724,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 340,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -931,7 +931,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 180
+        "points": 190
       }
     ],
     "flavor": "Few daemonic entities approach the sheer disturbing horror of the Fiends of Slaanesh. Malicious hunting beasts that croon their delight across the battlefield, these ghastly abominations are wreathed in a soporific musk that leaves their prey witless and helpless before their flashing talons and stabbing tails.",
@@ -1211,7 +1211,7 @@ export default [
         "sv": "3+",
         "w": "14",
         "ld": "7+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -1429,12 +1429,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 255,
+        "points": 265,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 270,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -1577,12 +1577,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80,
+        "points": 90,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 90,
+        "points": 100,
         "note": "3rd+"
       }
     ],
@@ -2156,7 +2156,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80
+        "points": 85
       },
       {
         "models": 10,

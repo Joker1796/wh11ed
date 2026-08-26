@@ -156,7 +156,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
         },
         {
           name: 'Umbralefic Crystal',
-          points: 20,
+          points: 30,
           flavor: 'One in command of this powerful relic – coalesced from the cursed gloom of Mangel III – can use its energies to temporarily fold space, creating a gate of sorcerous translocation through which they can step.',
           body: `Thousand Sons model only. (Once per battle, per army) In your Command phase, if this unit is unengaged, you can use this ability. If you do:
 ▪ Place this unit in strategic reserves.

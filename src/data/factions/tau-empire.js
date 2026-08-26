@@ -358,7 +358,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
         },
         {
           name: "Strike Swiftly",
-          points: 35,
+          points: 45,
           flavor: "This commander knows victory is best assured by taking the fight to the enemy as soon as battle is joined.",
           body: "T’AU EMPIRE model only. In the Resolve Pre-battle Abilities step, you can select up to two [gloss:friendly:friendly] T’AU EMPIRE units [gloss:within:within] 6\" of this model that do not have the [gloss:scouts:Scouts] ability. Until the end of the battle, all models in the selected units have the Scouts 6\" ability.",
         },

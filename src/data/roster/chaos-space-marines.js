@@ -36,22 +36,22 @@ export default {
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -543,42 +543,42 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -681,12 +681,12 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -1856,11 +1856,6 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
-          "to": "accursed-cultists",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
           "to": "cultist-mob",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -1869,6 +1864,11 @@ export default {
           "to": "accursed-cultists",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "accursed-cultists",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -2396,7 +2396,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 40
+        "pts": 50
       },
       "alleg": {
         "g": "mark-of-chaos",
@@ -2939,12 +2939,12 @@ export default {
         {
           "to": "raptors",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "raptors",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -3496,11 +3496,6 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
-          "to": "masters-of-the-maelstrom",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -3517,11 +3512,6 @@ export default {
         },
         {
           "to": "legionaries",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "masters-of-the-maelstrom",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
@@ -3660,32 +3650,32 @@ export default {
         {
           "to": "mutilators",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "obliterators",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "mutilators",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "obliterators",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -4189,17 +4179,17 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
+          "to": "nemesis-claw",
+          "type": "support",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "red-corsairs-raiders",
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
-          "type": "support",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
@@ -4287,11 +4277,6 @@ export default {
       },
       "leads": [
         {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
           "to": "legionaries",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -4308,6 +4293,11 @@ export default {
         },
         {
           "to": "possessed",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
@@ -5682,42 +5672,42 @@ export default {
         {
           "to": "legionaries",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -5811,42 +5801,42 @@ export default {
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -5919,12 +5909,12 @@ export default {
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chaos-terminator-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -6035,12 +6025,12 @@ export default {
         {
           "to": "traitor-guardsmen-squad",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "traitor-guardsmen-squad",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "minis": [
@@ -6504,52 +6494,52 @@ export default {
         {
           "to": "havocs",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "havocs",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "chosen",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "red-corsairs-raiders",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "legionaries",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
           "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -7053,7 +7043,7 @@ export default {
       "name": "Huron’s Marauders",
       "sid": "12492ec7-0f2c-46fa-822a-80b0c2e8bfd6",
       "dp": 3,
-      "fd": "Disruption",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Voice of the Tyrant",

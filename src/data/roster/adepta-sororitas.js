@@ -644,6 +644,7 @@ export default {
       "sid": "4aefd5ba-e31a-4f05-b0c2-b329c53073bf",
       "name": "Celestian Insidiants",
       "kws": [
+        "Celestian",
         "Celestian Insidiants",
         "Grenades",
         "Imperium",

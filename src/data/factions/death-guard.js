@@ -10,7 +10,10 @@
 //     (replaces the older 6-stratagem version) and Rules Updates (incl. the army-rule
 //     Contagion Range cap and the Skullsquirm Blight rewrite).
 //   MFM (src/data/mfm/death-guard.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the ENGINES / FLYBLOWN `unique` tags.
+//     forceDisposition. MFM v1.3 printed "UNIQUE TAG REMOVED" over Flyblown Host, Champions
+//     of Contagion, Contagion Engines and Mortarion’s Hammer, so the ENGINES / FLYBLOWN
+//     `unique` tags are gone and the sentence that spelled them out went with them — the
+//     codex prose appdata still carries has not caught up, and the MFM is the tag’s home.
 //
 // 9 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -35,7 +38,7 @@ Contagion Range changes over the course of the battle:
 
 ### Afflicted
 During the Declare Battle Formations step, select one of the Plagues below. Until the end of the battle, while an enemy unit is Afflicted, subtract 1 from the Toughness characteristic of models in that unit, and that unit has the effect of your chosen Plague.
-▪ **Skullsquirm Blight:** Each time a model in this unit makes an attack, subtract 1 from the Hit roll.
+▪ **Skullsquirm Blight:** Each time a model in this unit makes a ranged attack, enemy units have the Benefit of Cover against the attack. Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.
 ▪ **Rattlejoint Ague:** Worsen the Save characteristic of models in this unit by 1.
 ▪ **Scabrous Soulrot:** Worsen the Move, Leadership and Objective Control characteristics of models in this unit by 1 (this rule can only worsen a model's Objective Control characteristic to a minimum of 1).
 
@@ -50,7 +53,6 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       source: 'codex',
       dp: 2,
       forceDisposition: "Take and Hold",
-      unique: "FLYBLOWN",
       rule: {
         name: "Manifold Maladies",
         flavor: "A spirit of competition infects Nurgle’s champions when they fight alongside one another. With each vying to outdo the others in virulence, the foes are subjected to a riotous string of nightmarish outbreaks amongst their ranks.",
@@ -265,7 +267,6 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       source: 'codex',
       dp: 2,
       forceDisposition: "Purge the Foe",
-      unique: "ENGINES",
       rule: {
         name: "Miasmic Bombardment",
         flavor: "In the wake of preparatory bombardment by artillery weapons both forbidden and foul, the surviving foe are left reeling amidst clouds of plague smog. With their flesh running like tallow and their weapons rusting in their hands, they will be hard-pressed to fight back.",
@@ -312,8 +313,8 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           turn: "opponent",
           flavor: "Attempting to counterattack Death Guard can leave foes floundering amidst bubbling filth.",
           when: "Start of your opponent’s Charge phase.",
-          target: "One Death Guard Vehicle unit from your army.",
-          effect: "Until the end of the phase, each time an enemy unit selects your unit as the target of a charge, subtract 2 from the Charge roll (this is not cumulative with any other negative modifiers to that Charge roll).",
+          target: "One friendly unengaged Death Guard Vehicle unit.",
+          effect: "Select one visible enemy unit within 12\" of your unit. When that enemy unit declares a charge, that enemy unit has -1 to Charge rolls.",
           restrictions: "",
         },
         {
@@ -695,11 +696,10 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       source: 'faction-pack',
       dp: 1,
       forceDisposition: "Purge the Foe",
-      unique: "ENGINES",
       rule: {
         name: "Warped and Rusted Animus",
         flavor: "For all their slow degeneration, many of the Death Guard\u2019s war machines are augmented with a fevered and inexorable urgency that brings their corrupted weapons to bear upon the foe all too quickly.",
-        body: "▪ Friendly FOETID BLOAT-DRONE/FOETID BLOAT-DRONE WITH HEAVY BLIGHT LAUNCHER/HELBRUTE/MYPHITIC BLIGHT-HAULER units have CONTAGION ENGINE.\n▪ Friendly CONTAGION ENGINE units\u2019 ranged attacks have [ASSAULT].\n\nThis detachment has the **ENGINES** tag and cannot be taken with another **ENGINES** detachment.",
+        body: "▪ Friendly FOETID BLOAT-DRONE/FOETID BLOAT-DRONE WITH HEAVY BLIGHT LAUNCHER/HELBRUTE/MYPHITIC BLIGHT-HAULER units have CONTAGION ENGINE.\n▪ Friendly CONTAGION ENGINE units\u2019 ranged attacks have [ASSAULT].",
       },
       stratagems: [
         {
@@ -762,11 +762,10 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       source: 'faction-pack',
       dp: 1,
       forceDisposition: "Reconnaissance",
-      unique: "FLYBLOWN",
       rule: {
         name: "Verminous Haze",
         flavor: "A cloud of winged insects descends over Mortarion\u2019s pathogenic sons, obscuring their malodorous ranks and shielding them from the eyes and augurs of the enemy. Beneath thrumming storms of fat-bodied flies, Plague Marines stride towards their wavering foes until they are close enough to unleash punishing volleys of killing fire.",
-        body: "In the Declare Battle Formations step, you can select up to two friendly PLAGUE MARINES units. Those units have Infiltrators.\n\nThis detachment has the **FLYBLOWN** tag and cannot be taken with another **FLYBLOWN** detachment.",
+        body: "In the Declare Battle Formations step, you can select up to two friendly PLAGUE MARINES units. Those units have Infiltrators.",
       },
       stratagems: [
         {

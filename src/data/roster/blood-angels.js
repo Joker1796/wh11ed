@@ -940,7 +940,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 115,
           "per": [
             5,
             5
@@ -1240,7 +1240,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 120,
           "per": [
             3,
             3
@@ -1442,7 +1442,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 130,
+          "pts": 120,
           "per": [
             1,
             1
@@ -2144,6 +2144,9 @@ export default {
     },
     "captain-with-jump-pack": {
       "1": 80
+    },
+    "centurion-devastator-squad": {
+      "6": 350
     },
     "chaplain-with-jump-pack": {
       "1": 80

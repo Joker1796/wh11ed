@@ -29,7 +29,7 @@ const en = {
 
 ### Gaining Miracle Dice
 If your Army Faction is ADEPTA SORORITAS, you gain 1 Miracle dice:
-▪ At the start of each battle round.
+▪ At the start of each turn.
 ▪ Each time an ADEPTA SORORITAS unit from your army is destroyed.
 
 Each time you gain a Miracle dice, roll one D6. The number you roll is the value of that Miracle dice. This value cannot be changed or re-rolled, unless a rule specifically states otherwise. Keep your Miracle dice to one side — this is your Miracle dice pool.
@@ -271,7 +271,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       rule: {
         name: "Righteous Purpose",
         flavor: "Whether high-ranking clergy must be rescued, a priceless relic recovered, or some archheretic slain, these warriors know that to fail after promising victory to the God-Emperor would be infinitely worse than death; this knowledge fills them with righteous purpose and the unflinching will to succeed no matter the odds.",
-        body: "In your Command phase, you can select up to 3 ADEPTA SORORITAS units from your army (including units that are embarked within TRANSPORTS), until the start of your next Command phase, those units are Righteous. While a unit is Righteous:\n▪ Add 1\" to the Move characteristic of models in that unit.\n▪ Improve the Leadership characteristic of models in that unit by 1.\n▪ Improve the Weapon Skill and Ballistic Skill characteristics of weapons equipped by BATTLE SISTERS SQUAD, CELESTIAN SACRESANTS and PARAGON WARSUITS models in that unit by 1.",
+        body: "In your Command phase, you can select up to 3 ADEPTA SORORITAS units from your army (including units that are embarked within TRANSPORTS), until the start of your next Command phase, those units are Righteous. While a unit is Righteous:\n▪ Add 1\" to the Move characteristic of models in that unit.\n▪ Improve the Leadership characteristic of models in that unit by 1.\n▪ Improve the Weapon Skill and Ballistic Skill characteristics of weapons equipped by BATTLE SISTERS SQUAD, CELESTIAN INSIDIANTS, CELESTIAN SACRESANTS and PARAGON WARSUITS models in that unit by 1.",
       },
       stratagems: [
         {
@@ -399,8 +399,8 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
           turn: "either",
           flavor: "The pious believe that, in their moment of greatest need, the Emperor protects.",
           when: "Any phase.",
-          target: "One Adepta Sororitas Character unit from your army that was just destroyed. You can use this Stratagem on that unit even though it was just destroyed.",
-          effect: "You can discard 1-3 Miracle dice. At the end of the phase, set up one destroyed CHARACTER model from your unit on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. Roll one D3, adding 1 to the result for each Miracle dice you discarded. That model has that number of wounds remaining (up to its starting number of wounds).",
+          target: "One Adepta Sororitas Character model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.",
+          effect: "You can discard 1-3 Miracle dice. At the end of the phase, set up that model on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. Roll one D3, adding 1 to the result for each Miracle dice you discarded. That model has that number of wounds remaining (up to its starting number of wounds).",
           restrictions: "You cannot select Saint Celestine as the target of this Stratagem. You cannot select the same CHARACTER as the target of this Stratagem more than once per battle.",
         },
         {
@@ -657,7 +657,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       rule: {
         name: "Holy Quest",
         flavor: "Charged with a holy quest in service to the God-Emperor, the veteran Sacresant elite of an Order Militant are relentless in their pursuit of victory.",
-        body: "Friendly CELESTIAN SACRESANTS units\u2019 attacks have +1 BS and WS.\n\nThis detachment has the **REVEREND** tag and cannot be taken with another **REVEREND** detachment.",
+        body: "Friendly CELESTIAN units\u2019 attacks have +1 BS and WS.\n\nThis detachment has the **REVEREND** tag and cannot be taken with another **REVEREND** detachment.",
       },
       stratagems: [
         {

@@ -216,8 +216,8 @@ export default {
         "set": "Primarch of the First Legion",
         "pickLimit": 2
       },
-      "hash": "9e30d74d",
-      "ver": 925,
+      "hash": "ed23722a",
+      "ver": 931,
       "reviewed": true,
       "effects": []
     },

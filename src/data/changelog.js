@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.3.3',
+    date: '2026-08-26',
+    en: [
+      { h: 'Rules updated to the 26 August errata (data version 931)' },
+      'Two new core move types — Assault Disembark (18.06) and Shock Disembark (18.07) — plus the rule that redirects the old "can charge after disembarking" wordings at them. A psychic ability with a psychic level is now once per phase, a unit splits into two as evenly as possible, and Deadly Demise triggers on the model with the ability rather than any model in its unit.',
+      'Points follow Munitorum Field Manual v1.3: 107 datasheet brackets and six enhancements. The Leman Russ family got cheaper and now pays 5 points for the hull weapon it starts with.',
+      'The Visarch, Warlock Conclave and Warlock Skyrunners are Support units now, not Leaders, so they attach alongside a Leader instead of competing with one.',
+      'The MFM struck three detachment tags — WAR DOGS (Chaos Knights), FLYBLOWN and ENGINES (Death Guard). Those detachments no longer rule each other out, and the list builder stops flagging the pair.',
+      'Two dozen rules were re-worded by the errata — among them Acts of Faith (a Miracle dice each TURN, not each battle round), Saint Celestine’s Healing Tears, Astra Militarum’s Masters of Camouflage, Nurgle’s Gift, Khârn’s The Betrayer and the Monolith’s Eternity Gate. Each faction’s Errata page lists them all.',
+    ],
+    ru: [
+      { h: 'Правила обновлены по эррате от 26 августа (версия данных 931)' },
+      'Два новых типа манёвра высадки — штурмовой (18.06) и ударный (18.07) — и правило, которое переводит на них старые формулировки. Псайкерская способность с псайкерским уровнем — один раз за фазу, юнит делится надвое как можно ровнее, а Deadly Demise срабатывает на модели со способностью, а не на любой модели юнита.',
+      'Очки — по Munitorum Field Manual v1.3: 107 ступеней датащитов и шесть улучшений. Семейство Leman Russ подешевело и теперь платит 5 очков за оружие, с которым начинает.',
+      'The Visarch, Warlock Conclave и Warlock Skyrunners стали юнитами Support, а не Leader — теперь они присоединяются вместе с Leader, а не вместо него.',
+      'MFM снял три тега детачментов — WAR DOGS (Chaos Knights), FLYBLOWN и ENGINES (Death Guard). Эти детачменты больше не исключают друг друга, и конструктор перестал помечать такую пару.',
+      'Два десятка правил переписаны эрратой — среди них Acts of Faith (Miracle dice в начале каждого ХОДА, а не раунда), Healing Tears у Saint Celestine, Masters of Camouflage у Astra Militarum, Nurgle’s Gift, The Betrayer у Khârn и Eternity Gate у Monolith. Полный список — на странице эрраты каждой фракции.',
+    ],
+  },
+  {
     version: '2.3.1',
     date: '2026-08-26',
     en: [

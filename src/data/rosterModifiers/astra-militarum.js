@@ -968,21 +968,21 @@ export default {
       "kind": "detachmentRule",
       "name": "Masters of Camouflage",
       "det": "Recon Element",
-      "hash": "151252b3",
-      "ver": 925,
+      "hash": "6646ca9d",
+      "ver": 931,
       "reviewed": true,
       "effects": [
         {
-          "on": "profile",
-          "stat": "sv",
-          "op": "improve",
-          "value": 1,
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
           "when": {
-            "en": "while the unit has the Benefit of Cover for any other reason — never better than 3+",
-            "ru": "пока отряд имеет Benefit of Cover по любой другой причине — не лучше 3+"
+            "en": "Astra Militarum units, excluding Titanic units",
+            "ru": "юниты Astra Militarum, кроме Titanic"
           },
           "cond": [
-            "never"
+            "blocked-subset"
           ]
         }
       ],

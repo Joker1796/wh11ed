@@ -465,12 +465,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140,
+        "points": 135,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 150,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -862,7 +862,6 @@ export default [
     "transport": "This model has a transport capacity of 20 Gargoyles models and 1 Winged Tyranid Prime model.",
     "keywords": [
       "Fly",
-      "Frame",
       "Great Devourer",
       "Harridan",
       "Monster",
@@ -1644,12 +1643,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 190,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 200,
+        "points": 190,
         "note": "3rd+"
       }
     ],
@@ -2531,32 +2530,32 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45,
+        "points": 40,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 65,
+        "points": 70,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 95,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 55,
+        "points": 50,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 75,
+        "points": 80,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 110,
         "note": "3rd+"
       }
     ],
@@ -3893,12 +3892,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -4015,7 +4014,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160
+        "points": 170
       }
     ],
     "flavor": "Incredibly well armoured and resilient, Tyrant Guard form a mobile bulwark around their assigned synapse organism. So extreme is their bio-adaptation, they do not even possess weak spots such as eyes. Instead, they are guided as extensions of their charge’s synaptic will, acting as living weapons and shields.",
@@ -4405,7 +4404,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "A Zoanthrope’s physical form is given over to harnessing the might of the Hive Mind. Not only do they act as synapse nodes, but they can also draw upon the energies of the Hive Mind to unleash searing psychic blasts, and to generate fields of defensive power that can stop an artillery shell dead.",

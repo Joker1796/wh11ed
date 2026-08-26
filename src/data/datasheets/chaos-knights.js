@@ -377,7 +377,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 395,
+        "points": 385,
         "note": "1st"
       },
       {
@@ -620,7 +620,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 395,
+        "points": 385,
         "note": "1st"
       },
       {
@@ -1261,12 +1261,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 380,
+        "points": 360,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 400,
+        "points": 390,
         "note": "2nd+"
       }
     ],
@@ -1489,12 +1489,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 365,
+        "points": 355,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 380,
+        "points": 370,
         "note": "3rd+"
       }
     ],
@@ -1909,7 +1909,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 135
       }
     ],
     "flavor": "Between them, Brigands and their Fallen Noble pilots have become so enamoured of the skilful, ranged kill that they mostly disdain the chaos of close assaults. Some even swear dark pacts compelling them to slay potent foes with elegance, or else to purge war zones of all life with sweeping contempt.",
@@ -2236,7 +2236,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 155
+        "points": 145
       }
     ],
     "flavor": "Aggressive and bloodthirsty, Karnivores eschew the more potent ranged weapons of the War Dog chassis. They revel in causing bloody confusion and despair, seeking the visceral thrill that only close-quarters slaughter provides. As a result, many of their pilots fall to the open worship of one of the Chaos Gods.",

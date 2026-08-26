@@ -2033,7 +2033,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
@@ -2543,7 +2543,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 65
+        "points": 70
       }
     ],
     "flavor": "Hailing from a death world teeming with horrific fauna, the Catachan people are well used to bringing down big game. Should the infantry find itself outmatched by lumbering monsters or heavy armour, Catachan Heavy Weapons Squads provide fire support, targeting the biggest and most lethal threats.",
@@ -2697,11 +2697,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
-        "points": 145
+        "points": 135
       }
     ],
     "flavor": "These heavily muscled soldiers are drawn from a warrior people that survive on the most infamous of death worlds. Skilled in deadly close combat with the fiercest of beasts amidst hazardous terrain, Jungle Fighters are also skilled infiltrators and trackers, adept at luring their prey into fiendish traps.",
@@ -3612,11 +3612,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
-        "points": 145
+        "points": 135
       }
     ],
     "flavor": "The grim regiments of the Death Korps of Krieg excel in the most gruelling of conditions, their famous siege regiments resolutely holding key positions no matter the onslaught unleashed upon them. They are extollers of a pitiless cult of sacrifice, but with their legendary endurance, death often claims their foes first.",
@@ -5844,7 +5844,7 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 60
+        "points": 70
       }
     ],
     "flavor": "Death Karps Heavy Weapons Squads are deployed to support infantry assaults, forming overlapping fields of fire to pin down the enemy and enable waves of infantry to advance. Fire Coordinators direct the gunners under their command and ensure that they keep up a punishing rate of fire.",
@@ -5971,12 +5971,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 195,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -6165,12 +6165,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 215,
+        "points": 195,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 230,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -6458,12 +6458,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -6652,12 +6652,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -6847,12 +6847,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -7054,12 +7054,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -7249,12 +7249,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -7441,12 +7441,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 145,
         "note": "3rd+"
       }
     ],

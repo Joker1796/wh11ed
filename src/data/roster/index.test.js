@@ -546,9 +546,12 @@ describe('detachment tags', () => {
   // roster layer from the hand-written faction data, cross-checked against mfm and appdata's
   // detachment_unique_keyword by the generator — a tag lost on the way means the editor stops
   // barring an illegal pair, silently.
+  // The floor moved 57 → 51 when MFM v1.3 printed "UNIQUE TAG REMOVED" over three tag PAIRS —
+  // Chaos Knights' WAR DOGS, Death Guard's FLYBLOWN and ENGINES. Six is the whole of that change;
+  // anything lower than 51 is a tag going missing by accident, which is what this floor is for.
   it('carries the tag on every detachment that has one', () => {
     const tagged = factions.flatMap(({ data }) => (data.detachments || []).filter((d) => d.unique))
-    expect(tagged.length).toBeGreaterThanOrEqual(55)
+    expect(tagged.length).toBeGreaterThanOrEqual(51)
     for (const d of tagged) expect(d.unique).toBe(d.unique.toUpperCase())
   })
 
@@ -800,6 +803,16 @@ describe('a default loadout that costs points', () => {
     for (const { slug, data } of factions) for (const u of data.units || []) if (u.dw) seen.push(`${slug}/${u.id}`)
     expect(seen.sort()).toEqual([
       'adeptus-custodes/venatari-custodians',
+      // v1.3 dropped the Leman Russ bracket ~25pts and started charging 5 for the hull weapon
+      // the tank starts with — eight variants, same shape as the Terminator hammer above.
+      'astra-militarum/leman-russ-battle-tank',
+      'astra-militarum/leman-russ-commander',
+      'astra-militarum/leman-russ-demolisher',
+      'astra-militarum/leman-russ-eradicator',
+      'astra-militarum/leman-russ-executioner',
+      'astra-militarum/leman-russ-exterminator',
+      'astra-militarum/leman-russ-punisher',
+      'astra-militarum/leman-russ-vanquisher',
       'drukhari/ravager',
       'genestealer-cults/achilles-ridgerunners',
       'space-marines/terminator-assault-squad',
@@ -815,7 +828,7 @@ describe('a default loadout that costs points', () => {
     const tau = await loadRosterFaction('tau-empire')
     const unit = tau.units.find((u) => u.id === 'crisis-starscythe-battlesuits')
     expect(unit.dw).toEqual([[0, 5], [1, 5]])
-    expect(unitPoints(unit, { size: 0 })).toBe(105) // 90 + three flamers
+    expect(unitPoints(unit, { size: 0 })).toBe(115) // 100 + three flamers
     // …and the loadout reads per model everywhere, which is what the datasheet says: "Every model
     // is equipped with: burst cannon; T'au flamer; battlesuit fists."
     const lines = defaultLoadoutLines(unit, rosterItems.items, { size: 0 })

@@ -601,7 +601,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
       rule: {
         name: "Old Greymanes",
         flavor: "Even in the midst of a brutal gunfight, Grey Hunters remain cool-headed and determined to discharge their duty to Chapter and Allfather.",
-        body: "▪ When a friendly GREY HUNTER unit starts an action, that action does not prevent this unit from being eligible to shoot.\n▪ In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each with a starting strength of 5.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "▪ When a friendly GREY HUNTER unit starts an action, that action does not prevent this unit from being eligible to shoot.\n▪ In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units).\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {

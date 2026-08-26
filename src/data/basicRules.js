@@ -120,7 +120,8 @@ Different instances of the same [gloss:datasheet:datasheet] are still considered
               fromApp: true,
               body: `Some rules allow you to split units into smaller units (e.g. the Transport ability of Drukhari Venoms). When using such rules:
 ▪ The same models can only be subdivided in this way once (e.g. those smaller units cannot themselves be split further).
-▪ If a rule is used to split a unit into multiple units before the battle, the **starting strength** of each individual unit is changed to be equal to the number of models in that unit.`,
+▪ If a rule is used to split a unit into multiple units before the battle, the **starting strength** of each individual unit is changed to be equal to the number of models in that unit.
+▪ A unit must be split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). If a rule states a specific **starting strength** of the split units, but this is not possible based on the number of models in the unit being split (e.g. due to attached **leader/support** models), split the unit as stated above.`,
             },
             {
               id: 'section-01-02-07',
@@ -1582,7 +1583,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Разделение юнитов',
               body: `Некоторые правила позволяют вам разделять юниты на меньшие юниты (например, способность Transport у Drukhari Venoms). При использовании таких правил:
 ▪ Одни и те же модели могут быть разделены таким образом только один раз (например, эти меньшие юниты сами не могут быть разделены далее).
-▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **[gloss:starting-strength:начальная численность]** каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.`,
+▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **[gloss:starting-strength:начальная численность]** каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.
+▪ Юнит должен делиться на два юнита с как можно более равным числом моделей (при таком разделении отметьте, какие модели образуют каждый из двух новых юнитов). Если правило задаёт конкретную **начальную численность** разделённых юнитов, но она недостижима при таком количестве моделей в разделяемом юните (например, из-за присоединённых моделей **leader/support**), разделите юнит так, как указано выше.`,
             },
             {
               title: 'Описание юнитов',

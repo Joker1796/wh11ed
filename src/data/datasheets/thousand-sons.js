@@ -1162,7 +1162,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 340,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -1362,7 +1362,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Greatest amongst Magnus’ lieutenants, each Exalted Sorcerer embodies forbidden power and monstrous ambition. From the soul-burning detonations of their pistols’ cursed shells to the unfettered might of their sorcery and the shimmering shields cast by their corrupt sigils of Tzeentch, they are terrifyingly powerful warriors.",
@@ -1992,7 +1992,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -2073,7 +2073,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "Infernal Masters forge pacts with daemonic entities, euphemistically called tutelaries. Upon the battlefield, they can unleash the powers of these malign familiars to engulf their foes in swarms of momentarily corporeal terrors, to divine whispers of the future or to master the currents of the Empyrean itself.",
@@ -3484,12 +3484,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85,
+        "points": 95,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 95,
+        "points": 105,
         "note": "3rd+"
       }
     ],
@@ -3601,12 +3601,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 105,
+        "points": 110,
         "note": "3rd+"
       }
     ],

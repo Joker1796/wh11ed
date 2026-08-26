@@ -95,6 +95,10 @@ export const sharedUnitIds = [
 // (unit_composition_required_faction_keyword: 'Dark Angels') than the space-marines.js base
 // price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
 export const pointsOverrides = {
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "repulsor-executioner": [
     { models: 1, points: 230, note: "1st-2nd" },
     { models: 1, points: 250, note: "3rd+" },
@@ -1258,7 +1262,7 @@ export default [
     "specialAbilities": [
       {
         "name": "Mist-wreathed Shadow Realms",
-        "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
+        "text": "In your Command phase, if this unit is unengaged, you can use this ability. If you do:\n\u25aa Place this unit in Strategic Reserves.\n\u25aa This unit can make an ingress move in your next Movement phase (including in your first turn)."
       },
       {
         "name": "Martial Exemplar (Aura)",
@@ -1418,11 +1422,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 75
+        "points": 75,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 85,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Ravenwing Black Knights are the 2nd Company’s greatest warriors, elite fighters who style themselves after the monster-hunting knights of old Caliban. They speed towards the foe, swinging their corvus hammers with such force that the spiked end punctures even the thickest armour.",
@@ -1888,7 +1904,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 105
       }
     ],
     "flavor": "Sammael rides to war on the jetbike Corvex, a relic from the Dark Age of Technology. Upon this ancient mount, the Ravenwing’s commander charges into the fray, storm bolters and plasma cannon causing hideous damage before he moves in for the kill with the Raven Sword, an heirloom with a razor edge that can never dull.",

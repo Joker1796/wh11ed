@@ -227,7 +227,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 395,
+          "pts": 385,
           "per": [
             1,
             1
@@ -238,7 +238,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -323,7 +323,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 395,
+          "pts": 385,
           "per": [
             1,
             1
@@ -334,7 +334,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -643,7 +643,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 380,
+          "pts": 360,
           "per": [
             1,
             1
@@ -654,7 +654,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -730,7 +730,7 @@ export default {
                   1
                 ]
               ],
-              15
+              10
             ]
           ],
           "rep": [
@@ -774,7 +774,7 @@ export default {
                   1
                 ]
               ],
-              15
+              10
             ]
           ],
           "rep": [
@@ -818,7 +818,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 365,
+          "pts": 355,
           "per": [
             1,
             1
@@ -1028,7 +1028,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 135,
           "per": [
             1,
             1
@@ -1245,7 +1245,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 155,
+          "pts": 145,
           "per": [
             1,
             1
@@ -1651,7 +1651,6 @@ export default {
       "sid": "a634e475-384b-40cd-957d-cd99201ab3e4",
       "dp": 2,
       "fd": "Reconnaissance",
-      "unique": "WAR DOGS",
       "enhancements": [
         {
           "name": "Preyslayer’s Mantle",
@@ -1708,7 +1707,6 @@ export default {
       "sid": "e2637679-6163-4ea2-93cb-8c5a263ecc33",
       "dp": 1,
       "fd": "Reconnaissance",
-      "unique": "WAR DOGS",
       "enhancements": [
         {
           "name": "Snarling Rivalry (Upgrade)",

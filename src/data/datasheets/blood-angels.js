@@ -116,6 +116,10 @@ export const pointsOverrides = {
   "captain-with-jump-pack": [
     { models: 1, points: 80 },
   ],
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "chaplain-with-jump-pack": [
     { models: 1, points: 80 },
   ],
@@ -1577,7 +1581,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 120,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
@@ -1587,7 +1591,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 135,
+        "points": 130,
         "note": "3rd+"
       },
       {
@@ -1854,7 +1858,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 125,
+        "points": 120,
         "note": "1st-2nd"
       },
       {
@@ -1864,7 +1868,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       },
       {
@@ -2085,7 +2089,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "The Sanguinor is a mysterious figure who fights only on battlefields of the most paramount importance, when the Blood Angels’ need is greatest. He inspires as much courage in the sons of Sanguinius as he does fear in the enemy, and surges across the field as if he were Sanguinius’ will made manifest.",

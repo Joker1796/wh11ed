@@ -1634,7 +1634,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             10,
             10
@@ -2032,7 +2032,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 65,
+          "pts": 70,
           "per": [
             3,
             3
@@ -2101,7 +2101,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             10,
             10
@@ -2119,7 +2119,7 @@ export default {
           ]
         },
         {
-          "pts": 145,
+          "pts": 135,
           "per": [
             20,
             20
@@ -2724,7 +2724,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             10,
             10
@@ -2742,7 +2742,7 @@ export default {
           ]
         },
         {
-          "pts": 145,
+          "pts": 135,
           "per": [
             20,
             20
@@ -4533,7 +4533,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 60,
+          "pts": 70,
           "per": [
             4,
             4
@@ -4627,7 +4627,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 185,
+          "pts": 160,
           "per": [
             1,
             1
@@ -4638,7 +4638,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -4659,6 +4659,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -4674,7 +4680,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -4703,7 +4710,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -4711,7 +4719,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -4759,7 +4768,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 215,
+          "pts": 195,
           "per": [
             1,
             1
@@ -4789,6 +4798,12 @@ export default {
               1
             ]
           ]
+        ]
+      ],
+      "dw": [
+        [
+          0,
+          5
         ]
       ],
       "gear": [
@@ -4835,7 +4850,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -4864,7 +4880,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -4872,7 +4889,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -4916,7 +4934,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 160,
           "per": [
             1,
             1
@@ -4927,7 +4945,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -4948,6 +4966,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -4963,7 +4987,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -4992,7 +5017,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5000,7 +5026,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -5044,7 +5071,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 170,
+          "pts": 145,
           "per": [
             1,
             1
@@ -5055,7 +5082,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -5076,6 +5103,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -5091,7 +5124,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -5120,7 +5154,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5128,7 +5163,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -5172,7 +5208,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 170,
+          "pts": 145,
           "per": [
             1,
             1
@@ -5183,7 +5219,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -5204,6 +5240,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -5219,7 +5261,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -5248,7 +5291,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5256,7 +5300,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -5300,7 +5345,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 160,
           "per": [
             1,
             1
@@ -5311,7 +5356,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -5332,6 +5377,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -5347,7 +5398,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -5376,7 +5428,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5384,7 +5437,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -5428,7 +5482,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 130,
           "per": [
             1,
             1
@@ -5439,7 +5493,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -5460,6 +5514,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -5475,7 +5535,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -5504,7 +5565,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5512,7 +5574,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -5556,7 +5619,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 130,
           "per": [
             1,
             1
@@ -5567,7 +5630,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -5588,6 +5651,12 @@ export default {
           ]
         ]
       ],
+      "dw": [
+        [
+          0,
+          5
+        ]
+      ],
       "gear": [
         {
           "m": 0,
@@ -5603,7 +5672,8 @@ export default {
           ],
           "rep": [
             496
-          ]
+          ],
+          "dr": 5
         },
         {
           "m": 0,
@@ -5632,7 +5702,8 @@ export default {
                   594,
                   2
                 ]
-              ]
+              ],
+              10
             ],
             [
               [
@@ -5640,7 +5711,8 @@ export default {
                   498,
                   2
                 ]
-              ]
+              ],
+              10
             ]
           ]
         },
@@ -8683,7 +8755,7 @@ export default {
     {
       "name": "Recon Element",
       "sid": "3062acc0-d72e-471a-bbd1-26598bc30ec4",
-      "dp": 3,
+      "dp": 2,
       "fd": "Reconnaissance",
       "unique": "RECON",
       "enhancements": [

@@ -11,7 +11,10 @@
 //     Fiefdom (replaces the older 6-stratagem version) and Rules Updates (incl. the
 //     Darkness Dread ability rewrite).
 //   MFM (src/data/mfm/chaos-knights.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the WAR DOGS `unique` tag.
+//     forceDisposition. MFM v1.3 printed "UNIQUE TAG REMOVED" over Houndpack Lance and
+//     Hunting Warpack, so the WAR DOGS `unique` tag is gone and the sentence that spelled it
+//     out went with it — the codex prose appdata still carries has not caught up, and the
+//     MFM is the tag’s home.
 //
 // 8 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -162,7 +165,6 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       source: 'codex',
       dp: 2,
       forceDisposition: "Reconnaissance",
-      unique: "WAR DOGS",
       rule: {
         name: "Marked Prey",
         flavor: "Once War Dogs have singled out a victim, they target it relentlessly until it is dragged down and torn apart.",
@@ -542,7 +544,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "opponent",
           flavor: "Through dark rituals and dread pacts, the Chaos Knights draw upon the fear and despair of their foes and bind it into a curse upon the land itself, wreathing themselves in a shrouding pall.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
+          when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target: "One Chaos Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "▪ Your unit has Stealth.\n▪ Melee attacks that target your unit have -1 to Hit rolls.",
           restrictions: "",
@@ -667,11 +669,10 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       source: 'faction-pack',
       dp: 1,
       forceDisposition: "Reconnaissance",
-      unique: "WAR DOGS",
       rule: {
         name: "Scenting Fear",
         flavor: "The corrupted pilots of War Dog suits despise fear and cowardice in the foe almost as much as they revel in hunting such prey and betraying their hiding places.",
-        body: "(Once per battle round, per army) In your Shooting phase, you can select one visible enemy unit within 12\" of a friendly WAR DOG unit. That enemy unit has +6\" detection range.\n\nThis detachment has the **WAR DOGS** tag and cannot be taken with another **WAR DOGS** detachment.",
+        body: "(Once per battle round, per army) In your Shooting phase, you can select one visible enemy unit within 12\" of a friendly WAR DOG unit. That enemy unit has +6\" detection range.",
       },
       stratagems: [
         {

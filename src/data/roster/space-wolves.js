@@ -714,7 +714,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 30
       },
       "minis": [
         {
@@ -1231,7 +1231,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 155,
           "per": [
             5,
             5
@@ -1249,7 +1249,7 @@ export default {
           ]
         },
         {
-          "pts": 300,
+          "pts": 310,
           "per": [
             6,
             10
@@ -1270,7 +1270,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 40
       },
       "minis": [
         {
@@ -2451,6 +2451,9 @@ export default {
     "whirlwind"
   ],
   "unitPoints": {
+    "centurion-devastator-squad": {
+      "6": 350
+    },
     "repulsor-executioner": {
       "1": 230
     }

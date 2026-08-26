@@ -1466,7 +1466,7 @@ export default [
         "range": "48\"",
         "a": "2",
         "bs": "4+",
-        "s": "12",
+        "s": "10",
         "ap": "-2",
         "d": "D6+1"
       },
@@ -2258,7 +2258,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -2517,7 +2517,7 @@ export default [
       },
       {
         "name": "The Betrayer",
-        "text": "At the end of your Charge phase, if this model is leading a unit and that unit is not within Engagement Range of one or more enemy units, you must take a Leadership test for this model. If that test is failed, one Bodyguard model in that unit is destroyed."
+        "text": "At the end of your Charge phase, if this unit is on the battlefield, is unengaged, and contains a Bodyguard model, this unit makes a Leadership roll:\n\u25aa If that Leadership roll is failed, one Bodyguard model in this unit is destroyed."
       },
       {
         "name": "Berzerker Frenzy",
@@ -2554,11 +2554,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 170
+        "points": 160
       },
       {
         "models": 20,
-        "points": 330
+        "points": 320
       }
     ],
     "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers, and are fanatical in the extreme. The warp-fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under a rain of heavy blows, each potent enough to shear limbs and shatter shields.",

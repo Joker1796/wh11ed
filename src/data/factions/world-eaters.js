@@ -10,7 +10,10 @@
 //     the older 6-stratagem version) and Rules Updates (incl. the army-rule Unbridled
 //     Bloodlust rewrite).
 //   MFM (src/data/mfm/world-eaters.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the ONSLAUGHT `unique` tag.
+//     forceDisposition. The ONSLAUGHT `unique` tag is NOT the MFM's — that page has never
+//     printed it, in v1.2 or v1.3 — it comes from the detachment rule's own prose, which is
+//     why `npm run roster:data` lists these two as disagreeing with appdata's tag table and
+//     why they were left alone when v1.3 struck the Chaos Knights / Death Guard tags.
 //
 // 8 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.

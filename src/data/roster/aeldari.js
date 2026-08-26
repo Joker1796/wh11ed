@@ -1397,7 +1397,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 95,
           "per": [
             5,
             5
@@ -1415,7 +1415,7 @@ export default {
           ]
         },
         {
-          "pts": 210,
+          "pts": 200,
           "per": [
             6,
             10
@@ -1523,7 +1523,8 @@ export default {
         "Infantry"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "noWarlord": 1
       },
       "sizes": [
         {
@@ -1570,7 +1571,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             5,
             5
@@ -1588,7 +1589,7 @@ export default {
           ]
         },
         {
-          "pts": 150,
+          "pts": 140,
           "per": [
             6,
             10
@@ -1848,7 +1849,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 130,
+          "pts": 120,
           "per": [
             1,
             1
@@ -1864,10 +1865,6 @@ export default {
         },
         {
           "to": "storm-guardians",
-          "type": "leader"
-        },
-        {
-          "to": "warlock-conclave",
           "type": "leader"
         }
       ],
@@ -2008,10 +2005,6 @@ export default {
         },
         {
           "to": "storm-guardians",
-          "type": "leader"
-        },
-        {
-          "to": "warlock-conclave",
           "type": "leader"
         }
       ],
@@ -3399,7 +3392,8 @@ export default {
         "Shadowseer"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "noWarlord": 1
       },
       "sizes": [
         {
@@ -3772,7 +3766,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 50,
           "per": [
             1,
             1
@@ -3970,7 +3964,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             11,
             11
@@ -4401,7 +4395,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 80,
           "per": [
             1,
             1
@@ -4413,31 +4407,27 @@ export default {
       "leads": [
         {
           "to": "guardian-defenders",
-          "type": "leader"
-        },
-        {
-          "to": "storm-guardians",
-          "type": "leader"
-        },
-        {
-          "to": "corsair-voidreavers",
-          "type": "leader"
-        },
-        {
-          "to": "corsair-voidscarred",
-          "type": "leader"
-        },
-        {
-          "to": "ynnari-incubi",
-          "type": "leader"
+          "type": "support"
         },
         {
           "to": "ynnari-wyches",
-          "type": "leader"
+          "type": "support"
         },
         {
           "to": "ynnari-kabalite-warriors",
-          "type": "leader"
+          "type": "support"
+        },
+        {
+          "to": "corsair-voidreavers",
+          "type": "support"
+        },
+        {
+          "to": "storm-guardians",
+          "type": "support"
+        },
+        {
+          "to": "corsair-voidscarred",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -4683,7 +4673,8 @@ export default {
         "Troupe Master"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "noWarlord": 1
       },
       "sizes": [
         {
@@ -4947,7 +4938,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 80,
           "per": [
             1,
             1
@@ -5020,7 +5011,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 45,
+          "pts": 40,
           "per": [
             1,
             1
@@ -5107,11 +5098,11 @@ export default {
       "leads": [
         {
           "to": "guardian-defenders",
-          "type": "leader"
+          "type": "support"
         },
         {
           "to": "storm-guardians",
-          "type": "leader"
+          "type": "support"
         }
       ],
       "defaults": [
@@ -5164,7 +5155,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 55,
+          "pts": 45,
           "per": [
             1,
             1
@@ -5183,7 +5174,7 @@ export default {
       "leads": [
         {
           "to": "windriders",
-          "type": "leader"
+          "type": "support"
         }
       ],
       "defaults": [
@@ -6820,7 +6811,7 @@ export default {
       "name": "Aspect Host",
       "sid": "fc9dead1-222d-4925-bf9c-ba18c4121f50",
       "dp": 3,
-      "fd": "Disruption",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Aspect of Murder",
@@ -7121,6 +7112,11 @@ export default {
       "dp": 2,
       "fd": "Disruption",
       "unique": "ACROBATIC",
+      "grantedWarlord": [
+        "death-jester",
+        "shadowseer",
+        "troupe-master"
+      ],
       "enhancements": [
         {
           "name": "Cegorach’s Coil",
@@ -7382,6 +7378,11 @@ export default {
       "dp": 2,
       "fd": "Purge the Foe",
       "unique": "ACROBATIC",
+      "grantedWarlord": [
+        "troupe-master",
+        "shadowseer",
+        "death-jester"
+      ],
       "enhancements": [
         {
           "name": "Key of Ghosts",

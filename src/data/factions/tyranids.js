@@ -902,7 +902,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
         },
         {
           name: 'Synaptoprescience',
-          points: 25,
+          points: 30,
           upgrade: true,
           flavor: "As though privy to glimpses of the Hive Mind's own near-omniscient view of events, this towering beast weaves unerringly aside from incoming threats.",
           body: `Norn Assimilator unit only. This unit has 4+ InSv.`,

@@ -152,7 +152,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       name: "Daemonic Incursion",
       source: 'faction-pack', // index faction — printed in the pack
       dp: 3,
-      forceDisposition: "Disruption",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Warp Rifts",
         flavor: "Daemonic legions tear through the fabric of realspace, malevolent entities flickering into being like phantasms from a nightmare. Worse still, as terror and panic take hold of their victims, so their mortal souls become ever easier prey for the entities pouring through from the warp.",

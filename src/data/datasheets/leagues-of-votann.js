@@ -362,7 +362,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
@@ -372,7 +372,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -556,11 +556,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 95
       },
       {
         "models": 10,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "Cthonian Beserks are amongst the most heavily augmented and courageous Kin. Brandishing mining-tools-cum-weapons-of-war and unleashing explosives that tunnel through solid rock, the Beserks storm the enemy’s strongpoints and break them open like an asteroid filled with seams of precious ore.",
@@ -662,7 +662,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Earthshakers undermine enemy positions with subterranean artillery fire. Some batteries use tremor shells to destabilise strongpoints with deadly quakes. Breacher ordnance, meanwhile, drills to the surface before detonating in a storm of shrapnel, whilst those payloads which initially fail to lock onto their targets hunt them down using geomontic echolocation.",
@@ -1136,7 +1136,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Well-armoured, well-trained and equipped with an array of powerful weaponry, Hearthkyn Warriors form the backbone of most Oathbands. Led by their Theyns, they lay down hails of firepower, shrugging off the enemy’s return volleys before storming in to shatter their wavering foes for good.",
@@ -1795,7 +1795,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
@@ -1805,7 +1805,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -1906,22 +1906,22 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -2224,11 +2224,23 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 70,
+        "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 130
+        "points": 140,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
+      },
+      {
+        "models": 2,
+        "points": 150,
+        "note": "3rd+"
       }
     ],
     "flavor": "Kapricus Defenders are swift, magna-coil scouting engines. Heavily armed, some carry magna-roil cannons that can annihilate battle tanks many times the Defender’s mass. Others carry rapid-firing rotary cannons, which, paired with a Defender's magna-coil autocannons, enable their Hernkyn crew to scythe through enemy infantry to support Kin advances.",

@@ -699,7 +699,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 40
+        "pts": 50
       },
       "defaults": [
         [
@@ -822,7 +822,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 95,
           "per": [
             1,
             1
@@ -1297,7 +1297,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 100,
           "per": [
             1,
             1
@@ -2209,7 +2209,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 95,
           "per": [
             1,
             1
@@ -2278,7 +2278,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 100,
           "per": [
             1,
             1
@@ -2840,7 +2840,7 @@ export default {
         },
         {
           "name": "Umbralefic Crystal",
-          "pts": 20,
+          "pts": 30,
           "type": "miniature",
           "req": [
             {

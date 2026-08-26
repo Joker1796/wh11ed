@@ -292,9 +292,9 @@ export default {
         "Character",
         "Cybernetica Datasmith",
         "Imperium",
-        "Infantry",
         "Legio Cybernetica",
-        "Tech-Priest"
+        "Tech-Priest",
+        "Vehicle"
       ],
       "flags": {
         "char": 1
@@ -626,7 +626,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             2,
             2
@@ -634,7 +634,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 320,
+          "pts": 300,
           "per": [
             3,
             4
@@ -644,7 +644,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -984,7 +984,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             5,
             5
@@ -1078,7 +1078,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             5,
             5
@@ -1096,7 +1096,7 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             6,
             10
@@ -1439,6 +1439,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "minis": [
         {
           "n": "Servitor Underseer"
@@ -2479,7 +2483,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 60,
           "per": [
             1,
             1

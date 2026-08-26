@@ -2356,8 +2356,8 @@ export default {
         "kind": "enhancement",
         "det": "anvil-siege-force"
       },
-      "hash": "cab30c3c",
-      "ver": 925,
+      "hash": "17cd2b0c",
+      "ver": 931,
       "reviewed": true,
       "effects": []
     },

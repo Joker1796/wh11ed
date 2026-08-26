@@ -870,8 +870,8 @@ export default {
       "kind": "detachmentRule",
       "name": "Righteous Purpose",
       "det": "Champions of Faith",
-      "hash": "dcda4edb",
-      "ver": 925,
+      "hash": "923cb74f",
+      "ver": 931,
       "reviewed": true,
       "effects": [
         {
@@ -906,8 +906,8 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
-            "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
+            "en": "Battle Sisters Squad, Celestian Insidiants, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
+            "ru": "только модели Battle Sisters Squad, Celestian Insidiants, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
           },
           "cond": [
             "blocked-subset"
@@ -919,8 +919,8 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
-            "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
+            "en": "Battle Sisters Squad, Celestian Insidiants, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
+            "ru": "только модели Battle Sisters Squad, Celestian Insidiants, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
           },
           "cond": [
             "blocked-subset"
@@ -1009,8 +1009,8 @@ export default {
         "kind": "detachmentRule",
         "det": "sacred-champions"
       },
-      "hash": "cfec14f3",
-      "ver": 925,
+      "hash": "8a8f34b2",
+      "ver": 931,
       "reviewed": true,
       "effects": [
         {

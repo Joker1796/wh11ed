@@ -637,7 +637,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
       name: 'Tharanatoi Hammerblow',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Disruption',
       unique: 'LIONS',
       rule: {
         name: 'The Hammer Falls',
@@ -702,8 +702,8 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
       id: 'lions-of-the-emperor',
       name: 'Lions of the Emperor',
       source: 'faction-pack',
-      dp: 2,
-      forceDisposition: 'Disruption',
+      dp: 3,
+      forceDisposition: 'Take and Hold',
       unique: 'LIONS',
       rule: {
         name: 'Against All Odds',

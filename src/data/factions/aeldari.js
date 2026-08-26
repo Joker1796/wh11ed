@@ -887,7 +887,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
       name: 'Aspect Host',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: 'Path of the Warrior',
         flavor:

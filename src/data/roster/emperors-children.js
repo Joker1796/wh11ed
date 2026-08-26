@@ -456,7 +456,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
           "per": [
             10,
             10
@@ -572,7 +572,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 40
+        "pts": 50
       },
       "defaults": [
         [
@@ -710,7 +710,7 @@ export default {
           ]
         },
         {
-          "pts": 180,
+          "pts": 190,
           "per": [
             4,
             6
@@ -1064,7 +1064,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 255,
+          "pts": 265,
           "per": [
             1,
             1
@@ -1132,7 +1132,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 90,
           "per": [
             1,
             1
@@ -1530,7 +1530,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 85,
           "per": [
             5,
             5
@@ -1978,7 +1978,7 @@ export default {
         },
         {
           "name": "Possessed Blade",
-          "pts": 25,
+          "pts": 35,
           "type": "miniature",
           "req": [
             {
@@ -1990,7 +1990,7 @@ export default {
         },
         {
           "name": "Warp Walker",
-          "pts": 30,
+          "pts": 35,
           "type": "miniature",
           "req": [
             {

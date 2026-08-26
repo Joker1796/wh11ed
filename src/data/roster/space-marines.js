@@ -2389,7 +2389,7 @@ export default {
           ]
         },
         {
-          "pts": 350,
+          "pts": 365,
           "per": [
             4,
             6
@@ -5788,7 +5788,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 250,
+          "pts": 260,
           "per": [
             1,
             1
@@ -6121,7 +6121,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 75,
+          "pts": 85,
           "per": [
             1,
             1
@@ -6131,10 +6131,6 @@ export default {
       ],
       "linked": 1,
       "leads": [
-        {
-          "to": "terminator-squad",
-          "type": "leader"
-        },
         {
           "to": "terminator-assault-squad",
           "type": "leader"
@@ -6149,6 +6145,18 @@ export default {
         },
         {
           "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
+          "type": "leader"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Terminator Squad"
+          ],
           "type": "leader"
         }
       ],
@@ -9959,7 +9967,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 95,
           "per": [
             1,
             1

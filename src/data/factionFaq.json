@@ -7,7 +7,7 @@
       },
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -75,6 +75,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -511,7 +516,7 @@
       },
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -589,6 +594,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -1021,11 +1031,11 @@
     "updated": [
       {
         "pub": "Codex Supplement: Dark Angels",
-        "date": "17 June 2026"
+        "date": "26 August 2026"
       },
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -1121,7 +1131,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Keywords section**: Add '**MOBILE**'.\n▪ **All Secrets Revealed Ability** – Change to: ‘**Mist-wreathed Shadow Realms**: At the end of your opponent’s turn, if this unit is **unengaged**, you can use this ability. If you do: ▫ Place this unit in **strategic reserves**. ▫ This unit can make an **ingress move** in your next Movement phase (including in your first turn).’\n▪ **Martial Exemplar (Aura) Ability** – Change to: ‘**Martial Exemplar (Aura)**: While a friendly **ADEPTUS ASTARTES** unit is within 6\" of this model, each time a model in that unit makes a melee attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.'\n▪ **Primarch of the First Legion Ability** – Change to: ‘**Primarch of the First Legion**: At the start of your Command phase, select two Primarch of the First Legion abilities. Until the start of your next Command phase, this model has those abilities.’\n▪ **The Emperor’s Shield Ability** – Change to: ‘Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll.’\n▪ **Fealty weapon profile**: change to: Fealty - Strike[LETHAL HITS] Range - Melee A - 8 WS - 2+ S - 12 AP - -4 D - 4 Fealty - Sweep[SUSTAINED HITS 1] Range - Melee A - 16 WS - 2+ S - 6 AP - -3 D - 2",
+        "body": "▪ **Keywords section**: Add '**MOBILE**'.\n▪ **All Secrets Revealed Ability** – Change to: ‘**Mist-wreathed Shadow Realms**: in your Command phase, if this unit is **unengaged**, you can use this ability. If you do: ▫ Place this unit in **strategic reserves**. ▫ This unit can make an **ingress move** in your next Movement phase (including in your first turn).’\n▪ **Martial Exemplar (Aura) Ability** – Change to: ‘**Martial Exemplar (Aura)**: While a friendly **ADEPTUS ASTARTES** unit is within 6\" of this model, each time a model in that unit makes a melee attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.'\n▪ **Primarch of the First Legion Ability** – Change to: ‘**Primarch of the First Legion**: At the start of your Command phase, select two Primarch of the First Legion abilities. Until the start of your next Command phase, this model has those abilities.’\n▪ **The Emperor’s Shield Ability** – Change to: ‘Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll.’\n▪ **Fealty weapon profile**: change to: Fealty - Strike[LETHAL HITS] Range - Melee A - 8 WS - 2+ S - 12 AP - -4 D - 4 Fealty - Sweep[SUSTAINED HITS 1] Range - Melee A - 16 WS - 2+ S - 6 AP - -3 D - 2",
         "header": "Lion El’Jonson"
       },
       {
@@ -1183,6 +1193,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -1619,7 +1634,7 @@
       },
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -1662,6 +1677,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -2188,7 +2208,7 @@
     "updated": [
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -2206,6 +2226,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -2642,7 +2667,7 @@
       },
       {
         "pub": "Codex: Space Marines",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -2703,6 +2728,11 @@
       },
       {
         "type": "errata",
+        "body": "Change to: ‘In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units).’",
+        "header": "Veterans of the Fang Detachment, Old Greymanes Detachment Rule, 2nd bullet point"
+      },
+      {
+        "type": "errata",
         "body": "Add the following bullet points: ‘• If your army includes one or more **BLACK TEMPLARS** units, it cannot include any **ADEPTUS ASTARTES PSYKER** models, and cannot include any of the following models that do not have the **BLACK TEMPLARS** keyword: **GLADIATOR LANCER**; **GLADIATOR REAPER**; **GLADIATOR VALIANT**; **IMPULSOR**; **REPULSOR**; **REPULSOR EXECUTIONER**. • If your army includes one or more **SPACE WOLVES** units, it cannot include any of the following units: **APOTHECARY**; **DEVASTATOR SQUAD**; **TACTICAL SQUAD**.’ Add new sub-header and bullet points: ‘**DEATHWATCH**\n▪ Your army can include **ADEPTUS ASTARTES DEATHWATCH** units, but it cannot include any **ADEPTUS ASTARTES** units drawn from any other Chapter.\n▪ With the exception of **Kill Team Cassius** (see Legends: Agents of the Imperium), your army cannot include any **AGENTS OF THE IMPERIUM DEATHWATCH** units.\n▪ Your army cannot include any of the following units: **ASSAULT SQUAD**; **ASSAULT SQUAD WITH JUMP PACKS**; **ATTACK BIKE SQUAD**; **DEVASTATOR SQUAD**; **LAND SPEEDER STORM**; **RELIC TERMINATOR SQUAD**; **SCOUT BIKE SQUAD**; **SCOUT SQUAD**; **SCOUT SNIPER SQUAD**; **TACTICAL SQUAD**; **TERMINATOR ASSAULT SQUAD**; **TERMINATOR SQUAD**.",
         "header": "Space Marine Chapters, Army Rules"
       },
@@ -2715,6 +2745,11 @@
         "type": "errata",
         "body": "Change to: **Effect**: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
         "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments - Armour of Contempt Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**ADEPTUS ASTARTES** model only. While the bearer is leading a unit, models in that unit have the Feel No Pain 6+ ability while they are within an **objective** you control and, while that unit is Battle-shocked, halve the Objective Control characteristic of models in that unit instead of changing it to '-'.'",
+        "header": "Anvil Siege Forge Detachment, Stoic Defender Enhancement"
       },
       {
         "type": "errata",
@@ -3147,13 +3182,13 @@
     "updated": [
       {
         "pub": "Codex: Adepta Sororitas",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
       {
         "type": "errata",
-        "body": "Change to: ‘If your Army Faction is ADEPTA SORORITAS, you gain 1 Miracle dice:\n▪ At the start of each battle round.\n▪ Each time an ADEPTA SORORITAS unit from your army is destroyed. Each time you gain a Miracle dice, roll one D6. The number you roll is the value of that Miracle dice. This value cannot be changed or re‑rolled, unless a rule specifically states otherwise. Keep your Miracle dice to one side – this is your Miracle dice pool.’",
+        "body": "Change to: ‘If your Army Faction is ADEPTA SORORITAS, you gain 1 Miracle dice:\n▪ At the start of each turn.\n▪ Each time an ADEPTA SORORITAS unit from your army is destroyed. Each time you gain a Miracle dice, roll one D6. The number you roll is the value of that Miracle dice. This value cannot be changed or re‑rolled, unless a rule specifically states otherwise. Keep your Miracle dice to one side – this is your Miracle dice pool.’",
         "header": "Acts of Faith, Gaining Miracle Dice Section"
       },
       {
@@ -3183,8 +3218,8 @@
       },
       {
         "type": "errata",
-        "body": "Change to: 'You can discard 1-3 Miracle dice. At the end of the phase, set the last destroyed model from your unit back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy models. Roll one D3, adding 1 to the result for each Miracle dice you discarded. That model is set back up with that number of wounds remaining (up to its starting number of wounds).'",
-        "header": "Hallowed Martyrs Detachment, Divine Intervention Stratagem, Effect section"
+        "body": "Change to: TARGET: One **ADEPTA SORORITAS CHARACTER** model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed. 'EFFECT: You can discard 1‑3 Miracle dice. At the end of the phase, set up that model on the battlefield, **unengaged** and as close as possible to where it was **destroyed**. That model is not part of an attached unit and its unit has a **starting strength** of 1. Roll one D3, adding 1 to the result for each Miracle dice you discarded. That model has that number of wounds remaining (up to its starting number of wounds).'",
+        "header": "Hallowed Martyrs Detachment, Divine Intervention Stratagem, Target and Effect section"
       },
       {
         "type": "errata",
@@ -3205,6 +3240,11 @@
         "type": "errata",
         "body": "Add the 'FRAME' keyword.",
         "header": "Castigator, Exorcist, Immolator, Sororitas Rhino – Keywords section"
+      },
+      {
+        "type": "errata",
+        "body": "Add ‘**CELESTIAN**'.",
+        "header": "Celestian Sacresants, Keywords section"
       },
       {
         "type": "errata",
@@ -3230,6 +3270,11 @@
         "type": "errata",
         "body": "Change to: 'Each time a model in this unit makes a ranged attack, that model can re‑roll a Hit roll of 1 and re‑roll a Wound roll of 1. If such an attack targets an enemy unit that has destroyed one or more ADEPTA SORORITAS units from your army during the battle, add 1 to the Hit roll and add 1 to the Wound roll as well.’",
         "header": "Retributor Squad, Storm of Retribution Ability"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘While this unit contains a Celestine model, in your Command phase, you can return 1 destroyed Geminae Superia model to this unit.'",
+        "header": "Saint Celestine, Healing Tears Ability"
       },
       {
         "type": "errata",
@@ -3421,7 +3466,7 @@
     "updated": [
       {
         "pub": "Codex: Adeptus Mechanicus",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -3437,8 +3482,8 @@
       },
       {
         "type": "errata",
-        "body": "Remove 'Leader', add 'Support'.",
-        "header": "Cybernetica Datasmith, Core Abilities section"
+        "body": "▪ Core Abilities section: Remove 'Leader', add 'Support'\n▪ Keywords section: Remove ‘**INFANTRY**’, add ‘**VEHICLE**’.\n▪ Add new ability: ‘**Data-severed**: If there are no **KASTELAN ROBOT** models in this unit: ▫ This unit loses **VEHICLE**. ▫ This unit has **INFANTRY**.'",
+        "header": "Cybernetica Datasmith"
       },
       {
         "type": "errata",
@@ -3557,11 +3602,6 @@
       },
       {
         "type": "errata",
-        "body": "Add new ability: ‘**Data-severed**: If there are no **KASTELAN ROBOT** models in this unit:\n▪ This unit loses **VEHICLE**.\n▪ This unit has **INFANTRY.'**",
-        "header": "Cybernetica Datasmith"
-      },
-      {
-        "type": "errata",
         "body": "Change to: ‘When an enemy unit targets this unit with ranged attacks, until that enemy unit has shot, when this unit makes a **save roll**:\n▪ On an unmodified 6, that enemy unit suffers 1 **mortal wound** after that enemy unit has shot.'",
         "header": "Kastelan Robots, Repulsor Grid ability"
       },
@@ -3576,7 +3616,7 @@
     "updated": [
       {
         "pub": "Codex: Astra Militarum",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -3607,7 +3647,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘**ASTRA MILITARUM WALKER** and **REGIMENT** units from your army have the Benefit of Cover. While such a unit has the Benefit of Cover for any other reason, improve the Save characteristic of that unit by 1 (to a maximum of 3+).’",
+        "body": "Change to: ‘Friendly **ASTRA MILITARUM** units (excluding **TITANIC** units) have **Stealth**.’",
         "header": "Recon Element Detachment, Masters of Camouflage Detachment Rule"
       },
       {
@@ -3860,7 +3900,7 @@
       },
       {
         "pub": "Codex: Imperial Knights",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -3881,7 +3921,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: 'At the start of the first battle round, select two objectives to be your foundations. Place a circular foundation marker in each one. When you draw a line from the closest part of one foundation marker to the closest part of the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line. While an **IMPERIAL KNIGHTS** unit from your army is on your defensive line, that unit has the following ability: **Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the **[SUSTAINED HITS 1]** ability.'",
+        "body": "Change to: 'At the start of the first battle round, select two objectives to be your foundations. Place a circular 40mm foundation marker in each one. When you draw a line from any part of one of your foundation markers to any part of the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line. While an **IMPERIAL KNIGHTS** unit from your army is on your defensive line, that unit has the following ability: **Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the **[SUSTAINED HITS 1]** ability.'",
         "header": "Gate Warden Lance Detachment, Dauntless Defenders Detachment Rule"
       },
       {
@@ -4059,7 +4099,7 @@
       },
       {
         "pub": "Codex: Chaos Knights",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4120,8 +4160,8 @@
       },
       {
         "type": "errata",
-        "body": "Change to:\n▪ Your unit has **Stealth**.\n▪ Melee attacks that target your unit have -1 to **hit rolls.**",
-        "header": "Traitoris Lance Detachment, Storm of Darkness Stratagem, Effect Section"
+        "body": "Change to: 'WHEN: Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets. EFFECT:\n▪ Your unit has **Stealth**.\n▪ Melee attacks that target your unit have -1 to **hit rolls**.'",
+        "header": "Traitoris Lance Detachment, Storm of Darkness Stratagem, When and Effect Sections"
       },
       {
         "type": "errata",
@@ -4159,7 +4199,7 @@
     "updated": [
       {
         "pub": "Codex: Chaos Space Marines",
-        "date": "06 May 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4365,7 +4405,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Profile**: Change **M** to 12\" and **OC** to '-'.\n▪ **Keywords**: Remove '**AIRCRAFT**'.",
+        "body": "▪ **Profile**: Change **M** to 12\" and **OC** to '0'.\n▪ **Keywords**: Remove '**AIRCRAFT**'.",
         "header": "Heldrake"
       },
       {
@@ -4464,7 +4504,7 @@
     "updated": [
       {
         "pub": "Codex: Death Guard",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4475,8 +4515,13 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.’",
+        "body": "Change to: ‘• Each time a model in this unit makes a ranged attack, enemy units have the **benefit of cover** against that attack. • Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.’",
         "header": "Nurgle's Gift, Skullsquirm Blight"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘TARGET: One friendly unengaged **DEATH GUARD VEHICLE** unit. EFFECT: Select one **visible** enemy unit within 12\" of your unit. When that enemy unit **declares a charge**, that enemy unit has ‑1 to **charge rolls**.'",
+        "header": "Mortarion's Hammer Detachment, Stinking Mire Stratagem, Target and Effect Sections"
       },
       {
         "type": "errata",
@@ -4529,7 +4574,7 @@
     "updated": [
       {
         "pub": "Codex: Emperor’s Children",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4570,8 +4615,8 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘**WHEN**: End of the Fight phase. **TARGET**: One **EMPEROR'S CHILDREN** unit from your army that destroyed an enemy unit this phase, and one friendly **TRANSPORT** it is able to embark within.",
-        "header": "Rapid Evisceration Detachment, On to the Next Stratagem, When and Target Sections"
+        "body": "Change to: ‘**WHEN**: End of the Fight phase. **TARGET**: One **EMPEROR'S CHILDREN** unit from your army that destroyed an enemy unit this phase, and one friendly **TRANSPORT** it is able to embark within. **EFFECT**: If your **EMPEROR’S CHILDREN** unit is wholly within 6\" of that **TRANSPORT**, it can embark within it. Your unit can embark within that **TRANSPORT** in a turn it disembarked from a **TRANSPORT**.'",
+        "header": "Rapid Evisceration Detachment, On to the Next Stratagem,"
       },
       {
         "type": "errata",
@@ -4600,7 +4645,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Profile**: Change **M** to 12\", **Sv** to '3+' and **OC** to '-'.\n▪ **Keywords**: Remove 'AIRCRAFT'.",
+        "body": "▪ **Profile**: Change **M** to 12\", **Sv** to '3+' and **OC** to '0'.\n▪ **Keywords**: Remove 'AIRCRAFT'.",
         "header": "Heldrake"
       },
       {
@@ -4644,7 +4689,7 @@
     "updated": [
       {
         "pub": "Codex: Thousand Sons",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4665,7 +4710,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Profile**: Change **M** to 12\" and **OC** to '-'.\n▪ **Keywords**: Remove 'AIRCRAFT'.",
+        "body": "▪ **Profile**: Change **M** to 12\" and **OC** to '0'.\n▪ **Keywords**: Remove 'AIRCRAFT'.",
         "header": "Heldrake"
       },
       {
@@ -4824,7 +4869,7 @@
     "updated": [
       {
         "pub": "Codex: World Eaters",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -4885,7 +4930,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Profile:** Change **M** to 12\" and **OC** to '-'.\n▪ **Keywords:** Remove '**AIRCRAFT**'.",
+        "body": "▪ **Profile:** Change **M** to 12\" and **OC** to '0'.\n▪ **Keywords:** Remove '**AIRCRAFT**'.",
         "header": "Heldrake"
       },
       {
@@ -4912,6 +4957,11 @@
         "type": "errata",
         "body": "Change to: ‘**Icon of Khorne:** If the bearer’s unit contains one or more Icons of Khorne, each time the bearer’s unit destroys an enemy unit, you gain 1 Bloodshed point. Each time you make a Blessings of Khorne roll, roll one additional D6 for each Bloodshed point you have, after which, all your Bloodshed points are lost.",
         "header": "**Khorne Berzerkers and Jakhals, Icon of Khorne**"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘At the end of your Charge phase, if this unit is on the battlefield, is **unengaged**, and contains a **bodyguard** model, this unit makes a **leadership roll**:\n▪ If that **leadership roll** is failed, one **bodyguard** model in this unit is **destroyed**.’",
+        "header": "Khârn the Betrayer, The Betrayer Ability"
       },
       {
         "type": "errata",
@@ -4959,7 +5009,7 @@
     "updated": [
       {
         "pub": "Codex: Aeldari",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -5110,12 +5160,12 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Keywords section**: delete ‘**CHARACTER**’.\n▪ **Leader section**: change to ‘At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one **GUARDIAN DEFENDERS** or **STORM GUARDIANS** unit from your army (a unit cannot have more than one **WARLOCK CONCLAVE** unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly.’",
+        "body": "▪ **Core Abilities section**: Remove ‘Leader’, add ‘Support’.\n▪ **Leader section**: Remove this section.\n▪ **Keywords section**: delete ‘**CHARACTER**’.",
         "header": "Warlock Conclave"
       },
       {
         "type": "errata",
-        "body": "▪ **Keywords section**: delete ‘**CHARACTER**’.\n▪ **Leader section**: change to ‘At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one **WINDRIDERS** unit from your army (a unit cannot have more than one **WARLOCK SKYRUNNERS** unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly.’\n▪ **Runes of Battle ability**: Change to ‘Weapons equipped by models in this unit have the **[IGNORES COVER]** ability.’",
+        "body": "▪ **Core Abilities section**: Remove ‘Leader’, add ‘Support’.\n▪ **Leader section**: Remove this section.\n▪ **Keywords section**: delete ‘**CHARACTER**’.\n▪ **Runes of Battle ability**: Change to ‘Weapons equipped by models in this unit have the **[IGNORES COVER]** ability.’",
         "header": "Warlock Skyrunners"
       },
       {
@@ -5152,6 +5202,16 @@
         "type": "qa",
         "q": "Can the Yncarne use the Inevitable Death ability during my opponent’s first turn?",
         "a": "Yes."
+      },
+      {
+        "type": "errata",
+        "body": "Add bullet point: ‘When mustering your army, you can select a friendly **HARLEQUINS CHARACTER** model to be your **WARLORD**.'",
+        "header": "Ghosts of the Webway Detachment, Travelling Players section"
+      },
+      {
+        "type": "errata",
+        "body": "Remove ‘Leader’, add ‘Support",
+        "header": "The Visarch, Core Abilities section"
       }
     ]
   },
@@ -5159,7 +5219,7 @@
     "updated": [
       {
         "pub": "Codex: Drukhari",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -5220,7 +5280,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ Aerialists ability – Change to: ‘**Aerialists**: At the end of the Fight phase, if there are no models currently embarked within this **TRANSPORT**, you can select one friendly **DRUKHARI** **INFANTRY** unit that has 6 or fewer models that is wholly within 6\" of this **TRANSPORT** (you cannot select a unit that can **FLY**). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this **TRANSPORT**. That unit can embark within this **TRANSPORT** in a turn it disembarked from this **TRANSPORT**.'\n▪ Transport Section – Change to: ‘This model has a transport capacity of 6 **DRUKHARI INFANTRY** models (excluding **JUMP PACK** models). Before the battle, at the start of the Declare Battle Formations step, you can select one **KABALITE WARRIORS**, **HAND OF THE ARCHON** or **WYCHES** unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this model; the other can start the battle embarked within another **TRANSPORT**, or it can be deployed as a separate unit.’",
+        "body": "▪ Aerialists ability – Change to: ‘**Aerialists**: At the end of the Fight phase, if there are no models currently embarked within this **TRANSPORT**, you can select one friendly **DRUKHARI** **INFANTRY** unit that has 6 or fewer models that is wholly within 6\" of this **TRANSPORT** (you cannot select a unit that can **FLY**). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this **TRANSPORT**. That unit can embark within this **TRANSPORT** in a turn it disembarked from a **TRANSPORT**.'\n▪ Transport Section – Change to: ‘This model has a transport capacity of 6 **DRUKHARI INFANTRY** models (excluding **JUMP PACK** models). Before the battle, at the start of the Declare Battle Formations step, you can select one **KABALITE WARRIORS**, **HAND OF THE ARCHON** or **WYCHES** unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this model; the other can start the battle embarked within another **TRANSPORT**, or it can be deployed as a separate unit.’",
         "header": "Venom"
       },
       {
@@ -5246,7 +5306,7 @@
       {
         "type": "qa",
         "q": "Does the Venom’s Aerialists ability allow a unit to embark within a **TRANSPORT** even if it disembarked from a **TRANSPORT** this turn?",
-        "a": "Yes, because it states 'That unit can embark within this **TRANSPORT** in a turn it disembarked from this **TRANSPORT**.'"
+        "a": "Yes, because it states 'That unit can embark within this **TRANSPORT** in a turn it disembarked from a **TRANSPORT**.'"
       }
     ]
   },
@@ -5529,7 +5589,7 @@
     "updated": [
       {
         "pub": "Codex: Necrons",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       },
       {
         "pub": "Imperial Armour: Necrons",
@@ -5574,7 +5634,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘One **NECRONS** unit from your army (excluding **MONSTER** units) that is arriving using the Deep Strike or Hyperphasing abilities this phase.’",
+        "body": "Change to: ‘One **NECRONS** unit from your army (excluding **MONSTER** units) that is arriving using an **ingress move** this phase.’",
         "header": "Hypercrypt Legion Detachment, Cosmic Precision Stratagem, Target Section"
       },
       {
@@ -5609,7 +5669,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: 'In your movement phase (excluding the first battle round), you can select one friendly **NECRONS INFANTRY** unit that is either in **strategic reserves** or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into **strategic reserves**). That unit can make an **ingress move**, and must be set up wholly within 6\" of this unit and not **engaged** with any enemy units. That unit cannot make a **charge move** this turn.'",
+        "body": "Change to: 'In your movement phase (excluding the first battle round), you can select one friendly **NECRONS INFANTRY** unit that is either in **strategic reserves** or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into **strategic reserves**). That unit can make an **ingress move**, and while making that **ingress move**, that unit must be set up wholly within 6\" of this unit and **unengaged** (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent’s deployment zone. That unit cannot make a **charge move** this turn.'",
         "header": "Monolith, Eternity Gate Ability"
       },
       {
@@ -5762,7 +5822,7 @@
       },
       {
         "pub": "Codex: Orks",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -5830,6 +5890,11 @@
         "type": "errata",
         "body": "Change 9\" to 8\".",
         "header": "Kult of Speed Detachment, More Gitz Over 'Ere! Stratagem, Target Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘Your unit can make a Normal or Fall Back move before its Deadly Demise ability is resolved, and before any embarked units perform an **emergency disembark move**. When making this move, your unit can move over enemy units (excluding **MONSTERS** and **VEHICLES**) as if they were not there.'",
+        "header": "War Horde Detachment, Careen! Stratagem, Effect Section"
       },
       {
         "type": "errata",
@@ -5978,6 +6043,11 @@
       },
       {
         "type": "errata",
+        "body": "Change to: ‘In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks made with a rivet kannon. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes a ranged attack, subtract 1 from the Hit roll.'",
+        "header": "Kustom Boosta‑blasta, Rivetin’ Dakka Ability"
+      },
+      {
+        "type": "errata",
         "body": "Change to: ‘In your Movement phase, when this unit is selected to make an **advance move**, you can use this ability. If you do:\n▪ That move has no **maximum distance**.\n▪ This unit can move through all types of model (including enemy models and **MONSTER/VEHICLE** models).\n▪ After moving, your unit must be more than 8\" horizontally from all enemy units.'",
         "header": "Shokkjump Dragsta, Shokk Tunnel Ability"
       },
@@ -5985,6 +6055,11 @@
         "type": "errata",
         "body": "▪ **Weapon Profiles:** Add the following: Kustom Shoota RANGE 18\" A4 BS5+ S4 AP0 D 1 **[RAPID FIRE 2]** Kustom Choppa RANGE Melee A6 WS2+ S8 AP‑2 D2 **[CLEAVE 1]**\n▪ **Wargear Options:** Add the following: ‘This model can have its kombi‑weapon, twin sluggas and big choppa replaced with 1 kustom choppa and 1 kustom shoota.’",
         "header": "Warboss"
+      },
+      {
+        "type": "qa",
+        "q": "When using the Green Tide Mob Mentaility detachment rule, do I switch to 6+ **InSv** partway through a unit’s attacks when the number of models in the target unit drops below 10 models?",
+        "a": "No, the number of models in the unit when it is targeted determines the unit’s **InSv** until those attacks are resolved."
       },
       {
         "type": "qa",
@@ -6176,7 +6251,7 @@
     "updated": [
       {
         "pub": "Codex: Tyranids",
-        "date": "22 July 2026"
+        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -6212,7 +6287,7 @@
       },
       {
         "type": "errata",
-        "body": "Harridan, Hierophant, Toxicrene, Tyrannocyte and Tyrannofex.",
+        "body": "Hierophant, Toxicrene, Tyrannocyte and Tyrannofex.",
         "header": "The following units have the **FRAME** keyword:"
       },
       {
@@ -6327,6 +6402,11 @@
       },
       {
         "type": "errata",
+        "body": "Change to: ‘Harpooned: When this unit **declares a charge**, if an enemy **MONSTER/VEHICLE** unit is within 12\" of this unit and was hit by an attack made by this weapon this turn, you can use this ability. If you do:\n▪ This unit has +2 to **charge rolls** until the end of the phase.\n▪ This unit must end that **charge move engaged** with that **MONSTER/VEHICLE** unit.’",
+        "header": "Norn Assimilator, [HARPOONED] Weapon Ability"
+      },
+      {
+        "type": "errata",
         "body": "▪ **Profile –** Change **M** to 12\".\n▪ **Bio-stimulus Ability –** Change to: **‘** n your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly **TYRANIDS** unit makes a melee attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per turn.'\n▪ **Keywords** – Add ‘**SMOKE**’**.**\n▪ **Talons and Betentacled Maw Weapon** – Change **A** to '6' and **AP** to '-2'.",
         "header": "Psychophage"
       },
@@ -6379,6 +6459,11 @@
         "type": "errata",
         "body": "Change to: ‘Friendly **TYRANIDS** units within 6\" of this unit have **Stealth**.'",
         "header": "Venomthropes, Foul Spores ability"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘WHEN: Any phase, just before an **ENDLESS MULTITUDE** unit from your army that is within Synapse Range of your army makes a **surge move**. EFFECT: When making that **surge move**, you can re-roll the D6 to determine how far your unit moves, and your unit can end that move as close as possible to the closest objective marker (instead of as close as possible to the closest enemy unit). All other rules for making **surge moves** still apply.’",
+        "header": "Synaptic Goading Stratagem, When and Effect Sections"
       },
       {
         "type": "qa",

@@ -103,6 +103,9 @@ When a unit embarks, the active player removes that unit from the battlefield an
 
 If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from the battlefield, the active player must make an **emergency disembark move** (see opposite) with each unit embarked within it.
 
+▪ If a rule allows a unit to be **eligible to declare a charge** after disembarking from a TRANSPORT model that made a **normal move** that turn, that unit makes an **assault disembark move** (18.06) for that disembarkation (instead of a **disembark move**).
+▪ If a rule allows a unit to disembark from a TRANSPORT model that made an **advance move** that turn, that unit makes a **shock disembark move** (18.07) for that disembarkation (instead of a **disembark move**).
+
 ### FAQs
 **Q:** If a unit makes any disembark move in a turn (i.e. Disembark move, Emergency Disembark move, etc.), has it disembarked that turn?
 
@@ -144,6 +147,32 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 ▪ **Or:** If the above is not possible while remaining **[gloss:unengaged:unengaged]**, set up that model wholly within the **set-up distance** of that TRANSPORT, as close as possible to that TRANSPORT, and **engaged**.
 ▪ Each model that still cannot be set up is **destroyed**.
 ◈ AFTER MOVING | Your unit is **battle-shocked** and, until the end of the turn, it is not **eligible to declare a charge**.`,
+        },
+        {
+          id: 'section-18-06',
+          sectionNum: '18.06',
+          title: 'Assault Disembark Move',
+          fromApp: true,
+          body: `◈ SET-UP DISTANCE | 3"
+◈ ELIGIBLE IF | As stated in the rule allowing this **move type**, if all of the following apply to your unit:
+▪ Embarked within a TRANSPORT model that is on the battlefield.
+▪ Did not embark within that TRANSPORT this phase.
+▪ That TRANSPORT has not made an **advance** or **fall-back** move this phase.
+◈ EFFECT | Your unit is set up as described in Set Up (03.02).
+◈ WHILE MOVING | Set up each model in your unit wholly within the **[gloss:set-up-distance:set-up distance]** of that TRANSPORT.`,
+        },
+        {
+          id: 'section-18-07',
+          sectionNum: '18.07',
+          title: 'Shock Disembark Move',
+          fromApp: true,
+          body: `◈ SET-UP DISTANCE | 3"
+◈ ELIGIBLE IF | As stated in the rule allowing this **move type**, if all of the following apply to your unit:
+▪ Embarked within a TRANSPORT model that is on the battlefield.
+▪ Did not embark within that TRANSPORT this phase.
+◈ EFFECT | Your unit is set up as described in Set Up (03.02).
+◈ WHILE MOVING | Set up each model in your unit wholly within the **[gloss:set-up-distance:set-up distance]** of that TRANSPORT.
+◈ AFTER MOVING | Each model that started this move **[gloss:engaged:engaged]** with an enemy unit must still be **engaged** with that enemy unit. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight**.`,
         },
       ],
     },
@@ -398,6 +427,15 @@ Unless otherwise stated, a unit's **faction abilities** only apply if the **army
           sectionNum: '22.03',
           title: 'Psychic Abilities',
           body: `Abilities tagged with the word 'Psychic' are **psychic abilities**. If a **psychic ability** causes a model to lose one or more wounds, each of those wounds is said to be inflicted by a **psychic attack** (this can be important for the triggering of other rules).`,
+          children: [
+            {
+              id: 'section-22-03-01',
+              sectionNum: '22.03.01',
+              title: 'Psychic Abilities with a Psychic Level',
+              fromApp: true,
+              body: `When using **psychic abilities** with a **psychic level**, a PSYKER unit cannot use the same **psychic ability** more than once per phase.`,
+            },
+          ],
         },
         {
           id: 'section-22-04',
@@ -561,6 +599,9 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 
 Если модель TRANSPORT **[gloss:destroyed:уничтожена]**, до её удаления с поля боя активный игрок должен совершить **[gloss:disembark:экстренный манёвр высадки]** (см. напротив) каждым отрядом, погружённым в неё.
 
+▪ Если правило позволяет отряду **объявлять нападение** после высадки из модели TRANSPORT, совершившей **[gloss:normal-move:обычный манёвр]** в этот ход, этот отряд совершает **штурмовой манёвр высадки** (18.06) вместо **манёвра высадки**.
+▪ Если правило позволяет отряду высадиться из модели TRANSPORT, совершившей **[gloss:advance-move:продвижение]** в этот ход, этот отряд совершает **ударный манёвр высадки** (18.07) вместо **манёвра высадки**.
+
 ### FAQs
 **В:** Если юнит совершает любой манёвр высадки за ход (т.е. манёвр высадки, экстренный манёвр высадки и т.д.), считается ли, что он высадился в этот ход?
 
@@ -601,6 +642,32 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ▪ **Или:** Если это невозможно, оставаясь **[gloss:unengaged:не связанным боем]**, расставьте эту модель целиком в пределах **расстояния расстановки** от этого TRANSPORT, как можно ближе к нему, и **[gloss:engaged:связанной боем]**.
 ▪ Каждая модель, которую всё ещё невозможно расставить, **уничтожается**.
 ◈ ПОСЛЕ ДВИЖЕНИЯ | Ваш отряд находится **[gloss:battle-shocked:в боевом шоке]** и до конца хода не может объявлять нападение.`,
+        },
+        {
+          id: 'section-18-06',
+          sectionNum: '18.06',
+          title: 'Штурмовой манёвр высадки',
+          fromApp: true,
+          body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 3"
+◈ УСЛОВИЕ | Как указано в правиле, разрешающем этот **тип манёвра**, если к вашему отряду применяется всё из следующего:
+▪ Погружён в модель TRANSPORT, находящуюся на поле боя.
+▪ Не грузился в этот TRANSPORT в эту фазу.
+▪ Этот TRANSPORT не совершал **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]** в эту фазу.
+◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
+◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **[gloss:set-up-distance:расстояния расстановки]** от этого TRANSPORT.`,
+        },
+        {
+          id: 'section-18-07',
+          sectionNum: '18.07',
+          title: 'Ударный манёвр высадки',
+          fromApp: true,
+          body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 3"
+◈ УСЛОВИЕ | Как указано в правиле, разрешающем этот **тип манёвра**, если к вашему отряду применяется всё из следующего:
+▪ Погружён в модель TRANSPORT, находящуюся на поле боя.
+▪ Не грузился в этот TRANSPORT в эту фазу.
+◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
+◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **[gloss:set-up-distance:расстояния расстановки]** от этого TRANSPORT.
+◈ ПОСЛЕ ДВИЖЕНИЯ | Каждая модель, начавшая этот манёвр **[gloss:engaged:в ближнем бою]** с вражеским отрядом, обязана остаться **в ближнем бою** с этим вражеским отрядом. Если один или несколько вражеских отрядов, **находящихся в ближнем бою** с вашим отрядом, не были **выбраны для боя** в эту фазу, ваш оппонент должен выбрать каждый из этих отрядов по одному; когда каждый из них выбирается, он становится **способным сражаться** и **выбирается для боя**.`,
         },
       ],
     },
@@ -832,6 +899,15 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
           sectionNum: '22.03',
           title: 'Псайкерские способности',
           body: `Способности, помеченные словом «Псайкер», являются **[gloss:psychic:псайкерскими способностями]**. Если **псайкерская способность** заставляет модель потерять одно или несколько ранений, каждое из этих ранений считается нанесённым **[gloss:psychic:псайкерской атакой]** (это может быть важно для активации других правил).`,
+          children: [
+            {
+              id: 'section-22-03-01',
+              sectionNum: '22.03.01',
+              title: 'Псайкерские способности с псайкерским уровнем',
+              fromApp: true,
+              body: `При использовании **псайкерских способностей**, имеющих **псайкерский уровень** (psychic level), отряд PSYKER не может задействовать одну и ту же **псайкерскую способность** более одного раза за фазу.`,
+            },
+          ],
         },
         {
           id: 'section-22-04',

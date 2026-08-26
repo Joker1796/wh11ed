@@ -686,7 +686,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Huron’s Marauders",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Disruption",
+      forceDisposition: "Purge the Foe",
       rule: {
         name: "Tyrannical Motivation",
         flavor: "Murderers and renegades all, the Red Corsairs strive to meet their master’s standards, fighting hardest of all when his gaze is upon them.",

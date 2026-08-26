@@ -1028,6 +1028,7 @@ export default [
       "Infantry",
       "Grenades",
       "Imperium",
+      "Celestian",
       "Celestian Insidiants"
     ],
     "factionKeywords": [
@@ -3561,7 +3562,7 @@ export default [
     "abilities": [
       {
         "name": "Healing Tears",
-        "text": "While this unit contains a Celestine model, in your Command phase, if this unit is below its Starting Strength, either one destroyed Geminae Superia model or up to D3 other Bodyguard models are returned to this unit."
+        "text": "While this unit contains a Celestine model, in your Command phase, you can return 1 destroyed Geminae Superia model to this unit."
       },
       {
         "name": "Lifewards",

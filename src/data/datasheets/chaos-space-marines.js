@@ -2417,7 +2417,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 340,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -3553,7 +3553,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -3914,7 +3914,6 @@ export default [
         "Chaos Terminator Squad",
         "Chosen",
         "Red Corsairs Raiders",
-        "Masters of the Maelstrom",
         "Legionaries"
       ]
     },

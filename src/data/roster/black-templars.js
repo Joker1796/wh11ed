@@ -1691,7 +1691,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 100,
           "per": [
             4,
             4
@@ -1699,21 +1699,21 @@ export default {
           "default": 1
         },
         {
-          "pts": 130,
+          "pts": 125,
           "per": [
             5,
             5
           ]
         },
         {
-          "pts": 235,
+          "pts": 225,
           "per": [
             6,
             9
           ]
         },
         {
-          "pts": 260,
+          "pts": 250,
           "per": [
             10,
             10
@@ -1723,7 +1723,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "defaults": [
         [
@@ -2538,6 +2538,11 @@ export default {
     "vindicator",
     "whirlwind"
   ],
+  "unitPoints": {
+    "centurion-devastator-squad": {
+      "6": 350
+    }
+  },
   "sharedDetachments": [
     "Anvil Siege Force",
     "Armoured Speartip",

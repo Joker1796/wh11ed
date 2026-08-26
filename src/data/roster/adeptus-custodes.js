@@ -148,14 +148,14 @@ export default {
           ]
         },
         {
-          "pts": 275,
+          "pts": 280,
           "per": [
             4,
             5
           ]
         },
         {
-          "pts": 330,
+          "pts": 340,
           "per": [
             6,
             6
@@ -163,6 +163,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 30
+      },
       "defaults": [
         [
           0,
@@ -2040,6 +2044,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 25
+      },
       "defaults": [
         [
           0,
@@ -2366,8 +2374,8 @@ export default {
     {
       "name": "Lions of the Emperor",
       "sid": "16f0256d-a6ba-4d12-963f-2b8874eb17a5",
-      "dp": 2,
-      "fd": "Disruption",
+      "dp": 3,
+      "fd": "Take and Hold",
       "unique": "LIONS",
       "enhancements": [
         {
@@ -2758,7 +2766,7 @@ export default {
       "name": "Tharanatoi Hammerblow",
       "sid": "92ae3afb-c5d5-41a9-80da-8db33c91ed41",
       "dp": 1,
-      "fd": "Priority Assets",
+      "fd": "Disruption",
       "unique": "LIONS",
       "enhancements": [
         {
