@@ -16,6 +16,19 @@
           :aria-label="labels.resumeGameBar"
         >{{ labels.resumeGameShort }}</RouterLink>
 
+        <!-- Same idea for a roster left half-built: the wizard is a screen people leave on
+             purpose (to go read what a detachment does) and the way back through the nav lands
+             on /roster's Saved tab, which is the one place the draft isn't. App.vue decides
+             when there's one to offer; this just draws it. -->
+        <RouterLink
+          v-if="resumeDraftId"
+          key="resume-draft"
+          :to="{ path: '/roster/new', query: { draft: resumeDraftId } }"
+          class="mb-icon mb-text"
+          :title="labels.rosterResumeDraftBar"
+          :aria-label="labels.rosterResumeDraftBar"
+        >{{ labels.rosterResumeDraftShort }}</RouterLink>
+
         <!-- A contribution is either a jump (`to`, e.g. the faction hero's tab links) or an
              action (`onClick`, e.g. the Core Rules contents modal). -->
         <template v-for="a in actions" :key="a.key">
@@ -57,7 +70,12 @@ import { ui } from '../i18n/ui.js'
 import { useMobileActionBar } from '../composables/useMobileActionBar.js'
 import { useBackToTop } from '../composables/useBackToTop.js'
 
-const props = defineProps({ showResumeGame: { type: Boolean, default: false } })
+const props = defineProps({
+  showResumeGame: { type: Boolean, default: false },
+  // The draft to go back to, or null. An id rather than a boolean: the chip has to link at
+  // THAT draft (`?draft=<id>` is what makes the wizard resume it instead of starting another).
+  resumeDraftId: { type: String, default: null },
+})
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -68,7 +86,7 @@ const { contributions } = useMobileActionBar()
 const actions = computed(() => Object.values(contributions).flat())
 const { visible: scrolledDown, scrollToTop } = useBackToTop()
 
-const visible = computed(() => props.showResumeGame || actions.value.length > 0 || scrolledDown.value)
+const visible = computed(() => props.showResumeGame || !!props.resumeDraftId || actions.value.length > 0 || scrolledDown.value)
 
 // App.vue reads this (via template ref) to size --mobile-bar-h without duplicating this logic.
 defineExpose({ visible })
