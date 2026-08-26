@@ -147,7 +147,18 @@ ${entries.join('\n')}
 
   // robots.txt is generated (not static in public/) so its Sitemap URL tracks ORIGIN — same
   // domain as the site, otherwise search engines distrust a cross-host Sitemap directive.
-  writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`)
+  // `Clean-param: lang` is a Yandex extension (other crawlers ignore unknown directives) and it
+  // cleans up after the locale move: RU lived at `?lang=ru` for the site's whole life, so ~1571
+  // such URLs are already known to Yandex. They still answer 200 — the bucket keys by path and the
+  // CDN ignores query strings, so there is no server-side redirect to give them, and the raw HTML
+  // carries no canonical (that is set by JS, which Yandex barely runs). Left alone they stay in the
+  // index as duplicates of their bare twins. This tells Yandex to drop the parameter and treat them
+  // as one page. The Russian content is unaffected — it lives at /ru/… now, where no query is
+  // involved. Drop this only when the old URLs are gone from the index for good.
+  writeFileSync(
+    join(DIST, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nClean-param: lang\n\nSitemap: ${ORIGIN}/sitemap.xml\n`,
+  )
 
   // Every route needs its Russian twin as a bucket key too, or `/ru/rules` would fall through
   // to the ErrorDocument's 404 and the crawler we care about would never index it. `/ru` itself
