@@ -18,7 +18,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    include: ['src/**/*.test.js'],
+    // `scripts/` too since 2026-08-26: the build's SEO page renderer produces the only markup a
+    // non-executing crawler ever sees, and nobody reviews 3141 generated files by eye.
+    include: ['src/**/*.test.js', 'scripts/**/*.test.js'],
     setupFiles: ['./src/test-setup.js'],
     restoreMocks: true,
   },
