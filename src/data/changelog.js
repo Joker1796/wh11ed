@@ -17,6 +17,30 @@
 
 export const changelog = [
   {
+    version: '2.3.0',
+    date: '2026-08-26',
+    en: [
+      { h: 'New: Army Lists' },
+      'Build a list from the app\'s own datasheets — units, wargear with its real limits, enhancements, detachment and battle size, with points from the current Munitorum Field Manual. Your work is saved as you go, so a reload never loses a half-built list.',
+      'Nothing is ever blocked: an illegal list still adds up, and the problems are listed for you to judge — duplicate limits, enhancement rules, who can lead whom.',
+      'Paste a list in from the Warhammer 40,000 app or listhammer.info, export it back in the app\'s format or the tournament (WTC) one, or share it with a link.',
+      'A unit\'s card now shows what its detachment, enhancements and abilities actually do to it — each changed characteristic says which rule changed it.',
+      { h: 'Lists in the Game Tracker' },
+      'Start a game from a list and the tracker knows your army: it filters stratagems to what you can actually use, tracks each unit\'s state, and applies conditional rules once the game has proven the condition.',
+      'A new "what to track" table lets you switch off whatever you don\'t use, plus a reminder of what happens in the current phase.',
+    ],
+    ru: [
+      { h: 'Новое: армейские списки' },
+      'Конструктор списков на данных самих датащитов — юниты, вооружение с настоящими лимитами, улучшения, детачмент и размер битвы, очки по актуальному Munitorum Field Manual. Прогресс сохраняется по ходу дела, перезагрузка не теряет недособранный список.',
+      'Ничего не запрещаем: нелегальный список всё равно считается, а проблемы перечисляются рядом — лимиты дубликатов, правила улучшений, кто кого может вести.',
+      'Список можно вставить из приложения Warhammer 40,000 или с listhammer.info, выгрузить обратно в формате приложения или турнирном (WTC), либо поделиться ссылкой.',
+      'На карточке юнита теперь видно, что с ним делают детачмент, улучшения и способности — у каждой изменённой характеристики написано, какое правило её изменило.',
+      { h: 'Списки в трекере партии' },
+      'Партию можно начать из списка — трекер знает вашу армию: показывает только доступные стратагемы, следит за состоянием каждого юнита и применяет условные правила, когда партия подтвердила условие.',
+      'Появилась таблица «что отслеживать» — лишнее можно выключить, — и подсказка о том, что происходит в текущей фазе.',
+    ],
+  },
+  {
     version: '2.2.7',
     date: '2026-08-16',
     en: [
