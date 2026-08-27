@@ -114,7 +114,10 @@
          guessing what to undo. `blockers[gi]` says what to undo, in words. -->
     <template v-for="(g, gi) in def.gear || []" :key="gi">
     <section class="ues-sec" :class="{ 'ues-inert': blockers[gi] }">
-      <h4 class="ues-h">
+      <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
+           out of the datasheet, not a label. See the style rule for why that needs a different
+           face. -->
+      <h4 class="ues-h ues-instr">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
         {{ groupLines[gi].head }}
         <span v-if="capChip(gi)" class="ues-cap">{{ capChip(gi) }}</span>
@@ -536,6 +539,19 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   color: var(--text-primary);
   margin: 0 0 0.5rem;
   line-height: 1.35;
+}
+/* A wargear group's heading is a whole sentence lifted off the datasheet — "1 Cultist Champion's
+   autopistol can be replaced with 1 bolt pistol", and in Russian a sentence of prose wrapped
+   around English item names. style.css puts every h1–h4 in the display face, which is Sofia Sans
+   EXTRA CONDENSED: right for the two-word labels the other sections carry, and a wall of narrow
+   strokes for two lines of prose at weight 600. So this one heading takes the body face at a
+   normal weight. It keeps full colour and stays larger than the option list under it, so it still
+   leads the group; only the letterforms change. */
+.ues-h.ues-instr {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 .ues-mini { color: var(--text-dim); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; margin-right: 0.3rem; }
 .ues-default { font-size: 0.82rem; color: var(--text-muted); margin: 0.15rem 0; }

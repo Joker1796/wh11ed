@@ -32,6 +32,16 @@ describe('UnitEditorFields — wargear instructions', () => {
     expect(w.text()).not.toContain('◦')
   })
 
+  // A group's heading is prose off the datasheet; every other heading here is a two-word label.
+  // style.css puts all of them in the extra-condensed display face, which only the labels want.
+  it('marks a group instruction as prose, not as a label', () => {
+    const w = mountFor(wracks)
+    const heads = w.findAll('.ues-h')
+    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length)
+    // The unit-size / model-count / default-loadout headings keep the display face.
+    expect(heads.some((h) => !h.classes().includes('ues-instr'))).toBe(true)
+  })
+
   it('labels a bundled option with every item it grants', () => {
     const names = mountFor(wracks).findAll('.opt-name').map((n) => n.text())
     expect(names).toContain('Hexrifle + Torturer’s tool')
