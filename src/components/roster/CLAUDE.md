@@ -1092,6 +1092,15 @@ that made them necessary.
 `pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
 lists datasheets, and nothing is attached to a datasheet.
 
+**A group's heading is prose, and is set as prose** (`.ues-h.ues-instr`). `style.css` puts every
+`h1`–`h4` in the display face — Sofia Sans **Extra Condensed** — which is right for the two-word
+labels the other sections of this editor carry ("Unit size", "Default wargear") and wrong for the
+sentence a wargear group leads with: *"1 Cultist Champion's autopistol can be replaced with 1 bolt
+pistol"*, which in Russian is prose wrapped around English item names, and at weight 600 in a
+condensed face is two lines of narrow strokes. That one heading takes the body face at a normal
+weight; it keeps full colour and stays larger than the option list under it, so it still leads the
+group. Only the letterforms change.
+
 ## Russian for the wargear instructions
 
 The group instruction shown above each wargear choice ("The Sister Superior's boltgun can be
