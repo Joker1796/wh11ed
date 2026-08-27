@@ -228,8 +228,13 @@ function paperScale() {
 function paginate() {
   const root = docEl.value
   if (!root) return
-  // A section that holds blocks of its own (the cards) is not an atom; its children are.
-  const atoms = [...root.querySelectorAll('.rps-block, .rpu')].filter((el) => !el.classList.contains('rps-cards'))
+  // A section that holds blocks of its own (the cards) is not an atom; its children are — unless
+  // they are in two columns, where a margin pushes a card down its own column rather than onto
+  // the next sheet, and the browser's own column/page interaction is past what this estimate can
+  // honestly predict. There the cards section is left whole and only the sections around it move.
+  const twoUp = !!root.querySelector('.rps-cards.two-up')
+  const atoms = [...root.querySelectorAll('.rps-block, .rpu')]
+    .filter((el) => (twoUp ? !el.classList.contains('rpu') : !el.classList.contains('rps-cards')))
   for (const el of atoms) el.style.removeProperty('--page-push')
   const scale = paperScale()
   const pageH = (page.value.h - MARGIN_MM * 2) * MM_PX

@@ -111,4 +111,11 @@ describe('the cards', () => {
     expect(sheet(resolve()).findAll('.card')).toHaveLength(0)
     expect(sheet(resolve({}, 'full')).findAll('.card')).toHaveLength(1)
   })
+
+  // Two to a row is a column count on the section, and a card decides its own layout from the
+  // width it is given (DatasheetCard's container) — so the sheet only has to say how many.
+  it('go two to a row when asked, and one when not', () => {
+    expect(sheet(resolve({}, 'full')).find('.rps-cards').classes()).toContain('two-up')
+    expect(sheet(resolve({ cardsTwoUp: false }, 'full')).find('.rps-cards').classes()).not.toContain('two-up')
+  })
 })

@@ -1,4 +1,13 @@
 <template>
+  <!-- The shell exists to be MEASURED. Everything below sizes itself against the width of this
+       element rather than the window's (`@container`, not `@media`), because the card is drawn in
+       four places whose widths have nothing to do with the viewport: a faction page, a modal, a
+       Combat Patrol page, and a sheet of A4 where it may share the page with a second card. A
+       viewport query gets all four wrong somewhere — a phone previewing a print sheet was reading
+       a 733px page through a 390px window and drawing the card for the window.
+       It has to be a wrapper: a container cannot query itself, and `.ds-card`'s own padding and
+       full-bleed are half of what changes. -->
+  <div class="ds-shell">
   <article class="ds-card">
     <!-- Stat profiles -->
     <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
@@ -399,6 +408,7 @@
       <p v-if="pointsTable.tiers.some((t) => t)" class="ds-points-note">{{ labels.dsPointsCopyNote }}</p>
     </div>
   </article>
+  </div>
 </template>
 
 <script setup>
@@ -717,6 +727,8 @@ function abilityStateLabel(st) {
 </script>
 
 <style scoped>
+.ds-shell { container: dscard / inline-size; }
+
 .ds-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -834,7 +846,7 @@ function abilityStateLabel(st) {
 }
 .ds-inv-note { font-size: 0.72rem; font-style: italic; line-height: 1.35; color: var(--text-muted); }
 
-@media (max-width: 480px) {
+@container dscard (max-width: 480px) {
   .ds-stat-box {
     min-width: 2.7rem;
     font-size: 1.4rem;
@@ -851,7 +863,7 @@ function abilityStateLabel(st) {
 }
 
 /* Mobile: multi-profile model names move above their stat row (right of it on desktop) */
-@media (max-width: 640px) {
+@container dscard (max-width: 640px) {
   .ds-stats.has-name .ds-prof-name {
     grid-column: 1 / -1;
     grid-row: 1;
@@ -1004,7 +1016,7 @@ function abilityStateLabel(st) {
    tighten the weapon/points tables, which otherwise have no responsive treatment at all:
    .wname's 10rem floor plus nowrap on every other cell forces horizontal scroll well
    before this. */
-@media (max-width: 480px) {
+@container dscard (max-width: 480px) {
   /* Tighter than the desktop card in every direction. Height is the expensive axis on a phone:
      the same card that reads as generously spaced on a laptop arrives as a column of half-empty
      bands, and the reader is scrolling past air to reach the abilities. Every value here was
@@ -1056,7 +1068,7 @@ function abilityStateLabel(st) {
    go under. Now that a tag may break (above), the floor is ~340px — the six stat columns plus a
    readable name — and every phone in circulation keeps the table. Below it the stacked layout
    still takes over. */
-@media (max-width: 560px) {
+@container dscard (max-width: 560px) {
   .ds-weapons table { font-size: 0.74rem; }
   .ds-weapons th {
     padding: 0.25rem 0.15rem;
@@ -1110,7 +1122,7 @@ function abilityStateLabel(st) {
    caption, which is the only thing telling the two blocks apart once they are stacked cards, so
    it survives as a section label above the group while the six stat headers go. Reusing that
    cell keeps one source for the text (and its translation) instead of adding a second one. */
-@media (max-width: 340px) {
+@container dscard (max-width: 340px) {
   /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
   .ds-weapons table { font-size: 0.82rem; }
   .wtag { font-size: 0.72rem; }
@@ -1410,7 +1422,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
    base .ds-ability-group rule above so it wins the cascade — see the .ds-weapons media
    block earlier for why source order matters here). Square corners since it's flush
    against the card border now, not floating mid-card. */
-@media (max-width: 480px) {
+@container dscard (max-width: 480px) {
   .ds-ability-group {
     margin-top: 0.4rem;
     margin-bottom: 0.4rem;
