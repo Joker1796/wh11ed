@@ -216,6 +216,15 @@ export function normalizePrintSettings(saved) {
   return out
 }
 
+// How many sheets a document of this height needs. The epsilon is the point of it: a document
+// that comes out a hair over a whole number of pages — a border, a rounding of the millimetre
+// conversion — is not a document with an extra blank sheet in it, and saying "3 sheets" for two
+// full ones plus a rule is worse than saying nothing.
+export function sheetsFor(docHeight, pageHeight) {
+  if (!(pageHeight > 0)) return 1
+  return Math.max(1, Math.ceil((docHeight || 0) / pageHeight - 0.02))
+}
+
 export function printScale(settings) {
   return (PRINT_DENSITIES.find((d) => d.id === settings?.density) || PRINT_DENSITIES[0]).scale
 }

@@ -92,6 +92,19 @@
            line breaks on screen exactly where it breaks on the sheet; the horizontal rules are
            where the pages end. -->
       <div ref="paperEl" class="rpv-paper" :class="settings.orientation" :style="paperStyle">
+        <!-- Where one sheet ends and the next begins. Drawn OVER the document, not behind it:
+             as a background on the paper the line was hidden under the first card or table that
+             painted its own white, which made the whole thing look like one endless page. -->
+        <div class="rpv-breaks" aria-hidden="true">
+          <div
+            v-for="i in Math.max(0, pageCount - 1)"
+            :key="i"
+            class="rpv-break"
+            :style="{ top: `${i * contentH}px` }"
+          >
+            <span class="rpv-break-label">{{ labels.printSheetLabel.replace('{n}', String(i + 1)) }}</span>
+          </div>
+        </div>
         <div ref="docEl">
           <RosterPrintSheet
             :roster="roster"
@@ -120,7 +133,7 @@ import { isStandaloneDisplay } from '../../composables/standalone.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import {
   PRINT_OPTIONS, PRINT_DENSITIES, PRINT_ORIENTATIONS,
-  normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale,
+  normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale, sheetsFor,
 } from '../../data/rosterPrintOptions.js'
 
 const STORE_KEY = 'wh11ed-roster-print'
@@ -188,15 +201,12 @@ const detachments = computed(() => (roster.value?.detachments || [])
 
 // ── Paper, and how much of it ───────────────────────────────────────────────────────────────
 const page = computed(() => PAGE[settings.orientation] || PAGE.portrait)
+// The printable height of one sheet, in the same px the preview is laid out in.
+const contentH = computed(() => (page.value.h - MARGIN_MM * 2) * MM_PX)
 const paperStyle = computed(() => {
-  const contentH = (page.value.h - MARGIN_MM * 2) * MM_PX
   return {
     '--print-scale': printScale(settings),
     width: `${page.value.w - MARGIN_MM * 2}mm`,
-    // The page edges, drawn where the paper actually ends. A gradient rather than elements
-    // because the breaks belong to the paper, not to the document — nothing in the sheet has to
-    // know they exist.
-    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${contentH - 1}px, var(--border) ${contentH - 1}px, var(--border) ${contentH}px)`,
   }
 })
 
@@ -235,7 +245,7 @@ function paginate() {
   for (const el of all) el.style.removeProperty('--page-push')
   const atoms = root.querySelector('.rps-cards.two-up') ? [] : all
   const scale = paperScale()
-  const pageH = (page.value.h - MARGIN_MM * 2) * MM_PX
+  const pageH = contentH.value
   const top0 = root.getBoundingClientRect().top
   let shift = 0
   for (const el of atoms) {
@@ -253,9 +263,8 @@ function paginate() {
 
 function measure() {
   paginate()
-  const contentH = (page.value.h - MARGIN_MM * 2) * MM_PX
   const h = (docEl.value?.getBoundingClientRect().height || 0) / paperScale()
-  pageCount.value = Math.max(1, Math.ceil(h / contentH - 0.02))
+  pageCount.value = sheetsFor(h, contentH.value)
 }
 // Every setting changes the length, and the length is the number the panel promises. Measured
 // after the DOM settles, and again on resize because the paper is in millimetres but the browser
@@ -341,7 +350,33 @@ function print() { window.print() }
   }
 }
 
+/* The sheet edges. `position: absolute` inside the paper, over the content and inert to the
+   pointer; gone in print, where the printer cuts the pages for real. */
+.rpv-breaks { position: absolute; inset: 0; pointer-events: none; }
+.rpv-break {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed color-mix(in srgb, #c0392b 60%, transparent);
+}
+.rpv-break-label {
+  position: absolute;
+  right: 0;
+  top: 0.15rem;
+  padding: 0 0.25rem;
+  background: #fff;
+  color: #c0392b;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+@media print {
+  .rpv-breaks { display: none; }
+}
+
 .rpv-paper {
+  position: relative;
   /* White in both themes, because that is what it is: paper. The document inside it is drawn
      with the app's own tokens, so they are pinned to their light values here — a card printed in
      dark-theme colours is a card nobody can read on a sheet. */
