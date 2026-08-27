@@ -177,6 +177,26 @@ describe('DatasheetCard — weapon row markup the phone layout depends on', () =
     const w = mount(DatasheetCard, { props: { sheet } })
     expect(w.findAll('.ds-weapons')[1].find('.wtags').exists()).toBe(false)
   })
+
+  it('prints the roster overlay\'s weapon count beside the name, inside the name element', () => {
+    // `qty` reaches the card only on a sheet the roster overlay has been through
+    // (src/composables/rosterModifiers.js) — the printed datasheet says how many in its loadout
+    // sentence, which the roster card hides. It belongs INSIDE .wname-text: on a phone that
+    // element is the whole first line of the weapon's card, and a sibling would wrap to its own.
+    const w = mount(DatasheetCard, { props: { sheet: { ...sheet, ranged: [{ ...sheet.ranged[0], qty: 2 }] } } })
+    const name = w.find('.ds-weapons tbody td.wname .wname-text')
+    expect(name.find('.wqty').text()).toBe('×2')
+    expect(name.text()).toBe('Gauss cannon×2')
+  })
+
+  it('says nothing when the entry fields exactly one of the weapon', () => {
+    // A ×1 badge on every single-weapon row would be noise on every card in the app; the count
+    // only ever appears where it tells the reader something the row does not already say.
+    for (const qty of [undefined, 1, null]) {
+      const w = mount(DatasheetCard, { props: { sheet: { ...sheet, ranged: [{ ...sheet.ranged[0], qty }] } } })
+      expect(w.find('.wqty').exists(), `qty=${qty}`).toBe(false)
+    }
+  })
 })
 
 describe('DatasheetCard modifier notes', () => {

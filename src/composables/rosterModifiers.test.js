@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { overlaySheet, loadoutItemIds, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
 const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 5: 'Power weapon', 6: 'Plasma pistol' }
@@ -55,6 +55,43 @@ describe('loadoutItemIds', () => {
     const ids = loadoutItemIds(conditional, { size: 0, wg: [[0, 0, 1], [1, 0, 1]] })
     expect(ids).toContain(4) // chainsword not swapped away — the inert group subtracts nothing
     expect(ids).not.toContain(5) // …and adds nothing
+  })
+})
+
+describe('loadoutItemCounts', () => {
+  it('multiplies a per-model quantity by the models that still hold it', () => {
+    expect(loadoutItemCounts(squad, { size: 0 }).get(1)).toBe(5) // 5 boltguns in a 5-model squad
+    expect(loadoutItemCounts(squad, { size: 0, wg: [[0, 0, 2]] }).get(1)).toBe(3) // 2 traded away
+    expect(loadoutItemCounts(squad, { size: 0, wg: [[0, 0, 2]] }).get(3)).toBe(2) // …for meltaguns
+  })
+
+  it('adds up an item two sources hand the same entry', () => {
+    // The Defiler shape: two independent hardpoint groups offering the same weapon, both taken.
+    const twin = {
+      id: 'twin', sizes: [{ pts: 10, per: [1, 1] }],
+      defaults: [[0, [[2, 1], [4, 1]]]],
+      gear: [
+        { m: 0, t: 1, in: 'checkbox', o: [[5, 0]], rep: [2] },
+        { m: 0, t: 2, in: 'checkbox', o: [[5, 0]], rep: [4] },
+      ],
+    }
+    expect(loadoutItemCounts(twin, { size: 0, wg: [[0, 0, 1], [1, 0, 1]] }).get(5)).toBe(2)
+  })
+
+  it('counts a bundled option once per pick, per item in the bundle', () => {
+    const bundled = { ...squad, gear: [{ m: 0, t: 3, in: 'checkbox', o: [[[[5, 2], [6, 1]]]], rep: [4] }] }
+    const counts = loadoutItemCounts(bundled, { size: 0, wg: [[0, 0, 1]] })
+    expect(counts.get(5)).toBe(2)
+    expect(counts.get(6)).toBe(1)
+  })
+
+  it('says nothing rather than guessing when the model count is unknown', () => {
+    // A multi-miniature datasheet with no resolvable per-profile count: the item is fielded,
+    // its quantity is not knowable, and `null` is how that is said.
+    const multi = { ...squad, minis: [{ n: 'Sergeant' }, { n: 'Trooper' }] }
+    const counts = loadoutItemCounts(multi, { size: 0 })
+    expect(counts.has(1)).toBe(true)
+    expect(counts.get(1)).toBeNull()
   })
 })
 
@@ -127,6 +164,29 @@ describe('overlaySheet — weapon filtering', () => {
     const multi = { ...squad, minis: [{ n: 'Sergeant' }, { n: 'Trooper' }] }
     const { sheet: out } = run({ size: 0, wg: [[1, 0, 1]] }, multi)
     expect(names(out.melee)).toEqual(['Chainsword', 'Power weapon', 'Sanctified blade'])
+  })
+
+  it('stamps how many of a weapon the entry fields, and only when it is more than one', () => {
+    const { sheet: out } = run({ size: 0 })
+    const qty = Object.fromEntries(out.ranged.map((w) => [w.name, w.qty]))
+    expect(qty['Boltgun']).toBe(5) // one each, five models
+    expect(out.melee.find((w) => w.name === 'Chainsword').qty).toBe(5)
+    // A single weapon carries no badge at all, and neither does a row no item claims.
+    expect(qty['Plasma pistol – standard']).toBeUndefined()
+  })
+
+  it('follows the count down as models trade the weapon away', () => {
+    const { sheet: out } = run({ size: 0, wg: [[0, 0, 2]] })
+    expect(out.ranged.find((w) => w.name === 'Boltgun').qty).toBe(3)
+    expect(out.ranged.find((w) => w.name === 'Meltagun').qty).toBe(2)
+  })
+
+  it('leaves the printed sheet identical when there is no count and no trim', () => {
+    // One model, one of everything: nothing to hide and nothing worth stamping, so the card must
+    // get the very object it was given — the identity the modifier layer relies on downstream.
+    const solo = { id: 'solo', sizes: [{ pts: 10, per: [1, 1] }], defaults: [[0, [[1, 1]]]] }
+    const soloSheet = { name: 'Solo', ranged: [{ name: 'Boltgun' }] }
+    expect(overlaySheet(soloSheet, { def: solo, entry: { size: 0 }, items }).sheet).toBe(soloSheet)
   })
 
   it('drops an emptied table instead of leaving a headed, rowless one', () => {

@@ -1399,7 +1399,21 @@ at all → the printed sheet with every option, exactly the pre-overlay behaviou
 Tier A does four things:
 
 1. **Trims the weapon tables** to the entry's actual loadout (2000 of 5038 rows across all
-   factions disappear from a freshly-added unit's card).
+   factions disappear from a freshly-added unit's card) **and stamps how many of each weapon the
+   entry fields** — `qty` on the row, rendered by `DatasheetCard` as a muted `×N` after the name
+   (850 rows on 431 units at the default loadout). One pass for both, because it is one question:
+   which item is this row, and how many of it does the unit hold.
+   The count is the UNIT's, not one model's — per-model isn't even well defined on a
+   multi-miniature datasheet, where a Sister Superior and her nine Sisters hold the same boltgun
+   as two separate `defaults` rows. The unit total is defined for every shape, moves with the
+   unit's size, and is what the reader is about to roll.
+   It is matched BY NAME like the trim, so it leans on a name meaning one weapon inside one unit.
+   That holds today and is asserted in two places — `src/data/roster/index.test.js` (no unit def
+   interns a wargear name to two item ids) and `src/data/datasheets/index.test.js` (no datasheet
+   lists a weapon name twice). appdata does publish 316 names with more than one profile set (an
+   Ork Boy's Choppa against a Nob's), but never twice on the same datasheet; those tests are the
+   tripwire for the release where that stops being true. An unknown count says nothing at all —
+   `null` rather than a guess, the same asymmetry the trim itself uses.
 2. **Resolves rule-granted keywords** — the existing `conditionalKeywords.json` sidecar, gated on
    the ROSTER's detachments instead of `useFactionChoice`, handed to `DatasheetCard`'s existing
    `grantedKeywords` prop. Detachment names are matched to sidecar ids by

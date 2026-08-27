@@ -541,6 +541,33 @@ describe('unit composition', () => {
   })
 })
 
+describe('wargear names are unambiguous within a unit', () => {
+  // The roster card stamps a weapon row with HOW MANY of it the entry fields (rosterModifiers'
+  // loadoutItemCounts). A row is matched to wargear items BY NAME, so that number is only honest
+  // while one name means one weapon inside one unit: two same-named items with different profiles
+  // would be summed into a single count and printed as though they were one weapon.
+  //
+  // appdata does publish 316 names carrying more than one profile set (an Ork Boy's Choppa against
+  // a Nob's, a 2+ Storm Bolter against a 3+ one), but never twice inside the same datasheet — so
+  // today the sum is always one weapon's. This is the tripwire for the release where that changes.
+  it('never interns one wargear name to two item ids in the same unit', () => {
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        const byName = new Map()
+        const add = (id) => {
+          const n = rosterItems.items[id]
+          if (!n) return
+          if (!byName.has(n)) byName.set(n, new Set())
+          byName.get(n).add(id)
+        }
+        for (const [, list] of u.defaults || []) for (const [id] of list) add(id)
+        for (const g of u.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) add(id)
+        for (const [n, ids] of byName) expect([...ids], `${slug}/${u.id} "${n}"`).toHaveLength(1)
+      }
+    }
+  })
+})
+
 describe('detachment tags', () => {
   // `unique` bars a second detachment carrying the same tag (core rules 25.04). It reaches the
   // roster layer from the hand-written faction data, cross-checked against mfm and appdata's
