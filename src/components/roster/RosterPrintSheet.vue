@@ -122,7 +122,11 @@
       </table>
     </section>
 
-    <section v-if="opts.unitCards && cardEntries.length" class="rps-block rps-cards">
+    <section
+      v-if="opts.unitCards && cardEntries.length"
+      class="rps-block rps-cards"
+      :class="{ 'two-up': opts.cardsTwoUp }"
+    >
       <h2 class="rps-h">{{ labels.printSectionCards }}</h2>
       <RosterPrintUnitCard
         v-for="c in cardEntries"
@@ -407,9 +411,13 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 .rps-prose :deep(p) { margin: 0 0 calc(0.25rem * var(--print-scale, 1)); }
 .rps-prose :deep(ul) { margin: 0 0 calc(0.25rem * var(--print-scale, 1)); padding-left: 1em; }
 
-/* The cards are their own width: a datasheet is a grid of tables and does not survive being cut
-   in half by a column. */
+/* One card per row, or two. A datasheet is a grid of tables and used to have no business in a
+   column — it read the WINDOW to decide how to draw itself, so in a 92mm column on a desktop it
+   would have laid itself out for a 1200px screen and been cut off. It reads its own box now
+   (DatasheetCard's `.ds-shell`), so in half a page it draws itself the way it does on a phone,
+   which is the layout that half a page wants. A card still never splits across a column. */
 .rps-cards { columns: 1; }
+.rps-cards.two-up { columns: 2; column-gap: calc(1rem * var(--print-scale, 1)); }
 
 /* DatasheetCard escapes to the full VIEWPORT width below 480px (`width: 100vw; margin-left:
    calc(50% - 50vw)`) so that on a phone it reads as a full-bleed section rather than a card in a

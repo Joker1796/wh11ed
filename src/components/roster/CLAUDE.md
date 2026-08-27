@@ -2526,6 +2526,21 @@ document against the printable height of the chosen page, so ticking a box moves
 **Not in `STATIC_ROUTES` and not in the sitemap** — it is a private route like `/tracker/game`;
 `gen-seo-routes.mjs` must not learn about it.
 
+**Two cards to a row** is a column count on the cards section and nothing else — possible only
+because `DatasheetCard` measures its own box (`.ds-shell`, `container: dscard / inline-size`)
+rather than the window. Until 2026-08-27 its three responsive tiers were `@media` queries, which
+meant a card in a 92mm column on a desktop laid itself out for a 1200px screen (and a phone
+previewing a print sheet drew a 733px page as if it were 390px wide). The tiers keep their
+numbers; they just measure the right thing. The one visible edge of the change: between about 481
+and 496px of viewport the card bleeds to the screen edge while the name plate above it (a
+different component, still `@media`) does not.
+
+**Where the preview breaks pages** is computed, not decorative: a printer moves a whole
+`break-inside: avoid` block to the next sheet, so `paginate()` in the view does the same with a
+`--page-push` the paper honours ON SCREEN ONLY — a margin baked in on paper would open a second
+gap under the printer's own break. With cards in two columns that estimate is off (a margin
+pushes down the column, not onto the next sheet), so there the cards section is left whole.
+
 **The card is resolved by `useRosterUnitCard`** (`src/composables/rosterUnitCard.js`), the same
 composable `RosterUnitRulesModal` reads, extracted for exactly this reason: the Save a player reads
 off paper and the one their phone shows must be the same number by construction. The faction bundle

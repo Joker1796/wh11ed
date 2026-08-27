@@ -139,6 +139,17 @@ describe('DatasheetCard leader/attached-unit list', () => {
 // from `data-label` since the shared `thead` is hidden. None of that is testable in jsdom, but
 // the markup contract it depends on is, and losing any part of it would silently flatten the
 // layout back to an unlabelled column of numbers.
+// The card is drawn in four places whose width has nothing to do with the window — a faction
+// page, a modal, a Combat Patrol page, a sheet of A4 that may hold two of them — so its own
+// responsive tiers are container queries. A container cannot query itself, which is why the
+// wrapper exists; losing it would silently freeze every tier at its widest.
+describe('the shell that gets measured', () => {
+  it('wraps the card', () => {
+    const w = mount(DatasheetCard, { props: { sheet: { name: 'Chosen', keywords: [], factionKeywords: [] } } })
+    expect(w.find('.ds-shell > .ds-card').exists()).toBe(true)
+  })
+})
+
 describe('DatasheetCard — weapon row markup the phone layout depends on', () => {
   const sheet = {
     name: 'Annihilation Barge',
