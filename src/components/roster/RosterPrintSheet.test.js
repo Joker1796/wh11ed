@@ -61,6 +61,20 @@ describe('the header and the list', () => {
     expect(sheet(resolve()).find('.rps-head').text()).toContain(ui.en.printDataVersion)
   })
 
+  // The list is the ARMY, not reference — so it is the one section a cheat sheet may not want,
+  // and the header (whose list, which detachment, how many points) stays either way.
+  it('can be left out, and the header stays', () => {
+    const w = sheet(resolve({ rosterList: false }))
+    expect(w.find('.rps-list').exists()).toBe(false)
+    expect(w.find('.rps-head').text()).toContain('Cursed list')
+  })
+
+  // With the cards printed, every loadout is on a card a few pages later.
+  it('drops the wargear column when the cards carry the loadout', () => {
+    expect(sheet(resolve()).find('.c-gear').exists()).toBe(true)
+    expect(sheet(resolve({}, 'full')).find('.c-gear').exists()).toBe(false)
+  })
+
   it('prints a row per unit, with its price', () => {
     const rows = sheet(resolve()).findAll('.rps-list .rps-row')
     expect(rows).toHaveLength(1)

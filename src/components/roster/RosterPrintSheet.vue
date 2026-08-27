@@ -26,20 +26,22 @@
     </header>
 
     <!-- The list. One table, full width: the numbers stand in columns where the eye finds them,
-         and the wargear takes whatever is left. -->
-    <section class="rps-block rps-list">
+         and the wargear takes whatever is left — unless the cards are being printed too, in which
+         case each unit's loadout is on its own card a few pages later, and printing it twice only
+         makes this table wider for no one. -->
+    <section v-if="opts.rosterList" class="rps-block rps-list">
       <table class="rps-table">
         <thead>
           <tr>
             <th class="c-name">{{ labels.printColUnit }}</th>
-            <th class="c-gear">{{ labels.printColWargear }}</th>
+            <th v-if="showGear" class="c-gear">{{ labels.printColWargear }}</th>
             <th v-if="opts.points" class="c-pts">{{ labels.printColPoints }}</th>
           </tr>
         </thead>
         <tbody>
           <template v-for="g in groups" :key="g.id">
             <tr v-if="g.entries.length" class="rps-group">
-              <th :colspan="opts.points ? 3 : 2">
+              <th :colspan="1 + (showGear ? 1 : 0) + (opts.points ? 1 : 0)">
                 {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
               </th>
             </tr>
@@ -48,7 +50,7 @@
                 <span class="rps-unit">{{ defOf(e.id)?.name || e.id }}</span>
                 <span v-for="(tag, i) in tagsOf(e)" :key="i" class="rps-tag">{{ tag }}</span>
               </td>
-              <td class="c-gear">{{ gearOf(e).join(' · ') }}</td>
+              <td v-if="showGear" class="c-gear">{{ gearOf(e).join(' · ') }}</td>
               <td v-if="opts.points" class="c-pts">{{ pointsOf(e) }}</td>
             </tr>
           </template>
@@ -168,6 +170,9 @@ const props = defineProps({
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// The wargear column earns its width only when nothing else is carrying the loadout.
+const showGear = computed(() => !props.opts.unitCards)
 
 const unitMap = computed(() => {
   const m = new Map()
