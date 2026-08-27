@@ -994,13 +994,21 @@ function abilityStateLabel(st) {
    .wname's 10rem floor plus nowrap on every other cell forces horizontal scroll well
    before this. */
 @media (max-width: 480px) {
+  /* Tighter than the desktop card in every direction. Height is the expensive axis on a phone:
+     the same card that reads as generously spaced on a laptop arrives as a column of half-empty
+     bands, and the reader is scrolling past air to reach the abilities. Every value here was
+     simply the desktop one until 2026-08-27. */
   .ds-card {
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    padding: 0.9rem 0.4rem 0.6rem;
+    padding: 0.7rem 0.4rem 0.5rem;
   }
-  .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
-  .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
+  .ds-cardhead { margin: -0.7rem -0.4rem 0.5rem; padding: 0.6rem 0.4rem 0.5rem; }
+  .ds-points { margin: 0.6rem -0.4rem -0.5rem; padding: 0.45rem 0.4rem 0.6rem; }
+  .ds-statline { margin-bottom: 0.45rem; }
+  /* The gap AFTER the last weapons table (the `:has` rules that tighten the others are more
+     specific and keep winning). */
+  .ds-weapons { margin-bottom: 0.45rem; }
 
   /* Bleed the weapon table to the card's edges too, same as .ds-cardhead/.ds-points above —
      the gutter comes from the cells' own padding, not from staying inset. */
@@ -1015,6 +1023,12 @@ function abilityStateLabel(st) {
   .ds-points td {
     padding: 0.2rem 0.3rem;
   }
+  /* The rest of the card's rhythm, same reasoning: the section heading sits closer to what it
+     heads, the keyword footer closer to the block above it, and the modifier footnotes closer to
+     the table they annotate. */
+  .ds-group-title { margin: 0.5rem 0 0.2rem; }
+  .ds-keywords { margin-top: 0.5rem; padding-top: 0.4rem; }
+  .ds-mods { margin-bottom: 0.6rem; padding-bottom: 0.5rem; }
 }
 
 /* Phones and narrow windows (≤560px): the table STAYS a table, tightened until it fits.
@@ -1026,10 +1040,11 @@ function abilityStateLabel(st) {
    six stat columns leave and wraps inside it, and the ability tags moved off the name's line
    onto their own beneath it. Nothing is hidden and nothing scrolls sideways.
 
-   The floor is ~380px (see the block below), and it is the tags that set it: `.keyword` is
-   `white-space: nowrap`, so `[DEVASTATING WOUNDS]` is a ~130px word the name column cannot go
-   under. Above that floor the six columns and that word both fit; below it something has to
-   give, and there the stacked layout takes over. */
+   The floor used to be ~380px, and it was the tags that set it: `.keyword` is `white-space:
+   nowrap` everywhere else, so `[DEVASTATING WOUNDS]` was a ~130px word the name column could not
+   go under. Now that a tag may break (above), the floor is ~340px — the six stat columns plus a
+   readable name — and every phone in circulation keeps the table. Below it the stacked layout
+   still takes over. */
 @media (max-width: 560px) {
   .ds-weapons table { font-size: 0.74rem; }
   .ds-weapons th {
@@ -1038,9 +1053,18 @@ function abilityStateLabel(st) {
     letter-spacing: 0.3px;
   }
   .ds-weapons td { padding: 0.3rem 0.15rem; }
-  /* The name takes what is left, not a fixed 10rem — and wraps inside it. */
+  /* The name takes a SHARE of the row, not everything that is left. `width: 99%` (what this
+     was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
+     against the right edge, so a row reading "Bolt pistol ×9" spent about 40% of its width on
+     nothing — the void a reader has to cross to get from the name to the numbers, and the first
+     thing anyone comparing this card to the GW app points at. At 45% the slack goes to the stat
+     columns instead and they spread across their half.
+
+     The cost, stated plainly: the ability tags live in this cell, so they now have ~45% of the
+     row to wrap in, and a weapon carrying three of them takes a second line. That is why the
+     keyword pills below are allowed to break. */
   .ds-weapons .wname {
-    width: 99%;
+    width: 45%;
     min-width: 0;
     padding-left: 0.35rem;
   }
@@ -1049,7 +1073,10 @@ function abilityStateLabel(st) {
      stat columns off the screen. */
   .wtags { display: block; margin: 0.15rem 0 0; }
   .wtag { font-size: 0.6rem; }
-  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; }
+  /* A keyword is `white-space: nowrap` everywhere else, and that is right in prose. Here it made
+     `[DEVASTATING WOUNDS]` a ~130px word no column could go under — which is what set the floor
+     where the table gives up and stacks (see the block below). Inside a tag it may break. */
+  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; white-space: normal; }
   .wqty { font-size: 0.7rem; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
@@ -1062,14 +1089,15 @@ function abilityStateLabel(st) {
    `td::before { content: attr(data-label) }`, since the shared `thead` is gone.
 
    Placed after the compact-table block above so it wins at equal specificity where the two
-   disagree. 380 rather than the 560 this used to be: a 390-430px phone (every current iPhone,
-   most Androids) reads the table comfortably, and 320/360/375 are the ones that cannot.
+   disagree. 340 rather than the 560 this started as, and than the 380 it was until the tags were
+   allowed to break: a 360-430px phone (every current iPhone, most Androids, and the small ones
+   too) reads the table, and only a 320px screen has to give it up.
 
    The `thead` is not hidden outright: its FIRST cell is the "Ranged Weapons"/"Melee Weapons"
    caption, which is the only thing telling the two blocks apart once they are stacked cards, so
    it survives as a section label above the group while the six stat headers go. Reusing that
    cell keeps one source for the text (and its translation) instead of adding a second one. */
-@media (max-width: 380px) {
+@media (max-width: 340px) {
   /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
   .ds-weapons table { font-size: 0.82rem; }
   .wtag { font-size: 0.72rem; }
@@ -1081,7 +1109,7 @@ function abilityStateLabel(st) {
   .ds-weapons { margin-left: 0; margin-right: 0; }
   /* A real gap between the ranged block and the melee block — they are two labelled sections
      now, not two halves of one table (the base rule tightens them to 0.05rem). */
-  .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.8rem; }
+  .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.6rem; }
 
   .ds-weapons table,
   .ds-weapons thead,
@@ -1103,9 +1131,9 @@ function abilityStateLabel(st) {
   .ds-weapons tbody tr {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 0.1rem 0.2rem;
-    margin-bottom: 0.35rem;
-    padding: 0.5rem 0.55rem 0.55rem;
+    gap: 0.05rem 0.2rem;
+    margin-bottom: 0.25rem;
+    padding: 0.35rem 0.4rem 0.4rem;
     border: 1px solid var(--border);
     background: color-mix(in srgb, var(--text-primary) 3%, transparent);
   }
@@ -1124,15 +1152,15 @@ function abilityStateLabel(st) {
     grid-column: 1 / -1;
     text-align: left;
     font-weight: 600;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
   }
   .ds-weapons .wtags {
     grid-column: 1 / -1;
     order: 1;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem;
-    margin: 0.3rem 0 0;
+    gap: 0.25rem;
+    margin: 0.2rem 0 0;
   }
   .ds-weapons td[data-label]::before {
     content: attr(data-label);
@@ -1371,6 +1399,8 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
    against the card border now, not floating mid-card. */
 @media (max-width: 480px) {
   .ds-ability-group {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
     margin-left: -0.4rem;
     margin-right: -0.4rem;
   }
