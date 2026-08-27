@@ -418,6 +418,10 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
    which is the layout that half a page wants. A card still never splits across a column. */
 .rps-cards { columns: 1; }
 .rps-cards.two-up { columns: 2; column-gap: calc(1rem * var(--print-scale, 1)); }
+/* The section's own heading belongs to the section, not to its first column — left in the flow it
+   takes the top of column one and pushes the first card below the top of column two, so the two
+   columns start at different heights for no reason a reader could name. */
+.rps-cards.two-up > .rps-h { column-span: all; }
 
 /* DatasheetCard escapes to the full VIEWPORT width below 480px (`width: 100vw; margin-left:
    calc(50% - 50vw)`) so that on a phone it reads as a full-bleed section rather than a card in a
