@@ -95,9 +95,17 @@
       max-width="640px"
       @close="$emit('toggle', openUid)"
     >
-      <FactionAccentScope :faction-slug="slugOf(openEntry.id)">
-        <div class="modal-body rul-sheet"><slot name="fields" :entry="openEntry" /></div>
-      </FactionAccentScope>
+      <!-- The scrolling element must be BaseModal's own child: `.modal` is a flex column with a
+           max-height and `overflow: hidden`, and only a flex item that is itself a scroll
+           container may shrink below its content. With the accent wrapper on the outside, that
+           item was a plain div — it kept its full content height, the modal clipped it, and on a
+           phone (the only width that opens this sheet) everything below the fold was simply
+           unreachable. Accent inside, body outside. -->
+      <div class="modal-body rul-sheet">
+        <FactionAccentScope :faction-slug="slugOf(openEntry.id)">
+          <slot name="fields" :entry="openEntry" />
+        </FactionAccentScope>
+      </div>
     </BaseModal>
   </div>
 </template>

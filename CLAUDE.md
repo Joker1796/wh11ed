@@ -406,6 +406,12 @@ Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/
 - **Prefer the `title` prop over the `#header` slot.** BaseModal's own header is exactly heading
   + close, already wired to `aria-labelledby`. Use the slot only for a header carrying more than
   that (a subtitle, a VP counter, extra buttons).
+- **`.modal-body` must be the direct child of the slot.** `.modal` is a capped flex column with
+  `overflow: hidden`, so only a flex item that is itself a scroll container may shrink below its
+  content. Wrapping the body in anything (`FactionAccentScope` did this until 2026-08-27) leaves a
+  wrapper at full content height, and the dialog clips instead of scrolling — invisible on a
+  desktop where the content fits, and on a phone it means half a unit's wargear is unreachable.
+  Put the wrapper INSIDE the body.
 - **`.modal-body` is per-dialog** and deliberately NOT part of the chrome: twelve dialogs, twelve
   paddings, no majority. Only its shared scroll behaviour (`overscroll-behavior: contain`) is
   global. A new dialog has to set its own padding — nothing will do it for you.
