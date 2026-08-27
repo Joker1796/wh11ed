@@ -886,6 +886,43 @@ describe('an allowance the instruction states without naming a number', () => {
       expect(wargearGroupCap({ gear }, {}, gi)).toEqual({ limit: 2, dup: 1 })
     }
   })
+
+  // "For every 5 models in this unit, up to 2 Paladins can each have their storm bolter replaced
+  // with one of the following" — a step table, not one number, which is why the flat reader
+  // refuses it and the generator reads it into `lim`'s own shape.
+  it('reads "for every N models, up to M" as one row per threshold', () => {
+    const gear = gearOf('grey-knights', 'paladin-squad')
+    const gi = gear.findIndex((g) => /for every 5 models/i.test(headOf(g)))
+    expect(gear[gi].lim).toEqual([[5, 2], [10, 4]])
+    expect(wargearGroupCap({ gear, sizes: [{ per: [5, 5] }] }, { count: 5 }, gi)).toEqual({ limit: 2, dup: 0 })
+    expect(wargearGroupCap({ gear, sizes: [{ per: [10, 10] }] }, { count: 10 }, gi)).toEqual({ limit: 4, dup: 0 })
+  })
+})
+
+// THE GUARDRAIL for the rule above. A group whose instruction states its allowance and carries no
+// `lim` falls through to the editor, which reads only the "for every 5" half of the sentence and
+// applies it to each option separately — so a wording change in appdata, or a regression in the
+// generator, would quietly hand a squad a different number of special weapons. 15 groups were in
+// exactly that state until 2026-08-27.
+//
+// A bare "For every 5 models in this unit:" over a bullet list is deliberately NOT one of these
+// (hence the comma in the pattern, which is the generator's own): its bullets are separate
+// allowances, one per weapon named, and a single shared table would cap the pair at what one of
+// them is worth. Two groups are in that shape — Red Corsairs Raiders and Wracks.
+describe('every scaled allowance the corpus states is in the data', () => {
+  it('leaves no "for every N models, up to M" group uncapped', () => {
+    const uncapped = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const g of u.gear || []) {
+          const head = (rosterItems.texts[g.t] || '').split('\n')[0]
+          if (!/for every (\d+) models? in (?:this|the) unit,\s*(?:up to )?(\d+|one|two|three|four|five)\b/i.test(head)) continue
+          if (!g.lim?.length) uncapped.push(`${slug}/${u.id}: ${head.slice(0, 80)}`)
+        }
+      }
+    }
+    expect(uncapped).toEqual([])
+  })
 })
 
 // A swap that hands over two items at once is one option, and the generator reads the pairing out

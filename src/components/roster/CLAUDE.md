@@ -1287,6 +1287,30 @@ several models becomes per-option steppers sharing one budget (`stepMax` = remai
 never more than the duplicate cap), whatever appdata calls it — "Up to 2 Vigilants can each…"
 was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle.
 
+**A "for every N models, up to M" instruction is a step table, and the generator reads it as one**
+(`SCALED_ALLOWANCE`, 2026-08-27). `proseAllowance` refuses the scaled forms on purpose — they are
+not one number — and where appdata records the limited-choice set behind them that refusal is
+right: 108 of the 123 groups whose instruction reads this way already carry appdata's own rows, and
+only 3 disagree (all reported, appdata's kept). The other **15 carried nothing**, and fell through
+to the EDITOR's own fallback, which reads only the "for every 5" half of the sentence and applies it
+to each option separately — Grey Knights' "up to 2 Paladins" allowed 2 of *each* option at 10 models
+where the datasheet allows 4 for the group. Read into `lim`'s own shape now, one row per threshold
+the unit's largest bracket can reach (`[[5,2],[10,4]]`).
+
+The comma in the pattern is load-bearing: a bare **"For every 5 models in this unit:" over a bullet
+list** is NOT this. Its bullets are separate allowances, one per weapon named — a Red Corsairs
+Raider squad swaps 1 boltgun AND 1 reaver's blade per 5 models — so a single shared table would cap
+the pair at what one of them is worth. Two groups are in that shape (Red Corsairs Raiders, Wracks)
+and they are the only ones still reaching `stepMax`'s own "for every N" line, where per option is
+the right reading.
+
+**The guardrail is a test, not the generator** (`index.test.js`, "every scaled allowance the corpus
+states is in the data"): a group whose instruction states this allowance and carries no `lim` fails
+the suite by name. A reworded instruction in a future appdata drop, or a regression in the parse,
+would otherwise silently hand a squad a different number of special weapons — the generator would
+report `+0 from its step form` and nobody would read the line. `--check` (part of `npm run sync`)
+covers the other half: the committed data always matches what the generator would write today.
+
 **An UNCAPPED group's budget is shared by its options too** (2026-08-27). `stepMax` subtracted a
 group's other rows only where a structural `lim` said what the budget was; where the ceiling came
 from the model count instead, every row was handed the whole thing — so a Leman Russ could take all

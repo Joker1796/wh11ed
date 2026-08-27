@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1007,6 +1007,10 @@ function coversOneToOne(choices, opts) {
 // models") is left to the step table, which expresses those properly; this only reads the flat
 // "up to 2 Dominions…" / "1 model's boltgun…" forms, which is where a wrong match would show up.
 const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 }
+// The scaled form proseAllowance refuses, read into `lim`'s own step-table shape further down.
+// The comma is load-bearing: "For every 5 models in this unit:" followed by bullets is a list of
+// SEPARATE allowances, not one shared number.
+const SCALED_ALLOWANCE = /for every (\d+) models? in (?:this|the) unit,\s*(?:up to )?(\d+|one|two|three|four|five)\b/i
 function proseAllowance(text, optCount = 0) {
   const t = text.split('\n')[0]
   if (/\bfor every \d+\b|\bif this unit contains\b|\bany number of\b/i.test(t)) return null
@@ -1715,6 +1719,44 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     d.lim = [dup ? [0, said, dup] : [0, said]]
     report.limit.fromProse++
   }
+  // …and the SCALED form, which proseAllowance refuses because it is not one number: "For every 5
+  // models in this unit, up to 2 models can each have their boltgun replaced with…" is a step
+  // table, which is exactly what `lim` already is — one row per threshold the unit can reach.
+  // Where appdata records the set this is the table it gives, and the two agree: of the 123 groups
+  // whose instruction reads this way, 108 already carry appdata's own rows and only 4 disagree at
+  // all (see the drift list). The 15 that don't were falling through to the EDITOR, which read
+  // only the "for every 5" half of the sentence and applied it per option — so Grey Knights'
+  // "up to 2 Paladins" allowed 2 of each option at 10 models where the datasheet allows 4 for the
+  // group.
+  //
+  // A bare "For every 5 models in this unit:" over a bullet list is deliberately NOT read (the
+  // comma is required): its bullets are separate allowances, one per weapon named — a Red Corsairs
+  // Raider squad may swap 1 boltgun AND 1 reaver's blade per 5 models — and a single shared table
+  // would cap the pair at what one of them is worth.
+  for (const d of drafts) {
+    const m = SCALED_ALLOWANCE.exec(d.text.split('\n')[0])
+    if (!m) continue
+    const per = Number(m[1])
+    const many = WORD_NUM[m[2].toLowerCase()] || Number(m[2])
+    const maxModels = Math.max(0, ...(unit.sizes || []).map((x) => x.per?.[1] || 0))
+    const rows = []
+    for (let k = 1; per && k * per <= maxModels; k++) rows.push([k * per, k * many])
+    if (!rows.length) continue
+    // appdata's own table wins wherever it has one — this is a reading of the prose, and the prose
+    // is what the table is FOR. Where both exist they are compared instead, so a future appdata
+    // change that contradicts the sentence it was written from is reported rather than swallowed.
+    if (d.lim) {
+      const mine = rows[rows.length - 1][1]
+      const theirs = d.lim[d.lim.length - 1][1]
+      if (mine !== theirs || rows.length !== d.lim.length) {
+        report.limit.scaledDrift.push(`${bd.name}: prose ${JSON.stringify(rows)} vs appdata ${JSON.stringify(d.lim)} — ${d.text.split('\n')[0].slice(0, 70)}`)
+      }
+      continue
+    }
+    const dup = proseNoDuplicates(d.text) ? 1 : 0
+    d.lim = dup ? rows.map(([n, c]) => [n, c, dup]) : rows
+    report.limit.fromProseScaled++
+  }
   // A swap a model may make ONCE PER COPY of the weapon it gives up: "Each of this model's
   // shuriken catapults can be replaced with 1 flamer" (a Wraithlord carries two), "Any number of
   // this model's dark lances can each be replaced with 1 disintegrator cannon" (a Ravager carries
@@ -2310,10 +2352,16 @@ if (report.defaultsMerged.length) {
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
-console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set, ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set (+${lm.fromProseScaled} from its "for every N models, up to M" step form), ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
   for (const c of lm.conflict) console.log(`    - ${c}`)
+}
+// appdata's table kept, ours discarded — but named, because a step form we read differently from
+// the table written off the same sentence is how a future data drop would quietly change a cap.
+if (lm.scaledDrift.length) {
+  console.log(`  kept appdata's table over the instruction's own step form (${lm.scaledDrift.length}):`)
+  for (const c of lm.scaledDrift) console.log(`    - ${c}`)
 }
 // Named, not just counted: each one is a group still emitting one item per option where the
 // prose describes a pair, so it's the list to read when a user reports a missing swap.
