@@ -17,7 +17,7 @@
   <BaseModal
     v-if="showFull"
     max-width="min(96vw, 900px)"
-    max-height="94vh"
+    max-height="94dvh"
     :z-index="410"
     @close="showFull = false"
   >
@@ -144,7 +144,7 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
 .layout-modal-body :deep(.layout-img-full) {
   display: block;
   max-width: 100%;
-  max-height: calc(94vh - 60px);
+  max-height: calc(94dvh - 60px);
   width: auto;
   height: auto;
 }
