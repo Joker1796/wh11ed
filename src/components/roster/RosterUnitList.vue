@@ -32,7 +32,7 @@
                  BESIDE it rather than inside — a button inside a button is invalid and doesn't
                  get its own click on every browser. In a narrow pane they are lifted out of the
                  row's line entirely (see .rul-acts below). -->
-            <div class="rul-headrow">
+            <div class="rul-headrow" :class="{ 'rul-one-act': dupBlocked(e) }">
               <button
                 type="button"
                 class="rul-row"
@@ -50,12 +50,16 @@
                 <i class="bi rul-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
               </button>
               <span class="rul-acts">
+                <!-- Absent, not greyed, at the duplicate cap. A dead control earns its place by
+                     saying why it is dead, and this one no longer has to: the same unit is in the
+                     catalogue pane beside this list with its own "+" greyed and its `N/limit`
+                     badge showing. That was two screens apart before the panes. -->
                 <button
+                  v-if="!dupBlocked(e)"
                   type="button"
                   class="rul-dup"
-                  :disabled="dupBlocked(e)"
                   :aria-label="labels.rosterDuplicate"
-                  :title="dupBlocked(e) ? labels.rosterAtDuplicateCap : labels.rosterDuplicate"
+                  :title="labels.rosterDuplicate"
                   @click="$emit('duplicate', e)"
                 >
                   <i class="bi bi-copy"></i>
@@ -188,6 +192,11 @@ if (mq) {
 
 .rul-headrow { position: relative; display: flex; align-items: stretch; gap: 0.25rem; }
 .rul-acts { display: flex; align-items: stretch; gap: 0.25rem; }
+/* How much room the row's own name has to leave for the buttons sitting over it in a narrow
+   pane — a custom property because the name is inside RosterUnitRow, and custom properties are
+   the one thing that crosses a scoped-style boundary without :deep(). */
+.rul-headrow { --rul-acts-w: 3.4rem; }
+.rul-headrow.rul-one-act { --rul-acts-w: 1.7rem; }
 .rul-row {
   flex: 1;
   min-width: 0;

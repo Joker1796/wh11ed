@@ -43,10 +43,15 @@ describe('RosterUnitList', () => {
     expect(w.emitted('remove')[0][0].uid).toBe('u1')
   })
 
-  it('greys the copy button the caller says is at its cap', () => {
+  // Not greyed: the catalogue pane beside this list already shows that unit's cap, on its own
+  // greyed "+" and its N/limit badge.
+  it('drops the copy button for a row the caller says is at its cap', () => {
     const w = mountList({ dupBlocked: (e) => e.uid === 'u1' })
-    expect(w.findAll('.rul-dup')[0].attributes('disabled')).toBeDefined()
-    expect(w.findAll('.rul-dup')[1].attributes('disabled')).toBeUndefined()
+    expect(w.findAll('.rul-dup')).toHaveLength(1)
+    expect(w.findAll('.rul-del')).toHaveLength(2) // deleting one is always on offer
+    // …and the name stops reserving room for a button that isn't there.
+    expect(w.findAll('.rul-headrow')[0].classes()).toContain('rul-one-act')
+    expect(w.findAll('.rul-headrow')[1].classes()).not.toContain('rul-one-act')
   })
 
   // A wide screen has room for the fields under the row they belong to.

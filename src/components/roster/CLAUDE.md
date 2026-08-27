@@ -1044,7 +1044,12 @@ is filled by the entry being copied). The copy lands directly after its original
 puts the copy tax on the row that just appeared rather than on the one that was there. The button
 stops at the duplicate cap with the same two helpers the catalogue's "+" uses
 (`duplicateCounts`/`duplicateLimit`) — otherwise the one control that adds a unit without going
-through the catalogue would be the one that ignores the cap.
+through the catalogue would be the one that ignores the cap. At the cap it is **absent, not
+greyed**: a dead control earns its place by saying why it is dead, and this one no longer has to,
+because the same unit is in the catalogue pane beside the list with its own "+" greyed and its
+`N/limit` badge showing. That argument only holds since the panes — the two were a screen apart
+before, which is when the general rule ("grey it with a reason rather than hiding it") was
+written.
 
 **Picking a size bracket fills it to the top** (`setSize` in `UnitEditorFields.vue`). The
 Munitorum prints ONE price for a whole bracket, so a 6-model unit in a "6-10 · 270pts" bracket
