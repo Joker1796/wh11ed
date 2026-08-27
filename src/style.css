@@ -163,14 +163,16 @@
 .fab-btn i {
   transition: transform var(--motion-fast);
 }
-.fab-btn:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-.fab-btn:hover i {
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .fab-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .fab-btn:hover i {
+    transform: translateY(-2px);
+  }
 }
 .fab-btn:active {
   transform: scale(0.94);
@@ -243,6 +245,11 @@ label {
 
 html {
   scroll-behavior: smooth;
+  /* iOS inflates the text of a block it decides is too narrow to read — a rule table or a
+     two-column card can come back a size larger than the paragraph beside it, with nothing in
+     the CSS to explain why. The page is already sized for a phone; nobody has to guess for it. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   /* Kill phantom horizontal scroll from the off-canvas mobile drawer (NavSidebar is
      position:fixed + translateX(100%) when closed, so only the root can clip it). `clip`
      (not `hidden`) does NOT create a scroll container, so it preserves the sticky navbar/subnav. */
@@ -276,9 +283,16 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  color: var(--accent-hover);
-  text-decoration: underline;
+/* HOVER IS FOR POINTERS. A touch screen has no hover: iOS applies the style on tap and leaves it
+   there until something else is tapped, so a row a finger has merely visited goes on looking
+   picked. Every hover style on something a finger lands on is therefore behind
+   `@media (hover: hover)`; the rules that only ever meet a mouse (the desktop nav dropdowns, the
+   scrollbar thumb) are left alone. */
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
 }
 
 .color-red   { color: #c0392b; }
@@ -307,9 +321,11 @@ a:hover {
   cursor: pointer;
 }
 
-.def-link:hover {
-  color: var(--link-accent-hover);
-  text-decoration: underline;
+@media (hover: hover) {
+  .def-link:hover {
+    color: var(--link-accent-hover);
+    text-decoration: underline;
+  }
 }
 
 .gloss {
@@ -320,9 +336,11 @@ a:hover {
   cursor: help;
 }
 
-.gloss:hover {
-  color: var(--link-accent-hover);
-  text-decoration-color: var(--link-accent-hover);
+@media (hover: hover) {
+  .gloss:hover {
+    color: var(--link-accent-hover);
+    text-decoration-color: var(--link-accent-hover);
+  }
 }
 
 .cross-ref {
@@ -333,9 +351,11 @@ a:hover {
   font-size: 0.85em;
 }
 
-.cross-ref:hover {
-  color: var(--link-accent-hover);
-  text-decoration: underline;
+@media (hover: hover) {
+  .cross-ref:hover {
+    color: var(--link-accent-hover);
+    text-decoration: underline;
+  }
 }
 
 h1, h2, h3, h4 {
@@ -465,8 +485,10 @@ tr:nth-child(even) td {
   background: var(--bg-row-alt);
 }
 
-tr:hover td {
-  background: var(--bg-row-hover);
+@media (hover: hover) {
+  tr:hover td {
+    background: var(--bg-row-hover);
+  }
 }
 
 /* Scrollbar */
@@ -550,9 +572,11 @@ strong {
   color: #e8c96a;
 }
 
-.note-box .cross-ref:hover,
-.note-box .def-link:hover {
-  color: #f0d98a;
+@media (hover: hover) {
+  .note-box .cross-ref:hover,
+  .note-box .def-link:hover {
+    color: #f0d98a;
+  }
 }
 
 /* Example blocks — like Wahapedia */
@@ -652,7 +676,7 @@ strong {
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-.tab:hover { border-color: var(--accent); }
+@media (hover: hover) { .tab:hover { border-color: var(--accent); } }
 .tab.active { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
 
 /* ── Attached-unit block (roster lists) ────────────────────────────────────
@@ -821,7 +845,7 @@ strong {
   vertical-align: middle;
 }
 
-.help-btn:hover { color: var(--accent); }
+@media (hover: hover) { .help-btn:hover { color: var(--accent); } }
 
 /* ── Segmented control ─────────────────────────────────────────────────────
    A small either/or (or one-of-four) sitting INSIDE a form or a filter row — not to be confused
@@ -848,7 +872,7 @@ strong {
 }
 
 .seg button + button { border-left: 1px solid var(--border); }
-.seg button:not(.on):hover { color: var(--text-primary); }
+@media (hover: hover) { .seg button:not(.on):hover { color: var(--text-primary); } }
 .seg button.on { background: var(--accent); color: var(--text-on-accent); }
 
 /* ── Back link ─────────────────────────────────────────────────────────────
@@ -869,9 +893,9 @@ strong {
   cursor: pointer;
 }
 
-.back:hover { color: var(--accent); }
+@media (hover: hover) { .back:hover { color: var(--accent); } }
 a.back,
-a.back:hover { text-decoration: none; }
+@media (hover: hover) { a.back:hover { text-decoration: none; } }
 
 /* ── Checkbox row ──────────────────────────────────────────────────────────
    A labelled option box with a real <input type="checkbox"> inside — the setup wizard's and the
@@ -893,7 +917,7 @@ a.back:hover { text-decoration: none; }
    border reads as one solid block of red and stops distinguishing anything. What a ticked row is
    saying it says with the tint, the brighter label and the box itself; the border is reserved for
    the row under the cursor. */
-.check:hover { border-color: var(--accent); }
+@media (hover: hover) { .check:hover { border-color: var(--accent); } }
 .check.on { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 .check input[type="checkbox"] {
@@ -955,14 +979,14 @@ a.back:hover { text-decoration: none; }
 }
 
 .btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-hover); }
+@media (hover: hover) { .btn-primary:hover { background: var(--accent-hover); } }
 a.btn-primary,
-a.btn-primary:hover { color: #fff; text-decoration: none; }
+@media (hover: hover) { a.btn-primary:hover { color: #fff; text-decoration: none; } }
 
 .btn-ghost { background: none; color: var(--text-muted); border: 1px solid var(--border); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+@media (hover: hover) { .btn-ghost:hover { border-color: var(--accent); color: var(--accent); } }
 a.btn-ghost { color: var(--text-muted); text-decoration: none; }
-a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
+@media (hover: hover) { a.btn-ghost:hover { color: var(--accent); text-decoration: none; } }
 
 .btn-primary:disabled,
 .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -1027,9 +1051,11 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
   min-height: 36px;
 }
 
-.mh-close:hover {
-  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
-  color: var(--text-primary);
+@media (hover: hover) {
+  .mh-close:hover {
+    background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+    color: var(--text-primary);
+  }
 }
 
 /* iOS safe-area: every tracker dialog shares the `.modal-overlay > .modal`
@@ -1046,6 +1072,13 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
    default here now and a dialog states only a padding it actually means.
    `overscroll-behavior` is the load-bearing one: on iOS a rubber-band drag past the end of the
    list would otherwise chain to the page behind the modal. */
+/* The scrolling half of a dialog. It MUST be a direct child of BaseModal's slot: `.modal` is a
+   flex column with a max-height and `overflow: hidden`, and a flex item is only allowed to shrink
+   below its content when it is itself a scroll container. Wrap it in anything — an accent scope,
+   a plain div — and that wrapper keeps its full content height, the modal clips it, and the
+   dialog silently loses everything below the fold with no scrollbar to say so. It reads as "the
+   sheet won't scroll", and it only shows up where the content is taller than the screen, which in
+   practice means a phone (see RosterUnitList's own sheet, fixed 2026-08-27). */
 .modal-body {
   padding: 0.7rem 0.9rem 0.9rem;
   overflow-y: auto;
@@ -1071,6 +1104,29 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
 [data-hide-lore="true"] .erm-flavor,
 [data-hide-lore="true"] .section-desc {
   display: none !important;
+}
+
+/* ── Text entry on a touch screen ─────────────────────────────────────────────
+   iOS Safari zooms the whole page in when a text field smaller than 16px takes
+   focus — and it never zooms back out, so the reader is left panning a page that
+   no longer fits, usually with the keyboard over half of it. The only cure is to
+   not be under 16px while a coarse pointer is in use.
+
+   Three screens had already discovered this and each patched its own fields (the
+   roster wizard, the tracker's setup and its edit dialog); the ones nobody had
+   opened on a phone yet — the unit search in the roster editor, the datasheet
+   search, the roster-link field — still zoomed. It is a property of touch input,
+   not of a screen, so it belongs here once rather than in every component that
+   happens to hold an input.
+
+   Checkboxes and radios are excluded: they carry no text, and they are sized in
+   px by the components that draw them. */
+@media (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 /* ── Print ────────────────────────────────────────────────────────────────────

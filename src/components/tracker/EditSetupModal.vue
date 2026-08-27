@@ -327,9 +327,6 @@ function save() {
   font-size: 0.9rem;
   font-family: var(--font-sans);
 }
-@media (pointer: coarse) {
-  .field input[type="text"] { font-size: 16px; }
-}
 .block-head {
   font-family: var(--font-display);
   font-size: 1.21rem;

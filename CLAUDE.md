@@ -406,6 +406,12 @@ Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/
 - **Prefer the `title` prop over the `#header` slot.** BaseModal's own header is exactly heading
   + close, already wired to `aria-labelledby`. Use the slot only for a header carrying more than
   that (a subtitle, a VP counter, extra buttons).
+- **`.modal-body` must be the direct child of the slot.** `.modal` is a capped flex column with
+  `overflow: hidden`, so only a flex item that is itself a scroll container may shrink below its
+  content. Wrapping the body in anything (`FactionAccentScope` did this until 2026-08-27) leaves a
+  wrapper at full content height, and the dialog clips instead of scrolling — invisible on a
+  desktop where the content fits, and on a phone it means half a unit's wargear is unreachable.
+  Put the wrapper INSIDE the body.
 - **`.modal-body` is per-dialog** and deliberately NOT part of the chrome: twelve dialogs, twelve
   paddings, no majority. Only its shared scroll behaviour (`overscroll-behavior: contain`) is
   global. A new dialog has to set its own padding — nothing will do it for you.
@@ -437,6 +443,36 @@ has to earn its place, and `npm run radii` fails the build of anyone who forgets
 - The flip side of square corners: **the frame does the work rounding used to do.** A surface is
   told from its background by `--border`/`--bg-card`, so don't drop a border "because it looks
   flat" — that is the only thing separating two panels now.
+
+## The phone this is read on
+
+Most readers are on a phone at a table, and a large share of those are on iOS Safari. That is not
+a browser to test last — WebKit's differences here are not cosmetic, they lose data and hide
+controls. What is already accounted for, and must not be undone:
+
+- **Storage in a tab has a deadline.** WebKit clears a site's script-writable storage — including
+  the `localStorage` that holds every roster and every finished game — after about a week without
+  a visit. A home-screen install is exempt and a signed-in account has a cloud copy, so the
+  roster list says exactly that to a signed-out reader in iOS Safari (`rosterCloudHintIos`), and
+  `/help`'s data section repeats it. Do not soften it into "your data lives on your device".
+- **`dvh`, never `vh`, for anything capped to the viewport.** `vh` is the LARGE viewport (toolbars
+  retracted); a dialog capped in it is taller than the room it has, and on a phone the part that
+  leaves the screen is its top — the title and the close button.
+- **16px minimum on text fields** (`(pointer: coarse)` in style.css). Below that iOS zooms the
+  page in on focus and never zooms back out.
+- **Hover is behind `@media (hover: hover)`** on anything a finger lands on: iOS applies the style
+  on tap and leaves it there until something else is tapped.
+- **A scroll container must be the direct flex child** of a capped, `overflow: hidden` parent —
+  see Modals. This one only ever shows up on a phone, because that is the only width where the
+  content is taller than the box.
+- **`-webkit-text-size-adjust: 100%`** on `html`, or iOS inflates the text of a block it decides
+  is too narrow.
+
+**The effective floor is iOS 16.2 / Safari 16.2**, set by the CSS in use: `color-mix()` (16.2),
+container queries the roster panes lay themselves out with (16.0), `overscroll-behavior` (16.0),
+`dvh` and `:has()` (15.4). Below it the panes lose their layout and the faction colours fall back.
+Raising the floor further is a decision, not a detail — check here before reaching for a new
+feature.
 
 ## Deployment
 

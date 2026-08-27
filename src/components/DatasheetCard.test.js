@@ -189,6 +189,25 @@ describe('DatasheetCard — weapon row markup the phone layout depends on', () =
     expect(name.text()).toBe('Gauss cannon×2')
   })
 
+  // A count is glued to the name it counts — no whitespace in the markup, on purpose — which made
+  // "supercharge×2" one unbreakable token: a line that could not fit it moved the whole thing down
+  // and ended visibly short of the column edge, which is what a reader sees as a gap after the ×2.
+  // The break opportunity lets the count drop on its own instead.
+  describe('the count and the name it belongs to', () => {
+    it('may break between them, and only there', () => {
+      const w = mount(DatasheetCard, { props: { sheet: { ...sheet, ranged: [{ ...sheet.ranged[0], qty: 2 }] } } })
+      const name = w.find('.ds-weapons tbody td.wname .wname-text')
+      expect(name.find('wbr').exists()).toBe(true)
+      // Still one word to the reader: no space is introduced, and the count itself stays whole.
+      expect(name.text()).toBe('Gauss cannon×2')
+    })
+
+    it('offers nothing to break when there is no count', () => {
+      const w = mount(DatasheetCard, { props: { sheet } })
+      expect(w.find('.ds-weapons tbody td.wname wbr').exists()).toBe(false)
+    })
+  })
+
   it('says nothing when the entry fields exactly one of the weapon', () => {
     // A ×1 badge on every single-weapon row would be noise on every card in the app; the count
     // only ever appears where it tells the reader something the row does not already say.

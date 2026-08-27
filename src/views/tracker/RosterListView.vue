@@ -335,11 +335,17 @@ function confirmDelete() {
   cursor: pointer;
   transition: border-color 0.15s;
 }
-.roster:hover { border-color: var(--accent); }
 .roster.themed { border-left-color: var(--fa-light, var(--accent)); }
-.roster.themed:hover { border-color: var(--fa-light, var(--accent)); }
 @media (prefers-color-scheme: dark) {
   .roster.themed { border-left-color: var(--fa-dark, var(--accent)); }
+}
+/* The card's left edge is its faction's colour whatever the input; only the full-border
+   highlight is a pointer's, and on a touch screen it would stay on the last card tapped. */
+@media (hover: hover) {
+  .roster:hover { border-color: var(--accent); }
+  .roster.themed:hover { border-color: var(--fa-light, var(--accent)); }
+}
+@media (hover: hover) and (prefers-color-scheme: dark) {
   .roster.themed:hover { border-color: var(--fa-dark, var(--accent)); }
 }
 .roster-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
@@ -363,10 +369,10 @@ function confirmDelete() {
   cursor: pointer;
   font-size: 0.95rem;
 }
-.kebab:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+@media (hover: hover) { .kebab:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); } }
 /* The draft's own Delete: same hit area as the kebab it replaces, and it says what it does only
    on hover — a bin sitting bright red on every draft card would shout louder than the card. */
-.kebab.danger:hover { background: color-mix(in srgb, #d9534f 14%, transparent); color: #d9534f; }
+@media (hover: hover) { .kebab.danger:hover { background: color-mix(in srgb, #d9534f 14%, transparent); color: #d9534f; } }
 .rfaction { display: block; margin-top: 0.05rem; font-size: 0.78rem; font-weight: 600; color: var(--fa-light, var(--accent)); opacity: 0.7; }
 @media (prefers-color-scheme: dark) {
   .rfaction { color: var(--fa-dark, var(--accent)); }
@@ -397,17 +403,19 @@ function confirmDelete() {
   background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }
-.act-btn:hover { border-color: var(--accent); }
+@media (hover: hover) { .act-btn:hover { border-color: var(--accent); } }
 .act-danger { color: #c0392b; }
-.act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
+@media (hover: hover) { .act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); } }
 </style>
 
 <!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->
 <style>
 :root[data-theme='light'] .roster.themed { border-left-color: var(--fa-light, #8b2a33); }
 :root[data-theme='dark'] .roster.themed { border-left-color: var(--fa-dark, #c8585e); }
-:root[data-theme='light'] .roster.themed:hover { border-color: var(--fa-light, #8b2a33); }
-:root[data-theme='dark'] .roster.themed:hover { border-color: var(--fa-dark, #c8585e); }
+@media (hover: hover) {
+  :root[data-theme='light'] .roster.themed:hover { border-color: var(--fa-light, #8b2a33); }
+  :root[data-theme='dark'] .roster.themed:hover { border-color: var(--fa-dark, #c8585e); }
+}
 :root[data-theme='light'] .rfaction { color: var(--fa-light, #8b2a33); }
 :root[data-theme='dark'] .rfaction { color: var(--fa-dark, #c8585e); }
 </style>
