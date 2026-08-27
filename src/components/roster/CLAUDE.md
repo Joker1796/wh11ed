@@ -1166,6 +1166,35 @@ one model's — dividing by the models that profile fields, which is what keeps 
 caps as you click, so a violation means the list was legal and then the unit shrank, and which
 weapon to give up is the player's call.
 
+## A group that waits on another (added 2026-08-27)
+
+A handful of instructions make one group depend on a sibling — "if this model is **not equipped
+with** a tachyon arrow, it can be equipped with 1 resurrection orb". appdata carries no structural
+link for this (five independent `wargear_option_group` rows on a Chosen, nothing joining them), so
+`gen-roster-data.mjs` parses the prose into `cond: [siblingGi, activeFlag]` and
+`wargearGroupLive()` is the one place that reads it.
+
+**The condition is about ONE MODEL. The gate is about the unit.** That gap was a real bug until
+2026-08-27: any pick in the sibling group closed the dependent one outright. So Chosen lost their
+power fist to a single combi-weapon, and the vox-caster, simulacrum, omnispex, banner and medi-pack
+left two dozen squads the moment one model swapped its rifle — 61 of the 63 gated groups are on
+multi-model units, and a squad has models to spare. A sibling pick now closes the group only once
+it has reached EVERY model in scope, counted the way `swapsByMini` counts a swap. Where scope is
+one model the two readings coincide, which is why the Overlord still waits for its arrow.
+
+appdata backs that reading where it says anything at all: `loadout_choice_set` enumerates the legal
+loadouts of ONE model, and Chosen's list holds both "Power fist + Boltgun + Bolt pistol" and
+"Accursed weapon + Combi-weapon + Bolt pistol" while holding no loadout with a combi-weapon and a
+power fist together. The exclusion is real and it is per model.
+
+**A closed group is greyed, not removed** (`wargearGroupBlocker` → `UnitEditorFields`'s
+`.ues-inert`). It used to disappear, which reads as the editor losing an option and leaves the
+reader guessing what to undo. The blocker says which way to move rather than restating the
+condition — `need: 'gone'` ("Requires removing: Tachyon arrow, Overlord's blade") when the sibling
+REPLACES the named items, `need: 'present'` when it ADDS them and one has to come back. The items
+are the sibling's `rep` where it has one, otherwise the option actually picked — never the whole
+list of options it offers, which would tell the reader to remove three things when they took one.
+
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/

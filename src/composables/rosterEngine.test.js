@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -210,6 +210,16 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     expect(wargearGroupLive(chosen, { size: 0, wg: [[0, 0, 5]] }, 1)).toBe(false)
     // …and "every model" follows the unit's size, not a fixed number.
     expect(wargearGroupLive(chosen, { size: 1, count: 10, wg: [[0, 0, 5]] }, 1)).toBe(true)
+  })
+
+  it('names what has to change, and which way', () => {
+    // Open → nothing to say.
+    expect(wargearGroupBlocker(chosen, { size: 0, wg: [[0, 0, 2]] }, 1)).toBeNull()
+    // Closed because every boltgun is gone: one has to come BACK for a model to qualify.
+    expect(wargearGroupBlocker(chosen, { size: 0, wg: [[0, 0, 5]] }, 1)).toEqual({ need: 'present', ids: [1] })
+    // The Overlord asks the opposite: the arrow and blade have to come OFF.
+    expect(wargearGroupBlocker(overlord, {}, 0)).toEqual({ need: 'gone', ids: [1, 2] })
+    expect(wargearGroupBlocker(overlord, { wg: [[1, 0, 1]] }, 0)).toBeNull()
   })
 
   it('never closes it on an unknown model count', () => {

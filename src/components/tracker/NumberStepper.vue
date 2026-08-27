@@ -1,8 +1,8 @@
 <template>
   <div class="stepper">
-    <button class="step-btn" :disabled="modelValue <= min" @click="bump(-step)" :aria-label="labels.ariaDecrease">−</button>
+    <button class="step-btn" :disabled="disabled || modelValue <= min" @click="bump(-step)" :aria-label="labels.ariaDecrease">−</button>
     <span ref="valEl" class="step-val">{{ modelValue }}</span>
-    <button class="step-btn" :disabled="max != null && modelValue >= max" @click="bump(step)" :aria-label="labels.ariaIncrease">+</button>
+    <button class="step-btn" :disabled="disabled || (max != null && modelValue >= max)" @click="bump(step)" :aria-label="labels.ariaIncrease">+</button>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ const props = defineProps({
   min: { type: Number, default: 0 },
   max: { type: Number, default: null },
   step: { type: Number, default: 1 },
+  // Both ends off, value still readable — for a control shown for context rather than for use
+  // (a wargear group the roster editor has greyed out, keeping its current pick visible).
+  disabled: { type: Boolean, default: false },
 })
 const emit = defineEmits(['update:modelValue'])
 
