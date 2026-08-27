@@ -975,7 +975,8 @@ export default {
           "lim": [
             [
               0,
-              2
+              2,
+              1
             ]
           ],
           "rep": [
@@ -3258,7 +3259,8 @@ export default {
           "lim": [
             [
               0,
-              2
+              2,
+              1
             ]
           ],
           "rep": [
