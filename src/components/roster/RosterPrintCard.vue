@@ -8,8 +8,8 @@
          unit, on a sheet of A4 there is nothing above the card to do it, and this line is also
          where the copy's facts go (Warlord, enhancement, attached-to, points), so they stop
          costing a line of their own;
-       · the statline is a LINE — "M 6" T 4 SV 3+ …" — not a band of boxes; the boxes are touch
-         targets and glance anchors, and paper is read at reading distance;
+       · the statline keeps the screen card's chamfered plates — they are what makes a statline
+         scannable, and the line has the room — but in monochrome, with no accent wash inside;
        · the abilities are set in TWO COLUMNS — full-width A4 is a 120-character line, and the
          abilities are where the card's height lives; a group's heading is glued to its first
          entry so a column never ends on a title;
@@ -24,18 +24,20 @@
       <span v-for="(t, i) in tags" :key="i" class="rpc-tag">{{ t }}</span>
     </header>
 
-    <!-- Statlines: one line per profile, the profile's name first when there are several. -->
+    <!-- Statlines: the screen card's chamfered plates, in monochrome — the line has the room,
+         and the plates are what makes a statline scannable. Labels render once, above the first
+         profile's row; the profile's name sits to the right of its plates. -->
     <div v-if="sheet.profiles?.length" class="rpc-stats">
       <div v-for="(p, i) in sheet.profiles" :key="i" class="rpc-statline">
-        <span v-if="sheet.profiles.length > 1" class="rpc-prof">{{ p.name }}</span>
         <span v-for="s in statCells(p)" :key="s.key" class="rpc-stat">
-          <span class="rpc-stat-l">{{ s.label }}</span>
-          <span class="rpc-stat-v" :class="{ mod: isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)">*</sup></span>
+          <span v-if="i === 0" class="rpc-stat-l">{{ s.label }}</span>
+          <span class="rpc-stat-box" :class="{ mod: isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)">*</sup></span>
         </span>
         <span v-if="p.inv" class="rpc-stat">
-          <span class="rpc-stat-l">INV</span>
-          <span class="rpc-stat-v" :class="{ mod: isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)">*</sup></span>
+          <span v-if="i === 0" class="rpc-stat-l">INV</span>
+          <span class="rpc-stat-box" :class="{ mod: isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)">*</sup></span>
         </span>
+        <span v-if="sheet.profiles.length > 1" class="rpc-prof">{{ p.name }}</span>
       </div>
       <p v-for="n in invNotes" :key="n" class="rpc-invnote">{{ n }}</p>
     </div>
@@ -242,13 +244,47 @@ const abilityItems = computed(() => {
 .rpc-tag { color: var(--text-muted); font-size: 0.95em; }
 .rpc-tag:first-of-type { margin-left: auto; }
 
-/* ── Statline ─────────────────────────────────────────────────────────────────────────────── */
-.rpc-stats { margin-bottom: 0.35em; }
-.rpc-statline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 1.1em; }
-.rpc-prof { font-weight: 600; min-width: 9em; }
-.rpc-stat-l { font-size: 0.78em; font-weight: 700; letter-spacing: 0.04em; color: var(--text-muted); margin-right: 0.25em; }
-.rpc-stat-v { font-weight: 600; font-variant-numeric: tabular-nums; }
-.rpc-invnote { margin: 0; font-size: 0.9em; color: var(--text-muted); }
+/* ── Statline ───────────────────────────────────────────────────────────────────────────────
+   The screen card's plates (DatasheetCard's .ds-stat-box), scaled to the print base and drawn in
+   ink: the chamfer is the same clip-path trick — a text-coloured base under an inset white fill,
+   because a clip-path cannot carry a border — with no accent wash inside. */
+.rpc-stats { margin-bottom: 0.4em; }
+.rpc-statline { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.35em; }
+.rpc-statline + .rpc-statline { margin-top: 0.25em; }
+.rpc-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.rpc-stat-l { font-size: 0.72em; font-weight: 700; letter-spacing: 0.08em; color: var(--text-muted); }
+.rpc-stat-box {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  min-width: 2.4em;
+  text-align: center;
+  background: var(--text-primary);
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  padding: 0.14em 0.3em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35em;
+  line-height: 1.1;
+}
+.rpc-stat-box::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #fff;
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+}
+.rpc-prof {
+  align-self: center;
+  margin-left: 0.4em;
+  font-weight: 700;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+}
+.rpc-invnote { margin: 0.15em 0 0; font-size: 0.9em; color: var(--text-muted); }
 
 /* ── Weapons ──────────────────────────────────────────────────────────────────────────────── */
 .rpc-weapons { width: 100%; border-collapse: collapse; margin-bottom: 0.35em; }
@@ -314,5 +350,6 @@ const abilityItems = computed(() => {
 .rpc-footnote { margin: 0; font-size: 0.9em; color: var(--text-muted); }
 
 /* A value the modifier layer rewrote — the same `*` convention the screen card uses. */
-.mod sup, .rpc-stat-v sup, .rpc-weapons sup { font-weight: 700; }
+.mod sup, .rpc-stat-box sup, .rpc-weapons sup { font-weight: 700; }
+.rpc-stat-box sup { font-size: 0.55em; }
 </style>

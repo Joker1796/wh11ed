@@ -2544,8 +2544,9 @@ data is the same (the resolved sheet, `datasheetParts.js` for the derived parts 
 keyword footnotes, faction-keyword bolding — shared with the screen card so the two cannot
 disagree); the typography is the medium's: the card carries its own NAME PLATE (paper has no page
 header or modal title to name the unit, and the plate also absorbs the copy's facts — Warlord,
-enhancement, attached-to, points — which used to cost a line of their own); the statline is a
-LINE, not a band of boxes; the ABILITIES are set in two internal columns (that is where a card's
+enhancement, attached-to, points — which used to cost a line of their own); the statline keeps
+the screen card's chamfered plates, in monochrome ink; the ABILITIES are set in two internal
+columns (that is where a card's
 height lives — full-width A4 is a 120-character line), with a group's heading glued into its first
 item so a column never ends on a title; named rules, Damaged, Transport and the build choices join
 the same column stream as plain entries; keywords are one small line each; and there are no fills
@@ -2572,7 +2573,11 @@ panel — that is what makes "denser" checkable before the printer answers it.
 **Paper has its own palette, and it is not the theme's.** The app's accent follows the theme, and
 `[data-theme='dark'] strong` is near-white — so a reader in the dark theme printed white ability
 names onto white paper. `.rps` pins the accent to an ink colour and restores the light-theme
-treatment of `strong`; the page boxes are white in both themes because that is what they are.
+treatment of `strong`; the page boxes are white in both themes because that is what they are. The
+same `.rps` block also strips style.css's GLOBAL table dressing off every table in the document —
+the global `th` is light text on a dark band (which printed white-on-white, since the paper
+palette pins the band light while `--text-on-dark` stays near-white), and the row stripes, hover
+tint and prose margins are screen furniture.
 
 **The header and the list are the two sections that make it an army list**; everything else is
 optional reference (`PRINT_OPTIONS`). The header (whose list, which detachments, how many points,
