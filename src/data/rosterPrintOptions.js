@@ -216,13 +216,43 @@ export function normalizePrintSettings(saved) {
   return out
 }
 
-// How many sheets a document of this height needs. The epsilon is the point of it: a document
-// that comes out a hair over a whole number of pages — a border, a rounding of the millimetre
-// conversion — is not a document with an extra blank sheet in it, and saying "3 sheets" for two
-// full ones plus a rule is worse than saying nothing.
-export function sheetsFor(docHeight, pageHeight) {
-  if (!(pageHeight > 0)) return 1
-  return Math.max(1, Math.ceil((docHeight || 0) / pageHeight - 0.02))
+// WHERE THE SHEETS END. A printer never cuts through a block that says `break-inside: avoid` — a
+// unit card, a stratagem card, a rule, a row of the list: it ends the sheet above the block and
+// starts the next one with the whole of it. So an edge is `pageHeight` from the previous edge,
+// pulled UP to the top of whatever unbreakable block it would have cut, and the sheet after it
+// measured from there.
+//
+// `atoms` are those blocks as `{ top, bottom }` offsets from the top of the document; the caller
+// measures them, this decides. Returns the offset of each edge after the first sheet, so the
+// number of sheets is `edges.length + 1`.
+//
+// TOLERANCE, and why it is not fussiness: the document's height comes from millimetres converted
+// to pixels and rounded, and a border or a margin can leave it a hair past a whole number of
+// sheets. Announcing a third sheet for four stray pixels is worse than saying nothing, so an
+// overrun under 2% of a sheet is not an edge.
+//
+// A block taller than a whole sheet is cut wherever the edge falls: it does not fit on a sheet of
+// its own, so moving the edge up would only end the current sheet early and cut the block anyway
+// — one nearly blank sheet for nothing. `a.top > start` guards the same case from the other side,
+// so a block that cannot be cleared can never pull the edge back onto itself forever.
+export function pageEdgesOf(atoms, docHeight, pageHeight, { tolerance = 0.02, maxPages = 200 } = {}) {
+  if (!(pageHeight > 0) || !(docHeight > 0)) return []
+  const eps = pageHeight * tolerance
+  const out = []
+  let start = 0
+  while (start + pageHeight < docHeight - eps && out.length < maxPages) {
+    let edge = start + pageHeight
+    for (let pass = 0; pass < 50; pass++) {
+      const hit = (atoms || []).find((a) => (
+        a.bottom - a.top <= pageHeight && a.top > start && a.top < edge && a.bottom > edge
+      ))
+      if (!hit) break
+      edge = hit.top
+    }
+    out.push(edge)
+    start = edge
+  }
+  return out
 }
 
 export function printScale(settings) {

@@ -97,12 +97,12 @@
              painted its own white, which made the whole thing look like one endless page. -->
         <div class="rpv-breaks" aria-hidden="true">
           <div
-            v-for="i in Math.max(0, pageCount - 1)"
+            v-for="(top, i) in edges"
             :key="i"
             class="rpv-break"
-            :style="{ top: `${i * contentH}px` }"
+            :style="{ top: `${top}px` }"
           >
-            <span class="rpv-break-label">{{ labels.printSheetLabel.replace('{n}', String(i + 1)) }}</span>
+            <span class="rpv-break-label">{{ labels.printSheetLabel.replace('{n}', String(i + 2)) }}</span>
           </div>
         </div>
         <div ref="docEl">
@@ -133,7 +133,7 @@ import { isStandaloneDisplay } from '../../composables/standalone.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import {
   PRINT_OPTIONS, PRINT_DENSITIES, PRINT_ORIENTATIONS,
-  normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale, sheetsFor,
+  normalizePrintSettings, pageEdgesOf, presetOf, presetSettings, printOptionOn, printScale,
 } from '../../data/rosterPrintOptions.js'
 
 const STORE_KEY = 'wh11ed-roster-print'
@@ -225,46 +225,38 @@ function paperScale() {
   return shown && css ? shown / css : 1
 }
 
-// WHERE THE PAGES ACTUALLY BREAK. A printer will not split a block that says `break-inside:
-// avoid` — a unit card — so it moves the whole thing to the next sheet. The preview does the same,
-// with a `--page-push` the paper honours ON SCREEN ONLY: on paper the printer paginates for
-// itself, and a margin baked in on top of that would open a second gap.
+// WHERE THE PAGES ACTUALLY BREAK.
 //
-// ONLY THE CARDS, and only while they are in one column. Everything else on the sheet either
-// splits happily (a section is not an atom — the stratagems run across two pages and should) or
-// lives in a multi-column flow, where a margin pushes a block down its own COLUMN rather than
-// onto the next sheet. Treating a whole section as unbreakable is what put an empty half-page
-// between the detachment rules and the stratagems: nothing was wrong with the page, the estimate
-// was moving a block the printer would have been glad to split.
-function paginate() {
+// A printer never cuts through a block that says `break-inside: avoid` — a unit card, a stratagem
+// card, a rule, a row of the list. It ends the sheet above it and starts the next one with the
+// whole block. So the edge of a sheet is not simply "every 281mm": it is that, pulled UP to the
+// top of whatever unbreakable block it would otherwise have cut through, and the sheet after it
+// measured from there.
+//
+// The LINES move, never the content. The first version of this pushed blocks down with a margin
+// instead, which meant inventing gaps the document did not have — an empty half page between the
+// detachment rules and the stratagems — and it could not work at all where the content is in two
+// columns, since a margin there pushes a block down its own column rather than onto the next
+// sheet. Moving the line is honest in both cases and leaves the document alone.
+const ATOMS = '.rpu, .rps-strat, .rps-rule, .rps-row, .rps-head'
+
+function pageEdges() {
   const root = docEl.value
-  if (!root) return
-  const all = [...root.querySelectorAll('.rpu')]
-  // Cleared on EVERYTHING before anything is measured: which elements are atoms depends on the
-  // settings, and a push left behind after a switch is a margin nobody asked for.
-  for (const el of all) el.style.removeProperty('--page-push')
-  const atoms = root.querySelector('.rps-cards.two-up') ? [] : all
+  if (!root) return []
   const scale = paperScale()
-  const pageH = contentH.value
-  const top0 = root.getBoundingClientRect().top
-  let shift = 0
-  for (const el of atoms) {
+  const rootRect = root.getBoundingClientRect()
+  const top0 = rootRect.top
+  const atoms = [...root.querySelectorAll(ATOMS)].map((el) => {
     const r = el.getBoundingClientRect()
-    const top = (r.top - top0) / scale + shift
-    const h = r.height / scale
-    // Taller than a sheet: the printer will split it and so do we.
-    if (h > pageH) continue
-    const room = pageH - (top % pageH)
-    if (h <= room) continue
-    el.style.setProperty('--page-push', `${room}px`)
-    shift += room
-  }
+    return { top: (r.top - top0) / scale, bottom: (r.bottom - top0) / scale }
+  })
+  return pageEdgesOf(atoms, rootRect.height / scale, contentH.value)
 }
 
+const edges = ref([])
 function measure() {
-  paginate()
-  const h = (docEl.value?.getBoundingClientRect().height || 0) / paperScale()
-  pageCount.value = sheetsFor(h, contentH.value)
+  edges.value = pageEdges()
+  pageCount.value = edges.value.length + 1
 }
 // Every setting changes the length, and the length is the number the panel promises. Measured
 // after the DOM settles, and again on resize because the paper is in millimetres but the browser
@@ -341,15 +333,6 @@ function print() { window.print() }
 .rpv-note { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 
 /* ── The paper ─────────────────────────────────────────────────────────────────────────────── */
-/* The push a block gets when it would otherwise straddle a page edge (see paginate()). Screen
-   only: on paper the printer paginates for itself, and this margin on top of that would leave a
-   blank sheet between the two. */
-@media screen {
-  .rpv-paper :deep(.rpu) {
-    margin-top: var(--page-push, 0);
-  }
-}
-
 /* The sheet edges. `position: absolute` inside the paper, over the content and inert to the
    pointer; gone in print, where the printer cuts the pages for real. */
 .rpv-breaks { position: absolute; inset: 0; pointer-events: none; }
