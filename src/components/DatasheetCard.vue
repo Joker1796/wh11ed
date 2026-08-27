@@ -1004,21 +1004,64 @@ function abilityStateLabel(st) {
   }
 }
 
-/* Phones: the weapon tables stop being tables.
-   A six-column statline plus a weapon name never fits a phone without either a horizontal
-   scroll or columns squeezed past legibility — this file used to do the latter. Below 560px
-   (the same width BaseModal treats as "phone"; tablets start at 600) each row becomes its own
-   small card: the weapon name on its own line, then the statline as a labelled six-column grid,
+/* Phones and narrow windows (≤560px): the table STAYS a table, tightened until it fits.
+   Six stat columns plus a name is a lot for a phone, and this block used to hand the whole
+   width back to the name by stacking each weapon into a card — three weapons then filled a
+   screen that a table shows in a quarter of it, which is what makes a datasheet slow to read
+   mid-game. So the columns are squeezed instead: smaller type, cells padded to almost nothing,
+   the name column dropped to `min-width: 0` and given `width: 99%` so it absorbs whatever the
+   six stat columns leave and wraps inside it, and the ability tags moved off the name's line
+   onto their own beneath it. Nothing is hidden and nothing scrolls sideways.
+
+   The floor is ~380px (see the block below), and it is the tags that set it: `.keyword` is
+   `white-space: nowrap`, so `[DEVASTATING WOUNDS]` is a ~130px word the name column cannot go
+   under. Above that floor the six columns and that word both fit; below it something has to
+   give, and there the stacked layout takes over. */
+@media (max-width: 560px) {
+  .ds-weapons table { font-size: 0.74rem; }
+  .ds-weapons th {
+    padding: 0.25rem 0.15rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.3px;
+  }
+  .ds-weapons td { padding: 0.3rem 0.15rem; }
+  /* The name takes what is left, not a fixed 10rem — and wraps inside it. */
+  .ds-weapons .wname {
+    width: 99%;
+    min-width: 0;
+    padding-left: 0.35rem;
+  }
+  .ds-weapons .wname-text { display: block; }
+  /* Tags under the name rather than beside it: on the same line they are what pushes the six
+     stat columns off the screen. */
+  .wtags { display: block; margin: 0.15rem 0 0; }
+  .wtag { font-size: 0.6rem; }
+  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; }
+  .wqty { font-size: 0.7rem; }
+  .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
+}
+
+/* The narrowest phones only (≤380px): now the table gives up and each weapon becomes its own
+   small card — the weapon name on its own line, the statline as a labelled six-column grid,
    then its ability tags. Same markup either way — no second template, no JS media query, and no
    risk of the two drifting — via `tr { display: grid }` plus `display: contents` on the name
    cell so its name and tags become grid items in their own right. The column labels come back as
    `td::before { content: attr(data-label) }`, since the shared `thead` is gone.
 
+   Placed after the compact-table block above so it wins at equal specificity where the two
+   disagree. 380 rather than the 560 this used to be: a 390-430px phone (every current iPhone,
+   most Androids) reads the table comfortably, and 320/360/375 are the ones that cannot.
+
    The `thead` is not hidden outright: its FIRST cell is the "Ranged Weapons"/"Melee Weapons"
    caption, which is the only thing telling the two blocks apart once they are stacked cards, so
    it survives as a section label above the group while the six stat headers go. Reusing that
    cell keeps one source for the text (and its translation) instead of adding a second one. */
-@media (max-width: 560px) {
+@media (max-width: 380px) {
+  /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
+  .ds-weapons table { font-size: 0.82rem; }
+  .wtag { font-size: 0.72rem; }
+  .wtag :deep(.keyword) { font-size: 0.74rem; letter-spacing: 0.2px; padding: 0 5px; }
+
   .ds-weapons { overflow-x: visible; }
   /* Cancel the ≤480px edge bleed: these are bordered cards now, and running them off the
      screen would cut their frame open on both sides. */
