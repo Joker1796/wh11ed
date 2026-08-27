@@ -1,7 +1,7 @@
 // Plain-text roster export, in the shapes the 40k community actually passes around. English names
 // throughout (unit / detachment / wargear names are EN by project convention). Pure functions.
 //
-// THREE FORMATS, one resolved model:
+// FOUR FORMATS, one resolved model:
 //   gw       the Warhammer 40,000 app's own 11th-edition export — what a TO asks for and what every
 //            list reader (BCP, New Recruit, 40kCompactor) parses first. Attached units come first
 //            as their own blocks, then CHARACTERS / DEDICATED TRANSPORTS / OTHER DATASHEETS.
