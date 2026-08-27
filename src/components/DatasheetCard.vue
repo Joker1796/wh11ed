@@ -73,6 +73,7 @@
           </button>
           <p v-else class="ds-mods-h">{{ sec.label }}</p>
         </template>
+        <p v-if="sec.hint" class="ds-mods-hint">{{ sec.hint }}</p>
         <ul class="ds-mods">
           <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
                detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
@@ -679,7 +680,16 @@ const noteSections = computed(() => {
   const l = labels.value
   if (live.length) out.push({ key: 'live', label: l.dsModifiers, collapsible: false, groups: groupModNotes(live, l) })
   if (possible.length) {
-    out.push({ key: 'possible', label: l.dsModifiersPossible, collapsible: true, groups: groupModNotes(possible, l) })
+    // …and a line saying what the list IS. "Possible modifiers" alone reads as a second helping of
+    // the block above it — the reader has no way to tell that none of it is running, or that it
+    // comes from rules printed elsewhere (the army rule, a detachment, an attached Leader).
+    out.push({
+      key: 'possible',
+      label: l.dsModifiersPossible,
+      hint: l.dsModifiersPossibleHint,
+      collapsible: true,
+      groups: groupModNotes(possible, l),
+    })
   }
   return out
 })
@@ -1164,6 +1174,14 @@ function abilityStateLabel(st) {
   padding: 0 0 0.7rem;
   border-bottom: 1px solid var(--border);
   font-size: 0.76rem;
+}
+/* What the list below it is, for a block whose heading cannot say it in two words. Sits inside the
+   accordion, so it costs nothing until the reader has already asked for the list. */
+.ds-mods-hint {
+  margin: 0 0 0.4rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-dim);
 }
 .ds-mods-h {
   font-size: 0.62rem;

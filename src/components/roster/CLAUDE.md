@@ -2181,7 +2181,12 @@ this modifier in force right now? — and the card renders the two apart (`noteS
   **Only off the table.** In a game the caller passes `hidePossible` and they are not
   rendered at all: a block headed "in play" must not list what is not, and mid-battle a list of what
   MIGHT be true is one more thing to scroll past. Nothing is lost — the condition and its switch are
-  on the rule block below the card, which is where it is flipped. **Its handle is a dashed pill**
+  on the rule block below the card, which is where it is flipped. **A line inside it says what the
+  list is** (`dsModifiersPossibleHint`, 2026-08-27): the heading alone reads as a second helping of
+  «modifiers in play» above it, with no way to tell that none of it is running or that it comes from
+  rules printed elsewhere on the card — the army rule, a detachment, an attached Leader. It sits
+  INSIDE the accordion, so it costs nothing until the reader has already asked for the list.
+  **Its handle is a dashed pill**
   (`.ds-mods-btn`), the same one the roster-wide block below uses: closed, the accordion is the last
   thing before the abilities, and its separator lives on the list INSIDE it — so a bare caps line
   sat on top of "Core: Leader, Deep Strike" and read as that block's heading. Quiet (muted, accent

@@ -243,6 +243,11 @@ describe('DatasheetCard modifier notes', () => {
     expect(lists[1].text()).toContain('Dark Pacts')
     // …and the second one is the collapsing block, closed.
     expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+    // …and it says what it is: "Possible modifiers" over a list of deltas reads as more of the
+    // block above unless something states that none of it is running.
+    const hints = w.findAll('.ds-mods-hint')
+    expect(hints).toHaveLength(1)
+    expect(hints[0].text()).toContain('Nothing here is in force yet')
   })
 
   // A card in a modal folds its blocks into accordions; it does not START folded. Reading a unit's
