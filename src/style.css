@@ -677,6 +677,43 @@ strong {
   color: var(--text-muted);
 }
 
+/* ── Roster build panes (the catalogue beside the list) ────────────────────
+   Both building screens — the editor's Units tab and the creation wizard's units step — put the
+   faction catalogue and the roster's own list side by side, at every width. They used to be two
+   screens (a route of its own, and a wizard step each), which since wargear started deciding a
+   unit's price meant a navigation per unit: add it there, price it here.
+
+   Two columns on a phone is the point of the layout, not an accident of it — the type scales in
+   RosterUnitRow/RosterUnitList step down below 380px to match the width each pane gets.
+
+   The catalogue sticks and scrolls inside itself; the list flows with the page beside it. Giving
+   both panes their own fixed height instead needs a height calculation that every surrounding bar
+   — the app nav, the sticky points bar, the mobile bottom nav — is free to invalidate. */
+.roster-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; align-items: start; }
+.roster-panes > .rp-catalog {
+  position: sticky;
+  /* Under the app's own sticky navbar, and clear of the fixed points/save bar below
+     (--roster-sticky-h, set by App.vue for any screen carrying a .rc-sticky). */
+  top: calc(var(--navbar-height) + var(--safe-top) + 0.5rem);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-height: calc(100dvh - var(--navbar-height) - var(--safe-top) - var(--roster-sticky-h, 0px) - 1.5rem);
+  overflow: hidden;
+}
+/* Below 900px the mobile bottom nav (52px, .bn-item's min-height in App.vue) takes its share
+   too — the same allowance the panels' own padding-bottom makes. */
+@media (max-width: 900px) {
+  .roster-panes > .rp-catalog {
+    max-height: calc(100dvh - var(--navbar-height) - var(--safe-top) - var(--roster-sticky-h, 0px) - 52px - var(--safe-bottom, 0px) - 1rem);
+  }
+}
+/* The browser inside it is a flex column whose body scrolls; it only can once its own height is
+   bounded by this pane. */
+.roster-panes > .rp-catalog > * { flex: 1; min-height: 0; }
+.roster-panes > .rp-list { min-width: 0; }
+@media (max-width: 380px) { .roster-panes { gap: 0.35rem; } }
+
 /* ── Roster wizard footer bar ──────────────────────────────────────────────
    The fixed bar under the three roster-building screens: points and issue count on the left,
    the actions on the right. All three drew it, identically, down to the two breakpoints.

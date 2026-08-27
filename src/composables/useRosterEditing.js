@@ -1,11 +1,13 @@
-// The state two roster screens share: the editor (/roster/:id) and the add-units page
-// (/roster/:id/add). Both need the same roster, the same lazily-loaded faction data, the same
-// live points and validation, and — crucially — the same add/remove semantics.
+// One saved roster's editing state: the roster itself, its lazily-loaded faction data, live points
+// and validation, and the add/duplicate/remove semantics.
 //
-// It exists because those two screens edit ONE roster from two routes. A second copy of
-// addUnit() would be free to disagree about the default unit size, and a second copy of
-// removeUnit() about cleaning up a leader attachment that pointed at the removed unit; both are
-// the kind of divergence nobody notices until a roster is quietly wrong.
+// It was written when the editor (/roster/:id) and the add-units page (/roster/:id/add) were two
+// screens editing ONE roster, and a second copy of addUnit() would have been free to disagree
+// about the default unit size while a second removeUnit() forgot the leader attachment pointing at
+// the removed entry. The catalogue is now a pane of the editor itself and this has one consumer —
+// kept as a module because the creation wizard performs the same operations on a roster this does
+// not own, and the shared implementations underneath (rosterEngine's addUnitEntry /
+// duplicateUnitEntry / removeUnitEntry) are what keep the two screens agreeing.
 //
 // Not a store: every screen calls this for itself and gets its own reactive handles onto the
 // SAME underlying roster object from useRosters.js, which is the module singleton that persists.

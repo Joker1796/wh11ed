@@ -1,7 +1,6 @@
 <template>
   <div class="rub">
     <input
-      ref="searchEl"
       v-model="query"
       type="search"
       class="rub-search"
@@ -80,7 +79,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -129,9 +128,10 @@ function isOpen(id) { return !!query.value.trim() || openGroups.value.has(id) }
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
+// No autofocus. The catalogue used to have a screen to itself, where taking the keyboard was the
+// obvious opening move; it is now one pane of the build screen, which opens showing the list
+// beside it — popping the keyboard there covers the very thing the reader came to look at.
 const query = ref('')
-const searchEl = ref(null)
-onMounted(() => searchEl.value?.focus())
 
 const filtered = computed(() => {
   const q = query.value.trim().toLowerCase()
@@ -223,7 +223,10 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-size: 0.9rem;
 }
 .rub-search:focus { outline: none; border-color: var(--accent); }
-.rub-body { display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; }
+/* flex/min-height, not just overflow: inside the build panes this component's height is bounded
+   by the pane, and a column flex item defaults to min-height:auto — without these the body grows
+   past the pane and is CLIPPED by it instead of scrolling. Inert where nothing bounds it. */
+.rub-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; }
 .rub-empty { color: var(--text-muted); font-style: italic; padding: 0.5rem; }
 
 .rub-group { display: flex; flex-direction: column; }
@@ -296,4 +299,15 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
 .rub-add:disabled:hover { background: none; }
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
+/* In the build panes the catalogue gets half a phone: the name and its price stop competing for
+   one line, and the whole scale steps down to match the list beside it. */
+@media (max-width: 380px) {
+  .rub-search { font-size: 0.8rem; padding: 0.4rem 0.5rem; margin-bottom: 0.4rem; }
+  .rub-head { font-size: 0.64rem; padding: 0.4rem 0.35rem; gap: 0.3rem; }
+  .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.1rem; padding: 0.45rem; }
+  .rub-name { font-size: 0.78rem; }
+  .rub-pts { font-size: 0.7rem; }
+  .rub-remove,
+  .rub-add { width: 1.9rem; font-size: 0.9rem; }
+}
 </style>

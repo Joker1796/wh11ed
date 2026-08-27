@@ -20,8 +20,9 @@ Decoupled from Tracker on 2026-08-03 — it used to ride with that section (`met
 home page, it's stale from before the split.
 
 Routes: `/roster` (list), `/roster/new` (creation wizard), `/roster/:id` (editor),
-`/roster/:id/add` (add units), `/roster/:id/view` (read-only), `/roster/shared` (import a shared
-link).
+`/roster/:id/view` (read-only), `/roster/shared` (import a shared link). `/roster/:id/add` was the
+catalogue's own page and is now a **redirect** to the editor — kept for the links that outlive a
+route (a stored last route, which the PWA resumes into; a back stack; a bookmark).
 
 ## Generated data layer
 
@@ -363,7 +364,7 @@ allowed) and the corsair group under eight other Detachments (250 pts) — and t
 active at once, which is what makes `allyGroupOf` well-defined.
 
 **On screen**, allies are their own sections rather than battlefield-role entries
-(`rosterEngine.sectionsOf`, shared by the add-units browser, the editor and the read-only view):
+(`rosterEngine.sectionsOf`, shared by the catalogue, the editor and the read-only view):
 the browser prints the group's ceiling next to its name and does not offer a group whose Detachment
 isn't selected, while the editor and the view keep a locked group visible (`keepLocked`) so a unit
 that is in the list can't disappear from the screen while still counting in the total. The GW export
@@ -934,52 +935,71 @@ to one existing chunk.
   the battle size on step 1 *after* units were added under a bigger one) turns
   `RosterUnitBrowser`'s `N/limit` badge red (`.rub-count.over`). `RosterCreateView.vue` now also
   runs `validateRoster()` live (previously editor-only) and shows the same `issues-badge` +
-  `RosterIssuesModal` the editor's header has, next to the points readout in both step 2 and
-  step 3's `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
+  `RosterIssuesModal` the editor's header has, next to the points readout in step 2's
+  `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
   visible during the wizard, not just after `finish()` lands on the read-only view.
 
-## Editing flow (reworked 2026-08-19)
+## Editing flow (reworked 2026-08-19, panes 2026-08-27)
 
-The editor has **two** panels, not three: Settings and Units. "Units" is the roster's own list —
-per-unit configuration in an inline accordion, which is what the third "Loadout" panel used to
-hold. Browsing the faction catalogue to ADD a unit is **its own page**, `/roster/:id/add`, reached
-from the dashed button at the top of the Units panel.
+The editor has **two** panels: Settings and Units. The Units panel holds the faction catalogue
+and the roster's own list **side by side**, at every width (`.roster-panes` in `style.css`), and
+the creation wizard's step 2 is the same pair of panes.
 
-That page carries its own copy of `.rc-sticky` **and of `.btn-primary`/`.btn-ghost`** — scoped
-styles can't cross a component, and forgetting the second one is what left its "Done" link
-rendering as bare text on the first pass. Three screens now hold that same block: this page, the
-editor and the creation wizard.
+It was three screens before, and the split is what the rework undid: browsing the catalogue was a
+page of its own (`/roster/:id/add`), configuring a unit was the editor's Units tab, and in the
+wizard they were steps 2 and 3. That was defensible while a unit's price was its datasheet's — it
+stopped being defensible once wargear started deciding the price, because then every unit costs a
+round trip: add it there, see what it costs here. The reader who reported it had built a list that
+way and called the flow «путано».
 
-A page rather than a tab or a modal, deliberately: on a phone the catalogue wants the whole
-screen, and with a real route the hardware back button closes the catalogue instead of the entire
-editor. Nothing is saved on the way in or out — both directions are plain navigation, because
-every add already writes through to `useRosters.js`.
+The panes are two columns on a phone as well, which is a deliberate choice and not an oversight:
+the type scales in `RosterUnitRow` and `RosterUnitList` step down below 380px to match the width
+each pane gets, and the catalogue's own rows stack their name over their price there
+(`RosterUnitBrowser`). The catalogue pane **sticks and scrolls inside itself** — under the app's
+sticky navbar, clear of the fixed points/save bar (`--roster-sticky-h`) and of the mobile bottom
+nav — while the list flows with the page beside it. Giving both panes their own fixed height
+instead needs a height calculation that every one of those bars is free to invalidate.
 
-**`src/composables/useRosterEditing.js`** is what keeps those two routes honest. They edit ONE
-roster from two screens and need the same faction data, points, validation and — critically — the
-same `addUnit`/`removeUnit`. A second copy of `removeUnit` would be free to forget dropping a
-leader attachment that pointed at the removed entry. It is not a store: each screen calls it and
-gets its own reactive handles onto the same underlying roster object.
+**The catalogue no longer takes focus on mount.** Autofocusing its search box was right while it
+had a screen to itself; as a pane it would pop the keyboard over the list the reader came to see.
 
-An issue raised from the add page concerns one entry, which lives in the editor, so the page
-navigates to `/roster/:id?unit=<uid>` and the editor opens that accordion and clears the query.
-That watcher is declared **after** `openUid` on purpose: it runs immediately during setup, and
-referencing a `const` declared further down hits the temporal dead zone (it did).
+`src/composables/useRosterEditing.js` still holds the editor's state — roster, faction data,
+points, validation, add/duplicate/remove. It was written to keep the editor and the add-units page
+from each having their own idea of what adding a unit means; with the catalogue folded in it has
+one consumer, and is kept because the wizard performs the same operations on a roster it does not
+own. The implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry` /
+`removeUnitEntry`) are what actually keep the two screens agreeing.
 
-The creation wizard keeps its three sequential steps, with step 2 now called "Add units". Its
-step markers are buttons: any reachable step can be jumped to, steps 2-3 stay disabled until a
-faction is picked (the same gate step 1's Next button uses), and jumping forward routes through
-`goToUnits()` so the roster still gets created rather than being skipped past.
+An issue raised from the catalogue concerns one entry, which is now in the pane beside it — the
+issues modal just opens that entry's configuration. The editor still accepts `?unit=<uid>` and
+opens that accordion, clearing the query; that watcher is declared **after** `openUid` on purpose,
+since it runs immediately during setup and referencing a `const` declared further down hits the
+temporal dead zone (it did).
 
-**The wizard's units are written through to the saved roster, not held until "Done"** (`syncUnits()`
+**The wizard is two steps, not three** ("Setup", then "Units"). A draft stored on the old step 3
+resumes on the step that absorbed it (`Math.min(resumed.draftStep || 1, 2)`). Its step markers are
+buttons: step 2 stays disabled until a faction is picked (the same gate step 1's Next button uses),
+and jumping forward routes through `goToUnits()` so the roster still gets created rather than being
+skipped past.
+
+**The wizard's units are written through to the saved roster, not held until "Save"** (`syncUnits()`
 in `RosterCreateView.vue`, called from add/remove and from `goToUnits`). They used to live in
 component state until `finish()`, so leaving the way every other screen expects to be left — the
 "Back to list" link at the top, a phone's back gesture, a reload — threw the whole list away and left
 behind a roster that had been created on step 2 but was empty. `updateRoster` assigns the SAME array,
-so its identity is shared with the store from then on and the per-entry edits made on step 3 ride
-the store's own deep-watch autosave; that is why `pickFaction` empties it with `splice(0)` rather
-than assigning a new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry`
-— the same implementation `useRosterEditing` uses, not a second copy.
+so its identity is shared with the store from then on and the per-entry edits ride the store's own
+deep-watch autosave; that is why `pickFaction` empties it with `splice(0)` rather than assigning a
+new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry` — the same
+implementation `useRosterEditing` uses, not a second copy.
+
+**`RosterUnitList.vue` draws the list on both screens** — sections, attached-unit blocks, the
+per-entry copy and delete buttons, and which entry is open. The configuration itself stays with the
+caller, through a `fields` scoped slot: `UnitEditorFields` needs the roster's detachments, its other
+entries, the enhancement options and the leader targets, all of which the views already compute.
+What the component decides is only WHERE those fields go — inline under the row on a wide screen,
+and in a modal below 900px, because a wargear editor does not fit in half a phone. That modal is
+teleported to `<body>` and so leaves the view's faction-accent scope behind, which is what the
+`FactionAccentScope` wrapper inside it is for (same trap as `RosterUnitRulesModal`).
 
 **The collapsed row is `RosterUnitRow.vue`**, one component for both building screens — the
 editor's Units tab and the wizard's config step, which held identical markup under two class
@@ -1302,8 +1322,8 @@ a game snapshot carries the army and nothing about how it was made.
 rules around it. It exists precisely because of the line above: points live in the faction chunk,
 and the two screens that show them — `RosterListView` and the tracker's `RosterPickerModal` — must
 not load one. So it can only ever be as good as its last writer, and **every screen that changes a
-roster while holding its faction data has to write it**: `useRosterEditing` (the editor and the
-add-units page) and `RosterCreateView`. That is what went wrong once already — only the editor
+roster while holding its faction data has to write it**: `useRosterEditing` (the editor) and
+`RosterCreateView`. That is what went wrong once already — only the editor
 wrote it, so a list built end-to-end in the wizard showed "0 pts" on both screens while its own
 page priced it correctly. `refreshSummaries()` is the safety net under those writers, called on
 mount by both readers: it prices only a roster whose cache is missing or contradicted by its own
@@ -1363,7 +1383,7 @@ data touches it).
 of opening a list that isn't finished, and carries Delete on the card itself: its actions sheet
 only ever held that one item, so the kebab was an extra tap for nothing. Saved lists keep the
 sheet — they have three things to offer),
-`RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern; its "Save" button,
+`RosterCreateView` (two-step wizard — Setup, then the build panes — mirrors `GameSetup`'s pattern; its "Save" button,
 `finish()`, clears the draft flags and lands on the roster's read-only view, not the editor.
 **Everything it collects is a draft from the moment a faction is picked** — the first choice that
 means anything, and what every later step depends on; before that, opening the wizard and
@@ -1371,12 +1391,11 @@ wandering off leaves no trace. The draft's id goes into the wizard's own URL
 (`router.replace` → `/roster/new?draft=<id>`), which is what makes a reload, a back gesture or a
 detour resume THIS draft on the step it was left on instead of starting a second one; step 1's
 fields and the step index are written through by a watcher, and the units by `syncUnits()` — after
-which the wizard and the draft share one array, so per-unit edits on step 3 ride the store's own
-autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
+which the wizard and the draft share one array, so per-unit edits ride the store's own autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
 editor, and this screen ends in "Save"),
 `RosterEditorView` (tabbed; fixed footer bar — `.rc-sticky`, same class and CSS as
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
-badge on the left and Cancel/Save on the right, always visible across all three tabs, not just
+badge on the left and Cancel/Save on the right, always visible across both tabs, not just
 one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
 `/roster/:id/view`) — every edit already autosaves to `useRosters.js`'s reactive store, there's
 nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/roster`, same
@@ -1441,14 +1460,14 @@ bucket is a class on both the view header's `h1` and the editor's name input, an
 a wall of text, not for a name that merely wraps.
 
 Nothing is truncated on those two screens — the name IS the header. Places where the name is only
-a label truncate instead: the list card and the picker row clamp to two lines, the add-units
-subtitle to one, and the tracker's setup cards/history pills were fixed separately
+a label truncate instead: the list card and the picker row clamp to two lines, and the tracker's setup cards/history pills were fixed separately
 (`minmax(0, 1fr)`, see `components/tracker/CLAUDE.md`).
 
 ## Components (this directory)
 
-`RosterUnitBrowser` (add-unit list/search), `RosterUnitRow` (one entry's collapsed line, shared by
-the editor and the wizard — see Editing flow), `UnitEditorFields` (wargear/enhancement/warlord
+`RosterUnitBrowser` (add-unit list/search), `RosterUnitList` (the roster's own list, shared by the
+editor and the wizard — see Editing flow) and `RosterUnitRow` (one entry's collapsed line inside
+it), `UnitEditorFields` (wargear/enhancement/warlord
 pick UI for one unit), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
 rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (renders
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
