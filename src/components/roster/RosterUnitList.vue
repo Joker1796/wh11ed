@@ -30,7 +30,8 @@
           <div class="rul-unit" :class="{ 'rul-attached roster-attached': e.leaderOf }">
             <!-- The row is itself a button (it opens the configuration), so the actions sit
                  BESIDE it rather than inside — a button inside a button is invalid and doesn't
-                 get its own click on every browser. -->
+                 get its own click on every browser. In a narrow pane they are lifted out of the
+                 row's line entirely (see .rul-acts below). -->
             <div class="rul-headrow">
               <button
                 type="button"
@@ -48,25 +49,27 @@
                 />
                 <i class="bi rul-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
               </button>
-              <button
-                type="button"
-                class="rul-dup"
-                :disabled="dupBlocked(e)"
-                :aria-label="labels.rosterDuplicate"
-                :title="dupBlocked(e) ? labels.rosterAtDuplicateCap : labels.rosterDuplicate"
-                @click="$emit('duplicate', e)"
-              >
-                <i class="bi bi-copy"></i>
-              </button>
-              <button
-                type="button"
-                class="rul-del"
-                :aria-label="labels.rosterRemove"
-                :title="labels.rosterRemove"
-                @click="$emit('remove', e)"
-              >
-                <i class="bi bi-trash3"></i>
-              </button>
+              <span class="rul-acts">
+                <button
+                  type="button"
+                  class="rul-dup"
+                  :disabled="dupBlocked(e)"
+                  :aria-label="labels.rosterDuplicate"
+                  :title="dupBlocked(e) ? labels.rosterAtDuplicateCap : labels.rosterDuplicate"
+                  @click="$emit('duplicate', e)"
+                >
+                  <i class="bi bi-copy"></i>
+                </button>
+                <button
+                  type="button"
+                  class="rul-del"
+                  :aria-label="labels.rosterRemove"
+                  :title="labels.rosterRemove"
+                  @click="$emit('remove', e)"
+                >
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </span>
             </div>
             <CollapseTransition v-if="!narrow" :show="openUid === e.uid">
               <div class="rul-fields"><slot name="fields" :entry="e" /></div>
@@ -183,7 +186,8 @@ if (mq) {
    .roster-attached / .roster-sum pair in style.css. */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
 
-.rul-headrow { display: flex; align-items: stretch; gap: 0.25rem; }
+.rul-headrow { position: relative; display: flex; align-items: stretch; gap: 0.25rem; }
+.rul-acts { display: flex; align-items: stretch; gap: 0.25rem; }
 .rul-row {
   flex: 1;
   min-width: 0;
@@ -218,14 +222,21 @@ if (mq) {
   .rul-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 }
 
-/* Where the list shares its width with the catalogue, everything steps down together — the row's
-   own type scale does the same (RosterUnitRow.vue). */
-@media (max-width: 380px) {
+/* A narrow pane. The two action buttons come OUT of the row's line and sit over its top-right
+   corner: side by side with the text they cost it 4.2rem of every line, and the wargear a unit
+   carries is the part that pays. The name leaves room for them itself (RosterUnitRow's own
+   padding-right), so nothing runs underneath. Everything steps down together with it.
+
+   Keyed off the pane, not the viewport: a 390px phone and a 780px tablet give this list the
+   same ~180px, and only a container query can tell either of them apart from a wide screen. */
+@container (max-width: 300px) {
   .rul-head { font-size: 0.92rem; }
   .rul-ally { font-size: 0.62rem; }
-  .rul-row { padding: 0.45rem 0.4rem; gap: 0.3rem; }
+  .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
+  .rul-chev { display: none; }
+  .rul-acts { position: absolute; top: 0; right: 0; gap: 0; }
   .rul-dup,
-  .rul-del { width: 1.6rem; font-size: 0.8rem; }
+  .rul-del { width: 1.7rem; height: 1.8rem; font-size: 0.8rem; }
 }
 </style>
 

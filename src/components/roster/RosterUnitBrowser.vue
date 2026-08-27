@@ -275,7 +275,9 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-item:hover, .rub-item.added { opacity: 1; }
 .rub-item:hover { border-color: var(--accent); }
 .rub-text { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; }
-.rub-name { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+/* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
+   beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
+.rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
 .rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
 .rub-count.over { color: #c0392b; }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
@@ -299,15 +301,22 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
 .rub-add:disabled:hover { background: none; }
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
-/* In the build panes the catalogue gets half a phone: the name and its price stop competing for
-   one line, and the whole scale steps down to match the list beside it. */
-@media (max-width: 380px) {
-  .rub-search { font-size: 0.8rem; padding: 0.4rem 0.5rem; margin-bottom: 0.4rem; }
-  .rub-head { font-size: 0.64rem; padding: 0.4rem 0.35rem; gap: 0.3rem; }
-  .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.1rem; padding: 0.45rem; }
-  .rub-name { font-size: 0.78rem; }
-  .rub-pts { font-size: 0.7rem; }
+/* In the build panes the catalogue gets half a phone. The name and its price stop competing for
+   one line — a unit row is three or four words and a number, and side by side neither fits — and
+   the whole scale steps down to match the list beside it.
+
+   Keyed off the PANE, not the viewport: a 390px phone and a 780px tablet hand this component the
+   same ~180px, so a viewport breakpoint answers the wrong question (the first attempt used
+   `@media (max-width: 380px)` and never fired on the phone it was written for). */
+@container (max-width: 300px) {
+  .rub-search { font-size: 0.78rem; padding: 0.35rem 0.45rem; margin-bottom: 0.4rem; }
+  .rub-head { font-size: 0.62rem; padding: 0.35rem 0.3rem; gap: 0.25rem; }
+  .rub-ally-cap { display: block; margin-left: 0; }
+  .rub-list { gap: 0.25rem; }
+  .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.05rem; padding: 0.4rem 0.45rem; }
+  .rub-name { font-size: 0.74rem; line-height: 1.25; }
+  .rub-pts { font-size: 0.66rem; }
   .rub-remove,
-  .rub-add { width: 1.9rem; font-size: 0.9rem; }
+  .rub-add { width: 1.7rem; font-size: 0.85rem; }
 }
 </style>
