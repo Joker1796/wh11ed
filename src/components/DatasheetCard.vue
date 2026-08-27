@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
             <td data-label="Range">{{ w.range }}</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }">{{ w.a }}<sup v-if="isMarked('ranged', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="BS" :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }">{{ w.bs }}<sup v-if="isMarked('ranged', 'bs', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }">{{ w.s }}<sup v-if="isMarked('ranged', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('ranged', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }">{{ w.d }}<sup v-if="isMarked('ranged', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
             <td data-label="Range">Melee</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }">{{ w.a }}<sup v-if="isMarked('melee', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="WS" :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }">{{ w.ws }}<sup v-if="isMarked('melee', 'ws', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }">{{ w.s }}<sup v-if="isMarked('melee', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('melee', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }">{{ w.d }}<sup v-if="isMarked('melee', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
@@ -929,6 +929,18 @@ function abilityStateLabel(st) {
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
 .wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
+/* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
+   loadout sentence, which the roster card hides as a settled choice (rosterModifiers.js). Only
+   ever present on a sheet the overlay has been through, and only when the number is known and
+   greater than one, so the plain datasheet page is untouched. Muted and trailing: the name still
+   has to read as a name. */
+.wqty {
+  margin-left: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
 /* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
    sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
    (~9px) and the letters ran together. Pin it to a fixed, readable size instead of letting it

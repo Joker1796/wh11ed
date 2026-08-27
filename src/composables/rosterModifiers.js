@@ -1,7 +1,8 @@
 // Roster modifier overlay — what a datasheet looks like for ONE roster entry, as opposed to the
 // bare printed sheet. Pure functions, no Vue, no store (same discipline as rosterEngine.js /
 // rosterValidation.js). See src/components/roster/CLAUDE.md ("Modifier overlay"); this file is
-// Tier A: it trims the weapon tables to the loadout the entry actually fields, resolves the
+// Tier A: it trims the weapon tables to the loadout the entry actually fields (and states how
+// many of each weapon that loadout holds), resolves the
 // keywords the roster's detachments grant it, and reports the roster facts that aren't on the
 // datasheet at all (Warlord, enhancement, attachment). `notes` stays empty until Phase B.
 //
@@ -60,32 +61,71 @@ function itemNameIndex(def, items) {
 // we only ADD what was picked — a swapped-away weapon may linger, but one the unit still has is
 // never removed. That asymmetry is deliberate; see filterWeapons.
 export function loadoutItemIds(def, entry) {
+  const counts = loadoutItemCounts(def, entry)
+  return counts && new Set(counts.keys())
+}
+
+// HOW MANY of each item, keyed by item id — the same walk as above, carrying the one thing an id
+// set cannot state. `null` for an item whose quantity can't be pinned down (a profile whose model
+// count is unknown): fielded, quantity unsaid. Same asymmetry as everywhere else here — a weapon
+// is never hidden on a guess, and a number is never invented on one.
+//
+// The count is the UNIT's, not one model's. Per-model is not even well defined on a multi-profile
+// datasheet: a Sister Superior and her squad hold the same boltgun as two separate `defaults`
+// rows, so "per model" there is a sum of two ones. The unit total is defined for every shape, it
+// is what the weapon table's reader is about to roll, and it moves with the unit's size.
+export function loadoutItemCounts(def, entry) {
   if (!def || !entry || !def.defaults?.length) return null
 
   const perMini = modelsPerMini(def, entry)
   const removed = swapsByMini(def, entry, perMini)
 
-  const kept = new Set()
+  // Two sources can hand the entry the same item — a Defiler whose baleflamer AND missile launcher
+  // are both traded for a heavy reaper autocannon fields two of them, one from each group — so
+  // quantities ADD, and an unknown on either side makes the total unknown.
+  const counts = new Map()
+  const add = (id, n) => {
+    if (!counts.has(id)) { counts.set(id, n); return }
+    const prev = counts.get(id)
+    counts.set(id, prev == null || n == null ? null : prev + n)
+  }
+
   for (const [m, list] of def.defaults) {
     const models = perMini?.get(m)
-    for (const [id, c] of list) {
+    for (const [id, c, total] of list) {
       const take = removed.get(`${m}:${id}`) || 0
       // `take` counts MODELS OF THIS PROFILE that gave the item up; `c` is its per-model quantity.
       // A profile whose model count is unknown keeps everything — never hide a weapon on a guess.
-      if (!take || models == null || c * Math.max(0, models - take) > 0) kept.add(id)
+      if (!take || models == null || c * Math.max(0, models - take) > 0) {
+        // `total` marks a quantity that belongs to the PROFILE rather than to each of its models —
+        // the single heavy bolter among two Gun Servitors — so it stands as written and is never
+        // multiplied, the same reading rosterEngine's defaultLoadoutLines() gives it.
+        add(id, total ? c : (models == null ? null : c * Math.max(0, models - take)))
+      }
     }
   }
-  for (const [gi, oi] of entry.wg || []) {
+  for (const [gi, oi, n] of entry.wg || []) {
     if (!wargearGroupLive(def, entry, gi)) continue
-    const opt = def.gear?.[gi]?.o?.[oi]
+    const g = def.gear?.[gi]
+    const opt = g?.o?.[oi]
+    if (!opt) continue
+    // How many times the pick was taken, mirroring swapsByMini's `consumed` so that what a swap
+    // adds and what it removes are counted the same way: a stepper carries the model count, a
+    // checkbox is one model unless the instruction hands the swap to the whole profile (`repall`).
+    // A unit-wide group belongs to no profile and has no model count to scale by, so it counts
+    // once — exactly as it subtracts nothing there.
+    const models = g.all ? null : perMini?.get(g.m ?? 0)
+    let picks = 1
+    if (g.in === 'stepper') picks = models == null ? (n || 1) : Math.min(n || 1, models)
+    else if (g.repall && !g.all) picks = models == null ? null : models
     // An option can grant more than one item (a bundle) — see rosterEngine's optionItems.
-    if (opt) for (const [id] of optionItems(opt)) kept.add(id)
+    for (const [id, c] of optionItems(opt)) add(id, picks == null ? null : picks * c)
   }
   // The Soul Grinder's mark arms it: "this model is additionally equipped with: phlegm
   // bombardment". Detachments aren't in scope here — Daemonic Allegiance is ungated, and a gated
   // group with a weapon doesn't exist — so the choice alone decides.
-  for (const id of allegItems(def, entry, [])) kept.add(id)
-  return kept
+  for (const id of allegItems(def, entry, [])) add(id, 1)
+  return counts
 }
 
 // The NAMES of the wargear this entry fields, normalised — the key a wargear modifier record is
@@ -111,8 +151,8 @@ export function loadoutItemNames(def, entry, items) {
 // failure than leaving a swapped-away one on screen, so the unmatched case always errs towards
 // showing more.
 function filterWeapons(sheet, def, entry, items) {
-  const kept = loadoutItemIds(def, entry)
-  if (!kept) return sheet
+  const counts = loadoutItemCounts(def, entry)
+  if (!counts) return sheet
   const byName = itemNameIndex(def, items)
   if (!byName.size) return sheet
 
@@ -120,24 +160,45 @@ function filterWeapons(sheet, def, entry, items) {
   // one also matches (the same longest-first discipline the auto-bold pass uses).
   const names = [...byName.keys()].sort((a, b) => b.length - a.length)
 
-  const drop = (row) => {
+  // The item ids behind a row, or null when nothing claims it.
+  const claimOf = (row) => {
     const r = norm(row?.name)
     const claim = names.find((n) => rowMatchesItem(r, n))
-    if (!claim) return false // unclaimed → always shown, see the note above
-    return !byName.get(claim).some((id) => kept.has(id))
+    return claim ? byName.get(claim) : null
   }
 
-  const ranged = sheet.ranged?.filter((w) => !drop(w))
-  const melee = sheet.melee?.filter((w) => !drop(w))
-  const rangedChanged = ranged && ranged.length !== sheet.ranged.length
-  const meleeChanged = melee && melee.length !== sheet.melee.length
-  if (!rangedChanged && !meleeChanged) return sheet // identity preserved when nothing was trimmed
+  // Trim the table to what the entry fields, and stamp the quantity on what stays. One pass
+  // because it is one question — which item is this row, and how many of it does the unit hold —
+  // and two passes could answer it differently.
+  const take = (rows) => {
+    if (!rows) return { rows, changed: false }
+    const out = []
+    let changed = false
+    for (const w of rows) {
+      const ids = claimOf(w)
+      if (!ids) { out.push(w); continue } // unclaimed → always shown, never counted, see above
+      const fielded = ids.filter((id) => counts.has(id))
+      if (!fielded.length) { changed = true; continue } // claimed, and no id behind it survived
+      // A weapon name interns to exactly one item id in every unit def in the data, and no
+      // datasheet lists a name twice (both asserted in src/data/roster/index.test.js), so this
+      // sum is one weapon's quantity rather than two different weapons conflated by their name.
+      // An unknown anywhere in it makes the row's count unknown, and an unknown count says
+      // nothing at all — the reader is told less, never told wrong.
+      const qty = fielded.reduce((a, id) => (a == null || counts.get(id) == null ? null : a + counts.get(id)), 0)
+      if (qty > 1) { out.push({ ...w, qty }); changed = true } else out.push(w)
+    }
+    return { rows: out, changed }
+  }
+
+  const ranged = take(sheet.ranged)
+  const melee = take(sheet.melee)
+  if (!ranged.changed && !melee.changed) return sheet // identity preserved when nothing changed
 
   const out = { ...sheet }
   // An emptied table is dropped outright rather than left as a headed, rowless table — the same
   // shape a datasheet with no ranged/melee weapons has, which DatasheetCard already handles.
-  if (rangedChanged) { if (ranged.length) out.ranged = ranged; else delete out.ranged }
-  if (meleeChanged) { if (melee.length) out.melee = melee; else delete out.melee }
+  if (ranged.changed) { if (ranged.rows.length) out.ranged = ranged.rows; else delete out.ranged }
+  if (melee.changed) { if (melee.rows.length) out.melee = melee.rows; else delete out.melee }
   return out
 }
 

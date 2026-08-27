@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { loadDatasheets, sharedIdsFor } from './index.js'
 import { loadDatasheetsRu, localizeSheet } from './ru/index.js'
 
+// The same normalisation rosterModifiers.js matches weapon rows on.
+const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+
 // Deathwatch is one of the 5 SM-Chapter codex factions that shares most of its roster
 // with space-marines.js instead of duplicating it (see index.js / deathwatch.js).
 describe('SM-Chapter datasheet dedup', () => {
@@ -56,5 +59,35 @@ describe('the English ability name survives translation', () => {
     const out = localizeSheet(sheet, { abilities: { 'Enhanced Warriors': { name: 'Улучшенные', text: 'т' } } }, {})
     expect(out.abilities[0].name).toBe('Улучшенные')
     expect(out.abilities[0].nameEn).toBe('Enhanced Warriors')
+  })
+})
+
+describe('weapon names identify a weapon', () => {
+  // A roster card matches each weapon row to a wargear item BY NAME to trim the table to the
+  // entry's loadout and to stamp the quantity on it (src/composables/rosterModifiers.js). Both
+  // readings assume a name identifies ONE weapon on a given datasheet — a second row with the
+  // same name and a different statline would be silently merged into the first row's count.
+  // The roster half of this invariant is asserted in src/data/roster/index.test.js.
+  // The same glob index.js loads the factions through — node's fs can't be used here, the app
+  // bundles this directory for the browser.
+  const bundles = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
+
+  it('never lists the same weapon name twice on one datasheet', async () => {
+    let rows = 0
+    for (const [f, load] of Object.entries(bundles)) {
+      const sheets = (await load()).default
+      for (const d of sheets || []) {
+        for (const kind of ['ranged', 'melee']) {
+          const seen = new Set()
+          for (const w of d[kind] || []) {
+            rows++
+            const key = norm(w.name)
+            expect(seen.has(key), `${f} ${d.id} [${kind}] "${w.name}"`).toBe(false)
+            seen.add(key)
+          }
+        }
+      }
+    }
+    expect(rows).toBeGreaterThan(4000) // the whole corpus really was walked
   })
 })
