@@ -216,30 +216,24 @@ function paperScale() {
 }
 
 // WHERE THE PAGES ACTUALLY BREAK. A printer will not split a block that says `break-inside:
-// avoid` — a unit card, a section — it moves the whole thing to the next sheet and leaves the
-// rest of the current one empty. A preview that draws page edges every N millimetres and lets
-// content run straight through them is therefore showing pages that will never be printed, which
-// is what "the page splitting works strangely" means.
+// avoid` — a unit card — so it moves the whole thing to the next sheet. The preview does the same,
+// with a `--page-push` the paper honours ON SCREEN ONLY: on paper the printer paginates for
+// itself, and a margin baked in on top of that would open a second gap.
 //
-// So the same rule is applied here: any block that would straddle an edge, and is short enough to
-// fit a page on its own, is pushed down to the next one. The push is a custom property the paper
-// only honours ON SCREEN (see the style block) — on paper the printer does its own pagination,
-// and a margin baked in on top of it would open a second gap.
+// ONLY THE CARDS, and only while they are in one column. Everything else on the sheet either
+// splits happily (a section is not an atom — the stratagems run across two pages and should) or
+// lives in a multi-column flow, where a margin pushes a block down its own COLUMN rather than
+// onto the next sheet. Treating a whole section as unbreakable is what put an empty half-page
+// between the detachment rules and the stratagems: nothing was wrong with the page, the estimate
+// was moving a block the printer would have been glad to split.
 function paginate() {
   const root = docEl.value
   if (!root) return
-  // A section that holds blocks of its own (the cards) is not an atom; its children are — unless
-  // they are in two columns, where a margin pushes a card down its own column rather than onto
-  // the next sheet, and the browser's own column/page interaction is past what this estimate can
-  // honestly predict. There the cards section is left whole and only the sections around it move.
-  const twoUp = !!root.querySelector('.rps-cards.two-up')
-  const all = [...root.querySelectorAll('.rps-block, .rpu')]
-  // Cleared on EVERYTHING, not just on what is about to be measured: which elements count as
-  // atoms changes with the settings, and a push left behind on a card after the cards were put
-  // into two columns is a margin inside a column — a card floating half a page down its own
-  // column, which is what it looked like.
+  const all = [...root.querySelectorAll('.rpu')]
+  // Cleared on EVERYTHING before anything is measured: which elements are atoms depends on the
+  // settings, and a push left behind after a switch is a margin nobody asked for.
   for (const el of all) el.style.removeProperty('--page-push')
-  const atoms = all.filter((el) => (twoUp ? !el.classList.contains('rpu') : !el.classList.contains('rps-cards')))
+  const atoms = root.querySelector('.rps-cards.two-up') ? [] : all
   const scale = paperScale()
   const pageH = (page.value.h - MARGIN_MM * 2) * MM_PX
   const top0 = root.getBoundingClientRect().top
@@ -248,7 +242,7 @@ function paginate() {
     const r = el.getBoundingClientRect()
     const top = (r.top - top0) / scale + shift
     const h = r.height / scale
-    // Taller than a sheet: nothing to be done, the printer will split it and so do we.
+    // Taller than a sheet: the printer will split it and so do we.
     if (h > pageH) continue
     const room = pageH - (top % pageH)
     if (h <= room) continue
@@ -342,7 +336,6 @@ function print() { window.print() }
    only: on paper the printer paginates for itself, and this margin on top of that would leave a
    blank sheet between the two. */
 @media screen {
-  .rpv-paper :deep(.rps-block),
   .rpv-paper :deep(.rpu) {
     margin-top: var(--page-push, 0);
   }
