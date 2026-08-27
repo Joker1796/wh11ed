@@ -1079,3 +1079,26 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }
+
+/* ── Text entry on a touch screen ─────────────────────────────────────────────
+   iOS Safari zooms the whole page in when a text field smaller than 16px takes
+   focus — and it never zooms back out, so the reader is left panning a page that
+   no longer fits, usually with the keyboard over half of it. The only cure is to
+   not be under 16px while a coarse pointer is in use.
+
+   Three screens had already discovered this and each patched its own fields (the
+   roster wizard, the tracker's setup and its edit dialog); the ones nobody had
+   opened on a phone yet — the unit search in the roster editor, the datasheet
+   search, the roster-link field — still zoomed. It is a property of touch input,
+   not of a screen, so it belongs here once rather than in every component that
+   happens to hold an input.
+
+   Checkboxes and radios are excluded: they carry no text, and they are sized in
+   px by the components that draw them. */
+@media (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

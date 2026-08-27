@@ -916,12 +916,6 @@ function cancel() {
 }
 /* iOS auto-zooms when a focused input's font is < 16px — bump to 16px on
    touch devices only, leaving the desktop sizing untouched. */
-@media (pointer: coarse) {
-  .field input[type="text"],
-  .field select {
-    font-size: 16px;
-  }
-}
 .dp-count {
   font-style: normal;
   font-family: var(--font-mono);
