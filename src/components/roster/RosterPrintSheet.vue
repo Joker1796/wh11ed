@@ -477,6 +477,15 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
 .rps :deep(.color-blue) { color: #1f4e8c; }
 .rps :deep(.color-green) { color: #1f6b3a; }
 
+/* A [LETHAL HITS]-style tag: the frame and the monospace are what make it a badge; the wash and
+   the accent text are screen colour, and on paper they were the one thing left unbleached. */
+.rps :deep(.keyword) {
+  background: none;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+  cursor: default;
+}
+
 /* style.css's GLOBAL table dressing, taken off every table in the document at once. The global
    `th` is light text on a dark band — and the paper palette pins the band light while the text
    var stays near-white, which printed the weapon-table headers white on white. The stripes and
