@@ -1287,6 +1287,18 @@ several models becomes per-option steppers sharing one budget (`stepMax` = remai
 never more than the duplicate cap), whatever appdata calls it — "Up to 2 Vigilants can each…"
 was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle.
 
+**An UNCAPPED group's budget is shared by its options too** (2026-08-27). `stepMax` subtracted a
+group's other rows only where a structural `lim` said what the budget was; where the ceiling came
+from the model count instead, every row was handed the whole thing — so a Leman Russ could take all
+four of its "this model can be equipped with one of the following" sponson sets, and 83 multi-option
+groups on 75 datasheets let a player build past their own limit. `validateRoster` sums the group
+exactly the same way and reported the result as `overWargearLimit`, which is the wrong half of the
+app to find out from: the "+" is what should have gone dead. Stopping it where the validator draws
+its line can never be stricter than the validator, which is what makes the change safe. The LAST
+resort (`models × cp`, for a unit-wide group belonging to no profile) keeps its per-row ceiling —
+it is a guess, a guess is not something to subtract from, and validateRoster does not police those
+groups either.
+
 **A model may swap every COPY of the weapon it gives up** (`cp` on the group,
 `wargearGroupFallbackCap` in the engine). Where nothing caps a group, the ceiling used to be one
 pick per model of that profile — but a Wraithlord carries two shuriken catapults and may turn both

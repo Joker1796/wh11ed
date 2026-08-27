@@ -151,6 +151,28 @@ describe('UnitEditorFields — unit composition', () => {
     expect(wargearSteppers[before].props('max')).toBe(9)
   })
 
+  // "This model can be equipped with ONE OF THE FOLLOWING" is one budget however many rows it is
+  // drawn as. Every row used to be handed the whole thing, so a Leman Russ could take all four of
+  // its sponson sets — and validateRoster, which sums the group the same way, then reported the
+  // list illegal. The editor now stops the "+" exactly where the validator draws its line.
+  it('shares an uncapped group\'s budget across its options', () => {
+    const russ = astraMilitarum.units.find((u) => u.id === 'leman-russ-battle-tank')
+    const gi = russ.gear.findIndex((g) => g.in === 'stepper' && !g.lim && !g.all && g.o.length > 1)
+    expect(gi).toBeGreaterThan(-1)
+    const steppers = (w) => w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const before = russ.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
+    // One model, so one pick for the group: untouched, every row offers it…
+    const idle = steppers(mountFor(russ))
+    expect(idle[before].props('max')).toBe(1)
+    expect(idle[before + 1].props('max')).toBe(1)
+    // …and once one row has taken it, the others have nothing left and their "+" goes dead.
+    const spent = mountFor(russ, { wg: [[gi, 0, 1]] })
+    expect(steppers(spent)[before].props('max')).toBe(1) // its own row can still hold what it has
+    expect(steppers(spent)[before + 1].props('max')).toBe(0)
+    const plus = spent.findAll('.opt-step-body')[1].findAll('.step-btn')[1]
+    expect(plus.attributes('disabled')).toBeDefined()
+  })
+
   it('lets a model swap every copy of a weapon it carries twice', () => {
     // A Wraithlord's two shuriken catapults each become a flamer — one model, two picks. The
     // per-model ceiling alone stopped the stepper at one, so the second flamer was unbuildable.

@@ -499,11 +499,13 @@ function setStep(gi, oi, n) {
 // is both too loose ("Up to 4 Dominions" reads as no cap) and too strict ("for every 5 models,
 // up to 2" reads as one), which is exactly why the structural cap is preferred wherever it exists.
 function stepMax(gi, oi) {
+  // What the group's OTHER options have already taken. Every ceiling below belongs to the GROUP —
+  // "any number of models can each have their lastrum bolt cannon replaced with ONE OF THE
+  // FOLLOWING" is one budget of models, however many rows it is drawn as — so a row's own room is
+  // whatever is left of it.
+  const elsewhere = wargearGroupSpent(props.entry, gi, oi)
   const cap = caps.value[gi]
-  if (cap) {
-    const room = cap.limit - wargearGroupSpent(props.entry, gi, oi)
-    return Math.max(0, Math.min(cap.dup || cap.limit, room))
-  }
+  if (cap) return Math.max(0, Math.min(cap.dup || cap.limit, cap.limit - elsewhere))
   const m = (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
   if (m) return Math.floor(models.value / Number(m[1]))
   // No cap of any kind: the group can be taken by every model it belongs to — which on a
@@ -512,8 +514,17 @@ function stepMax(gi, oi) {
   // so a 10-model squad allows 9. 62 groups were over by their squad's leader models. A model
   // that carries the replaced weapon SEVERAL times may swap each copy (`cp`), which is what lets
   // a Wraithlord take its second flamer.
-  const cp = props.def.gear[gi].cp || 1
-  return wargearGroupFallbackCap(props.def, props.entry, gi) ?? models.value * cp
+  //
+  // That per-profile figure is shared too — 83 multi-option groups on 75 datasheets had every row
+  // handed the WHOLE budget, so a Leman Russ could take all four of its "one of the following"
+  // sponson sets and validateRoster, which sums the group exactly like this, then called the list
+  // illegal. Stopping the "+" where the validator draws its line can never be stricter than the
+  // validator. The last resort below is a guess (a unit-wide group belongs to no profile), and a
+  // guess is not something to subtract from: it keeps the row-by-row ceiling it always had, which
+  // is the same reason validateRoster does not police those groups either.
+  const own = wargearGroupFallbackCap(props.def, props.entry, gi)
+  if (own != null) return Math.max(0, own - elsewhere)
+  return models.value * (props.def.gear[gi].cp || 1)
 }
 
 function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
