@@ -7,6 +7,12 @@
 // squaring from decaying the same way. Run by `npm run radii`.
 //
 // Adding a radius is allowed — it just has to be a decision. Put it in ALLOWED with the reason.
+//
+// EVERY spelling counts, not just the `border-radius` shorthand. Until 2026-08-27 this only
+// matched that one, so four `border-top-left-radius: 4px` sat on the weapon-table headers in plain
+// sight with the check reporting a clean sweep — the corners a reader could see were the ones it
+// could not. The longhands and the logical properties (`border-start-end-radius`…) are the same
+// declaration written another way and are matched the same.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
@@ -34,12 +40,13 @@ const offenders = []
 for (const p of files) {
   const rel = relative('.', p)
   readFileSync(p, 'utf8').split('\n').forEach((line, i) => {
-    const m = line.match(/border-radius:\s*([^;}]+)/)
+    const m = line.match(/(border-(?:[a-z]+-){0,2}radius):\s*([^;}]+)/)
     if (!m) return
-    const value = m[1].trim()
+    const [, prop, raw] = m
+    const value = raw.trim()
     if (value === CIRCLE) return
     if (ALLOWED.some((a) => a.file === rel && a.value === value)) return
-    offenders.push(`${rel}:${i + 1}  border-radius: ${value}`)
+    offenders.push(`${rel}:${i + 1}  ${prop}: ${value}`)
   })
 }
 

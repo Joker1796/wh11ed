@@ -917,8 +917,6 @@ function abilityStateLabel(st) {
   white-space: nowrap;
 }
 
-.ds-weapons th:first-child { border-top-left-radius: 4px; }
-.ds-weapons th:last-child { border-top-right-radius: 4px; }
 .ds-weapons td {
   text-align: center;
   padding: 0.3rem 0.35rem;
@@ -1132,8 +1130,7 @@ function abilityStateLabel(st) {
   }
 
   /* A multi-profile weapon stays ONE card: the profiles keep the group tint, lose the gap
-     between them, and share the rounding — only the group's ends are rounded, and the seams
-     between profiles are drawn as internal dividers. */
+     between them, and the seams between them are drawn as internal dividers. */
   .ds-weapons tbody tr.wg-start,
   .ds-weapons tbody tr.wg-mid,
   .ds-weapons tbody tr.wg-end {

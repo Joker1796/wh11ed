@@ -172,8 +172,6 @@ const abilityRows = computed(() => [
   padding: 0.3rem 0.35rem;
   white-space: nowrap;
 }
-.wpm-weapons th:first-child { border-top-left-radius: 4px; }
-.wpm-weapons th:last-child { border-top-right-radius: 4px; }
 .wpm-weapons td {
   text-align: center;
   padding: 0.3rem 0.35rem;
