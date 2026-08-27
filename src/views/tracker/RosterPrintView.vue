@@ -233,9 +233,13 @@ function paginate() {
   // the next sheet, and the browser's own column/page interaction is past what this estimate can
   // honestly predict. There the cards section is left whole and only the sections around it move.
   const twoUp = !!root.querySelector('.rps-cards.two-up')
-  const atoms = [...root.querySelectorAll('.rps-block, .rpu')]
-    .filter((el) => (twoUp ? !el.classList.contains('rpu') : !el.classList.contains('rps-cards')))
-  for (const el of atoms) el.style.removeProperty('--page-push')
+  const all = [...root.querySelectorAll('.rps-block, .rpu')]
+  // Cleared on EVERYTHING, not just on what is about to be measured: which elements count as
+  // atoms changes with the settings, and a push left behind on a card after the cards were put
+  // into two columns is a margin inside a column — a card floating half a page down its own
+  // column, which is what it looked like.
+  for (const el of all) el.style.removeProperty('--page-push')
+  const atoms = all.filter((el) => (twoUp ? !el.classList.contains('rpu') : !el.classList.contains('rps-cards')))
   const scale = paperScale()
   const pageH = (page.value.h - MARGIN_MM * 2) * MM_PX
   const top0 = root.getBoundingClientRect().top
