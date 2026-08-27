@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -982,6 +982,25 @@ for (const s of table('limited_wargear_choice_set')) {
 // the count is taken FROM the limited set once matched).
 const itemsKey = (uuids) => [...new Set(uuids)].sort().join('|')
 const groupKey = (opts) => opts.map((o) => itemsKey((o.items || [[o.uuid]]).map(([u]) => u))).sort().join('#')
+const optUuids = (o) => new Set((o.items || [[o.uuid]]).map(([u]) => u))
+
+// One-to-one assignment of every choice to a DISTINCT option that contains it. Kuhn's algorithm
+// rather than a greedy pass: two choices sharing their only candidate is exactly the shape a
+// greedy gets wrong, and getting it wrong here means handing a group a cap that isn't its own.
+function coversOneToOne(choices, opts) {
+  if (choices.length !== opts.length) return false
+  const sets = opts.map(optUuids)
+  const takenBy = new Array(sets.length).fill(-1)
+  const assign = (ci, seen) => {
+    for (let oi = 0; oi < sets.length; oi++) {
+      if (seen.has(oi) || !choices[ci].every((u) => sets[oi].has(u))) continue
+      seen.add(oi)
+      if (takenBy[oi] === -1 || assign(takenBy[oi], seen)) { takenBy[oi] = ci; return true }
+    }
+    return false
+  }
+  return choices.every((_, ci) => assign(ci, new Set()))
+}
 
 // The allowance the instruction states, or null when it doesn't state one plainly. Deliberately
 // narrow: anything scaled ("for every 5 models") or conditional ("if this unit contains 10
@@ -1009,8 +1028,10 @@ function proseAllowance(text, optCount = 0) {
 // Wordings that let the model take several of the group but never the same one twice.
 // ("cannot take duplicates" is often a footnote below the instruction, so it is read from the
 // whole text; the other two are statements of the allowance itself and only count in it.)
+// ("duplicates are not allowed" is the parenthetical form, six groups; `can take duplicates` is
+// the OPPOSITE statement and must not be read as one of these.)
 const proseNoDuplicates = (text) =>
-  /cannot take duplicates/i.test(text) ||
+  /cannot take duplicates|duplicates are not allowed/i.test(text) ||
   /\bany of the following\b|\bdifferent weapons\b/i.test(text.split('\n')[0])
 
 function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
@@ -1022,7 +1043,21 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
     const wantKey = choices.map((its) => itemsKey(its.map((i) => i.wargearItemId))).sort().join('#')
     const wantMini = set.miniatureId == null ? null : miniIdx.get(set.miniatureId)
 
-    const hits = drafts.filter((d) => groupKey(d.opts) === wantKey && (wantMini == null || d.m === wantMini))
+    const onMini = (d) => wantMini == null || d.m === wantMini
+    let hits = drafts.filter((d) => groupKey(d.opts) === wantKey && onMini(d))
+    // A set and a group can describe the same picks and still not key the same, because the two
+    // families disagree about BUNDLES: the Legionaries' special-weapon group offers "1 plasma
+    // pistol and 1 Astartes chainsword" as one pick (the prose says so, and it is why appdata's
+    // ten option rows became nine options), while the set records that pick as the plasma pistol
+    // alone. Keying on equality lost the cap outright and the group fell back to one pick for the
+    // whole unit — a 10-model squad could take one special weapon where the datasheet allows two.
+    // So a second pass matches each choice to an option that CONTAINS it, one-to-one, and runs
+    // only where the exact pass found nothing: an already-ambiguous set stays ambiguous.
+    if (!hits.length) {
+      const wantItems = choices.map((its) => its.map((i) => i.wargearItemId))
+      hits = drafts.filter((d) => onMini(d) && coversOneToOne(wantItems, d.opts))
+      if (hits.length === 1) stats.bundled++
+    }
     // Several identical groups (the same choice repeated per miniature) — no way to tell which
     // one the set means, so neither gets a cap it might not have.
     if (hits.length !== 1) { stats[hits.length ? 'ambiguous' : 'unmatched']++; continue }
@@ -1033,9 +1068,14 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
     // it belongs to the threshold, not to the set (Cadian Shock Troops: 2 picks / 1 of a kind at
     // 10 models, 4 picks / 2 of a kind at 20), so hoisting it to the group would misread half
     // the brackets.
+    // appdata leaves `duplicateLimit` empty on sets whose own instruction states the rule in
+    // words ("…one of the following (duplicates are not allowed)"), so the prose fills it in where
+    // the table says nothing — otherwise a 10-model squad allowed two picks could take the same
+    // weapon twice. Never over a duplicate cap appdata itself gave.
+    const dupSaid = proseNoDuplicates(d.text) ? 1 : 0
     const limits = (wgLimitsBySet.get(set.id) || [])
-      .map((l) => (l.duplicateLimit > 0
-        ? [l.modelCount || 0, l.choiceLimit, l.duplicateLimit]
+      .map((l) => (l.duplicateLimit > 0 || dupSaid
+        ? [l.modelCount || 0, l.choiceLimit, l.duplicateLimit > 0 ? l.duplicateLimit : dupSaid]
         : [l.modelCount || 0, l.choiceLimit]))
       .filter(([, n]) => n > 0)
       .sort((a, b) => a[0] - b[0])
@@ -2270,7 +2310,7 @@ if (report.defaultsMerged.length) {
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
-console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity), ${lm.fromProse} more from their own instruction where appdata records no set, ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity, ${lm.bundled} matched through a bundled option), ${lm.fromProse} more from their own instruction where appdata records no set, ${lm.perCopy} read per copy of the weapon replaced; no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
   for (const c of lm.conflict) console.log(`    - ${c}`)

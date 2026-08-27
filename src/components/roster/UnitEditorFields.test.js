@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
+import { wargearGroupCap } from '../../composables/rosterEngine.js'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
 import astraMilitarum from '../../data/roster/astra-militarum.js'
@@ -149,6 +150,41 @@ describe('UnitEditorFields — unit composition', () => {
     const steppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = wraithlord.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     expect(steppers[before].props('max')).toBe(2)
+  })
+})
+
+describe('UnitEditorFields — a cap that grows with the squad', () => {
+  // "For every 5 models in this unit, 1 Legionary's boltgun can be replaced with one of the
+  // following (duplicates are not allowed)" — 1 pick up to 9 models, 2 at 10, never the same
+  // weapon twice. appdata states it in wargear_limit, but its choice list records the group's
+  // first pick without the chainsword bundled onto it, so the set matched no group and the cap
+  // was lost: a 10-model squad could take one special weapon (see gen-roster-data's
+  // coversOneToOne).
+  const legionaries = chaosSpaceMarines.units.find((u) => u.id === 'legionaries')
+  const specialGi = legionaries.gear.findIndex((g) => g.o.length === 9)
+
+  it('offers one pick at five models and two at ten', () => {
+    expect(wargearGroupCap(legionaries, { size: 0 }, specialGi)).toMatchObject({ limit: 1, dup: 1 })
+    expect(wargearGroupCap(legionaries, { size: 1, count: 9 }, specialGi)).toMatchObject({ limit: 1 })
+    expect(wargearGroupCap(legionaries, { size: 1, count: 10 }, specialGi)).toMatchObject({ limit: 2, dup: 1 })
+  })
+
+  it('draws steppers once more than one is allowed, a one-of list before that', () => {
+    // The cap is what picks the mode, not appdata's inputType: limit 1 stays a one-of list, and
+    // above that each option gets its own stepper sharing the group's budget. The unit already
+    // has two steppers of its own at any size (the model count, and the ungated chainsword swap),
+    // so it is the group's nine options appearing that this counts.
+    const steppers = (count) => mountFor(legionaries, { size: 1, count }).findAllComponents(NumberStepper).length
+    expect(steppers(10) - steppers(9)).toBe(9)
+  })
+
+  it('never lets the same weapon fill both picks', () => {
+    // "(duplicates are not allowed)" is prose — appdata leaves duplicateLimit empty here, so the
+    // generator reads it from the instruction. Without that, two havoc autocannons.
+    const w = mountFor(legionaries, { size: 1, count: 10, wg: [[specialGi, 2, 1]] })
+    const steppers = w.findAllComponents(NumberStepper)
+    const taken = steppers.find((s) => s.props('modelValue') === 1)
+    expect(taken.props('max')).toBe(1)
   })
 })
 

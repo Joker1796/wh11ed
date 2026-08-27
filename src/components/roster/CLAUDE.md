@@ -1179,6 +1179,24 @@ currently saves exactly one group (Blood Angels' Death Company Marines with Jump
 one model, the table says two), and the run names it. 219 groups end up capped; the 43 ambiguous
 and 82 cross-group sets are left alone.
 
+**A set and a group can describe the same picks and still not key the same** (`coversOneToOne`,
+added 2026-08-27). The two families disagree about BUNDLES: the Legionaries' special-weapon group
+offers "1 plasma pistol and 1 Astartes chainsword" as one pick — which is why appdata's ten option
+rows become nine options — while `limited_wargear_choice` records that pick as the plasma pistol
+alone. Matching the two on equality lost the cap outright, and the group fell back to one pick for
+the whole unit: a 10-model squad could take one special weapon where the datasheet allows two.
+A second pass matches each choice to an option that CONTAINS it, one-to-one (Kuhn's, because two
+choices sharing their only candidate is what a greedy gets wrong), and runs only where the exact
+pass found nothing — an already-ambiguous set stays ambiguous. 9 groups match through it; 263 → 272
+capped from the table, and six of those nine stop leaning on the prose fallback for a cap the
+table states properly.
+
+**"(duplicates are not allowed)" is a cap too.** appdata leaves `duplicateLimit` empty on the six
+sets whose instruction states the rule in words, and `proseNoDuplicates` only knew the "cannot take
+duplicates" phrasing — so a squad allowed two picks could take the same weapon twice. Read from the
+prose now wherever the table says nothing, never over a duplicate cap appdata itself gave, and
+still deaf to `can take duplicates`, which is the opposite statement.
+
 `wargearGroupCap(def, entry, gi)` reads the applicable row from the live model count — **not the
 size bracket**, since a 6-10 bracket at 6 models is still below a 10-model threshold. `null` =
 no structural cap, keep the old prose-derived behaviour; `{limit: 0}` = the group genuinely
