@@ -114,7 +114,7 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 @container (max-width: 300px) {
   /* The padding keeps the name clear of the buttons horizontally; the min-height keeps the row
      BELOW it clear of them vertically, since a one-line name is shorter than their strip. */
-  .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: 3.4rem; min-height: 1.5rem; font-size: 0.85rem; }
+  .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: var(--rul-acts-w, 3.4rem); min-height: 1.5rem; font-size: 0.85rem; }
   .rur-pts { grid-area: 2 / 2 / 3 / 3; align-self: end; font-size: 0.85rem; }
   .rur-chips { grid-area: 2 / 1 / 3 / 2; }
   .rur-picks { grid-area: 3 / 1 / 4 / -1; }

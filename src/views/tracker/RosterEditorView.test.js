@@ -82,7 +82,7 @@ describe('RosterEditorView', () => {
 
   // Adding a unit through the catalogue stops at the duplicate cap; this is the one control that
   // could add one without going through it.
-  it('blocks the copy button at the duplicate cap', async () => {
+  it('offers no copy button at the duplicate cap', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
@@ -92,12 +92,12 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Adrax Agatone')
 
-    expect(w.find('.rul-dup').attributes('disabled')).toBeDefined()
+    expect(w.find('.rul-dup').exists()).toBe(false)
     // Through the store's own reactive handle: createRoster returns the RAW object, and a
     // mutation on that is invisible to the render.
     store.rosterById(r.id).checkLegality = false // the cap is only enforced while checking is on
     await flushPromises()
-    expect(w.find('.rul-dup').attributes('disabled')).toBeUndefined()
+    expect(w.find('.rul-dup').exists()).toBe(true)
   })
 
   it('taxes a duplicate datasheet by copy index in the total', async () => {
