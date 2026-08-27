@@ -2561,11 +2561,14 @@ different component, still `@media`) does not.
 `--page-push` the paper honours ON SCREEN ONLY — a margin baked in on paper would open a second
 gap under the printer's own break.
 
-**It moves unit cards, and nothing else.** A section is not an atom: the stratagems are meant to
-run across two sheets, and treating the section as unbreakable put an empty half-page between the
-detachment rules and them. Everything else on the sheet is either breakable or inside a
-multi-column flow, where a margin pushes a block down its own COLUMN rather than onto the next
-sheet — which is also why the estimate steps aside entirely when the cards are two to a row.
+**The LINE moves, never the content** (`pageEdgesOf` in `rosterPrintOptions.js`, pure and
+tested on numbers). An edge is a sheet's height from the previous edge, pulled UP to the top of
+any `break-inside: avoid` block it would have cut, with the next sheet measured from there. Two
+earlier attempts are worth not repeating: pushing blocks down with a margin invented gaps the
+document did not have (an empty half-page between the detachment rules and the stratagems), and
+it cannot work at all in a multi-column section, where a margin pushes a block down its own
+column rather than onto the next sheet. A block taller than a sheet is cut where the edge falls —
+it fits nowhere, so moving the edge would only end a sheet early and cut it anyway.
 
 **The card is resolved by `useRosterUnitCard`** (`src/composables/rosterUnitCard.js`), the same
 composable `RosterUnitRulesModal` reads, extracted for exactly this reason: the Save a player reads

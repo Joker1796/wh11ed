@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  PRINT_OPTIONS, normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale, sheetsFor,
+  PRINT_OPTIONS, normalizePrintSettings, pageEdgesOf, presetOf, presetSettings, printOptionOn, printScale,
 } from './rosterPrintOptions.js'
 
 describe('roster print presets', () => {
@@ -62,25 +62,53 @@ describe('what was stored last time', () => {
   })
 })
 
-// The number the panel promises, and the number of edges drawn on the paper: one document, two
-// readings of it, so the arithmetic lives in one place.
-describe('how many sheets', () => {
-  const PAGE = 1062 // A4 portrait at 8mm margins, in CSS px
+// The line drawn across the preview is a promise about where the printer will end the sheet, so
+// the arithmetic behind it is worth testing on numbers rather than by eye on a screenshot.
+describe('where the sheets end', () => {
+  const PAGE = 1000
 
-  it('counts a part-filled page as a page', () => {
-    expect(sheetsFor(10, PAGE)).toBe(1)
-    expect(sheetsFor(PAGE * 1.5, PAGE)).toBe(2)
-    expect(sheetsFor(PAGE * 2.5, PAGE)).toBe(3)
+  it('says nothing about a document that fits one sheet', () => {
+    expect(pageEdgesOf([], 900, PAGE)).toEqual([])
   })
 
-  // A hair over a whole number of pages is a rounding of the millimetre conversion, not a sheet.
+  it('breaks every sheet where nothing is in the way', () => {
+    expect(pageEdgesOf([], 2500, PAGE)).toEqual([1000, 2000])
+  })
+
+  // The whole point: a printer moves a block it may not cut, so the sheet ends above it.
+  it('ends the sheet above a block it would have cut', () => {
+    const atoms = [{ top: 950, bottom: 1100 }]
+    expect(pageEdgesOf(atoms, 1600, PAGE)).toEqual([950])
+  })
+
+  // …and the sheet after it is measured from the new edge, not from where the edge would have been.
+  it('measures the next sheet from the edge it moved to', () => {
+    const atoms = [{ top: 900, bottom: 1100 }]
+    expect(pageEdgesOf(atoms, 2500, PAGE)).toEqual([900, 1900])
+  })
+
+  // Two blocks straddling the same edge: the sheet ends above the higher one, or the lower one is
+  // cut after all.
+  it('clears every block straddling the same edge', () => {
+    const atoms = [{ top: 980, bottom: 1050 }, { top: 940, bottom: 1020 }]
+    expect(pageEdgesOf(atoms, 1600, PAGE)).toEqual([940])
+  })
+
+  // A block taller than a sheet has to be cut — the printer cuts it too — and the loop must not
+  // keep pulling the edge back onto it.
+  it('cuts a block that is taller than a sheet', () => {
+    const atoms = [{ top: 200, bottom: 2400 }]
+    expect(pageEdgesOf(atoms, 2500, PAGE)).toEqual([1000, 2000])
+  })
+
+  // Four stray pixels past a whole sheet are a rounded millimetre, not another sheet.
   it('does not invent a sheet for a rounding error', () => {
-    expect(sheetsFor(PAGE * 2 + 4, PAGE)).toBe(2)
-    expect(sheetsFor(PAGE * 2 + 40, PAGE)).toBe(3)
+    expect(pageEdgesOf([], 1004, PAGE)).toEqual([])
+    expect(pageEdgesOf([], 1200, PAGE)).toEqual([1000])
   })
 
-  it('never claims less than one, whatever it is handed', () => {
-    expect(sheetsFor(0, PAGE)).toBe(1)
-    expect(sheetsFor(500, 0)).toBe(1)
+  it('answers nothing when it has nothing to measure', () => {
+    expect(pageEdgesOf([], 0, PAGE)).toEqual([])
+    expect(pageEdgesOf([], 2000, 0)).toEqual([])
   })
 })
