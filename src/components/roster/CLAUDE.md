@@ -2526,6 +2526,12 @@ document against the printable height of the chosen page, so ticking a box moves
 **Not in `STATIC_ROUTES` and not in the sitemap** — it is a private route like `/tracker/game`;
 `gen-seo-routes.mjs` must not learn about it.
 
+**Stratagems print as cards in two columns, not as a table.** A stratagem is prose, and prose
+across 194mm of A4 is a 120-character line; as a table it was worse than that, because one column
+had to be as wide as the widest "when" in the whole detachment. Cards take the height they need,
+two fit side by side, and the phase heading spans both (`column-span: all`) because it belongs to
+the group rather than to whichever column its first card starts in.
+
 **Two cards to a row** is a column count on the cards section and nothing else — possible only
 because `DatasheetCard` measures its own box (`.ds-shell`, `container: dscard / inline-size`)
 rather than the window. Until 2026-08-27 its three responsive tiers were `@media` queries, which
