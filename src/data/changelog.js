@@ -17,6 +17,28 @@
 
 export const changelog = [
   {
+    version: '2.3.6',
+    date: '2026-08-27',
+    en: [
+      { h: 'A better phone, an iPhone in particular' },
+      'A unit\'s wargear sheet scrolls again on a phone: it opens as a sheet there, and everything below the first screenful was unreachable.',
+      'A unit card reads tighter on a phone — the six weapon stats now spread across their half of the row instead of huddling at the edge, and the card as a whole spends about a third less of its height on padding. The table also survives down to a 340px screen now, where it used to give up and stack each weapon into a card of its own.',
+      'Focusing a field no longer zooms the page in on iOS — and it never zoomed back out.',
+      'A tall dialog no longer pushes its own title and close button off the top of the screen.',
+      'Tapping something no longer leaves it looking hovered until you tap somewhere else.',
+      '**If you keep your lists in a Safari tab, install the app or sign in.** Safari clears a site\'s storage after about a week without a visit, and your lists and games are in it. The roster screen now says so, and so does the "Your data" section of the guide.',
+    ],
+    ru: [
+      { h: 'Телефон, и айфон в особенности' },
+      'Закачки юнита снова прокручиваются на телефоне: там они открываются шторкой, и всё ниже первого экрана было недоступно.',
+      'Карточка юнита стала плотнее на телефоне — шесть колонок статов раскладываются по своей половине строки, а не жмутся к краю, и сама карточка тратит примерно на треть меньше места на отступы. Таблица оружия теперь доживает до экрана в 340px: раньше уже на 380px она сдавалась и разваливалась на карточки по оружию.',
+      'Фокус в поле больше не увеличивает страницу на iOS — а обратно она не уменьшалась.',
+      'Высокий диалог больше не выталкивает собственный заголовок и крестик за верх экрана.',
+      'После тапа элемент больше не остаётся подсвеченным до следующего касания.',
+      '**Если держите листы во вкладке Safari — поставьте приложение или войдите в аккаунт.** Safari очищает хранилище сайта примерно через неделю без визитов, а списки и партии лежат именно там. Теперь об этом сказано на экране листов и в разделе «Ваши данные».',
+    ],
+  },
+  {
     version: '2.3.5',
     date: '2026-08-27',
     en: [
