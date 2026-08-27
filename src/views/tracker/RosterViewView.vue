@@ -93,7 +93,7 @@
            rules card in RosterUnitRulesModal — not an inline accordion, that read badly nested
            and had overflow issues (see git history if this is ever revisited). -->
       <div v-if="tab === 'units'" class="rv-units">
-        <p v-if="!roster.units.length" class="rv-hint">{{ labels.rosterUnitsEmpty }}</p>
+        <p v-if="!roster.units.length" class="rv-hint">{{ labels.rosterUnitsEmptyView }}</p>
 
         <template v-for="g in groupedUnits" :key="g.id">
           <template v-if="g.entries.length">
