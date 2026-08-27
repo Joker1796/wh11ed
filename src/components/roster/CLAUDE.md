@@ -996,6 +996,32 @@ model on top of the bracket (Terminator Assault Squad, Venatari Custodians, Vict
 the `dw` units with a ranged bracket), so filling up costs them a little more than the pill says;
 the running total and the "Default wargear" heading both show it as it happens.
 
+**An attached unit is drawn as one block** (`joinAttached` inside `sectionsOf`, `pairAttached:
+true`). A Leader and the unit it joined are ONE unit (core rules 19.01 — the same reading
+`RosterViewView`'s `attachedEntries` already writes every game state across both halves with), but
+filing them by battlefield role sat them in different sections, and the more important the
+character the further apart they went: an Epic Hero at the top of the list, its squad at the
+bottom, joined only by an "attached to…" tag on each pointing at the other.
+
+The block moves into a section of its own, `attached`, first in `UNIT_GROUPS` — `bucketOf` never
+returns that id, the pairing pass is the only thing that fills it. **Unless any part of the block
+belongs to an ally group**: an ally heading carries that group's own accounting and a unit must not
+leave it, so there the block is gathered in place instead, host first. (Six ally units can lead and
+four can be led, all Aeldari — Harlequins and Ynnari.)
+
+The three list screens then draw it the same way, from one pair of primitives in `style.css`
+(`.roster-attached`, `.roster-sum`): the bodyguard's tile, each character indented under it on an
+accent rail, then the block's own points. Those points are printed **once, under the last row**
+(`attachedBlockTotal`) rather than as a combined figure on the bodyguard — the per-row numbers
+above it still read down the column and still add up to the roster total, which a combined figure
+would have quietly broken. What each row keeps is a **role tag** ("Leader" / "Support"): the
+nesting says which unit a character joined, but not which slot it fills. The old reciprocal
+tags — "Attached to X" on the character, "X (Leader)" on the squad — are gone with the distance
+that made them necessary.
+
+`pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
+lists datasheets, and nothing is attached to a datasheet.
+
 ## Russian for the wargear instructions
 
 The group instruction shown above each wargear choice ("The Sister Superior's boltgun can be
