@@ -572,9 +572,6 @@ watchEffect(() => {
   font-size: 0.9rem;
 }
 .field input:focus { outline: none; border-color: var(--accent); }
-@media (pointer: coarse) {
-  .field input[type="text"], .field input[type="number"] { font-size: 16px; }
-}
 
 .btn-choose {
   display: flex;
