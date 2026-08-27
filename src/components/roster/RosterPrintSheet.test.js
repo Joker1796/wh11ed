@@ -89,9 +89,11 @@ describe('the reference sections', () => {
   })
 
   // The compact sheet's biggest saving: the name, its cost and its window, and nothing else.
-  it('prints a stratagem as one line until its text is asked for', () => {
+  it('prints a stratagem as name, cost and window until its text is asked for', () => {
     const compact = sheet(resolve())
-    expect(compact.findAll('.rps-strats .rps-row').length).toBeGreaterThan(0)
+    expect(compact.findAll('.rps-strat').length).toBeGreaterThan(0)
+    expect(compact.find('.rps-strat .rps-cp').exists()).toBe(true)
+    expect(compact.find('.rps-strat-when').exists()).toBe(true)
     expect(compact.find('.rps-strat-text').exists()).toBe(false)
     expect(sheet(resolve({}, 'full')).find('.rps-strat-text').exists()).toBe(true)
   })
@@ -100,7 +102,7 @@ describe('the reference sections', () => {
   it('prints as many stratagem lines as the detachment has', async () => {
     const w = sheet(resolve())
     await flushPromises()
-    const printed = new Set(w.findAll('.rps-strats .c-strat').map((n) => n.text().trim()))
+    const printed = new Set(w.findAll('.rps-strats .rps-strat .c-strat').map((n) => n.text().trim()))
     const expected = new Set((detachments[0].stratagems || []).map((st) => st.name))
     expect(printed).toEqual(expected)
   })

@@ -91,35 +91,29 @@
       </div>
     </section>
 
-    <!-- Stratagems as a table, grouped by the phase they are used in (stratagemPhases.js reads
-         the ENGLISH `when`, so the grouping is identical in both languages). Without the effect
-         text this is the cheapest useful section in the booklet: a whole detachment fits in a
-         third of a sheet. -->
+    <!-- Stratagems as cards in two columns, grouped by the phase they are used in
+         (stratagemPhases.js reads the ENGLISH `when`, so the grouping is identical in both
+         languages). Without the effect text this is still the cheapest useful section in the
+         booklet: a whole detachment fits in a third of a sheet. -->
     <section v-if="opts.stratagems && stratagemGroups.length" class="rps-block">
       <h2 class="rps-h">{{ labels.rosterViewTabStratagems }}</h2>
-      <table class="rps-table rps-strats">
-        <tbody>
-          <template v-for="g in stratagemGroups" :key="g.phase">
-            <tr class="rps-group"><th colspan="3">{{ phaseLabel(g.phase, labels) }}</th></tr>
-            <template v-for="st in g.items" :key="st.key">
-              <tr class="rps-row">
-                <td class="c-strat">
-                  {{ st.name }}<em v-if="st.nameRu"> · {{ st.nameRu }}</em>
-                </td>
-                <td class="c-cp">{{ st.cp }}</td>
-                <td class="c-when">{{ st.when }}</td>
-              </tr>
-              <tr v-if="opts.stratagemText" class="rps-row rps-strat-text">
-                <td colspan="3">
-                  <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }} </span>
-                  <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }} </span>
-                  <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> {{ st.restrictions }}</span>
-                </td>
-              </tr>
-            </template>
-          </template>
-        </tbody>
-      </table>
+      <div class="rps-strats">
+        <template v-for="g in stratagemGroups" :key="g.phase">
+          <h3 class="rps-phase">{{ phaseLabel(g.phase, labels) }}</h3>
+          <article v-for="st in g.items" :key="st.key" class="rps-strat">
+            <h4 class="rps-strat-name">
+              <span class="c-strat">{{ st.name }}</span><em v-if="st.nameRu"> · {{ st.nameRu }}</em>
+              <span class="rps-cp">{{ st.cp }}</span>
+            </h4>
+            <p class="rps-strat-when">{{ st.when }}</p>
+            <p v-if="opts.stratagemText" class="rps-strat-text">
+              <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }} </span>
+              <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }} </span>
+              <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> {{ st.restrictions }}</span>
+            </p>
+          </article>
+        </template>
+      </div>
     </section>
 
     <section
@@ -388,12 +382,51 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 .rps-tag { margin-left: calc(0.3rem * var(--print-scale, 1)); color: var(--text-muted); font-size: 0.9em; }
 .rps-tag::before { content: '· '; }
 .c-pts { width: 1%; white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
-.c-cp { width: 1%; white-space: nowrap; }
 .c-name { width: 34%; }
 .rps-row.attached .c-name { padding-left: calc(0.7rem * var(--print-scale, 1)); }
-.rps-strats .c-strat { width: 26%; font-weight: 600; }
-.rps-strats .c-strat em { font-weight: 400; font-style: normal; color: var(--text-muted); }
-.rps-strat-text td { padding-top: 0; color: var(--text-primary); font-size: 0.95em; }
+/* ── Stratagems: cards, not a table ─────────────────────────────────────────────────────────
+   A stratagem is prose, and prose across the full width of A4 is a 120-character line — the same
+   reason the rules below are set in two columns. As a table it also had to give a column its
+   width for every row: the widest "when" in the detachment decided the measure for all of them.
+   As cards each one takes the height it needs and no more, and two fit side by side.
+
+   The phase heading spans both columns: it belongs to the group, not to the column its first
+   card happens to start in. */
+.rps-strats { columns: 2; column-gap: calc(1.2rem * var(--print-scale, 1)); }
+.rps-phase {
+  column-span: all;
+  margin: calc(0.35rem * var(--print-scale, 1)) 0 calc(0.2rem * var(--print-scale, 1));
+  padding-bottom: calc(0.05rem * var(--print-scale, 1));
+  border-bottom: 1px solid var(--border);
+  font-size: calc(0.7rem * var(--print-scale, 1));
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.rps-phase:first-child { margin-top: 0; }
+.rps-strat {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: calc(0.35rem * var(--print-scale, 1));
+}
+.rps-strat-name {
+  margin: 0;
+  font-size: calc(0.82rem * var(--print-scale, 1));
+  line-height: 1.25;
+}
+.rps-strat-name em { font-weight: 400; font-style: normal; color: var(--text-muted); }
+/* The cost rides with the name rather than in a column of its own — it is one of the two things
+   a player scans for (the other is the phase, which is the heading above). */
+.rps-cp {
+  margin-left: calc(0.3rem * var(--print-scale, 1));
+  padding: 0 calc(0.25rem * var(--print-scale, 1));
+  border: 1px solid var(--border);
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.rps-strat-when { margin: 0; color: var(--text-muted); font-size: 0.95em; }
+.rps-strat-text { margin: calc(0.1rem * var(--print-scale, 1)) 0 0; font-size: 0.95em; }
 .rps-strat-text strong { text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.03em; }
 
 /* ── Prose: two columns ─────────────────────────────────────────────────────────────────────
