@@ -8,7 +8,7 @@
        It has to be a wrapper: a container cannot query itself, and `.ds-card`'s own padding and
        full-bleed are half of what changes. -->
   <div class="ds-shell">
-  <article class="ds-card">
+  <article class="ds-card" :class="{ dense }">
     <!-- Stat profiles -->
     <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
          padding and carries an accent-tinted background, reading as one band with the
@@ -302,7 +302,7 @@
         <div class="ds-ability" v-html="dsRichText(sheet.transport)"></div>
       </DsAccordion>
     </div>
-    <div v-if="sheet.leader" class="ds-ability-group">
+    <div v-if="sheet.leader && !hideAttachment" class="ds-ability-group">
       <DsAccordion :collapsible="collapsible">
         <template #header="{ open, toggle }">
           <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
@@ -482,6 +482,15 @@ const props = defineProps({
   // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
   // effects name a condition the player may flip; `toggle-cond` reports the click.
   abilitySwitches: { type: Object, default: null },
+  // Hide "this model can be attached to…". It is the question a LIST answers: by the time the
+  // list is built the attachment is decided, and the roster says which unit it was — so on a
+  // printed sheet the block is a page of names nobody will read again. On a datasheet being READ
+  // it is the whole point of the unit, so this is off everywhere else.
+  hideAttachment: { type: Boolean, default: false },
+  // The tight spacing the card uses on a phone, asked for outright. Paper wants it for the same
+  // reason a phone does — height is what it is paid in — but a sheet of A4 is 733px wide, so the
+  // width query that turns it on for a phone will never fire there.
+  dense: { type: Boolean, default: false },
   // Hide the datasheet's own points table. Until the print sheet there was exactly one caller
   // that wanted it gone — the modal — and `collapsible` spoke for both, which is why the two were
   // one flag. On paper they part company: a booklet wants every block OPEN and the per-bracket
@@ -729,18 +738,70 @@ function abilityStateLabel(st) {
 <style scoped>
 .ds-shell { container: dscard / inline-size; }
 
+/* THE CARD'S RHYTHM, in one place. Every gap on the card is one of these, because the card is
+   drawn at three widths (a page, a modal, a phone) and each of them wants the same proportions at
+   a different size — before this the tight set was a copy of the loose one with every number
+   changed, in a block a hundred lines further down.
+   The tight values live here as constants; the two things that can ask for them — a narrow
+   container, and a caller passing `dense` — assign them below. Those two assignment lists are the
+   same decision reached two ways and must stay identical. */
 .ds-card {
+  --ds-pad-x: 1rem;
+  --ds-pad-top: 0.9rem;
+  --ds-pad-bottom: 1rem;
+  --ds-band-top: 0.75rem;
+  --ds-band-bottom: 0.7rem;
+  --ds-space: 0.7rem;
+  --ds-group-space: 0.6rem;
+  --ds-head-top: 0.7rem;
+  --ds-head-bottom: 0.3rem;
+  --ds-kw-top: 0.8rem;
+  --ds-kw-pad: 0.5rem;
+  --ds-mods-bottom: 0.9rem;
+  --ds-mods-pad: 0.7rem;
+
+  --ds-tight-pad-x: 0.4rem;
+  --ds-tight-pad-top: 0.7rem;
+  --ds-tight-pad-bottom: 0.5rem;
+  --ds-tight-band-top: 0.6rem;
+  --ds-tight-band-bottom: 0.5rem;
+  --ds-tight-space: 0.45rem;
+  --ds-tight-group-space: 0.4rem;
+  --ds-tight-head-top: 0.5rem;
+  --ds-tight-head-bottom: 0.2rem;
+  --ds-tight-kw-top: 0.5rem;
+  --ds-tight-kw-pad: 0.4rem;
+  --ds-tight-mods-bottom: 0.6rem;
+  --ds-tight-mods-pad: 0.5rem;
+
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 0.9rem 1rem 1rem;
+  padding: var(--ds-pad-top) var(--ds-pad-x) var(--ds-pad-bottom);
+}
+
+/* Asked for outright. Same list as the narrow-container one below. */
+.ds-card.dense {
+  --ds-pad-x: var(--ds-tight-pad-x);
+  --ds-pad-top: var(--ds-tight-pad-top);
+  --ds-pad-bottom: var(--ds-tight-pad-bottom);
+  --ds-band-top: var(--ds-tight-band-top);
+  --ds-band-bottom: var(--ds-tight-band-bottom);
+  --ds-space: var(--ds-tight-space);
+  --ds-group-space: var(--ds-tight-group-space);
+  --ds-head-top: var(--ds-tight-head-top);
+  --ds-head-bottom: var(--ds-tight-head-bottom);
+  --ds-kw-top: var(--ds-tight-kw-top);
+  --ds-kw-pad: var(--ds-tight-kw-pad);
+  --ds-mods-bottom: var(--ds-tight-mods-bottom);
+  --ds-mods-pad: var(--ds-tight-mods-pad);
 }
 
 /* Header zone of the card: bleeds over the card padding so the accent-tinted band runs
    edge-to-edge under the solid name plate above; a border separates it from the body.
    Stat boxes get a plain card-colored fill so they pop on the tinted background. */
 .ds-cardhead {
-  margin: -0.9rem -1rem 0.8rem;
-  padding: 0.75rem 1rem 0.7rem;
+  margin: calc(-1 * var(--ds-pad-top)) calc(-1 * var(--ds-pad-x)) var(--ds-space);
+  padding: var(--ds-band-top) var(--ds-pad-x) var(--ds-band-bottom);
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-bottom: 1px solid var(--border);
 }
@@ -748,7 +809,7 @@ function abilityStateLabel(st) {
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
 
 /* Stat line (consecutive profile rows sit tight — labels render only on the first) */
-.ds-statline { margin-bottom: 0.7rem; }
+.ds-statline { margin-bottom: var(--ds-space); }
 .ds-statline:has(+ .ds-statline) { margin-bottom: 0.35rem; }
 .ds-stats {
   display: grid;
@@ -925,7 +986,7 @@ function abilityStateLabel(st) {
 }
 
 /* Weapons */
-.ds-weapons { overflow-x: auto; margin-bottom: 0.7rem; }
+.ds-weapons { overflow-x: auto; margin-bottom: var(--ds-space); }
 /* Ranged immediately followed by melee: tighten the gap between the two tables — the 0.7rem
    above is for what comes after the LAST weapons table (abilities/keywords/points), which still
    wants the fuller gap. */
@@ -1021,23 +1082,33 @@ function abilityStateLabel(st) {
      the same card that reads as generously spaced on a laptop arrives as a column of half-empty
      bands, and the reader is scrolling past air to reach the abilities. Every value here was
      simply the desktop one until 2026-08-27. */
+  /* The same list `.ds-card.dense` carries — the two are one decision reached two ways. */
   .ds-card {
+    --ds-pad-x: var(--ds-tight-pad-x);
+    --ds-pad-top: var(--ds-tight-pad-top);
+    --ds-pad-bottom: var(--ds-tight-pad-bottom);
+    --ds-band-top: var(--ds-tight-band-top);
+    --ds-band-bottom: var(--ds-tight-band-bottom);
+    --ds-space: var(--ds-tight-space);
+    --ds-group-space: var(--ds-tight-group-space);
+    --ds-head-top: var(--ds-tight-head-top);
+    --ds-head-bottom: var(--ds-tight-head-bottom);
+    --ds-kw-top: var(--ds-tight-kw-top);
+    --ds-kw-pad: var(--ds-tight-kw-pad);
+    --ds-mods-bottom: var(--ds-tight-mods-bottom);
+    --ds-mods-pad: var(--ds-tight-mods-pad);
+    /* …and the one thing that is about the SCREEN rather than the room: a card this narrow reads
+       as a full-bleed section rather than a card in a gutter. */
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    padding: 0.7rem 0.4rem 0.5rem;
   }
-  .ds-cardhead { margin: -0.7rem -0.4rem 0.5rem; padding: 0.6rem 0.4rem 0.5rem; }
-  .ds-points { margin: 0.6rem -0.4rem -0.5rem; padding: 0.45rem 0.4rem 0.6rem; }
-  .ds-statline { margin-bottom: 0.45rem; }
-  /* The gap AFTER the last weapons table (the `:has` rules that tighten the others are more
-     specific and keep winning). */
-  .ds-weapons { margin-bottom: 0.45rem; }
+  .ds-points { margin: var(--ds-space) calc(-1 * var(--ds-pad-x)) calc(-1 * var(--ds-pad-bottom)); padding: 0.45rem var(--ds-pad-x) 0.6rem; }
 
   /* Bleed the weapon table to the card's edges too, same as .ds-cardhead/.ds-points above —
      the gutter comes from the cells' own padding, not from staying inset. */
   .ds-weapons {
-    margin-left: -0.4rem;
-    margin-right: -0.4rem;
+    margin-left: calc(-1 * var(--ds-pad-x));
+    margin-right: calc(-1 * var(--ds-pad-x));
   }
   .ds-points table {
     font-size: 0.72rem;
@@ -1046,12 +1117,6 @@ function abilityStateLabel(st) {
   .ds-points td {
     padding: 0.2rem 0.3rem;
   }
-  /* The rest of the card's rhythm, same reasoning: the section heading sits closer to what it
-     heads, the keyword footer closer to the block above it, and the modifier footnotes closer to
-     the table they annotate. */
-  .ds-group-title { margin: 0.5rem 0 0.2rem; }
-  .ds-keywords { margin-top: 0.5rem; padding-top: 0.4rem; }
-  .ds-mods { margin-bottom: 0.6rem; padding-bottom: 0.5rem; }
 }
 
 /* Phones and narrow windows (≤560px): the table STAYS a table, tightened until it fits.
@@ -1223,8 +1288,8 @@ function abilityStateLabel(st) {
    separate it from whatever follows. Symmetric margins made it read as belonging to neither. */
 .ds-mods {
   list-style: none;
-  margin: 0 0 0.9rem;
-  padding: 0 0 0.7rem;
+  margin: 0 0 var(--ds-mods-bottom);
+  padding: 0 0 var(--ds-mods-pad);
   border-bottom: 1px solid var(--border);
   font-size: 0.76rem;
 }
@@ -1355,7 +1420,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--accent);
-  margin: 0.7rem 0 0.3rem;
+  margin: var(--ds-head-top) 0 var(--ds-head-bottom);
 }
 /* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to
    a full-width clickable row with the chevron at the end. Non-collapsible callers never render
@@ -1394,7 +1459,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
    header bar (same idiom as the weapon table headers), so the two categories read as
    distinct groups rather than one undifferentiated list. */
 .ds-ability-group {
-  margin: 0.6rem 0;
+  margin: var(--ds-group-space) 0;
   overflow: hidden;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   font-size: 0.85rem;
@@ -1423,11 +1488,11 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
    block earlier for why source order matters here). Square corners since it's flush
    against the card border now, not floating mid-card. */
 @container dscard (max-width: 480px) {
+  /* Bleed to the card's own edges, like the weapon tables above. The vertical rhythm is a token
+     now (--ds-group-space) and needs nothing here. */
   .ds-ability-group {
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
-    margin-left: -0.4rem;
-    margin-right: -0.4rem;
+    margin-left: calc(-1 * var(--ds-pad-x));
+    margin-right: calc(-1 * var(--ds-pad-x));
   }
 }
 
@@ -1435,8 +1500,8 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 .ds-loadout, .ds-option { margin-bottom: 0.3rem; white-space: pre-line; }
 
 .ds-keywords {
-  margin-top: 0.8rem;
-  padding-top: 0.5rem;
+  margin-top: var(--ds-kw-top);
+  padding-top: var(--ds-kw-pad);
   border-top: 1px solid var(--border);
   font-size: 0.75rem;
   color: var(--text-muted);

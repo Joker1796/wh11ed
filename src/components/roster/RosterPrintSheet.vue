@@ -119,11 +119,7 @@
       </div>
     </section>
 
-    <section
-      v-if="opts.unitCards && cardEntries.length"
-      class="rps-block rps-cards"
-      :class="{ 'two-up': opts.cardsTwoUp }"
-    >
+    <section v-if="opts.unitCards && cardEntries.length" class="rps-block rps-cards">
       <h2 class="rps-h">{{ labels.printSectionCards }}</h2>
       <RosterPrintUnitCard
         v-for="c in cardEntries"
@@ -461,20 +457,13 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 .rps-prose :deep(p) { margin: 0 0 calc(0.25rem * var(--print-scale, 1)); }
 .rps-prose :deep(ul) { margin: 0 0 calc(0.25rem * var(--print-scale, 1)); padding-left: 1em; }
 
-/* One card per row, or two. A datasheet is a grid of tables and used to have no business in a
-   column — it read the WINDOW to decide how to draw itself, so in a 92mm column on a desktop it
-   would have laid itself out for a 1200px screen and been cut off. It reads its own box now
-   (DatasheetCard's `.ds-shell`), so in half a page it draws itself the way it does on a phone,
-   which is the layout that half a page wants. A card still never splits across a column. */
+/* ONE CARD TO A ROW, deliberately — two was tried on 2026-08-27 and taken out again.
+   A card in half a page is not half as tall: the weapon table wraps, the ability text runs
+   narrow, and the pair of them ends up taller than the two cards laid out full width. It also
+   put a page edge between two cards that start at slightly different heights, which is how a
+   sheet with 45px of content on it came about. Full width prints fewer sheets AND paginates as
+   a single flow, which is the only kind of flow the sheet-edge calculation can reason about. */
 .rps-cards { columns: 1; }
-.rps-cards.two-up {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: calc(1rem * var(--print-scale, 1));
-  align-items: start;
-}
-/* The section's own heading belongs to the section, not to its first column. */
-.rps-cards.two-up > .rps-h { grid-column: 1 / -1; }
 
 /* ── Ink ────────────────────────────────────────────────────────────────────────────────────
    A datasheet on screen is a set of filled accent bars and tinted bands: it separates the parts
@@ -531,6 +520,14 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 .rps :deep(.keyword) { background: none; }
 /* …which leaves the statline needing a rule of its own to stay a band. */
 .rps :deep(.ds-cardhead) { border-bottom: 1px solid var(--border); }
+
+/* The card's own bands bleed to its edges when it is narrow; asked for `dense` at page width it
+   should do the same, or the weapon tables sit inset under a statline band that does not. */
+.rps :deep(.ds-card.dense .ds-weapons),
+.rps :deep(.ds-card.dense .ds-ability-group) {
+  margin-left: calc(-1 * var(--ds-pad-x));
+  margin-right: calc(-1 * var(--ds-pad-x));
+}
 
 /* DatasheetCard escapes to the full VIEWPORT width below 480px (`width: 100vw; margin-left:
    calc(50% - 50vw)`) so that on a phone it reads as a full-bleed section rather than a card in a

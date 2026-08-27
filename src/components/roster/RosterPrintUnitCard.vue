@@ -30,6 +30,8 @@
       :hide-possible="!opts.possible"
       :hide-choices="!opts.choices"
       hide-points
+      hide-attachment
+      dense
     />
   </article>
 </template>

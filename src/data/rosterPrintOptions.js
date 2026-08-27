@@ -138,18 +138,6 @@ export const PRINT_OPTIONS = [
     full: false,
   },
   {
-    // Only possible since DatasheetCard measures its own box rather than the window (the
-    // `.ds-shell` container): in a 92mm column it draws itself the way it does on a phone,
-    // which is exactly the layout that column wants.
-    id: 'cardsTwoUp',
-    group: 'card',
-    label: 'printOptTwoUp',
-    hint: 'printOptTwoUpHint',
-    requires: 'unitCards',
-    compact: false,
-    full: true,
-  },
-  {
     id: 'pageBreak',
     group: 'card',
     label: 'printOptPageBreak',
