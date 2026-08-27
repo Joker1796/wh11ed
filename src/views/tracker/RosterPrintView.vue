@@ -2,7 +2,8 @@
      screen inside the paper frame is what the printer is handed, at the width it will have
      (`@media print` in style.css only strips the app's chrome and forces the light palette).
      There is deliberately no second "print layout" hidden behind the button — a preview that is
-     not the document is a preview that lies.
+     not the document is a preview that lies. The pages on screen are REAL boxes the document
+     dealt itself into (RosterPrintSheet.vue), not lines drawn over a flow.
 
      THE PANEL is the whole feature: two presets over one list of checkboxes
      (src/data/rosterPrintOptions.js). Touch any box and the preset label becomes "custom" — the
@@ -10,8 +11,8 @@
      stratagem text. Everything, including density and orientation, is remembered.
 
      THE PAGE COUNT is what makes those controls usable: without it, "denser" is a guess and the
-     answer arrives at the printer. It is measured off the rendered document against the printable
-     height of the chosen paper, so it moves as boxes are ticked.
+     answer arrives at the printer. The sheet reports it as it deals its pages, so it moves as
+     boxes are ticked.
 
      PRINTING ITSELF is the browser's — `window.print()`, no PDF library. The document is text and
      tables, so the browser's own "Save as PDF" produces selectable text at zero cost in bundle
@@ -89,38 +90,25 @@
       </div>
 
       <!-- The paper. Its width is the printable width of the chosen page, in millimetres, so a
-           line breaks on screen exactly where it breaks on the sheet; the horizontal rules are
-           where the pages end. -->
-      <div ref="paperEl" class="rpv-paper" :class="settings.orientation" :style="paperStyle">
-        <!-- Where one sheet ends and the next begins. Drawn OVER the document, not behind it:
-             as a background on the paper the line was hidden under the first card or table that
-             painted its own white, which made the whole thing look like one endless page. -->
-        <div class="rpv-breaks" aria-hidden="true">
-          <div
-            v-for="(top, i) in edges"
-            :key="i"
-            class="rpv-break"
-            :style="{ top: `${top}px` }"
-          >
-            <span class="rpv-break-label">{{ labels.printSheetLabel.replace('{n}', String(i + 2)) }}</span>
-          </div>
-        </div>
-        <div ref="docEl">
-          <RosterPrintSheet
-            :roster="roster"
-            :faction-data="factionData"
-            :rules-faction="rulesFaction"
-            :detachments="detachments"
-            :opts="effectiveOpts"
-          />
-        </div>
+           line breaks on screen exactly where it breaks on the sheet. The sheet inside renders
+           REAL page boxes — what is in a box is what is on that sheet — and reports how many
+           there are (see RosterPrintSheet.vue). -->
+      <div class="rpv-paper" :class="settings.orientation" :style="paperStyle">
+        <RosterPrintSheet
+          :roster="roster"
+          :faction-data="factionData"
+          :rules-faction="rulesFaction"
+          :detachments="detachments"
+          :opts="effectiveOpts"
+          @pages="pageCount = $event"
+        />
       </div>
     </template>
   </div>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch, nextTick } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RosterPrintSheet from '../../components/roster/RosterPrintSheet.vue'
 import { ui } from '../../i18n/ui.js'
@@ -132,17 +120,12 @@ import { usesAllies } from '../../composables/rosterEngine.js'
 import { isStandaloneDisplay } from '../../composables/standalone.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import {
-  PRINT_OPTIONS, PRINT_DENSITIES, PRINT_ORIENTATIONS,
-  normalizePrintSettings, pageEdgesOf, presetOf, presetSettings, printOptionOn, printScale,
+  PRINT_OPTIONS, PRINT_DENSITIES, PRINT_ORIENTATIONS, PRINT_MARGIN_MM,
+  normalizePrintSettings, presetOf, presetSettings, printOptionOn, printPageWidthMm, printScale,
 } from '../../data/rosterPrintOptions.js'
 
 const STORE_KEY = 'wh11ed-roster-print'
 const DENSITY_LABELS = { normal: 'printDensityNormal', dense: 'printDensityDense', denser: 'printDensityDenser' }
-// A4 and a margin most printers can reach. Both are needed twice: as numbers, to draw the paper
-// and to count the sheets, and as CSS, in the @page rule injected below.
-const PAGE = { portrait: { w: 210, h: 297 }, landscape: { w: 297, h: 210 } }
-const MARGIN_MM = 8
-const MM_PX = 96 / 25.4
 
 const route = useRoute()
 const router = useRouter()
@@ -199,74 +182,16 @@ const detachments = computed(() => (roster.value?.detachments || [])
   .map((name) => detachmentLookup.value.get(normName(name)))
   .filter(Boolean))
 
-// ── Paper, and how much of it ───────────────────────────────────────────────────────────────
-const page = computed(() => PAGE[settings.orientation] || PAGE.portrait)
-// The printable height of one sheet, in the same px the preview is laid out in.
-const contentH = computed(() => (page.value.h - MARGIN_MM * 2) * MM_PX)
+// ── Paper ───────────────────────────────────────────────────────────────────────────────────
+// The width is the view's; the height, the page boxes and the sheet count are the document's own
+// business now (RosterPrintSheet measures and deals its pages itself, and reports the count).
 const paperStyle = computed(() => {
   return {
     '--print-scale': printScale(settings),
-    width: `${page.value.w - MARGIN_MM * 2}mm`,
+    width: `${printPageWidthMm(settings.orientation)}mm`,
   }
 })
-
-const docEl = ref(null)
-const paperEl = ref(null)
 const pageCount = ref(1)
-
-// The preview is drawn at a fraction of its real size on a narrow screen (`zoom` on the paper),
-// and `zoom` scales what getBoundingClientRect reports. Everything measured below is divided by
-// this so the maths stays in the paper's own millimetres.
-function paperScale() {
-  const el = paperEl.value
-  if (!el) return 1
-  const css = (page.value.w - MARGIN_MM * 2) * MM_PX
-  const shown = el.getBoundingClientRect().width
-  return shown && css ? shown / css : 1
-}
-
-// WHERE THE PAGES ACTUALLY BREAK.
-//
-// A printer never cuts through a block that says `break-inside: avoid` — a unit card, a stratagem
-// card, a rule, a row of the list. It ends the sheet above it and starts the next one with the
-// whole block. So the edge of a sheet is not simply "every 281mm": it is that, pulled UP to the
-// top of whatever unbreakable block it would otherwise have cut through, and the sheet after it
-// measured from there.
-//
-// The LINES move, never the content. The first version of this pushed blocks down with a margin
-// instead, which meant inventing gaps the document did not have — an empty half page between the
-// detachment rules and the stratagems — and it could not work at all where the content is in two
-// columns, since a margin there pushes a block down its own column rather than onto the next
-// sheet. Moving the line is honest in both cases and leaves the document alone.
-// What a printer will not cut, in the order it will meet them. `.rps-rule` is deliberately NOT
-// here: the rules are the one section still set in CSS columns, where a vertical offset says
-// nothing about flow order, so a line computed from offsets cannot reason about them. A rule is
-// prose and survives being continued on the next sheet; a card does not.
-const ATOMS = '.rpu, .rps-strat, .rps-row, .rps-head'
-
-function pageEdges() {
-  const root = docEl.value
-  if (!root) return []
-  const scale = paperScale()
-  const rootRect = root.getBoundingClientRect()
-  const top0 = rootRect.top
-  const atoms = [...root.querySelectorAll(ATOMS)].map((el) => {
-    const r = el.getBoundingClientRect()
-    return { top: (r.top - top0) / scale, bottom: (r.bottom - top0) / scale }
-  })
-  return pageEdgesOf(atoms, rootRect.height / scale, contentH.value)
-}
-
-const edges = ref([])
-function measure() {
-  edges.value = pageEdges()
-  pageCount.value = edges.value.length + 1
-}
-// Every setting changes the length, and the length is the number the panel promises. Measured
-// after the DOM settles, and again on resize because the paper is in millimetres but the browser
-// zoom is not.
-watch([effectiveOpts, () => settings.density, () => settings.orientation, factionData, rulesFaction],
-  () => nextTick(measure), { deep: true, immediate: true })
 
 // ── Printing ────────────────────────────────────────────────────────────────────────────────
 const standalone = ref(false)
@@ -276,7 +201,7 @@ const href = ref('')
 let styleEl = null
 function applyPageRule() {
   if (!styleEl) return
-  styleEl.textContent = `@page { size: A4 ${settings.orientation}; margin: ${MARGIN_MM}mm; }`
+  styleEl.textContent = `@page { size: A4 ${settings.orientation}; margin: ${PRINT_MARGIN_MM}mm; }`
 }
 onMounted(() => {
   standalone.value = isStandaloneDisplay()
@@ -284,12 +209,9 @@ onMounted(() => {
   styleEl = document.createElement('style')
   document.head.appendChild(styleEl)
   applyPageRule()
-  window.addEventListener('resize', measure)
-  measure()
 })
 watch(() => settings.orientation, applyPageRule)
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', measure)
   styleEl?.remove()
   styleEl = null
 })
@@ -337,36 +259,12 @@ function print() { window.print() }
 .rpv-note { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 
 /* ── The paper ─────────────────────────────────────────────────────────────────────────────── */
-/* The sheet edges. `position: absolute` inside the paper, over the content and inert to the
-   pointer; gone in print, where the printer cuts the pages for real. */
-.rpv-breaks { position: absolute; inset: 0; pointer-events: none; }
-.rpv-break {
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 1px dashed color-mix(in srgb, #c0392b 60%, transparent);
-}
-.rpv-break-label {
-  position: absolute;
-  right: 0;
-  top: 0.15rem;
-  padding: 0 0.25rem;
-  background: #fff;
-  color: #c0392b;
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-@media print {
-  .rpv-breaks { display: none; }
-}
-
 .rpv-paper {
   position: relative;
-  /* White in both themes, because that is what it is: paper. The document inside it is drawn
-     with the app's own tokens, so they are pinned to their light values here — a card printed in
-     dark-theme colours is a card nobody can read on a sheet. */
+  /* The page boxes inside are white in both themes, because that is what they are: paper. The
+     document is drawn with the app's own tokens, so they are pinned to their light values here —
+     a card printed in dark-theme colours is a card nobody can read on a sheet. The container
+     itself stays transparent: the boxes are the sheets, the gaps between them are the desk. */
   --bg-primary: #ffffff;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
@@ -375,12 +273,10 @@ function print() { window.print() }
   --text-muted: #3a3a42;
   --text-dim: #55555f;
   --border: #b9b9c2;
-  background-color: #ffffff;
   color: var(--text-primary);
-  padding: 0;
-  box-shadow: 0 0 0 1px var(--border);
+  /* Room for the first page box's own "Sheet 1" label (drawn above it). */
+  padding-top: 1rem;
   max-width: 100%;
-  overflow: hidden;
 }
 
 /* Below the paper's own width there is nothing to be done but let it scale down: the sheet is a

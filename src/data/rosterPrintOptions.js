@@ -204,41 +204,88 @@ export function normalizePrintSettings(saved) {
   return out
 }
 
-// WHERE THE SHEETS END. A printer never cuts through a block that says `break-inside: avoid` — a
-// unit card, a stratagem card, a rule, a row of the list: it ends the sheet above the block and
-// starts the next one with the whole of it. So an edge is `pageHeight` from the previous edge,
-// pulled UP to the top of whatever unbreakable block it would have cut, and the sheet after it
-// measured from there.
+// ── The paper itself ─────────────────────────────────────────────────────────────────────────
+// A4, and a margin most printers can reach. Written once, read three ways: as millimetres for
+// the page boxes and the injected `@page` rule, and as pixels for deciding what fits on a sheet.
+export const PRINT_PAGE = { portrait: { w: 210, h: 297 }, landscape: { w: 297, h: 210 } }
+export const PRINT_MARGIN_MM = 8
+export const MM_PX = 96 / 25.4
+
+// The page boxes are cut a couple of pixels short of the printable height: mm→px conversion
+// rounds, and a box that overruns the page area by a rounded hair pushes every page after it
+// half onto the next sheet — the classic interleaved-blank-pages failure.
+const PRINT_PAGE_SLACK_PX = 2
+
+export function printPageWidthMm(orientation) {
+  const p = PRINT_PAGE[orientation] || PRINT_PAGE.portrait
+  return p.w - PRINT_MARGIN_MM * 2
+}
+
+export function printPageHeightPx(orientation) {
+  const p = PRINT_PAGE[orientation] || PRINT_PAGE.portrait
+  return (p.h - PRINT_MARGIN_MM * 2) * MM_PX - PRINT_PAGE_SLACK_PX
+}
+
+// HOW THE DOCUMENT BECOMES PAGES. The sheet renders its whole content once, unpaginated, in a
+// hidden measuring flow; every indivisible piece of it — a heading, a rule, a row of the list, a
+// pair of stratagem cards, a unit card — is a UNIT with a measured `top` and `bottom` in that
+// flow. This walks the units in order and deals them out onto pages of `pageH`, so the pages the
+// preview then draws are real boxes with the content INSIDE them: there is nothing left for the
+// browser's own print fragmentation to decide, which is the only way the preview and the printer
+// can agree by construction rather than by simulation.
 //
-// `atoms` are those blocks as `{ top, bottom }` offsets from the top of the document; the caller
-// measures them, this decides. Returns the offset of each edge after the first sheet, so the
-// number of sheets is `edges.length + 1`.
+// A unit is `{ block, index, top, bottom, keepWithNext?, breakBefore? }`:
+//   block         which section of the document it belongs to (fragments are per-block)
+//   index         its position within that block
+//   keepWithNext  a heading: never left as the last unit of a page — it moves forward with the
+//                 unit it heads (chains, for a section heading over a phase heading)
+//   breakBefore   always starts a fresh page (the per-card page-break option)
 //
-// TOLERANCE, and why it is not fussiness: the document's height comes from millimetres converted
-// to pixels and rounded, and a border or a margin can leave it a hair past a whole number of
-// sheets. Announcing a third sheet for four stray pixels is worse than saying nothing, so an
-// overrun under 2% of a sheet is not an edge.
+// `overheads[block]` is what a CONTINUATION of that block costs at the top of a page — the list
+// table repeats its header row on every page it runs onto, and those pixels are not in the
+// measured flow.
 //
-// A block taller than a whole sheet is cut wherever the edge falls: it does not fit on a sheet of
-// its own, so moving the edge up would only end the current sheet early and cut the block anyway
-// — one nearly blank sheet for nothing. `a.top > start` guards the same case from the other side,
-// so a block that cannot be cleared can never pull the edge back onto itself forever.
-export function pageEdgesOf(atoms, docHeight, pageHeight, { tolerance = 0.02, maxPages = 200 } = {}) {
-  if (!(pageHeight > 0) || !(docHeight > 0)) return []
-  const eps = pageHeight * tolerance
-  const out = []
-  let start = 0
-  while (start + pageHeight < docHeight - eps && out.length < maxPages) {
-    let edge = start + pageHeight
-    for (let pass = 0; pass < 50; pass++) {
-      const hit = (atoms || []).find((a) => (
-        a.bottom - a.top <= pageHeight && a.top > start && a.top < edge && a.bottom > edge
-      ))
-      if (!hit) break
-      edge = hit.top
+// A unit taller than a whole page gets a page of its own, flagged `spill`: the caller lets that
+// one box grow and the printer runs it over two sheets — text is never clipped to make the
+// arithmetic look right.
+//
+// Returns [{ fragments: [{ block, from, to }], spill }] — consecutive units regrouped per block,
+// which is what the sheet re-renders inside each page box.
+export function paginatePrint(units, pageH, { overheads = {}, maxPages = 300 } = {}) {
+  if (!(pageH > 0) || !units?.length) return []
+  const pages = []
+  let i = 0
+  while (i < units.length && pages.length < maxPages) {
+    const startTop = units[i].top
+    const overhead = units[i].index > 0 ? overheads[units[i].block] || 0 : 0
+    let j = i + 1
+    while (j < units.length) {
+      const u = units[j]
+      // A break-before unit ends the page — unless everything placed so far is headings pulled
+      // forward to accompany it, in which case this IS its page.
+      if (u.breakBefore && !units.slice(i, j).every((x) => x.keepWithNext)) break
+      if (u.bottom - startTop + overhead > pageH) break
+      j++
     }
-    out.push(edge)
-    start = edge
+    // A heading stripped of what it heads moves forward with it (and a heading over that heading
+    // follows too). Never empties the page: the walk above always placed at least one unit.
+    while (j - i > 1 && j < units.length && units[j - 1].keepWithNext) j--
+    const spill = j === i + 1 && units[i].bottom - startTop + overhead > pageH
+    pages.push({ fragments: fragmentsOf(units, i, j), spill })
+    i = j
+  }
+  return pages
+}
+
+// Consecutive units of one block collapse into a `{ block, from, to }` range — the shape the
+// sheet's fragment renderer takes.
+function fragmentsOf(units, from, to) {
+  const out = []
+  for (let k = from; k < to; k++) {
+    const u = units[k]
+    const last = out[out.length - 1]
+    if (last && last.block === u.block) last.to = u.index + 1
+    else out.push({ block: u.block, from: u.index, to: u.index + 1 })
   }
   return out
 }
