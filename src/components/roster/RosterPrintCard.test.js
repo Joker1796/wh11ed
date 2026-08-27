@@ -47,8 +47,8 @@ describe('the statline as a line', () => {
 
   it('marks a value the modifier layer rewrote', () => {
     const w = card({ statMarks: ['profile:t:0'] })
-    expect(w.find('.rpc-stat-v.mod').exists()).toBe(true)
-    expect(w.find('.rpc-stat-v.mod sup').text()).toBe('*')
+    expect(w.find('.rpc-stat-box.mod').exists()).toBe(true)
+    expect(w.find('.rpc-stat-box.mod sup').text()).toBe('*')
   })
 })
 

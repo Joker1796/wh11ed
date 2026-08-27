@@ -476,4 +476,19 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
 .rps :deep(.color-red) { color: #a01a12; }
 .rps :deep(.color-blue) { color: #1f4e8c; }
 .rps :deep(.color-green) { color: #1f6b3a; }
+
+/* style.css's GLOBAL table dressing, taken off every table in the document at once. The global
+   `th` is light text on a dark band — and the paper palette pins the band light while the text
+   var stays near-white, which printed the weapon-table headers white on white. The stripes and
+   the hover tint are screen furniture; the margin is the prose default, and each table here
+   spaces itself. */
+.rps :deep(th) {
+  background: none;
+  color: var(--text-primary);
+}
+.rps :deep(tr:nth-child(even) td),
+.rps :deep(tr:hover td) {
+  background: none;
+}
+.rps :deep(table) { margin: 0; }
 </style>
