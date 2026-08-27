@@ -216,7 +216,7 @@ describe('RosterEditorView', () => {
     // Match on the row's own NAME: the Captain's row also mentions the squad, in its
     // "attached to" tag.
     const rows = w.findAll('.redu-unit')
-    const squad = rows.find((row) => row.find('.redu-name').text().trim() === 'Intercessor Squad')
+    const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
     await squad.find('.redu-del').trigger('click')
 
     expect(r.units.map((u) => u.uid)).toEqual(['u2'])

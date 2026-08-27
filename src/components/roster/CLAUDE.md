@@ -981,6 +981,19 @@ the store's own deep-watch autosave; that is why `pickFaction` empties it with `
 than assigning a new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry`
 — the same implementation `useRosterEditing` uses, not a second copy.
 
+**The collapsed row is `RosterUnitRow.vue`**, one component for both building screens — the
+editor's Units tab and the wizard's config step, which held identical markup under two class
+prefixes. It prints the name, then chips for what distinguishes THIS entry from another copy of the
+same datasheet (model count, attachment slot, enhancement — including a mandatory one, which is
+derived and never stored — and allegiance), then the wargear the player actually chose.
+
+The **default loadout is deliberately not there** any more. It is the same on every copy of a
+datasheet, it is printed on the datasheet itself, and as three or four lines of dim 0.74rem text per
+unit it stood between the reader and the two facts above; the accordion's own "Default wargear"
+block is one tap away. The row also steps its whole type scale down below 380px rather than only
+shrinking one part of it, so it keeps its hierarchy where the list shares its width with the
+catalogue.
+
 **A configured entry can be copied** (`duplicateUnitEntry`, the row's copy button next to its
 delete). Adding the same datasheet twice through the catalogue gives a bare entry both times, so
 the second squad — usually the first one again — had every wargear pick made a second time. Three
@@ -1434,7 +1447,8 @@ subtitle to one, and the tracker's setup cards/history pills were fixed separate
 
 ## Components (this directory)
 
-`RosterUnitBrowser` (add-unit list/search), `UnitEditorFields` (wargear/enhancement/warlord
+`RosterUnitBrowser` (add-unit list/search), `RosterUnitRow` (one entry's collapsed line, shared by
+the editor and the wizard — see Editing flow), `UnitEditorFields` (wargear/enhancement/warlord
 pick UI for one unit), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
 rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (renders
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
