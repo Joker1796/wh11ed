@@ -193,7 +193,7 @@ if (mq) {
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
-.rul-unit:hover { border-color: var(--accent); }
+@media (hover: hover) { .rul-unit:hover { border-color: var(--accent); } }
 /* Closes the gap to the character indented below it — the block's own look is the shared
    .roster-attached / .roster-sum pair in style.css. */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
@@ -225,9 +225,9 @@ if (mq) {
   width: 2.1rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
-.rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+@media (hover: hover) { .rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
 .rul-dup:disabled { opacity: 0.35; cursor: not-allowed; }
-.rul-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
+@media (hover: hover) { .rul-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); } }
 
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
