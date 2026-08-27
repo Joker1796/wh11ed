@@ -139,28 +139,9 @@ describe('DatasheetCard leader/attached-unit list', () => {
 // from `data-label` since the shared `thead` is hidden. None of that is testable in jsdom, but
 // the markup contract it depends on is, and losing any part of it would silently flatten the
 // layout back to an unlabelled column of numbers.
-// The card is drawn in four places whose width has nothing to do with the window — a faction
-// page, a modal, a Combat Patrol page, a sheet of A4 that may hold two of them — so its own
-// responsive tiers are container queries. A container cannot query itself, which is why the
+// The card is drawn in places whose width has nothing to do with the window — a faction
+// page, a modal, a Combat Patrol page — so its own responsive tiers are container queries. A container cannot query itself, which is why the
 // wrapper exists; losing it would silently freeze every tier at its widest.
-// A built list has already answered "who may this join", and the roster says which unit it did
-// join — so on paper the block is a page of names nobody reads twice. On a datasheet being READ
-// it is the point of the unit, which is why it takes asking.
-describe('the attachment block', () => {
-  const leader = {
-    name: 'Chaos Lord',
-    keywords: [],
-    factionKeywords: [],
-    leader: { text: 'This model can be attached to:', units: ['Legionaries'] },
-  }
-
-  it('is printed on a datasheet and dropped when the caller has no use for it', () => {
-    expect(mount(DatasheetCard, { props: { sheet: leader } }).text()).toContain('Legionaries')
-    const hidden = mount(DatasheetCard, { props: { sheet: leader, hideAttachment: true } })
-    expect(hidden.text()).not.toContain('Legionaries')
-  })
-})
-
 describe('the shell that gets measured', () => {
   it('wraps the card', () => {
     const w = mount(DatasheetCard, { props: { sheet: { name: 'Chosen', keywords: [], factionKeywords: [] } } })

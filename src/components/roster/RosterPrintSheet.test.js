@@ -65,7 +65,7 @@ describe('the header and the list', () => {
   // and the header (whose list, which detachment, how many points) stays either way.
   it('can be left out, and the header stays', () => {
     const w = sheet(resolve({ rosterList: false }))
-    expect(w.find('.rps-list').exists()).toBe(false)
+    expect(w.find('.rps-table').exists()).toBe(false)
     expect(w.find('.rps-head').text()).toContain('Cursed list')
   })
 
@@ -76,7 +76,7 @@ describe('the header and the list', () => {
   })
 
   it('prints a row per unit, with its price', () => {
-    const rows = sheet(resolve()).findAll('.rps-list .rps-row')
+    const rows = sheet(resolve()).findAll('.rps-measure .rps-row')
     expect(rows).toHaveLength(1)
     expect(rows[0].text()).toContain('Necron Warriors')
     expect(rows[0].find('.c-pts').exists()).toBe(true)
@@ -99,7 +99,7 @@ describe('the reference sections', () => {
   it('leaves out what was not asked for', () => {
     const w = sheet(resolve({ armyRule: false, detachmentRules: false, stratagems: false }))
     expect(w.text()).not.toContain(ui.en.factionArmyRule)
-    expect(w.find('.rps-strats').exists()).toBe(false)
+    expect(w.find('.rps-strat').exists()).toBe(false)
   })
 
   // The compact sheet's biggest saving: the name, its cost and its window, and nothing else.
@@ -116,7 +116,7 @@ describe('the reference sections', () => {
   it('prints as many stratagem lines as the detachment has', async () => {
     const w = sheet(resolve())
     await flushPromises()
-    const printed = new Set(w.findAll('.rps-strats .rps-strat .c-strat').map((n) => n.text().trim()))
+    const printed = new Set(w.findAll('.rps-measure .c-strat').map((n) => n.text().trim()))
     const expected = new Set((detachments[0].stratagems || []).map((st) => st.name))
     expect(printed).toEqual(expected)
   })
@@ -124,8 +124,24 @@ describe('the reference sections', () => {
 
 describe('the cards', () => {
   it('are absent in the compact sheet and one per unit in the full one', () => {
-    expect(sheet(resolve()).findAll('.card')).toHaveLength(0)
-    expect(sheet(resolve({}, 'full')).findAll('.card')).toHaveLength(1)
+    expect(sheet(resolve()).findAll('.rps-measure .card')).toHaveLength(0)
+    expect(sheet(resolve({}, 'full')).findAll('.rps-measure .card')).toHaveLength(1)
   })
+})
 
+// The pages are real boxes, dealt by measurement (rosterPrintOptions.js's paginatePrint — the
+// arithmetic has its own spec). jsdom measures every rect as zero, so everything fits one page:
+// what this asserts is the CONTRACT — the document lands inside page boxes, nothing stays
+// outside them, and the count is reported.
+describe('the page boxes', () => {
+  it('deal the whole document into pages and report how many', async () => {
+    const w = sheet(resolve())
+    await flushPromises()
+    await w.vm.$nextTick()
+    const pages = w.findAll('.rps-page')
+    expect(pages).toHaveLength(1)
+    expect(pages[0].find('.rps-head').exists()).toBe(true)
+    expect(pages[0].find('.rps-table').exists()).toBe(true)
+    expect(w.emitted('pages')?.at(-1)).toEqual([1])
+  })
 })

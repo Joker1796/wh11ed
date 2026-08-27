@@ -1,14 +1,13 @@
 <template>
   <!-- The shell exists to be MEASURED. Everything below sizes itself against the width of this
        element rather than the window's (`@container`, not `@media`), because the card is drawn in
-       four places whose widths have nothing to do with the viewport: a faction page, a modal, a
-       Combat Patrol page, and a sheet of A4 where it may share the page with a second card. A
-       viewport query gets all four wrong somewhere — a phone previewing a print sheet was reading
-       a 733px page through a 390px window and drawing the card for the window.
+       places whose widths have nothing to do with the viewport: a faction page, a modal, a
+       Combat Patrol page. A viewport query gets one of them wrong somewhere — a modal on a wide
+       screen is not the width of that screen. (Paper has its own card, RosterPrintCard.)
        It has to be a wrapper: a container cannot query itself, and `.ds-card`'s own padding and
        full-bleed are half of what changes. -->
   <div class="ds-shell">
-  <article class="ds-card" :class="{ dense }">
+  <article class="ds-card">
     <!-- Stat profiles -->
     <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
          padding and carries an accent-tinted background, reading as one band with the
@@ -302,7 +301,7 @@
         <div class="ds-ability" v-html="dsRichText(sheet.transport)"></div>
       </DsAccordion>
     </div>
-    <div v-if="sheet.leader && !hideAttachment" class="ds-ability-group">
+    <div v-if="sheet.leader" class="ds-ability-group">
       <DsAccordion :collapsible="collapsible">
         <template #header="{ open, toggle }">
           <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
@@ -389,7 +388,7 @@
          Always the LAST section of the card (mirrors the source books: costs live at the
          bottom of a datasheet, never in its header) — an accent-tinted band like the
          statline zone at the top, so the card is framed by the faction colour. -->
-    <div v-if="pointsTable && !collapsible && !hidePoints" class="ds-points">
+    <div v-if="pointsTable && !collapsible" class="ds-points">
       <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
       <table>
         <thead>
@@ -419,6 +418,10 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { withGroupPos } from '../utils/weaponGroups.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../composables/rosterModNotes.js'
+import {
+  corePartsOf, extraCoreOf, factionPartsOf, factionKwMarker,
+  keywordGroupsOf, extraKeywordsOf, keywordNotesOf, invNoteText, statCells,
+} from '../composables/datasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
 import ConditionChips from './ConditionChips.vue'
 
@@ -482,20 +485,6 @@ const props = defineProps({
   // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
   // effects name a condition the player may flip; `toggle-cond` reports the click.
   abilitySwitches: { type: Object, default: null },
-  // Hide "this model can be attached to…". It is the question a LIST answers: by the time the
-  // list is built the attachment is decided, and the roster says which unit it was — so on a
-  // printed sheet the block is a page of names nobody will read again. On a datasheet being READ
-  // it is the whole point of the unit, so this is off everywhere else.
-  hideAttachment: { type: Boolean, default: false },
-  // The tight spacing the card uses on a phone, asked for outright. Paper wants it for the same
-  // reason a phone does — height is what it is paid in — but a sheet of A4 is 733px wide, so the
-  // width query that turns it on for a phone will never fire there.
-  dense: { type: Boolean, default: false },
-  // Hide the datasheet's own points table. Until the print sheet there was exactly one caller
-  // that wanted it gone — the modal — and `collapsible` spoke for both, which is why the two were
-  // one flag. On paper they part company: a booklet wants every block OPEN and the per-bracket
-  // prices GONE (the list already priced this entry, once, in its summary).
-  hidePoints: { type: Boolean, default: false },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
@@ -523,22 +512,12 @@ const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
-const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
-// Core abilities a rule granted (grantedCore prop), minus any the sheet already prints — a unit
-// with Feel No Pain 5+ of its own does not gain a second one from a Hospitaller.
-const extraCore = computed(() => {
-  const printed = new Set(coreParts.value.map((c) => c.toLowerCase()))
-  const seen = new Set()
-  return props.grantedCore.filter((g) => {
-    const key = String(g.ability).toLowerCase()
-    if (printed.has(key) || seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
-})
-// The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen"), and
-// only the part the caller can actually open should look clickable.
-const factionParts = computed(() => (props.sheet.faction ? props.sheet.faction.split(/,\s*/) : []))
+// Splitting, granted-vs-printed dedupe and footnote grouping live in datasheetParts.js, shared
+// with RosterPrintCard — paper and screen must never disagree about what a sheet says.
+const coreParts = computed(() => corePartsOf(props.sheet))
+const extraCore = computed(() => extraCoreOf(props.sheet, props.grantedCore))
+// Only the faction-line part the caller can actually open should look clickable.
+const factionParts = computed(() => factionPartsOf(props.sheet))
 const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
 function linkedFactionRule(part) {
   return props.linkedFactionRules.find((n) => fkey(n) === fkey(part)) || null
@@ -563,40 +542,18 @@ const visibleLeaderUnits = computed(() => {
 // Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
 // unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is
 // [{ model, list }]; falls back to a single unlabelled group for the common flat-array case.
-const keywordGroups = computed(() =>
-  props.sheet.keywordsByModel ? props.sheet.keywordsByModel : [{ model: null, list: props.sheet.keywords || [] }],
-)
+const keywordGroups = computed(() => keywordGroupsOf(props.sheet))
 
 // Rule-granted keywords (grantedKeywords prop) appended after the printed ones, minus any the
 // sheet already prints in any model group — so a grant never doubles a printed keyword.
-const extraKeywords = computed(() => {
-  const printed = new Set(keywordGroups.value.flatMap((g) => g.list))
-  return props.grantedKeywords.filter((g) => !printed.has(g.kw))
-})
+const extraKeywords = computed(() => extraKeywordsOf(props.sheet, props.grantedKeywords))
 
 // One footnote line per distinct source (usually just one — either "this faction's own rules"
 // for every roster-wide grant, or the single currently-active detachment for every gated one —
 // but a unit could carry both kinds at once), grouping every keyword that shares it so e.g.
 // Deathwing/Ravenwing (both roster-wide, no detachment) collapse into a single line instead of
 // repeating the same source sentence twice.
-const extraKeywordNotes = computed(() => {
-  const groups = new Map()
-  for (const g of extraKeywords.value) {
-    let note = g.detName
-      ? labels.value.dsKeywordGrantedByDetachment.replace('{det}', g.detName)
-      : labels.value.dsKeywordGrantedByFaction
-    // A grant can depend on more than just the detachment/faction context shown above (currently
-    // always a Warlord requirement — see gen-conditional-keywords.mjs's header comment) — say so
-    // rather than implying that context alone is the whole condition. Folded into the same
-    // string (not a separate flag on the group) so an `extra` grant never silently merges with a
-    // plain one that happens to share the same base sentence.
-    if (g.extra) note += ' ' + labels.value.dsKeywordExtraCondition
-    const kws = groups.get(note) || []
-    kws.push(g.kw)
-    groups.set(note, kws)
-  }
-  return [...groups.entries()].map(([note, kws]) => ({ note, kws }))
-})
+const extraKeywordNotes = computed(() => keywordNotesOf(extraKeywords.value, labels.value))
 
 const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
 const meleeRows = computed(() => withGroupPos(props.sheet.melee))
@@ -645,28 +602,10 @@ function tierLabel(tier) {
   return `${tier.replace('-', '–')} copy`
 }
 
-// invNote data is inconsistent about the leading asterisk — normalize to one '* '.
-function invNoteText(note) {
-  return '* ' + note.replace(/^\*\s*/, '')
-}
-
-// Bold this sheet's faction keywords (ORKS, ADEPTUS ASTARTES…) wherever the rules text
-// mentions them, matching the codex typography. [BRACKET] tags and existing **bold**
-// runs are matched first and passed through untouched so the markup never nests.
-const factionKwRegex = computed(() => {
-  const kws = (props.sheet.factionKeywords || [])
-    .map((k) => k.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .sort((a, b) => b.length - a.length)
-  return kws.length ? new RegExp(`\\[[^\\]]*\\]|\\*\\*.*?\\*\\*|\\b(${kws.join('|')})\\b`, 'g') : null
-})
-
-function markFactionKw(text) {
-  const re = factionKwRegex.value
-  return re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
-}
+const markFactionKw = computed(() => factionKwMarker(props.sheet))
 
 function dsText(text) {
-  return renderInline(markFactionKw(text))
+  return renderInline(markFactionKw.value(text))
 }
 
 // Ability/rule bodies are transcribed with the same `▪ ` bullet-list convention as the core
@@ -676,18 +615,7 @@ function dsText(text) {
 // <ul>/<ol> like RuleBody; markFactionKw bolds this sheet's faction keywords first, and the
 // generated lists reuse the sheet's existing `.ds-list` styling.
 function dsRichText(text) {
-  return renderRichText(text, { pre: markFactionKw, listClass: 'ds-list' })
-}
-
-function statCells(p) {
-  return [
-    { key: 'm', label: 'M', value: p.m },
-    { key: 't', label: 'T', value: p.t },
-    { key: 'sv', label: 'SV', value: p.sv },
-    { key: 'w', label: 'W', value: p.w },
-    { key: 'ld', label: 'LD', value: p.ld },
-    { key: 'oc', label: 'OC', value: p.oc },
-  ]
+  return renderRichText(text, { pre: markFactionKw.value, listClass: 'ds-list' })
 }
 
 // A cell whose printed number was rewritten by the roster's modifier layer (Tier C). The mark is
@@ -742,9 +670,8 @@ function abilityStateLabel(st) {
    drawn at three widths (a page, a modal, a phone) and each of them wants the same proportions at
    a different size — before this the tight set was a copy of the loose one with every number
    changed, in a block a hundred lines further down.
-   The tight values live here as constants; the two things that can ask for them — a narrow
-   container, and a caller passing `dense` — assign them below. Those two assignment lists are the
-   same decision reached two ways and must stay identical. */
+   The tight values live here as constants; the narrow-container query below is what assigns
+   them. */
 .ds-card {
   --ds-pad-x: 1rem;
   --ds-pad-top: 0.9rem;
@@ -777,23 +704,6 @@ function abilityStateLabel(st) {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: var(--ds-pad-top) var(--ds-pad-x) var(--ds-pad-bottom);
-}
-
-/* Asked for outright. Same list as the narrow-container one below. */
-.ds-card.dense {
-  --ds-pad-x: var(--ds-tight-pad-x);
-  --ds-pad-top: var(--ds-tight-pad-top);
-  --ds-pad-bottom: var(--ds-tight-pad-bottom);
-  --ds-band-top: var(--ds-tight-band-top);
-  --ds-band-bottom: var(--ds-tight-band-bottom);
-  --ds-space: var(--ds-tight-space);
-  --ds-group-space: var(--ds-tight-group-space);
-  --ds-head-top: var(--ds-tight-head-top);
-  --ds-head-bottom: var(--ds-tight-head-bottom);
-  --ds-kw-top: var(--ds-tight-kw-top);
-  --ds-kw-pad: var(--ds-tight-kw-pad);
-  --ds-mods-bottom: var(--ds-tight-mods-bottom);
-  --ds-mods-pad: var(--ds-tight-mods-pad);
 }
 
 /* Header zone of the card: bleeds over the card padding so the accent-tinted band runs
@@ -1082,7 +992,6 @@ function abilityStateLabel(st) {
      the same card that reads as generously spaced on a laptop arrives as a column of half-empty
      bands, and the reader is scrolling past air to reach the abilities. Every value here was
      simply the desktop one until 2026-08-27. */
-  /* The same list `.ds-card.dense` carries — the two are one decision reached two ways. */
   .ds-card {
     --ds-pad-x: var(--ds-tight-pad-x);
     --ds-pad-top: var(--ds-tight-pad-top);

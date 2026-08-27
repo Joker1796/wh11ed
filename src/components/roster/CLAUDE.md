@@ -1545,8 +1545,9 @@ rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (r
 used both by `RosterUnitBrowser`'s row-click preview while adding units and by
 `RosterViewView`'s Units tab — see Views above; takes an optional `ctx` for the modifier
 overlay, see below),
-`RosterPrintSheet` + `RosterPrintUnitCard` (the printable document and one unit in it — see
-"Printing a list"),
+`RosterPrintSheet` + `RosterPrintFragment` + `RosterPrintUnitCard` + `RosterPrintCard` (the
+printable document, a slice of one of its blocks, one unit's tier choice, and paper's own card
+typography — see "Printing a list"),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug),
 `ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely
@@ -2480,22 +2481,47 @@ screen is the only thing that reads them.
 
 ## Printing a list (added 2026-08-27)
 
-`/roster/:id/print` — `RosterPrintView.vue` (the panel), `RosterPrintSheet.vue` (the document),
-`RosterPrintUnitCard.vue` (one unit in it), `src/data/rosterPrintOptions.js` (the table), and the
-`@media print` block in `style.css`.
+`/roster/:id/print` — `RosterPrintView.vue` (the panel), `RosterPrintSheet.vue` (the document and
+its pagination), `RosterPrintFragment.vue` (the one template every piece of the document renders
+through), `RosterPrintUnitCard.vue` (one unit: which tier of the overlay goes on paper),
+`RosterPrintCard.vue` (paper's own typography of a datasheet), `src/data/rosterPrintOptions.js`
+(the options table, the paper constants and `paginatePrint`), and the `@media print` block in
+`style.css`.
 
-**The screen IS the document.** What the preview draws inside the paper frame is what the printer
-gets — the sheet is not re-laid-out for printing, `@media print` only strips the app's chrome
-(navbar, bottom nav, footer, the panel) and lets `@page` take over the margins. A preview that is
-not the document is a preview that lies, and this one has to answer "will it fit on one sheet".
+**The screen IS the document, and the pages are REAL.** The sheet renders its whole content once,
+unpaginated, in a hidden measuring flow (`.rps-measure`, laid out at paper width); every
+indivisible piece — a heading, a rule, a row of the list, a pair of stratagem cards, a unit card —
+is a `data-u` unit with a measured top and bottom; and `paginatePrint` deals those units onto page
+BOXES of exactly the printable height of A4 (`.rps-page`, `break-after: page`). What is inside a
+box on screen is what is on that sheet of paper, because there is nothing left for the browser's
+print fragmentation to decide — nothing overflows a box. **Three models were tried and buried
+before this one** (all on 2026-08-27, do not repeat them): pushing blocks down with margins
+(invented gaps the document did not have), pushing only cards (wrong inside multi-column
+sections), and drawing computed edge lines over one flow (`pageEdgesOf` — a simulation of the
+print engine that could never quite agree with it; the lines cut through prose, headings and
+whatever else was not declared an atom).
 
-**The browser prints it.** `window.print()`, no PDF library: the document is text and tables, so
-"Save as PDF" in the browser's own dialog gives selectable text, embedded fonts and Cyrillic for
-free, offline, at zero bundle cost. A client-side PDF writer would mean re-implementing the layout
-imperatively AND shipping a Cyrillic font subset — it is the upgrade path if a *file* is ever
-needed (to send rather than to print), not the starting point. **Open question, needs a device:**
-whether an installed PWA on iOS offers printing at all; the screen still reads and the panel
-carries a "open in the browser" line for that case.
+**Both the measuring flow and the pages render the SAME `RosterPrintFragment`** — a slice
+`from..to` of one block's units — which is what makes the measurement honest: the whole block is
+just the slice `0..length`. Margins on units are BOTTOM-only, so a unit that opens a page sits at
+its top without eating budget the arithmetic never saw. The list table repeats `<colgroup>` +
+`<thead>` per fragment (`table-layout: fixed` keeps split pieces aligned) and the sheet charges a
+continuation for the header's height (`overheads`). A unit taller than a whole page gets a page of
+its own flagged `spill` — its box grows and the printer runs it over two sheets; text is never
+clipped to keep the boxes honest.
+
+**`paginatePrint` is pure and tested on numbers** (`rosterPrintOptions.test.js`). `keepWithNext`
+(section and phase headings — chains) is never left as the last unit of a page; `breakBefore` (the
+per-card page-break option) opens a fresh page without orphaning the heading pulled forward with
+it. jsdom measures every rect as 0, so component tests always see one page holding everything —
+the arithmetic is covered where it lives.
+
+**No section is set in CSS columns any more.** In a multi-column flow a unit's vertical offset
+says nothing about its place in the flow, and offsets are the one thing pagination reasons about.
+Columns survive only INSIDE an unbreakable unit, where nothing ever cuts through: a rule prints
+full width with its body in two internal columns (`.rps-rule-body { columns: 2 }` — book measure,
+balanced), and stratagems come PRE-PAIRED by the sheet (`{ t: 'pair', items: [st, st?] }`, a
+little grid of two cards, the pair is the unit).
 
 **Two presets over one list of checkboxes** (`PRINT_OPTIONS`). Compact is the pocket sheet — the
 list, the rules, the stratagems one line each; Full adds the stratagem text and a card per unit.
@@ -2504,106 +2530,59 @@ They are not modes: touching any box keeps everything else and just stops callin
 parent and is forced off by `printOptionOn`, which is also how the sheet reads every value — the
 panel and the document can never disagree about a child row.
 
-**Modifiers are three tiers offered as two switches**, which is the same split the overlay already
-has (see "Modifier overlay" above): nothing = the printed datasheet; `trim` = the sheet this entry
-actually fields; `+ modifiers` = its numbers as the roster's rules leave them, marked and
-attributed. **Off never prints a wrong number, it prints the printed one** — the reason the switch
-exists at all is that a sheet handed to an opponent or a judge is read as a datasheet. The same
-rule governs granted keywords: a keyword a rule GRANTS is only claimed where that rule is being
-applied.
+**Modifiers are three tiers offered as two switches**, the same split the overlay already has (see
+"Modifier overlay" above): nothing = the printed datasheet; `trim` = the sheet this entry actually
+fields; `+ modifiers` = its numbers as the roster's rules leave them, marked and attributed. **Off
+never prints a wrong number, it prints the printed one** — the reason the switch exists at all is
+that a sheet handed across the table is read as a datasheet. The same rule governs granted
+keywords. `RosterPrintUnitCard` decides the tier; the resolution is `useRosterUnitCard`
+(`src/composables/rosterUnitCard.js`), the same composable `RosterUnitRulesModal` reads, so the
+Save a player reads off paper and the one their phone shows are the same number by construction.
 
-**`--print-scale` is the density control** — one multiplier on the paper element, and every size,
-gap and line-height in the sheet is `calc(X * var(--print-scale, 1))`. A hard-coded rem in
-`RosterPrintSheet.vue` silently opts that element out of it. Prose is set in two columns
-(`columns: 2`) because a rule across 194mm of A4 is a 120-character line — book measure fits twice
-the text and reads better; the tables and the cards stay full width, since a datasheet does not
-survive being cut in half by a column.
+**`RosterPrintCard` is paper's own typography of the sheet, not a restyled `DatasheetCard`.** The
+data is the same (the resolved sheet, `datasheetParts.js` for the derived parts — granted core,
+keyword footnotes, faction-keyword bolding — shared with the screen card so the two cannot
+disagree); the typography is the medium's: the card carries its own NAME PLATE (paper has no page
+header or modal title to name the unit, and the plate also absorbs the copy's facts — Warlord,
+enhancement, attached-to, points — which used to cost a line of their own); the statline is a
+LINE, not a band of boxes; the ABILITIES are set in two internal columns (that is where a card's
+height lives — full-width A4 is a 120-character line), with a group's heading glued into its first
+item so a column never ends on a title; named rules, Damaged, Transport and the build choices join
+the same column stream as plain entries; keywords are one small line each; and there are no fills
+or washes at all — separation is rules and weight, because a printer pays for every tinted band in
+toner. The "can be attached to" block is not printed: the list answered that, and the name plate
+says which unit it joined. `DatasheetCard`'s print-only props (`dense`, `hideAttachment`,
+`hidePoints`) went away with its print duty.
 
-**The sheet edges are drawn OVER the document** (`.rpv-breaks`, absolutely positioned, inert to
-the pointer, gone in print). As a background gradient on the paper — what they were until
-2026-08-27 — the first card or table that painted its own white hid them, and the preview read as
-one endless page with no breaks at all. Each is labelled with the number of the sheet it starts.
+**The browser prints it.** `window.print()`, no PDF library: the document is text and tables, so
+"Save as PDF" in the browser's own dialog gives selectable text, embedded fonts and Cyrillic for
+free, offline, at zero bundle cost. **Open question, needs a device:** whether an installed PWA on
+iOS offers printing at all; the screen still reads and the panel carries an "open in the browser"
+line for that case.
 
-**The sheet count is what makes the controls usable** (`.rpv-pages`): measured off the rendered
-document against the printable height of the chosen page, so ticking a box moves it. Without it,
-"denser" is a guess whose answer arrives at the printer.
+**`--print-scale` is the density control** — one multiplier on the paper element; every size, gap
+and line-height in the fragments is `calc(X * var(--print-scale, 1))`, and the print card's ems
+all hang off one scaled base font. A hard-coded rem in a fragment silently opts that element out.
+Density and data loads re-measure through a ResizeObserver on the measuring flow; a zoomed preview
+(narrow screens scale the paper with `zoom`) divides rects back through `paperScale()`.
 
-**Not in `STATIC_ROUTES` and not in the sitemap** — it is a private route like `/tracker/game`;
-`gen-seo-routes.mjs` must not learn about it.
-
-**The list is a section like any other, and it is the only one that is not reference.** It is the
-ARMY — what you check the models against while setting up, and what an opponent can read across
-the table — which mid-game says little a player does not already know. (Organisers collect lists
-as files, in advance: nobody hands paper to anyone at the door, so do not write copy that says
-they do.) So it has its own row (`rosterList`) and can
-be turned off, while the header (whose list, which detachment, how many points, which data
-version) always prints: without it a sheet of paper does not say whose it is. Its wargear column
-disappears when the unit cards are being printed, because every loadout is then on a card a few
-pages later and printing it twice only narrows the column for everyone.
+**The sheet count is the document's own answer** (`emit('pages')` after each deal), shown by the
+panel — that is what makes "denser" checkable before the printer answers it.
 
 **Paper has its own palette, and it is not the theme's.** The app's accent follows the theme, and
 `[data-theme='dark'] strong` is near-white — so a reader in the dark theme printed white ability
-names, white "Core:"/"Keywords:" labels and pale pink headings onto white paper. `.rps` pins the
-accent to an ink colour and restores the light-theme treatment of `strong`; the scoped selector
-outranks the `[data-theme]` one. **The fills go too**: the filled accent bars (weapon-table
-headers, ability-group titles) become a rule under dark text, and the washes behind the statline,
-the ability blocks, a multi-profile weapon's rows and the keyword badges are dropped. A solid bar
-the width of the page is the most expensive thing on a sheet, and there is one per table.
+names onto white paper. `.rps` pins the accent to an ink colour and restores the light-theme
+treatment of `strong`; the page boxes are white in both themes because that is what they are.
 
-**One card to a row.** Two was built on 2026-08-27 and taken out the same day: a card in half a
-page is not half as tall — the weapon table wraps and the ability text runs narrow — so the pair
-came out taller than the two laid out full width, and a page edge between two cards that start at
-slightly different heights produced a sheet with 45px of content on it. Full width prints fewer
-sheets and paginates as one flow, which is the only kind the edge calculation can reason about.
+**The header and the list are the two sections that make it an army list**; everything else is
+optional reference (`PRINT_OPTIONS`). The header (whose list, which detachments, how many points,
+which data version, the date) always prints. The list's wargear column disappears when the unit
+cards are on, because every loadout is then on a card a few pages later. (Organisers collect lists
+as files, in advance: nobody hands paper to anyone at the door, so do not write copy that says
+they do.)
 
-**The card is asked for `dense` and `hide-attachment`.** Paper wants a phone's tight rhythm for a
-phone's reason — height is what it is paid in — but a sheet of A4 is 733px wide, so the width
-query that turns it on for a phone never fires there. The rhythm is therefore a set of custom
-properties on `.ds-card` (`--ds-space`, `--ds-pad-x`, …), assigned by the narrow container OR by
-the `dense` prop; the two assignment lists are one decision reached two ways and must stay
-identical. `hide-attachment` drops "this model can be attached to…": the list already answered it,
-and the roster line above the card says which unit it joined.
-
-**The two-column sections are a GRID, not CSS columns.** In a multi-column flow an element's
-vertical offset says nothing about its place in the flow — the second column starts at the top
-again — and the sheet edges are computed from vertical offsets, so a card in the left column could
-be cut by a line already pulled clear of one in the right. Grid rows stack, so "lower" means
-"later". The prose (army and detachment rules) stays multi-column, and `.rps-rule` is deliberately
-NOT one of the atoms the edge calculation reads for exactly that reason.
-
-**Stratagems print as cards in two columns, not as a table.** A stratagem is prose, and prose
-across 194mm of A4 is a 120-character line; as a table it was worse than that, because one column
-had to be as wide as the widest "when" in the whole detachment. Cards take the height they need,
-two fit side by side, and the phase heading spans both (`column-span: all`) because it belongs to
-the group rather than to whichever column its first card starts in.
-
-**`DatasheetCard` measures its own box** (`.ds-shell`, `container: dscard / inline-size`) rather
-than the window. Until 2026-08-27 its three responsive tiers were `@media` queries, which
-meant a card in a 92mm column on a desktop laid itself out for a 1200px screen (and a phone
-previewing a print sheet drew a 733px page as if it were 390px wide). The tiers keep their
-numbers; they just measure the right thing. The one visible edge of the change: between about 481
-and 496px of viewport the card bleeds to the screen edge while the name plate above it (a
-different component, still `@media`) does not.
-
-**Where the preview breaks pages** is computed, not decorative: a printer moves a whole
-`break-inside: avoid` block to the next sheet, so `paginate()` in the view does the same with a
-`--page-push` the paper honours ON SCREEN ONLY — a margin baked in on paper would open a second
-gap under the printer's own break.
-
-**The LINE moves, never the content** (`pageEdgesOf` in `rosterPrintOptions.js`, pure and
-tested on numbers). An edge is a sheet's height from the previous edge, pulled UP to the top of
-any `break-inside: avoid` block it would have cut, with the next sheet measured from there. Two
-earlier attempts are worth not repeating: pushing blocks down with a margin invented gaps the
-document did not have (an empty half-page between the detachment rules and the stratagems), and
-it cannot work at all in a multi-column section, where a margin pushes a block down its own
-column rather than onto the next sheet. A block taller than a sheet is cut where the edge falls —
-it fits nowhere, so moving the edge would only end a sheet early and cut it anyway.
-
-**The card is resolved by `useRosterUnitCard`** (`src/composables/rosterUnitCard.js`), the same
-composable `RosterUnitRulesModal` reads, extracted for exactly this reason: the Save a player reads
-off paper and the one their phone shows must be the same number by construction. The faction bundle
-comes from `loadRosterFactionRules` (`rosterFactionRules.js`), shared with `RosterViewView`'s Rules
-and Stratagems tabs.
+**Not in `STATIC_ROUTES` and not in the sitemap** — a private route like `/tracker/game`;
+`gen-seo-routes.mjs` must not learn about it.
 
 ## Known gaps
 

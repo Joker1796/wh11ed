@@ -1,13 +1,13 @@
 <!-- One unit of the list, as it goes on paper.
-     The card itself is DatasheetCard, resolved by the same useRosterUnitCard the modal reads
-     (src/composables/rosterUnitCard.js) — so the Save a player reads off the sheet in their hand
-     is the one their phone shows, by construction rather than by luck.
+     The card itself is RosterPrintCard — paper's own typography of the sheet — resolved by the
+     same useRosterUnitCard the modal reads (src/composables/rosterUnitCard.js), so the Save a
+     player reads off the sheet in their hand is the one their phone shows, by construction
+     rather than by luck.
 
-     WHAT THIS ADDS to the modal's version: nothing interactive, and no rule bodies. The
-     detachment rule and the enhancements are printed ONCE, in their own sections of the booklet;
-     repeating them under every unit that carries them cost four sheets on a normal list. What
-     stays per-unit is the line above the card — Warlord, enhancement, who it is attached to,
-     what it cost — because those are facts about THIS copy and nowhere else.
+     WHAT THIS COMPONENT DECIDES is the tier, and the facts of this copy. The detachment rule and
+     the enhancements are printed ONCE, in their own sections of the booklet; what stays per-unit
+     goes on the card's own name plate — Warlord, enhancement, who it is attached to, what it
+     cost — because those are facts about THIS copy and nowhere else.
 
      THE THREE TIERS, as two checkboxes (see src/components/roster/CLAUDE.md):
        neither      the printed datasheet, exactly as the faction page shows it;
@@ -17,28 +17,22 @@
      Turning them off never prints a wrong number — it prints the printed one. That is the whole
      reason the switch exists: a sheet handed across the table is read as a datasheet. -->
 <template>
-  <article class="rpu" :class="{ 'rpu-break': opts.pageBreak }">
-    <p v-if="ctxLine.length" class="rpu-ctx">{{ ctxLine.join(' · ') }}</p>
-    <DatasheetCard
-      v-if="cardSheet"
-      :sheet="cardSheet"
-      :faction-slug="factionSlug"
-      :granted-keywords="grantedKeywords"
-      :granted-core="grantedCore"
-      :stat-marks="marks"
-      :stat-notes="notes"
-      :hide-possible="!opts.possible"
-      :hide-choices="!opts.choices"
-      hide-points
-      hide-attachment
-      dense
-    />
-  </article>
+  <RosterPrintCard
+    v-if="cardSheet"
+    :sheet="cardSheet"
+    :tags="tags"
+    :granted-keywords="grantedKeywords"
+    :granted-core="grantedCore"
+    :stat-marks="marks"
+    :stat-notes="notes"
+    :show-possible="opts.possible"
+    :show-choices="opts.choices"
+  />
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import DatasheetCard from '../DatasheetCard.vue'
+import RosterPrintCard from './RosterPrintCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterUnitCard } from '../../composables/rosterUnitCard.js'
@@ -79,7 +73,8 @@ const marks = computed(() => (props.opts.modifiers ? statMods.value.marks : []))
 // opens, so they travel as they are — the name alone is what attributes the number.
 const notes = computed(() => (props.opts.modifiers ? statNotes.value : []))
 
-const ctxLine = computed(() => {
+// The copy's facts, onto the name plate.
+const tags = computed(() => {
   const l = labels.value
   const out = []
   if (props.role) out.push(props.role)
@@ -94,23 +89,3 @@ const ctxLine = computed(() => {
   return out
 })
 </script>
-
-<style scoped>
-/* A card must not be split across two sheets — half a weapon table on the next page is worse than
-   a short page. `break-inside` is the modern spelling and `page-break-inside` the one older
-   engines still read; both are cheap. */
-.rpu {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  margin-bottom: calc(0.7rem * var(--print-scale, 1));
-}
-.rpu-break { break-before: page; page-break-before: page; }
-/* …except the first one, which would otherwise open the cards section with a blank sheet. */
-.rpu-break:first-child { break-before: auto; page-break-before: auto; }
-
-.rpu-ctx {
-  margin: 0 0 calc(0.2rem * var(--print-scale, 1));
-  font-size: calc(0.78rem * var(--print-scale, 1));
-  color: var(--text-muted);
-}
-</style>
