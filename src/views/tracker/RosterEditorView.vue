@@ -116,6 +116,20 @@
                   <span class="redu-pts">{{ entryMeta.get(e.uid)?.points }}</span>
                   <i class="bi redu-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
                 </button>
+                <!-- A second copy of a unit that has already been configured — the wargear picks
+                     are the expensive part, and the second squad in a list is usually the first
+                     one again. Disabled at the duplicate cap (same reading as the catalogue's
+                     "+"), with the reason in the tooltip rather than the button being hidden. -->
+                <button
+                  type="button"
+                  class="redu-dup"
+                  :disabled="dupBlocked(e)"
+                  :aria-label="labels.rosterDuplicate"
+                  :title="dupBlocked(e) ? labels.rosterAtDuplicateCap : labels.rosterDuplicate"
+                  @click="duplicateEntry(e)"
+                >
+                  <i class="bi bi-copy"></i>
+                </button>
                 <button
                   type="button"
                   class="redu-del"
@@ -226,9 +240,10 @@ import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints,
+  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, capKeyOf,
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
 } from '../../composables/rosterEngine.js'
+import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -269,7 +284,8 @@ function save() {
 // with the add-units page (/roster/:id/add) — see useRosterEditing.js for why they are shared
 // rather than copied.
 const {
-  roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch, removeUnit,
+  roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
+  duplicateUnit, removeUnit,
 } = useRosterEditing(() => route.params.id)
 
 // A missing/deleted id → back to the list (no broken editor shell).
@@ -336,6 +352,22 @@ function toggleOpen(entryUid) {
 function removeEntry(entry) {
   if (openUid.value === entry.uid) openUid.value = null
   removeUnit(entry.id, entry.uid)
+}
+
+// A configured copy, right under its original (rosterEngine's duplicateUnitEntry). Its accordion
+// stays shut: a copy is wanted AS the original far more often than not, and opening it would push
+// the row that was just tapped off the screen.
+function duplicateEntry(entry) { duplicateUnit(entry.uid) }
+// The catalogue's "+" stops at the duplicate cap when legality checking is on; so does this, off
+// the same two helpers, or the one control that can add a unit without going through the
+// catalogue would be the one that ignores the cap.
+const dupCounts = computed(() => duplicateCounts(roster.value?.units, defOf))
+function dupBlocked(e) {
+  if (roster.value?.checkLegality === false) return false
+  const def = defOf(e.id)
+  if (!def) return true
+  const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit) : Infinity
+  return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
 }
 
 // The add-units page sends the reader here when an issue concerns one specific entry
@@ -412,11 +444,14 @@ function rename(name) {
 <style scoped>
 .redu-head { display: flex; align-items: stretch; gap: 0.25rem; }
 .redu-head .redu-row { flex: 1; min-width: 0; }
+.redu-dup,
 .redu-del {
   flex: none; display: flex; align-items: center; justify-content: center;
   width: 2.1rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
+.redu-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.redu-dup:disabled { opacity: 0.35; cursor: not-allowed; }
 .redu-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
 
 .roster-editor { padding-top: 0.75rem; padding-bottom: 5rem; }

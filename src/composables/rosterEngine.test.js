@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -627,6 +627,40 @@ describe('addUnitEntry / removeUnitEntry', () => {
     const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
     removeUnitEntry(units, 'squad', 'u1')
     expect(units[0].leaderOf).toBeUndefined()
+  })
+})
+
+describe('duplicateUnitEntry', () => {
+  it('copies the configuration and lands right after the original', () => {
+    const units = [
+      { uid: 'u1', id: 'a' },
+      { uid: 'u2', id: 'chosen', size: 1, count: 10, wg: [[0, 2, 3]], alleg: 'Khorne' },
+      { uid: 'u3', id: 'b' },
+    ]
+    const copy = duplicateUnitEntry(units, 'u2', 'new')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u2', 'new', 'u3'])
+    expect(copy).toEqual({ uid: 'new', id: 'chosen', size: 1, count: 10, wg: [[0, 2, 3]], alleg: 'Khorne' })
+  })
+
+  it('deep-copies the picks, so editing one entry cannot change the other', () => {
+    const units = [{ uid: 'u1', id: 'a', wg: [[0, 1, 1]] }]
+    const copy = duplicateUnitEntry(units, 'u1', 'new')
+    copy.wg[0][2] = 5
+    expect(units[0].wg[0][2]).toBe(1)
+  })
+
+  // Each of these is unique per ARMY: a copy carrying one is illegal the moment it appears.
+  it('drops the warlord title, the enhancement and the attachment', () => {
+    const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', size: 0, warlord: true, enh: 'Artificer Armour', leaderOf: 'u1' }]
+    const copy = duplicateUnitEntry(units, 'u2', 'new')
+    expect(copy).toEqual({ uid: 'new', id: 'captain', size: 0 })
+    expect(units[1].warlord).toBe(true) // the original keeps all three
+  })
+
+  it('answers null for a uid the list does not hold', () => {
+    const units = [{ uid: 'u1', id: 'a' }]
+    expect(duplicateUnitEntry(units, 'nobody', 'new')).toBeNull()
+    expect(units).toHaveLength(1)
   })
 })
 

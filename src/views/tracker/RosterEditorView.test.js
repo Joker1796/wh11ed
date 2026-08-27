@@ -64,6 +64,42 @@ describe('RosterEditorView', () => {
     expect(w.text()).toContain('2000') // Strike Force limit
   })
 
+  it('duplicates a configured unit, without its warlord title, right after the original', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 1, count: 8, warlord: true })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    await w.findAll('.redu-dup')[0].trigger('click')
+    expect(r.units).toHaveLength(2)
+    expect(r.units[1]).toMatchObject({ id: 'intercessor-squad', size: 1, count: 8 })
+    expect(r.units[1].warlord).toBeUndefined()
+  })
+
+  // Adding a unit through the catalogue stops at the duplicate cap; this is the one control that
+  // could add one without going through it.
+  it('blocks the copy button at the duplicate cap', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'adrax-agatone', size: 0 }) // Epic Hero — cap of 1 at any size
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Adrax Agatone')
+
+    expect(w.find('.redu-dup').attributes('disabled')).toBeDefined()
+    // Through the store's own reactive handle: createRoster returns the RAW object, and a
+    // mutation on that is invisible to the render.
+    store.rosterById(r.id).checkLegality = false // the cap is only enforced while checking is on
+    await flushPromises()
+    expect(w.find('.redu-dup').attributes('disabled')).toBeUndefined()
+  })
+
   it('taxes a duplicate datasheet by copy index in the total', async () => {
     const store = useRosters()
     const r = store.createRoster('Knights')
