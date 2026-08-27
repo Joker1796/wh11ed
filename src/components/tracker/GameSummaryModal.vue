@@ -1,5 +1,5 @@
 <template>
-  <BaseModal max-height="88vh" @close="$emit('close')">
+  <BaseModal max-height="88dvh" @close="$emit('close')">
       <template #header>
         <header class="modal-head">
           <div class="mh-text">

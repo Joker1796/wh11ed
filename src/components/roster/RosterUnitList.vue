@@ -95,9 +95,17 @@
       max-width="640px"
       @close="$emit('toggle', openUid)"
     >
-      <FactionAccentScope :faction-slug="slugOf(openEntry.id)">
-        <div class="modal-body rul-sheet"><slot name="fields" :entry="openEntry" /></div>
-      </FactionAccentScope>
+      <!-- The scrolling element must be BaseModal's own child: `.modal` is a flex column with a
+           max-height and `overflow: hidden`, and only a flex item that is itself a scroll
+           container may shrink below its content. With the accent wrapper on the outside, that
+           item was a plain div — it kept its full content height, the modal clipped it, and on a
+           phone (the only width that opens this sheet) everything below the fold was simply
+           unreachable. Accent inside, body outside. -->
+      <div class="modal-body rul-sheet">
+        <FactionAccentScope :faction-slug="slugOf(openEntry.id)">
+          <slot name="fields" :entry="openEntry" />
+        </FactionAccentScope>
+      </div>
     </BaseModal>
   </div>
 </template>
@@ -185,7 +193,7 @@ if (mq) {
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
-.rul-unit:hover { border-color: var(--accent); }
+@media (hover: hover) { .rul-unit:hover { border-color: var(--accent); } }
 /* Closes the gap to the character indented below it — the block's own look is the shared
    .roster-attached / .roster-sum pair in style.css. */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
@@ -217,9 +225,9 @@ if (mq) {
   width: 2.1rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
-.rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+@media (hover: hover) { .rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
 .rul-dup:disabled { opacity: 0.35; cursor: not-allowed; }
-.rul-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
+@media (hover: hover) { .rul-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); } }
 
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile

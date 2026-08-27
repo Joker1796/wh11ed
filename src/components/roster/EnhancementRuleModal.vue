@@ -1,5 +1,5 @@
 <template>
-  <BaseModal max-width="640px" max-height="85vh" @close="$emit('close')">
+  <BaseModal max-width="640px" max-height="85dvh" @close="$emit('close')">
     <template #header="{ close }">
       <header class="modal-head">
         <h3 class="mh-title">{{ enh?.name || name }}</h3>

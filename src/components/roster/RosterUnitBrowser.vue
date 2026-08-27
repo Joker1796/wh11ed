@@ -245,7 +245,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.rub-head:hover { color: var(--text-primary); }
+@media (hover: hover) { .rub-head:hover { color: var(--text-primary); } }
 .rub-chev { flex-shrink: 0; font-size: 0.7rem; }
 .rub-group-name { flex: 1; text-align: left; }
 /* The group's ceiling, printed next to its name: normal-case and dimmer, so the header still
@@ -272,8 +272,10 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   opacity: 0.55;
   transition: border-color 0.15s, opacity 0.15s;
 }
-.rub-item:hover, .rub-item.added { opacity: 1; }
-.rub-item:hover { border-color: var(--accent); }
+.rub-item.added { opacity: 1; }
+@media (hover: hover) {
+  .rub-item:hover { opacity: 1; border-color: var(--accent); }
+}
 .rub-text { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; }
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
@@ -295,11 +297,11 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   cursor: pointer;
 }
 .rub-remove { color: var(--text-muted); }
-.rub-remove:hover { background: color-mix(in srgb, var(--text-muted) 12%, transparent); }
+@media (hover: hover) { .rub-remove:hover { background: color-mix(in srgb, var(--text-muted) 12%, transparent); } }
 .rub-add { color: var(--accent); }
-.rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+@media (hover: hover) { .rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); } }
 .rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
-.rub-add:disabled:hover { background: none; }
+@media (hover: hover) { .rub-add:disabled:hover { background: none; } }
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
 /* In the build panes the catalogue gets half a phone. The name and its price stop competing for
    one line — a unit row is three or four words and a number, and side by side neither fits — and

@@ -9,10 +9,15 @@ const h = vi.hoisted(() => ({ state: null }))
 vi.mock('../../composables/useRosterSync.js', () => ({
   useRosterSync: () => h.state,
 }))
+// Whether this is a tab in iOS Safari decides WHICH hint a signed-out reader gets.
+vi.mock('../../composables/useInstallPrompt.js', () => ({
+  useInstallPrompt: () => ({ iosInstall: h.ios }),
+}))
 
 import RosterCloudBar from './RosterCloudBar.vue'
 
 beforeEach(() => {
+  h.ios = ref(false)
   h.state = {
     syncing: ref(false),
     uploading: ref(false),
@@ -56,5 +61,17 @@ describe('RosterCloudBar', () => {
     h.state.pulled.value = { added: 1, updated: 0, removed: 0 }
     const w = mount(RosterCloudBar, { props: { hint: true } })
     expect(w.find('.rc-bar').classes()).toContain('err')
+  })
+})
+
+// The lists are in exactly the storage WebKit clears after a week away, so the one place that
+// says "stored on this device" has to say the rest of it too — and only there.
+describe('a tab in iOS Safari', () => {
+  it('says what happens to a list left on this device, and how to keep it', async () => {
+    const { ui } = await import('../../i18n/ui.js')
+    h.state.enabled.value = false
+    expect(mount(RosterCloudBar, { props: { hint: true } }).text()).toBe(ui.en.rosterCloudHint)
+    h.ios.value = true
+    expect(mount(RosterCloudBar, { props: { hint: true } }).text()).toBe(ui.en.rosterCloudHintIos)
   })
 })

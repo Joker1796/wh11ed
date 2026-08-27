@@ -15,6 +15,7 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
+import { useInstallPrompt } from '../../composables/useInstallPrompt.js'
 
 const props = defineProps({
   // Show something to a signed-out user (the list page does; a single list's page doesn't —
@@ -25,6 +26,12 @@ const props = defineProps({
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { syncing, uploading, lastError, checked, pulled, savedAt, pendingCount, enabled } = useRosterSync()
+// A tab in iOS Safari is the one place where "stored on this device" comes with a deadline:
+// WebKit deletes a site's script-writable storage after about a week without a visit, and these
+// lists live in exactly that storage. Installing the app or signing in both take it off the
+// table, so the hint says which of the two rather than being a warning nobody can act on.
+// Not shown in the installed app (`iosInstall` is already false there) or anywhere else.
+const { iosInstall } = useInstallPrompt()
 
 const state = computed(() => {
   if (!enabled.value) return props.hint ? 'hint' : ''
@@ -41,7 +48,7 @@ const state = computed(() => {
 const text = computed(() => {
   const l = labels.value
   switch (state.value) {
-    case 'hint': return l.rosterCloudHint
+    case 'hint': return iosInstall.value ? l.rosterCloudHintIos : l.rosterCloudHint
     case 'syncing': return l.rosterCloudSyncing
     case 'error': return l.rosterCloudError
     case 'updated': {
