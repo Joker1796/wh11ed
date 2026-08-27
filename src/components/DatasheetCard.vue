@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<wbr v-if="w.qty > 1" /><span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
             <td data-label="Range">{{ w.range }}</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }">{{ w.a }}<sup v-if="isMarked('ranged', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="BS" :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }">{{ w.bs }}<sup v-if="isMarked('ranged', 'bs', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }">{{ w.s }}<sup v-if="isMarked('ranged', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('ranged', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }">{{ w.d }}<sup v-if="isMarked('ranged', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<wbr v-if="w.qty > 1" /><span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
             <td data-label="Range">Melee</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }">{{ w.a }}<sup v-if="isMarked('melee', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="WS" :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }">{{ w.ws }}<sup v-if="isMarked('melee', 'ws', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }">{{ w.s }}<sup v-if="isMarked('melee', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('melee', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }">{{ w.d }}<sup v-if="isMarked('melee', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
@@ -947,6 +947,12 @@ function abilityStateLabel(st) {
    ever present on a sheet the overlay has been through, and only when the number is known and
    greater than one, so the plain datasheet page is untouched. Muted and trailing: the name still
    has to read as a name. */
+/* `<wbr>` in the markup, not a space: the count is glued to the name (there is no whitespace
+   between them in the template, or the ×2 could drift a word away from what it counts), and
+   without a break opportunity "supercharge×2" is one unbreakable token. A name whose last word
+   plus its count did not fit the line moved the WHOLE token down and left the line it came from
+   visibly short — which reads as "there is a gap after the ×2". The wbr lets the count drop on
+   its own when nothing else will do; the nowrap below keeps ×2 itself whole either way. */
 .wqty {
   margin-left: 0.35rem;
   font-size: 0.78rem;
@@ -1057,14 +1063,16 @@ function abilityStateLabel(st) {
      was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
      against the right edge, so a row reading "Bolt pistol ×9" spent about 40% of its width on
      nothing — the void a reader has to cross to get from the name to the numbers, and the first
-     thing anyone comparing this card to the GW app points at. At 45% the slack goes to the stat
-     columns instead and they spread across their half.
+     thing anyone comparing this card to the GW app points at. At 50% the slack goes to the stat
+     columns instead and they spread across their half — half rather than the 45% first tried,
+     because at 45% a name like "Plasma pistol – supercharge ×2" wrapped on a 390px phone and
+     did not on a 400px one.
 
-     The cost, stated plainly: the ability tags live in this cell, so they now have ~45% of the
+     The cost, stated plainly: the ability tags live in this cell, so they now have ~50% of the
      row to wrap in, and a weapon carrying three of them takes a second line. That is why the
      keyword pills below are allowed to break. */
   .ds-weapons .wname {
-    width: 45%;
+    width: 50%;
     min-width: 0;
     padding-left: 0.35rem;
   }
@@ -1077,7 +1085,7 @@ function abilityStateLabel(st) {
      `[DEVASTATING WOUNDS]` a ~130px word no column could go under — which is what set the floor
      where the table gives up and stacks (see the block below). Inside a tag it may break. */
   .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; white-space: normal; }
-  .wqty { font-size: 0.7rem; }
+  .wqty { font-size: 0.7rem; margin-left: 0.2rem; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
