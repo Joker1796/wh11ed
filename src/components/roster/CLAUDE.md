@@ -2541,6 +2541,22 @@ version) always prints: without it a sheet of paper does not say whose it is. It
 disappears when the unit cards are being printed, because every loadout is then on a card a few
 pages later and printing it twice only narrows the column for everyone.
 
+**Paper has its own palette, and it is not the theme's.** The app's accent follows the theme, and
+`[data-theme='dark'] strong` is near-white — so a reader in the dark theme printed white ability
+names, white "Core:"/"Keywords:" labels and pale pink headings onto white paper. `.rps` pins the
+accent to an ink colour and restores the light-theme treatment of `strong`; the scoped selector
+outranks the `[data-theme]` one. **The fills go too**: the filled accent bars (weapon-table
+headers, ability-group titles) become a rule under dark text, and the washes behind the statline,
+the ability blocks, a multi-profile weapon's rows and the keyword badges are dropped. A solid bar
+the width of the page is the most expensive thing on a sheet, and there is one per table.
+
+**The two-column sections are a GRID, not CSS columns.** In a multi-column flow an element's
+vertical offset says nothing about its place in the flow — the second column starts at the top
+again — and the sheet edges are computed from vertical offsets, so a card in the left column could
+be cut by a line already pulled clear of one in the right. Grid rows stack, so "lower" means
+"later". The prose (army and detachment rules) stays multi-column, and `.rps-rule` is deliberately
+NOT one of the atoms the edge calculation reads for exactly that reason.
+
 **Stratagems print as cards in two columns, not as a table.** A stratagem is prose, and prose
 across 194mm of A4 is a 120-character line; as a table it was worse than that, because one column
 had to be as wide as the widest "when" in the whole detachment. Cards take the height they need,
