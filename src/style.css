@@ -676,6 +676,12 @@ strong {
   font-size: 0.74rem;
   color: var(--text-muted);
 }
+/* In a build pane the indent is 1.25rem out of ~180: the rail still says "these belong together"
+   at a third of the width, and the three rows it eats into are the ones carrying the wargear. */
+@container (max-width: 300px) {
+  .roster-attached { margin-left: 0.4rem; }
+  .roster-sum { margin-left: 0.4rem; padding: 0.2rem 0.4rem; font-size: 0.66rem; }
+}
 
 /* ── Roster build panes (the catalogue beside the list) ────────────────────
    Both building screens — the editor's Units tab and the creation wizard's units step — put the
@@ -690,6 +696,14 @@ strong {
    both panes their own fixed height instead needs a height calculation that every surrounding bar
    — the app nav, the sticky points bar, the mobile bottom nav — is free to invalidate. */
 .roster-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; align-items: start; }
+/* Both panes are QUERY CONTAINERS, and everything inside them sizes itself against the pane
+   rather than against the viewport. A viewport breakpoint cannot answer the question that
+   matters here — a 390px phone gives each pane ~180px, and so does a 780px tablet — so the
+   compact arrangements in RosterUnitBrowser / RosterUnitList / RosterUnitRow all key off
+   `@container`. The first attempt used `@media (max-width: 380px)` and simply never fired on
+   the phone it was written for. */
+.roster-panes > .rp-catalog,
+.roster-panes > .rp-list { container-type: inline-size; }
 .roster-panes > .rp-catalog {
   position: sticky;
   /* Under the app's own sticky navbar, and clear of the fixed points/save bar below

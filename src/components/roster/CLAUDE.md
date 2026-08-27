@@ -952,10 +952,30 @@ stopped being defensible once wargear started deciding the price, because then e
 round trip: add it there, see what it costs here. The reader who reported it had built a list that
 way and called the flow «путано».
 
-The panes are two columns on a phone as well, which is a deliberate choice and not an oversight:
-the type scales in `RosterUnitRow` and `RosterUnitList` step down below 380px to match the width
-each pane gets, and the catalogue's own rows stack their name over their price there
-(`RosterUnitBrowser`). The catalogue pane **sticks and scrolls inside itself** — under the app's
+The panes are two columns on a phone as well, which is a deliberate choice and not an oversight —
+but half a phone is ~180px, and everything inside a pane has to be laid out for that.
+
+**Both panes are query containers** (`container-type: inline-size`) and every compact arrangement
+inside them is an `@container (max-width: 300px)` rule, not a media query. A viewport breakpoint
+cannot answer the question that matters: a 390px phone and a 780px tablet hand each pane the same
+~180px. The first pass used `@media (max-width: 380px)` and never fired on the phone it was written
+for — 390 is not below 380 — which is how a squeezed pane shipped with full-size type in it.
+
+What the narrow arrangement changes, in the order it matters:
+
+- **The copy and delete buttons leave the row's line** and sit over its top-right corner
+  (`.rul-acts`, absolute). Beside the text they cost every line 4.2rem, and the wargear a unit
+  carries is what pays. The name reserves that room itself (`padding-right`) and a `min-height`
+  keeps the row below it clear of the buttons when the name is only one line long.
+- **The points move down beside the chips** (`RosterUnitRow` is a grid, and the two arrangements
+  are two placements of the same four parts). A points column costs the text ~3rem of every row,
+  which is what turned one Chosen squad's four picks into a twelve-line column.
+- **The catalogue's rows stack their name over their price** (`RosterUnitBrowser`) — three or four
+  words and a number do not share 180px — and its whole scale steps down. `.rub-name` also carries
+  `min-width: 0`, without which a long name refuses to shrink past its min-content and runs *under*
+  the price instead of wrapping.
+- **The attached-unit rail indents by 0.4rem instead of 1.25rem** (`style.css`). The rail still
+  says "these belong together" at a third of the width. The catalogue pane **sticks and scrolls inside itself** — under the app's
 sticky navbar, clear of the fixed points/save bar (`--roster-sticky-h`) and of the mobile bottom
 nav — while the list flows with the page beside it. Giving both panes their own fixed height
 instead needs a height calculation that every one of those bars is free to invalidate.
@@ -1010,9 +1030,9 @@ derived and never stored — and allegiance), then the wargear the player actual
 The **default loadout is deliberately not there** any more. It is the same on every copy of a
 datasheet, it is printed on the datasheet itself, and as three or four lines of dim 0.74rem text per
 unit it stood between the reader and the two facts above; the accordion's own "Default wargear"
-block is one tap away. The row also steps its whole type scale down below 380px rather than only
-shrinking one part of it, so it keeps its hierarchy where the list shares its width with the
-catalogue.
+block is one tap away. In a narrow pane the row also steps its whole type scale down rather than
+only shrinking one part of it, so it keeps its hierarchy — see the Editing flow section for what
+else changes at that width.
 
 **A configured entry can be copied** (`duplicateUnitEntry`, the row's copy button next to its
 delete). Adding the same datasheet twice through the catalogue gives a bare entry both times, so

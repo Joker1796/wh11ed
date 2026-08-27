@@ -17,17 +17,17 @@
      0.74rem text per unit standing between the reader and the two facts above. It is still one tap
      away, inside the accordion's own "Default wargear" block. -->
 <template>
-  <span class="rur-text">
+  <span class="rur">
     <span class="rur-name">
       <i v-if="entry.warlord" class="bi bi-star-fill rur-star"></i>
       {{ def?.name || entry.id }}
     </span>
+    <span class="rur-pts">{{ points }}</span>
     <span v-if="chips.length" class="rur-chips">
       <span v-for="c in chips" :key="c.key" class="rur-chip" :class="{ role: c.role }">{{ c.text }}</span>
     </span>
     <span v-if="picks.length" class="rur-picks">{{ picks.join(' · ') }}</span>
   </span>
-  <span class="rur-pts">{{ points }}</span>
 </template>
 
 <script setup>
@@ -72,8 +72,22 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 </script>
 
 <style scoped>
-.rur-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.2rem; text-align: left; }
-.rur-name { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; line-height: 1.25; }
+/* A grid, not a text column beside a points column, because the two arrangements differ only in
+   where the same four parts sit. Rows and columns are placed EXPLICITLY (auto-placement puts the
+   points in the wrong cell as soon as a row is missing), and the row gap is zero — an absent
+   chips or picks row would otherwise still charge for its gap. */
+.rur {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 0.5rem;
+  text-align: left;
+}
+.rur-name { grid-area: 1 / 1 / 2 / 2; font-weight: 600; color: var(--text-primary); font-size: 0.95rem; line-height: 1.25; }
+.rur-pts { grid-area: 1 / 2 / -1 / 3; align-self: center; }
+.rur-chips { grid-area: 2 / 1 / 3 / 2; margin-top: 0.2rem; }
+.rur-picks { grid-area: 3 / 1 / 4 / 2; margin-top: 0.2rem; }
 .rur-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
 
 .rur-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
@@ -91,12 +105,20 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 .rur-picks { font-size: 0.72rem; color: var(--text-dim); line-height: 1.35; }
 .rur-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 
-/* The narrowest phones, where the list shares its width with the catalogue. Everything steps
-   down together so the row keeps its hierarchy instead of collapsing into one size. */
-@media (max-width: 380px) {
-  .rur-name { font-size: 0.85rem; }
+/* A narrow pane. The name and the chosen wargear take the FULL width and the points move down
+   beside the chips, because a points column costs the text line ~3rem of every row — which is
+   what turned "Chaos Icon · Plasma pistol ×2 · Power fist · Combi-weapon ×2" into a twelve-line
+   column. The name reserves room on its own line for the copy/delete buttons RosterUnitList
+   lifts up there (their strip is 3.4rem wide). Everything steps down together, so the row keeps
+   its hierarchy instead of collapsing into one size. */
+@container (max-width: 300px) {
+  /* The padding keeps the name clear of the buttons horizontally; the min-height keeps the row
+     BELOW it clear of them vertically, since a one-line name is shorter than their strip. */
+  .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: 3.4rem; min-height: 1.5rem; font-size: 0.85rem; }
+  .rur-pts { grid-area: 2 / 2 / 3 / 3; align-self: end; font-size: 0.85rem; }
+  .rur-chips { grid-area: 2 / 1 / 3 / 2; }
+  .rur-picks { grid-area: 3 / 1 / 4 / -1; }
   .rur-chip { font-size: 0.62rem; padding: 0.05rem 0.25rem; }
   .rur-picks { font-size: 0.66rem; }
-  .rur-pts { font-size: 0.85rem; }
 }
 </style>
