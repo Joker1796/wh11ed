@@ -65,7 +65,7 @@
          all (`hidePossible`): a block that says "in play" must not list what is not, and the
          conditions themselves stay one tap away on the rule blocks below, with their switches. -->
     <template v-for="sec in noteSections" :key="sec.key">
-      <DsAccordion :collapsible="sec.collapsible">
+      <DsAccordion :collapsible="sec.collapsible" :start-open="false">
         <template #header="{ open, toggle }">
           <button v-if="sec.collapsible" type="button" class="ds-mods-h ds-mods-btn" :aria-expanded="open" @click="toggle">
             <span>{{ sec.label }}</span>
@@ -139,7 +139,12 @@
            Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
            weapons and keywords never do (see the sections above/below). DsAccordion is headless
            (no markup/CSS of its own): the header slot keeps writing the exact same
-           `.ds-group-title` element this always had, so none of this block's own styling moved. -->
+           `.ds-group-title` element this always had, so none of this block's own styling moved.
+
+           They start OPEN (DsAccordion's `startOpen`): folding is for a block already read, not
+           the state the card arrives in — the abilities are what it was opened for. The one
+           accordion here that starts closed is "possible modifiers" above, which is not the
+           printed datasheet. -->
       <div v-if="sheet.abilities" class="ds-ability-group">
         <DsAccordion :collapsible="collapsible">
           <template #header="{ open, toggle }">

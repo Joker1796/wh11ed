@@ -1514,6 +1514,19 @@ chrome, keyed off the roster's faction slug),
 `ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely
 presentational, the parent decides what a flip means).
 
+**The card's blocks in the modal start OPEN** (2026-08-27, `DsAccordion`'s `startOpen`, default
+`true`). `collapsible` folds Abilities / Wargear Abilities / Special Abilities / ability sets /
+named rules / Damaged / Transport / Leader-Support / Composition / Options into accordions, and all
+ten used to arrive closed — so reading a unit's abilities cost a tap on every group, every time the
+card was opened, on the one screen a player actually reads a datasheet from. The standalone
+datasheet page has never hidden any of them (`collapsible` is false there). The chevrons stay: a
+block that has been read can be folded out of the way, it just isn't the state the card arrives in.
+
+Two accordions still start closed, and both are the same exception — they are not the printed
+datasheet: **«possible modifiers»** (a speculative list of what would change, see Modifier overlay
+below) and each **rule block's own prose** in `RosterUnitRulesModal` (`.rum-rule`), where opening
+them all at once dumps four long detachment/enhancement rules on top of the card they annotate.
+
 **`RosterUnitRulesModal`'s `.modal-body` cancels `DatasheetCard`'s own ≤480px `.ds-card`
 full-viewport bleed** (`width: 100vw; margin-left: calc(50% - 50vw)`) via a `:deep(.ds-card)`
 override. That escape is correct only when `.ds-card` sits directly in an unpadded container —

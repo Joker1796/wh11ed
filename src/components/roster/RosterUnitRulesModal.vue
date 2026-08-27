@@ -136,7 +136,7 @@
           <section v-if="ruleBlocks.length" class="rum-rules">
             <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
             <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
-              <DsAccordion collapsible>
+              <DsAccordion collapsible :start-open="false">
                 <template #header="{ open, toggle }">
                   <button type="button" class="rum-rule-btn" :aria-expanded="open" @click="toggle">
                     <span class="rum-rule-text">
