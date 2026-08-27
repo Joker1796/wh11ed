@@ -11,7 +11,7 @@
 // Build scripts are unaffected: scripts/*.mjs never import this file, they read
 // src/data/factions/<slug>.js directly through sync-common.mjs's loadModule (import.meta.glob
 // is a Vite transform and would not resolve under plain Node).
-const modules = import.meta.glob(['./*.js', '!./index.js'])
+const modules = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
 
 // Every faction file has exactly one named export, the camelCase of its slug
 // ('space-marines' → `spaceMarines`). Resolve by that name and fall back to the module's first

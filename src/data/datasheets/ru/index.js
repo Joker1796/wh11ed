@@ -10,7 +10,7 @@
 //
 // Loaded on demand by FactionDatasheetView only in the RU locale, so the overlays never
 // enter the EN bundle. Each ./<slug>.js is code-split into its own chunk via glob.
-const modules = import.meta.glob(['./*.js', '!./index.js'])
+const modules = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
 
 // Resolves the RU overlay MODULE for a faction (or null). Returns the whole module
 // namespace so both `default` (the id→overlay map) and `abilityNamesRu` are available
