@@ -26,6 +26,12 @@
         <RouterLink v-if="!inGame" :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
           <i class="bi bi-pencil"></i>
         </RouterLink>
+        <!-- The list as a document. Beside the pencil rather than in a menu: printing is what
+             somebody does with a list they have finished, which is exactly where they are
+             standing when they look at this screen. -->
+        <RouterLink v-if="!inGame" :to="`/roster/${roster.id}/print`" class="hdr-icon" :aria-label="labels.printAction" :title="labels.printAction">
+          <i class="bi bi-printer"></i>
+        </RouterLink>
       </div>
     </header>
 

@@ -380,7 +380,7 @@
          Always the LAST section of the card (mirrors the source books: costs live at the
          bottom of a datasheet, never in its header) — an accent-tinted band like the
          statline zone at the top, so the card is framed by the faction colour. -->
-    <div v-if="pointsTable && !collapsible" class="ds-points">
+    <div v-if="pointsTable && !collapsible && !hidePoints" class="ds-points">
       <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
       <table>
         <thead>
@@ -472,6 +472,11 @@ const props = defineProps({
   // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
   // effects name a condition the player may flip; `toggle-cond` reports the click.
   abilitySwitches: { type: Object, default: null },
+  // Hide the datasheet's own points table. Until the print sheet there was exactly one caller
+  // that wanted it gone — the modal — and `collapsible` spoke for both, which is why the two were
+  // one flag. On paper they part company: a booklet wants every block OPEN and the per-bracket
+  // prices GONE (the list already priced this entry, once, in its summary).
+  hidePoints: { type: Boolean, default: false },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those

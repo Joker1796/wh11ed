@@ -1,0 +1,196 @@
+// What goes on the paper — one table, read by the print screen's checkbox list, by its two
+// presets, and by the sheet that renders the document. Same idiom as trackerOptions.js, and for
+// the same reason: a row offered in the panel and a branch in the document are the same decision,
+// so they are written once.
+//
+// A row is:
+//   id        stable key (the setting field, the test, the label lookup)
+//   group     'what' — a section of the booklet | 'card' — how a unit's card is printed
+//   label     ui.js key, the checkbox's caption
+//   hint      ui.js key | null, one line under it saying what it costs in paper or in truth
+//   requires  another row's id this one hangs off; off there is off here, whatever this says
+//   compact   its value in the "one or two sheets" preset
+//   full      its value in the "whole booklet" preset
+//
+// THE TWO PRESETS ARE THE SAME LIST. "Compact" and "Full" are not two documents — they are two
+// settings of one, which is why a reader can start from either and change their mind about a
+// single row without leaving the preset behind (the panel then says "custom" and prints exactly
+// what the boxes say).
+//
+// WHY THESE ROWS AND NOT OTHERS. Everything here is something a player might genuinely not want
+// on paper — because they know it by heart, because it costs a sheet, or because the sheet is
+// going to be read by an opponent who expects the printed datasheet. Nothing here can make the
+// document say something FALSE: turning modifiers off prints the printed numbers, not wrong ones,
+// and the rules that would have changed them are still in the booklet.
+export const PRINT_OPTIONS = [
+  // ── Sections of the booklet ────────────────────────────────────────────────────────────────
+  {
+    id: 'points',
+    group: 'what',
+    label: 'printOptPoints',
+    hint: 'printOptPointsHint',
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'armyRule',
+    group: 'what',
+    label: 'printOptArmyRule',
+    hint: null,
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'detachmentRules',
+    group: 'what',
+    label: 'printOptDetachmentRules',
+    hint: null,
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'enhancements',
+    group: 'what',
+    label: 'printOptEnhancements',
+    hint: 'printOptEnhancementsHint',
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'stratagems',
+    group: 'what',
+    label: 'printOptStratagems',
+    hint: null,
+    compact: true,
+    full: true,
+  },
+  {
+    // The single biggest lever on length after the cards themselves: the name, its cost and its
+    // window fit one line, the effect does not.
+    id: 'stratagemText',
+    group: 'what',
+    label: 'printOptStratagemText',
+    hint: 'printOptStratagemTextHint',
+    requires: 'stratagems',
+    compact: false,
+    full: true,
+  },
+  {
+    id: 'unitCards',
+    group: 'what',
+    label: 'printOptUnitCards',
+    hint: 'printOptUnitCardsHint',
+    compact: false,
+    full: true,
+  },
+
+  // ── How a unit's card is printed ───────────────────────────────────────────────────────────
+  {
+    // The three tiers of the overlay, offered as two switches (see src/components/roster/CLAUDE.md):
+    // off = the printed datasheet, `trim` = the sheet this entry actually fields, `modifiers` =
+    // its numbers as the roster's rules leave them, each marked and attributed under the card.
+    id: 'modifiers',
+    group: 'card',
+    label: 'printOptModifiers',
+    hint: 'printOptModifiersHint',
+    requires: 'unitCards',
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'possible',
+    group: 'card',
+    label: 'printOptPossible',
+    hint: 'printOptPossibleHint',
+    requires: 'unitCards',
+    compact: false,
+    full: true,
+  },
+  {
+    id: 'trim',
+    group: 'card',
+    label: 'printOptTrim',
+    hint: 'printOptTrimHint',
+    requires: 'unitCards',
+    compact: true,
+    full: true,
+  },
+  {
+    id: 'choices',
+    group: 'card',
+    label: 'printOptChoices',
+    hint: 'printOptChoicesHint',
+    requires: 'unitCards',
+    compact: false,
+    full: false,
+  },
+  {
+    id: 'pageBreak',
+    group: 'card',
+    label: 'printOptPageBreak',
+    hint: 'printOptPageBreakHint',
+    requires: 'unitCards',
+    compact: false,
+    full: false,
+  },
+]
+
+// How hard the type is squeezed. One multiplier drives every size, line-height and gap on the
+// sheet (`--print-scale`), so the three steps stay proportional instead of each needing its own
+// stylesheet. The floor is deliberate: below ~0.8 an 8pt table is 6pt, which reads on a screen
+// and disappears on an inkjet.
+export const PRINT_DENSITIES = [
+  { id: 'normal', scale: 1 },
+  { id: 'dense', scale: 0.92 },
+  { id: 'denser', scale: 0.84 },
+]
+
+export const PRINT_ORIENTATIONS = ['portrait', 'landscape']
+
+export const DEFAULT_PRINT_SETTINGS = { density: 'normal', orientation: 'portrait' }
+
+// The preset, as settings. `preset` is the field name on each row, which is what keeps the table
+// and the presets from ever falling out of step: adding a row means answering both.
+export function presetSettings(preset) {
+  const out = { ...DEFAULT_PRINT_SETTINGS }
+  for (const o of PRINT_OPTIONS) out[o.id] = !!o[preset === 'full' ? 'full' : 'compact']
+  return out
+}
+
+// Which preset these settings ARE, or null for a set the reader built themselves. Compared on the
+// rows only — density and orientation are not part of what makes a document compact or full, and
+// a reader who squeezed the type has not left the preset.
+export function presetOf(settings) {
+  for (const preset of ['compact', 'full']) {
+    const want = presetSettings(preset)
+    if (PRINT_OPTIONS.every((o) => !!settings?.[o.id] === want[o.id])) return preset
+  }
+  return null
+}
+
+// A row's effective value: a row whose parent is off is off, whatever it says itself. Every reader
+// of a setting goes through this, so the panel and the document cannot disagree about a child row.
+export function printOptionOn(settings, id) {
+  const row = PRINT_OPTIONS.find((o) => o.id === id)
+  if (!row) return false
+  if (row.requires && !printOptionOn(settings, row.requires)) return false
+  return !!settings?.[id]
+}
+
+// What was stored last time, made safe: an unknown density, a missing row (this table grew) or a
+// stored value of the wrong shape falls back to the compact preset's answer rather than to
+// `undefined`, which would print a section nobody asked for.
+export function normalizePrintSettings(saved) {
+  const base = presetSettings('compact')
+  const out = { ...base }
+  if (saved && typeof saved === 'object') {
+    for (const o of PRINT_OPTIONS) if (typeof saved[o.id] === 'boolean') out[o.id] = saved[o.id]
+    if (PRINT_DENSITIES.some((d) => d.id === saved.density)) out.density = saved.density
+    if (PRINT_ORIENTATIONS.includes(saved.orientation)) out.orientation = saved.orientation
+  }
+  return out
+}
+
+export function printScale(settings) {
+  return (PRINT_DENSITIES.find((d) => d.id === settings?.density) || PRINT_DENSITIES[0]).scale
+}
