@@ -91,7 +91,7 @@
       <!-- The paper. Its width is the printable width of the chosen page, in millimetres, so a
            line breaks on screen exactly where it breaks on the sheet; the horizontal rules are
            where the pages end. -->
-      <div class="rpv-paper" :class="settings.orientation" :style="paperStyle">
+      <div ref="paperEl" class="rpv-paper" :class="settings.orientation" :style="paperStyle">
         <div ref="docEl">
           <RosterPrintSheet
             :roster="roster"
@@ -201,10 +201,57 @@ const paperStyle = computed(() => {
 })
 
 const docEl = ref(null)
+const paperEl = ref(null)
 const pageCount = ref(1)
+
+// The preview is drawn at a fraction of its real size on a narrow screen (`zoom` on the paper),
+// and `zoom` scales what getBoundingClientRect reports. Everything measured below is divided by
+// this so the maths stays in the paper's own millimetres.
+function paperScale() {
+  const el = paperEl.value
+  if (!el) return 1
+  const css = (page.value.w - MARGIN_MM * 2) * MM_PX
+  const shown = el.getBoundingClientRect().width
+  return shown && css ? shown / css : 1
+}
+
+// WHERE THE PAGES ACTUALLY BREAK. A printer will not split a block that says `break-inside:
+// avoid` — a unit card, a section — it moves the whole thing to the next sheet and leaves the
+// rest of the current one empty. A preview that draws page edges every N millimetres and lets
+// content run straight through them is therefore showing pages that will never be printed, which
+// is what "the page splitting works strangely" means.
+//
+// So the same rule is applied here: any block that would straddle an edge, and is short enough to
+// fit a page on its own, is pushed down to the next one. The push is a custom property the paper
+// only honours ON SCREEN (see the style block) — on paper the printer does its own pagination,
+// and a margin baked in on top of it would open a second gap.
+function paginate() {
+  const root = docEl.value
+  if (!root) return
+  // A section that holds blocks of its own (the cards) is not an atom; its children are.
+  const atoms = [...root.querySelectorAll('.rps-block, .rpu')].filter((el) => !el.classList.contains('rps-cards'))
+  for (const el of atoms) el.style.removeProperty('--page-push')
+  const scale = paperScale()
+  const pageH = (page.value.h - MARGIN_MM * 2) * MM_PX
+  const top0 = root.getBoundingClientRect().top
+  let shift = 0
+  for (const el of atoms) {
+    const r = el.getBoundingClientRect()
+    const top = (r.top - top0) / scale + shift
+    const h = r.height / scale
+    // Taller than a sheet: nothing to be done, the printer will split it and so do we.
+    if (h > pageH) continue
+    const room = pageH - (top % pageH)
+    if (h <= room) continue
+    el.style.setProperty('--page-push', `${room}px`)
+    shift += room
+  }
+}
+
 function measure() {
-  const h = docEl.value?.scrollHeight || 0
+  paginate()
   const contentH = (page.value.h - MARGIN_MM * 2) * MM_PX
+  const h = (docEl.value?.getBoundingClientRect().height || 0) / paperScale()
   pageCount.value = Math.max(1, Math.ceil(h / contentH - 0.02))
 }
 // Every setting changes the length, and the length is the number the panel promises. Measured
@@ -282,6 +329,16 @@ function print() { window.print() }
 .rpv-note { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
 
 /* ── The paper ─────────────────────────────────────────────────────────────────────────────── */
+/* The push a block gets when it would otherwise straddle a page edge (see paginate()). Screen
+   only: on paper the printer paginates for itself, and this margin on top of that would leave a
+   blank sheet between the two. */
+@media screen {
+  .rpv-paper :deep(.rps-block),
+  .rpv-paper :deep(.rpu) {
+    margin-top: var(--page-push, 0);
+  }
+}
+
 .rpv-paper {
   /* White in both themes, because that is what it is: paper. The document inside it is drawn
      with the app's own tokens, so they are pinned to their light values here — a card printed in

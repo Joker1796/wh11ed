@@ -410,4 +410,16 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 /* The cards are their own width: a datasheet is a grid of tables and does not survive being cut
    in half by a column. */
 .rps-cards { columns: 1; }
+
+/* DatasheetCard escapes to the full VIEWPORT width below 480px (`width: 100vw; margin-left:
+   calc(50% - 50vw)`) so that on a phone it reads as a full-bleed section rather than a card in a
+   gutter. On a sheet of paper there is no viewport to bleed to: inside the 194mm page the calc
+   resolved against the PAGE's half-width and the phone's half-width, which pushed every unit
+   card ~177px to the right and cut it down to the phone's own width — a narrow column of cards
+   floating in the middle of the paper. Cancel the escape, exactly as RosterUnitRulesModal does
+   for the same reason; the card's own bleeds to its own edges are untouched and still right. */
+.rps-cards :deep(.ds-card) {
+  width: auto;
+  margin-left: 0;
+}
 </style>
