@@ -506,6 +506,11 @@ function stepMax(gi, oi) {
   const elsewhere = wargearGroupSpent(props.entry, gi, oi)
   const cap = caps.value[gi]
   if (cap) return Math.max(0, Math.min(cap.dup || cap.limit, cap.limit - elsewhere))
+  // "For every 5 models in this unit:" over a BULLET LIST, and only that: the generator reads every
+  // scaled allowance that states its number into `lim` (gen-roster-data.mjs's SCALED_ALLOWANCE), so
+  // what is left here is the umbrella whose bullets are separate allowances — a Red Corsairs Raider
+  // squad swaps 1 boltgun AND 1 reaver's blade per 5 models. Per option is the right reading for
+  // those, and the two groups in that shape are the only ones that still reach this line.
   const m = (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
   if (m) return Math.floor(models.value / Number(m[1]))
   // No cap of any kind: the group can be taken by every model it belongs to — which on a
