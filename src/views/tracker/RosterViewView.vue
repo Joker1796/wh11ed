@@ -303,7 +303,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, leadsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
-import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching } from '../../composables/rosterStatMods.js'
+import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
@@ -687,16 +687,15 @@ function chosenFor(entry, resolved) {
   ])
 }
 
-function statModsFor(entry, sheet) {
-  // The master, in the one place that can answer for all of it: no rewritten numbers, no marks,
-  // no notes — so the plates, the card behind them and the "possible" summary all fall back to the
-  // printed datasheet together. Nothing downstream needs its own gate.
-  if (!modsOn.value) return { sheet, marks: [] }
-  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
+// Everything one entry's modifiers are judged with: the records that bear on it, the keyword set
+// they are judged against, and the game state that proves them. One function because the card and
+// the CHIPS have to agree — a stratagem this unit cannot be the target of must be missing from
+// both, and two places working it out separately is how they come to differ.
+function modContextFor(entry, sheet) {
   const resolved = resolvedFor(entry)
-  if (!resolved.length) return { sheet, marks: [] }
+  if (!resolved.length) return null
   const active = activeFor(entry)
-  const printed = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
+  const printed = [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])]
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
   // here would let a plate on this row and the card behind it disagree, which is the one thing this
@@ -707,7 +706,29 @@ function statModsFor(entry, sheet) {
   // other rules bear on the unit at all.
   const chosen = chosenFor(entry, resolved)
   const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
-  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active, chosen)
+  // …and then the stratagems this unit could never be picked as the target of come off the list.
+  // Judged against the whole ATTACHED unit's keywords (Core Rules 19.03), which is why the
+  // attachment the roster records is read here rather than the card's own keywords alone.
+  const attached = attachedUnitKeywords(entry, roster.value?.units, (id) => {
+    const d = fullSheets.value.get(id)
+    return d ? [...(d.keywords || []), ...(d.factionKeywords || [])] : []
+  })
+  return { resolved: gateStratagems(resolved, [...kws, ...attached], factionKeywordSets.value), kws, active, chosen }
+}
+
+// The gated list on its own, for the callers that only want the records and not the keyword set
+// that produced them.
+const gatedFor = (entry) => modContextFor(entry, fullSheets.value.get(entry?.id))?.resolved || []
+
+function statModsFor(entry, sheet) {
+  // The master, in the one place that can answer for all of it: no rewritten numbers, no marks,
+  // no notes — so the plates, the card behind them and the "possible" summary all fall back to the
+  // printed datasheet together. Nothing downstream needs its own gate.
+  if (!modsOn.value) return { sheet, marks: [] }
+  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
+  const ctx = modContextFor(entry, sheet)
+  if (!ctx) return { sheet, marks: [] }
+  return applyStatMods(sheet, ctx.resolved, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen)
 }
 
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────
@@ -744,7 +765,7 @@ const possibleCount = computed(() => possibleGroups.value.reduce((n, g) => n + g
 // number they change is shown, and a wall of per-unit switches here would be unreadable.
 const armySwitches = computed(() => {
   if (!canSwitch.value || !keeps('trackArmyStates')) return []
-  const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
+  const all = (roster.value?.units || []).flatMap((e) => gatedFor(e))
   return withRuleInfo(switchesFor(all, 'army', gamePlayer.value, gameClock.value, null))
 })
 // This entry's own state switches, for the row in the list. Same source as the card's, so the two
@@ -753,7 +774,7 @@ const unitSwitchCache = computed(() => {
   const m = new Map()
   if (!canSwitch.value || !keeps('trackUnitStates')) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, withRuleInfo(switchesFor(resolvedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
+    m.set(e.uid, withRuleInfo(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e)))
   }
   return m
 })
@@ -890,7 +911,9 @@ function toggleArmyCond(sw) {
 // only ever offers switches that can change something on it.
 const viewingGameCtx = computed(() => {
   if (!inGame.value || !viewingEntry.value) return null
-  const resolved = resolvedFor(viewingEntry.value)
+  // The same gated list the card behind these chips is drawn from — a stratagem this unit cannot
+  // be the target of is not offered here either (modContextFor).
+  const resolved = gatedFor(viewingEntry.value)
   return {
     active: activeFor(viewingEntry.value),
     // Which stratagems are spent on this unit right now, and which its detachments offer that

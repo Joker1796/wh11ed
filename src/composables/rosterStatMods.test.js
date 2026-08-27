@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -726,6 +726,94 @@ describe('resolveModifierEntries — a stratagem\'s timing', () => {
     const orphan = { ...rec, ref: { ...rec.ref, name: 'Renamed by GW' }, name: 'Renamed by GW' }
     const [out] = resolveModifierEntries([orphan], facEn, ['Gladius Task Force'], null, null)
     expect(out.slot).toBeNull()
+  })
+})
+
+// WHO a stratagem may be spent on, read off the same TARGET line the player reads before spending
+// it. Chaos Cult is the detachment that made this plain: its stratagems are DAMNED-only, and every
+// unit in the list was being offered them.
+describe('resolveModifierEntries — a stratagem\'s target', () => {
+  const facEn = {
+    detachments: [{
+      id: 'chaos-cult',
+      name: 'Chaos Cult',
+      stratagems: [
+        { name: 'Crazed Focus', when: 'Your Shooting phase.', target: 'One DAMNED unit from your army that has not been selected to shoot this phase.' },
+        { name: 'Warp Blast', when: 'Your Shooting phase.', target: 'One enemy unit within 12" of a unit from your army.' },
+        { name: 'Cult Rites', when: 'Your Command phase.', target: 'One Warp Coven unit from your army.' },
+      ],
+    }],
+  }
+  const strat = (name) => ({
+    sid: name, kind: 'stratagem', name, det: 'Chaos Cult',
+    ref: { kind: 'stratagem', det: 'chaos-cult', name },
+    effects: [{ on: 'melee', stat: 'a', op: 'add', value: 1, when: null }],
+  })
+  const resolve = (name) => resolveModifierEntries([strat(name)], facEn, ['Chaos Cult'], null, null)
+  const cultists = ['Cultist Mob', 'Damned', 'Infantry', 'Heretic Astartes']
+  const raiders = ['Red Corsairs Raiders', 'Infantry', 'Heretic Astartes']
+  const facKw = [cultists, raiders]
+
+  it('reads the keywords the target line names', () => {
+    expect(resolve('Crazed Focus')[0].targetScopes).toEqual([{ targets: ['DAMNED'], excludes: [] }])
+  })
+
+  it('offers it to the unit the target line names, and to no one else', () => {
+    const [out] = resolve('Crazed Focus')
+    expect(gateStratagems([out], cultists, facKw)).toHaveLength(1)
+    expect(gateStratagems([out], raiders, facKw)).toEqual([])
+  })
+
+  // Core Rules 19.03 — the attached unit has the Cultists' DAMNED keyword, so the stratagem can be
+  // spent on it, and the Chaos Lord's own card is one of its cards.
+  it('offers it to a Leader standing in a unit the target line names', () => {
+    const [out] = resolve('Crazed Focus')
+    const lord = { uid: 'l', id: 'chaos-lord', leaderOf: 'b' }
+    const units = [{ uid: 'b', id: 'cultist-mob' }, lord]
+    const kws = ['Chaos Lord', 'Character', 'Heretic Astartes']
+    expect(gateStratagems([out], kws, facKw)).toEqual([])
+    const attached = attachedUnitKeywords(lord, units, (id) => (id === 'cultist-mob' ? cultists : []))
+    expect(gateStratagems([out], [...kws, ...attached], facKw)).toHaveLength(1)
+  })
+
+  // A stratagem aimed at the enemy says nothing about which of YOUR units may use it, so it is
+  // offered to all of them — the same escape ruleTargets.js makes for a rule that names nobody.
+  it('never gates one whose target is an enemy unit', () => {
+    const [out] = resolve('Warp Blast')
+    expect(out.targetScopes).toBeNull()
+    expect(gateStratagems([out], raiders, facKw)).toHaveLength(1)
+  })
+
+  // …and one whose target names a keyword no datasheet in the faction carries was misread, not
+  // narrowly written: distrust the extraction rather than hide the stratagem from everybody.
+  it('offers one whose target matches no unit in the faction to everybody', () => {
+    const [out] = resolve('Cult Rites')
+    expect(out.targetScopes).toEqual([{ targets: ['Warp Coven'], excludes: [] }])
+    expect(gateStratagems([out], raiders, facKw)).toHaveLength(1)
+  })
+
+  it('leaves everything that is not a stratagem alone', () => {
+    const rule = { kind: 'detachmentRule', name: 'Dark Pacts', effects: [] }
+    expect(gateStratagems([rule], raiders, facKw)).toEqual([rule])
+  })
+})
+
+describe('attachedUnitKeywords', () => {
+  const kwOf = (id) => ({ mob: ['Damned'], lord: ['Character'], champion: ['Support'] }[id] || [])
+
+  it('says nothing about an entry standing on its own', () => {
+    expect(attachedUnitKeywords({ uid: 'a', id: 'mob' }, [{ uid: 'a', id: 'mob' }], kwOf)).toEqual([])
+  })
+
+  // A bodyguard unit can hold a Leader and a Support at once, and all three are one unit.
+  it('covers every other half of the attached unit, from either side of it', () => {
+    const units = [
+      { uid: 'b', id: 'mob' },
+      { uid: 'l', id: 'lord', leaderOf: 'b' },
+      { uid: 'c', id: 'champion', leaderOf: 'b' },
+    ]
+    expect(attachedUnitKeywords(units[0], units, kwOf).sort()).toEqual(['Character', 'Support'])
+    expect(attachedUnitKeywords(units[1], units, kwOf).sort()).toEqual(['Damned', 'Support'])
   })
 })
 

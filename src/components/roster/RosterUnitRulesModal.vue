@@ -188,7 +188,7 @@ import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
-import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { abilityStatusesOf } from '../../composables/abilityStatus.js'
 import { rosterConditions } from '../../composables/rosterGameContext.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
@@ -486,11 +486,33 @@ const activeStratIds = computed(() => new Set([
 // unit" is proven by the roster, with no game needed — and nothing else can be true.
 const activeConds = computed(() => props.gameCtx?.active || rosterConditions(props.ctx?.entry))
 
+// Core Rules 19.03: an attached unit has every keyword of every unit in it, so a stratagem that
+// names one of them can be spent on the whole attached unit — this card included. Only the printed
+// keywords of the other halves; what the modifier layer grants THEM is a fact about their own card.
+const attachedKeywords = computed(() => attachedUnitKeywords(
+  props.ctx?.entry,
+  props.ctx?.units,
+  (id) => {
+    const d = datasheets.value.find((x) => x.id === id)
+    return d ? [...(d.keywords || []), ...(d.factionKeywords || [])] : []
+  },
+))
+
+// …and the stratagems this unit cannot be the target of are dropped before anything reads them, so
+// the card's notes and the chips it is handed can never disagree about which ones are on offer.
+// After the keyword grants, never before: a stratagem naming DESTROYER CULT is on offer to the
+// Overlord whose Destroyer Ankh granted him that keyword.
+const gatedModifiers = computed(() => gateStratagems(
+  resolvedModifiers.value,
+  [...unitKeywords.value, ...attachedKeywords.value],
+  factionKeywordSets.value,
+))
+
 const statMods = computed(() => {
-  if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
+  if (!gatedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
   return applyStatMods(
     view.value.sheet,
-    resolvedModifiers.value,
+    gatedModifiers.value,
     unitKeywords.value,
     factionKeywordSets.value,
     activeConds.value,
