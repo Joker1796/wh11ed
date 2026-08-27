@@ -12,7 +12,7 @@
 
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRosters, uid } from './useRosters.js'
-import { addUnitEntry, effectiveBattle, removeUnitEntry, rosterPoints } from './rosterEngine.js'
+import { addUnitEntry, duplicateUnitEntry, effectiveBattle, removeUnitEntry, rosterPoints } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
 import { summaryOf } from './rosterSummary.js'
 import rosterCore from '../data/roster/core.js'
@@ -74,6 +74,16 @@ export function useRosterEditing(rosterId) {
     if (addUnitEntry(roster.value.units, defOf(unitId), unitId, uid())) touch()
   }
 
+  // A configured copy of one line, placed right after it — see rosterEngine's duplicateUnitEntry
+  // for the three fields a copy must NOT inherit. Here for the same reason add/remove are: the
+  // screens that offer it must not each have their own idea of what a copy carries.
+  function duplicateUnit(entryUid) {
+    if (!roster.value) return null
+    const copy = duplicateUnitEntry(roster.value.units, entryUid, uid())
+    if (copy) touch()
+    return copy
+  }
+
   // `entryUid` removes that exact line (the editor's per-unit delete); without it the LAST copy
   // of the datasheet goes, which is what the add-units browser's "−" means.
   function removeUnit(unitId, entryUid = null) {
@@ -85,6 +95,6 @@ export function useRosterEditing(rosterId) {
 
   return {
     roster, factionData, loadingFaction, defOf, curDetachments,
-    effBattle, limit, points, validation, touch, addUnit, removeUnit,
+    effBattle, limit, points, validation, touch, addUnit, duplicateUnit, removeUnit,
   }
 }

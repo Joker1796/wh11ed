@@ -981,6 +981,18 @@ the store's own deep-watch autosave; that is why `pickFaction` empties it with `
 than assigning a new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry`
 — the same implementation `useRosterEditing` uses, not a second copy.
 
+**A configured entry can be copied** (`duplicateUnitEntry`, the row's copy button next to its
+delete). Adding the same datasheet twice through the catalogue gives a bare entry both times, so
+the second squad — usually the first one again — had every wargear pick made a second time. Three
+fields are deliberately not inherited, each unique per ARMY and each of which would make the copy
+illegal the moment it appeared: `warlord`, `enh` (a MANDATORY enhancement isn't stored on the entry,
+`mandatoryEnhancementFor` derives it, so it rides along by itself) and `leaderOf` (the host's slot
+is filled by the entry being copied). The copy lands directly after its original, which is also what
+puts the copy tax on the row that just appeared rather than on the one that was there. The button
+stops at the duplicate cap with the same two helpers the catalogue's "+" uses
+(`duplicateCounts`/`duplicateLimit`) — otherwise the one control that adds a unit without going
+through the catalogue would be the one that ignores the cap.
+
 **Picking a size bracket fills it to the top** (`setSize` in `UnitEditorFields.vue`). The
 Munitorum prints ONE price for a whole bracket, so a 6-model unit in a "6-10 · 270pts" bracket
 pays the 10-model price — almost nobody means to buy that, and the editor used to leave the count

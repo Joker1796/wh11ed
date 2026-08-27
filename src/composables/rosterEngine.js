@@ -684,6 +684,33 @@ export function removeUnitEntry(units, unitId, entryUid = null) {
   return null
 }
 
+// A second copy of an entry the player has already configured. Adding the same datasheet again
+// gives a bare entry (addUnitEntry above) and every wargear pick has to be made a second time,
+// which is what a list holding two identical squads costs today.
+//
+// Three fields are deliberately NOT copied, because each is unique per ARMY and a copy carrying
+// one is born illegal: `warlord` (one per army, rule 25), `enh` (an Enhancement is taken once —
+// a MANDATORY one isn't stored on the entry at all, `mandatoryEnhancementFor` derives it, so it
+// survives on the copy by itself), and `leaderOf` (the host's slot is filled by the entry we are
+// copying). Everything else — size, model count, wargear picks, allegiance — is the point of the
+// exercise and is cloned as it stands.
+//
+// The copy lands directly after its original rather than at the end of the list: the two are read
+// as a pair, and the copy tax (`entryMeta`'s copyIndex, assigned in list order) then falls on the
+// second one, which is the one that just appeared.
+export function duplicateUnitEntry(units, entryUid, newUid) {
+  if (!units) return null
+  const at = units.findIndex((u) => u.uid === entryUid)
+  if (at < 0) return null
+  const copy = JSON.parse(JSON.stringify(units[at]))
+  copy.uid = newUid
+  delete copy.warlord
+  delete copy.enh
+  delete copy.leaderOf
+  units.splice(at + 1, 0, copy)
+  return copy
+}
+
 // A one-line summary of an entry's current size/upgrades/enhancement for its list row —
 // shared by the editor, the read-only view, and the creation wizard's config step. Model-count
 // and upgrade-count nouns are passed in (not imported) so this stays a pure, Vue-free module;
