@@ -74,7 +74,7 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
 
-    await w.findAll('.redu-dup')[0].trigger('click')
+    await w.findAll('.rul-dup')[0].trigger('click')
     expect(r.units).toHaveLength(2)
     expect(r.units[1]).toMatchObject({ id: 'intercessor-squad', size: 1, count: 8 })
     expect(r.units[1].warlord).toBeUndefined()
@@ -92,12 +92,12 @@ describe('RosterEditorView', () => {
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Adrax Agatone')
 
-    expect(w.find('.redu-dup').attributes('disabled')).toBeDefined()
+    expect(w.find('.rul-dup').attributes('disabled')).toBeDefined()
     // Through the store's own reactive handle: createRoster returns the RAW object, and a
     // mutation on that is invisible to the render.
     store.rosterById(r.id).checkLegality = false // the cap is only enforced while checking is on
     await flushPromises()
-    expect(w.find('.redu-dup').attributes('disabled')).toBeUndefined()
+    expect(w.find('.rul-dup').attributes('disabled')).toBeUndefined()
   })
 
   it('taxes a duplicate datasheet by copy index in the total', async () => {
@@ -173,18 +173,34 @@ describe('RosterEditorView', () => {
     expect(w.find('.rc-sticky .btn-ghost').attributes('href')).toBe('/roster')
   })
 
-  it('links to the add-units page instead of embedding the catalogue', async () => {
-    // The faction catalogue moved to /roster/:id/add — the Units tab is the roster's own list
-    // now, and this link is the only way in.
+  // The catalogue used to be a page of its own (/roster/:id/add) and the Units tab a link to it;
+  // adding a unit and pricing its wargear were a navigation apart.
+  it('shows the catalogue beside the list, on the tab itself', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    expect(w.find('.roster-panes .rp-catalog .rub').exists()).toBe(true)
+    expect(w.find('.roster-panes .rp-list .rul-unit').exists()).toBe(true)
+    expect(w.findAll('a').some((a) => a.attributes('href') === `/roster/${r.id}/add`)).toBe(false)
+  })
+
+  it('adds a unit from the catalogue without leaving the tab', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')
     r.faction = 'space-marines'
     ROSTER_ID = r.id
     const w = mount(RosterEditorView, { global: { stubs } })
-    await waitFor(w, 'Add units')
-    const link = w.findAll('a').find((a) => a.text().includes('Add units'))
-    expect(link).toBeTruthy()
-    expect(link.attributes('href')).toBe(`/roster/${r.id}/add`)
+    await waitFor(w, 'Intercessor Squad')
+
+    const row = w.findAll('.rub-item').find((x) => x.find('.rub-name').text().startsWith('Intercessor Squad'))
+    await row.find('.rub-add').trigger('click')
+    expect(r.units).toHaveLength(1)
+    expect(push).not.toHaveBeenCalled()
   })
 
   it('opens the entry an issue points at when arriving with ?unit=', async () => {
@@ -196,7 +212,7 @@ describe('RosterEditorView', () => {
     QUERY = { unit: 'u1' }
     const w = mount(RosterEditorView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
-    expect(w.find('.redu-row').attributes('aria-expanded')).toBe('true')
+    expect(w.find('.rul-row').attributes('aria-expanded')).toBe('true')
     QUERY = {}
   })
 
@@ -215,9 +231,9 @@ describe('RosterEditorView', () => {
 
     // Match on the row's own NAME: the Captain's row also mentions the squad, in its
     // "attached to" tag.
-    const rows = w.findAll('.redu-unit')
+    const rows = w.findAll('.rul-unit')
     const squad = rows.find((row) => row.find('.rur-name').text().trim() === 'Intercessor Squad')
-    await squad.find('.redu-del').trigger('click')
+    await squad.find('.rul-del').trigger('click')
 
     expect(r.units.map((u) => u.uid)).toEqual(['u2'])
     // …and the Captain that was attached to it isn't left pointing at a unit that has gone.

@@ -18,7 +18,6 @@ const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
 const RosterListView    = () => import('../views/tracker/RosterListView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
-const RosterAddUnitsView = () => import('../views/tracker/RosterAddUnitsView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
@@ -387,7 +386,10 @@ const localeRoutes = [
     { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
     { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
     { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
-    { path: '/roster/:id/add',  component: RosterAddUnitsView, meta: { section: 'roster' } },
+    // The catalogue used to live here, as a page of its own. It is now a pane of the editor's
+    // Units tab — the redirect is for the links that outlive the route: a stored last route (the
+    // PWA resumes into one), a phone's back stack, a bookmark.
+    { path: '/roster/:id/add', redirect: (to) => `/roster/${to.params.id}` },
     { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
     // The army list attached to a player of the CURRENT game (:pi = 0|1). Same view as
     // /roster/:id/view, reading the game's own snapshot instead of the saved-roster store — see

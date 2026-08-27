@@ -70,25 +70,23 @@ describe('RosterCreateView', () => {
     expect(row.find('.rub-remove').exists()).toBe(false)
     await row.find('.rub-add').trigger('click')
 
-    // Step 2 → 3 ("Next"). Every step's .rc-panel stays in the DOM at once (v-show, not v-if) —
-    // index into .rc-panel (1 = step 2, 2 = step 3) rather than a bare .rc-sticky query, which
-    // would match step 2's regardless of which is shown.
+    // Both panes are the same step now — the unit that was just added is in the list beside the
+    // catalogue, and its tile expands into its config fields (size/wargear/etc.) on click.
+    // CollapseTransition always renders the slot, so open state shows via aria-expanded/the
+    // "is-open" class it toggles, not the fields' presence in the DOM. Every step's .rc-panel
+    // stays in the DOM at once (v-show, not v-if), so index into .rc-panel rather than querying
+    // .rc-sticky bare.
     const panels = w.findAll('.rc-panel')
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
-
-    // Step 3: the added unit's tile expands into its config fields (size/wargear/etc.) on click
-    // — CollapseTransition always renders the slot, so open state shows via aria-expanded/the
-    // "is-open" class it toggles, not the fields' presence in the DOM.
-    const tile = panels[2].findAll('.rcunit-row').find((b) => b.text().includes('Intercessor Squad'))
-    const collapse = tile.element.parentElement.querySelector('.collapse')
+    const tile = panels[1].findAll('.rul-row').find((b) => b.text().includes('Intercessor Squad'))
+    const collapse = tile.element.parentElement.parentElement.querySelector('.collapse')
     expect(tile.attributes('aria-expanded')).toBe('false')
     expect(collapse.classList.contains('is-open')).toBe(false)
     await tile.trigger('click')
     expect(tile.attributes('aria-expanded')).toBe('true')
     expect(collapse.classList.contains('is-open')).toBe(true)
-    expect(panels[2].find('.rcunit-fields .ues-h').exists()).toBe(true) // fields did render
+    expect(panels[1].find('.rul-fields .ues-h').exists()).toBe(true) // fields did render
 
-    await panels[2].find('.rc-sticky .btn-primary').trigger('click') // Done
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // Save
 
     const store = useRosters()
     expect(store.rosters.value).toHaveLength(1)
@@ -103,7 +101,7 @@ describe('RosterCreateView', () => {
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
-  it('step 3 keeps only one unit tile open at a time', async () => {
+  it('keeps only one unit tile open at a time', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
@@ -116,12 +114,10 @@ describe('RosterCreateView', () => {
     await waitFor(w, 'Intercessor Squad')
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
     await row.find('.rub-add').trigger('click')
-    await row.find('.rub-add').trigger('click') // a 2nd copy, so step 3 has two tiles
+    await row.find('.rub-add').trigger('click') // a 2nd copy, so the list has two tiles
 
     const panels = w.findAll('.rc-panel')
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // → step 3
-
-    const tiles = panels[2].findAll('.rcunit-row')
+    const tiles = panels[1].findAll('.rul-row')
     expect(tiles).toHaveLength(2)
     await tiles[0].trigger('click')
     expect(tiles[0].attributes('aria-expanded')).toBe('true')
@@ -135,7 +131,7 @@ describe('RosterCreateView', () => {
   // The collapsed tile names what distinguishes THIS entry — how many models, what was picked —
   // and not the default loadout, which is identical on every copy of the datasheet and is printed
   // on the datasheet itself (RosterUnitRow.vue).
-  it('step 3 shows the model count on the (collapsed) tile, not the default loadout', async () => {
+  it('shows the model count on the (collapsed) tile, not the default loadout', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
@@ -151,8 +147,7 @@ describe('RosterCreateView', () => {
     await row.find('.rub-add').trigger('click')
 
     const panels = w.findAll('.rc-panel')
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // → step 3
-    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
+    const tile = panels[1].findAll('.rul-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
     expect(tile.text()).toContain('5 models') // the bracket it was added at
     expect(tile.text()).not.toContain('Bolt rifle') // the default loadout lives in the accordion
   })
@@ -224,8 +219,7 @@ describe('RosterCreateView', () => {
 
     // …and a per-unit edit made on step 3 rides the same array (the store's own deep-watch save).
     const panels = w.findAll('.rc-panel')
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
-    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
+    const tile = panels[1].findAll('.rul-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
     await tile.trigger('click')
     expect(store.rosters.value[0].units[0]).toBe(w.vm.units[0])
   })
@@ -312,7 +306,7 @@ describe('RosterCreateView', () => {
     const r = store.createRoster('Half a list')
     store.updateRoster(r.id, {
       draft: true,
-      draftStep: 3,
+      draftStep: 3, // a draft left on the old configure step resumes on the step that absorbed it
       faction: 'space-marines',
       detachments: ['1st Company Task Force'],
       battleSize: 'incursion',
@@ -323,16 +317,16 @@ describe('RosterCreateView', () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     await waitFor(w, 'Intercessor Squad')
 
-    // Step 3 is the visible panel, holding the unit the draft already had.
+    // Step 2 is the visible panel, holding the unit the draft already had.
     const panels = w.findAll('.rc-panel')
-    expect(panels[2].isVisible()).toBe(true)
-    expect(panels[2].text()).toContain('Intercessor Squad')
+    expect(panels[1].isVisible()).toBe(true)
+    expect(panels[1].text()).toContain('Intercessor Squad')
     expect(w.find('input[type="text"]').element.value).toBe('Half a list')
     expect(w.text()).toContain('1st Company Task Force')
     expect(store.rosters.value).toHaveLength(1) // resumed, not re-created
 
     // Saving from here clears the draft flags — it's an ordinary list now.
-    await panels[2].find('.rc-sticky .btn-primary').trigger('click')
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
     expect(store.rosters.value[0].draft).toBeUndefined()
     expect(store.rosters.value[0].draftStep).toBeUndefined()
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)

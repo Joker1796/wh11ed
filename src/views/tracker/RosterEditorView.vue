@@ -19,8 +19,7 @@
     </header>
 
     <!-- Two switchable panels (not a sequential flow like the creation wizard — either can be
-         reopened at any time while editing). Adding units is NOT one of them: it fills a page of
-         its own at /roster/:id/add, reached from the button on the Units panel. -->
+         reopened at any time while editing). -->
     <div class="red-tabs" role="tablist">
       <button class="red-tab" :class="{ on: tab === 'settings' }" role="tab" :aria-selected="tab === 'settings'" @click="tab = 'settings'">{{ labels.rosterCreateStep1 }}</button>
       <button class="red-tab" :class="{ on: tab === 'units' }" role="tab" :aria-selected="tab === 'units'" @click="tab = 'units'">{{ labels.rosterViewTabUnits }}</button>
@@ -72,107 +71,66 @@
       </label>
     </div>
 
-    <!-- Units: the roster's own list — per-unit configuration (size, wargear, warlord,
-         enhancement, leader attachment) as an inline accordion, one unit open at a time. This is
-         what the tab shows now; browsing the faction catalogue to ADD a unit happens on its own
-         page, one tap away. -->
+    <!-- Units: the catalogue and the roster's own list, side by side (`.roster-panes` in
+         style.css). Adding a unit and configuring it used to be two screens — this tab and
+         /roster/:id/add — which since wargear started deciding a unit's price meant a navigation
+         per unit. Both panes now read from the same `useRosterEditing` handles they always did;
+         only the layout changed. -->
     <div v-else class="red-panel">
       <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
-      <template v-else>
-        <RouterLink :to="`/roster/${roster.id}/add`" class="red-add">
-          <i class="bi bi-plus-lg"></i> {{ labels.rosterAddUnits }}
-        </RouterLink>
-        <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
-        <div v-else class="redu-list">
-          <template v-for="g in groupedUnits" :key="g.id">
-            <template v-if="g.entries.length">
-              <h3 class="rug-head" :class="{ locked: g.locked }">
-                {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
-                <em v-if="g.ally" class="rug-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
-              </h3>
-              <template v-for="(e, idx) in g.entries" :key="e.uid">
-              <div class="redu-unit" :class="{ 'redu-attached roster-attached': e.leaderOf }">
-                <!-- The row is itself a button (it opens the config), so the delete sits BESIDE
-                     it rather than inside — a button inside a button is invalid and doesn't get
-                     its own click on every browser. -->
-                <div class="redu-head">
-                <button
-                  type="button"
-                  class="redu-row"
-                  :aria-expanded="openUid === e.uid"
-                  @click="toggleOpen(e.uid)"
-                >
-                  <!-- The row's own content is shared with the creation wizard's config step
-                       (RosterUnitRow.vue) — the two screens draw the same line and used to hold
-                       two copies of the markup to do it. The attachment ROLE is passed in: the
-                       row sits under its bodyguard, so the nesting already says which unit the
-                       character joined, but not which slot it fills. -->
-                  <RosterUnitRow
-                    :entry="e"
-                    :def="defOf(e.id)"
-                    :items="rosterItems.items"
-                    :points="entryMeta.get(e.uid)?.points || 0"
-                    :detachments="curDetachments"
-                    :role="attachRole(e)"
-                  />
-                  <i class="bi redu-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-                </button>
-                <!-- A second copy of a unit that has already been configured — the wargear picks
-                     are the expensive part, and the second squad in a list is usually the first
-                     one again. Disabled at the duplicate cap (same reading as the catalogue's
-                     "+"), with the reason in the tooltip rather than the button being hidden. -->
-                <button
-                  type="button"
-                  class="redu-dup"
-                  :disabled="dupBlocked(e)"
-                  :aria-label="labels.rosterDuplicate"
-                  :title="dupBlocked(e) ? labels.rosterAtDuplicateCap : labels.rosterDuplicate"
-                  @click="duplicateEntry(e)"
-                >
-                  <i class="bi bi-copy"></i>
-                </button>
-                <button
-                  type="button"
-                  class="redu-del"
-                  :aria-label="labels.rosterRemove"
-                  :title="labels.rosterRemove"
-                  @click="removeEntry(e)"
-                >
-                  <i class="bi bi-trash3"></i>
-                </button>
-                </div>
-                <CollapseTransition :show="openUid === e.uid">
-                  <div class="redu-fields">
-                    <UnitEditorFields
-                      v-if="defOf(e.id)"
-                      :entry="e"
-                      :def="defOf(e.id)"
-                      :items="rosterItems.items"
-                      :texts="rosterItems.texts"
-                      :faction-slug="slugFor(e.id)"
-                      :detachments="curDetachments"
-                      :units="roster.units"
-                      :def-of="defOf"
-                      :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
-                      :is-warlord="e.warlord === true"
-                      :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
-                      :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
-                      @toggle-warlord="toggleWarlord(e.uid)"
-                    />
-                  </div>
-                </CollapseTransition>
-              </div>
-              <!-- The attached unit's own points, once, under the last row of the block: the
-                   numbers above it still read down the column and still add up to the roster
-                   total, which a combined figure on the bodyguard's row would have broken. -->
-              <p v-if="blockTotal(g.entries, idx) != null" class="roster-sum">
-                {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
-              </p>
-              </template>
-            </template>
-          </template>
+      <div v-else class="roster-panes">
+        <div class="rp-catalog">
+          <RosterUnitBrowser
+            v-if="factionData"
+            :units="factionData.units"
+            :allies="factionData.allies || []"
+            :faction-slug="roster.faction"
+            :added-ids="roster.units.map((u) => u.id)"
+            :detachments="curDetachments"
+            :battle="effBattle"
+            :check-legality="roster.checkLegality !== false"
+            @add="addUnit"
+            @remove="removeUnit"
+          />
         </div>
-      </template>
+        <div class="rp-list">
+          <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
+          <RosterUnitList
+            v-else
+            :groups="groupedUnits"
+            :def-of="defOf"
+            :items="rosterItems.items"
+            :detachments="curDetachments"
+            :points-of="(e) => entryMeta.get(e.uid)?.points"
+            :role-of="attachRole"
+            :slug-of="slugFor"
+            :dup-blocked="dupBlocked"
+            :open-uid="openUid"
+            @toggle="toggleOpen"
+            @duplicate="duplicateEntry"
+            @remove="removeEntry"
+          >
+            <template #fields="{ entry: e }">
+              <UnitEditorFields
+                v-if="defOf(e.id)"
+                :entry="e"
+                :def="defOf(e.id)"
+                :items="rosterItems.items"
+                :texts="rosterItems.texts"
+                :faction-slug="slugFor(e.id)"
+                :detachments="curDetachments"
+                :units="roster.units"
+                :def-of="defOf"
+                :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
+                :is-warlord="e.warlord === true"
+                :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
+                :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
+                @toggle-warlord="toggleWarlord(e.uid)"
+              />
+            </template>
+          </RosterUnitList>
+        </div>
+      </div>
     </div>
 
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
@@ -228,11 +186,11 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
-import RosterUnitRow from '../../components/roster/RosterUnitRow.vue'
+import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -242,7 +200,7 @@ import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, capKeyOf,
+  allySourceOf, sectionsOf, unitPoints, capKeyOf,
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor,
 } from '../../composables/rosterEngine.js'
 import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
@@ -282,12 +240,11 @@ function save() {
   router.push(`/roster/${roster.value.id}/view`)
 }
 
-// Roster, faction data, live points and validation come from the composable this view shares
-// with the add-units page (/roster/:id/add) — see useRosterEditing.js for why they are shared
-// rather than copied.
+// Roster, faction data, live points, validation and the add/duplicate/remove semantics all come
+// from useRosterEditing.js.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
-  duplicateUnit, removeUnit,
+  addUnit, duplicateUnit, removeUnit,
 } = useRosterEditing(() => route.params.id)
 
 // A missing/deleted id → back to the list (no broken editor shell).
@@ -372,7 +329,7 @@ function dupBlocked(e) {
   return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
 }
 
-// The add-units page sends the reader here when an issue concerns one specific entry
+// An issue that concerns one specific entry sends the reader here
 // (`?unit=<uid>`) — open that unit's accordion and drop the query so a reload doesn't reopen it.
 // Declared AFTER `openUid`: an immediate watcher runs during setup, and referencing a `const`
 // declared further down would hit the temporal dead zone (which it did).
@@ -398,9 +355,6 @@ function attachRole(e) {
   const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
   return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
 }
-// The whole attached unit's points, printed once under the last row of the block.
-const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
-
 // Per-entry points + copy index (copy tax assigned in list order), for row display and the fields.
 const entryMeta = computed(() => {
   const seen = new Map()
@@ -416,7 +370,7 @@ const issuesOpen = ref(false)
 const exportOpen = ref(false)
 
 // Allies get their own headings rather than being filed under a battlefield role — same split
-// the add-units browser uses (rosterEngine's sectionsOf). `keepLocked` because a list can already
+// the catalogue pane uses (rosterEngine's sectionsOf). `keepLocked` because a list can already
 // hold a unit whose group the current Detachment doesn't unlock: it stays visible, under its group
 // and marked, instead of vanishing from the screen while still counting in the total.
 const groupedUnits = computed(() =>
@@ -436,18 +390,6 @@ function rename(name) {
 </script>
 
 <style scoped>
-.redu-head { display: flex; align-items: stretch; gap: 0.25rem; }
-.redu-head .redu-row { flex: 1; min-width: 0; }
-.redu-dup,
-.redu-del {
-  flex: none; display: flex; align-items: center; justify-content: center;
-  width: 2.1rem; padding: 0; border: none; background: none;
-  color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
-}
-.redu-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
-.redu-dup:disabled { opacity: 0.35; cursor: not-allowed; }
-.redu-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
-
 .roster-editor { padding-top: 0.75rem; padding-bottom: 5rem; }
 
 .red-head {
@@ -513,25 +455,6 @@ function rename(name) {
 /* Reserve room for the fixed .rc-sticky footer below, same idea as RosterCreateView.vue's own
    .rc-panel:has(.rc-sticky) — it's always visible here (not gated to a completed step), so
    every tab needs the padding, not just one. */
-/* The way into the add-units page. Deliberately a full-width, quiet block at the top of the
-   list rather than a floating action button: the fixed bar at the bottom is already spoken for
-   (Cancel/Save), and a second floating control there would fight it. */
-.red-add {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  width: 100%;
-  margin-bottom: 0.7rem;
-  padding: 0.6rem;
-  border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--border));
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
-  color: var(--accent);
-  font-weight: 600;
-  text-decoration: none;
-}
-.red-add:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
-
 .red-panel { display: flex; flex-direction: column; gap: 1.1rem; padding-bottom: 4.5rem; }
 @media (max-width: 900px) {
   .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
@@ -579,63 +502,6 @@ function rename(name) {
 .bsize-input:focus { outline: none; }
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
-.rug-head {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 1.1rem 0 0.5rem;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid var(--border);
-}
-.rug-head:first-child { margin-top: 0; }
-/* An ally heading names the group; the tag after it says what the group IS, so the reader isn't
-   left guessing why "Agents of the Imperium" is a heading inside a Custodes list. */
-.rug-ally {
-  margin-left: 0.5em;
-  font-family: var(--font-body, inherit);
-  font-size: 0.72rem;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-}
-.rug-head.locked .rug-ally { color: #c0392b; }
-
-/* Loadout accordion — same card/row language as the creation wizard's step 3. */
-.redu-unit {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  margin-bottom: 0.5rem;
-  overflow: hidden;
-}
-.redu-unit:hover { border-color: var(--accent); }
-.redu-row {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.75rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-}
-/* Closes the gap to the character indented below it — the block's own look is the shared
-   .roster-attached / .roster-sum pair in style.css. */
-.redu-unit:has(+ .redu-attached) { margin-bottom: 0; }
-.redu-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
-/* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
-   header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
-   (UnitEditorFields.vue's .opt-tile.on, itself a `color-mix(accent, transparent)` fill) — but in
-   DARK theme the two accent tints sit too close in value and blended together, so dark mode drops
-   the accent hue entirely for a plain darker-than-card shade instead (see the data-theme override
-   below for the explicit-toggle case; this is the OS-preference default). */
-.redu-fields { padding: 0.6rem 0.75rem 0.75rem; background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); border-top: 1px solid var(--border); }
-@media (prefers-color-scheme: dark) {
-  .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
-}
 
 /* Fixed footer bar — same recipe as RosterCreateView.vue's own .rc-sticky (copied, not shared):
    glued flush to the mobile bottom-nav (52px — .bn-item's min-height in App.vue), always
@@ -663,6 +529,4 @@ function rename(name) {
 <style>
 :root[data-theme='light'] .roster-editor.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
 :root[data-theme='dark'] .roster-editor.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
-:root[data-theme='light'] .redu-fields { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
-:root[data-theme='dark'] .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 </style>
