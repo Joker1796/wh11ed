@@ -132,7 +132,10 @@ describe('RosterCreateView', () => {
     expect(tiles[1].attributes('aria-expanded')).toBe('true')
   })
 
-  it('step 3 shows the default loadout right on the (collapsed) tile', async () => {
+  // The collapsed tile names what distinguishes THIS entry — how many models, what was picked —
+  // and not the default loadout, which is identical on every copy of the datasheet and is printed
+  // on the datasheet itself (RosterUnitRow.vue).
+  it('step 3 shows the model count on the (collapsed) tile, not the default loadout', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
@@ -149,9 +152,9 @@ describe('RosterCreateView', () => {
 
     const panels = w.findAll('.rc-panel')
     await panels[1].find('.rc-sticky .btn-primary').trigger('click') // → step 3
-    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rcunit-name').text() === 'Intercessor Squad')
-    expect(tile.find('.rcunit-loadout').exists()).toBe(true)
-    expect(tile.text()).toContain('Bolt rifle') // its default loadout, not just an upgrade count
+    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
+    expect(tile.text()).toContain('5 models') // the bracket it was added at
+    expect(tile.text()).not.toContain('Bolt rifle') // the default loadout lives in the accordion
   })
 
   it('flags units as over the duplicate cap (red badge + issues count) after the battle size is lowered', async () => {
@@ -222,7 +225,7 @@ describe('RosterCreateView', () => {
     // …and a per-unit edit made on step 3 rides the same array (the store's own deep-watch save).
     const panels = w.findAll('.rc-panel')
     await panels[1].find('.rc-sticky .btn-primary').trigger('click')
-    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rcunit-name').text() === 'Intercessor Squad')
+    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rur-name').text().trim() === 'Intercessor Squad')
     await tile.trigger('click')
     expect(store.rosters.value[0].units[0]).toBe(w.vm.units[0])
   })

@@ -102,18 +102,19 @@
                   :aria-expanded="openUid === e.uid"
                   @click="toggleOpen(e.uid)"
                 >
-                  <span class="redu-text">
-                    <span class="redu-name">
-                      <i v-if="e.warlord" class="bi bi-star-fill redu-star"></i>
-                      {{ defOf(e.id)?.name || e.id }}
-                    </span>
-                    <!-- The row sits under its bodyguard now, so neither half repeats the
-                         other's name. What the nesting can't say is which SLOT the character
-                         fills, so that is all that is left. -->
-                    <span v-if="attachRole(e)" class="redu-tag">{{ attachRole(e) }}</span>
-                    <span v-for="(line, i) in loadoutLines(e)" :key="i" class="redu-loadout">{{ line }}</span>
-                  </span>
-                  <span class="redu-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                  <!-- The row's own content is shared with the creation wizard's config step
+                       (RosterUnitRow.vue) — the two screens draw the same line and used to hold
+                       two copies of the markup to do it. The attachment ROLE is passed in: the
+                       row sits under its bodyguard, so the nesting already says which unit the
+                       character joined, but not which slot it fills. -->
+                  <RosterUnitRow
+                    :entry="e"
+                    :def="defOf(e.id)"
+                    :items="rosterItems.items"
+                    :points="entryMeta.get(e.uid)?.points || 0"
+                    :detachments="curDetachments"
+                    :role="attachRole(e)"
+                  />
                   <i class="bi redu-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
                 </button>
                 <!-- A second copy of a unit that has already been configured — the wargear picks
@@ -231,6 +232,7 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
+import RosterUnitRow from '../../components/roster/RosterUnitRow.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -241,7 +243,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, capKeyOf,
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor,
 } from '../../composables/rosterEngine.js'
 import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
@@ -387,14 +389,6 @@ function toggleWarlord(entryUid) {
   for (const u of roster.value.units) delete u.warlord // exactly one warlord per army
   if (!on) e.warlord = true
   touch()
-}
-// Read-only loadout preview for the collapsed tile — default wargear (per mini) plus any
-// deviations, so a customised unit doesn't just say "N upgrades".
-function loadoutLines(e) {
-  const def = defOf(e.id)
-  if (!def) return []
-  const defaults = defaultLoadoutLines(def, rosterItems.items, e).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
-  return [...defaults, ...wargearNames(def, e, rosterItems.items)]
 }
 // Which slot an attached character fills — the one thing sitting under its bodyguard doesn't say
 // (see sectionsOf's joinAttached: the two used to name each other because they were sections apart).
@@ -628,16 +622,9 @@ function rename(name) {
   cursor: pointer;
   text-align: left;
 }
-.redu-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.15rem; text-align: left; }
-.redu-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.redu-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
 /* Closes the gap to the character indented below it — the block's own look is the shared
    .roster-attached / .roster-sum pair in style.css. */
 .redu-unit:has(+ .redu-attached) { margin-bottom: 0; }
-.redu-tag { font-size: 0.74rem; color: var(--accent); }
-.redu-tag strong { font-weight: 700; }
-.redu-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
-.redu-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 .redu-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
