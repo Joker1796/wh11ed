@@ -429,6 +429,11 @@ has to earn its place, and `npm run radii` fails the build of anyone who forgets
   squared on sight — on a page of square everything, two rounded strips read as a mistake.
 - Adding one is fine when it is a decision: put it in `ALLOWED` with the reason. Forgetting to is
   what the check is for.
+- **Every spelling counts.** Until 2026-08-27 `check-radii.mjs` matched only the `border-radius`
+  shorthand, so four `border-top-left-radius: 4px` sat on the weapon-table headers in plain sight
+  while the check reported a clean sweep — the corners a reader could actually see were the ones
+  it could not. The longhands and the logical properties (`border-start-end-radius`…) are matched
+  now too. A guardrail that passes is only worth what its pattern covers.
 - The flip side of square corners: **the frame does the work rounding used to do.** A surface is
   told from its background by `--border`/`--bg-card`, so don't drop a border "because it looks
   flat" — that is the only thing separating two panels now.

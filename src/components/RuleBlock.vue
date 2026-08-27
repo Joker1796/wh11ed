@@ -126,13 +126,12 @@ function handleDefClick(e) {
 }
 
 /* The info-card immediately following a type-card header (RuleBody.vue) — strip its own
-   top border/radius/margin so it sits flush under the header instead of floating below
-   it as a separate box. */
+   top border/margin so it sits flush under the header instead of floating below it as a
+   separate box. (It carried two `border-*-radius: 0` here too, left over from when cards
+   were rounded; corners are square now, so they said nothing.) */
 .rule-header--type + .rule-body-wrap :deep(.rule-body > .info-card:first-child) {
   margin-top: 0;
   border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 
 /* The section number keeps the app's normal --accent badge (already a red tone) — the
