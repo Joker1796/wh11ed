@@ -2526,6 +2526,14 @@ document against the printable height of the chosen page, so ticking a box moves
 **Not in `STATIC_ROUTES` and not in the sitemap** — it is a private route like `/tracker/game`;
 `gen-seo-routes.mjs` must not learn about it.
 
+**The list is a section like any other, and it is the only one that is not reference.** It is the
+ARMY — what a judge asks for, and what you check the table against before the first turn — which
+mid-game says little a player does not already know. So it has its own row (`rosterList`) and can
+be turned off, while the header (whose list, which detachment, how many points, which data
+version) always prints: without it a sheet of paper does not say whose it is. Its wargear column
+disappears when the unit cards are being printed, because every loadout is then on a card a few
+pages later and printing it twice only narrows the column for everyone.
+
 **Stratagems print as cards in two columns, not as a table.** A stratagem is prose, and prose
 across 194mm of A4 is a 120-character line; as a table it was worse than that, because one column
 had to be as wide as the widest "when" in the whole detachment. Cards take the height they need,

@@ -25,6 +25,18 @@
 export const PRINT_OPTIONS = [
   // ── Sections of the booklet ────────────────────────────────────────────────────────────────
   {
+    // The list itself. It is the one section that is not reference — it is the ARMY: what a judge
+    // or an opponent asks to see, what you check against the models on the table before the first
+    // turn, and, in a booklet, the contents page for the cards behind it. Mid-game it says little
+    // you do not already know, which is exactly why it can be turned off.
+    id: 'rosterList',
+    group: 'what',
+    label: 'printOptRosterList',
+    hint: 'printOptRosterListHint',
+    compact: true,
+    full: true,
+  },
+  {
     id: 'points',
     group: 'what',
     label: 'printOptPoints',
