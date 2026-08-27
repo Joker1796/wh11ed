@@ -78,9 +78,11 @@
             <span class="rps-cp">{{ st.cp }}</span>
           </h4>
           <p class="rps-strat-when">{{ st.when }}</p>
+          <!-- The gap between the parts is CSS, not a trailing space in the template — the
+               compiler's whitespace condensing eats one, and TARGET ran straight into EFFECT. -->
           <p v-if="opts.stratagemText" class="rps-strat-text">
-            <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }} </span>
-            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }} </span>
+            <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }}</span>
+            <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }}</span>
             <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> {{ st.restrictions }}</span>
           </p>
         </article>
@@ -232,6 +234,7 @@ const uid = (i) => `${props.block.id}:${props.from + i}`
 }
 .rps-strat-when { margin: 0; color: var(--text-muted); font-size: 0.95em; }
 .rps-strat-text { margin: calc(0.1rem * var(--print-scale, 1)) 0 0; font-size: 0.95em; }
+.rps-strat-text > span:not(:last-child) { margin-right: 0.4em; }
 .rps-strat-text strong { text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.03em; }
 
 /* ── A unit card ──────────────────────────────────────────────────────────────────────────── */
