@@ -238,7 +238,11 @@ function paperScale() {
 // detachment rules and the stratagems — and it could not work at all where the content is in two
 // columns, since a margin there pushes a block down its own column rather than onto the next
 // sheet. Moving the line is honest in both cases and leaves the document alone.
-const ATOMS = '.rpu, .rps-strat, .rps-rule, .rps-row, .rps-head'
+// What a printer will not cut, in the order it will meet them. `.rps-rule` is deliberately NOT
+// here: the rules are the one section still set in CSS columns, where a vertical offset says
+// nothing about flow order, so a line computed from offsets cannot reason about them. A rule is
+// prose and survives being continued on the next sheet; a card does not.
+const ATOMS = '.rpu, .rps-strat, .rps-row, .rps-head'
 
 function pageEdges() {
   const root = docEl.value

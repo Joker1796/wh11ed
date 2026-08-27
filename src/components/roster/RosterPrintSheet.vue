@@ -398,9 +398,20 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 
    The phase heading spans both columns: it belongs to the group, not to the column its first
    card happens to start in. */
-.rps-strats { columns: 2; column-gap: calc(1.2rem * var(--print-scale, 1)); }
+/* A GRID, not CSS columns. In a multi-column flow an element's vertical position says nothing
+   about its place in the flow — the second column starts at the top again — and the preview's
+   sheet edges are computed from vertical offsets, so a card in the left column could be cut by a
+   line already pulled clear of a card in the right one. In a grid the rows stack, so "lower down"
+   means "later", which is the one thing that model needs to be true. The price is a row as tall
+   as its taller card; the multi-column packing was tighter. */
+.rps-strats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: calc(1.2rem * var(--print-scale, 1));
+  align-items: start;
+}
 .rps-phase {
-  column-span: all;
+  grid-column: 1 / -1;
   margin: calc(0.35rem * var(--print-scale, 1)) 0 calc(0.2rem * var(--print-scale, 1));
   padding-bottom: calc(0.05rem * var(--print-scale, 1));
   border-bottom: 1px solid var(--border);
@@ -456,11 +467,70 @@ const armyRule = computed(() => props.rulesFaction?.armyRule || null)
    (DatasheetCard's `.ds-shell`), so in half a page it draws itself the way it does on a phone,
    which is the layout that half a page wants. A card still never splits across a column. */
 .rps-cards { columns: 1; }
-.rps-cards.two-up { columns: 2; column-gap: calc(1rem * var(--print-scale, 1)); }
-/* The section's own heading belongs to the section, not to its first column — left in the flow it
-   takes the top of column one and pushes the first card below the top of column two, so the two
-   columns start at different heights for no reason a reader could name. */
-.rps-cards.two-up > .rps-h { column-span: all; }
+.rps-cards.two-up {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: calc(1rem * var(--print-scale, 1));
+  align-items: start;
+}
+/* The section's own heading belongs to the section, not to its first column. */
+.rps-cards.two-up > .rps-h { grid-column: 1 / -1; }
+
+/* ── Ink ────────────────────────────────────────────────────────────────────────────────────
+   A datasheet on screen is a set of filled accent bars and tinted bands: it separates the parts
+   of a dense card at a glance, and a screen pays nothing for it. A printer pays in toner, on
+   every card, and a solid bar the width of the page is the most expensive thing on the sheet.
+   On paper the same separation is done with a rule and with weight instead.
+
+   The accent itself is pinned to an ink colour rather than inherited: the app's accent follows
+   the THEME, so a reader in the dark theme was printing pale pink headings, ability names and
+   keyword labels onto white paper — the light text that vanished into the background. */
+.rps {
+  --accent: #6b1220;
+  --accent-hover: #6b1220;
+  --link-accent: #6b1220;
+  --link-accent-hover: #6b1220;
+}
+/* Every bold word on the sheet. `[data-theme='dark'] strong { color: #fbfaf7 }` is what makes
+   bold text READ as bold on a dark screen — and on white paper it is white on white: every
+   ability name, every "Core:" / "Keywords:" label and every bold word inside a rule disappeared
+   for anyone whose app was in the dark theme. The scoped selector outranks it (a `data-v`
+   attribute on `.rps` against a bare `[data-theme]`), and restores the light-theme treatment,
+   which is the one that was written for ink in the first place. */
+.rps :deep(strong) {
+  color: color-mix(in srgb, var(--text-primary) 80%, var(--accent));
+  font-weight: 700;
+}
+/* The one exception: the three colour classes a rule can use are meanings, not decoration. */
+.rps :deep(.color-red) { color: #a01a12; }
+.rps :deep(.color-blue) { color: #1f4e8c; }
+.rps :deep(.color-green) { color: #1f6b3a; }
+
+/* The filled bars: a heading, not a band of colour. */
+.rps :deep(.ds-weapons th),
+.rps :deep(.ds-group-title),
+.rps :deep(.ds-damaged-title) {
+  background: none;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--text-primary);
+}
+/* The washes: the statline band, the ability groups, a multi-profile weapon's shared tint, the
+   fill behind a stat box. Each is a few percent of the accent, and a few percent over a whole
+   booklet is a cartridge. */
+.rps :deep(.ds-cardhead),
+.rps :deep(.ds-ability-group),
+.rps :deep(.ds-ability),
+.rps :deep(.ds-weapons tr.wg-start td),
+.rps :deep(.ds-weapons tr.wg-mid td),
+.rps :deep(.ds-weapons tr.wg-end td) {
+  background: none;
+}
+.rps :deep(.ds-stat-box)::before { background: #fff; }
+/* A keyword badge keeps its frame — that is what makes it a badge — and loses its fill. There are
+   dozens of them on a card. */
+.rps :deep(.keyword) { background: none; }
+/* …which leaves the statline needing a rule of its own to stay a band. */
+.rps :deep(.ds-cardhead) { border-bottom: 1px solid var(--border); }
 
 /* DatasheetCard escapes to the full VIEWPORT width below 480px (`width: 100vw; margin-left:
    calc(50% - 50vw)`) so that on a phone it reads as a full-bleed section rather than a card in a
