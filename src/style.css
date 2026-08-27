@@ -245,6 +245,11 @@ label {
 
 html {
   scroll-behavior: smooth;
+  /* iOS inflates the text of a block it decides is too narrow to read — a rule table or a
+     two-column card can come back a size larger than the paragraph beside it, with nothing in
+     the CSS to explain why. The page is already sized for a phone; nobody has to guess for it. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   /* Kill phantom horizontal scroll from the off-canvas mobile drawer (NavSidebar is
      position:fixed + translateX(100%) when closed, so only the root can clip it). `clip`
      (not `hidden`) does NOT create a scroll container, so it preserves the sticky navbar/subnav. */

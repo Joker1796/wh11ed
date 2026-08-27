@@ -328,6 +328,7 @@ export const ui = {
     rosterResumeDraftShort: 'To roster',
     // Cloud sync status line (RosterCloudBar.vue). Saved lists only — drafts stay on the device.
     rosterCloudHint: 'Lists live on this device. Sign in on the Tracker page to sync them.',
+    rosterCloudHintIos: 'Lists live on this device, and Safari clears a site’s storage after about a week away. Install the app from the ⚙ menu, or sign in on the Tracker page — either one keeps them.',
     rosterCloudSyncing: 'Syncing\u2026',
     rosterCloudSynced: 'Lists are backed up',
     rosterCloudSaved: 'Saved to the cloud',
@@ -1035,6 +1036,7 @@ export const ui = {
     rosterResumeDraftBar: 'Вернуться к сборке ростера',
     rosterResumeDraftShort: 'К ростеру',
     rosterCloudHint: 'Списки хранятся на этом устройстве. Войдите на странице трекера, чтобы синхронизировать их.',
+    rosterCloudHintIos: 'Списки хранятся на этом устройстве, а Safari очищает хранилище сайта примерно через неделю без визитов. Поставьте приложение из меню ⚙ или войдите на странице трекера — и то, и другое их сохранит.',
     rosterCloudSyncing: 'Синхронизация\u2026',
     rosterCloudSynced: 'Списки в облаке',
     rosterCloudSaved: 'Сохранено в облако',
