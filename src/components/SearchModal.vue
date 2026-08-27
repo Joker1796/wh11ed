@@ -119,7 +119,7 @@ function navigate(item) {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 10vh;
+  padding-top: 10dvh;
 }
 
 .search-box {

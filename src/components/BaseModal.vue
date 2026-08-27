@@ -46,7 +46,7 @@ import { useModalA11y } from '../composables/useModalA11y.js'
 defineProps({
   title: { type: String, default: '' },
   maxWidth: { type: String, default: '520px' },
-  maxHeight: { type: String, default: '85vh' },
+  maxHeight: { type: String, default: '85dvh' },
   zIndex: { type: Number, default: 400 },
 })
 const emit = defineEmits(['close'])
@@ -69,10 +69,15 @@ useModalA11y(root, () => emit('close'))
   justify-content: center;
   padding: 1rem;
 }
+/* Heights are in `dvh`, never `vh`. On iOS `vh` is the LARGE viewport — the page as it would be
+   with Safari's toolbars retracted — while the fixed overlay above is laid out against what is
+   actually on screen. A dialog capped in `vh` is therefore taller than the space it has, and
+   since a phone aligns it to the bottom edge, what goes off the screen is its top: the title and
+   the close button. `dvh` caps it at what the reader can see. */
 .modal {
   width: 100%;
   max-width: var(--modal-max-w, 520px);
-  max-height: var(--modal-max-h, 85vh);
+  max-height: var(--modal-max-h, 85dvh);
   display: flex;
   flex-direction: column;
   background: var(--bg-card);
@@ -88,7 +93,7 @@ useModalA11y(root, () => emit('close'))
   .modal-overlay { padding: 0; align-items: flex-end; }
   /* The only rounded corners in the app: on a phone the modal is a sheet that slides up from
      the bottom edge, and the rounded top is what says so. */
-  .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
+  .modal { max-width: 100%; max-height: 92dvh; border-radius: 12px 12px 0 0; }
 }
 
 /* Enter animation: the backdrop color fades in while the dialog scales in (slides up as

@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :title="labels.trackerLayoutPickerTitle" max-width="560px" max-height="90vh" @close="$emit('close')">
+  <BaseModal :title="labels.trackerLayoutPickerTitle" max-width="560px" max-height="90dvh" @close="$emit('close')">
       <div class="modal-body">
         <MissionMatrix :dispositions="dispositions" :selected="sel" @select="sel = $event" />
 

@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :title="view.sheet?.name" max-width="720px" max-height="90vh" @close="$emit('close')">
+  <BaseModal :title="view.sheet?.name" max-width="720px" max-height="90dvh" @close="$emit('close')">
     <div class="modal-body">
       <!-- FactionAccentScope re-applies the faction-accent recipe: BaseModal teleports to
            <body>, outside FactionLayout's .faction-view.themed ancestor, so without this every

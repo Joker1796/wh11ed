@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :title="title" max-width="640px" max-height="85vh" @close="$emit('close')">
+  <BaseModal :title="title" max-width="640px" max-height="85dvh" @close="$emit('close')">
     <div class="modal-body">
       <div v-if="rangedRows.length" class="wpm-weapons">
         <table>
