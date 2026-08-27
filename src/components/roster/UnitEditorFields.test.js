@@ -10,6 +10,7 @@ import aeldari from '../../data/roster/aeldari.js'
 import adeptusMechanicus from '../../data/roster/adeptus-mechanicus.js'
 import chaosSpaceMarines from '../../data/roster/chaos-space-marines.js'
 import chaosDaemons from '../../data/roster/chaos-daemons.js'
+import necrons from '../../data/roster/necrons.js'
 
 // Mounted against REAL generated data: what this guards is the path from the generator's bundled
 // options to what the player actually reads, which a fixture would hide.
@@ -76,6 +77,34 @@ describe('UnitEditorFields — pick limits', () => {
     expect(mountFor(ratlings).text()).toContain('Not available at this unit size')
     expect(mountFor(ratlings, { size: 1, count: 6 }).text()).toContain('Not available at this unit size')
     expect(mountFor(ratlings, { size: 1, count: 10 }).text()).not.toContain('Not available at this unit size')
+  })
+})
+
+describe('UnitEditorFields — a group waiting on a sibling', () => {
+  // Necron Overlord: the Resurrection Orb is only on offer once the tachyon arrow has been given
+  // up. It used to vanish from the page until then, which reads as the editor losing an option.
+  const overlord = necrons.units.find((u) => u.id === 'overlord')
+  const orbGi = overlord.gear.findIndex((g) => g.cond)
+
+  it('greys the group out instead of removing it', () => {
+    const w = mountFor(overlord)
+    expect(w.findAll('.opt-name').map((n) => n.text())).toContain('Resurrection Orb') // still on the page
+    expect(w.findAll('.ues-inert')).toHaveLength(1)
+    expect(w.find('.ues-inert input[type=checkbox]').attributes('disabled')).toBeDefined()
+  })
+
+  it('says what has to come off, by name', () => {
+    const text = mountFor(overlord).find('.ues-blocked').text()
+    expect(text).toContain('Requires removing:')
+    expect(text).toContain('Tachyon arrow') // the sibling's own `rep`, not the orb
+    expect(text).toContain('Overlord’s blade') // both halves of what that swap takes away
+  })
+
+  it('opens it once the sibling has been changed', () => {
+    const sibGi = overlord.gear[orbGi].cond[0]
+    const w = mountFor(overlord, { wg: [[sibGi, 0, 1]] })
+    expect(w.findAll('.ues-inert')).toHaveLength(0)
+    expect(w.find('.ues-blocked').exists()).toBe(false)
   })
 })
 

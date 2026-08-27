@@ -102,11 +102,13 @@
       </div>
     </section>
 
-    <!-- Wargear choices — a group with `cond` (see rosterEngine.js wargearGroupLive) only shows
-         once its sibling group has (or hasn't) been changed from default, e.g. Necron Overlord's
-         Resurrection Orb is only on offer after giving up the default tachyon arrow. -->
+    <!-- Wargear choices — a group with `cond` (see rosterEngine.js wargearGroupLive) depends on a
+         sibling group, e.g. Necron Overlord's Resurrection Orb needs the tachyon arrow given up
+         first. It is GREYED OUT rather than removed while that isn't the case: an option that
+         disappears when you touch an unrelated one reads as a bug, and the reader is left
+         guessing what to undo. `blockers[gi]` says what to undo, in words. -->
     <template v-for="(g, gi) in def.gear || []" :key="gi">
-    <section v-if="wargearGroupLive(def, entry, gi)" class="ues-sec">
+    <section class="ues-sec" :class="{ 'ues-inert': blockers[gi] }">
       <h4 class="ues-h">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
         {{ groupLines[gi].head }}
@@ -116,7 +118,8 @@
         <li v-for="(b, bi) in groupLines[gi].bullets" :key="bi">{{ b }}</li>
       </ul>
       <p v-if="groupLines[gi].note" class="ues-bnote">* {{ groupLines[gi].note }}</p>
-      <p v-if="caps[gi] && !caps[gi].limit" class="ues-bnote">{{ labels.rosterPickUnavailable }}</p>
+      <p v-if="blockers[gi]" class="ues-blocked">{{ blockerText(gi) }}</p>
+      <p v-else-if="caps[gi] && !caps[gi].limit" class="ues-bnote">{{ labels.rosterPickUnavailable }}</p>
 
       <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
@@ -127,10 +130,10 @@
           v-for="opt in radioRows(g)"
           :key="opt.oi ?? 'default'"
           class="opt-tile"
-          :class="{ on: radioSel(gi) === opt.oi }"
+          :class="{ on: radioSel(gi) === opt.oi, disabled: !!blockers[gi] }"
         >
           <label class="opt-select">
-            <input type="checkbox" :checked="radioSel(gi) === opt.oi" @change="setRadio(gi, opt.oi)" />
+            <input type="checkbox" :checked="radioSel(gi) === opt.oi" :disabled="!!blockers[gi]" @change="setRadio(gi, opt.oi)" />
             <span class="opt-name">{{ opt.name }}</span>
             <span v-if="opt.pts" class="opt-pts">+{{ opt.pts }}</span>
           </label>
@@ -142,9 +145,9 @@
 
       <!-- toggle: single optional item -->
       <div v-else-if="mode(g, gi) === 'toggle'" class="opt-col">
-        <div class="opt-tile" :class="{ on: toggleOn(gi) }">
+        <div class="opt-tile" :class="{ on: toggleOn(gi), disabled: !!blockers[gi] }">
           <label class="opt-select">
-            <input type="checkbox" :checked="toggleOn(gi)" @change="toggle(gi)" />
+            <input type="checkbox" :checked="toggleOn(gi)" :disabled="!!blockers[gi]" @change="toggle(gi)" />
             <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
             <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
           </label>
@@ -156,10 +159,10 @@
 
       <!-- stepper: N models take X -->
       <div v-else class="opt-col">
-        <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile">
+        <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile" :class="{ disabled: !!blockers[gi] }">
           <div class="opt-step-body">
             <span class="opt-name">{{ optLabel(o) }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
-            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(gi, oi)" @update:model-value="setStep(gi, oi, $event)" />
+            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(gi, oi)" :disabled="!!blockers[gi]" @update:model-value="setStep(gi, oi, $event)" />
           </div>
           <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(o))">
             <i class="bi bi-info-circle"></i>
@@ -248,7 +251,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupBlocker, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -301,6 +304,17 @@ const groupLines = computed(() => (props.def.gear || []).map((g) => splitInstruc
 // One option can grant SEVERAL items ("1 hexrifle and 1 torturer's tool" is one choice, not
 // two) — so a row is labelled with the whole set, and its info button opens every profile in it.
 const caps = computed(() => (props.def.gear || []).map((g, gi) => wargearGroupCap(props.def, props.entry, gi)))
+// Why each gated group is closed, or null while it is open (rosterEngine's wargearGroupBlocker).
+// The group is still drawn either way — greyed, its current pick visible — so the sentence below
+// is the only thing that has to explain itself.
+const blockers = computed(() => (props.def.gear || []).map((g, gi) => wargearGroupBlocker(props.def, props.entry, gi)))
+function blockerText(gi) {
+  const b = blockers.value[gi]
+  if (!b) return ''
+  const lead = b.need === 'gone' ? labels.value.rosterCondNeedGone : labels.value.rosterCondNeedPresent
+  // Item names stay English, like everywhere else in the roster data.
+  return `${lead} ${b.ids.map((id) => props.items?.[id]).filter(Boolean).join(', ')}`
+}
 // Only worth showing once it's a real allowance to spend — "≤ 1" is what every ordinary
 // one-of group already looks like, and 0 gets its own sentence instead.
 function capChip(gi) {
@@ -513,6 +527,18 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 .ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
 .ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
 .ues-bnote { margin: -0.25rem 0 0.5rem; font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
+/* A group waiting on a sibling. The heading and the instruction stay at full strength — the
+   reader still has to be able to READ what the option is — while the tiles below carry the same
+   .opt-tile.disabled fade every other unavailable pick in this editor uses. */
+.ues-inert .ues-h,
+.ues-inert .ues-blist { opacity: 0.6; }
+.ues-blocked {
+  margin: -0.25rem 0 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  font-style: italic;
+}
 .ues-cap {
   display: inline-block;
   margin-left: 0.35rem;

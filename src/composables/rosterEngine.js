@@ -146,6 +146,28 @@ export function wargearGroupLive(def, entry, gi) {
   return consumed < scope
 }
 
+// WHY a gated group is closed right now, or null while it is open — so the editor can grey it out
+// with a reason instead of removing it from the page (an option that vanishes when you touch an
+// unrelated one reads as a bug, and the reader is left guessing what to undo).
+//
+// `need` is the direction the player has to move, not a restatement of the condition: 'gone' —
+// the named items have to come off a model, 'present' — a model has to carry them again. Which
+// one it is falls out of the same pair of readings wargearGroupLive weighs: a sibling that
+// REPLACES something is undone by taking its pick back, one that ADDS something by dropping it.
+// `ids` are wargear item ids; the caller names them (this file never holds the dictionary).
+export function wargearGroupBlocker(def, entry, gi) {
+  const cond = def?.gear?.[gi]?.cond
+  if (!cond || wargearGroupLive(def, entry, gi)) return null
+  const sib = def.gear[cond[0]]
+  const rep = sib?.rep?.length ? sib.rep : null
+  // Name what the sibling actually took, when it took something — listing every option it offers
+  // would tell the reader to remove three things when they picked one.
+  const pick = (entry?.wg || []).find(([g]) => g === cond[0])
+  const opt = pick ? sib?.o?.[pick[1]] : null
+  const ids = rep || [...new Set((opt ? [opt] : sib?.o || []).flatMap((o) => optionItems(o).map(([id]) => id)))]
+  return { need: !!rep === !!cond[1] ? 'gone' : 'present', ids }
+}
+
 // A wargear group's instruction text is a sentence, sometimes followed by a list of the options
 // it offers ("…replaced with one of the following:\n◦ 1 hexrifle and 1 torturer's tool").
 // appdata carries that list as real newlines, which collapse into one run-on line when

@@ -309,6 +309,10 @@ export const ui = {
     rosterPickUpTo: 'up to {n}',
     rosterPickDup: 'max {n} of a kind',
     rosterPickUnavailable: 'Not available at this unit size.',
+    // Why a wargear group is greyed out: what the reader has to undo to open it again. The item
+    // names that follow stay English, like every other data name in the roster.
+    rosterCondNeedGone: 'Requires removing:',
+    rosterCondNeedPresent: 'Requires:',
     rosterDone: 'Done',
     rosterTabSaved: 'Lists',
     rosterTabDrafts: 'Drafts',
@@ -1016,6 +1020,8 @@ export const ui = {
     rosterPickUpTo: 'до {n}',
     rosterPickDup: 'не больше {n} одинаковых',
     rosterPickUnavailable: 'Недоступно при таком размере отряда.',
+    rosterCondNeedGone: 'Необходимо снять:',
+    rosterCondNeedPresent: 'Необходимо взять:',
     rosterDone: 'Готово',
     rosterTabSaved: 'Списки',
     rosterTabDrafts: 'Черновики',
