@@ -245,6 +245,27 @@ describe('DatasheetCard modifier notes', () => {
     expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
   })
 
+  // A card in a modal folds its blocks into accordions; it does not START folded. Reading a unit's
+  // abilities was a tap on every group, every time the card was opened — and the standalone page
+  // has never hidden them at all.
+  it('opens the datasheet\'s own blocks in a modal, and leaves the possible modifiers closed', async () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: { ...sheet(), abilities: [{ name: 'Fleet Command', text: 'Redeploy up to three units.' }] },
+        collapsible: true,
+        statNotes: [note({ kind: 'armyRule', source: 'Dark Pacts', applied: false, live: false, when: { en: 'while a pact is invoked', ru: 'x' } })],
+      },
+    })
+    // CollapseTransition always renders its slot, so the state is the header's own aria-expanded.
+    const abilities = w.findAll('.ds-group-btn').filter((b) => b.text().includes('Abilities'))
+    expect(abilities).toHaveLength(1)
+    expect(abilities[0].attributes('aria-expanded')).toBe('true')
+    expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+    // …and it still folds away once it has been read.
+    await abilities[0].trigger('click')
+    expect(w.find('.ds-group-btn').attributes('aria-expanded')).toBe('false')
+  })
+
   // A core rule is the same for every army in every game, so against one roster it says nothing:
   // Battle-shock's OC would otherwise be a line on every unit of every list being planned.
   it('never offers a core rule as a possible modifier', () => {
