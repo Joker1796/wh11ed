@@ -15,7 +15,7 @@
        + modifiers  its numbers as the roster's own rules leave them, each marked and attributed
                     under the card.
      Turning them off never prints a wrong number — it prints the printed one. That is the whole
-     reason the switch exists: a sheet handed to an opponent or a judge is read as a datasheet. -->
+     reason the switch exists: a sheet handed across the table is read as a datasheet. -->
 <template>
   <article class="rpu" :class="{ 'rpu-break': opts.pageBreak }">
     <p v-if="ctxLine.length" class="rpu-ctx">{{ ctxLine.join(' · ') }}</p>

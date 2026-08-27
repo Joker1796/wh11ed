@@ -2527,8 +2527,10 @@ document against the printable height of the chosen page, so ticking a box moves
 `gen-seo-routes.mjs` must not learn about it.
 
 **The list is a section like any other, and it is the only one that is not reference.** It is the
-ARMY — what a judge asks for, and what you check the table against before the first turn — which
-mid-game says little a player does not already know. So it has its own row (`rosterList`) and can
+ARMY — what you check the models against while setting up, and what an opponent can read across
+the table — which mid-game says little a player does not already know. (Organisers collect lists
+as files, in advance: nobody hands paper to anyone at the door, so do not write copy that says
+they do.) So it has its own row (`rosterList`) and can
 be turned off, while the header (whose list, which detachment, how many points, which data
 version) always prints: without it a sheet of paper does not say whose it is. Its wargear column
 disappears when the unit cards are being printed, because every loadout is then on a card a few
@@ -2552,8 +2554,13 @@ different component, still `@media`) does not.
 **Where the preview breaks pages** is computed, not decorative: a printer moves a whole
 `break-inside: avoid` block to the next sheet, so `paginate()` in the view does the same with a
 `--page-push` the paper honours ON SCREEN ONLY — a margin baked in on paper would open a second
-gap under the printer's own break. With cards in two columns that estimate is off (a margin
-pushes down the column, not onto the next sheet), so there the cards section is left whole.
+gap under the printer's own break.
+
+**It moves unit cards, and nothing else.** A section is not an atom: the stratagems are meant to
+run across two sheets, and treating the section as unbreakable put an empty half-page between the
+detachment rules and them. Everything else on the sheet is either breakable or inside a
+multi-column flow, where a margin pushes a block down its own COLUMN rather than onto the next
+sheet — which is also why the estimate steps aside entirely when the cards are two to a row.
 
 **The card is resolved by `useRosterUnitCard`** (`src/composables/rosterUnitCard.js`), the same
 composable `RosterUnitRulesModal` reads, extracted for exactly this reason: the Save a player reads

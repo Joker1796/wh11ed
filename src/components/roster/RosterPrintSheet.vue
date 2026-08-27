@@ -5,7 +5,8 @@
      palette).
 
      THE ORDER, and why: the header answers "whose list, which detachment, how many points" —
-     the questions a judge asks; then the list itself on one table, because that is the page a
+     the questions anyone picking the sheet up asks first; then the list itself on one table,
+     because that is the page a
      player looks at most; then the rules that apply to the whole army; then the stratagems as a
      table; and last, if asked for, a card per unit. A booklet you can stop reading after page one
      and still have what you need.
@@ -191,9 +192,9 @@ const dataDetachments = computed(() =>
 const effBattle = computed(() => effectiveBattle(props.roster || {}, rosterCore))
 const total = computed(() => rosterPoints(props.roster?.units, defOf, dataDetachments.value))
 
-// The header line a judge reads. Two of these are ours rather than the game's — the data version
-// and the date — and they are the answer to "why does this list price differently in your app",
-// which is the single most common thing a printed list gets argued about.
+// What the sheet says about itself. Two of these are ours rather than the game's — the data
+// version and the date — and they are the answer to "why does this list price differently in your
+// app", which is the single most common thing a printed list gets argued about.
 const facts = computed(() => {
   const l = labels.value
   const out = []
