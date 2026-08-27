@@ -2550,6 +2550,20 @@ headers, ability-group titles) become a rule under dark text, and the washes beh
 the ability blocks, a multi-profile weapon's rows and the keyword badges are dropped. A solid bar
 the width of the page is the most expensive thing on a sheet, and there is one per table.
 
+**One card to a row.** Two was built on 2026-08-27 and taken out the same day: a card in half a
+page is not half as tall — the weapon table wraps and the ability text runs narrow — so the pair
+came out taller than the two laid out full width, and a page edge between two cards that start at
+slightly different heights produced a sheet with 45px of content on it. Full width prints fewer
+sheets and paginates as one flow, which is the only kind the edge calculation can reason about.
+
+**The card is asked for `dense` and `hide-attachment`.** Paper wants a phone's tight rhythm for a
+phone's reason — height is what it is paid in — but a sheet of A4 is 733px wide, so the width
+query that turns it on for a phone never fires there. The rhythm is therefore a set of custom
+properties on `.ds-card` (`--ds-space`, `--ds-pad-x`, …), assigned by the narrow container OR by
+the `dense` prop; the two assignment lists are one decision reached two ways and must stay
+identical. `hide-attachment` drops "this model can be attached to…": the list already answered it,
+and the roster line above the card says which unit it joined.
+
 **The two-column sections are a GRID, not CSS columns.** In a multi-column flow an element's
 vertical offset says nothing about its place in the flow — the second column starts at the top
 again — and the sheet edges are computed from vertical offsets, so a card in the left column could
@@ -2563,9 +2577,8 @@ had to be as wide as the widest "when" in the whole detachment. Cards take the h
 two fit side by side, and the phase heading spans both (`column-span: all`) because it belongs to
 the group rather than to whichever column its first card starts in.
 
-**Two cards to a row** is a column count on the cards section and nothing else — possible only
-because `DatasheetCard` measures its own box (`.ds-shell`, `container: dscard / inline-size`)
-rather than the window. Until 2026-08-27 its three responsive tiers were `@media` queries, which
+**`DatasheetCard` measures its own box** (`.ds-shell`, `container: dscard / inline-size`) rather
+than the window. Until 2026-08-27 its three responsive tiers were `@media` queries, which
 meant a card in a 92mm column on a desktop laid itself out for a 1200px screen (and a phone
 previewing a print sheet drew a 733px page as if it were 390px wide). The tiers keep their
 numbers; they just measure the right thing. The one visible edge of the change: between about 481
