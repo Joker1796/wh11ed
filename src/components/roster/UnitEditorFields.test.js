@@ -152,6 +152,40 @@ describe('UnitEditorFields — unit composition', () => {
   })
 })
 
+describe('UnitEditorFields — unit size brackets', () => {
+  // Chosen: 5 · 135pts, or 6-10 · 270pts. The bracket price is one number for every size in it,
+  // so a 6-model unit in the second bracket pays the 10-model price.
+  const chosen = chaosSpaceMarines.units.find((u) => u.id === 'chosen')
+
+  it('fills the bracket to the top when it is picked', async () => {
+    const entry = { uid: 'u1', id: chosen.id, size: 0 }
+    const w = mount(UnitEditorFields, {
+      props: { entry, def: chosen, items: rosterItems.items, texts: rosterItems.texts },
+      global: { stubs: { Teleport: true } },
+    })
+    await w.findAll('.pill')[1].trigger('click') // the 6-10 bracket
+    expect(entry.size).toBe(1)
+    expect(entry.count).toBe(10) // not 6, and not four presses of "+"
+  })
+
+  it('leaves a fixed-size bracket saying nothing about its count', async () => {
+    const entry = { uid: 'u1', id: chosen.id, size: 1, count: 10 }
+    const w = mount(UnitEditorFields, {
+      props: { entry, def: chosen, items: rosterItems.items, texts: rosterItems.texts },
+      global: { stubs: { Teleport: true } },
+    })
+    await w.findAll('.pill')[0].trigger('click') // back to the 5-model bracket
+    expect(entry.count).toBeUndefined()
+  })
+
+  it('says how far down the count may go', () => {
+    const w = mountFor(chosen, { size: 1, count: 10 })
+    expect(w.find('.ues-count .ues-cap').text()).toBe('min 6')
+    // …and the stepper is what takes it there.
+    expect(w.findComponent(NumberStepper).props('min')).toBe(6)
+  })
+})
+
 describe('UnitEditorFields — allegiance', () => {
   const vindicator = chaosSpaceMarines.units.find((u) => u.id === 'chaos-vindicator')
   const sorcerer = chaosSpaceMarines.units.find((u) => u.id === 'sorcerer')

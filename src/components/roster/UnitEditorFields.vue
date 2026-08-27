@@ -53,8 +53,13 @@
         > · {{ sizeTells[i] }}</span></button>
       </div>
     </section>
+    <!-- Model count. Picking a bracket fills it to the top (see setSize), so the chip states the
+         other end: this many models is allowed too, and the − is right there. -->
     <section v-if="curRange" class="ues-sec ues-count">
-      <h4 class="ues-h">{{ labels.rosterModelsLabel }}</h4>
+      <h4 class="ues-h">
+        {{ labels.rosterModelsLabel }}
+        <span class="ues-cap">{{ labels.rosterModelsMin.replace('{n}', curSize.per[0]) }}</span>
+      </h4>
       <NumberStepper :model-value="models" :min="curSize.per[0]" :max="curSize.per[1]" @update:model-value="setCount" />
     </section>
     <p v-if="compLine" class="ues-comp">{{ compLine }}</p>
@@ -352,7 +357,20 @@ const curSize = computed(() => props.def.sizes[props.entry.size ?? 0] || props.d
 const curRange = computed(() => curSize.value.per[0] !== curSize.value.per[1])
 const models = computed(() => props.entry.count ?? curSize.value.per[0])
 function sizeLabel(s) { return s.per[0] === s.per[1] ? String(s.per[0]) : `${s.per[0]}–${s.per[1]}` }
-function setSize(i) { props.entry.size = i; delete props.entry.count }
+// Picking a bracket FILLS IT. The Munitorum prints one price for the whole bracket, so a 6-model
+// unit in a 6-10 bracket pays the 10-model price — almost nobody means to buy that, and the editor
+// used to make them press + four times to say otherwise. Fewer is still one tap away, and the chip
+// on the heading says how few. (Three units — Terminator Assault Squad, Venatari Custodians,
+// Victrix Honour Guard — also pay per model for their printed loadout on top of the bracket, so
+// filling up costs them a little more; the running total and the "Default wargear" heading both
+// show it as it happens.)
+function setSize(i) {
+  props.entry.size = i
+  const s = props.def.sizes[i]
+  // A fixed-size bracket keeps `count` absent — the entry says nothing it doesn't have to.
+  if (s && s.per[0] !== s.per[1]) props.entry.count = s.per[1]
+  else delete props.entry.count
+}
 function setCount(n) { props.entry.count = n }
 
 function miniName(m) { return props.def.minis?.[m]?.n || '' }
