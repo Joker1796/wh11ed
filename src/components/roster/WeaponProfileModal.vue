@@ -199,13 +199,38 @@ const abilityRows = computed(() => [
   vertical-align: middle;
 }
 
-/* Phones: the same stacked treatment DatasheetCard's own weapon tables get below 560px — see the
-   long comment there for the whole rationale (a six-column statline plus a name never fits a
-   phone, the thead's first cell survives as the section caption, a multi-profile weapon stays one
-   card). Duplicated here for the same reason the table styling above is: scoped styles can't
-   reach another component. This modal opens from the roster editor, which is a phone screen most
-   of the time, so leaving it as the one cramped table would be the obvious inconsistency. */
+/* Phones: the same two-step treatment DatasheetCard's own weapon tables get — see the long
+   comments there for the whole rationale. Squeezed but still a table down to ~380px, each row its
+   own card below that. Duplicated here for the same reason the table styling above is: scoped
+   styles can't reach another component. This modal opens from the roster editor, which is a phone
+   screen most of the time, so the two showing the same weapon two different ways would be the
+   obvious inconsistency. */
 @media (max-width: 560px) {
+  .wpm-weapons table { font-size: 0.74rem; }
+  .wpm-weapons th {
+    padding: 0.25rem 0.15rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.3px;
+  }
+  .wpm-weapons td { padding: 0.3rem 0.15rem; }
+  .wpm-weapons .wname {
+    width: 99%;
+    min-width: 0;
+    padding-left: 0.35rem;
+  }
+  .wpm-weapons .wname-text { display: block; }
+  .wtags { display: block; margin: 0.15rem 0 0; }
+  .wtag { font-size: 0.6rem; }
+  .wtag :deep(.keyword) { font-size: 0.62rem; letter-spacing: 0; padding: 0 3px; }
+  .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
+}
+
+@media (max-width: 380px) {
+  /* Undo the squeeze — a card has room to be read, and only the table needed it. */
+  .wpm-weapons table { font-size: 0.82rem; }
+  .wtag { font-size: 0.72rem; }
+  .wtag :deep(.keyword) { font-size: 0.74rem; letter-spacing: 0.2px; padding: 0 5px; }
+
   .wpm-weapons { overflow-x: visible; }
   .wpm-weapons:has(+ .wpm-weapons) { margin-bottom: 0.8rem; }
   .wpm-weapons table,

@@ -19,6 +19,21 @@ sidecar (`src/data/sourceIds.json`), rule-granted keywords
 
 In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionDatasheetView`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field. **A printed/granted keyword is clickable** (`keywordLinksEnabled` prop, opt-in per caller — off by default) and emits `keyword-click`; `FactionDatasheetView` catches it and opens `KeywordUnitsModal.vue` listing every other unit in the SAME faction's roster carrying that keyword (`src/utils/keywordUnits.js`, checks both `keywords` and per-model `keywordsByModel`), each linking to its own datasheet page. Faction keywords (ORKS, ADEPTUS ASTARTES…) are deliberately never clickable — virtually the whole roster shares those. `CombatPatrolFactionView` passes no `keyword-links-enabled` (units render inline on one page, not as separate routes, so there's nowhere for the modal's links to go — see `src/views/combat-patrol/CLAUDE.md`) — keywords there stay plain text.
 
+**The weapon tables stay tables down to ~380px** (`DatasheetCard.vue`, mirrored in
+`WeaponProfileModal.vue`). Six stat columns plus a name is a lot for a phone, and until
+2026-08-27 the answer below 560px was to stack each weapon into its own labelled card — which
+handed the whole width back to the name and turned three weapons into a screenful. A datasheet is
+read mid-game, so height is the expensive axis. The columns are squeezed instead: smaller type,
+cells padded to almost nothing, the name column dropped from its 10rem floor to `width: 99%` so it
+absorbs whatever the six stat columns leave and wraps inside it, and the ability tags moved onto
+their own line under the name. Nothing is hidden and nothing scrolls sideways.
+
+The ~380px floor is set by the tags, not the stats: `.keyword` is `white-space: nowrap`, so
+`[DEVASTATING WOUNDS]` is a ~130px word the name column cannot go under. Above it the columns and
+that word both fit (every current iPhone is 390-430px); below it the stacked cards take over,
+which is what 320/360/375 get. The stacked block sits AFTER the compact one in the file and wins
+at equal specificity — the same cascade discipline the rest of that stylesheet documents.
+
 **The way back from a unit page.** `/factions/:slug/datasheets/:unit` renders with `hero=false`
 (no faction header, no in-page tabs) and the desktop keeps the same links in `.subnav` — which is
 hidden ≤900px. So a phone had no way back to the faction's unit list at all: you left through the
