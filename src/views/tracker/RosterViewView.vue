@@ -104,10 +104,16 @@
             <!-- The row is a CONTAINER, not one big button: in a live game it carries this unit's
                  own state switches under the stats, and a button cannot hold buttons. Opening the
                  card stays a button of its own, covering everything but the switches. -->
-            <div v-for="e in g.entries" :key="e.uid" class="rvunit">
+            <template v-for="(e, idx) in g.entries" :key="e.uid">
+            <div class="rvunit" :class="{ 'rvunit-attached roster-attached': e.leaderOf }">
               <button type="button" class="rvunit-main" @click="viewingUid = e.uid">
                 <span class="rvunit-text">
-                  <span class="rvunit-name">{{ defOf(e.id)?.name || e.id }}</span>
+                  <span class="rvunit-name">
+                    {{ defOf(e.id)?.name || e.id }}
+                    <!-- Attached characters sit under their bodyguard (rosterEngine's
+                         joinAttached); the tag says which slot, which nesting alone can't. -->
+                    <span v-if="attachRole(e)" class="rvunit-role">{{ attachRole(e) }}</span>
+                  </span>
                   <span v-if="statCellsOf(e).length" class="rvunit-stats">
                     <span v-for="s in statCellsOf(e)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }">
                       <span class="rvst-label">{{ s.label }}</span>
@@ -152,6 +158,12 @@
                 />
               </CollapseTransition>
             </div>
+            <!-- What the whole attached unit costs, under the last row of its block. The rows
+                 keep their own numbers, so the column still reads down to the roster total. -->
+            <p v-if="blockTotal(g.entries, idx) != null" class="roster-sum">
+              {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
+            </p>
+            </template>
           </template>
         </template>
       </div>
@@ -290,7 +302,7 @@ import { validateRoster } from '../../composables/rosterValidation.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, leadsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -987,6 +999,7 @@ const warnCount = computed(() => issues.value.length - errorCount.value)
 const groupedUnits = computed(() =>
   sectionsOf(roster.value?.units, {
     faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
+    pairAttached: true,
   }).map((sec) => ({ ...sec, entries: sec.items })))
 
 // The datasheet behind an allied unit belongs to its own faction, and the namespaced id says so.
@@ -995,6 +1008,17 @@ const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 function summaryLine(e) {
   return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
 }
+
+// Which slot an attached character fills, and what its whole unit costs. The two halves of an
+// attached unit already share every state this screen writes (see attachedEntries) — since
+// 2026-08-27 they finally share a place on the list too (rosterEngine's joinAttached).
+function attachRole(e) {
+  const host = e.leaderOf && roster.value?.units.find((u) => u.uid === e.leaderOf)
+  if (!host) return ''
+  const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
+  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
+}
+const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
 
 // ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems,
 // from the (heavy) faction rules data — dynamically imported only when one of those tabs is
@@ -1343,6 +1367,12 @@ function stratKey(strat) {
 .rvunit-rest { border-top: 0; padding-top: 0; }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
+/* Closes the gap to the character indented below it — the block's own look is the shared
+   .roster-attached / .roster-sum pair in style.css. */
+.rvunit-role { margin-left: 0.35rem; font-weight: 400; font-size: 0.74rem; color: var(--accent); }
+.rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
+/* The card is width:100% here; the rail's indent has to come off that. */
+.rvunit-attached { width: auto; }
 /* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
    style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
    row. Copied, not shared — scoped styles don't cross component boundaries. */

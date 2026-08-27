@@ -655,6 +655,28 @@ strong {
 .tab:hover { border-color: var(--accent); }
 .tab.active { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
 
+/* ── Attached-unit block (roster lists) ────────────────────────────────────
+   A Leader and the unit it joined are ONE unit (core rules 19.01), and all three roster lists —
+   the editor, the wizard's step 3 and the tracker's read-only view — now draw them as one block:
+   the bodyguard's tile, each character indented under it on an accent rail, then what the whole
+   thing costs. `sectionsOf`'s joinAttached is what puts them side by side; this is what makes the
+   adjacency look meant. Global because all three drew it identically — the tile classes around it
+   stay per-screen, and one of them overrides `width` on top of this. */
+.roster-attached {
+  margin-left: 1.25rem;
+  margin-bottom: 0;
+  border-left: 2px solid var(--accent);
+}
+/* The block's own points, once, under its last row. The per-row numbers above stay as they are,
+   so the column still reads down to the roster total. */
+.roster-sum {
+  margin: 0 0 0.5rem 1.25rem;
+  padding: 0.25rem 0.75rem;
+  text-align: right;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
 /* ── Roster wizard footer bar ──────────────────────────────────────────────
    The fixed bar under the three roster-building screens: points and issue count on the left,
    the actions on the right. All three drew it, identically, down to the two breakpoints.

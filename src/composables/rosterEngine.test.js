@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -957,6 +957,95 @@ describe('allies', () => {
     const items = [{ uid: 'c', id: 'bloodletters' }]
     const sec = sectionsOf(items, { faction, defOf, keepLocked: true }).find((s) => s.id === 'ally:daemons')
     expect([sec.locked, sec.items.map((i) => i.uid)]).toEqual([true, ['c']])
+  })
+})
+
+describe('attached units read as one block', () => {
+  // Core rules 19.01: a Leader and the unit it joined are ONE unit. Filed by battlefield role
+  // they landed in different sections, and the more important the character the further apart:
+  // an Epic Hero at the top of the list, its squad at the bottom.
+  const lord = { id: 'lord', name: 'Chaos Lord', kws: ['Character'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1] }] }
+  const abaddon = { id: 'abaddon', name: 'Abaddon', kws: ['Character'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 265, per: [1, 1] }] }
+  const legionaries = { id: 'legionaries', name: 'Legionaries', kws: ['Battleline'], flags: {}, sizes: [{ pts: 180, per: [10, 10] }] }
+  const helbrute = { id: 'helbrute', name: 'Helbrute', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 140, per: [1, 1] }] }
+  const troupe = { id: 'aeldari:troupe', name: 'Troupe', kws: ['Infantry'], flags: {}, sizes: [{ pts: 120, per: [6, 6] }] }
+  const seer = { id: 'aeldari:shadowseer', name: 'Shadowseer', kws: ['Character'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1] }] }
+  const faction = {
+    units: [lord, abaddon, legionaries, helbrute, troupe, seer],
+    allies: [{ key: 'harlequins', name: 'Harlequins', ids: [troupe.id, seer.id] }],
+  }
+  const defOf = (id) => faction.units.find((u) => u.id === id)
+  const ids = (secs, id) => (secs.find((s) => s.id === id)?.items || []).map((i) => i.uid)
+
+  it('moves a bodyguard and its leaders into one section, host first', () => {
+    const items = [
+      { uid: 'lord', id: 'lord', leaderOf: 'legio' },
+      { uid: 'legio', id: 'legionaries' },
+      { uid: 'brute', id: 'helbrute' },
+    ]
+    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'attached')).toEqual(['legio', 'lord'])
+    expect(ids(secs, 'characters')).toEqual([])
+    expect(ids(secs, 'battleline')).toEqual([])
+    expect(ids(secs, 'other')).toEqual(['brute']) // everything else is filed as before
+  })
+
+  it('takes an Epic Hero out of the top section to sit with its squad', () => {
+    const items = [{ uid: 'abn', id: 'abaddon', leaderOf: 'legio' }, { uid: 'legio', id: 'legionaries' }]
+    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'attached')).toEqual(['legio', 'abn'])
+    expect(ids(secs, 'epic')).toEqual([])
+  })
+
+  it('keeps several characters on one host together, in list order', () => {
+    const items = [
+      { uid: 'lord', id: 'lord', leaderOf: 'legio' },
+      { uid: 'legio', id: 'legionaries' },
+      { uid: 'abn', id: 'abaddon', leaderOf: 'legio' },
+    ]
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['legio', 'lord', 'abn'])
+  })
+
+  it('leaves an unattached character where it was', () => {
+    const items = [{ uid: 'lord', id: 'lord' }, { uid: 'legio', id: 'legionaries' }]
+    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'attached')).toEqual([])
+    expect(ids(secs, 'characters')).toEqual(['lord'])
+    expect(ids(secs, 'battleline')).toEqual(['legio'])
+  })
+
+  it('gathers an allied pair inside its own group instead of moving it out', () => {
+    // The ally heading carries that group's own accounting — a unit that belongs to one must not
+    // leave it. Host first is all the block needs there.
+    const items = [
+      { uid: 'seer', id: 'aeldari:shadowseer', leaderOf: 'troupe' },
+      { uid: 'troupe', id: 'aeldari:troupe' },
+    ]
+    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'ally:harlequins')).toEqual(['troupe', 'seer'])
+    expect(ids(secs, 'attached')).toEqual([])
+  })
+
+  it('does nothing at all unless asked', () => {
+    const items = [{ uid: 'lord', id: 'lord', leaderOf: 'legio' }, { uid: 'legio', id: 'legionaries' }]
+    const secs = sectionsOf(items, { faction, defOf }) // the add-units browser's call
+    expect(ids(secs, 'characters')).toEqual(['lord'])
+    expect(ids(secs, 'battleline')).toEqual(['legio'])
+  })
+
+  it('totals the block once, under its last row', () => {
+    const entries = [{ uid: 'legio' }, { uid: 'lord', leaderOf: 'legio' }, { uid: 'abn', leaderOf: 'legio' }]
+    const pts = { legio: 180, lord: 95, abn: 265 }
+    const total = (i) => attachedBlockTotal(entries, i, (x) => pts[x.uid])
+    expect(total(0)).toBeNull() // the host row keeps its own number
+    expect(total(1)).toBeNull() // …and so does every row but the last
+    expect(total(2)).toBe(540)
+  })
+
+  it('says nothing for a row whose host is not beside it', () => {
+    // A leader whose bodyguard is in another section (an allied host, say): there is no block
+    // here to total, and printing one number of two would be worse than printing none.
+    expect(attachedBlockTotal([{ uid: 'lord', leaderOf: 'elsewhere' }], 0, () => 95)).toBeNull()
   })
 })
 

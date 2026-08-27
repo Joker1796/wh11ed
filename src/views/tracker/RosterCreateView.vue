@@ -128,7 +128,8 @@
               {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
               <em v-if="g.ally" class="rcg-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
             </h3>
-            <div v-for="e in g.entries" :key="e.uid" class="rcunit">
+            <template v-for="(e, idx) in g.entries" :key="e.uid">
+            <div class="rcunit" :class="{ 'rcunit-attached roster-attached': e.leaderOf }">
               <button
                 type="button"
                 class="rcunit-row"
@@ -140,12 +141,9 @@
                     <i v-if="e.warlord" class="bi bi-star-fill rcunit-star"></i>
                     {{ defOf(e.id)?.name || e.id }}
                   </span>
-                  <span v-if="attachedToName(e)" class="rcunit-tag">
-                    {{ labels.rosterAttachedTo }} <strong>{{ attachedToName(e) }}</strong>
-                  </span>
-                  <span v-for="s in attachedLeadersOf(e)" :key="s.uid" class="rcunit-tag">
-                    <strong>{{ s.name }}</strong> ({{ s.type === 'support' ? labels.rosterSupportTag : labels.rosterLeaderTag }})
-                  </span>
+                  <!-- Nested under its bodyguard, so neither half repeats the other's name;
+                       which SLOT the character fills is what the nesting can't say. -->
+                  <span v-if="attachRole(e)" class="rcunit-tag">{{ attachRole(e) }}</span>
                   <span v-for="(line, i) in loadoutLines(e)" :key="i" class="rcunit-loadout">{{ line }}</span>
                 </span>
                 <span class="rcunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
@@ -172,6 +170,10 @@
                 </div>
               </CollapseTransition>
             </div>
+            <p v-if="blockTotal(g.entries, idx) != null" class="roster-sum">
+              {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
+            </p>
+            </template>
           </template>
         </template>
       </div>
@@ -242,7 +244,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, unitPoints, rosterPoints,
+  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, rosterPoints,
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
   addUnitEntry, removeUnitEntry,
 } from '../../composables/rosterEngine.js'
@@ -387,17 +389,15 @@ function loadoutLines(e) {
   const defaults = defaultLoadoutLines(def, rosterItems.items, e).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
   return [...defaults, ...wargearNames(def, e, rosterItems.items)]
 }
-// Leader/bodyguard relationship, shown both directions: a leader's tile says which unit it's
-// attached to; the bodyguard unit it joined lists the Leader back on its own tile.
-function attachedToName(e) {
-  const target = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
-  return target ? (defOf(target.id)?.name || target.id) : ''
+// Which slot an attached character fills, and what the whole attached unit costs — see the
+// editor, which shows the same block the same way (rosterEngine's joinAttached).
+function attachRole(e) {
+  const host = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
+  if (!host) return ''
+  const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
+  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
 }
-function attachedLeadersOf(e) {
-  return units.value
-    .filter((u) => u.leaderOf === e.uid)
-    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id, type: leadsFor(defOf(u.id), u, curDetachments.value).find((l) => l.to === e.id)?.type }))
-}
+const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
 // Per-entry points + copy index (copy tax assigned in list order), for the row + the fields.
 const entryMeta = computed(() => {
   const seen = new Map()
@@ -414,6 +414,7 @@ const entryMeta = computed(() => {
 const groupedUnits = computed(() =>
   sectionsOf(units.value, {
     faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
+    pairAttached: true,
   }).map((sec) => ({ ...sec, entries: sec.items })))
 
 // An allied unit's datasheet belongs to its own faction; the namespaced id says which.
@@ -693,6 +694,9 @@ watchEffect(() => {
 .rcunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.15rem; text-align: left; }
 .rcunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
 .rcunit-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
+/* Closes the gap to the character indented below it — the block's own look is the shared
+   .roster-attached / .roster-sum pair in style.css. */
+.rcunit:has(+ .rcunit-attached) { margin-bottom: 0; }
 .rcunit-tag { font-size: 0.74rem; color: var(--accent); }
 .rcunit-tag strong { font-weight: 700; }
 .rcunit-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
