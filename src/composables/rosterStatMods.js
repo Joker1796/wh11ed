@@ -151,6 +151,11 @@ const isGrant = (effect) => effect.op === 'grant'
 // Records whose prose addresses exactly one unit — the one the caller resolved them FOR — so
 // ruleScopes() has nothing to gate on. Everything else is army- or detachment-wide prose that
 // names who it bears on, and is gated by keyword.
+//
+// A STRATAGEM is in here because its EFFECT addresses the unit it was spent on ("until the end of
+// the phase, each time a model in your unit makes an attack…"), whoever that is. WHICH units may
+// be picked is a different question, asked once against the stratagem's own TARGET line before the
+// record ever reaches this pass — see gateStratagems.
 const SCOPELESS = new Set(['enhancement', 'allegiance', 'ability', 'wargear', 'stratagem'])
 
 // `live` — is this modifier in force RIGHT NOW? Not the same question as `applied`: a modifier
@@ -397,6 +402,46 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule')) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
+  }
+  return out
+}
+
+// Drop the stratagems this unit could not be picked as the target of. A stratagem is spent ON a
+// unit, and its TARGET line names which units qualify ("One DAMNED unit from your army that has not
+// been selected to shoot this phase") — so a card that cannot be that unit must not carry the
+// stratagem's chip in a game, nor list its modifier among what could happen to it out of one. Chaos
+// Cult is the detachment that made this plain: five of its six stratagems are DAMNED-only, and
+// every Legionaries squad in the list was being offered all of them.
+//
+// The KEYWORD SET this is judged against is the ATTACHED unit's, not the card's — Core Rules 19.03,
+// "an attached unit has all of the keywords of all of its component units, [and] is affected by any
+// rule that applies to units with any of those keywords". A Chaos Lord leading a Cultist Mob is in a
+// DAMNED unit and can be the target, so his card offers the stratagem too. See
+// attachedUnitKeywords(), which is what the callers build that set with.
+//
+// Fail-open exactly like every other gate here (ruleTargets.js's three escapes): a target line that
+// names no unit of yours, or names one no datasheet in the faction matches, gates nothing.
+export function gateStratagems(entries, keywords, factionKeywordSets) {
+  return (entries || []).filter((e) => (
+    e.kind !== 'stratagem' ||
+    effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets)
+  ))
+}
+
+// The keywords of the OTHER halves of this entry's attached unit — the bodyguard it joined, plus
+// anything else attached to that bodyguard (a unit can hold a Leader and a Support at once). Empty
+// for an entry standing on its own, which is what makes this safe to add to any keyword set.
+//
+// `keywordsOf(unitId)` is the caller's lookup into the datasheets it has already loaded; the
+// attachment itself is read from the roster, which records it, so nothing here is inferred.
+export function attachedUnitKeywords(entry, units, keywordsOf) {
+  if (!entry || !keywordsOf) return []
+  const hostUid = entry.leaderOf || entry.uid
+  const out = []
+  for (const u of units || []) {
+    if (u.uid === entry.uid) continue
+    if (u.uid !== hostUid && u.leaderOf !== hostUid) continue
+    out.push(...(keywordsOf(u.id) || []))
   }
   return out
 }
@@ -657,9 +702,7 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       if (alleg?.g === rec.ref.g && alleg?.opt === rec.ref.opt) out.push({ ...rec, body: '' })
       continue
     }
-    // A stratagem belongs to a detachment the same way its rules do, so it is fielded or it is not;
-    // WHICH unit it was spent on is the player's to say, not this layer's to infer, so there are no
-    // scopes to read and no keyword gate (SCOPELESS).
+    // A stratagem belongs to a detachment the same way its rules do, so it is fielded or it is not.
     if (rec.ref.kind === 'stratagem') {
       const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
       if (!det || !fielded.has(detKey(det.name))) continue
@@ -670,7 +713,14 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       // must be given.
       const st = (det.stratagems || []).find((x) => enhKey(x.name) === enhKey(rec.ref.name || rec.name))
       const slot = st?.when ? { phases: phasesOf(st.when), sides: phaseSidesOf(st.when) } : null
-      out.push({ ...rec, body: '', slot })
+      // …and WHO it may be spent on, from the same line the player reads before spending it:
+      // "TARGET: One DAMNED unit from your army…". Kept apart from `scopes` — which gates an
+      // EFFECT against the card it is being applied to — because this gates the stratagem itself
+      // against the unit it would be USED on, and the two are judged with different keyword sets
+      // (see gateStratagems). Ungated when the target names nobody of yours, which is every
+      // stratagem aimed at an enemy unit.
+      const targetScopes = st?.target ? ruleScopes(st.target) : null
+      out.push({ ...rec, body: '', slot, targetScopes })
       continue
     }
     if (rec.ref.kind === 'armyRule') {

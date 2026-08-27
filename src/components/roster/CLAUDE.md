@@ -1758,8 +1758,37 @@ unit, for a stated window, when the player decides to. So:
   at once, they are alternatives to nothing, and they are keyed by record rather than by condition.
 - The chips are on the unit's card, above the datasheet — that is where the number they change is,
   and choosing a unit is the whole point of spending one. The Stratagems tab is unchanged.
-- No keyword gate (`SCOPELESS`): WHICH unit a stratagem was spent on is the player's to say, not
-  this layer's to infer from "one ADEPTUS ASTARTES INFANTRY unit".
+- **Its EFFECT has no keyword gate** (`SCOPELESS`): it addresses whichever unit it was spent on
+  ("until the end of the phase, each time a model in your unit makes an attack…"), and which one
+  that was is the player's to say.
+- **Its TARGET does** (`targetScopes`, added 2026-08-27). WHICH units may be picked is not a
+  judgement call, it is the stratagem's own TARGET line — "One DAMNED unit from your army that has
+  not been selected to shoot this phase" — so `resolveModifierEntries` reads it through the same
+  `ruleScopes()` the rest of this layer uses, and `gateStratagems()` drops the record for a unit
+  that cannot be that target. Chaos Cult is the detachment that made it plain: five of its six
+  stratagems are DAMNED-only, and every Legionaries squad in the list was carrying "-1 AP · Crazed
+  Focus" under POSSIBLE MODIFIERS. Kept in a field of its own rather than in `scopes`, because the
+  two questions are judged against different keyword sets:
+  - **the target is judged against the ATTACHED unit's keywords** — Core Rules 19.03, "an attached
+    unit has all of the keywords of all of its component units, [and] is affected by any rule that
+    applies to units with any of those keywords". A Chaos Lord leading a Cultist Mob is standing in
+    a DAMNED unit, so his card offers the DAMNED stratagems too (`attachedUnitKeywords()`, which
+    reads the attachment the roster already records — a bodyguard can hold a Leader and a Support
+    at once, and all three are one unit).
+  - **after the keyword grants, never before**: Necrons' The Spoor of Frailty targets DESTROYER
+    CULT and the Destroyer Ankh is what grants it, so gating on the printed keywords alone would
+    hide the stratagem from the one unit it was written for. That ordering is why the gate runs in
+    the views (`modContextFor` / `gatedModifiers`) rather than inside `resolveModifierEntries`,
+    where the granted keywords are not known yet.
+  - **fail-open as everywhere else**: a target line naming no unit of yours (every stratagem aimed
+    at an enemy) gates nothing, and one naming a keyword no datasheet in the faction carries is
+    assumed misread. Measured across all 30 factions: 216 of 298 stratagem records yield a target
+    scope, 12 fall through the "matched nobody" escape (a detachment-granted keyword the datasheets
+    do not print — SOUL FORGE, SHADOW LEGION, TANK ACE — or prose our patterns cannot read, "One
+    Avatar of Khaine model"), and 44.8% of (unit, stratagem) pairs are dropped.
+  - the gated list is what the CARD and the CHIPS are both built from (`RosterViewView`'s
+    `gatedFor`), so a stratagem that is not on offer cannot appear as a chip, as a note, or as a
+    condition switch its `cond` would otherwise have named.
 
 **Ability sets** (`subAbilities` in appdata, added 2026-08-23) are the ninth thing a record can hang
 off — and until then the generator walked straight past them. A set is "at the start of the battle

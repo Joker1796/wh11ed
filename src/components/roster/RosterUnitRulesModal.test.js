@@ -734,6 +734,45 @@ describe('RosterUnitRulesModal', () => {
     expect(document.body.textContent).not.toContain('Battle-shock')
   })
 
+  // Chaos Cult's stratagems are DAMNED-only, and every unit in a Chaos Cult list was being offered
+  // them: "-1 AP · Crazed Focus" stood under POSSIBLE MODIFIERS on a Legionaries squad that could
+  // never be spent one. Real data on both sides — the gate is only as good as the target line it
+  // reads.
+  it('leaves a stratagem off the card of a unit its target line cannot name', async () => {
+    const rf = await import('../../data/roster/chaos-space-marines.js')
+    const det = rf.default.detachments.find((d) => d.name === 'Chaos Cult')
+    const open = (unitId) => {
+      const def = rf.default.units.find((u) => u.id === unitId)
+      return mount(RosterUnitRulesModal, {
+        props: {
+          unitId,
+          factionSlug: 'chaos-space-marines',
+          ctx: { def, detachments: [det], entry: { uid: 'a', id: unitId }, units: [] },
+        },
+      })
+    }
+    const settle = async (needle) => {
+      await waitFor(needle)
+      // The faction's modifier bundle is a separate dynamic import from the sheet's.
+      for (let i = 0; i < 80 && !document.querySelector('.ds-mods'); i++) {
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 25))
+      }
+    }
+
+    // DAMNED: the stratagem is one it could be spent on, so the card says what it would do.
+    const damned = open('cultist-mob')
+    await settle('Cultist Mob')
+    expect(document.querySelector('.ds-mods').textContent).toContain('Crazed Focus')
+    damned.unmount()
+    document.body.innerHTML = ''
+
+    // Not DAMNED: nothing about that stratagem can ever happen to this unit.
+    open('red-corsairs-raiders')
+    await settle('Red Corsairs Raiders')
+    expect(document.body.textContent).not.toContain('Crazed Focus')
+  })
+
   it('says so when the same ability has nothing to lead', async () => {
     const rf = await import('../../data/roster/space-marines.js')
     const def = rf.default.units.find((u) => u.id === 'adrax-agatone')
