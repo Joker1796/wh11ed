@@ -2519,6 +2519,11 @@ gap and line-height in the sheet is `calc(X * var(--print-scale, 1))`. A hard-co
 the text and reads better; the tables and the cards stay full width, since a datasheet does not
 survive being cut in half by a column.
 
+**The sheet edges are drawn OVER the document** (`.rpv-breaks`, absolutely positioned, inert to
+the pointer, gone in print). As a background gradient on the paper — what they were until
+2026-08-27 — the first card or table that painted its own white hid them, and the preview read as
+one endless page with no breaks at all. Each is labelled with the number of the sheet it starts.
+
 **The sheet count is what makes the controls usable** (`.rpv-pages`): measured off the rendered
 document against the printable height of the chosen page, so ticking a box moves it. Without it,
 "denser" is a guess whose answer arrives at the printer.

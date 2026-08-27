@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  PRINT_OPTIONS, normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale,
+  PRINT_OPTIONS, normalizePrintSettings, presetOf, presetSettings, printOptionOn, printScale, sheetsFor,
 } from './rosterPrintOptions.js'
 
 describe('roster print presets', () => {
@@ -59,5 +59,28 @@ describe('what was stored last time', () => {
     const saved = { ...presetSettings('full'), density: 'dense', orientation: 'landscape' }
     expect(normalizePrintSettings(saved)).toEqual(saved)
     expect(printScale(saved)).toBeLessThan(1)
+  })
+})
+
+// The number the panel promises, and the number of edges drawn on the paper: one document, two
+// readings of it, so the arithmetic lives in one place.
+describe('how many sheets', () => {
+  const PAGE = 1062 // A4 portrait at 8mm margins, in CSS px
+
+  it('counts a part-filled page as a page', () => {
+    expect(sheetsFor(10, PAGE)).toBe(1)
+    expect(sheetsFor(PAGE * 1.5, PAGE)).toBe(2)
+    expect(sheetsFor(PAGE * 2.5, PAGE)).toBe(3)
+  })
+
+  // A hair over a whole number of pages is a rounding of the millimetre conversion, not a sheet.
+  it('does not invent a sheet for a rounding error', () => {
+    expect(sheetsFor(PAGE * 2 + 4, PAGE)).toBe(2)
+    expect(sheetsFor(PAGE * 2 + 40, PAGE)).toBe(3)
+  })
+
+  it('never claims less than one, whatever it is handed', () => {
+    expect(sheetsFor(0, PAGE)).toBe(1)
+    expect(sheetsFor(500, 0)).toBe(1)
   })
 })
