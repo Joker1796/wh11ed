@@ -107,20 +107,43 @@ export function defaultWargearPoints(def, entry) {
 
 // A handful of wargear groups are only on offer depending on whether a SIBLING group on the same
 // datasheet has been changed from its default — e.g. Necron Overlord's Resurrection Orb requires
-// giving up its default tachyon arrow first, and several Chaos Daemon units offer an instrument-
-// of-Chaos/daemonic-icon pair that are mutually exclusive. wh40k-appdata has no structural field
-// linking two `wargear_option_group` rows — the dependency exists only in prose ("if [not]
-// equipped with X") — so gen-roster-data.mjs parses it at generation time into `cond: [siblingGi,
-// activeFlag]` on the dependent group. A group stays selectable in storage even while its
-// condition isn't met (so re-enabling it restores the previous pick), but every point/loadout
-// reader must skip it while inert — this is the one place that decides "live or not", so callers
-// never duplicate the check.
+// giving up its default tachyon arrow first. wh40k-appdata has no structural field linking two
+// `wargear_option_group` rows — the dependency exists only in prose ("if [not] equipped with X")
+// — so gen-roster-data.mjs parses it at generation time into `cond: [siblingGi, activeFlag]` on
+// the dependent group. A group stays selectable in storage even while its condition isn't met (so
+// re-enabling it restores the previous pick), but every point/loadout reader must skip it while
+// inert — this is the one place that decides "live or not", so callers never duplicate the check.
+//
+// THE CONDITION IS ABOUT ONE MODEL, NOT THE UNIT. Every one of these sentences qualifies a single
+// model — "1 model equipped with a boltgun can have its accursed weapon replaced with 1 power
+// fist", "1 Bloodletter that is not equipped with a daemonic icon can be equipped with 1
+// instrument of Chaos" — and a squad has models to spare. So a sibling pick only closes this group
+// once it has reached EVERY model in scope, leaving none that still qualifies. Reading any sibling
+// pick as the whole unit is what made Chosen lose their power fist to a single combi-weapon, and
+// took the vox-caster, simulacrum, omnispex and medi-pack off two dozen other squads the moment
+// one model swapped its rifle (61 of the 63 gated groups are on multi-model units). On a
+// single-model datasheet, where scope is 1, the two readings coincide — Overlord and Canoness,
+// the only two, behave exactly as before.
 export function wargearGroupLive(def, entry, gi) {
   const cond = def?.gear?.[gi]?.cond
   if (!cond) return true
   const [sibGi, wantActive] = cond
-  const sibActive = (entry?.wg || []).some(([g]) => g === sibGi)
-  return sibActive === !!wantActive
+  const pick = (entry?.wg || []).find(([g]) => g === sibGi)
+  // `wantActive` asks the opposite question — this group needs the sibling's item GONE from a
+  // model ("if this model is not equipped with a tachyon arrow…"), and one pick is one model that
+  // gave it up, which is all the condition asks for.
+  if (wantActive) return !!pick
+  if (!pick) return true
+
+  const g = def.gear[sibGi]
+  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+  // A unit-wide group is scoped to the whole squad, a per-profile one to its own models.
+  const scope = g?.all ? (entry?.count ?? size?.per?.[0] ?? 1) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
+  if (scope == null) return true // scope unknown → assume a model still qualifies, never hide on a guess
+  // The same reading of a pick as swapsByMini's `consumed`: a stepper carries the model count, a
+  // checkbox is one model unless its instruction hands the swap to the whole profile.
+  const consumed = g.in === 'stepper' ? Math.min(pick[2] || 1, scope) : Math.min(g.repall ? scope : 1, scope)
+  return consumed < scope
 }
 
 // A wargear group's instruction text is a sentence, sometimes followed by a list of the options

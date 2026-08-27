@@ -50,11 +50,21 @@ describe('loadoutItemIds', () => {
   })
 
   it('ignores a selection in a group whose condition is not met', () => {
-    // Group 1 is live only while group 0 is untouched; with group 0 picked it must not count.
+    // Group 1 needs a model group 0 hasn't reached. Group 0's stepper taking all 5 models leaves
+    // none, so group 1 is inert: it neither adds its own item nor subtracts what it replaces.
     const conditional = { ...squad, gear: [squad.gear[0], { ...squad.gear[1], cond: [0, 0] }] }
-    const ids = loadoutItemIds(conditional, { size: 0, wg: [[0, 0, 1], [1, 0, 1]] })
+    const ids = loadoutItemIds(conditional, { size: 0, wg: [[0, 0, 5], [1, 0, 1]] })
     expect(ids).toContain(4) // chainsword not swapped away — the inert group subtracts nothing
     expect(ids).not.toContain(5) // …and adds nothing
+  })
+
+  it('keeps a conditional group live while any model still meets its condition', () => {
+    // The condition is about ONE model ("1 model equipped with a boltgun can…"), and 2 of 5
+    // models trading theirs away leaves three that still qualify. Reading a single sibling pick
+    // as the whole unit is what took the power fist off Chosen (see wargearGroupLive).
+    const conditional = { ...squad, gear: [squad.gear[0], { ...squad.gear[1], cond: [0, 0] }] }
+    const ids = loadoutItemIds(conditional, { size: 0, wg: [[0, 0, 2], [1, 0, 1]] })
+    expect(ids).toContain(5) // the power weapon is still on offer, and taken
   })
 })
 

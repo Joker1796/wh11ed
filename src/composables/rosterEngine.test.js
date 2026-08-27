@@ -185,6 +185,40 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
     const entry = { wg: [[1, 0, 1], [0, 0, 1]] } // weapon swapped (group 1 live) + orb on
     expect(unitWargearPoints(overlord, entry)).toBe(15)
   })
+
+  // Chosen shape: 5 or 6-10 models, "For every 5 models in this unit, 1 model equipped with a
+  // boltgun can have its accursed weapon replaced with 1 power fist" gated on the combi-weapon
+  // group, which takes boltguns off up to 2 models. The condition qualifies ONE model, and a
+  // squad has models to spare — a single combi-weapon must not close the group.
+  const chosen = {
+    minis: undefined,
+    sizes: [{ pts: 135, per: [5, 5], default: 1 }, { pts: 270, per: [6, 10] }],
+    defaults: [[0, [[1, 1], [2, 1]]]], // [boltgun, accursed weapon]
+    gear: [
+      { all: 1, m: 0, t: 1, in: 'stepper', o: [[3]], rep: [1] }, // combi-weapon, replaces boltguns
+      { all: 1, m: 0, t: 2, in: 'stepper', o: [[4]], rep: [2], cond: [0, 0] }, // power fist
+    ],
+  }
+
+  it('keeps a gated group live while any model still meets its condition', () => {
+    expect(wargearGroupLive(chosen, { size: 0 }, 1)).toBe(true) // nothing swapped
+    expect(wargearGroupLive(chosen, { size: 0, wg: [[0, 0, 1]] }, 1)).toBe(true) // 1 of 5 swapped
+    expect(wargearGroupLive(chosen, { size: 0, wg: [[0, 0, 2]] }, 1)).toBe(true) // the group's own cap
+  })
+
+  it('closes it only once the sibling has reached every model', () => {
+    expect(wargearGroupLive(chosen, { size: 0, wg: [[0, 0, 5]] }, 1)).toBe(false)
+    // …and "every model" follows the unit's size, not a fixed number.
+    expect(wargearGroupLive(chosen, { size: 1, count: 10, wg: [[0, 0, 5]] }, 1)).toBe(true)
+  })
+
+  it('never closes it on an unknown model count', () => {
+    // Two open-ended profiles: modelsPerMini can't split them, and a group scoped to one profile
+    // has no count to measure against. Showing an option too long beats hiding a legal one.
+    const split = { ...chosen, minis: [{ n: 'Champion' }, { n: 'Chosen' }],
+      gear: [{ ...chosen.gear[0], all: 0 }, { ...chosen.gear[1], all: 0 }] }
+    expect(wargearGroupLive(split, { size: 0, wg: [[0, 0, 5]] }, 1)).toBe(true)
+  })
 })
 
 describe('canBeWarlord', () => {
