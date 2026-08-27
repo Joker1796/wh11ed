@@ -981,6 +981,21 @@ the store's own deep-watch autosave; that is why `pickFaction` empties it with `
 than assigning a new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry`
 — the same implementation `useRosterEditing` uses, not a second copy.
 
+**Picking a size bracket fills it to the top** (`setSize` in `UnitEditorFields.vue`). The
+Munitorum prints ONE price for a whole bracket, so a 6-model unit in a "6-10 · 270pts" bracket
+pays the 10-model price — almost nobody means to buy that, and the editor used to leave the count
+at the bracket MINIMUM and make the player press "+" four times to say otherwise. 204 of 1038
+units have a ranged bracket; **none has a ranged DEFAULT bracket**, so adding a unit is untouched
+by this and `addUnitEntry` needs no say in it. A fixed-size bracket still leaves `count` absent —
+the stored entry says nothing it doesn't have to — and the reading of a stored `count`-less entry
+is unchanged everywhere (`entry.count ?? per[0]`), so no saved roster changes meaning.
+
+The other end is stated rather than left to be discovered: the models heading carries a `min N`
+chip, the same bordered chip a wargear group's "up to 2" allowance uses. Three units do pay per
+model on top of the bracket (Terminator Assault Squad, Venatari Custodians, Victrix Honour Guard —
+the `dw` units with a ranged bracket), so filling up costs them a little more than the pill says;
+the running total and the "Default wargear" heading both show it as it happens.
+
 ## Russian for the wargear instructions
 
 The group instruction shown above each wargear choice ("The Sister Superior's boltgun can be
