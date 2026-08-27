@@ -457,25 +457,28 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
 }
 
 /* ── Ink ────────────────────────────────────────────────────────────────────────────────────
-   The accent is pinned to an ink colour rather than inherited: the app's accent follows the
-   THEME, so a reader in the dark theme was printing pale pink headings onto white paper. */
+   FULL monochrome, by decision (2026-08-27): the accent vars are pinned to the text colour, so
+   everything downstream that keys off them — headings, glosses, cross-refs, dice icons — prints
+   in ink without being chased down one class at a time. The app's accent follows the THEME,
+   which is what once printed pale pink headings onto white paper. */
 .rps {
-  --accent: #6b1220;
-  --accent-hover: #6b1220;
-  --link-accent: #6b1220;
-  --link-accent-hover: #6b1220;
+  --accent: var(--text-primary);
+  --accent-hover: var(--text-primary);
+  --link-accent: var(--text-primary);
+  --link-accent-hover: var(--text-primary);
 }
 /* Every bold word on the sheet. `[data-theme='dark'] strong { color: #fbfaf7 }` is what makes
    bold text READ as bold on a dark screen — and on white paper it is white on white. The scoped
-   selector outranks it and restores the treatment that was written for ink. */
+   selector outranks it; weight alone carries the emphasis. */
 .rps :deep(strong) {
-  color: color-mix(in srgb, var(--text-primary) 80%, var(--accent));
+  color: var(--text-primary);
   font-weight: 700;
 }
-/* The one exception: the three colour classes a rule can use are meanings, not decoration. */
-.rps :deep(.color-red) { color: #a01a12; }
-.rps :deep(.color-blue) { color: #1f4e8c; }
-.rps :deep(.color-green) { color: #1f6b3a; }
+/* Even the three meaning colours a rule can use ({red:}/{blue:}/{green:}) go to ink — they stay
+   bold, which is what survives of the emphasis in monochrome. */
+.rps :deep(.color-red),
+.rps :deep(.color-blue),
+.rps :deep(.color-green) { color: var(--text-primary); }
 
 /* A [LETHAL HITS]-style tag: the frame and the monospace are what make it a badge; the wash and
    the accent text are screen colour, and on paper they were the one thing left unbleached. */
