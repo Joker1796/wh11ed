@@ -1072,3 +1072,45 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }
+
+/* ── Print ────────────────────────────────────────────────────────────────────
+   What a printer is handed, for ANY page of the app: the document, and none of
+   the app around it. The chrome is not "hidden for the print screen" — a navbar,
+   a bottom nav and a footer are worth nothing on paper wherever they are printed
+   from, and a reader who hits Ctrl+P on a datasheet should get the datasheet.
+
+   The print SCREEN (/roster/:id/print, RosterPrintView.vue) rides on this: its
+   panel goes away, and the paper it drew on screen stops being a fixed-size
+   sheet inside the page — @page owns the margins once the printer does. */
+@media print {
+  /* Everything under the app shell except the page itself. */
+  .app-layout > *:not(.main-content),
+  .main-content > footer,
+  .rpv-panel {
+    display: none !important;
+  }
+
+  html, body, .app-layout, .main-content {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  /* The preview's paper is a sheet drawn INSIDE a page; on paper it is the page.
+     Its own light-palette tokens stay — they are what make the document readable
+     in a dark theme, and they are already the colours of ink on paper. */
+  .rpv, .rpv-paper {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    zoom: 1 !important;
+  }
+
+  /* Nothing on paper responds to a hover, and a link that cannot be clicked
+     should not be coloured as though it could. */
+  a { color: inherit !important; text-decoration: none !important; }
+}

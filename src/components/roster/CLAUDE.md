@@ -1545,6 +1545,8 @@ rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (r
 used both by `RosterUnitBrowser`'s row-click preview while adding units and by
 `RosterViewView`'s Units tab — see Views above; takes an optional `ctx` for the modifier
 overlay, see below),
+`RosterPrintSheet` + `RosterPrintUnitCard` (the printable document and one unit in it — see
+"Printing a list"),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug),
 `ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely
@@ -2475,6 +2477,60 @@ army-level switch; positional and per-attack conditions are never automated; wou
 table position are out of scope — this is a reference that knows the rules in play, not a
 battlefield. Phases are opt-in per game and offered only where a list is attached, since the roster
 screen is the only thing that reads them.
+
+## Printing a list (added 2026-08-27)
+
+`/roster/:id/print` — `RosterPrintView.vue` (the panel), `RosterPrintSheet.vue` (the document),
+`RosterPrintUnitCard.vue` (one unit in it), `src/data/rosterPrintOptions.js` (the table), and the
+`@media print` block in `style.css`.
+
+**The screen IS the document.** What the preview draws inside the paper frame is what the printer
+gets — the sheet is not re-laid-out for printing, `@media print` only strips the app's chrome
+(navbar, bottom nav, footer, the panel) and lets `@page` take over the margins. A preview that is
+not the document is a preview that lies, and this one has to answer "will it fit on one sheet".
+
+**The browser prints it.** `window.print()`, no PDF library: the document is text and tables, so
+"Save as PDF" in the browser's own dialog gives selectable text, embedded fonts and Cyrillic for
+free, offline, at zero bundle cost. A client-side PDF writer would mean re-implementing the layout
+imperatively AND shipping a Cyrillic font subset — it is the upgrade path if a *file* is ever
+needed (to send rather than to print), not the starting point. **Open question, needs a device:**
+whether an installed PWA on iOS offers printing at all; the screen still reads and the panel
+carries a "open in the browser" line for that case.
+
+**Two presets over one list of checkboxes** (`PRINT_OPTIONS`). Compact is the pocket sheet — the
+list, the rules, the stratagems one line each; Full adds the stratagem text and a card per unit.
+They are not modes: touching any box keeps everything else and just stops calling itself a preset
+(`presetOf` → null → "your own set"). A row with `requires` is drawn indented, greys out with its
+parent and is forced off by `printOptionOn`, which is also how the sheet reads every value — the
+panel and the document can never disagree about a child row.
+
+**Modifiers are three tiers offered as two switches**, which is the same split the overlay already
+has (see "Modifier overlay" above): nothing = the printed datasheet; `trim` = the sheet this entry
+actually fields; `+ modifiers` = its numbers as the roster's rules leave them, marked and
+attributed. **Off never prints a wrong number, it prints the printed one** — the reason the switch
+exists at all is that a sheet handed to an opponent or a judge is read as a datasheet. The same
+rule governs granted keywords: a keyword a rule GRANTS is only claimed where that rule is being
+applied.
+
+**`--print-scale` is the density control** — one multiplier on the paper element, and every size,
+gap and line-height in the sheet is `calc(X * var(--print-scale, 1))`. A hard-coded rem in
+`RosterPrintSheet.vue` silently opts that element out of it. Prose is set in two columns
+(`columns: 2`) because a rule across 194mm of A4 is a 120-character line — book measure fits twice
+the text and reads better; the tables and the cards stay full width, since a datasheet does not
+survive being cut in half by a column.
+
+**The sheet count is what makes the controls usable** (`.rpv-pages`): measured off the rendered
+document against the printable height of the chosen page, so ticking a box moves it. Without it,
+"denser" is a guess whose answer arrives at the printer.
+
+**Not in `STATIC_ROUTES` and not in the sitemap** — it is a private route like `/tracker/game`;
+`gen-seo-routes.mjs` must not learn about it.
+
+**The card is resolved by `useRosterUnitCard`** (`src/composables/rosterUnitCard.js`), the same
+composable `RosterUnitRulesModal` reads, extracted for exactly this reason: the Save a player reads
+off paper and the one their phone shows must be the same number by construction. The faction bundle
+comes from `loadRosterFactionRules` (`rosterFactionRules.js`), shared with `RosterViewView`'s Rules
+and Stratagems tabs.
 
 ## Known gaps
 

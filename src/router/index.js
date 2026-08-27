@@ -19,6 +19,7 @@ const RosterListView    = () => import('../views/tracker/RosterListView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
+const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
@@ -386,6 +387,10 @@ const localeRoutes = [
     { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
     { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
     { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    // The same list as a document, with the panel that decides what goes on the paper.
+    // Private like the rest of them: a print of somebody's army list has no business in
+    // STATIC_ROUTES or in the sitemap.
+    { path: '/roster/:id/print', component: RosterPrintView, meta: { section: 'roster' } },
     // The catalogue used to live here, as a page of its own. It is now a pane of the editor's
     // Units tab — the redirect is for the links that outlive the route: a stored last route (the
     // PWA resumes into one), a phone's back stack, a bookmark.
