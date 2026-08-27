@@ -78,3 +78,24 @@ describe('RosterUnitList', () => {
     vi.unstubAllGlobals()
   })
 })
+
+// A phone opens the wargear in a sheet instead of an accordion, and a sheet that cannot scroll is
+// a sheet that hides half a unit's options. BaseModal caps `.modal` and clips it, so the scroll
+// container has to be the direct child — this is the structure that broke on iOS.
+describe('the narrow sheet', () => {
+  const openNarrow = () => {
+    const real = window.matchMedia
+    window.matchMedia = (q) => ({ ...real(q), matches: true })
+    const w = mountList({ openUid: 'u1' })
+    window.matchMedia = real
+    return w
+  }
+
+  it('scrolls, because its scroll container is the modal\'s own child', () => {
+    openNarrow()
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.modal > .modal-body').exists()).toBe(true)
+    // …and the faction accent still reaches the fields inside it.
+    expect(body.find('.modal-body .fas-themed .probe').exists()).toBe(true)
+  })
+})

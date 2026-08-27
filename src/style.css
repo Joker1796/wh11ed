@@ -1046,6 +1046,13 @@ a.btn-ghost:hover { color: var(--accent); text-decoration: none; }
    default here now and a dialog states only a padding it actually means.
    `overscroll-behavior` is the load-bearing one: on iOS a rubber-band drag past the end of the
    list would otherwise chain to the page behind the modal. */
+/* The scrolling half of a dialog. It MUST be a direct child of BaseModal's slot: `.modal` is a
+   flex column with a max-height and `overflow: hidden`, and a flex item is only allowed to shrink
+   below its content when it is itself a scroll container. Wrap it in anything — an accent scope,
+   a plain div — and that wrapper keeps its full content height, the modal clips it, and the
+   dialog silently loses everything below the fold with no scrollbar to say so. It reads as "the
+   sheet won't scroll", and it only shows up where the content is taller than the screen, which in
+   practice means a phone (see RosterUnitList's own sheet, fixed 2026-08-27). */
 .modal-body {
   padding: 0.7rem 0.9rem 0.9rem;
   overflow-y: auto;
