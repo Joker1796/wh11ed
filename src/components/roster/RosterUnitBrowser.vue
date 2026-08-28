@@ -7,8 +7,44 @@
       :placeholder="labels.rosterSearchUnits"
       autocomplete="off"
     />
+
+    <!-- Two narrowing checkboxes, folded away under their own header — the same accordion the
+         groups below use, so the pane reads as one list of collapsible things rather than as a
+         toolbar plus a list. They HIDE rather than dim, which this list forces: opacity here
+         already means "not in the roster yet" (`.rub-item`), so there is no dim left to spend on
+         "you cannot afford it".
+
+         Two things stay OUTSIDE the fold, because a closed accordion must not hide why the
+         catalogue is short: the count of what the filters took (same note the detachment picker
+         prints) and, on the header itself, how many of them are on. -->
+    <div class="rub-filters">
+      <button
+        type="button"
+        class="rub-head"
+        :aria-expanded="filtersOpen"
+        @click="filtersOpen = !filtersOpen"
+      >
+        <i class="bi rub-chev" :class="filtersOpen ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <span class="rub-group-name">{{ labels.rosterFilters }}</span>
+        <span v-if="activeFilters" class="rub-group-count on">{{ activeFilters }}</span>
+      </button>
+      <CollapseTransition :show="filtersOpen">
+        <div class="rub-filter-list">
+          <label v-if="hasBudget" class="check" :class="{ on: onlyAffordable }">
+            <input v-model="onlyAffordable" type="checkbox" />
+            <span>{{ labels.rosterFilterBudget }}</span>
+          </label>
+          <label class="check" :class="{ on: onlyOwned }">
+            <input v-model="onlyOwned" type="checkbox" />
+            <span><i class="bi bi-star-fill"></i> {{ labels.rosterFilterOwned }}</span>
+          </label>
+        </div>
+      </CollapseTransition>
+      <em v-if="hiddenCount" class="rub-hidden">{{ labels.rosterFilterHidden.replace('{n}', hiddenCount) }}</em>
+    </div>
+
     <div class="rub-body">
-      <p v-if="!filtered.length" class="rub-empty">{{ labels.rosterNoResults }}</p>
+      <p v-if="!shownCount" class="rub-empty">{{ labels.rosterNoResults }}</p>
       <template v-for="g in groups" :key="g.id">
         <div v-if="g.units.length" class="rub-group">
           <button
@@ -33,6 +69,17 @@
                 :class="{ added: countOf(u.id) }"
                 @click="previewId = u.id"
               >
+                <button
+                  type="button"
+                  class="rub-star"
+                  :class="{ on: ownsUnit(u) }"
+                  :aria-pressed="ownsUnit(u)"
+                  :title="ownsUnit(u) ? labels.dsOwnRemove : labels.dsOwnAdd"
+                  :aria-label="ownsUnit(u) ? labels.dsOwnRemove : labels.dsOwnAdd"
+                  @click.stop="toggleOwnUnit(u)"
+                >
+                  <i :class="ownsUnit(u) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+                </button>
                 <span class="rub-text">
                   <span class="rub-name">{{ u.name }}<span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
@@ -79,13 +126,15 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
+import { useCollection } from '../../composables/useCollection.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const props = defineProps({
   units: { type: Array, required: true },
@@ -110,6 +159,9 @@ const props = defineProps({
   // only surfacing it later in the issues list (see rosterValidation.js's validateRoster). Off
   // restores today's unlimited-add behaviour.
   checkLegality: { type: Boolean, default: true },
+  // Points still unspent (the views' `limit - points`), which is all the budget filter needs.
+  // Null — no battle size resolvable — takes that filter off the screen rather than guessing.
+  remaining: { type: Number, default: null },
 })
 defineEmits(['add', 'remove'])
 
@@ -128,16 +180,61 @@ function isOpen(id) { return !!query.value.trim() || openGroups.value.has(id) }
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
+// "I own this model" — set from the star on each row here, and from the faction datasheet pages.
+const { isOwned, toggleOwned } = useCollection()
+
 // No autofocus. The catalogue used to have a screen to itself, where taking the keyboard was the
 // obvious opening move; it is now one pane of the build screen, which opens showing the list
 // beside it — popping the keyboard there covers the very thing the reader came to look at.
 const query = ref('')
 
-const filtered = computed(() => {
+// Search only. The toggles below narrow this further; the two stay apart so the "N hidden" note
+// can compare them and say how much the toggles — not the typing — took away.
+const searched = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return props.units
   return props.units.filter((u) => u.name.toLowerCase().includes(q))
 })
+
+// Per device, like the missions screen's own filters (ChapterMissions.vue). Both start off: the
+// catalogue's first answer should be the whole catalogue.
+const onlyAffordable = ref(getItem('wh11ed-roster-filter-budget') === '1')
+const onlyOwned = ref(getItem('wh11ed-roster-filter-owned') === '1')
+watch(onlyAffordable, (v) => setItem('wh11ed-roster-filter-budget', v ? '1' : ''))
+watch(onlyOwned, (v) => setItem('wh11ed-roster-filter-owned', v ? '1' : ''))
+
+const hasBudget = computed(() => Number.isFinite(props.remaining))
+// Open if anything is already filtering — a fold that hides a switch which is ON would leave the
+// reader looking for units that the pane has quietly taken away.
+const filtersOpen = ref(onlyAffordable.value || onlyOwned.value)
+const activeFilters = computed(() => (onlyAffordable.value && hasBudget.value ? 1 : 0) + (onlyOwned.value ? 1 : 0))
+const anyFilter = computed(() => (onlyAffordable.value && hasBudget.value) || onlyOwned.value)
+
+// An allied datasheet belongs to ITS faction, not to the army browsing it (allySourceOf) — the
+// collection is keyed that way, or two factions' ids would share one bucket.
+function srcOf(u) {
+  const src = allySourceOf(u.id)
+  return { slug: src?.[0] || props.factionSlug, id: src?.[1] || u.id }
+}
+function ownsUnit(u) { const s = srcOf(u); return isOwned(s.slug, s.id) }
+function toggleOwnUnit(u) { const s = srcOf(u); toggleOwned(s.slug, s.id, u.name) }
+
+// A unit already in the list is never filtered away — same reason the detachment picker keeps the
+// detachments you took: its row carries the "−" button, and a list that hides what you just added
+// (because the budget ran out, or because you are proxying something you don't own) reads as a
+// bug rather than as a filter. It is also what keeps the copy tax (`def.step`, rosterEngine's
+// unitBasePoints) out of this: the surcharge lands on the Nth copy, and every unit this test
+// prices is on its first.
+//
+// The promise the budget filter makes is "its cheapest configuration fits" — `minPoints` is the
+// cheapest bracket plus any mandatory enhancement. Choosing a bigger bracket or paid wargear
+// afterwards can still take the list over, and saying so is the points readout's job.
+function passesFilters(u) {
+  if (countOf(u.id)) return true
+  if (onlyAffordable.value && hasBudget.value && minPoints(u) > props.remaining) return false
+  if (onlyOwned.value && !ownsUnit(u)) return false
+  return true
+}
 
 function groupLabel(g) { return g.ally ? g.ally.name : (labels.value[GROUP_LABEL_KEYS[g.id]] || '') }
 
@@ -154,10 +251,18 @@ function allyCap(g) {
   return parts.join(g.mutex ? ' / ' : ' · ')
 }
 
-const groups = computed(() =>
-  sectionsOf(filtered.value, { faction: { allies: props.allies }, detachments: props.detachments })
-    .map((sec) => ({ ...sec, units: sec.items.slice().sort((a, b) => a.name.localeCompare(b.name)) })),
-)
+const sectionsFor = (list) =>
+  sectionsOf(list, { faction: { allies: props.allies }, detachments: props.detachments })
+    .map((sec) => ({ ...sec, units: sec.items.slice().sort((a, b) => a.name.localeCompare(b.name)) }))
+
+// Counted after sectionsOf, not before it: a group whose ally Detachment isn't selected is not on
+// offer whatever the toggles say, and counting it as "hidden by the filter" would be a lie.
+const allSections = computed(() => sectionsFor(searched.value))
+const groups = computed(() => (anyFilter.value ? sectionsFor(searched.value.filter(passesFilters)) : allSections.value))
+const totalOf = (secs) => secs.reduce((n, sec) => n + sec.units.length, 0)
+const shownCount = computed(() => totalOf(groups.value))
+const hiddenCount = computed(() => (anyFilter.value ? totalOf(allSections.value) - shownCount.value : 0))
+
 
 const defById = computed(() => new Map(props.units.map((u) => [u.id, u])))
 
@@ -215,7 +320,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 <style scoped>
 .rub { display: flex; flex-direction: column; min-height: 0; }
 .rub-search {
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.5rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
@@ -223,10 +328,25 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   font-size: 0.9rem;
 }
 .rub-search:focus { outline: none; border-color: var(--accent); }
+
+/* The fold and the line that says what its switches took away. The rows themselves are the app's
+   shared `.check` (style.css) — the same box the wizard's settings use. */
+/* The rule under the block is what keeps its own header from reading as one more unit group: two
+   accordions in a column, and the top one is not a battlefield role. The "N hidden" note lives
+   INSIDE the block, above the line — it is the filters talking, not the list. */
+.rub-filters {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.rub-filter-list { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.35rem; }
+.rub-group-count.on { color: var(--accent); }
+.rub-hidden { font-style: normal; font-size: 0.7rem; color: var(--text-dim); margin-top: 0.35rem; }
 /* flex/min-height, not just overflow: inside the build panes this component's height is bounded
    by the pane, and a column flex item defaults to min-height:auto — without these the body grows
    past the pane and is CLIPPED by it instead of scrolling. Inert where nothing bounds it. */
-.rub-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; }
+.rub-body { flex: 1; min-height: 0; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; }
 .rub-empty { color: var(--text-muted); font-style: italic; padding: 0.5rem; }
 
 .rub-group { display: flex; flex-direction: column; }
@@ -283,6 +403,28 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
 .rub-count.over { color: #c0392b; }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
+/* Owned-mark rail, mirroring the +/− rail on the other side of the row rather than floating over
+   the text — these rows are too dense for a corner overlay. Marked rows take the faction's accent,
+   the same colour the datasheet grid's star uses (the editor's root folds `--fa-light`/`--fa-dark`
+   into `--accent`, so this is the ROSTER's faction — an allied unit's star wears the army's colour,
+   which is the pane it is being browsed in). */
+.rub-star {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.rub-star.on { color: var(--accent); opacity: 1; }
+@media (hover: hover) { .rub-star:hover { opacity: 1; } }
+
 .rub-remove,
 .rub-add {
   flex-shrink: 0;
@@ -318,6 +460,10 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.05rem; padding: 0.4rem 0.45rem; }
   .rub-name { font-size: 0.74rem; line-height: 1.25; }
   .rub-pts { font-size: 0.66rem; }
+  .rub-filter-list .check { padding: 0.35rem 0.4rem; gap: 0.35rem; font-size: 0.7rem; }
+  .rub-filter-list .check input[type="checkbox"] { width: 16px; height: 16px; }
+  .rub-hidden { font-size: 0.62rem; }
+  .rub-star { width: 1.5rem; font-size: 0.75rem; }
   .rub-remove,
   .rub-add { width: 1.7rem; font-size: 0.85rem; }
 }

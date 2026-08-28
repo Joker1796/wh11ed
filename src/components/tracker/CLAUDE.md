@@ -151,6 +151,18 @@ and all (an ellipsis only clips a box that was allowed to be narrower than its t
 carries the same pair of cards and the same fix; the history page's roster pills take `max-width:
 100%` for the same reason.
 
+**`DetachmentPickerModal` offers only what a tap could do** (2026-08-28): a detachment that no
+longer fits the Detachment Points, or that clashes with a tag already taken (25.04), is off the
+list rather than greyed. The screen it draws is shared by the wizard and by both Roster Builder
+setup screens, and once a 3 DP budget is spent that was almost every row — a page of dimmed
+entries reads as a broken screen, not as a constraint. Two things keep it honest, and neither is
+optional: a line above the list says how many are not on offer and why, and a **Clear selection**
+button (`@clear`, each caller emptying its own array) brings them all back — with a full budget
+that is the only way back to the whole list. This is deliberately the opposite call to
+`RosterPickerModal`'s, where a list of another faction stays visible but disabled: there, hiding
+makes a collection look empty and reads as "my list is gone"; here the hidden rows are a budget
+away, not a collection.
+
 The **twist** is chosen on step 4 via a "Choose twist" button that opens `TwistPickerModal.vue` — a full-screen (bottom-sheet on mobile) accordion list of the twist rules with per-twist "Select" + a "Random twist" button; picking one returns to step 4. Mirrored World's shared-mission sub-picker stays inline on step 4.
 
 **Setup is persisted as a draft** (`setupDraft` in `useTracker.js`, localStorage `wh11ed-tracker-setup-draft`, same auto-save machinery as `current`/`history`): the in-progress wizard (step + players + settings) survives reloads and navigating away. The Tracker home shows a **"Continue setup"** button when a draft exists; "New game" clears the draft and starts fresh; `start()`/cancel clear it. **Starting a new game (or resuming a past one) while a game is in progress does NOT discard the live game** — `TrackerHomeView` first archives it to history via the normal end flow (`finishGame('early')` + `archiveGame()`), so it's saved at its current score and stays resumable. GameSetup hydrates from the draft at init (before its reset watchers register) and deep-watches its state back into the draft. This same hydrate-from-draft mechanism is what `rosterHandoff.js` (Roster Builder) writes into to pre-fill setup from a saved roster.

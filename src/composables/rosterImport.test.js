@@ -84,6 +84,10 @@ describe('parseList — the GW app', () => {
     expect(p.faction).toBe('World Eaters')
     expect(p.limit).toBe(2000)
     expect(p.detachments).toEqual(['Berzerker Warband'])
+    // The Force Disposition line used to be skipped — there was nowhere to put it. A list declares
+    // ONE, so a line naming one is that declaration and a line listing candidates is not.
+    expect(p.disposition).toBe('Purge the Foe')
+    expect(parseList(GW.replace('Purge the Foe', 'Purge the Foe, Take and Hold')).disposition).toBeUndefined()
   })
 
   // The app stopped writing "leading X" on the character: the BLOCK is the link, so both halves

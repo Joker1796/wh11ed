@@ -18,7 +18,7 @@
         <button class="search-close" @click="$emit('close')" :aria-label="labels.ariaCloseSearch">Esc</button>
       </div>
 
-      <div class="search-results" v-if="query.trim().length >= 2">
+      <div class="search-results" v-if="hasQuery">
         <div v-if="results.length === 0" class="search-empty">
           {{ labels.searchNoResults }} "<strong>{{ query }}</strong>"
         </div>
@@ -42,6 +42,25 @@
         </TransitionGroup>
       </div>
 
+      <div v-else-if="history.length" class="search-history">
+        <div class="sh-head">
+          <span class="sh-title">{{ labels.searchRecent }}</span>
+          <button class="btn-ghost sh-clear" @click="clearHistory">{{ labels.searchClearHistory }}</button>
+        </div>
+        <ul class="results-list">
+          <li
+            v-for="(h, i) in history"
+            :key="h"
+            class="sh-row"
+            :class="{ selected: i === selectedIndex }"
+            @mouseenter="selectedIndex = i"
+          >
+            <button class="sh-pick" @click="pick(h)">{{ h }}</button>
+            <button class="sh-forget" :aria-label="labels.ariaForgetQuery" @click="forget(h)">×</button>
+          </li>
+        </ul>
+      </div>
+
       <div v-else class="search-hint-text">
         {{ labels.searchHint }}
       </div>
@@ -56,12 +75,14 @@ import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
 import { useFactionChoice } from '../composables/useFactionChoice.js'
+import { useSearchHistory } from '../composables/useSearchHistory.js'
 import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
 const { navigateTo } = useRefNavigation()
 const { locale } = useLocale()
 const { setDetachment, setChapter } = useFactionChoice()
+const { history, remember, forget, clearHistory } = useSearchHistory()
 const labels = computed(() => ui[locale.value])
 const boxEl = ref(null)
 const query = ref('')
@@ -74,6 +95,8 @@ preloadFactionRulesIndex()
 preloadCombatPatrolIndex()
 
 const results = computed(() => search(query.value, locale.value))
+// The one gate for "is this a search yet": results below it, recent queries above it.
+const hasQuery = computed(() => query.value.trim().length >= 2)
 
 watch(query, () => { selectedIndex.value = 0 })
 
@@ -81,15 +104,27 @@ watch(query, () => { selectedIndex.value = 0 })
 // command-palette shell stays bespoke — BaseModal's centered/bottom-sheet layout doesn't fit.)
 useModalA11y(boxEl, () => emit('close'), { initialFocus: '.search-input' })
 
+// Arrow keys walk whichever list is on screen — results while typing, recent queries before.
+const activeList = computed(() => (hasQuery.value ? results.value : history.value))
+
 function moveSelection(dir) {
-  const len = results.value.length
+  const len = activeList.value.length
   if (!len) return
   selectedIndex.value = (selectedIndex.value + dir + len) % len
 }
 
 function goToSelected() {
-  const item = results.value[selectedIndex.value]
-  if (item) navigate(item)
+  const item = activeList.value[selectedIndex.value]
+  if (!item) return
+  if (hasQuery.value) navigate(item)
+  else pick(item)
+}
+
+// Re-run a remembered query instead of navigating: ids move between data versions, the query
+// doesn't — see useSearchHistory. Focus goes back to the input so it can be edited on the spot.
+function pick(q) {
+  query.value = q
+  boxEl.value?.querySelector('.search-input')?.focus()
 }
 
 function navigate(item) {
@@ -98,6 +133,8 @@ function navigate(item) {
   // and scrollToAnchor is waiting that out (useRefNavigation's viewportSettled). Blurring first
   // shortens the wait — and on a browser with no keyboard it costs nothing.
   document.activeElement?.blur?.()
+  // Only a query that led somewhere is worth remembering.
+  remember(query.value)
   emit('close')
   // A faction-rules result (detachment/stratagem/enhancement) anchors to its detachment's
   // section — but FactionRuleView only renders the ACTIVE detachment (useFactionChoice), so it
@@ -220,7 +257,8 @@ function navigate(item) {
 .res-enter-active:nth-child(n+8) { transition-delay: 175ms; }
 
 .result-item.selected,
-.result-item:hover {
+.result-item:hover,
+.sh-row.selected {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
@@ -266,6 +304,72 @@ function navigate(item) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.search-history {
+  max-height: 420px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sh-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem 0.4rem;
+}
+
+.sh-title {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sh-clear {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.sh-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sh-row:last-child {
+  border-bottom: none;
+}
+
+.sh-pick {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.7rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sh-forget {
+  background: none;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.sh-forget:hover {
+  color: var(--text-muted);
 }
 
 .search-hint-text {
@@ -329,6 +433,23 @@ function navigate(item) {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  .search-history {
+    flex: 1;
+    max-height: none;
+  }
+
+  /* Thumb-sized rows, same 44px floor as the close button. */
+  .sh-pick {
+    padding: 1rem 1.25rem;
+  }
+
+  .sh-forget {
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .search-hint-text {

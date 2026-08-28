@@ -65,7 +65,7 @@ import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, effectiveBattle, leadsFor,
+  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, dispositionOf, effectiveBattle, leadsFor,
   mandatoryEnhancementFor, rosterPoints, unitPoints, wargearNames, leaderTargetsFor,
 } from '../../composables/rosterEngine.js'
 import { enhKey } from '../../composables/rosterModifiers.js'
@@ -122,6 +122,10 @@ const facts = computed(() => {
   const fac = props.factionData?.name || props.roster?.faction
   if (fac) out.push(fac)
   for (const d of props.roster?.detachments || []) out.push(d)
+  // The army's Force Disposition, beside the detachments that offer it — the one fact of the
+  // muster an opponent reads off the sheet to know which Primary Mission each of you is playing.
+  const fd = dispositionOf(props.roster, dataDetachments.value)
+  if (fd) out.push(fd)
   if (props.opts.points) out.push(`${total.value} / ${effBattle.value.points}${l.rosterPointsLabel}`)
   out.push(effBattle.value.name || '')
   out.push(`${l.printDataVersion} ${APP_DATA_VERSION}`)

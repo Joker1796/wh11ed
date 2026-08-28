@@ -9,12 +9,25 @@
               type="button"
               class="ds-btn"
               :class="{ 'ds-btn-pin-on': fav }"
-              :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
-              :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :title="fav ? labels.favUnpin : labels.favPin"
+              :aria-label="fav ? labels.favUnpin : labels.favPin"
               :aria-pressed="fav"
               @click="toggleUnitFavorite(route.params.slug, sheet.id)"
             >
               <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+            </button>
+            <!-- "I own this one" — the mark the roster catalogue shows on its rows and can filter
+                 by. Same treatment as the pin: state is the outline→filled swap, no highlight. -->
+            <button
+              type="button"
+              class="ds-btn"
+              :class="{ 'ds-btn-pin-on': owned }"
+              :title="owned ? labels.dsOwnRemove : labels.dsOwnAdd"
+              :aria-label="owned ? labels.dsOwnRemove : labels.dsOwnAdd"
+              :aria-pressed="owned"
+              @click="toggleOwned(route.params.slug, sheet.id, sheet.name)"
+            >
+              <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'"></i>
             </button>
             <button
               type="button"
@@ -108,6 +121,7 @@ import { getDatasheetIndex } from '../../composables/useSearch.js'
 import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
+import { useCollection } from '../../composables/useCollection.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
@@ -170,6 +184,10 @@ const keywordUnits = computed(() => unitsWithKeyword(datasheets.value, activeKey
 // Favourite toggle (shared store with the datasheets list's "Favorites" group).
 const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
 const fav = computed(() => !!sheet.value && isUnitFavorite(route.params.slug, sheet.value.id))
+
+// Owned mark (shared store with the datasheets grid and the roster catalogue's star).
+const { isOwned, toggleOwned } = useCollection()
+const owned = computed(() => !!sheet.value && isOwned(route.params.slug, sheet.value.id))
 
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet

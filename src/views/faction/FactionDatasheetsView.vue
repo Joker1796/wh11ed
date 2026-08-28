@@ -21,6 +21,13 @@
           :detachments="detachments"
           :chapters="chapters"
         />
+        <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
+             icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
+             instead of on 90 chips. -->
+        <p class="ds-legend">
+          <span><i class="bi bi-pin-angle"></i> {{ labels.favPinnedGroup }}</span>
+          <span><i class="bi bi-star"></i> {{ labels.rosterFilterOwned }}</span>
+        </p>
         <template v-for="g in groupedDatasheets" :key="g.key">
           <h3 class="ds-group-head">{{ g.label }}</h3>
           <div class="ds-grid">
@@ -30,17 +37,33 @@
               :to="`/factions/${slug}/datasheets/${s.id}`"
               class="ds-chip"
             >
-              <button
-                type="button"
-                class="ds-fav"
-                :class="{ on: isUnitFavorite(slug, s.id) }"
-                :title="isUnitFavorite(slug, s.id) ? labels.dsFavRemove : labels.dsFavAdd"
-                :aria-label="isUnitFavorite(slug, s.id) ? labels.dsFavRemove : labels.dsFavAdd"
-                :aria-pressed="isUnitFavorite(slug, s.id)"
-                @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
-              >
-                <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
-              </button>
+              <span class="ds-marks">
+                <button
+                  type="button"
+                  class="ds-fav"
+                  :class="{ on: isUnitFavorite(slug, s.id) }"
+                  :title="isUnitFavorite(slug, s.id) ? labels.favUnpin : labels.favPin"
+                  :aria-label="isUnitFavorite(slug, s.id) ? labels.favUnpin : labels.favPin"
+                  :aria-pressed="isUnitFavorite(slug, s.id)"
+                  @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
+                >
+                  <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+                </button>
+                <!-- "I own this one" — the same mark the roster catalogue shows and filters by.
+                     This grid is where a collection actually gets entered: the datasheet page
+                     carries the same button, but one unit per visit is no way to fill a shelf. -->
+                <button
+                  type="button"
+                  class="ds-fav ds-own"
+                  :class="{ on: isOwned(slug, s.id) }"
+                  :title="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
+                  :aria-label="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
+                  :aria-pressed="isOwned(slug, s.id)"
+                  @click.stop.prevent="toggleOwned(slug, s.id, s.name)"
+                >
+                  <i :class="isOwned(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+                </button>
+              </span>
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
@@ -64,6 +87,7 @@ import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useFavorites } from '../../composables/useFavorites.js'
+import { useCollection } from '../../composables/useCollection.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -108,6 +132,7 @@ const { activeChapter } = useFactionChoice()
 const chapter = computed(() => activeChapter(slug.value, chapters.value))
 
 const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+const { isOwned, toggleOwned } = useCollection()
 
 // A unit's Chapter = the second Faction keyword on its datasheet. Order in
 // factionKeywords[] is not stable (Pedro Kantor lists Adeptus Astartes first),
@@ -159,7 +184,7 @@ const groupedDatasheets = computed(() => {
   // real type group below. Built from the filtered list so search / chapter still apply,
   // and only shown when at least one favourite survives the filter.
   const favs = filteredDatasheets.value.filter((s) => isUnitFavorite(slug.value, s.id))
-  if (favs.length) groups.unshift({ key: 'favorites', label: l.dsGroupFavorites, sheets: favs })
+  if (favs.length) groups.unshift({ key: 'favorites', label: l.favPinnedGroup, sheets: favs })
   return groups
 })
 
@@ -215,6 +240,11 @@ const groupedDatasheets = computed(() => {
   gap: 0.05rem;
   text-align: left;
   padding: 0.35rem 1.9rem 0.35rem 0.55rem;
+  /* The two marks stack in the corner, so they cost the name ONE icon of width instead of two —
+     at this grid's 180px a second column of buttons was breaking names onto a third line. The
+     min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
+     a short chip (a one-line name and its points). */
+  min-height: 2.9rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -222,17 +252,16 @@ const groupedDatasheets = computed(() => {
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-/* Favourite toggle pinned to the chip's top-right corner. It sits inside the RouterLink,
-   so the click handler stops propagation / prevents navigation. */
+/* Both marks — pin (favourite) and star (owned) — sit in the chip's top-right corner. They are
+   inside the RouterLink, so their handlers stop propagation / prevent navigation. */
+.ds-marks { position: absolute; top: 0.2rem; right: 0.25rem; display: flex; flex-direction: column; }
+
 .ds-fav {
-  position: absolute;
-  top: 0.2rem;
-  right: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.5rem;
+  height: 1.3rem;
   padding: 0;
   background: none;
   border: none;
@@ -252,6 +281,12 @@ const groupedDatasheets = computed(() => {
 .ds-fav.on {
   opacity: 1;
 }
+
+/* Owned takes the faction's own accent — the colour this page is already themed in (FactionLayout
+   folds `--fa-light`/`--fa-dark` into `--accent`), so a marked shelf reads as part of the army
+   rather than as a foreign gold. The pin keeps its quiet outline→filled swap: two marks in one
+   corner, only one of them coloured. */
+.ds-own.on { color: var(--accent); }
 
 .ds-chip:hover { text-decoration: none; }
 
@@ -285,6 +320,17 @@ const groupedDatasheets = computed(() => {
   color: var(--text-muted);
   white-space: nowrap;
 }
+
+/* The chips' key. Dim and small — it is read once and then ignored. */
+.ds-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1rem;
+  margin: 0.7rem 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.ds-legend i { margin-right: 0.3rem; }
 
 .ds-empty {
   color: var(--text-muted);

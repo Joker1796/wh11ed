@@ -31,15 +31,40 @@ describe('DetachmentPickerModal — tags', () => {
     expect(buttonFor('Awakened Dynasty').text()).toContain('DYNASTY')
   })
 
-  it('bars a second detachment sharing the tag, and nothing else', () => {
-    // Core rules 25.04: "…cannot be taken with another DYNASTY detachment". Greyed rather than
-    // hidden, so the reason is visible.
+  // Core rules 25.04: "…cannot be taken with another DYNASTY detachment". Taken off the list
+  // rather than greyed (2026-08-28): once a budget is spent most of the list is unpickable, and a
+  // page of dimmed rows reads as a broken screen. What went, and why, is said once above the list.
+  it('takes a second detachment sharing the tag off the list, and nothing else', () => {
     mountPicker(list, ['Awakened Dynasty'])
-    expect(buttonFor('Hand of the Dynasty').attributes('disabled')).toBeDefined()
-    expect(buttonFor('Hand of the Dynasty').text()).toContain('tag already taken')
-    expect(buttonFor('Hypercrypt Legion').attributes('disabled')).toBeUndefined()
-    expect(buttonFor('Canoptek Court').attributes('disabled')).toBeUndefined()
-    // The selected one stays clickable — that's how it gets deselected.
-    expect(buttonFor('Awakened Dynasty').attributes('disabled')).toBeUndefined()
+    expect(buttonFor('Hand of the Dynasty')).toBeUndefined()
+    expect(buttonFor('Hypercrypt Legion')).toBeDefined()
+    expect(buttonFor('Canoptek Court')).toBeDefined()
+    // The selected one stays — that's how it gets deselected.
+    expect(buttonFor('Awakened Dynasty')).toBeDefined()
+    expect(body().find('.det-hidden').text()).toContain('1')
+  })
+
+  it('offers only what the remaining Detachment Points can pay for', () => {
+    // 3 DP spent of 3: nothing else fits, so nothing else is offered — and the count says so.
+    wrapper = mount(DetachmentPickerModal, {
+      props: { detachments: list, selected: ['Canoptek Court'], maxDp: 3, dpSpent: 3 },
+      attachTo: document.body,
+    })
+    expect(body().findAll('button.det')).toHaveLength(1)
+    expect(buttonFor('Canoptek Court')).toBeDefined()
+    expect(body().find('.det-hidden').text()).toContain('3')
+  })
+
+  // The way back: with a spent budget the list is otherwise a dead end.
+  it('offers to clear the selection, and only while there is one', () => {
+    mountPicker(list)
+    expect(body().find('.det-clear').exists()).toBe(false) // nothing chosen, nothing hidden
+    wrapper.unmount()
+    document.body.innerHTML = ''
+    mountPicker(list, ['Awakened Dynasty'])
+    const clear = body().find('.det-clear')
+    expect(clear.attributes('disabled')).toBeUndefined()
+    clear.trigger('click')
+    expect(wrapper.emitted('clear')).toBeTruthy()
   })
 })

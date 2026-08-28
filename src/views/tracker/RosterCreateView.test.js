@@ -41,6 +41,35 @@ async function waitFor(w, needle, tries = 60) {
 }
 
 describe('RosterCreateView', () => {
+  // The same question the editor's setup tab asks, and the tracker's own setup after it: an army
+  // plays ONE Force Disposition, so two detachments that disagree make it a declaration.
+  it('declares the Force Disposition when the chosen detachments disagree', async () => {
+    const fac = (await import('../../data/roster/space-marines.js')).default
+    // The cheapest of each, so two of them still fit the battle size's Detachment Points.
+    const byFd = (fd) => fac.detachments.filter((d) => d.fd === fd).sort((a, b) => a.dp - b.dp)[0].name
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await waitFor(w, byFd('Take and Hold'))
+
+    const pickDet = async (name) => {
+      await w.findAll('.btn-choose')[1].trigger('click')
+      await w.findAll('.det').find((b) => b.text().includes(name)).trigger('click')
+      await w.find('.mh-close').trigger('click')
+    }
+    await pickDet(byFd('Take and Hold'))
+    expect(w.find('.field .seg-pts').exists()).toBe(true) // the battle-size seg, not this one
+    expect(w.findAll('.field input[readonly]')[0].element.value).toBe('Take and Hold')
+
+    await pickDet(byFd('Purge the Foe'))
+    const seg = w.findAll('.field .seg').find((el) => !el.classes().includes('seg-pts'))
+    expect(seg.findAll('button').map((b) => b.text())).toEqual(['Take and Hold', 'Purge the Foe'])
+    await seg.findAll('button')[1].trigger('click')
+    const store = useRosters()
+    expect(store.rosters.value[0].disposition).toBe('Purge the Foe')
+  })
+
   it('walks the wizard — faction, detachment, unit — then creates the roster', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
 
@@ -61,7 +90,7 @@ describe('RosterCreateView', () => {
 
     // Step 2: add a unit, remove it via the "-" button that appears once added, then re-add
     // and finish.
-    await w.find('.rc-actions .btn-primary').trigger('click')
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     await waitFor(w, 'Intercessor Squad')
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
     await row.find('.rub-add').trigger('click')
@@ -75,7 +104,8 @@ describe('RosterCreateView', () => {
     // CollapseTransition always renders the slot, so open state shows via aria-expanded/the
     // "is-open" class it toggles, not the fields' presence in the DOM. Every step's .rc-panel
     // stays in the DOM at once (v-show, not v-if), so index into .rc-panel rather than querying
-    // .rc-sticky bare.
+    // its rows bare. The sticky bar is the exception — there is ONE, outside both panels, and
+    // what stands on it belongs to the step currently showing.
     const panels = w.findAll('.rc-panel')
     const tile = panels[1].findAll('.rul-row').find((b) => b.text().includes('Intercessor Squad'))
     const collapse = tile.element.parentElement.parentElement.querySelector('.collapse')
@@ -86,7 +116,7 @@ describe('RosterCreateView', () => {
     expect(collapse.classList.contains('is-open')).toBe(true)
     expect(panels[1].find('.rul-fields .ues-h').exists()).toBe(true) // fields did render
 
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // Save
+    await w.find('.rc-sticky .btn-primary').trigger('click') // Save
 
     const store = useRosters()
     expect(store.rosters.value).toHaveLength(1)
@@ -110,7 +140,7 @@ describe('RosterCreateView', () => {
     await w.findAll('.btn-choose')[1].trigger('click')
     await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
 
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2
     await waitFor(w, 'Intercessor Squad')
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
     await row.find('.rub-add').trigger('click')
@@ -140,7 +170,7 @@ describe('RosterCreateView', () => {
     await w.findAll('.btn-choose')[1].trigger('click')
     await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
 
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2
     await waitFor(w, 'Intercessor Squad')
     // Exact match — "Intercessor Squad" is also a substring of "Assault Intercessor Squad".
     const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
@@ -165,7 +195,7 @@ describe('RosterCreateView', () => {
     // .modal-stub later in this test.
 
     // 2000pts (Strike Force, the default) → dupLimit high enough that 3 Captains are legal.
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2
     await waitFor(w, 'Captain')
     const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Captain')
     await row.find('.rub-add').trigger('click')
@@ -178,7 +208,7 @@ describe('RosterCreateView', () => {
     // 3 Captains already on the list.
     await w.find('.rc-sticky-actions .btn-ghost').trigger('click') // → step 1
     await w.findAll('.seg button').find((b) => b.text() === '1000').trigger('click') // Incursion, dupLimit 2
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2 again
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2 again
 
     // .text() drops the whitespace between the name and the count badge (a rendering quirk
     // already worked around with CSS elsewhere, not fixable at the DOM-text level) — "Captain"
@@ -205,7 +235,7 @@ describe('RosterCreateView', () => {
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
     await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2, creates the roster
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2, creates the roster
     await waitFor(w, 'Intercessor Squad')
 
     const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
@@ -232,7 +262,7 @@ describe('RosterCreateView', () => {
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
     await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
-    await w.find('.rc-actions .btn-primary').trigger('click')
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     await waitFor(w, 'Intercessor Squad')
 
     const squad = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
@@ -253,12 +283,19 @@ describe('RosterCreateView', () => {
     const custom = w.findAll('.seg button').find((b) => b.text() === 'Custom')
     await custom.trigger('click')
     await w.find('.bsize-input').setValue(500)
+
+    // The readout lives on step 2's half of the sticky bar — step 1 has the battle size itself on
+    // screen and nothing spent yet to measure against it.
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     expect(w.find('.rc-points').text()).toContain('/ 500')
   })
 
   it('keeps the Next button disabled until a faction is chosen', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
-    expect(w.find('.rc-actions .btn-primary').attributes('disabled')).toBeDefined()
+    expect(w.find('.rc-sticky-actions .btn-primary').attributes('disabled')).toBeDefined()
   })
 
   // The draft: opening the wizard leaves no trace, but from the first choice that means
@@ -285,14 +322,14 @@ describe('RosterCreateView', () => {
     expect(store.rosters.value).toHaveLength(1) // written through, not a second roster
     expect(store.rosters.value[0].detachments).toEqual(['1st Company Task Force'])
 
-    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click') // → step 2
     expect(store.rosters.value[0].draftStep).toBe(2)
 
     // Back to step 1, change the battle size, forward again — same roster, not a duplicate.
     await w.find('.rc-sticky-actions .btn-ghost').trigger('click')
     await w.findAll('.seg button').find((b) => b.text() === 'Custom').trigger('click')
     await w.find('.bsize-input').setValue(750)
-    await w.find('.rc-actions .btn-primary').trigger('click')
+    await w.find('.rc-sticky-actions .btn-primary').trigger('click')
     await flushPromises()
 
     expect(store.rosters.value).toHaveLength(1)
@@ -326,7 +363,7 @@ describe('RosterCreateView', () => {
     expect(store.rosters.value).toHaveLength(1) // resumed, not re-created
 
     // Saving from here clears the draft flags — it's an ordinary list now.
-    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
+    await w.find('.rc-sticky .btn-primary').trigger('click')
     expect(store.rosters.value[0].draft).toBeUndefined()
     expect(store.rosters.value[0].draftStep).toBeUndefined()
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)

@@ -29,6 +29,20 @@ describe('prefillDraftFromRoster', () => {
     expect(d.settings.battleSize).toBe('strikeForce')
   })
 
+  // The list already declared which Force Disposition it plays; without this the tracker asks
+  // again and answers for the player by taking whichever candidate its own data lists first.
+  it("carries the declared Force Disposition over as the tracker's own id", () => {
+    mod.prefillDraftFromRoster({ faction: 'space-marines', detachments: ['Gladius Task Force'], disposition: 'Take and Hold' })
+    expect(tracker.setupDraft.value.players[0].disposition).toBe('take-and-hold')
+  })
+
+  it('leaves the tracker to derive one when the list declared nothing it knows', () => {
+    mod.prefillDraftFromRoster({ faction: 'space-marines', detachments: ['Gladius Task Force'] })
+    expect(tracker.setupDraft.value.players[0].disposition).toBeNull()
+    mod.prefillDraftFromRoster({ faction: 'space-marines', detachments: [], disposition: 'Not A Disposition' })
+    expect(tracker.setupDraft.value.players[0].disposition).toBeNull()
+  })
+
   // Coming here from "play this list" is the one moment we know for sure which list is fielded,
   // so the wizard opens with it already attached instead of asking again a screen later.
   it('attaches the roster it was prefilled from', () => {

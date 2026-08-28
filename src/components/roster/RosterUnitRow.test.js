@@ -53,7 +53,7 @@ describe('RosterUnitRow', () => {
   })
 
   it('shows the warlord star only for the warlord', () => {
-    expect(mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0 } }).find('.rur-star').exists()).toBe(false)
-    expect(mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0, warlord: true } }).find('.rur-star').exists()).toBe(true)
+    expect(mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0 } }).find('.rur-wl').exists()).toBe(false)
+    expect(mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0, warlord: true } }).find('.rur-wl').exists()).toBe(true)
   })
 })

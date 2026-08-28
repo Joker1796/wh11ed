@@ -102,7 +102,7 @@
       <div class="opt-tile" :class="{ on: isWarlord }">
         <label class="opt-select">
           <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
-          <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
+          <span class="opt-name"><i class="bi bi-flag-fill wl-flag"></i> {{ labels.rosterWarlord }}</span>
         </label>
       </div>
     </section>
@@ -621,7 +621,7 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
-.wl-star { color: #e3b341; margin-right: 0.3rem; }
+.wl-flag { color: #e3b341; margin-right: 0.3rem; }
 
 /* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's
    ScoringModal checkbox rows (.m-cond/.m-check), so a "select" control reads the same

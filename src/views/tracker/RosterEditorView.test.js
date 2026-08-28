@@ -49,6 +49,33 @@ describe('RosterEditorView', () => {
     expect(replace).toHaveBeenCalledWith('/roster')
   })
 
+  // An army plays ONE Force Disposition, and the setup screen is where it is declared: with one
+  // detachment it just states the answer, with two that disagree it asks.
+  it('states the Force Disposition, and asks for a declaration when detachments disagree', async () => {
+    const fac = (await import('../../data/roster/space-marines.js')).default
+    // The cheapest of each, so two of them still fit the battle size's Detachment Points.
+    const byFd = (fd) => fac.detachments.filter((d) => d.fd === fd).sort((a, b) => a.dp - b.dp)[0].name
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.detachments = [byFd('Take and Hold')]
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, byFd('Take and Hold'))
+    await w.findAll('.page-tab')[0].trigger('click') // the editor opens on Units
+    expect(w.find('.disp-opts').exists()).toBe(false)
+    expect(w.text()).toContain('Take and Hold')
+
+    store.updateRoster(r.id, { detachments: [byFd('Take and Hold'), byFd('Purge the Foe')] })
+    await flushPromises()
+    const seg = w.find('.disp-opts')
+    expect(seg.exists()).toBe(true)
+    expect(seg.findAll('button').map((b) => b.text())).toEqual(['Take and Hold', 'Purge the Foe'])
+    await seg.findAll('button')[1].trigger('click')
+    expect(store.rosterById(r.id).disposition).toBe('Purge the Foe')
+  })
+
   it('loads faction data and renders a unit with its points', async () => {
     const store = useRosters()
     const r = store.createRoster('Test list')

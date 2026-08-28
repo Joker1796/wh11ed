@@ -383,6 +383,40 @@ rule-body source and a scoping story for records that address "your army". So an
 its base statline and no Tier-C chips of its own. Its printed card is unaffected —
 `RosterUnitRulesModal` is given the ally's own slug and bare id and loads that faction itself.
 
+## The army's Force Disposition (added 2026-08-28)
+
+The card a player selects after mustering: the opponent's symbol on it names their Primary Mission
+(`eventCompanion.js` holds the 5×5 matrix). It is a property of the DETACHMENT — `fd` on every one
+of the 268 — and of the ARMY there is exactly one, so a list fielding several detachments that
+disagree has to **declare** which it plays. Until this landed the builder said nothing about it at
+all: the picker showed each detachment's disposition while choosing and the answer vanished the
+moment the modal closed.
+
+- **`roster.disposition`** holds the declaration, spelled as `fd` spells it. Not the tracker's own
+  id: that vocabulary lives in the Event Companion data, which these screens deliberately never
+  load, and `rosterHandoff` — the one place both are in scope — translates. No `SCHEMA_VERSION`
+  bump (an absent field is simply undeclared) and no backend change (`domain/roster.ts` passes
+  unknown keys through).
+- **`dispositionCandidates` / `dispositionOf`** (`rosterEngine.js`) are the only readers. One
+  candidate answers for itself and nothing is stored; several make the stored declaration the
+  answer, and only while it still names a candidate — so dropping the detachment a declaration came
+  from takes the declaration with it, and a list can never claim a disposition it does not field.
+- **The screens ask it the way the tracker's own setup does** — the label switches to «Заявленная»
+  when there is a choice, the candidates are a `.seg`, a single one is stated read-only, and with
+  no detachment the field says what to pick first. The wizard's step 1 and the editor's Setup tab
+  each carry it beside the detachment they follow from.
+- **`validateRoster` warns** (`dispositionUndeclared`, naming the candidates) rather than choosing
+  for the player — the same never-block rule as everything else here.
+- Downstream, everyone reads the one answer: the GW export's own line and the WTC header's
+  parenthetical, the printed sheet's header facts, and the tracker draft `prefillDraftFromRoster`
+  writes (so "play this list" arrives with the declaration already made instead of the tracker
+  silently taking whichever candidate its data lists first). `rosterShare`'s `PICK` carries it, so
+  a shared link and a game snapshot keep it.
+- **The importer reads it back**, from the GW `Force Dispositions:` line, listhammer's labelled
+  `Disposition:` field and the WTC detachment line's parenthetical — but only when the text names
+  ONE. A list of candidates is not a declaration, and a name none of the matched detachments offers
+  is ignored by `dispositionOf` rather than shown.
+
 ## Pure logic (`src/composables/roster*.js`)
 
 No Vue, no store — testable without mounting anything. Not colocated with this component
@@ -447,7 +481,8 @@ directory; still part of this feature:
   - **`gw`** (default) — the Warhammer 40,000 app's own **11th-edition** export, which is what a TO
     asks for and what every list reader (BCP, New Recruit, 40kCompactor) parses first. It is not the
     10th's: several detachments at once with the battle size's **Detachment Points budget**, a
-    **Force Dispositions** line (both read off the generated `dp`/`fd` fields on a detachment), and
+    **Force Dispositions** line — the one the army DECLARED (see below), falling back to the
+    candidates while nobody has, so the line states an open choice rather than vanishing — and
     attached units as `Attached Unit N` blocks with `• Attached as: Leader (Character)` /
     `Bodyguard (Battleline)` — the character no longer carries a "leading" note. Sections are the
     app's three (`CHARACTERS`, `DEDICATED TRANSPORTS`, `OTHER DATASHEETS`); battleline has no
@@ -1003,6 +1038,16 @@ opens that accordion, clearing the query; that watcher is declared **after** `op
 since it runs immediately during setup and referencing a `const` declared further down hits the
 temporal dead zone (it did).
 
+**One sticky bar serves both wizard steps** (2026-08-28). Step 1's "Next" used to sit in the
+page's own flow, at the end of the setup card — which on a phone put it directly under
+`MobileUtilityBar`'s floating "To game" button. That bar lifts itself by `--roster-sticky-h`,
+which `App.vue` sets from `:has(.rc-sticky)`, so the way out of the collision was for Next to BE
+the sticky bar rather than to sit beneath it. The bar is now a sibling of both panels and its
+contents are the current step's: Next on step 1, points + issues + Back/Save on step 2. Both
+`.rc-panel`s pay the bar's height in `padding-bottom` (it used to be `:has(.rc-sticky)`, which
+matched only the panel that contained it), and `.rc-sticky-actions` carries `margin-left: auto`,
+without which step 1's lone button lands at the LEFT edge under the inner's `space-between`.
+
 **The wizard is two steps, not three** ("Setup", then "Units"). A draft stored on the old step 3
 resumes on the step that absorbed it (`Math.min(resumed.draftStep || 1, 2)`). Its step markers are
 buttons: step 2 stays disabled until a faction is picked (the same gate step 1's Next button uses),
@@ -1107,6 +1152,114 @@ pistol"*, which in Russian is prose wrapped around English item names, and at we
 condensed face is two lines of narrow strokes. That one heading takes the body face at a normal
 weight; it keeps full colour and stays larger than the option list under it, so it still leads the
 group. Only the letterforms change.
+
+## What the catalogue hides, and the shelf it reads (added 2026-08-28)
+
+`RosterUnitBrowser` carries two checkboxes under its search box, folded away under a "Filters"
+header — the same accordion its groups use, so the pane reads as one list of collapsible things
+rather than as a toolbar bolted onto a list. The boxes are the app's shared `.check` rows
+(`style.css`), not a private pill.
+
+Both **hide** rather than dim, and that is not a preference: this list already spends opacity on
+"not in the roster yet" (`.rub-item`), so there is no dim left to mean "you cannot afford it". The
+shape is the detachment picker's (`DetachmentPickerModal`, the same week): what the filters took
+away is counted on screen.
+
+**Two things never go inside the fold**, because a closed accordion must not hide why the
+catalogue is short: the "N hidden" line under it (inside the block, above its rule — that note is
+the filters talking, not the list) and a count of the active filters on the header itself. The
+fold also starts OPEN whenever a remembered filter is already on. A `border-bottom` closes the
+block off from the groups below: stacked in a column, its header would otherwise read as one more
+battlefield role.
+
+- **"Fits the points left"** compares `minPoints(u)` — the cheapest bracket plus any mandatory
+  enhancement, exactly the figure the row prints — against the `remaining` prop, which both views
+  pass as `limit - points`. No `remaining` (no battle size resolvable) takes the toggle off the
+  screen rather than guessing. The promise is "its cheapest configuration fits"; a bigger bracket
+  or paid wargear chosen afterwards can still take the list over, and saying so is the points
+  readout's job.
+- **"In my collection"** reads `useCollection` (below).
+
+Two things follow from the pane being a list you are BUILDING, not a picker:
+
+- **A unit already in the list is never filtered away**, by either toggle. Its row carries the "−"
+  button, and a catalogue that drops what you just added — the budget ran out, or you are proxying
+  something you do not own — reads as a bug. It is also why the copy tax (`def.step`) never enters
+  the budget test: the surcharge lands on the Nth copy, and every unit the test prices is on its
+  first.
+- **The "N hidden" count is taken after `sectionsOf`, not before it.** A group whose ally
+  Detachment isn't selected is not on offer whatever the toggles say, and counting it as hidden by
+  the filter would be a lie. That is the one reason `allSections` exists beside `groups`; with both
+  toggles off they are the same computed value and nothing is done twice.
+
+Both toggles persist per device (`wh11ed-roster-filter-budget`, `wh11ed-roster-filter-owned`),
+`getItem` at setup + a `watch`, the idiom `ChapterMissions.vue` uses for its own filters. Both
+start off: the catalogue's first answer should be the whole catalogue.
+
+### `useCollection.js` — which models the reader owns
+
+Module singleton + `localStorage` (`wh11ed-collection`), the `useFavorites.js` pattern.
+`{ [factionSlug]: { [unitId]: { n, name } } }`, and each part of that shape is load-bearing:
+
+- **the slug is the unit's OWN faction.** An Inquisitor browsed inside a Space Marines list is an
+  Imperial Agents datasheet (`allySourceOf`), and without the split two factions' ids would share
+  one bucket.
+- **`n`** is how many are owned. Nothing sets it above 1 — the mark is an on/off star — but the
+  shape is here so "I have two boxes of these" is not a migration.
+- **`name`** is the datasheet's name as it read when it was marked, and is the only way back if a
+  later appdata bump moves the id out from under the mark. Nothing re-resolves by it yet; this
+  only keeps that possible.
+
+It is **not** a layer of `wh11ed-favorites`: a pin reorders a picker and is documented as never
+carrying army-list semantics, while owning a box is a fact about a shelf. Keeping them apart is
+what stops either from inheriting the other's meaning — and they are drawn apart too, the pin
+staying `bi-pin-angle`, the owned mark a star.
+
+Marks are set in three places, all sharing the singleton: the catalogue row's own star rail
+(mirroring the +/− rail, since these rows are too dense for a corner overlay), the datasheet
+grid's chips (`FactionDatasheetsView`, where a collection actually gets entered — one unit per
+visit is no way to fill a shelf), and one datasheet's page header. On the chips the pin and the
+star **stack** in the corner rather than standing side by side: two columns of buttons cost the
+name a third line at that grid's 180px. Both are icon-only toggles and a tooltip is no answer on a
+phone, so the key is printed once above the grid (`.ds-legend`) instead of on ninety chips.
+
+The pin's own wording was fixed at the same time: the datasheet screens called it "Favorites"
+(«Избранное») while the faction pickers, running the same `useFavorites` layer behind the same
+icon, called it "Pinned" («Закреплённые»). One feature, one vocabulary — `dsFavAdd`, `dsFavRemove`,
+`dsGroupFavorites` and the legend's own two labels are gone, and every surface now speaks through
+`favPin` / `favUnpin` / `favPinnedGroup` (and `rosterFilterOwned` for the star). **Device-local**: rosters sync,
+this does not, until there is a `/collection` endpoint to sync it to.
+
+**The Warlord's mark moved to `bi-flag-fill`** the same day. The star now means "I own this model"
+in the pane beside it, and one gold glyph cannot mean both on one screen. The Warlord keeps the
+gold `#e3b341`; the owned star takes **`var(--accent)`** — the faction's own colour, since every
+screen it appears on is already themed that way (`FactionAccentScope`'s recipe, folded into
+`--accent` by the editor's, the wizard's and `FactionLayout`'s roots). Gold therefore means one
+thing again. The single exception is the datasheet page's header, where the buttons sit ON the
+faction-coloured hero and stay white like the rest of `.ds-btn`. Three components carried the icon
+(`RosterUnitRow`, `UnitEditorFields`, `RosterUnitRulesModal`) and a fourth carried a bare `'★'` in
+text — `rosterEngine`'s `entrySummary`, the read-only view's summary line, where a lone symbol on
+its own row said nothing to anyone. That one now takes the Warlord noun as a fifth argument, the
+same way it already takes the model and upgrade nouns, and prints the word.
+
+### One breakdown of an army, everywhere (added 2026-08-28)
+
+`UNIT_GROUPS` / `bucketOf` now carve a faction the way the datasheet page does
+(`FactionDatasheetsView`'s `TYPE_GROUPS`), in its order: Epic Heroes → Characters → Battleline →
+Dedicated Transports → Fortifications → **Vehicles** → **Infantry** → Other, with `attached` in
+front, which is the one group that page has no use for. The three new buckets were already a
+faction page's answer; the roster screens were still filing everything below a transport as
+"Прочее", which for Necrons is 27 datasheets and says nothing about an army.
+
+Two things that follow, and one of them nearly shipped broken:
+
+- **`rosterExport` maps buckets to GW's four headings**, and its `OTHER DATASHEETS` listed
+  `['battleline', 'other']` by name. New buckets do not join a list like that on their own — they
+  would have fallen out of every section and off the exported page. Anything that switches on a
+  bucket id has to be checked when this set grows; that file is the one place that does.
+- **The headings are the datasheet page's labels too.** `GROUP_LABEL_KEYS` points at
+  `dsGroup*`, and the five `rosterGroup*` copies (identical strings, except "Прочее" against
+  "Прочие юниты") are gone. `rosterGroupAttached` stays — it is the group with no counterpart.
 
 ## Russian for the wargear instructions
 
@@ -1492,7 +1645,8 @@ detour resume THIS draft on the step it was left on instead of starting a second
 fields and the step index are written through by a watcher, and the units by `syncUnits()` — after
 which the wizard and the draft share one array, so per-unit edits ride the store's own autosave. On resume a `?draft=` id pointing at a SAVED roster is ignored: that one belongs to the
 editor, and this screen ends in "Save"),
-`RosterEditorView` (tabbed; fixed footer bar — `.rc-sticky`, same class and CSS as
+`RosterEditorView` (tabbed — `PageTabs`, the same folder tabs the faction pages and the other two
+roster screens use, since 2026-08-28; fixed footer bar — `.rc-sticky`, same class and CSS as
 `RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
 badge on the left and Cancel/Save on the right, always visible across both tabs, not just
 one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
@@ -2624,8 +2778,8 @@ palette pins the band light while `--text-on-dark` stays near-white), and the ro
 tint and prose margins are screen furniture.
 
 **The header and the list are the two sections that make it an army list**; everything else is
-optional reference (`PRINT_OPTIONS`). The header (whose list, which detachments, how many points,
-which data version, the date) always prints. The list's wargear column disappears when the unit
+optional reference (`PRINT_OPTIONS`). The header (whose list, which detachments, the Force
+Disposition it declared, how many points, which data version, the date) always prints. The list's wargear column disappears when the unit
 cards are on, because every loadout is then on a card a few pages later. (Organisers collect lists
 as files, in advance: nobody hands paper to anyone at the door, so do not write copy that says
 they do.)

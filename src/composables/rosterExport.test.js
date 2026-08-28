@@ -187,6 +187,42 @@ describe('buildRosterText — the shapes themselves', () => {
   })
 })
 
+// An army states the ONE disposition it plays, not the menu its detachments offer.
+describe('buildRosterText — the army’s Force Disposition', () => {
+  const anvil = { sid: 'det-2', name: 'Anvil Siege Force', dp: 2, fd: 'Take and Hold', enhancements: [] }
+  const twoDets = { ...faction, detachments: [detachment, anvil] }
+  const list = (over) => buildRosterText(
+    { ...roster, detachments: ['Gladius Task Force', 'Anvil Siege Force'], ...over },
+    { ...ctx, faction: twoDets },
+    'gw',
+  )
+
+  it('prints the declared one', () => {
+    expect(list({ disposition: 'Take and Hold' })).toContain('Force Dispositions: Take and Hold')
+  })
+
+  it('prints the candidates while nobody has declared — the line states the open choice', () => {
+    expect(list({})).toContain('Force Dispositions: Purge the Foe, Take and Hold')
+  })
+
+  it('needs no declaration when one detachment answers for the army', () => {
+    expect(build('gw')).toContain('Force Dispositions: Purge the Foe')
+  })
+
+  // Our own WTC header carries it in the detachment line's parenthetical, and the importer reads
+  // it back from there — so a list exported and re-imported keeps what it declared.
+  it('carries it in the WTC detachment line', () => {
+    expect(list({ disposition: 'Take and Hold' }))
+      .not.toContain('+ DETACHMENT') // the gw shape has no such line…
+    const wtc = buildRosterText(
+      { ...roster, detachments: ['Gladius Task Force', 'Anvil Siege Force'], disposition: 'Take and Hold' },
+      { ...ctx, faction: twoDets },
+      'wtc',
+    )
+    expect(wtc).toContain('+ DETACHMENT: Gladius Task Force, Anvil Siege Force (Take and Hold)')
+  })
+})
+
 describe('buildRosterText — a unit-wide swap', () => {
   // A group appdata records once per miniature profile and the generator folds into one unit-wide
   // one (`all`). Until 2026-08-28 the export printed the replacement AND every copy of the weapon

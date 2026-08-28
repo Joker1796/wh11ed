@@ -115,6 +115,7 @@
               :max-dp="maxDp"
               :dp-spent="dpSpent(p)"
               @toggle="d => toggleDetachment(p, d)"
+              @clear="p.detachments.splice(0)"
               @close="detPickerIdx = -1"
             />
           </div>

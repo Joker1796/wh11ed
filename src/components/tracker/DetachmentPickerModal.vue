@@ -11,19 +11,25 @@
     </template>
 
     <div class="modal-body modal-list">
+      <!-- What cannot be taken right now is GONE, not greyed: once the budget is spent that is
+           most of the list, and a page of dimmed rows reads as a broken screen rather than as a
+           constraint. The count says how many went and why, and Clear brings them all back in one
+           tap — which is also the only way out of a full budget. -->
+      <div v-if="selected.length || hidden" class="det-tools">
+        <button type="button" class="btn-ghost det-clear" :disabled="!selected.length" @click="$emit('clear')">
+          {{ labels.detachmentClear }}
+        </button>
+        <em v-if="hidden" class="det-hidden">{{ labels.detachmentHidden.replace('{n}', hidden) }}</em>
+      </div>
       <button
-        v-for="d in detachments"
+        v-for="d in offered"
         :key="d.name"
         class="det"
         :class="{ on: selected.includes(d.name) }"
-        :disabled="(!selected.includes(d.name) && selected.length > 0 && dpSpent + d.dp > maxDp) || clashes(d)"
         @click="$emit('toggle', d)"
       >
         <span class="det-name">{{ d.name }}</span>
-        <span class="det-meta">
-          {{ d.dp }}DP · {{ d.forceDisposition }}<template v-if="d.unique"> · {{ d.unique }}</template>
-          <em v-if="clashes(d)" class="det-clash">{{ labels.detachmentTagTaken }}</em>
-        </span>
+        <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}<template v-if="d.unique"> · {{ d.unique }}</template></span>
       </button>
     </div>
   </BaseModal>
@@ -41,7 +47,7 @@ const props = defineProps({
   maxDp:       { type: Number, required: true },
   dpSpent:     { type: Number, required: true },
 })
-defineEmits(['toggle', 'close'])
+defineEmits(['toggle', 'clear', 'close'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -54,12 +60,18 @@ const overAllowed = computed(() => props.selected.length === 1 && props.dpSpent 
 // A detachment's TAG bars a second detachment sharing it ("this detachment has the DYNASTY tag and
 // cannot be taken with another DYNASTY detachment", core rules 25.04). 26 tags across 17 factions,
 // 19 of the pairs affordable inside a 3 DP budget — so without this the illegal pair is two clicks
-// away. Shown greyed rather than hidden, so it's clear WHY it can't be taken (same choice as the
-// enhancement list in the unit editor). validateRoster repeats the check for imported lists.
+// away. validateRoster repeats the check for imported lists.
 const takenTags = computed(() => new Set(props.detachments
   .filter((d) => props.selected.includes(d.name) && d.unique)
   .map((d) => d.unique.toUpperCase())))
 const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTags.value.has(d.unique.toUpperCase())
+
+// Everything a tap could actually do: what is already taken (so it can be given back), and what
+// still fits the budget and clashes with nothing. The first detachment is always affordable — you
+// may take one whatever it costs — which is what keeps a full list on offer at the start.
+const offered = computed(() => props.detachments.filter((d) => props.selected.includes(d.name)
+  || (!clashes(d) && (props.selected.length === 0 || props.dpSpent + d.dp <= props.maxDp))))
+const hidden = computed(() => props.detachments.length - offered.value.length)
 </script>
 
 <style scoped>
@@ -85,10 +97,13 @@ const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTa
   transition: background 0.15s, border-color 0.15s;
   width: 100%;
 }
-.det:hover:not(:disabled) { border-color: var(--accent); }
+.det:hover { border-color: var(--accent); }
 .det.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); }
-.det:disabled { opacity: 0.4; cursor: not-allowed; }
-.det-clash { display: block; font-style: normal; opacity: 0.9; }
+
+/* The row above the list: what to press to start over, and what the list is not showing. */
+.det-tools { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.det-clear { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+.det-hidden { font-size: 0.75rem; font-style: normal; color: var(--text-dim); text-align: right; }
 .det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
 .det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
 </style>

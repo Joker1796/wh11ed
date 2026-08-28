@@ -18,7 +18,7 @@
              card opens exactly as before. -->
         <div v-if="view.context" class="rum-ctx">
           <span v-if="view.context.warlord" class="rum-chip rum-chip-wl">
-            <i class="bi bi-star-fill"></i> {{ labels.rosterWarlord }}
+            <i class="bi bi-flag-fill"></i> {{ labels.rosterWarlord }}
           </span>
           <span v-if="view.context.enhancement" class="rum-chip">
             {{ labels.rosterEnhancement }}: <strong>{{ view.context.enhancement.name }}</strong>
