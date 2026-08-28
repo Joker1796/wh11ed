@@ -113,6 +113,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .breakdown div { display: flex; flex-direction: column; gap: 1px; }
 .breakdown dt { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); }
 .breakdown dd { margin: 0; font-family: var(--font-mono); font-weight: 700; color: var(--text-muted); }
+/* The badge straddles the board's top edge, and this screen puts the board directly under the
+   sticky header — so on a phone the two touched. The board makes room for it instead of the badge
+   moving onto the score columns (there it would sit across the player names): the extra strip is
+   paid for ONLY by a tied game, which is why it hangs off `:has()` rather than off the board. */
+.board:has(.tie) { margin-top: 0.6rem; }
 .tie {
   position: absolute;
   top: -0.5rem;

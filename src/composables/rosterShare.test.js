@@ -25,6 +25,15 @@ describe('rosterShare', () => {
     expect(back.summary).toBeUndefined()
   })
 
+  // A list's plan is part of the list — and a game snapshot (the same payload) is where it is most
+  // wanted, since the notes are what the player wrote to read at the table.
+  it('carries the list\u2019s notes, and the per-unit ones with the entries', async () => {
+    const planned = { ...roster, notes: 'T2 rapid ingress', units: [{ ...roster.units[0], note: 'screen' }] }
+    const back = await decodeRoster(await encodeRoster(planned))
+    expect(back.notes).toBe('T2 rapid ingress')
+    expect(back.units[0].note).toBe('screen')
+  })
+
   // The payload is the same versioned shape as a stored roster — wargear picks are indices into
   // generated data that gets renumbered — so the reader has to know which generation built it.
   // Without this a link made under an older schema imported as-is, pointing at other weapons.

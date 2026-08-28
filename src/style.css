@@ -955,7 +955,7 @@ a.back,
    Patrol box. Five views rendered the identical pair of rules; the scroll-margin is what keeps a
    section from landing under the sticky navbar when the search or a cross-ref jumps to it. */
 .fsection {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
   scroll-margin-top: var(--header-total);
 }
 
@@ -963,8 +963,9 @@ a.back,
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 400;
+  line-height: 1.1;
   color: var(--text-primary);
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 640px) {
@@ -1101,6 +1102,23 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   padding: 0.7rem 0.9rem 0.9rem;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+/* A body that is a LIST of ACTIONS — the "…" sheet a card or a header opens: one full-width
+   button per thing you can do, the destructive one wearing .act-danger. Shared because the
+   third copy was about to be written (the list page's per-list kebab, the secondary deck's
+   card actions, and now the list view's own header menu), and check-css-dupes.mjs counts a
+   rule body copied into three components as a bug. Same recipe as .modal-head above. */
+.act-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.act-btn {
+  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border);
+  background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
+  font-size: 0.88rem; font-weight: 600; text-align: left;
+}
+.act-danger { color: #c0392b; }
+@media (hover: hover) {
+  .act-btn:hover { border-color: var(--accent); }
+  .act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
 }
 
 /* A body that is a LIST of choices rather than prose — the faction/detachment/keyword pickers. */

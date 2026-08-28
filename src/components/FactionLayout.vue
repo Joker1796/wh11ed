@@ -149,7 +149,7 @@ function backToUnits() {
 
 <style scoped>
 .faction-view {
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
 }
 
 /* ── Per-faction accent (--fa-light / --fa-dark set inline from factionsIndex.js) ──
@@ -178,9 +178,14 @@ function backToUnits() {
   }
 }
 
+/* Vertical space is the scarce axis on a phone (see CLAUDE.md, "Vertical density"): the hero is a
+   back-link, a name and the tabs, and it used to spend ~2.4rem of empty page under them before the
+   first heading — now 0.6rem. Nothing here wants more: the open tab erases the strip's accent line
+   under itself so the content reads as hanging FROM the tab (see PageTabs), and a band of empty
+   page between them is what breaks that join. */
 .hero {
-  padding: 0.5rem 0 0.9rem;
-  margin-bottom: 1.5rem;
+  padding: 0.25rem 0 0;
+  margin-bottom: 0.6rem;
 }
 
 .back-link {
@@ -189,7 +194,7 @@ function backToUnits() {
   font-weight: 600;
   color: var(--text-muted);
   text-decoration: none;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.35rem;
 }
 
 .back-link:hover {
@@ -207,7 +212,7 @@ function backToUnits() {
 
 /* The tabs sit under the faction name; PageTabs itself brings no outer spacing. */
 .hero-tabs {
-  margin-top: 1rem;
+  margin-top: 0.7rem;
 }
 
 .fsoon {

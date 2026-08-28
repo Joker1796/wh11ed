@@ -21,6 +21,10 @@
     <span class="rur-name">
       <i v-if="entry.warlord" class="bi bi-flag-fill rur-wl"></i>
       {{ def?.name || entry.id }}
+      <!-- The player's own note, in parentheses after the name — the way every list format that
+           has the field prints it, ours included (rosterEngine's note helpers). Not a chip: a chip
+           is a fact about the unit the app knows, this is a sentence the player wrote. -->
+      <span v-if="entry.note" class="rur-note">({{ entry.note }})</span>
     </span>
     <span class="rur-pts">{{ points }}</span>
     <span v-if="chips.length" class="rur-chips">
@@ -93,6 +97,8 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 .rur-chips { grid-area: 2 / 1 / 3 / -1; margin-top: 0.2rem; }
 .rur-picks { grid-area: 3 / 1 / 4 / -1; margin-top: 0.2rem; }
 .rur-wl { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
+/* Lighter than the name it follows, so the row still reads name-first at a glance. */
+.rur-note { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 
 .rur-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 /* Same bordered chip as a wargear group's "up to 2" allowance (UnitEditorFields' .ues-cap). */

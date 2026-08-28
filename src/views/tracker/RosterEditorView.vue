@@ -10,9 +10,6 @@
         :placeholder="labels.rosterUntitled"
         @input="rename($event.target.value)"
       />
-      <button v-if="roster.faction && roster.units.length" class="hdr-icon" :aria-label="labels.rosterUseInTracker" @click="useInTracker">
-        <i class="bi bi-clipboard-data"></i>
-      </button>
       <button v-if="roster.units.length" class="hdr-icon" :aria-label="labels.rosterExport" @click="exportOpen = true">
         <i class="bi bi-box-arrow-up"></i>
       </button>
@@ -54,6 +51,19 @@
             >{{ d }}</button>
           </div>
         </div>
+        <!-- The player's plan for this list, in their own words: read at the table (the view screen
+             shows it above its tabs, in a game as well as out of one), never read by a rule. Last
+             of the settings because it is the only one that decides nothing. -->
+        <div class="choice notes">
+          <span class="ch-label">{{ labels.rosterNotes }}</span>
+          <textarea
+            class="notes-input"
+            rows="3"
+            :maxlength="ROSTER_NOTES_MAX"
+            :value="roster.notes || ''"
+            @input="setNotes($event.target.value)"
+          ></textarea>
+        </div>
         <div class="choice bsize">
           <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
           <div class="bsize-opts">
@@ -94,60 +104,65 @@
          only the layout changed. -->
     <div v-else class="red-panel">
       <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
-      <div v-else class="roster-panes">
-        <div class="rp-catalog">
-          <RosterUnitBrowser
-            v-if="factionData"
-            :units="factionData.units"
-            :allies="factionData.allies || []"
-            :faction-slug="roster.faction"
-            :added-ids="roster.units.map((u) => u.id)"
-            :detachments="curDetachments"
-            :battle="effBattle"
-            :remaining="limit - points"
-            :check-legality="roster.checkLegality !== false"
-            @add="addUnit"
-            @remove="removeUnit"
-          />
+      <template v-else>
+        <!-- Same folded rules panel the creation wizard's Units step carries: editing a list is the
+             same work as building one, and the rules are wanted in the same place. -->
+        <RosterRulesPanel :faction-slug="roster.faction" :detachments="roster.detachments || []" />
+        <div class="roster-panes">
+          <div class="rp-catalog">
+            <RosterUnitBrowser
+              v-if="factionData"
+              :units="factionData.units"
+              :allies="factionData.allies || []"
+              :faction-slug="roster.faction"
+              :added-ids="roster.units.map((u) => u.id)"
+              :detachments="curDetachments"
+              :battle="effBattle"
+              :remaining="limit - points"
+              :check-legality="roster.checkLegality !== false"
+              @add="addUnit"
+              @remove="removeUnit"
+            />
+          </div>
+          <div class="rp-list">
+            <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
+            <RosterUnitList
+              v-else
+              :groups="groupedUnits"
+              :def-of="defOf"
+              :items="rosterItems.items"
+              :detachments="curDetachments"
+              :points-of="(e) => entryMeta.get(e.uid)?.points"
+              :role-of="attachRole"
+              :slug-of="slugFor"
+              :dup-blocked="dupBlocked"
+              :open-uid="openUid"
+              @toggle="toggleOpen"
+              @duplicate="duplicateEntry"
+              @remove="removeEntry"
+            >
+              <template #fields="{ entry: e }">
+                <UnitEditorFields
+                  v-if="defOf(e.id)"
+                  :entry="e"
+                  :def="defOf(e.id)"
+                  :items="rosterItems.items"
+                  :texts="rosterItems.texts"
+                  :faction-slug="slugFor(e.id)"
+                  :detachments="curDetachments"
+                  :units="roster.units"
+                  :def-of="defOf"
+                  :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
+                  :is-warlord="e.warlord === true"
+                  :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
+                  :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
+                  @toggle-warlord="toggleWarlord(e.uid)"
+                />
+              </template>
+            </RosterUnitList>
+          </div>
         </div>
-        <div class="rp-list">
-          <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
-          <RosterUnitList
-            v-else
-            :groups="groupedUnits"
-            :def-of="defOf"
-            :items="rosterItems.items"
-            :detachments="curDetachments"
-            :points-of="(e) => entryMeta.get(e.uid)?.points"
-            :role-of="attachRole"
-            :slug-of="slugFor"
-            :dup-blocked="dupBlocked"
-            :open-uid="openUid"
-            @toggle="toggleOpen"
-            @duplicate="duplicateEntry"
-            @remove="removeEntry"
-          >
-            <template #fields="{ entry: e }">
-              <UnitEditorFields
-                v-if="defOf(e.id)"
-                :entry="e"
-                :def="defOf(e.id)"
-                :items="rosterItems.items"
-                :texts="rosterItems.texts"
-                :faction-slug="slugFor(e.id)"
-                :detachments="curDetachments"
-                :units="roster.units"
-                :def-of="defOf"
-                :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
-                :is-warlord="e.warlord === true"
-                :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
-                :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
-                @toggle-warlord="toggleWarlord(e.uid)"
-              />
-            </template>
-          </RosterUnitList>
-        </div>
-      </div>
+      </template>
     </div>
 
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
@@ -211,6 +226,7 @@ import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModa
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
+import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
@@ -222,11 +238,10 @@ import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   allySourceOf, sectionsOf, unitPoints, capKeyOf,
+  ROSTER_NOTES_MAX,
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
-import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
-import { useTracker } from '../../composables/useTracker.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 
@@ -234,17 +249,9 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current: trackerCurrent } = useTracker()
 const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
-
-// Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
-// tracker home if a live game is in progress, so we never clobber it).
-function useInTracker() {
-  prefillDraftFromRoster(roster.value)
-  router.push(trackerCurrent.value ? '/tracker' : '/tracker/game')
-}
 
 // Every edit already writes straight to the reactive store (useRosters.js's deep watch
 // autosaves to localStorage on every change) — nothing here actually persists anything new
@@ -331,6 +338,14 @@ function dropOrphanEnhancements() {
 function clearDetachments() {
   roster.value.detachments.splice(0)
   dropOrphanEnhancements()
+  touch()
+}
+// A note is the one field here that keeps its own line breaks, so it is written straight rather
+// than through rosterEngine's single-line `setNote` — only the length cap is shared.
+function setNotes(v) {
+  const text = String(v ?? '').slice(0, ROSTER_NOTES_MAX)
+  if (text.trim()) roster.value.notes = text
+  else delete roster.value.notes
   touch()
 }
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
@@ -460,10 +475,19 @@ function rename(name) {
 .rname-input.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); }
 .rname-input:hover { border-bottom-color: var(--border); }
 .rname-input:focus { outline: none; border-bottom-color: var(--accent); }
+/* Same square box as the view header's own icons (RosterViewView) — a header icon is a header
+   icon whichever screen it is on, and there a link and a button sit side by side. */
 .hdr-icon {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.55rem;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  flex: none;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-muted);
@@ -482,24 +506,42 @@ function rename(name) {
   .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
 }
 
-.red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+/* ONE card of settings, not five tiles. Each setting used to be its own bordered box that sized
+   itself to its own words — a faction name, two detachment names, an empty notes field — so the
+   column read as a ragged pile of backgrounds with a different right edge on every row. They are
+   rows of one card now: one frame, one background, hairlines between them, every row the full
+   width. Square corners and a frame doing the separating is the house style (CLAUDE.md, "Corners
+   & surfaces"); this is the same recipe as `.opt-tile` lists elsewhere in the builder. */
+.red-choices {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
 .choice {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
   /* A button centres its text, which nobody noticed while every value was one or two words: a
      list of two detachment names wraps, and the wrapped lines sat centred under a left-aligned
      label. */
   text-align: left;
   gap: 0.15rem;
   padding: 0.5rem 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
   cursor: pointer;
   position: relative;
-  min-width: 8rem;
 }
-.choice:not(.bsize):hover { border-color: var(--accent); }
+.choice:first-child { border-top: none; }
+/* The row lights by its BACKGROUND now that the border belongs to the card around it — and behind
+   `hover: hover`, because iOS leaves a tap's hover state on until something else is tapped (that
+   is why the detachment row sat permanently outlined on a phone). */
+@media (hover: hover) {
+  .choice:not(.bsize):hover { background: var(--bg-secondary); }
+}
 .choice:disabled { opacity: 0.5; cursor: not-allowed; }
 .choice .bi { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
 .ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
@@ -530,6 +572,24 @@ function rename(name) {
   color: var(--text-primary);
 }
 .bsize-input:focus { outline: none; }
+
+/* The notes tile is not a picker: it holds a field rather than a value, so it drops the button
+   affordances (`.choice:not(.bsize)` hover, the chevron) and stretches its input to the tile. */
+.choice.notes { cursor: default; }
+.choice.notes:hover { background: none; }
+.notes-input {
+  width: 100%;
+  margin-top: 0.1rem;
+  padding: 0.3rem 0.45rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+.notes-input:focus { outline: none; border-color: var(--accent); }
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 

@@ -42,6 +42,9 @@ export function makeRoster(name = 'New roster') {
     // duplicateLimit/duplicateCounts and RosterUnitBrowser.vue's atCap guard.
     checkLegality: true,
     units: [],
+    // The player's own plan for this list, in their own words (rosterEngine's note helpers).
+    // Never read by a rule; carried by a share link and a game snapshot like everything else.
+    notes: '',
     // Denormalised by the editor so the list never has to load faction data to show a total.
     summary: { points: 0, unitCount: 0, issues: 0 },
   }

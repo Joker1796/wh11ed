@@ -1,8 +1,24 @@
 <template>
   <div class="ues">
-    <button v-if="def.linked && factionSlug" type="button" class="ues-sheet-link" @click="rulesOpen = true">
-      <i class="bi bi-file-earmark-text"></i> {{ labels.rosterShowDatasheet }}
-    </button>
+    <!-- The two things that are not configuration, on one line above it: the way OUT of this panel
+         to the unit's own rules, and the player's own note about this unit. The note sits beside
+         the button rather than in a section of its own at the foot of the panel — it is one short
+         field, and a section for it cost a heading, a rule and a row of a phone (CLAUDE.md,
+         "Vertical density": spend sideways before spending down). -->
+    <div class="ues-top">
+      <button v-if="def.linked && factionSlug" type="button" class="btn-ghost ues-sheet-link" @click="rulesOpen = true">
+        <i class="bi bi-file-earmark-text"></i> {{ labels.rosterShowDatasheet }}
+      </button>
+      <label class="ues-note">
+        <span class="ues-note-lab">{{ labels.rosterNote }}</span>
+        <input
+          type="text"
+          :maxlength="ENTRY_NOTE_MAX"
+          :value="entry.note || ''"
+          @input="writeNote(entry, 'note', $event.target.value)"
+        />
+      </label>
+    </div>
     <!-- Teleported to <body>: this component can render inside an accordion wrapped by
          CollapseTransition, whose `contain: layout paint` makes it a containing block for
          `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
@@ -243,6 +259,7 @@
         </div>
       </div>
     </section>
+
   </div>
 </template>
 
@@ -259,7 +276,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupBlocker, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, allySourceOf, allegFor, allegSpent, defaultLoadoutLines, defaultWargearPoints, modelsPerMini, optionItems, optionLabel, setNote, splitInstruction, wargearGroupBlocker, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -541,13 +558,38 @@ function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props
 // Same mutual-exclusivity toggle as enhancements: unticking the currently-attached target IS
 // "not attached", so there's no separate pseudo-option for it.
 function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid) }
+
+// The note. Written straight onto the entry like every other field here — the store's deep watch
+// is what saves it.
+const writeNote = (obj, key, value) => setNote(obj, key, value)
 </script>
 
 <style scoped>
 .ues { display: flex; flex-direction: column; gap: 0; }
-.ues-sheet-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; margin-bottom: 0.5rem; background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
-.ues-sheet-link:hover { color: var(--accent); }
+/* The way to the datasheet was a bare text link and read as a caption; it is the app's own ghost
+   button now (style.css), trimmed to sit in a row with a field rather than stand on its own. */
+.ues-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+.ues-sheet-link { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
 .ues-sec { padding: 0.6rem 0; border-top: 1px solid var(--border); }
+/* Label beside the field, not above it, and the field takes whatever the button leaves. */
+.ues-note { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.4rem; }
+.ues-note-lab { flex: 0 0 auto; font-size: 0.78rem; color: var(--text-muted); }
+.ues-note input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.3rem 0.45rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+.ues-note input:focus { outline: none; border-color: var(--accent); }
+/* A build pane is ~180px wide: the button and a labelled field cannot share that row, so the note
+   drops under it and keeps its caption beside it. */
+@container (max-width: 300px) {
+  .ues-top { flex-direction: column; align-items: stretch; gap: 0.35rem; }
+}
 .ues-sec:first-of-type { border-top: none; }
 .ues-h {
   font-size: 0.98rem;

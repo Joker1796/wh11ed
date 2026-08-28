@@ -922,7 +922,12 @@ to one existing chunk.
   generated-data a stored roster does, so `importRoster` runs it through the same `migrateRoster`
   rather than trusting it. A payload with no `v` predates the field and is migrated from zero.
 - `rosterHandoff.js` — pre-fills the Game Tracker's **setup draft** (`GameSetup` hydrates it
-  on mount) rather than the saved-game format itself. A partial draft is fine: `GameSetup` merges
+  on mount) rather than the saved-game format itself. **Nothing calls it since 2026-08-28**: its
+  one caller was the editor header's "use in tracker" button, removed on request — a list is
+  attached to a game from the tracker's own side (`RosterPickerModal` in setup, `EditSetupModal`
+  mid-game), which is where somebody starting a game already is. The module and its tests stay;
+  deleting them is a separate decision. Removing that button also took `useTracker` out of the
+  editor, which was the one place the builder statically pulled the mission/event datasets. A partial draft is fine: `GameSetup` merges
   its own defaults over whatever fields this sets. It also ATTACHES the roster (below) — arriving
   from "play this list" is the one moment the fielded list is known for certain.
 - `rosterGameLink.js` — the roster↔game link, pure and store-free. See the section below.
@@ -1152,6 +1157,81 @@ pistol"*, which in Russian is prose wrapped around English item names, and at we
 condensed face is two lines of narrow strokes. That one heading takes the body face at a normal
 weight; it keeps full colour and stays larger than the option list under it, so it still leads the
 group. Only the letterforms change.
+
+## The player's own notes (added 2026-08-28)
+
+Free text hung on a list for **planning a game** — "rapid ingress T2" beside a unit, a paragraph
+for the list. Asked for after War Organ, which carries the same fields. Two of them, read at two
+different moments:
+
+| Field | Lives on | Shown |
+|---|---|---|
+| `roster.notes` | the roster | a folded block above the tabs of `RosterViewView` (in a game too) |
+| `entry.note` | one entry | in parentheses after the unit's name, on every list row |
+
+**Nothing reads them.** `validateRoster` never looks at a note, no note is priced, translated,
+matched against appdata or allowed to make a list illegal. They are the player's words, in the
+player's language, and they show as typed in both locales.
+
+- **An attached block has no note of its own**, and that is a decision, not a gap. War Organ names
+  its groups, so this was built the same day and taken out again: a block is derived from `leaderOf`
+  and has no record to hang a name on, so the name lived on the block's host and had to be shown
+  either in a heading of its own — a row of a 640px phone per block — or on the block's total line,
+  where the player who asked for the feature could not find it. A note on the host unit says the
+  same thing in a place that is already read. Don't rebuild it without solving that first.
+- **The list's notes start folded, and the fold is not remembered.** What is worth a row of the
+  first screen is the army; a plan is read at a moment, not throughout.
+- **No `SCHEMA_VERSION` bump and no backend change.** A note is absent rather than empty (`setNote`
+  deletes on clear), so a roster that predates this simply has none, and `domain/roster.ts` is
+  `.passthrough()` — the same free ride `roster.disposition` took.
+- **`rosterShare`'s `PICK` carries `notes`**, so a share link and a **game snapshot** keep the plan;
+  the per-entry ones ride along inside `units`. That is also why the caps exist (`ENTRY_NOTE_MAX`
+  60, `ROSTER_NOTES_MAX` 2000): a synced game has 64 KB for the whole thing, both armies included.
+- **`setNote` folds whitespace to single spaces** — one line, because a unit's note is printed
+  inline after its name. The list's notes are the exception and are written straight
+  (`RosterEditorView.setNotes`): a plan is a paragraph, and `white-space: pre-wrap` keeps its lines.
+- **No placeholders in either field.** The caption beside the input already says what it is, and a
+  greyed example reads as content that is already there.
+- **The unit's note shares the top row of `UnitEditorFields` with the datasheet button**, which is
+  now the app's ghost button rather than the bare text link it used to be (it read as a caption).
+  Those two are the only things in that panel that aren't configuration: one leads out to the
+  unit's rules, the other is the player's own line about it. A section of its own at the foot cost
+  a heading, a rule and a row of the phone for one short field. On a build pane (~180px) the row
+  stacks.
+
+**Not done yet, on purpose:** notes are neither printed on the sheet nor written into any export,
+and the importer still drops what it finds. `rosterImport`'s `defOf` already strips a trailing
+parenthetical to match a datasheet ("no datasheet in the game is named with a trailing
+parenthesis"), so a note in a GW-app or War Organ list survives as far as the matcher and is thrown
+away one line later — capturing it into `entry.note` is most of the round-trip. A note in the WTC
+export is a separate decision: tournament organisers parse that grammar.
+
+## Faction rules beside the build (added 2026-08-28)
+
+`RosterRulesPanel.vue`, above the two panes on **both** building screens — the wizard's Units step
+and the editor's Units tab. The question a half-built list raises is "what does my detachment
+actually do?", and the answer used to live on the faction pages, one navigation out of the builder
+and back (the resume chip in "Views" exists because of that trip). The list's own Rules tab is no
+help either: it is on the finished list's view screen.
+
+- **Folded twice.** The panel starts closed — it is reference, not the work — and each thing inside
+  it is its own fold: the army rule, one per picked detachment, the enhancements those detachments
+  offer, their stratagems. Opening "what does my detachment do" must not also unroll thirty
+  stratagem cards. Closed, the header still names the detachments it is about, so the panel says
+  whether it is worth opening.
+- **Nothing loads until it is opened.** The `loadRosterFactionRules` call hangs off the open flag
+  (30-60 KB of faction bundle), and `RuleBlock`/`StratCard` are `defineAsyncComponent` — they are
+  only rendered once that data is in, so they travel with it instead of with the builder's chunk.
+  `CollapseTransition` renders its slot even while shut, so gating on the DATA is what actually
+  keeps them out; a `v-if` on the fold would be the same thing said twice.
+- **Same loader as the Rules tab and the print sheet** (`composables/rosterFactionRules.js`): a
+  detachment object carries its rule, its stratagems and its enhancements together, and the lookup
+  resolves a Chapter's list naming a Space Marines detachment. A name it cannot resolve gets no
+  fold rather than an error.
+- **The open state is not remembered**, neither the panel's nor the inner folds' — same call as the
+  list's notes fold.
+- Enhancements are rendered here as a plain name/points/body list, NOT `FactionRuleView`'s
+  `.enh-card` grid: this sits above a pane that is ~180px wide on a phone.
 
 ## What the catalogue hides, and the shelf it reads (added 2026-08-28)
 
@@ -1682,6 +1762,27 @@ with the unit's full, unfiltered datasheet — an inline accordion with a
 Leader+Bodyguard combined into one card) and reverted: it read as visually nested/padded rather
 than one card, and the merged-unit case looked worse than just showing each datasheet in full.
 If this is revisited, check git history around 2026-08 for what didn't work before repeating it.
+**Its header carries one "…" instead of an icon per action** (2026-08-28): Export (the same
+`RosterExportModal` the editor and the list page open), Print (`/roster/:id/print`) and **Copy the
+whole list** — one tap, GW-app dialect, straight to the clipboard, for the player who does not want
+to choose a format first. Both writing actions are disabled until the faction bundle is in
+(`ready`), because a list exported a beat early is a list with no army in it; a blocked clipboard
+falls back to opening the export dialog, which holds the same text in a selectable textarea. Only
+off the table — in a game this screen reads the game's snapshot and there is nothing to do with it.
+The sheet itself is the app's shared `.act-list`/`.act-btn` (root `CLAUDE.md`, "What is global").
+
+**`.hdr-icon` is a fixed square with `font: inherit`** on both this screen and the editor. The
+pencil is a `RouterLink` and the "…" is a `<button>`, and a `<button>` starts from the browser's
+own 13px system font — the same padding drew two visibly different boxes side by side. Whichever
+element an action happens to need is not a style.
+
+**Its Rules tab runs a step smaller and tighter than a rules page** (2026-08-28). It is a REREAD at
+the table, not a first reading, so `.rv-rules` re-sizes `--fs-rule-title` / `--fs-subheading` —
+inherited custom properties, which is how it reaches inside `RuleBlock` without touching its scoped
+styles — and overrides body type and paragraph gaps through `:deep()`. Those overrides go through
+the `.rv-rule-block` wrapper on purpose: a bare `.rv-rules :deep(.rule-body)` **ties** RuleBlock's
+own rule on specificity (0,2,0 each) and would be settled by chunk order.
+
 `RosterSharedView` (import landing for a `rosterShare.js` link).
 
 **The creation wizard's way back is its own problem, and it is solved outside the wizard.**
@@ -1704,11 +1805,17 @@ epigraph ("I am Warpbane-- and I could kill you...but death would only end your 
 your shame."), which at the view header's 1.7rem display size ran five lines down a phone screen
 and left the points and the pencil floating against the middle of the text.
 
-Two separate answers, and the split matters. **Placement is not decided from the name at all**:
-below 700px `.rv-head` is a column — name, then the points + pencil right-aligned under it — and
-only a wide screen puts them on one row. Deciding that from the text was tried and reverted twice:
-at phone width "PORTRAIT OF A MACHINE" is 21 characters and two lines while a longer lowercase name
-is one, so a length threshold both misfires and makes the header rearrange itself per list.
+Two separate answers, and the split matters. **Placement is fixed: one row, never stacked**
+(2026-08-28). `.rv-head` is `flex-wrap: nowrap` — the points and the "…" keep the top-right corner,
+the name takes the rest and wraps ITS OWN text down as many lines as it needs. Two earlier shapes
+were rejected by the person using the screen: an unconditional column below 700px (which put
+"2000/2000" under a two-word name), then a wrapping row with a `12rem` threshold on the name, which
+did the same thing on a phone because the meta alone is over half that width. Deciding it from the
+TEXT was tried and reverted twice before those, and is still wrong: at phone width "PORTRAIT OF A
+MACHINE" is 21 characters and two lines while a longer lowercase name is one.
+**Alignment is `baseline`, not `center`**: the points sit beside the name's FIRST line, so a
+quote-as-a-name doesn't leave them floating against the middle of a five-line paragraph — which is
+the original complaint that started this whole header.
 **Size is** decided from the name, by `utils/rosterNameFit.js` → `'' | 'long' | 'xlong'` at 60 and
 100, counting a capital as 1.4 lowercase letters wide (an ALL-CAPS name is not a short one). The
 bucket is a class on both the view header's `h1` and the editor's name input, and steps down with
@@ -1734,6 +1841,8 @@ overlay, see below),
 `RosterPrintSheet` + `RosterPrintFragment` + `RosterPrintUnitCard` + `RosterPrintCard` (the
 printable document, a slice of one of its blocks, one unit's tier choice, and paper's own card
 typography — see "Printing a list"),
+`RosterRulesPanel` (the folded rules panel above the build panes — see "Faction rules beside the
+build"),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug),
 `ConditionChips` (the one way a condition switch is drawn — see "Live rules" below; purely

@@ -379,7 +379,9 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
   `.seg` (a joined either/or inside a form), `.tabs`/`.tab` (a row of separate boxes, one lit),
   `.back`, `.check` + `.check-note`, `.field > span`, `.help-btn`, `.fsection` /
   `.fsection-title`, `.rc-sticky*` + `.issues-badge` (the roster wizard's footer bar), `.lead`,
-  `.split-block`, `.strat-grid`.
+  `.split-block`, `.strat-grid`, `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
+  a card or a header opens — one full-width button per thing you can do; global since 2026-08-28,
+  when the third copy was about to be written and `npm run dupes` would have failed).
 - **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
   PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
   is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.
@@ -467,6 +469,36 @@ controls. What is already accounted for, and must not be undone:
   content is taller than the box.
 - **`-webkit-text-size-adjust: 100%`** on `html`, or iOS inflates the text of a block it decides
   is too narrow.
+
+### Vertical density is a standing rule
+
+**Vertical space is the scarce axis, and it is spent by default without anyone deciding to.** A
+phone gives ~640 usable px between the navbar and the bottom nav; every heading margin, every gap
+above a control, every empty band under a hero costs a row of the actual content the reader came
+for. Horizontal space, on the same screen, mostly goes unused.
+
+So, when adding or restyling anything that stacks:
+
+- **Count what the first screen shows.** Open the page at 390×844 with the bottom nav and count
+  the list rows above the fold. That number is the metric — not how the block looks in isolation.
+- **Spend sideways before spending down.** A label beside its control, not above it; two marks
+  stacked in a corner rather than a second column of them (`.ds-marks`); a name and its price on
+  one line while the width allows.
+- **The steps that are already the canon** (2026-08-28, when the faction pages were tightened):
+  section gap `1.75rem`, section title `margin-bottom: 0.5rem` with `line-height: 1.1`, a control
+  to the list under it `0.55–0.6rem`, group heading `1rem` above / `0.4rem` below, list gaps
+  `0.3–0.4rem`. A new block matches these rather than inventing its own.
+- **Secondary things start folded** (the catalogue's Filters), and a fold's header is one row —
+  not a row plus a caption.
+- **Don't repeat the label that is already above you.** A tab named "Units" over a heading named
+  "Units" is a free row; if a heading only restates the tab or the hero, question it.
+- **A tab strip and its content are joined, not neighbours.** `PageTabs` erases the strip's accent
+  line under the open tab so the panel reads as hanging from it; a band of empty page between the
+  two breaks that join as well as costing the row. `0.6rem` under the faction hero is the canon.
+
+Tightening is not the same as cramping: tap targets stay ≥44px on anything a finger lands on, and
+`.check`-style rows keep their padding. What gets cut is the empty band between blocks, never the
+box the finger aims at.
 
 **The effective floor is iOS 16.2 / Safari 16.2**, set by the CSS in use: `color-mix()` (16.2),
 container queries the roster panes lay themselves out with (16.0), `overscroll-behavior` (16.0),

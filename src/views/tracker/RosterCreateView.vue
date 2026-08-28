@@ -105,6 +105,9 @@
          it; click a unit in the list to configure it, which on a narrow screen opens as a sheet
          (RosterUnitList decides that). -->
     <div v-show="step === 2" class="rc-panel">
+      <!-- What this list plays with, above the list being built: army rule, each picked
+           detachment's rule, their enhancements and stratagems. Folded — see the component. -->
+      <RosterRulesPanel v-if="factionSlug" :faction-slug="factionSlug" :detachments="detachments" />
       <div class="roster-panes">
         <div class="rp-catalog">
           <RosterUnitBrowser
@@ -228,6 +231,7 @@ import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModa
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
+import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
