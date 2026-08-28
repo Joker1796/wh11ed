@@ -136,18 +136,20 @@
     <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
          (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
     <div class="rc-sticky">
-      <div class="rc-sticky-info">
-        <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-        <button v-if="roster.faction" type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
-          <template v-if="validation.errorCount">
-            <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
-          </template>
-          <i v-else class="bi bi-check-circle-fill"></i>
-        </button>
-      </div>
-      <div class="rc-sticky-actions">
-        <RouterLink to="/roster" class="btn-ghost">{{ labels.rosterCancel }}</RouterLink>
-        <button class="btn-primary" @click="save">{{ labels.rosterSave }}</button>
+      <div class="rc-sticky-inner">
+        <div class="rc-sticky-info">
+          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+          <button v-if="roster.faction" type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+            <template v-if="validation.errorCount">
+              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+            </template>
+            <i v-else class="bi bi-check-circle-fill"></i>
+          </button>
+        </div>
+        <div class="rc-sticky-actions">
+          <RouterLink to="/roster" class="btn-ghost">{{ labels.rosterCancel }}</RouterLink>
+          <button class="btn-primary" @click="save">{{ labels.rosterSave }}</button>
+        </div>
       </div>
     </div>
 

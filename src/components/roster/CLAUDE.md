@@ -963,13 +963,20 @@ for — 390 is not below 380 — which is how a squeezed pane shipped with full-
 
 What the narrow arrangement changes, in the order it matters:
 
-- **The copy and delete buttons leave the row's line** and sit over its top-right corner
-  (`.rul-acts`, absolute). Beside the text they cost every line 4.2rem, and the wargear a unit
-  carries is what pays. The name reserves that room itself (`padding-right`) and a `min-height`
-  keeps the row below it clear of the buttons when the name is only one line long.
+- **The copy and delete buttons only get smaller.** They left the row's flow at EVERY width on
+  2026-08-28 (`.rul-acts`, absolute over the tile's top-right corner) — in flow they were a column
+  as tall as the tile, so a three-line entry showed two icons floating alone in a dead band and the
+  wargear paid ~4rem of every line for them. Only the tile's FIRST line reserves the strip
+  (`--rul-acts-w`, read by `RosterUnitRow`); here that is the name's line (`padding-right`, plus a
+  `min-height` for a one-line name), on a wide screen the points'. What the narrow pane still does
+  is shrink them, and drop the chevron entirely — at this width its 1.2rem is worth more to the
+  wargear line than the affordance is.
 - **The points move down beside the chips** (`RosterUnitRow` is a grid, and the two arrangements
   are two placements of the same four parts). A points column costs the text ~3rem of every row,
-  which is what turned one Chosen squad's four picks into a twelve-line column.
+  which is what turned one Chosen squad's four picks into a twelve-line column. On a wide screen
+  they stay on the name's line instead, holding the action buttons' strip beside them — and the
+  chips and the wargear span BOTH grid columns, so the only line paying for the buttons is that
+  first one.
 - **The catalogue's rows stack their name over their price** (`RosterUnitBrowser`) — three or four
   words and a number do not share 180px — and its whole scale steps down. `.rub-name` also carries
   `min-width: 0`, without which a long name refuses to shrink past its min-content and runs *under*
@@ -1472,7 +1479,10 @@ nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/ros
 non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearing, not
 cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
 `--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
-overlapping it — matches by class name alone, regardless of which view rendered it),
+overlapping it — matches by class name alone, regardless of which view rendered it. **The bar is
+full-bleed and its CONTENTS are measured** (`.rc-sticky-inner`, the same 860px + 2rem inner both
+`AppSubnav` and `FactionPickerBar` use): the bar is the window's bottom edge, but Save belongs
+under the panel it saves, not in the far corner of a 1500px screen),
 `RosterViewView` (read-only; **shows what the list breaks at the top** — the same
 `validateRoster` verdict as the editor's footer badge, opening the same `RosterIssuesModal`,
 because a list is read far more often than it is edited and the reason behind the list page's

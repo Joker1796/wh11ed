@@ -755,20 +755,30 @@ strong {
 /* ── Roster wizard footer bar ──────────────────────────────────────────────
    The fixed bar under the three roster-building screens: points and issue count on the left,
    the actions on the right. All three drew it, identically, down to the two breakpoints.
-   `.rc-sticky` is also matched BY NAME from App.vue — don't rename it here. */
+   `.rc-sticky` is also matched BY NAME from App.vue — don't rename it here.
+
+   The BAR is full-bleed (it is the window's bottom edge, and a panel floating short of the
+   edges reads as a dialog), but what stands on it is measured to the same 860px reading width
+   .main-content gives the page — same two-element idiom as AppSubnav and FactionPickerBar.
+   Save then sits under the panel it saves instead of in the far corner of a 1500px screen. */
 .rc-sticky {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 150;
+  padding-bottom: var(--safe-bottom, 0px);
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+.rc-sticky-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
 }
 
 .rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
@@ -792,13 +802,19 @@ strong {
 .issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
 
-/* Clear of the mobile bottom-nav (52px — .bn-item's min-height in App.vue). */
+/* Clear of the mobile bottom-nav (52px — .bn-item's min-height in App.vue), which is where the
+   safe area is already accounted for; and the page's own gutter takes over from the 2rem
+   measure, since below 900px the content is not measured either. */
 @media (max-width: 900px) {
-  .rc-sticky { bottom: calc(52px + var(--safe-bottom, 0px)); padding-bottom: 0.6rem; }
+  .rc-sticky { bottom: calc(52px + var(--safe-bottom, 0px)); padding-bottom: 0; }
+  .rc-sticky-inner { padding: 0.6rem calc(1rem + var(--safe-right)) 0.6rem calc(1rem + var(--safe-left)); }
 }
 
 @media (max-width: 400px) {
-  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
+  .rc-sticky-inner {
+    padding: 0.5rem calc(0.6rem + var(--safe-right)) 0.5rem calc(0.6rem + var(--safe-left));
+    gap: 0.5rem;
+  }
   .rc-sticky-info { gap: 0.35rem; }
   .rc-sticky-actions { gap: 0.35rem; }
   .rc-points { font-size: 0.85rem; }
