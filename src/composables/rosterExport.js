@@ -25,7 +25,7 @@
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
   allegFor, bucketOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  optionItems, optionLabel, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle,
+  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
@@ -86,14 +86,16 @@ function loadoutGroups(def, entry, items) {
       }
     }
   }
-  // …and what the player picked on top, attributed to the profile its group belongs to.
+  // …and what the player picked on top, under the profile that gave the replaced weapon up
+  // (pickMiniFor — for a unit-wide group that is a display convention, see swapsByMini).
   for (const [gi, oi, n] of entry?.wg || []) {
     const grp = def?.gear?.[gi]
     if (!grp || !wargearGroupLive(def, entry, gi)) continue
     const opt = grp.o?.[oi]
     if (!opt) continue
     if (def?.defaults?.length) {
-      for (const [id, q] of optionItems(opt)) add(grp.m ?? 0, items[id], q * (n || 1))
+      const m = pickMiniFor(def, entry, gi)
+      for (const [id, q] of optionItems(opt)) add(m, items[id], q * (n || 1))
     } else {
       // No recorded default loadout: the option's own label is all we can honestly print, and it
       // stands alone rather than beside weapons we don't know about.

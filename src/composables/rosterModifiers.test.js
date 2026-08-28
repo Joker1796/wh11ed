@@ -95,6 +95,26 @@ describe('loadoutItemCounts', () => {
     expect(counts.get(6)).toBe(1)
   })
 
+  it('takes a unit-wide swap off the unit total, whichever profile it is charged to', () => {
+    // A group appdata recorded once per miniature profile and the generator folded into one
+    // unit-wide group (`all`). Which of the two profiles gave the accursed weapon up is a display
+    // convention (see swapsByMini) — the TOTAL is exact either way, and the total is what the
+    // weapon table prints. Until 2026-08-28 nothing was subtracted at all, so a five-model Chosen
+    // squad showed five accursed weapons and the power fist that replaced one.
+    const chosen = {
+      id: 'chosen',
+      minis: [{ n: 'Champion' }, { n: 'Chosen' }],
+      sizes: [{ pts: 135, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+      defaults: [[0, [[1, 1], [2, 1]]], [1, [[1, 1], [2, 1]]]],
+      gear: [{ all: 1, t: 1, in: 'stepper', o: [[3]], rep: [2] }],
+    }
+    expect(loadoutItemCounts(chosen, { size: 0 }).get(2)).toBe(5)
+    const counts = loadoutItemCounts(chosen, { size: 0, wg: [[0, 0, 1]] })
+    expect(counts.get(2)).toBe(4)
+    expect(counts.get(3)).toBe(1)
+    expect(counts.get(1)).toBe(5) // untouched by the swap
+  })
+
   it('says nothing rather than guessing when the model count is unknown', () => {
     // A multi-miniature datasheet with no resolvable per-profile count: the item is fielded,
     // its quantity is not knowable, and `null` is how that is said.

@@ -56,10 +56,11 @@ function itemNameIndex(def, items) {
 //
 // The default-vs-swap accounting is shared with rosterEngine.js's defaultLoadoutLines() — both call
 // modelsPerMini()/swapsByMini(). A multi-miniature datasheet (Sergeant + squad) used to subtract
-// nothing at all, for want of a per-profile model count; `sizes[i].comp` supplies it now. What
-// still subtracts nothing: a unit-wide group, and a bracket that leaves two profiles free. In those
-// we only ADD what was picked — a swapped-away weapon may linger, but one the unit still has is
-// never removed. That asymmetry is deliberate; see filterWeapons.
+// nothing at all, for want of a per-profile model count; `sizes[i].comp` supplies it now, and a
+// unit-wide group is spent against the squad (see swapsByMini). What still subtracts nothing is a
+// bracket that leaves two profiles free — there we only ADD what was picked, so a swapped-away
+// weapon may linger, but one the unit still has is never removed. That asymmetry is deliberate;
+// see filterWeapons.
 export function loadoutItemIds(def, entry) {
   const counts = loadoutItemCounts(def, entry)
   return counts && new Set(counts.keys())
@@ -112,8 +113,8 @@ export function loadoutItemCounts(def, entry) {
     // How many times the pick was taken, mirroring swapsByMini's `consumed` so that what a swap
     // adds and what it removes are counted the same way: a stepper carries the model count, a
     // checkbox is one model unless the instruction hands the swap to the whole profile (`repall`).
-    // A unit-wide group belongs to no profile and has no model count to scale by, so it counts
-    // once — exactly as it subtracts nothing there.
+    // A unit-wide group belongs to no profile, so there is no per-profile count to clamp its
+    // stepper by — the group's own cap has already done that, and none of the 81 is a `repall`.
     const models = g.all ? null : perMini?.get(g.m ?? 0)
     let picks = 1
     if (g.in === 'stepper') picks = models == null ? (n || 1) : Math.min(n || 1, models)

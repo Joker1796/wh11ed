@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -847,7 +847,7 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
     gear: [
       { m: 0, t: 1, in: 'checkbox', o: [[3]], rep: [1] },          // Superior's boltgun → power weapon
       { m: 1, t: 2, in: 'stepper', o: [[4]], rep: [1] },           // N Sisters' boltguns → flamers
-      { all: 1, t: 3, in: 'stepper', o: [[5]], rep: [2] },         // unit-wide: no profile to spend against
+      { all: 1, t: 3, in: 'stepper', o: [[5]], rep: [2] },         // unit-wide: either profile may take it
     ],
   }
   const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Power weapon', 4: 'Flamer', 5: 'Plasma pistol' }
@@ -864,9 +864,36 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
     expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun ×6, Bolt pistol' })
   })
 
-  it('leaves a unit-wide group alone — it belongs to no one profile', () => {
+  // A unit-wide group (appdata's bullet, recorded once per profile and folded by the generator)
+  // used to subtract nothing at all, so a Chosen squad kept five accursed weapons AND the power
+  // fist that replaced one. It belongs to no profile, so which one gave the item up is a display
+  // convention: the biggest first, spilling into the next once one is spent, and never past what a
+  // profile fields.
+  it('spends a unit-wide swap against the biggest profile', () => {
     const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[2, 0, 4]] })
     expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Boltgun, Bolt pistol' })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol ×5' })
+  })
+
+  it('spills into the next profile once the biggest is spent, and stops there', () => {
+    const removed = swapsByMini(sisters, { size: 0, count: 10, wg: [[2, 0, 12]] }, modelsPerMini(sisters, { size: 0, count: 10 }))
+    expect(removed.get('1:2')).toBe(9)
+    expect(removed.get('0:2')).toBe(1)
+  })
+
+  it('charges a profile its own swaps before a unit-wide one', () => {
+    // The Superior trades her boltgun; the unit-wide group replaces bolt pistols, so the two never
+    // compete — but a group whose profile is already spent must not be charged twice either.
+    const entry = { size: 0, count: 10, wg: [[0, 0, 1], [2, 0, 10]] }
+    const removed = swapsByMini(sisters, entry, modelsPerMini(sisters, entry))
+    expect(removed.get('0:1')).toBe(1)
+    expect(removed.get('1:2')).toBe(9)
+    expect(removed.get('0:2')).toBe(1)
+  })
+
+  it('names the profile a unit-wide pick is shown under — the one that gave the weapon up', () => {
+    expect(pickMiniFor(sisters, { size: 0, count: 10 }, 2)).toBe(1)
+    expect(pickMiniFor(sisters, { size: 0, count: 10 }, 0)).toBe(0)
   })
 })
 
