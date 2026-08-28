@@ -54,6 +54,28 @@ describe('validateRoster — completeness', () => {
     expect(codes({ ...roster(), faction: null })).toContain('noFaction')
     expect(codes({ ...roster(), detachments: [] })).toContain('noDetachment')
   })
+
+  // An army plays ONE Force Disposition. Detachments that disagree leave a choice the player still
+  // owes — and everything downstream (the export's own line, the printed header, the game the list
+  // is handed to) reads that answer, so the list is where it has to be made.
+  it('asks for a declaration when the detachments offer more than one disposition', () => {
+    const twoDets = {
+      ...faction,
+      detachments: [{ ...detachment, fd: 'Take and Hold' }, { ...detachment, name: 'Anvil', fd: 'Purge the Foe' }],
+    }
+    const r = { ...roster(), detachments: ['Gladius', 'Anvil'] }
+    const codesWith = (over) => validateRoster({ ...r, ...over }, { faction: twoDets, core }).issues
+    expect(codesWith({}).find((i) => i.code === 'dispositionUndeclared')?.level).toBe('warn')
+    expect(codesWith({}).find((i) => i.code === 'dispositionUndeclared').params.options)
+      .toBe('Take and Hold, Purge the Foe')
+    expect(codesWith({ disposition: 'Purge the Foe' }).map((i) => i.code)).not.toContain('dispositionUndeclared')
+  })
+
+  it('says nothing when the chosen detachments agree about it', () => {
+    const oneFd = { ...faction, detachments: [{ ...detachment, fd: 'Take and Hold' }] }
+    expect(validateRoster(roster(), { faction: oneFd, core }).issues.map((i) => i.code))
+      .not.toContain('dispositionUndeclared')
+  })
 })
 
 describe('validateRoster — wargear pick limits', () => {
@@ -733,7 +755,7 @@ describe('validateRoster — every issue says which unit it is about', () => {
   it('asks for nothing the validator does not send', async () => {
     const { ui } = await import('../i18n/ui.js')
     const known = new Set(['unit', 'target', 'id', 'count', 'limit', 'over', 'spent', 'group',
-      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs'])
+      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options'])
     for (const loc of ['en', 'ru']) {
       for (const [key, tpl] of Object.entries(ui[loc])) {
         if (!key.startsWith('issue_')) continue

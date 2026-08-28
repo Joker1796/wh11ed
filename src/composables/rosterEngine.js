@@ -9,14 +9,18 @@ import conditionalKeywords from '../data/conditionalKeywords.json'
 // 'attached' is not a battlefield role and `bucketOf` never returns it — `sectionsOf` fills it by
 // moving a bodyguard and its Leader there together (core rules 19.01: they are ONE unit while
 // attached). First, because that is the part of the list a player reads as whole units.
-export const UNIT_GROUPS = ['attached', 'epic', 'characters', 'battleline', 'transports', 'other']
+// The breakdown is the faction datasheet page's (FactionDatasheetsView's TYPE_GROUPS), in its
+// order — one army, one way of carving it up, whichever screen you are on. 'attached' is the only
+// group that page has no use for: a Leader joined to its unit is a roster fact, not a datasheet's.
+export const UNIT_GROUPS = ['attached', 'epic', 'characters', 'battleline', 'transports', 'fortifications', 'vehicles', 'infantry', 'other']
 
 // The i18n key for each group's heading — shared by every screen that lists units grouped by
 // UNIT_GROUPS (the editor, the read-only view, the creation wizard's unit browser/config step).
 export const GROUP_LABEL_KEYS = {
   attached: 'rosterGroupAttached',
-  epic: 'rosterGroupEpic', characters: 'rosterGroupCharacters', battleline: 'rosterGroupBattleline',
-  transports: 'rosterGroupTransports', other: 'rosterGroupOther',
+  epic: 'dsGroupEpicHeroes', characters: 'dsGroupCharacters', battleline: 'dsGroupBattleline',
+  transports: 'dsGroupTransports', fortifications: 'dsGroupFortifications',
+  vehicles: 'dsGroupVehicles', infantry: 'dsGroupInfantry', other: 'dsGroupOther',
 }
 
 export function hasKeyword(unit, name) {
@@ -24,11 +28,18 @@ export function hasKeyword(unit, name) {
   return (unit.kws || []).some((k) => k.toLowerCase() === n)
 }
 
+// First keyword wins, so the order is the rule: an Epic Hero is also a CHARACTER, a Rhino is also
+// a VEHICLE, and most Battleline is INFANTRY. Vehicle and Infantry were split out of "Other" for
+// the same reason the datasheet page split them (2026-08-28) — between them they are most of what
+// used to land there, and "Прочее: 27" answers nothing about an army.
 export function bucketOf(unit) {
   if (unit.flags?.epic) return 'epic'
   if (unit.flags?.char) return 'characters'
   if (hasKeyword(unit, 'Battleline') || unit.condBattleline) return 'battleline'
   if (hasKeyword(unit, 'Dedicated Transport')) return 'transports'
+  if (hasKeyword(unit, 'Fortification')) return 'fortifications'
+  if (hasKeyword(unit, 'Vehicle')) return 'vehicles'
+  if (hasKeyword(unit, 'Infantry')) return 'infantry'
   return 'other'
 }
 
@@ -390,6 +401,28 @@ export function grantedKeywordsFor(unitId, factionSlug, detachments) {
   return out
 }
 
+// ── Force Disposition: the one an army declares ───────────────────────────────────────────────
+// Every Detachment carries one of the five (`fd` on the generated detachment), and an ARMY has
+// exactly one: the card a player selects after mustering, on which the opponent's symbol names
+// their Primary Mission. So a list fielding several detachments has to DECLARE which of their
+// dispositions it plays — `roster.disposition` is that declaration, stored as the name `fd`
+// itself spells it. Not the tracker's own id: that vocabulary lives in the Event Companion data,
+// which the roster screens deliberately never load, and the one place both are in scope
+// (rosterHandoff) can translate.
+export function dispositionCandidates(detachments) {
+  return [...new Set((detachments || []).map((d) => d?.fd).filter(Boolean))]
+}
+
+// What this list's disposition IS — the only candidate when there is one, the declaration while it
+// still names a candidate, and null when there is a choice nobody has made yet (or no detachment
+// at all). Self-healing by construction: dropping the detachment a declaration came from takes the
+// declaration with it, so a list can never claim a disposition it no longer fields.
+export function dispositionOf(roster, detachments) {
+  const cands = dispositionCandidates(detachments)
+  if (cands.length === 1) return cands[0]
+  return cands.includes(roster?.disposition) ? roster.disposition : null
+}
+
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
 // Two shapes share `def.alleg` (gen-roster-data.mjs reads appdata's allegiance_ability tables):
 //   • a MANDATORY mark — Chaos Space Marines' Mark of Chaos inside Pactbound Zealots (43
@@ -711,16 +744,20 @@ export function duplicateUnitEntry(units, entryUid, newUid) {
   return copy
 }
 
-// A one-line summary of an entry's current size/upgrades/enhancement for its list row —
-// shared by the editor, the read-only view, and the creation wizard's config step. Model-count
-// and upgrade-count nouns are passed in (not imported) so this stays a pure, Vue-free module;
-// callers pass their current locale's `rosterModelsLabel`/`rosterUpgradesLabel`.
-export function entrySummary(e, def, modelsLabel, upgradesLabel) {
+// A one-line summary of an entry's current size/upgrades/enhancement for its list row (the
+// read-only view's). Every noun is passed in (not imported) so this stays a pure, Vue-free
+// module; callers pass their current locale's
+// `rosterModelsLabel`/`rosterUpgradesLabel`/`rosterWarlord`.
+//
+// The Warlord used to be a bare '★' here. The star now means "I own this model" elsewhere in the
+// app (useCollection.js), and a lone symbol on its own line was never decodable anyway — the word
+// is both unambiguous and free of the glyph-coverage roulette a flag character would bring.
+export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = '') {
   if (!def) return ''
   const size = def.sizes[e.size ?? 0] || def.sizes[0]
   const n = e.count ?? size.per[0]
   const parts = []
-  if (e.warlord) parts.push('★')
+  if (e.warlord && warlordLabel) parts.push(warlordLabel)
   if (size.per[1] > 1) parts.push(`${n} ${modelsLabel}`)
   if (e.wg?.length) parts.push(`${e.wg.length} ${upgradesLabel}`)
   if (e.enh) parts.push(e.enh)

@@ -24,7 +24,7 @@
 // fielded loadout with swaps applied (the same modelsPerMini/swapsByMini accounting the editor
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
-  allegFor, bucketOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
+  allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle,
 } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
@@ -41,7 +41,10 @@ const ALLIANCE = { astartes: 'Imperium', imperium: 'Imperium', chaos: 'Chaos', x
 const GW_SECTIONS = [
   { title: 'CHARACTERS', buckets: ['epic', 'characters'] },
   { title: 'DEDICATED TRANSPORTS', buckets: ['transports'] },
-  { title: 'OTHER DATASHEETS', buckets: ['battleline', 'other'] },
+  // Every bucket that isn't a Character or a Dedicated Transport — GW's export has four headings
+  // and does not care how our screens sub-divide the rest, so splitting Vehicles/Infantry out of
+  // "other" (2026-08-28) must not drop them off the page.
+  { title: 'OTHER DATASHEETS', buckets: ['battleline', 'fortifications', 'vehicles', 'infantry', 'other'] },
 ]
 
 // ── the resolved list, shared by all three emitters ──────────────────────────────────────────
@@ -181,7 +184,9 @@ function resolve(roster, { faction, core, items } = {}) {
     ? 'Custom'
     : (core?.battleSizes?.find((b) => b.id === roster?.battleSize)?.name || '')
 
-  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster }
+  // The army's own Force Disposition — the declared one where its detachments disagree, and never
+  // a list of every candidate: an army list states the card it plays, not the ones it could have.
+  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, disposition: dispositionOf(roster, detachments) }
 }
 
 // ── GW app, 11th edition ─────────────────────────────────────────────────────────────────────
@@ -226,7 +231,10 @@ function gwText(m, version) {
     const names = m.detachments.map((d) => d.name)
     const joined = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0]
     lines.push(`${joined} (${m.battle.dp} Detachment Points)`)
-    const fds = [...new Set(m.detachments.map((d) => d.fd).filter(Boolean))]
+    // The one the army DECLARED. Undeclared (several detachments, nobody has chosen) prints the
+    // candidates as it always did — the line then states the choice that is still open rather than
+    // vanishing, and the importer takes only a single name as a declaration.
+    const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
     if (fds.length) lines.push(`Force Dispositions: ${fds.join(', ')}`)
   }
 
@@ -296,7 +304,7 @@ function wtcText(m, compact = false) {
   const out = [bar]
   out.push(`+ FACTION KEYWORD: ${alliance ? `${alliance} - ` : ''}${m.faction?.name || ''}`)
   if (m.detachments.length) {
-    const fds = [...new Set(m.detachments.map((d) => d.fd).filter(Boolean))]
+    const fds = m.disposition ? [m.disposition] : dispositionCandidates(m.detachments)
     out.push(`+ DETACHMENT: ${m.detachments.map((d) => d.name).join(', ')}${fds.length ? ` (${fds.join(', ')})` : ''}`)
   }
   out.push(`+ TOTAL ARMY POINTS: ${m.total}pts`)

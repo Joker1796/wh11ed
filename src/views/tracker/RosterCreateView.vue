@@ -29,7 +29,7 @@
 
         <div class="field">
           <span>{{ labels.rosterBattleSizeLabel }}</span>
-          <div class="seg">
+          <div class="seg seg-pts">
             <button
               v-for="b in battleSizes"
               :key="b.id"
@@ -71,6 +71,24 @@
           <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
         </div>
 
+        <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
+             opponent's symbol names your Primary Mission. One detachment settles it; several are
+             a choice, and the LIST is where it is declared (the tracker's own setup asks the same
+             question the same way). -->
+        <div v-if="factionSlug" class="field">
+          <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
+          <div v-if="dispositionCands.length > 1" class="seg">
+            <button
+              v-for="d in dispositionCands"
+              :key="d"
+              :class="{ on: disposition === d }"
+              @click="disposition = d"
+            >{{ d }}</button>
+          </div>
+          <input v-else-if="dispositionCands.length === 1" type="text" :value="dispositionCands[0]" readonly />
+          <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
+        </div>
+
         <label class="check" :class="{ on: checkLegality }">
           <input type="checkbox" v-model="checkLegality" />
           <span>
@@ -80,9 +98,6 @@
         </label>
       </div>
 
-      <div class="rc-actions">
-        <button class="btn-primary" :disabled="!factionSlug" @click="goToUnits">{{ labels.trackerNextStep }} →</button>
-      </div>
     </div>
 
     <!-- Step 2: the catalogue and the list side by side (`.roster-panes` in style.css, shared
@@ -100,6 +115,7 @@
             :added-ids="units.map((u) => u.id)"
             :detachments="curDetachments"
             :battle="effBattle"
+            :remaining="limit - points"
             :check-legality="checkLegality"
             @add="addUnit"
             @remove="removeUnit"
@@ -143,21 +159,32 @@
           </RosterUnitList>
         </div>
       </div>
-      <div class="rc-sticky">
-        <div class="rc-sticky-inner">
-          <div class="rc-sticky-info">
-            <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-            <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
-              <template v-if="validation.errorCount">
-                <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
-              </template>
-              <i v-else class="bi bi-check-circle-fill"></i>
-            </button>
-          </div>
-          <div class="rc-sticky-actions">
+    </div>
+
+    <!-- One bar for both steps. Step 1's Next used to sit in the page's flow, which on a phone put
+         it exactly under MobileUtilityBar's floating "To game" button — that bar lifts itself by
+         --roster-sticky-h (App.vue, keyed off `:has(.rc-sticky)`), so the way out of the collision
+         is to BE the sticky bar rather than to sit beneath it. Same reason the editor's Save is
+         there, and the reading is consistent: the step's forward move is always in the corner. -->
+    <div class="rc-sticky">
+      <div class="rc-sticky-inner">
+        <div v-if="step === 2" class="rc-sticky-info">
+          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+          <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+            <template v-if="validation.errorCount">
+              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+            </template>
+            <i v-else class="bi bi-check-circle-fill"></i>
+          </button>
+        </div>
+        <div class="rc-sticky-actions">
+          <template v-if="step === 1">
+            <button class="btn-primary" :disabled="!canLeaveStep1" @click="goToUnits">{{ labels.trackerNextStep }} →</button>
+          </template>
+          <template v-else>
             <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
             <button class="btn-primary" @click="finish">{{ labels.rosterSave }}</button>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -175,6 +202,7 @@
       :max-dp="effBattle.dp"
       :dp-spent="dpSpent"
       @toggle="toggleDetachment"
+      @clear="clearDetachments"
       @close="detachmentPickerOpen = false"
     />
     <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
@@ -214,7 +242,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import {
   allySourceOf, sectionsOf, unitPoints, rosterPoints, capKeyOf,
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, effectiveBattle,
-  addUnitEntry, duplicateUnitEntry, removeUnitEntry,
+  addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 
 const router = useRouter()
@@ -228,6 +256,7 @@ const step = ref(1)
 const name = ref('')
 const factionSlug = ref(null)
 const detachments = ref([])
+const disposition = ref(null)
 const battleSize = ref('strike-force')
 const customPoints = ref(2000)
 const checkLegality = ref(true)
@@ -282,12 +311,15 @@ const curDetachments = computed(() =>
     .map((n) => (factionData.value?.detachments || []).find((d) => d.name === n))
     .filter(Boolean))
 const detachmentSummary = computed(() => detachments.value.join(', '))
+const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
 const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
 function toggleDetachment(d) {
   const at = detachments.value.indexOf(d.name)
   if (at >= 0) detachments.value.splice(at, 1)
   else detachments.value.push(d.name)
 }
+// The picker offers only what can still be taken, so clearing is the way back to the whole list.
+function clearDetachments() { detachments.value.splice(0) }
 // A single Detachment is always allowed even over budget (DetachmentPickerModal never
 // disables the first pick) — not official yet, but GW has said it's fine as long as it's
 // the only one taken. Show that as a "?" explainer instead of an error.
@@ -422,6 +454,7 @@ if (resumed) {
   name.value = resumed.name || ''
   factionSlug.value = resumed.faction || null
   detachments.value = [...(resumed.detachments || [])]
+  disposition.value = resumed.disposition || null
   battleSize.value = resumed.battleSize || 'strike-force'
   customPoints.value = resumed.customPoints ?? 2000
   checkLegality.value = resumed.checkLegality !== false
@@ -446,6 +479,7 @@ function step1Patch() {
     name: name.value.trim() || labels.value.rosterNewName,
     faction: factionSlug.value,
     detachments: detachments.value,
+    disposition: disposition.value,
     battleSize: battleSize.value,
     customPoints: customPoints.value,
     checkLegality: checkLegality.value,
@@ -477,7 +511,7 @@ function ensureDraft() {
 // Step 1's fields and the step itself are written through as they change — that is what makes the
 // draft a draft. Units take the other road (`syncUnits`, then the shared array), so they are not
 // watched here.
-watch([name, factionSlug, detachments, battleSize, customPoints, checkLegality, step], () => {
+watch([name, factionSlug, detachments, disposition, battleSize, customPoints, checkLegality, step], () => {
   if (!rosterId.value) return
   updateRoster(rosterId.value, { ...step1Patch(), draftStep: step.value })
 }, { deep: true })
@@ -550,9 +584,10 @@ watchEffect(() => {
 /* The unit-selection panel has a fixed footer overlaying the bottom of the viewport — reserve
    room so the last rows of a long list aren't hidden behind it (mirrors .main-content's own
    bottom-nav reservation in App.vue). */
-.rc-panel:has(.rc-sticky) { padding-bottom: 4.5rem; }
+/* The bar is fixed and serves both steps, so both panels have to clear it. */
+.rc-panel { padding-bottom: 4.5rem; }
 @media (max-width: 900px) {
-  .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
+  .rc-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
 }
 /* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
    .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
@@ -607,9 +642,12 @@ watchEffect(() => {
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 
-/* This one picks a points level, so its labels are numbers — mono, like every other number in
-   the builder. The rest is the global segmented control (style.css). */
-.seg button { font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; }
+/* The battle-size one picks a points level, so its labels are numbers — mono, like every other
+   number in the builder. The rest is the global segmented control (style.css), and the Force
+   Disposition seg beside it is words, so the class is what tells them apart. */
+.seg-pts button { font-family: var(--font-mono); font-weight: 700; font-size: 0.78rem; }
+/* A single candidate is a fact, not a choice: shown in the field's own input shape, unwritable. */
+.field input[readonly] { color: var(--text-muted); cursor: default; }
 
 .bsize-input {
   margin-top: 0.4rem;
@@ -626,7 +664,6 @@ watchEffect(() => {
 /* The list pane's empty state. */
 .rc-cfg-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 
-.rc-actions { display: flex; justify-content: flex-end; }
 
 /* Fixed (not sticky) — the unit list can run to 90+ rows, far taller than the viewport, so a
    flow-sticky footer would only engage once scrolled all the way to the list's end. Glued

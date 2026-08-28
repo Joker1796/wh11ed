@@ -258,7 +258,16 @@ function parseGw(text) {
     const att = t.match(/^attached unit (\d+):?$/i)
     if (att) { flush(); inHeader = false; inAttached = true; group = `g${att[1]}`; continue }
     if (SECTIONS.test(t)) { flush(); inHeader = false; inAttached = false; group = null; continue }
-    if (/^Force Dispositions?:/i.test(t)) continue
+    // The list states its own Force Disposition, and now there is somewhere to put it. Only when
+    // it names ONE: an export written before this app declared anything lists every candidate its
+    // detachments offer, and a list of them is not a declaration. A name that turns out to belong
+    // to none of the matched detachments is ignored downstream (dispositionOf), never shown.
+    const fdLine = t.match(/^Force Dispositions?:\s*(.+)$/i)
+    if (fdLine) {
+      const named = fdLine[1].split(',').map((x) => x.trim()).filter(Boolean)
+      if (named.length === 1) out.disposition = named[0]
+      continue
+    }
 
     // listhammer's plain-text mode LABELS its header instead of writing it as bare lines, and
     // closes it with a row of '+'. What is labelled is read from the label — inferring which bare
@@ -288,9 +297,15 @@ function parseGw(text) {
         labelled = true
         continue
       }
+      if (key === 'disposition') {
+        const named = val.split(',').map((x) => x.trim()).filter(Boolean)
+        if (named.length === 1) out.disposition = named[0]
+        labelled = true
+        continue
+      }
       // Labels with nothing to add: the enhancements are printed again under the units that carry
-      // them, and the disposition is not part of a list we can store.
-      if (/^(disposition|army enhancements|mission)$/.test(key || '')) { labelled = true; continue }
+      // them, and the mission is the table's business, not the list's.
+      if (/^(army enhancements|mission)$/.test(key || '')) { labelled = true; continue }
     }
 
     const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
@@ -495,7 +510,16 @@ function wtcHeader(lines, out) {
       continue
     }
     const det = content.match(/^DETACHMENT:\s*(.*)$/i)
-    if (det) { out.detachments = det[1].replace(/\s*\([^)]*\)/g, '').split(/,\s*/).map((d) => d.trim()).filter(Boolean); continue }
+    if (det) {
+      // The parenthetical on this line is the army's Force Disposition (that is what our own WTC
+      // export writes there), so it is read rather than stripped and thrown away — one value only,
+      // for the same reason the GW line is.
+      const paren = det[1].match(/\(([^)]*)\)\s*$/)
+      const named = paren ? paren[1].split(',').map((x) => x.trim()).filter(Boolean) : []
+      if (named.length === 1) out.disposition = named[0]
+      out.detachments = det[1].replace(/\s*\([^)]*\)/g, '').split(/,\s*/).map((d) => d.trim()).filter(Boolean)
+      continue
+    }
     const pts = content.match(new RegExp(`^TOTAL ARMY POINTS:\\s*(\\d+)`, 'i'))
     if (pts) { out.stated = +pts[1]; continue }
     const wl = content.match(new RegExp(`^WARLORD:\\s*(${REF})?\\s*:?\\s*(.*)$`, 'i'))
@@ -888,6 +912,9 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     name: parsed.name || 'Roster',
     faction: faction.slug,
     detachments: report.detachments.matched,
+    // Carried only when the matched detachments actually offer it — an unreadable or stale name
+    // would otherwise sit in the list claiming something it does not field.
+    ...(parsed.disposition ? { disposition: parsed.disposition } : {}),
     battleSize: battle?.id || (parsed.limit ? 'custom' : 'strike-force'),
     units: [],
   }

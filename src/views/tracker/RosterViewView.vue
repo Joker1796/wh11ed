@@ -1036,7 +1036,7 @@ const groupedUnits = computed(() =>
 const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
+  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel, labels.value.rosterWarlord)
 }
 
 // Which slot an attached character fills, and what its whole unit costs. The two halves of an

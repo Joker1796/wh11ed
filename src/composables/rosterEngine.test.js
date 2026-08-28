@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf } from './rosterEngine.js'
+import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -25,7 +25,16 @@ describe('bucketOf', () => {
     expect(bucketOf(captain)).toBe('characters')
     expect(bucketOf(intercessor)).toBe('battleline')
     expect(bucketOf({ kws: ['Dedicated Transport'], flags: {} })).toBe('transports')
-    expect(bucketOf({ kws: ['Vehicle'], flags: {} })).toBe('other')
+    expect(bucketOf({ kws: ['Fortification'], flags: {} })).toBe('fortifications')
+    expect(bucketOf({ kws: ['Vehicle', 'Fly'], flags: {} })).toBe('vehicles')
+    expect(bucketOf({ kws: ['Infantry'], flags: {} })).toBe('infantry')
+    // Monster/Mounted/Beast/Aircraft are each too small to earn a section of their own — the
+    // datasheet page leaves them in "Other" too, and this list follows that one.
+    expect(bucketOf({ kws: ['Monster'], flags: {} })).toBe('other')
+    // Order is the rule: a transport is a VEHICLE and most Battleline is INFANTRY, and each still
+    // lands in the more specific group above.
+    expect(bucketOf({ kws: ['Dedicated Transport', 'Vehicle'], flags: {} })).toBe('transports')
+    expect(bucketOf({ kws: ['Battleline', 'Infantry'], flags: {} })).toBe('battleline')
     expect(bucketOf({ kws: [], flags: {}, condBattleline: 1 })).toBe('battleline')
   })
 })
@@ -897,6 +906,39 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
   })
 })
 
+// One army, one Force Disposition: the card selected after mustering, whose symbols name each
+// player's Primary Mission. The detachment carries it (`fd`); an army fielding several that
+// disagree has to declare which one it plays.
+describe('the army’s Force Disposition', () => {
+  const takeAndHold = { name: 'Gladius Task Force', fd: 'Take and Hold' }
+  const purge = { name: 'Anvil Siege Force', fd: 'Purge the Foe' }
+  const alsoPurge = { name: 'Vanguard Spearhead', fd: 'Purge the Foe' }
+
+  it('lists what the chosen detachments offer, once each', () => {
+    expect(dispositionCandidates([])).toEqual([])
+    expect(dispositionCandidates([purge, alsoPurge])).toEqual(['Purge the Foe'])
+    expect(dispositionCandidates([takeAndHold, purge])).toEqual(['Take and Hold', 'Purge the Foe'])
+  })
+
+  it('needs no declaration when the detachments agree', () => {
+    expect(dispositionOf({}, [purge, alsoPurge])).toBe('Purge the Foe')
+  })
+
+  it('is the declaration when they disagree, and nothing until one is made', () => {
+    const dets = [takeAndHold, purge]
+    expect(dispositionOf({}, dets)).toBeNull()
+    expect(dispositionOf({ disposition: 'Purge the Foe' }, dets)).toBe('Purge the Foe')
+  })
+
+  // Self-healing: a list must never claim a disposition it no longer fields, and dropping the
+  // detachment behind a declaration is exactly how that happens.
+  it('ignores a declaration the list no longer fields', () => {
+    expect(dispositionOf({ disposition: 'Take and Hold' }, [purge, alsoPurge])).toBe('Purge the Foe')
+    expect(dispositionOf({ disposition: 'Reconnaissance' }, [takeAndHold, purge])).toBeNull()
+    expect(dispositionOf({ disposition: 'Take and Hold' }, [])).toBeNull()
+  })
+})
+
 describe('allegiance choices', () => {
   const mark = {
     id: 'chaos-vindicator', name: 'Chaos Vindicator', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 185, per: [1, 1] }],
@@ -1048,7 +1090,7 @@ describe('attached units read as one block', () => {
     expect(ids(secs, 'attached')).toEqual(['legio', 'lord'])
     expect(ids(secs, 'characters')).toEqual([])
     expect(ids(secs, 'battleline')).toEqual([])
-    expect(ids(secs, 'other')).toEqual(['brute']) // everything else is filed as before
+    expect(ids(secs, 'vehicles')).toEqual(['brute']) // everything else is filed by its own type
   })
 
   it('takes an Epic Hero out of the top section to sit with its squad', () => {
@@ -1123,5 +1165,21 @@ describe('an enhancement whose keyword a detachment grants', () => {
     expect(eligible(trukk)).not.toContain('Boarding Ramps (Upgrade)')
     // and without the faction to look the grant up in, the printed sheet is all there is
     expect(enhOptionsFor(killRig, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain('Boarding Ramps (Upgrade)')
+  })
+})
+
+describe('entrySummary', () => {
+  // The Warlord's mark on the read-only view's rows. It was a bare '★' until 2026-08-28, when the
+  // star was given to "I own this model" (useCollection.js) — and a lone symbol on its own line
+  // said less than the word does anyway.
+  it('names the Warlord in the caller\u2019s locale, ahead of the size and the upgrades', () => {
+    const e = { uid: 'u1', id: 'intercessor-squad', size: 1, warlord: true, wg: [[0, 0, 1]] }
+    expect(entrySummary(e, intercessor, 'моделей', 'улучшений', 'Варлорд'))
+      .toBe('Варлорд · 6 моделей · 1 улучшений')
+  })
+
+  it('says nothing about a unit that is not the Warlord', () => {
+    const e = { uid: 'u1', id: 'captain', size: 0 }
+    expect(entrySummary(e, captain, 'models', 'upgrades', 'Warlord')).toBe('')
   })
 })

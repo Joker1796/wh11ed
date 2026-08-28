@@ -8,7 +8,7 @@
 
 import { SCHEMA_VERSION } from './useRosters.js'
 
-const PICK = ['name', 'faction', 'detachments', 'battleSize', 'customPoints', 'units']
+const PICK = ['name', 'faction', 'detachments', 'disposition', 'battleSize', 'customPoints', 'units']
 
 // `v` is the STORAGE schema version, not the payload's own encoding version (that's the `1.`/`0.`
 // prefix below). A roster in a link is the same shape as a stored one — wargear picks are indices

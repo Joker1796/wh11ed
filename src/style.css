@@ -782,7 +782,9 @@ strong {
 }
 
 .rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
-.rc-sticky-actions { display: flex; gap: 0.5rem; }
+/* margin-left, not just the inner's space-between: the creation wizard's step 1 puts nothing on
+   the bar but its Next button, and a lone child under space-between sits at the LEFT edge. */
+.rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: #c0392b; }
 

@@ -19,11 +19,11 @@
     </header>
 
     <!-- Two switchable panels (not a sequential flow like the creation wizard — either can be
-         reopened at any time while editing). -->
-    <div class="red-tabs" role="tablist">
-      <button class="red-tab" :class="{ on: tab === 'settings' }" role="tab" :aria-selected="tab === 'settings'" @click="tab = 'settings'">{{ labels.rosterCreateStep1 }}</button>
-      <button class="red-tab" :class="{ on: tab === 'units' }" role="tab" :aria-selected="tab === 'units'" @click="tab = 'units'">{{ labels.rosterViewTabUnits }}</button>
-    </div>
+         reopened at any time while editing), drawn by the same PageTabs the faction pages, the
+         roster list and the read-only list use. This screen kept its own underline tabs until
+         2026-08-28, which made the editor the one roster screen whose tabs looked like something
+         else. -->
+    <PageTabs class="red-tabs" :tabs="editorTabs" @select="tab = $event" />
 
     <!-- Settings: faction, detachment(s), battle size -->
     <div v-if="tab === 'settings'" class="red-panel">
@@ -38,6 +38,22 @@
           <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
           <i class="bi bi-chevron-down"></i>
         </button>
+        <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
+             opponent's symbol names your Primary Mission. One detachment settles it; several are a
+             choice, and the LIST is where it is declared. Not a picker: there are never more than
+             a handful of candidates, so they fit in the tile that shows the answer. -->
+        <div v-if="dispositionCands.length" class="choice bsize">
+          <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
+          <span v-if="dispositionCands.length === 1" class="ch-value">{{ dispositionCands[0] }}</span>
+          <div v-else class="seg disp-opts">
+            <button
+              v-for="d in dispositionCands"
+              :key="d"
+              :class="{ on: roster.disposition === d }"
+              @click="setDisposition(d)"
+            >{{ d }}</button>
+          </div>
+        </div>
         <div class="choice bsize">
           <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
           <div class="bsize-opts">
@@ -88,6 +104,7 @@
             :added-ids="roster.units.map((u) => u.id)"
             :detachments="curDetachments"
             :battle="effBattle"
+            :remaining="limit - points"
             :check-legality="roster.checkLegality !== false"
             @add="addUnit"
             @remove="removeUnit"
@@ -166,6 +183,7 @@
       :max-dp="effBattle.dp"
       :dp-spent="dpSpent"
       @toggle="toggleDetachment"
+      @clear="clearDetachments"
       @close="detachmentPickerOpen = false"
     />
     <RosterIssuesModal
@@ -195,6 +213,7 @@ import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
+import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
@@ -203,7 +222,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   allySourceOf, sectionsOf, unitPoints, capKeyOf,
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor,
+  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
@@ -264,9 +283,16 @@ const accentStyle = computed(() => factionColor.value
 
 // Detachment options for the tracker's DP-budget-aware multi-select picker (same shape and
 // layout as the tracker: DP cost + Force Disposition).
+// PageTabs only draws; which panel is open is this screen's own state, same as RosterViewView.
+const editorTabs = computed(() => [
+  { key: 'settings', label: labels.value.rosterCreateStep1, active: tab.value === 'settings' },
+  { key: 'units', label: labels.value.rosterViewTabUnits, active: tab.value === 'units' },
+])
+
 const detachmentOptions = computed(() =>
   (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
 const detachmentSummary = computed(() => (roster.value?.detachments || []).join(', '))
+const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
 const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
 
 const battleSizes = rosterCore.battleSizes
@@ -280,22 +306,37 @@ function pickFaction(slug) {
   openUid.value = null
   touch()
 }
-// Multi-select: toggle a detachment name in/out (DP budget enforced by the picker's disabling).
+// Multi-select: toggle a detachment name in/out (what the budget allows is decided by the
+// picker, which offers nothing a tap could not do).
 function toggleDetachment(d) {
   const list = roster.value.detachments
   const at = list.indexOf(d.name)
   if (at >= 0) list.splice(at, 1)
   else list.push(d.name)
-  // Enhancements belong to a detachment — clear any that no longer resolve.
+  dropOrphanEnhancements()
+  touch()
+}
+
+// Enhancements belong to a detachment — an entry carrying one the list no longer fields keeps a
+// name nothing resolves, so it is dropped whenever the selection changes.
+function dropOrphanEnhancements() {
   const names = new Set(roster.value.detachments)
   for (const u of roster.value.units) {
     if (u.enh && !curDetachments.value.some((det) => names.has(det.name) && det.enhancements.some((e) => e.name === u.enh))) delete u.enh
   }
+}
+
+// Starting over: the picker offers only what can be taken, so with a spent budget this is the way
+// back to the whole list.
+function clearDetachments() {
+  roster.value.detachments.splice(0)
+  dropOrphanEnhancements()
   touch()
 }
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
 function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) || 0); touch() }
 function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
+function setDisposition(fd) { roster.value.disposition = fd; touch() }
 
 // ── Units (added/removed on the Units tab) ──
 const factionPickerOpen = ref(false)
@@ -430,29 +471,8 @@ function rename(name) {
 }
 .hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
-/* Tab bar — same visual language as RosterViewView's read-only tabs. */
-/* overflow-x is a safety net (so a too-narrow viewport scrolls the bar instead of wrapping/
-   clipping it); the ≤360px media query below aims to avoid needing it at all at the sizes it's
-   actually meant to fit. flex-shrink:0 keeps a tab's own text from being squeezed mid-word by
-   the scroll container before it. */
-.red-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); overflow-x: auto; }
-.red-tab {
-  padding: 0.5rem 1rem;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-bottom: -1px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.red-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
-@media (max-width: 360px) {
-  .red-tab { padding: 0.45rem 0.6rem; font-size: 0.8rem; }
-}
+/* The tabs are PageTabs' own; only where they sit is this screen's business. */
+.red-tabs { margin-bottom: 1rem; }
 
 /* Reserve room for the fixed .rc-sticky footer below, same idea as RosterCreateView.vue's own
    .rc-panel:has(.rc-sticky) — it's always visible here (not gated to a completed step), so
@@ -467,6 +487,10 @@ function rename(name) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* A button centres its text, which nobody noticed while every value was one or two words: a
+     list of two detachment names wraps, and the wrapped lines sat centred under a left-aligned
+     label. */
+  text-align: left;
   gap: 0.15rem;
   padding: 0.5rem 0.75rem;
   background: var(--bg-card);
@@ -481,6 +505,10 @@ function rename(name) {
 .ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
 .ch-value { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); padding-right: 0.9rem; }
 .bsize-opts { display: inline-flex; gap: 0.25rem; margin-top: 0.1rem; }
+/* The disposition tile holds the global segmented control instead of a value, so it sizes to its
+   own words rather than stretching the row. */
+.disp-opts { margin-top: 0.15rem; align-self: flex-start; }
+.disp-opts button { font-size: 0.78rem; padding: 0.2rem 0.5rem; }
 .bsize-btn {
   padding: 0.2rem 0.5rem;
   font-family: var(--font-mono);

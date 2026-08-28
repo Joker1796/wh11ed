@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import RosterUnitBrowser from './RosterUnitBrowser.vue'
+import { useCollection } from '../../composables/useCollection.js'
 
 const units = [
   { id: 'a', name: 'Alpha Battleline', kws: ['Battleline'], sizes: [{ pts: 80, per: [5, 5] }] },
@@ -215,5 +216,99 @@ describe('RosterUnitBrowser — allies', () => {
   it('does not offer a group the selected detachment has not unlocked', () => {
     expect(mountWith().text()).not.toContain('Armiger Helverin')
     expect(mountWith([{ name: 'Questor Forgepact', enhancements: [] }]).text()).toContain('Armiger Helverin')
+  })
+})
+
+// Two ways to make a 90-unit catalogue shorter: what the remaining points can pay for, and what
+// the reader says is on their shelf. Both HIDE (this list spends opacity on "not added yet"), and
+// both are one tap from off — which is why the count of what went is on screen beside them.
+describe('RosterUnitBrowser — the catalogue filters', () => {
+  const { collection, toggleOwned } = useCollection()
+  const rowFor = (w, name) => w.findAll('.rub-item').find((r) => r.text().includes(name))
+  // Budget first when it is offered at all, collection last — see the template.
+  const filters = (w) => w.findAll('.rub-filter-list input[type="checkbox"]')
+  const tick = (box) => box.setValue(true)
+
+  beforeEach(() => {
+    for (const k of Object.keys(collection)) delete collection[k]
+    localStorage.clear()
+  })
+
+  it('offers no budget toggle without a points figure to compare against', () => {
+    expect(filters(mountBrowser())).toHaveLength(1) // the collection one, which always applies
+    expect(filters(mountBrowser({ remaining: 100 }))).toHaveLength(2)
+  })
+
+  it('offers only what the points left can pay for, and says how much it took away', async () => {
+    const w = mountBrowser({ remaining: 85 })
+    await tick(filters(w)[0])
+    expect(w.text()).toContain('Alpha Battleline') // 80
+    expect(w.text()).toContain('Delta Transport') // 75
+    expect(w.text()).toContain('Echo Other') // 50, its cheapest bracket
+    expect(w.text()).not.toContain('Bravo Character') // 100
+    expect(w.text()).not.toContain('Charlie Epic Hero') // 200
+    expect(w.find('.rub-hidden').text()).toContain('2')
+  })
+
+  // The row carries the "−" button, and a catalogue that drops what you just added — because the
+  // budget ran out on it — reads as a bug rather than as a filter.
+  it('keeps a unit already in the list on screen, whatever the budget says', async () => {
+    const w = mountBrowser({ remaining: 10, addedIds: ['b'] })
+    await tick(filters(w)[0])
+    expect(w.text()).toContain('Bravo Character')
+    expect(w.text()).not.toContain('Alpha Battleline')
+    expect(w.find('.rub-hidden').text()).toContain('4')
+  })
+
+  it('marks a unit as owned from its row, without opening the preview, and filters by that mark', async () => {
+    const w = mountBrowser()
+    await rowFor(w, 'Alpha Battleline').find('.rub-star').trigger('click')
+    expect(w.find('roster-unit-rules-modal-stub').exists()).toBe(false)
+    expect(rowFor(w, 'Alpha Battleline').find('.rub-star').classes()).toContain('on')
+
+    await tick(filters(w).at(-1))
+    expect(w.text()).toContain('Alpha Battleline')
+    expect(w.text()).not.toContain('Bravo Character')
+    expect(w.find('.rub-empty').exists()).toBe(false)
+  })
+
+  it('says the list is empty when nothing is marked yet', async () => {
+    const w = mountBrowser()
+    await tick(filters(w).at(-1))
+    expect(w.find('.rub-empty').exists()).toBe(true)
+  })
+
+  it('remembers both toggles for the next visit, and opens the fold when one is on', async () => {
+    const w = mountBrowser({ remaining: 500 })
+    await tick(filters(w)[0])
+    const again = mountBrowser({ remaining: 500 })
+    expect(filters(again)[0].element.checked).toBe(true)
+    expect(filters(again).at(-1).element.checked).toBe(false)
+    // A closed fold would hide the switch that is shortening the list.
+    expect(again.find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('true')
+  })
+
+  it('starts folded away while nothing is filtering', () => {
+    expect(mountBrowser({ remaining: 500 }).find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('false')
+  })
+})
+
+describe('RosterUnitBrowser — an allied unit is owned under ITS faction', () => {
+  const { collection } = useCollection()
+  const ally = { id: 'imperial-agents:inquisitor', name: 'Inquisitor', flags: { char: true }, kws: ['Character'], sizes: [{ pts: 65, per: [1, 1] }] }
+  const allies = [{ key: 'agents', name: 'Agents of the Imperium', ids: [ally.id] }]
+
+  beforeEach(() => {
+    for (const k of Object.keys(collection)) delete collection[k]
+    localStorage.clear()
+  })
+
+  // Browsed inside a Space Marines list, an Inquisitor is still an Imperial Agents datasheet — the
+  // shelf is keyed that way, or the ids of two factions would share one bucket.
+  it('records the mark against the ally, not against the army browsing it', async () => {
+    const w = mountBrowser({ units: [...units, ally], allies })
+    await w.findAll('.rub-item').find((r) => r.text().includes('Inquisitor')).find('.rub-star').trigger('click')
+    expect(collection['imperial-agents'].inquisitor.name).toBe('Inquisitor')
+    expect(collection['space-marines']).toBeUndefined()
   })
 })

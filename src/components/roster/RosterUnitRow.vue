@@ -19,7 +19,7 @@
 <template>
   <span class="rur">
     <span class="rur-name">
-      <i v-if="entry.warlord" class="bi bi-star-fill rur-star"></i>
+      <i v-if="entry.warlord" class="bi bi-flag-fill rur-wl"></i>
       {{ def?.name || entry.id }}
     </span>
     <span class="rur-pts">{{ points }}</span>
@@ -92,7 +92,7 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 .rur-pts { grid-area: 1 / 2 / 2 / 3; align-self: start; padding-right: var(--rul-acts-w, 0); }
 .rur-chips { grid-area: 2 / 1 / 3 / -1; margin-top: 0.2rem; }
 .rur-picks { grid-area: 3 / 1 / 4 / -1; margin-top: 0.2rem; }
-.rur-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
+.rur-wl { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
 
 .rur-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
 /* Same bordered chip as a wargear group's "up to 2" allowance (UnitEditorFields' .ues-cap). */

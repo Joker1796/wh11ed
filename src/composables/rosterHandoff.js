@@ -3,7 +3,7 @@
 // wizard state), which GameSetup hydrates on mount. A partial draft is enough: GameSetup merges
 // its own defaults over whatever fields we set (it reads the draft before its reset watchers
 // register, so a pre-set faction/detachments isn't wiped).
-import { useTracker } from './useTracker.js'
+import { DISPOSITIONS, useTracker } from './useTracker.js'
 import { rosterSnapshot } from './rosterGameLink.js'
 
 // Roster battle-size ids come from the appdata slug ('strike-force'); the tracker uses its own
@@ -20,6 +20,12 @@ export function toTrackerBattleSize(id) {
 // The roster is ATTACHED as well as copied from: coming here from "play this list" is the one
 // moment we know for certain which list is being fielded, so the player arrives at the wizard with
 // it already linked (rosterId + snapshot) instead of having to pick it again a screen later.
+// "Take and Hold" → 'take-and-hold'. Unknown (or undeclared) leaves the tracker to derive its own
+// from the detachments, exactly as it does for a game started without a list.
+function dispositionId(name) {
+  return (name && DISPOSITIONS.find((d) => d.name === name)?.id) || null
+}
+
 export function prefillDraftFromRoster(roster) {
   const { setupDraft } = useTracker()
   const battleSize = roster?.battleSize === 'custom' ? 'strikeForce' : toTrackerBattleSize(roster?.battleSize)
@@ -29,6 +35,11 @@ export function prefillDraftFromRoster(roster) {
       {
         factionSlug: roster?.faction || null,
         detachments: [...(roster?.detachments || [])],
+        // The list already declared which Force Disposition it plays, and that is the one thing
+        // the tracker would otherwise ask again — and answer for the player by taking whichever
+        // candidate came first. The roster stores it as the detachment data spells it; the ids
+        // are the tracker's, and this is the one place both vocabularies are in scope.
+        disposition: dispositionId(roster?.disposition),
         rosterId: roster?.id || null,
         roster: rosterSnapshot(roster),
       },

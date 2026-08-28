@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword, grantedKeywords } from './rosterEngine.js'
+import { hasKeyword, hostLimitsFor, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -66,6 +66,13 @@ export function validateRoster(roster, { faction, core } = {}) {
   // Incompleteness (soft).
   if (!roster?.faction) add('noFaction', 'warn')
   else if (!roster?.detachments?.length) add('noDetachment', 'warn')
+  // An army has ONE Force Disposition — the card selected after mustering, whose symbols name the
+  // Primary Mission — so detachments disagreeing about it is a choice the player still owes. Said
+  // once the list is otherwise buildable; it costs nothing to fix and everything downstream (the
+  // export's own line, the printed header, the game the list is handed to) reads the answer.
+  else if (dispositionCandidates(detachments).length > 1 && !dispositionOf(roster, detachments)) {
+    add('dispositionUndeclared', 'warn', { params: { options: dispositionCandidates(detachments).join(', ') } })
+  }
 
   // An entry whose datasheet the faction data no longer has. Rosters live in localStorage for as
   // long as the user keeps them and the generated data is replaced on every deploy, so a GW rename
