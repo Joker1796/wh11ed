@@ -83,7 +83,7 @@ describe('RosterViewView', () => {
   // The points and the pencil live in their own row of the header, whatever the name is: at
   // phone width even a 21-character all-caps name takes two lines, so deciding this from the
   // text would only make the header rearrange itself per list.
-  it('keeps an ordinary name at full size, with the points in their own row', async () => {
+  it('keeps an ordinary name at full size, with the points beside it', async () => {
     const store = useRosters()
     const r = store.createRoster('PORTRAIT OF A MACHINE')
     r.faction = 'adeptus-mechanicus'
@@ -93,6 +93,64 @@ describe('RosterViewView', () => {
 
     expect(w.find('.rv-name').classes()).toEqual(['rv-name'])
     expect(w.find('.rv-meta .rv-points').exists()).toBe(true)
+  })
+
+  // Print used to be an icon of its own beside the pencil; export lived only in the editor and on
+  // the list page, and there was no one-tap copy at all. All three are one "…" now.
+  it('puts export, print and copy behind the header\u2019s \u201c\u2026\u201d menu', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Menu list')
+    r.faction = 'necrons'
+    ROSTER_ID = r.id
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
+
+    const w = mount(RosterViewView, { global: { stubs } })
+    await waitForSelector(w, 'button.hdr-icon')
+    expect(w.find('.bi-printer').exists()).toBe(false)   // no icon per action any more
+
+    await w.find('button.hdr-icon').trigger('click')
+    // Export and Copy stay disabled until the faction bundle lands — a copy taken before it would
+    // be a list with no army in it.
+    for (let i = 0; i < 60 && document.querySelector('.act-btn[disabled]'); i++) {
+      await flushPromises()
+      await new Promise((res) => setTimeout(res, 25))
+    }
+    const { ui } = await import('../../i18n/ui.js')
+    // Picked by label, never by index — same rule as the list page's own actions sheet.
+    const acts = [...document.querySelectorAll('.act-btn')]
+    expect(acts.map((b) => b.textContent.trim()))
+      .toEqual([ui.en.rosterExportTitle, ui.en.printAction, ui.en.rosterCopyList])
+
+    acts.find((b) => b.textContent.trim() === ui.en.rosterCopyList).click()
+    await flushPromises()
+    expect(writeText).toHaveBeenCalledTimes(1)
+    expect(writeText.mock.calls[0][0]).toContain('Menu list')
+    w.unmount()
+    document.body.innerHTML = ''
+  })
+
+  // The list's plan, above the tabs because it is about the whole list — and folded, so a list with
+  // notes costs the same first screen as one without (CLAUDE.md, "Vertical density").
+  it('folds the list\u2019s notes above the tabs, and shows nothing when there are none', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Planned')
+    r.faction = 'necrons'
+    r.notes = 'T2 rapid ingress on the right flank'
+    ROSTER_ID = r.id
+
+    const w = mount(RosterViewView, { global: { stubs } })
+    await flushPromises()
+    expect(w.find('.rvn-head').attributes('aria-expanded')).toBe('false')
+    await w.find('.rvn-head').trigger('click')
+    expect(w.find('.rvn-text').text()).toBe('T2 rapid ingress on the right flank')
+
+    const plain = store.createRoster('Unplanned')
+    plain.faction = 'necrons'
+    ROSTER_ID = plain.id
+    const w2 = mount(RosterViewView, { global: { stubs } })
+    await flushPromises()
+    expect(w2.find('.rv-notes').exists()).toBe(false)
   })
 
   // Off the table nothing can be in force, so the switch strip's place above the list is taken by

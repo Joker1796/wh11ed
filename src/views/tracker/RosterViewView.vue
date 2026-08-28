@@ -11,10 +11,10 @@
       <RosterCloudBar v-if="!inGame" class="rv-cloud" />
     </div>
 
-    <!-- On a phone the name takes the row to itself and the points + pencil sit under it, rather
-         than being squeezed against a block of display type. Not conditional on the name: at this
-         width even a short one wraps ("PORTRAIT OF A MACHINE" is 21 characters and two lines), and
-         a header that rearranges itself per list is worse than one that always looks the same. -->
+    <!-- One line when the name and the numbers both fit on it, two when they don't — a wrapping
+         flex row rather than a column that stacks unconditionally. It stacked before, which put
+         "2000/2000" on its own line under a name eight characters long; the name asks for 12rem
+         and yields the rest, so only a name that really needs the width pushes the meta down. -->
     <header class="rv-head">
       <h1 class="rv-name" :class="nameFit">{{ roster.name || labels.rosterUntitled }}</h1>
       <div class="rv-meta">
@@ -26,12 +26,13 @@
         <RouterLink v-if="!inGame" :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
           <i class="bi bi-pencil"></i>
         </RouterLink>
-        <!-- The list as a document. Beside the pencil rather than in a menu: printing is what
-             somebody does with a list they have finished, which is exactly where they are
-             standing when they look at this screen. -->
-        <RouterLink v-if="!inGame" :to="`/roster/${roster.id}/print`" class="hdr-icon" :aria-label="labels.printAction" :title="labels.printAction">
-          <i class="bi bi-printer"></i>
-        </RouterLink>
+        <!-- Everything else this list can become — a printed sheet, a text export, a clipboard
+             full of it — behind one "…" instead of an icon each. The printer stood here alone
+             until export and copy joined it, and three icons beside the pencil is a toolbar, not
+             a header. Same kebab-into-a-sheet the list page's own cards use. -->
+        <button v-if="!inGame" type="button" class="hdr-icon" :aria-label="labels.rosterMoreActions" @click="menuOpen = true">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
       </div>
     </header>
 
@@ -93,6 +94,20 @@
         </CollapseTransition>
       </section>
 
+      <!-- The list's own notes, above the tabs because they are about the whole list and not about
+           any one of them. Folded: a plan is written once and read at a couple of moments, and an
+           open paragraph would stand between the header and the army on every visit (CLAUDE.md,
+           "Vertical density" — secondary things start folded). -->
+      <div v-if="roster.notes" class="rv-notes">
+        <button type="button" class="rvn-head" :aria-expanded="notesOpen" @click="notesOpen = !notesOpen">
+          <i class="bi rvn-chev" :class="notesOpen ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <span>{{ labels.rosterNotes }}</span>
+        </button>
+        <CollapseTransition :show="notesOpen">
+          <p class="rvn-text">{{ roster.notes }}</p>
+        </CollapseTransition>
+      </div>
+
       <PageTabs class="rv-tabs" :tabs="viewTabs" @select="tab = $event" />
 
       <!-- Compact read-only unit list, grouped like the editor. Clicking a row opens the full
@@ -116,6 +131,10 @@
                 <span class="rvunit-text">
                   <span class="rvunit-name">
                     {{ defOf(e.id)?.name || e.id }}
+                    <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
+                         read HERE, at the table, which is why it is on the row rather than behind
+                         the card this row opens. -->
+                    <span v-if="e.note" class="rvunit-note">({{ e.note }})</span>
                     <!-- Attached characters sit under their bodyguard (rosterEngine's
                          joinAttached); the tag says which slot, which nesting alone can't. -->
                     <span v-if="attachRole(e)" class="rvunit-role">{{ attachRole(e) }}</span>
@@ -259,6 +278,37 @@
       </div>
     </template>
 
+    <!-- The "…" sheet: what to DO with this list, as opposed to what is in it. Copy sits beside
+         Export rather than inside it because the export dialog's own Copy is a choice of dialect
+         first — this one is the answer for the player who just wants the list in their clipboard,
+         in the format the GW app writes. -->
+    <BaseModal v-if="menuOpen" max-width="340px" @close="menuOpen = false">
+      <template #header>
+        <header class="modal-head">
+          <h3 class="mh-title">{{ roster.name || labels.rosterUntitled }}</h3>
+          <button class="mh-close" :aria-label="labels.modalClose" @click="menuOpen = false">✕</button>
+        </header>
+      </template>
+      <div class="modal-body act-list">
+        <!-- Both of these WRITE the list out, so both wait for the faction data that names its
+             units — a copy taken a beat too early would be a list with no army in it. -->
+        <button type="button" class="act-btn" :disabled="!ready" @click="openExport">{{ labels.rosterExportTitle }}</button>
+        <button type="button" class="act-btn" @click="goPrint">{{ labels.printAction }}</button>
+        <button type="button" class="act-btn" :disabled="!ready" @click="copyWholeList">
+          {{ copiedList ? labels.rosterCopied : labels.rosterCopyList }}
+        </button>
+      </div>
+    </BaseModal>
+
+    <RosterExportModal
+      v-if="exportOpen"
+      :roster="roster"
+      :faction="factionData"
+      :core="rosterCore"
+      :items="rosterItems.items"
+      @close="exportOpen = false"
+    />
+
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
@@ -297,6 +347,8 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
+import RosterExportModal from '../../components/roster/RosterExportModal.vue'
+import BaseModal from '../../components/BaseModal.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
@@ -306,6 +358,8 @@ import { useRosters } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { buildRosterText } from '../../composables/rosterExport.js'
+import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, leadsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
@@ -412,6 +466,9 @@ watch([roster, gameRoster], () => {
 }, { immediate: true })
 
 const tab = ref('units')
+// The list's notes start folded on every visit — deliberately not remembered: what is worth a row
+// of the first screen is the army, and a plan is read at a moment, not throughout.
+const notesOpen = ref(false)
 // PageTabs only draws; which one is open is this page's own state.
 const viewTabs = computed(() => {
   const l = labels.value
@@ -1024,6 +1081,43 @@ const issues = computed(() => validation.value.issues)
 const errorCount = computed(() => validation.value.errorCount)
 const warnCount = computed(() => issues.value.length - errorCount.value)
 
+// ── The "…" sheet: export / print / copy ────────────────────────────────────────────────────
+// Only off the table (`!inGame`): in a game this screen reads the game's own snapshot, and none
+// of the three is a thing to do with a list that is currently being played.
+const menuOpen = ref(false)
+const exportOpen = ref(false)
+const copiedList = ref(false)
+// A list with a faction has nothing to say about itself until its faction bundle is in.
+const ready = computed(() => !roster.value?.faction || !!factionData.value)
+
+function openExport() {
+  menuOpen.value = false
+  exportOpen.value = true
+}
+function goPrint() {
+  menuOpen.value = false
+  router.push(`/roster/${roster.value.id}/print`)
+}
+// The whole list as text, in the GW app's dialect — the one a player pastes into a chat or a
+// TO's form. The sheet stays open long enough to say it worked and then closes itself: a
+// clipboard write is invisible, and closing on the tap would leave nothing to see.
+async function copyWholeList() {
+  const text = buildRosterText(
+    roster.value,
+    { faction: factionData.value, core: rosterCore, items: rosterItems.items, version: { app: __APP_VERSION__, data: APP_DATA_VERSION } },
+    'gw',
+  )
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedList.value = true
+    setTimeout(() => { copiedList.value = false; menuOpen.value = false }, 1000)
+  } catch {
+    // Clipboard blocked (an insecure origin, a denied permission) — the export dialog holds the
+    // same text in a selectable textarea, so send them there rather than failing silently.
+    openExport()
+  }
+}
+
 // Allies read as their own part of the list, exactly as the editor shows them (rosterEngine's
 // sectionsOf); `keepLocked` so a unit whose group the Detachment doesn't unlock is still on screen.
 const groupedUnits = computed(() =>
@@ -1178,20 +1272,23 @@ function stratKey(strat) {
 
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
 
+/* One row, always: the numbers and the buttons keep the top-right corner and the name takes
+   whatever is left, wrapping ITS OWN text as many lines as it needs. It stacked before, and then
+   wrapped at a 12rem threshold — which on a phone still dropped "2000/2000" under a two-word name,
+   because the meta alone is over half that width.
+
+   Baseline, not centre: aligned to the name's FIRST line, so a quote-as-a-name doesn't leave the
+   points floating against the middle of a five-line paragraph. */
 .rv-head {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.35rem;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 0.75rem;
   margin: 0.75rem 0 1rem;
   padding-bottom: 0.6rem;
   border-bottom: 2px solid var(--accent);
 }
-/* A wide screen fits nearly any name beside the points, so there the header stays one line. */
-@media (min-width: 700px) {
-  .rv-head { flex-direction: row; align-items: center; gap: 0.75rem; }
-  .rv-head .rv-name { flex: 1; }
-}
+.rv-head .rv-name { flex: 1 1 auto; }
 .rv-name {
   min-width: 0;
   font-family: var(--font-display);
@@ -1206,26 +1303,74 @@ function stratKey(strat) {
    line gets no step at all: two lines of a header are fine. */
 .rv-name.long { font-size: clamp(1.35rem, 5.2vw, 1.7rem); line-height: 1.2; }
 .rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.25; }
-.rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem; margin-left: auto; flex-shrink: 0; }
+.rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; flex: 0 0 auto; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: #c0392b; }
 .rp-sep, .rp-cap { color: var(--text-dim); }
+/* One of these is a link and the other is a button, and they must not look it: a <button> starts
+   from the browser's own 13px system font, so the same padding drew two different boxes. Fixed
+   square, centred glyph, font inherited — the element the action happens to need is not a style. */
 .hdr-icon {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.55rem;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  flex: none;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-muted);
   text-decoration: none;
+  cursor: pointer;
 }
 .hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
+/* A phone spends the width on the name: the meta is what stands between it and the corner. */
+@media (max-width: 480px) {
+  .rv-head { gap: 0.5rem; }
+  .rv-meta { gap: 0.35rem; }
+  .rv-points { font-size: 1rem; }
+  .hdr-icon { width: 2.1rem; height: 2.1rem; font-size: 0.9rem; }
+}
 
 .rv-hint { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 
 /* The same folder tabs the faction pages wear (PageTabs) — three halves of one list, not three
    filters above it. They pick up this list's faction accent through --accent. */
+/* The list's own notes: a one-row fold above the tabs, so a list with a plan costs the same
+   first screen as one without until the reader opens it. */
+.rv-notes { margin-bottom: 0.6rem; }
+.rvn-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.35rem 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.rvn-head:hover { color: var(--accent); }
+.rvn-chev { font-size: 0.75rem; }
+.rvn-text {
+  margin: 0 0 0.3rem;
+  padding-left: 1.1rem;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
 .rv-tabs { margin-bottom: 1rem; }
 
 /* Desktop has the room to separate the tabs from the army-wide strip above them, so the tab row
@@ -1383,7 +1528,33 @@ function stratKey(strat) {
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rvunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
-.rv-rule-block { margin-bottom: 1.5rem; }
+/* The Rules tab is a REREAD of rules the player already knows, on the screen they hold at the
+   table — not the rules page, where a rule is being read for the first time. So it runs a step
+   smaller and tighter than RuleBlock's own sizes: --fs-rule-title and --fs-subheading are
+   inherited custom properties, so setting them here re-sizes the headings inside RuleBlock /
+   RuleBody without reaching into their scoped styles at all; the rest is :deep() on the two
+   things that set the rhythm — body type and paragraph gaps. */
+.rv-rules {
+  --fs-rule-title: 1.15rem;
+  --fs-subheading: 1rem;
+}
+/* Every override goes through the .rv-rule-block wrapper on purpose: a bare `.rv-rules
+   :deep(.rule-body)` ties RuleBlock's own `.rule-body` on specificity (both 0,2,0) and would be
+   settled by chunk order, which is nobody's intention. Through the wrapper it is 0,3,0 and wins
+   outright. */
+.rv-rules .rv-rule-block :deep(.rule-block) { padding: 0.5rem 0; }
+.rv-rules .rv-rule-block :deep(.rule-body) { font-size: 0.85rem; line-height: 1.45; }
+.rv-rules .rv-rule-block :deep(.rule-body p) { margin-bottom: 0.5rem; }
+.rv-rules .rv-rule-block :deep(.rule-body p:last-child) { margin-bottom: 0; }
+.rv-rules .rv-rule-block :deep(.rule-header) { margin-bottom: 0.4rem; }
+.rv-rules .rv-rule-block :deep(.rule-list),
+.rv-rules .rv-rule-block :deep(.rule-ol) { margin-bottom: 0.4rem; }
+.rv-rules .rv-rule-block :deep(.rule-list li),
+.rv-rules .rv-rule-block :deep(.rule-ol li) { margin-bottom: 0.15rem; line-height: 1.35; }
+.rv-rules .rv-rule-block :deep(.rule-subheading) { margin: 0.5rem 0 0.15rem; }
+.rv-rules .rvg-head { margin: 0.8rem 0 0.35rem; }
+.rv-rules .rv-rule-block:first-child .rvg-head { margin-top: 0; }
+.rv-rule-block { margin-bottom: 0.9rem; }
 
 /* Stratagems tab — same toolbar/toggle/phase-accordion/grid language as the standalone
    StratagemsView.vue page — copied, not shared (scoped styles don't cross component

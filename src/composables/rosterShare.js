@@ -8,7 +8,10 @@
 
 import { SCHEMA_VERSION } from './useRosters.js'
 
-const PICK = ['name', 'faction', 'detachments', 'disposition', 'battleSize', 'customPoints', 'units']
+const PICK = ['name', 'faction', 'detachments', 'disposition', 'battleSize', 'customPoints', 'notes', 'units']
+// `notes` travels because a list's plan is part of the list — a game snapshot is where it is most
+// wanted (the notes are what the player wrote to read AT the table). Per-unit and per-block notes
+// need no mention here: they live on the entries, and `units` goes whole.
 
 // `v` is the STORAGE schema version, not the payload's own encoding version (that's the `1.`/`0.`
 // prefix below). A roster in a link is the same shape as a stored one — wargear picks are indices

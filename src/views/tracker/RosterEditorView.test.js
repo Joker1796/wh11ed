@@ -62,10 +62,13 @@ describe('RosterEditorView', () => {
     ROSTER_ID = r.id
 
     const w = mount(RosterEditorView, { global: { stubs } })
-    await waitFor(w, byFd('Take and Hold'))
+    await flushPromises()
     await w.findAll('.page-tab')[0].trigger('click') // the editor opens on Units
+    // Wait for the DISPOSITION, not for the detachment's name: the name is on the roster and
+    // renders immediately, while the Force Disposition it implies comes out of the faction data
+    // this view imports dynamically.
+    await waitFor(w, 'Take and Hold')
     expect(w.find('.disp-opts').exists()).toBe(false)
-    expect(w.text()).toContain('Take and Hold')
 
     store.updateRoster(r.id, { detachments: [byFd('Take and Hold'), byFd('Purge the Foe')] })
     await flushPromises()
@@ -74,6 +77,21 @@ describe('RosterEditorView', () => {
     expect(seg.findAll('button').map((b) => b.text())).toEqual(['Take and Hold', 'Purge the Foe'])
     await seg.findAll('button')[1].trigger('click')
     expect(store.rosterById(r.id).disposition).toBe('Purge the Foe')
+  })
+
+  // The header's hand-off to the tracker is gone (2026-08-28, on request): a list is attached to
+  // a game from the tracker's own side, where somebody starting a game already is.
+  it('offers no tracker hand-off from the editor header', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(w.find('.red-head .bi-clipboard-data').exists()).toBe(false)
+    expect(push).not.toHaveBeenCalled()
   })
 
   it('loads faction data and renders a unit with its points', async () => {

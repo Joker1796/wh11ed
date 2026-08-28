@@ -1011,6 +1011,39 @@ function joinAttached(items, where, attached) {
   }
 }
 
+// ── The player's own notes ───────────────────────────────────────────────────────────────────
+//
+// Free text the player hangs on their list, used for PLANNING a game rather than describing an
+// army: "rapid ingress T2" on a unit, a paragraph on the list. Two places because they are read at
+// two different moments, and both are the player's words —
+// nothing here is validated, priced, translated or read by any rule: `validateRoster` never looks
+// at a note, and a note never makes a list illegal.
+//
+//   roster.notes  — the whole list's plan.
+//   entry.note    — one unit's, printed after its name in parentheses.
+//
+// An attached BLOCK has no note of its own. It was built and dropped the same day (2026-08-28):
+// the block is derived from `leaderOf` and has no record to hang a name on, so the name had to
+// live on its host and be shown either in a heading of its own (a row of the phone per block) or
+// on the block's total line, where the player who asked for it could not find it. A note on the
+// host unit says the same thing in a place that is already read.
+//
+// The caps are what stops a note from being a document: a game snapshot carries the whole roster
+// inside a 64 KB budget shared with the game (see `rosterGameLink.js`), so a note is a line, not a
+// page.
+export const ENTRY_NOTE_MAX = 60
+export const ROSTER_NOTES_MAX = 2000
+
+// Write a note, or remove it. Absent rather than empty: an empty string is not a note, and every
+// reader here treats a missing field as "no note" — which is also what makes this need no schema
+// bump (a roster saved before notes existed simply has none).
+export function setNote(obj, key, value, max = ENTRY_NOTE_MAX) {
+  if (!obj) return
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim().slice(0, max)
+  if (text) obj[key] = text
+  else delete obj[key]
+}
+
 // The points of a whole ATTACHED unit, to be shown once under the last row of its block — and
 // only there, so the per-row numbers above it still read down the column and still add up to the
 // roster total. Returns null for any other row. `pointsOf(entry)` is the caller's own per-entry

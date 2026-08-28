@@ -397,15 +397,6 @@ function confirmDelete() {
 .modal-head { align-items: flex-start; }
 /* Denser header, and a long title must not squeeze the button out of shape. */
 .mh-close { min-width: 32px; min-height: 32px; flex-shrink: 0; }
-.act-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.act-btn {
-  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border);
-  background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
-  font-size: 0.88rem; font-weight: 600; text-align: left;
-}
-@media (hover: hover) { .act-btn:hover { border-color: var(--accent); } }
-.act-danger { color: #c0392b; }
-@media (hover: hover) { .act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); } }
 </style>
 
 <!-- Explicit data-theme must win over prefers-color-scheme in both directions (see FactionLayout). -->

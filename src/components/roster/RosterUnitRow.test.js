@@ -20,6 +20,14 @@ describe('RosterUnitRow', () => {
     expect(w.text()).toContain('8 models')
   })
 
+  // The player's own note, after the name and in parentheses — not a chip: a chip is a fact the app
+  // knows about the unit, this is a sentence the player wrote.
+  it('prints the note the player hung on the entry, beside its name', () => {
+    const w = mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0, note: 'rapid ingress T2' } })
+    expect(w.find('.rur-name').text()).toContain('(rapid ingress T2)')
+    expect(w.find('.rur-chips').exists()).toBe(false)
+  })
+
   // "1 model" is not a fact about the entry, it is a fact about the datasheet.
   it('says nothing about model count on a one-model datasheet', () => {
     const w = mountRow({ def: captain, entry: { uid: 'u1', id: 'c', size: 0 } })

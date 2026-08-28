@@ -200,7 +200,7 @@ const groupedDatasheets = computed(() => {
   color: var(--text-primary);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.55rem;
 }
 
 .ds-search:focus {
@@ -211,7 +211,7 @@ const groupedDatasheets = computed(() => {
 /* The sticky chapter/detachment bar itself lives in FactionPickerBar; here we only
    restore the list's breathing room under it. */
 .ds-picker-bar {
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.6rem;
 }
 
 .ds-group-head {
@@ -221,8 +221,8 @@ const groupedDatasheets = computed(() => {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--accent);
-  margin: 1.4rem 0 0.6rem;
-  padding-bottom: 0.3rem;
+  margin: 1rem 0 0.4rem;
+  padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -244,7 +244,7 @@ const groupedDatasheets = computed(() => {
      at this grid's 180px a second column of buttons was breaking names onto a third line. The
      min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
      a short chip (a one-line name and its points). */
-  min-height: 2.9rem;
+  min-height: 2.6rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -261,7 +261,7 @@ const groupedDatasheets = computed(() => {
   align-items: center;
   justify-content: center;
   width: 1.5rem;
-  height: 1.3rem;
+  height: 1.15rem;
   padding: 0;
   background: none;
   border: none;
@@ -326,7 +326,7 @@ const groupedDatasheets = computed(() => {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 1rem;
-  margin: 0.7rem 0 0;
+  margin: 0.5rem 0 0;
   font-size: 0.75rem;
   color: var(--text-muted);
 }

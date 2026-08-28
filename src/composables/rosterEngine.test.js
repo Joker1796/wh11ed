@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1182,4 +1182,27 @@ describe('entrySummary', () => {
     const e = { uid: 'u1', id: 'captain', size: 0 }
     expect(entrySummary(e, captain, 'models', 'upgrades', 'Warlord')).toBe('')
   })
+})
+
+// ── The player's own notes ──
+//
+// Free text hung on a list for PLANNING ("rapid ingress T2"). Nothing here is a rule, so the only
+// things worth pinning are where a note is written to and when it is gone.
+describe('notes', () => {
+  it('trims a note, folds its whitespace and caps its length', () => {
+    const e = {}
+    setNote(e, 'note', '  rapid   ingress\n T2  ')
+    expect(e.note).toBe('rapid ingress T2')
+    setNote(e, 'note', 'x'.repeat(200))
+    expect(e.note).toHaveLength(ENTRY_NOTE_MAX)
+  })
+
+  // Absent, not empty: every reader treats a missing field as "no note", which is also what lets
+  // this ship without a schema bump.
+  it('removes the field when the note is cleared', () => {
+    const e = { note: 'screen' }
+    setNote(e, 'note', '   ')
+    expect('note' in e).toBe(false)
+  })
+
 })

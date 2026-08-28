@@ -256,14 +256,4 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .pick-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
 .pick-cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); flex-shrink: 0; }
 .pick-empty { font-size: 0.85rem; color: var(--text-dim); font-style: italic; margin: 0.3rem 0; text-align: center; }
-
-.act-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.act-btn {
-  width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--border);
-  background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
-  font-size: 0.88rem; font-weight: 600; text-align: left;
-}
-.act-btn:hover { border-color: var(--accent); }
-.act-danger { color: #c0392b; }
-.act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
 </style>

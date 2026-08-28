@@ -282,3 +282,18 @@ describe('UnitEditorFields — allegiance', () => {
     expect(mountWith(grinder, []).text()).toContain('Phlegm bombardment')
   })
 })
+
+// ── Notes ──
+//
+// The player's own words on a unit. Nothing reads them, so what is worth pinning is that the field
+// writes to the entry and that what it writes is folded to one line.
+describe('UnitEditorFields — notes', () => {
+  it('writes the unit\u2019s note onto the entry', async () => {
+    const w = mountFor(wraithlord)
+    const fields = w.findAll('.ues-note input')
+    expect(fields).toHaveLength(1)
+    await fields[0].setValue('  rapid ingress T2  ')
+    expect(w.props('entry').note).toBe('rapid ingress T2')
+  })
+
+})
