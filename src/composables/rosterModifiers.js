@@ -14,7 +14,7 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegKeyword, allegItems, grantedKeywordsFor } from './rosterEngine.js'
+import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor } from './rosterEngine.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
@@ -304,6 +304,12 @@ export function ruleSourcesFor(ctx) {
 // returns: { sheet, grantedKeywords, context, ruleSources, notes }. `notes` is reserved for Tier
 // C's attributed stat annotations and stays empty until then — `ruleSources` is Tier B's own
 // thing and does not belong in it.
+function allegGrant(def, entry, detachments) {
+  const kw = allegKeyword(def, entry, detachments)
+  if (!kw) return []
+  return [{ kw, detName: null, extra: false, alleg: allegFor(def, detachments)?.t || null }]
+}
+
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
   const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
@@ -312,9 +318,19 @@ export function overlaySheet(sheet, ctx) {
     // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
     // unit took is a per-list decision, not a property of the datasheet (which is exactly why
     // gen-conditional-keywords.mjs skips appdata's 274 allegiance rows).
+    //
+    // In the SHAPE the rest of this list uses. `allegKeyword` answers with a bare string, which is
+    // what the engine's own keyword lists want (rosterValidation, the editors' `canWarlord`), and
+    // dropping that string in among `{ kw, detName, extra }` objects meant every reader of this
+    // array read `undefined` — and `rosterUnitCard`'s allGrantedKeywords threw on it, so the whole
+    // card rendered NOTHING. Both Daemon Princes and the Soul Grinder must choose a Daemonic
+    // Allegiance, so their card and their printed sheet were simply blank; 87 more datasheets go
+    // the same way once the detachment that offers their mark is fielded (Pactbound Zealots alone
+    // is 43). `alleg` carries the group's own title so the footnote can say where it came from —
+    // a mark is the reader's choice for THIS model, not something the faction hands out.
     grantedKeywords: [
       ...grantedKeywordsFor(unitId || def?.id, factionSlug, detachments),
-      ...[allegKeyword(def, entry, detachments)].filter(Boolean),
+      ...allegGrant(def, entry, detachments),
     ],
     context: entryContext(ctx),
     ruleSources: ruleSourcesFor(ctx),

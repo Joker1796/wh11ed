@@ -1674,6 +1674,18 @@ Tier A does four things:
    search index, so it stays as it is. `grantedKeywordsFor`/`detKey` themselves live in
    `rosterEngine.js` (re-exported here) since 2026-08-24: the same grant decides whether a unit can
    carry an enhancement, and the engine cannot import this file without a cycle.
+   **The mark an entry chose for itself is one of these grants and must travel in the same SHAPE**
+   (`{ kw, detName, extra, alleg }`). It did not, until 2026-08-28: `allegKeyword` answers with a
+   bare string — which is right for the engine's own keyword lists (`rosterValidation`, the
+   editors' `canWarlord`) and wrong here — so every reader took `.kw` off a string and got
+   `undefined`, and `rosterUnitCard`'s `allGrantedKeywords` THREW on it. A computed that throws
+   inside a template renders nothing, so the unit's card came up blank: no statline, no abilities,
+   nothing, on screen and on paper alike. Both Daemon Princes and the Soul Grinder choose a
+   Daemonic Allegiance and it is mandatory, so those five were broken outright; 87 more datasheets
+   join them whenever the detachment that offers their mark is fielded (Pactbound Zealots is 43 of
+   them, Headhunter Task Force 25). The footnote has a source of its own — `alleg` carries the
+   choice's title, and `keywordNotesOf` says "from this unit's own Daemonic Allegiance choice"
+   rather than crediting the faction for what the reader picked.
 3. **Hides the build-choice blocks** — Unit Composition, the default-loadout sentence and Wargear
    Options (`DatasheetCard`'s `hideChoices` prop). Each describes a decision the roster has already
    made, and the printed loadout sentence contradicts the weapon tables once those are trimmed.

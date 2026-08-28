@@ -306,6 +306,30 @@ describe('overlaySheet — granted keywords', () => {
     expect(overlaySheet(null, {}).grantedKeywords).toEqual([])
     expect(overlaySheet(sheet, null).grantedKeywords).toEqual([])
   })
+
+  // The mark an entry chose for itself is a granted keyword like any other, and must arrive in the
+  // same SHAPE. It used to be pushed in as the bare string `allegKeyword` answers with — every
+  // reader then took `.kw` off a string and got undefined, and the card's own dedupe threw on it,
+  // so a Daemon Prince (whose Daemonic Allegiance is mandatory) rendered nothing at all.
+  it('reports the mark the entry chose, in the shape the rest of the list uses', () => {
+    const prince = {
+      id: 'prince',
+      alleg: { g: 'daemonic-allegiance', t: 'Daemonic Allegiance', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+    }
+    const out = overlaySheet(sheet, { def: prince, entry: { uid: 'a', id: 'prince', alleg: 'Khorne' }, factionSlug: 'chaos-space-marines' })
+    expect(out.grantedKeywords).toEqual([{ kw: 'Khorne', detName: null, extra: false, alleg: 'Daemonic Allegiance' }])
+  })
+
+  it("says nothing when the mark's own detachment is not fielded", () => {
+    const chosen = {
+      id: 'chosen',
+      alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }] },
+    }
+    const ctx = { def: chosen, entry: { uid: 'a', id: 'chosen', alleg: 'Khorne' }, factionSlug: 'chaos-space-marines' }
+    expect(overlaySheet(sheet, { ...ctx, detachments: [] }).grantedKeywords).toEqual([])
+    expect(overlaySheet(sheet, { ...ctx, detachments: [{ name: 'Pactbound Zealots', enhancements: [] }] }).grantedKeywords)
+      .toEqual([{ kw: 'Khorne', detName: null, extra: false, alleg: 'Mark of Chaos' }])
+  })
 })
 
 describe('entryContext', () => {

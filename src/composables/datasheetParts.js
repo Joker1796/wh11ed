@@ -46,10 +46,16 @@ export function extraKeywordsOf(sheet, grantedKeywords) {
 // Deathwing/Ravenwing (both roster-wide) collapse into a single line instead of repeating the
 // same sentence twice. `extra` folds its caveat into the note string itself, so an `extra` grant
 // never silently merges with a plain one that happens to share the base sentence.
+//
+// Three sources, and a mark is not the other two: a Daemon Prince's KHORNE is the reader's own
+// choice for THIS model (`alleg` carries the choice's own title — Daemonic Allegiance, Mark of
+// Chaos), where the faction and the detachment hand a keyword to whoever qualifies.
 export function keywordNotesOf(extraKeywords, labels) {
   const groups = new Map()
   for (const g of extraKeywords) {
-    let note = g.detName
+    let note = g.alleg
+      ? labels.dsKeywordGrantedByAllegiance.replace('{choice}', g.alleg)
+      : g.detName
       ? labels.dsKeywordGrantedByDetachment.replace('{det}', g.detName)
       : labels.dsKeywordGrantedByFaction
     if (g.extra) note += ' ' + labels.dsKeywordExtraCondition
