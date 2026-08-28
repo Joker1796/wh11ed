@@ -187,6 +187,33 @@ describe('buildRosterText — the shapes themselves', () => {
   })
 })
 
+describe('buildRosterText — a unit-wide swap', () => {
+  // A group appdata records once per miniature profile and the generator folds into one unit-wide
+  // one (`all`). Until 2026-08-28 the export printed the replacement AND every copy of the weapon
+  // it replaced — five accursed weapons under a squad holding four — and hung the pick on the
+  // first profile, so the champion got the fist while the squad kept its weapons. Both halves of
+  // the swap are charged to the same profile now: the biggest one (see swapsByMini).
+  const chosen = {
+    id: 'chosen', name: 'Chosen', kws: ['Infantry'], flags: {},
+    minis: [{ n: 'Chosen Champion' }, { n: 'Chosen' }],
+    sizes: [{ pts: 135, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+    defaults: [[0, [[2, 1]]], [1, [[2, 1]]]],
+    gear: [{ all: 1, t: 1, in: 'stepper', o: [[5]], rep: [2] }],
+  }
+  const list = {
+    name: 'Warband', faction: 'space-marines', detachments: ['Gladius Task Force'], battleSize: 'strike-force',
+    units: [{ uid: 'a', id: 'chosen', size: 0, wg: [[0, 0, 1]] }],
+  }
+  const txt = buildRosterText(list, { ...ctx, faction: { ...faction, units: [chosen] } }, 'gw')
+
+  it('takes the replaced weapon off the profile that took the swap', () => {
+    expect(txt).toContain('4x Chosen\n')
+    expect(txt).toContain('3x Chainsword')
+    expect(txt).toContain('1x Power fist')
+    expect(txt).toContain('• 1x Chosen Champion\n    • 1x Chainsword')
+  })
+})
+
 describe('buildRosterText — allegiance', () => {
   // "You must select one for that unit and note it on your Army Roster" — a list that doesn't
   // print the mark isn't a legal list, so every format has to carry it.

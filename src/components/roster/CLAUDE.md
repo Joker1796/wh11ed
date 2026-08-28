@@ -1243,6 +1243,28 @@ It runs **before** the limits below, deliberately — two identical groups are e
 limited set ambiguous, and folding them first took the ambiguous count from 43 to 1 and the
 capped groups from 219 to 261.
 
+**A folded group is spent against the SQUAD** (`swapsByMini`, fixed 2026-08-28). Having no `m`, it
+had no profile to charge and so charged nobody: on the 44 datasheets whose swaps are all of this
+kind — Chosen, every Terminator squad, Nobz, Scout Squad, Aggressors, Bullgryns, Wracks, Troupe,
+Deathwatch Veterans — a swap ADDED the new weapon and never took the old one away. Five accursed
+weapons and a power fist on a five-model Chosen squad, identically wrong in the editor's loadout
+block, on the card's weapon table, in the print card and in the exported list. (`wargearGroupLive`
+and `defaultWargearPoints` had always scoped `all` to the unit, which is why the POINTS were right
+all along — only the item accounting was out.)
+
+WHICH profile gave the item up is the one thing the data cannot say: all 105 replaced items in
+those groups are carried by BOTH profiles, which is exactly why appdata wrote the bullet twice and
+the generator folded it. So the split is a **display convention** — biggest profile first, spilling
+into the next once one is spent, never past what a profile fields, and per-profile groups charged
+first so they claim their own models. The UNIT total is exact either way, and the total is what the
+weapon table counts. `pickMiniFor` puts the pick under the same profile, so the two halves of one
+swap read together instead of the champion collecting a fist the squad paid for.
+
+The corpus guardrail is in `src/data/roster/index.test.js`: every unit-wide group with a `rep`, on
+every datasheet, must move the unit's total for each replaced item — checked NET, since an option
+may hand part of what it replaces straight back (a Deathwatch Veteran keeps his boltgun and gains
+an Astartes shield).
+
 ## How many models may take it
 
 The other half of the same gap: `wargear_option_group` says WHAT a squad may take, never HOW

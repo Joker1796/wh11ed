@@ -770,29 +770,94 @@ export function modelsPerMini(def, entry) {
   return out
 }
 
+// How many models of a profile a pick takes the item away from. A stepper carries the model count;
+// a checkbox is one tick per model, except for the four groups whose instruction hands the swap to
+// the whole profile ("All models can each have their…", `repall`). Reading every checkbox as the
+// whole profile is what used to wipe all nine boltguns off a Battle Sisters Squad when one Sister
+// traded hers away.
+function swapConsumed(g, n, scope) {
+  return g.in === 'stepper' ? Math.min(n || 1, scope) : Math.min(g.repall ? scope : 1, scope)
+}
+
+// Which profiles print an item in their default loadout, biggest first — the capacity a unit-wide
+// swap is spent against. A `total` quantity belongs to the PROFILE rather than to each of its
+// models (the single heavy bolter among two Gun Servitors) and is never reduced by a swap
+// anywhere, so such a line is not capacity either.
+function swapCarriers(def, perMini, id) {
+  const out = []
+  for (const [m, list] of def?.defaults || []) {
+    const models = perMini?.get(m)
+    if (!models) continue
+    if (list.some(([i, , total]) => i === id && !total)) out.push([m, models])
+  }
+  return out.sort((a, b) => b[1] - a[1])
+}
+
 // Models that gave an item up, keyed `${miniIndex}:${itemId}` — the shared half of
 // defaultLoadoutLines() and rosterModifiers' loadoutItemIds(), which used to carry a copy each.
 //
-// A unit-wide group (`all`, folded by the generator from the copy appdata records per miniature)
-// belongs to no single profile, so there is no profile count to spend it against and it is skipped
-// — 81 such groups, left exactly as they were.
+// A UNIT-WIDE group (`all`, folded by the generator from the copy appdata records once per
+// miniature profile) is scoped to the whole squad, exactly as wargearGroupLive and
+// defaultWargearPoints already scope it. Until 2026-08-28 it was skipped instead, for want of a
+// profile to charge — so on the 44 datasheets whose swaps are all of that kind (Chosen, every
+// Terminator squad, Nobz, Scouts, Bullgryns…) a swap ADDED the new weapon and never took the old
+// one away: five accursed weapons and a power fist on a five-model squad, in the editor's loadout
+// block, on the card's weapon table and in the exported list alike.
+//
+// WHICH profile gave it up is the one thing the data cannot say — all 105 replaced items in those
+// groups are carried by BOTH profiles (which is why appdata wrote the bullet twice and the
+// generator folded it). The unit TOTAL is exact either way, and that is what the weapon table
+// counts; the per-profile split is a display convention, and it is the biggest profile first,
+// spilling into the next once one is spent: that is where a "for every 5 models" bullet is nearly
+// always taken, and it cannot empty a one-model champion's line on the first tick. Per-profile
+// groups are charged FIRST so a profile's own swaps claim its models before a unit-wide one does,
+// and nothing is ever charged past what a profile actually fields.
 export function swapsByMini(def, entry, perMini) {
   const removed = new Map()
   if (!perMini) return removed
+  const take = (key, n) => removed.set(key, (removed.get(key) || 0) + n)
+  const unitWide = []
   for (const [gi, , n] of entry?.wg || []) {
     const g = def?.gear?.[gi]
-    if (!g?.rep?.length || g.all || !wargearGroupLive(def, entry, gi)) continue
+    if (!g?.rep?.length || !wargearGroupLive(def, entry, gi)) continue
+    if (g.all) { unitWide.push([g, n]); continue }
     const m = g.m ?? 0
     const models = perMini.get(m)
     if (models == null) continue
-    // A stepper carries the model count; a checkbox is one tick per model, except for the four
-    // groups whose instruction hands the swap to the whole profile ("All models can each have
-    // their…", `repall`). Reading every checkbox as the whole profile is what used to wipe all
-    // nine boltguns off a Battle Sisters Squad when one Sister traded hers away.
-    const consumed = g.in === 'stepper' ? Math.min(n || 1, models) : Math.min(g.repall ? models : 1, models)
-    for (const id of g.rep) removed.set(`${m}:${id}`, (removed.get(`${m}:${id}`) || 0) + consumed)
+    const consumed = swapConsumed(g, n, models)
+    for (const id of g.rep) take(`${m}:${id}`, consumed)
+  }
+  if (!unitWide.length) return removed
+  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
+  const unitModels = entry?.count ?? size?.per?.[0] ?? 1
+  for (const [g, n] of unitWide) {
+    const consumed = swapConsumed(g, n, unitModels)
+    for (const id of g.rep) {
+      let left = consumed
+      for (const [m, models] of swapCarriers(def, perMini, id)) {
+        if (left <= 0) break
+        const room = models - (removed.get(`${m}:${id}`) || 0)
+        if (room <= 0) continue
+        const spend = Math.min(room, left)
+        take(`${m}:${id}`, spend)
+        left -= spend
+      }
+    }
   }
   return removed
+}
+
+// The profile a pick is SHOWN under — `g.m` for an ordinary group, and for a unit-wide one the
+// same profile swapsByMini charges first, so the two halves of one swap read together (the squad
+// loses an accursed weapon and the squad gains the power fist, rather than the champion gaining it
+// while the squad keeps all five). A unit-wide group that replaces nothing has nothing to pair
+// with and stays on the first profile, as it always was.
+export function pickMiniFor(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  if (!g?.all) return g?.m ?? 0
+  if (!g.rep?.length) return 0
+  const [first] = swapCarriers(def, modelsPerMini(def, entry), g.rep[0])
+  return first ? first[0] : 0
 }
 
 export function defaultLoadoutLines(def, items, entry) {

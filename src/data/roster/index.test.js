@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive } from '../../composables/rosterEngine.js'
+import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -309,6 +310,45 @@ describe('replaced-item links', () => {
     // The Tesseract Vault really does have all three Powers of the C’tan.
     const vault = groupsOf('necrons', 'tesseract-vault')
     expect(names(vault, 0)).toEqual(expect.arrayContaining(['Antimatter Meteor', 'Cosmic Fire', 'Time’s Arrow']))
+  })
+
+  it('spends a unit-wide swap on the unit, on every datasheet that has one', () => {
+    // A bullet appdata records once per miniature profile is folded into ONE unit-wide group
+    // (`all`) — 81 of them, on the most-fielded squads in the game (Chosen, every Terminator
+    // squad, Nobz, Scouts, Bullgryns). Until 2026-08-28 nothing spent them: the swap added the new
+    // weapon and left every copy of the old one on the card, the loadout block and the export.
+    // Which profile gives the item up is a display convention (see swapsByMini); that the UNIT
+    // holds one fewer is not, and this is what pins it.
+    const silent = []
+    let checked = 0
+    let unknown = 0
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        for (const [gi, g] of (u.gear || []).entries()) {
+          if (!g.all || !g.rep?.length) continue
+          const si = Math.max(0, u.sizes.findIndex((x) => x.default))
+          const entry = { unitId: u.id, size: si, count: u.sizes[si].per[0] }
+          if (!wargearGroupLive(u, { ...entry, wg: [[gi, 0, 1]] }, gi)) continue
+          const before = loadoutItemCounts(u, entry)
+          const after = loadoutItemCounts(u, { ...entry, wg: [[gi, 0, 1]] })
+          // An option may hand part of what it replaces straight back — a Deathwatch Veteran keeps
+          // his boltgun and gains an Astartes shield — so the swap is checked NET, not as a
+          // subtraction: one model's worth off, plus whatever this option grants of that item.
+          const back = new Map(optionItems(g.o[0]))
+          for (const id of g.rep) {
+            const was = before?.get(id)
+            if (was == null) { unknown++; continue } // a bracket that leaves two profiles free
+            checked++
+            const want = was - 1 + (back.get(id) || 0)
+            if ((after.get(id) ?? 0) !== want) silent.push(`${slug} ${u.name}: ${rosterItems.items[id]}`)
+          }
+        }
+      }
+    }
+    expect(silent).toEqual([])
+    expect(checked).toBeGreaterThan(80)
+    // The Deathwatch kill teams: two open-ended profiles, so no count is knowable either way.
+    expect(unknown).toBeLessThanOrEqual(28)
   })
 
   it('leaves almost nothing unparsed across the corpus', () => {
