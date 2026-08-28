@@ -303,6 +303,30 @@ describe('RosterUnitRulesModal', () => {
     w2.unmount()
   })
 
+  // A Daemon Prince MUST choose a Daemonic Allegiance, and the mark it chose used to arrive in
+  // this card's granted-keyword list as a bare string where every other grant is an object — so
+  // the card's own dedupe took `.kw` off a string, threw, and the modal rendered nothing at all.
+  // No statline, no abilities, no card: exactly what a reader sees for a unit they cannot open.
+  it('opens a unit that has chosen a mark, and shows the mark as a granted keyword', async () => {
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/chaos-space-marines.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const id = 'heretic-astartes-daemon-prince-with-wings'
+    const def = rf.default.units.find((u) => u.id === id)
+    const entry = { uid: 'a', id, size: 0, alleg: 'Khorne' }
+    const w = mount(RosterUnitRulesModal, {
+      props: { unitId: id, factionSlug: 'chaos-space-marines', ctx: { def, entry, items: it.default.items, detachments: [], units: [entry] } },
+    })
+    await waitFor('Flying Horror')
+    const text = body().text()
+    expect(text).toContain('M12"') // the statline is on the card
+    expect(text).toContain('Daemonic Destruction') // …and so are its abilities
+    expect(text).toContain('Khorne') // the mark, claimed as a keyword the entry gained
+    expect(text).toContain('Daemonic Allegiance') // …attributed to the choice, not to the faction
+    w.unmount()
+  })
+
   it('places the rule blocks inside the card, above its Keywords line', async () => {
     const [rf, it] = await Promise.all([
       import('../../data/roster/orks.js'),
