@@ -29,9 +29,9 @@
         <template v-for="(e, idx) in g.entries" :key="e.uid">
           <div class="rul-unit" :class="{ 'rul-attached roster-attached': e.leaderOf }">
             <!-- The row is itself a button (it opens the configuration), so the actions sit
-                 BESIDE it rather than inside — a button inside a button is invalid and doesn't
-                 get its own click on every browser. In a narrow pane they are lifted out of the
-                 row's line entirely (see .rul-acts below). -->
+                 OUTSIDE it rather than inside — a button inside a button is invalid and doesn't
+                 get its own click on every browser. They are positioned over the tile's top-right
+                 corner at every width (see .rul-acts below). -->
             <div class="rul-headrow" :class="{ 'rul-one-act': dupBlocked(e) }">
               <button
                 type="button"
@@ -198,13 +198,19 @@ if (mq) {
    .roster-attached / .roster-sum pair in style.css. */
 .rul-unit:has(+ .rul-attached) { margin-bottom: 0; }
 
-.rul-headrow { position: relative; display: flex; align-items: stretch; gap: 0.25rem; }
-.rul-acts { display: flex; align-items: stretch; gap: 0.25rem; }
-/* How much room the row's own name has to leave for the buttons sitting over it in a narrow
-   pane — a custom property because the name is inside RosterUnitRow, and custom properties are
-   the one thing that crosses a scoped-style boundary without :deep(). */
-.rul-headrow { --rul-acts-w: 3.4rem; }
-.rul-headrow.rul-one-act { --rul-acts-w: 1.7rem; }
+/* The two actions are OUT of the row's flow, over the tile's top-right corner, and the row
+   itself spans the full width underneath them. In flow they were a column as tall as the tile:
+   ~4rem taken from every line of a unit's wargear, and — on a three-line entry — a pair of icons
+   floating alone in the middle of a dead band, which is what made a perfectly ordinary tile look
+   broken. Only the FIRST line pays for them now (RosterUnitRow's .rur-pts reserves the strip),
+   the chips and the wargear run the full width beneath. */
+.rul-headrow { position: relative; display: flex; }
+.rul-acts { position: absolute; top: 0; right: 0; display: flex; }
+/* How much room the row's first line has to leave for the buttons sitting over it — a custom
+   property because that line is inside RosterUnitRow, and custom properties are the one thing
+   that crosses a scoped-style boundary without :deep(). */
+.rul-headrow { --rul-acts-w: 4rem; }
+.rul-headrow.rul-one-act { --rul-acts-w: 2rem; }
 .rul-row {
   flex: 1;
   min-width: 0;
@@ -217,12 +223,18 @@ if (mq) {
   cursor: pointer;
   text-align: left;
 }
-.rul-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
+/* Ahead of the name, not after it: the right edge of the line belongs to the points and the two
+   action buttons now, and a chevron centred in a three-line tile pointed at nothing in
+   particular. Top-aligned (with the optical nudge a 0.7rem glyph needs against a 0.95rem line)
+   so it reads as the twisty of the accordion it opens. */
+.rul-chev { order: -1; align-self: flex-start; margin-top: 0.2rem; color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
+/* As tall as the row's first line is (0.6rem of padding + a 1.2rem line), so the pair sits ON
+   that line rather than above or below it — and a one-line entry's tile is exactly this tall. */
 .rul-dup,
 .rul-del {
   flex: none; display: flex; align-items: center; justify-content: center;
-  width: 2.1rem; padding: 0; border: none; background: none;
+  width: 2rem; height: 2.4rem; padding: 0; border: none; background: none;
   color: var(--text-muted); font-size: 0.95rem; cursor: pointer;
 }
 @media (hover: hover) { .rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
@@ -239,10 +251,9 @@ if (mq) {
   .rul-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 }
 
-/* A narrow pane. The two action buttons come OUT of the row's line and sit over its top-right
-   corner: side by side with the text they cost it 4.2rem of every line, and the wargear a unit
-   carries is the part that pays. The name leaves room for them itself (RosterUnitRow's own
-   padding-right), so nothing runs underneath. Everything steps down together with it.
+/* A narrow pane. Everything steps down together — including the action buttons, which the row
+   above already lifted out of the flow; here they only get smaller, and the chevron goes
+   entirely (at this width its own 1.2rem is worth more to the wargear line than the affordance).
 
    Keyed off the pane, not the viewport: a 390px phone and a 780px tablet give this list the
    same ~180px, and only a container query can tell either of them apart from a wide screen. */
@@ -251,7 +262,8 @@ if (mq) {
   .rul-ally { font-size: 0.62rem; }
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
   .rul-chev { display: none; }
-  .rul-acts { position: absolute; top: 0; right: 0; gap: 0; }
+  .rul-headrow { --rul-acts-w: 3.4rem; }
+  .rul-headrow.rul-one-act { --rul-acts-w: 1.7rem; }
   .rul-dup,
   .rul-del { width: 1.7rem; height: 1.8rem; font-size: 0.8rem; }
 }

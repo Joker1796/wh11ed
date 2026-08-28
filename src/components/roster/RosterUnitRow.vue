@@ -85,9 +85,13 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
   text-align: left;
 }
 .rur-name { grid-area: 1 / 1 / 2 / 2; font-weight: 600; color: var(--text-primary); font-size: 0.95rem; line-height: 1.25; }
-.rur-pts { grid-area: 1 / 2 / -1 / 3; align-self: center; }
-.rur-chips { grid-area: 2 / 1 / 3 / 2; margin-top: 0.2rem; }
-.rur-picks { grid-area: 3 / 1 / 4 / 2; margin-top: 0.2rem; }
+/* On the name's line, not centred down the tile, and holding the width of the copy/delete
+   buttons standing over the corner beside it (RosterUnitList's .rul-acts, whose strip is
+   --rul-acts-w wide). The first line is the only one that pays for them: the chips and the
+   wargear below span BOTH columns and run the tile's full width. */
+.rur-pts { grid-area: 1 / 2 / 2 / 3; align-self: start; padding-right: var(--rul-acts-w, 0); }
+.rur-chips { grid-area: 2 / 1 / 3 / -1; margin-top: 0.2rem; }
+.rur-picks { grid-area: 3 / 1 / 4 / -1; margin-top: 0.2rem; }
 .rur-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
 
 .rur-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
@@ -105,17 +109,17 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 .rur-picks { font-size: 0.72rem; color: var(--text-dim); line-height: 1.35; }
 .rur-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 
-/* A narrow pane. The name and the chosen wargear take the FULL width and the points move down
-   beside the chips, because a points column costs the text line ~3rem of every row — which is
-   what turned "Chaos Icon · Plasma pistol ×2 · Power fist · Combi-weapon ×2" into a twelve-line
-   column. The name reserves room on its own line for the copy/delete buttons RosterUnitList
-   lifts up there (their strip is 3.4rem wide). Everything steps down together, so the row keeps
-   its hierarchy instead of collapsing into one size. */
+/* A narrow pane. The name takes the FULL width and the points move down beside the chips,
+   because a points column costs the text line ~3rem of every row — which is what turned
+   "Chaos Icon · Plasma pistol ×2 · Power fist · Combi-weapon ×2" into a twelve-line column.
+   The reserve for the copy/delete buttons moves with them: the name's line is the one under
+   them here, so it is the one that pays. Everything steps down together, so the row keeps its
+   hierarchy instead of collapsing into one size. */
 @container (max-width: 300px) {
   /* The padding keeps the name clear of the buttons horizontally; the min-height keeps the row
      BELOW it clear of them vertically, since a one-line name is shorter than their strip. */
   .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: var(--rul-acts-w, 3.4rem); min-height: 1.5rem; font-size: 0.85rem; }
-  .rur-pts { grid-area: 2 / 2 / 3 / 3; align-self: end; font-size: 0.85rem; }
+  .rur-pts { grid-area: 2 / 2 / 3 / 3; align-self: end; padding-right: 0; font-size: 0.85rem; }
   .rur-chips { grid-area: 2 / 1 / 3 / 2; }
   .rur-picks { grid-area: 3 / 1 / 4 / -1; }
   .rur-chip { font-size: 0.62rem; padding: 0.05rem 0.25rem; }

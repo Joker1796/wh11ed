@@ -144,18 +144,20 @@
         </div>
       </div>
       <div class="rc-sticky">
-        <div class="rc-sticky-info">
-          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-          <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
-            <template v-if="validation.errorCount">
-              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
-            </template>
-            <i v-else class="bi bi-check-circle-fill"></i>
-          </button>
-        </div>
-        <div class="rc-sticky-actions">
-          <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
-          <button class="btn-primary" @click="finish">{{ labels.rosterSave }}</button>
+        <div class="rc-sticky-inner">
+          <div class="rc-sticky-info">
+            <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+            <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+              <template v-if="validation.errorCount">
+                <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+              </template>
+              <i v-else class="bi bi-check-circle-fill"></i>
+            </button>
+          </div>
+          <div class="rc-sticky-actions">
+            <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+            <button class="btn-primary" @click="finish">{{ labels.rosterSave }}</button>
+          </div>
         </div>
       </div>
     </div>
