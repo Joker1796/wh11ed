@@ -925,3 +925,46 @@ and appdata state fresh; a data model can change between now and when this is ne
     went 11 → 19. `sync-mfm-points.mjs` sees only the bracket, so it reported a clean price cut;
     the paid default surfaced as eight new `dw` entries in `npm run roster:data` and broke a test
     that pins the list of units with one. That test floor is the guardrail — keep it.
+
+50. **A coverage audit written "by keys" lies in both directions.** I reported 241 missing RU
+    datasheet translations after the 946 bump; there were none. The overlays name these blocks two
+    ways — the older files `wargear`/`special`, the newer `wargearAbilities`/`specialAbilities` —
+    and `localizeSheet` reads both (`datasheets/ru/index.js`). A script that knows one spelling
+    invents gaps where there are none and, on the day the aliases diverge again, hides real ones.
+    The check that ships is a TEST that runs the corpus through `localizeSheet` itself and fails on
+    any field that comes back in English (`datasheets/index.test.js`) — ask the renderer, never
+    guess at key names. What the honest audit then found was 69 real holes, none of them ability
+    texts: 64 loadout sentences (T'au, Emperor's Children), 7 ability-set options, 4 Leader lines.
+51. **Four generators are NOT in `npm run sync`, and a data bump silently rots them:**
+    `datasheets:index`, `faction-rules:index`, `phases:index`, `combat-patrol:index`. After 946 the
+    phase index still listed the Orks abilities GW had deleted — the tracker's per-phase reminder
+    was answering from the previous codex — and the faction-rules index carried no RU names for the
+    new stratagems, so a Russian search result showed only the English line for text that had just
+    been translated. Run all four at the end of a bump and read `git status`.
+52. **Rebuilding a RU overlay drops what was never derived from EN.** The Orks datasheet overlay was
+    regenerated from EN plus the new translations, which lost `aliasesRu` — the hand-authored search
+    nicknames (Газгкулл, Ваздакка, Сникрот, Мозрог, Зодгрод). Nothing downstream missed them: the
+    datasheet index simply lost five rows of aliases and no gate said a word. Carry every field that
+    is metadata rather than translation.
+53. **Most of what `npm run sync` flagged was appdata disagreeing with ITSELF, not with us.** All 17
+    findings that stood after the bump resolved into three classes, each now reported under its own
+    "structure-only" heading rather than as our gap: an item row spelled differently from the
+    sentence that offers it ("Nuncio-acquila" vs "1 nuncio aquila"), a number the tables state and
+    the prose never does (a `loadout_choice_set` of "2 arm weapons, duplicates allowed" enumerates
+    legal loadouts; GW words it as one replace-sentence per hardpoint), and an allied-faction row
+    labelled with the PARENT keyword (Asuryani where the rule says ANHRATHE). Measure the coverage
+    you give up before relaxing a check — near-name cost nothing, the base-item rule cost 20 of 4647.
+54. **A structural table with two rows and a hand check is not a guardrail.**
+    `enhancement_wargear_item_profile` was explicitly scoped out of `sync-enhancement-restrictions`
+    ("already-correct on hand spot check") when it held two rows. The Orks codex added three, all
+    shipped with "This model has the following weapon:" and nothing after the colon, and no gate
+    could catch it — appdata's own prose stops at that colon too, so the text-drift check saw our
+    text and theirs agree. Wire the table in, and check by NUMBERS (name + every characteristic +
+    every ability), not by wording.
+55. **"Can be X" and "is X right now" are different facts, and every consumer must ask the same
+    one.** `condBattleline` records that a datasheet CAN gain Battleline from some Detachment; the
+    duplicate cap and the catalogue's sections read it as the answer, so 29 datasheets in 15
+    factions got a permanent ×2 duplicate limit in armies whose Detachment grants nothing. The gate
+    already existed — `conditionalKeywords.json` through `grantedKeywordsFor`, which enhancement and
+    Warlord eligibility had used all along. When one consumer of a fact is gated and another is not,
+    that is the bug, whatever the numbers look like.

@@ -16,6 +16,26 @@ is implemented and tested.
 
 ## Open items
 
+0. **Warhammer Legends and the pre-codex Orks list — BOTH CLOSED 2026-09-02 (shipped v2.3.10).**
+   Legends datasheets were listed, badged and filterable but the validation panel said nothing, so
+   a matched-play list holding one came out clean; `validateRoster` now raises `legendsUnit` as a
+   WARNING (never an error — this file does not block a list, it says what an organiser would).
+   And a roster saved before Codex: Orks held indices into a bundle that was regenerated —
+   measured against the pre-bump data, 16 of 51 surviving datasheets changed their wargear-group
+   count and five changed size brackets — so `useRosters.js` SCHEMA_VERSION 7 drops the picks,
+   drops the size only on those five, and renames the two datasheets GW re-issued as squadrons
+   (Wartrakk → Wartrakks, Rukkatrukk Squigbuggy → Rukkatrukk Squigbuggies). The five datasheets the
+   codex DELETED are deliberately untouched: `unknownUnit` already reports them, and silently
+   removing a unit from someone's army is worse than showing the warning.
+
+   Still open from the same report, and NOT a code question: a player says the Nob in a Boyz mob
+   "should have a kustom choppa option". Our data matches appdata option-for-option (6 choice
+   groups plus the two Default Wargear groups; the Nob starts with Kustom Choppa + Kombi-skorcha,
+   which is printed in the loadout line, the melee table and the swap sentences), and the loadout
+   accounting is right — with 2 Nobs, one taking a Power Klaw leaves "Kustom Choppa ×1". Either the
+   reader is looking for a control for something that is a default, or the printed codex differs
+   from GW's app data, which is a question for the user, not a fix.
+
 1. **`RosterUnitRulesModal` doesn't overlay live modifiers.** It renders the unit's *base*
    datasheet only — a chosen enhancement, wargear pick, or Warlord trait that changes a
    stat/ability isn't reflected in the preview. Explicitly flagged in the component's own
