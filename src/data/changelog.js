@@ -17,6 +17,24 @@
 
 export const changelog = [
   {
+    version: '2.3.8',
+    date: '2026-09-01',
+    en: [
+      { h: 'The list builder, on one screen' },
+      'On a wide screen building a list no longer walks through tabs or steps: the name, faction, detachments, battle size and points are one line across the top, and under it the catalogue, your list and the selected unit\'s options stand side by side. Click a unit in your list and its models, wargear and enhancement open in the column beside it — the list stays put instead of unfolding under your finger. Narrower screens and phones are unchanged.',
+      { h: 'Signing in moved out of the tracker' },
+      'The account is not a tracker feature — the roster builder syncs through the same one — but the only way in was a button on the tracker\'s home page. It is in the top bar now, on every page: the account button beside the theme switch on a computer, an entry in the ⚙ menu on a phone. Signing in returns you to the page you were on.',
+      'The tracker home and the roster list no longer ask you to go somewhere else to sign in; they only report where your games and lists stand.',
+    ],
+    ru: [
+      { h: 'Конструктор листов — на одном экране' },
+      'На широком экране сборка листа больше не ходит по вкладкам и шагам: имя, фракция, детачменты, размер битвы и очки — одной строкой сверху, а под ней рядом стоят каталог, ваш лист и настройки выбранного юнита. Кликаете юнит в списке — его модели, вооружение и энхансы открываются в соседней колонке, а сам список остаётся на месте, а не разворачивается под пальцем. На узких экранах и телефонах всё как было.',
+      { h: 'Вход в аккаунт уехал из трекера' },
+      'Аккаунт — не часть трекера: через него же синхронизируется конструктор ростеров. А войти можно было только с главной страницы трекера. Теперь вход живёт в верхней панели и доступен с любой страницы: кнопка аккаунта рядом с переключателем темы на компьютере, пункт в меню ⚙ на телефоне. После входа вы возвращаетесь на ту страницу, с которой уходили.',
+      'Главная трекера и список листов больше не отправляют вас куда-то входить — они только показывают, что происходит с вашими партиями и листами.',
+    ],
+  },
+  {
     version: '2.3.7',
     date: '2026-08-28',
     en: [

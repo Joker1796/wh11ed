@@ -1,7 +1,9 @@
 import { ref } from 'vue'
 import { API_BASE_URL } from '../config.js'
 
-// Module-singleton auth store (same pattern as useLocale.js). Used ONLY in the tracker section.
+// Module-singleton auth store (same pattern as useLocale.js). App-wide: the account is not a
+// tracker feature — both the tracker and the roster builder sync through it, and the way in and
+// out is the navbar's account menu, reachable from any page.
 //
 // Security: the access token lives in memory only (never localStorage) — protects it from XSS.
 // On reload it's gone and is re-obtained via a silent /auth/refresh against the HttpOnly cookie.
@@ -195,7 +197,8 @@ async function refresh() {
   return refreshing
 }
 
-// One-shot silent restore — call when entering the tracker. No-op if already resolved.
+// One-shot silent restore — App.vue calls it once on boot, because the navbar's account menu
+// shows the signed-in state on every page. No-op if already resolved.
 async function ensureSession() {
   if (status.value === 'idle') await refresh()
 }
@@ -217,7 +220,38 @@ async function authedFetch(path, opts = {}) {
   return res
 }
 
-function login(provider) {
+// Where to land after signing in. The backend always sends the browser to one fixed path (its
+// APP_AFTER_LOGIN_URL env), so the callback view is the only one that knows where the user came
+// from — it reads this back. sessionStorage, not localStorage: the value belongs to this tab's
+// round trip and must not outlive it.
+const RETURN_KEY = 'wh11ed-auth-return'
+
+// Only same-site absolute paths are honoured. A leading `//` (or anything else) would be an
+// open redirect wearing a relative path's clothes.
+function safeReturnPath(path) {
+  return typeof path === 'string' && /^\/(?!\/)/.test(path) ? path : null
+}
+
+// Read once and clear: a return path is spent by the redirect it caused.
+function takeReturnPath() {
+  let raw = null
+  try {
+    raw = sessionStorage.getItem(RETURN_KEY)
+    sessionStorage.removeItem(RETURN_KEY)
+  } catch {
+    /* ignore private mode */
+  }
+  return safeReturnPath(raw)
+}
+
+function login(provider, returnTo) {
+  const path = safeReturnPath(returnTo)
+  try {
+    if (path) sessionStorage.setItem(RETURN_KEY, path)
+    else sessionStorage.removeItem(RETURN_KEY)
+  } catch {
+    /* ignore private mode — the callback just falls back to its default */
+  }
   // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback.
   window.location.href = api(`/auth/${provider}/login`)
 }
@@ -242,6 +276,7 @@ export function useAuth() {
     refresh,
     ensureSession,
     authedFetch,
+    takeReturnPath,
     // DEV-only test helpers (no-ops / stripped in production):
     dev: DEV,
     mockSignIn,

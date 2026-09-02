@@ -9,7 +9,9 @@
          tracker), the cloud on the right. Everything that line can say is produced by the single
          sync pass on entry; there is no manual "Sync" button, on purpose. -->
     <div class="cloud-bar">
-      <RouterLink class="hero-help" to="/help/rosters">{{ labels.helpSection }}</RouterLink>
+      <RouterLink class="hero-help" to="/help/rosters" :title="labels.helpSection" :aria-label="labels.helpSection">
+        <i class="bi bi-question-circle"></i>
+      </RouterLink>
       <RosterCloudBar hint class="rl-cloud" />
     </div>
 
@@ -126,7 +128,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import RosterCloudBar from '../../components/roster/RosterCloudBar.vue'
@@ -152,7 +154,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { rosters, savedRosters, draftRosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
-const { ensureSession } = useAuth()
+const { status, ensureSession } = useAuth()
 const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
@@ -206,13 +208,22 @@ function recordOf(r) {
   return rec ? `${rec.w}–${rec.l}–${rec.d}` : null
 }
 
+async function syncAndReprice() {
+  await syncNow()
+  if (pulled.value) refreshSummaries(rosters.value)
+}
+
 onMounted(async () => {
   records.value = rosterRecords(loadHistory())
   refreshSummaries(rosters.value)
   await ensureSession()
-  await syncNow()
-  if (pulled.value) refreshSummaries(rosters.value)
+  await syncAndReprice()
 })
+
+// Signing in can now happen from this page — the account menu is in the navbar — so the cloud
+// check that entry runs has to run again when a session appears. (Real OAuth comes back through
+// a page load; this catches an in-place sign-in, e.g. the DEV mock.)
+watch(status, (s) => { if (s === 'authed') syncAndReprice() })
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
 function factionOf(r) { return allFactions.find((f) => f.slug === r.faction) || null }
@@ -279,7 +290,6 @@ function confirmDelete() {
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
-.hero-help { color: var(--accent); font-size: 0.85rem; }
 /* Help on the left, cloud on the right — `margin-left: auto` rather than space-between, so a row
    that wraps on a phone puts the two on their own lines instead of stretching one of them. */
 .cloud-bar {

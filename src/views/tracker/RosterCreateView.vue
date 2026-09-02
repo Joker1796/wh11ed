@@ -11,7 +11,7 @@
          There were three: picking units and configuring them were a step apart, which since
          wargear started deciding a unit's price meant walking back and forth between them. They
          are one step with two panes now — the same layout the editor's Units tab uses. -->
-    <div class="rc-steps">
+    <div v-if="!desk" class="rc-steps">
       <button type="button" class="rc-step" :class="{ on: step === 1, done: step > 1 }" @click="goToStep(1)">1<span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span></button>
       <span class="rc-step-sep">→</span>
       <button type="button" class="rc-step" :class="{ on: step === 2 }" :disabled="!canLeaveStep1" @click="goToStep(2)">2<span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span></button>
@@ -20,7 +20,40 @@
     <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
          tracker's GameSetup (see .field/.btn-choose below), so the two setup flows read as
          one consistent pattern. -->
-    <div v-show="step === 1" class="rc-panel">
+    <RosterSettingsBar
+      v-if="desk"
+      :name="name"
+      :faction-slug="factionSlug"
+      :faction-name="factionName"
+      :detachments="detachments"
+      :detachment-summary="detachmentSummary"
+      :detachment-options="detachmentOptions"
+      :dp-spent="dpSpent"
+      :max-dp="effBattle.dp"
+      :dp-over-allowed="dpOverAllowed"
+      :battle-size="battleSize"
+      :battle-sizes="battleSizes"
+      :custom-points="customPoints"
+      :disposition="disposition || ''"
+      :disposition-cands="dispositionCands"
+      :check-legality="checkLegality"
+      :notes="notes"
+      :points="points"
+      :limit="limit"
+      :error-count="validation.errorCount"
+      @update:name="name = $event"
+      @update:battleSize="battleSize = $event"
+      @update:customPoints="customPoints = Math.max(0, Number($event) || 0)"
+      @update:disposition="disposition = $event"
+      @update:checkLegality="checkLegality = $event"
+      @update:notes="notes = $event"
+      @pick-faction="pickFaction"
+      @toggle-detachment="toggleDetachment"
+      @clear-detachments="clearDetachments"
+      @open-issues="issuesOpen = true"
+    />
+
+    <div v-show="!desk && step === 1" class="rc-panel">
       <div class="rc-card">
         <label class="field">
           <span>{{ labels.rosterNameLabel }}</span>
@@ -104,12 +137,16 @@
          with the editor's Units tab). Click a catalogue row to preview its rules card, "+" to add
          it; click a unit in the list to configure it, which on a narrow screen opens as a sheet
          (RosterUnitList decides that). -->
-    <div v-show="step === 2" class="rc-panel">
+    <div v-show="desk || step === 2" class="rc-panel">
       <!-- What this list plays with, above the list being built: army rule, each picked
            detachment's rule, their enhancements and stratagems. Folded — see the component. -->
       <RosterRulesPanel v-if="factionSlug" :faction-slug="factionSlug" :detachments="detachments" />
-      <div class="roster-panes">
-        <div class="rp-catalog">
+      <!-- On the desk this screen has no faction yet to build against until one is picked in the
+           bar above, and the columns would be three empty boxes; the hint says which choice
+           unlocks them, the way the reference layout does. -->
+      <p v-if="desk && !factionSlug" class="rc-cfg-empty">{{ labels.rosterPickFaction }}</p>
+      <RosterWorkbench v-else :desk="desk" :selected="!!openEntry">
+        <template #catalog>
           <RosterUnitBrowser
             v-if="factionData"
             :units="factionData.units"
@@ -123,8 +160,8 @@
             @add="addUnit"
             @remove="removeUnit"
           />
-        </div>
-        <div class="rp-list">
+        </template>
+        <template #list>
           <p v-if="!units.length" class="rc-cfg-empty">{{ labels.rosterUnitsEmpty }}</p>
           <RosterUnitList
             v-else
@@ -137,31 +174,20 @@
             :slug-of="slugFor"
             :dup-blocked="dupBlocked"
             :open-uid="openUid"
+            :placement="desk ? 'pane' : 'auto'"
             @toggle="toggleOpen"
             @duplicate="duplicateEntry"
             @remove="removeEntry"
           >
             <template #fields="{ entry: e }">
-              <UnitEditorFields
-                v-if="defOf(e.id)"
-                :entry="e"
-                :def="defOf(e.id)"
-                :items="rosterItems.items"
-                :texts="rosterItems.texts"
-                :faction-slug="slugFor(e.id)"
-                :detachments="curDetachments"
-                :units="units"
-                :def-of="defOf"
-                :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
-                :is-warlord="e.warlord === true"
-                :enh-options="enhOptionsFor(defOf(e.id), curDetachments, units, e.uid, factionSlug)"
-                :leader-targets="leaderTargetsFor(defOf(e.id), units, e.uid, defOf, curDetachments)"
-                @toggle-warlord="toggleWarlord(e.uid)"
-              />
+              <RosterEntryFields v-bind="fieldProps" :entry="e" @toggle-warlord="toggleWarlord" />
             </template>
           </RosterUnitList>
-        </div>
-      </div>
+        </template>
+        <template #editor>
+          <RosterEntryFields v-bind="fieldProps" :entry="openEntry" @toggle-warlord="toggleWarlord" />
+        </template>
+      </RosterWorkbench>
     </div>
 
     <!-- One bar for both steps. Step 1's Next used to sit in the page's flow, which on a phone put
@@ -171,7 +197,7 @@
          there, and the reading is consistent: the step's forward move is always in the corner. -->
     <div class="rc-sticky">
       <div class="rc-sticky-inner">
-        <div v-if="step === 2" class="rc-sticky-info">
+        <div v-if="!desk && step === 2" class="rc-sticky-info">
           <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
           <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
             <template v-if="validation.errorCount">
@@ -181,7 +207,12 @@
           </button>
         </div>
         <div class="rc-sticky-actions">
-          <template v-if="step === 1">
+          <!-- No steps on the desk, so nothing to go back to and nothing to go forward to: the
+               bar carries the one action the screen ends in. -->
+          <template v-if="desk">
+            <button class="btn-primary" :disabled="!canLeaveStep1" @click="finish">{{ labels.rosterSave }}</button>
+          </template>
+          <template v-else-if="step === 1">
             <button class="btn-primary" :disabled="!canLeaveStep1" @click="goToUnits">{{ labels.trackerNextStep }} →</button>
           </template>
           <template v-else>
@@ -229,9 +260,11 @@ import BaseModal from '../../components/BaseModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
-import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
+import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
+import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
+import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -244,10 +277,11 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  allySourceOf, sectionsOf, unitPoints, rosterPoints, capKeyOf,
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, effectiveBattle,
+  allySourceOf, sectionsOf, unitPoints, rosterPoints, capKeyOf, ROSTER_NOTES_MAX,
+  leadsFor, effectiveBattle,
   addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 
 const router = useRouter()
 const route = useRoute()
@@ -255,6 +289,11 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { createRoster, updateRoster, rosterById, saveDraft } = useRosters()
 const { saveToCloud } = useRosterSync()
+
+// The same threshold the editor reads: three columns with a settings bar over them, or the two
+// steps this screen has always had. Above it there is nothing sequential left — every field is
+// on screen at once — so the step markers and the Back/Next pair go away with them.
+const desk = useMediaQuery('(min-width: 1200px)')
 
 const step = ref(1)
 const name = ref('')
@@ -264,6 +303,7 @@ const disposition = ref(null)
 const battleSize = ref('strike-force')
 const customPoints = ref(2000)
 const checkLegality = ref(true)
+const notes = ref('')
 const units = ref([])
 
 // ── Faction accent (mirrors the editor) ──
@@ -397,6 +437,21 @@ const openUid = ref(null)
 function toggleOpen(entryUid) {
   openUid.value = openUid.value === entryUid ? null : entryUid
 }
+// The entry the desk's third column belongs to — the same `openUid` the accordion uses in the
+// narrow arrangement, so there is one idea of "the unit being worked on".
+const openEntry = computed(() => units.value.find((u) => u.uid === openUid.value) || null)
+
+// Everything `RosterEntryFields` needs beyond the entry, identical wherever the fields land.
+const fieldProps = computed(() => ({
+  items: rosterItems.items,
+  texts: rosterItems.texts,
+  detachments: curDetachments.value,
+  units: units.value,
+  defOf,
+  armySlug: factionSlug.value || '',
+  slugOf: slugFor,
+}))
+
 function toggleWarlord(entryUid) {
   const e = units.value.find((u) => u.uid === entryUid)
   if (!e) return
@@ -462,6 +517,7 @@ if (resumed) {
   battleSize.value = resumed.battleSize || 'strike-force'
   customPoints.value = resumed.customPoints ?? 2000
   checkLegality.value = resumed.checkLegality !== false
+  notes.value = resumed.notes || ''
   // The stored array itself, not a copy: from here the wizard's per-unit edits ARE the draft's,
   // riding the store's deep-watch autosave exactly as they do after syncUnits().
   units.value = resumed.units
@@ -487,6 +543,7 @@ function step1Patch() {
     battleSize: battleSize.value,
     customPoints: customPoints.value,
     checkLegality: checkLegality.value,
+    notes: notes.value.trim().slice(0, ROSTER_NOTES_MAX),
   }
 }
 // Steps 2 and 3 exist only once a faction is picked — the same gate step 1's Next button uses.
@@ -515,7 +572,7 @@ function ensureDraft() {
 // Step 1's fields and the step itself are written through as they change — that is what makes the
 // draft a draft. Units take the other road (`syncUnits`, then the shared array), so they are not
 // watched here.
-watch([name, factionSlug, detachments, disposition, battleSize, customPoints, checkLegality, step], () => {
+watch([name, factionSlug, detachments, disposition, battleSize, customPoints, checkLegality, notes, step], () => {
   if (!rosterId.value) return
   updateRoster(rosterId.value, { ...step1Patch(), draftStep: step.value })
 }, { deep: true })
