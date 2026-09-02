@@ -4,6 +4,11 @@
       <template v-if="sheet">
         <div class="ds-head">
           <h2 class="ds-title">{{ sheet.name }} <span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
+          <!-- A reader who followed a link straight here has to be told the same thing the grid's
+               badge says: the rules below are published, the unit is not matched-play legal. -->
+          <p v-if="sheet.legends" class="ds-legends-note">
+            <strong>{{ labels.dsLegends }}</strong> — {{ labels.dsLegendsNote }}
+          </p>
           <div class="ds-actions">
             <button
               type="button"
@@ -355,6 +360,19 @@ async function copyName() {
   margin: 0;
 }
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
+/* Sits under the title and inside the head block, so it reads before the statline rather than
+   after it. Muted, not alarming — the page below it is still a full datasheet. */
+.ds-legends-note {
+  flex-basis: 100%;
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.ds-legends-note strong {
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
 .ds-title-base {
   display: inline;
   margin-left: 0.45rem;
