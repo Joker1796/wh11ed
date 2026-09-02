@@ -34,10 +34,12 @@ describe('createRoster', () => {
 })
 
 describe('importRoster', () => {
+  // Necrons rather than Orks: this case is about the payload arriving intact, and an Orks list at
+  // v4 legitimately loses its picks on the way in (see "schema → v7" below).
   it('saves a share payload as a new roster of its own', () => {
-    const r = store.importRoster({ v: 4, name: 'Shared', faction: 'orks', units: [{ uid: 'a', id: 'boyz', size: 1, wg: [[0, 1, 1]] }] })
+    const r = store.importRoster({ v: 4, name: 'Shared', faction: 'necrons', units: [{ uid: 'a', id: 'necron-warriors', size: 1, wg: [[0, 1, 1]] }] })
     expect(r.id).toBeTruthy()
-    expect(r.units[0]).toMatchObject({ id: 'boyz', size: 1, wg: [[0, 1, 1]] })
+    expect(r.units[0]).toMatchObject({ id: 'necron-warriors', size: 1, wg: [[0, 1, 1]] })
     expect(stored().rosters).toHaveLength(1)
     expect(r.v).toBeUndefined() // the version travelled with the payload, not into the roster
   })
@@ -250,5 +252,49 @@ describe('schema → v6', () => {
     ])
     expect(r.units[1].count).toBe(10) // the size and everything else stay
     expect(r.units[4].enh).toBe('Grim Demeanour')
+  })
+})
+
+describe('schema → v7', () => {
+  // Codex: Orks replaced the faction. A list stored before it holds wargear indices into a bundle
+  // that was regenerated (16 of 51 surviving datasheets changed how many groups they have), so the
+  // picks go; the size stays except on the five datasheets whose brackets actually moved; and the
+  // two datasheets GW re-issued under a new id are renamed rather than left resolving to nothing.
+  it('renames the re-issued Orks datasheets, drops the picks, keeps a size that still means what it did', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 6,
+      rosters: [{
+        id: 'r1',
+        name: 'Da List',
+        faction: 'orks',
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'wartrakk', size: 0, wg: [[0, 1, 1]] },
+          { uid: 'u2', id: 'rukkatrukk-squigbuggy', size: 1, wg: [[0, 0, 1]] },
+          { uid: 'u3', id: 'nobz', size: 1, count: 10, wg: [[0, 1, 1]] },
+          { uid: 'u4', id: 'boyz', size: 1, count: 20, wg: [[1, 0, 1]] },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units.map((u) => u.id)).toEqual(['wartrakks', 'rukkatrukk-squigbuggies', 'nobz', 'boyz'])
+    expect(r.units.every((u) => u.wg === undefined)).toBe(true)
+    expect(r.units[2].count).toBe(10) // Nobz kept their brackets, so the size survives
+    expect(r.units[3].size).toBeUndefined() // Boyz did not (11-20 became 20)
+    expect(r.units[3].count).toBeUndefined()
+  })
+
+  it('leaves another faction\'s list alone', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 6,
+      rosters: [{ id: 'r2', name: 'Not orks', faction: 'necrons', updatedAt: 1, units: [{ uid: 'u1', id: 'necron-warriors', size: 1, wg: [[0, 1, 1]] }] }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units[0].wg).toEqual([[0, 1, 1]])
+    expect(r.units[0].size).toBe(1)
   })
 })

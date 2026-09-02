@@ -118,6 +118,16 @@ export function validateRoster(roster, { faction, core } = {}) {
     }
   }
 
+  // Warhammer Legends — published rules, but not matched-play legal. A warning, never an error:
+  // the same "never block" rule the rest of this file follows, and a Legends unit is a perfectly
+  // ordinary choice in a friendly game. The datasheet grid and the catalogue already mark and
+  // filter them (`flags.legends`); this is the half that was missing — a list built for a
+  // tournament said nothing at all.
+  for (const u of units) {
+    const def = defOf(u.id)
+    if (def?.flags?.legends) add('legendsUnit', 'warn', { uid: u.uid })
+  }
+
   // Duplicate datasheet limits — grouped by capKeyOf, not raw id, so a future same-character/
   // multiple-datasheets case (see rosterEngine.js's capKeyOf) is capped as one slot.
   {
