@@ -7,7 +7,7 @@
           <!-- A reader who followed a link straight here has to be told the same thing the grid's
                badge says: the rules below are published, the unit is not matched-play legal. -->
           <p v-if="sheet.legends" class="ds-legends-note">
-            <strong>{{ labels.dsLegends }}</strong> — {{ labels.dsLegendsNote }}
+            <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
           </p>
           <div class="ds-actions">
             <button
@@ -368,9 +368,10 @@ async function copyName() {
   font-size: 0.78rem;
   color: var(--muted);
 }
-.ds-legends-note strong {
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+/* The badge leads the line here, so it gives up the inline left margin it wears mid-sentence. */
+.ds-legends-note .legends-badge {
+  margin-left: 0;
+  margin-right: 0.35em;
 }
 
 .ds-title-base {

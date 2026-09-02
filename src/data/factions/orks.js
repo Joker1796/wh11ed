@@ -340,7 +340,15 @@ Some Orks rules allow a unit to make a **pulse jet move**, as described below. (
       rule: {
         name: 'Try Dat Button!',
         flavor: 'Inviting Mek-wired buttons offer varied and erratic lethality.',
-        body: `In your Shooting phase or the Fight phase, when a friendly ORKS WALKER unit (excluding TITANIC units) is **selected to attack**, you can use this ability. If you do, roll either one D6 or two D6 (keep re-rolling duplicate results). This unit’s attacks have the relevant rule(s): Try Dat Button! D6 Result 1‑2 +1** A** 3‑4 +2** S** 5‑6 +1** AP** If you rolled two D6, when this unit has attacked, this unit makes one **hazard roll**.`,
+        // appdata ships the D6 outcomes as a TABLE, which appdataToMarkup flattens into the
+        // sentence ("… D6 Result 1-2 +1 A 3-4 +2 S …"). Restated as the bullet list the rest of
+        // this file uses for a roll's outcomes, so the three rows read apart on a phone.
+        body: `In your Shooting phase or the Fight phase, when a friendly ORKS WALKER unit (excluding TITANIC units) is **selected to attack**, you can use this ability. If you do, roll either one D6 or two D6 (keep re-rolling duplicate results). This unit’s attacks have the relevant rule(s):
+▪ **1-2:** +1 **A**
+▪ **3-4:** +2 **S**
+▪ **5-6:** +1 **AP**
+
+If you rolled two D6, when this unit has attacked, this unit makes one **hazard roll**.`,
       },
       stratagems: [
         {
@@ -599,7 +607,14 @@ Some Orks rules allow a unit to make a **pulse jet move**, as described below. (
       rule: {
         name: 'Unpredictable Genius',
         flavor: 'Meks haul all manner of weird bullets, unstable power cells and kustomised extras to battle.',
-        body: `In your Shooting phase, when all of a friendly BIG MEK/MEK GUNZ/MORKANAUT/WAZBOM BLASTAJET unit's ranged attacks target a single enemy unit, roll one D6: Unpredictable Genius D6 Result 1 **Dat's Weird:** The target unit has 4+ **InSv** until your unit has shot. 2‑3 **Hop Splat:** Select one other enemy unit within 3" of the target. That unit suffers D3 **mortal wounds**. 4 **Seekerz:** Those attacks have +1 to **hit rolls**. 5 **Lifted:** The target unit has FLY, and cannot have the **benefit of cover**, until your unit has shot. 6 **Runtified:** The target unit has -1 **T** until your unit has shot.`,
+        // Same flattened-table fix as Dread Mob's Try Dat Button! above — five outcomes, one bullet
+        // each. Their names (Dat's Weird, Hop Splat, …) are the table's own row labels.
+        body: `In your Shooting phase, when all of a friendly BIG MEK/MEK GUNZ/MORKANAUT/WAZBOM BLASTAJET unit's ranged attacks target a single enemy unit, roll one D6:
+▪ **1 — Dat's Weird:** The target unit has 4+ **InSv** until your unit has shot.
+▪ **2-3 — Hop Splat:** Select one other enemy unit within 3" of the target. That unit suffers D3 **mortal wounds**.
+▪ **4 — Seekerz:** Those attacks have +1 to **hit rolls**.
+▪ **5 — Lifted:** The target unit has FLY, and cannot have the **benefit of cover**, until your unit has shot.
+▪ **6 — Runtified:** The target unit has -1 **T** until your unit has shot.`,
       },
       stratagems: [
         {
@@ -1022,11 +1037,20 @@ Some Orks rules allow a unit to make a **pulse jet move**, as described below. (
       rule: {
         name: 'Powers of da Waaagh!',
         flavor: 'Surrounded by mobs of excitable Orks, Weirdboyz’ shamanic powers build to spectacular phenomena.',
+        // Two psychic abilities appdata carries as their own blocks; appdataToMarkup ran each of
+        // them onto the tail of the bullet above it, so both powers read as a footnote to a
+        // Strength bonus. Split back out — the bullets under each power are that power's.
         body: `Friendly ORKS PSYKER models’ [PSYCHIC] attacks have:
 ▪ +1 **S**.
-▪ +1 **S** for every 5 models in this unit (or embarked within this model). Friendly ORKS PSYKER models have the following **psychic abilities**: **Roar of Mork (psychic level 1):** In your Movement phase, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:
+▪ +1 **S** for every 5 models in this unit (or embarked within this model).
+
+Friendly ORKS PSYKER models have the following **psychic abilities**:
+
+**Roar of Mork (psychic level 1):** In your Movement phase, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:
 ▪ On a 1, this unit is **battle-shocked**.
-▪ Select one enemy unit (excluding MONSTER/VEHICLE units) within 12" of this unit. That enemy unit makes a **battle-shock roll**, with -1 from that **battle-shock roll** for every 10 models in this unit. **Visions of Violence (psychic level 1):** At the start of the Fight phase, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:
+▪ Select one enemy unit (excluding MONSTER/VEHICLE units) within 12" of this unit. That enemy unit makes a **battle-shock roll**, with -1 from that **battle-shock roll** for every 10 models in this unit.
+
+**Visions of Violence (psychic level 1):** At the start of the Fight phase, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:
 ▪ On a 1, this unit is **battle-shocked**.
 ▪ This unit has **Fights First**.`,
       },

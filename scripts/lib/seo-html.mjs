@@ -148,7 +148,11 @@ export function datasheetBody(unit, factionName, locale, ru) {
   if (abilities.length) {
     out.push(`<h2>${esc(t.abilities)}</h2><dl>`)
     for (const a of abilities) {
-      const text = ru?.abilities?.[a.name] || a.text
+      // An overlay entry is either the translated text or `{ name, text }` — the form Necrons
+      // uses to also translate the ability's header (see data/datasheets/ru/index.js). Taking it
+      // raw printed "[object Object]" as the ability's body on all 52 Necrons RU pages.
+      const o = ru?.abilities?.[a.name]
+      const text = (typeof o === 'string' ? o : o?.text) || a.text
       out.push(`<dt>${esc(a.name)}</dt><dd>${esc(text)}</dd>`)
     }
     out.push('</dl>')

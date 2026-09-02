@@ -28,7 +28,7 @@ export const changelog = [
       'GW has started publishing Legends units in its own app, beginning with twelve Orks datasheets — including Lootas and Burna Boyz, which were codex units until this release. They are listed with everything else and marked "Legends", since the rules are published even though the units are not matched-play legal. If you are building a tournament list, the datasheet grid and the list builder each have a switch to hide them.',
       { h: 'Elsewhere' },
       'One new core rule — 18.04.01, on what a rapid disembark inherits from the transport that carried it. The Space Marine Apothecary can now be attached to a Bladeguard Veteran Squad, and the Judiciar has a Support attachment alongside its Leader one.',
-      'A Russian note: the Orks rules are in English for now. The old translation was keyed to the old book position by position, so leaving it in place would have put Russian text under the wrong rules. It is being redone.',
+      'The Russian side was redone from scratch — the whole codex, both the faction rules and the datasheets. The old translation was keyed to the old book position by position, so it could not be carried over. Two terms stay English on the Russian pages, as they do on the cards: the **riled up** state and the **pulse jet move**.',
     ],
     ru: [
       { h: 'Новый Codex: Orks' },
@@ -39,7 +39,7 @@ export const changelog = [
       'GW начала выкладывать юниты Legends в своё приложение — первыми пришли двенадцать орочьих датащитов, включая Lootas и Burna Boyz, которые до этого релиза были кодексными. Они показываются вместе со всеми и помечены «Legends»: правила опубликованы, хотя в matched play такие юниты нелегальны. Если собираете турнирный список — и в сетке датащитов, и в конструкторе есть переключатель, чтобы их спрятать.',
       { h: 'Прочее' },
       'Одно новое правило ядра — 18.04.01, о том, что стремительная высадка наследует от везшего её транспорта. Apothecary у космодесанта теперь может присоединяться к Bladeguard Veteran Squad, а у Judiciar появилось присоединение Support рядом с Leader.',
-      'Про русский: правила орков пока на английском. Старый перевод был привязан к старой книге позиция в позицию, и, оставь мы его, русский текст оказался бы под чужими правилами. Перевод делается заново.',
+      'Русская сторона переписана с нуля — весь кодекс, и правила фракции, и датащиты. Старый перевод был привязан к старой книге позиция в позицию, перенести его было нельзя. Два термина на русских страницах остаются английскими, как и на карточках: состояние **riled up** и **pulse jet move**.',
     ],
   },
   {

@@ -877,7 +877,7 @@ export default [
     "abilities": [
       {
         "name": "Fix Dat Armour Up (Once per battle, per unit)",
-        "text": "In your Command phase, this unit **heals** 3 wounds.\rPlace a Grot Oiler token next to the unit, removing it when this ability is used."
+        "text": "In your Command phase, this unit **heals** 3 wounds.\n\nPlace a Grot Oiler token next to the unit, removing it when this ability is used."
       },
       {
         "name": "More Dakka",
@@ -889,8 +889,8 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 1 Kustom Shoota; 1 Power Klaw.",
     "options": [
-      "This model can be equipped with one of the following:\n▫ 1 Tellyport Blasta\n▫ 1 Kustom Force Field",
-      "This model’s Kustom Shoota can be replaced with one of the following:\n▫ 1 Killsaw\n▫ 1 Kombi‑weapon\n▫ 1 Kustom Mega‑blasta"
+      "This model can be equipped with one of the following:\n▪ 1 Tellyport Blasta\n▪ 1 Kustom Force Field",
+      "This model’s Kustom Shoota can be replaced with one of the following:\n▪ 1 Killsaw\n▪ 1 Kombi‑weapon\n▪ 1 Kustom Mega‑blasta"
     ],
     "wargearAbilities": [
       {
@@ -1105,12 +1105,14 @@ export default [
         "text": "When this unit ends a **charge move**, you can select one enemy unit **engaged** with this unit. If you do, roll one D6:\n▪ On a 2-5, that enemy unit suffers D3 **mortal wounds**.\n▪ On a 6, that enemy unit suffers 3 **mortal wounds**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Big Trakk model\n**This model is equipped with:** 1 Armoured Hull; 2 Big Shoota.",
+    "composition": [
+      "1 Big Trakk model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 2 Big Shoota.",
     "options": [
       "This model can be equipped with one of the following: 1 Kannon, 1 Supa-kannon"
     ],
-    "transport": "This model has a transport capacity of 12 Orks Infantry models. It cannot transport Ghazghkull Thraka models. Each Mega Armour, Jump Pack model takes up the space of 2 models.",
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models.",
     "keywords": [
       "Frame",
       "Transport",
@@ -1520,8 +1522,10 @@ export default [
         "text": "If this unit made an **ingress move** this turn, this unit can re-roll **charge rolls**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Boss Zagstruk model\n**This model is equipped with:** 1 Da Vulcha's Klaws and Choppa; 1 Slugga.",
+    "composition": [
+      "1 Boss Zagstruk model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Da Vulcha's Klaws and Choppa; 1 Slugga.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1769,7 +1773,7 @@ export default [
     "abilities": [
       {
         "name": "Ammo Runts (Once per battle, per unit)",
-        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\rPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\n\nPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
       },
       {
         "name": "Tide of Muscle",
@@ -1788,7 +1792,7 @@ export default [
     "options": [
       "Any number of Nob models can each have their Kustom Choppa and Kombi-skorcha replaced with 1 Big Choppa.",
       "Any number of Nob models can each have their Kustom Choppa replaced with 1 Power Klaw.",
-      "Any number of Nob models can each have their Kombi-skorcha replaced with one of the following:\n▫ 1 Kombi-rokkit\n▫ 1 Kustom Shoota",
+      "Any number of Nob models can each have their Kombi-skorcha replaced with one of the following:\n▪ 1 Kombi-rokkit\n▪ 1 Kustom Shoota",
       "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Big Shoota.",
       "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Rokkit Launcha.",
       "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Burna."
@@ -2059,8 +2063,11 @@ export default [
         "text": "This unit's attacks that target a unit within 6\" of this unit can re-roll **wound rolls** of 1."
       }
     ],
-    "composition": [],
-    "loadout": "• 1-2 Spanner models\n• 4-8 Burna Boy models\n**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Burna Boy is equipped with:** 1 Burna; 1 Cuttin' Flames.",
+    "composition": [
+      "1-2 Spanner models",
+      "4-8 Burna Boy models"
+    ],
+    "loadout": "**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Burna Boy is equipped with:** 1 Burna; 1 Cuttin' Flames.",
     "options": [
       "Any number of Spanner models can each have their Big Shoota replaced with one of the following: 1 Kustom Mega-blasta, 1 Rokkit Launcha"
     ],
@@ -2375,8 +2382,8 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 1 Big Shoota; 1 Dread Klaws; 1 Skorcha.",
     "options": [
-      "This model’s Big Shoota can be replaced with one of the following:\n▫ 1 Extra Klaw\n▫ 1 Kustom Mega‑blasta\n▫ 1 Rokkit Launcha",
-      "This model’s Skorcha can be replaced with one of the following:\n▫ 1 Extra Klaw\n▫ 1 Big Shoota\n▫ 1 Kustom Mega‑blasta\n▫ 1 Rokkit Launcha"
+      "This model’s Big Shoota can be replaced with one of the following:\n▪ 1 Extra Klaw\n▪ 1 Kustom Mega‑blasta\n▪ 1 Rokkit Launcha",
+      "This model’s Skorcha can be replaced with one of the following:\n▪ 1 Extra Klaw\n▪ 1 Big Shoota\n▪ 1 Kustom Mega‑blasta\n▪ 1 Rokkit Launcha"
     ],
     "keywords": [
       "Vehicle",
@@ -2863,10 +2870,12 @@ export default [
         "text": "This model does not suffer the penalty to its Hit rolls for making ranged attacks while enemy units are within Engagement Range of it."
       }
     ],
-    "composition": [],
-    "loadout": "▪ **1 Gargantuan Squiggoth**\n****This model is equipped with:**** huge tusks.",
+    "composition": [
+      "1 Gargantuan Squiggoth model"
+    ],
+    "loadout": "**This model is equipped with:** huge tusks.",
     "options": [
-      "This model can be equipped with one of the following: ◦ 1 kannon ◦ 1 supa-kannon"
+      "This model can be equipped with one of the following:\n▪ 1 kannon\n▪ 1 supa-kannon"
     ],
     "damaged": {
       "note": "1-10 wounds remaining",
@@ -2971,7 +2980,7 @@ export default [
       },
       {
         "name": "Makari, Hoist Dat Banner! (Once per battle, per army)",
-        "text": "In your Movement phase, you can select a number of friendly ORKS units equal to or less than the current battle round number. Those units are **riled up** until the start of your next turn.\rPlace one Makari token next to the unit, removing it after this ability is used."
+        "text": "In your Movement phase, you can select a number of friendly ORKS units equal to or less than the current battle round number. Those units are **riled up** until the start of your next turn.\n\nPlace one Makari token next to the unit, removing it after this ability is used."
       },
       {
         "name": "Prophet of da Great Waaagh! (Aura)",
@@ -3349,8 +3358,10 @@ export default [
         "text": "Attacks that target this unit have -1 **AP**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Grot Mega-tank model\n**This model is equipped with:** 1 Armoured Hull; 1 Dual Big Shoota; 1 Dual Grotzooka; 1 Mega-tank Weapons.",
+    "composition": [
+      "1 Grot Mega-tank model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Dual Big Shoota; 1 Dual Grotzooka; 1 Mega-tank Weapons.",
     "options": [
       "This model's Dual Grotzooka can be replaced with one of the following: 1 Dual Big Shoota, 1 Dual Kustom Mega-blasta, 1 Dual Rokkit Launcha, 1 Dual Skorcha",
       "This model's Dual Big Shoota can be replaced with one of the following: 1 Dual Grotzooka, 1 Dual Kustom Mega-blasta, 1 Dual Rokkit Launcha, 1 Dual Skorcha"
@@ -3484,11 +3495,13 @@ export default [
         "text": "In your opponent's Movement phase, when an enemy unit ends a move within 8\" of this unit, if this unit is **unengaged**, this unit can make a **normal move** of up to 6\"."
       }
     ],
-    "composition": [],
-    "loadout": "• 4-8 Grot Tank models\n**Every model is equipped with:** 1 Grot Tank Shoota; 1 Ramshackle Hull.",
+    "composition": [
+      "4-8 Grot Tank models"
+    ],
+    "loadout": "**Every model is equipped with:** 1 Grot Tank Shoota; 1 Ramshackle Hull.",
     "options": [
       "Any number of models can each have their Grot Tank Shoota replaced with one of the following: 1 Grotzooka, 1 Kustom Mega-blasta, 1 Rokkit Launcha, 1 Skorcha",
-      "For every four models in this unit, one model can be equipped with one of the following in addition to any other weapons: ◦ 1 Grot tank shoota ◦ 1 grotzooka ◦ 1 kustom mega‑blasta ◦ 1 rokkit launcha ◦ 1 skorcha"
+      "For every four models in this unit, one model can be equipped with one of the following in addition to any other weapons:\n▪ 1 Grot tank shoota\n▪ 1 grotzooka\n▪ 1 kustom mega‑blasta\n▪ 1 rokkit launcha\n▪ 1 skorcha"
     ],
     "keywords": [
       "Frame",
@@ -3663,7 +3676,7 @@ export default [
       "This model can be equipped with 1 Grabbin’ Klaw.",
       "This model can be equipped with 1 Lobba.",
       "This model can be equipped with up to 4 Big Shoota.",
-      "This model’s Kannon can be replaced with one of the following:\n▫ 1 Killkannon\n▫ 1 Zzap Gun"
+      "This model’s Kannon can be replaced with one of the following:\n▪ 1 Killkannon\n▪ 1 Zzap Gun"
     ],
     "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models. Each GHAZGHKULL THRAKA model takes up the space of 4 models.",
     "keywords": [
@@ -3883,8 +3896,10 @@ export default [
         "text": "Enemy units within 6\" of this model have -1 **T**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Kaptin Badrukk model\n**This model is equipped with:** 1 Choppa; 1 Da Rippa; 1 Slugga.",
+    "composition": [
+      "1 Kaptin Badrukk model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Choppa; 1 Da Rippa; 1 Slugga.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -4229,15 +4244,17 @@ export default [
         "text": "In your Shooting phase, when this unit has shot, you can select one enemy unit hit by this unit's Tank Kannon attacks. If you do, enemy units (excluding MONSTER/VEHICLE units) within 3\" of that enemy unit make a **battle-shock roll**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Kill Tank model\n**This model is equipped with:** 2 Big Shoota; 1 Crushin' Bulk; 1 Tank Kannon.",
+    "composition": [
+      "1 Kill Tank model"
+    ],
+    "loadout": "**This model is equipped with:** 2 Big Shoota; 1 Crushin' Bulk; 1 Tank Kannon.",
     "options": [
       "This model can be equipped with up to 4 Big Shootas.",
       "This model's 2 Big Shootas can be replaced with one of the following: 2 Rokkit Launcha, 2 Skorchas",
       "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and 3 Zzap Guns.",
       "This model's Zzap Gun can be replaced with one of the following: 1 Kannon, 1 Lobba"
     ],
-    "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour, Jump Pack model takes up the space of 2 models. Each Ghazghkull Thraka model takes up the space of 4 models.",
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models. Each GHAZGHKULL THRAKA model takes up the space of 4 models.",
     "keywords": [
       "Frame",
       "Transport",
@@ -4498,7 +4515,7 @@ export default [
     "abilities": [
       {
         "name": "Found ’Em!",
-        "text": "In your Movement phase, you can select one enemy unit within 12\" of this unit. That unit has +3\" **detection range** until the end of the turn.\rPlace one Kommando Grot token next to that enemy unit to remind you."
+        "text": "In your Movement phase, you can select one enemy unit within 12\" of this unit. That unit has +3\" **detection range** until the end of the turn.\n\nPlace one Kommando Grot token next to that enemy unit to remind you."
       },
       {
         "name": "Taktikal Know-wotz",
@@ -4519,7 +4536,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** 1 Choppa; 1 Slugga.",
     "options": [
-      "The Nob can have their Choppa replaced with one of the following:\n▫ 1 Big Choppa\n▫ 1 Power Klaw",
+      "The Nob can have their Choppa replaced with one of the following:\n▪ 1 Big Choppa\n▪ 1 Power Klaw",
       "1 Kommando model can be equipped with 1 Burna.",
       "1 Kommando model can be equipped with 1 Rokkit Launcha.",
       "1 Kommando model can have their Choppa replaced with 1 Breacha Ram.",
@@ -4649,8 +4666,10 @@ export default [
         "text": "In your Shooting phase, when this unit's Lifta-droppa destroys an enemy MONSTER/VEHICLE model with **Deadly Demise**, that enemy model suffers a **Deadly Demise** on a roll of 3+, instead of a 6."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Lifta Wagon model\n**This model is equipped with:** 1 Crushin' Bulk; 1 Lifta-droppa.",
+    "composition": [
+      "1 Lifta Wagon model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Crushin' Bulk; 1 Lifta-droppa.",
     "options": [
       "This model can be equipped with 1 Grabbin Klaw'",
       "This model can be equipped with one of the following: 1 Big Shoota and 1 Rokkit Launcha, 2 Big Shootas, 2 Rokkit Launcha",
@@ -4781,8 +4800,11 @@ export default [
         "text": "▪ This unit's ranged attacks can re-roll **hit rolls** of 1.\n▪ This unit's ranged attacks that target a unit within range of an **objective** can re-roll **hit rolls**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1-2 Spanner models\n• 4-8 Loota models\n**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Loota is equipped with:** 1 Deffgun; 1 Gun Stock and Fists.",
+    "composition": [
+      "1-2 Spanner models",
+      "4-8 Loota models"
+    ],
+    "loadout": "**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Loota is equipped with:** 1 Deffgun; 1 Gun Stock and Fists.",
     "options": [
       "Any number of Spanner models can each have their Big Shoota replaced with one of the following: 1 Kustom Mega-blasta, 1 Rokkit Launcha"
     ],
@@ -4868,8 +4890,10 @@ export default [
         "text": "In your Command phase, select one friendly ORKS INFANTRY unit within 6\" of this model, and select one of the following:\n▪ That unit **heals** 3 wounds.\n▪ __Or:__ If all models in that unit have their starting number of wounds, **revive** one CHARACTER model in that unit."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Mad Dok Grotsnik model\n**This model is equipped with:** 1 Power Klaw; 1 Slugga; 1 'Urty Syringe.",
+    "composition": [
+      "1 Mad Dok Grotsnik model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Power Klaw; 1 Slugga; 1 'Urty Syringe.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -5280,7 +5304,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** 1 Scavenged Shivs; 1 Smasha Gun.",
     "options": [
-      "Any number of models can each have their Smasha Gun replaced with one of the following:\n▫ 1 Bubblechukka\n▫ 1 Kustom Mega‑kannon\n▫ 1 Traktor Kannon"
+      "Any number of models can each have their Smasha Gun replaced with one of the following:\n▪ 1 Bubblechukka\n▪ 1 Kustom Mega‑kannon\n▪ 1 Traktor Kannon"
     ],
     "keywords": [
       "Frame",
@@ -5328,8 +5352,9 @@ export default [
         "text": "When an attack targets a unit that is not **fully visible** to the attacking model because of this unit, the target has the **benefit of cover** against that attack."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Mekboy Workshop model",
+    "composition": [
+      "1 Mekboy Workshop model"
+    ],
     "keywords": [
       "Fortification",
       "Frame",
@@ -5839,7 +5864,7 @@ export default [
       },
       {
         "name": "Ammo Runts (Once per battle, per unit)",
-        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\rPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\n\nPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
       }
     ],
     "composition": [
@@ -5914,7 +5939,7 @@ export default [
     "abilities": [
       {
         "name": "Push Dat Bit Back In (Once per battle, per unit)",
-        "text": "In your Command phase, select one friendly BEAST SNAGGA unit within 6\" of this unit. That unit **heals** 3 wounds.\rPlace a Grot Orderly token next to the unit, removing it when this ability is used."
+        "text": "In your Command phase, select one friendly BEAST SNAGGA unit within 6\" of this unit. That unit **heals** 3 wounds.\n\nPlace a Grot Orderly token next to the unit, removing it when this ability is used."
       },
       {
         "name": "Hardy Bioniks",
@@ -6000,7 +6025,7 @@ export default [
       },
       {
         "name": "Catch Dat Red Bit (Once per battle, per unit)",
-        "text": "When this model uses its **Crude Surgery** ability, you can add D3 to the number of wounds **healed**.\rPlace a Grot Orderly token next to the unit, removing it when this ability is used."
+        "text": "When this model uses its **Crude Surgery** ability, you can add D3 to the number of wounds **healed**.\n\nPlace a Grot Orderly token next to the unit, removing it when this ability is used."
       }
     ],
     "composition": [
@@ -6705,7 +6730,7 @@ export default [
     "loadout": "**The Nob is equipped with:** 1 Choppa; 2 Rokkit Pistol.\n**Every Tankbusta is equipped with:** 1 Busta Rokkit Launcha; 1 Gitstikka.",
     "options": [
       "The Nob can have their Rokkit Pistol replaced with 1 Smash Hammer.",
-      "1 Tankbusta model can be equipped with one of the following:\n▫ 1 Busta Rokkit Launcha\n▫ 1 Pulsa Rokkit"
+      "1 Tankbusta model can be equipped with one of the following:\n▪ 1 Busta Rokkit Launcha\n▪ 1 Pulsa Rokkit"
     ],
     "wargearAbilities": [
       {
@@ -6837,7 +6862,7 @@ export default [
     "loadout": "**This model is equipped with:** 1 Dual Big Shoota; 1 Spiked Ram.",
     "options": [
       "This model’s Dual Big Shoota can be replaced with 1 Rokkit Launcha.",
-      "This model can be equipped with one of the following:\n▫ 1 Buzzsaw\n▫ 1 Grabbin' Klaw"
+      "This model can be equipped with one of the following:\n▪ 1 Buzzsaw\n▪ 1 Grabbin' Klaw"
     ],
     "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA/JUMP PACK models. Each MEGA ARMOUR model takes up the space of 2 models.",
     "keywords": [
@@ -7085,7 +7110,7 @@ export default [
       },
       {
         "name": "Boss’ Ammo Runt (Once per battle, per unit)",
-        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this model’s ranged attacks have +1 to **hit rolls**.\rPlace a Boss’ Ammo Runt token next to the unit, removing it when this ability is used."
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this model’s ranged attacks have +1 to **hit rolls**.\n\nPlace a Boss’ Ammo Runt token next to the unit, removing it when this ability is used."
       },
       {
         "name": "Intimidating Motivation (Once per battle round, per army)",
@@ -7098,7 +7123,7 @@ export default [
     "loadout": "**This model is equipped with:** 1 Kustom Choppa; 1 Kustom Shoota.",
     "options": [
       "This model’s Kustom Choppa can be replaced with 1 Power Klaw.",
-      "This model’s Kustom Shoota can be replaced with one of the following:\n▫ 1 Kombi‑rokkit\n▫ 1 Kombi‑skorcha"
+      "This model’s Kustom Shoota can be replaced with one of the following:\n▪ 1 Kombi‑rokkit\n▪ 1 Kombi‑skorcha"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -7287,8 +7312,10 @@ export default [
         "text": "This unit's melee attacks have +1 to **hit rolls**."
       }
     ],
-    "composition": [],
-    "loadout": "• 1 Warboss on Warbike model\n**This model is equipped with:** 1 Dual Dakkagun; 1 Killsaw.",
+    "composition": [
+      "1 Warboss on Warbike model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Dual Dakkagun; 1 Killsaw.",
     "options": [
       "This model's Killsaw can be replaced with one of the following: 1 Big Choppa, 1 Power Klaw"
     ],
