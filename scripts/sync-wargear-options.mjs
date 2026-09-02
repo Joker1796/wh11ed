@@ -44,6 +44,70 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, norm, loadJson, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap, table as read, groupBy, escapeRegex, NUMBER_WORDS } from './lib/sync-common.mjs'
 
 const wargearItemName = new Map(read('wargear_item.json').map((r) => [r.id, r?.localisations?.en?.name || '']))
+
+// appdata contradicts itself in three narrow ways, and each one used to be reported as a gap in
+// OUR transcription. They are counted separately now, because a report whose every line is a
+// non-problem is a report nobody reads.
+//
+// 1. An item row spells its own name differently from the sentence that offers it —
+//    "Nuncio-acquila" against "can be equipped with 1 nuncio aquila" (3 Imperial Agents squads).
+//    Matched by NEAR name: one word differing by a single letter, the same tolerance
+//    gen-roster-data.mjs's `nearName` applies to the same class of typo. Costs no coverage: it
+//    only ever fires on a name that was already about to be reported missing.
+// 2. A number the tables state and appdata's own prose never does. A `loadout_choice_set` of
+//    "2 arm weapons, duplicates allowed" enumerates legal loadouts, and GW words it as one
+//    replace-sentence per hardpoint (both Warhound Titans, Armiger/War Dog Moirax); Death
+//    Company Marines with Jump Packs is the known prose-says-1/table-says-2 conflict the roster
+//    generator also resolves in favour of the prose. Measured: no number anywhere in the corpus
+//    is currently found in our text while missing from appdata's, so this gives up nothing.
+// 3. A base loadout row pointing at another datasheet's gear: Blood Angels' Death Company
+//    Dreadnought is given BRUTALIS fists and bolt rifles while its own composition sentence says
+//    blood fists (the roster generator patches the same row by hand — LOADOUT_ITEM_FIXES).
+const optionGroupsByDatasheet = groupBy(read('wargear_option_group.json'), 'datasheetId')
+const datasheetProse = new Map(read('datasheet.json').map((r) => [r.id, norm([
+  r?.localisations?.en?.unitComposition || '',
+  ...(optionGroupsByDatasheet.get(r.id) || []).map((g) => g?.localisations?.en?.instructionText || ''),
+].join(' \n '))]))
+const proseHas = (uuid, needle) => {
+  const prose = datasheetProse.get(uuid) || ''
+  return typeof needle === 'number' ? numberFound(needle, prose) : (nameRegex(needle)?.test(prose) ?? false)
+}
+// One word of the name differing by a single letter, everything else identical — appdata's own
+// typo, not a missing option. Deliberately not a general fuzzy match: two real weapons never
+// differ by one letter, but "shoota"/"shootas" style plurals are already folded by norm().
+const oneLetterApart = (a, b) => {
+  if (Math.abs(a.length - b.length) > 1) return false
+  let i = 0, j = 0, diff = 0
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue }
+    if (++diff > 1) return false
+    if (a.length > b.length) i++
+    else if (b.length > a.length) j++
+    else { i++; j++ }
+  }
+  return diff + (a.length - i) + (b.length - j) <= 1
+}
+// Hyphens are folded to spaces on both sides first: appdata writes the item as "Nuncio-acquila"
+// and its own sentence as "nuncio aquila", so the word boundary itself is part of the typo.
+const nearName = (name, text) => {
+  const words = (t) => t.replace(/-/g, ' ').split(/\s+/).map((w) => w.replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '')).filter(Boolean)
+  const want = words(norm(name))
+  if (!want.length) return false
+  const got = words(text)
+  for (let k = 0; k + want.length <= got.length; k++) {
+    let off = 0
+    let ok = true
+    for (let w = 0; w < want.length; w++) {
+      const word = got[k + w]
+      if (word === want[w]) continue
+      if (!off && want[w].length >= 5 && oneLetterApart(want[w], word)) { off = 1; continue }
+      ok = false
+      break
+    }
+    if (ok && off) return true
+  }
+  return false
+}
 const wargearOptionItem = new Map(read('wargear_option.json').map((r) => [r.id, r.wargearItemId]))
 
 // --- Family 1: loadout_choice_set ------------------------------------------------------------
@@ -202,6 +266,8 @@ let scanned = 0
 let unbridged = 0
 let noAppdataData = 0
 const flagged = []
+// Structural rows appdata's own prose never states — see datasheetProse above. Reported, not flagged.
+const structureOnly = []
 
 // The 5 Codex-sharing Chapters (see CLAUDE.md's "SM-Chapter datasheet dedup") fold
 // space-marines.js units back into their own list via loadWh11edDatasheets, but sourceIds.json's
@@ -242,15 +308,24 @@ for (const [slug, entries] of Object.entries(sourceIds)) {
     for (const set of choiceSets) {
       for (const item of set.items) {
         const re = nameRegex(item.name)
-        if (re && !re.test(blob)) missing.push(`item "${item.name}" not found`)
+        if (re && !re.test(blob)) {
+          if (nearName(item.name, blob)) structureOnly.push(`${slug} · ${d.name}: item "${item.name}" — appdata's own sentence spells it differently, and that spelling is what we carry`)
+          else missing.push(`item "${item.name}" not found`)
+        }
       }
       for (const n of set.numbers) {
-        if (!numberFound(n, blob)) missing.push(`number "${n}" (set limit/model-count) not found`)
+        if (!numberFound(n, blob)) {
+          if (proseHas(uuid, n)) missing.push(`number "${n}" (set limit/model-count) not found`)
+          else structureOnly.push(`${slug} · ${d.name}: number "${n}" — appdata's own prose never states it either`)
+        }
       }
     }
     for (const item of baseItems) {
       const re = nameRegex(item.name)
-      if (re && !re.test(loadoutText)) missing.push(`base-loadout item "${item.name}" not found in \`loadout\``)
+      if (re && !re.test(loadoutText)) {
+        if (proseHas(uuid, item.name)) missing.push(`base-loadout item "${item.name}" not found in \`loadout\``)
+        else structureOnly.push(`${slug} · ${d.name}: base-loadout item "${item.name}" — appdata's own composition sentence does not name it either`)
+      }
     }
 
     if (missing.length) flagged.push({ slug, name: d.name, missing: [...new Set(missing)] })
@@ -258,8 +333,12 @@ for (const [slug, entries] of Object.entries(sourceIds)) {
 }
 
 console.log(
-  `wargear structural options: ${scanned} wh11ed datasheets scanned, ${unbridged} not bridged by sourceIds, ${noAppdataData} have no appdata wargear-choice data, ${flagged.length} FLAGGED.`,
+  `wargear structural options: ${scanned} wh11ed datasheets scanned, ${unbridged} not bridged by sourceIds, ${noAppdataData} have no appdata wargear-choice data, ${flagged.length} FLAGGED, ${structureOnly.length} structure-only (appdata's tables disagree with appdata's own prose).`,
 )
+if (structureOnly.length) {
+  console.log('\n  · structure-only — appdata records it but never says it; wh11ed follows the prose:')
+  for (const m of [...new Set(structureOnly)]) console.log(`      ${m}`)
+}
 if (flagged.length) {
   console.log('\n  ✗ appdata carries a wargear choice/limit this datasheet\'s wh11ed text appears to be missing:')
   for (const r of flagged) {

@@ -149,6 +149,17 @@ function bodyHasName(body, name) {
 // against aeldari.js, which says "Asuryani" constantly as its own self-reference in stratagem
 // targeting text). Require the established idiom instead — "can include ... <name>" with no
 // "cannot" in between — so a restriction or a self-reference can't masquerade as a grant.
+// appdata labels an allied-faction row with the PARENT faction keyword; GW's own rule sometimes
+// names the narrower keyword the entitlement is actually about. Drukhari's "Corsairs and
+// Travelling Players" grants Harlequins and ANHRATHE (Corsairs) units, and appdata files those
+// Corsair datasheets under their parent, "Asuryani" — verified: the 14 datasheets in that row are
+// exactly 8 Harlequins + 6 Anhrathe, so the narrower word is not a narrower permission. Without
+// this the row flagged in all 8 Drukhari detachments while the clause sat, correct, in the army
+// rule. Keep this a NAMED map: a general "parent keyword counts" rule would let a real gap through.
+const ALLY_NAME_IN_PROSE = {
+  Asuryani: ['Anhrathe'],
+}
+
 function bodyGrantsInclusion(body, name) {
   const n = norm(name)
   const words = n.split(' ').filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
@@ -247,7 +258,8 @@ for (const af of read('allied_faction.json')) {
     const body = `${det.rule?.body || ''}\n${faction?.armyRule?.body || ''}`
     const missing = []
     for (const name of allyNames) {
-      if (!bodyHasName(body, name) && !shared.some((k) => bodyHasName(body, k))) {
+      const synonyms = ALLY_NAME_IN_PROSE[name] || []
+      if (!bodyHasName(body, name) && !shared.some((k) => bodyHasName(body, k)) && !synonyms.some((k) => bodyHasName(body, k))) {
         missing.push(`ally name "${name}" not found${shared.length ? ` (also tried shared keyword(s): ${shared.join(', ')})` : ''}`)
       }
     }
