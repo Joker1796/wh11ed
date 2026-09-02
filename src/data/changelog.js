@@ -25,6 +25,8 @@ export const changelog = [
       { h: 'Signing in moved out of the tracker' },
       'The account is not a tracker feature — the roster builder syncs through the same one — but the only way in was a button on the tracker\'s home page. It is in the top bar now, on every page: the account button beside the theme switch on a computer, an entry in the ⚙ menu on a phone. Signing in returns you to the page you were on.',
       'The tracker home and the roster list no longer ask you to go somewhere else to sign in; they only report where your games and lists stand.',
+      { h: 'More Russian in the wargear options' },
+      'In the Russian version the builder\'s wargear instructions ("this model\'s X can be replaced with…") are now translated in far more cases — conditional options, "a model not carrying X may take Y" wordings, and the "and" between two weapon names. Weapon and unit names stay English, as everywhere in the app; a wording we cannot translate cleanly still shows in full English rather than half-and-half.',
     ],
     ru: [
       { h: 'Конструктор листов — на одном экране' },
@@ -32,6 +34,8 @@ export const changelog = [
       { h: 'Вход в аккаунт уехал из трекера' },
       'Аккаунт — не часть трекера: через него же синхронизируется конструктор ростеров. А войти можно было только с главной страницы трекера. Теперь вход живёт в верхней панели и доступен с любой страницы: кнопка аккаунта рядом с переключателем темы на компьютере, пункт в меню ⚙ на телефоне. После входа вы возвращаетесь на ту страницу, с которой уходили.',
       'Главная трекера и список листов больше не отправляют вас куда-то входить — они только показывают, что происходит с вашими партиями и листами.',
+      { h: 'Больше русского в опциях вооружения' },
+      'В русской версии инструкции по вооружению в конструкторе («X этой модели можно заменить на…») теперь переведены в куда большем числе случаев — условные опции, формулировки «модель без X может взять Y» и связка «и» между двумя названиями оружия. Названия оружия и юнитов остаются английскими, как и везде в приложении; формулировка, которую нельзя перевести аккуратно, по-прежнему показывается целиком по-английски, а не наполовину.',
     ],
   },
   {
