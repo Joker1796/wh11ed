@@ -958,7 +958,7 @@ strong {
 }
 
 @media (hover: hover) { .back:hover { color: var(--accent); } }
-a.back,
+a.back { text-decoration: none; }
 @media (hover: hover) { a.back:hover { text-decoration: none; } }
 
 /* ── Checkbox row ──────────────────────────────────────────────────────────
@@ -1045,7 +1045,7 @@ a.back,
 
 .btn-primary { background: var(--accent); color: #fff; }
 @media (hover: hover) { .btn-primary:hover { background: var(--accent-hover); } }
-a.btn-primary,
+a.btn-primary { color: #fff; text-decoration: none; }
 @media (hover: hover) { a.btn-primary:hover { color: #fff; text-decoration: none; } }
 
 .btn-ghost { background: none; color: var(--text-muted); border: 1px solid var(--border); }
