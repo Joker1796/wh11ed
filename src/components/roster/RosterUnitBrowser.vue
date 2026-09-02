@@ -38,6 +38,12 @@
             <input v-model="onlyOwned" type="checkbox" />
             <span><i class="bi bi-star-fill"></i> {{ labels.rosterFilterOwned }}</span>
           </label>
+          <!-- Legends units are listed and marked rather than hidden, so a player who wants them
+               out of the way says so once. Only offered where the faction has any. -->
+          <label v-if="hasLegends" class="check" :class="{ on: hideLegends }">
+            <input v-model="hideLegends" type="checkbox" />
+            <span>{{ labels.dsLegendsHide }}</span>
+          </label>
         </div>
       </CollapseTransition>
       <em v-if="hiddenCount" class="rub-hidden">{{ labels.rosterFilterHidden.replace('{n}', hiddenCount) }}</em>
@@ -81,7 +87,7 @@
                   <i :class="ownsUnit(u) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
                 </button>
                 <span class="rub-text">
-                  <span class="rub-name">{{ u.name }}<span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
+                  <span class="rub-name">{{ u.name }}<span v-if="u.flags?.legends" class="rub-legends" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span><span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
                 <button
@@ -200,15 +206,20 @@ const searched = computed(() => {
 // catalogue's first answer should be the whole catalogue.
 const onlyAffordable = ref(getItem('wh11ed-roster-filter-budget') === '1')
 const onlyOwned = ref(getItem('wh11ed-roster-filter-owned') === '1')
+const hideLegends = ref(getItem('wh11ed-roster-filter-legends') === '1')
 watch(onlyAffordable, (v) => setItem('wh11ed-roster-filter-budget', v ? '1' : ''))
 watch(onlyOwned, (v) => setItem('wh11ed-roster-filter-owned', v ? '1' : ''))
+watch(hideLegends, (v) => setItem('wh11ed-roster-filter-legends', v ? '1' : ''))
+const hasLegends = computed(() => props.units.some((u) => u.flags?.legends))
 
 const hasBudget = computed(() => Number.isFinite(props.remaining))
 // Open if anything is already filtering — a fold that hides a switch which is ON would leave the
 // reader looking for units that the pane has quietly taken away.
-const filtersOpen = ref(onlyAffordable.value || onlyOwned.value)
-const activeFilters = computed(() => (onlyAffordable.value && hasBudget.value ? 1 : 0) + (onlyOwned.value ? 1 : 0))
-const anyFilter = computed(() => (onlyAffordable.value && hasBudget.value) || onlyOwned.value)
+const filtersOpen = ref(onlyAffordable.value || onlyOwned.value || hideLegends.value)
+const activeFilters = computed(() => (onlyAffordable.value && hasBudget.value ? 1 : 0) + (onlyOwned.value ? 1 : 0)
+  + (hideLegends.value && hasLegends.value ? 1 : 0))
+const anyFilter = computed(() => (onlyAffordable.value && hasBudget.value) || onlyOwned.value
+  || (hideLegends.value && hasLegends.value))
 
 // An allied datasheet belongs to ITS faction, not to the army browsing it (allySourceOf) — the
 // collection is keyed that way, or two factions' ids would share one bucket.
@@ -233,6 +244,7 @@ function passesFilters(u) {
   if (countOf(u.id)) return true
   if (onlyAffordable.value && hasBudget.value && minPoints(u) > props.remaining) return false
   if (onlyOwned.value && !ownsUnit(u)) return false
+  if (hideLegends.value && u.flags?.legends) return false
   return true
 }
 
@@ -400,6 +412,15 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
 .rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+/* Says which shelf the unit is on, quietly — a Legends row is a real row, not a warning. */
+.rub-legends {
+  margin-left: 0.4em;
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
 .rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
 .rub-count.over { color: #c0392b; }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }

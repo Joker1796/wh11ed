@@ -28,6 +28,13 @@
           <span><i class="bi bi-pin-angle"></i> {{ labels.favPinnedGroup }}</span>
           <span><i class="bi bi-star"></i> {{ labels.rosterFilterOwned }}</span>
         </p>
+        <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
+             still publishes is a rule somebody is reading. The switch is for the player building
+             a matched-play list, and only appears for the factions that have any. -->
+        <label v-if="hasLegends" class="check ds-legends-filter" :class="{ on: hideLegends }">
+          <input v-model="hideLegends" type="checkbox" />
+          <span>{{ labels.dsLegendsHide }}</span>
+        </label>
         <template v-for="g in groupedDatasheets" :key="g.key">
           <h3 class="ds-group-head">{{ g.label }}</h3>
           <div class="ds-grid">
@@ -66,6 +73,7 @@
               </span>
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
+              <span v-if="s.legends" class="ds-chip-legends" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
             </RouterLink>
           </div>
@@ -88,6 +96,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { useCollection } from '../../composables/useCollection.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -142,10 +151,16 @@ function chapterOf(s) {
   return (s.factionKeywords || []).find((k) => !UMBRELLA_KEYWORDS.has(k))
 }
 
+// Per device, like the roster catalogue's own filters (RosterUnitBrowser.vue).
+const hideLegends = ref(getItem('wh11ed-ds-filter-legends') === '1')
+watch(hideLegends, (v) => setItem('wh11ed-ds-filter-legends', v ? '1' : ''))
+const hasLegends = computed(() => datasheets.value.some((s) => s.legends))
+
 const filteredDatasheets = computed(() => {
   const q = dsQuery.value.trim().toLowerCase()
   const c = chapter.value
   return datasheets.value.filter((s) => {
+    if (hideLegends.value && s.legends) return false
     if (q && !s.name.toLowerCase().includes(q)) return false
     if (c) {
       // Chapter-less sheets are generic Adeptus Astartes units, legal in any Chapter's army.
@@ -311,6 +326,21 @@ const groupedDatasheets = computed(() => {
   letter-spacing: 0.4px;
   color: var(--accent);
   white-space: nowrap;
+}
+
+/* Reads as a label, not as an accent: a Legends sheet is a real datasheet the player may well be
+   here to read, and the mark only has to say which shelf it is on. */
+.ds-chip-legends {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.ds-legends-filter {
+  margin: 0 0 0.6rem;
 }
 
 .ds-chip-pts {

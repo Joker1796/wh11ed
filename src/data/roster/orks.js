@@ -646,7 +646,9 @@ export default {
         "Transport",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 90,
@@ -900,7 +902,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "epic": 1
+        "epic": 1,
+        "legends": 1
       },
       "sizes": [
         {
@@ -1274,7 +1277,9 @@ export default {
       "kws": [
         "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 60,
@@ -1990,7 +1995,9 @@ export default {
         "Grots",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 110,
@@ -2081,7 +2088,9 @@ export default {
         "Grots",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 155,
@@ -2344,7 +2353,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "epic": 1
+        "epic": 1,
+        "legends": 1
       },
       "sizes": [
         {
@@ -2452,7 +2462,9 @@ export default {
         "Vehicle",
         "Wagon"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 300,
@@ -2773,7 +2785,9 @@ export default {
         "Vehicle",
         "Wagon"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 135,
@@ -2849,7 +2863,9 @@ export default {
       "kws": [
         "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 50,
@@ -2959,7 +2975,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "epic": 1
+        "epic": 1,
+        "legends": 1
       },
       "sizes": [
         {
@@ -3265,7 +3282,9 @@ export default {
         "Frame",
         "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 80,
@@ -4472,7 +4491,8 @@ export default {
         "Speed Freeks"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "legends": 1
       },
       "sizes": [
         {

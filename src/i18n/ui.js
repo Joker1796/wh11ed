@@ -208,6 +208,11 @@ export const ui = {
     dsGroupInfantry: 'Infantry',
     dsGroupVehicles: 'Vehicles',
     dsGroupOther: 'Other Units',
+    // Warhammer Legends — units GW still publishes rules for but has retired from matched play.
+    // First shipped in the app's own data with Codex: Orks (data version 946).
+    dsLegends: 'Legends',
+    dsLegendsHide: 'Hide Legends units',
+    dsLegendsNote: 'Warhammer Legends — rules are published, but the unit is not matched-play legal.',
     dsCopyName: 'Copy unit name',
     dsCopied: 'Copied',
     dsOwnAdd: 'Mark as owned',
@@ -982,6 +987,9 @@ export const ui = {
     dsGroupInfantry: 'Infantry',
     dsGroupVehicles: 'Vehicles',
     dsGroupOther: 'Прочие юниты',
+    dsLegends: 'Legends',
+    dsLegendsHide: 'Скрыть юниты Legends',
+    dsLegendsNote: 'Warhammer Legends — правила публикуются, но юнит нелегален в matched play.',
     dsCopyName: 'Копировать название',
     dsCopied: 'Скопировано',
     dsOwnAdd: 'Отметить, что есть в коллекции',
