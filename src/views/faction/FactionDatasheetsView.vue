@@ -73,7 +73,7 @@
               </span>
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
-              <span v-if="s.legends" class="ds-chip-legends" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span>
+              <span v-if="s.legends" class="legends-badge" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
             </RouterLink>
           </div>
@@ -325,17 +325,6 @@ const groupedDatasheets = computed(() => {
   text-transform: uppercase;
   letter-spacing: 0.4px;
   color: var(--accent);
-  white-space: nowrap;
-}
-
-/* Reads as a label, not as an accent: a Legends sheet is a real datasheet the player may well be
-   here to read, and the mark only has to say which shelf it is on. */
-.ds-chip-legends {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: var(--muted);
   white-space: nowrap;
 }
 

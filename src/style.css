@@ -804,6 +804,27 @@ strong {
 .issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
 
+/* Legends mark — says a datasheet sits on the Legends shelf rather than the matched-play one.
+   Shared by the datasheet grid, the roster unit browser and the datasheet page, so all three
+   read alike. Amber (the weapon-ability hue) rather than muted grey: at 0.62rem beside a bold
+   unit name the muted version merged into the name and stopped being a mark at all. Not the
+   accent — that already means "your faction / your count" on the same rows — and not the error
+   red: a Legends unit is legal to read and to field outside matched play, not a mistake. */
+.legends-badge {
+  display: inline-block;
+  margin-left: 0.4em;
+  padding: 0 0.3em;
+  border: 1px solid color-mix(in srgb, var(--ability-weapon) 40%, transparent);
+  background: color-mix(in srgb, var(--ability-weapon) 12%, transparent);
+  color: var(--ability-weapon);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  vertical-align: 0.12em;
+  white-space: nowrap;
+}
+
 /* Clear of the mobile bottom-nav (52px — .bn-item's min-height in App.vue), which is where the
    safe area is already accounted for; and the page's own gutter takes over from the 2rem
    measure, since below 900px the content is not measured either. */

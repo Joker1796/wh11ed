@@ -12,9 +12,17 @@
           <time class="cl-date" :datetime="e.date">{{ formatDate(e.date) }}</time>
         </header>
         <ul class="cl-list">
-          <li v-for="(note, i) in (e[locale] || e.en)" :key="i" :class="{ 'cl-h': note.h }">
-            {{ note.h || note }}
-          </li>
+          <!-- Rendered, not printed: entries have always been written in the app's own body markup
+               (`**bold**`, a `[KEYWORD]`, a `(NN.NN)` cross-ref) and this list used to show it
+               raw — "**riled up**" with the asterisks in it. renderInline is the same transform
+               every rule text goes through, and App.vue's document-level handler makes the
+               keywords and cross-refs it produces behave here as they do inside a rule. -->
+          <li
+            v-for="(note, i) in (e[locale] || e.en)"
+            :key="i"
+            :class="{ 'cl-h': note.h }"
+            v-html="renderInline(note.h || note)"
+          ></li>
         </ul>
       </section>
       <button v-if="changelog.length > visibleCount" class="show-more" @click="showMore">
@@ -30,6 +38,7 @@
 import { ref, computed } from 'vue'
 import { changelog } from '../data/changelog.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useRenderInline } from '../composables/useRenderInline.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
 import { useUpdateNotice } from '../composables/useUpdateNotice.js'
 import { ui } from '../i18n/ui.js'
@@ -37,6 +46,7 @@ import { ui } from '../i18n/ui.js'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
+const { renderInline } = useRenderInline()
 
 // Pagination — show 5 versions at a time via "show more" (same recipe as tracker game history).
 const PAGE = 5

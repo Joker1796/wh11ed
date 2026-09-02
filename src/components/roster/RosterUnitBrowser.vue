@@ -87,7 +87,7 @@
                   <i :class="ownsUnit(u) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
                 </button>
                 <span class="rub-text">
-                  <span class="rub-name">{{ u.name }}<span v-if="u.flags?.legends" class="rub-legends" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span><span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
+                  <span class="rub-name">{{ u.name }}<span v-if="u.flags?.legends" class="legends-badge" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span><span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
                 <button
@@ -412,15 +412,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 /* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
 .rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
-/* Says which shelf the unit is on, quietly — a Legends row is a real row, not a warning. */
-.rub-legends {
-  margin-left: 0.4em;
-  font-size: 0.62rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: var(--muted);
-}
 .rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
 .rub-count.over { color: #c0392b; }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
