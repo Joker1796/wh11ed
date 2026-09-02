@@ -1,6 +1,6 @@
 {
   "name": "wh-rules",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "description": "Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker. A fast, searchable Vue 3 SPA hosted at wh-rules.ru.",
   "scripts": {
     "dev": "vite",
