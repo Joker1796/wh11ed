@@ -179,7 +179,11 @@ Some Orks rules allow a unit to make a **pulse jet move**, as described below. (
           name: 'Da Gobshot Thunderbuss',
           points: 20,
           flavor: 'Firing gold-plated teef as its unconventional ammunition, da Gobshot Thunderbuss proclaims its owner’s obscene wealth even as it sweeps away swathes of enemies.',
-          body: `WARBOSS model only. This model has the following weapon:`,
+          // The profile lives in appdata's `enhancement_wargear_item_profile`, not in the rule's
+          // prose (which ends at this colon on their side too) — stated inline, the way the
+          // other two enhancements of this shape already do it (TL-4ø9, Orksbane).
+          body: `WARBOSS model only. This model has the following weapon:
+▪ **Da Gobshot Thunderbuss** [LETHAL HITS: NON-MONSTER/VEHICLE, RAPID FIRE 6] — Range 24", A 6, BS 4+, S 7, AP -2, D 2.`,
         },
         {
           name: 'Morgog’s Finkin’ Cap',
@@ -480,7 +484,7 @@ If you rolled two D6, when this unit has attacked, this unit makes one **hazard 
         name: 'Mob-handed Brutality',
         flavor: 'In the massive fights that Orks enjoy, the only way to ensure a slice of the action is to fight harder.',
         body: `▪ Friendly BOYZ units’ melee attacks have [SUSTAINED HITS 1].
-▪ If a friendly ORKS INFANTRY unit made a **charge move** this turn, that unit’s melee attacks have [LETHAL HITS: **non-**MONSTER/VEHICLE].`,
+▪ If a friendly ORKS INFANTRY unit made a **charge move** this turn, that unit’s melee attacks have [LETHAL HITS: NON-MONSTER/VEHICLE].`,
       },
       stratagems: [
         {
@@ -852,7 +856,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Kommandos
           name: 'Throat-slittas (Upgrade)',
           points: 15,
           flavor: 'Veterans of the relatively organised butchery of well-protected targets, these distrusted Orks make excellent forward assassins.',
-          body: `KOMMANDOS/STORMBOYZ unit only. This unit’s melee attacks have [LETHAL HITS: **non**-MONSTER/VEHICLE].`,
+          body: `KOMMANDOS/STORMBOYZ unit only. This unit’s melee attacks have [LETHAL HITS: NON-MONSTER/VEHICLE].`,
         },
       ],
     },
@@ -1070,13 +1074,15 @@ Friendly ORKS PSYKER models have the following **psychic abilities**:
           name: 'Da Krunch',
           points: 10,
           flavor: 'Roiling energies frequently erupt from this Weirdboy’s eyes, solidifying above the enemy into the huge green foot of Gork (or Mork) himself, which repeatedly stamps on the foe.',
-          body: `ORKS PSYKER model only. This model has the following weapon.`,
+          body: `ORKS PSYKER model only. This model has the following weapon:
+▪ **Da Krunch** [BLAST 3, HAZARDOUS, LETHAL HITS, PSYCHIC] — Range 24", A 3, BS 4+, S 5, AP -1, D 1.`,
         },
         {
           name: '\'Eadbanger',
           points: 15,
           flavor: 'Known for yelling ‘Kop dis, ya zogger!’ at his chosen target beforehand, this Weirdboy is in the habit of projecting a bolt of raw power from his forehead which splatters the victim’s brains across a wide area.',
-          body: `ORKS PSYKER model only. This model has the following weapon.`,
+          body: `ORKS PSYKER model only. This model has the following weapon:
+▪ **'Eadbanger** [HAZARDOUS, PRECISION, PSYCHIC] — Range 24", A 2, BS 4+, S 6, AP -3, D 3.`,
         },
         {
           name: 'Warphead',

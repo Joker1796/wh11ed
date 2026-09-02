@@ -38,10 +38,13 @@
 // "Deep Strike" core ability) also always has an "only" sentence in prose ("...model with the Deep
 // Strike ability only") — tier 1 covers these too, which is why the clause window is sentence-
 // bounded rather than requiring the name and "only" to sit immediately adjacent.
-// `enhancement_wargear_item_profile` (2 rows — Adeptus Mechanicus' "TL-4ø9", space-marines'
-// "Orksbane", both enhancements that grant a specific weapon profile rather than restrict
-// eligibility) is a different, tangential question (already-correct on hand spot check) and out of
-// scope here — not wired into the automated check below.
+// `enhancement_wargear_item_profile` (5 rows — enhancements that GRANT a weapon rather than
+// restrict eligibility) is a different question, and it used to be out of scope here: when the
+// table held two rows, both were verified by hand and left unchecked. Codex: Orks added three
+// more, all shipped with the prose alone — "This model has the following weapon:" and nothing
+// after the colon — and no gate could catch it, because appdata's own prose stops at that colon
+// too, so the drift check saw our text and theirs agree. It is checked below now: the profile is
+// the only place those numbers exist, so the body has to carry them.
 //
 // Bridged via src/data/sourceIds.json's `enh:det:<detId>:<normName>` key (gen-source-ids.mjs),
 // inverted here since we start from the appdata side; skips Combat Patrol rows implicitly (a CP-
@@ -184,6 +187,32 @@ for (const [enhId, enhGroups] of groupsByEnh) {
   if (missing.length) flagged.push({ slug, detachment: det.name, enhancement: enh.name, missing })
 }
 
+// ── Granted weapons: the profile appdata keeps outside the prose ───────────────────────────────
+// A handful of enhancements hand the bearer a weapon. appdata states it structurally (the profile
+// table), and the rule's own text ends at the colon — so the body has to spell the profile out,
+// the way TL-4ø9 and Orksbane already do. Checked by NUMBERS, not by wording: the name plus every
+// characteristic must appear somewhere in the body, in either locale's file.
+const profileById = new Map(read('wargear_item_profile.json').map((r) => [r.id, r]))
+const abilityName = new Map(read('wargear_ability.json').map((r) => [r.id, nameOf(r)]))
+const abilitiesByProfile = groupBy(read('wargear_item_profile_wargear_ability.json'), (r) => r.wargearItemProfileId)
+const weaponFlagged = []
+let weaponsChecked = 0
+for (const row of read('enhancement_wargear_item_profile.json')) {
+  const bridge = enhByUuid.get(row.enhancementId)
+  if (!bridge) continue
+  const { slug, detKey, enhName } = bridge
+  const { det, enh } = await findEnhancement(slug, detKey, enhName)
+  if (!enh) continue // already reported as a bridging gap above
+  const p = profileById.get(row.wargearItemProfileId)
+  if (!p) continue
+  weaponsChecked++
+  const stats = [p.range, p.attacks, p.ballisticSkill || p.weaponSkill, p.strength, p.armourPenetration, p.damage].filter(Boolean)
+  const abil = (abilitiesByProfile.get(p.id) || []).map((r) => abilityName.get(r.wargearAbilityId)).filter(Boolean)
+  const body = enh.body || ''
+  const absent = [nameOf(p), ...stats, ...abil].filter((x) => !body.includes(String(x)))
+  if (absent.length) weaponFlagged.push({ slug, detachment: det?.name, enhancement: enh.name, absent })
+}
+
 console.log(
   `enhancement restrictions: ${checked} checked (${tier1Count} against appdata's own prose, ${tier2Count} reconstructed from structural data), ${flagged.length} FLAGGED, ${needsReview.length} need manual review (bridging gap).`,
 )
@@ -194,11 +223,20 @@ if (flagged.length) {
     for (const m of r.missing) console.log(`      ${m}`)
   }
 }
+console.log(`enhancement granted weapons: ${weaponsChecked} checked, ${weaponFlagged.length} FLAGGED.`)
+if (weaponFlagged.length) {
+  console.log('\n  ✗ appdata gives this enhancement a weapon profile the wh11ed body does not state:')
+  for (const r of weaponFlagged) {
+    console.log(`    ${r.slug} · ${r.detachment} · "${r.enhancement}" — missing: ${r.absent.join(', ')}`)
+  }
+  console.log('    Add it to BOTH src/data/factions/<slug>.js and .../ru/<slug>.js, e.g.:')
+  console.log('      ▪ **<Weapon>** [ABILITY] — Range 24", A 3, BS 2+, S 11, AP -2, D D3+2.')
+}
 if (needsReview.length) {
   console.log('\n  ⚠ Bridging gaps (sourceIds points somewhere that no longer matches wh11ed\'s current data):')
   for (const r of needsReview) console.log(`    ${r.slug} · ${r.detKey} · "${r.enhName}": ${r.note}`)
 }
-return flagged.length ? 1 : 0
+return flagged.length || weaponFlagged.length ? 1 : 0
 }
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href

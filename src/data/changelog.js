@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.3.10',
+    date: '2026-09-02',
+    en: [
+      { h: 'Battleline now counts only where your Detachment grants it' },
+      'A unit that becomes Battleline under one Detachment — Warbikers under Kult of Speed, Gretchin under Runt Swarm, Poxwalkers under Shamblerot Vectorium and 26 more across the game — was being treated as Battleline in every army. That doubled its duplicate limit everywhere, so a list could hold six of it where the rules allow three, and the catalogue filed it under BATTLELINE whatever you were building. Both now follow the Detachment you actually fielded. Reported by a player building the new Orks book.',
+      'If one of your saved lists already holds more copies than the rules allow, it will now say so. The list was never legal; nothing in it has been changed for you.',
+      { h: 'Fixes' },
+      'Three Orks enhancements that grant a weapon — Da Gobshot Thunderbuss, Da Krunch and \'Eadbanger — said "this model has the following weapon:" and then showed nothing. The profile is there now. Reported by a reader; the statline lives outside the rule\'s own text in our source, and all three were missed when the codex was transcribed.',
+      'On a computer, hovering a "back" link or a button rendered as a link no longer underlines it, and such a button keeps its white label instead of turning red on red.',
+    ],
+    ru: [
+      { h: 'Батллайн считается только там, где его даёт детачмент' },
+      'Юнит, который становится батллайном под конкретным детачментом — Warbikers в Kult of Speed, Gretchin в Runt Swarm, Poxwalkers в Shamblerot Vectorium и ещё 26 по всей игре, — считался батллайном в любой армии. Из-за этого его лимит копий удваивался везде: в лист влезало шесть там, где правила разрешают три, а в каталоге он лежал в секции BATTLELINE, что бы вы ни собирали. Теперь и лимит, и секция следуют тому детачменту, который вы действительно взяли. Спасибо игроку, собиравшему новый кодекс орков, — это его находка.',
+      'Если в вашем сохранённом листе уже больше копий, чем разрешают правила, он теперь об этом скажет. Такой лист и раньше не был легальным; сам список мы не трогали.',
+      { h: 'Починено' },
+      'Три орочьих улучшения, которые дают оружие, — Da Gobshot Thunderbuss, Da Krunch и \'Eadbanger — говорили «эта модель имеет следующее оружие:» и не показывали ничего. Профиль на месте. Спасибо за находку: характеристики лежат в источнике отдельно от текста правила, и при переносе кодекса все три потерялись.',
+      'На компьютере ссылка «назад» и кнопка-ссылка больше не подчёркиваются при наведении, а у такой кнопки остаётся белая подпись вместо красной по красному фону.',
+    ],
+  },
+  {
     version: '2.3.9',
     date: '2026-09-02',
     en: [
