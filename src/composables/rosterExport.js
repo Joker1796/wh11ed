@@ -25,8 +25,7 @@
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle,
-} from './rosterEngine.js'
+  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor } from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
 export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact']
@@ -155,7 +154,9 @@ function resolve(roster, { faction, core, items } = {}) {
       entry,
       def,
       name: def.name,
-      bucket: bucketOf(def),
+      // Same gated question the screens ask: a Detachment's Battleline grant decides the section
+      // this unit is exported under, not the datasheet's "could be Battleline" flag.
+      bucket: bucketOf(def, faction?.slug ? grantedKeywordsFor(entry.id, faction.slug, detachments).map((g) => g.kw) : null),
       ally: allyIds.has(entry.id),
       pts: unitPoints(def, entry, copy, detachments),
       models: entry.count ?? size?.per?.[0] ?? 1,

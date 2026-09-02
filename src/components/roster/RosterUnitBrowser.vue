@@ -137,7 +137,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -264,7 +264,9 @@ function allyCap(g) {
 }
 
 const sectionsFor = (list) =>
-  sectionsOf(list, { faction: { allies: props.allies }, detachments: props.detachments })
+  // The slug goes in so sectionsOf can ask conditionalKeywords.json which units this army's
+  // Detachments make Battleline — without it Gretchin would sit under BATTLELINE in every list.
+  sectionsOf(list, { faction: { allies: props.allies, slug: props.factionSlug }, detachments: props.detachments })
     .map((sec) => ({ ...sec, units: sec.items.slice().sort((a, b) => a.name.localeCompare(b.name)) }))
 
 // Counted after sectionsOf, not before it: a group whose ally Detachment isn't selected is not on
@@ -297,7 +299,14 @@ function countOf(id) {
 }
 // The duplicate cap for this unit (Infinity when no battle size is resolvable, i.e. nothing to
 // cap against), and whether checkLegality is on AND that cap is already reached.
-function limitOf(u) { return props.battle ? duplicateLimit(u, props.battle.dupLimit) : Infinity }
+function limitOf(u) {
+  if (!props.battle) return Infinity
+  const src = allySourceOf(u.id)
+  const granted = props.factionSlug
+    ? grantedKeywordsFor(src?.[1] || u.id, src?.[0] || props.factionSlug, props.detachments).map((g) => g.kw)
+    : null
+  return duplicateLimit(u, props.battle.dupLimit, granted)
+}
 function atCap(u) { return props.checkLegality && countOf(u.id) >= limitOf(u) }
 // Strictly OVER the cap — not just at it. Unreachable through this browser's own "+" button
 // (atCap already stops that at ==), but reachable from outside: units were added under a

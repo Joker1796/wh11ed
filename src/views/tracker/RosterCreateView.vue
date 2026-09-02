@@ -278,7 +278,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   allySourceOf, sectionsOf, unitPoints, rosterPoints, capKeyOf, ROSTER_NOTES_MAX,
-  leadsFor, effectiveBattle,
+  leadsFor, effectiveBattle, grantedKeywordsFor,
   addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
@@ -401,7 +401,10 @@ function dupBlocked(e) {
   if (!checkLegality.value) return false
   const def = defOf(e.id)
   if (!def) return true
-  const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit) : Infinity
+  // Battleline the army's Detachments grant doubles the cap — same question sectionsOf and
+  // validateRoster ask, so the copy button can never disagree with the warning list.
+  const granted = grantedKeywordsFor(allySourceOf(def.id)?.[1] || def.id, slugFor(def.id), curDetachments.value).map((g) => g.kw)
+  const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit, granted) : Infinity
   return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
 }
 

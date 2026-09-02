@@ -8,7 +8,9 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor } from '../../composables/rosterEngine.js'
+import { duplicateLimit } from '../../composables/rosterValidation.js'
+import conditionalKeywords from '../conditionalKeywords.json'
 import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
@@ -1039,5 +1041,50 @@ describe('a pair whose instruction spells an item with a U+2010 hyphen', () => {
       .find((x) => /2 hot‐shot laspistols/.test(textOf(x)))
     expect(optionItems(g.o[0])).toEqual([[optionItems(g.o[0])[0][0], 2]])
     expect(optionLabel(g.o[0], rosterItems.items)).toBe('2× Hot-shot laspistol')
+  })
+})
+
+// Reported by a player against the new Codex: Orks — "battleline is broken, it lets you cram
+// everyone in". Three Ork datasheets are Battleline only under a specific Detachment, and the
+// doubled duplicate cap was reading the datasheet's own "could be" flag instead of asking the
+// army. Pinned against the real bundle, because the fixture version of this test cannot tell
+// whether the sidecar and the generated flag still agree.
+describe('conditional Battleline is the army\'s answer', () => {
+  it('caps Warbikers at 3 outside Kult of Speed and 6 inside it', async () => {
+    const orks = await loadRosterFaction('orks')
+    const warbikers = orks.units.find((u) => u.id === 'warbikers')
+    expect(warbikers.condBattleline).toBe(1) // the datasheet CAN be Battleline…
+    expect(warbikers.kws).not.toContain('Battleline') // …but does not print it
+
+    const det = (name) => [orks.detachments.find((d) => d.name === name)].filter(Boolean)
+    const grantedIn = (name) => grantedKeywordsFor('warbikers', 'orks', det(name)).map((g) => g.kw)
+    expect(det('Kult of Speed')).toHaveLength(1)
+
+    expect(duplicateLimit(warbikers, 3, grantedIn('Blitz Brigade'))).toBe(3)
+    expect(duplicateLimit(warbikers, 3, grantedIn('Kult of Speed'))).toBe(6)
+    expect(bucketOf(warbikers, grantedIn('Blitz Brigade'))).toBe('other')
+    expect(bucketOf(warbikers, grantedIn('Kult of Speed'))).toBe('battleline')
+  })
+
+  // The gate reads conditionalKeywords.json, the flag comes from appdata's conditional_keyword
+  // table: a unit flagged with no grant to find would silently lose the ×2 it deserves. The one
+  // cross-faction case is Outrider Squad — the flag rides on the shared space-marines datasheet
+  // while the grant belongs to Dark Angels' Company of Hunters, which is where the sidecar files
+  // it and where the runtime looks it up.
+  it('every flagged datasheet has a Battleline grant to gate on', async () => {
+    const bundles = import.meta.glob(['./*.js', '!./index.js', '!./core.js', '!./items.js', '!./*.test.js'])
+    const grantsFor = (id) => Object.entries(conditionalKeywords)
+      .flatMap(([, units]) => units[id] || [])
+      .filter((g) => g.kw === 'Battleline')
+    let flagged = 0
+    for (const [f, load] of Object.entries(bundles)) {
+      const fac = Object.values(await load())[0]
+      for (const u of fac?.units || []) {
+        if (!u.condBattleline) continue
+        flagged++
+        expect(grantsFor(u.id).length, `${f.slice(2, -3)}/${u.id}`).toBeGreaterThan(0)
+      }
+    }
+    expect(flagged).toBeGreaterThan(20) // the whole corpus really was walked
   })
 })
