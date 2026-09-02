@@ -652,6 +652,7 @@ export default [
       "units": [
         "Assault Intercessor Squad",
         "Assault Squad",
+        "Bladeguard Veteran Squad",
         "Crusader Squad",
         "Deathwatch Veterans",
         "Decimus Kill Team",
