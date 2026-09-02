@@ -37,6 +37,15 @@ describe('bucketOf', () => {
     expect(bucketOf({ kws: ['Battleline', 'Infantry'], flags: {} })).toBe('battleline')
     expect(bucketOf({ kws: [], flags: {}, condBattleline: 1 })).toBe('battleline')
   })
+
+  // Conditional Battleline is the army's answer, not the datasheet's: told which keywords this
+  // army grants, the unit files under Battleline only when the grant is among them.
+  it('files a conditionally-Battleline unit by what the army grants', () => {
+    const gretchin = { kws: ['Infantry'], flags: {}, condBattleline: 1 }
+    expect(bucketOf(gretchin, [])).toBe('infantry')
+    expect(bucketOf(gretchin, ['Battleline'])).toBe('battleline')
+    expect(bucketOf(gretchin)).toBe('battleline') // no detachments known → the old reading
+  })
 })
 
 describe('unitBasePoints', () => {

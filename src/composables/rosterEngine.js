@@ -32,10 +32,15 @@ export function hasKeyword(unit, name) {
 // a VEHICLE, and most Battleline is INFANTRY. Vehicle and Infantry were split out of "Other" for
 // the same reason the datasheet page split them (2026-08-28) — between them they are most of what
 // used to land there, and "Прочее: 27" answers nothing about an army.
-export function bucketOf(unit) {
+// `granted` are the keywords the unit has gained from the army it is IN rather than from its own
+// datasheet (`grantedKeywordsFor`) — for this function, only Battleline matters. Pass it whenever
+// the roster's detachments are known; `null` means "caller cannot say", and the unit's own
+// `condBattleline` flag ("this datasheet can be Battleline under some detachment") is used, which
+// is what every caller did before the flag was gated.
+export function bucketOf(unit, granted = null) {
   if (unit.flags?.epic) return 'epic'
   if (unit.flags?.char) return 'characters'
-  if (hasKeyword(unit, 'Battleline') || unit.condBattleline) return 'battleline'
+  if (hasKeyword(unit, 'Battleline') || isBattlelineNow(unit, granted)) return 'battleline'
   if (hasKeyword(unit, 'Dedicated Transport')) return 'transports'
   if (hasKeyword(unit, 'Fortification')) return 'fortifications'
   if (hasKeyword(unit, 'Vehicle')) return 'vehicles'
@@ -399,6 +404,22 @@ export function grantedKeywordsFor(unitId, factionSlug, detachments) {
     out.push({ kw: g.kw, detName: g.det ? picked.get(g.det) : null, extra: !!g.extra })
   }
   return out
+}
+
+// Is this unit Battleline IN THIS ARMY? The datasheets that print the keyword always are; the
+// other 29 in the game gain it from a Detachment (Runt Swarm makes GRETCHIN Battleline, Company
+// of Hunters makes an Outrider Squad Battleline for Dark Angels), and gaining it doubles the
+// duplicate limit and moves the unit into the Battleline section.
+//
+// The generated `condBattleline` flag says only that a datasheet CAN be Battleline — it carries no
+// detachment — so reading it as the answer handed 29 units a permanent ×2 in armies whose
+// detachment grants nothing (reported for Orks: six Warbikers in a Blitz Brigade list). The gate
+// that knows WHICH detachment grants it is conditionalKeywords.json, the same sidecar
+// `grantedKeywords` already runs enhancement and Warlord eligibility through — so this asks it,
+// and the flag survives only as the fallback for a caller that has no detachments to check.
+export function isBattlelineNow(unit, granted = null) {
+  if (granted == null) return !!unit?.condBattleline
+  return granted.some((k) => String(k).toLowerCase() === 'battleline')
 }
 
 // ── Force Disposition: the one an army declares ───────────────────────────────────────────────
@@ -1081,7 +1102,10 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
     if (!def) continue
     const groups = all.filter((g) => (g.ids || []).includes(id))
     const mine = groups.find((g) => activeKeys.has(g.key)) || groups[0]
-    const list = mine ? byKey.get(mine.key) : roles.get(bucketOf(def))
+    // The faction slug is what conditionalKeywords.json is keyed by; without it the grant cannot
+    // be looked up and bucketOf falls back to the ungated flag.
+    const granted = faction?.slug ? grantedKeywordsFor(id, faction.slug, detachments).map((g) => g.kw) : null
+    const list = mine ? byKey.get(mine.key) : roles.get(bucketOf(def, granted))
     if (!list) continue
     list.push(it)
     where.set(it, { list, ally: !!mine })

@@ -442,6 +442,21 @@ directory; still part of this feature:
   Per-unit duplicate cap: the battle size's limit,
   doubled for Battleline/Dedicated Transport, hard-capped at 1 for every Epic Hero regardless
   of battle size (rule 25).
+  **Battleline gained from a Detachment counts, and only in an army that fields that Detachment**
+  (fixed 2026-09-02, reported by a player against Codex: Orks — "battleline is broken, it lets you
+  cram everyone in"). 29 datasheets in 15 factions carry the generated `condBattleline` flag, which
+  says only that a datasheet CAN be Battleline and names no Detachment; read as the answer, it
+  handed all 29 a permanent ×2 — six Warbikers in a Blitz Brigade list, six Poxwalkers outside
+  Shamblerot Vectorium, and an Outrider Squad doubled in a plain Space Marines army for a keyword
+  that belongs to Dark Angels' Company of Hunters. The gate that knows which Detachment grants it
+  is `conditionalKeywords.json`, the same sidecar enhancement and Warlord eligibility already run
+  through, so `isBattlelineNow(def, granted)` in `rosterEngine.js` is now the one answer and
+  `duplicateLimit`/`bucketOf` both take it. **Every caller that holds the roster's detachments must
+  pass them** — validateRoster, the catalogue's "+", both editors' copy buttons, `sectionsOf` and
+  the export; a caller that passes nothing gets the old ungated reading on purpose, so a forgotten
+  argument errs toward allowing a legal list rather than blocking one. `index.test.js` pins both
+  halves against the real Orks bundle and checks that every flagged datasheet has a grant to gate
+  on — a flag with no sidecar entry would silently lose the ×2 where it is deserved.
   **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
   ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
   keywords the entry has but its datasheet does not print, and both it and `enhOptionsFor` get them

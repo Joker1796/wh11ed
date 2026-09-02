@@ -47,6 +47,17 @@ describe('duplicateLimit', () => {
     expect(duplicateLimit({ kws: ['Dedicated Transport'], flags: {} }, 3)).toBe(6)
     expect(duplicateLimit(captain, 3)).toBe(3)
   })
+
+  // A unit that is only Battleline under some Detachment (29 of them in the game) doubles ONLY
+  // in an army whose Detachment actually grants it. Reading the datasheet's own `condBattleline`
+  // flag as the answer is what let a Blitz Brigade list field six Warbikers.
+  it('conditional battleline doubles only where the army grants the keyword', () => {
+    const warbikers = { id: 'warbikers', kws: ['Mounted'], flags: {}, condBattleline: 1 }
+    expect(duplicateLimit(warbikers, 3, [])).toBe(3)
+    expect(duplicateLimit(warbikers, 3, ['Battleline'])).toBe(6)
+    // A caller with no detachments in hand passes nothing and keeps the pre-gate reading.
+    expect(duplicateLimit(warbikers, 3)).toBe(6)
+  })
 })
 
 describe('validateRoster — completeness', () => {
