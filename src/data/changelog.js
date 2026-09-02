@@ -17,6 +17,32 @@
 
 export const changelog = [
   {
+    version: '2.3.9',
+    date: '2026-09-02',
+    en: [
+      { h: 'The new Codex: Orks' },
+      'Games Workshop replaced the Orks wholesale, and the site now carries the new book: sixteen detachments (seven of them new — Wreckas, Runt Swarm, Shoota Boyz, Madcap Meks, Flyboyz, Brute Bosses and Wurrband), every stratagem and enhancement rewritten, and four army rules where there was one. The Waaagh! no longer switches your whole army on for a turn: it makes a unit **riled up**, and thirty-two other rules can do the same, one unit at a time.',
+      'New units: Runtherd, Warbuggies, Gunwagon and Nazdreg. Wartrakk is now Wartrakks and Rukkatrukk Squigbuggy is now Rukkatrukk Squigbuggies, both rewritten. Boomdakka Snazzwagon, Kustom Boosta-blasta, Megatrakk Scrapjet, Shokkjump Dragsta and Wurrboy are gone from the codex.',
+      'Points are Munitorum Field Manual v1.4, which repriced the whole faction.',
+      { h: 'Warhammer Legends' },
+      'GW has started publishing Legends units in its own app, beginning with twelve Orks datasheets — including Lootas and Burna Boyz, which were codex units until this release. They are listed with everything else and marked "Legends", since the rules are published even though the units are not matched-play legal. If you are building a tournament list, the datasheet grid and the list builder each have a switch to hide them.',
+      { h: 'Elsewhere' },
+      'One new core rule — 18.04.01, on what a rapid disembark inherits from the transport that carried it. The Space Marine Apothecary can now be attached to a Bladeguard Veteran Squad, and the Judiciar has a Support attachment alongside its Leader one.',
+      'The Russian side was redone from scratch — the whole codex, both the faction rules and the datasheets. The old translation was keyed to the old book position by position, so it could not be carried over. Two terms stay English on the Russian pages, as they do on the cards: the **riled up** state and the **pulse jet move**.',
+    ],
+    ru: [
+      { h: 'Новый Codex: Orks' },
+      'Games Workshop переписала орков целиком, и на сайте теперь новая книга: шестнадцать детачментов (семь новых — Wreckas, Runt Swarm, Shoota Boyz, Madcap Meks, Flyboyz, Brute Bosses и Wurrband), все стратагемы и улучшения заново, и четыре армейских правила вместо одного. Waaagh! больше не включает всю армию на ход: он делает отряд **riled up**, и то же самое умеют ещё тридцать два правила — по одному отряду.',
+      'Новые юниты: Runtherd, Warbuggies, Gunwagon и Nazdreg. Wartrakk стал Wartrakks, а Rukkatrukk Squigbuggy — Rukkatrukk Squigbuggies, оба переписаны. Boomdakka Snazzwagon, Kustom Boosta-blasta, Megatrakk Scrapjet, Shokkjump Dragsta и Wurrboy из кодекса убраны.',
+      'Очки — Munitorum Field Manual v1.4, он переоценил всю фракцию.',
+      { h: 'Warhammer Legends' },
+      'GW начала выкладывать юниты Legends в своё приложение — первыми пришли двенадцать орочьих датащитов, включая Lootas и Burna Boyz, которые до этого релиза были кодексными. Они показываются вместе со всеми и помечены «Legends»: правила опубликованы, хотя в matched play такие юниты нелегальны. Если собираете турнирный список — и в сетке датащитов, и в конструкторе есть переключатель, чтобы их спрятать.',
+      { h: 'Прочее' },
+      'Одно новое правило ядра — 18.04.01, о том, что стремительная высадка наследует от везшего её транспорта. Apothecary у космодесанта теперь может присоединяться к Bladeguard Veteran Squad, а у Judiciar появилось присоединение Support рядом с Leader.',
+      'Русская сторона переписана с нуля — весь кодекс, и правила фракции, и датащиты. Старый перевод был привязан к старой книге позиция в позицию, перенести его было нельзя. Два термина на русских страницах остаются английскими, как и на карточках: состояние **riled up** и **pulse jet move**.',
+    ],
+  },
+  {
     version: '2.3.8',
     date: '2026-09-01',
     en: [

@@ -391,8 +391,78 @@ describe('parseList — listhammer.info, short mode', () => {
   })
 })
 
-// Both listhammer modes, end to end against the real generated Orks bundle. The two exports are
-// the same army, so they must come out priced the same — and equal to what the site itself stated.
+// A real Adeptus Custodes export, current as of the data version this repo holds, priced end to
+// end against our own generated bundle. It used to be the Orks pair below — until Codex: Orks
+// repriced the whole faction, which is exactly why an exact-pricing claim has to ride on a list
+// exported against data we still carry. Swap it for a current Orks export once listhammer has one.
+const LH_CURRENT = `custodes (2000 points)
+
+Adeptus Custodes
+Might of the Moritoi and Shield Host (3 Detachment Points)
+Purge the Foe
+Strike Force (2000 points)
+
+Attached Units
+Attached Unit 1
+
+Shield-Captain (110 points)
+• Attached as: Leader (Character)
+• Warlord
+• 1x Praesidium Shield
+1x Pyrithite spear
+
+Custodian Guard (170 points)
+• Attached as: Bodyguard (Battleline)
+• 4x Custodian Guard
+• 3x Guardian spear
+1x Misericordia
+1x Praesidium Shield
+1x Vexilla
+
+
+OTHER DATASHEETS
+
+Caladius Grav-tank (225 points)
+• 1x Armoured hull
+1x Twin arachnus heavy blaze cannon
+1x Twin lastrum bolt cannon
+
+Caladius Grav-tank (225 points)
+• 1x Armoured hull
+1x Twin arachnus heavy blaze cannon
+1x Twin lastrum bolt cannon
+
+Contemptor-Achillus Dreadnought (180 points)
+• 1x Achillus dreadspear
+2x Infernus incinerator
+• Enhancement: Interred Expertise (Upgrade)
+
+Contemptor-Galatus Dreadnought (165 points)
+• 1x Galatus warblade
+
+Contemptor-Galatus Dreadnought (165 points)
+• 1x Galatus warblade
+
+Venatari Custodians (165 points)
+• 3x Venatari Custodian
+• 3x Venatari lance
+
+Venatari Custodians (165 points)
+• 3x Venatari Custodian
+• 3x Venatari lance
+
+Vertus Praetors (215 points)
+• 3x Vertus Praetor
+• 3x Interceptor lance
+3x Salvo launcher
+
+Vertus Praetors (215 points)
+• 3x Vertus Praetor
+• 3x Interceptor lance
+3x Salvo launcher
+
+Exported with App Version: v2.5.0 (140), Data Version: v931`
+
 describe('matchRoster — listhammer against our own data', () => {
   let ctx
   beforeAll(async () => {
@@ -403,39 +473,63 @@ describe('matchRoster — listhammer against our own data', () => {
     ctx = { faction, core: rosterCore, items: items.items }
   })
 
-  it('prices every unit of the detailed export exactly as the site did', () => {
-    const { report } = matchRoster(parseList(LH_FULL), ctx)
+  it('prices every unit of the detailed export exactly as the site did', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
+    const { report } = matchRoster(parseList(LH_CURRENT), cur)
     expect(report.missing).toEqual([])
     for (const u of report.units) expect([u.name, u.points.computed]).toEqual([u.name, u.points.stated])
     expect(report.points.computed).toBe(report.points.statedUnits)
   })
 
-  // "• 1x Ammo Runt" is printed exactly like a model line, but the datasheet has no such profile:
-  // counting it as one made a ten-model unit eleven, which fell into the 5-model bracket and
-  // priced Flash Gitz at half.
-  it('does not count a unit’s attached extra as a model', () => {
+  // The Orks export below is a data-version-925 paste and its points are last codex's; what it is
+  // still the only corpus example of is what these two tests name.
+  it('still lands every unit of a stale export on a datasheet', () => {
     const { report } = matchRoster(parseList(LH_FULL), ctx)
-    const gitz = report.units.find((u) => u.name === 'Flash Gitz')
-    expect(gitz.models).toBe(10)
-    expect(gitz.points.computed).toBe(150)
+    expect(report.missing).toEqual([])
   })
 
-  // Our data keeps the kind inside the enhancement's name ("Dead Shiny Shootas (Upgrade)"); the
+  // A unit's wargear is printed exactly like a model line ("1x Misericordia" under "4x Custodian
+  // Guard"), and only the datasheet knows which is which: counting the three gear lines here
+  // would make a four-model unit seven and price it out of its bracket. (This used to read Orks'
+  // "1x Ammo Runt" — Codex: Orks turned Ammo Runts into a token ability, so no Orks datasheet
+  // carries an attached extra as wargear any more.)
+  it('does not count a unit’s wargear line as a model', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
+    const { report } = matchRoster(parseList(LH_CURRENT), cur)
+    const guard = report.units.find((u) => u.name === 'Custodian Guard')
+    expect(guard.models).toBe(4)
+    expect(guard.points.computed).toBe(170)
+  })
+
+  // Our data keeps the kind inside the enhancement's name ("Interred Expertise (Upgrade)"); the
   // app leaves it off and listhammer prints it. All three have to land on the same enhancement.
-  it('matches an enhancement through the kind tag, whichever side carries it', () => {
-    const { report, payload } = matchRoster(parseList(LH_FULL), ctx)
-    expect(report.units.find((u) => u.name === 'Lootas').enh).toEqual({ name: 'Dead Shiny Shootas', ok: true })
-    expect(payload.units.find((u) => u.id === 'lootas').enh).toBe('Dead Shiny Shootas (Upgrade)')
+  it('matches an enhancement through the kind tag, whichever side carries it', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
+    const { report, payload } = matchRoster(parseList(LH_CURRENT), cur)
+    expect(report.units.find((u) => u.name === 'Contemptor-Achillus Dreadnought').enh).toEqual({ name: 'Interred Expertise', ok: true })
+    expect(payload.units.find((u) => u.id === 'contemptor-achillus-dreadnought').enh).toBe('Interred Expertise (Upgrade)')
   })
 
   it('reads the short export into the same army, given the faction the text does not name', () => {
     const parsed = parseList(LH_COMPACT)
-    parsed.detachments = ['Freebooter Krew', 'More Dakka!']   // the screen’s faction/detachment step
+    parsed.detachments = ['War Horde']   // the screen’s faction/detachment step
     const { payload, report } = matchRoster(parsed, ctx)
     expect(report.missing).toEqual([])
     expect(payload.units.map((u) => u.id)).toContain('flash-gitz')
-    expect(report.units.find((u) => u.name === 'Flash Gitz').points.computed).toBe(150)
-    expect(report.units.find((u) => u.name === 'Lootas').points.computed).toBe(115)   // 100 + the enhancement
+    // The claim is that the two modes describe the same army, not what that army costs — the
+    // export predates Codex: Orks, so its own numbers are last codex's either way.
+    const priceIn = (list) => {
+      const r = matchRoster(parseList(list), ctx).report
+      return Object.fromEntries(r.units.map((u) => [u.name, u.points.computed]))
+    }
+    const [short, long] = [priceIn(LH_COMPACT), priceIn(LH_FULL)]
+    // Flash Gitz is left out on purpose: the detailed export lists its Ammo Runt, which the new
+    // codex no longer carries as wargear, so that line now reads as an eleventh model there and
+    // not in the short export. A current export would have neither.
+    for (const name of ['Lootas', 'Boyz']) expect(short[name]).toBe(long[name])
     // Both characters of the block joined the same unit — the second one in the Support slot.
     const boyz = payload.units.find((u) => u.id === 'boyz')
     expect(payload.units.find((u) => u.id === 'ghazghkull-thraka').leaderOf).toBe(boyz.uid)
@@ -2126,10 +2220,12 @@ describe('matchRoster — a WTC list that indexes what a character joined', () =
   })
 
   // Appdata spells this weapon with a non-breaking hyphen (U+2011) and the list with the one on the
-  // keyboard — 25 weapon names in the game are typed that way.
+  // keyboard — 25 weapon names in the game are typed that way. Wazdakka is where the Psyko‑gatler
+  // is, and he still carries every weapon this export names; the export predates Codex: Orks, so
+  // the rest of it names gear that unit no longer has (the Bannernob's choppa, Makari's stabba).
   it('places a weapon appdata spells with a unicode hyphen', () => {
     const { report } = matchRoster(parseList(ORK), ctx)
-    expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
+    expect(report.units.find((u) => u.name === 'Wazdakka Gutsmek').gear.missing).toEqual([])
   })
 })
 

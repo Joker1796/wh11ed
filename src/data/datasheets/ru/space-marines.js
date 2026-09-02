@@ -1603,6 +1603,7 @@ export default {
     },
     loadout:
       '**Ancient Gadriel вооружён:** bolt rifle; close combat weapon.\n\n**Veteran Sergeant Metaurus вооружён:** heavy bolt pistol; master-crafted power weapon; storm shield.\n\n**Gaius Silva вооружён:** archeotech laspistol; power weapon; refractor field.\n\n**Aemelia Minervas вооружена:** archeotech laspistol; power weapon.\n\n**Dainal Kornelius вооружён:** Astropathic Blast; force stave.\n\n**Lucia Vestha вооружена:** archeotech laspistol; close combat weapon.',
+    leader: { text: LEADER_TEXT },
   },
 
   whirlwind: {

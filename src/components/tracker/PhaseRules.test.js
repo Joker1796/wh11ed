@@ -76,14 +76,15 @@ describe('PhaseRules', () => {
     startGame({
       roster: {
         id: 'r1', name: 'Da List', faction: 'orks', detachments: [],
-        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'painboy', size: 0 }],
       },
     })
     const w = await mountBlock()
     await open(w)
-    // "At the end of your Command phase…" — and the unit it belongs to is named under it.
-    expect(w.text()).toContain('Get Da Good Bitz')
-    expect(w.text()).toContain('Boyz')
+    // "In your Command phase…" — and the unit it belongs to is named under it. (Boyz carried
+    // this case until Codex: Orks gave them no Command-phase ability at all.)
+    expect(w.text()).toContain('Crude Surgery')
+    expect(w.text()).toContain('Painboy')
   })
 
   it('renders nothing when no rule has anything to say', async () => {
@@ -112,20 +113,20 @@ describe('PhaseRules — where a line leads', () => {
   const line = (w, text) => w.findAll('.pr-go-btn').find((b) => b.text().includes(text))
 
   it('opens the unit\'s own card inside the attached list', async () => {
-    startGame({ roster: roster([{ uid: 'u1', id: 'boyz', size: 0 }]) })
+    startGame({ roster: roster([{ uid: 'u1', id: 'painboy', size: 0 }]) })
     const w = await mountBlock()
     await open(w)
-    await line(w, 'Get Da Good Bitz').trigger('click')
+    await line(w, 'Crude Surgery').trigger('click')
     expect(push).toHaveBeenCalledWith({ path: '/tracker/game/roster/0', query: { unit: 'u1' } })
   })
 
   // With several units carrying the same rule there is no single card to mean, so the line opens
   // the list and lets the reader pick.
   it('opens the list when more than one unit carries the rule', async () => {
-    startGame({ roster: roster([{ uid: 'u1', id: 'boyz', size: 0 }, { uid: 'u2', id: 'boyz', size: 0 }]) })
+    startGame({ roster: roster([{ uid: 'u1', id: 'painboy', size: 0 }, { uid: 'u2', id: 'painboy', size: 0 }]) })
     const w = await mountBlock()
     await open(w)
-    await line(w, 'Get Da Good Bitz').trigger('click')
+    await line(w, 'Crude Surgery').trigger('click')
     expect(push).toHaveBeenCalledWith('/tracker/game/roster/0')
   })
 
@@ -143,6 +144,6 @@ describe('PhaseRules — where a line leads', () => {
     await open(w)
     // No roster → no unit lines at all, so the army rule is the only way in. Guarding the
     // fallback here rather than asserting a link that cannot exist.
-    expect(w.findAll('.pr-go-btn').every((b) => !b.text().includes('Get Da Good Bitz'))).toBe(true)
+    expect(w.findAll('.pr-go-btn').every((b) => !b.text().includes('Crude Surgery'))).toBe(true)
   })
 })

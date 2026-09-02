@@ -74,9 +74,6 @@ const turnOfStamp = (at) => Math.floor(at / 10)
 // Combat Drug is running, and the Sororitas one banks Miracle dice and says nothing about which
 // unit is Righteous. Those stay switches.
 const AUTO = {
-  // Orks — a `toggle` spec that records the round the Waaagh! was called in.
-  'waaagh-active': (player, round) => player?.factionSlug === 'orks'
-    && (player?.army?.toggleRounds || []).includes(round),
   // Adeptus Mechanicus — a per-round `selection` whose option ids are the Imperatives themselves.
   'imperative-protector': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
     && player?.army?.selectionByRound?.[round] === 'protector',
@@ -93,6 +90,27 @@ const AUTO = {
 }
 
 export const isAuto = (id) => Object.hasOwn(AUTO, id)
+
+// Conditions the tracker can prove ON but whose OFF proves nothing, so the hand switch has to stay
+// alongside. One so far: Codex: Orks replaced the army-wide Waaagh! window with the per-unit `riled
+// up` state, and the War Cry the tracker records is only one of THIRTY-TWO rules that grant it —
+// detachment rules, stratagems, enhancements and a long tail of datasheet abilities, each riling
+// one unit at a time. So the War Cry turns it on for everybody while its window is open, and the
+// unit's own switch answers the rest. (Plain AUTO would have been wrong in both directions: it
+// would have taken the switch away, and read "no War Cry" as "nothing is riled up".)
+const SOFT_AUTO = {
+  'riled-up': (player, round) => player?.factionSlug === 'orks'
+    && (player?.army?.toggleRounds || []).includes(round),
+}
+
+// …and two datasheets answer it outright, with no trigger and no window: the Stompa's Waaagh!
+// Effigy and Zodgrod Wortsnagga's Super Runts both read, flatly, "This unit is riled up." Those
+// two are riled up from deployment to the end of the battle, so their chip is on and is not the
+// player's to flip — asking would be asking them to confirm what their own datasheet prints.
+// Guarded by a test that scans every Orks datasheet for the phrase, so a third one cannot appear
+// in a later codex and quietly go unread.
+const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
+const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
 
 // Is a switch still in force? Compared at the granularity its own rule states — except against a
 // legacy round-only value (or in a game not keeping phases), where the round is all either side
@@ -157,6 +175,9 @@ export function activeConditions(player, clock, entry, opts = {}) {
     else if (c.scope === 'roster') on = rosterAnswers(id, entry)
     else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
     else if (entry?.uid) on = unit && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
+    // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
+    // can prove it, switch or no switch.
+    if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)
     if (on) out.add(id)
   }
   capGroups(out, player, entry)
@@ -461,7 +482,9 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     id,
     label: conditions[id].label,
     on: active.has(id),
-    auto: isAuto(id),           // shown, but not the player's to flip here
+    // Shown, but not the player's to flip here: either the tracker already recorded it, or the
+    // entry's own datasheet states it outright.
+    auto: isAuto(id) || entryProves(id, entry),
     duration: conditions[id].duration,
     // Who the switch belongs to, so a view that shows army-wide and per-unit switches side by side
     // (a rule's own chips inside the unit card) still writes each to the right store.

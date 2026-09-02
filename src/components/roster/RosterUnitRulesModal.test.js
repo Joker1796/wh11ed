@@ -153,9 +153,9 @@ describe('RosterUnitRulesModal', () => {
         },
       },
     })
-    await waitFor('Get Stuck In!') // the faction rules bundle is a separate async load
+    await waitFor('Get Stuck In') // the faction rules bundle is a separate async load
     const text = body().text()
-    expect(text).toContain('Get Stuck In!') // War Horde's detachment rule
+    expect(text).toContain('Get Stuck In') // War Horde's detachment rule
     expect(text).toContain('Bannernob') // the attached Leader, by name
     expect(text).toContain('Waaagh! Banner') // …and its own ability
     // The army rule is NOT one of these blocks — it lives on the card's own Faction line.
@@ -190,7 +190,7 @@ describe('RosterUnitRulesModal', () => {
     await flushPromises()
     expect(visible.value).toBe(true)
     expect(activeKeyword.value.name).toBe('Waaagh!')
-    expect(activeKeyword.value.fullText).toContain('call a Waaagh!')
+    expect(activeKeyword.value.fullText).toContain('riled up')
     close()
     w.unmount()
   })
@@ -571,11 +571,16 @@ describe('RosterUnitRulesModal', () => {
     expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-stationary')
   })
 
-  // Wazdakka's engine is an ability SET: "select one of the abilities in this section", so Pulse
-  // Jet's +6" M waits on TWO things — the unit having Advanced, and Pulse Jet being the option up
-  // this round. The second used to be reachable only by opening the ability that names it; both
-  // halves of one answer now sit together, under the set's own chips.
-  it('shows the picked set option\'s remaining condition beside the pick, not inside the ability', async () => {
+  // Wazdakka's engine is an ability SET: "select one of the abilities in this section". When a
+  // picked option still waits on something the game can answer, that condition belongs beside the
+  // pick rather than inside the accordion the ability is read in, and never in both places.
+  //
+  // Codex: Orks took the live example away: Pulse Jet used to add +6" M once the unit had
+  // Advanced, and now grants a pulse jet move that REPLACES the move outright, so it changes no
+  // printed number and carries no effects. Nothing in the dataset now has a set option whose
+  // condition the game can answer — all three that exist resolve per roll — so what is left to
+  // pin is the other half of the rule: the accordion must not grow a chip of its own either way.
+  it('keeps a picked set option\'s conditions out of the ability accordion', async () => {
     const mods = (await import('../../data/rosterModifiers/orks.js')).default
     const pulse = mods.entries.find((e) => e.name === 'Wazdakka Gutsmek: Pulse Jet')
     const rf = await import('../../data/roster/orks.js')
@@ -590,8 +595,8 @@ describe('RosterUnitRulesModal', () => {
           chosen,
           picks: [{
             id: pulse.sid, label: { en: 'Pulse Jet', ru: 'Pulse Jet' }, on: chosen.has(pulse.sid),
-            auto: false, pick: true, group: 'set:Throttlerokkit Shokka Engine', groupLimit: 1,
-            from: { set: 'Throttlerokkit Shokka Engine' },
+            auto: false, pick: true, group: 'set:Full Throttle', groupLimit: 1,
+            from: { set: 'Full Throttle' },
           }],
           switches: [{ id: 'unit-advanced', label: { en: 'Advanced', ru: 'Совершил Advance' }, on: false, auto: false, scope: 'unit' }],
           armySwitches: [],
@@ -614,16 +619,13 @@ describe('RosterUnitRulesModal', () => {
     idle.unmount()
     document.body.innerHTML = ''
 
-    // Picked: the condition it still waits on appears under the pick — and stays out of the
-    // accordion, so the card never shows the same chip twice.
+    // Picked: this option has no answerable condition left to lift, so there is no chip under the
+    // pick — and, either way, none inside the accordion.
     const up = open(new Set([pulse.sid]))
     await settle()
-    const chips = body().findAll('.rum-pick-conds .cond-chip')
-    expect(chips).toHaveLength(1)
-    expect(chips[0].text()).toContain('Advanced')
+    expect(pulse.effects).toEqual([])
+    expect(body().findAll('.rum-pick-conds .cond-chip')).toHaveLength(0)
     expect(body().find('.ds-ab-conds').exists()).toBe(false)
-    await chips[0].trigger('click')
-    expect(up.emitted('toggle-cond')[0][0].id).toBe('unit-advanced')
     up.unmount()
   })
 

@@ -1405,6 +1405,9 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const flags = {}
   if (keyword(kws, 'Character')) flags.char = 1
   if (keyword(kws, 'Epic Hero')) flags.epic = 1
+  // A Legends sheet is listed alongside everything else and marked, not hidden — the flag is what
+  // the badge and the filter read. First shipped by GW in data version 946 (Legends: Orks).
+  if (bd.isLegends) flags.legends = 1
   if (minis.some((m) => m.isSupremeCommander)) flags.supreme = 1
   if (minis.some((m) => m.canBeNonCharacterWarlord)) flags.nonCharWarlordOk = 1
   if (minis.length && minis.every((m) => m.cannotBeWarlord)) flags.noWarlord = 1

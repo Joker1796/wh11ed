@@ -437,9 +437,14 @@ describe('RosterViewView', () => {
       expect(w.text()).toContain('Fielded List')
     })
 
-    // The whole point of the feature, end to end: the Ork player calls a Waaagh! on the tracker
+    // The whole point of the feature, end to end: the Ork player calls the War Cry on the tracker
     // card, and the list they are holding starts showing the numbers it is actually fighting with.
-    it('turns the printed numbers into the live ones when the Waaagh! is called', async () => {
+    //
+    // Since Codex: Orks the state is `riled up`, per unit, and the War Cry is one of thirty-two
+    // ways into it — so unlike the old army-wide Waaagh! the chip stays FLIPPABLE. The tracker
+    // proving it on is what this pins; the hand switch beside it is the other half of the same
+    // condition (see rosterGameContext's SOFT_AUTO).
+    it('turns the printed numbers into the live ones when the War Cry is called', async () => {
       const orks = {
         id: 'r2', name: 'Da List', faction: 'orks', detachments: [],
         battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
@@ -447,19 +452,19 @@ describe('RosterViewView', () => {
       const t = await startGame(orks, 'orks')
       GAME_PI = '0'
       const w = mount(RosterViewView, { global: { stubs } })
-      await waitFor(w, 'Waaagh!')
+      await waitForSelector(w, '.rvunit-conds .cond-chip')
 
-      const chip = w.findAll('.cond-chip').find((c) => c.text().includes('Waaagh!'))
-      expect(chip.classes()).not.toContain('on')
-      // Read from the army-rule tracker, not flipped here — there is one switch for this fact.
-      expect(chip.attributes('disabled')).toBeDefined()
+      const riled = () => w.findAll('.cond-chip').find((c) => c.text().includes('Riled up'))
+      expect(riled().classes()).not.toContain('on')
+      // Other rules grant it too, so the player keeps a switch of their own here.
+      expect(riled().attributes('disabled')).toBeUndefined()
       expect(w.find('.rvst-mod').exists()).toBe(false)
 
       t.fireArmyToggle(0, t.current.value.currentRound)
       await waitForSelector(w, '.rvst-mod')
 
-      expect(w.findAll('.cond-chip').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
-      expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the Waaagh! rewrote
+      expect(riled().classes()).toContain('on')
+      expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the War Cry rewrote
     })
 
     // Per-unit states live on the unit's own row: they are what a player flips every turn, and
@@ -540,6 +545,9 @@ describe('RosterViewView', () => {
       close()
       w.unmount()
 
+      // Codex: Orks moved the faction state from the army row to the unit's own: riled up is
+      // per-unit now (thirty-two rules grant it, one unit at a time), so the chip to check sits
+      // beside Battle-shocked rather than in the army row above.
       const orks = {
         id: 'r3w', name: 'Waaagh List', faction: 'orks', detachments: [],
         battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
@@ -547,19 +555,22 @@ describe('RosterViewView', () => {
       await startGame(orks, 'orks')
       const w2 = mount(RosterViewView, { global: { stubs } })
       await waitFor(w2, 'Boyz')
-      await waitForSelector(w2, '.rv-conds .cond-chip')
-      const waaagh = w2.findAll('.rv-conds .cond-item').find((i) => i.text().includes('Waaagh!'))
-      expect(waaagh.find('.cond-info').exists()).toBe(false)
+      await waitForSelector(w2, '.rvunit-conds .cond-chip')
+      const riled = w2.findAll('.rvunit-conds .cond-item').find((i) => i.text().includes('Riled up'))
+      expect(riled).toBeTruthy()
+      expect(riled.find('.cond-info').exists()).toBe(false)
       w2.unmount()
     })
 
-    // …and no chevron at all when Battle-shock is the only thing this unit can be in.
+    // …and no chevron at all when Battle-shock is the only thing this unit can be in. T'au, since
+    // Codex: Orks gave every Ork unit a riled-up chip through the army rule itself: no T'au army
+    // rule, detachment rule or datasheet record carries a unit-scope condition.
     it('leaves the row bare when there is nothing behind the chevron', async () => {
-      const orks = {
-        id: 'r8', name: 'Plain List', faction: 'orks', detachments: [],
-        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      const tau = {
+        id: 'r8', name: 'Plain List', faction: 'tau-empire', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'breacher-team', size: 0 }],
       }
-      await startGame(orks, 'orks')
+      await startGame(tau, 'tau-empire')
       GAME_PI = '0'
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Plain List')

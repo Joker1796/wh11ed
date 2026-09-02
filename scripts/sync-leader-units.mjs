@@ -71,9 +71,15 @@ const bulletsByUuid = new Map()
 for (const { bundle: d } of allFactionBundles()) {
   if (!d?.datasheets) continue
   for (const ds of d.datasheets) {
-    const rule = (ds.rules || []).find((r) => r.name === 'Leader' || r.name === 'Support')
-    if (!rule || !ds.id) continue
-    const bullets = [...rule.rules.matchAll(/\*+([^*]+)\*+/g)].map((m) => m[1].trim())
+    // A datasheet can carry BOTH rules, each with its own attach-list (data version 946
+    // made the Judiciar the first such case: Support to 6 units, Leader to 15). wh11ed
+    // models one flat attach-list per datasheet — the distinction is not represented for
+    // any of the ~46 Support sheets either — so the ground truth here is the UNION.
+    const rules = (ds.rules || []).filter((r) => r.name === 'Leader' || r.name === 'Support')
+    if (!rules.length || !ds.id) continue
+    const bullets = [...new Set(rules.flatMap((r) =>
+      [...r.rules.matchAll(/\*+([^*]+)\*+/g)].map((m) => m[1].trim()),
+    ))]
     bulletsByUuid.set(ds.id, bullets)
   }
 }

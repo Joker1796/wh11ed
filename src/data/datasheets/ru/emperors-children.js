@@ -35,6 +35,7 @@ export default {
       'Эта модель может быть снаряжена одним из следующего:\n▪ 1 combi-bolter\n▪ 1 combi-weapon',
       'Эта модель может быть снаряжена 1 havoc launcher.',
     ],
+    loadout: '**Эта модель вооружена:** 2 soulshatter lascannons; twin heavy bolter; armoured tracks.',
   },
 
   'chaos-rhino': {
@@ -48,6 +49,7 @@ export default {
       'Эта модель может быть снаряжена одним из следующего:\n▪ 1 combi-bolter\n▪ 1 combi-weapon',
       'Эта модель может быть снаряжена 1 havoc launcher или может заменить 1 combi-bolter на 1 havoc launcher.',
     ],
+    loadout: '**Эта модель вооружена:** combi-bolter; armoured tracks.',
   },
 
   'chaos-spawn': {
@@ -55,6 +57,7 @@ export default {
       'Scuttling Horrors':
         'В фазе перемещения вашего оппонента, если вражеский юнит завершает манёвр в пределах 8" от этого юнита, если этот юнит не находится в дистанции ввязывания одного или более вражеских юнитов, этот юнит может совершить обычный манёвр до 6".',
     },
+    loadout: '**Каждая модель вооружена:** hideous mutations.',
   },
 
   'chaos-terminators': {
@@ -69,6 +72,7 @@ export default {
       'До 3 моделей могут заменить свой accursed weapon на 1 power fist каждая.',
       'accursed weapon 1 модели можно заменить на 1 chainfist.',
     ],
+    loadout: '**Каждая модель вооружена:** combi-bolter; accursed weapon.',
   },
 
   'daemon-prince-of-slaanesh': {
@@ -80,6 +84,7 @@ export default {
       'Ecstatic Death':
         'Если эта модель уничтожена атакой ближнего боя и она ещё не сражалась в этой фазе, бросьте один D6: на 2+ не убирайте её из игры. Эта модель может сразиться после того, как атакующий юнит завершит свои атаки, а затем убирается из игры.',
     },
+    loadout: '**Эта модель вооружена:** infernal cannon; hellforged weapons.',
   },
 
   'daemon-prince-of-slaanesh-with-wings': {
@@ -89,6 +94,7 @@ export default {
       'Stimulated by Pain':
         'Каждый раз, когда по этой модели распределяется атака, вычтите 1 из характеристики Урона (Damage) этой атаки.',
     },
+    loadout: '**Эта модель вооружена:** infernal cannon; hellforged weapons.',
   },
 
   daemonettes: {
@@ -106,6 +112,7 @@ export default {
       '1 Daemonette, не снаряжённая daemonic icon, может быть снаряжена 1 instrument of Chaos.',
       '1 Daemonette, не снаряжённая instrument of Chaos, может быть снаряжена 1 daemonic icon.',
     ],
+    loadout: '**Каждая модель вооружена:** slashing claws.',
   },
 
   defiler: {
@@ -124,6 +131,7 @@ export default {
       'heavy baleflamer этой модели можно заменить на одно из следующего:\n▪ 1 Hades lascannon\n▪ 1 heavy reaper autocannon\n▪ 1 electroscourge (модель не может быть снаряжена более чем одним electroscourge)',
       'heavy missile launcher этой модели можно заменить на одно из следующего:\n▪ 1 Hades lascannon\n▪ 1 heavy reaper autocannon\n▪ 1 electroscourge (модель не может быть снаряжена более чем одним electroscourge)',
     ],
+    loadout: '**Эта модель вооружена:** 1 Hades battle cannon; 2 excruciator cannons; 1 heavy missile launcher; 1 heavy baleflamer; 1 shearing claws',
   },
 
   fiends: {
@@ -133,6 +141,7 @@ export default {
       'Soporific Musk':
         'Каждый раз, когда вражеский юнит (исключая Monster и Vehicle) в дистанции ввязывания одного или более юнитов вашей армии с этой способностью отступает, все модели этого вражеского юнита должны пройти тест отчаянного бегства. При этом, если этот вражеский юнит в боевом шоке, вычтите 1 из каждого такого теста.',
     },
+    loadout: '**Каждая модель вооружена:** barbed tail and dissecting claws.',
   },
 
   'flawless-blades': {
@@ -140,6 +149,7 @@ export default {
       'Daemonic Patrons':
         'Каждый раз, когда этот юнит выбирается для схватки, он может воззвать к демоническим покровителям. Если он это делает, до конца фазы каждый раз, когда модель этого юнита совершает атаку, немодифицированный бросок ранения 3+ даёт критическое ранение. В конце фазы ближнего боя, если этот юнит воззвал к демоническим покровителям в этой фазе и ни одна вражеская модель не была уничтожена атаками моделей этого юнита в этой фазе, одна модель этого юнита уничтожается.',
     },
+    loadout: '**Каждая модель вооружена:** bolt pistol; blissblade.',
   },
 
   fulgrim: {
@@ -161,6 +171,7 @@ export default {
       'SUPREME COMMANDER':
         'Если эта модель в вашей армии, она должна быть вашим Warlord.',
     },
+    loadout: '**Эта модель вооружена:** malefic lash; daemonic blades; serpentine tail.',
   },
 
   heldrake: {
@@ -170,6 +181,7 @@ export default {
         'Каждый раз, когда эта модель заканчивает обычный манёвр, вы можете выбрать один вражеский юнит, над которым она пролетела во время этого манёвра, и бросить два D6, добавляя 1 к каждому результату, если этот вражеский юнит имеет ключевое слово Fly: за каждый результат 4+ этот вражеский юнит получает D3 смертельных ран.',
     },
     options: ['Hades autocannon этой модели можно заменить на 1 baleflamer.'],
+    loadout: '**Эта модель вооружена:** Hades autocannon; Heldrake claws.',
   },
 
   infractors: {
@@ -203,6 +215,7 @@ export default {
     options: [
       'Эта модель может быть снаряжена одним из следующего:\n▪ living whip\n▪ ritual knife\n▪ shining aegis',
     ],
+    loadout: '**Эта модель вооружена:** Phantasmagoria; snapping claws; witstealer sword.',
   },
 
   'lord-exultant': {
@@ -221,6 +234,7 @@ export default {
       'plasma pistol этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 rapture lash',
       'Phoenix power spear этой модели можно заменить на одно из следующего:\n▪ 1 master-crafted power sword\n▪ 1 screamer pistol',
     ],
+    loadout: '**Эта модель вооружена:** bolt pistol; plasma pistol; Phoenix power spear; close combat weapon.',
   },
 
   'lord-kakophonist': {
@@ -234,6 +248,7 @@ export default {
     options: [
       'power sword этой модели можно заменить на 1 screamer pistol и 1 close combat weapon.',
     ],
+    loadout: '**Эта модель вооружена:** screamer pistol; power sword.',
   },
 
   'lucius-the-eternal': {
@@ -246,6 +261,7 @@ export default {
         'В начале фазы ближнего боя, если эта модель не возглавляет юнит, до конца фазы она имеет способность Fights First.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** Blade of the Laer; Lash of Torment.',
   },
 
   maulerfiend: {
@@ -259,6 +275,7 @@ export default {
     options: [
       'lasher tendrils этой модели можно заменить на 2 magma cutters.',
     ],
+    loadout: '**Эта модель вооружена:** lasher tendrils; Maulerfiend fists.',
   },
 
   'noise-marines': {
@@ -272,6 +289,7 @@ export default {
       'sonic blaster у Disharmonist можно заменить на 1 screamer pistol и 1 power sword.',
       'До 2 Noise Marines могут заменить свой sonic blaster на 1 blastmaster каждый.',
     ],
+    loadout: '**Каждая модель вооружена:** sonic blaster; close combat weapon.',
   },
 
   seekers: {
@@ -289,6 +307,7 @@ export default {
       '1 Seeker, не снаряжённый daemonic icon, может быть снаряжён 1 instrument of Chaos.',
       '1 Seeker, не снаряжённый instrument of Chaos, может быть снаряжён 1 daemonic icon.',
     ],
+    loadout: '**Каждая модель вооружена:** lashing tongue; slashing claws.',
   },
 
   'shalaxi-helbane': {
@@ -301,6 +320,7 @@ export default {
       'Monarch of the Hunt':
         'В начале первого раунда боя выберите один вражеский юнит добычей этой модели. Каждый раз, когда эта модель совершает атаку ближнего боя, нацеленную на её добычу, вы можете перебросить бросок попадания и можете перебросить бросок ранения. Каждый раз, когда добыча этой модели уничтожается, выберите один новый вражеский юнит добычей этой модели.',
     },
+    loadout: '**Эта модель вооружена:** lash of Slaanesh; Pavane of Slaanesh; snapping claws; Soulpiercer.',
   },
 
   sorcerer: {
@@ -311,6 +331,7 @@ export default {
         'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один юнит Infantry, поражённый одной или более из этих атак, сделанных её Agonising Energies. До начала вашего следующего хода этот юнит терзаем муками. Пока юнит терзаем муками, вычтите 2" из его характеристики Движения (Move) и вычтите 2 из бросков нападения, сделанных для него.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** Agonising Energies; bolt pistol; force weapon.',
   },
 
   tormentors: {
