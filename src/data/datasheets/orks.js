@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 50
+        "points": 35
       }
     ],
     "flavor": "The tribe's Waaagh! banner has an almost religious significance, its presence on the battlefield filling the Orks with the overwhelming need to storm headlong into the enemy. It is typically carried to war by a Bannernob, a particularly large and belligerent Ork who has doubtless brutalised his rivals to claim this honour.",
@@ -88,7 +88,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 145
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "No two Battlewagons are the same, for the Meks that build them can never resist cobbling on armour plates, ramming spikes, assorted dakka and random worky-gubbinz. However, all are rugged transport tanks with the capacity to bear a vast number of angry Orks into battle while shrugging off the worst the enemy can throw at them.",
@@ -264,11 +270,23 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 90
+        "points": 85,
+        "note": "1st-3rd"
       },
       {
         "models": 20,
-        "points": 170
+        "points": 170,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 10,
+        "points": 95,
+        "note": "4th+"
+      },
+      {
+        "models": 20,
+        "points": 180,
+        "note": "4th+"
       }
     ],
     "flavor": "Big, brutal, and belligerent, Beast Snagga Boyz are a force to be reckoned with. From the cannonball-like fist-shells of their thump guns, to the inescapable hooks of their choppas, Beast Snaggas excel in softening up their prey, dragging them down, then ripping them bodily to bits.",
@@ -382,7 +400,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 85
       }
     ],
     "flavor": "It takes a ferocious and foul-tempered Ork to lead a stampede of Beast Snaggas. Beastbosses possess these qualities in abundance. Boasting cybork enhancements, wired-in targetin’ squigs and an array of brutal combat weaponry, these roaring monsters can bring down even the largest prey one-on-one.",
@@ -478,7 +496,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 140,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 155,
+        "note": "3rd+"
       }
     ],
     "flavor": "Beastbosses have the strength and violent temperament to subdue the most ferocious creatures. Squiqosaurs, meanwhile, are single-minded predators that can bite through adamantine and shrug off enemg fire as though they were armour-plated. If a Beostboss wishes to ride one he must first beat it within an inch of its life to teach it respect, all without getting devoured in the process.",
@@ -589,7 +613,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 85,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "3rd+"
       }
     ],
     "flavor": "Big Meks build all sorts of powerful weapons and bizarre devices. They readily bring their favourites into battle to test ’em out, even building and wearing a bionik exoskeleton to help them wield as many as possible. So equipped, the Big Mek unleashes mechanical violence and blasts of energy, or wrenches open warp tunnels down which he and his followers pile into the fight.",
@@ -700,7 +730,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 135,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 145,
+        "note": "3rd+"
       }
     ],
     "flavor": "Dakkarigs are ridden into battle by Big Meks, and provide a stable firing platform for some really heavy firepower. Lumbering relentlessly forward, they unleash corkscrewing hails of rokkits, and hurricanes of dakka from their screaming blitzkannons, all while their gleeful pilot is protected from return fire by a crackling kustom force field.",
@@ -781,7 +817,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 90
       }
     ],
     "flavor": "For all that its weight is akin to wearing half a tank, mega armour is incredibly resilient. Big Meks often build and wear it, adding unstable kustom weaponry, force field projectors, crushing klaws or even tellyport blastas that kill victims by beaming their component parts across a wide area, much to the Orks’ amusement.",
@@ -923,12 +959,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70,
+        "points": 95,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 80,
+        "points": 105,
         "note": "2nd+"
       }
     ],
@@ -1119,7 +1155,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 50
       }
     ],
     "flavor": "Second only to the tribe's Warboss, Bigbosses spend their time ordering other Orks around and giving enemy champions and war leaders a good kicking. They are formidably tough, usually heavily armed, always completely merciless, and entirely capable of ripping a Space Marine limb from limb with their bare hands.",
@@ -1201,7 +1237,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105
+        "points": 115
       }
     ],
     "flavor": "While not as shooty as a Dakkajet, each Blitza-bommer lugs enormous boom bombs into battle under its wings. Dive-bombing the enemy with reckless abandon, the Blitza-bommers detach their oversized payloads before (hopefully) pulling up and screaming skywards again while vast fireballs billow in their wake.",
@@ -1386,7 +1422,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 80
       }
     ],
     "flavor": "Boss Snikrot is a murderous ghost whose obsession with kommando warfare has seen him transcend the cunning of his fellow Blood Axes and achieve instead something nigh supernatural. By the time his terrified foes realise he is upon them, the Boss is already opening their throats with his rip-toothed blades.",
@@ -1471,22 +1507,22 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75,
+        "points": 90,
         "note": "1st-3rd"
       },
       {
         "models": 20,
-        "points": 160,
+        "points": 180,
         "note": "1st-3rd"
       },
       {
         "models": 10,
-        "points": 85,
+        "points": 100,
         "note": "4th+"
       },
       {
         "models": 20,
-        "points": 170,
+        "points": 190,
         "note": "4th+"
       }
     ],
@@ -1689,12 +1725,12 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 125,
+        "points": 135,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 135,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -1938,7 +1974,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 125
       }
     ],
     "flavor": "Meant for burning enemy infantry out of fortifications and dense cover, Burna-bommers fly so low that they frequently scorch their undercarriage with their own ordnance. The Burna Boy pilots consider this a small price to pay in order to watch their victims do ‘da burny dance’ as their skorcha missile racks and burna bombs rain down.",
@@ -2124,12 +2160,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 120,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -2251,7 +2287,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Ork Speedbosses thunder into battle on the backs of Deffkilla Wartrikes. These hurtling three-wheelers boast massive jet engines that fry the foe to a crisp while roaring through their ranks. Wartrikes also offer platforms from which the Speedbosses can messily chainhaul unfortunate foes with their grapnel-like snagga klaws.",
@@ -2357,11 +2393,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 75
+        "points": 80,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 140
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 90,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 170,
+        "note": "3rd+"
       }
     ],
     "flavor": "Most Orks take a dim view of muckin’ about in the sky, and would much rather go to war with their feet firmly on the ground. Deffkopta pilots are the lunatic exception, hurtling ahead to spy out enemy forces for their warband to bring to battle, and to give those same enemies a good strafing run or three in the meantime.",
@@ -2460,22 +2508,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 150,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 85,
+        "points": 135,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 240,
         "note": "3rd+"
       }
     ],
@@ -2554,12 +2602,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 440,
+        "points": 500,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 490,
+        "points": 550,
         "note": "2nd+"
       }
     ],
@@ -2675,8 +2723,8 @@ export default [
     "name": "Ghazghkull Thraka",
     "points": [
       {
-        "models": 2,
-        "points": 235
+        "models": 1,
+        "points": 300
       }
     ],
     "flavor": "To face Ghazghkull Thraka in battle is to die. Messily. He is a totemic war leader of great kunnin’ and terrifying presence who enjoys the personal protection of the Ork gods, not that he seems to need it! Makari bears aloft the personal Waaagh! banner of Ghazghkull. There isn’t a greenskin living who doesn’t fight harder in sight of that flag.",
@@ -2800,12 +2848,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 255,
+        "points": 325,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 275,
+        "points": 355,
         "note": "3rd+"
       }
     ],
@@ -2937,20 +2985,8 @@ export default [
         "note": "10 Gretchin"
       },
       {
-        "points": 45,
-        "note": "1 Runtherd, 10 Gretchin"
-      },
-      {
         "points": 80,
         "note": "20 Gretchin"
-      },
-      {
-        "points": 85,
-        "note": "1 Runtherd, 20 Gretchin"
-      },
-      {
-        "points": 90,
-        "note": "2 Runtherd, 20 Gretchin"
       }
     ],
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",
@@ -3054,7 +3090,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 125
+        "points": 165,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 175,
+        "note": "3rd+"
       }
     ],
     "flavor": "Welded, lashed and nailed together from enemy wrecks and scavenged scrap, the Hunta Rig forgoes a Wurrboy wurrtower (much to its crew’s relief). Instead it boasts an open metal deck and copious grab-handles, the better for chanting and bellowing mobs of Beast Snagga Boyz to ride along on the hunt.",
@@ -3168,7 +3210,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 145
+        "points": 175,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 185,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Kill Rig’s stikka kannon fires rokkit-harpoons big enough to wrangle battle tanks. Its ’eavy lobba hits with ground-quaking force, and the tramplasquig that tows this land barge can flatten a fortress gate. Yet it is the Wurrboy atop his wurrtower that both the enemy and the Beast Snaggas themselves fear the most.",
@@ -3297,22 +3345,22 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 120,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 260,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 130,
+        "points": 150,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 250,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -3425,7 +3473,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 120
+        "points": 125
       }
     ],
     "flavor": "No right-thinking Ork trusts Kommandos. They sneak up on the enemy rather than charging in headlong, and have an unhealthy fascination with very big knives and their application to people’s backs, throats and guts. That said, having a band of Kommandos ambush the enemy mid-battle definitely has its uses.",
@@ -3824,42 +3872,42 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 60,
+        "points": 75,
         "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 90,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 150,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 6,
-        "points": 180,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 2,
-        "points": 80,
-        "note": "3rd+"
       },
       {
         "models": 3,
         "points": 110,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 185,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 6,
+        "points": 225,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 115,
+        "note": "3rd+"
+      },
+      {
+        "models": 3,
+        "points": 150,
         "note": "3rd+"
       },
       {
         "models": 5,
-        "points": 170,
+        "points": 225,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 200,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -4057,7 +4105,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 45
       }
     ],
     "flavor": "Any Mekboy worth his spanners knows how to patch and repair greenskin vehicles, artillery pieces and the like even amidst the fury of combat. Meks are also handy for a spot of good old-fashioned dakka and close-quarters violence, taking to the field armed to the teeth with kustom weaponry that they invented themselves.",
@@ -4152,32 +4200,32 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45,
+        "points": 55,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 90,
+        "points": 110,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 135,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 55,
+        "points": 65,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 100,
+        "points": 120,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 145,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -4314,12 +4362,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 270,
+        "points": 345,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 290,
+        "points": 375,
         "note": "3rd+"
       }
     ],
@@ -4448,7 +4496,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 125
+        "points": 170
       }
     ],
     "flavor": "Mozrog and his squigosaur steed Big Chompa are so tough that they can weather the worst any foe throws at them. In return, few enemies survive for long once Mozrog tears into them with his kustom cybork arm, Gutrippa. Those that do are doomed to be swallowed whole by Big Chompa’s yawning, fang-stuffed jaws.",
@@ -4545,22 +4593,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 105,
+        "points": 125,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 210,
+        "points": 250,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 115,
+        "points": 155,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 220,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -4672,7 +4720,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Painboss specialises in both the surgical care and cyber-augmentation of squigs, and of those suffering squig-related injuries. So as to provide their services ‘on the hoof’, Painbosses augment themselves with piston-driven soopa-legz, monowheels and the like – the better to deliver high-speed doktorin’.",
@@ -4749,7 +4803,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 45
       }
     ],
     "flavor": "The traditional tools of the Painboy help them to patch up even the most mangled Orks and send them back into the fight. Helpfully, all these gruesome surgical klaws, rippy saws and fat syringes also serve as an expedient means of dismembering the enemy with – if not surgical precision – at least a great deal of enthusiasm!",
@@ -5010,11 +5064,23 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 140
+        "points": 140,
+        "note": "1st-2nd"
       },
       {
         "models": 8,
-        "points": 270
+        "points": 280,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 4,
+        "points": 160,
+        "note": "3rd+"
+      },
+      {
+        "models": 8,
+        "points": 300,
+        "note": "3rd+"
       }
     ],
     "flavor": "With their mounts snorting and saddlegitz hanging on for dear life, Squighog Boyz thunder into the fight. They fling rokkit-propelled stikkas, hitting with enough force to pierce plate armour, then employ muscle, weight, momentum and sheer belligerence to squash those foes still standing to a paste.",
@@ -5157,12 +5223,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 600,
+        "points": 700,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 700,
+        "points": 800,
         "note": "2nd+"
       }
     ],
@@ -5316,11 +5382,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 65
+        "points": 70
       },
       {
         "models": 10,
-        "points": 130
+        "points": 140
       }
     ],
     "flavor": "Most Orks mock Stormboyz for their acts of juvenile rebellion, from taking orders and shining their boots to marching about, talking about ‘taktics’ and even following a battle plan. Yet when that plan is ‘strap on a high powered rokkit and hurtle into the enemy bellowing “Waaagh!”’, it does prove to have its merits.",
@@ -5413,12 +5479,12 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 125,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 135,
+        "points": 155,
         "note": "3rd+"
       }
     ],
@@ -5540,12 +5606,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55,
+        "points": 60,
         "note": "1st-3rd"
       },
       {
         "models": 1,
-        "points": 65,
+        "points": 70,
         "note": "4th+"
       }
     ],
@@ -5632,11 +5698,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 60
+        "points": 75
       },
       {
         "models": 6,
-        "points": 120
+        "points": 140
       }
     ],
     "flavor": "Ork Warbikers race into battle with dakkaguns hammering, ragged trails of dust and smoke boiling up behind them like an ill omen. They race one another at breakneck pace to reach the enemy first, execute death-defying stunts at suicidal speeds, then crash headlong into the foe’s battle line like battering rams.",
@@ -5762,7 +5828,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 100
       }
     ],
     "flavor": "A towering slab of muscle, fangs and bad attitude, the Warboss leads the charge from the very front. With klaw, fist and dakka the green behemoth bulldozes a bloody path through the enemy. Meanwhile, his window-rattling war cry and weapons-grade glower motivate his ladz to ever more gratuitous violence.",
@@ -5907,7 +5973,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 125,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 140,
+        "note": "3rd+"
       }
     ],
     "flavor": "Any good Ork hunter knows the safest way to deal with a rampaging Warboss is to hit them with tank-busting artillery from as far away as possible. By donning a piston-driven suit of incredibly durable mega armour, the Warboss makes a mockery of such underhanded enemy tactics, much to the terror of his foes.",
@@ -6066,7 +6138,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 165
+        "points": 215,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 235,
+        "note": "3rd+"
       }
     ],
     "flavor": "Some Meks take to the skies in their own kustom aircraft. The result is the Wazbom Blastajet, an airborne workshop that is wreathed in a protective force field, and bristling with weird weapons that pluck their targets from the ground, blast them to atoms or rip them apart with conflicting tellyporta beams.",
@@ -6194,7 +6272,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 175
+        "points": 200
       }
     ],
     "flavor": "Wazdakka Gutsmek thunders to battle aboard his kustom warbike, Big Revva. Using its throttlerokkit shokka, he reaches incredible speeds or even tellyports across the battlefield, spewing rounds from his psyko-gatler, tearing foes to bloody tatters with his grabba dragga, and wreaking high-speed havoc.",
@@ -6497,7 +6575,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 50
       }
     ],
     "flavor": "With his Grabzappa crackling, Zodgrod herds his notorious super runts into battle. This irascible loon is never happier than when wrangling especially large and rowdy foes, usually by giving them a good dose of needles from his Squigstoppa Numba 5, then burying them in a rampaging horde of diminutive little monsters.",
