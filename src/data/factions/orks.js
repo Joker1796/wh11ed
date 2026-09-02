@@ -839,9 +839,14 @@ If you rolled two D6, when this unit has attacked, this unit makes one **hazard 
           name: 'Kill Kommanda',
           points: 20,
           flavor: 'Possessed of exceptional kunnin’ and a weird obsession with sneakin’ about, this powerful Ork leader loves nothing more than creeping through enemy defences before carving a bloody path through their lines.',
+          // The attach is appdata's (enhancement_bodyguard_group), not GW's printed prose, which
+          // says nothing about it — but the roster builder honours it, so the rules page has to
+          // state it too. Same sentence the other factions' granted attaches use.
           body: `BIG MEK/WARBOSS INFANTRY model only. While this model is part of an **attached** unit, this model has:
 ▪ **Infiltrators**.
-▪ **Stealth**.`,
+▪ **Stealth**.
+
+In the Declare Battle Formations step, the bearer can be attached to a Kommandos unit.`,
         },
         {
           name: 'Throat-slittas (Upgrade)',
@@ -1018,7 +1023,10 @@ If you rolled two D6, when this unit has attacked, this unit makes one **hazard 
           name: 'Kaptin\'s Hat',
           points: 25,
           flavor: 'This impressively ostentatious piece of headgear signifies that whoever nicked it last controls a fleet of kroozers and invasion landers, ideal for the rapid redeployment of loot-hungry Orks.',
-          body: `BIG MEK/WARBOSS INFANTRY model only. When both players have deployed their armies, you can redeploy up to three friendly ORKS INFANTRY units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.`,
+          // Attach granted structurally by appdata, not by the printed prose — see Kill Kommanda.
+          body: `BIG MEK/WARBOSS INFANTRY model only. When both players have deployed their armies, you can redeploy up to three friendly ORKS INFANTRY units. When doing so, you can set those units up in **strategic reserves**, regardless of how many units are already in **strategic reserves**.
+
+In the Declare Battle Formations step, the bearer can be attached to a Flash Gitz unit.`,
         },
         {
           name: 'Supa-snazz Dakka (Upgrade)',
