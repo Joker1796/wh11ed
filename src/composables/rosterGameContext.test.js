@@ -49,6 +49,44 @@ describe('activeConditions', () => {
     expect(isAuto('riled-up')).toBe(false)
   })
 
+  // Two Orks datasheets state the condition outright — "This unit is riled up.", no trigger, no
+  // window. They are riled up whatever the tracker says, and the chip is not theirs to flip. The
+  // set that encodes this is hand-written, so the scan below is what keeps it honest.
+  it('answers riled up from the datasheet for the two that state it outright', async () => {
+    const p = player({}, {}, 'orks')
+    for (const id of ['stompa', 'zodgrod-wortsnagga']) {
+      expect(activeConditions(p, 1, { uid: 'u1', id }).has('riled-up')).toBe(true)
+    }
+    expect(activeConditions(p, 1, { uid: 'u1', id: 'boyz' }).has('riled-up')).toBe(false)
+
+    const recs = [{ effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '5+', when: {}, cond: ['riled-up'] }] }]
+    const [sw] = switchesFor(recs, 'unit', p, 1, { uid: 'u1', id: 'stompa' })
+    expect([sw.on, sw.auto]).toEqual([true, true])   // on, and not the player's to flip
+    const [other] = switchesFor(recs, 'unit', p, 1, { uid: 'u1', id: 'boyz' })
+    expect([other.on, other.auto]).toEqual([false, false])
+  })
+
+  // …and no OTHER datasheet may grow that wording without this being revisited.
+  it('finds no other datasheet that states riled up unconditionally', async () => {
+    const ds = (await import('../data/datasheets/orks.js')).default
+    const flat = []
+    for (const u of ds) {
+      const texts = [
+        ...(u.abilities || []).map((a) => a.text),
+        ...(u.abilitySets || []).flatMap((s) => (s.options || []).map((o) => o.text)),
+        ...(u.wargearAbilities || []).map((w) => w.text),
+      ]
+      // A line that IS the sentence — not one that hangs it off a trigger ("if…", "when…",
+      // "while…", "until…"), which is what every other grant in the codex does.
+      for (const t of texts) {
+        for (const line of (t || '').split('\n')) {
+          if (/^(?:▪\s*)?This unit is \*\*riled up\*\*\.$/.test(line.trim())) flat.push(u.id)
+        }
+      }
+    }
+    expect([...new Set(flat)].sort()).toEqual(['stompa', 'zodgrod-wortsnagga'])
+  })
+
   it("still takes a unit's own riled-up switch with no War Cry called", () => {
     const p = player({ units: { u1: { 'riled-up': 3 } } }, {}, 'orks')
     expect(activeConditions(p, 3, { uid: 'u1' }).has('riled-up')).toBe(true)

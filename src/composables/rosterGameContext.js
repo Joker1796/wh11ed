@@ -103,6 +103,15 @@ const SOFT_AUTO = {
     && (player?.army?.toggleRounds || []).includes(round),
 }
 
+// …and two datasheets answer it outright, with no trigger and no window: the Stompa's Waaagh!
+// Effigy and Zodgrod Wortsnagga's Super Runts both read, flatly, "This unit is riled up." Those
+// two are riled up from deployment to the end of the battle, so their chip is on and is not the
+// player's to flip — asking would be asking them to confirm what their own datasheet prints.
+// Guarded by a test that scans every Orks datasheet for the phrase, so a third one cannot appear
+// in a later codex and quietly go unread.
+const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
+const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
+
 // Is a switch still in force? Compared at the granularity its own rule states — except against a
 // legacy round-only value (or in a game not keeping phases), where the round is all either side
 // knows and a shorter duration can only be answered as coarsely as that.
@@ -166,8 +175,9 @@ export function activeConditions(player, clock, entry, opts = {}) {
     else if (c.scope === 'roster') on = rosterAnswers(id, entry)
     else if (c.scope === 'army') on = army && switchOn(player?.ctx?.army, id, clock)
     else if (entry?.uid) on = unit && switchOn(player?.ctx?.units?.[entry.uid], id, clock)
-    // …and a soft-auto condition is also on while the tracker can prove it, switch or no switch.
-    if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round)
+    // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
+    // can prove it, switch or no switch.
+    if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)
     if (on) out.add(id)
   }
   capGroups(out, player, entry)
@@ -472,7 +482,9 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
     id,
     label: conditions[id].label,
     on: active.has(id),
-    auto: isAuto(id),           // shown, but not the player's to flip here
+    // Shown, but not the player's to flip here: either the tracker already recorded it, or the
+    // entry's own datasheet states it outright.
+    auto: isAuto(id) || entryProves(id, entry),
     duration: conditions[id].duration,
     // Who the switch belongs to, so a view that shows army-wide and per-unit switches side by side
     // (a rule's own chips inside the unit card) still writes each to the right store.
