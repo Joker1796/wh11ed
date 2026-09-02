@@ -3249,15 +3249,15 @@ export default {
         "chaos-knights:war-dog-stalker"
       ],
       "lim": {
-        "Titanic": {
-          "incursion": 1,
-          "strike-force": 1,
-          "onslaught": 1
-        },
         "War Dog": {
           "incursion": 3,
           "strike-force": 3,
           "onslaught": 3
+        },
+        "Titanic": {
+          "incursion": 1,
+          "strike-force": 1,
+          "onslaught": 1
         }
       },
       "mutex": 1

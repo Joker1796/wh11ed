@@ -264,10 +264,12 @@ describe('replaced-item links', () => {
   })
 
   it('reads a name appdata spells two ways across its own tables', () => {
-    // The prose says "kustom-mega blasta"; the item table says "Kustom mega-blasta".
-    const u = groupsOf('orks', 'big-mek-in-mega-armour')
-    const g = u.gear.find((x) => /kustom-mega blasta/i.test(textOf(x)))
-    expect(repNames(g)).toEqual(['Kustom mega-blasta'])
+    // The prose says "absolver bolt pistol"; the item table says "Absolvor bolt pistol".
+    // (This used to pin the Orks Big Mek in Mega Armour's "kustom-mega blasta"; Codex: Orks
+    // rewrote that instruction, so the case moved rather than went away.)
+    const u = groupsOf('black-templars', 'execrator')
+    const g = u.gear.find((x) => /absolver bolt pistol/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Absolvor bolt pistol'])
   })
 
   it('reads a name the prose has prefixed with one adjective', () => {
@@ -527,7 +529,7 @@ describe('per-option quantities', () => {
     // each granting one item. Read as a set, one pick would arm the model with the whole allowance.
     const seeker = gearOf('tau-empire', 'devilfish').find((x) => /up to 2 seeker missiles/i.test(headOf(x)))
     expect(optionItems(seeker.o[0])[0][1]).toBe(1)
-    const shoota = gearOf('orks', 'battlewagon').find((x) => /up to 4 big shootas/i.test(headOf(x)))
+    const shoota = gearOf('orks', 'battlewagon').find((x) => /up to 4 big shoota/i.test(headOf(x)))
     expect(optionItems(shoota.o[0])[0][1]).toBe(1)
   })
 
@@ -618,7 +620,8 @@ describe('detachment tags', () => {
   // anything lower than 51 is a tag going missing by accident, which is what this floor is for.
   it('carries the tag on every detachment that has one', () => {
     const tagged = factions.flatMap(({ data }) => (data.detachments || []).filter((d) => d.unique))
-    expect(tagged.length).toBeGreaterThanOrEqual(51)
+    // 49 since Codex: Orks retired the WAGONS tag that Rollin' Deff and Blitz Brigade shared.
+    expect(tagged.length).toBeGreaterThanOrEqual(49)
     for (const d of tagged) expect(d.unique).toBe(d.unique.toUpperCase())
   })
 
@@ -832,9 +835,9 @@ describe('an attachment appdata states only in prose', () => {
 describe('an attachment one unit borrows from another', () => {
   it('gives a leader the mirrored unit at the type it already had', async () => {
     const orks = await loadRosterFaction('orks')
-    const mek = orks.units.find((u) => u.id === 'mek')
-    const viaBoyz = mek.leads.find((l) => l.to === 'boyz')
-    expect(mek.leads.find((l) => l.to === 'breaka-boyz')).toEqual({ to: 'breaka-boyz', type: viaBoyz.type })
+    const bigMek = orks.units.find((u) => u.id === 'big-mek')
+    const viaBoyz = bigMek.leads.find((l) => l.to === 'boyz')
+    expect(bigMek.leads.find((l) => l.to === 'breaka-boyz')).toEqual({ to: 'breaka-boyz', type: viaBoyz.type })
   })
 
   // The clause before "can be attached to" is a restriction, and it is kept: Victrix Honour Guard
@@ -910,12 +913,11 @@ describe('an allowance the instruction states without naming a number', () => {
   // "This model can be equipped with any of the following:" — the list IS the number, one of
   // each. Without it the group had no cap at all, and the conservative fallback (one pick per
   // model) called a Battlewagon with both a grabbin' klaw and a wreckin' ball illegal.
-  it('reads "any of the following" as one of each option', () => {
-    const gear = gearOf('orks', 'battlewagon')
-    const gi = gear.findIndex((g) => /any of the following/i.test(headOf(g)))
-    expect(gear[gi].o.length).toBe(3)
-    expect(wargearGroupCap({ gear }, {}, gi)).toEqual({ limit: 3, dup: 1 })
-  })
+  // "any of the following" — gen-roster-data still reads it as one pick per option, but no
+  // wargear instruction in the corpus is worded that way any more: the Battlewagon was the
+  // only one, and Codex: Orks split its ’ard case / grabbin' klaw / wreckin' ball into three
+  // separate single-item instructions. Nothing left to pin, so the case is untested rather
+  // than pinned to an example that no longer exists.
 
   // "…can be replaced with two different weapons from the following list" — the Sergeant gives up
   // both his bolt pistol and his boltgun, so it is two picks, never the same weapon twice.

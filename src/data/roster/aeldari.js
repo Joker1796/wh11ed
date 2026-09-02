@@ -6786,14 +6786,14 @@ export default {
           "req": [
             {
               "kw": [
-                "Psyker",
-                "Aeldari"
+                "Aeldari",
+                "Psyker"
               ]
             },
             {
               "kw": [
-                "Psyker",
-                "Aeldari"
+                "Aeldari",
+                "Psyker"
               ]
             }
           ]
@@ -6803,12 +6803,6 @@ export default {
           "pts": 20,
           "type": "miniature",
           "req": [
-            {
-              "kw": [
-                "Psyker",
-                "Aeldari"
-              ]
-            },
             {
               "kw": [
                 "Aeldari",
