@@ -20,7 +20,19 @@
 // component styling to keep in sync.
 
 const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
-export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ESC[c])
+// Rule text carries the app's own inline markup (useRenderInline.js), and this page has no
+// renderer — so the markers have to come off before escaping, or the crawler reads
+// "**Designer's Note:**" and "[gloss:base:base]" literally. 246 generated pages printed raw `**`
+// in both locales until this was added. What survives on purpose: `[KEYWORD]` brackets, which are
+// how the game itself writes an ability, and the text of a gloss/definition (its label, not its
+// id). Bold/underline are emphasis with no plain-text equivalent worth inventing — the words stay,
+// the asterisks go.
+const stripMarkup = (s) => String(s ?? '')
+  .replace(/\[(?:gloss|def):[^\]:]+:([^\]]+)\]/g, '$1')
+  .replace(/\{(?:red|blue|green):([^}]+)\}/g, '$1')
+  .replace(/\*\*(.+?)\*\*/g, '$1')
+  .replace(/__(.+?)__/g, '$1')
+export const esc = (s) => stripMarkup(s).replace(/[&<>"']/g, (c) => ESC[c])
 
 /** Replace the first match of `re` (which must capture nothing) with `replacement`, asserting the
  *  tag was actually there — a silently-missed replacement would ship the landing page's title on
