@@ -3859,7 +3859,6 @@ export default {
             }
           ],
           "exclKw": [
-            "Penitent",
             "Penitent"
           ]
         }
@@ -3940,15 +3939,15 @@ export default {
           "onslaught": 3,
           "strike-force": 2
         },
-        "Retinue": {
-          "incursion": 1,
-          "onslaught": 3,
-          "strike-force": 2
-        },
         "Requisitioned": {
           "incursion": 1,
           "onslaught": 2,
           "strike-force": 1
+        },
+        "Retinue": {
+          "incursion": 1,
+          "onslaught": 3,
+          "strike-force": 2
         }
       },
       "up": {

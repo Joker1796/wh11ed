@@ -1,51 +1,56 @@
-// Orks — army-rule tracker spec: Waaagh!.
+// Orks — army-rule tracker spec: the Waaagh!'s War Cry.
 //
-// A `toggle` primitive: once per battle, at the start of your Command phase, you can call a Waaagh!.
-// The tracker records the round it was called (a single fire) and reveals its effects; a reset
-// clears it (undo a mis-tap). The exact active window ("until the start of your next Command
-// phase") is fuzzy in round terms, so the card records WHEN it was called rather than claiming an
-// on/off window the tracker can't pin down precisely.
+// Codex: Orks (app data 946) split what this card used to be. The old Waaagh! was ONE army-wide
+// window: you called it, and for a turn every ORKS unit had the whole package. The new Waaagh!
+// grants two things that live in different places:
 //
-// A real detachment override: the Bully Boyz Detachment rule "Da Boss Is Watchin'" lets you call a
-// SECOND Waaagh! (with a Warboss on the board). That's a Detachment rule — not an enhancement — so
-// the tracker can auto-detect it from player.detachments and only then offer the second fire.
+//   • **War Cry** — once per battle, per army, at the start of the Command phase: every friendly
+//     ORKS unit with the Waaagh! ability becomes riled up until the end of the next turn. That is
+//     a single army-wide fire, which is what this `toggle` still tracks.
+//   • **riled up** — the state itself, which THIRTY-TWO other rules also hand out, one unit at a
+//     time: detachment rules (Shoota Boyz, Flyboyz, Brute Bosses), stratagems, enhancements and a
+//     long tail of datasheet abilities (Warboss' Intimidating Motivation, Meganobz' Krumpin' Time,
+//     Stompa's Waaagh! Effigy…). None of that goes through the War Cry, so this card must not be
+//     read as the only way a unit gets there.
+//
+// The state is therefore NOT tracked here. It is the `riled-up` condition in
+// src/data/rosterModifiers/conditions.js at `scope: 'unit'`, which the tracker surfaces as a
+// per-entry switch on each unit's row and card — so one mob can be riled up while the next is not,
+// whichever rule did it. This card only answers "have we spent the War Cry yet".
+//
 // Keywords/characteristics stay English.
 export default {
   slug: 'orks',
   kind: 'toggle',
 
-  // label doubles as the rule name here (both are "Waaagh!"), so no separate ruleName.
-  label: 'Waaagh!',
-  // Base: once per battle. (Bully Boyz raises this to 2 — see detachmentOverrides.)
+  // label doubles as the rule name here, so no separate ruleName.
+  label: 'Waaagh! — War Cry',
+  // Once per battle, per army. No current detachment raises this: the old Bully Boyz override is
+  // gone with the old detachment rule, and War Horde's "Da Boss is Watchin'" enhancement is its
+  // own once-per-battle fire that riles ONE unit up — not a second War Cry.
   maxUses: 1,
 
-  // What applies while the Waaagh! is active — revealed once it's called.
+  // What the War Cry does — revealed once it's called.
   effect: {
-    name: 'Waaagh! active',
+    name: 'War Cry called',
     body: {
-      en: `▪ Units from your army with this ability are eligible to declare a charge in a turn in which they Advanced.
-▪ Add 1 to the Strength and Attacks characteristics of melee weapons equipped by models from your army with this ability.
-▪ Models from your army with this ability have a 5+ invulnerable save.`,
-      ru: `▪ Отряды твоей армии с этой способностью могут объявлять charge в ход, в котором они совершили Advance.
-▪ Добавь 1 к характеристикам Strength и Attacks melee-оружия моделей твоей армии с этой способностью.
-▪ Модели твоей армии с этой способностью получают 5+ invulnerable save.`,
+      en: `▪ Friendly ORKS units with the Waaagh! ability are riled up until the end of the next turn.
+
+While a unit is riled up:
+▪ That unit has 5+ InSv.
+▪ That unit's ranged attacks have [ASSAULT].
+▪ When that unit is selected to make an advance move, that move does not prevent it from being eligible to declare a charge.`,
+      ru: `▪ Дружественные отряды ORKS со способностью Waaagh! становятся riled up до конца следующего хода.
+
+Пока отряд riled up:
+▪ У него 5+ InSv.
+▪ Его дальнобойные атаки получают [ASSAULT].
+▪ Когда отряд выбран для advance move, этот манёвр не мешает ему объявлять charge.`,
     },
   },
 
   note: {
-    en: 'Once per battle, at the start of your Command phase — active until the start of your next Command phase.',
-    ru: 'Раз за бой, в начале твоей Command phase — активен до начала твоей следующей Command phase.',
-  },
-
-  // Keyed by the (normalized) detachment name the tracker stores in player.detachments.
-  detachmentOverrides: {
-    'bully boyz': {
-      maxUses: 2,
-      againLabel: { en: 'Second Waaagh!', ru: 'Второй Waaagh!' },
-      note: {
-        en: "Once per battle, at the start of your Command phase — active until the start of your next Command phase. Bully Boyz (Da Boss Is Watchin'): with a Warboss on the board you can call a second Waaagh!, which only counts for Warboss, Nobz and Meganobz units.",
-        ru: "Раз за бой, в начале твоей Command phase — активен до начала твоей следующей Command phase. Bully Boyz (Da Boss Is Watchin'): при Warboss на столе можно вызвать второй Waaagh!, который действует только на отряды Warboss, Nobz и Meganobz.",
-      },
-    },
+    en: 'Once per battle, per army, at the start of the Command phase. Riled up also comes from many other rules, one unit at a time — flip those on the unit itself, not here.',
+    ru: 'Раз за бой на армию, в начале Command phase. Riled up дают и многие другие правила, по одному отряду — их отмечай на самом отряде, а не здесь.',
   },
 }

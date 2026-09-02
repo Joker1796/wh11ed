@@ -91,7 +91,12 @@ export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 //           is how a card ends up disagreeing with the tracker next to it
 export const conditions = {
   // ── Army state ──────────────────────────────────────────────────────────────────────────
-  'waaagh-active': { scope: 'army', duration: 'round', label: { en: 'Waaagh! called', ru: 'Waaagh! объявлен' } },
+  // Codex: Orks replaced "the Waaagh! is active for your army" with a per-unit state: the War Cry
+  // riles every ORKS unit up for a turn, but so do a dozen other rules, one unit at a time.
+  // The RU label stays English on purpose: the state is spelled **riled up** in the faction
+  // rules and on the datasheets in both locales, and a chip reading otherwise would be a second
+  // name for the rule the player is looking at.
+  'riled-up': { scope: 'unit', duration: 'round', label: { en: 'Riled up', ru: 'Riled up' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
   'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },

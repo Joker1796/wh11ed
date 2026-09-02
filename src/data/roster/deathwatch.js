@@ -2130,15 +2130,15 @@ export default {
           "incursion": 1,
           "strike-force": 1
         },
-        "Retinue": {
-          "incursion": 1,
-          "strike-force": 2,
-          "onslaught": 3
-        },
         "Character": {
           "incursion": 1,
           "onslaught": 3,
           "strike-force": 2
+        },
+        "Retinue": {
+          "incursion": 1,
+          "strike-force": 2,
+          "onslaught": 3
         }
       },
       "up": {

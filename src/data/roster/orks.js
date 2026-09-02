@@ -8,7 +8,6 @@ export default {
       "sid": "73c5ba73-501a-41df-81d5-80c7db95c59c",
       "name": "Bannernob",
       "kws": [
-        "Bannernob",
         "Character",
         "Infantry"
       ],
@@ -17,7 +16,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 50,
+          "pts": 35,
           "per": [
             1,
             1
@@ -28,31 +27,11 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "boyz",
-          "type": "support"
-        },
-        {
-          "to": "breaka-boyz",
-          "type": "support"
-        },
-        {
-          "to": "burna-boyz",
-          "type": "support"
-        },
-        {
-          "to": "flash-gitz",
-          "type": "support"
-        },
-        {
-          "to": "lootas",
-          "type": "support"
-        },
-        {
           "to": "nobz",
           "type": "support"
         },
         {
-          "to": "tankbustas",
+          "to": "boyz",
           "type": "support"
         }
       ],
@@ -77,15 +56,15 @@ export default {
       "sid": "1c9d82f2-a0cd-4991-8653-e955460637b3",
       "name": "Battlewagon",
       "kws": [
-        "Battlewagon",
         "Frame",
         "Transport",
-        "Vehicle"
+        "Vehicle",
+        "Wagon"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 145,
+          "pts": 150,
           "per": [
             1,
             1
@@ -94,12 +73,16 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
           [
             [
-              1741,
+              1745,
               1
             ]
           ]
@@ -108,37 +91,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 187,
-          "in": "checkbox",
-          "o": [
-            [
-              1742
-            ],
-            [
-              1743
-            ],
-            [
-              1744
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 701,
-          "in": "checkbox",
-          "o": [
-            [
-              1745
-            ]
-          ]
-        },
-        {
-          "m": 0,
           "t": 702,
-          "in": "stepper",
+          "in": "checkbox",
           "o": [
             [
               1746
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 703,
+          "in": "stepper",
+          "o": [
+            [
+              1747
             ]
           ],
           "lim": [
@@ -150,38 +117,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 703,
-          "in": "checkbox",
-          "o": [
-            [
-              1747
-            ]
-          ],
-          "rep": [
-            1741
-          ]
-        },
-        {
-          "m": 0,
           "t": 704,
           "in": "checkbox",
           "o": [
             [
-              1748,
-              15
-            ],
-            [
-              1749
-            ],
-            [
-              1750
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              3,
-              1
+              1748
             ]
           ]
         }
@@ -194,14 +134,13 @@ export default {
       "kws": [
         "Battleline",
         "Beast Snagga",
-        "Beast Snagga Boyz",
         "Infantry",
         "Mob"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 85,
           "per": [
             10,
             10
@@ -221,29 +160,32 @@ export default {
         {
           "pts": 170,
           "per": [
-            11,
+            20,
             20
           ],
           "comp": [
             [
               0,
-              10,
-              19
+              18
             ],
             [
               1,
-              1
+              2
             ]
           ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "minis": [
         {
           "n": "Beast Snagga Boy"
         },
         {
-          "n": "Beast Snagga Nob"
+          "n": "Nob"
         }
       ],
       "defaults": [
@@ -251,11 +193,11 @@ export default {
           0,
           [
             [
-              1757,
+              1770,
               1
             ],
             [
-              1755,
+              1771,
               1
             ]
           ]
@@ -264,11 +206,11 @@ export default {
           1,
           [
             [
-              1758,
+              1772,
               1
             ],
             [
-              1755,
+              1771,
               1
             ]
           ]
@@ -277,20 +219,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 706,
+          "t": 709,
           "in": "stepper",
           "o": [
             [
-              [
-                [
-                  1756,
-                  1
-                ],
-                [
-                  1759,
-                  1
-                ]
-              ]
+              1773
             ]
           ],
           "lim": [
@@ -302,10 +235,6 @@ export default {
               20,
               2
             ]
-          ],
-          "rep": [
-            1755,
-            1757
           ]
         }
       ]
@@ -316,7 +245,6 @@ export default {
       "name": "Beastboss",
       "kws": [
         "Beast Snagga",
-        "Beastboss",
         "Character",
         "Infantry",
         "Warboss"
@@ -326,7 +254,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 85,
           "per": [
             1,
             1
@@ -352,10 +280,6 @@ export default {
             [
               1752,
               1
-            ],
-            [
-              1753,
-              1
             ]
           ]
         ]
@@ -367,10 +291,299 @@ export default {
       "name": "Beastboss on Squigosaur",
       "kws": [
         "Beast Snagga",
-        "Beastboss on Squigosaur",
         "Character",
-        "Mounted",
+        "Monster",
         "Warboss"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1759,
+              1
+            ],
+            [
+              1760,
+              1
+            ],
+            [
+              1761,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 706,
+          "in": "checkbox",
+          "o": [
+            [
+              1762
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "big-mek",
+      "sid": "f1b5d961-a505-4806-85b7-311b64fc8697",
+      "name": "Big Mek",
+      "kws": [
+        "Character",
+        "Explosives",
+        "Infantry"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
+      "leads": [
+        {
+          "to": "nobz",
+          "type": "leader"
+        },
+        {
+          "to": "breaka-boyz",
+          "type": "leader"
+        },
+        {
+          "to": "flash-gitz",
+          "type": "leader"
+        },
+        {
+          "to": "tankbustas",
+          "type": "leader"
+        },
+        {
+          "to": "boyz",
+          "type": "leader"
+        },
+        {
+          "to": "mek-gunz",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1796,
+              1
+            ],
+            [
+              1797,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 717,
+          "in": "checkbox",
+          "o": [
+            [
+              1798
+            ]
+          ],
+          "rep": [
+            1796
+          ]
+        },
+        {
+          "m": 0,
+          "t": 718,
+          "in": "checkbox",
+          "o": [
+            [
+              1799
+            ]
+          ],
+          "rep": [
+            1797
+          ]
+        }
+      ]
+    },
+    {
+      "id": "big-mek-dakkarig",
+      "sid": "087d21d9-47b7-4d5f-a207-aed4005f0dcb",
+      "name": "Big Mek Dakkarig",
+      "kws": [
+        "Big Mek",
+        "Character",
+        "Vehicle",
+        "Walker"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 135,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1806,
+              1
+            ],
+            [
+              1807,
+              1
+            ],
+            [
+              1808,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "big-mek-in-mega-armour",
+      "sid": "c074df95-5b3d-49b3-8b6f-bfa9918bd8a0",
+      "name": "Big Mek in Mega Armour",
+      "kws": [
+        "Big Mek",
+        "Character",
+        "Explosives",
+        "Infantry",
+        "Mega Armour"
+      ],
+      "flags": {
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "mek-gunz",
+          "type": "leader"
+        },
+        {
+          "to": "meganobz",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1814,
+              1
+            ],
+            [
+              1815,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 722,
+          "in": "checkbox",
+          "o": [
+            [
+              1816
+            ],
+            [
+              1817
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 723,
+          "in": "checkbox",
+          "o": [
+            [
+              1818
+            ],
+            [
+              1819
+            ],
+            [
+              1820
+            ]
+          ],
+          "rep": [
+            1814
+          ]
+        }
+      ]
+    },
+    {
+      "id": "big-mek-with-shokk-attack-gun",
+      "sid": "e9066eed-965d-4e48-b462-02d66ff2a047",
+      "name": "Big Mek with Shokk Attack Gun",
+      "kws": [
+        "Big Mek",
+        "Character",
+        "Explosives",
+        "Infantry"
       ],
       "flags": {
         "char": 1
@@ -386,323 +599,25 @@ export default {
         }
       ],
       "linked": 1,
-      "leads": [
-        {
-          "to": "squighog-boyz",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1753,
-              1
-            ],
-            [
-              1754,
-              1
-            ],
-            [
-              1755,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 705,
-          "in": "checkbox",
-          "o": [
-            [
-              1756
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "big-mek",
-      "sid": "f1b5d961-a505-4806-85b7-311b64fc8697",
-      "name": "Big Mek",
-      "kws": [
-        "Big Mek",
-        "Character",
-        "Grenades",
-        "Infantry",
-        "Mek"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "boyz",
-          "type": "leader"
-        },
-        {
-          "to": "lootas",
-          "type": "leader"
-        },
-        {
-          "to": "mek-gunz",
-          "type": "leader"
-        },
-        {
-          "to": "nobz",
-          "type": "leader"
-        },
-        {
-          "to": "breaka-boyz",
-          "type": "leader"
-        },
-        {
-          "to": "tankbustas",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1763,
-              1
-            ],
-            [
-              1764,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 708,
-          "in": "checkbox",
-          "o": [
-            [
-              1765
-            ]
-          ],
-          "rep": [
-            1764
-          ]
-        },
-        {
-          "m": 0,
-          "t": 709,
-          "in": "checkbox",
-          "o": [
-            [
-              1766
-            ]
-          ],
-          "rep": [
-            1763
-          ]
-        }
-      ]
-    },
-    {
-      "id": "big-mek-dakkarig",
-      "sid": "087d21d9-47b7-4d5f-a207-aed4005f0dcb",
-      "name": "Big Mek Dakkarig",
-      "kws": [
-        "Big Mek",
-        "Dakkarig",
-        "Walker"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1767,
-              1
-            ],
-            [
-              1768,
-              1
-            ],
-            [
-              1769,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "big-mek-in-mega-armour",
-      "sid": "c074df95-5b3d-49b3-8b6f-bfa9918bd8a0",
-      "name": "Big Mek in Mega Armour",
-      "kws": [
-        "Big Mek in Mega Armour",
-        "Character",
-        "Infantry",
-        "Mega Armour",
-        "Mek"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 80,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "meganobz",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1764,
-              1
-            ],
-            [
-              1763,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 710,
-          "in": "checkbox",
-          "o": [
-            [
-              1770
-            ],
-            [
-              1771
-            ],
-            [
-              1772
-            ]
-          ],
-          "rep": [
-            1764
-          ]
-        },
-        {
-          "m": 0,
-          "t": 187,
-          "in": "checkbox",
-          "o": [
-            [
-              1773
-            ],
-            [
-              1774
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 711,
-          "in": "checkbox",
-          "o": [
-            [
-              1775
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "big-mek-with-shokk-attack-gun",
-      "sid": "e9066eed-965d-4e48-b462-02d66ff2a047",
-      "name": "Big Mek with Shokk Attack Gun",
-      "kws": [
-        "Big Mek with Shokk Attack Gun",
-        "Character",
-        "Grenades",
-        "Infantry",
-        "Mek"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
       "step": {
         "at": 2,
         "pts": 10
       },
       "leads": [
         {
-          "to": "boyz",
-          "type": "leader"
-        },
-        {
-          "to": "lootas",
-          "type": "leader"
-        },
-        {
-          "to": "mek-gunz",
-          "type": "leader"
-        },
-        {
           "to": "nobz",
           "type": "leader"
         },
         {
-          "to": "breaka-boyz",
+          "to": "tankbustas",
           "type": "leader"
         },
         {
-          "to": "tankbustas",
+          "to": "boyz",
+          "type": "leader"
+        },
+        {
+          "to": "mek-gunz",
           "type": "leader"
         }
       ],
@@ -711,12 +626,51 @@ export default {
           0,
           [
             [
-              1776,
+              1824,
               1
             ],
             [
-              1668,
+              1825,
               1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "big-trakk",
+      "sid": "d2611657-c70c-4afe-82bd-6f569624007c",
+      "name": "Big Trakk",
+      "kws": [
+        "Frame",
+        "Transport",
+        "Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1741,
+              1
+            ],
+            [
+              1742,
+              2
             ]
           ]
         ]
@@ -724,11 +678,14 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 712,
+          "t": 701,
           "in": "checkbox",
           "o": [
             [
-              1777
+              1743
+            ],
+            [
+              1744
             ]
           ]
         }
@@ -737,10 +694,10 @@ export default {
     {
       "id": "biged-bossbunka",
       "sid": "72f4b744-afbe-4846-9ec6-2c4a34674a48",
-      "name": "Big’ed Bossbunka",
+      "name": "Big’Ed Bossbunka",
       "kws": [
-        "Big’ed Bossbunka",
         "Fortification",
+        "Frame",
         "Transport",
         "Vehicle"
       ],
@@ -761,11 +718,11 @@ export default {
           0,
           [
             [
-              1762,
+              1785,
               1
             ],
             [
-              1746,
+              1786,
               1
             ]
           ]
@@ -774,11 +731,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 707,
+          "t": 712,
           "in": "stepper",
           "o": [
             [
-              1746
+              1785
             ]
           ],
           "lim": [
@@ -795,7 +752,6 @@ export default {
       "sid": "a7a56757-d2be-4487-af71-55715c66a767",
       "name": "Bigboss",
       "kws": [
-        "Bigboss",
         "Character",
         "Infantry"
       ],
@@ -804,7 +760,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 50,
           "per": [
             1,
             1
@@ -815,111 +771,22 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "boyz",
-          "type": "leader"
+          "to": "nobz",
+          "type": "support"
         },
         {
           "to": "breaka-boyz",
-          "type": "leader"
+          "type": "support"
         },
         {
-          "to": "nobz",
-          "type": "leader"
+          "to": "boyz",
+          "type": "support"
         }
       ],
       "defaults": [
         [
           0,
           [
-            [
-              1760,
-              1
-            ],
-            [
-              1761,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "blitza-bommer",
-      "sid": "ec718ab5-ef45-4887-bbc9-0db34bde5431",
-      "name": "Blitza-bommer",
-      "kws": [
-        "Aircraft",
-        "Blitza-bommer",
-        "Fly",
-        "Speed Freeks",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 105,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              151,
-              1
-            ],
-            [
-              1746,
-              1
-            ],
-            [
-              1778,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "boomdakka-snazzwagon",
-      "sid": "47d27483-5b3b-420c-95fa-bfd0befe2817",
-      "name": "Boomdakka Snazzwagon",
-      "kws": [
-        "Boomdakka Snazzwagon",
-        "Grenades",
-        "Speed Freeks",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 70,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1779,
-              1
-            ],
-            [
-              1746,
-              1
-            ],
             [
               1780,
               1
@@ -933,14 +800,55 @@ export default {
       ]
     },
     {
+      "id": "blitza-bommer",
+      "sid": "ec718ab5-ef45-4887-bbc9-0db34bde5431",
+      "name": "Blitza‑bommer",
+      "kws": [
+        "Aircraft",
+        "Fly",
+        "Speed Freeks",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1826,
+              1
+            ],
+            [
+              1827,
+              1
+            ],
+            [
+              1828,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "boss-snikrot",
       "sid": "ca1b7913-c219-4acb-b6bb-a95e669c4ae5",
       "name": "Boss Snikrot",
       "kws": [
-        "Boss Snikrot",
         "Character",
         "Epic Hero",
-        "Grenades",
+        "Explosives",
         "Infantry",
         "Smoke"
       ],
@@ -950,7 +858,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 75,
+          "pts": 80,
           "per": [
             1,
             1
@@ -970,11 +878,60 @@ export default {
           0,
           [
             [
-              1782,
+              1833,
               1
             ],
             [
-              1783,
+              1834,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "boss-zagstruk",
+      "sid": "5234e2a8-f6d0-481d-9b2a-6ff0c9e310bc",
+      "name": "Boss Zagstruk",
+      "kws": [
+        "Character",
+        "Epic Hero",
+        "Fly",
+        "Infantry",
+        "Jump Pack"
+      ],
+      "flags": {
+        "char": 1,
+        "epic": 1,
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "stormboyz",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1749,
+              1
+            ],
+            [
+              1750,
               1
             ]
           ]
@@ -987,15 +944,14 @@ export default {
       "name": "Boyz",
       "kws": [
         "Battleline",
-        "Boyz",
-        "Grenades",
+        "Explosives",
         "Infantry",
         "Mob"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 90,
           "per": [
             10,
             10
@@ -1013,20 +969,19 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 180,
           "per": [
-            11,
+            20,
             20
           ],
           "comp": [
             [
               0,
-              10,
-              19
+              18
             ],
             [
               1,
-              1
+              2
             ]
           ]
         }
@@ -1041,7 +996,7 @@ export default {
           "n": "Boy"
         },
         {
-          "n": "Boss Nob"
+          "n": "Nob"
         }
       ],
       "defaults": [
@@ -1049,11 +1004,15 @@ export default {
           0,
           [
             [
-              1755,
+              1835,
               1
             ],
             [
-              1784,
+              1836,
+              1
+            ],
+            [
+              1837,
               1
             ]
           ]
@@ -1062,11 +1021,11 @@ export default {
           1,
           [
             [
-              1785,
+              1838,
               1
             ],
             [
-              1755,
+              1839,
               1
             ]
           ]
@@ -1075,116 +1034,54 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 713,
-          "in": "checkbox",
+          "t": 725,
+          "in": "stepper",
           "o": [
             [
-              1786
+              1840
             ]
           ],
           "rep": [
-            1785
+            1838,
+            1839
           ]
         },
         {
           "m": 1,
-          "t": 714,
-          "in": "checkbox",
+          "t": 726,
+          "in": "stepper",
           "o": [
             [
-              [
-                [
-                  1771,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
+              1841
             ]
           ],
           "rep": [
-            1785,
-            1755
+            1838
           ]
         },
         {
           "m": 1,
-          "t": 715,
-          "in": "checkbox",
+          "t": 727,
+          "in": "stepper",
           "o": [
             [
-              [
-                [
-                  1785,
-                  1
-                ],
-                [
-                  1772,
-                  1
-                ]
-              ]
+              1842
             ],
             [
-              [
-                [
-                  1785,
-                  1
-                ],
-                [
-                  1787,
-                  1
-                ],
-                [
-                  1788,
-                  1
-                ]
-              ]
+              1843
             ]
           ],
           "rep": [
-            1785
+            1839
           ]
         },
         {
           "m": 0,
-          "t": 716,
+          "t": 728,
           "in": "stepper",
           "o": [
             [
-              1739
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 717,
-          "in": "stepper",
-          "o": [
-            [
-              [
-                [
-                  1746,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1789,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
+              1844
             ]
           ],
           "lim": [
@@ -1198,12 +1095,53 @@ export default {
             ]
           ],
           "rep": [
-            1784,
-            1755
+            1836
+          ]
+        },
+        {
+          "m": 0,
+          "t": 729,
+          "in": "stepper",
+          "o": [
+            [
+              1845
+            ]
           ],
-          "cond": [
-            3,
-            0
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            1836
+          ]
+        },
+        {
+          "m": 0,
+          "t": 730,
+          "in": "stepper",
+          "o": [
+            [
+              1846
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            1836
           ]
         }
       ]
@@ -1213,14 +1151,13 @@ export default {
       "sid": "9c5dc3fe-b149-4aa5-9973-6e95ad2dac8b",
       "name": "Breaka Boyz",
       "kws": [
-        "Breaka Boyz",
-        "Grenades",
+        "Explosives",
         "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 135,
           "per": [
             6,
             6
@@ -1229,11 +1166,11 @@ export default {
           "comp": [
             [
               0,
-              1
+              5
             ],
             [
               1,
-              5
+              1
             ]
           ]
         }
@@ -1245,10 +1182,10 @@ export default {
       },
       "minis": [
         {
-          "n": "Boss Nob"
+          "n": "Breaka Boy"
         },
         {
-          "n": "Breaka Boy"
+          "n": "Nob"
         }
       ],
       "defaults": [
@@ -1256,15 +1193,7 @@ export default {
           0,
           [
             [
-              1790,
-              1
-            ],
-            [
-              1791,
-              1
-            ],
-            [
-              1792,
+              1847,
               1
             ]
           ]
@@ -1273,11 +1202,15 @@ export default {
           1,
           [
             [
-              1792,
+              1848,
               1
             ],
             [
-              1792,
+              1849,
+              1
+            ],
+            [
+              1847,
               1
             ]
           ]
@@ -1285,25 +1218,25 @@ export default {
       ],
       "gear": [
         {
+          "m": 1,
+          "t": 731,
+          "in": "checkbox",
+          "o": [
+            [
+              1849
+            ]
+          ],
+          "rep": [
+            1847
+          ]
+        },
+        {
           "m": 0,
-          "t": 718,
+          "t": 732,
           "in": "checkbox",
           "o": [
             [
-              1791
-            ]
-          ],
-          "rep": [
-            1792
-          ]
-        },
-        {
-          "m": 1,
-          "t": 719,
-          "in": "checkbox",
-          "o": [
-            [
-              1793
+              1850
             ]
           ],
           "lim": [
@@ -1313,16 +1246,16 @@ export default {
             ]
           ],
           "rep": [
-            1792
+            1847
           ]
         },
         {
-          "m": 1,
-          "t": 720,
+          "m": 0,
+          "t": 733,
           "in": "checkbox",
           "o": [
             [
-              1794
+              1851
             ]
           ],
           "lim": [
@@ -1332,7 +1265,7 @@ export default {
             ]
           ],
           "rep": [
-            1792
+            1847
           ]
         }
       ]
@@ -1342,10 +1275,11 @@ export default {
       "sid": "e2d407d7-3962-4c7d-a6f6-3443604a90a1",
       "name": "Burna Boyz",
       "kws": [
-        "Burna Boyz",
         "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 60,
@@ -1394,27 +1328,27 @@ export default {
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              1797,
+              1753,
               1
             ],
             [
-              1798,
+              1754,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              688,
+              1755,
               1
             ],
             [
-              1746,
+              1756,
               1
             ]
           ]
@@ -1423,18 +1357,18 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 722,
+          "t": 705,
           "in": "stepper",
           "o": [
             [
-              1764
+              1757
             ],
             [
-              1789
+              1758
             ]
           ],
           "rep": [
-            1746
+            1753
           ]
         }
       ]
@@ -1442,65 +1376,9 @@ export default {
     {
       "id": "burna-bommer",
       "sid": "85e33a56-f6fa-46ef-a868-aec1a2949e99",
-      "name": "Burna-bommer",
+      "name": "Burna‑bommer",
       "kws": [
         "Aircraft",
-        "Burna-bommer",
-        "Fly",
-        "Speed Freeks",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 115,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1795,
-              1
-            ],
-            [
-              1778,
-              1
-            ],
-            [
-              151,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 721,
-          "in": "checkbox",
-          "o": [
-            [
-              1796
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "dakkajet",
-      "sid": "4186d0d0-2abb-4c28-91a4-1e5b81a7e0b0",
-      "name": "Dakkajet",
-      "kws": [
-        "Aircraft",
-        "Dakkajet",
         "Fly",
         "Speed Freeks",
         "Vehicle"
@@ -1522,11 +1400,65 @@ export default {
           0,
           [
             [
-              151,
+              1852,
               1
             ],
             [
-              1778,
+              1853,
+              1
+            ],
+            [
+              1854,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 734,
+          "in": "checkbox",
+          "o": [
+            [
+              1855
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dakkajet",
+      "sid": "4186d0d0-2abb-4c28-91a4-1e5b81a7e0b0",
+      "name": "Dakkajet",
+      "kws": [
+        "Aircraft",
+        "Fly",
+        "Speed Freeks",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1856,
+              1
+            ],
+            [
+              1857,
               2
             ]
           ]
@@ -1535,11 +1467,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 723,
+          "t": 735,
           "in": "checkbox",
           "o": [
             [
-              1778
+              1857
             ]
           ]
         }
@@ -1550,14 +1482,13 @@ export default {
       "sid": "914f5a07-e9e1-4cad-a149-fd7b0d07298a",
       "name": "Deff Dread",
       "kws": [
-        "Deff Dread",
         "Vehicle",
         "Walker"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 130,
           "per": [
             1,
             1
@@ -1575,15 +1506,15 @@ export default {
           0,
           [
             [
-              1799,
-              2
+              1858,
+              1
             ],
             [
-              1746,
-              2
+              1859,
+              1
             ],
             [
-              1800,
+              1860,
               1
             ]
           ]
@@ -1592,48 +1523,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 724,
-          "in": "stepper",
+          "t": 736,
+          "in": "checkbox",
           "o": [
             [
-              1799
+              1861
             ],
             [
-              1764
+              1862
             ],
             [
-              1789
-            ],
-            [
-              1801
+              1863
             ]
           ],
-          "cp": 2,
           "rep": [
-            1746
+            1858
           ]
         },
         {
           "m": 0,
-          "t": 725,
-          "in": "stepper",
+          "t": 737,
+          "in": "checkbox",
           "o": [
             [
-              1746
+              1861
             ],
             [
-              1764
+              1858
             ],
             [
-              1789
+              1862
             ],
             [
-              1801
+              1863
             ]
           ],
-          "cp": 2,
           "rep": [
-            1799
+            1859
           ]
         }
       ]
@@ -1644,7 +1570,6 @@ export default {
       "name": "Deffkilla Wartrike",
       "kws": [
         "Character",
-        "Deffkilla Wartrike",
         "Mounted",
         "Speed Freeks",
         "Warboss"
@@ -1654,7 +1579,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 80,
           "per": [
             1,
             1
@@ -1674,15 +1599,15 @@ export default {
           0,
           [
             [
-              1802,
+              1864,
               1
             ],
             [
-              1803,
+              1865,
               1
             ],
             [
-              1804,
+              1866,
               1
             ]
           ]
@@ -1694,16 +1619,15 @@ export default {
       "sid": "1502e293-1237-4c81-9cb4-d913ba23b246",
       "name": "Deffkoptas",
       "kws": [
-        "Deffkoptas",
+        "Explosives",
         "Fly",
-        "Grenades",
-        "Speed Freeks",
-        "Vehicle"
+        "Mounted",
+        "Speed Freeks"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 80,
           "per": [
             3,
             3
@@ -1711,7 +1635,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 140,
+          "pts": 160,
           "per": [
             4,
             6
@@ -1719,20 +1643,28 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
           [
             [
-              1808,
+              1867,
               1
             ],
             [
-              1755,
+              1868,
               1
             ],
             [
-              1809,
+              1869,
+              1
+            ],
+            [
+              1870,
               1
             ]
           ]
@@ -1741,11 +1673,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 726,
+          "t": 738,
           "in": "stepper",
           "o": [
             [
-              1764
+              1871
             ]
           ],
           "lim": [
@@ -1759,7 +1691,7 @@ export default {
             ]
           ],
           "rep": [
-            1808
+            1869
           ]
         }
       ]
@@ -1769,14 +1701,13 @@ export default {
       "sid": "a8848006-145a-4941-a1b1-be910f71c7a7",
       "name": "Flash Gitz",
       "kws": [
-        "Flash Gitz",
-        "Grenades",
+        "Explosives",
         "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 105,
           "per": [
             5,
             5
@@ -1785,29 +1716,29 @@ export default {
           "comp": [
             [
               0,
-              1
+              4
             ],
             [
               1,
-              4
+              1
             ]
           ]
         },
         {
-          "pts": 150,
+          "pts": 210,
           "per": [
-            5,
+            6,
             10
           ],
           "comp": [
             [
               0,
-              1
+              5,
+              9
             ],
             [
               1,
-              4,
-              9
+              1
             ]
           ]
         }
@@ -1815,55 +1746,43 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 30
       },
       "minis": [
         {
-          "n": "Kaptin"
+          "n": "Flash Git"
         },
         {
-          "n": "Flash Git"
+          "n": "Kaptin"
         }
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              1790,
+              1872,
               1
             ],
             [
-              1810,
+              1873,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              1790,
-              1
+              1872,
+              4
             ],
             [
-              1810,
-              1
+              1873,
+              4
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 727,
-          "in": "checkbox",
-          "o": [
-            [
-              1811
-            ]
-          ]
-        }
       ]
     },
     {
@@ -1881,7 +1800,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 440,
+          "pts": 500,
           "per": [
             1,
             1
@@ -1899,7 +1818,7 @@ export default {
           0,
           [
             [
-              1805,
+              1877,
               1
             ]
           ]
@@ -1912,10 +1831,10 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1806
+              1878
             ],
             [
-              1807
+              1879
             ]
           ]
         }
@@ -1928,7 +1847,7 @@ export default {
       "kws": [
         "Character",
         "Epic Hero",
-        "Ghazgkull Thraka",
+        "Explosives",
         "Infantry",
         "Warboss"
       ],
@@ -1939,70 +1858,29 @@ export default {
       },
       "sizes": [
         {
-          "pts": 235,
+          "pts": 300,
           "per": [
-            2,
-            2
+            1,
+            1
           ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              1
-            ]
-          ]
+          "default": 1
         }
       ],
       "linked": 1,
-      "leads": [
-        {
-          "to": "boyz",
-          "type": "leader"
-        },
-        {
-          "to": "meganobz",
-          "type": "leader"
-        },
-        {
-          "to": "nobz",
-          "type": "leader"
-        },
-        {
-          "to": "breaka-boyz",
-          "type": "leader"
-        }
-      ],
-      "minis": [
-        {
-          "n": "Ghazghkull Thraka"
-        },
-        {
-          "n": "Makari"
-        }
-      ],
       "defaults": [
         [
           0,
           [
             [
-              1812,
+              1874,
               1
             ],
             [
-              1813,
+              1875,
               1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
+            ],
             [
-              1814,
+              1876,
               1
             ]
           ]
@@ -2014,7 +1892,6 @@ export default {
       "sid": "f7abac94-2442-4805-81c9-9a56a2448d10",
       "name": "Gorkanaut",
       "kws": [
-        "Gorkanaut",
         "Titanic",
         "Towering",
         "Transport",
@@ -2024,7 +1901,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 255,
+          "pts": 325,
           "per": [
             1,
             1
@@ -2035,30 +1912,30 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
           0,
           [
             [
-              1815,
+              1880,
               1
             ],
             [
-              1795,
+              1881,
               2
             ],
             [
-              1816,
+              1882,
               1
             ],
             [
-              1789,
+              1883,
               2
             ],
             [
-              1801,
+              1884,
               1
             ]
           ]
@@ -2070,7 +1947,6 @@ export default {
       "sid": "e526e829-57ea-445d-b69d-5b4b2fa394eb",
       "name": "Gretchin",
       "kws": [
-        "Gretchin",
         "Grots",
         "Infantry"
       ],
@@ -2079,123 +1955,31 @@ export default {
         {
           "pts": 45,
           "per": [
-            11,
-            11
-          ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              10
-            ],
-            [
-              1,
-              1
-            ]
-          ]
-        },
-        {
-          "pts": 90,
-          "per": [
-            22,
-            22
-          ],
-          "comp": [
-            [
-              0,
-              20
-            ],
-            [
-              1,
-              2
-            ]
-          ]
-        },
-        {
-          "pts": 45,
-          "per": [
             10,
             10
           ],
-          "comp": [
-            [
-              0,
-              10
-            ],
-            [
-              1,
-              0
-            ]
-          ]
+          "default": 1
         },
         {
           "pts": 80,
           "per": [
-            20,
+            11,
             20
-          ],
-          "comp": [
-            [
-              0,
-              20
-            ],
-            [
-              1,
-              0
-            ]
-          ]
-        },
-        {
-          "pts": 85,
-          "per": [
-            21,
-            21
-          ],
-          "comp": [
-            [
-              0,
-              20
-            ],
-            [
-              1,
-              1
-            ]
           ]
         }
       ],
       "linked": 1,
       "condBattleline": 1,
-      "minis": [
-        {
-          "n": "Gretchin"
-        },
-        {
-          "n": "Runtherd"
-        }
-      ],
       "defaults": [
-        [
-          1,
-          [
-            [
-              1817,
-              1
-            ],
-            [
-              1755,
-              1
-            ]
-          ]
-        ],
         [
           0,
           [
             [
-              646,
+              1885,
               1
             ],
             [
-              1779,
+              1886,
               1
             ]
           ]
@@ -2203,136 +1987,219 @@ export default {
       ]
     },
     {
-      "id": "hunta-rig",
-      "sid": "8214c6e2-2233-4229-a9d9-3257fe8dbe22",
-      "name": "Hunta Rig",
+      "id": "grot-mega-tank",
+      "sid": "9a551e47-352e-4bad-a13d-5d4ca3c562dc",
+      "name": "Grot Mega-tank",
       "kws": [
-        "Beast Snagga",
-        "Hunta Rig",
-        "Monster",
-        "Transport"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 125,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1818,
-              1
-            ],
-            [
-              1819,
-              1
-            ],
-            [
-              1820,
-              1
-            ],
-            [
-              1821,
-              1
-            ],
-            [
-              1822,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "kill-rig",
-      "sid": "40287b42-ee16-4ae4-8cbb-96e87d827a0b",
-      "name": "Kill Rig",
-      "kws": [
-        "Beast Snagga",
-        "Kill Rig",
-        "Monster",
-        "Psyker",
-        "Transport"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 145,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1822,
-              1
-            ],
-            [
-              1818,
-              1
-            ],
-            [
-              1827,
-              1
-            ],
-            [
-              1821,
-              1
-            ],
-            [
-              1820,
-              1
-            ],
-            [
-              1819,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "killa-kans",
-      "sid": "f49b305a-f2eb-4a3c-a090-931958c6f53b",
-      "name": "Killa Kans",
-      "kws": [
+        "Frame",
         "Grots",
-        "Killa Kans",
-        "Vehicle",
-        "Walker"
+        "Vehicle"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
-          "pts": 120,
+          "pts": 110,
           "per": [
-            3,
-            3
+            1,
+            1
           ],
           "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1763,
+              1
+            ],
+            [
+              1764,
+              1
+            ],
+            [
+              1765,
+              1
+            ],
+            [
+              1766,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 707,
+          "in": "checkbox",
+          "o": [
+            [
+              1764
+            ],
+            [
+              1767
+            ],
+            [
+              1768
+            ],
+            [
+              1769
+            ]
+          ],
+          "rep": [
+            1765
+          ]
         },
         {
-          "pts": 240,
+          "m": 0,
+          "t": 708,
+          "in": "checkbox",
+          "o": [
+            [
+              1765
+            ],
+            [
+              1767
+            ],
+            [
+              1768
+            ],
+            [
+              1769
+            ]
+          ],
+          "rep": [
+            1764
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grot-tanks",
+      "sid": "c602db26-58bf-406b-8f31-81c9652b1e51",
+      "name": "Grot Tanks",
+      "kws": [
+        "Frame",
+        "Grots",
+        "Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 155,
           "per": [
             4,
-            6
+            4
+          ],
+          "default": 1
+        },
+        {
+          "pts": 310,
+          "per": [
+            8,
+            8
           ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1774,
+              1
+            ],
+            [
+              1775,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 710,
+          "in": "stepper",
+          "o": [
+            [
+              1776
+            ],
+            [
+              1777
+            ],
+            [
+              1778
+            ],
+            [
+              1779
+            ]
+          ],
+          "rep": [
+            1774
+          ]
+        },
+        {
+          "m": 0,
+          "t": 711,
+          "in": "stepper",
+          "o": [
+            [
+              1776
+            ],
+            [
+              1778
+            ],
+            [
+              1779
+            ],
+            [
+              1774
+            ],
+            [
+              1777
+            ]
+          ],
+          "lim": [
+            [
+              4,
+              4
+            ],
+            [
+              8,
+              8
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gunwagon",
+      "sid": "e42d2971-db7d-4901-8036-735b3e7cf278",
+      "name": "Gunwagon",
+      "kws": [
+        "Frame",
+        "Transport",
+        "Vehicle",
+        "Wagon"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 150,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
         }
       ],
       "linked": 1,
@@ -2345,11 +2212,11 @@ export default {
           0,
           [
             [
-              1823,
+              1887,
               1
             ],
             [
-              1824,
+              1888,
               1
             ]
           ]
@@ -2358,23 +2225,402 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 728,
+          "t": 702,
+          "in": "checkbox",
+          "o": [
+            [
+              1889
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 704,
+          "in": "checkbox",
+          "o": [
+            [
+              1890
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 739,
+          "in": "checkbox",
+          "o": [
+            [
+              1891
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 703,
           "in": "stepper",
           "o": [
             [
-              1825
+              1892
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 740,
+          "in": "checkbox",
+          "o": [
+            [
+              1893
             ],
             [
-              1826
-            ],
-            [
-              1801
+              1894,
+              10
             ]
           ],
           "rep": [
-            1824
+            1888
           ]
         }
+      ]
+    },
+    {
+      "id": "hunta-rig",
+      "sid": "8214c6e2-2233-4229-a9d9-3257fe8dbe22",
+      "name": "Hunta Rig",
+      "kws": [
+        "Beast Snagga",
+        "Monster",
+        "Transport",
+        "Wagon"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 165,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1895,
+              1
+            ],
+            [
+              1896,
+              1
+            ],
+            [
+              1897,
+              1
+            ],
+            [
+              1898,
+              1
+            ],
+            [
+              1899,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "kaptin-badrukk",
+      "sid": "3cbc8431-9491-4815-9a01-717b27bc81c1",
+      "name": "Kaptin Badrukk",
+      "kws": [
+        "Character",
+        "Epic Hero",
+        "Infantry"
+      ],
+      "flags": {
+        "char": 1,
+        "epic": 1,
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "flash-gitz",
+          "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1782,
+              1
+            ],
+            [
+              1783,
+              1
+            ],
+            [
+              1784,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "kill-rig",
+      "sid": "40287b42-ee16-4ae4-8cbb-96e87d827a0b",
+      "name": "Kill Rig",
+      "kws": [
+        "Beast Snagga",
+        "Monster",
+        "Psyker",
+        "Transport",
+        "Wagon"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 175,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1902,
+              1
+            ],
+            [
+              1903,
+              1
+            ],
+            [
+              1904,
+              1
+            ],
+            [
+              1905,
+              1
+            ],
+            [
+              1906,
+              1
+            ],
+            [
+              1907,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "kill-tank",
+      "sid": "813cc9eb-9b06-4bd1-897d-5ac9b7b7d95a",
+      "name": "Kill Tank",
+      "kws": [
+        "Frame",
+        "Transport",
+        "Vehicle",
+        "Wagon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 300,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1787,
+              2
+            ],
+            [
+              1788,
+              1
+            ],
+            [
+              1789,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 713,
+          "in": "stepper",
+          "o": [
+            [
+              1787
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 714,
+          "in": "stepper",
+          "o": [
+            [
+              1790
+            ],
+            [
+              1791
+            ]
+          ],
+          "rep": [
+            1787
+          ]
+        },
+        {
+          "m": 0,
+          "t": 715,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1792,
+                  1
+                ],
+                [
+                  1793,
+                  3
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1789,
+            1788
+          ]
+        },
+        {
+          "m": 0,
+          "t": 716,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1794,
+                  1
+                ],
+                [
+                  1795,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1793
+          ]
+        }
+      ]
+    },
+    {
+      "id": "killa-kans",
+      "sid": "f49b305a-f2eb-4a3c-a090-931958c6f53b",
+      "name": "Killa Kans",
+      "kws": [
+        "Grots",
+        "Vehicle",
+        "Walker"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        },
+        {
+          "pts": 260,
+          "per": [
+            4,
+            6
+          ]
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1900,
+              1
+            ],
+            [
+              1901,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2382,15 +2628,14 @@ export default {
       "sid": "4476a990-945b-406e-a44f-f5f02cf7c3d4",
       "name": "Kommandos",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Infantry",
-        "Kommandos",
         "Smoke"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 125,
           "per": [
             10,
             10
@@ -2414,32 +2659,32 @@ export default {
           "n": "Kommando"
         },
         {
-          "n": "Boss Nob"
+          "n": "Nob"
         }
       ],
       "defaults": [
         [
-          1,
+          0,
           [
             [
-              1784,
+              1908,
               1
             ],
             [
-              1755,
+              1909,
               1
             ]
           ]
         ],
         [
-          0,
+          1,
           [
             [
-              1755,
+              1908,
               1
             ],
             [
-              1784,
+              1909,
               1
             ]
           ]
@@ -2447,57 +2692,79 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 729,
-          "in": "checkbox",
-          "o": [
-            [
-              1828
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 730,
-          "in": "checkbox",
-          "o": [
-            [
-              1829
-            ]
-          ]
-        },
-        {
           "m": 1,
-          "t": 731,
+          "t": 741,
           "in": "checkbox",
           "o": [
             [
-              1830
+              1910
             ],
             [
-              1786
+              1911
             ]
           ],
           "rep": [
-            1784
+            1908
           ]
         },
         {
           "m": 0,
-          "t": 732,
+          "t": 742,
+          "in": "checkbox",
+          "o": [
+            [
+              1912
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 743,
+          "in": "checkbox",
+          "o": [
+            [
+              1913
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 744,
+          "in": "checkbox",
+          "o": [
+            [
+              1914
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              1
+            ]
+          ],
+          "rep": [
+            1908
+          ]
+        },
+        {
+          "m": 0,
+          "t": 745,
           "in": "stepper",
           "o": [
             [
-              [
-                [
-                  1831,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
+              1915
             ]
           ],
           "lim": [
@@ -2505,106 +2772,25 @@ export default {
               0,
               2
             ]
-          ],
-          "rep": [
-            1755,
-            1784
-          ]
-        },
-        {
-          "m": 0,
-          "t": 733,
-          "in": "checkbox",
-          "o": [
-            [
-              1832
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1755,
-            1784
-          ]
-        },
-        {
-          "m": 0,
-          "t": 734,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  1798,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1755,
-            1784
-          ]
-        },
-        {
-          "m": 0,
-          "t": 735,
-          "in": "checkbox",
-          "o": [
-            [
-              [
-                [
-                  1789,
-                  1
-                ],
-                [
-                  1661,
-                  1
-                ]
-              ]
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
-            ]
-          ],
-          "rep": [
-            1755,
-            1784
           ]
         }
       ]
     },
     {
-      "id": "kustom-boosta-blasta",
-      "sid": "f3f63bb5-4db0-4b50-94e3-45347473d209",
-      "name": "Kustom Boosta-blasta",
+      "id": "lifta-wagon",
+      "sid": "52168db2-871c-4ddb-8c9c-833282ad3bda",
+      "name": "Lifta Wagon",
       "kws": [
-        "Grenades",
-        "Kustom Boost-blasta",
-        "Speed Freeks",
-        "Vehicle"
+        "Frame",
+        "Vehicle",
+        "Wagon"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 135,
           "per": [
             1,
             1
@@ -2618,23 +2804,56 @@ export default {
           0,
           [
             [
-              1833,
+              1800,
               1
             ],
             [
-              1834,
-              1
-            ],
-            [
-              1835,
-              1
-            ],
-            [
-              1779,
+              1801,
               1
             ]
           ]
         ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 719,
+          "in": "checkbox",
+          "o": [
+            [
+              1802
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 720,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1803,
+                  1
+                ],
+                [
+                  1804,
+                  1
+                ]
+              ]
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 721,
+          "in": "checkbox",
+          "o": [
+            [
+              1805
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2642,10 +2861,11 @@ export default {
       "sid": "d4652762-fb5b-453a-81d5-bea44d715a73",
       "name": "Lootas",
       "kws": [
-        "Infantry",
-        "Lootas"
+        "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "legends": 1
+      },
       "sizes": [
         {
           "pts": 50,
@@ -2701,11 +2921,11 @@ export default {
           0,
           [
             [
-              1746,
+              1809,
               1
             ],
             [
-              1661,
+              1810,
               1
             ]
           ]
@@ -2714,92 +2934,11 @@ export default {
           1,
           [
             [
-              1661,
+              1811,
               1
             ],
             [
-              1836,
-              1
-            ]
-          ]
-        ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 722,
-          "in": "stepper",
-          "o": [
-            [
-              1764
-            ],
-            [
-              1789
-            ]
-          ],
-          "rep": [
-            1746
-          ]
-        }
-      ]
-    },
-    {
-      "id": "meganobz",
-      "sid": "3bd34d99-cc45-4b10-9829-ad114eb8b614",
-      "name": "Meganobz",
-      "kws": [
-        "Grenades",
-        "Infantry",
-        "Mega Armour",
-        "Meganobz"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 60,
-          "per": [
-            2,
-            2
-          ],
-          "default": 1
-        },
-        {
-          "pts": 90,
-          "per": [
-            3,
-            3
-          ]
-        },
-        {
-          "pts": 150,
-          "per": [
-            4,
-            5
-          ]
-        },
-        {
-          "pts": 180,
-          "per": [
-            6,
-            6
-          ]
-        }
-      ],
-      "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 20
-      },
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1786,
-              1
-            ],
-            [
-              1772,
+              1810,
               1
             ]
           ]
@@ -2808,133 +2947,40 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 736,
+          "t": 705,
           "in": "stepper",
           "o": [
             [
-              [
-                [
-                  1771,
-                  1
-                ],
-                [
-                  1786,
-                  1
-                ]
-              ]
+              1812
             ],
             [
-              [
-                [
-                  1771,
-                  1
-                ],
-                [
-                  1837,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1772,
-                  1
-                ],
-                [
-                  1837,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1837,
-                  1
-                ],
-                [
-                  1786,
-                  1
-                ]
-              ]
-            ],
-            [
-              [
-                [
-                  1838,
-                  1
-                ]
-              ]
+              1813
             ]
           ],
           "rep": [
-            1772,
-            1786
+            1809
           ]
         }
       ]
     },
     {
-      "id": "megatrakk-scrapjet",
-      "sid": "61ee2d13-93dd-41b5-b3d1-ff7e0e677203",
-      "name": "Megatrakk Scrapjet",
-      "kws": [
-        "Megatrakk Scrapjet",
-        "Speed Freeks",
-        "Vehicle"
-      ],
-      "flags": {},
-      "sizes": [
-        {
-          "pts": 75,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1839,
-              1
-            ],
-            [
-              1840,
-              1
-            ],
-            [
-              1795,
-              2
-            ],
-            [
-              1841,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "mek",
-      "sid": "b92b38a2-55a2-4fba-8d36-56d254b9813f",
-      "name": "Mek",
+      "id": "mad-dok-grotsnik",
+      "sid": "1dbfa0d2-d563-422d-ac00-731e8593800d",
+      "name": "Mad Dok Grotsnik",
       "kws": [
         "Character",
+        "Epic Hero",
         "Infantry",
-        "Mek"
+        "Painboy"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "epic": 1,
+        "legends": 1
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 65,
           "per": [
             1,
             1
@@ -2949,23 +2995,19 @@ export default {
           "type": "leader"
         },
         {
-          "to": "lootas",
-          "type": "leader"
-        },
-        {
-          "to": "mek-gunz",
-          "type": "leader"
-        },
-        {
           "to": "nobz",
           "type": "leader"
         },
         {
-          "to": "tankbustas",
+          "to": "lootas",
           "type": "leader"
         },
         {
-          "to": "breaka-boyz",
+          "to": "burna-boyz",
+          "type": "leader"
+        },
+        {
+          "to": "tankbustas",
           "type": "leader"
         }
       ],
@@ -2974,11 +3016,77 @@ export default {
           0,
           [
             [
-              1842,
+              1821,
               1
             ],
             [
-              688,
+              1822,
+              1
+            ],
+            [
+              1823,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "meganobz",
+      "sid": "3bd34d99-cc45-4b10-9829-ad114eb8b614",
+      "name": "Meganobz",
+      "kws": [
+        "Explosives",
+        "Infantry",
+        "Mega Armour"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        },
+        {
+          "pts": 110,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 185,
+          "per": [
+            4,
+            5
+          ]
+        },
+        {
+          "pts": 225,
+          "per": [
+            6,
+            6
+          ]
+        }
+      ],
+      "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 40
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1916,
+              1
+            ],
+            [
+              1917,
               1
             ]
           ]
@@ -2987,29 +3095,59 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 737,
-          "in": "checkbox",
+          "t": 746,
+          "in": "stepper",
           "o": [
             [
-              1843
+              1918
             ]
           ],
           "rep": [
-            688
+            1917
+          ]
+        },
+        {
+          "m": 0,
+          "t": 747,
+          "in": "stepper",
+          "o": [
+            [
+              1919
+            ]
+          ],
+          "rep": [
+            1916
+          ]
+        },
+        {
+          "m": 0,
+          "t": 748,
+          "in": "stepper",
+          "o": [
+            [
+              1920,
+              5
+            ]
+          ],
+          "rep": [
+            1917,
+            1916
           ]
         }
       ]
     },
     {
-      "id": "mek-gunz",
-      "sid": "776a3fba-6bf3-42e9-a41a-f137c4c8053e",
-      "name": "Mek Gunz",
+      "id": "mek",
+      "sid": "b92b38a2-55a2-4fba-8d36-56d254b9813f",
+      "name": "Mek",
       "kws": [
-        "Grots",
-        "Mek Gunz",
-        "Vehicle"
+        "Character",
+        "Explosives",
+        "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "char": 1
+      },
       "sizes": [
         {
           "pts": 45,
@@ -3018,16 +3156,75 @@ export default {
             1
           ],
           "default": 1
+        }
+      ],
+      "linked": 1,
+      "leads": [
+        {
+          "to": "mek-gunz",
+          "type": "support"
         },
         {
-          "pts": 90,
+          "to": "boyz",
+          "type": "support"
+        },
+        {
+          "to": "flash-gitz",
+          "type": "support"
+        },
+        {
+          "to": "tankbustas",
+          "type": "support"
+        },
+        {
+          "to": "nobz",
+          "type": "support"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1921,
+              1
+            ],
+            [
+              1922,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "mek-gunz",
+      "sid": "776a3fba-6bf3-42e9-a41a-f137c4c8053e",
+      "name": "Mek Gunz",
+      "kws": [
+        "Frame",
+        "Grots",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 110,
           "per": [
             2,
             2
           ]
         },
         {
-          "pts": 135,
+          "pts": 165,
           "per": [
             3,
             3
@@ -3044,11 +3241,11 @@ export default {
           0,
           [
             [
-              1844,
+              1923,
               1
             ],
             [
-              1845,
+              1924,
               1
             ]
           ]
@@ -3057,31 +3254,54 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 738,
+          "t": 749,
           "in": "stepper",
           "o": [
             [
-              1846
+              1925
             ],
             [
-              1847
+              1926
             ],
             [
-              1848
+              1927
             ]
           ],
           "rep": [
-            1845
+            1924
           ]
         }
       ]
+    },
+    {
+      "id": "mekboy-workshop",
+      "sid": "a5d9be6d-c65a-437b-973a-1574eacce2d7",
+      "name": "Mekboy Workshop",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1
     },
     {
       "id": "morkanaut",
       "sid": "b3a5277b-0a65-47a7-925c-f7622cda3dd3",
       "name": "Morkanaut",
       "kws": [
-        "Morkanaut",
         "Titanic",
         "Towering",
         "Transport",
@@ -3091,7 +3311,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 270,
+          "pts": 345,
           "per": [
             1,
             1
@@ -3102,30 +3322,30 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
           0,
           [
             [
-              1849,
-              1
-            ],
-            [
-              1850,
-              1
-            ],
-            [
-              1764,
-              1
-            ],
-            [
-              1795,
+              1928,
               2
             ],
             [
-              1789,
+              1929,
+              1
+            ],
+            [
+              1930,
+              1
+            ],
+            [
+              1931,
+              1
+            ],
+            [
+              1932,
               2
             ]
           ]
@@ -3140,8 +3360,52 @@ export default {
         "Beast Snagga",
         "Character",
         "Epic Hero",
-        "Mounted",
-        "Mozrog Skragbad",
+        "Monster"
+      ],
+      "flags": {
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 170,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1933,
+              1
+            ],
+            [
+              1934,
+              1
+            ],
+            [
+              1935,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "nazdreg",
+      "sid": "5a8b2395-8999-4421-8f66-d9768be02673",
+      "name": "Nazdreg",
+      "kws": [
+        "Character",
+        "Epic Hero",
+        "Infantry",
+        "Mega Armour",
         "Warboss"
       ],
       "flags": {
@@ -3150,7 +3414,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 125,
+          "pts": 175,
           "per": [
             1,
             1
@@ -3161,7 +3425,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "squighog-boyz",
+          "to": "meganobz",
           "type": "leader"
         }
       ],
@@ -3170,15 +3434,11 @@ export default {
           0,
           [
             [
-              1851,
+              1936,
               1
             ],
             [
-              1852,
-              1
-            ],
-            [
-              1756,
+              1937,
               1
             ]
           ]
@@ -3190,85 +3450,42 @@ export default {
       "sid": "d063a486-12c5-466e-911b-e14e87b97f9e",
       "name": "Nobz",
       "kws": [
-        "Grenades",
-        "Infantry",
-        "Nobz"
+        "Explosives",
+        "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 125,
           "per": [
             5,
             5
           ],
-          "default": 1,
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              4
-            ]
-          ]
+          "default": 1
         },
         {
-          "pts": 210,
+          "pts": 250,
           "per": [
             6,
             10
-          ],
-          "comp": [
-            [
-              0,
-              1
-            ],
-            [
-              1,
-              5,
-              9
-            ]
           ]
         }
       ],
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 30
       },
-      "minis": [
-        {
-          "n": "Boss Nob"
-        },
-        {
-          "n": "Nob"
-        }
-      ],
       "defaults": [
         [
           0,
           [
             [
-              1755,
+              1938,
               1
             ],
             [
-              1785,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1755,
-              1
-            ],
-            [
-              1785,
+              1939,
               1
             ]
           ]
@@ -3277,11 +3494,20 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 739,
+          "t": 750,
           "in": "stepper",
           "o": [
             [
-              1853
+              [
+                [
+                  1940,
+                  1
+                ],
+                [
+                  1941,
+                  1
+                ]
+              ]
             ]
           ],
           "lim": [
@@ -3293,42 +3519,104 @@ export default {
               10,
               2
             ]
-          ]
-        },
-        {
-          "all": 1,
-          "t": 740,
-          "in": "stepper",
-          "o": [
-            [
-              1786
-            ]
           ],
           "rep": [
-            1785
+            1938,
+            1939
           ]
         },
         {
-          "all": 1,
-          "t": 741,
+          "m": 0,
+          "t": 751,
           "in": "stepper",
           "o": [
             [
               [
                 [
-                  1771,
+                  1942,
                   1
                 ],
                 [
-                  1854,
+                  1941,
                   1
                 ]
               ]
             ]
           ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
           "rep": [
-            1755,
-            1785
+            1938,
+            1939
+          ]
+        },
+        {
+          "m": 0,
+          "t": 752,
+          "in": "stepper",
+          "o": [
+            [
+              1943
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            1938,
+            1939
+          ]
+        },
+        {
+          "m": 0,
+          "t": 753,
+          "in": "stepper",
+          "o": [
+            [
+              1944,
+              5
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            1939
+          ]
+        },
+        {
+          "m": 0,
+          "t": 754,
+          "in": "stepper",
+          "o": [
+            [
+              1945
+            ]
+          ],
+          "rep": [
+            1939
           ]
         }
       ]
@@ -3340,15 +3628,14 @@ export default {
       "kws": [
         "Beast Snagga",
         "Character",
-        "Infantry",
-        "Painboss"
+        "Infantry"
       ],
       "flags": {
         "char": 1
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -3357,10 +3644,18 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "leads": [
         {
           "to": "beast-snagga-boyz",
-          "type": "leader"
+          "type": "support"
+        },
+        {
+          "to": "squighog-boyz",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -3368,23 +3663,11 @@ export default {
           0,
           [
             [
-              1855,
+              1946,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 742,
-          "in": "checkbox",
-          "o": [
-            [
-              1856
-            ]
-          ]
-        }
       ]
     },
     {
@@ -3393,15 +3676,14 @@ export default {
       "name": "Painboy",
       "kws": [
         "Character",
-        "Infantry",
-        "Painboy"
+        "Infantry"
       ],
       "flags": {
         "char": 1
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 45,
           "per": [
             1,
             1
@@ -3416,15 +3698,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "breaka-boyz",
+          "to": "flash-gitz",
           "type": "support"
         },
         {
-          "to": "burna-boyz",
-          "type": "support"
-        },
-        {
-          "to": "lootas",
+          "to": "tankbustas",
           "type": "support"
         },
         {
@@ -3432,7 +3710,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "tankbustas",
+          "to": "breaka-boyz",
           "type": "support"
         }
       ],
@@ -3441,35 +3719,23 @@ export default {
           0,
           [
             [
-              1786,
+              1947,
               1
             ],
             [
-              1857,
+              1948,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 742,
-          "in": "checkbox",
-          "o": [
-            [
-              1856
-            ]
-          ]
-        }
       ]
     },
     {
-      "id": "rukkatrukk-squigbuggy",
+      "id": "rukkatrukk-squigbuggies",
       "sid": "8111429e-0358-4760-b435-1f77c43125d0",
-      "name": "Rukkatrukk Squigbuggy",
+      "name": "Rukkatrukk Squigbuggies",
       "kws": [
-        "Rukkatrukk Squigbuggy",
+        "Explosives",
         "Speed Freeks",
         "Vehicle"
       ],
@@ -3482,6 +3748,13 @@ export default {
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 160,
+          "per": [
+            2,
+            2
+          ]
         }
       ],
       "linked": 1,
@@ -3490,15 +3763,15 @@ export default {
           0,
           [
             [
-              1858,
+              1949,
               1
             ],
             [
-              1859,
+              1950,
               1
             ],
             [
-              1860,
+              1951,
               1
             ]
           ]
@@ -3506,18 +3779,19 @@ export default {
       ]
     },
     {
-      "id": "shokkjump-dragsta",
-      "sid": "f5b60a7d-b0b4-4ee3-8035-8c3b3c874f31",
-      "name": "Shokkjump Dragsta",
+      "id": "runtherd",
+      "sid": "1cb8e0e2-a7d6-4218-9776-102b86524adc",
+      "name": "Runtherd",
       "kws": [
-        "Shokkjump Dragsta",
-        "Speed Freeks",
-        "Vehicle"
+        "Character",
+        "Infantry"
       ],
-      "flags": {},
+      "flags": {
+        "char": 1
+      },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 10,
           "per": [
             1,
             1
@@ -3526,20 +3800,22 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "gretchin",
+          "type": "support"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1861,
+              1952,
               1
             ],
             [
-              1859,
-              1
-            ],
-            [
-              1862,
+              1953,
               1
             ]
           ]
@@ -3552,9 +3828,9 @@ export default {
       "name": "Squighog Boyz",
       "kws": [
         "Beast Snagga",
-        "Grenades",
-        "Mounted",
-        "Squighog Boyz"
+        "Explosives",
+        "Mobile",
+        "Mounted"
       ],
       "flags": {},
       "sizes": [
@@ -3577,7 +3853,7 @@ export default {
           ]
         },
         {
-          "pts": 270,
+          "pts": 280,
           "per": [
             8,
             8
@@ -3595,6 +3871,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
       "minis": [
         {
           "n": "Squighog Boy"
@@ -3605,61 +3885,39 @@ export default {
       ],
       "defaults": [
         [
-          0,
+          1,
           [
             [
-              1863,
+              1954,
               1
             ],
             [
-              1864,
+              1955,
               1
             ],
             [
-              1865,
+              1956,
               1
             ]
           ]
         ],
         [
-          1,
+          0,
           [
             [
-              1755,
+              1957,
               1
             ],
             [
-              1865,
+              1958,
               1
             ],
             [
-              1866,
+              1956,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 743,
-          "in": "stepper",
-          "o": [
-            [
-              1828
-            ]
-          ],
-          "lim": [
-            [
-              4,
-              1
-            ],
-            [
-              8,
-              2
-            ]
-          ]
-        }
       ]
     },
     {
@@ -3668,7 +3926,6 @@ export default {
       "name": "Stompa",
       "kws": [
         "Frame",
-        "Stompa",
         "Titanic",
         "Towering",
         "Transport",
@@ -3678,7 +3935,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 600,
+          "pts": 700,
           "per": [
             1,
             1
@@ -3696,32 +3953,24 @@ export default {
           0,
           [
             [
-              1867,
+              1959,
+              5
+            ],
+            [
+              1960,
               1
             ],
             [
-              1801,
+              1961,
               1
             ],
             [
-              1868,
+              1962,
               1
             ],
             [
-              1795,
+              1963,
               1
-            ],
-            [
-              1869,
-              1
-            ],
-            [
-              1870,
-              1
-            ],
-            [
-              1746,
-              3
             ]
           ]
         ]
@@ -3732,16 +3981,15 @@ export default {
       "sid": "cc2fce5d-ed17-4064-a8aa-7286b5ce54c9",
       "name": "Stormboyz",
       "kws": [
+        "Explosives",
         "Fly",
-        "Grenades",
         "Infantry",
-        "Jump Pack",
-        "Stormboyz"
+        "Jump Pack"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 65,
+          "pts": 70,
           "per": [
             5,
             5
@@ -3759,7 +4007,7 @@ export default {
           ]
         },
         {
-          "pts": 130,
+          "pts": 140,
           "per": [
             6,
             10
@@ -3784,7 +4032,7 @@ export default {
           "n": "Stormboy"
         },
         {
-          "n": "Boss Nob"
+          "n": "nob"
         }
       ],
       "defaults": [
@@ -3792,11 +4040,11 @@ export default {
           1,
           [
             [
-              1755,
+              1964,
               1
             ],
             [
-              1784,
+              1965,
               1
             ]
           ]
@@ -3805,11 +4053,11 @@ export default {
           0,
           [
             [
-              1784,
+              1966,
               1
             ],
             [
-              1755,
+              1965,
               1
             ]
           ]
@@ -3818,15 +4066,18 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 744,
-          "in": "checkbox",
+          "t": 755,
+          "in": "stepper",
           "o": [
             [
-              1786
+              1964
+            ],
+            [
+              1967
             ]
           ],
           "rep": [
-            1784
+            1964
           ]
         }
       ]
@@ -3836,14 +4087,13 @@ export default {
       "sid": "cd03e48d-ef51-40a1-97c7-0f2ada778c7c",
       "name": "Tankbustas",
       "kws": [
-        "Grenades",
-        "Infantry",
-        "Tankbustas"
+        "Explosives",
+        "Infantry"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 145,
           "per": [
             6,
             6
@@ -3852,11 +4102,11 @@ export default {
           "comp": [
             [
               0,
-              1
+              5
             ],
             [
               1,
-              5
+              1
             ]
           ]
         }
@@ -3868,10 +4118,10 @@ export default {
       },
       "minis": [
         {
-          "n": "Boss Nob"
+          "n": "Tankbusta"
         },
         {
-          "n": "Tankbusta"
+          "n": "Nob"
         }
       ],
       "defaults": [
@@ -3879,11 +4129,11 @@ export default {
           0,
           [
             [
-              1790,
+              1968,
               1
             ],
             [
-              1791,
+              1969,
               1
             ]
           ]
@@ -3892,46 +4142,40 @@ export default {
           1,
           [
             [
-              1854,
+              1970,
               1
             ],
             [
-              1789,
-              1
+              1971,
+              2
             ]
           ]
         ]
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 745,
+          "m": 1,
+          "t": 756,
           "in": "checkbox",
           "o": [
             [
-              1792
-            ]
-          ],
-          "lim": [
-            [
-              0,
-              1
+              1972
             ]
           ],
           "rep": [
-            1791
+            1971
           ]
         },
         {
-          "m": 1,
-          "t": 746,
-          "in": "checkbox",
+          "m": 0,
+          "t": 757,
+          "in": "stepper",
           "o": [
             [
-              1871
+              1968
             ],
             [
-              1789
+              1973
             ]
           ],
           "lim": [
@@ -3950,14 +4194,14 @@ export default {
       "kws": [
         "Dedicated Transport",
         "Frame",
+        "Speed Freeks",
         "Transport",
-        "Trukk",
         "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 55,
+          "pts": 60,
           "per": [
             1,
             1
@@ -3975,11 +4219,11 @@ export default {
           0,
           [
             [
-              1746,
+              1974,
               1
             ],
             [
-              1872,
+              1975,
               1
             ]
           ]
@@ -3988,11 +4232,27 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 747,
+          "t": 758,
           "in": "checkbox",
           "o": [
             [
-              1750
+              1976
+            ]
+          ],
+          "rep": [
+            1974
+          ]
+        },
+        {
+          "m": 0,
+          "t": 759,
+          "in": "checkbox",
+          "o": [
+            [
+              1977
+            ],
+            [
+              1978
             ]
           ]
         }
@@ -4003,15 +4263,14 @@ export default {
       "sid": "99e837f4-ef82-488b-ad2f-0d27d5ddbead",
       "name": "Warbikers",
       "kws": [
-        "Grenades",
+        "Explosives",
         "Mounted",
-        "Speed Freeks",
-        "Warbikers"
+        "Speed Freeks"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 60,
+          "pts": 75,
           "per": [
             3,
             3
@@ -4029,7 +4288,7 @@ export default {
           ]
         },
         {
-          "pts": 120,
+          "pts": 140,
           "per": [
             4,
             6
@@ -4054,7 +4313,7 @@ export default {
           "n": "Warbiker"
         },
         {
-          "n": "Boss Nob on Warbike"
+          "n": "Biker Nob"
         }
       ],
       "defaults": [
@@ -4062,11 +4321,11 @@ export default {
           0,
           [
             [
-              1873,
+              1979,
               1
             ],
             [
-              1661,
+              1980,
               1
             ]
           ]
@@ -4075,46 +4334,15 @@ export default {
           1,
           [
             [
-              1661,
+              1981,
               1
             ],
             [
-              1873,
+              1982,
               1
             ]
           ]
         ]
-      ],
-      "gear": [
-        {
-          "m": 0,
-          "t": 748,
-          "in": "stepper",
-          "o": [
-            [
-              1755
-            ],
-            [
-              1784
-            ]
-          ]
-        },
-        {
-          "m": 1,
-          "t": 749,
-          "in": "checkbox",
-          "o": [
-            [
-              1755
-            ],
-            [
-              1785
-            ],
-            [
-              1786
-            ]
-          ]
-        }
       ]
     },
     {
@@ -4123,7 +4351,7 @@ export default {
       "name": "Warboss",
       "kws": [
         "Character",
-        "Grenades",
+        "Explosives",
         "Infantry",
         "Warboss"
       ],
@@ -4132,7 +4360,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 100,
           "per": [
             1,
             1
@@ -4143,15 +4371,15 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "boyz",
-          "type": "leader"
-        },
-        {
           "to": "nobz",
           "type": "leader"
         },
         {
           "to": "breaka-boyz",
+          "type": "leader"
+        },
+        {
+          "to": "boyz",
           "type": "leader"
         }
       ],
@@ -4160,15 +4388,11 @@ export default {
           0,
           [
             [
-              1771,
+              1983,
               1
             ],
             [
-              1874,
-              1
-            ],
-            [
-              1875,
+              1984,
               1
             ]
           ]
@@ -4177,49 +4401,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 750,
+          "t": 760,
           "in": "checkbox",
           "o": [
             [
-              1876
+              1985
             ]
           ],
           "rep": [
-            1875
+            1983
           ]
         },
         {
           "m": 0,
-          "t": 751,
+          "t": 761,
           "in": "checkbox",
           "o": [
             [
-              1877
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 752,
-          "in": "checkbox",
-          "o": [
+              1986
+            ],
             [
-              [
-                [
-                  1878,
-                  1
-                ],
-                [
-                  1831,
-                  1
-                ]
-              ]
+              1987
             ]
           ],
           "rep": [
-            1771,
-            1874,
-            1875
+            1984
           ]
         }
       ]
@@ -4232,15 +4438,14 @@ export default {
         "Character",
         "Infantry",
         "Mega Armour",
-        "Warboss",
-        "Warboss in Mega Armour"
+        "Warboss"
       ],
       "flags": {
         "char": 1
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 125,
           "per": [
             1,
             1
@@ -4249,6 +4454,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 15
+      },
       "leads": [
         {
           "to": "meganobz",
@@ -4260,11 +4469,11 @@ export default {
           0,
           [
             [
-              1879,
+              1988,
               1
             ],
             [
-              1880,
+              1989,
               1
             ]
           ]
@@ -4272,18 +4481,22 @@ export default {
       ]
     },
     {
-      "id": "wartrakk",
-      "sid": "a0a04c15-fee5-4144-9bb7-6d9fdc78fea1",
-      "name": "Wartrakk",
+      "id": "warboss-on-warbike",
+      "sid": "3d3b408d-b1c4-4b53-ac50-6a8638397e29",
+      "name": "Warboss on Warbike",
       "kws": [
+        "Character",
+        "Explosives",
         "Mounted",
-        "Speed Freeks",
-        "Wartrakk"
+        "Speed Freeks"
       ],
-      "flags": {},
+      "flags": {
+        "char": 1,
+        "legends": 1
+      },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 75,
           "per": [
             1,
             1
@@ -4292,20 +4505,150 @@ export default {
         }
       ],
       "linked": 1,
+      "leads": [
+        {
+          "to": "warbikers",
+          "type": "leader"
+        }
+      ],
       "defaults": [
         [
           0,
           [
             [
-              1881,
+              1829,
               1
             ],
             [
-              1882,
+              1830,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 724,
+          "in": "checkbox",
+          "o": [
+            [
+              1831
+            ],
+            [
+              1832
+            ]
+          ],
+          "rep": [
+            1829
+          ]
+        }
+      ]
+    },
+    {
+      "id": "warbuggies",
+      "sid": "9bac8fe0-9305-4e46-b8d1-8a2dc6c9052d",
+      "name": "Warbuggies",
+      "kws": [
+        "Explosives",
+        "Speed Freeks",
+        "Vehicle"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 130,
+          "per": [
+            2,
+            2
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1990,
               1
             ],
             [
-              1883,
+              1991,
+              1
+            ],
+            [
+              1992,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 762,
+          "in": "stepper",
+          "o": [
+            [
+              1993
+            ]
+          ],
+          "rep": [
+            1991
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wartrakks",
+      "sid": "a0a04c15-fee5-4144-9bb7-6d9fdc78fea1",
+      "name": "Wartrakks",
+      "kws": [
+        "Mounted",
+        "Speed Freeks"
+      ],
+      "flags": {},
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 130,
+          "per": [
+            2,
+            2
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1994,
+              1
+            ],
+            [
+              1995,
+              1
+            ],
+            [
+              1996,
               1
             ]
           ]
@@ -4319,15 +4662,14 @@ export default {
       "kws": [
         "Aircraft",
         "Fly",
-        "Grenades",
+        "Smoke",
         "Speed Freeks",
-        "Vehicle",
-        "Wazbom Blastajet"
+        "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 165,
+          "pts": 215,
           "per": [
             1,
             1
@@ -4336,20 +4678,24 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 20
+      },
       "defaults": [
         [
           0,
           [
             [
-              1888,
+              2001,
               1
             ],
             [
-              151,
+              2002,
               1
             ],
             [
-              1889,
+              2003,
               1
             ]
           ]
@@ -4358,34 +4704,34 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 753,
+          "t": 763,
           "in": "checkbox",
           "o": [
             [
-              1890
+              2004
             ]
           ],
           "rep": [
-            1889
+            2003
           ]
         },
         {
           "m": 0,
-          "t": 754,
+          "t": 764,
           "in": "checkbox",
           "o": [
             [
-              1891
+              2005
             ]
           ]
         },
         {
           "m": 0,
-          "t": 755,
+          "t": 735,
           "in": "checkbox",
           "o": [
             [
-              1892
+              2006
             ]
           ]
         }
@@ -4401,8 +4747,7 @@ export default {
         "Mounted",
         "Smoke",
         "Speed Freeks",
-        "Vehicle",
-        "Wazdakka Gutsmek"
+        "Vehicle"
       ],
       "flags": {
         "char": 1,
@@ -4410,7 +4755,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 175,
+          "pts": 200,
           "per": [
             1,
             1
@@ -4424,19 +4769,19 @@ export default {
           0,
           [
             [
-              1884,
+              1997,
               1
             ],
             [
-              1885,
+              1998,
               1
             ],
             [
-              1886,
+              1999,
               1
             ],
             [
-              1887,
+              2000,
               1
             ]
           ]
@@ -4450,8 +4795,7 @@ export default {
       "kws": [
         "Character",
         "Infantry",
-        "Psyker",
-        "Weirdboy"
+        "Psyker"
       ],
       "flags": {
         "char": 1
@@ -4469,12 +4813,12 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "boyz",
-          "type": "leader"
+          "to": "beast-snagga-boyz",
+          "type": "support"
         },
         {
-          "to": "breaka-boyz",
-          "type": "leader"
+          "to": "boyz",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -4482,58 +4826,11 @@ export default {
           0,
           [
             [
-              1893,
+              2007,
               1
             ],
             [
-              1894,
-              1
-            ]
-          ]
-        ]
-      ]
-    },
-    {
-      "id": "wurrboy",
-      "sid": "d16859d8-eec3-4556-b10a-1bc4e73d7faa",
-      "name": "Wurrboy",
-      "kws": [
-        "Beast Snagga",
-        "Character",
-        "Infantry",
-        "Psyker",
-        "Wurrboy"
-      ],
-      "flags": {
-        "char": 1
-      },
-      "sizes": [
-        {
-          "pts": 60,
-          "per": [
-            1,
-            1
-          ],
-          "default": 1
-        }
-      ],
-      "linked": 1,
-      "leads": [
-        {
-          "to": "beast-snagga-boyz",
-          "type": "leader"
-        }
-      ],
-      "defaults": [
-        [
-          0,
-          [
-            [
-              1895,
-              1
-            ],
-            [
-              1854,
+              2008,
               1
             ]
           ]
@@ -4548,7 +4845,7 @@ export default {
         "Character",
         "Epic Hero",
         "Infantry",
-        "Zodgrod Wortsnagga"
+        "Runtherd"
       ],
       "flags": {
         "char": 1,
@@ -4556,7 +4853,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 50,
           "per": [
             1,
             1
@@ -4576,11 +4873,11 @@ export default {
           0,
           [
             [
-              1896,
+              2009,
               1
             ],
             [
-              1897,
+              2010,
               1
             ]
           ]
@@ -4591,519 +4888,12 @@ export default {
   "detachments": [
     {
       "name": "Blitz Brigade",
-      "sid": "28be3515-baa7-41c1-9a46-81b27c97d722",
-      "dp": 2,
-      "fd": "Reconnaissance",
-      "unique": "WAGONS",
-      "enhancements": [
-        {
-          "name": "Runnin’ Boots",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Blitzkaptin",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Supercharged Squig Oil",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Mek"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Tuff Git",
-          "pts": 5,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Bully Boyz",
-      "sid": "87313610-665a-4302-ac99-cd4b37608172",
-      "dp": 2,
-      "fd": "Purge the Foe",
-      "enhancements": [
-        {
-          "name": "Tellyporta",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss in Mega Armour"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Big Gob",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss",
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Da Biggest Boss",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss",
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "’Eadstompa",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss",
-                "Infantry"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Da Big Hunt",
-      "sid": "495f699c-39b1-4ad2-9e31-624efbf8ff9a",
-      "dp": 2,
-      "fd": "Purge the Foe",
-      "enhancements": [
-        {
-          "name": "Glory Hog",
-          "pts": 30,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Beastboss on Squigosaur"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Skrag Every Stash!",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Beast Snagga"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Proper Killy",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Beast Snagga"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Surly As A Squiggoth",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Beastboss on Squigosaur"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Dread Mob",
-      "sid": "4fa77afa-6086-4703-b2e6-0f61e2b07a04",
-      "dp": 2,
-      "fd": "Priority Assets",
-      "enhancements": [
-        {
-          "name": "Smoky Gubbinz",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Mek"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Supa-glowy Fing",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Mek"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Press It Fasta!",
-          "pts": 35,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Mek"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Gitfinder Gogglez",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Mek"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Equatorial Hordes",
-      "sid": "e12bd5f8-ce62-4a64-9a40-ca28b425c248",
+      "sid": "0e5059d2-a59b-4e2f-bb95-ac173b814600",
       "dp": 1,
-      "fd": "Disruption",
-      "enhancements": [
-        {
-          "name": "Kunnin’ Hunta",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss",
-                "Infantry"
-              ]
-            },
-            {
-              "kw": [
-                "Beastboss"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Unkillable Scourge",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Beastboss"
-              ]
-            },
-            {
-              "kw": [
-                "Infantry",
-                "Warboss"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Freebooter Krew",
-      "sid": "b187c79e-2b20-46b3-94fc-51fadb86595f",
-      "dp": 2,
       "fd": "Take and Hold",
       "enhancements": [
         {
-          "name": "Da Kaptin",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Warboss"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Git-Spotter Squig",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Bionik Workshop",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Big Mek"
-              ]
-            },
-            {
-              "kw": [
-                "Painboy"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Razgit’s Magik Map",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Green Tide",
-      "sid": "953d5dae-75e4-4f1c-a13d-9ec75a528187",
-      "dp": 3,
-      "fd": "Take and Hold",
-      "enhancements": [
-        {
-          "name": "Ferocious Show Off",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Brutal But Kunnin’",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Bloodthirsty Belligerence",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Raucous Warcaller",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Kult of Speed",
-      "sid": "41229cb5-ce01-4126-acdc-c658ecb9fe7e",
-      "dp": 2,
-      "fd": "Disruption",
-      "enhancements": [
-        {
-          "name": "Wazblasta",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Deffkilla Wartrike"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Fasta Than Yooz",
-          "pts": 35,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Squig-hide Tyres",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Deffkilla Wartrike"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Speed Makes Right",
-          "pts": 25,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "More Dakka!",
-      "sid": "7541781b-1b85-47a4-9dda-e1e284d5fdb5",
-      "dp": 1,
-      "fd": "Disruption",
-      "enhancements": [
-        {
-          "name": "Da Gobshot Thunderbuss",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Dead Shiny Shootas (Upgrade)",
-          "pts": 15,
-          "type": "upgrade",
-          "nonCharOk": 1,
-          "limit": 3,
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ],
-              "kw": [
-                "Infantry"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Rollin' Deff",
-      "sid": "bf9ea326-64fe-4ded-82c7-093f96a4b619",
-      "dp": 1,
-      "fd": "Priority Assets",
-      "unique": "WAGONS",
-      "enhancements": [
-        {
-          "name": "Boarding Ramps (Upgrade)",
+          "name": "Boss Boomer (Upgrade)",
           "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
@@ -5118,7 +4908,7 @@ export default {
         },
         {
           "name": "Targetin’ Gizmos (Upgrade)",
-          "pts": 15,
+          "pts": 10,
           "type": "upgrade",
           "nonCharOk": 1,
           "limit": 3,
@@ -5133,49 +4923,130 @@ export default {
       ]
     },
     {
-      "name": "Speedwaaagh!",
-      "sid": "7a72a5a0-4ac8-40ea-8d31-d8fb2f14e97c",
-      "dp": 2,
-      "fd": "Reconnaissance",
+      "name": "Brute Bosses",
+      "sid": "0f071f29-4547-4912-b020-d667768633b4",
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
-          "name": "Kustom Shokk Box",
-          "pts": 10,
-          "type": "miniature",
-          "req": [
-            {
-              "kw": [
-                "Deffkilla Wartrike"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Dakkamek",
+          "name": "Surly as a Squiggoth",
           "pts": 25,
           "type": "miniature",
           "req": [
             {
               "kw": [
-                "Mek"
+                "Warboss",
+                "Infantry"
               ]
             }
           ]
         },
         {
-          "name": "Supa-Burny Fuel",
-          "pts": 15,
+          "name": "Brutal But Kunnin’",
+          "pts": 30,
           "type": "miniature",
           "req": [
             {
               "kw": [
-                "Deffkilla Wartrike"
+                "Warboss"
               ]
             }
           ]
         },
         {
-          "name": "Master Meknologist",
+          "name": "Blitzboss",
+          "pts": 20,
+          "type": "miniature"
+        },
+        {
+          "name": "Proper Killy",
+          "pts": 15,
+          "type": "miniature"
+        },
+        {
+          "name": "Da Gobshot Thunderbuss",
+          "pts": 20,
+          "type": "miniature"
+        },
+        {
+          "name": "Morgog’s Finkin’ Cap",
+          "pts": 50,
+          "type": "miniature"
+        }
+      ]
+    },
+    {
+      "name": "Bully Boyz",
+      "sid": "1d37b096-4033-427c-81eb-0c1f17f6e8ae",
+      "dp": 1,
+      "fd": "Purge the Foe",
+      "enhancements": [
+        {
+          "name": "Wimp-kickaz (Upgrade)",
+          "pts": 15,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        },
+        {
+          "name": "Tellyporta Boss",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Mega Armour"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Da Big Hunt",
+      "sid": "a8c9d0d1-fb4d-456b-a7e0-5b438f11df28",
+      "dp": 1,
+      "fd": "Purge the Foe",
+      "enhancements": [
+        {
+          "name": "It Came from da Drops",
+          "pts": 20,
+          "type": "miniature"
+        },
+        {
+          "name": "Glory Hog",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Beast Snagga"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dread Mob",
+      "sid": "aa4d4b3d-e148-4807-9c97-cfd753a7b8ed",
+      "dp": 1,
+      "fd": "Purge the Foe",
+      "enhancements": [
+        {
+          "name": "Cybork Boosta",
+          "pts": 10,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Big Mek"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Dreadherder",
           "pts": 20,
           "type": "miniature",
           "req": [
@@ -5189,25 +5060,232 @@ export default {
       ]
     },
     {
-      "name": "Taktikal Brigade",
-      "sid": "50193e18-32f4-42d3-b64b-9dd2395d39c2",
+      "name": "Flyboyz",
+      "sid": "2dd2c66d-0dea-44fd-81c6-26d869796c62",
       "dp": 1,
       "fd": "Reconnaissance",
       "enhancements": [
         {
-          "name": "Slippery Git",
+          "name": "Impulsive Recon (Upgrade)",
+          "pts": 15,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ],
+              "kw": [
+                "Aircraft"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Flyboss (Upgrade)",
+          "pts": 20,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ],
+              "kw": [
+                "Aircraft"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Green Tide",
+      "sid": "ba6295df-4f61-4f43-9efb-3010eb9c88c3",
+      "dp": 1,
+      "fd": "Take and Hold",
+      "enhancements": [
+        {
+          "name": "Ferocious Show-off",
           "pts": 15,
           "type": "miniature",
           "req": [
             {
+              "fac": [
+                "Orks"
+              ],
               "kw": [
-                "Infantry",
+                "Infantry"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "'Ardboyz (Upgrade)",
+          "pts": 25,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        }
+      ]
+    },
+    {
+      "name": "Kult of Speed",
+      "sid": "1c84ef6c-4164-4a64-abdf-8577f64d629a",
+      "dp": 1,
+      "fd": "Reconnaissance",
+      "enhancements": [
+        {
+          "name": "Smoky Gubbinz (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3,
+          "req": [
+            {
+              "kw": [
+                "Speed Freeks"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Competitive Streak",
+          "pts": 15,
+          "type": "miniature"
+        }
+      ]
+    },
+    {
+      "name": "Madcap Meks",
+      "sid": "beaf8d96-1012-484c-abaa-afe3b0911236",
+      "dp": 1,
+      "fd": "Disruption",
+      "enhancements": [
+        {
+          "name": "Mekwaaagh! Mastermind",
+          "pts": 30,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Big Mek"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Temperamental Shokka (Upgrade)",
+          "pts": 20,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        },
+        {
+          "name": "Enhanced Runt-maw (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        }
+      ]
+    },
+    {
+      "name": "Runt Swarm",
+      "sid": "623dee62-7c5e-4239-83a6-cb74adeb3afe",
+      "dp": 1,
+      "fd": "Priority Assets",
+      "enhancements": [
+        {
+          "name": "Extra Sneaky (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        },
+        {
+          "name": "Minefield Detail (Upgrade)",
+          "pts": 10,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        }
+      ]
+    },
+    {
+      "name": "Shoota Boyz",
+      "sid": "7e37200a-f6d0-4a2b-9fc1-ad9f16cf709a",
+      "dp": 1,
+      "fd": "Purge the Foe",
+      "enhancements": [
+        {
+          "name": "Targetin' Squigs",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Big Mek"
+              ]
+            },
+            {
+              "kw": [
                 "Warboss"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Supa-glowy Fing",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ],
+              "kw": [
+                "Infantry"
               ]
             }
           ],
           "exclKw": [
-            "Mega Armour"
+            "Psyker"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Taktikal Brigade",
+      "sid": "1ac21eaa-018a-4d1c-9ed3-b49532c30bed",
+      "dp": 1,
+      "fd": "Take and Hold",
+      "enhancements": [
+        {
+          "name": "Throat-slittas (Upgrade)",
+          "pts": 15,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        },
+        {
+          "name": "Kill Kommanda",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Big Mek"
+              ]
+            },
+            {
+              "kw": [
+                "Warboss",
+                "Infantry"
+              ]
+            }
           ],
           "attach": [
             {
@@ -5215,9 +5293,53 @@ export default {
               "type": "leader"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "War Horde",
+      "sid": "597e09eb-b32e-47de-bbf6-3765d43579ca",
+      "dp": 3,
+      "fd": "Take and Hold",
+      "enhancements": [
+        {
+          "name": "Follow Me Ladz",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ]
+            }
+          ]
         },
         {
-          "name": "Mork’s Kunnin’",
+          "name": "Headwoppa's Killchoppa",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Da Boss is Watchin'",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kunnin’ But Brutal",
           "pts": 20,
           "type": "miniature",
           "req": [
@@ -5231,55 +5353,91 @@ export default {
       ]
     },
     {
-      "name": "War Horde",
-      "sid": "7100d457-ec86-46aa-b323-934394530a9e",
-      "dp": 3,
-      "fd": "Take and Hold",
+      "name": "Wreckas",
+      "sid": "57d116b1-ecfb-40f9-bf73-a99ff5b024e8",
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
-          "name": "Follow Me Ladz",
+          "name": "Supa-snazz Dakka (Upgrade)",
+          "pts": 20,
+          "type": "upgrade",
+          "nonCharOk": 1,
+          "limit": 3
+        },
+        {
+          "name": "Kaptin's Hat",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "kw": [
+                "Big Mek"
+              ]
+            },
+            {
+              "kw": [
+                "Warboss",
+                "Infantry"
+              ]
+            }
+          ],
+          "attach": [
+            {
+              "to": "flash-gitz",
+              "type": "leader"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Wurrband",
+      "sid": "89c022fe-0f5b-4ff4-9b10-a17665571fdb",
+      "dp": 1,
+      "fd": "Disruption",
+      "enhancements": [
+        {
+          "name": "'Eadbanger",
+          "pts": 15,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Orks"
+              ],
+              "kw": [
+                "Psyker"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Warphead",
           "pts": 25,
           "type": "miniature",
           "req": [
             {
               "fac": [
                 "Orks"
+              ],
+              "kw": [
+                "Psyker"
               ]
             }
           ]
         },
         {
-          "name": "Headwoppa’s Killchoppa",
-          "pts": 20,
+          "name": "Da Krunch",
+          "pts": 10,
           "type": "miniature",
           "req": [
             {
               "fac": [
                 "Orks"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Kunnin’ but Brutal",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Supa-Cybork Body",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Orks"
+              ],
+              "kw": [
+                "Psyker"
               ]
             }
           ]

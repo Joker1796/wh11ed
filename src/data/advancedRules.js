@@ -133,6 +133,15 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 ▪ **Tactical Disembark:** select your unit to make a **normal** or **advance move**.
 ▪ **Combat Disembark:** your unit is **[gloss:battle-shocked:battle-shocked]** and, until the end of the turn, is not **eligible to declare a charge**.`,
           seeAlso: ['Hazard Rolls 06.03'],
+          children: [
+            {
+              id: 'section-18-04-01',
+              sectionNum: '18.04.01',
+              title: 'Rapid Disembark And Limitations',
+              fromApp: true,
+              body: `When a unit uses the **rapid disembark** mode after its TRANSPORT makes an **[gloss:ingress-move:ingress move]**, the models must follow the same rules and restrictions as that TRANSPORT did. For example, if that TRANSPORT had to be set up more than 8" from all enemy units and not within your opponent's deployment zone, the same applies to the disembarking unit.`,
+            },
+          ],
         },
         {
           id: 'section-18-05',
@@ -628,6 +637,15 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ▪ **Стремительная высадка:** до конца хода ваш отряд не может объявлять нападение.
 ▪ **Тактическая высадка:** выберите ваш отряд для совершения **обычного манёвра** или **продвижения**.
 ▪ **Боевая высадка:** ваш отряд находится **[gloss:battle-shocked:в боевом шоке]** и до конца хода не может объявлять нападение.`,
+          children: [
+            {
+              id: 'section-18-04-01',
+              sectionNum: '18.04.01',
+              title: 'Стремительная высадка и ограничения',
+              fromApp: true,
+              body: `Когда отряд использует режим **стремительной высадки** после того, как его TRANSPORT совершил **[gloss:ingress-move:манёвр прибытия]**, модели должны следовать тем же правилам и ограничениям, которым следовал этот TRANSPORT. Например, если этот TRANSPORT должен был быть расставлен далее 8" от всех вражеских отрядов и не в зоне развёртывания вашего оппонента, то же самое применяется и к высаживающемуся отряду.`,
+            },
+          ],
         },
         {
           id: 'section-18-05',

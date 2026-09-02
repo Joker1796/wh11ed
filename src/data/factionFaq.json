@@ -433,7 +433,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -952,7 +952,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -1131,7 +1131,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Keywords section**: Add '**MOBILE**'.\n▪ **All Secrets Revealed Ability** – Change to: ‘**Mist-wreathed Shadow Realms**: in your Command phase, if this unit is **unengaged**, you can use this ability. If you do: ▫ Place this unit in **strategic reserves**. ▫ This unit can make an **ingress move** in your next Movement phase (including in your first turn).’\n▪ **Martial Exemplar (Aura) Ability** – Change to: ‘**Martial Exemplar (Aura)**: While a friendly **ADEPTUS ASTARTES** unit is within 6\" of this model, each time a model in that unit makes a melee attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.'\n▪ **Primarch of the First Legion Ability** – Change to: ‘**Primarch of the First Legion**: At the start of your Command phase, select two Primarch of the First Legion abilities. Until the start of your next Command phase, this model has those abilities.’\n▪ **The Emperor’s Shield Ability** – Change to: ‘Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll.’\n▪ **Fealty weapon profile**: change to: Fealty - Strike[LETHAL HITS] Range - Melee A - 8 WS - 2+ S - 12 AP - -4 D - 4 Fealty - Sweep[SUSTAINED HITS 1] Range - Melee A - 16 WS - 2+ S - 6 AP - -3 D - 2",
+        "body": "▪ **Keywords section**: Add '**MOBILE**'.\n▪ **All Secrets Revealed Ability** – Change to: ‘**Mist-wreathed Shadow Realms**: in your Command phase, if this unit is **unengaged**, you can use this ability. If you do:\n▫ Place this unit in **strategic reserves**.\n▫ This unit can make an **ingress move** in your next Movement phase (including in your first turn).’\n▪ **Martial Exemplar (Aura) Ability** – Change to: ‘**Martial Exemplar (Aura)**: While a friendly **ADEPTUS ASTARTES** unit is within 6\" of this model, each time a model in that unit makes a melee attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.'\n▪ **Primarch of the First Legion Ability** – Change to: ‘**Primarch of the First Legion**: At the start of your Command phase, select two Primarch of the First Legion abilities. Until the start of your next Command phase, this model has those abilities.’\n▪ **The Emperor’s Shield Ability** – Change to: ‘Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll.’\n▪ **Fealty weapon profile**: change to: Fealty - Strike[LETHAL HITS] Range - Melee A - 8 WS - 2+ S - 12 AP - -4 D - 4 Fealty - Sweep[SUSTAINED HITS 1] Range - Melee A - 16 WS - 2+ S - 6 AP - -3 D - 2",
         "header": "Lion El’Jonson"
       },
       {
@@ -1166,7 +1166,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘**Stasis Bomb**: At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT/Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase:\n▪ While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6: ▫ On a 1‑4, that unit suffers D3 **mortal wounds** and that unit has ‑2\" **M**. ▫ On a 5‑6, that unit suffers 2D3 **mortal wounds** and that unit has ‑3\" **M**.",
+        "body": "Change to: ‘**Stasis Bomb**: At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT/Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase:\n▪ While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6:\n▫ On a 1‑4, that unit suffers D3 **mortal wounds** and that unit has ‑2\" **M**.\n▫ On a 5‑6, that unit suffers 2D3 **mortal wounds** and that unit has ‑3\" **M**.",
         "header": "Ravenwing Dark Talon, Stasis Bomb Ability"
       },
       {
@@ -1551,7 +1551,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -2035,7 +2035,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -2584,7 +2584,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -3103,7 +3103,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following: ▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with: ▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon ▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
+        "body": "▪ **Ranged Weapons**: Add the following profile: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: Add the following profile: **Master‑crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Wargear Options**: Add the following:\n▫ All models can each have their Bolt Pistol and Vanguard Veteran Weapon replaced with:\n▫ 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon\n▫ For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 Plasma Pistol.’",
         "header": "Vanguard Veteran Squad with Jump Packs"
       },
       {
@@ -3482,7 +3482,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ Core Abilities section: Remove 'Leader', add 'Support'\n▪ Keywords section: Remove ‘**INFANTRY**’, add ‘**VEHICLE**’.\n▪ Add new ability: ‘**Data-severed**: If there are no **KASTELAN ROBOT** models in this unit: ▫ This unit loses **VEHICLE**. ▫ This unit has **INFANTRY**.'",
+        "body": "▪ Core Abilities section: Remove 'Leader', add 'Support'\n▪ Keywords section: Remove ‘**INFANTRY**’, add ‘**VEHICLE**’.\n▪ Add new ability: ‘**Data-severed**: If there are no **KASTELAN ROBOT** models in this unit:\n▫ This unit loses **VEHICLE**.\n▫ This unit has **INFANTRY**.'",
         "header": "Cybernetica Datasmith"
       },
       {
@@ -3842,7 +3842,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Acrobatic Escape Ability**: Change to: ▫ At the end of the Fight phase, if this unit is **engaged**, this unit can make a **fall-back move** of up to D6\". ▫ At the end of your opponent’s turn, if this unit is more than 3\" from all enemy units, you can use this ability. If you do: ▫ Place this unit in **strategic reserves**. ▫ This unit must make an **ingress move** in your next Movement phase (including in your first turn).\n▪ **Reign of Confusion Ability**: Change to: 'Once per turn, when your opponent targets a unit from their army within 12” of this model with a **stratagem**, this model can use this ability. If you do increase the CP cost of that use of that **stratagem** by 1CP.'",
+        "body": "▪ **Acrobatic Escape Ability**: Change to:\n▫ At the end of the Fight phase, if this unit is **engaged**, this unit can make a **fall-back move** of up to D6\".\n▫ At the end of your opponent’s turn, if this unit is more than 3\" from all enemy units, you can use this ability. If you do:\n▫ Place this unit in **strategic reserves**.\n▫ This unit must make an **ingress move** in your next Movement phase (including in your first turn).\n▪ **Reign of Confusion Ability**: Change to: 'Once per turn, when your opponent targets a unit from their army within 12” of this model with a **stratagem**, this model can use this ability. If you do increase the CP cost of that use of that **stratagem** by 1CP.'",
         "header": "Callidus Assassin"
       },
       {
@@ -4185,7 +4185,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ Desecrator Laser Destructor weapon Change to **[DEVASTATING WOUNDS: MONSTER/VEHICLE]**\n▪ **Obsessive Ruthlessness Ability** Change to: ‘This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s: ▫ **BS**. ▫ **Hit rolls** and **wound rolls**.’",
+        "body": "▪ Desecrator Laser Destructor weapon Change to **[DEVASTATING WOUNDS: MONSTER/VEHICLE]**\n▪ **Obsessive Ruthlessness Ability** Change to: ‘This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s:\n▫ **BS**.\n▫ **Hit rolls** and **wound rolls**.’",
         "header": "Knight Desecrator"
       },
       {
@@ -5719,7 +5719,7 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Keywords Section:** Add ‘**NOBLE**’.\n▪ **Ressurection Orb Ability:** Change to: ‘(Once per battle, per unit) At the end of any phase, you can use this ability. If you do, select up to one friendly **NECRONS INFANTRY/NECRONS MOUNTED** unit within 6\" of this unit. That unit **resurrects**: ▫ When a unit **resurrects**, that unit’s Reanimation Protocols activate, but that unit **heals** D6 wounds (instead of D3 wounds). You cannot **resurrect** more than one unit per turn.’",
+        "body": "▪ **Keywords Section:** Add ‘**NOBLE**’.\n▪ **Ressurection Orb Ability:** Change to: ‘(Once per battle, per unit) At the end of any phase, you can use this ability. If you do, select up to one friendly **NECRONS INFANTRY/NECRONS MOUNTED** unit within 6\" of this unit. That unit **resurrects**:\n▫ When a unit **resurrects**, that unit’s Reanimation Protocols activate, but that unit **heals** D6 wounds (instead of D3 wounds). You cannot **resurrect** more than one unit per turn.’",
         "header": "Catacomb Command Barge"
       },
       {
@@ -5819,10 +5819,6 @@
       {
         "pub": "Imperial Armour: Orks",
         "date": "17 June 2026"
-      },
-      {
-        "pub": "Codex: Orks",
-        "date": "26 August 2026"
       }
     ],
     "entries": [
@@ -5830,266 +5826,6 @@
         "type": "errata",
         "body": "Add 'FRAME'.",
         "header": "Gargantuan Squiggoth, Keywords Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change first paragraph to: ‘If your Army Faction is **ORKS**, once per battle, at the start of your Command phase, you can call a Waaagh!. If you do, until the start of your next Command phase, the Waaagh! is active for your army and:’",
-        "header": "Waaagh! Army Rule"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Effect: Your unit can make a **surge move** of up to D6\".'",
-        "header": "Blitz Brigade Detachment, Yooz In Trouble Now Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.’",
-        "header": "Bully Boyz Detachment, Hulking Brutes Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘At the start of your Command phase, in a turn in which you have not called a Waaagh!, if you have one or more **WARBOSS** models on the battlefield (or embarked within a **TRANSPORT** that is on the battlefield), you can call a Waaagh! for a second time this battle. When doing so, that second Waaagh! only counts as having been called for **WARBOSS**, **NOBZ** and **MEGANOBZ** units from your army.’",
-        "header": "Bully Boyz Detachment, Da Boss Is Watchin’ Detachment Rule"
-      },
-      {
-        "type": "errata",
-        "body": "Change first paragraph to: ‘At the start of your Command phase, select one **MONSTER**, **VEHICLE** or **CHARACTER** unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Prey:' Change first bullet point to:\n▪ When a friendly **BEAST SNAGGA** unit declares a charge, If your Prey is within 12\" of that unit, you can use this part of this ability. If you do:\n▪ That **BEAST SNAGGA** unit can re-roll that **charge roll**.\n▪ That **BEAST SNAGGA** unit __must__ end that **charge move** **engaged** with your Prey.",
-        "header": "Da Big Hunt Detachment, Da Hunt Is On Detachment Rule"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'Until the end of the phase, your unit is eligible to charge in a turn in which it Advanced or Fell Back. In addition, you can re-roll **charge rolls** made for your unit. If you do, your unit must end that **charge move** engaged with your Prey.'",
-        "header": "Da Big Hunt Detachment, Dat One's Even Bigga! Stratagem, Effect section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'If a weapon equipped by a model from your army has the **[HAZARDOUS]** ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of 1-3.'",
-        "header": "Dread Mob Detachment, Try Dat Button! Detachment Rule, Last Paragraph"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Each time an attack targets a **BOYZ** unit from your army, models in that unit have a 6+ invulnerable save against that attack. Each time an attack targets a **BOYZ** unit from your army that contains 10 or more models, models in that unit have a 5+ invulnerable save against that attack.'",
-        "header": "Green Tide Detachment, Mob Mentality Detachment Rule"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Until the end of the phase, each time your unit declares a charge, add 1 to the Charge roll and, if your unit contains 10 or more models, you can re-roll the Charge roll.",
-        "header": "Green Tide Detachment, Tide of Muscle Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: WHEN: Your opponent’s Shooting phase, when an enemy unit that targeted a friendly **unengaged BOYZ** unit this phase has shot. TARGET: That **BOYZ** unit. EFFECT: Your unit can make a **surge move** of up to D6\".'",
-        "header": "Green Tide Detachment, Go Get ’Em! Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘**SPEED FREEKS** units from your army are eligible to shoot and declare a charge in a turn in which they Advanced or Fell Back.’",
-        "header": "Kult of Speed Detachment, Adrenaline Junkies Detachment Rule"
-      },
-      {
-        "type": "errata",
-        "body": "Change 9\" to 8\".",
-        "header": "Kult of Speed Detachment, More Gitz Over 'Ere! Stratagem, Target Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Your unit can make a Normal or Fall Back move before its Deadly Demise ability is resolved, and before any embarked units perform an **emergency disembark move**. When making this move, your unit can move over enemy units (excluding **MONSTERS** and **VEHICLES**) as if they were not there.'",
-        "header": "War Horde Detachment, Careen! Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Add 'FRAME'.",
-        "header": "Battlewagon, Stompa, Trukk – Keywords Section"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Profile**: Change **M** and **OC** to '-'.",
-        "header": "Blitza‑bommer, Burna‑bommer, Dakkajet and Wazbom Blastajet"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.’",
-        "header": "Tankbustas, Breaka Boyz, Kommandos, Squighog Boyz – Bomb Squigs Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘This model has a transport capacity of 22 **ORKS INFANTRY** models. If this model is equipped with a killkannon, it has a transport capacity of 12 **ORKS INFANTRY** models. Each **MEGA ARMOUR** or **JUMP PACK** model takes up the space of 2 models.The **GHAZGHKULL THRAKA** model takes up the space of 4 models.’",
-        "header": "Battlewagon, Transport Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.'",
-        "header": "Beastboss on Squigosaur, Single-Minded Predator Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘You can re‑roll Advance rolls made for this model’s unit. In addition, each time this model’s unit makes a Normal, Advance or Fall Back move, models in that unit can move through models and terrain features. When doing so, they can move within Engagement Range of such models but cannot end that move within Engagement Range of them, and any Desperate Escape test is automatically passed.’",
-        "header": "Big Mek, Shokk-boosta Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'At the end of your opponent’s Fight phase, select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for that unit: On a 4+, that unit suffers D6 mortal wounds.'",
-        "header": "Blitza-Bommer, Boom Bomb ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Red Skulls Kommandos ability**: Change to 'This unit has +1 **Sv** against ranged attacks.'\n▪ **Kunnin' Infiltrator ability**: Change to '**Kunnin' Infiltrator (Once per battle, per army)**: In your Movement phase, if this unit is **unengaged**, you can use this ability. If you do: ▫Place this unit in **strategic reserves**. ▫This unit has **Deep Strike**. ▫ This unit must make an **ingress move** this phase (including in your first turn).'",
-        "header": "Boss Snikrot"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'At the end of your opponent’s Fight phase, you can select one **visible** enemy unit (excluding **Lone Operative** units) within 24\" of this unit:\n▪ Friendly **ORKS** units' ranged attacks that target that enemy unit have **[IGNORES COVER]** until the end of your next turn.\n▪ Roll one D6 for each model in that enemy unit:\n▪ For each 6, that enemy unit suffers 1 **mortal wound**. '",
-        "header": "Burna-Bommer, Burna Bomb Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds.’",
-        "header": "Deff Dread, Piston-driven Brutality Ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Prophet of da Great Waaagh! ability** Change to: ‘While this unit is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll and add 1 to the Wound roll and if the Waaagh! is active for your army, a Critical Hit is scored on a successful unmodified Hit roll of 5+.\n▪ **Ghazghkull’s Waaagh! Banner (Aura) Ability** Change to: ‘While a friendly **ORKS** unit is within 12\" of Makari, if the Waaagh! is active for your army, melee weapons equipped by models in that unit have the **[LETHAL HITS]** ability.’\n▪ **Leader section** Change to: ‘This unit can be attached to the following units: **BOYZ**, **MEGANOBZ**, **NOBZ**\n▪ **Invulnerable Save Section, Footnote** Change to: ‘While a friendly Makari model is on the battlefield, you cannot re‑roll **save rolls** for this unit.’",
-        "header": "Ghazghkull Thraka"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘At the start of your Movement phase, roll one D6 for each objective marker you control that has one or more units from your army with this ability within range of it (excluding Battle-shocked units). If one or more of those rolls is a 4+, you gain 1CP.’",
-        "header": "Gretchin, Thievin’ Scavengers ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Keywords**: Remove '**VEHICLE**', add '**MONSTER**'.\n▪ **Saw Blades weapon**: Change **AP** to '-2'.",
-        "header": "Hunta Rig, Kill Rig"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Each time this unit is selected to shoot, you can roll one D6:\n▪ On a 1‑2, this unit suffers D3 mortal wounds.\n▪ On a 3‑4, until the end of the phase, add 1 to the Strength characteristic of ranged weapons equipped by models in this unit.\n▪ On a 5‑6, until the end of the phase, add 1 to the Attacks characteristic of ranged weapons equipped by models in this unit.’",
-        "header": "Killa Kans, Shooty Power Trip Ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Sneaky Gitz Ability** Change to: 'Enemy units cannot target this unit with **snap shooting** attacks.'\n▪ **Patrol Squad Section** Add new Patrol Squad section with: ‘At the start of the Declare Battle Formations step this unit can be split into two units, each containing five models. (when splitting a unit in this way, make a note of which models form each of the two new units. If you are splitting a unit that is equipped with 1 bomb squig and/or 1 distraction grot, only one of the new units can use that ability during the battle – make a note of which of the new units this will be).’",
-        "header": "Kommandos"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘While the Waaagh! is active for your army, models in this unit have the Feel No Pain 5+ ability.’",
-        "header": "Meganobz, Krumpin’ Time Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Before selecting targets for one or more models equipped with this weapon, roll one D6 to determine which profile models equipped with this weapon will make attacks with, comparing the result with the numbers shown.",
-        "header": "Mek Gunz, Bubblechukka weapon ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Each time this model makes a ranged attack, if the Waaagh! is active for your army, add 1 to the Hit roll.’",
-        "header": "Morkanaut, Big an’ Shooty Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘This model has a transport capacity of 22 **ORKS INFANTRY** models. Each **MEGA ARMOUR** or **JUMP PACK** model takes up the space of 2 models. The **GHAZGHKULL THRAKA** model takes up the space of 4 models.’",
-        "header": "Stompa, Transport Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘While the Waaagh! is active for your army, add 4 to the Attacks characteristic of this model’s melee weapons.’",
-        "header": "Warboss, Da Biggest and da Best Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘While the Waaagh! is active for your army, this model’s ’uge choppa has a Damage characteristic of 3.’",
-        "header": "Warboss in Mega Armour, Dead Brutal Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change 9\" to 8\".",
-        "header": "Weirdboy, Da Jump Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘While the Waaagh! is active for your army, add 6\" to the Move characteristic of models in this model’s unit.’",
-        "header": "Zodgrod Wortsnagga, Special Dose Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Krushin’ Impact",
-        "header": "Crushing Impact Stratagem, Name"
-      },
-      {
-        "type": "errata",
-        "body": "Target Section Change 9\" to 8\".",
-        "header": "Dread Mob Detachment, Conniving Runts Stratagem"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘WHEN: Your opponent’s Shooting phase, when an enemy unit that targeted a friendly **unengaged BOYZ** unit this phase has shot. TARGET: That **BOYZ** unit. EFFECT: Your unit can make a **surge move** of up to D6\".'",
-        "header": "Green Tide Detachment, Go Get ’Em! Stratagem"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘While an enemy unit (excluding **MONSTER/VEHICLE** units) is within 6\" of this unit, when that enemy unit is **selected to shoot**, that unit’s targets have the **benefit of cover** until that unit has shot.'",
-        "header": "Boomdakka Snazzwagon, Billowing Fumes Ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ Weapon Profiles: Add the following **Kombi‑rokkit** RANGE 24\" A1 BS 5+ S 10 AP‑2 D3 **Kombi‑shoota** RANGE 24\" A2 BS5+ S4 AP0 D1 **Kustom Shoota** RANGE 18\" A4 BS5+ S4 AP0 D1 **[RAPID FIRE 2]**\n▪ Wargear Options: Change to:\n▪ The Boss Nob’s big choppa can be replaced with 1 power klaw.\n▪ The Boss Nob’s big choppa and slugga can be replaced with 1 kombi‑weapon and 1 close combat weapon.\n▪ The Boss Nob can have its big choppa replaced with one of the following: ▫ 1 big choppa and 1 kustom shoota (this model’s big choppa cannot be replaced) ▫ 1 big choppa, 1 kombi‑rokkit and 1 kombi‑shoota (this model’s big choppa cannot be replaced)\n▪ Any number of Boyz can each be equipped with 1 shoota.\n▪ For every 10 models in this unit, 1 Boy not equipped with 1 shoota can have its choppa and slugga replaced with one of the following: ▫ 1 big shoota and 1 close combat weapon ▫ 1 rokkit launcha and 1 close combat weapon\n▪ Bodyguard Section Remove this section.",
-        "header": "Boyz"
-      },
-      {
-        "type": "errata",
-        "body": "▪ Unit Composition Change to: ▫ 0‑1 Runtherd and 10 Gretchin OR ▫ 0‑2 Runtherds and 20 Gretchin",
-        "header": "Gretchin"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks made with a rivet kannon. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes a ranged attack, subtract 1 from the Hit roll.'",
-        "header": "Kustom Boosta‑blasta, Rivetin’ Dakka Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘In your Movement phase, when this unit is selected to make an **advance move**, you can use this ability. If you do:\n▪ That move has no **maximum distance**.\n▪ This unit can move through all types of model (including enemy models and **MONSTER/VEHICLE** models).\n▪ After moving, your unit must be more than 8\" horizontally from all enemy units.'",
-        "header": "Shokkjump Dragsta, Shokk Tunnel Ability"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Weapon Profiles:** Add the following: Kustom Shoota RANGE 18\" A4 BS5+ S4 AP0 D 1 **[RAPID FIRE 2]** Kustom Choppa RANGE Melee A6 WS2+ S8 AP‑2 D2 **[CLEAVE 1]**\n▪ **Wargear Options:** Add the following: ‘This model can have its kombi‑weapon, twin sluggas and big choppa replaced with 1 kustom choppa and 1 kustom shoota.’",
-        "header": "Warboss"
-      },
-      {
-        "type": "qa",
-        "q": "When using the Green Tide Mob Mentaility detachment rule, do I switch to 6+ **InSv** partway through a unit’s attacks when the number of models in the target unit drops below 10 models?",
-        "a": "No, the number of models in the unit when it is targeted determines the unit’s **InSv** until those attacks are resolved."
-      },
-      {
-        "type": "qa",
-        "q": "If I attach a Big Mek to a Mek Gunz unit, does the unit now suffer 1 mortal wound for each failed hazard roll, because each model in the unit is now not a **MONSTER/VEHICLE** model?",
-        "a": "Yes."
-      },
-      {
-        "type": "qa",
-        "q": "If a unit has an ability that checks if the Waaagh! is active for your army in order for that ability to take effect (e.g. the Meganobz’ Krumpin’ Time ability), does that ability take effect if another rule makes the Waaagh! active for that unit (e.g. the Bully Boyz Detachment rule)?",
-        "a": "Yes."
-      },
-      {
-        "type": "qa",
-        "q": "If a model has an ability that triggers when you call a Waaagh! and that model is embarked within a **TRANSPORT** when this happens (e.g. a Warboss’ Da Biggest and da Best ability), does that ability take effect?",
-        "a": "Yes."
-      },
-      {
-        "type": "qa",
-        "q": "When using the Conniving Runts Stratagem, to be able to make the Normal move as part of the Stratagem, do I need to roll a 4+ and have inflicted any mortal wounds?",
-        "a": "No."
-      },
-      {
-        "type": "qa",
-        "q": "In the Effect section of the Go Get ’Em! Stratagem there is an additional effect if my unit contains 10 or more models. When do I check if my unit has 10 or more models?",
-        "a": "This is checked after the attacking unit has shot."
-      },
-      {
-        "type": "qa",
-        "q": "Can a unit equipped with multiple Bomb Squigs use its Bomb Squig ability more than once each phase?",
-        "a": "No."
       }
     ]
   },

@@ -51,6 +51,7 @@ export default {
       'Эта модель может быть снаряжена до 6 seeker missiles.',
       '2 burst cannons этой модели можно заменить на 2 cyclic ion blasters.',
     ],
+    loadout: '**Эта модель вооружена:** 2 burst cannons; 2 missile pods; twin heavy rail cannon; armoured hull.',
   },
 
   'breacher-team': {
@@ -69,6 +70,7 @@ export default {
     options: [
       'Breacher Fire Warrior Shas’ui может быть снаряжён до двух из следующего, допускаются дубликаты:\n▪ 1 guardian drone (дубликаты этого снаряжения недопустимы)\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Каждая модель вооружена:** pulse blaster; pulse pistol; close combat weapon.',
   },
 
   'broadside-battlesuits': {
@@ -89,6 +91,7 @@ export default {
       'Любое число моделей может быть снаряжено до двух из следующего, допускаются дубликаты:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 missile drone\n▪ 1 shield drone',
       '* Ни одна модель не может быть снаряжена одновременно twin plasma rifle и twin smart missile system.',
     ],
+    loadout: '**Каждая модель вооружена:** heavy rail rifle; crushing bulk.',
   },
 
   'cadre-fireblade': {
@@ -108,6 +111,7 @@ export default {
     options: [
       'Эта модель может быть снаряжена до двух из следующего, допускаются дубликаты:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Эта модель вооружена:** Fireblade pulse rifle; close combat weapon.',
   },
 
   'commander-farsight': {
@@ -122,6 +126,7 @@ export default {
         'Один раз за раунд боя один юнит вашей армии с этой способностью может задействовать её, когда он выбирается целью стратагемы. Если он это делает, уменьшите стоимость этого применения этой стратагемы на 1 CP.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** high-intensity plasma rifle; Dawn Blade.',
   },
 
   'commander-in-coldstar-battlesuit': {
@@ -145,6 +150,7 @@ export default {
       'Эта модель может быть снаряжена до трёх из следующего, допускаются дубликаты:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 burst cannon\n▪ 1 cyclic ion blaster*\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*',
       '* Эта модель не может иметь дубликаты этого снаряжения.',
     ],
+    loadout: '**Эта модель вооружена:** high-output burst cannon; battlesuit fists.',
   },
 
   'commander-in-enforcer-battlesuit': {
@@ -168,6 +174,7 @@ export default {
       'Эта модель может быть снаряжена до трёх из следующего, допускаются дубликаты:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 burst cannon\n▪ 1 cyclic ion blaster*\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*',
       '* Эта модель не может иметь дубликаты этого снаряжения.',
     ],
+    loadout: '**Эта модель вооружена:** burst cannon; battlesuit fists.',
   },
 
   'commander-shadowsun': {
@@ -187,6 +194,7 @@ export default {
       'Command-link Drone (Aura)':
         'Пока дружественный юнит T’au Empire находится в пределах 6" от носителя, каждый раз, когда вы выбираете этот юнит целью стратагемы, бросьте один D6: на 5+ вы получаете 1 CP.',
     },
+    loadout: '**Эта модель вооружена:** flechette launcher; 2 high-energy fusion blasters; light missile pod; pulse pistol; battlesuit fists; advanced guardian drone; command-link drone.',
   },
 
   'crisis-fireknife-battlesuits': {
@@ -207,6 +215,7 @@ export default {
       'Любое число моделей может заменить свой missile pod на 1 plasma rifle каждая.',
       'Любое число моделей может быть снаряжено до двух из следующего, но без дубликатов:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Каждая модель вооружена:** plasma rifle; missile pod; battlesuit fists.',
   },
 
   'crisis-starscythe-battlesuits': {
@@ -227,6 +236,7 @@ export default {
       'Любое число моделей может заменить свой T’au flamer на 1 burst cannon каждая.',
       'Любое число моделей может быть снаряжено до двух из следующего, но без дубликатов:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Каждая модель вооружена:** burst cannon; T’au flamer; battlesuit fists.',
   },
 
   'crisis-sunforge-battlesuits': {
@@ -243,6 +253,7 @@ export default {
     options: [
       'Любое число моделей может быть снаряжено до двух из следующего, но без дубликатов:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Каждая модель вооружена:** 2 fusion blasters; battlesuit fists.',
   },
 
   darkstrider: {
@@ -257,6 +268,7 @@ export default {
         'Вражеские юниты, выставляемые на поле боя из резервов, не могут быть выставлены в пределах 12" от этой модели.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** Shade; close combat weapon.',
   },
 
   devilfish: {
@@ -272,6 +284,7 @@ export default {
       '2 twin pulse carbines этой модели можно заменить на 2 smart missile systems.',
       'Эта модель может быть снаряжена до 2 seeker missiles.',
     ],
+    loadout: '**Эта модель вооружена:** accelerator burst cannon; 2 twin pulse carbines; armoured hull.',
   },
 
   ethereal: {
@@ -294,6 +307,7 @@ export default {
       'Эта модель может быть снаряжена 1 hover drone.',
       'Эта модель может быть снаряжена до двух из следующего, допускаются дубликаты:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
+    loadout: '**Эта модель вооружена:** honour stave.',
   },
 
   'firesight-team': {
@@ -304,6 +318,7 @@ export default {
         'Каждый раз, когда модель этого юнита совершает атаку, нацеленную на юнит Spotted, вы можете перебросить бросок попадания.',
     },
     options: ['Нет'],
+    loadout: '**Эта модель вооружена:** longshot pulse rifles; pulse pistol; close combat weapons.\n\n**Примечание разработчика:** модель Firesight Marksman и модели sniper drone считаются одной моделью для всех правил. Все расстояния отмеряются до и от модели Firesight Marksman. Модели sniper drone не считаются моделями ни для каких правил.',
   },
 
   'ghostkeel-battlesuit': {
@@ -323,6 +338,7 @@ export default {
       'twin T’au flamer этой модели можно заменить на одно из следующего:\n▪ 1 twin fusion blaster\n▪ 1 twin burst cannon',
       'Эта модель может быть снаряжена одним battlesuit support system.',
     ],
+    loadout: '**Эта модель вооружена:** fusion collider; twin T’au flamer; Ghostkeel fists.',
   },
 
   'hammerhead-gunship': {
@@ -340,6 +356,7 @@ export default {
       '2 twin pulse carbines этой модели можно заменить на одно из следующего:\n▪ 2 accelerator burst cannons\n▪ 2 smart missile systems',
       'Эта модель может быть снаряжена до 2 seeker missiles.',
     ],
+    loadout: '**Эта модель вооружена:** 1 railgun; 2 twin pulse carbines; armoured hull.',
   },
 
   'kroot-carnivores': {
@@ -353,6 +370,7 @@ export default {
       'Kroot rifle у Long-quill можно заменить на 1 Kroot carbine.',
       'За каждые 10 моделей в этом юните Kroot rifle одного Kroot Carnivore можно заменить на 1 Tanglebomb launcher.',
     ],
+    loadout: '**Long-quill вооружён:** Kroot pistol; Kroot rifle; close combat weapon.\n\n**Каждый Kroot Carnivore вооружён:** Kroot rifle; close combat weapon.',
   },
 
   'kroot-farstalkers': {
@@ -371,6 +389,7 @@ export default {
       'Farstalker firearm одного Kroot Farstalker можно заменить на одно из следующего:\n▪ 1 Dvorgite skinner\n▪ 1 Londaxi tribalest',
       '1 Kroot Farstalker, снаряжённый Farstalker firearm, может быть снаряжён 1 Pech’ra.',
     ],
+    loadout: '**Kroot Kill-broker вооружён:** Farstalker firearm; Kroot pistol; ritual blade.\n\n**Каждый Kroot Farstalker вооружён:** Farstalker firearm; Kroot pistol; close combat weapon.\n\n**Каждый Kroot Hound вооружён:** ripping fangs.',
   },
 
   'kroot-flesh-shaper': {
@@ -383,6 +402,7 @@ export default {
         'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 6+. Если этот юнит уничтожает один или более вражеских юнитов в фазе ближнего боя, до конца битвы модели этого юнита вместо этого имеют способность Feel No Pain 5+.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** Kroot scattergun; twin ritualistic blades.',
   },
 
   'kroot-hounds': {
@@ -394,6 +414,7 @@ export default {
       'Hunting Hounds':
         'Пока этот юнит находится в пределах 12" от одной или более дружественных моделей Kroot Character, характеристика Контроля целей (OC) моделей этого юнита равна 1.',
     },
+    loadout: '**Каждая модель вооружена:** ripping fangs.',
   },
 
   'kroot-lone-spear': {
@@ -405,6 +426,10 @@ export default {
       'Fire and Fade':
         'В вашей фазе стрельбы, после того как эта модель отстрелялась, если она не находится в дистанции ввязывания одного или более вражеских юнитов, она может совершить обычный манёвр до 6". Если она это делает, до конца хода эта модель не может объявить нападение.',
     },
+    options: [
+      'Kroot long gun этой модели можно заменить на 1 blast javelin и 1 hunting javelin.',
+    ],
+    loadout: '**Эта модель вооружена:** Kroot long gun; close combat weapon; Kalamandra’s bite.',
   },
 
   'kroot-trail-shaper': {
@@ -417,6 +442,7 @@ export default {
         'После того как оба игрока развернули свои армии, вы можете передислоцировать юнит этой модели и один другой дружественный юнит Kroot. При этом любой из этих юнитов можно поместить в Strategic Reserves, независимо от того, сколько юнитов уже в Strategic Reserves.',
     },
     leader: { text: LEADER_TEXT },
+    loadout: '**Эта модель вооружена:** Kroot rifle; Shaper’s blade.',
   },
 
   'kroot-war-shaper': {
@@ -432,6 +458,7 @@ export default {
     options: [
       'dart-bow and tri-blade этой модели можно заменить на 1 bladestave and prey-hook.',
     ],
+    loadout: '**Эта модель вооружена:** dart-bow and tri-blade; Kroot pistol; Shaper’s blade.',
   },
 
   'krootox-rampagers': {
@@ -441,6 +468,7 @@ export default {
       'Kroot Linebreakers':
         'Каждый раз, когда этот юнит заканчивает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от него, затем бросьте один D6 за каждую модель этого юнита, что в дистанции ввязывания того вражеского юнита: за каждый результат 4+ тот вражеский юнит получает D3 смертельных ран. Если в результате этих смертельных ран уничтожается одна или более вражеских моделей, тот вражеский юнит должен пройти проверку боевого шока.',
     },
+    loadout: '**Каждая модель вооружена:** Kroot pistol and hunting javelins; hunting blades; Rampager fists.',
   },
 
   'krootox-riders': {
@@ -453,6 +481,7 @@ export default {
     options: [
       'Любое число моделей может заменить свой repeater cannon на 1 tanglecannon каждая.',
     ],
+    loadout: '**Каждая модель вооружена:** repeater cannon; close combat weapon; Krootox fists.',
   },
 
   manta: {
@@ -468,6 +497,7 @@ export default {
       'Эта модель имеет вместимость транспорта всего из следующего:\n▪ 200 моделей T’au Empire Infantry или Tactical Drones\n▪ 4 модели Devilfish, Sky Ray Gunship или Hammerhead\n▪ 8 моделей Battlesuit с характеристикой Ран (Wounds) 9 или менее',
     damaged: { note: 'осталось 1–20 ран', text: dmgHit('1–20') },
     options: ['Нет'],
+    loadout: '**Эта модель вооружена:** 2 heavy rail cannons; 6 ion cannons; 2 long-barrelled burst cannon arrays; 2 missile pods; 10 seeker missiles; armoured hull.',
   },
 
   'pathfinder-team': {
@@ -493,6 +523,7 @@ export default {
       'До 3 Pathfinder могут заменить свой pulse carbine на одно из следующего:\n▪ 1 ion rifle\n▪ 1 rail rifle',
       '1 модель этого юнита, снаряжённая pulse carbine, может быть снаряжена 1 semi-automatic grenade launcher. pulse carbine этой модели заменить нельзя.',
     ],
+    loadout: '**Каждая модель вооружена:** pulse carbine; pulse pistol; close combat weapon.',
   },
 
   piranhas: {
@@ -506,6 +537,7 @@ export default {
       'Любое число моделей может заменить свой Piranha burst cannon на 1 Piranha fusion blaster каждая.',
       'Любое число моделей может быть снаряжено до 2 seeker missiles каждая.',
     ],
+    loadout: '**Каждая модель вооружена:** Piranha burst cannon; 2 twin pulse carbines; armoured hull.',
   },
 
   'razorshark-strike-fighter': {
@@ -519,6 +551,7 @@ export default {
     options: [
       'accelerator burst cannon этой модели можно заменить на 1 missile pod.',
     ],
+    loadout: '**Эта модель вооружена:** accelerator burst cannon; quad ion turret; 2 seeker missiles; armoured hull.',
   },
 
   'riptide-battlesuit': {
@@ -538,6 +571,7 @@ export default {
       'twin plasma rifles этой модели можно заменить на одно из следующего:\n▪ 1 twin fusion blaster\n▪ 1 twin smart missile system',
       'Эта модель может быть снаряжена до 2 missile drones.',
     ],
+    loadout: '**Эта модель вооружена:** heavy burst cannon; twin plasma rifle; Riptide fists.',
   },
 
   'sky-ray-gunship': {
@@ -553,6 +587,7 @@ export default {
     options: [
       '2 twin pulse carbines этой модели можно заменить на одно из следующего:\n▪ 2 accelerator burst cannons\n▪ 2 smart missile systems',
     ],
+    loadout: '**Эта модель вооружена:** 1 seeker missile rack; 2 twin pulse carbines; armoured hull.',
   },
 
   'stealth-battlesuits': {
@@ -573,6 +608,7 @@ export default {
       '1 Stealth Shas’ui может быть снаряжён 1 homing beacon.',
       '2 модели могут заменить свой burst cannon на 1 fusion blaster каждая.',
     ],
+    loadout: '**Каждая модель вооружена:** burst cannon; battlesuit fists.',
   },
 
   stormsurge: {
@@ -591,6 +627,7 @@ export default {
       'pulse driver cannon этой модели можно заменить на 1 pulse blast cannon.',
       'twin T’au flamer этой модели можно заменить на одно из следующего:\n▪ 1 twin airbursting fragmentation projector\n▪ 1 twin burst cannon',
     ],
+    loadout: '**Эта модель вооружена:** cluster rocket system; destroyer missiles; pulse driver cannon; 2 twin smart missile system; twin T’au flamer; thunderous footfalls.',
   },
 
   'strike-team': {
@@ -610,6 +647,7 @@ export default {
       'Fire Warrior Shas’ui может быть снаряжён до двух из следующего, допускаются дубликаты:\n▪ 1 guardian drone (дубликаты этого снаряжения недопустимы)\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
       'Любое число моделей Fire Warrior может заменить свой pulse rifle на 1 pulse carbine каждая.',
     ],
+    loadout: '**Каждая модель вооружена:** pulse pistol; pulse rifle; close combat weapon.',
   },
 
   'sun-shark-bomber': {
@@ -623,6 +661,7 @@ export default {
     options: [
       'missile pod этой модели можно заменить на 1 twin missile pod.',
     ],
+    loadout: '**Эта модель вооружена:** missile pod; 2 seeker missiles; 2 twin ion rifles; armoured hull.',
   },
 
   'taunar-supremacy-armour': {
@@ -638,6 +677,7 @@ export default {
       'fusion eradicator этой модели можно заменить на 1 tri-axis ion cannon.',
       '3 pulse ordnance drivers этой модели можно заменить на одно из следующего:\n▪ 2 nexus missile launchers\n▪ 1 heavy rail cannon array и 1 fragmentation cluster shell launcher',
     ],
+    loadout: '**Эта модель вооружена:** 4 burst cannons; fusion eradicator; 3 pulse ordnance drivers; 4 smart missile systems; tri-axis ion cannon; crushing feet.',
   },
 
   'the-twin-lance': {
@@ -657,6 +697,7 @@ export default {
       'MV15 Gun Drone': 'Носитель снаряжён 1 twin pulse blaster.',
     },
     options: ['Нет.'],
+    loadout: '**Ri’Lantar вооружён:** 1 fusion eliminator; 1 XV pulse pistol; 1 shardstorm burst system; 1 MV15 gun drone.\n\n**Ri’Locai вооружён:** 1 ion scattercannon; 1 XV pulse pistol; 1 shardstorm burst system; 1 MV15 gun drone.',
   },
 
   'tidewall-droneport': {
@@ -671,6 +712,7 @@ export default {
     transport:
       'Эта модель имеет вместимость транспорта 11 моделей T’au Empire Infantry. Она не может перевозить модели Battlesuit, Kroot или Vespid Stingwings.',
     options: ['Нет'],
+    loadout: '**Эта модель вооружена:** drone defenders.',
   },
 
   'tidewall-gunrig': {
@@ -683,6 +725,7 @@ export default {
     transport:
       'Эта модель имеет вместимость транспорта 11 моделей T’au Empire Infantry. Она не может перевозить модели Battlesuit, Kroot или Vespid Stingwings.',
     options: ['Нет'],
+    loadout: '**Эта модель вооружена:** supremacy railgun.',
   },
 
   'tidewall-shieldline': {
@@ -699,6 +742,7 @@ export default {
     options: [
       'Эта модель может быть снаряжена 1 Tidewall defence platform.',
     ],
+    loadout: 'Эту модель можно снабдить 1 Tidewall defence platform',
   },
 
   'tiger-shark': {
@@ -719,6 +763,7 @@ export default {
       'Эта модель может быть снаряжена до 6 seeker missiles.',
       'transport bay этой модели можно заменить на 2 skyspear missile racks.',
     ],
+    loadout: '**Эта модель вооружена:** 2 burst cannons; 2 ion cannons; 2 missile pods; armoured hull; transport bay.',
   },
 
   'vespid-stingwings': {
@@ -735,6 +780,7 @@ export default {
     options: [
       'Если этот юнит содержит 10 моделей:\n▪ Vespid Strain Leader может быть снаряжён 1 Oversight Drone.\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 T’au flamer\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 neutron grenade launcher\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 neutron rail rifle.',
     ],
+    loadout: '**Каждая модель вооружена:** neutron blaster; stingwing claws.',
   },
 }
 

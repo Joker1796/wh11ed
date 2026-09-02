@@ -38,13 +38,59 @@ describe('activeConditions', () => {
     expect(activeConditions(p, 3, { uid: 'u2' }).has('unit-charged')).toBe(false)
   })
 
-  // The tracker already recorded the round the Waaagh! was called in, so the roster reads it
-  // instead of asking again — two switches for one fact is how two cards start disagreeing.
-  it('reads a called Waaagh! from the army-rule tracker', () => {
+  // The tracker already recorded the round the War Cry was called in, so the roster reads it
+  // instead of asking again — two switches for one fact is how two cards start disagreeing. But
+  // riled up is not the War Cry's alone: thirty-two other Ork rules grant it one unit at a time,
+  // so its OFF proves nothing and the per-unit switch survives (soft-auto, not auto).
+  it('reads a called War Cry from the army-rule tracker', () => {
     const p = player({}, { toggleRounds: [2] }, 'orks')
-    expect(activeConditions(p, 2, null).has('waaagh-active')).toBe(true)
-    expect(activeConditions(p, 3, null).has('waaagh-active')).toBe(false)
-    expect(isAuto('waaagh-active')).toBe(true)
+    expect(activeConditions(p, 2, { uid: 'u1' }).has('riled-up')).toBe(true)
+    expect(activeConditions(p, 3, { uid: 'u1' }).has('riled-up')).toBe(false)
+    expect(isAuto('riled-up')).toBe(false)
+  })
+
+  // Two Orks datasheets state the condition outright — "This unit is riled up.", no trigger, no
+  // window. They are riled up whatever the tracker says, and the chip is not theirs to flip. The
+  // set that encodes this is hand-written, so the scan below is what keeps it honest.
+  it('answers riled up from the datasheet for the two that state it outright', async () => {
+    const p = player({}, {}, 'orks')
+    for (const id of ['stompa', 'zodgrod-wortsnagga']) {
+      expect(activeConditions(p, 1, { uid: 'u1', id }).has('riled-up')).toBe(true)
+    }
+    expect(activeConditions(p, 1, { uid: 'u1', id: 'boyz' }).has('riled-up')).toBe(false)
+
+    const recs = [{ effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '5+', when: {}, cond: ['riled-up'] }] }]
+    const [sw] = switchesFor(recs, 'unit', p, 1, { uid: 'u1', id: 'stompa' })
+    expect([sw.on, sw.auto]).toEqual([true, true])   // on, and not the player's to flip
+    const [other] = switchesFor(recs, 'unit', p, 1, { uid: 'u1', id: 'boyz' })
+    expect([other.on, other.auto]).toEqual([false, false])
+  })
+
+  // …and no OTHER datasheet may grow that wording without this being revisited.
+  it('finds no other datasheet that states riled up unconditionally', async () => {
+    const ds = (await import('../data/datasheets/orks.js')).default
+    const flat = []
+    for (const u of ds) {
+      const texts = [
+        ...(u.abilities || []).map((a) => a.text),
+        ...(u.abilitySets || []).flatMap((s) => (s.options || []).map((o) => o.text)),
+        ...(u.wargearAbilities || []).map((w) => w.text),
+      ]
+      // A line that IS the sentence — not one that hangs it off a trigger ("if…", "when…",
+      // "while…", "until…"), which is what every other grant in the codex does.
+      for (const t of texts) {
+        for (const line of (t || '').split('\n')) {
+          if (/^(?:▪\s*)?This unit is \*\*riled up\*\*\.$/.test(line.trim())) flat.push(u.id)
+        }
+      }
+    }
+    expect([...new Set(flat)].sort()).toEqual(['stompa', 'zodgrod-wortsnagga'])
+  })
+
+  it("still takes a unit's own riled-up switch with no War Cry called", () => {
+    const p = player({ units: { u1: { 'riled-up': 3 } } }, {}, 'orks')
+    expect(activeConditions(p, 3, { uid: 'u1' }).has('riled-up')).toBe(true)
+    expect(activeConditions(p, 3, { uid: 'u2' }).has('riled-up')).toBe(false)
   })
 
   it('reads the active Doctrina Imperative the same way', () => {
@@ -67,7 +113,7 @@ describe('activeConditions', () => {
   // Without the faction check, the next faction to get a toggle spec would inherit it.
   it('does not read another faction\'s tracker primitive as its own', () => {
     const p = player({}, { toggleRounds: [1], selectionByRound: { 1: 'conqueror' }, multiByRound: { 1: ['warp-blades'] } }, 'death-guard')
-    expect(activeConditions(p, 1, null).has('waaagh-active')).toBe(false)
+    expect(activeConditions(p, 1, { uid: 'u1' }).has('riled-up')).toBe(false)
     expect(activeConditions(p, 1, null).has('imperative-conqueror')).toBe(false)
     expect(activeConditions(p, 1, null).has('blessing-warp-blades')).toBe(false)
   })
@@ -96,17 +142,18 @@ describe('activeConditions', () => {
 describe('switchesFor', () => {
   const records = [{
     effects: [
-      { on: 'melee', stat: 's', op: 'add', value: 1, when: {}, cond: ['waaagh-active'] },
+      { on: 'melee', stat: 's', op: 'add', value: 1, when: {}, cond: ['imperative-conqueror'] },
       { on: 'melee', stat: 'a', op: 'add', value: 1, when: {}, cond: ['unit-charged'] },
       { on: 'melee', stat: 'd', op: 'add', value: 1, when: {}, cond: ['never'] },
-      { on: 'ranged', stat: 'ap', op: 'add', value: -1, when: {}, cond: ['waaagh-active', 'phase-shooting'] },
+      { on: 'ranged', stat: 'ap', op: 'add', value: -1, when: {}, cond: ['imperative-conqueror', 'phase-shooting'] },
       { on: 'profile', stat: 't', op: 'add', value: 1 },
     ],
   }]
 
   it('offers one switch per answerable condition at the asked-for scope', () => {
-    const army = switchesFor(records, 'army', player({}, { toggleRounds: [1] }, 'orks'), 1, null)
-    expect(army.map((s) => s.id)).toEqual(['waaagh-active'])
+    const p = player({}, { selectionByRound: { 1: 'conqueror' } }, 'adeptus-mechanicus')
+    const army = switchesFor(records, 'army', p, 1, null)
+    expect(army.map((s) => s.id)).toEqual(['imperative-conqueror'])
     expect(army[0].on).toBe(true)
     expect(army[0].auto).toBe(true) // read from the tracker, so shown but not flippable here
   })
@@ -115,6 +162,18 @@ describe('switchesFor', () => {
     const unit = switchesFor(records, 'unit', player({ units: { u1: { 'unit-charged': 1 } } }), 1, { uid: 'u1' })
     expect(unit.map((s) => s.id)).toEqual(['unit-charged'])
     expect(unit[0].on).toBe(true)
+  })
+
+  // riled up is the one soft-auto condition: the War Cry proves it for everybody, and the unit's
+  // own switch is still offered, because thirty-two other Ork rules grant it one unit at a time.
+  it('keeps the riled-up switch on the unit even while the War Cry proves it', () => {
+    const recs = [{ effects: [{ on: 'profile', stat: 'inv', op: 'set', value: '5+', when: {}, cond: ['riled-up'] }] }]
+    const p = player({}, { toggleRounds: [1] }, 'orks')
+    const unit = switchesFor(recs, 'unit', p, 1, { uid: 'u1' })
+    expect(unit.map((s) => s.id)).toEqual(['riled-up'])
+    expect(unit[0].on).toBe(true)
+    expect(unit[0].auto).toBe(false)
+    expect(switchesFor(recs, 'army', p, 1, null)).toEqual([])
   })
 
   // A switch that cannot change anything on the card is worse than no switch: it invites the
@@ -126,7 +185,7 @@ describe('switchesFor', () => {
   })
 
   it('drops an effect whose OTHER condition is unanswerable, not just the bad half', () => {
-    const army = switchesFor([{ effects: [{ when: {}, cond: ['waaagh-active', 'phase-shooting'] }] }], 'army', player({}), 1, null)
+    const army = switchesFor([{ effects: [{ when: {}, cond: ['imperative-conqueror', 'phase-shooting'] }] }], 'army', player({}), 1, null)
     expect(army).toEqual([])
   })
 
