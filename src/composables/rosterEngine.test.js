@@ -503,9 +503,11 @@ describe('enhEligible — attach-granting enhancements (regression)', () => {
     expect(enhEligible(enh, unit('lokhust-destroyers'))).toBe(false)
   })
 
-  it('offers Slippery Git to the Warboss and not to the Kommandos', async () => {
+  it("offers Kaptin's Hat to the Warboss and not to the Kommandos", async () => {
+    // Was Slippery Git until Codex: Orks retired it; Kaptin's Hat asks for the same shape of
+    // requirement ("BIG MEK/WARBOSS INFANTRY model only") on the same pair of units.
     const rf = await import('../data/roster/orks.js')
-    const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Slippery Git')
+    const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === "Kaptin's Hat")
     const unit = (id) => rf.default.units.find((u) => u.id === id)
     expect(enhEligible(enh, unit('warboss'))).toBe(true)
     expect(enhEligible(enh, unit('kommandos'))).toBe(false)
@@ -1154,17 +1156,21 @@ describe('attached units read as one block', () => {
 
 // The editor must offer exactly what the validator accepts — both go through grantedKeywords().
 describe('an enhancement whose keyword a detachment grants', () => {
-  it('offers Rollin\' Deff\'s upgrades to the Kill Rig it made a Wagon', async () => {
+  // Was Rollin' Deff granting WAGON to the Kill Rig until Codex: Orks both retired that
+  // detachment and started PRINTING Wagon on the datasheets, which is exactly the case this
+  // guards against. Fulguris Task Force grants SPEEDER the same way, and no Space Marines
+  // datasheet prints it.
+  it("offers Fulguris Task Force's upgrades to the Land Speeder it made a Speeder", async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
-    const orks = await loadRosterFaction('orks')
-    const det = orks.detachments.find((d) => d.name === "Rollin' Deff")
-    const killRig = orks.units.find((u) => u.id === 'kill-rig')
-    const trukk = orks.units.find((u) => u.id === 'trukk')
-    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'orks').filter((o) => o.eligible).map((o) => o.name)
-    expect(eligible(killRig)).toContain('Boarding Ramps (Upgrade)')
-    expect(eligible(trukk)).not.toContain('Boarding Ramps (Upgrade)')
+    const sm = await loadRosterFaction('space-marines')
+    const det = sm.detachments.find((d) => d.name === 'Fulguris Task Force')
+    const speeder = sm.units.find((u) => u.id === 'land-speeder')
+    const rhino = sm.units.find((u) => u.id === 'rhino')
+    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'space-marines').filter((o) => o.eligible).map((o) => o.name)
+    expect(eligible(speeder)).toContain('Bellicose Weapon Spirits (Upgrade)')
+    expect(eligible(rhino)).not.toContain('Bellicose Weapon Spirits (Upgrade)')
     // and without the faction to look the grant up in, the printed sheet is all there is
-    expect(enhOptionsFor(killRig, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain('Boarding Ramps (Upgrade)')
+    expect(enhOptionsFor(speeder, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain('Bellicose Weapon Spirits (Upgrade)')
   })
 })
 
