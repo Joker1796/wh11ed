@@ -91,7 +91,9 @@ export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 //           is how a card ends up disagreeing with the tracker next to it
 export const conditions = {
   // ── Army state ──────────────────────────────────────────────────────────────────────────
-  'waaagh-active': { scope: 'army', duration: 'round', label: { en: 'Waaagh! called', ru: 'Waaagh! объявлен' } },
+  // Codex: Orks replaced "the Waaagh! is active for your army" with a per-unit state: the War Cry
+  // riles every ORKS unit up for a turn, but so do a dozen other rules, one unit at a time.
+  'riled-up': { scope: 'unit', duration: 'round', label: { en: 'Riled up', ru: 'Раззадорен' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
   'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },

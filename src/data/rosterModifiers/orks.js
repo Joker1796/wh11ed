@@ -79,7 +79,7 @@ export default {
       },
       "hash": "3f3f072b",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -93,8 +93,22 @@ export default {
       },
       "hash": "6c085ff9",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of the friendly unit this ability names",
+            "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e646eca8-5b67-4d07-81cd-0bff6b17e327:big-mek-dakkarig",
@@ -107,8 +121,25 @@ export default {
       },
       "hash": "5d204ef7",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 6,
+          "only": {
+            "name": "Blitzkannon"
+          },
+          "when": {
+            "en": "in your Shooting phase, against targets other than MONSTER and VEHICLE",
+            "ru": "в вашей фазе стрельбы, по целям кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c5a22e0b-626b-4d06-9d4e-e619e2563824:big-mek-dakkarig",
@@ -121,8 +152,22 @@ export default {
       },
       "hash": "bc0f9949",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        }
+      ]
     },
     {
       "sid": "9607b1b8-9c07-4213-a930-22296f4b6667:big-mek-with-shokk-attack-gun",
@@ -135,8 +180,22 @@ export default {
       },
       "hash": "24137c20",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of the friendly unit this ability names",
+            "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a46b1a31-629b-429b-b376-42247b2e2fe1:boyz",
@@ -149,8 +208,22 @@ export default {
       },
       "hash": "ff5ea6d2",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "in the Fight phase, if this unit made a charge move this turn",
+            "ru": "в фазе боя, если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "40f8731b-e9af-4428-96b6-2b5d5ce7ddb1:burna-bommer",
@@ -163,7 +236,7 @@ export default {
       },
       "hash": "1d065671",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -177,7 +250,7 @@ export default {
       },
       "hash": "9bdc06bf",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -191,8 +264,22 @@ export default {
       },
       "hash": "74a3280f",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "in your Shooting phase, while this unit or its target is within range of an objective",
+            "ru": "в вашей фазе стрельбы, пока отряд или его цель в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "754cddcd-ef13-41b4-b43b-b8604fea993e:ghazghkull-thraka",
@@ -205,8 +292,22 @@ export default {
       },
       "hash": "ef3da027",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of the friendly unit this ability names",
+            "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e1810fcc-e684-4923-b6fd-d57b9d226e04:grot-mega-tank",
@@ -219,7 +320,7 @@ export default {
       },
       "hash": "e441fc1c",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -233,8 +334,25 @@ export default {
       },
       "hash": "8c2264cc",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "only": {
+            "name": "Butcha Boyz"
+          },
+          "when": {
+            "en": "for each model embarked within this unit, to a maximum of +22",
+            "ru": "за каждую модель на борту, максимум +22"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "91126978-e1cf-4eec-96f3-c32a93464ad7:kaptin-badrukk",
@@ -247,7 +365,7 @@ export default {
       },
       "hash": "3e6cff0d",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -263,7 +381,7 @@ export default {
       },
       "hash": "29ad8477",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -279,8 +397,35 @@ export default {
       },
       "hash": "d6bc40f3",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while that psychic roll was made in the Fight phase",
+            "ru": "пока сделан psychic roll в фазе боя"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": {
+            "en": "while that psychic roll was made in the Fight phase",
+            "ru": "пока сделан psychic roll в фазе боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7d2251ef-8b7b-4927-86b7-a12b24caae77:meganobz",
@@ -293,7 +438,7 @@ export default {
       },
       "hash": "e441fc1c",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -307,7 +452,7 @@ export default {
       },
       "hash": "bbae31b7",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -321,8 +466,16 @@ export default {
       },
       "hash": "7edac6d1",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "dfcd0ed8-e80d-44e1-acc6-3df268d78d23:mozrog-skragbad",
@@ -335,8 +488,22 @@ export default {
       },
       "hash": "6c085ff9",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of the friendly unit this ability names",
+            "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a170bdb8-a414-44ad-a4f7-ae1034c13dbc:nazdreg",
@@ -349,8 +516,23 @@ export default {
       },
       "hash": "f32fec54",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f6ad63a2-294e-4870-b828-22f0bc750ab7:painboss",
@@ -363,8 +545,48 @@ export default {
       },
       "hash": "acb41096",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 4,
+          "when": {
+            "en": "while this model is attached to a MOUNTED unit",
+            "ru": "пока модель присоединена к отряду MOUNTED"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this model is attached to a MOUNTED unit",
+            "ru": "пока модель присоединена к отряду MOUNTED"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mounted",
+          "when": {
+            "en": "while this model is attached to a MOUNTED unit",
+            "ru": "пока модель присоединена к отряду MOUNTED"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "258d1dd6-62ea-453d-9f42-425426be6f27:squighog-boyz",
@@ -377,8 +599,35 @@ export default {
       },
       "hash": "deec62c2",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "7a77ddd2-bf59-45a9-9d21-172b111d6297:stormboyz",
@@ -391,8 +640,48 @@ export default {
       },
       "hash": "5d0b4292",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this ability is used, having made a charge move this turn",
+            "ru": "пока применена способность, при charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this ability is used, having made a charge move this turn",
+            "ru": "пока применена способность, при charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "while this ability is used, having made a charge move this turn",
+            "ru": "пока применена способность, при charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "c7f42c02-ab13-4daa-b682-396fe14e4159:warbikers",
@@ -405,8 +694,35 @@ export default {
       },
       "hash": "58d6e5b3",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "47b04c73-a623-4b32-b82a-1dcd60cb1a21:warboss",
@@ -419,8 +735,35 @@ export default {
       },
       "hash": "cff6d118",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "b6c2415d-1559-4ba1-b21b-7ee19df30950:wartrakks",
@@ -433,7 +776,7 @@ export default {
       },
       "hash": "6a755ba3",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -447,8 +790,22 @@ export default {
       },
       "hash": "ac3a6aff",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of the friendly unit this ability names",
+            "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1841d395-fb15-41fd-bc3d-3e24f7001bb3:wazdakka-gutsmek",
@@ -463,7 +820,7 @@ export default {
       },
       "hash": "83d58aa7",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -479,7 +836,7 @@ export default {
       },
       "hash": "a4730103",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -495,7 +852,7 @@ export default {
       },
       "hash": "f443994e",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -511,8 +868,22 @@ export default {
       },
       "hash": "bef160fe",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "while that psychic roll placed this unit in strategic reserves",
+            "ru": "пока psychic roll отправил отряд в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "49005203-621f-4154-8657-960a9aa3ad56:weirdboy",
@@ -527,8 +898,22 @@ export default {
       },
       "hash": "5615391c",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": {
+            "en": "while that psychic roll was made in the Fight phase",
+            "ru": "пока сделан psychic roll в фазе боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "afc177ae-d25d-44b9-abf4-a612e225faf9:zodgrod-wortsnagga",
@@ -541,8 +926,39 @@ export default {
       },
       "hash": "fc1654ee",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Scavenged Shivs"
+          },
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "only": {
+            "name": "Scavenged Shivs"
+          },
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Scavenged Shivs"
+          },
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4b9740d7-8c4b-43d4-8863-18fe9170314e",
@@ -554,8 +970,35 @@ export default {
       },
       "hash": "ee2f2827",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        }
+      ]
     },
     {
       "sid": "c6468629-bc6a-40df-973b-84c2809c0eda",
@@ -568,8 +1011,22 @@ export default {
       },
       "hash": "fc7cfd7f",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "MEGANOBZ and NOBZ units only",
+            "ru": "только отряды MEGANOBZ и NOBZ"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "38d48cb6-6689-4892-9e90-d5f9d141ec8e",
@@ -582,8 +1039,22 @@ export default {
       },
       "hash": "60e8c5e8",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "BEAST SNAGGA units only, against MONSTER and VEHICLE targets",
+            "ru": "только отряды BEAST SNAGGA, по целям MONSTER и VEHICLE"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "b99262ab-ec3f-4e14-bed6-0effef3f43f0",
@@ -596,8 +1067,48 @@ export default {
       },
       "hash": "1a45687d",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "ORKS WALKER units only (excluding TITANIC), on a 1-2 while this ability is used",
+            "ru": "только отряды ORKS WALKER (кроме TITANIC), на 1-2 при применении способности"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "ORKS WALKER units only (excluding TITANIC), on a 3-4 while this ability is used",
+            "ru": "только отряды ORKS WALKER (кроме TITANIC), на 3-4 при применении способности"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "ORKS WALKER units only (excluding TITANIC), on a 5-6 while this ability is used",
+            "ru": "только отряды ORKS WALKER (кроме TITANIC), на 5-6 при применении способности"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "67566eb0-9bb9-491d-b640-d1b9fcdd6b61",
@@ -610,8 +1121,36 @@ export default {
       },
       "hash": "95a929e1",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "BOYZ units only",
+            "ru": "только отряды BOYZ"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "ORKS INFANTRY units only, having made a charge move this turn, against targets other than MONSTER and VEHICLE",
+            "ru": "только отряды ORKS INFANTRY, при charge в этом ходу, по целям кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "blocked-subset",
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "514711c8-2e6f-4aa5-8b76-7cc793bb9ebb",
@@ -624,8 +1163,23 @@ export default {
       },
       "hash": "f6ff7bc4",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "SPEED FREEKS units only, until the end of the turn they were selected to advance or fall back",
+            "ru": "только отряды SPEED FREEKS, до конца хода, в котором был advance/fall back"
+          },
+          "cond": [
+            "blocked-subset",
+            "unit-advanced"
+          ]
+        }
+      ]
     },
     {
       "sid": "63aaaea3-ccd9-49c1-a780-635acc10f066",
@@ -638,7 +1192,7 @@ export default {
       },
       "hash": "40fcc840",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -652,8 +1206,16 @@ export default {
       },
       "hash": "0158c928",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "986f5db8-d8af-489d-822e-61ae11aca903",
@@ -666,8 +1228,41 @@ export default {
       },
       "hash": "fc623810",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "ORKS PSYKER models only",
+            "ru": "только модели ORKS PSYKER"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "when": {
+            "en": "ORKS PSYKER models only, once more for every 5 models in the unit (or embarked within the model)",
+            "ru": "только модели ORKS PSYKER, ещё раз за каждые 5 моделей в отряде (или на борту)"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ]
     },
     {
       "sid": "dfde7f26-fc85-4e16-879d-79fadb8db2e8",
@@ -680,8 +1275,36 @@ export default {
       },
       "hash": "64b38a65",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while a BIG MEK model is embarked within this unit",
+            "ru": "пока в отряде на борту модель BIG MEK"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while a BIG MEK model is embarked within this unit and this unit is riled up",
+            "ru": "пока в отряде на борту модель BIG MEK и отряд riled up"
+          },
+          "cond": [
+            "riled-up",
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "89b800e4-a94c-4307-8217-e0b6ee51cb89",
@@ -694,7 +1317,7 @@ export default {
       },
       "hash": "3ba4ab47",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -708,8 +1331,16 @@ export default {
       },
       "hash": "7261e877",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d5ac90fa-836f-457c-a8cc-504b39ec0f4b",
@@ -722,8 +1353,16 @@ export default {
       },
       "hash": "bf963512",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7cb15917-20d4-4586-a054-d4c3674bff0d",
@@ -736,8 +1375,16 @@ export default {
       },
       "hash": "8881233b",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e7827a76-185e-441e-88ad-17b638605a40",
@@ -750,8 +1397,16 @@ export default {
       },
       "hash": "332c8cd7",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "fd3cd4db-81a6-4567-abe9-fc8b99efe0cd",
@@ -780,8 +1435,22 @@ export default {
       },
       "hash": "547f6b0f",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ORKS WALKER unit (excluding BIG MEK units)",
+            "ru": "пока в 3\" от дружественного отряда ORKS WALKER (кроме BIG MEK)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3ba8e0af-efa7-45ab-8628-b18c60e86d9c",
@@ -794,8 +1463,30 @@ export default {
       },
       "hash": "4ef4b8ae",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "alt": 0,
+          "when": {
+            "en": "instead, while this unit has 11 or more models",
+            "ru": "вместо этого, пока в отряде 11 и более моделей"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a00cea8c-dcbc-4b8e-b890-b72efc0d22c2",
@@ -808,8 +1499,57 @@ export default {
       },
       "hash": "375ea7cf",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "only": {
+            "name": "Shokk Attack Gun"
+          },
+          "when": {
+            "en": "on a 2-5 rolled when this unit is selected to shoot",
+            "ru": "на 2-5 при выборе отряда для стрельбы"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 2",
+          "only": {
+            "name": "Shokk Attack Gun"
+          },
+          "when": {
+            "en": "on a 6 rolled when this unit is selected to shoot",
+            "ru": "на 6 при выборе отряда для стрельбы"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "TORRENT",
+          "only": {
+            "name": "Shokk Attack Gun"
+          },
+          "when": {
+            "en": "on a 1 rolled when this unit is selected to shoot — this model is then destroyed",
+            "ru": "на 1 при выборе отряда для стрельбы — после стрельбы модель уничтожается"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "dc12165f-cea0-40e4-b709-e5c8c1a62c82",
@@ -822,8 +1562,22 @@ export default {
       },
       "hash": "d68b44b0",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": {
+            "en": "while this unit is not embarked",
+            "ru": "пока отряд не на борту транспорта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "9917fe1b-90a8-4136-8390-ef98111bf3ec",
@@ -836,8 +1590,22 @@ export default {
       },
       "hash": "0b1708fb",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against targets other than MONSTER and VEHICLE",
+            "ru": "по целям кроме MONSTER и VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f17543af-103f-4f5d-8e4e-23941bb32dbb",
@@ -850,8 +1618,16 @@ export default {
       },
       "hash": "599690d4",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "22f5eea7-c087-494c-a14a-303ab2b440f4",
@@ -864,8 +1640,22 @@ export default {
       },
       "hash": "0a82f059",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if this unit made a charge move this turn",
+            "ru": "если отряд совершил charge в этом ходу"
+          },
+          "cond": [
+            "unit-charged"
+          ]
+        }
+      ]
     },
     {
       "sid": "97a9351c-5df1-4e64-b4df-4398311533d7",
@@ -878,8 +1668,19 @@ export default {
       },
       "hash": "bf94d943",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "name": "Snazzgun"
+          },
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d855099f-ed54-41f6-bcf1-66e82a05a5ac",
@@ -892,8 +1693,16 @@ export default {
       },
       "hash": "44ab9181",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deadly Demise D6",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "10d5e5dd-b0ba-4b15-93d6-cf57f2d8df30",
@@ -930,7 +1739,7 @@ export default {
       },
       "hash": "dafc869b",
       "ver": 946,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -945,8 +1754,20 @@ export default {
       },
       "hash": "83e4f304",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "99acba71-ea9c-4977-829e-36fd55efee09",
@@ -960,8 +1781,20 @@ export default {
       },
       "hash": "a68ae285",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "643ae6df-8ba4-4e57-8bdc-281d28a47788",
@@ -975,8 +1808,23 @@ export default {
       },
       "hash": "fa7d25f9",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this stratagem is in force, against targets within 9\"",
+            "ru": "пока действует стратагема, по целям в пределах 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8b8a6c4e-e717-4047-b603-43dfd627080a",
@@ -990,8 +1838,20 @@ export default {
       },
       "hash": "a68ae285",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "d56876cf-9f3c-41af-bee9-ef1e2f323c26",
@@ -1005,8 +1865,36 @@ export default {
       },
       "hash": "59c54754",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "notTag": "RAPID FIRE"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "add",
+          "value": "RAPID FIRE 1",
+          "only": {
+            "tag": "RAPID FIRE"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "acfae65b-1cc9-40b1-8f62-6d1c1f829c60",
@@ -1020,8 +1908,20 @@ export default {
       },
       "hash": "6ed179bb",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "37d5a2e0-42f8-4584-ae77-2d8c351169f6",
@@ -1035,8 +1935,20 @@ export default {
       },
       "hash": "3a1eb869",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f875cafb-1537-42c0-ac57-3496eba9e86c",
@@ -1050,8 +1962,36 @@ export default {
       },
       "hash": "a89788b7",
       "ver": 946,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLEAVE 1",
+          "only": {
+            "notTag": "CLEAVE"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "add",
+          "value": "CLEAVE 1",
+          "only": {
+            "tag": "CLEAVE"
+          },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "aee34635-59e6-4c77-9f7c-6334aff37fb3:big-mek-in-mega-armour",

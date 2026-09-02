@@ -48,7 +48,7 @@ describe('StratagemsView with an active game', () => {
     expect(filters[0].attributes('aria-selected')).toBe('true')
     await seen(w, 'Command Re-roll')
     await seen(w, 'Armour of Contempt')
-    await seen(w, 'Competitive Streak')
+    await seen(w, 'Unbridled Carnage')
 
     // Core tab → only the rulebook's own. Awaiting the incoming card first is what makes the
     // "gone" assertion safe: before the swap lands the old cards are still on screen and
@@ -64,7 +64,7 @@ describe('StratagemsView with an active game', () => {
 
     // Opponent tab → the Orks Green Tide detachment stratagems.
     await filters[3].trigger('click')
-    await seen(w, 'Competitive Streak')
+    await seen(w, 'Unbridled Carnage')
     expect(w.text()).not.toContain('Armour of Contempt')
     // Vitest's own 5s testTimeout is the other half of this test's flakiness: mounting the view
     // pulls src/data/factions/index.js, which statically imports all 30 factions as one ~1.5MB
