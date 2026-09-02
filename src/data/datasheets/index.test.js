@@ -91,3 +91,52 @@ describe('weapon names identify a weapon', () => {
     expect(rows).toBeGreaterThan(4000) // the whole corpus really was walked
   })
 })
+
+describe('the RU overlay covers every datasheet', () => {
+  // Written after a bump where a hand-rolled audit reported 241 missing translations that were
+  // not missing at all: the older overlays name these blocks `wargear`/`special` and the newer
+  // ones `wargearAbilities`/`specialAbilities`, and localizeSheet reads both (see ru/index.js).
+  // An audit that only knows one spelling lies in both directions, so the check that ships is
+  // the one that goes through localizeSheet itself — whatever it returns is what a reader sees.
+  const bundles = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
+
+  it('leaves no ability, loadout or attachment line in English', async () => {
+    let checked = 0
+    const gaps = []
+    for (const [f, load] of Object.entries(bundles)) {
+      const slug = f.replace('./', '').replace('.js', '')
+      const mod = await loadDatasheetsRu(slug)
+      if (!mod?.default) continue // faction with no overlay yet
+      const sheets = (await load()).default || []
+      for (const en of sheets) {
+        const ru = localizeSheet(en, mod.default[en.id], mod.abilityNamesRu)
+        for (const k of ['abilities', 'wargearAbilities', 'specialAbilities', 'rules']) {
+          for (const [i, a] of (en[k] || []).entries()) {
+            if (!a.text) continue
+            checked++
+            if (ru[k]?.[i]?.text === a.text) gaps.push(`${slug}/${en.id} ${k} "${a.name}"`)
+          }
+        }
+        for (const set of en.abilitySets || []) {
+          const rset = (ru.abilitySets || []).find((s) => s.nameEn === set.name || s.name === set.name)
+          for (const [i, o] of (set.options || []).entries()) {
+            if (!o.text) continue
+            checked++
+            if (rset?.options?.[i]?.text === o.text) gaps.push(`${slug}/${en.id} set "${set.name}" option "${o.name}"`)
+          }
+        }
+        for (const k of ['flavor', 'loadout', 'transport']) {
+          if (!en[k]) continue
+          checked++
+          if (ru[k] === en[k]) gaps.push(`${slug}/${en.id} ${k}`)
+        }
+        if (en.leader?.text) {
+          checked++
+          if (ru.leader?.text === en.leader.text) gaps.push(`${slug}/${en.id} leader`)
+        }
+      }
+    }
+    expect(gaps, `${gaps.length} untranslated field(s)`).toEqual([])
+    expect(checked).toBeGreaterThan(4000) // the whole corpus really was walked
+  })
+})
