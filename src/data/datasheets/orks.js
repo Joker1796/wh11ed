@@ -1,6 +1,19 @@
-// Orks — datasheets. Unit roster and points from src/data/mfm/orks.js.
+// Orks — datasheets. Rewritten for Codex: Orks (app data 946), which replaced the whole
+// faction; unit roster and points from src/data/mfm/orks.js (MFM v1.4).
 // wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
+//
+// Three things the new codex data does NOT carry, all gaps in the source rather than here:
+//   - `lore` is null on 72 of 73 Orks sheets, so `flavor` is inherited from the previous
+//     transcription wherever the unit survived (including the two renames) and is simply
+//     absent on the fourteen sheets that are new.
+//   - `factionKeywords` is empty on every sheet; ORKS is restored here.
+//   - "Damaged" became a core ability carrying its own generic text (`Damaged 6`), so the
+//     per-sheet `damaged` block is gone except on the older-format Imperial Armour sheet.
+//
+// `legends: true` marks the twelve sheets in Legends: Orks - the first Legends publication
+// GW has shipped in app data. They are listed alongside everything else and filtered in the
+// UI, not hidden.
 export default [
   {
     "id": "bannernob",
@@ -20,7 +33,7 @@ export default [
         "sv": "4+",
         "w": "4",
         "ld": "7+",
-        "oc": "6",
+        "oc": "3",
         "inv": "5+"
       }
     ],
@@ -28,6 +41,7 @@ export default [
       {
         "name": "Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 1"
         ],
         "range": "18\"",
@@ -40,42 +54,37 @@ export default [
     ],
     "melee": [
       {
-        "name": "Choppa",
+        "name": "Kustom Choppa",
         "tags": [],
-        "a": "5",
+        "a": "4",
         "ws": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
       }
     ],
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
         "name": "Waaagh! Banner",
-        "text": "▪ This unit has a 5+ InSv.\n▪ While the Waaagh! is active for this unit, this unit has +1 T."
+        "text": "This unit has +1 to **charge rolls**."
       }
     ],
+    "composition": [
+      "1 Bannernob model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Kustom Choppa; 1 Shoota.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Boyz",
-        "Breaka Boyz",
-        "Burna Boyz",
-        "Flash Gitz",
-        "Lootas",
-        "Nobz",
-        "Tankbustas"
+        "Nobz"
       ]
     },
-    "composition": [
-      "1 Bannernob"
-    ],
-    "loadout": "This model is equipped with: 1 shoota; 1 choppa.",
     "keywords": [
-      "Infantry",
       "Character",
-      "Bannernob"
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
@@ -102,7 +111,7 @@ export default [
       {
         "name": "Battlewagon",
         "m": "10\"",
-        "t": "10",
+        "t": "11",
         "sv": "3+",
         "w": "16",
         "ld": "7+",
@@ -112,8 +121,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -122,147 +132,71 @@ export default [
         "s": "5",
         "ap": "0",
         "d": "1"
-      },
-      {
-        "name": "Kannon – frag",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "36\"",
-        "a": "D6+3",
-        "bs": "5+",
-        "s": "6",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Kannon – shell",
-        "tags": [],
-        "range": "36\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "10",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Killkannon",
-        "tags": [],
-        "range": "24\"",
-        "a": "D6+1",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Lobba",
-        "tags": [
-          "BLAST",
-          "INDIRECT FIRE"
-        ],
-        "range": "48\"",
-        "a": "D6",
-        "bs": "5+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Zzap gun",
-        "tags": [
-          "ANTI-VEHICLE 4+"
-        ],
-        "range": "36\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "D6+6",
-        "ap": "-3",
-        "d": "5"
       }
     ],
     "melee": [
       {
-        "name": "Deff rolla",
-        "tags": [],
-        "a": "6",
+        "name": "Wreckin’ Ball",
+        "tags": [
+          "CLEAVE 2",
+          "EXTRA ATTACKS"
+        ],
+        "a": "1",
         "ws": "3+",
-        "s": "9",
-        "ap": "-1",
-        "d": "2"
+        "s": "10",
+        "ap": "0",
+        "d": "D6"
       },
       {
-        "name": "Grabbin’ klaw",
+        "name": "Grabbin’ Klaw",
         "tags": [
           "EXTRA ATTACKS"
         ],
         "a": "2",
         "ws": "3+",
-        "s": "8",
+        "s": "10",
         "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Tracks and wheels",
-        "tags": [],
-        "a": "6",
-        "ws": "4+",
-        "s": "8",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Wreckin’ ball",
+        "name": "Crushin’ Bulk",
         "tags": [
-          "EXTRA ATTACKS"
+          "CLEAVE 1"
         ],
-        "a": "1",
-        "ws": "4+",
-        "s": "10",
-        "ap": "0",
-        "d": "D6"
+        "a": "6",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
       }
     ],
-    "core": "Deadly Demise D6, Firing Deck 11",
+    "core": "Deadly Demise D6, Damaged 6, Firing Deck 11",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Ramshackle but Rugged",
-        "text": "Each time an attack is allocated to this model, worsen the Armour Penetration characteristic of that attack by 1."
+        "name": "Mobile Fortress",
+        "text": "Ranged attacks that target this unit have -1 **D**."
       }
     ],
-    "wargearAbilities": [
-      {
-        "name": "’Ard Case",
-        "text": "Add 2 to the bearer’s Toughness characteristic, but it no longer has the Firing Deck ability."
-      }
-    ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Battlewagon"
+      "1 Battlewagon model"
     ],
-    "loadout": "**This model is equipped with:** tracks and wheels.",
+    "loadout": "**This model is equipped with:** 1 Crushin’ Bulk.",
     "options": [
-      "This model can be equipped with one of the following:\n▪ 1 kannon\n▪ 1 killkannon\n▪ 1 zzap gun",
-      "This model can be equipped with:\n▪ 1 lobba",
-      "This model can be equipped with up to 4 big shootas.",
-      "This model’s tracks and wheels can be replaced with 1 deff rolla.",
-      "This model can be equipped with any of the following:\n▪ 1 ’ard case\n▪ 1 grabbin’ klaw\n▪ 1 wreckin’ ball"
+      "This model can be equipped with 1 Wreckin’ Ball.",
+      "This model can be equipped with up to 4 Big Shoota.",
+      "This model can be equipped with 1 Grabbin’ Klaw."
     ],
-    "transport": "This model has a transport capacity of 22 ORKS INFANTRY models. If this model is equipped with a killkannon, it has a transport capacity of 12 ORKS INFANTRY models. Each MEGA ARMOUR or JUMP PACK model takes up the space of 2 models. The GHAZGHKULL THRAKA model takes up the space of 4 models.",
+    "transport": "This model has a **transport capacity** of 22 ORKS INFANTRY models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models. Each GHAZGHKULL THRAKA model takes up the space of 4 models.",
     "keywords": [
-      "Battlewagon",
-      "Vehicle",
+      "Frame",
       "Transport",
-      "Frame"
+      "Vehicle",
+      "Wagon"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "Hull"
+    ]
   },
   {
     "id": "beast-snagga-boyz",
@@ -292,31 +226,32 @@ export default [
     "flavor": "Big, brutal, and belligerent, Beast Snagga Boyz are a force to be reckoned with. From the cannonball-like fist-shells of their thump guns, to the inescapable hooks of their choppas, Beast Snaggas excel in softening up their prey, dragging them down, then ripping them bodily to bits.",
     "profiles": [
       {
-        "name": "BEAST SNAGGA BOY",
+        "name": "Beast Snagga Boy",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
         "w": "1",
         "ld": "7+",
         "oc": "2",
-        "baseSize": "32mm"
+        "inv": "6+"
       },
       {
-        "name": "BEAST SNAGGA NOB",
+        "name": "Nob",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
-        "w": "2",
+        "w": "3",
         "ld": "7+",
         "oc": "2",
-        "baseSize": "32mm"
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -326,12 +261,12 @@ export default [
         "d": "1"
       },
       {
-        "name": "Thump gun",
+        "name": "Thump Gun",
         "tags": [
-          "BLAST"
+          "ANTI-MONSTER/VEHICLE 4+"
         ],
         "range": "18\"",
-        "a": "D3",
+        "a": "3",
         "bs": "5+",
         "s": "6",
         "ap": "0",
@@ -340,7 +275,16 @@ export default [
     ],
     "melee": [
       {
-        "name": "Choppa",
+        "name": "Choppa – hunter (vs MONSTER/VEHICLE)",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Choppa – standard",
         "tags": [],
         "a": "3",
         "ws": "3+",
@@ -349,50 +293,42 @@ export default [
         "d": "1"
       },
       {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "2",
+        "name": "Power Snappa",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+"
+        ],
+        "a": "3",
         "ws": "3+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power snappa",
-        "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "7",
-        "ap": "-1",
+        "s": "8",
+        "ap": "-2",
         "d": "2"
       }
     ],
-    "core": "Feel No Pain 6+",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Monster Hunters",
-        "text": "Each time a model in this unit makes an attack that targets a MONSTER or VEHICLE unit, you can re-roll the Hit roll."
+        "name": "Mobbed",
+        "text": "When this unit ends a **charge move**, each enemy MONSTER/VEHICLE unit **engaged** with this unit makes a **battle-shock roll**:\n▪ With -1 to that **battle-shock roll**.\n▪ __Or:__ With -2 to that **battle-shock roll** if this unit has 13+ models."
       }
     ],
     "composition": [
-      "1 Beast Snagga Nob",
-      "9-19 Beast Snagga Boyz"
+      "1-2 Nob models",
+      "9‑18 Beast Snagga Boy models"
     ],
-    "loadout": "**The Beast Snagga Nob is equipped with:** slugga; power snappa.\n\n**Every Beast Snagga Boy is equipped with:** slugga; choppa.",
+    "loadout": "**Every Nob is equipped with:** 1 Power Snappa; 1 Slugga.\n**Every Beast Snagga Boy is equipped with:** 1 Choppa; 1 Slugga.",
     "options": [
-      "For every 10 models in this unit, 1 Beast Snagga Boy’s slugga and choppa can be replaced with 1 thump gun and 1 close combat weapon."
+      "For every 10 models in this unit, 1 Beast Snagga Boy model can be equipped with 1 Thump Gun."
     ],
     "keywords": [
-      "Mob",
-      "Infantry",
-      "Beast Snagga Boyz",
       "Battleline",
-      "Beast Snagga"
+      "Beast Snagga",
+      "Infantry",
+      "Mob"
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "beastboss",
@@ -408,7 +344,7 @@ export default [
       {
         "name": "Beastboss",
         "m": "6\"",
-        "t": "5",
+        "t": "6",
         "sv": "4+",
         "w": "6",
         "ld": "6+",
@@ -420,6 +356,7 @@ export default [
       {
         "name": "Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 1"
         ],
         "range": "18\"",
@@ -432,46 +369,33 @@ export default [
     ],
     "melee": [
       {
-        "name": "Beast Snagga klaw",
+        "name": "Beast Snagga Klaw and Beastchoppa",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
-        ],
-        "a": "4",
-        "ws": "3+",
-        "s": "10",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Beastchoppa",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "SUSTAINED HITS 2: MONSTER/VEHICLE"
         ],
         "a": "6",
         "ws": "2+",
-        "s": "6",
-        "ap": "-1",
+        "s": "12",
+        "ap": "-2",
         "d": "2"
       }
     ],
-    "core": "Feel No Pain 6+, Leader",
-    "faction": "Waaagh!",
+    "core": "Leader, Feel No Pain 6+",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Beastboss",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "name": "Keep Huntin’! (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly BEAST SNAGGA unit within 6\" of this unit. That unit:\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
       },
       {
-        "name": "Ferocious Rage",
-        "text": "Each time this model makes a Charge move, until the end of the turn, melee weapons it is equipped with have the [DEVASTATING WOUNDS] ability."
+        "name": "Dodge Dis!",
+        "text": "This unit's attacks have +1 to **hit rolls**."
       }
     ],
     "composition": [
-      "1 Beastboss"
+      "1 Beastboss model"
     ],
-    "loadout": "**This model is equipped with:** shoota; beastchoppa; Beast Snagga klaw.",
+    "loadout": "**This model is equipped with:** 1 Shoota; 1 Beast Snagga Klaw and Beastchoppa.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -479,10 +403,9 @@ export default [
       ]
     },
     "keywords": [
-      "Beastboss",
-      "Infantry",
-      "Character",
       "Beast Snagga",
+      "Character",
+      "Infantry",
       "Warboss"
     ],
     "factionKeywords": [
@@ -510,9 +433,9 @@ export default [
       {
         "name": "Beastboss on Squigosaur",
         "m": "10\"",
-        "t": "8",
+        "t": "9",
         "sv": "3+",
-        "w": "8",
+        "w": "10",
         "ld": "6+",
         "oc": "3",
         "inv": "5+"
@@ -522,7 +445,8 @@ export default [
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -532,12 +456,12 @@ export default [
         "d": "1"
       },
       {
-        "name": "Thump gun",
+        "name": "Thump Gun",
         "tags": [
-          "BLAST"
+          "ANTI-MONSTER/VEHICLE 4+"
         ],
         "range": "18\"",
-        "a": "D3",
+        "a": "3",
         "bs": "5+",
         "s": "6",
         "ap": "0",
@@ -546,61 +470,66 @@ export default [
     ],
     "melee": [
       {
-        "name": "Beastchoppa",
+        "name": "Beastchoppa – hunter (vs MONSTER/VEHICLE)",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "12",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Beastchoppa – standard",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "CLEAVE 1"
         ],
         "a": "6",
         "ws": "2+",
         "s": "6",
-        "ap": "-1",
+        "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Squigosaur’s jaws",
+        "name": "Squigosaur’s Jaws",
         "tags": [
-          "DEVASTATING WOUNDS",
+          "ANTI-MONSTER/VEHICLE 3+",
           "EXTRA ATTACKS"
         ],
         "a": "3",
-        "ws": "4+",
+        "ws": "3+",
         "s": "7",
         "ap": "-2",
         "d": "3"
       }
     ],
-    "core": "Feel No Pain 5+, Leader",
-    "faction": "Waaagh!",
+    "core": "Feel No Pain 5+",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Thundering Stampede",
-        "text": "While this model is leading a unit, add 1 to Charge rolls made for that unit."
+        "name": "Thundering Stampede (Aura)",
+        "text": "Friendly BEAST SNAGGA units within 6\" of this unit have +1 to **charge rolls**."
       },
       {
-        "name": "Single-minded Predator",
-        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
+        "name": "Keep Huntin’! (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit’s move, you can select one friendly BEAST SNAGGA unit within 6\" of this unit. That unit:\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
+      },
+      {
+        "name": "Boss of da Hunt",
+        "text": "While this unit is within 3\" of a friendly BEAST SNAGGA unit (excluding MONSTER CHARACTER units), this unit has **Lone Operative**."
       }
     ],
     "composition": [
-      "1 Beastboss on Squigosaur"
+      "1 Beastboss on Squigosaur model"
     ],
-    "loadout": "**This model is equipped with:** slugga; beastchoppa; Squigosaur’s jaws.",
+    "loadout": "**This model is equipped with:** 1 Beastchoppa; 1 Slugga; 1 Squigosaur’s Jaws.",
     "options": [
-      "This model can be equipped with 1 thump gun."
+      "This model can be equipped with 1 Thump Gun."
     ],
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Squighog Boyz"
-      ]
-    },
     "keywords": [
-      "Character",
       "Beast Snagga",
-      "Warboss",
-      "Beastboss on Squigosaur",
-      "Mounted"
+      "Character",
+      "Monster",
+      "Warboss"
     ],
     "factionKeywords": [
       "Orks"
@@ -636,47 +565,46 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kustom mega-blasta",
+        "name": "Traktor Blasta",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3+3"
+      },
+      {
+        "name": "Kustom Mega-blasta",
         "tags": [
           "HAZARDOUS"
         ],
         "range": "24\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "4+",
         "s": "9",
         "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Traktor blasta",
-        "tags": [
-          "ANTI-FLY 3+",
-          "DEVASTATING WOUNDS"
-        ],
-        "range": "36\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "10",
-        "ap": "-2",
-        "d": "D6+1"
+        "d": "3"
       }
     ],
     "melee": [
       {
         "name": "Drilla",
         "tags": [],
-        "a": "2",
+        "a": "3",
         "ws": "3+",
         "s": "12",
         "ap": "-3",
         "d": "3"
       },
       {
-        "name": "Power klaw",
+        "name": "Power Klaw",
         "tags": [],
-        "a": "4",
+        "a": "5",
         "ws": "3+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
         "d": "2"
       }
@@ -686,38 +614,36 @@ export default [
     "abilities": [
       {
         "name": "More Dakka",
-        "text": "While this model is leading a unit, each time a model in that unit makes a ranged attack, re-roll a Hit roll of 1."
+        "text": "This unit’s ranged attacks have:\n▪ [IGNORES COVER].\n▪ If this unit is **riled up**, [SUSTAINED HITS 1]."
       },
       {
         "name": "Shokk-boosta",
-        "text": "You can re-roll Advance rolls made for this model’s unit. In addition, each time this model’s unit makes a Normal, Advance or Fall Back move, models in that unit can move through models and terrain features. When doing so, they can move within Engagement Range of such models but cannot end that move within Engagement Range of them, and any Desperate Escape test is automatically passed."
+        "text": "In your Movement phase, when this unit is selected to make an **advance move**, you can use this ability. If you do:\n▪ This unit can change that **advance roll** to a 6.\n▪ This unit can move through all types of model.\n▪ When this unit ends that **advance move**, make a **hazard roll** for each model in this unit."
       }
     ],
     "composition": [
-      "1 Big Mek"
+      "1 Big Mek model"
     ],
-    "loadout": "**This model is equipped with:** kustom mega-blasta; power klaw.",
+    "loadout": "**This model is equipped with:** 1 Kustom Mega‑blasta; 1 Power Klaw.",
     "options": [
-      "This model’s kustom mega-blasta can be replaced with 1 traktor blasta.",
-      "This model’s power klaw can be replaced with 1 drilla."
+      "This model’s Power Klaw can be replaced with 1 Drilla.",
+      "This model’s Kustom Mega‑blasta can be replaced with 1 Traktor Blasta."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Tankbustas",
-        "Nobz",
         "Boyz",
         "Breaka Boyz",
+        "Flash Gitz",
         "Mek Gunz",
-        "Lootas"
+        "Nobz",
+        "Tankbustas"
       ]
     },
     "keywords": [
       "Character",
-      "Infantry",
-      "Grenades",
-      "Mek",
-      "Big Mek"
+      "Explosives",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
@@ -756,20 +682,21 @@ export default [
       {
         "name": "Blitzkannon",
         "tags": [
-          "HEAVY",
-          "SUSTAINED HITS 1"
+          "IGNORES COVER",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "24\"",
         "a": "8",
-        "bs": "5+",
+        "bs": "4+",
         "s": "7",
         "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Multi-busta Launcha",
         "tags": [
-          "HEAVY"
+          "IGNORES COVER",
+          "LETHAL HITS"
         ],
         "range": "24\"",
         "a": "6",
@@ -781,7 +708,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Stompy feet",
+        "name": "Stompy Feet",
         "tags": [],
         "a": "4",
         "ws": "3+",
@@ -790,26 +717,31 @@ export default [
         "d": "1"
       }
     ],
+    "core": "Deadly Demise 1",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dakkablitz",
-        "text": "In your Shooting phase, while making attacks with this unit, if its blitzkannon targeted a non-MONSTER/VEHICLE unit, that weapon has +6 A."
+        "name": "Even More Dakka",
+        "text": "If this unit is **riled up**, this unit’s ranged attacks have [SUSTAINED HITS 1]."
+      },
+      {
+        "name": "Blitz Dem Gitz!",
+        "text": "In your Shooting phase, if this unit’s Blitzkannon weapon targets a unit (excluding MONSTER/VEHICLE units), that weapon has +6 **A**."
       }
     ],
     "composition": [
-      "1 Big Mek Dakkarig"
+      "1 Big Mek Dakkarig model"
     ],
-    "loadout": "This model is equipped with: 1 blitzkannon; 1 rokkit launcha; 1 stompy feet.",
+    "loadout": "**This model is equipped with:** 1 Blitzkannon; 1 Multi-busta Launcha; 1 Stompy Feet.",
     "keywords": [
       "Big Mek",
-      "Dakkarig",
+      "Character",
+      "Vehicle",
       "Walker"
-        ],
+    ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "90mm"
+    ]
   },
   {
     "id": "big-mek-in-mega-armour",
@@ -834,119 +766,151 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kombi-weapon",
+        "name": "Kustom Shoota – aimed",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
         ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "5+",
+        "range": "18\"",
+        "a": "4",
+        "bs": "4+",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Kustom mega-blasta",
+        "name": "Kustom Shoota – point blank",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "TORRENT"
+        ],
+        "range": "6\"",
+        "a": "D3+3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-weapon – kill shot",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kombi-weapon – point blank",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-weapon – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kustom Mega-blasta",
         "tags": [
           "HAZARDOUS"
         ],
         "range": "24\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "4+",
         "s": "9",
         "ap": "-2",
-        "d": "D6"
+        "d": "3"
       },
       {
-        "name": "Kustom shoota",
+        "name": "Tellyport Blasta",
         "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "18\"",
-        "a": "4",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Tellyport blasta",
-        "tags": [
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "12\"",
-        "a": "3",
-        "bs": "5+",
-        "s": "8",
-        "ap": "-1",
+        "a": "6",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
         "d": "3"
       }
     ],
     "melee": [
       {
+        "name": "Power Klaw",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
         "name": "Killsaw",
         "tags": [],
         "a": "3",
         "ws": "4+",
-        "s": "12",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
-        "d": "2"
+        "d": "3"
       }
     ],
     "core": "Leader",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "More Dakka",
-        "text": "While this model is leading a unit, each time a model in that unit makes a ranged attack, re-roll a Hit roll of 1."
+        "name": "Fix Dat Armour Up (Once per battle, per unit)",
+        "text": "In your Command phase, this unit **heals** 3 wounds.\rPlace a Grot Oiler token next to the unit, removing it when this ability is used."
       },
       {
-        "name": "Fix Dat Armour Up",
-        "text": "While this model is leading a unit, in your Command phase, you can return 1 destroyed Bodyguard model to that unit."
+        "name": "More Dakka",
+        "text": "This unit’s ranged attacks have:\n▪ [IGNORES COVER].\n▪ If this unit is **riled up**, [SUSTAINED HITS 1]."
       }
+    ],
+    "composition": [
+      "1 Big Mek in Mega Armour model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Kustom Shoota; 1 Power Klaw.",
+    "options": [
+      "This model can be equipped with one of the following:\n▫ 1 Tellyport Blasta\n▫ 1 Kustom Force Field",
+      "This model’s Kustom Shoota can be replaced with one of the following:\n▫ 1 Killsaw\n▫ 1 Kombi‑weapon\n▫ 1 Kustom Mega‑blasta"
     ],
     "wargearAbilities": [
       {
         "name": "Kustom Force Field",
         "text": "While the bearer is leading a unit, models in that unit have a 4+ invulnerable save against ranged attacks."
-      },
-      {
-        "name": "Grot Oiler",
-        "text": "Once per battle, at the end of your Movement phase, one model in the bearer’s unit regains D3 lost wounds.\n\n**Designer’s Note:** Place a Grot Oiler token next to the unit, removing it once this ability has been used."
       }
-    ],
-    "composition": [
-      "1 Big Mek in Mega Armour"
-    ],
-    "loadout": "**This model is equipped with:** kustom mega-blasta; power klaw.",
-    "options": [
-      "This model’s kustom-mega blasta can be replaced with one of the following:\n▪ 1 killsaw\n▪ 1 kombi-weapon\n▪ 1 kustom shoota",
-      "This model can be equipped with one of the following:\n▪ 1 tellyport blasta\n▪ 1 kustom force field",
-      "This model can be equipped with 1 grot oiler."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Meganobz"
+        "Meganobz",
+        "Mek Gunz"
       ]
     },
     "keywords": [
-      "Big Mek in Mega Armour",
-      "Mek",
-      "Mega Armour",
+      "Big Mek",
       "Character",
-      "Infantry"
+      "Explosives",
+      "Infantry",
+      "Mega Armour"
     ],
     "factionKeywords": [
       "Orks"
@@ -982,22 +946,22 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Shokk attack gun",
+        "name": "Shokk Attack Gun",
         "tags": [
-          "BLAST",
+          "BLAST 1",
           "HEAVY"
         ],
         "range": "60\"",
-        "a": "D6+1",
+        "a": "D3+3",
         "bs": "5+",
-        "s": "9",
+        "s": "12",
         "ap": "-4",
-        "d": "D6"
+        "d": "D6+1"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Big Mek’s Toolz",
         "tags": [],
         "a": "4",
         "ws": "3+",
@@ -1011,43 +975,31 @@ export default [
     "abilities": [
       {
         "name": "More Dakka",
-        "text": "While this model is leading a unit, each time a model in that unit makes a ranged attack, re-roll a Hit roll of 1."
+        "text": "This unit’s ranged attacks have:\n▪ [IGNORES COVER].\n▪ If this unit is **riled up**, [SUSTAINED HITS 1]."
       },
       {
-        "name": "Deranged Snotling Assault",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks; that unit must take a Battle-shock test."
-      }
-    ],
-    "wargearAbilities": [
-      {
-        "name": "Grot Assistant",
-        "text": "Once per battle, after rolling to determine how many attacks the bearer’s shokk attack gun makes, you can re-roll that dice.\n\n**Designer’s Note:** Place a Grot Assistant token next to the bearer, removing it once this ability has been used."
+        "name": "Support Shokka",
+        "text": "While this model is within 3\" of a friendly ORKS INFANTRY unit (excluding BIG MEK WITH SHOKK ATTACK GUN units), this model has **Lone Operative**."
       }
     ],
     "composition": [
-      "1 Big Mek with Shokk Attack Gun"
+      "1 Big Mek with Shokk Attack Gun model"
     ],
-    "loadout": "**This model is equipped with:** close combat weapon, shokk attack gun.",
-    "options": [
-      "This model can be equipped with 1 grot assistant."
-    ],
+    "loadout": "**This model is equipped with:** 1 Big Mek’s Toolz; 1 Shokk Attack Gun.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Nobz",
         "Boyz",
-        "Lootas",
-        "Tankbustas",
-        "Breaka Boyz",
-        "Mek Gunz"
+        "Mek Gunz",
+        "Nobz",
+        "Tankbustas"
       ]
     },
     "keywords": [
-      "Big Mek with Shokk Attack Gun",
-      "Infantry",
-      "Grenades",
-      "Mek",
-      "Character"
+      "Big Mek",
+      "Character",
+      "Explosives",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
@@ -1055,8 +1007,124 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "big-trakk",
+    "name": "Big Trakk",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Big Trakk",
+        "m": "12\"",
+        "t": "9",
+        "sv": "4+",
+        "w": "12",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – frag",
+        "tags": [
+          "BLAST 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – shell",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3+3"
+      },
+      {
+        "name": "Supa-kannon – frag",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "36\"",
+        "a": "D6+3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Supa-kannon – shell",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured Hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Firing Deck 12, Damaged 4",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Spiked Ram",
+        "text": "When this unit ends a **charge move**, you can select one enemy unit **engaged** with this unit. If you do, roll one D6:\n▪ On a 2-5, that enemy unit suffers D3 **mortal wounds**.\n▪ On a 6, that enemy unit suffers 3 **mortal wounds**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Big Trakk model\n**This model is equipped with:** 1 Armoured Hull; 2 Big Shoota.",
+    "options": [
+      "This model can be equipped with one of the following: 1 Kannon, 1 Supa-kannon"
+    ],
+    "transport": "This model has a transport capacity of 12 Orks Infantry models. It cannot transport Ghazghkull Thraka models. Each Mega Armour, Jump Pack model takes up the space of 2 models.",
+    "keywords": [
+      "Frame",
+      "Transport",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "Hull",
+    "legends": true
+  },
+  {
     "id": "biged-bossbunka",
-    "name": "Big’ed Bossbunka",
+    "name": "Big’Ed Bossbunka",
     "points": [
       {
         "models": 1,
@@ -1066,7 +1134,7 @@ export default [
     "flavor": "Having a Gargant’s severed head serve as a boss’ hut is not only a status symbol, but also provides a base of operations equipped with a remarkable array of Orky features – from the potent Gaze of Gork built into one eye to the kommanda’s shoutin’ pole that carries the boss’ bellowed commands far and wide.",
     "profiles": [
       {
-        "name": "Big’ed Bossbunka",
+        "name": "Big 'Ed Bossbunka",
         "m": "-",
         "t": "10",
         "sv": "3+",
@@ -1077,8 +1145,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -1091,11 +1160,10 @@ export default [
       {
         "name": "Gaze of Gork – glare",
         "tags": [
-          "BLAST",
-          "SUSTAINED HITS D3"
+          "BLAST 1"
         ],
         "range": "24\"",
-        "a": "D6",
+        "a": "3",
         "bs": "5+",
         "s": "5",
         "ap": "0",
@@ -1103,51 +1171,48 @@ export default [
       },
       {
         "name": "Gaze of Gork – squint",
-        "tags": [
-          "SUSTAINED HITS D3"
-        ],
+        "tags": [],
         "range": "18\"",
         "a": "1",
         "bs": "5+",
         "s": "12",
-        "ap": "-4",
+        "ap": "-3",
         "d": "3"
       }
     ],
-    "core": "Deadly Demise D3, Firing Deck 11",
+    "core": "Firing Deck 11, Deadly Demise D3",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Ramshackle Cover",
-        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this FORTIFICATION, that model has the Benefit of Cover against that attack."
-      },
-      {
-        "name": "Shoutin’ Pole (Aura)",
-        "text": "While a friendly ORKS unit is within 6\" of this FORTIFICATION, improve the Leadership characteristic of models in that unit by 1."
+        "name": "Raucous Occupants",
+        "text": "While this model is within range of your **home objective**, add the **OC** of models embarked within this model to this model's **OC**."
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is **engaged** with only FORTIFICATION units:\n▪ That enemy unit can be selected as a target of ranged attacks.\n▪ When shooting that enemy unit, those ranged attacks have -1 to **hit rolls** (excluding [CLOSE-QUARTERS] attacks).\n▪ When that enemy unit is selected to make a **fall-back move**, if that enemy unit is only **engaged** with FORTIFICATION units, and that enemy unit is not **battle-shocked**, **hazard rolls** made for that enemy unit are automatically passed."
+      },
+      {
+        "name": "Ramshackle Cover",
+        "text": "When an attack targets a unit that is not **fully visible** to the attacking model because of this unit, the target has the **benefit of cover** against that attack."
       }
     ],
     "composition": [
-      "1 Big’ed Bossbunka"
+      "1 Big’ed Bossbunka model"
     ],
-    "loadout": "**This model is equipped with:** big shoota; Gaze of Gork.",
+    "loadout": "**This model is equipped with:** 1 Big Shoota; 1 Gaze of Gork.",
     "options": [
-      "This model can be equipped with up to 3 additional big shootas."
+      "This model can be equipped with up to 3 Big Shootas."
     ],
-    "transport": "This model has a transport capacity of 11 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models.",
+    "transport": "This model has a **transport capacity** of 11 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models.",
     "keywords": [
-      "Big’ed Bossbunka",
+      "Fortification",
+      "Frame",
       "Transport",
-      "Vehicle",
-      "Fortification"
+      "Vehicle"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "Hull"
+    ]
   },
   {
     "id": "bigboss",
@@ -1174,7 +1239,8 @@ export default [
       {
         "name": "Slugga",
         "tags": [
-          "CLOSE-QUARTERS"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -1186,29 +1252,29 @@ export default [
     ],
     "melee": [
       {
-        "name": "Two-handed big choppa",
+        "name": "Big Choppa",
         "tags": [
-          "CLEAVE 1"
+          "PRECISION"
         ],
         "a": "5",
         "ws": "3+",
         "s": "7",
-        "ap": "-1",
+        "ap": "-2",
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Breakin' Heads",
-        "text": "This unit's melee weapons have [SUSTAINED HITS 1]."
-      },
-      {
-        "name": "Somethin' to Prove",
-        "text": "This unit has +1 to Charge rolls."
+        "name": "Sumfin’ to Prove",
+        "text": "This unit’s melee attacks have +1 to **hit rolls**."
       }
     ],
+    "composition": [
+      "1 Bigboss model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Big Choppa; 1 Slugga.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1217,23 +1283,17 @@ export default [
         "Nobz"
       ]
     },
-    "composition": [
-      "1 Bigboss"
-    ],
-    "loadout": "This model is equipped with: 1 slugga; 1 two-handed big choppa.",
     "keywords": [
-      "Infantry",
       "Character",
-      "Bigboss"
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "40mm"
+    ]
   },
   {
     "id": "blitza-bommer",
-    "name": "Blitza-bommer",
+    "name": "Blitza‑bommer",
     "points": [
       {
         "models": 1,
@@ -1249,14 +1309,15 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "-",
+        "oc": "-1",
         "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -1267,14 +1328,13 @@ export default [
         "d": "1"
       },
       {
-        "name": "Twin supa-shoota",
+        "name": "Dual Supa-shoota",
         "tags": [
-          "RAPID FIRE 2",
-          "SUSTAINED HITS 1",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
         ],
         "range": "36\"",
-        "a": "4",
+        "a": "8",
         "bs": "5+",
         "s": "6",
         "ap": "-1",
@@ -1283,7 +1343,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Impact",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -1292,129 +1352,28 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
+    "core": "Deadly Demise D3, Damaged 4",
     "faction": "Waaagh!",
     "abilities": [
       {
         "name": "Boom Bomb",
-        "text": "At the end of your opponent’s Fight phase, select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for that unit: On a 4+, that unit suffers D6 mortal wounds."
+        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **Lone Operative** units) within 24\" of this unit, and roll one D6 for that unit:\n▪ On a 1-3, that enemy unit suffers D3 **mortal wounds**.\n▪ On a 4-5, that enemy unit suffers 3 **mortal wounds**.\n▪ On a 6, that enemy unit suffers D3+3 **mortal wounds**."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Blitza-bommer"
+      "1 Blitza‑bommer model"
     ],
-    "loadout": "**This model is equipped with:** big shoota; twin supa-shoota; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Impact; 1 Big Shoota; 1 Dual Supa‑shoota.",
     "keywords": [
       "Aircraft",
-      "Blitza-bommer",
       "Fly",
       "Speed Freeks",
       "Vehicle"
-        ],
-    "factionKeywords": [
-      "Orks"
-    ],
-    "baseSize": "120x92mm Oval Base"
-  },
-  {
-    "id": "boomdakka-snazzwagon",
-    "name": "Boomdakka Snazzwagon",
-    "points": [
-      {
-        "models": 1,
-        "points": 70
-      }
-    ],
-    "flavor": "The Boomdakka Snazzwagon is a high-speed riot on wheels. Bristling with dakka and swarming with anarchic greenskin crew, the vehicle roars through the enemy lines in a storm of roiling smoke, whistling bullets, incendiary burna bottles and shockingly foul language before skidding around for another pass.",
-    "profiles": [
-      {
-        "name": "Boomdakka Snazzwagon",
-        "m": "12\"",
-        "t": "7",
-        "sv": "4+",
-        "w": "9",
-        "ld": "7+",
-        "oc": "3",
-        "inv": "6+"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Big shoota",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "5+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Grot blasta",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "4+",
-        "s": "3",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Mek speshul",
-        "tags": [
-          "ASSAULT",
-          "RAPID FIRE 4",
-          "SUSTAINED HITS 1"
-        ],
-        "range": "24\"",
-        "a": "12",
-        "bs": "5+",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Spiked wheels",
-        "tags": [],
-        "a": "4",
-        "ws": "4+",
-        "s": "7",
-        "ap": "-1",
-        "d": "2"
-      }
-    ],
-    "core": "Deadly Demise 1",
-    "faction": "Waaagh!",
-    "abilities": [
-      {
-        "name": "Billowing Fumes (Aura)",
-        "text": "While an enemy unit (excluding MONSTER/VEHICLE units) is within 6\" of this unit, when that enemy unit is selected to shoot, that unit’s targets have the Benefit of Cover until that unit has shot."
-      }
-    ],
-    "composition": [
-      "1 Boomdakka Snazzwagon"
-    ],
-    "loadout": "**This model is equipped with:** big shoota; grot blasta; Mek speshul; spiked wheels.",
-    "keywords": [
-      "Boomdakka Snazzwagon",
-      "Speed Freeks",
-      "Vehicle",
-      "Grenades"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "120mm"
   },
   {
     "id": "boss-snikrot",
@@ -1442,11 +1401,13 @@ export default [
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "PRECISION"
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "5+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -1454,34 +1415,34 @@ export default [
     ],
     "melee": [
       {
-        "name": "Mork’s Teeth",
+        "name": "Mork’s Teef",
         "tags": [
-          "PRECISION",
-          "TWIN-LINKED"
+          "ANTI-INFANTRY 2+",
+          "PRECISION"
         ],
         "a": "6",
         "ws": "2+",
         "s": "6",
-        "ap": "-1",
+        "ap": "-2",
         "d": "2"
       }
     ],
-    "core": "Infiltrators, Leader, Lone Operative, Stealth",
+    "core": "Leader, Lone Operative, Infiltrators, Stealth",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Red Skull Kommandos",
-        "text": "This unit has +1 Sv against ranged attacks."
+        "name": "Kunnin’ Infiltrator",
+        "text": "At the end of your opponent's Fight phase, if each model in this unit is **hidden** and **unengaged**, you can place this unit in **strategic reserves**."
       },
       {
-        "name": "Kunnin’ Infiltrator",
-        "text": "In your Movement phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike.\n▪ This unit must make an ingress move this phase (including in your first turn)."
+        "name": "Deff from the Shadows (First battle round onwards)",
+        "text": "At the end of your opponent's Movement phase, if this unit is in **strategic reserves**, this unit can make an **ingress move**."
       }
     ],
     "composition": [
-      "1 Boss Snikrot – EPIC HERO"
+      "1 Boss Snikrot model"
     ],
-    "loadout": "**This model is equipped with:** slugga; Mork’s Teeth.",
+    "loadout": "**This model is equipped with:** 1 Mork’s Teef; 1 Slugga.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1489,17 +1450,96 @@ export default [
       ]
     },
     "keywords": [
-      "Boss Snikrot",
-      "Epic Hero",
-      "Smoke",
-      "Grenades",
       "Character",
-      "Infantry"
+      "Epic Hero",
+      "Explosives",
+      "Infantry",
+      "Smoke"
     ],
     "factionKeywords": [
       "Orks"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "boss-zagstruk",
+    "name": "Boss Zagstruk",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Boss Zagstruk",
+        "m": "12\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Slugga",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Da Vulcha's Klaws and Choppa",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader, Deep Strike, Feel No Pain 6+",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Drill Boss",
+        "text": "This unit's melee attacks have +1 to **hit rolls**."
+      },
+      {
+        "name": "Plummeting Descent",
+        "text": "If this unit made an **ingress move** this turn, this unit can re-roll **charge rolls**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Boss Zagstruk model\n**This model is equipped with:** 1 Da Vulcha's Klaws and Choppa; 1 Slugga.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Stormboyz"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Fly",
+      "Infantry",
+      "Jump Pack"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "40mm",
+    "legends": true
   },
   {
     "id": "boyz",
@@ -1529,41 +1569,27 @@ export default [
     "flavor": "Ork Boyz surge into battle in huge, unruly mobs dotted with crude special weapons and led by foul-tempered Boss Nobz. Most simply stampede towards the enemy lines, relying on their numbers and natural hardiness to carry the charge home, while others hitch a ride on Trukks and Battlewagons so as to get stuck in all the faster.",
     "profiles": [
       {
-        "name": "BOY",
+        "name": "Boy",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "2",
-        "baseSize": "32mm"
+        "oc": "2"
       },
       {
-        "name": "BOSS NOB",
+        "name": "Nob",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
-        "w": "2",
+        "w": "3",
         "ld": "7+",
-        "oc": "2",
-        "baseSize": "32mm"
+        "oc": "2"
       }
     ],
     "ranged": [
       {
-        "name": "Big shoota",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "5+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Kombi-rokkit",
+        "name": "Kombi-rokkit – busta rokkit",
         "tags": [],
         "range": "24\"",
         "a": "1",
@@ -1573,9 +1599,12 @@ export default [
         "d": "3"
       },
       {
-        "name": "Kombi-shoota",
-        "tags": [],
-        "range": "24\"",
+        "name": "Kombi-rokkit – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
         "a": "2",
         "bs": "5+",
         "s": "4",
@@ -1583,22 +1612,9 @@ export default [
         "d": "1"
       },
       {
-        "name": "Kombi-weapon",
+        "name": "Kustom Shoota",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Kustom shoota",
-        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "18\"",
@@ -1609,20 +1625,83 @@ export default [
         "d": "1"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Big Shoota",
         "tags": [
-          "BLAST"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Burna",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-skorcha – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-skorcha – skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "2",
         "bs": "5+",
-        "s": "9",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       },
       {
         "name": "Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 1"
         ],
         "range": "18\"",
@@ -1635,7 +1714,8 @@ export default [
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -1647,9 +1727,29 @@ export default [
     ],
     "melee": [
       {
-        "name": "Big choppa",
+        "name": "Kustom Choppa",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power Klaw",
         "tags": [],
         "a": "3",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Big Choppa",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "4",
         "ws": "3+",
         "s": "7",
         "ap": "-1",
@@ -1660,64 +1760,49 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
-      },
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "2",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "9",
-        "ap": "-2",
-        "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Get Da Good Bitz",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
+        "name": "Ammo Runts (Once per battle, per unit)",
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\rPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
+      },
+      {
+        "name": "Tide of Muscle",
+        "text": "In the Fight phase, if this unit made a **charge move** this turn, this unit's melee attacks have [LETHAL HITS]."
+      },
+      {
+        "name": "Never Too Busy to Fight",
+        "text": "Being **engaged** does not prevent this unit from being **eligible to start an action**."
       }
     ],
     "composition": [
-      "1 Boss Nob",
-      "9-19 Boyz"
+      "1‑2 Nob models",
+      "9‑18 Boy models"
     ],
-    "loadout": "**The Boss Nob is equipped with:** slugga; big choppa.\n\n**Every Boy is equipped with:** slugga; choppa.",
+    "loadout": "**Every Nob is equipped with:** 1 Kustom Choppa; 1 Kombi-skorcha.\n**Every Boy is equipped with:** 1 Choppa; 1 Shoota; 1 Slugga.",
     "options": [
-      "The Boss Nob’s big choppa can be replaced with 1 power klaw.",
-      "The Boss Nob’s big choppa and slugga can be replaced with 1 kombi-weapon and 1 close combat weapon.",
-      "The Boss Nob can have its big choppa replaced with one of the following (this model’s big choppa cannot then be replaced):\n▪ 1 big choppa and 1 kustom shoota\n▪ 1 big choppa, 1 kombi-rokkit and 1 kombi-shoota",
-      "Any number of Boyz can each be equipped with 1 shoota.",
-      "For every 10 models in this unit, 1 Boy not equipped with 1 shoota can have its choppa and slugga replaced with one of the following:\n▪ 1 big shoota and 1 close combat weapon\n▪ 1 rokkit launcha and 1 close combat weapon"
+      "Any number of Nob models can each have their Kustom Choppa and Kombi-skorcha replaced with 1 Big Choppa.",
+      "Any number of Nob models can each have their Kustom Choppa replaced with 1 Power Klaw.",
+      "Any number of Nob models can each have their Kombi-skorcha replaced with one of the following:\n▫ 1 Kombi-rokkit\n▫ 1 Kustom Shoota",
+      "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Big Shoota.",
+      "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Rokkit Launcha.",
+      "For every 10 models in this unit, 1 Boy model can have their Shoota replaced with 1 Burna."
     ],
     "keywords": [
-      "Infantry",
       "Battleline",
-      "Mob",
-      "Boyz",
-      "Grenades"
+      "Explosives",
+      "Infantry",
+      "Mob"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "rules": [
-      {
-        "name": "BODYGUARD",
-        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one (but only if one of those is a WARBOSS unit)."
-      }
-    ]
+    "baseSize": "32mm, 40mm"
   },
   {
     "id": "breaka-boyz",
@@ -1737,30 +1822,57 @@ export default [
     "flavor": "Breaka Boyz dismantle the foe’s war engines and defences with well-placed krumpings from their smash hammers. Some use a pair of brutal knucklebustas, while the more addled opt for a tankhammer: a rokkit strapped to a big metal stick that offers a satisfyingly explosive means of up-close annihilation.",
     "profiles": [
       {
-        "name": "BREAKA BOY",
+        "name": "Breaka Boy",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
         "w": "2",
         "ld": "7+",
         "oc": "1"
+      },
+      {
+        "name": "Nob",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Rokkit pistol",
+        "name": "Rokkit Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
         "bs": "5+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       }
     ],
     "melee": [
+      {
+        "name": "Smash Hammer – hunter (vs MONSTER/VEHICLE)",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Smash Hammer – standard",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
       {
         "name": "Choppa",
         "tags": [],
@@ -1771,81 +1883,58 @@ export default [
         "d": "1"
       },
       {
-        "name": "Knucklebustas",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+",
-          "TWIN-LINKED"
-        ],
-        "a": "5",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Smash hammer",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
-        ],
-        "a": "2",
-        "ws": "3+",
-        "s": "6",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
         "name": "Tankhammer",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+",
           "DEVASTATING WOUNDS",
           "HAZARDOUS"
         ],
-        "a": "2",
-        "ws": "3+",
-        "s": "6",
+        "a": "3",
+        "ws": "4+",
+        "s": "12",
         "ap": "-2",
         "d": "3"
+      },
+      {
+        "name": "Knucklebustas",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Trophy Hunters",
-        "text": "Each time this unit declares a charge, you can re-roll the Charge roll."
+        "name": "Bomb Squigs (Once per turn, twice per battle, per unit)",
+        "text": "In your Movement phase, when this unit ends a **normal move**, you can select one **visible **enemy unit within 12\" of this unit and roll one D6:\n▪ On a 3+, that enemy unit suffers D3 **mortal wounds**. Place two Bomb Squig tokens next to the unit, removing one each time this ability is used."
       },
       {
-        "name": "Bomb Squigs",
-        "text": "Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.\n\n**Designer’s Note:** Place two Bomb Squig tokens next to the unit, removing one each time this unit uses this ability."
+        "name": "Trophy Hunters",
+        "text": "This unit has +1 to **charge rolls**."
       }
     ],
     "composition": [
-      "1 Boss Nob",
-      "5 Breaka Boyz"
+      "1 Nob model",
+      "5 Breaka Boy models"
     ],
-    "loadout": "**The Boss Nob is equipped with:** rokkit pistol; smash hammer; choppa.\n\n**Each Breaka Boy is equipped with:** smash hammer.",
+    "loadout": "**The Nob is equipped with:** 1 Choppa; 1 Rokkit Pistol; 1 Smash Hammer.\n**Every Breaka Boy is equipped with:** 1 Smash Hammer.",
     "options": [
-      "The Boss Nob’s smash hammer can be replaced with 1 rokkit pistol.",
-      "One Breaka Boy’s smash hammer can be replaced with 1 knucklebustas.",
-      "One Breaka Boy’s smash hammer can be replaced with 1 tankhammer."
+      "The Nob can have their Smash Hammer replaced with 1 Rokkit Pistol.",
+      "1 Breaka Boy model can have their Smash Hammer replaced with 1 Knucklebustas.",
+      "1 Breaka Boy model can have their Smash Hammer replaced with 1 Tankhammer."
     ],
     "keywords": [
-      "Breaka Boyz",
-      "Infantry",
-      "Grenades"
+      "Explosives",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm / 40mm",
-    "rules": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Boyz unit, it can be attached to this unit instead."
-      }
-    ]
+    "baseSize": "32mm, 40mm"
   },
   {
     "id": "burna-boyz",
@@ -1863,7 +1952,16 @@ export default [
     "flavor": "The burna is a cutting torch intended for slicing up battlefield wreckage. Serendipitously, it also works well when searing through an enemy’s armour at close quarters, or, with a twist of its nozzle, can instead belch a tongue of roaring flame over the foe. Needless to say, the most pyromaniacally inclined Orks delight in doing both.",
     "profiles": [
       {
-        "name": "Burna Boyz",
+        "name": "Spanner",
+        "m": "6\"",
+        "t": "5",
+        "sv": "5+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "Burna Boy",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
@@ -1874,8 +1972,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -1888,18 +1987,18 @@ export default [
       {
         "name": "Burna",
         "tags": [
-          "IGNORES COVER",
+          "BLAST 1",
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "3",
+        "bs": "-",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Kustom mega-blasta",
+        "name": "Kustom Mega-blasta",
         "tags": [
           "HAZARDOUS"
         ],
@@ -1908,33 +2007,43 @@ export default [
         "bs": "5+",
         "s": "9",
         "ap": "-2",
-        "d": "D6"
+        "d": "3"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Rokkit Launcha – blasta",
         "tags": [
-          "BLAST"
+          "BLAST 2"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "2",
         "bs": "5+",
-        "s": "9",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Gun Stock and Fists",
         "tags": [],
-        "a": "3",
+        "a": "2",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Cuttin’ flames",
+        "name": "Cuttin' Flames",
         "tags": [],
         "a": "2",
         "ws": "4+",
@@ -1947,30 +2056,26 @@ export default [
     "abilities": [
       {
         "name": "Pyromaniaks",
-        "text": "Each time a model in this unit makes a ranged attack with a burna that targets an enemy unit within 6\", re-roll a Wound roll of 1. If the target of that attack is also within range of an objective marker, you can re-roll the Wound roll instead."
+        "text": "This unit's attacks that target a unit within 6\" of this unit can re-roll **wound rolls** of 1."
       }
     ],
-    "composition": [
-      "1 Spanner and 4 Burna Boyz",
-      "OR",
-      "2 Spanners and 8 Burna Boyz"
-    ],
-    "loadout": "**Every Spanner is equipped with:** close combat weapon; big shoota.\n\n**Every Burna Boy is equipped with:** burna; cuttin’ flames.",
+    "composition": [],
+    "loadout": "• 1-2 Spanner models\n• 4-8 Burna Boy models\n**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Burna Boy is equipped with:** 1 Burna; 1 Cuttin' Flames.",
     "options": [
-      "Any number of Spanners can each have their big shoota replaced with one of the following:\n▪ 1 kustom mega-blasta\n▪ 1 rokkit launcha"
+      "Any number of Spanner models can each have their Big Shoota replaced with one of the following: 1 Kustom Mega-blasta, 1 Rokkit Launcha"
     ],
     "keywords": [
-      "Infantry",
-      "Burna Boyz"
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "legends": true
   },
   {
     "id": "burna-bommer",
-    "name": "Burna-bommer",
+    "name": "Burna‑bommer",
     "points": [
       {
         "models": 1,
@@ -1986,55 +2091,55 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "-",
+        "oc": "-1",
         "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Twin big shoota",
+        "name": "Dual Big Shoota",
         "tags": [
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
         ],
         "range": "36\"",
-        "a": "3",
+        "a": "6",
         "bs": "5+",
         "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Twin supa-shoota",
+        "name": "Dual Supa Shoota",
         "tags": [
-          "RAPID FIRE 2",
-          "SUSTAINED HITS 1",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4",
+          "SUSTAINED HITS 1"
         ],
         "range": "36\"",
-        "a": "4",
+        "a": "8",
         "bs": "5+",
         "s": "6",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Skorcha missile rack",
+        "name": "Skorcha Missile Rack",
         "tags": [
-          "BLAST",
+          "BLAST 2",
           "IGNORES COVER"
         ],
         "range": "36\"",
-        "a": "2D6",
+        "a": "6",
         "bs": "5+",
         "s": "5",
-        "ap": "-1",
+        "ap": "0",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Impact",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -2043,36 +2148,31 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
+    "core": "Deadly Demise D3, Damaged 4",
     "faction": "Waaagh!",
     "abilities": [
       {
         "name": "Burna Bomb",
-        "text": "At the end of your opponent’s Fight phase, you can select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit:\n▪ Friendly ORKS units’ ranged attacks that target that enemy unit have [IGNORES COVER] until the end of your next turn.\n▪ Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 mortal wound."
+        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **Lone Operative** and MONSTER/VEHICLE units) within 36\" of this unit, and roll one D6 for that unit. On a 2+:\n▪ That enemy unit suffers D3 **mortal wounds**.\n▪ That enemy unit cannot be **hidden** until the end of your next turn.\n▪ Ranged attacks that target that enemy unit have [IGNORES COVER] until the end of your next turn."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Burna-bommer"
+      "1 Burna‑bommer model"
     ],
-    "loadout": "**This model is equipped with:** twin big shoota; twin supa-shoota; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Impact; 1 Dual Big Shoota; 1 Dual Supa Shoota.",
     "options": [
-      "This model can be equipped with 1 skorcha missile rack."
+      "This model can be equipped with 1 Skorcha Missile Rack."
     ],
     "keywords": [
       "Aircraft",
-      "Burna-bommer",
       "Fly",
       "Speed Freeks",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "120x92mm Oval Base"
+    "baseSize": "120mm"
   },
   {
     "id": "dakkajet",
@@ -2092,20 +2192,19 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "-",
+        "oc": "-1",
         "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Twin supa-shoota",
+        "name": "Dual Supa-shoota",
         "tags": [
-          "RAPID FIRE 2",
-          "SUSTAINED HITS 1",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
         ],
         "range": "36\"",
-        "a": "4",
+        "a": "8",
         "bs": "5+",
         "s": "6",
         "ap": "-1",
@@ -2114,7 +2213,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Impact",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -2123,36 +2222,31 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
+    "core": "Damaged 4, Deadly Demise D3",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dakkastorm",
-        "text": "Each time this model makes a ranged attack, every successful Hit roll scores a Critical Hit."
+        "name": "Strafing Run",
+        "text": "In your Shooting phase, this unit's ranged attacks that target a unit (excluding FLY units) have +1 to **hit rolls**."
       }
     ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Dakkajet"
+      "1 Dakkajet model"
     ],
-    "loadout": "**This model is equipped with:** 2 twin supa-shootas; armoured hull.",
+    "loadout": "**This model is equipped with:** 1 Armoured Impact; 2 Dual Supa‑shoota.",
     "options": [
-      "This model can be equipped with 1 additional twin supa-shoota."
+      "This model can be equipped with 1 Dual Supa‑shoota."
     ],
     "keywords": [
       "Aircraft",
-      "Dakkajet",
       "Fly",
       "Speed Freeks",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "120x92mm Oval Base"
+    "baseSize": "120mm"
   },
   {
     "id": "deff-dread",
@@ -2184,8 +2278,43 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Kustom Mega-blasta",
         "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -2196,84 +2325,61 @@ export default [
         "d": "1"
       },
       {
-        "name": "Kustom mega-blasta",
-        "tags": [
-          "HAZARDOUS"
-        ],
-        "range": "24\"",
-        "a": "3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Rokkit launcha",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
         "name": "Skorcha",
         "tags": [
-          "IGNORES COVER",
+          "BLAST 1",
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "3",
+        "bs": "-",
         "s": "5",
-        "ap": "-1",
+        "ap": "0",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Dread klaw",
+        "name": "Extra Klaw",
         "tags": [
-          "DEAD CHOPPY"
+          "EXTRA ATTACKS"
         ],
-        "a": "4",
+        "a": "1",
         "ws": "3+",
         "s": "12",
         "ap": "-2",
         "d": "3"
       },
       {
-        "name": "Stompy feet",
-        "tags": [],
-        "a": "4",
+        "name": "Dread Klaws",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "5",
         "ws": "3+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
       }
     ],
     "core": "Deadly Demise 1",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Piston-driven Brutality",
-        "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
+        "name": "Dread ’Ard",
+        "text": "Attacks that target this unit have -1 **D**."
       }
     ],
     "composition": [
-      "1 Deff Dread"
+      "1 Deff Dread model"
     ],
-    "loadout": "**This model is equipped with:** 2 big shootas; 2 dread klaws; stompy feet.",
+    "loadout": "**This model is equipped with:** 1 Big Shoota; 1 Dread Klaws; 1 Skorcha.",
     "options": [
-      "This model’s big shootas can each be replaced with one of the following:\n▪ 1 dread klaw\n▪ 1 kustom-mega blasta\n▪ 1 rokkit launcha\n▪ 1 skorcha",
-      "This model’s dread klaws can each be replaced with one of the following:\n▪ 1 big shoota\n▪ 1 kustom-mega blasta\n▪ 1 rokkit launcha\n▪ 1 skorcha"
+      "This model’s Big Shoota can be replaced with one of the following:\n▫ 1 Extra Klaw\n▫ 1 Kustom Mega‑blasta\n▫ 1 Rokkit Launcha",
+      "This model’s Skorcha can be replaced with one of the following:\n▫ 1 Extra Klaw\n▫ 1 Big Shoota\n▫ 1 Kustom Mega‑blasta\n▫ 1 Rokkit Launcha"
     ],
     "keywords": [
       "Vehicle",
-      "Deff Dread",
       "Walker"
     ],
     "factionKeywords": [
@@ -2307,7 +2413,8 @@ export default [
       {
         "name": "Boomstikks",
         "tags": [
-          "ASSAULT"
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "6",
@@ -2317,58 +2424,71 @@ export default [
         "d": "1"
       },
       {
-        "name": "Killa jet – burna",
+        "name": "Snagga Klaw",
         "tags": [
-          "IGNORES COVER",
-          "TORRENT"
+          "ASSAULT",
+          "PRECISION"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "1",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Killa Jet – burna",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "3+",
         "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Killa jet – cutta",
+        "name": "Killa Jet – cutta",
         "tags": [
-          "MELTA 2"
+          "EXTRA ATTACKS"
         ],
-        "range": "12\"",
         "a": "1",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-4",
-        "d": "D6"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Snagga klaw",
-        "tags": [],
-        "a": "4",
         "ws": "3+",
         "s": "10",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Snagga Klaw",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "7",
         "ap": "-2",
         "d": "2"
       }
     ],
     "core": "Deadly Demise 1, Leader",
-    "faction": "Waaagh!",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Speedboss",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "name": "Get Back in da Race! (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly SPEED FREEKS unit within 6\" of this unit. That unit (and any units embarked within that unit):\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
       },
       {
         "name": "Fuel-mixa Grot",
-        "text": "Each time this model’s unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in that unit."
+        "text": "This unit has +1 to **advance rolls**."
       }
     ],
     "composition": [
-      "1 Defkilla Wartrike"
+      "1 Deffkilla Wartrike model"
     ],
-    "loadout": "**This model is equipped with:** boomstikks; killa jet; snagga klaw.",
+    "loadout": "**This model is equipped with:** 1 Boomstikks; 1 Killa Jet; 1 Snagga Klaw.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -2377,15 +2497,13 @@ export default [
     },
     "keywords": [
       "Character",
-      "Warboss",
       "Mounted",
       "Speed Freeks",
-      "Deffkilla Wartrike"
+      "Warboss"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "150x95mm Oval Base"
+    ]
   },
   {
     "id": "deffkoptas",
@@ -2415,7 +2533,7 @@ export default [
     "flavor": "Most Orks take a dim view of muckin’ about in the sky, and would much rather go to war with their feet firmly on the ground. Deffkopta pilots are the lunatic exception, hurtling ahead to spy out enemy forces for their warband to bring to battle, and to give those same enemies a good strafing run or three in the meantime.",
     "profiles": [
       {
-        "name": "Deffkoptas",
+        "name": "Deffkopta",
         "m": "12\"",
         "t": "6",
         "sv": "4+",
@@ -2427,34 +2545,47 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kopta rokkits",
+        "name": "Kustom Mega-blasta",
         "tags": [
-          "BLAST",
-          "TWIN-LINKED"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
-        "name": "Kustom mega-blasta",
-        "tags": [
-          "HAZARDOUS"
+          "HAZARDOUS",
+          "LETHAL HITS"
         ],
         "range": "24\"",
         "a": "3",
         "bs": "5+",
         "s": "9",
         "ap": "-2",
-        "d": "D6"
+        "d": "3"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
       },
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -2466,12 +2597,24 @@ export default [
     ],
     "melee": [
       {
-        "name": "Spinnin’ blades",
+        "name": "Choppa",
         "tags": [],
-        "a": "6",
+        "a": "3",
+        "ws": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Spinnin’ Blades",
+        "tags": [
+          "CLEAVE 1",
+          "HAZARDOUS"
+        ],
+        "a": "4",
         "ws": "3+",
         "s": "5",
-        "ap": "0",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2480,27 +2623,30 @@ export default [
     "abilities": [
       {
         "name": "Deff from Above",
-        "text": "Each time this unit ends a Normal move, you can select one enemy unit it moved over during that move and roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
+        "text": "In your Shooting phase, if this unit made an **ingress move** this turn, this unit's ranged attacks have +1 to **hit rolls**."
+      },
+      {
+        "name": "Aerial Manoover",
+        "text": "At the end of your opponent's Fight phase, if this unit is **unengaged**, you can place this unit in **strategic reserves**."
       }
     ],
     "composition": [
-      "3-6 Deffkoptas"
+      "3‑6 Deffkopta models"
     ],
-    "loadout": "**Every model is equipped with:** kopta rokkits; slugga; spinnin’ blades.",
+    "loadout": "**Every model is equipped with:** 1 Choppa; 1 Rokkit Launcha; 1 Slugga; 1 Spinnin’ Blades.",
     "options": [
-      "For every 3 models in this unit, 1 Deffkopta can have its kopta rokkits replaced with 1 kustom mega-blasta."
+      "For every 3 models in this unit, 1 model can have their Rokkit Launcha replaced with 1 Kustom Mega‑blasta."
     ],
     "keywords": [
-      "Vehicle",
+      "Explosives",
       "Fly",
-      "Grenades",
-      "Speed Freeks",
-      "Deffkoptas"
+      "Mounted",
+      "Speed Freeks"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75mm"
   },
   {
     "id": "flash-gitz",
@@ -2530,27 +2676,61 @@ export default [
     "flavor": "Flash Gitz are despised by other greenskins for being self-important show-offs with too much snazz and dakka for their own good. The Gitz couldn’t care less, of course, delighting in ostentatiously brandishing their over-the-top snazzguns before using them to utterly demolish the enemy in a hail of shells, blasts and rokkits.",
     "profiles": [
       {
-        "name": "Flash Gitz",
+        "name": "Flash Git",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
-        "w": "2",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "Kaptin",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "3",
         "ld": "7+",
         "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Snazzgun",
+        "name": "Snazzgun – cutta",
         "tags": [
-          "HEAVY",
+          "HAZARDOUS",
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-3",
+        "d": "D3+2"
+      },
+      {
+        "name": "Snazzgun – dakka",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "SUSTAINED HITS 1"
         ],
         "range": "24\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "4+",
         "s": "6",
         "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Snazzgun – kill shot",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
         "d": "2"
       }
     ],
@@ -2568,28 +2748,18 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Gun-crazy Show-offs",
-        "text": "Each time a model in this unit targets the closest eligible target with its snazzgun, until the end of the phase, that weapon has an Attacks characteristic of 4."
-      }
-    ],
-    "wargearAbilities": [
-      {
-        "name": "Ammo Runt",
-        "text": "Once per battle, when this unit is selected to shoot, it can use this ability. If it does, until the end of the phase, ranged weapons equipped by models in this unit have the [LETHAL HITS] ability.\n\n**Designer’s Note:** Place an Ammo Runt token next to the unit, removing it after this ability has been used."
+        "name": "Finderz Keeperz",
+        "text": "In your Shooting phase, if any of the following apply, this unit’s ranged attacks have +1 **AP**:\n▪ This unit is within range of an **objective**.\n▪ The target of that attack is within range of an **objective**."
       }
     ],
     "composition": [
-      "1 Kaptin",
-      "4-9 Flash Gitz"
+      "1 Kaptin model",
+      "4‑9 Flash Git models"
     ],
-    "loadout": "**Every model is equipped with:** snazzgun; choppa.",
-    "options": [
-      "This unit can be equipped with 1 ammo runt."
-    ],
+    "loadout": "**Every model is equipped with:** 1 Choppa; 1 Snazzgun.",
     "keywords": [
-      "Infantry",
-      "Grenades",
-      "Flash Gitz"
+      "Explosives",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
@@ -2625,6 +2795,18 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Supa-kannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "60\"",
+        "a": "2D6",
+        "bs": "5+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
         "name": "Kannon – frag",
         "tags": [
           "BLAST"
@@ -2645,18 +2827,6 @@ export default [
         "s": "9",
         "ap": "-2",
         "d": "D6"
-      },
-      {
-        "name": "Supa-kannon",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "60\"",
-        "a": "2D6",
-        "bs": "5+",
-        "s": "12",
-        "ap": "-2",
-        "d": "3"
       }
     ],
     "melee": [
@@ -2686,25 +2856,23 @@ export default [
     "abilities": [
       {
         "name": "Gargantuan",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding **TITANIC** models) and terrain features that are 4\" or less in height as if they were not there."
       },
       {
         "name": "Walking Bastion",
         "text": "This model does not suffer the penalty to its Hit rolls for making ranged attacks while enemy units are within Engagement Range of it."
       }
     ],
+    "composition": [],
+    "loadout": "▪ **1 Gargantuan Squiggoth**\n****This model is equipped with:**** huge tusks.",
+    "options": [
+      "This model can be equipped with one of the following: ◦ 1 kannon ◦ 1 supa-kannon"
+    ],
     "damaged": {
       "note": "1-10 wounds remaining",
       "text": "While this model has 1-10 wounds remaining, subtract 6 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
-    "composition": [
-      "1 Gargantuan Squiggoth"
-    ],
-    "loadout": "**This model is equipped with:** huge tusks.",
-    "options": [
-      "This model can be equipped with one of the following:\n▪ 1 kannon\n▪ 1 supa-kannon"
-    ],
-    "transport": "This model has a transport capacity of 20 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. Ghazghkull Thraka takes up the space of 18 models. If this model is equipped with a supa-kannon, it has a transport capacity of 15 ORKS INFANTRY models.",
+    "transport": "This model has a transport capacity of 20 **ORKS INFANTRY** models. Each **MEGA ARMOUR** or **JUMP PACK** model takes up the space of 2 models. **GHAZGHKULL THRAKA** takes up the space of 18 models. If this model is equipped with a supa-kannon, it has a transport capacity of 15 **ORKS INFANTRY** models.",
     "keywords": [
       "Frame",
       "Gargantuan Squiggoth",
@@ -2712,7 +2880,7 @@ export default [
       "Titanic",
       "Towering",
       "Transport"
-        ],
+    ],
     "factionKeywords": [
       "Orks"
     ],
@@ -2730,117 +2898,107 @@ export default [
     "flavor": "To face Ghazghkull Thraka in battle is to die. Messily. He is a totemic war leader of great kunnin’ and terrifying presence who enjoys the personal protection of the Ork gods, not that he seems to need it! Makari bears aloft the personal Waaagh! banner of Ghazghkull. There isn’t a greenskin living who doesn’t fight harder in sight of that flag.",
     "profiles": [
       {
-        "name": "GHAZGHKULL THRAKA",
-        "m": "5\"",
-        "t": "6",
+        "name": "Ghazghkull Thraka",
+        "m": "8\"",
+        "t": "10",
         "sv": "2+",
-        "w": "10",
+        "w": "16",
         "ld": "6+",
         "oc": "4",
-        "inv": "4+",
-        "baseSize": "80mm"
-      },
-      {
-        "name": "MAKARI",
-        "m": "5\"",
-        "t": "6",
-        "sv": "7+",
-        "w": "1",
-        "ld": "8+",
-        "oc": "1",
-        "inv": "2+",
-        "invNote": "You cannot re-roll invulnerable saving throws made for this model.",
-        "baseSize": "25mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
       {
-        "name": "Mork’s Roar",
+        "name": "Mork’s Roar – aimed",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 4"
         ],
         "range": "36\"",
         "a": "12",
         "bs": "5+",
-        "s": "5",
-        "ap": "0",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Mork’s Roar – point blank",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "TORRENT"
+        ],
+        "range": "9\"",
+        "a": "2D6+2",
+        "bs": "-",
+        "s": "6",
+        "ap": "-1",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Gork’s Klaw - strike",
-        "tags": [],
-        "a": "6",
+        "name": "Adamantine ’Eadbutt",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "EXTRA ATTACKS",
+          "PRECISION"
+        ],
+        "a": "1",
+        "ws": "2+",
+        "s": "14",
+        "ap": "-2",
+        "d": "D3+3"
+      },
+      {
+        "name": "Gork’s Klaw",
+        "tags": [
+          "CLEAVE 2",
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "7",
         "ws": "2+",
         "s": "14",
         "ap": "-3",
         "d": "4"
-      },
-      {
-        "name": "Gork’s Klaw - sweep",
-        "tags": [],
-        "a": "12",
-        "ws": "2+",
-        "s": "8",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "Makari’s stabba",
-        "tags": [
-          "DEVASTATING WOUNDS"
-        ],
-        "a": "1",
-        "ws": "4+",
-        "s": "3",
-        "ap": "0",
-        "d": "1"
       }
     ],
-    "core": "Leader",
-    "faction": "Waaagh!",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Prophet of Da Great Waaagh!",
-        "text": "While this unit is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll and add 1 to the Wound roll and if the Waaagh! is active for your army, a Critical Hit is scored on a successful unmodified Hit roll of 5+."
+        "name": "Da Grand Warlord's Ladz",
+        "text": "While this unit is within 3\" of another friendly ORKS INFANTRY unit, this unit has **Lone Operative**."
       },
       {
-        "name": "Ghazghkull’s Waaagh! Banner (Aura)",
-        "text": "While a friendly ORKS unit is within 12\" of Makari, if the Waaagh! is active for your army, melee weapons equipped by models in that unit have the [LETHAL HITS] ability."
+        "name": "Makari, Hoist Dat Banner! (Once per battle, per army)",
+        "text": "In your Movement phase, you can select a number of friendly ORKS units equal to or less than the current battle round number. Those units are **riled up** until the start of your next turn.\rPlace one Makari token next to the unit, removing it after this ability is used."
+      },
+      {
+        "name": "Prophet of da Great Waaagh! (Aura)",
+        "text": "While a friendly ORKS unit is within 6\" of this unit, that unit’s melee attacks have:\n▪ +1 to **hit rolls**.\n▪ +1 to **wound rolls**."
       }
     ],
     "composition": [
-      "1 Ghazghkull Thraka – EPIC HERO",
-      "1 Makari"
+      "1 Ghazghkull Thraka model"
     ],
-    "loadout": "**Ghazghkull Thraka is equipped with:** Mork’s Roar; Gork’s Klaw.\n\n**Makari is equipped with:** Makari’s stabba.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Boyz",
-        "Breaka Boyz",
-        "Meganobz",
-        "Nobz"
-      ],
-      "footer": "If this unit’s Bodyguard unit is destroyed, Ghazkghull Thraka and Makari become a single unit with their original Starting Strength."
-    },
-    "keywords": [
-      "Character",
-      "Epic Hero",
-      "Ghazgkull Thraka",
-      "Infantry",
-      "Warboss"
-        ],
-    "factionKeywords": [
-      "Orks"
-    ],
+    "loadout": "**This model is equipped with:** 1 Adamantine ’Eadbutt; 1 Gork’s Klaw; 1 Mork’s Roar.",
     "rules": [
       {
         "name": "SUPREME COMMANDER",
-        "text": "If this unit is in your army, its Ghazghkull Thraka model must be your Warlord."
+        "text": "If this model is in your army, it must be your WARLORD."
       }
-    ]
+    ],
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Explosives",
+      "Infantry",
+      "Warboss"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "gorkanaut",
@@ -2861,9 +3019,9 @@ export default [
     "profiles": [
       {
         "name": "Gorkanaut",
-        "m": "8\"",
+        "m": "9\"",
         "t": "12",
-        "sv": "3+",
+        "sv": "2+",
         "w": "20",
         "ld": "7+",
         "oc": "8",
@@ -2872,9 +3030,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Deffstorm mega-shoota",
+        "name": "Deffstorm Mega-shoota – aimed",
         "tags": [
-          "RAPID FIRE 10"
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "36\"",
         "a": "20",
@@ -2884,39 +3042,61 @@ export default [
         "d": "1"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Deffstorm Mega-shoota – point blank",
         "tags": [
-          "BLAST"
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3D6",
+        "bs": "-",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Dual Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "2",
         "bs": "5+",
-        "s": "9",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       },
       {
         "name": "Skorcha",
         "tags": [
-          "IGNORES COVER",
+          "BLAST 1",
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Twin big shoota",
-        "tags": [
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
-        ],
-        "range": "36\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
@@ -2924,57 +3104,44 @@ export default [
     ],
     "melee": [
       {
-        "name": "Klaw of Gork – strike",
-        "tags": [],
-        "a": "5",
+        "name": "Klaw of Gork",
+        "tags": [
+          "CLEAVE 3"
+        ],
+        "a": "6",
         "ws": "3+",
         "s": "18",
         "ap": "-3",
         "d": "6"
-      },
-      {
-        "name": "Klaw of Gork – sweep",
-        "tags": [],
-        "a": "15",
-        "ws": "3+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
       }
     ],
-    "core": "Deadly Demise D6",
+    "core": "Super-heavy Walker, Damaged 7, Deadly Demise D6",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Clankin’ Forward",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTERS and VEHICLES) and terrain features that are 4\" or less in height as if they were not there."
+        "name": "Gut Hatch",
+        "text": "In your Movement phase, when this unit ends a **normal move**, units embarked within this unit can make an **assault disembark move** (pg 121)."
       },
       {
         "name": "Big an’ Stompy",
-        "text": "Each time this model makes a melee attack, if the Waaagh! is active for your army, add 1 to the Hit roll."
+        "text": "This unit’s melee attacks can re‑roll **hit rolls** of 1."
       }
     ],
-    "damaged": {
-      "note": "1-7 wounds remaining",
-      "text": "While this model has 1-7 wounds remaining, subtract 4 from this model’s Objective Control characteristic, and each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Gorkanaut"
+      "1 Gorkanaut model"
     ],
-    "loadout": "**This model is equipped with:** deffstorm mega-shoota; 2 rokkit launchas; skorcha; 2 twin big shootas; klaw of Gork.",
-    "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. It cannot transport Ghazghkull Thraka.",
+    "loadout": "**This model is equipped with:** 1 Deffstorm mega‑shoota; 2 Dual Big Shoota; 1 Klaw of Gork; 2 Rokkit Launcha; 1 Skorcha.",
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models.",
     "keywords": [
-      "Vehicle",
       "Titanic",
       "Towering",
-      "Walker",
-      "Gorkanaut",
-      "Transport"
+      "Transport",
+      "Vehicle",
+      "Walker"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "170x109mm Oval Base"
+    ]
   },
   {
     "id": "gretchin",
@@ -2992,31 +3159,20 @@ export default [
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",
     "profiles": [
       {
-        "name": "GRETCHIN",
+        "name": "Gretchin",
         "m": "6\"",
         "t": "2",
-        "sv": "7+",
+        "sv": "6+",
         "w": "1",
         "ld": "8+",
-        "oc": "2",
-        "baseSize": "25mm"
-      },
-      {
-        "name": "RUNTHERD",
-        "m": "6\"",
-        "t": "5",
-        "sv": "5+",
-        "w": "2",
-        "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Grot blasta",
+        "name": "Grot Blasta",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
@@ -3024,36 +3180,15 @@ export default [
         "s": "3",
         "ap": "0",
         "d": "1"
-      },
-      {
-        "name": "Slugga",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Scavenged Shivs",
         "tags": [],
         "a": "1",
         "ws": "5+",
         "s": "2",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Runtherd tools",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "5",
         "ap": "0",
         "d": "1"
       }
@@ -3061,28 +3196,486 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Runtherd",
-        "text": "Each time an attack targets this unit, if it contains one or more Gretchin models, until that attack is resolved, Runtherd models in this unit have a Toughness characteristic of 2."
+        "name": "Downtrodden",
+        "text": "For the purposes of **transport capacity**, each 2 Gretchin models (rounding up) take up the space of 1 model."
       },
       {
         "name": "Thievin’ Scavengers",
-        "text": "At the start of your Movement phase, roll one D6 for each objective marker you control that has one or more units from your army with this ability within range of it (excluding Battle-shocked units). If one or more of those rolls is a 4+, you gain 1CP."
+        "text": "At the end of your Movement phase, if this unit is controlling an **objective**, that **objective** is **secured**."
       }
     ],
     "composition": [
-      "0-1 Runtherd and 10 Gretchin",
-      "OR",
-      "0-2 Runtherds and 20 Gretchin"
+      "10‑20 Gretchin models"
     ],
-    "loadout": "**Every Runtherd is equipped with:** slugga; Runtherd tools.\n\n**Every Gretchin is equipped with:** grot blasta; close combat weapon.",
+    "loadout": "**Every model is equipped with:** 1 Scavenged Shivs; 1 Grot Blasta.",
     "keywords": [
-      "Gretchin",
       "Grots",
       "Infantry"
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "25mm"
+  },
+  {
+    "id": "grot-mega-tank",
+    "name": "Grot Mega-tank",
+    "points": [
+      {
+        "models": 1,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Grot Mega-tank",
+        "m": "8\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "12",
+        "ld": "8+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Dual Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dual Grotzooka",
+        "tags": [
+          "BLAST 1",
+          "IGNORES COVER",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "D3+3",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Mega-tank Weapons",
+        "tags": [
+          "RAPID FIRE 10"
+        ],
+        "range": "18\"",
+        "a": "10",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dual Kustom Mega-blasta",
+        "tags": [
+          "HAZARDOUS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dual Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dual Rokkit Launcha – busta",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dual Skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured Hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Damaged 4",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Bizarrely Resilient",
+        "text": "Attacks that target this unit have -1 **AP**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Grot Mega-tank model\n**This model is equipped with:** 1 Armoured Hull; 1 Dual Big Shoota; 1 Dual Grotzooka; 1 Mega-tank Weapons.",
+    "options": [
+      "This model's Dual Grotzooka can be replaced with one of the following: 1 Dual Big Shoota, 1 Dual Kustom Mega-blasta, 1 Dual Rokkit Launcha, 1 Dual Skorcha",
+      "This model's Dual Big Shoota can be replaced with one of the following: 1 Dual Grotzooka, 1 Dual Kustom Mega-blasta, 1 Dual Rokkit Launcha, 1 Dual Skorcha"
+    ],
+    "keywords": [
+      "Frame",
+      "Grots",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "Hull",
+    "legends": true
+  },
+  {
+    "id": "grot-tanks",
+    "name": "Grot Tanks",
+    "points": [
+      {
+        "models": 4,
+        "points": 155
+      },
+      {
+        "models": 8,
+        "points": 310
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Grot Tank",
+        "m": "10\"",
+        "t": "6",
+        "sv": "3+",
+        "w": "5",
+        "ld": "8+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Grotzooka",
+        "tags": [
+          "BLAST 1",
+          "IGNORES COVER"
+        ],
+        "range": "18\"",
+        "a": "D3+3",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grot Tank Shoota",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kustom Mega-blasta",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Ramshackle Hull",
+        "tags": [],
+        "a": "3",
+        "ws": "5+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Scatter! (Once per phase, per unit)",
+        "text": "In your opponent's Movement phase, when an enemy unit ends a move within 8\" of this unit, if this unit is **unengaged**, this unit can make a **normal move** of up to 6\"."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 4-8 Grot Tank models\n**Every model is equipped with:** 1 Grot Tank Shoota; 1 Ramshackle Hull.",
+    "options": [
+      "Any number of models can each have their Grot Tank Shoota replaced with one of the following: 1 Grotzooka, 1 Kustom Mega-blasta, 1 Rokkit Launcha, 1 Skorcha",
+      "For every four models in this unit, one model can be equipped with one of the following in addition to any other weapons: ◦ 1 Grot tank shoota ◦ 1 grotzooka ◦ 1 kustom mega‑blasta ◦ 1 rokkit launcha ◦ 1 skorcha"
+    ],
+    "keywords": [
+      "Frame",
+      "Grots",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "Hull",
+    "legends": true
+  },
+  {
+    "id": "gunwagon",
+    "name": "Gunwagon",
+    "points": [
+      {
+        "models": 1,
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 160,
+        "note": "3rd+"
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Gunwagon",
+        "m": "10\"",
+        "t": "12",
+        "sv": "3+",
+        "w": "16",
+        "ld": "7+",
+        "oc": "5",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – frag",
+        "tags": [
+          "BLAST 3",
+          "RAPID FIRE 4"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – shell",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6+1"
+      },
+      {
+        "name": "Lobba",
+        "tags": [
+          "BLAST 3",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Killkannon",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "BLAST 1",
+          "RAPID FIRE 4"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Zzap Gun",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+",
+          "DEVASTATING WOUNDS: MONSTER/VEHICLE",
+          "RAPID FIRE 2",
+          "SUSTAINED HITS 2"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "4"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wreckin’ Ball",
+        "tags": [
+          "CLEAVE 2",
+          "EXTRA ATTACKS"
+        ],
+        "a": "1",
+        "ws": "3+",
+        "s": "10",
+        "ap": "0",
+        "d": "D6"
+      },
+      {
+        "name": "Crushin’ Bulk",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "6",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Grabbin’ Klaw",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6, Damaged 6",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Mobile Arsenal",
+        "text": "In your Shooting phase, this unit’s ranged attacks can re‑roll **hit rolls** of 1."
+      }
+    ],
+    "composition": [
+      "1 Gunwagon model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Crushin’ Bulk; 1 Kannon.",
+    "options": [
+      "This model can be equipped with 1 Wreckin’ Ball.",
+      "This model can be equipped with 1 Grabbin’ Klaw.",
+      "This model can be equipped with 1 Lobba.",
+      "This model can be equipped with up to 4 Big Shoota.",
+      "This model’s Kannon can be replaced with one of the following:\n▫ 1 Killkannon\n▫ 1 Zzap Gun"
+    ],
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models. Each GHAZGHKULL THRAKA model takes up the space of 4 models.",
+    "keywords": [
+      "Frame",
+      "Transport",
+      "Vehicle",
+      "Wagon"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "None"
   },
   {
     "id": "hunta-rig",
@@ -3108,29 +3701,28 @@ export default [
         "sv": "3+",
         "w": "16",
         "ld": "7+",
-        "oc": "5"
+        "oc": "5",
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "’Eavy lobba",
+        "name": "’Eavy Lobba",
         "tags": [
-          "BLAST",
+          "BLAST 2",
           "INDIRECT FIRE"
         ],
         "range": "48\"",
-        "a": "D6",
+        "a": "3",
         "bs": "5+",
         "s": "6",
         "ap": "0",
         "d": "2"
       },
       {
-        "name": "Stikka kannon",
+        "name": "Stikka Kannon",
         "tags": [
-          "ANTI-MONSTER 2+",
-          "ANTI-VEHICLE 2+",
-          "SNAGGED"
+          "ANTI-MONSTER/VEHICLE 2+"
         ],
         "range": "12\"",
         "a": "1",
@@ -3142,11 +3734,9 @@ export default [
     ],
     "melee": [
       {
-        "name": "Butcha boyz",
+        "name": "Butcha Boyz",
         "tags": [
-          "EXTRA ATTACKS",
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "ANTI-MONSTER/VEHICLE 4+"
         ],
         "a": "4",
         "ws": "3+",
@@ -3155,7 +3745,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Savage horns and hooves",
+        "name": "Savage Horns and Hooves",
         "tags": [
           "EXTRA ATTACKS",
           "LANCE"
@@ -3167,8 +3757,11 @@ export default [
         "d": "3"
       },
       {
-        "name": "Saw blades",
-        "tags": [],
+        "name": "Saw Blades",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
         "a": "6",
         "ws": "3+",
         "s": "10",
@@ -3176,33 +3769,138 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D6, Feel No Pain 6+, Firing Deck 11",
+    "core": "Deadly Demise D6, Feel No Pain 5+, Firing Deck 11, Damaged 6",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "On Da Hunt",
-        "text": "For each model embarked within this TRANSPORT, add 1 to the Attacks characteristic of this model’s butcha boyz weapon (to a maximum of +6)."
+        "name": "Fully Loaded Butchery",
+        "text": "This unit’s Butcha Boyz weapon has +2 **A** for each model embarked within this unit (to a maximum of +22 **A**)."
+      },
+      {
+        "name": "Tramplasquig Charge",
+        "text": "When you target this unit with the **Crushing Impact stratagem**, that use is -1 CP."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Hunta Rig"
+      "1 Hunta Rig model"
     ],
-    "loadout": "**This model is equipped with:** ’eavy lobba; stikka kannon; butcha boyz; savage horns and hooves; saw blades.",
-    "transport": "This model has a transport capacity of 21 Beast Snagga Infantry models.",
+    "loadout": "**This model is equipped with:** 1 Butcha Boyz; 1 ’Eavy Lobba; 1 Savage Horns and Hooves; 1 Saw Blades; 1 Stikka Kannon.",
+    "transport": "This model has a **transport capacity** of 22 BEAST SNAGGAS INFANTRY models.",
     "keywords": [
       "Beast Snagga",
-      "Hunta Rig",
       "Monster",
-      "Transport"
-        ],
+      "Transport",
+      "Wagon"
+    ],
     "factionKeywords": [
       "Orks"
     ],
     "baseSize": "170x109mm Oval Base"
+  },
+  {
+    "id": "kaptin-badrukk",
+    "name": "Kaptin Badrukk",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Kaptin Badrukk",
+        "m": "6\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Da Rippa – standard",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Da Rippa – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Slugga",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Choppa",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Flashiest Gitz",
+        "text": "This unit's ranged attacks can re-roll **hit rolls**."
+      },
+      {
+        "name": "Ded Glowy Ammo",
+        "text": "Enemy units within 6\" of this model have -1 **T**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Kaptin Badrukk model\n**This model is equipped with:** 1 Choppa; 1 Da Rippa; 1 Slugga.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Flash Gitz"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Infantry"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "40mm",
+    "legends": true
   },
   {
     "id": "kill-rig",
@@ -3228,29 +3926,28 @@ export default [
         "sv": "3+",
         "w": "16",
         "ld": "7+",
-        "oc": "5"
+        "oc": "5",
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "’Eavy lobba",
+        "name": "’Eavy Lobba",
         "tags": [
-          "BLAST",
+          "BLAST 2",
           "INDIRECT FIRE"
         ],
         "range": "48\"",
-        "a": "D6",
+        "a": "3",
         "bs": "5+",
         "s": "6",
         "ap": "0",
         "d": "2"
       },
       {
-        "name": "Stikka kannon",
+        "name": "Stikka Kannon",
         "tags": [
-          "ANTI-MONSTER 2+",
-          "ANTI-VEHICLE 2+",
-          "SNAGGED"
+          "ANTI-MONSTER/VEHICLE 2+"
         ],
         "range": "12\"",
         "a": "1",
@@ -3267,19 +3964,18 @@ export default [
           "TORRENT"
         ],
         "range": "24\"",
-        "a": "D3",
-        "bs": "N/A",
+        "a": "1",
+        "bs": "-",
         "s": "12",
         "ap": "-3",
-        "d": "D6"
+        "d": "6"
       }
     ],
     "melee": [
       {
-        "name": "Butcha boyz",
+        "name": "Butcha Boyz",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+",
+          "ANTI-MONSTER/VEHICLE 4+",
           "EXTRA ATTACKS"
         ],
         "a": "4",
@@ -3289,7 +3985,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Savage horns and hooves",
+        "name": "Savage Horns and Hooves",
         "tags": [
           "EXTRA ATTACKS",
           "LANCE"
@@ -3301,8 +3997,11 @@ export default [
         "d": "3"
       },
       {
-        "name": "Saw blades",
-        "tags": [],
+        "name": "Saw Blades",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
         "a": "6",
         "ws": "3+",
         "s": "10",
@@ -3310,34 +4009,246 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D6, Feel No Pain 6+",
-    "faction": "Waaagh!",
+    "core": "Deadly Demise D6, Damaged 6, Feel No Pain 5+",
+    "faction": "Waaagh!, Unstable Energies",
     "abilities": [
       {
-        "name": "Spirit of Gork (Psychic)",
-        "text": "At the start of the Fight phase, you can select one friendly Orks unit within 12\" of this model and roll one D6: on a 1, this model suffers D3 mortal wounds; on a 2-5, until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in that unit; on a 6, until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in that unit and those weapons have the [LETHAL HITS] ability."
+        "name": "Wurrboy (psyker level 1)",
+        "text": "This model has the **psychic abilities** listed in the Psychic Abilities section (see left)."
       }
     ],
-    "damaged": {
-      "note": "1-5 wounds remaining",
-      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
-    "composition": [
-      "1 Kill Rig"
+    "abilitySets": [
+      {
+        "name": "Wurrboy (psyker level 1)",
+        "options": [
+          {
+            "name": "Beastscent (psychic level 1)",
+            "text": "In your Movement phase, when a unit embarked within this unit is selected to make a **disembark move**, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ That disembarking unit's attacks that target a MONSTER/VEHICLE unit have +1 to **wound rolls** until the end of the turn."
+          },
+          {
+            "name": "Warpath (psychic level 1)",
+            "text": "In the Fight phase, when this unit is **selected to fight**, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ This unit's melee attacks have [LETHAL HITS] and [PSYCHIC]."
+          }
+        ]
+      }
     ],
-    "loadout": "**This model is equipped with:** ’eavy lobba; stikka kannon; wurrtower; butcha boyz; savage horns and hooves; saw blades.",
-    "transport": "This model has a transport capacity of 11 Beast Snagga Infantry models.",
+    "composition": [
+      "1 Kill Rig model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Butcha Boyz; 1 ’Eavy Lobba; 1 Savage Horns and Hooves; 1 Saw Blades; 1 Stikka Kannon; 1 Wurrtower.",
+    "transport": "This model has a **transport capacity** of 12 BEAST SNAGGAS INFANTRY models.",
     "keywords": [
       "Beast Snagga",
-      "Kill Rig",
       "Monster",
       "Psyker",
-      "Transport"
-        ],
+      "Transport",
+      "Wagon"
+    ],
     "factionKeywords": [
       "Orks"
     ],
     "baseSize": "170x109mm Oval Base"
+  },
+  {
+    "id": "kill-tank",
+    "name": "Kill Tank",
+    "points": [
+      {
+        "models": 1,
+        "points": 300
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Kill Tank",
+        "m": "12\"",
+        "t": "12",
+        "sv": "3+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "10"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – frag",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "5+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Kannon – shell",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D3+3"
+      },
+      {
+        "name": "Lobba",
+        "tags": [
+          "BLAST 3",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Tank Kannon – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "48\"",
+        "a": "10",
+        "bs": "5+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Tank Kannon – tankhamma",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "16",
+        "ap": "-3",
+        "d": "D6+6"
+      },
+      {
+        "name": "Zzap Gun",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+",
+          "DEVASTATING WOUNDS: MONSTER/VEHICLE",
+          "RAPID FIRE 2",
+          "SUSTAINED HITS 2"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "8",
+        "ap": "-2",
+        "d": "4"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Crushin' Bulk",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "6",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Deff Rolla",
+        "tags": [],
+        "a": "6",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Damaged 6, Deadly Demise D6, Firing Deck 12",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Rolling Fortress",
+        "text": "When an attack targets a friendly ORKS unit that is not **fully visible** to the attacking model because of this unit, the target has the **benefit of cover** against that attack."
+      },
+      {
+        "name": "Da Biggest Boom",
+        "text": "In your Shooting phase, when this unit has shot, you can select one enemy unit hit by this unit's Tank Kannon attacks. If you do, enemy units (excluding MONSTER/VEHICLE units) within 3\" of that enemy unit make a **battle-shock roll**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Kill Tank model\n**This model is equipped with:** 2 Big Shoota; 1 Crushin' Bulk; 1 Tank Kannon.",
+    "options": [
+      "This model can be equipped with up to 4 Big Shootas.",
+      "This model's 2 Big Shootas can be replaced with one of the following: 2 Rokkit Launcha, 2 Skorchas",
+      "This model's Tank Kannon and Crushin' Bulk can be replaced with 1 Deff Rolla and 3 Zzap Guns.",
+      "This model's Zzap Gun can be replaced with one of the following: 1 Kannon, 1 Lobba"
+    ],
+    "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour, Jump Pack model takes up the space of 2 models. Each Ghazghkull Thraka model takes up the space of 4 models.",
+    "keywords": [
+      "Frame",
+      "Transport",
+      "Vehicle",
+      "Wagon"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "Hull",
+    "legends": true
   },
   {
     "id": "killa-kans",
@@ -3367,9 +4278,9 @@ export default [
     "flavor": "Surgically wiring grots into combat walkers is risky: the runty loons tend to go on a bit of a power trip, hazardous to every Ork that ever treated them badly. On the other hand, their ability to shoot straight renders their hails of rokkits, bullets and grotzooka-launched scrap- shrapnel even more hazardous to the foe.",
     "profiles": [
       {
-        "name": "Killa Kans",
-        "m": "6\"",
-        "t": "6",
+        "name": "Killa Kan",
+        "m": "8\"",
+        "t": "7",
         "sv": "3+",
         "w": "5",
         "ld": "8+",
@@ -3379,52 +4290,38 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kan shoota",
+        "name": "Kan Blasta – dakka",
         "tags": [
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 2"
+          "BLAST 1",
+          "IGNORES COVER",
+          "SUSTAINED HITS 1"
         ],
-        "range": "36\"",
-        "a": "3",
-        "bs": "4+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Grotzooka",
-        "tags": [
-          "BLAST",
-          "IGNORES COVER"
-        ],
-        "range": "18\"",
-        "a": "D3+3",
+        "range": "24\"",
+        "a": "4",
         "bs": "4+",
         "s": "6",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Rokkit launcha",
-        "tags": [
-          "BLAST"
-        ],
+        "name": "Kan Blasta – kill shot",
+        "tags": [],
         "range": "24\"",
-        "a": "D3",
+        "a": "2",
         "bs": "4+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       },
       {
-        "name": "Skorcha",
+        "name": "Kan Blasta – point blank",
         "tags": [
-          "IGNORES COVER",
+          "BLAST 2",
           "TORRENT"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "3",
+        "bs": "-",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -3432,7 +4329,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Kan klaw",
+        "name": "Kan Klaw",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -3445,22 +4342,18 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Shooty Power Trip",
-        "text": "Each time this unit is selected to shoot, you can roll one D6:\n▪ On a 1-2, this unit suffers D3 mortal wounds.\n▪ On a 3-4, until the end of the phase, add 1 to the Strength characteristic of ranged weapons equipped by models in this unit.\n▪ On a 5-6, until the end of the phase, add 1 to the Attacks characteristic of ranged weapons equipped by models in this unit."
+        "name": "Spiteful Power Trip",
+        "text": "This unit’s attacks that target a unit that has no models with a **T** of 7+ have +1 to **hit rolls**."
       }
     ],
     "composition": [
-      "3-6 Killa Kans"
+      "3‑6 Killa Kan models"
     ],
-    "loadout": "**Every model is equipped with:** Kan shoota; Kan klaw.",
-    "options": [
-      "Each Killa Kan’s Kan shoota can be replaced with one of the following:\n▪ 1 grotzooka\n▪ 1 rokkit launcha\n▪ 1 skorcha"
-    ],
+    "loadout": "**Every model is equipped with:** 1 Kan Blasta; 1 Kan Klaw.",
     "keywords": [
       "Grots",
-      "Walker",
-      "Killa Kans",
-      "Vehicle"
+      "Vehicle",
+      "Walker"
     ],
     "factionKeywords": [
       "Orks"
@@ -3479,43 +4372,77 @@ export default [
     "flavor": "No right-thinking Ork trusts Kommandos. They sneak up on the enemy rather than charging in headlong, and have an unhealthy fascination with very big knives and their application to people’s backs, throats and guts. That said, having a band of Kommandos ambush the enemy mid-battle definitely has its uses.",
     "profiles": [
       {
-        "name": "KOMMANDOS",
+        "name": "Kommando",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
-        "name": "BOSS NOB",
+        "name": "Nob",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
-        "w": "2",
+        "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Burna",
+        "name": "Slugga",
         "tags": [
-          "IGNORES COVER",
-          "TORRENT"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
+        "a": "1",
+        "bs": "5+",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Kustom shoota",
+        "name": "Burna",
         "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kustom Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "18\"",
@@ -3524,36 +4451,14 @@ export default [
         "s": "4",
         "ap": "0",
         "d": "1"
-      },
-      {
-        "name": "Rokkit launcha",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
-        "name": "Slugga",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Big choppa",
-        "tags": [],
+        "name": "Big Choppa",
+        "tags": [
+          "CLEAVE 2"
+        ],
         "a": "4",
         "ws": "3+",
         "s": "7",
@@ -3561,11 +4466,11 @@ export default [
         "d": "2"
       },
       {
-        "name": "Breacha ram",
+        "name": "Power Klaw",
         "tags": [],
-        "a": "2",
-        "ws": "4+",
-        "s": "9",
+        "a": "3",
+        "ws": "3+",
+        "s": "10",
         "ap": "-2",
         "d": "2"
       },
@@ -3574,25 +4479,16 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Close combat weapon",
+        "name": "Breacha Ram",
         "tags": [],
         "a": "2",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
         "ws": "4+",
-        "s": "9",
+        "s": "8",
         "ap": "-2",
         "d": "2"
       }
@@ -3601,146 +4497,175 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Sneaky Gitz",
-        "text": "Enemy units cannot target this unit with snap shooting attacks."
-      }
-    ],
-    "wargearAbilities": [
-      {
-        "name": "Distraction Grot",
-        "text": "Once per battle, in your opponent’s Shooting phase, before making a saving throw for a model in this unit, it can deploy the distraction grot. If it does, until the end of the phase, models in this unit have a 5+ invulnerable save.\n\n**Designer’s Note:** Place a Distraction Grot token next to the unit, removing it when this unit uses this ability."
+        "name": "Found ’Em!",
+        "text": "In your Movement phase, you can select one enemy unit within 12\" of this unit. That unit has +3\" **detection range** until the end of the turn.\rPlace one Kommando Grot token next to that enemy unit to remind you."
       },
       {
-        "name": "Bomb Squigs",
-        "text": "Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.\n\n**Designer’s Note:** Place a Bomb Squig token next to the unit, removing it when this unit uses this ability."
-      }
-    ],
-    "specialAbilities": [
+        "name": "Taktikal Know-wotz",
+        "text": "In the Declare Battle Formations step, you can split this unit into two units, each with a **starting strength** of 5. If you do, select which one of those units will have the **Bomb Squig** ability and which one of those units will have the **Found ’Em!** ability."
+      },
       {
-        "name": "PATROL SQUAD",
-        "text": "At the start of the Declare Battle Formations step this unit can be split into two units, each containing five models.\n(when splitting a unit in this way, make a note of which models form each of the two new units. If you are splitting a unit that is equipped with 1 bomb squig and/or 1 distraction grot, only one of the new units can use that ability during the battle – make a note of which of the new units this will be)."
+        "name": "Nowhere to Hide",
+        "text": "This unit’s attacks that target a **hidden** unit have +1 to **hit rolls**."
+      },
+      {
+        "name": "Bomb Squig (Once per battle, per unit)",
+        "text": "In your Movement phase, when this unit ends a **normal move**, you can select one **visible **enemy unit within 12\" of this unit and roll one D6:\n▪ On a 3+, that enemy unit suffers D3 **mortal wounds**. Place one Bomb Squig token next to the unit, removing it after this ability is used."
       }
     ],
     "composition": [
-      "1 Boss Nob",
-      "9 Kommandos"
+      "1 Nob model",
+      "9 Kommando models"
     ],
-    "loadout": "**Every model is equipped with:** slugga; choppa.",
+    "loadout": "**Every model is equipped with:** 1 Choppa; 1 Slugga.",
     "options": [
-      "The Boss Nob’s choppa can be replaced with one of the following:\n▪ 1 big choppa\n▪ 1 power klaw",
-      "Up to 2 Kommandos can each have their slugga and choppa replaced with 1 kustom shoota and 1 close combat weapon.",
-      "1 Kommando’s slugga and choppa can be replaced with 1 breacha ram.",
-      "1 Kommando’s slugga and choppa can be replaced with 1 burna and 1 close combat weapon.",
-      "1 Kommando’s slugga and choppa can be replaced with 1 rokkit launcha and 1 close combat weapon.",
-      "This unit can be equipped with 1 bomb squig.",
-      "This unit can be equipped with 1 distraction grot."
+      "The Nob can have their Choppa replaced with one of the following:\n▫ 1 Big Choppa\n▫ 1 Power Klaw",
+      "1 Kommando model can be equipped with 1 Burna.",
+      "1 Kommando model can be equipped with 1 Rokkit Launcha.",
+      "1 Kommando model can have their Choppa replaced with 1 Breacha Ram.",
+      "Up to 2 Kommando models can each be equipped with 1 Kustom Shoota."
     ],
     "keywords": [
-      "Kommandos",
-      "Smoke",
-      "Grenades",
-      "Infantry"
+      "Explosives",
+      "Infantry",
+      "Smoke"
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
-    "id": "kustom-boosta-blasta",
-    "name": "Kustom Boosta-blasta",
+    "id": "lifta-wagon",
+    "name": "Lifta Wagon",
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 135
       }
     ],
-    "flavor": "Meks who build Kustom Boosta-blastas have the alarming habit of wiring themselves into the vehicles’ rivet kannons as though into very fast and shooty Deff Dreads. They then speed to war, aiming hails of arm-length metal rivets at the enemy while scorching them with the Boosta-blasta’s flame-jetting exhausts.",
     "profiles": [
       {
-        "name": "Kustom Boosta-blasta",
-        "m": "12\"",
-        "t": "7",
-        "sv": "4+",
-        "w": "9",
+        "name": "Lifta Wagon",
+        "m": "10\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "16",
         "ld": "7+",
-        "oc": "3",
+        "oc": "5",
         "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Burna exhausts",
+        "name": "Big Shoota",
         "tags": [
-          "IGNORES COVER",
-          "TORRENT",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
         ],
-        "range": "6\"",
-        "a": "2D6",
-        "bs": "N/A",
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Grot blasta",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "4+",
-        "s": "3",
-        "ap": "0",
-        "d": "1"
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
       },
       {
-        "name": "Rivet kannon",
+        "name": "Lifta-droppa",
         "tags": [
-          "ASSAULT",
-          "RAPID FIRE 3"
+          "ANTI-VEHICLE 3+"
         ],
         "range": "36\"",
-        "a": "6",
+        "a": "4",
         "bs": "5+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
+        "s": "6",
+        "ap": "-3",
+        "d": "D6+1"
       }
     ],
     "melee": [
       {
-        "name": "Spiked ram",
-        "tags": [],
-        "a": "4",
-        "ws": "4+",
-        "s": "7",
-        "ap": "-1",
+        "name": "Crushin' Bulk",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "6",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
         "d": "2"
+      },
+      {
+        "name": "Grabbin Klaw'",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Wreckin' Ball",
+        "tags": [
+          "CLEAVE 2",
+          "EXTRA ATTACKS"
+        ],
+        "a": "1",
+        "ws": "3+",
+        "s": "10",
+        "ap": "0",
+        "d": "D6"
       }
     ],
-    "core": "Deadly Demise 1",
+    "core": "Damaged 6, Deadly Demise D6",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Rivetin’ Dakka",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks made with a rivet kannon. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes a ranged attack, subtract 1 from the Hit roll."
+        "name": "Da Bigger Dey Are, Da Better Dey Drop",
+        "text": "In your Shooting phase, when this unit's Lifta-droppa destroys an enemy MONSTER/VEHICLE model with **Deadly Demise**, that enemy model suffers a **Deadly Demise** on a roll of 3+, instead of a 6."
       }
     ],
-    "composition": [
-      "1 Kustom Boosta-blasta"
+    "composition": [],
+    "loadout": "• 1 Lifta Wagon model\n**This model is equipped with:** 1 Crushin' Bulk; 1 Lifta-droppa.",
+    "options": [
+      "This model can be equipped with 1 Grabbin Klaw'",
+      "This model can be equipped with one of the following: 1 Big Shoota and 1 Rokkit Launcha, 2 Big Shootas, 2 Rokkit Launcha",
+      "This model can be equipped with 1 Wreckin' Ball"
     ],
-    "loadout": "**This model is equipped with:** burna exhausts; grot blasta; rivet kannon; spiked ram..",
     "keywords": [
-      "Grenades",
-      "Kustom Boost-blasta",
-      "Speed Freeks",
-      "Vehicle"
-        ],
+      "Frame",
+      "Vehicle",
+      "Wagon"
+    ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "Hull",
+    "legends": true
   },
   {
     "id": "lootas",
@@ -3748,29 +4673,26 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 50,
-        "note": "1st-2nd"
+        "points": 50
       },
       {
         "models": 10,
-        "points": 100,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 60,
-        "note": "3rd+"
-      },
-      {
-        "models": 10,
-        "points": 110,
-        "note": "3rd+"
+        "points": 100
       }
     ],
     "flavor": "Lootas grub together every toof and fistful of scrap they can, then use the former to pay the Meks to turn the latter into very, very large guns. These they then turn on the enemy with gleeful abandon, unleashing such prodigious – if erratic – hails of fire that they can stop a battle tank in its tracks or scythe down squads of infantry.",
     "profiles": [
       {
-        "name": "Lootas",
+        "name": "Spanner",
+        "m": "6\"",
+        "t": "5",
+        "sv": "5+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "Loota",
         "m": "6\"",
         "t": "5",
         "sv": "5+",
@@ -3781,8 +4703,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -3806,7 +4729,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Kustom mega-blasta",
+        "name": "Kustom Mega-blasta",
         "tags": [
           "HAZARDOUS"
         ],
@@ -3815,28 +4738,38 @@ export default [
         "bs": "5+",
         "s": "9",
         "ap": "-2",
-        "d": "D6"
+        "d": "3"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Rokkit Launcha – blasta",
         "tags": [
-          "BLAST"
+          "BLAST 2"
         ],
         "range": "24\"",
-        "a": "D3",
+        "a": "2",
         "bs": "5+",
-        "s": "9",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Gun Stock and Fists",
         "tags": [],
         "a": "2",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       }
@@ -3844,27 +4777,120 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dat’s Our Loot!",
-        "text": "Each time a model in this unit makes a ranged attack, re-roll a Hit roll of 1. If that attack targets a unit that is within range of an objective marker, you can re-roll the Hit roll instead."
+        "name": "Dat's Our Loot",
+        "text": "▪ This unit's ranged attacks can re-roll **hit rolls** of 1.\n▪ This unit's ranged attacks that target a unit within range of an **objective** can re-roll **hit rolls**."
       }
     ],
-    "composition": [
-      "1 Spanner and 4 Lootas",
-      "OR",
-      "2 Spanners and 8 Lootas"
-    ],
-    "loadout": "**Every Spanner is equipped with:** big shoota; close combat weapon.\n\n**Every Loota is equipped with:** deffgun; close combat weapon.",
+    "composition": [],
+    "loadout": "• 1-2 Spanner models\n• 4-8 Loota models\n**Every Spanner is equipped with:** 1 Big Shoota; 1 Gun Stock and Fists.\n**Every Loota is equipped with:** 1 Deffgun; 1 Gun Stock and Fists.",
     "options": [
-      "Any number of Spanners can each have their big shoota replaced with one of the following:\n▪ 1 kustom mega-blasta\n▪ 1 rokkit launcha"
+      "Any number of Spanner models can each have their Big Shoota replaced with one of the following: 1 Kustom Mega-blasta, 1 Rokkit Launcha"
     ],
     "keywords": [
-      "Infantry",
-      "Lootas"
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "legends": true
+  },
+  {
+    "id": "mad-dok-grotsnik",
+    "name": "Mad Dok Grotsnik",
+    "points": [
+      {
+        "models": 1,
+        "points": 65
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Mad Dok Grotsnik",
+        "m": "6\"",
+        "t": "5",
+        "sv": "5+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Slugga",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Power Klaw",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "'Urty Syringe",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS: INFANTRY",
+          "EXTRA ATTACKS",
+          "PRECISION"
+        ],
+        "a": "1",
+        "ws": "3+",
+        "s": "2",
+        "ap": "0",
+        "d": "D6"
+      }
+    ],
+    "core": "Leader, Feel No Pain 5+",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "One Scalpel Short of a Medpack",
+        "text": "When this unit is selected to make a **fall-back move**, that **fall-back move** does not prevent this unit from being **eligible to declare a charge**."
+      },
+      {
+        "name": "Mad Dok",
+        "text": "In your Command phase, select one friendly ORKS INFANTRY unit within 6\" of this model, and select one of the following:\n▪ That unit **heals** 3 wounds.\n▪ __Or:__ If all models in that unit have their starting number of wounds, **revive** one CHARACTER model in that unit."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Mad Dok Grotsnik model\n**This model is equipped with:** 1 Power Klaw; 1 Slugga; 1 'Urty Syringe.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Boyz",
+        "Burna Boyz",
+        "Lootas",
+        "Nobz",
+        "Tankbustas"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Infantry",
+      "Painboy"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "32mm",
+    "legends": true
   },
   {
     "id": "meganobz",
@@ -3914,7 +4940,7 @@ export default [
     "flavor": "Mega armour comprises massive slabs of metal bashed roughly into shape, and is powered by pistons and sheer brute strength. It is highly resilient and can mount an array of potent weaponry. It is also usually worn to battle by toof-rich Nobz who would be scary enough even were they not each wearing their own Ork-portable bunker.",
     "profiles": [
       {
-        "name": "Meganobz",
+        "name": "Meganob",
         "m": "5\"",
         "t": "6",
         "sv": "2+",
@@ -3925,22 +4951,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kombi-weapon",
+        "name": "Kustom Shoota – aimed",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Kustom shoota",
-        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "18\"",
@@ -3949,155 +4962,117 @@ export default [
         "s": "4",
         "ap": "0",
         "d": "1"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Killsaw",
-        "tags": [],
-        "a": "2",
-        "ws": "4+",
-        "s": "12",
-        "ap": "-3",
-        "d": "2"
       },
       {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "9",
-        "ap": "-2",
-        "d": "2"
+        "name": "Kustom Shoota – point blank",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "TORRENT"
+        ],
+        "range": "6\"",
+        "a": "D3+3",
+        "bs": "-",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
       },
       {
-        "name": "Twin killsaw",
-        "tags": [
-          "TWIN-LINKED"
-        ],
-        "a": "2",
-        "ws": "4+",
-        "s": "12",
-        "ap": "-3",
-        "d": "2"
-      }
-    ],
-    "faction": "Waaagh!",
-    "abilities": [
-      {
-        "name": "Krumpin’ Time",
-        "text": "While the Waaagh! is active for your army, models in this unit have the Feel No Pain 5+ ability."
-      }
-    ],
-    "composition": [
-      "2-6 Meganobz"
-    ],
-    "loadout": "**Every model is equipped with:** kustom shoota; power klaw.",
-    "options": [
-      "Any number of models can each have their kustom shoota and power klaw replaced with one of the following:\n▪ 1 kombi-weapon and 1 power klaw\n▪ 1 kombi-weapon and 1 killsaw\n▪ 1 kustom shoota and 1 killsaw\n▪ 1 killsaw and 1 power klaw\n▪ 1 twin killsaws"
-    ],
-    "keywords": [
-      "Meganobz",
-      "Mega Armour",
-      "Infantry",
-      "Grenades"
-    ],
-    "factionKeywords": [
-      "Orks"
-    ],
-    "baseSize": "40mm"
-  },
-  {
-    "id": "megatrakk-scrapjet",
-    "name": "Megatrakk Scrapjet",
-    "points": [
-      {
-        "models": 1,
-        "points": 75
-      }
-    ],
-    "flavor": "Just because an Ork aircraft has lost a wing or two, doesn’t mean some enterprising Speed Freek can’t find a tremendously violent use for it. Megatrakk Scrapjets tear across the battlefield shooting hails of rokkits before ploughing nose-drill-first through the enemy lines, drivers bellowing with glee the whole time.",
-    "profiles": [
-      {
-        "name": "Megatrakk Scrapjet",
-        "m": "12\"",
-        "t": "7",
-        "sv": "4+",
-        "w": "9",
-        "ld": "7+",
-        "oc": "3",
-        "inv": "6+"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Rokkit kannon",
-        "tags": [
-          "BLAST"
-        ],
+        "name": "Kombi-weapon – kill shot",
+        "tags": [],
         "range": "24\"",
-        "a": "D6+1",
+        "a": "1",
         "bs": "5+",
-        "s": "9",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       },
       {
-        "name": "Twin big shoota",
+        "name": "Kombi-weapon – point blank",
         "tags": [
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
+          "BLAST 1",
+          "TORRENT"
         ],
-        "range": "36\"",
+        "range": "12\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "-",
         "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Wing missiles",
-        "tags": [],
-        "range": "24\"",
-        "a": "1",
+        "name": "Kombi-weapon – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
         "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
+        "s": "4",
+        "ap": "0",
+        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Nose drill",
+        "name": "Power Klaw",
         "tags": [],
-        "a": "4",
-        "ws": "4+",
-        "s": "8",
-        "ap": "-1",
+        "a": "3",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
         "d": "2"
+      },
+      {
+        "name": "Twin Killsaws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Killsaw",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
       }
     ],
-    "core": "Deadly Demise 1",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Drill Through",
-        "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers 3 mortal wounds."
+        "name": "Arrogant Invulnerability",
+        "text": "Attacks that target this unit have -1 **AP**."
+      },
+      {
+        "name": "Krumpin’ Time",
+        "text": "In the Fight phase, if this unit is **riled up**, this unit has +1 to **hit rolls**."
       }
     ],
     "composition": [
-      "1 Megatrakk Scrapjet"
+      "2‑6 Meganob models"
     ],
-    "loadout": "**This model is equipped with:** rokkit kannon; 2 twin big shootas; wing missiles; nose drill.",
+    "loadout": "**Every model is equipped with:** 1 Kustom Shoota; 1 Power Klaw.",
+    "options": [
+      "Any number of models can each have their Power Klaw replaced with 1 Killsaw.",
+      "Any number of models can each have their Kustom Shoota replaced with 1 Kombi‑weapon.",
+      "Any number of models can each have their Power Klaw and Kustom Shoota replaced with 1 Twin Killsaws."
+    ],
     "keywords": [
-      "Vehicle",
-      "Megatrakk Scrapjet",
-      "Speed Freeks"
+      "Explosives",
+      "Infantry",
+      "Mega Armour"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "40mm"
   },
   {
     "id": "mek",
@@ -4122,71 +5097,59 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kustom mega-slugga",
+        "name": "Kustom Mega-slugga",
         "tags": [
-          "BLAST",
+          "CLOSE-QUARTERS",
           "HAZARDOUS"
         ],
         "range": "12\"",
-        "a": "D3",
-        "bs": "5+",
+        "a": "3",
+        "bs": "4+",
         "s": "8",
         "ap": "-2",
-        "d": "D6"
+        "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Killsaw",
-        "tags": [],
-        "a": "1",
-        "ws": "4+",
-        "s": "12",
-        "ap": "-3",
-        "d": "2"
-      },
-      {
-        "name": "Close combat weapon",
+        "name": "Mek’s Toolz",
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "0",
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Know-wotz",
-        "text": "While this model is within 3\" of one or more friendly Orks Vehicle units, this model has the Lone Operative ability."
+        "name": "Kustom Dakka",
+        "text": "This unit’s ranged attacks have [IGNORES COVER]."
       },
       {
-        "name": "Mekaniak",
-        "text": "At the end of your Movement phase, you can select one friendly Orks Vehicle model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds, and, until the start of your next Movement phase, each time that VEHICLE model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
+        "name": "Clever Know-wotz",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly ORKS VEHICLE model (excluding AIRCRAFT/TITANIC models) within 3\" of this model:\n▪ That VEHICLE model **heals** D3 wounds.\n▪ That VEHICLE model's attacks have +1 to **hit rolls** until the start of your next Movement phase."
       }
     ],
     "composition": [
-      "1 Mek"
+      "1 Mek model"
     ],
-    "loadout": "**This model is equipped with:** kustom mega-slugga; close combat weapon.",
-    "options": [
-      "This model’s close combat weapon can be replaced with 1 killsaw."
-    ],
+    "loadout": "**This model is equipped with:** 1 Kustom Mega‑slugga; 1 Mek’s Toolz.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
         "Boyz",
-        "Lootas",
+        "Flash Gitz",
         "Mek Gunz",
         "Nobz",
         "Tankbustas"
       ]
     },
     "keywords": [
-      "Mek",
       "Character",
+      "Explosives",
       "Infantry"
     ],
     "factionKeywords": [
@@ -4233,9 +5196,9 @@ export default [
     "profiles": [
       {
         "name": "Mek Gunz",
-        "m": "3\"",
-        "t": "5",
-        "sv": "5+",
+        "m": "5\"",
+        "t": "6",
+        "sv": "4+",
         "w": "6",
         "ld": "8+",
         "oc": "2",
@@ -4244,88 +5207,61 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Bubblechukka – big bubble",
+        "name": "Smasha Gun",
         "tags": [
-          "BUBBLECHUKKA",
-          "BLAST"
+          "BLAST 1"
         ],
         "range": "48\"",
-        "a": "2D6",
+        "a": "4",
         "bs": "4+",
-        "s": "6",
-        "ap": "-1",
+        "s": "7",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Bubblechukka",
+        "tags": [
+          "BLAST 3",
+          "LETHAL HITS"
+        ],
+        "range": "48\"",
+        "a": "8",
+        "bs": "4+",
+        "s": "3",
+        "ap": "-3",
         "d": "1"
       },
       {
-        "name": "Bubblechukka – wobbly bubble",
+        "name": "Kustom Mega-kannon",
         "tags": [
-          "BUBBLECHUKKA",
-          "BLAST"
-        ],
-        "range": "48\"",
-        "a": "D6",
-        "bs": "4+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
-      },
-      {
-        "name": "Bubblechukka – dense bubble",
-        "tags": [
-          "BUBBLECHUKKA",
-          "BLAST"
-        ],
-        "range": "48\"",
-        "a": "D3",
-        "bs": "4+",
-        "s": "12",
-        "ap": "-3",
-        "d": "D6+3"
-      },
-      {
-        "name": "Kustom mega-kannon",
-        "tags": [
-          "BLAST",
+          "BLAST 1",
           "HAZARDOUS"
         ],
         "range": "36\"",
-        "a": "D6",
-        "bs": "4+",
-        "s": "12",
-        "ap": "-1",
-        "d": "D6"
-      },
-      {
-        "name": "Smasha gun",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "48\"",
         "a": "D3+1",
         "bs": "4+",
-        "s": "9",
-        "ap": "-3",
-        "d": "3"
+        "s": "12",
+        "ap": "-2",
+        "d": "4"
       },
       {
-        "name": "Traktor kannon",
+        "name": "Traktor Kannon",
         "tags": [
-          "ANTI-FLY 2+",
-          "DEVASTATING WOUNDS"
+          "ANTI-FLY 2+"
         ],
         "range": "48\"",
-        "a": "1",
+        "a": "2",
         "bs": "4+",
-        "s": "10",
+        "s": "6",
         "ap": "-2",
-        "d": "D6+1"
+        "d": "D3+3"
       }
     ],
     "melee": [
       {
-        "name": "Grot crew",
+        "name": "Scavenged Shivs",
         "tags": [],
-        "a": "6",
+        "a": "5",
         "ws": "5+",
         "s": "2",
         "ap": "0",
@@ -4335,26 +5271,75 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Splat!",
-        "text": "Each time a model in this unit makes a ranged attack that targets a unit that is at its Starting Strength (excluding MONSTERS and VEHICLES), re-roll a Hit roll of 1."
+        "name": "Madcap Artillery",
+        "text": "In your Shooting phase, when this unit has shot, if all ranged weapons equipped by each Mek Gunz model in this unit are the same, select one enemy unit hit by those attacks. That enemy unit has the ability below that matches that weapon's name until the start of your next turn:\n▪ **Bubblechukka:** This unit is **wobbled**. While a **wobbled** unit is attacking, its targets have the **benefit of cover** against those attacks.\n▪ **Kustom Mega-kannon:** This unit is **zapped**. While a unit is **zapped**, that unit has -1 **Ld**.\n▪ **Smasha Gun:** This unit is **smashed**. While a unit is **smashed**, that unit has -2\" **M**.\n▪ **Traktor Kannon:** This unit is **grounded**. While a unit is **grounded**, it cannot **take to the skies**. Place five Grot Crew tokens next to each Mek Gun model, removing one each time its Mek Gun model loses a wound (a Mek Gun model itself is considered to represent its final wound)."
       }
     ],
     "composition": [
-      "1-3 Mek Gunz"
+      "1‑3 Mek Gunz models"
     ],
-    "loadout": "**Every model is equipped with:** smasha gun; grot crew.\n\n**Designer’s Note:** Place five Grot Crew tokens next to each Mek Gun model when this unit is first set up, removing one each time its Mek Gun model loses a wound (a Mek Gun model itself is considered to represent its final wound).",
+    "loadout": "**Every model is equipped with:** 1 Scavenged Shivs; 1 Smasha Gun.",
     "options": [
-      "Each model’s smasha gun can be replaced with one of the following:\n▪ 1 bubblechukka\n▪ 1 kustom mega-kannon\n▪ 1 traktor kannon"
+      "Any number of models can each have their Smasha Gun replaced with one of the following:\n▫ 1 Bubblechukka\n▫ 1 Kustom Mega‑kannon\n▫ 1 Traktor Kannon"
     ],
     "keywords": [
-      "Vehicle",
+      "Frame",
       "Grots",
-      "Mek Gunz"
+      "Vehicle"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "Hull"
+    "baseSize": "None"
+  },
+  {
+    "id": "mekboy-workshop",
+    "name": "Mekboy Workshop",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Mekboy Workshop",
+        "m": "-",
+        "t": "9",
+        "sv": "4+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Workshop",
+        "text": "▪ When this unit is set up, all parts of it must be set up in a single group, in which each part is within 1\" of another part.\n▪ At the end of the Movement phase, each friendly ORKS VEHICLE within 6\" of this unit **heals** D3 wounds. Each friendly ORKS VEHICLE unit can only be affected by this ability once per turn."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is **engaged** with only FORTIFICATION units:\n▪ That enemy unit can be selected as a target of ranged attacks.\n▪ When shooting that enemy unit, those ranged attacks have -1 to **hit rolls** (excluding [CLOSE-QUARTERS] attacks).\n▪ When that enemy unit is selected to make a **fall-back move**, if that enemy unit is only **engaged** with FORTIFICATION units, and that enemy unit is not **battle-shocked**, **hazard rolls** made for that enemy unit are automatically passed."
+      },
+      {
+        "name": "Ramshackle Cover",
+        "text": "When an attack targets a unit that is not **fully visible** to the attacking model because of this unit, the target has the **benefit of cover** against that attack."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Mekboy Workshop model",
+    "keywords": [
+      "Fortification",
+      "Frame",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "Custom",
+    "legends": true
   },
   {
     "id": "morkanaut",
@@ -4375,9 +5360,9 @@ export default [
     "profiles": [
       {
         "name": "Morkanaut",
-        "m": "8\"",
+        "m": "9\"",
         "t": "12",
-        "sv": "3+",
+        "sv": "2+",
         "w": "20",
         "ld": "7+",
         "oc": "8",
@@ -4386,109 +5371,106 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kustom mega-blasta",
+        "name": "Dual Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kustom Mega-blasta",
         "tags": [
           "HAZARDOUS"
         ],
         "range": "24\"",
         "a": "3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Kustom mega-zappa",
-        "tags": [
-          "BLAST",
-          "HAZARDOUS"
-        ],
-        "range": "36\"",
-        "a": "D6+3",
-        "bs": "5+",
-        "s": "10",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Rokkit launcha",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "24\"",
-        "a": "D3",
-        "bs": "5+",
+        "bs": "4+",
         "s": "9",
         "ap": "-2",
         "d": "3"
       },
       {
-        "name": "Twin big shoota",
+        "name": "Kustom Mega-zappa",
         "tags": [
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
+          "BLAST 1",
+          "HAZARDOUS"
         ],
         "range": "36\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "4"
+      },
+      {
+        "name": "Rokkit Launcha – blasta",
+        "tags": [
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
         "s": "5",
         "ap": "0",
         "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
       }
     ],
     "melee": [
       {
-        "name": "Klaw of Mork – strike",
-        "tags": [],
-        "a": "4",
+        "name": "Klaw of Mork",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "5",
         "ws": "3+",
         "s": "18",
         "ap": "-3",
         "d": "6"
-      },
-      {
-        "name": "Klaw of Mork – sweep",
-        "tags": [],
-        "a": "12",
-        "ws": "3+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
       }
     ],
-    "core": "Deadly Demise D6",
+    "core": "Super-heavy Walker, Damaged 7, Deadly Demise D6",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Clankin’ Forward",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTERS and VEHICLES) and terrain features that are 4\" or less in height as if they were not there."
+        "name": "Big an’ Shooty",
+        "text": "In your Shooting phase, this unit’s ranged attacks can re‑roll **hit rolls** of 1."
       },
       {
-        "name": "Big an’ Shooty",
-        "text": "Each time this model makes a ranged attack, if the Waaagh! is active for your army, add 1 to the Hit roll."
+        "name": "Gut Hatch",
+        "text": "In your Movement phase, when this unit ends a **normal move**, units embarked within this unit can make an **assault disembark move** (pg 121)."
       }
     ],
-    "damaged": {
-      "note": "1-7 wounds remaining",
-      "text": "While this model has 1-7 wounds remaining, subtract 4 from this model’s Objective Control characteristic, and each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Morkanaut"
+      "1 Morkanaut model"
     ],
-    "loadout": "**This model is equipped with:** kustom mega-blasta; kustom mega-zappa; 2 rokkit launchas; 2 twin big shootas; klaw of Mork.",
-    "transport": "This model has a transport capacity of 12 Orks Infantry models (excluding Ghazghkull Thraka). Each Mega Armour or Jump Pack model takes up the space of 2 models.",
+    "loadout": "**This model is equipped with:** 2 Dual Big Shoota; 1 Klaw of Mork; 1 Kustom Mega‑blasta; 1 Kustom Mega‑zappa; 2 Rokkit Launcha.",
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models.",
     "keywords": [
       "Titanic",
-      "Transport",
-      "Morkanaut",
-      "Walker",
       "Towering",
-      "Vehicle"
+      "Transport",
+      "Vehicle",
+      "Walker"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "170x109mm Oval Base"
+    ]
   },
   {
     "id": "mozrog-skragbad",
@@ -4504,9 +5486,9 @@ export default [
       {
         "name": "Mozrog Skragbad",
         "m": "10\"",
-        "t": "8",
+        "t": "9",
         "sv": "3+",
-        "w": "8",
+        "w": "10",
         "ld": "6+",
         "oc": "3",
         "inv": "4+"
@@ -4514,12 +5496,12 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Thump gun",
+        "name": "Thump Gun",
         "tags": [
-          "BLAST"
+          "ANTI-MONSTER/VEHICLE 4+"
         ],
         "range": "18\"",
-        "a": "D3",
+        "a": "3",
         "bs": "5+",
         "s": "6",
         "ap": "0",
@@ -4528,9 +5510,9 @@ export default [
     ],
     "melee": [
       {
-        "name": "Big Chompa’s jaws",
+        "name": "Big Chompa’s Jaws",
         "tags": [
-          "DEVASTATING WOUNDS",
+          "ANTI-MONSTER/VEHICLE 3+",
           "EXTRA ATTACKS"
         ],
         "a": "3",
@@ -4540,52 +5522,183 @@ export default [
         "d": "4"
       },
       {
-        "name": "Gutrippa",
+        "name": "Gutrippa – hunter (vs MONSTER/VEHICLE)",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "LETHAL HITS"
         ],
         "a": "6",
         "ws": "2+",
-        "s": "7",
-        "ap": "-1",
-        "d": "3"
+        "s": "12",
+        "ap": "-2",
+        "d": "D6+1"
+      },
+      {
+        "name": "Gutrippa – standard",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "9",
+        "ap": "-2",
+        "d": "2"
       }
     ],
-    "core": "Feel No Pain 5+, Leader",
+    "core": "Feel No Pain 5+",
     "faction": "Waaagh!",
     "abilities": [
       {
         "name": "One Last Kill",
-        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+        "text": "In the Fight phase, when this model is **destroyed**, if this unit has not been **selected to fight** this phase, roll one D6:\n▪ On a 2+, do not remove this model from the battlefield. When this unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield."
       },
       {
         "name": "Da Bigger Dey Iz…",
-        "text": "Each time this model makes a melee attack that targets a MONSTER or VEHICLE unit, add 1 to the Damage characteristic of that attack. Each time this model makes a melee attack that targets a TITANIC unit, add 2 to the Damage characteristic of that attack instead."
+        "text": "This unit’s melee attacks that target a MONSTER/VEHICLE unit can re‑roll **wound rolls**."
+      },
+      {
+        "name": "Beast Snagga Following",
+        "text": "While this unit is within 3\" of a friendly BEAST SNAGGA unit (excluding MONSTER CHARACTER units), this unit has **Lone Operative**."
       }
     ],
     "composition": [
-      "1 Mozrog Skragbad – EPIC HERO"
+      "1 Mozrog Skragbad model"
     ],
-    "loadout": "**This model is equipped with:** thump gun; Big Chompa’s jaws; gutrippa.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Squighog Boyz"
-      ]
-    },
+    "loadout": "**This model is equipped with:** 1 Big Chompa’s Jaws; 1 Gutrippa; 1 Thump Gun.",
     "keywords": [
-      "Warboss",
-      "Mozrog Skragbad",
-      "Mounted",
       "Beast Snagga",
+      "Character",
       "Epic Hero",
-      "Character"
+      "Monster"
     ],
     "factionKeywords": [
       "Orks"
     ],
     "baseSize": "80mm"
+  },
+  {
+    "id": "nazdreg",
+    "name": "Nazdreg",
+    "points": [
+      {
+        "models": 1,
+        "points": 175
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Nazdreg",
+        "m": "5\"",
+        "t": "7",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Kustom Blasta X – gatler",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kustom Blasta X – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Kustom Blasta X – skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Kustom Blasta X",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Moonchewa",
+        "tags": [
+          "CLEAVE 1",
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Leader, Deep Strike",
+    "faction": "Waaagh!, Da Boss",
+    "abilities": [
+      {
+        "name": "Intimidating Motivation (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly ORKS unit within 6\" of this unit. That unit:\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
+      },
+      {
+        "name": "Nazdreg’s Know‑wotz",
+        "text": "▪ This unit has **Deep Strike**.\n▪ This unit's ranged attacks have [IGNORES COVER]."
+      },
+      {
+        "name": "Supreme Kunnin’ (Once per phase, per army)",
+        "text": "In your opponent's Movement phase, when an enemy unit ends a move within 8\" of this unit, if this unit is **unengaged**, this unit can:\n▪ Make a **normal move** of up to D6\".\n▪ __Or:__ If this unit is **riled up**, make a **normal move** of up to 5\"."
+      }
+    ],
+    "composition": [
+      "1 Nazdreg model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Kustom Blasta X; 1 Moonchewa.\nThis model’s Kustom Blasta X weapon has three separate ranged weapon profiles, each of which can be selected to make attacks with.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Meganobz"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Infantry",
+      "Mega Armour",
+      "Warboss"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "nobz",
@@ -4615,37 +5728,72 @@ export default [
     "flavor": "Nobz swagger into battle wielding a jaw-dropping assortment of kombi-weapons, favourite sluggas, very large choppas, piston-driven klaws and any other instrument of gratuitous violence they can get their claws on. Coupled with their exceptional resilience and sheer belligerence, this renders them terrifying combatants indeed.",
     "profiles": [
       {
-        "name": "Nobz",
+        "name": "Nob",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
-        "w": "2",
+        "w": "3",
         "ld": "7+",
         "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Kombi-weapon",
+        "name": "Big Skorcha",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
+          "BLAST 2",
+          "TORRENT"
         ],
+        "range": "18\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-rokkit – busta rokkit",
+        "tags": [],
         "range": "24\"",
         "a": "1",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kombi-rokkit – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
         "bs": "5+",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Slugga",
+        "name": "Kustom Shoota",
         "tags": [
-          "PISTOL"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 2"
         ],
-        "range": "12\"",
-        "a": "1",
+        "range": "18\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kustom Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "18\"",
+        "a": "8",
         "bs": "5+",
         "s": "4",
         "ap": "0",
@@ -4654,65 +5802,71 @@ export default [
     ],
     "melee": [
       {
-        "name": "Big choppa",
+        "name": "Kustom Choppa",
         "tags": [],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
-        "s": "7",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Close combat weapon",
+        "name": "Kustom Krumpa",
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
       },
       {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "9",
-        "ap": "-2",
+        "name": "Big Choppa",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "7",
+        "ap": "-1",
         "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Da Boss’ Ladz",
-        "text": "While a Warboss model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
-      }
-    ],
-    "wargearAbilities": [
+        "name": "Get Out da Way!",
+        "text": "While making a **charge move**, this unit can move through models (excluding MONSTER/VEHICLE models)."
+      },
       {
-        "name": "Ammo Runt",
-        "text": "Once per battle for each ammo runt this unit has, when this unit is selected to shoot, it can use this ability. If it does, until the end of the phase, ranged weapons equipped by models in this unit have the [LETHAL HITS] ability.\n\n**Designer’s Note:** Place the relevant number of Ammo Runt tokens next to the unit, removing one each time the unit uses this ability."
+        "name": "Ammo Runts (Once per battle, per unit)",
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this unit’s ranged attacks have +1 to **hit rolls**.\rPlace any number of Ammo Runt tokens next to the unit, removing them when this ability is used."
       }
     ],
     "composition": [
-      "1 Boss Nob",
-      "4-9 Nobz"
+      "5‑10 Nob models"
     ],
-    "loadout": "**Every model is equipped with:** slugga; big choppa.",
+    "loadout": "**Every model is equipped with:** 1 Kustom Krumpa; 1 Kustom Shoota.",
     "options": [
-      "Any number of models can each have their big choppa replaced with 1 power klaw.",
-      "Any number of models can each have their slugga and big choppa replaced with 1 kombi-weapon and 1 close combat weapon.",
-      "For every 5 models in this unit, this unit can be equipped with 1 ammo runt."
+      "For every 5 models in this unit, 1 model can have their Kustom Krumpa and Kustom Shoota replaced with 1 Big Skorcha and 1 Kustom Choppa.",
+      "For every 5 models in this unit, 1 model can have their Kustom Krumpa and Kustom Shoota replaced with 1 Kustom Big Shoota and 1 Kustom Choppa.",
+      "For every 5 models in this unit, 1 model can have their Kustom Krumpa and Kustom Shoota replaced with 1 Big Choppa.",
+      "For every 5 models in this unit, 1 model can have their Kustom Shoota replaced with 1 Paired Krumpas.",
+      "Any number of models can each have their Kustom Shoota replaced with 1 Kombi-rokkit."
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Paired Krumpas",
+        "text": "Attacks made with this model’s Kustom Krumpa weapon can re-roll **hit rolls** and **wound rolls**."
+      }
     ],
     "keywords": [
-      "Nobz",
-      "Grenades",
+      "Explosives",
       "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "40mm"
   },
   {
     "id": "painboss",
@@ -4738,59 +5892,54 @@ export default [
         "sv": "4+",
         "w": "4",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "inv": "6+"
       }
     ],
     "melee": [
       {
-        "name": "Beast Snagga klaw",
+        "name": "Beast Snagga Klaw",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "ANTI-MONSTER/VEHICLE 4+"
         ],
         "a": "3",
-        "ws": "4+",
-        "s": "9",
+        "ws": "3+",
+        "s": "10",
         "ap": "-2",
         "d": "2"
       }
     ],
-    "core": "Feel No Pain 5+, Leader",
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dok’s Toolz",
-        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 5+ ability."
+        "name": "Push Dat Bit Back In (Once per battle, per unit)",
+        "text": "In your Command phase, select one friendly BEAST SNAGGA unit within 6\" of this unit. That unit **heals** 3 wounds.\rPlace a Grot Orderly token next to the unit, removing it when this ability is used."
       },
       {
-        "name": "Sawbonez",
-        "text": "At the end of your Movement phase, select one friendly Beast Snagga Character model within 3\" of this model. That model is healed and regains up to 3 lost wounds. Each model can only be healed once per turn."
-      }
-    ],
-    "wargearAbilities": [
+        "name": "Hardy Bioniks",
+        "text": "Attacks that target this unit with a **S** greater than this unit’s **T** have -1 to **wound rolls**."
+      },
       {
-        "name": "Grot Orderly",
-        "text": "Once per battle, in your Command phase, if the bearer is leading a unit that is below its Starting Strength, you can return up to D3 destroyed Bodyguard models to that unit.\n\n**Designer’s Note:** Place a Grot Orderly token next to the unit, removing it once this ability has been used."
+        "name": "Runnin’ wiv da Herd",
+        "text": "While this model is attached to a MOUNTED unit, this model:\n▪ Does not have INFANTRY.\n▪ Has MOBILE and MOUNTED.\n▪ Has +4\" **M**."
       }
     ],
     "composition": [
-      "1 Painboss"
+      "1 Painboss model"
     ],
-    "loadout": "**This model is equipped with:** Beast Snagga klaw.",
-    "options": [
-      "This model can be equipped with 1 grot orderly."
-    ],
+    "loadout": "**This model is equipped with:** 1 Beast Snagga Klaw.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Beast Snagga Boyz"
+        "Beast Snagga Boyz",
+        "Squighog Boyz"
       ]
     },
     "keywords": [
-      "Infantry",
-      "Character",
       "Beast Snagga",
-      "Painboss"
+      "Character",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
@@ -4820,66 +5969,55 @@ export default [
     ],
     "melee": [
       {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "9",
-        "ap": "-2",
-        "d": "2"
-      },
-      {
-        "name": "’Urty syringe",
+        "name": "’Urty Syringe",
         "tags": [
           "ANTI-INFANTRY 4+",
-          "EXTRA ATTACKS",
-          "PRECISION"
+          "DEVASTATING WOUNDS: INFANTRY",
+          "EXTRA ATTACKS"
         ],
         "a": "1",
         "ws": "3+",
         "s": "2",
         "ap": "0",
-        "d": "1"
+        "d": "D6"
+      },
+      {
+        "name": "Dok’s Toolz",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dok’s Toolz",
-        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 5+ ability."
+        "name": "Crude Surgery",
+        "text": "In your Command phase, this unit **heals** 3 wounds."
       },
       {
-        "name": "Hold Still and Say ‘Aargh!’",
-        "text": "Each time an attack made by this model with its ’urty syringe scores a Critical Wound against a unit (excluding VEHICLE units), that unit suffers D6 mortal wounds."
-      }
-    ],
-    "wargearAbilities": [
-      {
-        "name": "Grot Orderly",
-        "text": "Once per battle, in your Command phase, if the bearer is leading a unit that is below its Starting Strength, you can return up to D3 destroyed Bodyguard models to that unit.\n\n**Designer’s Note:** Place a Grot Orderly token next to the unit, removing it once this ability has been used"
+        "name": "Catch Dat Red Bit (Once per battle, per unit)",
+        "text": "When this model uses its **Crude Surgery** ability, you can add D3 to the number of wounds **healed**.\rPlace a Grot Orderly token next to the unit, removing it when this ability is used."
       }
     ],
     "composition": [
-      "1 Painboy"
+      "1 Painboy model"
     ],
-    "loadout": "**This model is equipped with:** power klaw; ’urty syringe.",
-    "options": [
-      "This model can be equipped with 1 grot orderly."
-    ],
+    "loadout": "**This model is equipped with:** 1 Dok’s Toolz; 1 ’Urty Syringe.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Nobz",
-        "Tankbustas",
+        "Boyz",
         "Breaka Boyz",
-        "Lootas",
-        "Burna Boyz",
-        "Boyz"
+        "Flash Gitz",
+        "Nobz",
+        "Tankbustas"
       ]
     },
     "keywords": [
-      "Painboy",
       "Character",
       "Infantry"
     ],
@@ -4889,12 +6027,16 @@ export default [
     "baseSize": "32mm"
   },
   {
-    "id": "rukkatrukk-squigbuggy",
-    "name": "Rukkatrukk Squigbuggy",
+    "id": "rukkatrukk-squigbuggies",
+    "name": "Rukkatrukk Squigbuggies",
     "points": [
       {
         "models": 1,
         "points": 85
+      },
+      {
+        "models": 2,
+        "points": 160
       }
     ],
     "flavor": "These vehicles started out as mobile food wagons, but became weapons of war the moment Orks realised how hilarious it was to pelt the enemy (or their mates) with squigs that latched on like living man-traps, squigs that vomited corrosive or toxic juices, and squigs with a propensity for detonating like an artillery shell.",
@@ -4912,9 +6054,10 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Sawn-off shotgun",
+        "name": "Sawn-off Shotgun",
         "tags": [
-          "ASSAULT"
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "2",
@@ -4924,15 +6067,13 @@ export default [
         "d": "1"
       },
       {
-        "name": "Squig-launchas",
+        "name": "Squig Launchas",
         "tags": [
-          "BLAST",
-          "IGNORES COVER",
-          "INDIRECT FIRE"
+          "IGNORES COVER"
         ],
-        "range": "36\"",
+        "range": "24\"",
         "a": "D6+6",
-        "bs": "5+",
+        "bs": "4+",
         "s": "5",
         "ap": "-1",
         "d": "2"
@@ -4940,10 +6081,12 @@ export default [
     ],
     "melee": [
       {
-        "name": "Saw blades",
-        "tags": [],
+        "name": "Saw Blades",
+        "tags": [
+          "CLEAVE 1"
+        ],
         "a": "4",
-        "ws": "4+",
+        "ws": "3+",
         "s": "7",
         "ap": "-1",
         "d": "2"
@@ -4953,110 +6096,96 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Buzzer Squigs",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks made with squig-launchas and roll one D6: on a 4+, until the end of your opponent’s next turn, that enemy unit is hindered. While a unit is hindered, subtract 2\" from its Move characteristic and subtract 2 from Advance and Charge rolls made for it."
-      },
-      {
-        "name": "Squig Mine",
-        "text": "Once per battle, at the start of any phase, select one enemy unit within 3\" of this model and roll one D6: on a 4+, that enemy unit suffers D6 mortal wounds.\n\n**Designer’s Note:** Place a Squig Mine token next to the model, removing it once this ability has been used."
+        "name": "Squig Barrage",
+        "text": "In your Shooting phase, when this unit has shot, select one enemy unit (excluding MONSTER/VEHICLE units) hit by this unit’s Squig Launchas weapons. That enemy unit is **covered in Squigs** until the start of your next turn:\n▪ While a unit is **covered in Squigs**, that unit’s attacks have -1 to **hit rolls**."
       }
     ],
     "composition": [
-      "1 Rukkatrukk Squigbuggy"
+      "1‑2 Rukkatrukk Squigbuggy models"
     ],
-    "loadout": "**This model is equipped with:** sawn-off shotgun; squig-launchas; saw blades.",
+    "loadout": "**Every model is equipped with:** 1 Saw Blades; 1 Sawn‑off Shotgun; 1 Squig Launchas.",
     "keywords": [
-      "Rukkatrukk Squigbuggy",
+      "Explosives",
       "Speed Freeks",
       "Vehicle"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "150mm"
   },
   {
-    "id": "shokkjump-dragsta",
-    "name": "Shokkjump Dragsta",
+    "id": "runtherd",
+    "name": "Runtherd",
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 10
       }
     ],
-    "flavor": "Combining shokk attack technology, great speed and a cheerful disregard for life and limb, the Shokkjump Dragsta provides the Orks with a vehicle that can teleport itself through – occasionally into – feet-thick fortress walls while its kustom shokk rifle bores warp tunnels right through its luckless victims.",
     "profiles": [
       {
-        "name": "Shokkjump Dragsta",
-        "m": "12\"",
-        "t": "7",
-        "sv": "4+",
-        "w": "9",
+        "name": "Runtherd",
+        "m": "6\"",
+        "t": "5",
+        "sv": "5+",
+        "w": "3",
         "ld": "7+",
-        "oc": "3",
-        "inv": "6+"
+        "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Kustom shokk rifle",
+        "name": "Slugga",
         "tags": [
-          "DEVASTATING WOUNDS",
-          "HAZARDOUS",
-          "PRECISION"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
-        "range": "24\"",
+        "range": "12\"",
         "a": "1",
-        "bs": "3+",
-        "s": "8",
-        "ap": "-2",
-        "d": "D6+1"
-      },
-      {
-        "name": "Rokkits",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "24\"",
-        "a": "D3",
         "bs": "5+",
-        "s": "9",
-        "ap": "-2",
-        "d": "3"
+        "s": "4",
+        "ap": "0",
+        "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Saw blades",
+        "name": "Runtherd’s Toolz",
         "tags": [],
-        "a": "4",
-        "ws": "4+",
-        "s": "7",
-        "ap": "-1",
-        "d": "2"
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
       }
     ],
-    "core": "Deadly Demise 1",
+    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Shokk Tunnel",
-        "text": "In your Movement phase, when this unit is selected to make an Advance move, you can use this ability. If you do:\n▪ That move has no maximum distance.\n▪ This unit can move through all types of model (including enemy models and MONSTER/VEHICLE models).\n▪ After moving, your unit must be more than 8\" horizontally from all enemy units."
+        "name": "That’ll Learn Ya (Once per battle round, per unit)",
+        "text": "When this unit becomes **battle‑shocked**, if this unit contains 4+ Gretchin models, you can roll one D3:\n▪ That number of Gretchin models in this unit are **destroyed**.\n▪ This unit is no longer **battle‑shocked**."
       }
     ],
     "composition": [
-      "1 Shokkjump Dragsta"
+      "1 Runtherd model"
     ],
-    "loadout": "**This model is equipped with:** kustom shokk rifle; rokkits; saw blades.",
+    "loadout": "**This model is equipped with:** 1 Runtherd’s Toolz; 1 Slugga.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Gretchin"
+      ]
+    },
     "keywords": [
-      "Vehicle",
-      "Speed Freeks",
-      "Shokkjump Dragsta"
+      "Character",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "32mm"
   },
   {
     "id": "squighog-boyz",
@@ -5086,29 +6215,42 @@ export default [
     "flavor": "With their mounts snorting and saddlegitz hanging on for dear life, Squighog Boyz thunder into the fight. They fling rokkit-propelled stikkas, hitting with enough force to pierce plate armour, then employ muscle, weight, momentum and sheer belligerence to squash those foes still standing to a paste.",
     "profiles": [
       {
-        "name": "Squighog Boyz",
+        "name": "Squighog Boy",
         "m": "10\"",
-        "t": "7",
+        "t": "6",
         "sv": "4+",
         "w": "3",
         "ld": "7+",
         "oc": "2",
-        "baseSize": "75x42mm Oval Base"
+        "inv": "6+"
       },
       {
-        "name": "Nob On Smasha Squig",
+        "name": "Nob on Smasha Squig",
         "m": "10\"",
-        "t": "7",
+        "t": "6",
         "sv": "4+",
         "w": "4",
         "ld": "7+",
         "oc": "2",
-        "baseSize": "90x52.5mm Oval Base"
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Saddlegit weapons",
+        "name": "Slugga",
+        "tags": [
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Saddlegit’s Shiv",
         "tags": [
           "ASSAULT"
         ],
@@ -5120,25 +6262,12 @@ export default [
         "d": "1"
       },
       {
-        "name": "Slugga",
-        "tags": [
-          "PISTOL"
-        ],
-        "range": "12\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
         "name": "Stikka",
         "tags": [
-          "ASSAULT",
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "ANTI-MONSTER/VEHICLE 4+",
+          "ASSAULT"
         ],
-        "range": "12\"",
+        "range": "9\"",
         "a": "1",
         "bs": "5+",
         "s": "5",
@@ -5150,30 +6279,17 @@ export default [
       {
         "name": "Big Choppa",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
+          "ANTI-MONSTER/VEHICLE 4+",
+          "CLEAVE 2"
         ],
         "a": "4",
         "ws": "3+",
-        "s": "6",
+        "s": "7",
         "ap": "-1",
         "d": "2"
       },
       {
-        "name": "Stikka",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+",
-          "LANCE"
-        ],
-        "a": "3",
-        "ws": "3+",
-        "s": "5",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Squig jaws",
+        "name": "Squig’s Jaws",
         "tags": [
           "EXTRA ATTACKS"
         ],
@@ -5182,40 +6298,45 @@ export default [
         "s": "6",
         "ap": "-1",
         "d": "2"
+      },
+      {
+        "name": "Stikka",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 4+"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
       }
     ],
-    "core": "Feel No Pain 5+",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Wild Ride",
-        "text": "You can ignore any or all modifiers to this unit’s Move characteristic and to Advance and Charge rolls made for this unit."
-      }
-    ],
-    "wargearAbilities": [
+        "name": "Bomb Squig (Once per battle, per unit)",
+        "text": "In your Movement phase, when this unit ends a **normal move**, you can select one **visible **enemy unit within 12\" of this unit and roll one D6:\n▪ On a 3+, that enemy unit suffers D3 **mortal wounds**. Place one Bomb Squig token next to the unit, removing it after this ability is used."
+      },
       {
-        "name": "Bomb Squigs",
-        "text": "Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.\n\n**Designer’s Note:** Place the relevant number of Bomb Squig tokens next to the unit, removing one each time this unit uses this ability."
+        "name": "Brutal Impact",
+        "text": "If this unit made a **charge move** this turn, this unit’s attacks have +1 **D**."
       }
     ],
     "composition": [
-      "1 Nob on Smasha Squig and 3 Squighog Boyz",
-      "OR",
-      "2 Nobz on Smasha Squigs and 6 Squighog Boyz"
+      "1‑2 Nob on Smasha Squig models",
+      "3‑6 Squighog Boy models"
     ],
-    "loadout": "**Every Nob on Smasha Squig is equipped with:** slugga; big choppa; squig jaws.\n\n**Every Squighog Boy is equipped with:** saddlegit weapons; stikka; squig jaws.",
-    "options": [
-      "For every 4 models in this unit, this unit can be equipped with 1 bomb squig."
-    ],
+    "loadout": "**Every Nob on Smasha Squig is equipped with:** 1 Big Choppa; 1 Slugga; 1 Squig’s Jaws.\n**Every Squighog Boy is equipped with:** 1 Saddlegit’s Shiv; 1 Squig’s Jaws; 1 Stikka.",
     "keywords": [
-      "Squighog Boyz",
-      "Mounted",
       "Beast Snagga",
-      "Grenades"
+      "Explosives",
+      "Mobile",
+      "Mounted"
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "75mm, 90x52.5mm Oval Base"
   },
   {
     "id": "stompa",
@@ -5242,13 +6363,14 @@ export default [
         "w": "30",
         "ld": "6+",
         "oc": "12",
-        "inv": "6+"
+        "inv": "5+"
       }
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -5259,122 +6381,98 @@ export default [
         "d": "1"
       },
       {
-        "name": "Deffkannon",
+        "name": "Deffkannon and Supa-rokkits",
         "tags": [
-          "BLAST"
+          "BLAST 2"
         ],
         "range": "72\"",
-        "a": "3D6",
+        "a": "12",
         "bs": "5+",
         "s": "14",
-        "ap": "-3",
-        "d": "D6"
-      },
-      {
-        "name": "Skorcha",
-        "tags": [
-          "IGNORES COVER",
-          "TORRENT"
-        ],
-        "range": "12\"",
-        "a": "D6",
-        "bs": "N/A",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
-      },
-      {
-        "name": "Supa-gatler",
-        "tags": [
-          "SUSTAINED HITS 1"
-        ],
-        "range": "24\"",
-        "a": "20",
-        "bs": "5+",
-        "s": "7",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
-        "name": "Supa-rokkits",
-        "tags": [
-          "BLAST"
-        ],
-        "range": "100\"",
-        "a": "D6",
-        "bs": "5+",
-        "s": "12",
         "ap": "-3",
         "d": "D6+2"
       },
       {
-        "name": "Twin big shoota",
+        "name": "Skorcha",
         "tags": [
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
+          "BLAST 2",
+          "TORRENT"
         ],
-        "range": "36\"",
+        "range": "12\"",
         "a": "3",
-        "bs": "5+",
+        "bs": "-",
         "s": "5",
-        "ap": "0",
+        "ap": "-1",
         "d": "1"
+      },
+      {
+        "name": "Supa-gatler – point blank",
+        "tags": [
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3D6+3",
+        "bs": "-",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Supa-gatler – aimed",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "30",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "melee": [
       {
-        "name": "Mega-choppa – strike",
-        "tags": [],
+        "name": "Mega-choppa",
+        "tags": [
+          "CLEAVE 4"
+        ],
         "a": "6",
         "ws": "3+",
         "s": "24",
-        "ap": "-5",
+        "ap": "-4",
         "d": "10"
-      },
-      {
-        "name": "Mega-choppa – sweep",
-        "tags": [],
-        "a": "18",
-        "ws": "3+",
-        "s": "10",
-        "ap": "-2",
-        "d": "3"
       }
     ],
-    "core": "Deadly Demise 2D6",
+    "core": "Deadly Demise 2D6, Super-heavy Walker, Damaged 10",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Waaagh! Effigy (Aura)",
-        "text": "While a friendly ORKS unit is within 12\" of this model, each time you take a Battle-shock test for that unit, add 1 to that test."
+        "name": "Idol of Belligerence",
+        "text": "In your Movement phase, when a unit embarked within this unit is selected to make a **disembark move**, that unit is **riled up** until the start of your next turn."
       },
       {
-        "name": "Stompin’ Forward",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
+        "name": "Waaagh! Effigy",
+        "text": "This unit is **riled up**."
       }
     ],
-    "damaged": {
-      "note": "1-10 wounds remaining",
-      "text": "While this model has 1-10 wounds remaining, subtract 6 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
-    },
     "composition": [
-      "1 Stompa"
+      "1 Stompa model"
     ],
-    "loadout": "**This model is equipped with:** 3 big shootas; deffkannon; skorcha; supa-gatler; supa-rokkits; twin big shoota; mega-choppa.",
-    "transport": "This model has a transport capacity of 22 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. The Ghazghkull Thraka model takes up the space of 4 models.",
+    "loadout": "**This model is equipped with:** 5 Big Shoota; 1 Deffkannon and Supa‑rokkits; 1 Mega‑choppa; 1 Skorcha; 1 Supa‑gatler.",
+    "transport": "This model has a **transport capacity** of 22 ORKS INFANTRY models. Each MEGA ARMOUR/JUMP PACK model takes up the space of 2 models. Each GHAZGHKULL THRAKA model takes up the space of 4 models.",
     "keywords": [
+      "Frame",
+      "Titanic",
       "Towering",
       "Transport",
-      "Walker",
       "Vehicle",
-      "Titanic",
-      "Stompa",
-      "Frame"
+      "Walker"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "Hull"
+    "baseSize": "None"
   },
   {
     "id": "stormboyz",
@@ -5392,31 +6490,30 @@ export default [
     "flavor": "Most Orks mock Stormboyz for their acts of juvenile rebellion, from taking orders and shining their boots to marching about, talking about ‘taktics’ and even following a battle plan. Yet when that plan is ‘strap on a high powered rokkit and hurtle into the enemy bellowing “Waaagh!”’, it does prove to have its merits.",
     "profiles": [
       {
-        "name": "STORMBOY",
+        "name": "Stormboy",
         "m": "12\"",
         "t": "5",
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
-        "name": "BOSS NOB",
+        "name": "nob",
         "m": "12\"",
         "t": "5",
         "sv": "5+",
-        "w": "2",
+        "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       }
     ],
     "ranged": [
       {
         "name": "Slugga",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -5432,16 +6529,25 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
       },
       {
-        "name": "Power klaw",
+        "name": "Kustom Choppa",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power Klaw",
         "tags": [],
         "a": "3",
-        "ws": "4+",
-        "s": "9",
+        "ws": "3+",
+        "s": "10",
         "ap": "-2",
         "d": "2"
       }
@@ -5450,28 +6556,28 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Full Throttle",
-        "text": "This unit is eligible to declare a charge in a turn in which it Advanced or Fell Back."
+        "name": "Rokkit Charge",
+        "text": "When this unit is **selected to fight**, if this unit made a **charge move** this turn, you can use this ability. If you do, this unit’s melee attacks have:\n▪ +1 **A** and **S**.\n▪ [HAZARDOUS]."
       }
     ],
     "composition": [
-      "1 Boss Nob",
-      "4-9 Stormboyz"
+      "1 Nob model",
+      "4‑9 Stormboy models"
     ],
-    "loadout": "**Every model is equipped with:** slugga; choppa.",
+    "loadout": "**The Nob is equipped with:** 1 Kustom Choppa; 1 Slugga.\n**Every Stormboy is equipped with:** 1 Choppa; 1 Slugga.",
     "options": [
-      "The Boss Nob’s choppa can be replaced with 1 power klaw."
+      "The Nob can have their Kustom Choppa replaced with 1 Power Klaw."
     ],
     "keywords": [
+      "Explosives",
       "Fly",
-      "Grenades",
-      "Stormboyz",
-      "Jump Pack",
-      "Infantry"
+      "Infantry",
+      "Jump Pack"
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "tankbustas",
@@ -5491,42 +6597,68 @@ export default [
     "flavor": "Tankbustas fixate on blasting enemy vehicles into scrap using barrages of rokkits that detonate in deafening explosions. They wield varied, cobbled-together launchas, and are laden with an arsenal of explosive projectiles, whose dubious reliability is made up for by the Tankbustas’ enthusiasm.",
     "profiles": [
       {
-        "name": "TANKBUSTAS",
+        "name": "Tankbusta",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
         "w": "2",
         "ld": "7+",
         "oc": "1"
+      },
+      {
+        "name": "Nob",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
       }
     ],
     "ranged": [
       {
-        "name": "Rokkit launcha",
-        "tags": [
-          "BLAST"
-        ],
+        "name": "Busta Rokkit Launcha – hunter (vs MONSTER/VEHICLE)",
+        "tags": [],
         "range": "24\"",
-        "a": "D3",
-        "bs": "5+",
-        "s": "9",
+        "a": "3",
+        "bs": "4+",
+        "s": "12",
         "ap": "-2",
         "d": "3"
       },
       {
-        "name": "Rokkit pistol",
+        "name": "Busta Rokkit Launcha – standard",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Rokkit Pistol",
         "tags": [
-          "PISTOL"
+          "CLOSE-QUARTERS"
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "5+",
-        "s": "9",
+        "bs": "4+",
+        "s": "10",
         "ap": "-2",
         "d": "3"
       }
     ],
     "melee": [
+      {
+        "name": "Gitstikka",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Choppa",
         "tags": [],
@@ -5537,37 +6669,43 @@ export default [
         "d": "1"
       },
       {
-        "name": "Close combat weapon",
+        "name": "Smash Hammer – hunter (vs MONSTER/VEHICLE)",
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Smash hammer",
-        "tags": [
-          "ANTI-MONSTER 4+",
-          "ANTI-VEHICLE 4+"
-        ],
-        "a": "2",
-        "ws": "3+",
-        "s": "6",
+        "s": "12",
         "ap": "-2",
         "d": "3"
+      },
+      {
+        "name": "Smash Hammer – standard",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Tank Hunters",
-        "text": "Each time a model in this unit makes a ranged attack that targets a MONSTER or VEHICLE unit, add 1 to the Hit roll and add 1 to the Wound roll."
+        "name": "Rokkit Barrage",
+        "text": "In your Shooting phase, when this unit has shot, select one enemy unit hit by those attacks. That unit makes a **battle-shock roll**, with -1 to that **battle-shock roll**."
       },
       {
-        "name": "Bomb Squigs",
-        "text": "Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.\n\n**Designer’s Note:** Place two Bomb Squig tokens next to the unit, removing one each time this unit uses this ability."
+        "name": "Bomb Squigs (Once per turn, twice per battle, per unit)",
+        "text": "In your Movement phase, when this unit ends a **normal move**, you can select one **visible **enemy unit within 12\" of this unit and roll one D6:\n▪ On a 3+, that enemy unit suffers D3 **mortal wounds**. Place two Bomb Squig tokens next to the unit, removing one each time this ability is used."
       }
+    ],
+    "composition": [
+      "1 Nob model",
+      "5 Tankbusta models"
+    ],
+    "loadout": "**The Nob is equipped with:** 1 Choppa; 2 Rokkit Pistol.\n**Every Tankbusta is equipped with:** 1 Busta Rokkit Launcha; 1 Gitstikka.",
+    "options": [
+      "The Nob can have their Rokkit Pistol replaced with 1 Smash Hammer.",
+      "1 Tankbusta model can be equipped with one of the following:\n▫ 1 Busta Rokkit Launcha\n▫ 1 Pulsa Rokkit"
     ],
     "wargearAbilities": [
       {
@@ -5575,30 +6713,14 @@ export default [
         "text": "Once per battle, when the bearer’s unit is selected to shoot in your Shooting phase, the bearer can use its pulsa rokkit. If it does, until the end of the phase, improve the Strength and Armour Penetration characteristics of ranged weapons equipped by models in the bearer’s unit by 1."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Lootas unit, it can be attached to this unit instead."
-      }
-    ],
-    "composition": [
-      "1 Boss Nob",
-      "5 Tankbustas"
-    ],
-    "loadout": "**The Boss Nob is equipped with:** 2 rokkit pistols; choppa.\n\n**Each Tankbusta is equipped with:** rokkit launcha; close combat weapon.",
-    "options": [
-      "1 of the Boss Nob’s rokkit pistols can be replaced with 1 smash hammer.",
-      "One Tankbusta can be equipped with one of the following:\n▪ 1 pulsa rokkit\n▪ 1 additional rokkit launcha"
-    ],
     "keywords": [
-      "Infantry",
-      "Grenades",
-      "Tankbustas"
+      "Explosives",
+      "Infantry"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm / 40mm"
+    "baseSize": "32mm, 40mm"
   },
   {
     "id": "trukk",
@@ -5630,12 +6752,35 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Rokkit Launcha – blasta",
         "tags": [
-          "RAPID FIRE 2"
+          "BLAST 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit Launcha – busta",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dual Big Shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
         ],
         "range": "36\"",
-        "a": "3",
+        "a": "6",
         "bs": "5+",
         "s": "5",
         "ap": "0",
@@ -5644,53 +6789,67 @@ export default [
     ],
     "melee": [
       {
-        "name": "Spiked wheels",
-        "tags": [],
+        "name": "Spiked Ram",
+        "tags": [
+          "CLEAVE 1"
+        ],
         "a": "3",
-        "ws": "4+",
+        "ws": "3+",
         "s": "6",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Wreckin’ ball",
+        "name": "Grabbin’ Klaw",
         "tags": [
           "EXTRA ATTACKS"
         ],
-        "a": "1",
-        "ws": "4+",
+        "a": "2",
+        "ws": "3+",
         "s": "10",
-        "ap": "0",
-        "d": "D6"
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Buzzsaw",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
       }
     ],
     "core": "Deadly Demise D3, Firing Deck 12",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Grot Riggers",
-        "text": "At the start of your Command phase, this model regains 1 lost wound."
+        "name": "Pilin’ Out",
+        "text": "In your opponent's Movement phase, when an enemy unit ends a move within 8\" of this model, units embarked within this model can make a **disembark move** using the **rapid disembark mode**."
       }
     ],
     "composition": [
-      "1 Trukk"
+      "1 Trukk model"
     ],
-    "loadout": "**This model is equipped with:** big shoota; spiked wheels.",
+    "loadout": "**This model is equipped with:** 1 Dual Big Shoota; 1 Spiked Ram.",
     "options": [
-      "This model can be equipped with 1 wreckin’ ball."
+      "This model’s Dual Big Shoota can be replaced with 1 Rokkit Launcha.",
+      "This model can be equipped with one of the following:\n▫ 1 Buzzsaw\n▫ 1 Grabbin' Klaw"
     ],
-    "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour model takes up the space of 2 models. It cannot transport Jump Pack or Ghazghkull Thraka models.",
+    "transport": "This model has a **transport capacity** of 12 ORKS INFANTRY models. It cannot transport GHAZGHKULL THRAKA/JUMP PACK models. Each MEGA ARMOUR model takes up the space of 2 models.",
     "keywords": [
-      "Trukk",
       "Dedicated Transport",
+      "Frame",
+      "Speed Freeks",
       "Transport",
-      "Vehicle",
-      "Frame"
+      "Vehicle"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "Hull"
+    ]
   },
   {
     "id": "warbikers",
@@ -5708,50 +6867,60 @@ export default [
     "flavor": "Ork Warbikers race into battle with dakkaguns hammering, ragged trails of dust and smoke boiling up behind them like an ill omen. They race one another at breakneck pace to reach the enemy first, execute death-defying stunts at suicidal speeds, then crash headlong into the foe’s battle line like battering rams.",
     "profiles": [
       {
-        "name": "WARBIKER",
+        "name": "Warbiker",
         "m": "12\"",
         "t": "6",
         "sv": "4+",
         "w": "3",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+",
-        "baseSize": "75x42mm Oval Base"
+        "inv": "6+"
       },
       {
-        "name": "BOSS NOB ON WARBIKE",
+        "name": "Biker Nob",
         "m": "12\"",
         "t": "6",
         "sv": "4+",
         "w": "4",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+",
-        "baseSize": "75x42mm Oval Base"
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Slugga",
+        "name": "Dual Kombi-rokkit – busta rokkit",
         "tags": [
-          "PISTOL"
+          "ASSAULT"
         ],
-        "range": "12\"",
-        "a": "1",
+        "range": "24\"",
+        "a": "2",
         "bs": "5+",
-        "s": "4",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dual Kombi-rokkit – dakkagun",
+        "tags": [
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "18\"",
+        "a": "6",
+        "bs": "5+",
+        "s": "5",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Twin dakkagun",
+        "name": "Dual Dakkagun",
         "tags": [
           "ASSAULT",
-          "RAPID FIRE 2",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
         ],
         "range": "18\"",
-        "a": "3",
+        "a": "6",
         "bs": "5+",
         "s": "5",
         "ap": "0",
@@ -5760,12 +6929,12 @@ export default [
     ],
     "melee": [
       {
-        "name": "Big choppa",
+        "name": "Kustom Choppa",
         "tags": [],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
-        "s": "7",
-        "ap": "-1",
+        "s": "5",
+        "ap": "-2",
         "d": "2"
       },
       {
@@ -5773,50 +6942,27 @@ export default [
         "tags": [],
         "a": "3",
         "ws": "3+",
-        "s": "4",
+        "s": "5",
         "ap": "-1",
         "d": "1"
-      },
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "2",
-        "ws": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power klaw",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "9",
-        "ap": "-2",
-        "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Drive-by Dakka",
-        "text": "Each time a model in this unit makes a ranged attack that targets a unit within 9\", improve the Armour Penetration characteristic of that attack by 1."
+        "name": "High‑speed Carnage",
+        "text": "If this unit made a **charge move** this turn, this unit’s melee attacks have:\n▪ +1 **S** and **D**."
       }
     ],
     "composition": [
-      "1 Boss Nob on Warbike",
-      "2-5 Warbikers"
+      "1 Biker Nob model",
+      "2‑5 Warbiker models"
     ],
-    "loadout": "**Every model is equipped with:** twin dakkagun; close combat weapon.",
-    "options": [
-      "Each Warbiker can be equipped with one of the following:\n▪ 1 slugga\n▪ 1 choppa",
-      "The Boss Nob on Warbike can be equipped with one of the following:\n▪ 1 slugga\n▪ 1 big choppa\n▪ 1 power klaw"
-    ],
+    "loadout": "**The Biker Nob is equipped with:** 1 Kustom Choppa; 1 Dual Kombi-rokkit.\n**Every Warbiker is equipped with:** 1 Choppa; 1 Dual Dakkagun.",
     "keywords": [
-      "Warbikers",
-      "Speed Freeks",
-      "Grenades",
-      "Mounted"
+      "Explosives",
+      "Mounted",
+      "Speed Freeks"
     ],
     "factionKeywords": [
       "Orks"
@@ -5836,7 +6982,7 @@ export default [
       {
         "name": "Warboss",
         "m": "6\"",
-        "t": "5",
+        "t": "6",
         "sv": "4+",
         "w": "6",
         "ld": "6+",
@@ -5846,22 +6992,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kombi-weapon",
+        "name": "Kustom Shoota",
         "tags": [
-          "ANTI-INFANTRY 4+",
-          "DEVASTATING WOUNDS",
-          "RAPID FIRE 1"
-        ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "5+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Kustom shoota",
-        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "18\"",
@@ -5872,81 +7005,100 @@ export default [
         "d": "1"
       },
       {
-        "name": "Twin sluggas",
+        "name": "Kombi-rokkit – busta rokkit",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kombi-rokkit – shoota",
         "tags": [
-          "PISTOL",
-          "TWIN-LINKED"
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
         ],
-        "range": "12\"",
+        "range": "18\"",
         "a": "2",
         "bs": "5+",
         "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-skorcha – shoota",
+        "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kombi-skorcha – skorcha",
+        "tags": [
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
         "ap": "0",
         "d": "1"
       }
     ],
     "melee": [
       {
-        "name": "Attack squig",
-        "tags": [
-          "EXTRA ATTACKS"
-        ],
-        "a": "2",
-        "ws": "4+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Big choppa",
-        "tags": [],
-        "a": "5",
-        "ws": "2+",
-        "s": "8",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
         "name": "Kustom Choppa",
         "tags": [
-          "CLEAVE 1"
+          "CLEAVE 2"
         ],
         "a": "6",
         "ws": "2+",
-        "s": "8",
+        "s": "7",
         "ap": "-2",
         "d": "2"
       },
       {
-        "name": "Power klaw",
+        "name": "Power Klaw",
         "tags": [],
-        "a": "4",
-        "ws": "3+",
-        "s": "10",
+        "a": "6",
+        "ws": "2+",
+        "s": "12",
         "ap": "-2",
         "d": "2"
       }
     ],
     "core": "Leader",
-    "faction": "Waaagh!",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Might is Right",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "name": "Might Is Right",
+        "text": "If this unit made a **charge move** this turn, this model’s melee attacks have:\n▪ +3 **A**.\n▪ +2 **S**."
       },
       {
-        "name": "Da Biggest and da Best",
-        "text": "While the Waaagh! is active for your army, add 4 to the Attacks characteristic of this model’s melee weapons."
+        "name": "Boss’ Ammo Runt (Once per battle, per unit)",
+        "text": "In your Shooting phase, when this unit is **selected to shoot**, you can use this ability. If you do, this model’s ranged attacks have +1 to **hit rolls**.\rPlace a Boss’ Ammo Runt token next to the unit, removing it when this ability is used."
+      },
+      {
+        "name": "Intimidating Motivation (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly ORKS unit within 6\" of this unit. That unit:\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
       }
     ],
     "composition": [
-      "1 Warboss"
+      "1 Warboss model"
     ],
-    "loadout": "**This model is equipped with:** kombi-weapon; twin sluggas; big choppa.",
+    "loadout": "**This model is equipped with:** 1 Kustom Choppa; 1 Kustom Shoota.",
     "options": [
-      "This model’s big choppa can be replaced with 1 power klaw.",
-      "This model can be equipped with 1 attack squig.",
-      "This model can have its kombi-weapon, twin sluggas and big choppa replaced with 1 kustom choppa and 1 kustom shoota."
+      "This model’s Kustom Choppa can be replaced with 1 Power Klaw.",
+      "This model’s Kustom Shoota can be replaced with one of the following:\n▫ 1 Kombi‑rokkit\n▫ 1 Kombi‑skorcha"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -5958,7 +7110,7 @@ export default [
     },
     "keywords": [
       "Character",
-      "Grenades",
+      "Explosives",
       "Infantry",
       "Warboss"
     ],
@@ -5987,7 +7139,7 @@ export default [
       {
         "name": "Warboss in Mega Armour",
         "m": "5\"",
-        "t": "6",
+        "t": "7",
         "sv": "2+",
         "w": "7",
         "ld": "6+",
@@ -5997,8 +7149,9 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Big shoota",
+        "name": "Big Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "36\"",
@@ -6011,31 +7164,33 @@ export default [
     ],
     "melee": [
       {
-        "name": "’Uge choppa",
-        "tags": [],
-        "a": "4",
+        "name": "’Uge Choppa",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "5",
         "ws": "2+",
         "s": "12",
         "ap": "-2",
-        "d": "2"
+        "d": "3"
       }
     ],
     "core": "Leader",
-    "faction": "Waaagh!",
+    "faction": "Da Boss, Waaagh!",
     "abilities": [
       {
-        "name": "Might is Right",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "name": "Krushin’ Impetus",
+        "text": "When this unit ends a **charge move**, you can select one enemy unit **engaged** with this unit. If you do, roll one D6 for each model in this unit **engaged** with that enemy unit:\n▪ For each 3+, that enemy unit suffers 1 **mortal wound**."
       },
       {
-        "name": "Dead Brutal",
-        "text": "While the Waaagh! is active for your army, this model’s ’uge choppa has a Damage characteristic of 3."
+        "name": "Intimidating Motivation (Once per battle round, per army)",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly ORKS unit within 6\" of this unit. That unit:\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
       }
     ],
     "composition": [
-      "1 Warboss in Mega Armour"
+      "1 Warboss in Mega Armour model"
     ],
-    "loadout": "**This model is equipped with:** big shoota; ’uge choppa.",
+    "loadout": "**This model is equipped with:** 1 Big Shoota; 1 ’Uge Choppa.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -6043,11 +7198,10 @@ export default [
       ]
     },
     "keywords": [
-      "Infantry",
       "Character",
+      "Infantry",
       "Mega Armour",
-      "Warboss",
-      "Warboss in Mega Armour"
+      "Warboss"
     ],
     "factionKeywords": [
       "Orks"
@@ -6055,12 +7209,253 @@ export default [
     "baseSize": "50mm"
   },
   {
-    "id": "wartrakk",
-    "name": "Wartrakk",
+    "id": "warboss-on-warbike",
+    "name": "Warboss on Warbike",
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Warboss on Warbike",
+        "m": "12\"",
+        "t": "6",
+        "sv": "4+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Dual Dakkagun",
+        "tags": [
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE"
+        ],
+        "range": "18\"",
+        "a": "6",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Killsaw",
+        "tags": [],
+        "a": "6",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Power Klaw",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "12",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Big Choppa",
+        "tags": [
+          "CLEAVE 2"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "9",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Waaagh!, Da Boss",
+    "abilities": [
+      {
+        "name": "Get Back in Da Race",
+        "text": "In your Movement phase, at the start or end of this unit's move, you can select one friendly SPEED FREEKS unit within 6\" of this unit. That unit (and any units embarked within that unit):\n▪ Is no longer **battle-shocked**.\n▪ Is **riled up** until the start of your next turn."
+      },
+      {
+        "name": "Speedboss",
+        "text": "This unit's melee attacks have +1 to **hit rolls**."
+      }
+    ],
+    "composition": [],
+    "loadout": "• 1 Warboss on Warbike model\n**This model is equipped with:** 1 Dual Dakkagun; 1 Killsaw.",
+    "options": [
+      "This model's Killsaw can be replaced with one of the following: 1 Big Choppa, 1 Power Klaw"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Warbikers"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Explosives",
+      "Mounted",
+      "Speed Freeks"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "100x40mm Oval Base",
+    "legends": true
+  },
+  {
+    "id": "warbuggies",
+    "name": "Warbuggies",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      },
+      {
+        "models": 2,
+        "points": 130
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Warbuggy",
+        "m": "12\"",
+        "t": "7",
+        "sv": "4+",
+        "w": "9",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Extra Dakka",
+        "tags": [
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "12\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Mek Speshul – aimed",
+        "tags": [
+          "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "14",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Mek Speshul – point blank",
+        "tags": [
+          "ASSAULT",
+          "TORRENT"
+        ],
+        "range": "6\"",
+        "a": "2D6+2",
+        "bs": "-",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Rivet Kannon – aimed",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "ASSAULT",
+          "DEVASTATING WOUNDS: INFANTRY"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Rivet Kannon – point blank",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "ASSAULT",
+          "DEVASTATING WOUNDS: INFANTRY",
+          "TORRENT"
+        ],
+        "range": "6\"",
+        "a": "D3+1",
+        "bs": "-",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Spiked Ram",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Drive-by Skorchin’",
+        "text": "In your Movement phase, you can select one **visible **enemy unit (excluding MONSTER/VEHICLE units) within 6\" of this unit:\n▪ That enemy unit cannot be targeted with the **Fire Overwatch stratagem** until the end of the turn."
+      }
+    ],
+    "composition": [
+      "1‑2 Warbuggy models"
+    ],
+    "loadout": "**Every model is equipped with:** 1 Extra Dakka; 1 Mek Speshul; 1 Spiked Ram.",
+    "options": [
+      "Any number of models can each have their Mek Speshul replaced with 1 Rivet Kannon."
+    ],
+    "keywords": [
+      "Explosives",
+      "Speed Freeks",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ],
+    "baseSize": "150mm"
+  },
+  {
+    "id": "wartrakks",
+    "name": "Wartrakks",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      },
+      {
+        "models": 2,
+        "points": 130
       }
     ],
     "flavor": "The Wartrakk is a fast, lightly armoured attack vehicle that mounts a rack of armour-busting rokkits. Aimed and fired by the leering Nob who rides on the back, these projectiles compensate for their inaccuracy by making a spectacular mess of anything they actually hit.",
@@ -6078,19 +7473,20 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Kustom shoota",
+        "name": "Kustom Shoota",
         "tags": [
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "RAPID FIRE 2"
         ],
         "range": "18\"",
-        "a": "2",
+        "a": "4",
         "bs": "5+",
         "s": "4",
         "ap": "0",
         "d": "1"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Multi-busta Launcha",
         "tags": [],
         "range": "24\"",
         "a": "D3+3",
@@ -6102,35 +7498,37 @@ export default [
     ],
     "melee": [
       {
-        "name": "Choppas",
+        "name": "Kustom Choppa",
         "tags": [],
-        "a": "5",
+        "a": "4",
         "ws": "3+",
-        "s": "4",
-        "ap": "-1",
-        "d": "1"
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Indiscriminate Detonations",
-        "text": "In your Shooting phase, when this unit has resolved its attacks, select one enemy unit hit by one or more of those attacks. That enemy unit is suppressed until the start of your next Command phase (while a unit is suppressed, it has -1 to Hit rolls)."
+        "name": "Speednob Support",
+        "text": "While each model in this unit is within 3\" of a friendly SPEED FREEKS unit (excluding WARTRAKK units), this unit has **Lone Operative**."
+      },
+      {
+        "name": "Bust ’Em",
+        "text": "In your Shooting phase, when this unit has shot, select one enemy unit hit by those attacks. That unit is **busted** until the end of the turn:\n▪ Friendly SPEED FREEKS units’ attacks that target a **busted** unit have [LETHAL HITS]."
       }
     ],
     "composition": [
-      "1 Wartrakk"
+      "1‑2 Wartrakk models"
     ],
-    "loadout": "This model is equipped with: 1 kustom shoota; 1 rokkit launcha; 1 choppas.",
+    "loadout": "**Every model is equipped with:** 1 Kustom Choppa; 1 Kustom Shoota; 1 Multi-busta Launcha.",
     "keywords": [
       "Mounted",
-      "Speed Freeks",
-      "Wartrakk"
+      "Speed Freeks"
     ],
     "factionKeywords": [
       "Orks"
-    ],
-    "baseSize": "105x70mm Oval Base"
+    ]
   },
   {
     "id": "wazbom-blastajet",
@@ -6156,68 +7554,68 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "-",
+        "oc": "-1",
         "inv": "6+"
       }
     ],
     "ranged": [
       {
-        "name": "Smasha gun",
+        "name": "Smasha Gun",
         "tags": [
-          "BLAST"
+          "IGNORES COVER"
         ],
         "range": "48\"",
-        "a": "D3",
+        "a": "4",
         "bs": "4+",
-        "s": "9",
+        "s": "6",
         "ap": "-3",
-        "d": "4"
+        "d": "3"
       },
       {
-        "name": "Twin wazbom mega-kannon",
+        "name": "Dual Wazbom Mega-kannon",
         "tags": [
-          "BLAST",
           "HAZARDOUS",
-          "TWIN-LINKED"
-        ],
-        "range": "36\"",
-        "a": "D3",
-        "bs": "4+",
-        "s": "12",
-        "ap": "-2",
-        "d": "D6"
-      },
-      {
-        "name": "Twin supa-shoota",
-        "tags": [
-          "RAPID FIRE 2",
-          "SUSTAINED HITS 1",
-          "TWIN-LINKED"
+          "IGNORES COVER"
         ],
         "range": "36\"",
         "a": "4",
         "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "4"
+      },
+      {
+        "name": "Dual Tellyport Mega-blasta",
+        "tags": [
+          "BLAST 1",
+          "IGNORES COVER",
+          "RAPID FIRE 6"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dual Supa-shoota",
+        "tags": [
+          "IGNORES COVER",
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
+          "RAPID FIRE 4"
+        ],
+        "range": "36\"",
+        "a": "8",
+        "bs": "4+",
         "s": "6",
         "ap": "-1",
         "d": "1"
-      },
-      {
-        "name": "Twin tellyport mega-blasta",
-        "tags": [
-          "BLAST",
-          "TWIN-LINKED"
-        ],
-        "range": "24\"",
-        "a": "3",
-        "bs": "5+",
-        "s": "9",
-        "ap": "-1",
-        "d": "D6+1"
       }
     ],
     "melee": [
       {
-        "name": "Armoured hull",
+        "name": "Armoured Impact",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -6226,45 +7624,40 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3",
+    "core": "Damaged 4, Deadly Demise D3",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Blastajet Attack Run",
-        "text": "Each time this model makes a ranged attack that targets a unit that cannot FLY, re-roll a Hit roll of 1."
+        "name": "Go fer da Weak Spot",
+        "text": "In your Shooting phase, this unit's ranged attacks that target a MONSTER/VEHICLE unit have +1 to **wound rolls**."
       }
+    ],
+    "composition": [
+      "1 Wazbom Blastajet model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Armoured Impact; 1 Smasha Gun; 1 Dual Wazbom Mega-kannon.",
+    "options": [
+      "This model’s Dual Wazbom Mega-kannon can be replaced with 1 Dual Tellyport Mega‑blasta.",
+      "This model can be equipped with 1 Blastajet Force Field.",
+      "This model can be equipped with 1 Dual Supa‑shoota."
     ],
     "wargearAbilities": [
       {
         "name": "Blastajet Force Field",
-        "text": "The bearer has a 4+ invulnerable save, but it loses the Grenades keyword."
+        "text": "The bearer has a 4+ invulnerable save, but it loses the **GRENADES** keyword."
       }
-    ],
-    "damaged": {
-      "note": "1-4 wounds remaining",
-      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
-    },
-    "composition": [
-      "1 Wazbom Blastajet"
-    ],
-    "loadout": "**This model is equipped with:** smasha gun; twin wazbom mega-kannon; armoured hull.",
-    "options": [
-      "This model’s twin wazbom mega-kannon can be replaced with 1 twin tellyport mega-blasta.",
-      "This model can be equipped with 1 blastajet force field.",
-      "This model can be equipped with 1 twin supa-shoota."
     ],
     "keywords": [
       "Aircraft",
-      "Speed Freeks",
-      "Wazbom Blastajet",
       "Fly",
-      "Vehicle",
-      "Grenades"
+      "Smoke",
+      "Speed Freeks",
+      "Vehicle"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "120mm"
   },
   {
     "id": "wazdakka-gutsmek",
@@ -6290,7 +7683,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Grabba dragga",
+        "name": "Grabba Dragga",
         "tags": [
           "ASSAULT",
           "PRECISION"
@@ -6306,6 +7699,7 @@ export default [
         "name": "Psyko-gatler",
         "tags": [
           "ASSAULT",
+          "LETHAL HITS: NON-MONSTER/VEHICLE",
           "SUSTAINED HITS 1"
         ],
         "range": "24\"",
@@ -6318,7 +7712,19 @@ export default [
     ],
     "melee": [
       {
-        "name": "Fixit’s wrench",
+        "name": "Speeding Bulk and Flaming Exhaust",
+        "tags": [
+          "CLEAVE 1",
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Fixit’s Wrench",
         "tags": [
           "EXTRA ATTACKS"
         ],
@@ -6329,8 +7735,9 @@ export default [
         "d": "1"
       },
       {
-        "name": "Grabba dragga",
+        "name": "Grabba Dragga",
         "tags": [
+          "CLEAVE 2",
           "LANCE"
         ],
         "a": "6",
@@ -6338,72 +7745,49 @@ export default [
         "s": "10",
         "ap": "-2",
         "d": "3"
-      },
-      {
-        "name": "Speeding bulk and flaming exhaust",
-        "tags": [
-          "EXTRA ATTACKS"
-        ],
-        "a": "6",
-        "ws": "2+",
-        "s": "5",
-        "ap": "-1",
-        "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Deep Strike, Lone Operative",
+    "core": "Deep Strike, Deadly Demise D3, Lone Operative",
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Fixit da Grot",
-        "text": "At the start of your Command phase, this model regains up to D3 lost wounds."
-      },
-      {
-        "name": "Throttlerokkit Shokka Engine",
-        "text": "In your Command phase, select one of the abilities in the Throttlerokkit Shokka Engine section. Until the start of your next Command phase, this model has that ability."
-      }
-    ],
-    "composition": [
-      "1 Wazdakka Gutsmek – EPIC HERO"
-    ],
-    "loadout": "**This model is equipped with:** 1 grabba dragga; 1 psyko-gatler; 1 Fixit’s wrench; 1 speeding bulk and flaming exhaust.",
-    "keywords": [
-      "Mounted",
-      "Vehicle",
-      "Speed Freeks",
-      "Epic Hero",
-      "Smoke",
-      "Character",
-      "Wazdakka Gutsmek"
-    ],
-    "factionKeywords": [
-      "Orks"
-    ],
-    "baseSize": "120mm",
-    "rules": [
-      {
-        "name": "WAAAGH! WAZDAKKA",
-        "text": "If this model is your WARLORD, Warbiker units from your army have the Battleline keyword."
+        "name": "Full Throttle",
+        "text": "In your Command phase, select one Throttlerokkit Shokka Engine ability (see left). This unit has that ability until the start of your next Command phase."
       }
     ],
     "abilitySets": [
       {
-        "name": "Throttlerokkit Shokka Engine",
+        "name": "Full Throttle",
         "options": [
           {
             "name": "Turbo Engine",
-            "text": "This unit is eligible to declare a charge in a turn in which it Advanced or Fell Back."
+            "text": "When this unit is selected to make an **advance**/**fall-back move**, that move does not prevent this unit from being **eligible to declare a charge**."
           },
           {
             "name": "Shokk Attack Engine",
-            "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
+            "text": "In your Command phase, if this unit is **unengaged**, you can place this unit in **strategic reserves**."
           },
           {
             "name": "Pulse Jet",
-            "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase:\n▪ Add 6\" to the Move characteristic of models in this unit.\n▪ Models in this unit can move through models and terrain features."
+            "text": "In your Movement phase, when this unit is **selected to move**, if this unit is **unengaged**, this unit can make a **pulse jet move** (pg 121)."
           }
         ]
       }
+    ],
+    "composition": [
+      "1 Wazdakka Gutsmek model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Speeding Bulk and Flaming Exhaust; 1 Fixit’s Wrench; 1 Grabba Dragga; 1 Psyko‑gatler.",
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Mounted",
+      "Smoke",
+      "Speed Freeks",
+      "Vehicle"
+    ],
+    "factionKeywords": [
+      "Orks"
     ]
   },
   {
@@ -6429,22 +7813,24 @@ export default [
     ],
     "ranged": [
       {
-        "name": "’Eadbanger",
+        "name": "Power Vomit",
         "tags": [
-          "PRECISION",
-          "PSYCHIC"
+          "BLAST 1",
+          "HAZARDOUS",
+          "PSYCHIC",
+          "TORRENT"
         ],
-        "range": "24\"",
-        "a": "1",
-        "bs": "4+",
-        "s": "6",
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "5",
         "ap": "-3",
-        "d": "1"
+        "d": "2"
       }
     ],
     "melee": [
       {
-        "name": "Weirdboy staff",
+        "name": "Copper Staff",
         "tags": [
           "PSYCHIC"
         ],
@@ -6452,122 +7838,52 @@ export default [
         "ws": "3+",
         "s": "8",
         "ap": "-1",
-        "d": "D3"
+        "d": "2"
       }
     ],
-    "core": "Deadly Demise D3, Leader",
-    "faction": "Waaagh!",
+    "core": "Support, Deadly Demise D3",
+    "faction": "Unstable Energies, Waaagh!",
     "abilities": [
       {
-        "name": "Waaagh! Energy",
-        "text": "While this model is leading a unit, add 1 to the Strength and Damage characteristics of this model’s ’Eadbanger weapon for every 5 models in that unit (rounding down), but while that unit contains 10 or more models, that weapon has the [HAZARDOUS] ability."
-      },
+        "name": "Waaagh! Energy (psyker level 1)",
+        "text": "This model has the **psychic abilities** listed in the Psychic Abilities section (see left)."
+      }
+    ],
+    "abilitySets": [
       {
-        "name": "Da Jump (Psychic)",
-        "text": "Once per turn, at the end of your Movement phase, one WEIRDBOY from your army can use this ability. If it does, roll one D6: on a 1, that WEIRDBOY’s unit suffers D6 mortal wounds; on a 2+, remove that WEIRDBOY’s unit from the battlefield and set it up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
+        "name": "Waaagh! Energy (psyker level 1)",
+        "options": [
+          {
+            "name": "Da Jump (psychic level 1, once per army, per battle round)",
+            "text": "In your Movement phase, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ Place this unit in **strategic reserves**.\n▪ This unit has **Deep Strike**."
+          },
+          {
+            "name": "Warpath (psychic level 1)",
+            "text": "In the Fight phase, when this unit is **selected to fight**, if this unit is not **battle-shocked**, you can make a **psychic roll** for this unit by rolling one D6. If you do:\n▪ On a 1, this unit is **battle-shocked**.\n▪ This unit's melee attacks can re-roll **wound rolls** of 1.\n▪ This unit’s melee attacks have [PSYCHIC]."
+          }
+        ]
       }
     ],
     "composition": [
-      "1 Weirdboy"
+      "1 Weirdboy model"
     ],
-    "loadout": "**This model is equipped with:** ’Eadbanger; weirdboy staff.",
+    "loadout": "**This model is equipped with:** 1 Power Vomit; 1 Copper Staff.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Breaka Boyz",
+        "Beast Snagga Boyz",
         "Boyz"
       ]
     },
     "keywords": [
-      "Psyker",
-      "Weirdboy",
-      "Infantry",
-      "Character"
-    ],
-    "factionKeywords": [
-      "Orks"
-    ],
-    "baseSize": "40mm"
-  },
-  {
-    "id": "wurrboy",
-    "name": "Wurrboy",
-    "points": [
-      {
-        "models": 1,
-        "points": 60
-      }
-    ],
-    "flavor": "Rarely lucid, Wurrboyz rant about visions of prey and lose themselves in the senses of their warband’s squigs. This doesn’t stop them unleashing their devastating powers, however, channelling the Waaagh! into overwhelming primal manifestations and beams of killing energy shot from their Eyez of Mork.",
-    "profiles": [
-      {
-        "name": "Wurrboy",
-        "m": "6\"",
-        "t": "5",
-        "sv": "5+",
-        "w": "4",
-        "ld": "7+",
-        "oc": "1"
-      }
-    ],
-    "ranged": [
-      {
-        "name": "Eyez of Mork",
-        "tags": [
-          "PSYCHIC"
-        ],
-        "range": "18\"",
-        "a": "D6",
-        "bs": "5+",
-        "s": "8",
-        "ap": "-3",
-        "d": "2"
-      }
-    ],
-    "melee": [
-      {
-        "name": "Close combat weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "3+",
-        "s": "5",
-        "ap": "0",
-        "d": "1"
-      }
-    ],
-    "core": "Deadly Demise D3, Feel No Pain 6+, Leader",
-    "faction": "Waaagh!",
-    "abilities": [
-      {
-        "name": "Unstable Oracle",
-        "text": "While this model is leading a unit, add 2 to the Attacks characteristic of this model’s Eyez of Mork weapon for every 5 models in that unit (rounding down), but while that unit contains 10 or more models, that weapon has the [HAZARDOUS] ability."
-      },
-      {
-        "name": "Roar of Mork (Psychic)",
-        "text": "In your opponent’s Command phase, you can select one enemy unit within 18\" of and visible to this PSYKER and roll one D6: on a 1, this PSYKER’s unit suffers D3 mortal wounds; on a 2+, until the start of your opponent’s next Command phase, that enemy unit is confrazzled. While a unit is confrazzled, each time a Battle-shock or Leadership test is taken for it, subtract 2 from that test."
-      }
-    ],
-    "composition": [
-      "1 Wurrboy"
-    ],
-    "loadout": "**This model is equipped with:** Eyez of Mork; close combat weapon.",
-    "leader": {
-      "text": "This model can be attached to the following units:",
-      "units": [
-        "Beast Snagga Boyz"
-      ]
-    },
-    "keywords": [
       "Character",
-      "Psyker",
-      "Beast Snagga",
-      "Wurrboy",
-      "Infantry"
+      "Infantry",
+      "Psyker"
     ],
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "50mm"
   },
   {
     "id": "zodgrod-wortsnagga",
@@ -6587,15 +7903,17 @@ export default [
         "sv": "5+",
         "w": "5",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "inv": "6+"
       }
     ],
     "ranged": [
       {
         "name": "Squigstoppa",
         "tags": [
-          "ANTI-MONSTER 4+",
-          "PISTOL"
+          "ANTI-MONSTER/VEHICLE 4+",
+          "CLOSE-QUARTERS",
+          "DEVASTATING WOUNDS: MONSTER/VEHICLE"
         ],
         "range": "12\"",
         "a": "1",
@@ -6616,22 +7934,18 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Feel No Pain 6+, Leader",
+    "core": "Leader",
     "faction": "Waaagh!",
     "abilities": [
       {
         "name": "Super Runts",
-        "text": "While this model is leading a unit:\n▪ Models in that unit have the Scouts 9\" ability.\n▪ Each time a model in that unit makes an attack, add 1 to the Hit roll and add 1 to the Wound roll.\n▪ Each time an attack targets that unit, subtract 1 from the Wound roll."
-      },
-      {
-        "name": "Special Dose",
-        "text": "While the Waaagh! is active for your army, add 6\" to the Move characteristic of models in this model’s unit."
+        "text": "▪ This unit is **riled up**.\n▪ This unit's Scavenged Shivs weapons have +1 **A**, **WS** and **S**."
       }
     ],
     "composition": [
-      "1 Zodgrod Wortsnagga – EPIC HERO"
+      "1 Zodgrod Wortsnagga model"
     ],
-    "loadout": "**This model is equipped with:** Squigstoppa; Da Grabzappa.",
+    "loadout": "**This model is equipped with:** 1 Da Grabzappa; 1 Squigstoppa.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -6641,8 +7955,8 @@ export default [
     "keywords": [
       "Character",
       "Epic Hero",
-      "Zodgrod Wortsnagga",
-      "Infantry"
+      "Infantry",
+      "Runtherd"
     ],
     "factionKeywords": [
       "Orks"

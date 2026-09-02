@@ -55,11 +55,16 @@ export function appdataToMarkup(text) {
   // bullet *inside* a `**bold**`/`__underline__` run ("**▪ Company Heroes Rule:**") or right after
   // an opening quote ("'■ Ranged weapons…") and sometimes uses `■` instead of `▪` — normalize all
   // of that so the bullet is always the line's leading char and buildRich's `^[▪•]` list-item
-  // check (useRenderInline.js) recognizes it.
-  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?[▪■][ \t]*/
+  // check (useRenderInline.js) recognizes it. `▫` is appdata's SECOND-level bullet — used
+  // throughout Codex: Orks' wargear options ("one of the following: ▫ 1 Kombi-rokkit") and
+  // in a handful of other factions' rules. RuleBody.vue nests it under the preceding `▪`,
+  // so it has to keep its own marker rather than being folded into `▪`; what it must not
+  // do is stay glued to the head line, which is what flattening produced before.
+  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?([▪■▫])[ \t]*/
   const normalizeBullet = (l) => {
     const m = l.match(BULLET_LEAD)
-    return m ? `▪ ${m[1] || ''}${l.slice(m[0].length)}` : l
+    if (!m) return l
+    return `${m[2] === '▫' ? '▫' : '▪'} ${m[1] || ''}${l.slice(m[0].length)}`
   }
   s = s
     .split('\n')
