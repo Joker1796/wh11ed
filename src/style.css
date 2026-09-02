@@ -865,6 +865,31 @@ strong {
 
 @media (hover: hover) { .help-btn:hover { color: var(--accent); } }
 
+/* ── Section help ──────────────────────────────────────────────────────────
+   The door from a section (Rules / Tracker / Rosters) to its page of the guide. An icon, not the
+   words "Section help": it sits in the row above the content on screens whose first fold is the
+   thing to protect, and the label was spending a full line to say what a "?" says. Global because
+   all three carried the same declaration privately. */
+.hero-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0.3rem;
+}
+
+/* A finger needs the 44px box; the row does not need to grow by it, so the padding is pulled
+   back out of the layout. */
+@media (pointer: coarse) {
+  .hero-help {
+    min-width: 44px;
+    min-height: 44px;
+    margin: -0.45rem -0.55rem;
+  }
+}
+
 /* ── Segmented control ─────────────────────────────────────────────────────
    A small either/or (or one-of-four) sitting INSIDE a form or a filter row — not to be confused
    with PageTabs, which switches what the whole page is showing. Four screens carried the same

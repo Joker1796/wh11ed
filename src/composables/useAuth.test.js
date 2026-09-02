@@ -109,3 +109,31 @@ describe('authedFetch', () => {
     expect(global.fetch.mock.calls.length).toBe(4)
   })
 })
+
+// The backend always lands on one fixed callback path, so where to go next is the app's own
+// bookkeeping — and the value is read straight back out of storage into router.replace().
+describe('return path', () => {
+  beforeEach(() => sessionStorage.clear())
+
+  it('remembers where sign-in started, and spends it once', async () => {
+    await load()
+    auth.login('yandex', '/roster/abc?tab=units')
+    expect(auth.takeReturnPath()).toBe('/roster/abc?tab=units')
+    expect(auth.takeReturnPath()).toBeNull() // read once: a return path is spent by the redirect
+  })
+
+  it('refuses anything that is not a same-site path', async () => {
+    await load()
+    for (const bad of ['//evil.example', 'https://evil.example', 'roster', '']) {
+      auth.login('yandex', bad)
+      expect(auth.takeReturnPath()).toBeNull()
+    }
+  })
+
+  it('clears a stale path when sign-in is started without one', async () => {
+    await load()
+    auth.login('yandex', '/tracker')
+    auth.login('yandex')
+    expect(auth.takeReturnPath()).toBeNull()
+  })
+})

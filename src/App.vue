@@ -20,7 +20,7 @@
       <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
     </Transition>
 
-    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute }">
+    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--desk': isRosterDeskRoute }">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" :key="appPath" />
@@ -68,6 +68,7 @@ import DomainMoveBanner from './components/DomainMoveBanner.vue'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
+import { useAuth } from './composables/useAuth.js'
 import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
@@ -80,6 +81,7 @@ import { stripLocale } from './router/locale.js'
 
 const route = useRoute()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
+const { ensureSession } = useAuth()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const installHintOpen = ref(false)
@@ -118,6 +120,11 @@ const isRosterEditRoute = computed(() =>
   appPath.value !== '/roster/shared' &&
   !appPath.value.endsWith('/view')
 )
+
+// The two building screens lay themselves out in three columns above 1200px (see
+// components/roster/RosterWorkbench.vue), which the 860px reading measure cannot hold. Printing
+// is excluded: it is a roster route by path, but its width is the paper's.
+const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.value.endsWith('/print'))
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
@@ -199,6 +206,10 @@ onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
   welcomeOpen.value = shouldWelcome(appPath.value)
+  // Silent session restore, once per load: the navbar's account menu is on every page, so the
+  // answer to "am I signed in" can no longer wait for the tracker to be opened. Costs one
+  // request against the refresh cookie, resolves to 'anon' offline or with no backend.
+  ensureSession()
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
@@ -238,6 +249,17 @@ onUnmounted(() => {
 .main-content--wide {
   max-width: 1120px;
   background: var(--bg-content);
+}
+
+/* The roster builder's desk layout: catalogue, list and the chosen unit's fields side by side.
+   Only above the threshold that layout itself uses — below it the screen is back to two panes at
+   the ordinary measure, and this class must not widen them. */
+@media (min-width: 1200px) {
+  .main-content--desk {
+    max-width: 1600px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 /* ── Mobile ── */

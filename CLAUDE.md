@@ -134,6 +134,18 @@ never raises it.
 **Navigation model:** Two levels.
 
 - **Top navbar** (`App.vue`) — sections "Core Rules", "Event Companion", "Tracker", "Factions". (The `/links` page of source PDFs is deliberately NOT in the navbar or the drawer — only its card on the landing page links to it.) `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders. **Factions** is a `.nav-dropdown`: the link still navigates to `/factions`, but on **hover / focus-within** (desktop only — `.navbar-links` is `display:none` ≤900px) it opens a pure-CSS grouped mega-menu of all factions (2-column grid from `data/factionsIndex.js` via `groupLabelKey`, links to `/factions/:slug`, "coming soon" for non-ready). No JS state — reveal is CSS `:hover`/`:focus-within` with a transparent `padding-top` bridge.
+- **The account lives in the navbar, not in a section** (`AccountMenu.vue`, `useAccountActions.js`).
+  Both the tracker's history and the roster builder's lists sync through one account, but until
+  2026-09-01 the only sign-in button was on the tracker home and the roster list simply told the
+  reader to go there. Desktop gets its own button in `.navbar-actions` (a `fade-pop` dropdown, the
+  gear menu's recipe); ≤900px it hides and the same two entries sit inside the **⚙ menu**, next to
+  the theme and lore toggles — the mobile navbar keeps its four buttons. `login(provider, returnTo)`
+  stashes the current path in `sessionStorage` and `AuthCallbackView` spends it, because the backend
+  always redirects to one fixed path (`APP_AFTER_LOGIN_URL`) whichever page you started from —
+  changing that path means deploying `wh11ed-api`, returning to it costs nothing. `App.vue` calls
+  `ensureSession()` once on boot (it used to be the tracker's job, on entry), and the tracker home
+  and roster list re-run their sync pass on a status change, for a sign-in with no page load behind
+  it. The section screens report sync state only; neither offers a way in.
 - **Subnav** (sticky bar below navbar) — for Core Rules: **anchor** links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference / Muster), since all seven are chapters of the one `/core-rules` page; the highlight follows the scroll-spy (`activeSectionId` in `useActiveSection.js`), not the URL. For Event Companion, the same anchor-link recipe on the merged `/event-companion` page: Introduction / Sequence / Missions / Terrain & Layouts / Pairings / Teams / FAQs. For Tracker: Game Tracker / Current Game / Stratagems. The `/stratagems` page rides with the **tracker** subnav (`subNavItems` returns `trackerSubNavItems` when `isTrackerRoute || isStratagemsRoute`) so reaching it from the tracker keeps those tabs in view (desktop has no "Back to game" bar).
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
 - **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with **five fixed** icons: Rules / **Rosters** (`/roster`) / **Factions** / **Stratagems** (`/stratagems`) / Tracker — nothing appears or disappears under the thumb. **Factions** is a `<button>` (not a link) that opens `FactionsNavModal.vue` — a lightweight grouped faction list (driven by the light `data/factionsIndex.js`, links to `/factions/:slug`, closes on pick). A sixth, **conditional** «Units» item used to be inserted here (on any faction-with-slug page, and — pointing at the "You" player's faction — anywhere during a tracker game); it was **removed** in favour of a button on the player's card in the tracker (`RoundTracker.vue`), which knows *whose* faction it is and so reaches the opponent's datasheets too, while the faction pages already carry their own Rules/Units tabs in the hero (`FactionLayout.vue` → `MobileUtilityBar`). `isUnitsRoute`/`unitsNavPath` went with it, and **Factions** simply lights on any faction route again. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы»; Factions reuses `navFactions`) so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — Missions is no longer in the bottom nav, only reachable via the Event subnav/drawer). `isStratagemsRoute` highlights its item. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it); the Factions `<button>` gets a native-chrome reset (`button.bn-item`).
@@ -280,7 +292,10 @@ win rate, turn order, matchups, secondary cards, per-roster records — see
 `src/components/tracker/stats/CLAUDE.md` (in particular the `MIN_SAMPLE` rule: no percentage under
 five games). **Roster Builder** (`/roster*`) is its own top-level nav section (next to
 Tracker, not nested in it) and hands a built roster off to this one — see
-`src/components/roster/CLAUDE.md`.
+`src/components/roster/CLAUDE.md`. Its two building screens have a **third layout above 1200px**
+(added 2026-09-01): settings on one bar, then catalogue / list / the chosen unit's fields as three
+columns. That is the only screen with a width of its own — `main-content--desk` in `App.vue`,
+1600px, inside a `min-width: 1200px` query so nothing below the threshold moves.
 
 ## Adding content
 

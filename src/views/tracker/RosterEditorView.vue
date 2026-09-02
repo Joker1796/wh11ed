@@ -15,15 +15,52 @@
       </button>
     </header>
 
+    <!-- On the desk the settings are a line above the work (RosterSettingsBar), not a panel
+         behind a tab: "how many points is this" and "which detachment am I in" are asked WHILE
+         adding units, and answering them cost a tab switch and the loss of the reader's place in
+         the catalogue. Narrower, the tabs stay — a phone has no line to give away. -->
+    <RosterSettingsBar
+      v-if="desk"
+      :show-name="false"
+      :name="roster.name"
+      :faction-slug="roster.faction"
+      :faction-name="factionName"
+      :detachments="roster.detachments || []"
+      :detachment-summary="detachmentSummary"
+      :detachment-options="detachmentOptions"
+      :dp-spent="dpSpent"
+      :max-dp="effBattle.dp"
+      :battle-size="roster.battleSize"
+      :battle-sizes="battleSizes"
+      :custom-points="roster.customPoints"
+      :disposition="roster.disposition || ''"
+      :disposition-cands="dispositionCands"
+      :check-legality="roster.checkLegality !== false"
+      :notes="roster.notes || ''"
+      :points="points"
+      :limit="limit"
+      :error-count="validation.errorCount"
+      @update:name="rename"
+      @update:battleSize="setBattleSize"
+      @update:customPoints="setCustomPoints"
+      @update:disposition="setDisposition"
+      @update:checkLegality="setCheckLegality"
+      @update:notes="setNotes"
+      @pick-faction="pickFaction"
+      @toggle-detachment="toggleDetachment"
+      @clear-detachments="clearDetachments"
+      @open-issues="issuesOpen = true"
+    />
+
     <!-- Two switchable panels (not a sequential flow like the creation wizard — either can be
          reopened at any time while editing), drawn by the same PageTabs the faction pages, the
          roster list and the read-only list use. This screen kept its own underline tabs until
          2026-08-28, which made the editor the one roster screen whose tabs looked like something
          else. -->
-    <PageTabs class="red-tabs" :tabs="editorTabs" @select="tab = $event" />
+    <PageTabs v-if="!desk" class="red-tabs" :tabs="editorTabs" @select="tab = $event" />
 
     <!-- Settings: faction, detachment(s), battle size -->
-    <div v-if="tab === 'settings'" class="red-panel">
+    <div v-if="!desk && tab === 'settings'" class="red-panel">
       <div class="red-choices">
         <button class="choice" @click="factionPickerOpen = true">
           <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
@@ -108,8 +145,8 @@
         <!-- Same folded rules panel the creation wizard's Units step carries: editing a list is the
              same work as building one, and the rules are wanted in the same place. -->
         <RosterRulesPanel :faction-slug="roster.faction" :detachments="roster.detachments || []" />
-        <div class="roster-panes">
-          <div class="rp-catalog">
+        <RosterWorkbench :desk="desk" :selected="!!openEntry">
+          <template #catalog>
             <RosterUnitBrowser
               v-if="factionData"
               :units="factionData.units"
@@ -123,8 +160,8 @@
               @add="addUnit"
               @remove="removeUnit"
             />
-          </div>
-          <div class="rp-list">
+          </template>
+          <template #list>
             <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
             <RosterUnitList
               v-else
@@ -137,31 +174,22 @@
               :slug-of="slugFor"
               :dup-blocked="dupBlocked"
               :open-uid="openUid"
+              :placement="desk ? 'pane' : 'auto'"
               @toggle="toggleOpen"
               @duplicate="duplicateEntry"
               @remove="removeEntry"
             >
               <template #fields="{ entry: e }">
-                <UnitEditorFields
-                  v-if="defOf(e.id)"
-                  :entry="e"
-                  :def="defOf(e.id)"
-                  :items="rosterItems.items"
-                  :texts="rosterItems.texts"
-                  :faction-slug="slugFor(e.id)"
-                  :detachments="curDetachments"
-                  :units="roster.units"
-                  :def-of="defOf"
-                  :can-warlord="canBeWarlord(defOf(e.id), curDetachments, [allegKeyword(defOf(e.id), e, curDetachments)])"
-                  :is-warlord="e.warlord === true"
-                  :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid, roster.faction)"
-                  :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
-                  @toggle-warlord="toggleWarlord(e.uid)"
-                />
+                <RosterEntryFields v-bind="fieldProps" :entry="e" @toggle-warlord="toggleWarlord" />
               </template>
             </RosterUnitList>
-          </div>
-        </div>
+          </template>
+          <!-- The desk's third column. Not rendered at all in the two-pane arrangement — there
+               the list draws the same fields itself, under the row they belong to. -->
+          <template #editor>
+            <RosterEntryFields v-bind="fieldProps" :entry="openEntry" @toggle-warlord="toggleWarlord" />
+          </template>
+        </RosterWorkbench>
       </template>
     </div>
 
@@ -169,7 +197,9 @@
          (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
     <div class="rc-sticky">
       <div class="rc-sticky-inner">
-        <div class="rc-sticky-info">
+        <!-- On the desk the points and the issue badge are in the settings bar at the top, beside
+             the choices that move them; repeating them here would be the same number twice. -->
+        <div v-if="!desk" class="rc-sticky-info">
           <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
           <button v-if="roster.faction" type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
             <template v-if="validation.errorCount">
@@ -223,23 +253,26 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
-import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
+import RosterEntryFields from '../../components/roster/RosterEntryFields.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesPanel from '../../components/roster/RosterRulesPanel.vue'
+import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
+import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   allySourceOf, sectionsOf, unitPoints, capKeyOf,
   ROSTER_NOTES_MAX,
-  canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leadsFor, dispositionCandidates,
+  leadsFor, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -252,6 +285,11 @@ const labels = computed(() => ui[locale.value])
 const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
+
+// The one media query this screen asks: three columns with the settings on a line above them, or
+// the tabs and two panes it has always had. 1200px is where a third column stops squeezing the
+// other two — below it the catalogue's rows start wrapping their prices.
+const desk = useMediaQuery('(min-width: 1200px)')
 
 // Every edit already writes straight to the reactive store (useRosters.js's deep watch
 // autosaves to localStorage on every change) — nothing here actually persists anything new
@@ -362,6 +400,21 @@ const openUid = ref(null)
 function toggleOpen(entryUid) {
   openUid.value = openUid.value === entryUid ? null : entryUid
 }
+// The entry the desk's third column belongs to. Same `openUid` the accordion uses — one idea of
+// "the unit being worked on", whichever arrangement is showing it.
+const openEntry = computed(() => roster.value?.units.find((u) => u.uid === openUid.value) || null)
+
+// What `RosterEntryFields` needs beyond the entry itself, and it is the same object wherever the
+// fields are rendered — under the row, or in the column beside it.
+const fieldProps = computed(() => ({
+  items: rosterItems.items,
+  texts: rosterItems.texts,
+  detachments: curDetachments.value,
+  units: roster.value?.units || [],
+  defOf,
+  armySlug: roster.value?.faction || '',
+  slugOf: slugFor,
+}))
 
 // Delete ONE line, not "a copy of this datasheet": two of the same unit are configured
 // separately, so the row's own uid is what goes. removeUnit() detaches any Leader that pointed

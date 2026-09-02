@@ -3,7 +3,9 @@
     <div class="hero">
       <h1 class="hero-title">{{ labels.navRules }}</h1>
       <!-- Same door the tracker and the roster list carry: this section's page of the guide. -->
-      <RouterLink class="hero-help" to="/help/rules">{{ labels.helpSection }}</RouterLink>
+      <RouterLink class="hero-help" to="/help/rules" :title="labels.helpSection" :aria-label="labels.helpSection">
+        <i class="bi bi-question-circle"></i>
+      </RouterLink>
     </div>
 
     <div class="section-grid">
@@ -53,7 +55,9 @@ const t = computed(() => rulesLanding[locale.value])
   color: var(--text-primary);
 }
 
-.hero-help { display: inline-block; margin-top: 0.3rem; color: var(--accent); font-size: 0.85rem; }
+
+/* Under the title in a centred hero, unlike the two cloud-bars where it shares a row. */
+.hero-help { margin-top: 0.3rem; }
 
 .section-grid {
   display: grid;

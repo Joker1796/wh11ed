@@ -9,19 +9,17 @@
          tracker is — which the heading and the buttons already say. On a phone the row wraps and
          the link lands back under the title, which is where it was. -->
     <div class="cloud-bar">
-      <RouterLink class="hero-help" to="/help/tracker">{{ labels.helpSection }}</RouterLink>
+      <RouterLink class="hero-help" to="/help/tracker" :title="labels.helpSection" :aria-label="labels.helpSection">
+        <i class="bi bi-question-circle"></i>
+      </RouterLink>
       <template v-if="status === 'authed'">
         <span class="cloud-account">
           <i class="bi bi-cloud-check-fill"></i>
           {{ user?.email || user?.displayName || labels.cloudSignedIn }}
         </span>
-        <button class="cloud-link" @click="logout">{{ labels.cloudSignOut }}</button>
         <span v-if="lastError" class="cloud-err">{{ labels.cloudError }}</span>
       </template>
       <span v-else class="cloud-hint">{{ labels.cloudSignInHint }}</span>
-      <button v-if="dev" class="cloud-link dev-mock" @click="onMockToggle">
-        🔧 {{ status === 'authed' ? 'тест-выход' : 'тест-вход' }}
-      </button>
     </div>
 
     <div class="cta">
@@ -31,16 +29,10 @@
            throw away what is on screen, not the way forward. -->
       <button class="btn-lg" :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'" @click="startNew">{{ labels.trackerNewGame }}</button>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
-           auto-uploads games as they finish, so cloud backup stays current on its own. -->
-      <button v-if="status === 'anon'" class="ya-btn" @click="onSignIn">
-        <span class="ya-btn-logo" aria-hidden="true">Я</span>
-        {{ labels.cloudSignInYandex }}
-      </button>
-      <!-- status === 'idle': silent ensureSession() is still in flight — show a disabled
-           placeholder so the user can't fire a redundant OAuth redirect mid-restore. -->
-      <button v-else-if="status === 'idle'" class="ya-btn" disabled>
-        <i class="bi bi-arrow-repeat spin"></i>
-      </button>
+           auto-uploads games as they finish, so cloud backup stays current on its own. And no
+           sign-in button: the account is app-wide (the roster builder syncs through the same one),
+           so the way in and out is the navbar's account menu — the line above only reports where
+           the games stand. -->
     </div>
 
     <!-- The one number people came back for. It sits above the list because a record is a
@@ -55,7 +47,7 @@
     <section class="history">
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
-        <span v-if="inSync" class="in-sync">
+        <span v-if="status === 'authed' && inSync" class="in-sync">
           <i class="bi" :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"></i>
           {{ cloudEmpty ? labels.cloudEmpty : labels.cloudInSync }}
           <!-- Force a full push+pull now (auto-sync already runs on entry) — for pulling changes
@@ -141,7 +133,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
@@ -160,7 +152,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { current, history, setupDraft, finishGame, archiveGame, resumeFromHistory, deleteHistory } = useTracker()
-const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
+const { status, user, ensureSession } = useAuth()
 const {
   init: initCloudSync,
   syncNow,
@@ -171,6 +163,11 @@ const {
   inSync,
   cloudEmpty,
 } = useCloudSync()
+
+// Signing in no longer means arriving on this page: the navbar's account menu can do it from
+// here, so run the same full sync that entering the page runs. (Real OAuth reloads the page and
+// onMounted covers it; this catches an in-place sign-in, e.g. the DEV mock.)
+watch(status, (s) => { if (s === 'authed') syncNow() })
 
 // Battle record, from this device's history (gameStats.js does the reading — this is one line of
 // it plus a way in). Recomputed when a game is archived or deleted; the history is short enough
@@ -190,21 +187,6 @@ function onDeleteGame(id) {
   }
 }
 
-function onSignIn() {
-  // On return, onMounted auto-syncs (upload backlog + restore cloud) as soon as we're authed.
-  login('yandex')
-}
-
-// DEV-only: simulate sign-in/out without real OAuth (stripped from prod builds).
-async function onMockToggle() {
-  if (status.value === 'authed') {
-    mockSignOut()
-  } else {
-    mockSignIn()
-    await syncNow() // push local games into the mock cloud so backed-up icons appear
-  }
-}
-
 // History pagination — show 10 at a time via "show more".
 const PAGE = 10
 const visibleCount = ref(PAGE)
@@ -217,10 +199,10 @@ function openGame(id) {
   summaryGame.value = history.value.find(g => g.id === id) || null
 }
 
-// Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
-// still valid the user is reconnected; otherwise the panel shows the sign-in button.
 onMounted(async () => {
   initCloudSync()
+  // The session is restored app-wide (App.vue) now that the account lives in the navbar; this
+  // await just joins that in-flight restore — refresh() de-dupes, so it costs no extra request.
   await ensureSession()
   if (status.value !== 'authed') return
   // Auto-sync on entry: the init() watcher already auto-uploads games finished during this authed
@@ -362,39 +344,7 @@ function footLine(g) {
 }
 .rb-lab { flex: 1; }
 .rb-rate { color: var(--accent); font-weight: 600; }
-/* Yandex ID branded sign-in button (login is Yandex OAuth) — brand red + the "Я" mark. */
-.ya-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  background: #fc3f1d;
-  color: #fff;
-  border: none;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.ya-btn:hover { background: #e63414; }
-.ya-btn:disabled { background: #fc3f1d; opacity: 0.6; cursor: default; }
-.ya-btn .spin { animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ya-btn-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #fff;
-  color: #fc3f1d;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: 0.92rem;
-  line-height: 1;
-}
 .hero {
   text-align: center;
   padding: 1rem 0 0.8rem;
@@ -408,7 +358,6 @@ function footLine(g) {
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
-.hero-help { color: var(--accent); font-size: 0.85rem; }
 /* Help on the left, account on the right — `margin-left: auto` on the account rather than
    space-between, so a wrapped row on a phone still puts the two on their own lines instead of
    stretching one of them across the width. */
@@ -425,15 +374,6 @@ function footLine(g) {
 .cloud-account { display: inline-flex; align-items: center; gap: 0.4rem; }
 .cloud-account .bi { color: var(--accent); }
 .cloud-hint { color: var(--text-muted); }
-.cloud-link {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-size: 0.85rem;
-  text-decoration: underline;
-}
-.cloud-link:hover { color: var(--accent); }
 .cloud-err { color: #d9534f; }
 .cta {
   display: flex;
@@ -453,14 +393,12 @@ function footLine(g) {
   .hero h1 { font-size: 2.2rem; }
   .cta { gap: 0.5rem; margin-bottom: 1.4rem; }
   .cta .btn-primary,
-  .cta .btn-ghost,
-  .cta .ya-btn {
+  .cta .btn-ghost {
     flex: 0 0 auto;
     padding: 0.45rem 0.8rem;
     font-size: 0.8rem;
     white-space: nowrap;
   }
-  .ya-btn-logo { width: 16px; height: 16px; font-size: 0.72rem; }
 }
 .history-head {
   display: flex;

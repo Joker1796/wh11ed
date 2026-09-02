@@ -979,11 +979,52 @@ to one existing chunk.
   `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
   visible during the wizard, not just after `finish()` lands on the read-only view.
 
-## Editing flow (reworked 2026-08-19, panes 2026-08-27)
+## The desk — three columns above 1200px (added 2026-09-01)
+
+On a wide screen both building screens drop the tabs/steps and lay everything out at once: a
+**settings bar** across the top and **three columns** under it — catalogue, the list, and the
+chosen unit's fields. Below 1200px nothing changes; the editor keeps its tabs, the wizard its two
+steps, and the phone its modal.
+
+- **`RosterWorkbench.vue`** owns both arrangements, so the catalogue and the list are written once
+  per screen: `desk` renders the three columns, otherwise it renders the same `.roster-panes`
+  markup the two screens always had. Each desk column **sticks under the navbar and scrolls inside
+  itself** — the trick the catalogue pane already used, not a fixed-height shell whose height every
+  floating bar in the app is free to invalidate. All three are `container-type: inline-size`, which
+  is why nothing inside them needed rewriting: the rows already size themselves against their pane.
+- **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
+  battle size, Force Disposition, then the points and the issue badge. It holds no state: both
+  callers own a roster and do different things with the same answer (the wizard's faction pick also
+  creates the draft), so it reports and emits, pickers included. Notes and the legality switch are
+  behind its "…" — decided once, then never looked at again, and a permanent slot for them would
+  spend the line on the two things nobody reads twice. The editor passes `show-name="false"`: its
+  page header already IS the name field.
+- **`RosterUnitList` gained `placement="pane"`**, where a row neither unfolds nor opens a modal —
+  it only marks itself chosen (`.rul-picked`) and reports the uid. Same `openUid` as the accordion,
+  so there is one idea of "the unit being worked on" in either arrangement.
+- **`RosterEntryFields.vue`** wires `UnitEditorFields` up. The enhancement options, the leader
+  targets and the may-this-be-Warlord test are pure functions of the roster, and each screen
+  computed them in an identical fifteen-line block at the slot — which the desk would have made
+  four copies of. The callers now pass the roster.
+- **The wizard's Save is its bar's only action on the desk** — there is no step to go back to, and
+  nothing sequential to go forward through. `finish()` still calls `ensureDraft()`, so saving
+  straight from the desk creates the roster the same way arriving at step 2 did. The wizard also
+  grew **notes** here (the bar offers them and the editor always had them), written through
+  `step1Patch()` like every other setting.
+- **The points live in the bar on the desk**, and the sticky footer keeps only Cancel/Save — the
+  same number in both places would be the same number twice. `.rc-sticky` itself stays at every
+  width: `App.vue` matches it by name to reserve `--roster-sticky-h`, which the columns' own
+  `max-height` then subtracts.
+- **Width comes from `App.vue`** (`main-content--desk`, 1600px, inside a `min-width: 1200px` query
+  — the 860px reading measure cannot hold three columns). Printing is excluded from it by path: its
+  width is the paper's.
+
+## Editing flow (reworked 2026-08-19, panes 2026-08-27, desk 2026-09-01)
 
 The editor has **two** panels: Settings and Units. The Units panel holds the faction catalogue
 and the roster's own list **side by side**, at every width (`.roster-panes` in `style.css`), and
-the creation wizard's step 2 is the same pair of panes.
+the creation wizard's step 2 is the same pair of panes. Above 1200px both are replaced by the desk
+layout above — what follows describes the arrangement below that threshold, which is unchanged.
 
 It was three screens before, and the split is what the rework undid: browsing the catalogue was a
 page of its own (`/roster/:id/add`), configuring a unit was the editor's Units tab, and in the
@@ -1681,7 +1722,17 @@ accident** — each was a decision:
   pushing every local-newer roster.
 - **One request per visit.** `RosterListView`'s `onMounted` runs the single pass: one
   `GET /rosters` returning metadata (no blobs), then only the uploads/downloads that metadata
-  proves are needed. There is no manual Sync button, same as the tracker home.
+  proves are needed. There is no manual Sync button, same as the tracker home. A `watch` on the
+  auth status runs the same pass again if a session appears while the page is open — signing in
+  is possible from here now (see below), and an in-place one has no page load to hide behind.
+
+**Signing in is not on this page, and not on the tracker's either.** Until 2026-09-01 the only
+sign-in button in the app sat on the tracker home, and this screen's hint told a signed-out
+reader to go there — an instruction, not a control, for an account both sections share. The way
+in and out is `AccountMenu.vue` in the navbar (desktop) and the same entries inside the gear menu
+(mobile), on every page; `useAccountActions.js` is the pair they share, and it sends the current
+path along so the OAuth round trip comes back here. `RosterCloudBar` reports sync and nothing
+else.
 
 Conflicts are **last-write-wins on the client's `updatedAt`** (a plain `Date.now()`, so it trusts
 the device clock — chosen over a server stamp for cost) and the screen says so afterwards.

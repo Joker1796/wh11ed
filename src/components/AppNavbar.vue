@@ -104,6 +104,7 @@
         >
           <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
         </button>
+        <AccountMenu />
         <div class="settings-wrap">
           <button
             class="settings-btn"
@@ -135,6 +136,31 @@
                 <i class="bi bi-download"></i>
                 <span>{{ labels.installApp }}</span>
               </button>
+              <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
+                   here it joins the theme and lore toggles rather than crowding the navbar. -->
+              <template v-if="accountStatus === 'authed'">
+                <p class="settings-who">
+                  <i class="bi bi-cloud-check-fill"></i>
+                  <span>{{ accountName || labels.cloudSignedIn }}</span>
+                </p>
+                <button class="settings-item" @click="onSignOut">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>{{ labels.cloudSignOut }}</span>
+                </button>
+              </template>
+              <button
+                v-else
+                class="settings-item"
+                :disabled="accountStatus === 'idle'"
+                @click="onSignIn"
+              >
+                <i class="bi bi-person"></i>
+                <span>{{ labels.cloudSignInYandex }}</span>
+              </button>
+              <button v-if="accountDev" class="settings-item" @click="onMockToggle">
+                <i class="bi bi-wrench"></i>
+                <span>{{ accountStatus === 'authed' ? 'тест-выход' : 'тест-вход' }}</span>
+              </button>
             </div>
           </Transition>
         </div>
@@ -161,6 +187,8 @@ import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
+import { useAccountActions } from '../composables/useAccountActions.js'
+import AccountMenu from './AccountMenu.vue'
 import { ui } from '../i18n/ui.js'
 import { factionGroups } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
@@ -187,6 +215,28 @@ const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
+const {
+  status: accountStatus,
+  accountName,
+  signIn,
+  signOut,
+  dev: accountDev,
+  toggleMock,
+} = useAccountActions()
+
+// Every gear-menu entry closes the menu behind it; the account ones are no different.
+function onSignIn() {
+  settingsOpen.value = false
+  signIn()
+}
+async function onSignOut() {
+  settingsOpen.value = false
+  await signOut()
+}
+function onMockToggle() {
+  settingsOpen.value = false
+  toggleMock()
+}
 
 const labels = computed(() => ui[locale.value])
 
@@ -600,6 +650,30 @@ a.nd-link:hover {
 
 .settings-item.active {
   color: var(--accent);
+}
+
+/* Who you are, above the way out — a line, not a control. */
+.settings-who {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.6rem 0.7rem 0.2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+.settings-who .bi {
+  font-size: 1rem;
+  width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.settings-item:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .search-btn {

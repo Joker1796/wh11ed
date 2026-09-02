@@ -14,7 +14,9 @@
 
        - a wide screen puts them inline, under the row, as an accordion;
        - a narrow one puts them in a modal, because the list shares its width with the catalogue
-         beside it and a wargear editor does not fit in half a phone.
+         beside it and a wargear editor does not fit in half a phone;
+       - `placement="pane"` puts them NOWHERE — the desk layout (≥1200px) has a column of its own
+         for them, so this component only reports which entry is chosen and marks that row.
 
      The modal is teleported to <body> and therefore leaves the view's faction-accent scope behind,
      which is what FactionAccentScope is for (see RosterUnitRulesModal.vue for the same trap). -->
@@ -27,7 +29,7 @@
           <em v-if="g.ally" class="rul-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
         </h3>
         <template v-for="(e, idx) in g.entries" :key="e.uid">
-          <div class="rul-unit" :class="{ 'rul-attached roster-attached': e.leaderOf }">
+          <div class="rul-unit" :class="{ 'rul-attached roster-attached': e.leaderOf, 'rul-picked': inPane && openUid === e.uid }">
             <!-- The row is itself a button (it opens the configuration), so the actions sit
                  OUTSIDE it rather than inside — a button inside a button is invalid and doesn't
                  get its own click on every browser. They are positioned over the tile's top-right
@@ -47,7 +49,7 @@
                   :detachments="detachments"
                   :role="roleOf(e)"
                 />
-                <i class="bi rul-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                <i v-if="!inPane" class="bi rul-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
               </button>
               <span class="rul-acts">
                 <!-- Absent, not greyed, at the duplicate cap. A dead control earns its place by
@@ -75,7 +77,7 @@
                 </button>
               </span>
             </div>
-            <CollapseTransition v-if="!narrow" :show="openUid === e.uid">
+            <CollapseTransition v-if="!narrow && !inPane" :show="openUid === e.uid">
               <div class="rul-fields"><slot name="fields" :entry="e" /></div>
             </CollapseTransition>
           </div>
@@ -90,7 +92,7 @@
     </template>
 
     <BaseModal
-      v-if="narrow && openEntry"
+      v-if="narrow && !inPane && openEntry"
       :title="defOf(openEntry.id)?.name || openEntry.id"
       max-width="640px"
       @close="$emit('toggle', openUid)"
@@ -111,13 +113,14 @@
 </template>
 
 <script setup>
-import { computed, onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { GROUP_LABEL_KEYS, attachedBlockTotal } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
@@ -134,11 +137,16 @@ const props = defineProps({
   slugOf: { type: Function, default: () => '' },
   dupBlocked: { type: Function, default: () => false },
   openUid: { type: String, default: null },
+  // 'auto' — inline accordion, or a modal on a narrow screen. 'pane' — the caller renders the
+  // fields itself, in a column beside this list.
+  placement: { type: String, default: 'auto' },
 })
 defineEmits(['toggle', 'duplicate', 'remove'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+const inPane = computed(() => props.placement === 'pane')
 
 const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => props.pointsOf(x))
 
@@ -150,19 +158,15 @@ const openEntry = computed(() => {
   return null
 })
 
-// Same 900px the editor's own panel padding uses. Absent matchMedia (jsdom) means the inline
-// accordion, which is the layout with no teleport in it — the deterministic one to test against.
-const narrow = ref(false)
-const mq = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(max-width: 899px)') : null
-if (mq) {
-  narrow.value = mq.matches
-  const onChange = (e) => { narrow.value = e.matches }
-  mq.addEventListener('change', onChange)
-  onUnmounted(() => mq.removeEventListener('change', onChange))
-}
+// Same 900px the editor's own panel padding uses.
+const narrow = useMediaQuery('(max-width: 899px)')
 </script>
 
 <style scoped>
+/* In the desk layout the row IS the selection: the fields it opens are in the next column, so
+   the only thing saying which unit that column belongs to is this. */
+.rul-picked { outline: 1px solid var(--accent); outline-offset: -1px; }
+
 .rul-head {
   font-family: var(--font-display);
   font-size: 1.05rem;
