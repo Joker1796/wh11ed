@@ -1400,8 +1400,25 @@ matches end to end AND its captured slots pass two guards: the owner/subject mus
 phrase (a lazy capture otherwise swallows a leading condition and emits confident nonsense), and
 the value must not contain a second frame ("…replaced with 1 shuriken pistol and one of the
 following:"). Anything else is left out of the file and the UI shows the English original —
-a fully English line reads fine, half-translated Russian does not. Coverage sits around 82%; the
+a fully English line reads fine, half-translated Russian does not. Coverage sits around 90%; the
 run prints it, and a drop after a bump means GW introduced a new wording, not noise.
+
+**The "and" between two weapons needs the item dictionary.** "tachyon arrow and Overlord's blade"
+is two weapons glued with a connective; "transonic razor and chordclaw" is ONE weapon's printed
+name, and the sentences are identical in shape. `slotRu()` translates the glue only when the whole
+slot is not itself a known item AND every part is (`items.js` primed via `primeItemNames`) — it
+tries each split point, because a half can contain the word too ("autopistol and cult claws and
+knife"). Without the dictionary this is unguessable; don't replace it with a regex.
+
+**A last guard runs on the OUTPUT, not the input.** A slot none of the guards anticipated can still
+smuggle frame English into a translated sentence ("…Piranha burst cannon can be на…"). Item names
+never contain `can/cannot/following/replaced/equipped`, so their presence in the result means the
+capture went wrong and the line falls back to English. This is what retired the old
+half-translated "…может получить up to two of the following, and can take duplicates:." lines.
+
+Two input quirks are normalised before matching, both found in appdata itself: a stray `■` list
+marker at the head of an instruction, and a no-break space where a frame expects a plain one
+(`U+00A0` in "…replaced with 1 twin lascannon" cost that whole sentence its translation).
 
 `src/data/roster/ru/texts.test.js` pins the invariants rather than any wording: no English
 sentence frame survives on a translated line, no id exists that the English side doesn't have, no
