@@ -226,15 +226,15 @@ describe('rosterModifiers data', () => {
   })
 
   it('answers only what it can actually answer', () => {
-    expect(isAnswerable(['waaagh-active'])).toBe(true)
-    expect(isAnswerable(['waaagh-active', 'unit-charged'])).toBe(true)
+    expect(isAnswerable(['riled-up'])).toBe(true)
+    expect(isAnswerable(['riled-up', 'unit-charged'])).toBe(true)
     expect(isAnswerable(['never'])).toBe(false)
     expect(isAnswerable(['blocked-subset'])).toBe(false)
     // One un-answerable half is enough to keep the whole effect a note. A phase is answerable
-    // only in a game keeping phases, so a Waaagh!-in-the-Shooting-phase bonus is a note by default
+    // only in a game keeping phases, so a riled-up-in-the-Shooting-phase bonus is a note by default
     // and a number once the clock is running.
-    expect(isAnswerable(['waaagh-active', 'phase-shooting'])).toBe(false)
-    expect(isAnswerable(['waaagh-active', 'phase-shooting'], { phases: true })).toBe(true)
+    expect(isAnswerable(['riled-up', 'phase-shooting'])).toBe(false)
+    expect(isAnswerable(['riled-up', 'phase-shooting'], { phases: true })).toBe(true)
     // A battle-round window needs no clock setting — every game knows its round.
     expect(isAnswerable(['rounds-3-5'])).toBe(true)
     expect(isAnswerable(['made-this-up'])).toBe(false)
