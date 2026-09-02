@@ -10,7 +10,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 6
+export const SCHEMA_VERSION = 7
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -77,6 +77,14 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 // The datasheets whose option lists renumbered in v6, matched with or without a faction prefix
 // (an allied unit is stored as "astra-militarum/deathwatch-kill-team").
 const V6_RENUMBERED = /(^|\/)(cadian-recon-squad|militarum-tempestus-command-squad|deathwatch-veterans|deathwatch-kill-team|ironkin-steeljacks-with-heavy-volkanite-disintegrators)$/
+// Codex: Orks re-issued these two as squadron datasheets under a new id (see migrateRoster's v7).
+const V7_ORKS_RENAMED = {
+  'rukkatrukk-squigbuggy': 'rukkatrukk-squigbuggies',
+  wartrakk: 'wartrakks',
+}
+// The Orks datasheets whose size brackets changed shape in the new codex — measured against the
+// pre-bump bundle, not guessed: everything else keeps the model count the player chose.
+const V7_ORKS_RESIZED = new Set(['beast-snagga-boyz', 'boyz', 'flash-gitz', 'ghazghkull-thraka', 'gretchin'])
 
 // Bring ONE roster up to the current shape. Shared by the stored envelope below and by an imported
 // share payload, which is the same shape carried in a URL and can be just as old — importing used
@@ -123,6 +131,27 @@ export function migrateRoster(r, v) {
   if (!(v >= 6)) {
     for (const u of r.units || []) {
       if (V6_RENUMBERED.test(u.id || '')) delete u.wg
+    }
+  }
+
+  // → v7: Codex: Orks (app data 946) replaced the faction outright, so an Orks list stored before
+  // it holds indices into data that no longer exists — 16 of the 51 surviving datasheets changed
+  // how many wargear groups they have, and five changed their size brackets (Gretchin's list of
+  // five became two). The picks are dropped rather than re-read, as in v3/v4; the sizes are
+  // dropped only on the five that actually moved, so a 20-model Boyz mob stays 20 models.
+  //
+  // Two datasheets came back under a new id — GW re-issued them as squadrons — and are renamed
+  // rather than left to resolve to nothing: the model on the table is the same one, and an entry
+  // that resolves to nothing drops out of the points total and every grouped list (the
+  // `unknownUnit` issue exists to say so, but says it about a unit the player can no longer see).
+  // The five datasheets the codex DELETED are deliberately not touched: nothing here can guess
+  // what to put in their place, and silently removing a unit from someone's army is worse than
+  // showing them the warning.
+  if (!(v >= 7) && r.faction === 'orks') {
+    for (const u of r.units || []) {
+      u.id = V7_ORKS_RENAMED[u.id] || u.id
+      delete u.wg
+      if (V7_ORKS_RESIZED.has(u.id)) { delete u.size; delete u.count }
     }
   }
   return r

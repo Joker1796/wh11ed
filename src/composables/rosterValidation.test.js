@@ -761,6 +761,18 @@ describe('validateRoster — every issue says which unit it is about', () => {
     expect(issue.params.unit).toBe('Cadian Castellan (2)')
   })
 
+  // A Legends datasheet is published and playable — just not in matched play. Warning, not error:
+  // this file never blocks a list, it says what a tournament organiser would.
+  it('warns about a Legends datasheet without calling the list illegal', () => {
+    const legends = { id: 'lootas', name: 'Lootas', kws: ['Infantry'], flags: { legends: 1 }, sizes: [{ pts: 50, per: [5, 5], default: 1 }] }
+    const fac = { ...faction, units: [...faction.units, legends] }
+    const r = validateRoster({ ...roster(), units: [...roster().units, U('lootas')] }, { faction: fac, core })
+    const issue = r.issues.find((i) => i.code === 'legendsUnit')
+    expect(issue.level).toBe('warn')
+    expect(issue.params.unit).toBe('Lootas')
+    expect(r.issues.some((i) => i.level === 'error' && i.code === 'legendsUnit')).toBe(false)
+  })
+
   // Every placeholder a message asks for has to be one the validator actually sends, in both
   // locales — a template naming a param nobody fills renders as a blank.
   it('asks for nothing the validator does not send', async () => {
