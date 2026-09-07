@@ -480,7 +480,7 @@ When a value is modified (e.g. characteristic, dice roll, distance), do so in th
 6. Round any fractions up after applying all modifiers.
 
 ### When Modifying Characteristics
-When modifying characteristics, the following points also apply:
+When modifying characteristics, unless otherwise stated, the following points also apply:
 ▪ Characteristics of '-', '*' and 'N/A' can never be modified.
 ▪ Rules that modify a model's **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic modify the **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic of every weapon equipped by that model.
 ▪ After all modifiers have been applied:
@@ -1849,7 +1849,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 6. Округлите любые дроби в большую сторону после применения всех модификаторов.
 
 ### При изменении характеристик
-При изменении характеристик также применяются следующие положения:
+При изменении характеристик, если не указано иное, также применяются следующие положения:
 ▪ Характеристики «-», «*» и «N/A» никогда не могут быть изменены.
 ▪ Правила, изменяющие характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** модели, изменяют характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** каждого оружия, которым экипирована эта модель.
 ▪ После применения всех модификаторов:
@@ -2340,7 +2340,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ 2. Wound Rolls (**броски на ранение**)
 ▪ 3. Save Rolls (**спас-броски**)
 ▪ 4. Inflict Damage (нанесение урона)`,
-          note: `Критические попадания(Critical Hits) и критические ранения(Critical Wounds): критические попадания(Critical Hits) по-прежнему являются попаданиями, а критические ранения(Critical Wounds) — ранениями. Кроме того, другие правила могут быть активированы критическим попаданием или критическим ранением, например, Смертельные попадания (Lethal Hits) и Опустошительные раны (Devastating Wounds).`,
+          note: `Критические попадания(Critical Hits) и критические ранения(Critical Wounds): критические попадания(Critical Hits) по-прежнему являются попаданиями, а критические ранения(Critical Wounds) — ранениями. Кроме того, другие правила могут быть активированы критическим попаданием или критическим ранением, например, [LETHAL HITS] и [DEVASTATING WOUNDS].`,
         },
         {
           title: 'Hit Rolls (броски на попадание)',

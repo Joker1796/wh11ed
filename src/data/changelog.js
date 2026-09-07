@@ -17,6 +17,32 @@
 
 export const changelog = [
   {
+    version: '2.3.11',
+    date: '2026-09-07',
+    en: [
+      { h: 'Falling back no longer lets you shoot' },
+      'Fall-back Move (09.07) said a unit that falls back is not eligible to declare a charge or start an action. It must also say it cannot shoot. The rule was right when the site launched; the word was lost in June, when this part of the data changed format. Reported by a reader: thank you, and please keep them coming.',
+      { h: 'Four more places where our text had drifted from the official app' },
+      'Consolidation Move (12.08): an **objective consolidation** requires your unit to end **unengaged** as well as within range of the objective. The first half was missing.',
+      'Desperate Escape (09.07.01): when a **stratagem** or ability forces a unit to make a Desperate Escape test, that unit makes one **hazard roll** for each model **and** a **battle-shock roll**. The second half of that rule had never been transcribed at all.',
+      'Gone to Ground (13.11.01): the extra benefit is for **hidden** models concealed by **dense terrain features** — not "within Solid terrain features", which is how the rule read before GW reworded it. The glossary entry carried the same old wording and now matches.',
+      'Modifiers (02.02.01): the limits on modified characteristics apply **unless otherwise stated**. Without that qualifier, a rule that overrides one of them looked impossible.',
+      { h: 'Russian pages' },
+      '[CLOSE-QUARTERS] in 17.03 and FORTIFICATIONS in 20.01 had been translated into Russian. Bracketed ability names and ALL-CAPS keywords stay English — translating them also broke the keyword popover on those words. The note on critical hits now names [LETHAL HITS] and [DEVASTATING WOUNDS] the way the English page does, and snap shooting (15.09) hits on an unmodified roll of 6, not "6+".',
+    ],
+    ru: [
+      { h: 'После отступления больше нельзя стрелять' },
+      'В «Отступлении» (09.07) было сказано, что отступивший юнит не имеет права объявлять нападение и начинать действие. Там должно быть сказано и то, что он не может стрелять. На старте сайта правило было верным — слово потерялось в июне, когда этот кусок данных менял формат. Спасибо читателю за находку — пишите ещё.',
+      { h: 'Ещё четыре места, где наш текст разошёлся с данными приложения' },
+      'Консолидация (12.08): при **консолидации на цели** юнит должен закончить манёвр **не связанным боем** — не только в пределах досягаемости цели. Первой половины условия не было.',
+      'Отчаянный побег (09.07.01): когда **стратагема** или способность заставляет юнит сделать проверку отчаянного побега, он делает **проверку опасности** за каждую модель **и** **проверку боевого шока**. Вторая половина этого правила у нас не была перенесена вовсе.',
+      'Залегание (13.11.01): дополнительное преимущество получают **скрытные** модели, укрытые **плотными элементами укрытий**, а не «находящиеся внутри сплошных укрытий» — так правило читалось до того, как GW его переформулировала. В глоссарии была та же старая формулировка, теперь совпадает.',
+      'Модификаторы (02.02.01): ограничения на изменённые характеристики действуют, **если не указано иное**. Без этой оговорки правило, которое их переопределяет, выглядело невозможным.',
+      { h: 'Русские страницы' },
+      '[CLOSE-QUARTERS] в 17.03 и FORTIFICATIONS в 20.01 были переведены на русский. Скобочные названия способностей и ALL-CAPS кейворды остаются английскими — из-за перевода на этих словах ещё и не открывалась подсказка. Заметка про критические попадания теперь называет [LETHAL HITS] и [DEVASTATING WOUNDS] так же, как английская страница, а короткая стрельба (15.09) попадает на немодифицированном броске 6, а не «6+».',
+    ],
+  },
+  {
     version: '2.3.10',
     date: '2026-09-02',
     en: [
