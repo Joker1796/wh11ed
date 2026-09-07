@@ -86,6 +86,8 @@ npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deplo
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
 npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
+npm run omissions    # GATE: fail when appdata's Core Rules say something wh11ed's transcription does not (see Data gates)
+npm run parity       # GATE: EN↔RU parity — faction data AND the rulebook files (see Data gates)
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
@@ -271,7 +273,7 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 - **Glosses (popover, preferred):** term glosses are an inline token `[gloss:<id>:<visible label>]` (rendered by `useRenderInline.js` → `.gloss` span; a click/tap opens `KeywordPopover` via `App.vue`'s global handler → `openGloss`). `<id>` keys a central `src/data/glossary.js` entry `{ term, en, ru }` — `term` is the English original shown in the popover header (same in both locales), `en`/`ru` are short 1–2 sentence definitions. **Define each term once** in `glossary.js`; reuse the id across occurrences (the `<visible label>` carries the local inflection, e.g. RU `[gloss:base:базы]` / EN `[gloss:base:base]`). Add tokens in **both** the EN and RU subsections. The token is not a block marker, so EN↔RU block parity is unaffected. Don't gloss terms already covered by `KeywordPopover` (ALL-CAPS keywords like INFANTRY/VEHICLE, `[BRACKET]` abilities from `coreAbilities`) — they have their own popover.
 - **Glosses (legacy parenthetical, being migrated):** most data still carries the English original in parens — `РУС (ENG)`, e.g. `критическому ранению (critical wound)` — but this form is for ordinary (non-caps) terms only, written as `**рус** (eng)`. **ALL-CAPS keywords (INFANTRY, AIRCRAFT, WARLORD, …) are never translated** — use the bare English keyword in RU text too (no Russian rendering, no parens, e.g. `модель CHARACTER`, not `ТЕХНИКИ (VEHICLE)`), and leave it unbolded (the renderer bolds it). `[BRACKET]` ability names stay English (KeywordPopover lookup). The paired EN subsection (same `id`/`sectionNum`) is the source of truth for the English term. Migrate these to the `[gloss:…]` token form above as sections are touched.
 - **Bold (`**…**`):** game terms are emphasized wherever the official PDF emphasizes them, in **both** languages. Do not bold things the renderer already bolds (ALL-CAPS keywords, `◈ LABEL |` info-card labels) or anything inside `seeAlso` refs / image paths. `### h4` headings render through `renderInline` too, so inline markup (`**bold**`, `[KEYWORD]`, cross-refs) works there — `**…**` adds emphasis on top of the heading's own (CSS) weight; only use it where the PDF emphasizes a term within the heading.
-- **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes.
+- **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes. **`npm run parity` now enforces this on the rulebook files too** (it used to cover faction data only): block markers, `[BRACKET]` abilities, measurements (`3"`, `D6`, `4+`, `+1`) and ALL-CAPS keywords must match EN↔RU, and every EN field must have RU text. Rule cross-references (`09.07`) deliberately are not compared — each locale points where its own layout needs. Notes (`**` counts) are summarised; `--notes` lists them.
 - **RU transliteration:** follow the source's apostrophes, using the typographic `’` (U+2019) — `Kauyon` → «кауйон» (none), `Mont’ka` → «монт’ка», `T'au` → «т’ау». Latin forms inside RU text keep their own (`T'au Empire`, the `T'AU EMPIRE` keyword). These match the Russian community's translation guide; that guide covers Black Library prose, so it applies to **flavour text and transliteration only** and never overrides the rule above that unit/detachment/stratagem names and ALL-CAPS keywords stay English. Settled cases are recorded here as they're decided — that's the source of truth for this repo.
 - **Astra Militarum `Order`/`Orders`** (the Voice of Command mechanic) are translated as «приказ»/«приказы», unlike named mechanics such as Space Marines' Combat Doctrine which stay English — decided 2026-07-22. Specific order names (`Move! Move! Move!`, `Take Aim!`, …) stay English and bold in the ability's own listing, or in «guillemets» when referenced from prose elsewhere. Glossed via `[gloss:am-order:…]` (`src/data/glossary.js`) on the first occurrence in the army rule body and the first occurrence in each detachment (rule/stratagems/enhancements combined) — not every occurrence.
 
@@ -296,6 +298,30 @@ Tracker, not nested in it) and hands a built roster off to this one — see
 (added 2026-09-01): settings on one bar, then catalogue / list / the chosen unit's fields as three
 columns. That is the only screen with a width of its own — `main-content--desk` in `App.vue`,
 1600px, inside a `min-width: 1200px` query so nothing below the threshold moves.
+
+## Data gates
+
+Two checks fail the build rather than printing a report. Both exist because the same class of bug
+reached a player: 09.07 Fall-back Move lost the word "shoot" in June and stayed wrong until
+September, even though `sync-core` printed it as a finding on every single run — one of 287.
+
+- **`npm run omissions`** (`scripts/check-rule-omissions.mjs`) — the ONE direction that is always a
+  defect: appdata's Core Rules carry text wh11ed does not. It reports two shapes — a *dropped word*
+  (a line we clearly do carry, minus a load-bearing word) and a *missing line* — and nothing else.
+  Our own additions (notes, examples, FAQ blocks) are `sync-core`'s beat, and are where its noise
+  lives. Deliberate condensations live in the script's `ALLOW` table with a written reason; the
+  count of suppressed findings prints on every run, and an `ALLOW` entry that stops matching is
+  reported as stale. Runs first inside `npm run sync` so its verdict is not buried.
+- **`npm run parity`** (`scripts/parity-check.mjs`) — EN↔RU. The faction pass was there already; the
+  rulebook pass (`basicRules`/`battleRound`/`advancedRules`/`battlefields`/`muster`/
+  `eventCompanion`, reference.js §24, `glossary.js`) was added when it turned out nothing enforced
+  the parity rule this file has always stated. See Bilingual content conventions.
+
+Both share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
+and the report can never disagree about what a rule says. A caveat that cost a day: appdata files
+several rules under ONE number (09.07.01 is both "Desperate Escape Test" and "Desperate Escape"),
+so the corpus merges duplicates instead of keying a Map by number — the older code silently kept
+one and the other rule went untranscribed for a year.
 
 ## Adding content
 

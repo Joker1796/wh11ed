@@ -18,6 +18,8 @@
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
 //   - sync-faction-text — faction rule/stratagem/enhancement/ability PROSE vs the canon (errata drift)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
+//   - check-rule-omissions — THE GATE: appdata Core Rules text (a line, or one load-bearing word
+//     inside a line) that wh11ed does not carry. Non-zero exit; everything else here is report-only
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
 //     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
@@ -84,6 +86,10 @@ const faqStale = await run('factionFaq sidecar (--check)', './gen-faction-faq.mj
 const textsRuStale = await run('rosterTextsRu (--check)', './gen-roster-texts-ru.mjs', ['--check'])
 const modsDirty = await run('rosterModifiers (--check)', './gen-roster-modifiers.mjs', ['--check'])
 const rosterStale = await run('roster data (--check)', './gen-roster-data.mjs', ['--check'])
+// The gate goes FIRST: it is the one section of this audit that can fail, and it is three lines
+// long. Everything below it is a long report-only diff, and a verdict printed after 5000 lines of
+// those is a verdict nobody reads.
+const omissionsFailed = await run('check-rule-omissions (GATE)', './check-rule-omissions.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'])
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'])
 await run('sync-tracker', './sync-tracker.mjs')
@@ -107,4 +113,5 @@ if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node s
 if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
+if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — see the check-rule-omissions section (`npm run omissions`).')
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')
