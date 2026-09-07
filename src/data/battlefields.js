@@ -188,11 +188,11 @@ Units **A** and **C** are **visible** to each other, because even though this **
               sectionNum: '13.11.01',
               title: 'Gone to Ground',
               fromApp: true,
-              body: `**Hidden** models that are within **[gloss:solid:Solid terrain features]** gain an extra benefit while they have **gone to ground**.
+              body: `**Hidden** models that are concealed by **[gloss:dense-terrain:dense terrain features]** gain an extra benefit while they have **gone to ground**.
 
 A model has **gone to ground** while all of the following apply:
 ▪ That model is **hidden**.
-▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **[gloss:solid:Solid terrain features]**.
+▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **[gloss:dense-terrain:dense terrain features]**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 While a model has **gone to ground**, subtract 3" from that model's **detection range**.`,
               note: `Designer's Note: Units that made ranged attacks in the current or previous turn cannot **[gloss:go-to-ground:go to ground]**, regardless of any abilities that allow them to shoot and remain **hidden**.`,
@@ -706,11 +706,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           children: [
             {
               title: 'Залегание (Gone to Ground)',
-              body: `**Скрытные** (Hidden) модели, находящиеся внутри **[gloss:solid:сплошных элементов укрытий]**, получают дополнительное преимущество, пока они **[gloss:go-to-ground:залегли]**.
+              body: `**Скрытные** (Hidden) модели, укрытые **[gloss:dense-terrain:плотными элементами укрытий]**, получают дополнительное преимущество, пока они **[gloss:go-to-ground:залегли]**.
 
 Модель **[gloss:go-to-ground:залегла]**, пока выполняются все следующие условия:
 ▪ Эта модель **[gloss:hidden:скрытна]**.
-▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:solid:сплошных элементов укрытий]**.
+▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:dense-terrain:плотных элементов укрытий]**.
 ▪ Юнит этой модели не совершал одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
 Пока модель **залегла**, вычтите 3" из её **[gloss:detection-range:радиуса обнаружения]**.`,
               note: `Примечание дизайнера: Юниты, совершавшие дистанционные атаки в текущем или предыдущем ходу, не могут **[gloss:go-to-ground:залечь]**, независимо от любых способностей, позволяющих им стрелять и оставаться **[gloss:hidden:скрытными]**.`,
@@ -844,7 +844,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
 ◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
 ◈ ВО ВРЕМЯ СТРЕЛЬБЫ
 ▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).
-▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
+▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
 ▪ Вы не можете перебрасывать броски на попадание.
 ◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит не может **[gloss:action:начать действие]**.`,
         },
@@ -919,7 +919,7 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
             fields: [
               { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот **тип стрельбы**.' },
               { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
-              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски на попадание.' },
+              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **[gloss:visible:видимого]** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном **[gloss:hit-roll:броске на попадание]** 6 (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски на попадание.' },
               { label: 'ПОСЛЕ СТРЕЛЬБЫ', text: 'До конца фазы ваш юнит не может **[gloss:action:начать действие]**.' },
             ],
           },
