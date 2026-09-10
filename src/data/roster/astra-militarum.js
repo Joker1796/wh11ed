@@ -1895,7 +1895,7 @@ export default {
         {
           "m": 1,
           "t": 217,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               539
@@ -1916,10 +1916,16 @@ export default {
               554
             ]
           ],
+          "lim": [
+            [
+              5,
+              4,
+              1
+            ]
+          ],
           "rep": [
             503
-          ],
-          "repall": 1
+          ]
         },
         {
           "m": 1,
@@ -6060,7 +6066,7 @@ export default {
         {
           "m": 0,
           "t": 259,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               539
@@ -6078,10 +6084,16 @@ export default {
               607
             ]
           ],
+          "lim": [
+            [
+              5,
+              4,
+              1
+            ]
+          ],
           "rep": [
             604
-          ],
-          "repall": 1
+          ]
         },
         {
           "m": 0,

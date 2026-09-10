@@ -969,6 +969,61 @@ describe('every scaled allowance the corpus states is in the data', () => {
   })
 })
 
+// "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the
+// following" is FOUR picks, one per Scion — not one pick for the squad. appdata files it as a
+// checkbox with no limited-choice set, and a capless multi-option checkbox draws as a one-of radio,
+// so the editor allowed a single special weapon while validateRoster (which falls back to the
+// profile's model count) allowed four. A player reported it on 2026-09-10; the generator now reads
+// the wording into `lim` and marks the group a stepper.
+describe('a swap several models can each make', () => {
+  const unitOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
+  const headOf = (g) => (rosterItems.texts[g.t] || '').split('\n')[0]
+
+  it('gives every Tempestus Scion its own pick, and no weapon twice', () => {
+    const unit = unitOf('astra-militarum', 'militarum-tempestus-command-squad')
+    const gi = unit.gear.findIndex((g) => /^Any number of Tempestus Scions/i.test(headOf(g)))
+    expect(unit.gear[gi].in).toBe('stepper')
+    expect(unit.gear[gi].repall).toBeUndefined()
+    expect(wargearGroupCap(unit, { size: 0, count: 5 }, gi)).toEqual({ limit: 4, dup: 1 })
+  })
+
+  // The Carnifexes' list carries no no-duplicates footnote, so two of the same is legal — and the
+  // cap follows the bracket: one model, one pick; two models, two.
+  it('scales the Carnifex talon swap with the number of models', () => {
+    const unit = unitOf('tyranids', 'carnifexes')
+    const gi = unit.gear.findIndex((g) => /^Any number of models can each have their Carnifex extra/i.test(headOf(g)))
+    expect(unit.gear[gi].in).toBe('stepper')
+    expect(wargearGroupCap(unit, { size: 0, count: 1 }, gi)).toEqual({ limit: 1, dup: 0 })
+    expect(wargearGroupCap(unit, { size: 1, count: 2 }, gi)).toEqual({ limit: 2, dup: 0 })
+  })
+
+  // THE GUARDRAIL. Same shape, corpus-wide: an "any number of / all models … can each have …
+  // replaced with one of the following" group whose profile fields more than one model has to draw
+  // as a stepper — most already do, because appdata types them as one; the four the generator
+  // rewrites are the ones appdata calls a checkbox. A checkbox here is the bug, whichever side it
+  // comes from. Groups on a single-model profile (the Reiver Sergeant) are correctly a radio and
+  // are not in this set.
+  it('leaves no multi-model "each" swap drawn as a one-of', () => {
+    const uncapped = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        (u.gear || []).forEach((g, gi) => {
+          const head = (rosterItems.texts[g.t] || '').split('\n')[0]
+          if (!/^\s*(?:any number of|all models)\b/i.test(head) || !/\beach\b/i.test(head)) return
+          if (g.all || g.m == null || g.o.length < 2 || !g.rep?.length) return
+          const models = Math.max(...(u.sizes || []).map((s) => {
+            const comp = (s.comp || []).find(([mi]) => mi === g.m)
+            return comp ? (comp[2] ?? comp[1]) : (s.per?.[1] ?? s.per?.[0] ?? 1)
+          }))
+          const oneOf = g.in !== 'stepper' && !(g.lim?.length && Math.max(...g.lim.map((r) => r[1])) > 1)
+          if (models > 1 && oneOf) uncapped.push(`${slug}/${u.id} gi=${gi}: ${head.slice(0, 80)}`)
+        })
+      }
+    }
+    expect(uncapped).toEqual([])
+  })
+})
+
 // A swap that hands over two items at once is one option, and the generator reads the pairing out
 // of the group's own instruction. The instruction is typed by hand and can misspell an item its
 // own wargear row spells right, which used to split the pair into two independent options — a
