@@ -360,6 +360,10 @@ export default {
       'Crystal Matrix':
         'Каждый раз, когда эта модель выбирается для стрельбы, при отыгрыше этих атак вы можете перебросить один бросок попадания и один бросок ранения.',
     },
+    wargearAbilities: {
+      'Linked Fire':
+        'Выбирая цели для этого оружия, вы можете измерять дальность и определять видимость от другой дружественной модели FIRE PRISM, видимой носителю. Если вы так делаете, характеристика Attacks этого оружия равна 1.',
+    },
     loadout: `${EQUIP_THIS} prism cannon; twin shuriken catapult; wraithbone hull.`,
     options: ['twin shuriken catapult этой модели можно заменить на 1 shuriken cannon.'],
     damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },

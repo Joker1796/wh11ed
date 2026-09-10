@@ -4064,6 +4064,12 @@ export default [
       "note": "1-4 wounds remaining",
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Plasma Warhead",
+        "text": "The bearer can only shoot with this weapon in your Shooting phase, and only if it Remained Stationary this turn and you did not use its Deathstrike Missile ability to Designate Target or Adjust Target this phase. When the bearer shoots with this weapon, do not select a target. Instead, resolve this weapon’s attacks, rolling for each unit within 6\" of the centre of its Deathstrike Target marker individually."
+      }
+    ],
     "composition": [
       "1 Deathstrike"
     ],

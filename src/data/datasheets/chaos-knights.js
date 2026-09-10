@@ -97,6 +97,12 @@ export default [
       "note": "1-10 wounds remaining",
       "text": "While this model has 1-10 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 24\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
     "composition": [
       "1 Chaos Acastus Knight Asterius"
     ],
@@ -2462,6 +2468,12 @@ export default [
       "note": "1-5 wounds remaining",
       "text": "While this model has 1-5 wounds remaining, subtract 3 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
     "composition": [
       "1 War Dog Moirax"
     ],
