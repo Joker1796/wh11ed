@@ -968,3 +968,45 @@ and appdata state fresh; a data model can change between now and when this is ne
     already existed — `conditionalKeywords.json` through `grantedKeywordsFor`, which enhancement and
     Warlord eligibility had used all along. When one consumer of a fact is gated and another is not,
     that is the bug, whatever the numbers look like.
+56. **A three-way cross-check with only two edges is not a cross-check.** `sync-tracker` compared MFM
+    ↔ appdata on detachment `dp`/`forceDisposition` and had been clean for months. The third file —
+    the hand-authored `src/data/factions/<slug>.js` that renders the page — was in neither side of
+    it, and 63 values in 24 factions had drifted from a source both other files agreed on. A player
+    found one of them. When two generated files agree, ask what the reader is actually looking at,
+    and put THAT file in the comparison (`npm run detmeta`).
+57. **Match names through `norm()` before concluding a source does not carry something.** The first
+    sweep of that same drift declared six detachments "Faction-Pack-only, absent from MFM and
+    appdata" — Luminen Auto-choir, Serpent's Brood, Lion's Blade Task Force, Reaper's Wager,
+    Forgefather's Seekers, Emperor's Shield. All six are in the MFM; they are spelled with a curly
+    apostrophe, and one with different capitalisation. A verbatim `===` produced a confident,
+    documented, wrong exemption list — the same shape as the `norm()`-blind-to-case bug that put 77
+    unit names into `<h1>` (lesson 47).
+58. **A rendered tag is not a rendered rule.** `DatasheetCard` prints a weapon's tags with
+    `renderInline('[' + t + ']')`, which styles the text and looks up nothing. For the 22 core
+    abilities that is fine — they are all in `reference.js` — so nobody noticed that the other eight
+    ([PLASMA WARHEAD], [CONVERSION], …) were decoration over an empty definition. Their text was in
+    `tables/wargear_ability.json`, a table this repo did not read at all. `npm run wtags` now asks
+    the reader's question: for every tag printed, is there anywhere to read what it does?
+59. **The editor may not narrow what the validator allows.** "Any number of Tempestus Scions can each
+    have their hot-shot lasgun replaced with one of the following" is one pick per Scion, and
+    `validateRoster` (which falls back to the profile's model count) allowed four. `UnitEditorFields`
+    draws a capless multi-option checkbox as a RADIO, so only one could ever be clicked. The two
+    readings of the same group must come from the same place — the fix was in the generator, which
+    now reads that wording into `lim` and marks the group a stepper, so editor, validator and points
+    all read one fact. A guardrail test over the whole corpus goes with it, because the shape (four
+    groups today) is only ever a wording away from returning.
+60. **A rule can be on the sheet under a field you did not read.** Checking "which datasheets print
+    SUPREME COMMANDER" by looking at `rules[]` alone said four of the seventeen (Mortarion, Angron,
+    Magnus, Fulgrim) were missing it — and the "fix" added a second copy to all four, because the
+    plate was in `specialAbilities` the whole time. wh11ed spreads appdata's one `rules[]` list
+    across `rules`, `specialAbilities`, `abilities`, `wargearAbilities` and the structural
+    `transport`/`leader`. Read every field the data can legitimately use before writing anything,
+    and prefer a check that ASKS the app (localizeSheet, the card) over one that reads a field name.
+    Same shape as lesson 57, one field instead of one apostrophe.
+61. **"Not a bug, the rule doesn't exist" needs the same proof as a bug.** The 2026-09-10 analysis
+    told a player that no 11th-edition datasheet says "must be your Warlord" — `datasheet_rule.json`
+    has seventeen, Lord Solar Leontus among them. The player pushed back and was right. A negative
+    claim about the rules is a search result, and a search that finds nothing is exactly what a
+    search with the wrong table or the wrong casing looks like: grep the tables AND the faction
+    bundles, and say which file you looked in.
+
