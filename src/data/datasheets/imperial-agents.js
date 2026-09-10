@@ -631,6 +631,12 @@ export default [
         "text": "Once per battle, at the start of any Command phase, this model can use this ability. If it does, each enemy unit within 9\" of this model must take a Battle-shock test, subtracting 1 from that test (or subtracting 2 if that unit is a PSYKER)."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Psychic Assassin",
+        "text": "Each time you select a PSYKER unit as the target for this weapon, until those attacks are resolved, change the Attacks characteristic of this weapon to 6."
+      }
+    ],
     "composition": [
       "1 Culexus Assassin – EPIC HERO"
     ],

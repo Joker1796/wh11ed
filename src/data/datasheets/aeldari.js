@@ -2792,6 +2792,12 @@ export default [
       "note": "1-4 wounds remaining",
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Linked Fire",
+        "text": "When selecting targets for this weapon, you can measure range and determine visibility from another friendly FIRE PRISM model that is visible to the bearer. When doing so, this weapon has an Attacks characteristic of 1."
+      }
+    ],
     "composition": [
       "1 Fire Prism"
     ],

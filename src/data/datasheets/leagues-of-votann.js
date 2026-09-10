@@ -87,6 +87,12 @@ export default [
         "text": "Once per turn, in your Shooting phase, one model with this ability can use it when it is selected to shoot. If it does, you must spend 1YP and, until the end of the phase, ranged weapons equipped by that model have the [SUSTAINED HITS 1] ability and, after that model has shot this phase, if one or more enemy units were destroyed by those attacks, you can gain up to 2YP."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Overcharge",
+        "text": "Each time the bearer takes a Hazardous test for this weapon profile, subtract 2 from the result."
+      }
+    ],
     "composition": [
       "1 Arkanyst Evaluator"
     ],
@@ -444,6 +450,12 @@ export default [
       {
         "name": "Breaching Fire",
         "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the start of your next Shooting phase, that enemy unit cannot have the Benefit of Cover."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified Hit roll of 4+ scores a Critical Hit."
       }
     ],
     "composition": [
@@ -1482,6 +1494,10 @@ export default [
       {
         "name": "Panspectral Scanner",
         "text": "Each time a model in the bearer’s unit makes a ranged attack, re-roll a Hit roll of 1."
+      },
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified successful Hit roll of 4+ scores a Critical Hit."
       }
     ],
     "damaged": {

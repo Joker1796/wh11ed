@@ -1846,6 +1846,12 @@ export default [
       "note": "1-7 wounds remaining",
       "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Reverberating Summons",
+        "text": "Each time a model is destroyed by this weapon, you can select one friendly PLAGUEBEARERS unit within 12\" of the bearer and return 1 destroyed Plaguebearer model to that unit."
+      }
+    ],
     "composition": [
       "1 Great Unclean One"
     ],

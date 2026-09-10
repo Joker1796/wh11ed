@@ -140,3 +140,39 @@ describe('the RU overlay covers every datasheet', () => {
     expect(checked).toBeGreaterThan(4000) // the whole corpus really was walked
   })
 })
+
+// A player asked on 2026-09-10 why Lord Solar Leontus is not forced to be the Warlord. He is: the
+// rule is SUPREME COMMANDER, 17 datasheets carry it, and the list builder enforces it
+// (`flags.supreme` → `supremeCommanderNotWarlord`). Enforcement and the page a player reads have to
+// agree — a `flags.supreme` unit whose sheet says nothing would refuse the list without explaining
+// why — so this ties the two together. The plate sits in `rules` on 13 sheets and in
+// `specialAbilities` on the four Daemon Primarchs; a check that reads only one of those fields
+// reports four phantom gaps (it did, mid-fix, and the "fix" duplicated the rule on all four).
+describe('SUPREME COMMANDER is printed wherever the builder enforces it', () => {
+  it('every flags.supreme unit says so on its datasheet, in both languages', async () => {
+    const rosterModules = import.meta.glob(['../roster/*.js', '!../roster/*.test.js'])
+    const missing = []
+    for (const [file, load] of Object.entries(rosterModules)) {
+      const slug = file.replace('../roster/', '').replace('.js', '')
+      if (['index', 'items', 'core'].includes(slug)) continue
+      const faction = (await load()).default
+      const supreme = (faction.units || []).filter((u) => u.flags?.supreme)
+      if (!supreme.length) continue
+      const sheets = await loadDatasheets(slug)
+      for (const u of supreme) {
+        const sheet = sheets.find((d) => d.id === u.id)
+        const plates = [...(sheet?.rules || []), ...(sheet?.specialAbilities || []), ...(sheet?.abilities || [])]
+        const rule = plates.find((r) => /must be your\s+warlord/i.test(r.text || ''))
+        if (!rule) { missing.push(`${slug}/${u.id}`); continue }
+        // …and the RU side resolves without a per-faction overlay: the plate is the same sentence
+        // everywhere, so ru/index.js's SHARED_RULE_TEXTS answers for it. A sheet worded differently
+        // (Ghazghkull, the Silent King, the Patriarch) carries its own overlay text instead.
+        const ru = localizeSheet(sheet, (await loadDatasheetsRu(slug))?.default?.[u.id] || {}, {})
+        const ruPlates = [...(ru.rules || []), ...(ru.specialAbilities || []), ...(ru.abilities || [])]
+        const ruRule = ruPlates.find((r) => /warlord/i.test(r.text || ''))
+        if (!ruRule || ruRule.text === rule.text) missing.push(`${slug}/${u.id} (RU)`)
+      }
+    }
+    expect(missing).toEqual([])
+  })
+})

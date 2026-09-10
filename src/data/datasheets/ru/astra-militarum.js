@@ -521,6 +521,10 @@ export default {
       'Deathstrike Missile':
         'В вашей фазе стрельбы, каждый раз, когда эта модель выбирается для стрельбы, если она ещё не стреляла своей Deathstrike missile в эту битву, вы можете сделать одно из следующего в дополнение к отыгрышу дальнобойных атак этой модели:\n▪ **Designate Target:** Если у этой модели нет маркера Deathstrike Target на поле боя, поместите уникальный маркер Deathstrike Target для этой модели где угодно на поле боя.\n▪ **Adjust Target:** Если у этой модели есть маркер Deathstrike Target на поле боя, переместите этот маркер в любое другое место на поле боя.',
     },
+    wargearAbilities: {
+      'Plasma Warhead':
+        'Носитель может стрелять из этого оружия только в вашей фазе стрельбы и только если в этот ход он остался недвижим (Remained Stationary) и вы не использовали его способность Deathstrike Missile, чтобы Designate Target или Adjust Target в этой фазе. Когда носитель стреляет из этого оружия, не выбирайте цель. Вместо этого отыграйте атаки этого оружия, бросая кубики отдельно за каждый юнит в пределах 6" от центра его маркера Deathstrike Target.',
+    },
     loadout: `${EQUIP_THIS} Deathstrike missile; heavy bolter; armoured tracks.`,
     options: [
       'heavy bolter этой модели можно заменить на 1 heavy flamer.',

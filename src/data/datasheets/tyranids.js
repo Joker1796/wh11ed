@@ -2158,6 +2158,12 @@ export default [
       "note": "1-5 wounds remaining",
       "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Harpooned",
+        "text": "When this unit declares a charge, if an enemy MONSTER/VEHICLE unit is within 12\" of this unit and was hit by an attack made by this weapon this turn, you can use this ability. If you do:\n▪ This unit has +2 to charge rolls until the end of the phase.\n▪ This unit must end that charge move engaged with that MONSTER/VEHICLE unit."
+      }
+    ],
     "composition": [
       "1 Norn Assimilator"
     ],

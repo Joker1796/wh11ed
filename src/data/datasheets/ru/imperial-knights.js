@@ -36,6 +36,10 @@ const CARAPACE_OPTION =
 
 export default {
   'sir-hekhtur': {
+    rules: {
+      'USING SIR HEKHTUR':
+        'Если ваша модель Canis Rex уничтожена, эта модель считается моделью, высаживающейся из уничтоженного TRANSPORT, и обязана совершить Emergency Disembarkation. Sir Hekhtur не может быть выбран целью ваших стратагем, кроме Core Stratagems. Ваш юнит Canis Rex не считается уничтоженным, пока не уничтожен и Sir Hekhtur.',
+    },
     // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
     aliasesRu: ['Гектур', 'Сэр Гектур'],
     flavor:
@@ -50,6 +54,10 @@ export default {
     flavor:
       'Как и его сородич Porphyrion, гигантский Acastus Knight Asterius — реликт утраченной технологической эпохи. Вооружённый парой twin conversion beam cannon, karacnos mortar battery и двумя volkite culverin, Asterius способен проламывать стены могучих крепостей и очищать бастионы градом фугасов, а его толстая бронированная шкура делает его почти неуязвимым для оружейного огня.',
     abilities: { 'Sunderer of Fortresses': SUNDERER },
+    wargearAbilities: {
+      'Conversion':
+        'Каждый раз, когда этим оружием совершается атака, если цель находится более чем в 24" от носителя, немодифицированный успешный бросок попадания 4+ считается критическим попаданием.',
+    },
     damaged: { note: 'осталось 1–10 ран', text: dmg('1–10', 5) },
     loadout:
       '**Эта модель вооружена:** 2 Asterius volkite culverins; karacnos mortar battery; 2 twin conversion beam cannons; titanic feet.',
@@ -86,6 +94,10 @@ export default {
     flavor:
       'Если более крупные породы Knight заточены под лобовые штурмы, охоту на танки и пролом крепостей, то меньший и более проворный Armiger Moirax — прирождённый застрельщик, что вырывается вперёд неповоротливых боевых машин и добивает уязвимые цели. Armiger Moirax можно оснастить рядом эзотерических энергетических орудий — крайне действенных, но почти невозможных для замены или ремонта.',
     abilities: { 'Protection Protocols': PROTECTION_PROTOCOLS },
+    wargearAbilities: {
+      'Conversion':
+        'Каждый раз, когда атака этим оружием нацеливается на вражеский юнит, который не находится в пределах 12", немодифицированный бросок попадания 4+ считается критическим попаданием.',
+    },
     damaged: { note: 'осталось 1–5 ран', text: dmg('1–5', 3) },
     loadout:
       '**Эта модель вооружена:** graviton pulsar; volkite veuglaire; armoured feet.',
@@ -109,6 +121,10 @@ export default {
   },
 
   'canis-rex': {
+    rules: {
+      'USING SIR HEKHTUR':
+        'Если ваша модель Canis Rex уничтожена, эта модель считается моделью, высаживающейся из уничтоженного TRANSPORT, и обязана совершить Emergency Disembarkation. Sir Hekhtur не может быть выбран целью ваших стратагем, кроме Core Stratagems. Ваш юнит Canis Rex не считается уничтоженным, пока не уничтожен и Sir Hekhtur.',
+    },
     // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
     aliasesRu: ['Канис Рекс'],
     flavor:
@@ -221,6 +237,10 @@ export default {
         'Пока на модель действует эта способность, каждый раз, когда атака распределяется по этой модели, вычтите 1 из характеристики Урона (Damage) этой атаки.',
       'Selfless Protector':
         'Каждый раз, когда атака дальнего боя распределяется по модели Imperial Knights из вашей армии, если эта модель не полностью видима каждой модели атакующего юнита из-за этой модели Knight Defender, эта модель имеет преимущество укрытия и неуязвимый спас-бросок 4+ против этой атаки.',
+    },
+    wargearAbilities: {
+      'Conversion':
+        'Каждый раз, когда этим оружием совершается атака, если цель находится более чем в 18" от носителя, немодифицированный успешный бросок попадания 4+ считается критическим попаданием.',
     },
     damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
