@@ -923,7 +923,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
       name: 'Haloscreed Battle Clade',
       source: 'faction-pack',
       dp: 3,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: 'Noospheric Transference',
         flavor:

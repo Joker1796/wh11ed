@@ -38,7 +38,7 @@ For the purposes of determining which models can embark within a Transport model
       name: "Black Spear Task Force",
       source: 'faction-pack', // index pack — printed in the pack
       dp: 3,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Purge the Foe",
       rule: {
         name: "Mission Tactics",
         flavor: "Thousands of years of collated strategic data and hard-won combat experience have provided the Deathwatch with the ultimate battlefield tactics to combat almost any foe.",

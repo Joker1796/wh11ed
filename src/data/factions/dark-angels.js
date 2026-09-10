@@ -545,7 +545,7 @@ Friendly Adeptus Astartes Mounted have:
       name: 'Interrogation Conclave',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       rule: {
         name: 'Dread Catechism',
         flavor:

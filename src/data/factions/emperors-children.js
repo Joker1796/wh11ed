@@ -36,7 +36,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Carnival of Excess",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Disruption",
       rule: {
         name: "Daemonic Empowerment",
         flavor: "Where the Emperor’s Children indulge their obsession, the power ofSlaanesh empowers those in his thrall.",
@@ -143,7 +143,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Coterie of the Conceited",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Pledges to the Dark Prince",
         flavor: "Few appear as favoured by the Dark Prince as these warriors, their boons of power a reward for committing ever viler deeds in honour of their patron.",
@@ -850,7 +850,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Frenzied Host",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Frantic Focus",
         flavor: "Seeming to be everywhere at once, bands of Infractors and Tormentors seek to embrace all the sensations the battlefield can offer, never relenting for a moment.",
@@ -912,7 +912,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       name: "Spectacle of Slaughter",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Disruption",
       rule: {
         name: "Entitled to Victory",
         flavor: "So certain are the Flawless Blades in their arrogant pre-eminence, so sure they have already won before the first blow is struck, that they are filled with swift assurance that no foe can match.",

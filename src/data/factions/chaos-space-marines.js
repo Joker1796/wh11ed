@@ -1223,7 +1223,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Soulforged Warpack",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Debt to the Soul Forge",
         flavor: "Many are the daemons who have forged pacts with Vashtorr the Arkifane. Once bound into such a contract, a soul debt must be paid, one that the daemon strives endlessly, and with all its desperation, to fulfil.",
@@ -1672,7 +1672,7 @@ The combined points value of such units you can include in your army depends on 
       name: "Murdertalon Raiders",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Reconnaissance",
       unique: "NIGHTMARE",
       rule: {
         name: "Prey on the Weak",

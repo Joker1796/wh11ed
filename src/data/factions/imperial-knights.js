@@ -60,7 +60,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Freeblade Company",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Knights of Legend",
         flavor: "Warriors such as these are truly indomitable. Driven on by deadly oaths, bolstered by ancient technology or shimmering with supernatural energies, they stride through the most punishing firestorms to emerge victorious on the other side.",
@@ -167,7 +167,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Gate Warden Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Dauntless Defenders",
         flavor: "With a rigid, strategic intuition born of the unyielding fortifications defended by their ancestors, the Nobles of a Gate Warden Lance hold their ground with an arrogant superiority. While even one defends the marches of their claimed realm, they will fight to the ends of their honour to hurl back the besiegers.",
@@ -597,7 +597,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Dominus Foebreakers",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Rain of Devastation",
         flavor: "Packing together within the confines of cover might work against small arms, but in the face of Dominus-class Knights, it only serves to concentrate and magnify the fury of their firepower.",

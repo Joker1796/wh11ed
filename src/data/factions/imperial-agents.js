@@ -39,8 +39,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "imperialis-fleet",
       name: "Imperialis Fleet",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Disruption",
+      dp: 2,
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "At all Costs",
         flavor: "While the nature of the missions undertaken by Imperial agents is as varied as they are, the vital importance of these tasks rarely changes. The enemies they face are the most unholy. The prizes they seek are as priceless as they are nightmarishly dangerous. Thus, when such warriors of the Imperium identify a priority target for elimination or acquisition, no effort is too great nor price too high to see their aims achieved.",
@@ -146,8 +146,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-hereticus-purgation-force",
       name: "Ordo Hereticus, Purgation Force",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Purge the Foe",
+      dp: 2,
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Root out Heresy",
         flavor: "No matter how cunningly their heretical prey hides, they cannot escape the zealous retribution of the Ordo Hereticus.",
@@ -254,7 +254,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-malleus-daemon-hunters",
       name: "Ordo Malleus, Daemon Hunters",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
         name: "Destroy the Daemonic",
@@ -362,7 +362,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-xenos-alien-hunters",
       name: "Ordo Xenos, Alien Hunters",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {
         name: "Deathwatch Mission Tactics",
@@ -469,8 +469,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "veiled-blade-elimination-force",
       name: "Veiled Blade Elimination Force",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
-      dp: 3,
-      forceDisposition: "Reconnaissance",
+      dp: 1,
+      forceDisposition: "Disruption",
       rule: {
         name: "Extremis Sanction",
         flavor: "When pursuing an extremis-level target, the agents of the Officio Assassinorum are expected to push their altered minds and bodies beyond the limits of endurance. Additional equipment, augmentation and ammunition may be provided to complete the task.",

@@ -76,7 +76,7 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
       name: 'Warhost',
       source: 'codex',
       dp: 3,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Reconnaissance',
       rule: {
         name: 'Martial Grace',
         flavor:
@@ -1384,7 +1384,7 @@ This detachment has the **ACROBATIC** tag and cannot be taken with another **ACR
       name: 'Eldritch Raiders',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: "Yriel's Own",
         flavor:

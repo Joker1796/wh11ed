@@ -158,8 +158,8 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       id: "bringers-of-flame",
       name: "Bringers of Flame",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Purge the Foe",
+      dp: 2,
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Fervent Purgation",
         flavor: "These warriors carry the fiery wrath of the Emperor into the darkest corners of his realm. Through the weapons of the faithful is the Master of Mankind’s immortal anger made manifest. With the holy trinity of boltgun, flamer and melta weapons are his enemies purged from the lmperium’s worlds.",
@@ -481,7 +481,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       name: "Penitent Host",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Take and Hold",
+      forceDisposition: "Purge the Foe",
       rule: {
         name: "Desperate for Redemption",
         flavor: "The penitent masses vow to wash clean their dishonour with their foe’s blood.",
@@ -716,7 +716,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       name: "Sanctified Orators",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Disruption",
       rule: {
         name: "Hymns of Battle",
         flavor: "On the battlefield, the faithful warriors of the Adepta Sororitas heed the stirring hymns recited by their commanders, whose inspirational words stoke their righteous fervour.",

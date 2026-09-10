@@ -276,7 +276,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Ironstorm Spearhead',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       rule: {
         name: 'Armoured Wrath',
         flavor:
@@ -378,7 +378,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Firestorm Assault Force',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: 'Close-range Eradication',
         flavor:
@@ -677,7 +677,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: '1st Company Task Force',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Extremis-level Threat',
         flavor:
@@ -777,7 +777,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Fulguris Task Force',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Reconnaissance',
       rule: {
         name: 'Skystrike',
         flavor:
@@ -895,7 +895,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Subversion Assets',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDisposition: 'Disruption',
       rule: {
         name: 'Nowhere to Hide',
         flavor:
@@ -1381,7 +1381,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
       source: 'faction-pack',
       chapter: 'Iron Hands',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Calculated Annihilation',
         flavor:
@@ -1590,7 +1590,7 @@ Restrictions: Your army can include White Scars units, but it cannot include any
       source: 'faction-pack',
       chapter: 'Salamanders',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: "Vulkan's Quest",
         flavor:
@@ -1696,7 +1696,7 @@ Restrictions: Your army can include Salamanders units, but it cannot include any
       source: 'faction-pack',
       chapter: 'Imperial Fists',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Wrath of Dorn',
         flavor:
