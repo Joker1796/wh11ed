@@ -471,7 +471,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
       name: "Champions of Fenris",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "The Great Wolf Watches",
         flavor: "The battle-brothers of this Great Company know what their lord expects of them and stand ready to pounce the moment the foe are fool enough to stray within range.",

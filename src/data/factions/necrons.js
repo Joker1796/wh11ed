@@ -1186,7 +1186,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Lokhust D
       name: 'Pantheon of Woe',
       source: 'faction-pack',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Disruption',
       rule: {
         name: 'Cosmic Distortion',
         flavor:

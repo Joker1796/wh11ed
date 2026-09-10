@@ -153,7 +153,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       id: "combined-arms",
       name: "Combined Arms",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Take and Hold",
       rule: {
         name: "Born Soldiers",
@@ -476,7 +476,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       name: "Mechanised Assault",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Armoured Fist",
         flavor: "Astra Militarum mechanised forces combine heavy armour with elite infantry. Reliant on speed and short-ranged firepower, the armoured spearhead hurtles through the enemy line and deploys its cargo of shock troops to cut the enemy down with volleys of lasgun fire.",

@@ -574,7 +574,7 @@ const en = {
       name: "Warpbane Task Force",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Hallowed Ground",
         flavor: "Purging corrupted nodes of Warp energy, the Grey Knights establish an ever-expanding area of hallowed ground within which their psychic powers and indomitable resolve are greatly enhanced.",
@@ -682,7 +682,7 @@ const en = {
       name: "Argent Assault",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Dauntless Champions",
         flavor: "To be a Paladin of the Grey Knights is to do battle with the greatest and most terrible enemies and yet emerge victorious, no matter the odds.",
@@ -808,7 +808,7 @@ const en = {
       name: "Immaterial Interdiction",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Echojump",
         flavor: "Pushing their esoteric wargear to its limits, Interceptors are able to make secondary, shorter personal teleportation jumps, effectively skimming the very surface of the Immaterium to respond all the more quickly to developing threats.",

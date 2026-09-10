@@ -695,7 +695,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       name: "Contagion Engines",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Warped and Rusted Animus",
         flavor: "For all their slow degeneration, many of the Death Guard\u2019s war machines are augmented with a fevered and inexorable urgency that brings their corrupted weapons to bear upon the foe all too quickly.",

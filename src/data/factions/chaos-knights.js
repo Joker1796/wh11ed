@@ -272,7 +272,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Infernal Lance",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Malefic Surge",
         flavor: "Calling upon heretical - often supernatural - powers, these Knights are infused with strange and terrible might.",
@@ -379,7 +379,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Lords of Dread",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Tyrannical Court",
         flavor: "Every one of these egomaniacal warriors seeks to claim all the battlefield glory for themselves, at any cost.",
@@ -606,7 +606,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       name: "Bastions of Tyranny",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Annihilate the Unworthy",
         flavor: "The withering arsenal of cursed weaponry available to a Knight Tyrant is turned with the cruellest focus upon those its scion despises for their weakness of spirit.",

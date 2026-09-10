@@ -583,7 +583,7 @@ const en = {
       name: "Brazen Engines",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Disruption",
       unique: "ONSLAUGHT",
       rule: {
         name: "Rampaging Terrors",
@@ -648,7 +648,7 @@ const en = {
       name: "Butchers of Khorne",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Adamantine Avalanche",
         flavor: "Hurling themselves into battle with savage ferocity, the sheer armoured bulk of the World Eaters\u2019 Terminator elites is enough to shatter armour and crush bone.",

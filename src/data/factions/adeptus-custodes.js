@@ -497,7 +497,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       name: 'Might of the Moritoi',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       unique: 'ARMOURY',
       rule: {
         name: 'March of the Honoured Dead',

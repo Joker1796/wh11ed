@@ -757,7 +757,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       name: "Lords of the Warp",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Loci of Power",
         flavor: "Seething with the baleful energies of the Immaterium, the dark nobility of the daemon legions manifest as living icons of their gods\u2019 powers burned into the very flesh of realspace.",

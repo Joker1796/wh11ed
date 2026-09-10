@@ -47,7 +47,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Kauyon",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Patient Hunter",
         flavor: "The tactical philosophy known as the Kauyon allows for T’au commanders to draw the enemy into a deadly trap, springing it at the perfect moment to deliver a storm of fatal strikes against which none can escape.",
@@ -263,7 +263,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Mont’ka",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Killing Blow",
         flavor: "Mont’ka is the most aggressive style of T’au warfare. Its singular focus is the art of identifying a target of opportunity and attacking it swiftly with an overwhelming application of force.",
@@ -369,7 +369,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       id: "retaliation-cadre",
       name: "Retaliation Cadre",
       source: 'codex',
-      dp: 2,
+      dp: 3,
       forceDisposition: "Purge the Foe",
       unique: "BATTLESUIT",
       rule: {
