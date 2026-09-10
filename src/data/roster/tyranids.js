@@ -194,7 +194,7 @@ export default {
         {
           "m": 0,
           "t": 933,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2399
@@ -212,15 +212,24 @@ export default {
               2403
             ]
           ],
+          "lim": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ],
           "rep": [
             2398
-          ],
-          "repall": 1
+          ]
         },
         {
           "m": 0,
           "t": 934,
-          "in": "checkbox",
+          "in": "stepper",
           "o": [
             [
               2399
@@ -232,10 +241,19 @@ export default {
               2403
             ]
           ],
+          "lim": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ],
           "rep": [
             2397
-          ],
-          "repall": 1
+          ]
         },
         {
           "m": 0,

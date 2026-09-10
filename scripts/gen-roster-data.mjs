@@ -328,7 +328,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1795,6 +1795,44 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }))
     if (copies > 1) { d.cp = copies; report.limit.perCopy++ }
   }
+  // "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the
+  // following" — one pick per MODEL of that profile, not one pick for the unit. appdata files it as
+  // a checkbox with no limited-choice set, and the editor draws a capless multi-option checkbox as
+  // a RADIO: one Scion with a meltagun and the other three stuck with lasguns, while validateRoster
+  // (which falls back to the profile's model count) called four legal. A player reported exactly
+  // that on 2026-09-10. The allowance is the profile's own model count — which is what the step
+  // table says properly — so state it, and let the group be the stepper it always was.
+  //
+  // This is NOT `repall`, which is one tick reaching every model of the profile. That reading is
+  // right where the profile fields a single model ("All models in this unit can each have their
+  // combat knife replaced…" on a Reiver Sergeant, where the two coincide) and wrong the moment
+  // several models can each pick something DIFFERENT — which is what a multi-option list means.
+  // Groups whose profile count is a RANGE the player sets ("5-9 Reivers") are left alone: a step
+  // table keyed on the unit's size cannot express "however many of them you took".
+  for (const d of drafts) {
+    if (d.lim || d.in === 'stepper' || d.all || d.m == null || d.opts.length < 2 || !d.rep?.length) continue
+    const first = d.text.split('\n')[0]
+    if (!/^\s*(?:any number of|all models)\b/i.test(first) || !/\beach\b/i.test(first)) continue
+    const rows = []
+    for (const s of unit.sizes || []) {
+      const comp = (s.comp || []).find(([mi]) => mi === d.m)
+      const own = comp
+        ? (comp.length > 2 ? null : comp[1])
+        : (s.per?.[0] === s.per?.[1] ? s.per[0] : null)
+      if (own == null) { rows.length = 0; break }
+      const at = s.per?.[0] ?? 0
+      if (!rows.length || rows[rows.length - 1][1] !== own) rows.push([at, own])
+    }
+    // Nothing to fix where every bracket fields one model of the profile: a one-of radio is what
+    // one model gets, and that is already what it draws.
+    if (!rows.length || rows.every(([, n]) => n <= 1)) continue
+    // "You cannot select the same weapon from this list more than once per unit" is the footnote
+    // form of the duplicate cap, and it is the reason these lists are longer than the squad.
+    const dup = /more than once per unit/i.test(d.text) || proseNoDuplicates(d.text) ? 1 : 0
+    d.lim = rows.map(([n, c]) => (dup ? [n, c, dup] : [n, c]))
+    d.in = 'stepper'
+    report.limit.perModelEach.push(`${bd.name}: ${JSON.stringify(d.lim)} — ${first.slice(0, 70)}`)
+  }
   const gear = []
   const gearIndex = new Map() // draft -> its final index in `gear`
   drafts.forEach((d, i) => gearIndex.set(d, i))
@@ -2362,6 +2400,10 @@ if (lm.conflict.length) {
 }
 // appdata's table kept, ours discarded — but named, because a step form we read differently from
 // the table written off the same sentence is how a future data drop would quietly change a cap.
+if (lm.perModelEach.length) {
+  console.log(`  read "any number of X can each have…" as one pick per model of that profile (${lm.perModelEach.length}), drawn as a stepper instead of a one-of radio:`)
+  for (const c of lm.perModelEach) console.log(`    - ${c}`)
+}
 if (lm.scaledDrift.length) {
   console.log(`  kept appdata's table over the instruction's own step form (${lm.scaledDrift.length}):`)
   for (const c of lm.scaledDrift) console.log(`    - ${c}`)
