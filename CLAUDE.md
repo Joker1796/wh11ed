@@ -88,6 +88,9 @@ npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE
 npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
 npm run omissions    # GATE: fail when appdata's Core Rules say something wh11ed's transcription does not (see Data gates)
 npm run parity       # GATE: EN↔RU parity — faction data AND the rulebook files (see Data gates)
+npm run detmeta      # GATE: a faction page's detachment dp / Force Disposition vs the MFM (see Data gates)
+npm run wtags        # GATE: every weapon tag printed on a datasheet must have text somewhere (see Data gates)
+npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
@@ -275,6 +278,11 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 - **Bold (`**…**`):** game terms are emphasized wherever the official PDF emphasizes them, in **both** languages. Do not bold things the renderer already bolds (ALL-CAPS keywords, `◈ LABEL |` info-card labels) or anything inside `seeAlso` refs / image paths. `### h4` headings render through `renderInline` too, so inline markup (`**bold**`, `[KEYWORD]`, cross-refs) works there — `**…**` adds emphasis on top of the heading's own (CSS) weight; only use it where the PDF emphasizes a term within the heading.
 - **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes. **`npm run parity` now enforces this on the rulebook files too** (it used to cover faction data only): block markers, `[BRACKET]` abilities, measurements (`3"`, `D6`, `4+`, `+1`) and ALL-CAPS keywords must match EN↔RU, and every EN field must have RU text. Rule cross-references (`09.07`) deliberately are not compared — each locale points where its own layout needs. Notes (`**` counts) are summarised; `--notes` lists them.
 - **RU transliteration:** follow the source's apostrophes, using the typographic `’` (U+2019) — `Kauyon` → «кауйон» (none), `Mont’ka` → «монт’ка», `T'au` → «т’ау». Latin forms inside RU text keep their own (`T'au Empire`, the `T'AU EMPIRE` keyword). These match the Russian community's translation guide; that guide covers Black Library prose, so it applies to **flavour text and transliteration only** and never overrides the rule above that unit/detachment/stratagem names and ALL-CAPS keywords stay English. Settled cases are recorded here as they're decided — that's the source of truth for this repo.
+  - `Scion` → «**сцион**», never «скион» (decided 2026-09-10). Every inflection follows the same
+    stem: «сциона», «сционы», «Сционов». It covers both senses the corpus uses — a Knight's pilot
+    and Tempestus Scions in prose — and it overrides the community guide, which renders the word
+    «отпрыск». As always this is transliteration for **prose only**: the unit is still
+    `Tempestus Scion` in EN, and unit/keyword names stay English in RU text.
 - **Astra Militarum `Order`/`Orders`** (the Voice of Command mechanic) are translated as «приказ»/«приказы», unlike named mechanics such as Space Marines' Combat Doctrine which stay English — decided 2026-07-22. Specific order names (`Move! Move! Move!`, `Take Aim!`, …) stay English and bold in the ability's own listing, or in «guillemets» when referenced from prose elsewhere. Glossed via `[gloss:am-order:…]` (`src/data/glossary.js`) on the first occurrence in the army rule body and the first occurrence in each detachment (rule/stratagems/enhancements combined) — not every occurrence.
 
 > **Maintainers only.** The guide itself lives in `wh-glossary`, a **private** reference repo (34k EN→RU pairs extracted from the community's docx). It is not public and contributors neither have nor need it — nothing in this repo depends on it, and decisions from it land in this file. If you do have it cloned alongside: **grep it, never read it whole** — `grep -iP '^Kauyon\t' ../wh-glossary/terms/*.tsv`, conventions in its `conventions.md`.
@@ -301,9 +309,10 @@ columns. That is the only screen with a width of its own — `main-content--desk
 
 ## Data gates
 
-Two checks fail the build rather than printing a report. Both exist because the same class of bug
-reached a player: 09.07 Fall-back Move lost the word "shoot" in June and stayed wrong until
-September, even though `sync-core` printed it as a finding on every single run — one of 287.
+Five checks fail the build rather than printing a report. Every one of them exists because a player
+found the bug first: 09.07 Fall-back Move lost the word "shoot" in June and stayed wrong until
+September even though `sync-core` printed it on every run — one finding among 287 — and on
+2026-09-10 the same reader-before-gate pattern produced the two below it.
 
 - **`npm run omissions`** (`scripts/check-rule-omissions.mjs`) — the ONE direction that is always a
   defect: appdata's Core Rules carry text wh11ed does not. It reports two shapes — a *dropped word*
@@ -317,7 +326,33 @@ September, even though `sync-core` printed it as a finding on every single run �
   `eventCompanion`, reference.js §24, `glossary.js`) was added when it turned out nothing enforced
   the parity rule this file has always stated. See Bilingual content conventions.
 
-Both share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
+- **`npm run detmeta`** (`scripts/check-detachment-meta.mjs`) — a detachment's `dp` /
+  `forceDisposition` in the hand-authored `src/data/factions/<slug>.js` against `src/data/mfm/`.
+  `sync-tracker`'s `detachments` category compares MFM ↔ appdata and had been clean for months; the
+  page the player actually reads was in neither side of it, and 63 values across 24 factions had
+  drifted. The MFM wins — every faction file's own header says so. RU overlays carry neither field,
+  so there is nothing to mirror. A Faction-Pack-only detachment (none today) is exempted by name in
+  the script's `PACK_ONLY` table; match names through `norm()`, never verbatim, before concluding
+  the MFM does not carry one.
+- **`npm run wtags`** (`scripts/check-weapon-abilities.mjs`) — every weapon ability tag printed on a
+  datasheet must have text a player can reach: either the Core Rules list in `reference.js`, or an
+  ability on the datasheet that prints it. Eight had neither — `[PLASMA WARHEAD]`, `[CONVERSION]`
+  and six more — because `DatasheetCard` renders tags as decorated text with no lookup behind them.
+  A datasheet-only ability belongs in that sheet's `wargearAbilities`, EN + RU; its text is in
+  appdata's `tables/wargear_ability.json`, reached through `wargear_item_profile_wargear_ability`
+  (the same ability name carries different ranges on different weapons, so match per weapon).
+
+- **`npm run dsrules`** (`scripts/check-datasheet-rules.mjs`) — appdata's per-datasheet `rules[]`
+  against ours. It was in nobody's diff: `sync-appdata` compares `abilities`, and
+  `sync-faction-text` compares the TEXT of rules that exist on both sides, so a rule never
+  transcribed matched nothing and was skipped. Canis Rex and Sir Hekhtur were missing "Using Sir
+  Hekhtur" outright. **wh11ed spreads appdata's `rules[]` across `rules`, `specialAbilities`,
+  `abilities` and `wargearAbilities`, plus the structural `transport`/`leader`** — read every one of
+  those before calling a rule missing. A check that read only `rules` reported four phantom gaps on
+  the Daemon Primarchs, whose SUPREME COMMANDER sits in `specialAbilities`, and "fixing" those
+  duplicated the plate on all four sheets.
+
+The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files
 several rules under ONE number (09.07.01 is both "Desperate Escape Test" and "Desperate Escape"),
 so the corpus merges duplicates instead of keying a Map by number — the older code silently kept

@@ -20,6 +20,13 @@
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
 //   - check-rule-omissions — THE GATE: appdata Core Rules text (a line, or one load-bearing word
 //     inside a line) that wh11ed does not carry. Non-zero exit; everything else here is report-only
+//   - check-detachment-meta — THE OTHER GATE: a faction rules page's detachment dp /
+//     forceDisposition vs the MFM (the surface sync-tracker's MFM↔appdata diff never looked at).
+//     Non-zero exit
+//   - check-weapon-abilities — GATE: every weapon tag printed on a datasheet ([BLAST],
+//     [PLASMA WARHEAD], …) must have text either in reference.js or on that datasheet. Non-zero exit
+//   - check-datasheet-rules — GATE: a named rule appdata files on a datasheet (SUPREME COMMANDER,
+//     "Using Sir Hekhtur", …) must be carried somewhere on wh11ed's sheet. Non-zero exit
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
 //     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
@@ -90,6 +97,9 @@ const rosterStale = await run('roster data (--check)', './gen-roster-data.mjs', 
 // long. Everything below it is a long report-only diff, and a verdict printed after 5000 lines of
 // those is a verdict nobody reads.
 const omissionsFailed = await run('check-rule-omissions (GATE)', './check-rule-omissions.mjs')
+const detMetaFailed = await run('check-detachment-meta (GATE)', './check-detachment-meta.mjs')
+const wTagsFailed = await run('check-weapon-abilities (GATE)', './check-weapon-abilities.mjs')
+const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datasheet-rules.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'])
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'])
 await run('sync-tracker', './sync-tracker.mjs')
@@ -114,4 +124,7 @@ if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run 
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
 if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — see the check-rule-omissions section (`npm run omissions`).')
+if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
+if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
+if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing from ours (`npm run dsrules`).')
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')
