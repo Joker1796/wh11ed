@@ -1,7 +1,12 @@
 <template>
   <div class="group-label-block">
-    <div class="group-label-title">{{ title }}</div>
-    <p class="group-label-body" v-html="renderedBody"></p>
+    <div class="group-label-title">
+      {{ title }}
+    </div>
+    <p
+      class="group-label-body"
+      v-html="renderedBody"
+    />
   </div>
 </template>
 

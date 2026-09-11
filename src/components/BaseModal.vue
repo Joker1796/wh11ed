@@ -5,35 +5,60 @@
        ancestor's context and can end up rendered under unrelated fixed UI (e.g. the
        tracker's "resume game" bar) despite nominally having a higher z-index. -->
   <Teleport to="body">
-  <!-- Enter-only transition (`appear` — consumers mount the modal with their own v-if).
+    <!-- Enter-only transition (`appear` — consumers mount the modal with their own v-if).
        Close stays instant: a leave phase would have to outlive the consumer's v-if and
        would race useModalA11y's focus restore. -->
-  <Transition name="modal" appear>
-  <div class="modal-overlay" :style="{ zIndex }" @click.self="$emit('close')">
-    <div
-      ref="root"
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      :aria-labelledby="title ? titleId : undefined"
-      tabindex="-1"
-      :style="{ '--modal-max-w': maxWidth, '--modal-max-h': maxHeight }"
+    <Transition
+      name="modal"
+      appear
     >
-      <!-- Custom header: the consumer supplies its own <header class="modal-head">, and gets the
+      <div
+        class="modal-overlay"
+        :style="{ zIndex }"
+        @click.self="$emit('close')"
+      >
+        <div
+          ref="root"
+          class="modal"
+          role="dialog"
+          aria-modal="true"
+          :aria-labelledby="title ? titleId : undefined"
+          tabindex="-1"
+          :style="{ '--modal-max-w': maxWidth, '--modal-max-h': maxHeight }"
+        >
+          <!-- Custom header: the consumer supplies its own <header class="modal-head">, and gets the
            shared look for free — the chrome classes are global (style.css), not scoped here.
            Prefer `title` when the header is only a heading and a close button; this slot is for
            the ones that carry more (a subtitle, a VP counter). -->
-      <slot v-if="$slots.header" name="header" :close="() => $emit('close')" />
-      <!-- Default header: title + close -->
-      <header v-else-if="title" class="modal-head">
-        <h3 :id="titleId" class="mh-title">{{ title }}</h3>
-        <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
-      </header>
+          <slot
+            v-if="$slots.header"
+            name="header"
+            :close="() => $emit('close')"
+          />
+          <!-- Default header: title + close -->
+          <header
+            v-else-if="title"
+            class="modal-head"
+          >
+            <h3
+              :id="titleId"
+              class="mh-title"
+            >
+              {{ title }}
+            </h3>
+            <button
+              class="mh-close"
+              :aria-label="labels.modalClose"
+              @click="$emit('close')"
+            >
+              ✕
+            </button>
+          </header>
 
-      <slot />
-    </div>
-  </div>
-  </Transition>
+          <slot />
+        </div>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 

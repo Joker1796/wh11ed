@@ -1,12 +1,22 @@
 <template>
   <div class="landing">
     <div class="hero">
-      <h1 class="hero-title">Warhammer 40,000</h1>
-      <div class="hero-subtitle">{{ t.tagline }}</div>
+      <h1 class="hero-title">
+        Warhammer 40,000
+      </h1>
+      <div class="hero-subtitle">
+        {{ t.tagline }}
+      </div>
     </div>
 
-    <p class="landing-desc">{{ t.description }}</p>
-    <p class="landing-help"><RouterLink to="/help">{{ t.footer.helpLink }} →</RouterLink></p>
+    <p class="landing-desc">
+      {{ t.description }}
+    </p>
+    <p class="landing-help">
+      <RouterLink to="/help">
+        {{ t.footer.helpLink + ' →' }}
+      </RouterLink>
+    </p>
 
     <div class="section-grid">
       <RouterLink
@@ -18,11 +28,14 @@
         <div class="section-card-top">
           <span class="section-badge">{{ s.badge }}</span>
         </div>
-        <h2 class="section-card-title">{{ s.label }}</h2>
-        <p class="section-card-desc">{{ s.desc }}</p>
+        <h2 class="section-card-title">
+          {{ s.label }}
+        </h2>
+        <p class="section-card-desc">
+          {{ s.desc }}
+        </p>
       </RouterLink>
     </div>
-
   </div>
 </template>
 

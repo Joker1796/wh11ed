@@ -1,6 +1,10 @@
 <template>
   <div class="ss">
-    <div v-for="row in rows" :key="row.key" class="ss-row">
+    <div
+      v-for="row in rows"
+      :key="row.key"
+      class="ss-row"
+    >
       <span class="ss-who">{{ row.label }}</span>
       <span class="ss-bar">
         <span
@@ -10,13 +14,19 @@
           :class="'ss-' + p.key"
           :style="{ width: width(row.value[p.key]) }"
           :title="`${p.label}: ${fmt(row.value[p.key])}`"
-        ></span>
+        />
       </span>
       <span class="ss-total">{{ fmt(total(row.value)) }}</span>
     </div>
     <ul class="ss-legend">
-      <li v-for="p in parts" :key="p.key">
-        <i class="ss-key" :class="'ss-' + p.key"></i>
+      <li
+        v-for="p in parts"
+        :key="p.key"
+      >
+        <i
+          class="ss-key"
+          :class="'ss-' + p.key"
+        />
         {{ p.label }}
         <b>{{ fmt(rows[0]?.value?.[p.key] || 0) }}</b>
       </li>

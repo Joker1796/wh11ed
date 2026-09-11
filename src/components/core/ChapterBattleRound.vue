@@ -1,5 +1,8 @@
 <template>
-  <template v-for="section in sections" :key="section.id">
+  <template
+    v-for="section in sections"
+    :key="section.id"
+  >
     <SectionHeader
       :id="'section-' + section.id.padStart(2,'0')"
       :num="section.num"
@@ -9,13 +12,32 @@
       :phase="section.phase"
     />
 
-    <template v-for="grp in chunkSubsections(splitSubsections(expandSteps(section.subsections)))" :key="grp.key">
-      <div v-if="grp.type === 'columns'" class="rule-columns">
-        <template v-for="sub in grp.items" :key="sub.id">
-          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
-            <RuleBody :id="sub.id" :body="sub.body" />
+    <template
+      v-for="grp in chunkSubsections(splitSubsections(expandSteps(section.subsections)))"
+      :key="grp.key"
+    >
+      <div
+        v-if="grp.type === 'columns'"
+        class="rule-columns"
+      >
+        <template
+          v-for="sub in grp.items"
+          :key="sub.id"
+        >
+          <div
+            v-if="sub.isSplitBlock"
+            :id="sub.id"
+            class="split-block"
+          >
+            <RuleBody
+              :id="sub.id"
+              :body="sub.body"
+            />
           </div>
-          <TurnStructureDiagram v-else-if="sub.isTurnDiagram" :steps="sub.steps" />
+          <TurnStructureDiagram
+            v-else-if="sub.isTurnDiagram"
+            :steps="sub.steps"
+          />
           <RuleBlock
             v-else
             :id="sub.id"
@@ -31,10 +53,20 @@
       </div>
 
       <template v-else>
-        <div v-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
-          <RuleBody :id="grp.item.id" :body="grp.item.body" />
+        <div
+          v-if="grp.item.isSplitBlock"
+          :id="grp.item.id"
+          class="split-block"
+        >
+          <RuleBody
+            :id="grp.item.id"
+            :body="grp.item.body"
+          />
         </div>
-        <TurnStructureDiagram v-else-if="grp.item.isTurnDiagram" :steps="grp.item.steps" />
+        <TurnStructureDiagram
+          v-else-if="grp.item.isTurnDiagram"
+          :steps="grp.item.steps"
+        />
         <GroupLabelBlock
           v-else-if="grp.item.isGroupLabel"
           :title="grp.item.title"

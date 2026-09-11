@@ -1,33 +1,60 @@
 <template>
-  <div v-if="section" class="help-view">
-    <RouterLink to="/help" class="back">
-      <i class="bi bi-chevron-left"></i> {{ t.title }}
+  <div
+    v-if="section"
+    class="help-view"
+  >
+    <RouterLink
+      to="/help"
+      class="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ t.title }}
     </RouterLink>
 
     <div class="hero">
-      <h1 class="hero-title">{{ section.title }}</h1>
+      <h1 class="hero-title">
+        {{ section.title }}
+      </h1>
     </div>
 
-    <div class="help-body" v-html="renderRichText(section.body)" @click="onBodyClick"></div>
+    <div
+      class="help-body"
+      @click="onBodyClick"
+      v-html="renderRichText(section.body)"
+    />
 
     <!-- The door into what was just explained. A reader who arrived from that section already
          knows the way back, but one who came down the contents does not — and after reading about
          the roster builder, opening it is the next thing they want. -->
-    <RouterLink v-if="section.to" :to="section.to" class="help-go">
+    <RouterLink
+      v-if="section.to"
+      :to="section.to"
+      class="help-go"
+    >
       {{ section.toLabel }}
-      <i class="bi bi-chevron-right"></i>
+      <i class="bi bi-chevron-right" />
     </RouterLink>
 
     <!-- The six topics are one guide read in order as often as they are arrived at singly, so the
          foot of each page offers its neighbours rather than sending the reader back to the list. -->
-    <nav class="help-around" :aria-label="labels.helpContents">
-      <RouterLink v-if="prev" :to="`/help/${slugOf(prev)}`" class="ha-link ha-prev">
-        <i class="bi bi-chevron-left"></i>
+    <nav
+      class="help-around"
+      :aria-label="labels.helpContents"
+    >
+      <RouterLink
+        v-if="prev"
+        :to="`/help/${slugOf(prev)}`"
+        class="ha-link ha-prev"
+      >
+        <i class="bi bi-chevron-left" />
         <span>{{ prev.title }}</span>
       </RouterLink>
-      <RouterLink v-if="next" :to="`/help/${slugOf(next)}`" class="ha-link ha-next">
+      <RouterLink
+        v-if="next"
+        :to="`/help/${slugOf(next)}`"
+        class="ha-link ha-next"
+      >
         <span>{{ next.title }}</span>
-        <i class="bi bi-chevron-right"></i>
+        <i class="bi bi-chevron-right" />
       </RouterLink>
     </nav>
   </div>

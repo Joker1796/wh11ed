@@ -15,20 +15,42 @@
      catalogue pane already used — not a fixed-height shell, whose height every floating bar in the
      app is free to invalidate. -->
 <template>
-  <div v-if="desk" class="rw-cols">
-    <div class="rw-col rw-col-fill"><slot name="catalog" /></div>
-    <div class="rw-col rw-col-scroll"><slot name="list" /></div>
+  <div
+    v-if="desk"
+    class="rw-cols"
+  >
+    <div class="rw-col rw-col-fill">
+      <slot name="catalog" />
+    </div>
     <div class="rw-col rw-col-scroll">
-      <slot v-if="selected" name="editor" />
-      <p v-else class="rw-empty">{{ labels.rosterPickUnitHint }}</p>
+      <slot name="list" />
+    </div>
+    <div class="rw-col rw-col-scroll">
+      <slot
+        v-if="selected"
+        name="editor"
+      />
+      <p
+        v-else
+        class="rw-empty"
+      >
+        {{ labels.rosterPickUnitHint }}
+      </p>
     </div>
   </div>
   <!-- Narrower: the two panes exactly as they were, down to the global `.roster-panes` classes
        (style.css) both building screens have always used. The fields go back inside the list,
        which draws them itself — inline, or in a modal on a phone. -->
-  <div v-else class="roster-panes">
-    <div class="rp-catalog"><slot name="catalog" /></div>
-    <div class="rp-list"><slot name="list" /></div>
+  <div
+    v-else
+    class="roster-panes"
+  >
+    <div class="rp-catalog">
+      <slot name="catalog" />
+    </div>
+    <div class="rp-list">
+      <slot name="list" />
+    </div>
   </div>
 </template>
 

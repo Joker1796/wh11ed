@@ -20,7 +20,7 @@
           <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
           <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
         </span>
-        <i class="bi bi-chevron-right fpb-trigger-chev"></i>
+        <i class="bi bi-chevron-right fpb-trigger-chev" />
       </button>
 
       <button
@@ -34,7 +34,7 @@
           <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
           <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
         </span>
-        <i class="bi bi-chevron-right fpb-trigger-chev"></i>
+        <i class="bi bi-chevron-right fpb-trigger-chev" />
       </button>
     </div>
 

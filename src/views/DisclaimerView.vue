@@ -1,7 +1,9 @@
 <template>
   <div class="disclaimer-view">
     <div class="hero">
-      <h1 class="hero-title">{{ t.footer.disclaimerLink }}</h1>
+      <h1 class="hero-title">
+        {{ t.footer.disclaimerLink }}
+      </h1>
     </div>
     <div class="disclaimer-body">
       <p>{{ t.footer.disclaimer }}</p>

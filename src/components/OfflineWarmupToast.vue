@@ -1,12 +1,21 @@
 <template>
   <Transition name="owt-slide">
-    <div v-if="visible" class="warmup-toast" role="status" aria-live="polite">
-      <i :class="['bi', status === 'ready' ? 'bi-check-circle' : 'bi-cloud-arrow-down', 'owt-icon']"></i>
+    <div
+      v-if="visible"
+      class="warmup-toast"
+      role="status"
+      aria-live="polite"
+    >
+      <i :class="['bi', status === 'ready' ? 'bi-check-circle' : 'bi-cloud-arrow-down', 'owt-icon']" />
       <span class="owt-text">
         {{ status === 'ready' ? labels.offlineReady : `${labels.warmingOffline} ${done}/${total}` }}
       </span>
-      <button class="owt-close" @click="dismissed = true" :aria-label="labels.updateDismiss">
-        <i class="bi bi-x"></i>
+      <button
+        class="owt-close"
+        :aria-label="labels.updateDismiss"
+        @click="dismissed = true"
+      >
+        <i class="bi bi-x" />
       </button>
     </div>
   </Transition>

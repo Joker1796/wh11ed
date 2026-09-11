@@ -1,6 +1,9 @@
 <template>
   <div class="auth-callback">
-    <div class="spinner" aria-hidden="true"></div>
+    <div
+      class="spinner"
+      aria-hidden="true"
+    />
     <p>{{ labels.authSigningIn }}</p>
   </div>
 </template>

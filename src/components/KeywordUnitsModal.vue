@@ -1,5 +1,9 @@
 <template>
-  <BaseModal :title="title" max-width="480px" @close="$emit('close')">
+  <BaseModal
+    :title="title"
+    max-width="480px"
+    @close="$emit('close')"
+  >
     <!-- `modal-body` carries the global `overscroll-behavior: contain` (style.css) — see
          FactionDetachmentPickerModal.vue's identical comment. -->
     <div class="modal-body modal-list">
@@ -10,7 +14,10 @@
         class="kum-item"
         @click="$emit('close')"
       >
-        <span class="kum-name">{{ u.name }}<span v-if="u.baseSize" class="kum-base"> ({{ fmtBase(u.baseSize) }})</span></span>
+        <span class="kum-name">{{ u.name }}<span
+          v-if="u.baseSize"
+          class="kum-base"
+        > ({{ fmtBase(u.baseSize) }})</span></span>
       </RouterLink>
     </div>
   </BaseModal>

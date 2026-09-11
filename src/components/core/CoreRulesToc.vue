@@ -1,6 +1,15 @@
 <template>
-  <nav class="core-toc" :class="'core-toc--' + variant" :aria-label="labels.ariaPageContents">
-    <div v-if="variant === 'page'" class="core-toc-header">{{ labels.contentsHeading }}</div>
+  <nav
+    class="core-toc"
+    :class="'core-toc--' + variant"
+    :aria-label="labels.ariaPageContents"
+  >
+    <div
+      v-if="variant === 'page'"
+      class="core-toc-header"
+    >
+      {{ labels.contentsHeading }}
+    </div>
 
     <div class="core-toc-grid">
       <div
@@ -15,22 +24,37 @@
           @click.prevent="$emit('select', group.hash.slice(1))"
         >{{ group.label }}</a>
 
-        <ul v-if="group.sections.length" class="core-toc-list">
-          <li v-for="sec in group.sections" :key="sec.label">
+        <ul
+          v-if="group.sections.length"
+          class="core-toc-list"
+        >
+          <li
+            v-for="sec in group.sections"
+            :key="sec.label"
+          >
             <a
               class="core-toc-link"
               :class="{ current: sec.id === activeId && !sec.filter }"
               :href="'#' + sec.id"
               @click.prevent="$emit('select', sec.id, sec.filter)"
             >
-              <span v-if="sectionNum(sec.label)" class="core-toc-num">{{ sectionNum(sec.label) }}</span>
+              <span
+                v-if="sectionNum(sec.label)"
+                class="core-toc-num"
+              >{{ sectionNum(sec.label) }}</span>
               {{ sec.label.replace(/^\d+\s+/, '') }}
             </a>
 
             <!-- One level deeper (e.g. "03.02 Moving Models") — only in the modal, where
                  there's room for it; the page TOC stays a compact chapter/section jump list. -->
-            <ul v-if="variant === 'modal' && subsectionsFor(sec.id).length" class="core-toc-subs">
-              <li v-for="item in subsectionsFor(sec.id)" :key="item.id">
+            <ul
+              v-if="variant === 'modal' && subsectionsFor(sec.id).length"
+              class="core-toc-subs"
+            >
+              <li
+                v-for="item in subsectionsFor(sec.id)"
+                :key="item.id"
+              >
                 <a
                   class="core-toc-subs-link"
                   :class="{ current: item.id === activeId }"

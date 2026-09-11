@@ -1,19 +1,37 @@
 <template>
-  <article class="tcard" :id="`twist-${twist.id}`">
+  <article
+    :id="`twist-${twist.id}`"
+    class="tcard"
+  >
     <header class="tcard-head">
-      <h3 class="tcard-name">{{ twist.title }}</h3>
-      <div v-if="twist.titleRu" class="tcard-name-ru">{{ twist.titleRu }}</div>
+      <h3 class="tcard-name">
+        {{ twist.title }}
+      </h3>
+      <div
+        v-if="twist.titleRu"
+        class="tcard-name-ru"
+      >
+        {{ twist.titleRu }}
+      </div>
     </header>
 
     <!-- Lore/flavour right after the heading, project convention (cf. .strat-flavor);
          the `tcard-flavor` class is hidden in "Hide lore" mode. -->
-    <p v-if="twist.example" class="tcard-flavor" v-html="renderInline(twist.example)"></p>
+    <p
+      v-if="twist.example"
+      class="tcard-flavor"
+      v-html="renderInline(twist.example)"
+    />
 
     <div class="tcard-body">
       <RuleBody :body="twist.body" />
     </div>
 
-    <p v-if="twist.note" class="tcard-note" v-html="renderInline(twist.note)"></p>
+    <p
+      v-if="twist.note"
+      class="tcard-note"
+      v-html="renderInline(twist.note)"
+    />
   </article>
 </template>
 

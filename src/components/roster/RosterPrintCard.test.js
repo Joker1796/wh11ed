@@ -105,3 +105,38 @@ describe('what a rule granted', () => {
     expect(shown.find('.rpc-mods').text()).toContain('while charging')
   })
 })
+
+// Two lines on this card are assembled from fragments — the abilities separated by ", ", the
+// keyword groups by " | ", a granted entry marked with "*" that ties it to its footnote. Nothing
+// checked the separators themselves, and they are the part that breaks silently: the template
+// used to build them out of nested `<template v-if>`s, where a line break anywhere inside printed
+// "Ability , Ability" on a sheet somebody takes to a table. `.text()` keeps inner whitespace, so
+// these assertions are exact on purpose — a stray space fails them.
+describe('the lines built out of fragments', () => {
+  const lineWith = (label, props) => card(props).findAll('.rpc-line')
+    .map((n) => n.text()).find((t) => t.startsWith(label))
+
+  it('separates core abilities with ", " and marks a granted one', () => {
+    expect(lineWith('Core', {})).toBe('Core: Leader')
+    expect(lineWith('Core', { grantedCore: [{ ability: 'Feel No Pain 5+' }] }))
+      .toBe('Core: Leader, Feel No Pain 5+*')
+  })
+
+  it('separates keyword groups with " | " and names the model each belongs to', () => {
+    expect(lineWith('Keywords', {})).toBe('Keywords: Infantry, Character')
+    const byModel = {
+      ...SHEET,
+      keywordsByModel: [
+        { model: 'Chaos Lord', list: ['Infantry', 'Character'] },
+        { model: 'Chaos Terminator', list: ['Infantry', 'Terminator'] },
+      ],
+    }
+    expect(lineWith('Keywords', { sheet: byModel }))
+      .toBe('Keywords: Chaos Lord - Infantry, Character | Chaos Terminator - Infantry, Terminator')
+  })
+
+  it('appends a rule-granted keyword after the printed ones, with its marker', () => {
+    expect(lineWith('Keywords', { grantedKeywords: [{ kw: 'Deathwing', note: 'The Unforgiven' }] }))
+      .toBe('Keywords: Infantry, Character, Deathwing*')
+  })
+})

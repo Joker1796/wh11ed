@@ -7,7 +7,11 @@
     <div class="strat-toolbar">
       <!-- Detachment filters — only while a game is in progress. Without a game this page
            stays the plain core-stratagem quick reference (no filter bar). -->
-      <div v-if="hasGame" class="strat-filters" role="tablist">
+      <div
+        v-if="hasGame"
+        class="strat-filters"
+        role="tablist"
+      >
         <button
           v-for="f in filters"
           :key="f.key"
@@ -29,37 +33,65 @@
         :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
         @click="byPhase = !byPhase"
       >
-        <i class="bi" :class="byPhase ? 'bi-list-ul' : 'bi-collection'"></i>
+        <i
+          class="bi"
+          :class="byPhase ? 'bi-list-ul' : 'bi-collection'"
+        />
         <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
       </button>
     </div>
 
-    <p v-if="!visibleStratagems.length" class="strat-empty">{{ labels.stratNoneForFilter }}</p>
+    <p
+      v-if="!visibleStratagems.length"
+      class="strat-empty"
+    >
+      {{ labels.stratNoneForFilter }}
+    </p>
 
     <!-- Phase view: one accordion per phase, stratagems for that phase inside. -->
     <template v-else-if="byPhase">
-      <div v-for="g in phaseGroups" :key="g.key" class="phase-group">
+      <div
+        v-for="g in phaseGroups"
+        :key="g.key"
+        class="phase-group"
+      >
         <button
           type="button"
           class="phase-head"
           :aria-expanded="openPhases.has(g.key)"
           @click="togglePhase(g.key)"
         >
-          <i class="bi phase-chev" :class="openPhases.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <i
+            class="bi phase-chev"
+            :class="openPhases.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"
+          />
           <span class="phase-name">{{ phaseLabel(g.key, labels) }}</span>
           <span class="phase-count">{{ g.strats.length }}</span>
         </button>
         <CollapseTransition :show="openPhases.has(g.key)">
           <div class="strat-grid phase-grid">
-            <StratCard v-for="strat in g.strats" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
+            <StratCard
+              v-for="strat in g.strats"
+              :key="stratKey(strat)"
+              :strat="strat"
+              :sublabel="sublabelOf(strat)"
+            />
           </div>
         </CollapseTransition>
       </div>
     </template>
 
     <!-- Flat list -->
-    <div v-else class="strat-grid">
-      <StratCard v-for="strat in visibleStratagems" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
+    <div
+      v-else
+      class="strat-grid"
+    >
+      <StratCard
+        v-for="strat in visibleStratagems"
+        :key="stratKey(strat)"
+        :strat="strat"
+        :sublabel="sublabelOf(strat)"
+      />
     </div>
   </div>
 </template>

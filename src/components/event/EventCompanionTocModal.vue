@@ -1,5 +1,9 @@
 <template>
-  <BaseModal :title="labels.contentsHeading" max-width="46rem" @close="$emit('close')">
+  <BaseModal
+    :title="labels.contentsHeading"
+    max-width="46rem"
+    @close="$emit('close')"
+  >
     <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
          that keeps a scroll past the end of the list from chaining to the page behind. -->
     <div class="modal-body">

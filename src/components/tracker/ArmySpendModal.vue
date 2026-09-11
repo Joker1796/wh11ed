@@ -2,10 +2,21 @@
   <BaseModal @close="$emit('close')">
     <template #header>
       <header class="modal-head">
-        <h3 class="mh-title">{{ title }}</h3>
+        <h3 class="mh-title">
+          {{ title }}
+        </h3>
         <div class="mh-right">
-          <em class="pool" :title="labels.trackerArmyRemaining">{{ remaining }}</em>
-          <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
+          <em
+            class="pool"
+            :title="labels.trackerArmyRemaining"
+          >{{ remaining }}</em>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="$emit('close')"
+          >
+            ✕
+          </button>
         </div>
       </header>
     </template>

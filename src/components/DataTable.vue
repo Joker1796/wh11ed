@@ -1,20 +1,45 @@
 <template>
-  <div class="table-wrap" :class="{ stacked }">
-    <h4 v-if="title" class="table-title">{{ title }}</h4>
+  <div
+    class="table-wrap"
+    :class="{ stacked }"
+  >
+    <h4
+      v-if="title"
+      class="table-title"
+    >
+      {{ title }}
+    </h4>
     <table>
       <thead>
         <tr>
-          <th v-for="h in headers" :key="h">{{ h }}</th>
+          <th
+            v-for="h in headers"
+            :key="h"
+          >
+            {{ h }}
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, i) in rows" :key="i">
-          <td v-for="(cell, j) in row" :key="j" :data-label="headers[j]" v-html="renderCell(cell)"></td>
+        <tr
+          v-for="(row, i) in rows"
+          :key="i"
+        >
+          <td
+            v-for="(cell, j) in row"
+            :key="j"
+            :data-label="headers[j]"
+            v-html="renderCell(cell)"
+          />
         </tr>
       </tbody>
       <tfoot v-if="footnote">
         <tr>
-          <td :colspan="headers.length" class="table-footnote" v-html="renderCell(footnote)"></td>
+          <td
+            :colspan="headers.length"
+            class="table-footnote"
+            v-html="renderCell(footnote)"
+          />
         </tr>
       </tfoot>
     </table>

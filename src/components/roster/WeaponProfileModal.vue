@@ -1,38 +1,129 @@
 <template>
-  <BaseModal :title="title" max-width="640px" max-height="85dvh" @close="$emit('close')">
+  <BaseModal
+    :title="title"
+    max-width="640px"
+    max-height="85dvh"
+    @close="$emit('close')"
+  >
     <div class="modal-body">
-      <div v-if="rangedRows.length" class="wpm-weapons">
+      <div
+        v-if="rangedRows.length"
+        class="wpm-weapons"
+      >
         <table>
           <thead>
-            <tr><th class="wname">{{ labels.dsRanged }}</th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th></tr>
+            <tr>
+              <th class="wname">
+                {{ labels.dsRanged }}
+              </th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th>
+            </tr>
           </thead>
           <tbody>
-            <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-              <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-              <td data-label="Range">{{ w.range }}</td><td data-label="A">{{ w.a }}</td><td data-label="BS">{{ w.bs }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
+            <tr
+              v-for="(w, i) in rangedRows"
+              :key="i"
+              :class="'wg-' + w.gpos"
+            >
+              <td class="wname">
+                <span class="wname-text"><span
+                  v-if="w.gpos !== 'single'"
+                  class="wprofile-arrow"
+                  aria-hidden="true"
+                />{{ w.name }}</span><span
+                  v-if="w.tags?.length"
+                  class="wtags"
+                ><span
+                  v-for="t in w.tags"
+                  :key="t"
+                  class="wtag"
+                  v-html="renderInline('[' + t + ']')"
+                /></span>
+              </td>
+              <td data-label="Range">
+                {{ w.range }}
+              </td><td data-label="A">
+                {{ w.a }}
+              </td><td data-label="BS">
+                {{ w.bs }}
+              </td><td data-label="S">
+                {{ w.s }}
+              </td><td data-label="AP">
+                {{ w.ap }}
+              </td><td data-label="D">
+                {{ w.d }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div v-if="meleeRows.length" class="wpm-weapons">
+      <div
+        v-if="meleeRows.length"
+        class="wpm-weapons"
+      >
         <table>
           <thead>
-            <tr><th class="wname">{{ labels.dsMelee }}</th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th></tr>
+            <tr>
+              <th class="wname">
+                {{ labels.dsMelee }}
+              </th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th>
+            </tr>
           </thead>
           <tbody>
-            <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-              <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-              <td data-label="Range">Melee</td><td data-label="A">{{ w.a }}</td><td data-label="WS">{{ w.ws }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
+            <tr
+              v-for="(w, i) in meleeRows"
+              :key="i"
+              :class="'wg-' + w.gpos"
+            >
+              <td class="wname">
+                <span class="wname-text"><span
+                  v-if="w.gpos !== 'single'"
+                  class="wprofile-arrow"
+                  aria-hidden="true"
+                />{{ w.name }}</span><span
+                  v-if="w.tags?.length"
+                  class="wtags"
+                ><span
+                  v-for="t in w.tags"
+                  :key="t"
+                  class="wtag"
+                  v-html="renderInline('[' + t + ']')"
+                /></span>
+              </td>
+              <td data-label="Range">
+                Melee
+              </td><td data-label="A">
+                {{ w.a }}
+              </td><td data-label="WS">
+                {{ w.ws }}
+              </td><td data-label="S">
+                {{ w.s }}
+              </td><td data-label="AP">
+                {{ w.ap }}
+              </td><td data-label="D">
+                {{ w.d }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div v-if="abilityRows.length" class="wpm-abilities">
-        <div v-for="a in abilityRows" :key="a.name" class="wpm-ability">
-          <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+      <div
+        v-if="abilityRows.length"
+        class="wpm-abilities"
+      >
+        <div
+          v-for="a in abilityRows"
+          :key="a.name"
+          class="wpm-ability"
+        >
+          <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)" />
         </div>
       </div>
-      <p v-if="loaded && !rangedRows.length && !meleeRows.length && !abilityRows.length" class="wpm-missing">{{ labels.rosterNoProfile }}</p>
+      <p
+        v-if="loaded && !rangedRows.length && !meleeRows.length && !abilityRows.length"
+        class="wpm-missing"
+      >
+        {{ labels.rosterNoProfile }}
+      </p>
     </div>
   </BaseModal>
 </template>

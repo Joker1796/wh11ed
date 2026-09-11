@@ -49,11 +49,6 @@ export default [
   },
 
   {
-    // `vue3-recommended` bundles a template formatter with its defect rules. Off, all of it:
-    // these 4419 reports are one long "your templates are not indented the way this plugin
-    // indents templates", and a gate that cries 4419 times is a gate nobody reads. Enabling
-    // them later means reformatting all 147 SFCs in one commit — a separate decision, not a
-    // side effect of wanting `v-for`-without-`key` checked.
     rules: {
       // `const { lang: _dropped, ...query } = to.query` (router/index.js) is how you drop one
       // query param and keep the rest — the binding is meant to go unread. Same for an `_`-
@@ -64,20 +59,6 @@ export default [
         argsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_',
       }],
-
-      'vue/max-attributes-per-line': 'off',
-      'vue/singleline-html-element-content-newline': 'off',
-      'vue/multiline-html-element-content-newline': 'off',
-      'vue/html-indent': 'off',
-      'vue/html-self-closing': 'off',
-      'vue/html-closing-bracket-spacing': 'off',
-      'vue/html-closing-bracket-newline': 'off',
-      'vue/first-attribute-linebreak': 'off',
-      'vue/attributes-order': 'off',
-      // Naming conventions, not defects: the templates here pass `:someProp` and `@someEvent`
-      // in camelCase consistently, which reads better next to the composables they come from.
-      'vue/attribute-hyphenation': 'off',
-      'vue/v-on-event-hyphenation': 'off',
 
       // This app IS a rules renderer: every rule body is a data string with `**`-markup that
       // src/utils turns into HTML, and all 86 call sites feed it data from src/data — never

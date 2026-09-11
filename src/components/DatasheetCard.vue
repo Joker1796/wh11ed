@@ -7,144 +7,397 @@
        It has to be a wrapper: a container cannot query itself, and `.ds-card`'s own padding and
        full-bleed are half of what changes. -->
   <div class="ds-shell">
-  <article class="ds-card">
-    <!-- Stat profiles -->
-    <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
+    <article class="ds-card">
+      <!-- Stat profiles -->
+      <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
          padding and carries an accent-tinted background, reading as one band with the
          solid faction-color name plate (.ds-head) that the parent view renders above. -->
-    <!-- Grid: row 1 = the six stat columns + (multi-profile) model name to the right;
+      <!-- Grid: row 1 = the six stat columns + (multi-profile) model name to the right;
          row 2 = the invulnerable box straight under SV, with the faction-color band
          top-aligned to its right and the asterisk note under the band. -->
-    <div v-if="sheet.profiles?.length" class="ds-cardhead">
-      <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
-        <div class="ds-stats" :class="{ 'has-name': sheet.profiles.length > 1 }">
-          <!-- Stat labels only once, above the first profile's row -->
-          <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
-            <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
-            <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
+      <div
+        v-if="sheet.profiles?.length"
+        class="ds-cardhead"
+      >
+        <div
+          v-for="(p, i) in sheet.profiles"
+          :key="i"
+          class="ds-statline"
+        >
+          <div
+            class="ds-stats"
+            :class="{ 'has-name': sheet.profiles.length > 1 }"
+          >
+            <!-- Stat labels only once, above the first profile's row -->
+            <div
+              v-for="s in statCells(p)"
+              :key="s.label"
+              class="ds-stat"
+            >
+              <span
+                v-if="i === 0"
+                class="ds-stat-label"
+              >{{ s.label }}</span>
+              <span
+                class="ds-stat-box"
+                :class="{ 'ds-stat-mod': isMarked('profile', s.key, i) }"
+              >{{ s.value }}<sup
+                v-if="isMarked('profile', s.key, i)"
+                class="ds-mod-star"
+                aria-hidden="true"
+              >*</sup></span>
+            </div>
+            <span
+              v-if="sheet.profiles.length > 1"
+              class="ds-prof-name"
+            >{{ p.name }} <span
+              v-if="p.baseSize"
+              class="ds-base"
+            >({{ fmtBase(p.baseSize) }})</span></span>
+            <template v-if="p.inv">
+              <div class="ds-stat ds-inv-box">
+                <span
+                  class="ds-stat-box"
+                  :class="{ 'ds-stat-mod': isMarked('profile', 'inv', i) }"
+                >{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup
+                  v-if="isMarked('profile', 'inv', i)"
+                  class="ds-mod-star"
+                  aria-hidden="true"
+                >*</sup></span>
+              </div>
+              <div class="ds-inv-side">
+                <span class="ds-inv-band">Invulnerable Save</span>
+                <span
+                  v-if="p.invNote"
+                  class="ds-inv-note"
+                >{{ invNoteText(p.invNote) }}</span>
+              </div>
+            </template>
           </div>
-          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
-          <template v-if="p.inv">
-            <div class="ds-stat ds-inv-box">
-              <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
-            </div>
-            <div class="ds-inv-side">
-              <span class="ds-inv-band">Invulnerable Save</span>
-              <span v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</span>
-            </div>
-          </template>
         </div>
       </div>
-    </div>
 
-    <!-- Weapons -->
-    <div v-if="sheet.ranged" class="ds-weapons">
-      <table>
-        <thead>
-          <tr><th class="wname">{{ labels.dsRanged }}</th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th></tr>
-        </thead>
-        <tbody>
-          <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<wbr v-if="w.qty > 1" /><span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-            <td data-label="Range">{{ w.range }}</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }">{{ w.a }}<sup v-if="isMarked('ranged', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="BS" :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }">{{ w.bs }}<sup v-if="isMarked('ranged', 'bs', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }">{{ w.s }}<sup v-if="isMarked('ranged', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('ranged', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }">{{ w.d }}<sup v-if="isMarked('ranged', 'd', i)" class="ds-mod-star">*</sup></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-if="sheet.melee" class="ds-weapons">
-      <table>
-        <thead>
-          <tr><th class="wname">{{ labels.dsMelee }}</th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th></tr>
-        </thead>
-        <tbody>
-          <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}<wbr v-if="w.qty > 1" /><span v-if="w.qty > 1" class="wqty">&times;{{ w.qty }}</span></span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-            <td data-label="Range">Melee</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }">{{ w.a }}<sup v-if="isMarked('melee', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="WS" :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }">{{ w.ws }}<sup v-if="isMarked('melee', 'ws', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }">{{ w.s }}<sup v-if="isMarked('melee', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('melee', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }">{{ w.d }}<sup v-if="isMarked('melee', 'd', i)" class="ds-mod-star">*</sup></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- Weapons -->
+      <div
+        v-if="sheet.ranged"
+        class="ds-weapons"
+      >
+        <table>
+          <thead>
+            <tr>
+              <th class="wname">
+                {{ labels.dsRanged }}
+              </th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(w, i) in rangedRows"
+              :key="i"
+              :class="'wg-' + w.gpos"
+            >
+              <td class="wname">
+                <span class="wname-text"><span
+                  v-if="w.gpos !== 'single'"
+                  class="wprofile-arrow"
+                  aria-hidden="true"
+                />{{ w.name }}<wbr v-if="w.qty > 1"><span
+                  v-if="w.qty > 1"
+                  class="wqty"
+                >&times;{{ w.qty }}</span></span><span
+                  v-if="w.tags?.length"
+                  class="wtags"
+                ><span
+                  v-for="t in w.tags"
+                  :key="t"
+                  class="wtag"
+                  v-html="renderInline('[' + t + ']')"
+                /></span>
+              </td>
+              <td data-label="Range">
+                {{ w.range }}
+              </td><td
+                data-label="A"
+                :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }"
+              >
+                {{ w.a }}<sup
+                  v-if="isMarked('ranged', 'a', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="BS"
+                :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }"
+              >
+                {{ w.bs }}<sup
+                  v-if="isMarked('ranged', 'bs', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="S"
+                :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }"
+              >
+                {{ w.s }}<sup
+                  v-if="isMarked('ranged', 's', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="AP"
+                :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }"
+              >
+                {{ w.ap }}<sup
+                  v-if="isMarked('ranged', 'ap', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="D"
+                :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }"
+              >
+                {{ w.d }}<sup
+                  v-if="isMarked('ranged', 'd', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        v-if="sheet.melee"
+        class="ds-weapons"
+      >
+        <table>
+          <thead>
+            <tr>
+              <th class="wname">
+                {{ labels.dsMelee }}
+              </th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(w, i) in meleeRows"
+              :key="i"
+              :class="'wg-' + w.gpos"
+            >
+              <td class="wname">
+                <span class="wname-text"><span
+                  v-if="w.gpos !== 'single'"
+                  class="wprofile-arrow"
+                  aria-hidden="true"
+                />{{ w.name }}<wbr v-if="w.qty > 1"><span
+                  v-if="w.qty > 1"
+                  class="wqty"
+                >&times;{{ w.qty }}</span></span><span
+                  v-if="w.tags?.length"
+                  class="wtags"
+                ><span
+                  v-for="t in w.tags"
+                  :key="t"
+                  class="wtag"
+                  v-html="renderInline('[' + t + ']')"
+                /></span>
+              </td>
+              <td data-label="Range">
+                Melee
+              </td><td
+                data-label="A"
+                :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }"
+              >
+                {{ w.a }}<sup
+                  v-if="isMarked('melee', 'a', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="WS"
+                :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }"
+              >
+                {{ w.ws }}<sup
+                  v-if="isMarked('melee', 'ws', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="S"
+                :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }"
+              >
+                {{ w.s }}<sup
+                  v-if="isMarked('melee', 's', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="AP"
+                :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }"
+              >
+                {{ w.ap }}<sup
+                  v-if="isMarked('melee', 'ap', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td><td
+                data-label="D"
+                :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }"
+              >
+                {{ w.d }}<sup
+                  v-if="isMarked('melee', 'd', i)"
+                  class="ds-mod-star"
+                >*</sup>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
+      <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
          carries a `*`; this is where the `*` is explained.
          TWO sections, never one list: what is in force NOW ("Modifiers in play"), and — off the
          table, where nothing can be in force — what WOULD change once the conditions are met
          ("Possible modifiers", an accordion, closed). In a game the second one is not rendered at
          all (`hidePossible`): a block that says "in play" must not list what is not, and the
          conditions themselves stay one tap away on the rule blocks below, with their switches. -->
-    <template v-for="sec in noteSections" :key="sec.key">
-      <DsAccordion :collapsible="sec.collapsible" :start-open="false">
-        <template #header="{ open, toggle }">
-          <button v-if="sec.collapsible" type="button" class="ds-mods-h ds-mods-btn" :aria-expanded="open" @click="toggle">
-            <span>{{ sec.label }}</span>
-            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-          </button>
-          <p v-else class="ds-mods-h">{{ sec.label }}</p>
-        </template>
-        <p v-if="sec.hint" class="ds-mods-hint">{{ sec.hint }}</p>
-        <ul class="ds-mods">
-          <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
+      <template
+        v-for="sec in noteSections"
+        :key="sec.key"
+      >
+        <DsAccordion
+          :collapsible="sec.collapsible"
+          :start-open="false"
+        >
+          <template #header="{ open, toggle }">
+            <button
+              v-if="sec.collapsible"
+              type="button"
+              class="ds-mods-h ds-mods-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ sec.label }}</span>
+              <i
+                class="bi ds-chev"
+                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
+            </button>
+            <p
+              v-else
+              class="ds-mods-h"
+            >
+              {{ sec.label }}
+            </p>
+          </template>
+          <p
+            v-if="sec.hint"
+            class="ds-mods-hint"
+          >
+            {{ sec.hint }}
+          </p>
+          <ul class="ds-mods">
+            <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
                detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
                Read in application order the list is four rules' worth of lines with nothing
                separating them; the group heading is what tells a reader which of them they can do
                anything about. -->
-          <template v-for="g in sec.groups" :key="g.key">
-          <li class="ds-mod-src-h">{{ g.label }}</li>
-          <li v-for="(n, i) in g.notes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
-            <span class="ds-mod-delta">{{ modDelta(n) }}</span>
-            <!-- The rule behind the number. A note whose caller could resolve the prose carries
+            <template
+              v-for="g in sec.groups"
+              :key="g.key"
+            >
+              <li class="ds-mod-src-h">
+                {{ g.label }}
+              </li>
+              <li
+                v-for="(n, i) in g.notes"
+                :key="i"
+                class="ds-mod"
+                :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }"
+              >
+                <span class="ds-mod-delta">{{ modDelta(n) }}</span>
+                <!-- The rule behind the number. A note whose caller could resolve the prose carries
                  `hasSource`, and then the name itself opens it in the same popover a core ability
                  or the faction line uses — otherwise the reader has to go find "Experimental
                  Augmentations" in another block of the same card. -->
-            <button
-              v-if="n.hasSource"
-              type="button"
-              class="ds-mod-src ds-mod-srcbtn"
-              data-kw-open
-              @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
-            >{{ n.source }}<i class="bi bi-info-circle"></i></button>
-            <span v-else class="ds-mod-src">{{ n.source }}</span>
-            <!-- `via` means the condition was PROVEN by the game in progress, so the number above
+                <button
+                  v-if="n.hasSource"
+                  type="button"
+                  class="ds-mod-src ds-mod-srcbtn"
+                  data-kw-open
+                  @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
+                >
+                  {{ n.source }}<i class="bi bi-info-circle" />
+                </button>
+                <span
+                  v-else
+                  class="ds-mod-src"
+                >{{ n.source }}</span>
+                <!-- `via` means the condition was PROVEN by the game in progress, so the number above
                  was rewritten after all. The condition still shows — a value that is only true
                  while something is switched on must never read as a printed one. -->
-            <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
-          </li>
-          </template>
-        </ul>
-      </DsAccordion>
-    </template>
+                <span
+                  v-if="n.when"
+                  class="ds-mod-cond"
+                ><i
+                  v-if="n.via"
+                  class="bi bi-lightning-charge-fill"
+                /> {{ n.when[locale] || n.when.en }}</span>
+              </li>
+            </template>
+          </ul>
+        </DsAccordion>
+      </template>
 
-    <!-- Abilities -->
-    <div class="ds-abilities">
-      <!-- Core abilities are clickable keywords: Leader, Deep Strike, Scouts 9"… all
+      <!-- Abilities -->
+      <div class="ds-abilities">
+        <!-- Core abilities are clickable keywords: Leader, Deep Strike, Scouts 9"… all
            resolve in KeywordPopover via the coreAbilities lookup (exact or prefix match). -->
-      <p v-if="sheet.core || extraCore.length" class="ds-ability-line">
-        <strong>{{ labels.dsCore }}:</strong>
-        <template v-for="(c, i) in coreParts" :key="c">{{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span></template>
-        <!-- Handed to this unit by a rule rather than printed on it (a Hospitaller's Feel No Pain,
+        <p
+          v-if="sheet.core || extraCore.length"
+          class="ds-ability-line"
+        >
+          <strong>{{ labels.dsCore }}:</strong>
+          <template
+            v-for="(c, i) in coreParts"
+            :key="c"
+          >
+            {{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span>
+          </template>
+          <!-- Handed to this unit by a rule rather than printed on it (a Hospitaller's Feel No Pain,
              the Triumph's Icon aura): same line, same popover, and the `*` the whole card uses for
              a value the modifier layer put there. -->
-        <template v-for="(c, i) in extraCore" :key="c.ability">{{ (coreParts.length || i) ? ', ' : ' ' }}<span
-          class="keyword ds-core-granted"
-          :title="c.det ? `${c.source} · ${c.det}` : c.source"
-        >{{ c.ability }}<sup class="ds-mod-star" aria-hidden="true">*</sup></span></template>
-      </p>
-      <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
+          <template
+            v-for="(c, i) in extraCore"
+            :key="c.ability"
+          >
+            {{ (coreParts.length || i) ? ', ' : ' ' }}<span
+              class="keyword ds-core-granted"
+              :title="c.det ? `${c.source} · ${c.det}` : c.source"
+            >{{ c.ability }}<sup
+              class="ds-mod-star"
+              aria-hidden="true"
+            >*</sup></span>
+          </template>
+        </p>
+        <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
            passes its name in `linkedFactionRules`; that part then renders as a `.keyword` and
            opens in the same popover a core ability does, which is where the army rule belongs —
            the datasheet's own faction line is its statement of which army rule it has, so a sheet
            without one (128 of them: Anathema Psykana, Aeldari wraith constructs, aircraft…)
            correctly offers nothing to open. Parts with no match stay plain text. -->
-      <p v-if="sheet.faction" class="ds-ability-line">
-        <strong>{{ labels.dsFaction }}:</strong>
-        <template v-for="(f, i) in factionParts" :key="f">{{ i ? ', ' : ' ' }}<span
-          v-if="linkedFactionRule(f)"
-          class="keyword"
-          data-kw-open
-          @click="$emit('faction-rule-click', linkedFactionRule(f), $event.currentTarget.getBoundingClientRect())"
-        >{{ f }}</span><span v-else class="ds-faction-rule">{{ f }}</span></template>
-      </p>
-      <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
+        <p
+          v-if="sheet.faction"
+          class="ds-ability-line"
+        >
+          <strong>{{ labels.dsFaction }}:</strong>
+          <template
+            v-for="(f, i) in factionParts"
+            :key="f"
+          >
+            {{ i ? ', ' : ' ' }}<span
+              v-if="linkedFactionRule(f)"
+              class="keyword"
+              data-kw-open
+              @click="$emit('faction-rule-click', linkedFactionRule(f), $event.currentTarget.getBoundingClientRect())"
+            >{{ f }}</span><span
+              v-else
+              class="ds-faction-rule"
+            >{{ f }}</span>
+          </template>
+        </p>
+        <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
            Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
            weapons and keywords never do (see the sections above/below). DsAccordion is headless
            (no markup/CSS of its own): the header slot keeps writing the exact same
@@ -154,259 +407,596 @@
            the state the card arrives in — the abilities are what it was opened for. The one
            accordion here that starts closed is "possible modifiers" above, which is not the
            printed datasheet. -->
-      <div v-if="sheet.abilities" class="ds-ability-group">
-        <DsAccordion :collapsible="collapsible">
-          <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ labels.dsAbilities }}</span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-            </button>
-            <h5 v-else class="ds-group-title">{{ labels.dsAbilities }}</h5>
-          </template>
-          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
-            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
-            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
-              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
-            </span>
-            <span v-html="dsRichText(a.text)"></span>
-            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+        <div
+          v-if="sheet.abilities"
+          class="ds-ability-group"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ labels.dsAbilities }}</span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <h5
+                v-else
+                class="ds-group-title"
+              >
+                {{ labels.dsAbilities }}
+              </h5>
+            </template>
+            <div
+              v-for="a in sheet.abilities"
+              :key="a.name"
+              class="ds-ability"
+              :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+            >
+              <strong>{{ a.name }}<span
+                v-if="a.nameEn"
+                class="ds-name-en"
+              > ({{ a.nameEn }})</span>:</strong>
+              <span
+                v-if="abilityState(a)"
+                class="ds-ab-state"
+                :class="{ on: abilityState(a).on }"
+              >
+                <i
+                  class="bi"
+                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                />{{ abilityStateLabel(abilityState(a)) }}
+              </span>
+              <span v-html="dsRichText(a.text)" />
+              <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
-            <ConditionChips
-              v-if="abilitySwitchesOf(a).length"
-              class="ds-ab-conds"
-              :switches="abilitySwitchesOf(a)"
-              @toggle="$emit('toggle-cond', $event)"
-            />
-          </div>
-        </DsAccordion>
-      </div>
-      <div v-if="sheet.wargearAbilities" class="ds-ability-group">
-        <DsAccordion :collapsible="collapsible">
-          <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ labels.dsWargearAbilities }}</span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-            </button>
-            <h5 v-else class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
-          </template>
-          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
-            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
-            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
-              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
-            </span>
-            <span v-html="dsRichText(a.text)"></span>
-            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+              <ConditionChips
+                v-if="abilitySwitchesOf(a).length"
+                class="ds-ab-conds"
+                :switches="abilitySwitchesOf(a)"
+                @toggle="$emit('toggle-cond', $event)"
+              />
+            </div>
+          </DsAccordion>
+        </div>
+        <div
+          v-if="sheet.wargearAbilities"
+          class="ds-ability-group"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ labels.dsWargearAbilities }}</span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <h5
+                v-else
+                class="ds-group-title"
+              >
+                {{ labels.dsWargearAbilities }}
+              </h5>
+            </template>
+            <div
+              v-for="a in sheet.wargearAbilities"
+              :key="a.name"
+              class="ds-ability"
+              :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+            >
+              <strong>{{ a.name }}<span
+                v-if="a.nameEn"
+                class="ds-name-en"
+              > ({{ a.nameEn }})</span>:</strong>
+              <span
+                v-if="abilityState(a)"
+                class="ds-ab-state"
+                :class="{ on: abilityState(a).on }"
+              >
+                <i
+                  class="bi"
+                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                />{{ abilityStateLabel(abilityState(a)) }}
+              </span>
+              <span v-html="dsRichText(a.text)" />
+              <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
-            <ConditionChips
-              v-if="abilitySwitchesOf(a).length"
-              class="ds-ab-conds"
-              :switches="abilitySwitchesOf(a)"
-              @toggle="$emit('toggle-cond', $event)"
-            />
-          </div>
-        </DsAccordion>
-      </div>
-      <div v-if="sheet.specialAbilities" class="ds-ability-group">
-        <DsAccordion :collapsible="collapsible">
-          <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ labels.dsSpecialAbilities }}</span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-            </button>
-            <h5 v-else class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
-          </template>
-          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
-            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
-            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
-              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
-            </span>
-            <span v-html="dsRichText(a.text)"></span>
-            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+              <ConditionChips
+                v-if="abilitySwitchesOf(a).length"
+                class="ds-ab-conds"
+                :switches="abilitySwitchesOf(a)"
+                @toggle="$emit('toggle-cond', $event)"
+              />
+            </div>
+          </DsAccordion>
+        </div>
+        <div
+          v-if="sheet.specialAbilities"
+          class="ds-ability-group"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ labels.dsSpecialAbilities }}</span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <h5
+                v-else
+                class="ds-group-title"
+              >
+                {{ labels.dsSpecialAbilities }}
+              </h5>
+            </template>
+            <div
+              v-for="a in sheet.specialAbilities"
+              :key="a.name"
+              class="ds-ability"
+              :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+            >
+              <strong>{{ a.name }}<span
+                v-if="a.nameEn"
+                class="ds-name-en"
+              > ({{ a.nameEn }})</span>:</strong>
+              <span
+                v-if="abilityState(a)"
+                class="ds-ab-state"
+                :class="{ on: abilityState(a).on }"
+              >
+                <i
+                  class="bi"
+                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                />{{ abilityStateLabel(abilityState(a)) }}
+              </span>
+              <span v-html="dsRichText(a.text)" />
+              <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
                  the same switch the unit's row in the list carries — one store, two ways in. -->
-            <ConditionChips
-              v-if="abilitySwitchesOf(a).length"
-              class="ds-ab-conds"
-              :switches="abilitySwitchesOf(a)"
-              @toggle="$emit('toggle-cond', $event)"
-            />
-          </div>
-        </DsAccordion>
-      </div>
-      <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
+              <ConditionChips
+                v-if="abilitySwitchesOf(a).length"
+                class="ds-ab-conds"
+                :switches="abilitySwitchesOf(a)"
+                @toggle="$emit('toggle-cond', $event)"
+              />
+            </div>
+          </DsAccordion>
+        </div>
+        <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
            the parent ability's name, so its "(see below)" reference resolves to this block. -->
-      <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
+        <div
+          v-for="set in sheet.abilitySets"
+          :key="set.name"
+          class="ds-ability-group"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ set.name }}<span
+                  v-if="set.nameEn"
+                  class="ds-name-en"
+                > ({{ set.nameEn }})</span></span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <h5
+                v-else
+                class="ds-group-title"
+              >
+                {{ set.name }}<span
+                  v-if="set.nameEn"
+                  class="ds-name-en"
+                > ({{ set.nameEn }})</span>
+              </h5>
+            </template>
+            <div
+              v-for="a in set.options"
+              :key="a.name"
+              class="ds-ability"
+              :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+            >
+              <strong>{{ a.name }}<span
+                v-if="a.nameEn"
+                class="ds-name-en"
+              > ({{ a.nameEn }})</span>:</strong>
+              <span
+                v-if="abilityState(a)"
+                class="ds-ab-state"
+                :class="{ on: abilityState(a).on }"
+              >
+                <i
+                  class="bi"
+                  :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"
+                />{{ abilityStateLabel(abilityState(a)) }}
+              </span>
+              <span v-html="dsRichText(a.text)" />
+              <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
+                 the same switch the unit's row in the list carries — one store, two ways in. -->
+              <ConditionChips
+                v-if="abilitySwitchesOf(a).length"
+                class="ds-ab-conds"
+                :switches="abilitySwitchesOf(a)"
+                @toggle="$emit('toggle-cond', $event)"
+              />
+            </div>
+          </DsAccordion>
+        </div>
+        <div
+          v-for="r in sheet.rules"
+          :key="r.name"
+          class="ds-ability-group"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ r.name }}<span
+                  v-if="r.nameEn"
+                  class="ds-name-en"
+                > ({{ r.nameEn }})</span></span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <h5
+                v-else
+                class="ds-group-title"
+              >
+                {{ r.name }}<span
+                  v-if="r.nameEn"
+                  class="ds-name-en"
+                > ({{ r.nameEn }})</span>
+              </h5>
+            </template>
+            <div class="ds-ability">
+              <span v-html="dsRichText(r.text)" />
+            </div>
+          </DsAccordion>
+        </div>
+        <div
+          v-if="sheet.damaged"
+          class="ds-damaged"
+        >
+          <DsAccordion :collapsible="collapsible">
+            <template #header="{ open, toggle }">
+              <button
+                v-if="collapsible"
+                type="button"
+                class="ds-damaged-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</span>
+                <i
+                  class="bi ds-chev"
+                  :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
+              </button>
+              <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
+            </template>
+            <div v-html="dsRichText(sheet.damaged.text)" />
+          </DsAccordion>
+        </div>
+      </div>
+
+      <!-- Transport / Leader -->
+      <div
+        v-if="sheet.transport"
+        class="ds-ability-group"
+      >
         <DsAccordion :collapsible="collapsible">
           <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            <button
+              v-if="collapsible"
+              type="button"
+              class="ds-group-title ds-group-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ labels.dsTransport }}</span>
+              <i
+                class="bi ds-chev"
+                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
             </button>
-            <h5 v-else class="ds-group-title">{{ set.name }}<span v-if="set.nameEn" class="ds-name-en"> ({{ set.nameEn }})</span></h5>
+            <h5
+              v-else
+              class="ds-group-title"
+            >
+              {{ labels.dsTransport }}
+            </h5>
           </template>
-          <div v-for="a in set.options" :key="a.name" class="ds-ability" :class="{ 'ds-ability-idle': abilityState(a)?.on === false }">
-            <strong>{{ a.name }}<span v-if="a.nameEn" class="ds-name-en"> ({{ a.nameEn }})</span>:</strong>
-            <span v-if="abilityState(a)" class="ds-ab-state" :class="{ on: abilityState(a).on }">
-              <i class="bi" :class="abilityState(a).on ? 'bi-link-45deg' : 'bi-slash-circle'"></i>{{ abilityStateLabel(abilityState(a)) }}
-            </span>
-            <span v-html="dsRichText(a.text)"></span>
-            <!-- The states this ability's own modifiers read, at the ability. Flipping one here is
-                 the same switch the unit's row in the list carries — one store, two ways in. -->
-            <ConditionChips
-              v-if="abilitySwitchesOf(a).length"
-              class="ds-ab-conds"
-              :switches="abilitySwitchesOf(a)"
-              @toggle="$emit('toggle-cond', $event)"
-            />
-          </div>
+          <div
+            class="ds-ability"
+            v-html="dsRichText(sheet.transport)"
+          />
         </DsAccordion>
       </div>
-      <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
+      <div
+        v-if="sheet.leader"
+        class="ds-ability-group"
+      >
         <DsAccordion :collapsible="collapsible">
           <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            <button
+              v-if="collapsible"
+              type="button"
+              class="ds-group-title ds-group-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ leaderGroupLabel }}</span>
+              <i
+                class="bi ds-chev"
+                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
             </button>
-            <h5 v-else class="ds-group-title">{{ r.name }}<span v-if="r.nameEn" class="ds-name-en"> ({{ r.nameEn }})</span></h5>
+            <h5
+              v-else
+              class="ds-group-title"
+            >
+              {{ leaderGroupLabel }}
+            </h5>
           </template>
           <div class="ds-ability">
-            <span v-html="dsRichText(r.text)"></span>
+            <div v-html="dsRichText(sheet.leader.text)" />
+            <ul class="ds-list">
+              <li
+                v-for="u in visibleLeaderUnits"
+                :key="u"
+              >
+                <RouterLink
+                  v-if="unitIndex?.get(u)"
+                  :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`"
+                >
+                  {{ u }}
+                </RouterLink>
+                <template v-else>
+                  {{ u }}
+                </template>
+              </li>
+            </ul>
+            <div
+              v-if="sheet.leader.footer"
+              v-html="dsRichText(sheet.leader.footer)"
+            />
           </div>
         </DsAccordion>
       </div>
-      <div v-if="sheet.damaged" class="ds-damaged">
-        <DsAccordion :collapsible="collapsible">
-          <template #header="{ open, toggle }">
-            <button v-if="collapsible" type="button" class="ds-damaged-title ds-group-btn" :aria-expanded="open" @click="toggle">
-              <span>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</span>
-              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-            </button>
-            <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
-          </template>
-          <div v-html="dsRichText(sheet.damaged.text)"></div>
-        </DsAccordion>
-      </div>
-    </div>
 
-    <!-- Transport / Leader -->
-    <div v-if="sheet.transport" class="ds-ability-group">
-      <DsAccordion :collapsible="collapsible">
-        <template #header="{ open, toggle }">
-          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-            <span>{{ labels.dsTransport }}</span>
-            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-          </button>
-          <h5 v-else class="ds-group-title">{{ labels.dsTransport }}</h5>
-        </template>
-        <div class="ds-ability" v-html="dsRichText(sheet.transport)"></div>
-      </DsAccordion>
-    </div>
-    <div v-if="sheet.leader" class="ds-ability-group">
-      <DsAccordion :collapsible="collapsible">
-        <template #header="{ open, toggle }">
-          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-            <span>{{ leaderGroupLabel }}</span>
-            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-          </button>
-          <h5 v-else class="ds-group-title">{{ leaderGroupLabel }}</h5>
-        </template>
-        <div class="ds-ability">
-          <div v-html="dsRichText(sheet.leader.text)"></div>
-          <ul class="ds-list">
-            <li v-for="u in visibleLeaderUnits" :key="u">
-              <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
-              <template v-else>{{ u }}</template>
-            </li>
-          </ul>
-          <div v-if="sheet.leader.footer" v-html="dsRichText(sheet.leader.footer)"></div>
-        </div>
-      </DsAccordion>
-    </div>
-
-    <!-- Composition / loadout / options.
+      <!-- Composition / loadout / options.
          Hidden entirely under `hideChoices` (the roster builder): every one of these three
          describes a decision the roster has ALREADY made — how many models, what they start
          equipped with, what may be swapped — and the printed default loadout actively
          contradicts the card above it there, since the weapon tables are filtered to the
          entry's real loadout (see src/components/roster/CLAUDE.md). -->
-    <div v-if="!hideChoices && (sheet.composition || sheet.loadout)" class="ds-ability-group">
-      <DsAccordion :collapsible="collapsible">
-        <template #header="{ open, toggle }">
-          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-            <span>{{ labels.dsComposition }}</span>
-            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-          </button>
-          <h5 v-else class="ds-group-title">{{ labels.dsComposition }}</h5>
-        </template>
-        <div class="ds-ability">
-          <ul v-if="sheet.composition" class="ds-list">
-            <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
-          </ul>
-          <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
-        </div>
-      </DsAccordion>
-    </div>
-    <div v-if="!hideChoices && sheet.options" class="ds-ability-group">
-      <DsAccordion :collapsible="collapsible">
-        <template #header="{ open, toggle }">
-          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
-            <span>{{ labels.dsOptions }}</span>
-            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-          </button>
-          <h5 v-else class="ds-group-title">{{ labels.dsOptions }}</h5>
-        </template>
-        <div class="ds-ability">
-          <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
-        </div>
-      </DsAccordion>
-    </div>
+      <div
+        v-if="!hideChoices && (sheet.composition || sheet.loadout)"
+        class="ds-ability-group"
+      >
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button
+              v-if="collapsible"
+              type="button"
+              class="ds-group-title ds-group-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ labels.dsComposition }}</span>
+              <i
+                class="bi ds-chev"
+                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
+            </button>
+            <h5
+              v-else
+              class="ds-group-title"
+            >
+              {{ labels.dsComposition }}
+            </h5>
+          </template>
+          <div class="ds-ability">
+            <ul
+              v-if="sheet.composition"
+              class="ds-list"
+            >
+              <li
+                v-for="c in sheet.composition"
+                :key="c"
+                v-html="dsText(c)"
+              />
+            </ul>
+            <div
+              v-if="sheet.loadout"
+              class="ds-loadout"
+              v-html="dsText(sheet.loadout)"
+            />
+          </div>
+        </DsAccordion>
+      </div>
+      <div
+        v-if="!hideChoices && sheet.options"
+        class="ds-ability-group"
+      >
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button
+              v-if="collapsible"
+              type="button"
+              class="ds-group-title ds-group-btn"
+              :aria-expanded="open"
+              @click="toggle"
+            >
+              <span>{{ labels.dsOptions }}</span>
+              <i
+                class="bi ds-chev"
+                :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
+            </button>
+            <h5
+              v-else
+              class="ds-group-title"
+            >
+              {{ labels.dsOptions }}
+            </h5>
+          </template>
+          <div class="ds-ability">
+            <div
+              v-for="(o, i) in sheet.options"
+              :key="i"
+              class="ds-option"
+              v-html="dsText(o)"
+            />
+          </div>
+        </DsAccordion>
+      </div>
 
-    <!-- Anything a caller wants to sit inside the card, above its closing Keywords line — the
+      <!-- Anything a caller wants to sit inside the card, above its closing Keywords line — the
          roster's "in effect for this unit" rule blocks land here so they read as part of the
          card rather than as something appended after it. Empty for every other caller. -->
-    <slot name="before-keywords"></slot>
+      <slot name="before-keywords" />
 
-    <!-- Keywords -->
-    <div class="ds-keywords">
-      <div>
-        <strong>{{ labels.dsKeywords }}:</strong>
-        <template v-for="(g, gi) in keywordGroups" :key="gi">
-          <template v-if="gi">{{ ' |' }}</template>
-          <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
-          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', k)">{{ k }}</span></template>
-        </template>
-        <template v-for="g in extraKeywords" :key="'g:' + g.kw">{{ ', ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', g.kw)">{{ g.kw }}</span><sup class="ds-kw-star" aria-hidden="true">*</sup></template>
+      <!-- Keywords -->
+      <div class="ds-keywords">
+        <div>
+          <strong>{{ labels.dsKeywords }}:</strong>
+          <template
+            v-for="(g, gi) in keywordGroups"
+            :key="gi"
+          >
+            <template v-if="gi">
+              {{ ' |' }}
+            </template>
+            <template v-if="g.model">
+              {{ ' ' + g.model + ' -' }}
+            </template>
+            <template
+              v-for="(k, i) in g.list"
+              :key="k"
+            >
+              {{ i ? ', ' : ' ' }}<span
+                class="ds-kw"
+                :class="{ 'ds-kw-link': keywordLinksEnabled }"
+                @click="keywordLinksEnabled && $emit('keyword-click', k)"
+              >{{ k }}</span>
+            </template>
+          </template>
+          <template
+            v-for="g in extraKeywords"
+            :key="'g:' + g.kw"
+          >
+            {{ ', ' }}<span
+              class="ds-kw"
+              :class="{ 'ds-kw-link': keywordLinksEnabled }"
+              @click="keywordLinksEnabled && $emit('keyword-click', g.kw)"
+            >{{ g.kw }}</span><sup
+              class="ds-kw-star"
+              aria-hidden="true"
+            >*</sup>
+          </template>
+        </div>
+        <div>
+          <strong>{{ labels.dsFactionKeywords }}:</strong>
+          <template
+            v-for="(k, i) in sheet.factionKeywords"
+            :key="k"
+          >
+            {{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span>
+          </template>
+        </div>
+        <p
+          v-for="n in extraKeywordNotes"
+          :key="n.note"
+          class="ds-kw-footnote"
+        >
+          * {{ n.kws.join(', ') }} — {{ n.note }}
+        </p>
       </div>
-      <div>
-        <strong>{{ labels.dsFactionKeywords }}:</strong>
-        <template v-for="(k, i) in sheet.factionKeywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
-      </div>
-      <p v-for="n in extraKeywordNotes" :key="n.note" class="ds-kw-footnote">* {{ n.kws.join(', ') }} — {{ n.note }}</p>
-    </div>
 
-    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet).
+      <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet).
          Always the LAST section of the card (mirrors the source books: costs live at the
          bottom of a datasheet, never in its header) — an accent-tinted band like the
          statline zone at the top, so the card is framed by the faction colour. -->
-    <div v-if="pointsTable && !collapsible" class="ds-points">
-      <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
-      <table>
-        <thead>
-          <tr>
-            <th class="pname">{{ pointsTable.hasLabels ? '' : labels.dsModels }}</th>
-            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ tierLabel(t) }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in pointsTable.rows" :key="r.key">
-            <td class="pname">{{ r.label || r.models }}</td>
-            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] != null ? r.cells[t ?? ''] + ' pts' : '—' }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-if="pointsTable.tiers.some((t) => t)" class="ds-points-note">{{ labels.dsPointsCopyNote }}</p>
-    </div>
-  </article>
+      <div
+        v-if="pointsTable && !collapsible"
+        class="ds-points"
+      >
+        <h5 class="ds-points-title">
+          {{ labels.dsPoints }}
+        </h5>
+        <table>
+          <thead>
+            <tr>
+              <th class="pname">
+                {{ pointsTable.hasLabels ? '' : labels.dsModels }}
+              </th>
+              <th
+                v-for="t in pointsTable.tiers"
+                :key="t || 'pts'"
+              >
+                {{ tierLabel(t) }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="r in pointsTable.rows"
+              :key="r.key"
+            >
+              <td class="pname">
+                {{ r.label || r.models }}
+              </td>
+              <td
+                v-for="t in pointsTable.tiers"
+                :key="t || 'pts'"
+              >
+                {{ r.cells[t ?? ''] != null ? r.cells[t ?? ''] + ' pts' : '—' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p
+          v-if="pointsTable.tiers.some((t) => t)"
+          class="ds-points-note"
+        >
+          {{ labels.dsPointsCopyNote }}
+        </p>
+      </div>
+    </article>
   </div>
 </template>
 

@@ -20,51 +20,150 @@
 <template>
   <article class="rpc">
     <header class="rpc-head">
-      <h3 class="rpc-name">{{ sheet.name }}</h3>
-      <span v-for="(t, i) in tags" :key="i" class="rpc-tag">{{ t }}</span>
+      <h3 class="rpc-name">
+        {{ sheet.name }}
+      </h3>
+      <span
+        v-for="(t, i) in tags"
+        :key="i"
+        class="rpc-tag"
+      >{{ t }}</span>
     </header>
 
     <!-- Statlines: the screen card's chamfered plates, in monochrome — the line has the room,
          and the plates are what makes a statline scannable. Labels render once, above the first
          profile's row; the profile's name sits to the right of its plates. -->
-    <div v-if="sheet.profiles?.length" class="rpc-stats">
-      <div v-for="(p, i) in sheet.profiles" :key="i" class="rpc-statline">
-        <span v-for="s in statCells(p)" :key="s.key" class="rpc-stat">
-          <span v-if="i === 0" class="rpc-stat-l">{{ s.label }}</span>
-          <span class="rpc-stat-box" :class="{ mod: isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)">*</sup></span>
+    <div
+      v-if="sheet.profiles?.length"
+      class="rpc-stats"
+    >
+      <div
+        v-for="(p, i) in sheet.profiles"
+        :key="i"
+        class="rpc-statline"
+      >
+        <span
+          v-for="s in statCells(p)"
+          :key="s.key"
+          class="rpc-stat"
+        >
+          <span
+            v-if="i === 0"
+            class="rpc-stat-l"
+          >{{ s.label }}</span>
+          <span
+            class="rpc-stat-box"
+            :class="{ mod: isMarked('profile', s.key, i) }"
+          >{{ s.value }}<sup v-if="isMarked('profile', s.key, i)">*</sup></span>
         </span>
-        <span v-if="p.inv" class="rpc-stat">
-          <span v-if="i === 0" class="rpc-stat-l">INV</span>
-          <span class="rpc-stat-box" :class="{ mod: isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)">*</sup></span>
+        <span
+          v-if="p.inv"
+          class="rpc-stat"
+        >
+          <span
+            v-if="i === 0"
+            class="rpc-stat-l"
+          >INV</span>
+          <span
+            class="rpc-stat-box"
+            :class="{ mod: isMarked('profile', 'inv', i) }"
+          >{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)">*</sup></span>
         </span>
-        <span v-if="sheet.profiles.length > 1" class="rpc-prof">{{ p.name }}</span>
+        <span
+          v-if="sheet.profiles.length > 1"
+          class="rpc-prof"
+        >{{ p.name }}</span>
       </div>
-      <p v-for="n in invNotes" :key="n" class="rpc-invnote">{{ n }}</p>
+      <p
+        v-for="n in invNotes"
+        :key="n"
+        class="rpc-invnote"
+      >
+        {{ n }}
+      </p>
     </div>
 
     <!-- Weapons: the same seven columns the screen card prints, at table size. Multi-profile
          weapons keep the shared-name grouping (wg-*), drawn as an indent instead of a tint. -->
-    <table v-if="rangedRows.length" class="rpc-weapons">
+    <table
+      v-if="rangedRows.length"
+      class="rpc-weapons"
+    >
       <thead>
-        <tr><th class="wn">{{ labels.dsRanged }}</th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th></tr>
+        <tr>
+          <th class="wn">
+            {{ labels.dsRanged }}
+          </th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th>
+        </tr>
       </thead>
       <tbody>
-        <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-          <td class="wn"><span v-if="w.gpos === 'mid' || w.gpos === 'end'" class="rpc-warrow" aria-hidden="true">↳ </span>{{ w.name }}<span v-if="w.qty > 1" class="rpc-wqty"> ×{{ w.qty }}</span><span v-if="w.tags?.length" class="rpc-wtags"> [{{ w.tags.join(', ') }}]</span></td>
+        <tr
+          v-for="(w, i) in rangedRows"
+          :key="i"
+          :class="'wg-' + w.gpos"
+        >
+          <td class="wn">
+            <span
+              v-if="w.gpos === 'mid' || w.gpos === 'end'"
+              class="rpc-warrow"
+              aria-hidden="true"
+            >↳ </span>{{ w.name }}<span
+              v-if="w.qty > 1"
+              class="rpc-wqty"
+            > ×{{ w.qty }}</span><span
+              v-if="w.tags?.length"
+              class="rpc-wtags"
+            > [{{ w.tags.join(', ') }}]</span>
+          </td>
           <td>{{ w.range }}</td>
-          <td v-for="c in WCOLS.ranged" :key="c" :class="{ mod: isMarked('ranged', c, i) }">{{ w[c] }}<sup v-if="isMarked('ranged', c, i)">*</sup></td>
+          <td
+            v-for="c in WCOLS.ranged"
+            :key="c"
+            :class="{ mod: isMarked('ranged', c, i) }"
+          >
+            {{ w[c] }}<sup v-if="isMarked('ranged', c, i)">*</sup>
+          </td>
         </tr>
       </tbody>
     </table>
-    <table v-if="meleeRows.length" class="rpc-weapons">
+    <table
+      v-if="meleeRows.length"
+      class="rpc-weapons"
+    >
       <thead>
-        <tr><th class="wn">{{ labels.dsMelee }}</th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th></tr>
+        <tr>
+          <th class="wn">
+            {{ labels.dsMelee }}
+          </th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th>
+        </tr>
       </thead>
       <tbody>
-        <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-          <td class="wn"><span v-if="w.gpos === 'mid' || w.gpos === 'end'" class="rpc-warrow" aria-hidden="true">↳ </span>{{ w.name }}<span v-if="w.qty > 1" class="rpc-wqty"> ×{{ w.qty }}</span><span v-if="w.tags?.length" class="rpc-wtags"> [{{ w.tags.join(', ') }}]</span></td>
+        <tr
+          v-for="(w, i) in meleeRows"
+          :key="i"
+          :class="'wg-' + w.gpos"
+        >
+          <td class="wn">
+            <span
+              v-if="w.gpos === 'mid' || w.gpos === 'end'"
+              class="rpc-warrow"
+              aria-hidden="true"
+            >↳ </span>{{ w.name }}<span
+              v-if="w.qty > 1"
+              class="rpc-wqty"
+            > ×{{ w.qty }}</span><span
+              v-if="w.tags?.length"
+              class="rpc-wtags"
+            > [{{ w.tags.join(', ') }}]</span>
+          </td>
           <td>Melee</td>
-          <td v-for="c in WCOLS.melee" :key="c" :class="{ mod: isMarked('melee', c, i) }">{{ w[c] }}<sup v-if="isMarked('melee', c, i)">*</sup></td>
+          <td
+            v-for="c in WCOLS.melee"
+            :key="c"
+            :class="{ mod: isMarked('melee', c, i) }"
+          >
+            {{ w[c] }}<sup v-if="isMarked('melee', c, i)">*</sup>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -72,45 +171,102 @@
     <!-- Every `*` above, explained: what the roster's rules did to the numbers ("in play") and —
          if asked for — what they would do once their conditions are met. Same grouping by source
          as the screen card; the condition rides in parentheses instead of behind an icon. -->
-    <div v-for="sec in noteSections" :key="sec.key" class="rpc-mods">
-      <p class="rpc-mods-h">{{ sec.label }}<em v-if="sec.hint"> — {{ sec.hint }}</em></p>
+    <div
+      v-for="sec in noteSections"
+      :key="sec.key"
+      class="rpc-mods"
+    >
+      <p class="rpc-mods-h">
+        {{ sec.label }}<em v-if="sec.hint"> — {{ sec.hint }}</em>
+      </p>
       <ul class="rpc-mods-list">
-        <template v-for="g in sec.groups" :key="g.key">
-          <li class="rpc-mod-src">{{ g.label }}</li>
-          <li v-for="(n, i) in g.notes" :key="i" class="rpc-mod">
-            {{ modDelta(n) }} — {{ n.source }}<span v-if="n.when" class="rpc-mod-when"> ({{ n.when[locale] || n.when.en }})</span>
+        <template
+          v-for="g in sec.groups"
+          :key="g.key"
+        >
+          <li class="rpc-mod-src">
+            {{ g.label }}
+          </li>
+          <li
+            v-for="(n, i) in g.notes"
+            :key="i"
+            class="rpc-mod"
+          >
+            {{ modDelta(n) }} — {{ n.source }}<span
+              v-if="n.when"
+              class="rpc-mod-when"
+            > ({{ n.when[locale] || n.when.en }})</span>
           </li>
         </template>
       </ul>
     </div>
 
-    <p v-if="coreParts.length || extraCore.length" class="rpc-line">
+    <p
+      v-if="coreParts.length || extraCore.length"
+      class="rpc-line"
+    >
       <strong>{{ labels.dsCore }}:</strong>
-      {{ coreParts.join(', ') }}<template v-if="extraCore.length"><template v-if="coreParts.length">, </template><template v-for="(c, i) in extraCore" :key="c.ability"><template v-if="i">, </template>{{ c.ability }}*</template></template>
+      {{ coreLine }}
     </p>
-    <p v-if="sheet.faction" class="rpc-line"><strong>{{ labels.dsFaction }}:</strong> {{ sheet.faction }}</p>
+    <p
+      v-if="sheet.faction"
+      class="rpc-line"
+    >
+      <strong>{{ labels.dsFaction }}:</strong> {{ sheet.faction }}
+    </p>
 
     <!-- Abilities, two columns. One flat stream of unbreakable items; a group's heading is part
          of its first item, so it can never be orphaned at the bottom of a column. -->
-    <div v-if="abilityItems.length" class="rpc-abils">
-      <div v-for="(it, i) in abilityItems" :key="i" class="rpc-ab">
-        <p v-if="it.title" class="rpc-abh">{{ it.title }}</p>
+    <div
+      v-if="abilityItems.length"
+      class="rpc-abils"
+    >
+      <div
+        v-for="(it, i) in abilityItems"
+        :key="i"
+        class="rpc-ab"
+      >
+        <p
+          v-if="it.title"
+          class="rpc-abh"
+        >
+          {{ it.title }}
+        </p>
         <template v-if="it.a">
-          <strong>{{ it.a.name }}<span v-if="it.a.nameEn" class="rpc-en"> ({{ it.a.nameEn }})</span>:</strong>
-          <span v-html="richText(it.a.text)"></span>
+          <strong>{{ it.a.name }}<span
+            v-if="it.a.nameEn"
+            class="rpc-en"
+          > ({{ it.a.nameEn }})</span>:</strong>
+          <span v-html="richText(it.a.text)" />
         </template>
-        <span v-else-if="it.html" v-html="it.html"></span>
+        <span
+          v-else-if="it.html"
+          v-html="it.html"
+        />
       </div>
     </div>
 
     <div class="rpc-keywords">
       <p class="rpc-line">
         <strong>{{ labels.dsKeywords }}:</strong>
-        <template v-for="(g, gi) in keywordGroups" :key="gi"><template v-if="gi"> |</template><template v-if="g.model"> {{ g.model }} -</template> {{ g.list.join(', ') }}</template><template v-for="g in extraKeywords" :key="g.kw">, {{ g.kw }}*</template>
+        {{ keywordLine }}
       </p>
-      <p class="rpc-line"><strong>{{ labels.dsFactionKeywords }}:</strong> {{ (sheet.factionKeywords || []).join(', ') }}</p>
-      <p v-for="n in keywordNotes" :key="n.note" class="rpc-footnote">* {{ n.kws.join(', ') }} — {{ n.note }}</p>
-      <p v-if="extraCore.length" class="rpc-footnote">* {{ extraCore.map((c) => `${c.ability} — ${c.det ? `${c.source} · ${c.det}` : c.source}`).join('; ') }}</p>
+      <p class="rpc-line">
+        <strong>{{ labels.dsFactionKeywords }}:</strong> {{ (sheet.factionKeywords || []).join(', ') }}
+      </p>
+      <p
+        v-for="n in keywordNotes"
+        :key="n.note"
+        class="rpc-footnote"
+      >
+        * {{ n.kws.join(', ') }} — {{ n.note }}
+      </p>
+      <p
+        v-if="extraCore.length"
+        class="rpc-footnote"
+      >
+        * {{ extraCore.map((c) => `${c.ability} — ${c.det ? `${c.source} · ${c.det}` : c.source}`).join('; ') }}
+      </p>
     </div>
   </article>
 </template>
@@ -168,6 +324,22 @@ const extraCore = computed(() => extraCoreOf(props.sheet, props.grantedCore))
 const keywordGroups = computed(() => keywordGroupsOf(props.sheet))
 const extraKeywords = computed(() => extraKeywordsOf(props.sheet, props.grantedKeywords))
 const keywordNotes = computed(() => keywordNotesOf(extraKeywords.value, labels.value))
+
+// Both lines are assembled here rather than in the template. They used to be one long line of
+// nested `<template v-if>`s whose every space was part of the printed output — ", " between
+// abilities, " | " between keyword groups, the "*" tying a granted one to its footnote. That made
+// the template whitespace-sensitive: a line break anywhere inside it prints "Ability , Ability"
+// on a sheet somebody takes to a table.
+const coreLine = computed(() => {
+  const granted = extraCore.value.map((c) => `${c.ability}*`)
+  return [...coreParts.value, ...granted].join(', ')
+})
+const keywordLine = computed(() => {
+  const groups = keywordGroups.value
+    .map((g) => (g.model ? `${g.model} - ` : '') + g.list.join(', '))
+    .join(' | ')
+  return groups + extraKeywords.value.map((g) => `, ${g.kw}*`).join('')
+})
 
 const noteSections = computed(() => {
   const l = labels.value

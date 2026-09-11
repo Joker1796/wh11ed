@@ -1,27 +1,62 @@
 <template>
-  <div v-if="summaries.length" class="army-sum">
-    <button class="as-toggle" @click="open = !open" :aria-expanded="open">
-      <i class="bi" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+  <div
+    v-if="summaries.length"
+    class="army-sum"
+  >
+    <button
+      class="as-toggle"
+      :aria-expanded="open"
+      @click="open = !open"
+    >
+      <i
+        class="bi"
+        :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+      />
       {{ labels.trackerArmyRulesSummary }}
     </button>
 
     <CollapseTransition :show="open">
       <div class="as-body">
-        <div v-for="s in summaries" :key="s.pi" class="as-player">
-          <div class="as-name">{{ s.player }}</div>
-          <div class="as-mech"><span class="as-faction">{{ s.faction }}</span> · {{ s.mechanic }}</div>
+        <div
+          v-for="s in summaries"
+          :key="s.pi"
+          class="as-player"
+        >
+          <div class="as-name">
+            {{ s.player }}
+          </div>
+          <div class="as-mech">
+            <span class="as-faction">{{ s.faction }}</span> · {{ s.mechanic }}
+          </div>
 
-          <ul v-if="s.rounds.length" class="as-rounds">
-            <li v-for="row in s.rounds" :key="row.r">
+          <ul
+            v-if="s.rounds.length"
+            class="as-rounds"
+          >
+            <li
+              v-for="row in s.rounds"
+              :key="row.r"
+            >
               <span class="as-round">{{ labels.trackerRoundAbbr }}{{ row.r }}</span>
               <span class="as-pick">{{ row.text }}</span>
             </li>
           </ul>
-          <div v-else class="as-line">{{ s.line }}</div>
+          <div
+            v-else
+            class="as-line"
+          >
+            {{ s.line }}
+          </div>
 
           <!-- Resurrect spend log (GSC): read-only here, no undo. -->
-          <ul v-if="s.items.length" class="as-items">
-            <li v-for="(it, i) in s.items" :key="i">
+          <ul
+            v-if="s.items.length"
+            class="as-items"
+          >
+            <li
+              v-for="(it, i) in s.items"
+              :key="i"
+            >
               <span class="as-item-label">{{ it.label }}</span>
               <span class="as-item-cost">−{{ it.cost }}</span>
             </li>

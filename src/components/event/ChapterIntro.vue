@@ -1,14 +1,23 @@
 <template>
-  <aside v-if="intro.authorNote" class="author-note">
-    <i class="bi bi-translate author-note-icon"></i>
+  <aside
+    v-if="intro.authorNote"
+    class="author-note"
+  >
+    <i class="bi bi-translate author-note-icon" />
     <div class="author-note-body">
-      <p v-html="renderInline(intro.authorNote)"></p>
-      <a :href="'mailto:' + authorEmail" class="author-note-mail">{{ authorEmail }}</a>
+      <p v-html="renderInline(intro.authorNote)" />
+      <a
+        :href="'mailto:' + authorEmail"
+        class="author-note-mail"
+      >{{ authorEmail }}</a>
     </div>
   </aside>
 
   <div class="rule-body-wrap">
-    <SeeAlsoBlock v-if="intro.seeAlso && intro.seeAlso.length" :refs="intro.seeAlso" />
+    <SeeAlsoBlock
+      v-if="intro.seeAlso && intro.seeAlso.length"
+      :refs="intro.seeAlso"
+    />
 
     <div class="rule-body">
       <!-- Unlike every other chapter's .rule-columns (each item a whole RuleBlock kept
@@ -16,10 +25,17 @@
            multi-root fragment puts its paragraphs/lists directly under .rule-columns, so the
            split happens at that granularity instead, same idea as Core Rules' ChapterIntro. -->
       <div class="rule-columns">
-        <RuleBody :id="intro.id" :body="intro.body" />
+        <RuleBody
+          :id="intro.id"
+          :body="intro.body"
+        />
       </div>
 
-      <div v-if="intro.note" class="note-box" v-html="renderParagraphs(intro.note)"></div>
+      <div
+        v-if="intro.note"
+        class="note-box"
+        v-html="renderParagraphs(intro.note)"
+      />
     </div>
   </div>
 </template>

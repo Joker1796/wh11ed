@@ -1,11 +1,22 @@
 <template>
   <div class="not-found-view">
     <div class="hero">
-      <h1 class="hero-title">404</h1>
-      <div class="hero-subtitle">{{ labels.notFoundHeading }}</div>
+      <h1 class="hero-title">
+        404
+      </h1>
+      <div class="hero-subtitle">
+        {{ labels.notFoundHeading }}
+      </div>
     </div>
-    <p class="not-found-text">{{ labels.notFoundText }}</p>
-    <RouterLink to="/" class="home-link">{{ labels.notFoundHome }}</RouterLink>
+    <p class="not-found-text">
+      {{ labels.notFoundText }}
+    </p>
+    <RouterLink
+      to="/"
+      class="home-link"
+    >
+      {{ labels.notFoundHome }}
+    </RouterLink>
   </div>
 </template>
 
