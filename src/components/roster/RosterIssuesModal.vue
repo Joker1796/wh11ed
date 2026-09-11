@@ -1,8 +1,15 @@
 <template>
-  <BaseModal :title="labels.rosterIssuesTitle" max-width="480px" @close="$emit('close')">
+  <BaseModal
+    :title="labels.rosterIssuesTitle"
+    max-width="480px"
+    @close="$emit('close')"
+  >
     <div class="modal-body ri">
-      <p v-if="!issues.length" class="ri-clean">
-        <i class="bi bi-check-circle-fill"></i> {{ labels.rosterNoIssues }}
+      <p
+        v-if="!issues.length"
+        class="ri-clean"
+      >
+        <i class="bi bi-check-circle-fill" /> {{ labels.rosterNoIssues }}
       </p>
       <component
         :is="iss.uid ? 'button' : 'div'"
@@ -13,11 +20,17 @@
         :class="[iss.level, { 'is-link': iss.uid }]"
         @click="iss.uid && $emit('goto', iss.uid)"
       >
-        <i class="bi" :class="iss.level === 'error' ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"></i>
+        <i
+          class="bi"
+          :class="iss.level === 'error' ? 'bi-x-octagon-fill' : 'bi-exclamation-triangle-fill'"
+        />
         <span class="ri-msg">{{ message(iss) }}</span>
         <!-- The message names the unit; this says the row will take you to it. An issue about the
              army as a whole (points, detachment) has nowhere to go, and does not pretend to. -->
-        <i v-if="iss.uid" class="bi bi-chevron-right ri-go"></i>
+        <i
+          v-if="iss.uid"
+          class="bi bi-chevron-right ri-go"
+        />
       </component>
     </div>
   </BaseModal>

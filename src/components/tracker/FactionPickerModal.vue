@@ -1,24 +1,62 @@
 <template>
-  <BaseModal :title="labels.trackerSelectFaction" @close="$emit('close')">
+  <BaseModal
+    :title="labels.trackerSelectFaction"
+    @close="$emit('close')"
+  >
     <div class="modal-body modal-list">
       <template v-if="pinned.length">
-        <h4 class="fp-group">{{ labels.favPinnedGroup }}</h4>
-        <div v-for="f in pinned" :key="'pin-' + f.slug" class="fac" :class="{ on: selected === f.slug }">
-          <button class="fac-link" @click="$emit('pick', f.slug)">
+        <h4 class="fp-group">
+          {{ labels.favPinnedGroup }}
+        </h4>
+        <div
+          v-for="f in pinned"
+          :key="'pin-' + f.slug"
+          class="fac"
+          :class="{ on: selected === f.slug }"
+        >
+          <button
+            class="fac-link"
+            @click="$emit('pick', f.slug)"
+          >
             <span class="fac-name">{{ f.name }}</span>
-            <span v-if="selected === f.slug" class="fac-check">✓</span>
+            <span
+              v-if="selected === f.slug"
+              class="fac-check"
+            >✓</span>
           </button>
-          <FavoriteStar :pinned="true" @toggle="toggleFaction(f.slug)" />
+          <FavoriteStar
+            :pinned="true"
+            @toggle="toggleFaction(f.slug)"
+          />
         </div>
       </template>
-      <template v-for="g in groups" :key="g.id">
-        <h4 class="fp-group">{{ groupLabel(g.id) }}</h4>
-        <div v-for="f in g.factions" :key="f.slug" class="fac" :class="{ on: selected === f.slug }">
-          <button class="fac-link" @click="$emit('pick', f.slug)">
+      <template
+        v-for="g in groups"
+        :key="g.id"
+      >
+        <h4 class="fp-group">
+          {{ groupLabel(g.id) }}
+        </h4>
+        <div
+          v-for="f in g.factions"
+          :key="f.slug"
+          class="fac"
+          :class="{ on: selected === f.slug }"
+        >
+          <button
+            class="fac-link"
+            @click="$emit('pick', f.slug)"
+          >
             <span class="fac-name">{{ f.name }}</span>
-            <span v-if="selected === f.slug" class="fac-check">✓</span>
+            <span
+              v-if="selected === f.slug"
+              class="fac-check"
+            >✓</span>
           </button>
-          <FavoriteStar :pinned="isFactionPinned(f.slug)" @toggle="toggleFaction(f.slug)" />
+          <FavoriteStar
+            :pinned="isFactionPinned(f.slug)"
+            @toggle="toggleFaction(f.slug)"
+          />
         </div>
       </template>
     </div>

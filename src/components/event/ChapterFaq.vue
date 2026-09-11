@@ -1,12 +1,26 @@
 <template>
-  <h2 class="chapter-heading">{{ labels.eventFaqHeading }}</h2>
-  <p class="chapter-desc">{{ labels.eventFaqDesc }}</p>
+  <h2 class="chapter-heading">
+    {{ labels.eventFaqHeading }}
+  </h2>
+  <p class="chapter-desc">
+    {{ labels.eventFaqDesc }}
+  </p>
 
-  <p class="lead">{{ faq.intro }}</p>
-  <p class="errata" v-html="renderInline(faq.errata)"></p>
+  <p class="lead">
+    {{ faq.intro }}
+  </p>
+  <p
+    class="errata"
+    v-html="renderInline(faq.errata)"
+  />
 
   <div class="faq-list">
-    <FaqItem v-for="(item, i) in faq.items" :key="i" :q="item.q" :a="item.a" />
+    <FaqItem
+      v-for="(item, i) in faq.items"
+      :key="i"
+      :q="item.q"
+      :a="item.a"
+    />
   </div>
 </template>
 

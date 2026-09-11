@@ -1,11 +1,21 @@
 <template>
-  <nav class="sidebar" :class="{ open: mobileOpen }" :aria-label="labels.ariaNavigation">
+  <nav
+    class="sidebar"
+    :class="{ open: mobileOpen }"
+    :aria-label="labels.ariaNavigation"
+  >
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <span class="sidebar-logo">WH40K</span>
         <span class="sidebar-subtitle">Core Rules 11th Ed.</span>
       </div>
-      <button class="mobile-close" @click="$emit('close')" :aria-label="labels.ariaCloseMenu">✕</button>
+      <button
+        class="mobile-close"
+        :aria-label="labels.ariaCloseMenu"
+        @click="$emit('close')"
+      >
+        ✕
+      </button>
     </div>
 
     <div class="nav-groups">
@@ -16,16 +26,33 @@
         :class="{ open: openSection === section.key }"
       >
         <div class="nav-section-header">
-          <button class="nav-section-label" @click="goToSection(section)">{{ section.label }}</button>
+          <button
+            class="nav-section-label"
+            @click="goToSection(section)"
+          >
+            {{ section.label }}
+          </button>
           <button
             v-if="!isDirect(section)"
             class="nav-section-toggle"
-            @click="toggleSection(section.key)"
             :aria-expanded="openSection === section.key"
             :aria-label="labels.ariaToggleSection"
+            @click="toggleSection(section.key)"
           >
-            <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              class="chevron"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M2 4l4 4 4-4"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -42,16 +69,33 @@
                    Event Companion / Combat Patrol, each collapsing its own group list. -->
               <template v-if="item.isSubsection">
                 <div class="nav-group-label">
-                  <button class="nav-group-link" @click="goToSubsection(item)">{{ item.label }}</button>
+                  <button
+                    class="nav-group-link"
+                    @click="goToSubsection(item)"
+                  >
+                    {{ item.label }}
+                  </button>
                   <button
                     class="nav-group-toggle"
                     :class="{ expanded: expandedSubsection === item.subsectionKey }"
-                    @click="toggleSubsection(item)"
                     :aria-expanded="expandedSubsection === item.subsectionKey"
                     :aria-label="labels.ariaToggleSubsections"
+                    @click="toggleSubsection(item)"
                   >
-                    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg
+                      class="chevron"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                    >
+                      <path
+                        d="M2 4l4 4 4-4"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -65,25 +109,49 @@
                       :class="{ active: isActive(group, item.groups) }"
                     >
                       <div class="nav-group-label">
-                        <button class="nav-group-link" @click="goToGroup(group)">{{ group.label }}</button>
+                        <button
+                          class="nav-group-link"
+                          @click="goToGroup(group)"
+                        >
+                          {{ group.label }}
+                        </button>
                         <button
                           v-if="group.sections.length"
                           class="nav-group-toggle"
                           :class="{ expanded: expandedKey === groupKey(group) }"
-                          @click="toggleGroupExpand(group)"
                           :aria-expanded="expandedKey === groupKey(group)"
                           :aria-label="labels.ariaToggleSubsections"
+                          @click="toggleGroupExpand(group)"
                         >
-                          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <svg
+                            class="chevron"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <path
+                              d="M2 4l4 4 4-4"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
                           </svg>
                         </button>
                       </div>
 
                       <CollapseTransition :show="expandedKey === groupKey(group) && group.sections.length > 0">
                         <ul class="nav-sub">
-                          <li v-for="sec in group.sections" :key="sec.label">
-                            <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group, sec.id, sec.filter)">
+                          <li
+                            v-for="sec in group.sections"
+                            :key="sec.label"
+                          >
+                            <a
+                              href="#"
+                              class="nav-sub-link"
+                              @click.prevent="handleAnchorClick(group, sec.id, sec.filter)"
+                            >
                               {{ sec.label.replace(/^\d+\s+/, '') }}
                             </a>
                           </li>
@@ -96,25 +164,49 @@
 
               <template v-else>
                 <div class="nav-group-label">
-                  <button class="nav-group-link" @click="goToGroup(item)">{{ item.label }}</button>
+                  <button
+                    class="nav-group-link"
+                    @click="goToGroup(item)"
+                  >
+                    {{ item.label }}
+                  </button>
                   <button
                     v-if="item.sections.length"
                     class="nav-group-toggle"
                     :class="{ expanded: expandedKey === groupKey(item) }"
-                    @click="toggleGroupExpand(item)"
                     :aria-expanded="expandedKey === groupKey(item)"
                     :aria-label="labels.ariaToggleSubsections"
+                    @click="toggleGroupExpand(item)"
                   >
-                    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg
+                      class="chevron"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                    >
+                      <path
+                        d="M2 4l4 4 4-4"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                   </button>
                 </div>
 
                 <CollapseTransition :show="expandedKey === groupKey(item) && item.sections.length > 0">
                   <ul class="nav-sub">
-                    <li v-for="sec in item.sections" :key="sec.label">
-                      <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(item, sec.id, sec.filter)">
+                    <li
+                      v-for="sec in item.sections"
+                      :key="sec.label"
+                    >
+                      <a
+                        href="#"
+                        class="nav-sub-link"
+                        @click.prevent="handleAnchorClick(item, sec.id, sec.filter)"
+                      >
                         {{ sec.label.replace(/^\d+\s+/, '') }}
                       </a>
                     </li>

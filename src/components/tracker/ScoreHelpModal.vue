@@ -1,24 +1,34 @@
 <template>
-  <BaseModal :title="labels.trackerScoreHelpTitle" max-width="420px" :z-index="410" @close="$emit('close')">
-      <div class="modal-body">
-        <p class="sh-text">{{ labels.trackerScoreHelpText }}</p>
-        <table class="sh-table">
-          <thead>
-            <tr>
-              <th>{{ labels.trackerScoreHelpDiff }}</th>
-              <th>{{ labels.trackerScoreHelpWin }}</th>
-              <th>{{ labels.trackerScoreHelpLose }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="b in BP_TABLE" :key="b.label">
-              <td>{{ b.label }}</td>
-              <td>{{ b.win }}</td>
-              <td>{{ b.lose }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <BaseModal
+    :title="labels.trackerScoreHelpTitle"
+    max-width="420px"
+    :z-index="410"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <p class="sh-text">
+        {{ labels.trackerScoreHelpText }}
+      </p>
+      <table class="sh-table">
+        <thead>
+          <tr>
+            <th>{{ labels.trackerScoreHelpDiff }}</th>
+            <th>{{ labels.trackerScoreHelpWin }}</th>
+            <th>{{ labels.trackerScoreHelpLose }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="b in BP_TABLE"
+            :key="b.label"
+          >
+            <td>{{ b.label }}</td>
+            <td>{{ b.win }}</td>
+            <td>{{ b.lose }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </BaseModal>
 </template>
 

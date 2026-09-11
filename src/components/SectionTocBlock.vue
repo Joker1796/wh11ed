@@ -1,9 +1,21 @@
 <template>
   <div class="section-toc">
-    <p v-if="description" class="section-toc-desc">{{ description }}</p>
+    <p
+      v-if="description"
+      class="section-toc-desc"
+    >
+      {{ description }}
+    </p>
     <ol class="section-toc-list">
-      <li v-for="item in items" :key="item.id">
-        <a href="#" class="section-toc-link" @click.prevent="go(item)">
+      <li
+        v-for="item in items"
+        :key="item.id"
+      >
+        <a
+          href="#"
+          class="section-toc-link"
+          @click.prevent="go(item)"
+        >
           <span class="section-toc-num">{{ item.sectionNum }}</span>
           {{ item.title }}
         </a>

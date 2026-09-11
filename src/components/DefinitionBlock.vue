@@ -1,8 +1,18 @@
 <template>
   <div class="definition-block">
-    <div v-for="(def, i) in definitions" :key="i" :id="'def-' + def.id" class="definition-item">
-      <p class="definition-term">{{ def.term }}</p>
-      <div class="definition-text" v-html="renderLines(def.text)"></div>
+    <div
+      v-for="(def, i) in definitions"
+      :id="'def-' + def.id"
+      :key="i"
+      class="definition-item"
+    >
+      <p class="definition-term">
+        {{ def.term }}
+      </p>
+      <div
+        class="definition-text"
+        v-html="renderLines(def.text)"
+      />
     </div>
   </div>
 </template>

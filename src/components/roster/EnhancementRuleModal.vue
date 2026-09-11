@@ -1,25 +1,66 @@
 <template>
-  <BaseModal max-width="640px" max-height="85dvh" @close="$emit('close')">
+  <BaseModal
+    max-width="640px"
+    max-height="85dvh"
+    @close="$emit('close')"
+  >
     <template #header="{ close }">
       <header class="modal-head">
-        <h3 class="mh-title">{{ enh?.name || name }}</h3>
+        <h3 class="mh-title">
+          {{ enh?.name || name }}
+        </h3>
         <div class="mh-right">
-          <span v-if="enh?.points != null" class="erm-head-pts">+{{ enh.points }}</span>
-          <button class="mh-close" @click="close" :aria-label="labels.modalClose">✕</button>
+          <span
+            v-if="enh?.points != null"
+            class="erm-head-pts"
+          >+{{ enh.points }}</span>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="close"
+          >
+            ✕
+          </button>
         </div>
       </header>
     </template>
     <div class="modal-body">
       <template v-if="enh">
-        <div v-if="enh.aura || enh.upgrade" class="erm-head">
-          <span v-if="enh.aura" class="erm-tag">{{ labels.factionAura }}</span>
-          <span v-if="enh.upgrade" class="erm-tag">Upgrade</span>
+        <div
+          v-if="enh.aura || enh.upgrade"
+          class="erm-head"
+        >
+          <span
+            v-if="enh.aura"
+            class="erm-tag"
+          >{{ labels.factionAura }}</span>
+          <span
+            v-if="enh.upgrade"
+            class="erm-tag"
+          >Upgrade</span>
         </div>
-        <p v-if="enh.flavor" class="erm-flavor">{{ enh.flavor }}</p>
-        <div class="erm-body" v-html="renderInline(enh.body)"></div>
-        <div v-if="enh.note" class="erm-note" v-html="renderInline(enh.note)"></div>
+        <p
+          v-if="enh.flavor"
+          class="erm-flavor"
+        >
+          {{ enh.flavor }}
+        </p>
+        <div
+          class="erm-body"
+          v-html="renderInline(enh.body)"
+        />
+        <div
+          v-if="enh.note"
+          class="erm-note"
+          v-html="renderInline(enh.note)"
+        />
       </template>
-      <p v-else-if="loaded" class="erm-missing">{{ labels.rosterNoProfile }}</p>
+      <p
+        v-else-if="loaded"
+        class="erm-missing"
+      >
+        {{ labels.rosterNoProfile }}
+      </p>
     </div>
   </BaseModal>
 </template>

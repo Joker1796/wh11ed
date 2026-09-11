@@ -1,15 +1,26 @@
 <template>
-  <div v-if="switches.length" class="cond-chips">
+  <div
+    v-if="switches.length"
+    class="cond-chips"
+  >
     <!-- Chips are boxed when the set has something to say about itself: a group that HOLDS more
          than one (Creations of Bile picks two of six augmentations) has to say how full it is,
          because turning a third one on quietly drops the oldest — and a set that names its rule
          has to say WHICH, since six chips reading "Adrenalight"/"Hypex"/… are unreadable until
          something calls them Combat Drugs. Plain ungrouped states render flat, through a
          `display: contents` wrapper that adds no box of its own. -->
-    <div v-for="g in groups" :key="g.key" class="cond-group" :class="{ boxed: g.limit > 1 || g.owner }">
+    <div
+      v-for="g in groups"
+      :key="g.key"
+      class="cond-group"
+      :class="{ boxed: g.limit > 1 || g.owner }"
+    >
       <!-- A set of options printed on one unit's card is switched here, far from that card, so the
            group says whose rule it is before it says how full it is. -->
-      <span v-if="g.owner" class="cond-group-h cond-group-owner">
+      <span
+        v-if="g.owner"
+        class="cond-group-h cond-group-owner"
+      >
         {{ g.owner }}
         <!-- The rule's own text, where the set knows it — the answer to "what IS this?", one tap
              from the chips instead of three screens away on somebody's card. -->
@@ -20,16 +31,23 @@
           data-kw-open
           :aria-label="g.owner"
           @click="$emit('info', { info: g.info }, $event.currentTarget.getBoundingClientRect())"
-        ><i class="bi bi-info-circle"></i></button>
+        ><i class="bi bi-info-circle" /></button>
       </span>
-      <span v-if="g.limit > 1" class="cond-group-h">
+      <span
+        v-if="g.limit > 1"
+        class="cond-group-h"
+      >
         {{ labels.rosterCondPicked.replace('{n}', g.picked).replace('{max}', g.limit) }}
       </span>
       <!-- A chip and, for one that names somebody's printed rule, the "i" beside it: "The Fiery
            Heart" is a name, not a rule, and the card explaining it is three screens away. A button
            cannot hold a button, so the pair shares a wrapper — and reads as one control split in
            two, the chip's own right edge being the line between them. -->
-      <span v-for="sw in g.items" :key="sw.id" class="cond-item">
+      <span
+        v-for="sw in g.items"
+        :key="sw.id"
+        class="cond-item"
+      >
         <button
           type="button"
           class="cond-chip"
@@ -41,14 +59,20 @@
         >
           <!-- A square box, not a round one: this is a checkbox (each state stands alone), and
                round is the shape the app reserves for a radio-style either/or. -->
-          <i class="bi" :class="sw.on ? 'bi-check-square-fill' : 'bi-square'"></i>
+          <i
+            class="bi"
+            :class="sw.on ? 'bi-check-square-fill' : 'bi-square'"
+          />
           <span class="cond-chip-text">
             {{ sw.label[locale] || sw.label.en }}
             <!-- The second line: this chip's own translated name (a stratagem's, which stays
                  English on the first line by project convention) and, if it cannot be tapped, why.
                  The reason used to live in `title` alone — invisible on a touch screen, which is
                  where this is read — so a chip that was inert by design looked like a broken one. -->
-            <small v-if="subLine(sw)" class="cond-chip-sub">{{ subLine(sw) }}</small>
+            <small
+              v-if="subLine(sw)"
+              class="cond-chip-sub"
+            >{{ subLine(sw) }}</small>
           </span>
         </button>
         <button
@@ -58,7 +82,7 @@
           data-kw-open
           :aria-label="sw.label[locale] || sw.label.en"
           @click="$emit('info', sw, $event.currentTarget.getBoundingClientRect())"
-        ><i class="bi bi-info-circle"></i></button>
+        ><i class="bi bi-info-circle" /></button>
       </span>
     </div>
   </div>

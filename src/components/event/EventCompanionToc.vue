@@ -1,6 +1,15 @@
 <template>
-  <nav class="event-toc" :class="'event-toc--' + variant" :aria-label="labels.ariaPageContents">
-    <div v-if="variant === 'page'" class="event-toc-header">{{ labels.contentsHeading }}</div>
+  <nav
+    class="event-toc"
+    :class="'event-toc--' + variant"
+    :aria-label="labels.ariaPageContents"
+  >
+    <div
+      v-if="variant === 'page'"
+      class="event-toc-header"
+    >
+      {{ labels.contentsHeading }}
+    </div>
 
     <div class="event-toc-grid">
       <div
@@ -15,8 +24,14 @@
           @click.prevent="$emit('select', group.hash.slice(1))"
         >{{ group.label }}</a>
 
-        <ul v-if="group.sections.length" class="event-toc-list">
-          <li v-for="sec in group.sections" :key="sec.id + sec.label">
+        <ul
+          v-if="group.sections.length"
+          class="event-toc-list"
+        >
+          <li
+            v-for="sec in group.sections"
+            :key="sec.id + sec.label"
+          >
             <a
               class="event-toc-link"
               :class="{ current: sec.id === activeId }"

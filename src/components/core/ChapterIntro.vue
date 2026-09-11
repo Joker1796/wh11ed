@@ -1,36 +1,63 @@
 <template>
   <div class="intro-quote">
-    <p class="flavor-line">{{ t.lore }}</p>
-    <p v-for="line in t.flavorText" :key="line" class="flavor-line">{{ line }}</p>
+    <p class="flavor-line">
+      {{ t.lore }}
+    </p>
+    <p
+      v-for="line in t.flavorText"
+      :key="line"
+      class="flavor-line"
+    >
+      {{ line }}
+    </p>
   </div>
 
-  <section id="intro-about" class="intro-section">
+  <section
+    id="intro-about"
+    class="intro-section"
+  >
     <h2>{{ labels.introHeading }}</h2>
     <!-- The prose itself flows in two columns on desktop (.rule-columns, global in
          style.css) — the same masonry as the rule chapters, just applied at paragraph
          granularity: each paragraph is a column item, distributed without splitting one
          mid-paragraph across the gap. The heading stays outside it, full width. -->
     <div class="rule-columns">
-      <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+      <div
+        v-for="para in introParagraphs"
+        :key="para"
+        class="para"
+        v-html="renderInline(para)"
+      />
       <div
         v-for="(para, i) in missionParagraphs"
         :key="para"
         class="para"
         :class="{ 'para-col-break-after': i === 1 }"
         v-html="renderInline(para)"
-      ></div>
+      />
     </div>
   </section>
 
-  <section id="intro-app" class="intro-section">
+  <section
+    id="intro-app"
+    class="intro-section"
+  >
     <h2>{{ labels.appHeading }}</h2>
     <div class="app-body">
       <div class="app-qr">
-        <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
-          <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
+        <a
+          href="https://warhammer40000.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="/images/wh40k-app-qr.png"
+            alt="QR code — Warhammer 40,000 App"
+            class="qr-img"
+          >
         </a>
       </div>
-      <p v-html="renderInline(t.app)"></p>
+      <p v-html="renderInline(t.app)" />
     </div>
   </section>
 </template>

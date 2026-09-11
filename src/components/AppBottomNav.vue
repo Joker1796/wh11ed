@@ -4,24 +4,46 @@
        conditional item here; it now lives on the player's card in the tracker (RoundTracker.vue),
        which knows WHOSE faction it is and so covers the opponent too. -->
   <nav class="bottom-nav">
-    <button type="button" class="bn-item" :class="{ active: isRulesRoute }" @click="$emit('open-rules')">
-      <i class="bi bi-book-half"></i>
+    <button
+      type="button"
+      class="bn-item"
+      :class="{ active: isRulesRoute }"
+      @click="$emit('open-rules')"
+    >
+      <i class="bi bi-book-half" />
       <span>{{ labels.navRules }}</span>
     </button>
-    <RouterLink to="/roster" class="bn-item" :class="{ active: isRosterRoute }">
-      <i class="bi bi-clipboard-plus"></i>
+    <RouterLink
+      to="/roster"
+      class="bn-item"
+      :class="{ active: isRosterRoute }"
+    >
+      <i class="bi bi-clipboard-plus" />
       <span>{{ labels.navRoster }}</span>
     </RouterLink>
-    <button type="button" class="bn-item" :class="{ active: isFactionRoute }" @click="$emit('open-factions')">
-      <i class="bi bi-shield-shaded"></i>
+    <button
+      type="button"
+      class="bn-item"
+      :class="{ active: isFactionRoute }"
+      @click="$emit('open-factions')"
+    >
+      <i class="bi bi-shield-shaded" />
       <span>{{ labels.navFactions }}</span>
     </button>
-    <RouterLink to="/stratagems" class="bn-item" :class="{ active: isStratagemsRoute }">
-      <i class="bi bi-lightning-charge"></i>
+    <RouterLink
+      to="/stratagems"
+      class="bn-item"
+      :class="{ active: isStratagemsRoute }"
+    >
+      <i class="bi bi-lightning-charge" />
       <span>{{ labels.navStratagemsShort }}</span>
     </RouterLink>
-    <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute }">
-      <i class="bi bi-clipboard-data"></i>
+    <RouterLink
+      to="/tracker"
+      class="bn-item"
+      :class="{ active: isTrackerRoute }"
+    >
+      <i class="bi bi-clipboard-data" />
       <span>{{ labels.navTracker }}</span>
     </RouterLink>
   </nav>

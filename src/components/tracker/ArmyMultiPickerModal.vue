@@ -2,10 +2,21 @@
   <BaseModal @close="$emit('close')">
     <template #header>
       <header class="modal-head">
-        <h3 class="mh-title">{{ title }}</h3>
+        <h3 class="mh-title">
+          {{ title }}
+        </h3>
         <div class="mh-right">
-          <em class="pick-count" :class="{ full: selected.length >= max }">{{ selected.length }} / {{ max }}</em>
-          <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
+          <em
+            class="pick-count"
+            :class="{ full: selected.length >= max }"
+          >{{ selected.length }} / {{ max }}</em>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="$emit('close')"
+          >
+            ✕
+          </button>
         </div>
       </header>
     </template>
@@ -21,13 +32,22 @@
         :aria-pressed="selected.includes(o.id)"
         @click="$emit('toggle', o.id)"
       >
-        <i class="bi opt-check" :class="selected.includes(o.id) ? 'bi-check-square-fill' : 'bi-square'"></i>
+        <i
+          class="bi opt-check"
+          :class="selected.includes(o.id) ? 'bi-check-square-fill' : 'bi-square'"
+        />
         <span class="opt-main">
           <span class="opt-head">
             <span class="opt-name">{{ o.name }}</span>
-            <span v-if="o.req" class="opt-req">{{ o.req }}</span>
+            <span
+              v-if="o.req"
+              class="opt-req"
+            >{{ o.req }}</span>
           </span>
-          <RuleBody v-if="o.body" :body="o.body" />
+          <RuleBody
+            v-if="o.body"
+            :body="o.body"
+          />
         </span>
       </button>
     </div>

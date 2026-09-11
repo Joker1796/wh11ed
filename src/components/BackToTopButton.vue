@@ -11,7 +11,7 @@
       :aria-label="labels.backToTop"
       @click="scrollToTop"
     >
-      <i class="bi bi-arrow-up"></i>
+      <i class="bi bi-arrow-up" />
     </button>
   </Transition>
 </template>

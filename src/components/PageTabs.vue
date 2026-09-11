@@ -1,11 +1,30 @@
 <template>
   <!-- Angular 40k-style page tabs. Two shapes of tab, one look: a router-linked tab (`to`)
        for pages that are separate routes, a plain button (`key`) for an in-page switch. -->
-  <nav class="page-tabs" :aria-label="ariaLabel" :role="asTablist ? 'tablist' : undefined">
-    <template v-for="t in tabs" :key="t.key || t.to">
-      <RouterLink v-if="t.to" :to="t.to" class="page-tab" :class="{ active: t.active }">
-        <i v-if="t.icon" class="page-tab-icon" :class="t.icon"></i>{{ t.label }}
-        <span v-if="t.count != null" class="page-tab-n">{{ t.count }}</span>
+  <nav
+    class="page-tabs"
+    :aria-label="ariaLabel"
+    :role="asTablist ? 'tablist' : undefined"
+  >
+    <template
+      v-for="t in tabs"
+      :key="t.key || t.to"
+    >
+      <RouterLink
+        v-if="t.to"
+        :to="t.to"
+        class="page-tab"
+        :class="{ active: t.active }"
+      >
+        <i
+          v-if="t.icon"
+          class="page-tab-icon"
+          :class="t.icon"
+        />{{ t.label }}
+        <span
+          v-if="t.count != null"
+          class="page-tab-n"
+        >{{ t.count }}</span>
       </RouterLink>
       <button
         v-else
@@ -16,8 +35,15 @@
         :aria-selected="!!t.active"
         @click="emit('select', t.key)"
       >
-        <i v-if="t.icon" class="page-tab-icon" :class="t.icon"></i>{{ t.label }}
-        <span v-if="t.count != null" class="page-tab-n">{{ t.count }}</span>
+        <i
+          v-if="t.icon"
+          class="page-tab-icon"
+          :class="t.icon"
+        />{{ t.label }}
+        <span
+          v-if="t.count != null"
+          class="page-tab-n"
+        >{{ t.count }}</span>
       </button>
     </template>
   </nav>

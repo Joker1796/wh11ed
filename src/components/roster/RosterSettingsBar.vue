@@ -14,35 +14,55 @@
   <div class="rw-bar">
     <!-- The editor already has the name as its page header, in full display type; repeating it
          here would be two inputs for one field. The wizard has no such header, so it shows it. -->
-    <label v-if="showName" class="rw-field rw-name">
+    <label
+      v-if="showName"
+      class="rw-field rw-name"
+    >
       <span>{{ labels.rosterNameLabel }}</span>
       <input
         type="text"
         :value="name"
         :placeholder="labels.rosterNewName"
         @input="$emit('update:name', $event.target.value)"
-      />
+      >
     </label>
 
     <div class="rw-field">
       <span>{{ labels.rosterFactionLabel }}</span>
-      <button class="rw-choose" @click="factionPickerOpen = true">
+      <button
+        class="rw-choose"
+        @click="factionPickerOpen = true"
+      >
         <span :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down"></i>
+        <i class="bi bi-chevron-down" />
       </button>
     </div>
 
     <div class="rw-field">
       <span>
         {{ labels.rosterDetachmentLabel }}
-        <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > maxDp && !dpOverAllowed }">{{ dpSpent }} / {{ maxDp }} DP</em>
-        <button v-if="dpOverAllowed" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
-          <i class="bi bi-question-circle"></i>
+        <em
+          v-if="factionSlug"
+          class="dp-count"
+          :class="{ over: dpSpent > maxDp && !dpOverAllowed }"
+        >{{ dpSpent }} / {{ maxDp }} DP</em>
+        <button
+          v-if="dpOverAllowed"
+          type="button"
+          class="help-btn"
+          :aria-label="labels.trackerDpOverHelp"
+          @click="dpHelpOpen = true"
+        >
+          <i class="bi bi-question-circle" />
         </button>
       </span>
-      <button class="rw-choose" :disabled="!factionSlug" @click="detachmentPickerOpen = true">
+      <button
+        class="rw-choose"
+        :disabled="!factionSlug"
+        @click="detachmentPickerOpen = true"
+      >
         <span :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down"></i>
+        <i class="bi bi-chevron-down" />
       </button>
     </div>
 
@@ -55,8 +75,15 @@
             :key="b.id"
             :class="{ on: battleSize === b.id }"
             @click="$emit('update:battleSize', b.id)"
-          >{{ b.points }}</button>
-          <button :class="{ on: battleSize === 'custom' }" @click="$emit('update:battleSize', 'custom')">{{ labels.rosterCustom }}</button>
+          >
+            {{ b.points }}
+          </button>
+          <button
+            :class="{ on: battleSize === 'custom' }"
+            @click="$emit('update:battleSize', 'custom')"
+          >
+            {{ labels.rosterCustom }}
+          </button>
         </div>
         <input
           v-if="battleSize === 'custom'"
@@ -66,29 +93,43 @@
           step="5"
           :value="customPoints"
           @input="$emit('update:customPoints', $event.target.value)"
-        />
+        >
       </div>
     </div>
 
     <!-- An army has ONE Force Disposition. One detachment settles it and there is nothing to ask;
          several make it a declaration, and the list is where it is declared. -->
-    <div v-if="factionSlug && dispositionCands.length" class="rw-field">
+    <div
+      v-if="factionSlug && dispositionCands.length"
+      class="rw-field"
+    >
       <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-      <span v-if="dispositionCands.length === 1" class="rw-static">{{ dispositionCands[0] }}</span>
-      <div v-else class="seg">
+      <span
+        v-if="dispositionCands.length === 1"
+        class="rw-static"
+      >{{ dispositionCands[0] }}</span>
+      <div
+        v-else
+        class="seg"
+      >
         <button
           v-for="d in dispositionCands"
           :key="d"
           :class="{ on: disposition === d }"
           @click="$emit('update:disposition', d)"
-        >{{ d }}</button>
+        >
+          {{ d }}
+        </button>
       </div>
     </div>
 
     <!-- The points end the line, as they do in the corner of the sticky bar below: the number that
          is consulted constantly belongs where the eye already is, not two feet down the screen. -->
     <div class="rw-tally">
-      <span class="rw-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+      <span
+        class="rw-points"
+        :class="{ over: points > limit }"
+      >{{ points }} / {{ limit }}</span>
       <button
         v-if="factionSlug"
         type="button"
@@ -97,14 +138,23 @@
         @click="$emit('open-issues')"
       >
         <template v-if="errorCount">
-          <i class="bi bi-exclamation-triangle-fill"></i> {{ errorCount }}
+          <i class="bi bi-exclamation-triangle-fill" /> {{ errorCount }}
         </template>
-        <i v-else class="bi bi-check-circle-fill"></i>
+        <i
+          v-else
+          class="bi bi-check-circle-fill"
+        />
       </button>
       <!-- The notes and the legality switch are decided once and then left alone; giving each a
            permanent slot would spend the line on the two things nobody looks at twice. -->
-      <button type="button" class="rw-more" :aria-label="labels.rosterMoreSettings" :title="labels.rosterMoreSettings" @click="moreOpen = true">
-        <i class="bi bi-three-dots"></i>
+      <button
+        type="button"
+        class="rw-more"
+        :aria-label="labels.rosterMoreSettings"
+        :title="labels.rosterMoreSettings"
+        @click="moreOpen = true"
+      >
+        <i class="bi bi-three-dots" />
       </button>
     </div>
 
@@ -124,10 +174,24 @@
       @clear="$emit('clear-detachments')"
       @close="detachmentPickerOpen = false"
     />
-    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
-      <div class="modal-body"><p class="rw-help">{{ labels.trackerDpOverText }}</p></div>
+    <BaseModal
+      v-if="dpHelpOpen"
+      :title="labels.trackerDpOverTitle"
+      max-width="380px"
+      @close="dpHelpOpen = false"
+    >
+      <div class="modal-body">
+        <p class="rw-help">
+          {{ labels.trackerDpOverText }}
+        </p>
+      </div>
     </BaseModal>
-    <BaseModal v-if="moreOpen" :title="labels.rosterMoreSettings" max-width="480px" @close="moreOpen = false">
+    <BaseModal
+      v-if="moreOpen"
+      :title="labels.rosterMoreSettings"
+      max-width="480px"
+      @close="moreOpen = false"
+    >
       <div class="modal-body rw-more-body">
         <label class="field">
           <span>{{ labels.rosterNotes }}</span>
@@ -136,10 +200,17 @@
             :maxlength="ROSTER_NOTES_MAX"
             :value="notes"
             @input="$emit('update:notes', $event.target.value)"
-          ></textarea>
+          />
         </label>
-        <label class="check" :class="{ on: checkLegality }">
-          <input type="checkbox" :checked="checkLegality" @change="$emit('update:checkLegality', $event.target.checked)" />
+        <label
+          class="check"
+          :class="{ on: checkLegality }"
+        >
+          <input
+            type="checkbox"
+            :checked="checkLegality"
+            @change="$emit('update:checkLegality', $event.target.checked)"
+          >
           <span>
             {{ labels.rosterCheckLegality }}
             <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>

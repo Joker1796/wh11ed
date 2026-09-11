@@ -1,15 +1,22 @@
 <template>
-  <div v-if="view" class="army-card" :style="accentVars">
+  <div
+    v-if="view"
+    class="army-card"
+    :style="accentVars"
+  >
     <div class="army-head">
       <div class="army-heading">
         <span class="army-label">{{ view.label }}</span>
-        <span v-if="view.ruleName" class="army-rule-name">{{ view.ruleName }}</span>
+        <span
+          v-if="view.ruleName"
+          class="army-rule-name"
+        >{{ view.ruleName }}</span>
       </div>
       <NumberStepper
         v-if="view.kind === 'counter' && !view.spends"
-        :modelValue="counter"
+        :model-value="counter"
         :min="view.min ?? 0"
-        @update:modelValue="v => setArmyCounter(pi, v)"
+        @update:model-value="v => setArmyCounter(pi, v)"
       />
       <!-- A counter with dedicated spend buttons (GSC): the spend picker + the round-1 bonus now
            cover every way the value changes, so manual +/- would just risk drifting from the actual
@@ -23,10 +30,10 @@
            spend; it refills to `roundStart` at the start of each battle round (max caps it there). -->
       <NumberStepper
         v-else-if="view.kind === 'pool'"
-        :modelValue="poolRemaining"
+        :model-value="poolRemaining"
         :min="0"
         :max="roundStart"
-        @update:modelValue="v => setArmyPool(pi, currentRound, v)"
+        @update:model-value="v => setArmyPool(pi, currentRound, v)"
       />
       <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
       <button
@@ -36,55 +43,88 @@
         :title="labels.trackerArmyReset"
         @click="undoArmyToggle(pi)"
       >
-        <i class="bi bi-arrow-counterclockwise"></i>
+        <i class="bi bi-arrow-counterclockwise" />
       </button>
     </div>
 
     <!-- Pool: a one-line reminder that the tokens refill each round (to the battle-size allotment). -->
-    <p v-if="view.kind === 'pool'" class="army-pool-hint">
-      <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
+    <p
+      v-if="view.kind === 'pool'"
+      class="army-pool-hint"
+    >
+      <i class="bi bi-arrow-repeat" /> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
     <!-- One-time round-1 bonus (GSC's Deeds That Speak to the Masses enhancement): the tracker
          doesn't record enhancement picks, so this is a manual bump the player fires if they took it.
          It's a STARTING-pool bonus — meaningless once the battle is under way — so it's gated to
          round 1 entirely: applied or not, it's gone from round 2 onwards. -->
-    <div v-if="view.startBonus && currentRound === 1" class="army-bonus">
-      <button v-if="!bonusApplied" class="army-bonus-btn" @click="applyBonus">
-        <i class="bi bi-plus-circle"></i> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
+    <div
+      v-if="view.startBonus && currentRound === 1"
+      class="army-bonus"
+    >
+      <button
+        v-if="!bonusApplied"
+        class="army-bonus-btn"
+        @click="applyBonus"
+      >
+        <i class="bi bi-plus-circle" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
       </button>
-      <div v-else class="army-bonus-done">
-        <span><i class="bi bi-check-circle-fill"></i> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
+      <div
+        v-else
+        class="army-bonus-done"
+      >
+        <span><i class="bi bi-check-circle-fill" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
         <button
           class="army-head-reset"
           :aria-label="labels.trackerArmyReset"
           :title="labels.trackerArmyReset"
           @click="undoBonus"
-        ><i class="bi bi-arrow-counterclockwise"></i></button>
+        >
+          <i class="bi bi-arrow-counterclockwise" />
+        </button>
       </div>
     </div>
 
     <!-- Counter spend options (GSC resurrect costs) live behind a compact field → modal, so the ~10
          unit costs don't crowd the card. The header stepper still sets the start pool + the round-1
          bonus above (Resurgence points are never replenished mid-game — only spent down). -->
-    <div v-if="view.spends" class="army-multi">
-      <button class="army-field" @click="showSpendPicker = true">
+    <div
+      v-if="view.spends"
+      class="army-multi"
+    >
+      <button
+        class="army-field"
+        @click="showSpendPicker = true"
+      >
         <span class="army-field-val">{{ labels.trackerArmySpend }}</span>
-        <i class="bi bi-chevron-down army-field-chev"></i>
+        <i class="bi bi-chevron-down army-field-chev" />
       </button>
     </div>
 
     <!-- Round-gated readout (Death Guard Contagion Range): a value that escalates with the round. -->
-    <div v-if="view.roundReadout" class="army-readout">
+    <div
+      v-if="view.roundReadout"
+      class="army-readout"
+    >
       <span class="army-readout-label">{{ view.roundReadout.label }}</span>
       <span class="army-readout-val">{{ roundReadoutValue }}</span>
-      <span v-if="view.roundReadout.note" class="army-readout-note">{{ view.roundReadout.note }}</span>
+      <span
+        v-if="view.roundReadout.note"
+        class="army-readout-note"
+      >{{ view.roundReadout.note }}</span>
     </div>
 
     <!-- Dice-pool primitive (e.g. Sororitas Miracle dice): a bank of D6 values. Tap a die to spend
          it; add one by the value you rolled. -->
-    <div v-if="view.kind === 'dice'" class="army-dice">
-      <div v-if="dice.length" class="army-dice-pool">
+    <div
+      v-if="view.kind === 'dice'"
+      class="army-dice"
+    >
+      <div
+        v-if="dice.length"
+        class="army-dice-pool"
+      >
         <button
           v-for="(d, di) in dice"
           :key="di"
@@ -92,9 +132,19 @@
           :aria-label="`${labels.trackerDiceSpend} (${d})`"
           :title="labels.trackerDiceSpend"
           @click="pendingDie = di"
-        ><i class="bi" :class="`bi-dice-${d}-fill`"></i></button>
+        >
+          <i
+            class="bi"
+            :class="`bi-dice-${d}-fill`"
+          />
+        </button>
       </div>
-      <p v-else class="army-dice-empty">{{ labels.trackerDiceEmpty }}</p>
+      <p
+        v-else
+        class="army-dice-empty"
+      >
+        {{ labels.trackerDiceEmpty }}
+      </p>
       <div class="army-dice-add">
         <span class="army-dice-add-label">{{ labels.trackerDiceAdd }}</span>
         <button
@@ -103,20 +153,30 @@
           class="army-die-add"
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
           @click="addArmyDie(pi, v)"
-        ><i class="bi" :class="`bi-dice-${v}-fill`"></i></button>
+        >
+          <i
+            class="bi"
+            :class="`bi-dice-${v}-fill`"
+          />
+        </button>
       </div>
     </div>
 
     <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. A
          battle-long (`once`) pick locks after round 1 — the picker gives way to just its rule. -->
-    <div v-if="view.kind === 'selection' && view.options && !choiceLocked" class="army-options">
+    <div
+      v-if="view.kind === 'selection' && view.options && !choiceLocked"
+      class="army-options"
+    >
       <button
         v-for="o in view.options"
         :key="o.id"
         class="army-opt"
         :class="{ on: o.id === selectedId }"
         @click="pickOption(o.id)"
-      >{{ o.name }}</button>
+      >
+        {{ o.name }}
+      </button>
     </div>
 
     <!-- Multi-selection primitive (World Eaters Blessings, Thousand Sons Rituals): activate UP TO
@@ -124,42 +184,79 @@
          room, so it lives behind a compact field that opens the picker; the chosen options' rules
          surface in the shared "Active" block below (same as the single-pick primitives). Each
          option's `req` (e.g. "Double 3+", "WC 7") is a reminder shown in the picker. -->
-    <div v-if="view.kind === 'multi' && view.options" class="army-multi">
-      <button class="army-field" @click="showBlessingPicker = true">
-        <span class="army-field-val" :class="{ placeholder: !multiSelected.length }">
+    <div
+      v-if="view.kind === 'multi' && view.options"
+      class="army-multi"
+    >
+      <button
+        class="army-field"
+        @click="showBlessingPicker = true"
+      >
+        <span
+          class="army-field-val"
+          :class="{ placeholder: !multiSelected.length }"
+        >
           {{ multiSelected.length ? multiSelected.map((o) => o.name).join(', ') : `${labels.trackerArmyActivate} ${view.max}` }}
         </span>
         <span class="army-field-count">{{ multiIds.length }}/{{ view.max }}</span>
-        <i class="bi bi-chevron-down army-field-chev"></i>
+        <i class="bi bi-chevron-down army-field-chev" />
       </button>
     </div>
 
     <!-- Toggle primitive (e.g. Orks Waaagh!): a once-per-battle fire (some detachments allow a
          second — see maxUses), with an undo. The effect applies only the round it was called; on a
          later round with no uses left it reads as spent. -->
-    <div v-if="view.kind === 'toggle'" class="army-toggle">
+    <div
+      v-if="view.kind === 'toggle'"
+      class="army-toggle"
+    >
       <!-- Not fired yet -->
-      <button v-if="usedCount === 0" class="army-call" @click="fireArmyToggle(pi, currentRound)">
+      <button
+        v-if="usedCount === 0"
+        class="army-call"
+        @click="fireArmyToggle(pi, currentRound)"
+      >
         {{ labels.trackerArmyCall }} {{ view.label }}
       </button>
 
       <template v-else>
         <!-- Active this round: reveal the effect -->
-        <div v-if="activeThisRound && view.effect" class="army-acc">
-          <button class="army-acc-head" :aria-expanded="showActive" @click="showActive = !showActive">
-            <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <div
+          v-if="activeThisRound && view.effect"
+          class="army-acc"
+        >
+          <button
+            class="army-acc-head"
+            :aria-expanded="showActive"
+            @click="showActive = !showActive"
+          >
+            <i
+              class="bi army-acc-chev"
+              :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"
+            />
             <span class="army-acc-title">
               <strong>{{ labels.trackerArmyActive }}</strong> · {{ labels.trackerRoundShort }} {{ currentRound }}
             </span>
           </button>
           <CollapseTransition :show="showActive">
-            <div class="army-acc-body"><RuleBody :body="view.effect.body" /></div>
+            <div class="army-acc-body">
+              <RuleBody :body="view.effect.body" />
+            </div>
           </CollapseTransition>
         </div>
         <!-- Fired, but not active this round → spent (or awaiting a further use) -->
-        <p v-else class="army-used">{{ toggleUsedText }}</p>
+        <p
+          v-else
+          class="army-used"
+        >
+          {{ toggleUsedText }}
+        </p>
 
-        <button v-if="canCallAgain" class="army-again" @click="fireArmyToggle(pi, currentRound)">
+        <button
+          v-if="canCallAgain"
+          class="army-again"
+          @click="fireArmyToggle(pi, currentRound)"
+        >
           {{ view.againLabel || labels.trackerArmyCallAgain }}
         </button>
       </template>
@@ -169,21 +266,40 @@
          rule so the "what right now" state reads last, closest to the controls above it. Only for
          interactive specs — the reference view (no counter) has its own "How it works" below,
          showing the rule's actual text instead of a hand-written gains/note summary. -->
-    <div v-if="view.kind !== 'reference' && (view.gains.length || view.note)" class="army-acc">
+    <div
+      v-if="view.kind !== 'reference' && (view.gains.length || view.note)"
+      class="army-acc"
+    >
       <button
         class="army-acc-head"
         :aria-expanded="showHowto"
         @click="showHowto = !showHowto"
       >
-        <i class="bi army-acc-chev" :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <i
+          class="bi army-acc-chev"
+          :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
         <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
       </button>
       <CollapseTransition :show="showHowto">
         <div class="army-acc-body">
-          <ul v-if="view.gains.length" class="army-gains">
-            <li v-for="(g, i) in view.gains" :key="i">{{ g }}</li>
+          <ul
+            v-if="view.gains.length"
+            class="army-gains"
+          >
+            <li
+              v-for="(g, i) in view.gains"
+              :key="i"
+            >
+              {{ g }}
+            </li>
           </ul>
-          <p v-if="view.note" class="army-note">{{ view.note }}</p>
+          <p
+            v-if="view.note"
+            class="army-note"
+          >
+            {{ view.note }}
+          </p>
         </div>
       </CollapseTransition>
     </div>
@@ -194,14 +310,26 @@
          text — this is a mid-game rules lookup, not a reference page. -->
     <template v-if="view.kind === 'reference'">
       <div class="army-acc">
-        <button class="army-acc-head" :aria-expanded="showHowto" @click="showHowto = !showHowto">
-          <i class="bi army-acc-chev" :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <button
+          class="army-acc-head"
+          :aria-expanded="showHowto"
+          @click="showHowto = !showHowto"
+        >
+          <i
+            class="bi army-acc-chev"
+            :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"
+          />
           <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
         </button>
         <CollapseTransition :show="showHowto">
           <div class="army-acc-body">
             <RuleBody :body="view.body" />
-            <p v-if="view.example" class="army-ref-example">{{ view.example }}</p>
+            <p
+              v-if="view.example"
+              class="army-ref-example"
+            >
+              {{ view.example }}
+            </p>
           </div>
         </CollapseTransition>
       </div>
@@ -210,18 +338,28 @@
     <!-- Resurrected units (GSC): a running log of what the spend picker bought, so the Resurgence
          pool's history is visible instead of just a number going down. Each entry is undoable (refunds
          the cost, removes the entry) — e.g. a mis-tap in the picker. -->
-    <div v-if="resurrected.length" class="army-acc">
+    <div
+      v-if="resurrected.length"
+      class="army-acc"
+    >
       <button
         class="army-acc-head"
         :aria-expanded="showResurrected"
         @click="showResurrected = !showResurrected"
       >
-        <i class="bi army-acc-chev" :class="showResurrected ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <i
+          class="bi army-acc-chev"
+          :class="showResurrected ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
         <span class="army-acc-title">{{ labels.trackerArmyResurrected }} · {{ resurrected.length }}</span>
       </button>
       <CollapseTransition :show="showResurrected">
         <ul class="army-acc-body army-resurrect-list">
-          <li v-for="(r, i) in resurrected" :key="i" class="army-resurrect-row">
+          <li
+            v-for="(r, i) in resurrected"
+            :key="i"
+            class="army-resurrect-row"
+          >
             <span class="army-resurrect-label">{{ r.label }}</span>
             <span class="army-resurrect-cost">−{{ r.cost }}</span>
             <button
@@ -229,7 +367,9 @@
               :aria-label="labels.trackerArmyReset"
               :title="labels.trackerArmyReset"
               @click="undoArmyResurrect(pi, i)"
-            ><i class="bi bi-arrow-counterclockwise"></i></button>
+            >
+              <i class="bi bi-arrow-counterclockwise" />
+            </button>
           </li>
         </ul>
       </CollapseTransition>
@@ -239,26 +379,50 @@
          (AdMech), or the activated Blessings/Rituals (multi). One entry → its name sits in the
          header; several → the header is just "Active" and each rule is listed with its name. Rule
          text expands on demand. -->
-    <div v-if="activeRules.length" class="army-acc">
+    <div
+      v-if="activeRules.length"
+      class="army-acc"
+    >
       <button
         v-if="hasActiveBody"
         class="army-acc-head"
         :aria-expanded="showActive"
         @click="showActive = !showActive"
       >
-        <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <i
+          class="bi army-acc-chev"
+          :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
         <span class="army-acc-title">
           {{ labels.trackerArmyActive }}<template v-if="activeRules.length === 1 && activeRules[0].name">: <strong>{{ activeRules[0].name }}</strong></template>
         </span>
       </button>
-      <p v-else class="army-acc-static">
-        {{ labels.trackerArmyActive }}<template v-if="activeRules[0].name">: <strong>{{ activeRules[0].name }}</strong></template>
+      <p
+        v-else
+        class="army-acc-static"
+      >
+        {{ labels.trackerArmyActive }}<template v-if="activeRules[0].name">
+          : <strong>{{ activeRules[0].name }}</strong>
+        </template>
       </p>
-      <CollapseTransition v-if="hasActiveBody" :show="showActive">
+      <CollapseTransition
+        v-if="hasActiveBody"
+        :show="showActive"
+      >
         <div class="army-acc-body">
-          <div v-for="r in activeRules" :key="r.id || r.name" class="army-active-rule">
-            <span v-if="activeRules.length > 1" class="army-active-name">{{ r.name }}</span>
-            <RuleBody v-if="r.body" :body="r.body" />
+          <div
+            v-for="r in activeRules"
+            :key="r.id || r.name"
+            class="army-active-rule"
+          >
+            <span
+              v-if="activeRules.length > 1"
+              class="army-active-name"
+            >{{ r.name }}</span>
+            <RuleBody
+              v-if="r.body"
+              :body="r.body"
+            />
           </div>
         </div>
       </CollapseTransition>
@@ -291,8 +455,8 @@
       v-if="pendingDie !== null"
       :title="labels.trackerDiceSpendTitle"
       :message="labels.trackerDiceSpendConfirm"
-      :confirmLabel="labels.trackerArmySpend"
-      :cancelLabel="labels.trackerCancel"
+      :confirm-label="labels.trackerArmySpend"
+      :cancel-label="labels.trackerCancel"
       @confirm="confirmSpendDie"
       @close="pendingDie = null"
     />

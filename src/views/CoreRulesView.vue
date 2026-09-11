@@ -2,15 +2,20 @@
   <div class="view">
     <div class="view-hero">
       <h1>{{ labels.coreRulesHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.coreRulesDesc }}</p>
+      <p class="view-hero-desc">
+        {{ labels.coreRulesDesc }}
+      </p>
     </div>
 
-    <CoreRulesToc :active-id="activeId" @select="goToAnchor" />
+    <CoreRulesToc
+      :active-id="activeId"
+      @select="goToAnchor"
+    />
 
     <section
       v-for="chapter in chapters"
-      :key="chapter.id"
       :id="chapter.id"
+      :key="chapter.id"
       class="core-chapter"
     >
       <component :is="chapter.component" />
@@ -33,7 +38,7 @@
       :aria-label="labels.openContents"
       @click="tocOpen = true"
     >
-      <i class="bi bi-list-ul"></i>
+      <i class="bi bi-list-ul" />
     </button>
 
     <CoreRulesTocModal

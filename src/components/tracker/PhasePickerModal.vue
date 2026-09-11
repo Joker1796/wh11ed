@@ -6,9 +6,17 @@
        exactly this (heading + close), and its styles are scoped to BaseModal — a copy in the slot
        renders in THIS component's scope, where those rules cannot reach it, so it comes out as
        bare browser defaults. Passing the title also gives the dialog its aria-labelledby. -->
-  <BaseModal :title="labels.trackerPhaseHeading" max-width="380px" @close="$emit('close')">
+  <BaseModal
+    :title="labels.trackerPhaseHeading"
+    max-width="380px"
+    @close="$emit('close')"
+  >
     <div class="modal-body pp-body">
-      <section v-for="(t, ti) in turns" :key="ti" class="pp-turn">
+      <section
+        v-for="(t, ti) in turns"
+        :key="ti"
+        class="pp-turn"
+      >
         <h4 class="pp-who">
           {{ t.name }}
           <span class="pp-order">{{ ti === 0 ? labels.trackerTurnFirst : labels.trackerTurnSecond }}</span>

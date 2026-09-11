@@ -1,7 +1,11 @@
 <template>
-  <slot name="header" :open="open" :toggle="toggle"></slot>
+  <slot
+    name="header"
+    :open="open"
+    :toggle="toggle"
+  />
   <CollapseTransition :show="!collapsible || open">
-    <slot></slot>
+    <slot />
   </CollapseTransition>
 </template>
 

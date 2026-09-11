@@ -1,10 +1,17 @@
 <template>
   <div class="rules-landing">
     <div class="hero">
-      <h1 class="hero-title">{{ labels.navRules }}</h1>
+      <h1 class="hero-title">
+        {{ labels.navRules }}
+      </h1>
       <!-- Same door the tracker and the roster list carry: this section's page of the guide. -->
-      <RouterLink class="hero-help" to="/help/rules" :title="labels.helpSection" :aria-label="labels.helpSection">
-        <i class="bi bi-question-circle"></i>
+      <RouterLink
+        class="hero-help"
+        to="/help/rules"
+        :title="labels.helpSection"
+        :aria-label="labels.helpSection"
+      >
+        <i class="bi bi-question-circle" />
       </RouterLink>
     </div>
 
@@ -18,8 +25,12 @@
         <div class="section-card-top">
           <span class="section-badge">{{ s.badge }}</span>
         </div>
-        <h2 class="section-card-title">{{ s.label }}</h2>
-        <p class="section-card-desc">{{ s.desc }}</p>
+        <h2 class="section-card-title">
+          {{ s.label }}
+        </h2>
+        <p class="section-card-desc">
+          {{ s.desc }}
+        </p>
       </RouterLink>
     </div>
   </div>

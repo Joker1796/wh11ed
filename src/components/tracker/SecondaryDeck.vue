@@ -2,13 +2,23 @@
   <div class="sec">
     <div class="sec-head">
       <span class="sec-title">{{ labels.trackerSecondary }}</span>
-      <div v-if="mode === 'tactical'" class="sec-actions">
-        <button class="choose-btn" @click="pickerOpen = true">{{ labels.trackerChoose }}</button>
+      <div
+        v-if="mode === 'tactical'"
+        class="sec-actions"
+      >
+        <button
+          class="choose-btn"
+          @click="pickerOpen = true"
+        >
+          {{ labels.trackerChoose }}
+        </button>
         <button
           class="draw-btn"
           :disabled="!player.secondary.deck.length"
           @click="onDraw"
-        >{{ player.secondary.deck.length ? labels.trackerDraw : labels.trackerNoMoreCards }}</button>
+        >
+          {{ player.secondary.deck.length ? labels.trackerDraw : labels.trackerNoMoreCards }}
+        </button>
       </div>
     </div>
 
@@ -16,12 +26,28 @@
          draws in and set-aside/redraw out (remaining cards slide up via .card-move).
          before-leave pins the card's offset: an abs-positioned flex child's static
          position is the container's start, so without it the ghost jumps to the top. -->
-    <TransitionGroup tag="ul" name="card" class="cards" @before-leave="el => { el.style.top = el.offsetTop + 'px' }">
-      <li v-for="m in handMissions" :key="m.slug" class="card" :class="{ 'set-aside': isSetAside(m.slug) }">
-        <button class="card-open" @click="openSlug = m.slug">
+    <TransitionGroup
+      tag="ul"
+      name="card"
+      class="cards"
+      @before-leave="el => { el.style.top = el.offsetTop + 'px' }"
+    >
+      <li
+        v-for="m in handMissions"
+        :key="m.slug"
+        class="card"
+        :class="{ 'set-aside': isSetAside(m.slug) }"
+      >
+        <button
+          class="card-open"
+          @click="openSlug = m.slug"
+        >
           <span class="card-name">
             {{ m.name }}
-            <span v-if="isSetAside(m.slug)" class="badge">{{ labels.trackerDiscardedBadge }}</span>
+            <span
+              v-if="isSetAside(m.slug)"
+              class="badge"
+            >{{ labels.trackerDiscardedBadge }}</span>
           </span>
           <span class="card-vp">{{ secondaryCardVp(pi, m.slug) }} VP</span>
         </button>
@@ -31,14 +57,18 @@
           :title="labels.trackerCardActions"
           :aria-label="labels.trackerCardActions"
           @click="actionSlug = m.slug"
-        >⋯</button>
+        >
+          ⋯
+        </button>
         <button
           v-else-if="mode === 'tactical' && isSetAside(m.slug)"
           class="manage restore"
           :title="labels.trackerReturnToHand"
           :aria-label="labels.trackerReturnToHand"
           @click="onRestore(m.slug)"
-        ><i class="bi bi-arrow-counterclockwise"></i></button>
+        >
+          <i class="bi bi-arrow-counterclockwise" />
+        </button>
       </li>
     </TransitionGroup>
 
@@ -49,7 +79,7 @@
       :vp="secondaryCardVp(pi, openMission.slug)"
       :blocks="relevantBlocks(openMission)"
       :briefing="openMission.briefing"
-      :whenDrawn="whenDrawnFor(openMission)"
+      :when-drawn="whenDrawnFor(openMission)"
       :readonly="isSetAside(openMission.slug)"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri)"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c)"
@@ -58,34 +88,77 @@
     />
 
     <!-- Picker: choose a specific Secondary from the remaining deck -->
-    <BaseModal v-if="pickerOpen" :title="labels.trackerPickTitle" max-width="420px" @close="pickerOpen = false">
+    <BaseModal
+      v-if="pickerOpen"
+      :title="labels.trackerPickTitle"
+      max-width="420px"
+      @close="pickerOpen = false"
+    >
       <div class="modal-body">
-        <ul v-if="deckMissions.length" class="pick-list">
-          <li v-for="m in deckMissions" :key="m.slug">
-            <button class="pick-item" @click="onPick(m.slug)">
+        <ul
+          v-if="deckMissions.length"
+          class="pick-list"
+        >
+          <li
+            v-for="m in deckMissions"
+            :key="m.slug"
+          >
+            <button
+              class="pick-item"
+              @click="onPick(m.slug)"
+            >
               <span class="pick-name">{{ m.name }}</span>
               <span class="pick-cat">{{ m.category }}</span>
             </button>
           </li>
         </ul>
-        <p v-else class="pick-empty">{{ labels.trackerNoMoreCards }}</p>
+        <p
+          v-else
+          class="pick-empty"
+        >
+          {{ labels.trackerNoMoreCards }}
+        </p>
       </div>
     </BaseModal>
 
     <!-- Per-card actions: set aside (keep VP) or return to deck (full undo) -->
-    <BaseModal v-if="actionMission" max-width="340px" @close="actionSlug = null">
+    <BaseModal
+      v-if="actionMission"
+      max-width="340px"
+      @close="actionSlug = null"
+    >
       <template #header>
         <header class="modal-head">
           <div class="mh-text">
-            <h3 class="mh-title">{{ actionMission.name }}</h3>
-            <p class="mh-sub">{{ labels.trackerCardActions }}</p>
+            <h3 class="mh-title">
+              {{ actionMission.name }}
+            </h3>
+            <p class="mh-sub">
+              {{ labels.trackerCardActions }}
+            </p>
           </div>
-          <button class="mh-close" @click="actionSlug = null" :aria-label="labels.modalClose">✕</button>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="actionSlug = null"
+          >
+            ✕
+          </button>
         </header>
       </template>
       <div class="modal-body act-list">
-        <button class="act-btn" @click="onSetAside(actionMission.slug)">{{ labels.trackerSetAside }}</button>
-        <button class="act-btn act-danger" @click="onReturn(actionMission.slug)">{{ labels.trackerReturnToDeck }}</button>
+        <button
+          class="act-btn"
+          @click="onSetAside(actionMission.slug)"
+        >
+          {{ labels.trackerSetAside }}
+        </button>
+        <button
+          class="act-btn act-danger"
+          @click="onReturn(actionMission.slug)"
+        >
+          {{ labels.trackerReturnToDeck }}
+        </button>
       </div>
     </BaseModal>
   </div>

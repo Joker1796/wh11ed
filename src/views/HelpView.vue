@@ -1,22 +1,37 @@
 <template>
   <div class="help-view">
     <div class="hero">
-      <h1 class="hero-title">{{ t.title }}</h1>
-      <p class="hero-desc">{{ t.intro }}</p>
+      <h1 class="hero-title">
+        {{ t.title }}
+      </h1>
+      <p class="hero-desc">
+        {{ t.intro }}
+      </p>
     </div>
 
     <!-- Plain contents: somebody arrives with ONE question and has to find the line that answers
          it. A numbered list of links does that; a boxed panel with chevrons only adds furniture.
          Each line is now a page rather than an anchor — a reader who came for one topic gets that
          topic, not the whole guide with the rest scrolled past. -->
-    <nav class="help-nav" :aria-label="labels.helpContents">
-      <p class="help-nav-h">{{ labels.helpContents }}</p>
+    <nav
+      class="help-nav"
+      :aria-label="labels.helpContents"
+    >
+      <p class="help-nav-h">
+        {{ labels.helpContents }}
+      </p>
       <ol class="help-nav-list">
-        <li v-for="(s, i) in t.sections" :key="s.id">
-          <RouterLink :to="`/help/${slugOf(s)}`" class="help-nav-item">
+        <li
+          v-for="(s, i) in t.sections"
+          :key="s.id"
+        >
+          <RouterLink
+            :to="`/help/${slugOf(s)}`"
+            class="help-nav-item"
+          >
             <span class="help-nav-n">{{ i + 1 }}.</span>
             <span class="help-nav-t">{{ s.title }}</span>
-            <i class="bi bi-chevron-right help-nav-go"></i>
+            <i class="bi bi-chevron-right help-nav-go" />
           </RouterLink>
         </li>
       </ol>

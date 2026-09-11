@@ -1,12 +1,26 @@
 <template>
   <ul class="sb">
-    <li v-for="r in rows" :key="r.key" class="sb-row" :class="{ dim: r.dim }">
-      <span class="sb-label" :title="r.label">
+    <li
+      v-for="r in rows"
+      :key="r.key"
+      class="sb-row"
+      :class="{ dim: r.dim }"
+    >
+      <span
+        class="sb-label"
+        :title="r.label"
+      >
         {{ r.label }}
-        <span v-if="r.sub" class="sb-sub">{{ r.sub }}</span>
+        <span
+          v-if="r.sub"
+          class="sb-sub"
+        >{{ r.sub }}</span>
       </span>
       <span class="sb-track">
-        <span class="sb-fill" :style="{ width: width(r.ratio) }"></span>
+        <span
+          class="sb-fill"
+          :style="{ width: width(r.ratio) }"
+        />
       </span>
       <span class="sb-val">{{ r.value }}</span>
     </li>

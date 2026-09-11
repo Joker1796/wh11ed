@@ -1,5 +1,8 @@
 <template>
-  <template v-for="section in sections" :key="section.id">
+  <template
+    v-for="section in sections"
+    :key="section.id"
+  >
     <SectionHeader
       :id="'section-' + section.id.padStart(2,'0')"
       :num="section.num"
@@ -8,11 +11,27 @@
       :page="section.page"
     />
 
-    <template v-for="grp in chunkSubsections(splitSubsections(section.subsections), hasTableAfter)" :key="grp.key">
-      <div v-if="grp.type === 'columns'" class="rule-columns">
-        <template v-for="sub in grp.items" :key="sub.id">
-          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
-            <RuleBody :id="sub.id" :body="sub.body" />
+    <template
+      v-for="grp in chunkSubsections(splitSubsections(section.subsections), hasTableAfter)"
+      :key="grp.key"
+    >
+      <div
+        v-if="grp.type === 'columns'"
+        class="rule-columns"
+      >
+        <template
+          v-for="sub in grp.items"
+          :key="sub.id"
+        >
+          <div
+            v-if="sub.isSplitBlock"
+            :id="sub.id"
+            class="split-block"
+          >
+            <RuleBody
+              :id="sub.id"
+              :body="sub.body"
+            />
           </div>
           <RuleBlock
             v-else
@@ -29,8 +48,15 @@
       </div>
 
       <template v-else>
-        <div v-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
-          <RuleBody :id="grp.item.id" :body="grp.item.body" />
+        <div
+          v-if="grp.item.isSplitBlock"
+          :id="grp.item.id"
+          class="split-block"
+        >
+          <RuleBody
+            :id="grp.item.id"
+            :body="grp.item.body"
+          />
         </div>
         <RuleBlock
           v-else
@@ -45,7 +71,10 @@
         />
 
         <!-- Battle size table, rendered right after 25.03 -->
-        <div v-if="grp.item.sectionNum === '25.03' && section.battleSizeTable" class="table-block">
+        <div
+          v-if="grp.item.sectionNum === '25.03' && section.battleSizeTable"
+          class="table-block"
+        >
           <DataTable
             :headers="section.battleSizeTable.headers"
             :rows="section.battleSizeTable.rows"

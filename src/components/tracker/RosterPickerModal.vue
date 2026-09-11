@@ -2,14 +2,32 @@
   <BaseModal @close="$emit('close')">
     <template #header>
       <header class="modal-head">
-        <h3 class="mh-title">{{ labels.trackerRoster }}</h3>
-        <button class="mh-close" :aria-label="labels.modalClose" @click="$emit('close')">✕</button>
+        <h3 class="mh-title">
+          {{ labels.trackerRoster }}
+        </h3>
+        <button
+          class="mh-close"
+          :aria-label="labels.modalClose"
+          @click="$emit('close')"
+        >
+          ✕
+        </button>
       </header>
     </template>
 
     <div class="modal-body modal-list">
-      <p v-if="faction" class="rp-note">{{ labels.trackerRosterFactionOnly }}</p>
-      <p v-if="!savedRosters.length" class="rp-empty">{{ labels.trackerRosterNone }}</p>
+      <p
+        v-if="faction"
+        class="rp-note"
+      >
+        {{ labels.trackerRosterFactionOnly }}
+      </p>
+      <p
+        v-if="!savedRosters.length"
+        class="rp-empty"
+      >
+        {{ labels.trackerRosterNone }}
+      </p>
 
       <!-- A list of the wrong faction is shown DISABLED rather than filtered out: hiding it makes
            a collection look empty and reads as "my list is gone", which is a worse answer than
@@ -27,24 +45,47 @@
         <span class="rp-meta">
           <template v-if="factionName(r.faction)">{{ factionName(r.faction) }} · </template>
           {{ r.summary?.points || 0 }} {{ labels.rosterPointsLabel }} ·
-          <i class="bi bi-people-fill"></i> {{ r.units?.length || 0 }}
+          <i class="bi bi-people-fill" /> {{ r.units?.length || 0 }}
         </span>
       </button>
 
       <!-- A share link is the second source, and for the opponent usually the only one: their list
            lives on their phone, not in this browser. Same payload the /roster/shared page reads. -->
       <div class="rp-link">
-        <label class="rp-link-label" :for="linkId">{{ labels.trackerRosterFromLink }}</label>
+        <label
+          class="rp-link-label"
+          :for="linkId"
+        >{{ labels.trackerRosterFromLink }}</label>
         <div class="rp-link-row">
-          <input :id="linkId" v-model="link" type="text" :placeholder="labels.trackerRosterLinkPlaceholder" />
-          <button type="button" class="rp-link-btn" :disabled="!link.trim() || busy" @click="useLink">
+          <input
+            :id="linkId"
+            v-model="link"
+            type="text"
+            :placeholder="labels.trackerRosterLinkPlaceholder"
+          >
+          <button
+            type="button"
+            class="rp-link-btn"
+            :disabled="!link.trim() || busy"
+            @click="useLink"
+          >
             {{ labels.trackerRosterLinkAdd }}
           </button>
         </div>
-        <p v-if="linkError" class="rp-link-error">{{ linkError }}</p>
+        <p
+          v-if="linkError"
+          class="rp-link-error"
+        >
+          {{ linkError }}
+        </p>
       </div>
 
-      <button v-if="selected !== null" type="button" class="rp-clear" @click="$emit('clear')">
+      <button
+        v-if="selected !== null"
+        type="button"
+        class="rp-clear"
+        @click="$emit('clear')"
+      >
         {{ labels.trackerRosterDetach }}
       </button>
     </div>

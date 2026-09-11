@@ -1,65 +1,118 @@
 <template>
-  <div class="strat-card" :class="`turn-${strat.turn || 'your'}`">
+  <div
+    class="strat-card"
+    :class="`turn-${strat.turn || 'your'}`"
+  >
     <div class="strat-header">
       <div class="strat-heading">
         <div class="strat-title-row">
           <span class="strat-name">{{ strat.name }}</span>
           <span class="strat-num">{{ strat.num }}</span>
         </div>
-        <span v-if="strat.nameRu" class="strat-name-ru">{{ strat.nameRu }}</span>
+        <span
+          v-if="strat.nameRu"
+          class="strat-name-ru"
+        >{{ strat.nameRu }}</span>
       </div>
       <span class="strat-cp">{{ strat.cp }}</span>
     </div>
 
-    <div class="strat-sublabel">{{ sublabel || labels.stratCoreLabel }}</div>
+    <div class="strat-sublabel">
+      {{ sublabel || labels.stratCoreLabel }}
+    </div>
 
     <div class="strat-body">
-      <p v-if="strat.flavor" class="strat-flavor">{{ strat.flavor }}</p>
+      <p
+        v-if="strat.flavor"
+        class="strat-flavor"
+      >
+        {{ strat.flavor }}
+      </p>
 
       <div class="strat-row">
         <span class="strat-label">{{ labels.stratWhen }}</span>
-        <div class="strat-content" v-html="renderField(strat.when)"></div>
+        <div
+          class="strat-content"
+          v-html="renderField(strat.when)"
+        />
       </div>
-      <div v-if="strat.target" class="strat-row">
+      <div
+        v-if="strat.target"
+        class="strat-row"
+      >
         <span class="strat-label">{{ labels.stratTarget }}</span>
-        <div class="strat-content" v-html="renderField(strat.target)"></div>
+        <div
+          class="strat-content"
+          v-html="renderField(strat.target)"
+        />
       </div>
       <div class="strat-row">
         <span class="strat-label">{{ labels.stratEffect }}</span>
-        <div class="strat-content" v-html="renderField(strat.effect)"></div>
+        <div
+          class="strat-content"
+          v-html="renderField(strat.effect)"
+        />
       </div>
 
-      <template v-for="extra in (strat.extraCost || [])" :key="extra.title">
+      <template
+        v-for="extra in (strat.extraCost || [])"
+        :key="extra.title"
+      >
         <div class="strat-extra">
           <div class="strat-extra-header">
             <div class="strat-extra-heading">
               <span class="strat-extra-title">{{ extra.title }}</span>
-              <span v-if="extra.titleRu" class="strat-extra-title-ru">{{ extra.titleRu }}</span>
+              <span
+                v-if="extra.titleRu"
+                class="strat-extra-title-ru"
+              >{{ extra.titleRu }}</span>
             </div>
             <span class="strat-extra-cp">{{ extra.cp }}</span>
           </div>
-          <div class="strat-content" v-html="renderField(extra.body)"></div>
+          <div
+            class="strat-content"
+            v-html="renderField(extra.body)"
+          />
         </div>
       </template>
 
-      <div v-if="strat.restrictions" class="strat-row strat-restrict">
+      <div
+        v-if="strat.restrictions"
+        class="strat-row strat-restrict"
+      >
         <span class="strat-label">{{ labels.stratRestrictions }}</span>
-        <div class="strat-content" v-html="renderInline(strat.restrictions)"></div>
+        <div
+          class="strat-content"
+          v-html="renderInline(strat.restrictions)"
+        />
       </div>
     </div>
 
-    <div v-if="strat.subRule" class="strat-sub-rule">
+    <div
+      v-if="strat.subRule"
+      class="strat-sub-rule"
+    >
       <div class="strat-sub-rule-header">
         <span class="strat-sub-num">{{ strat.subRule.sectionNum }}</span>
         <div class="strat-sub-heading">
           <span class="strat-sub-title">{{ strat.subRule.title }}</span>
-          <span v-if="strat.subRule.titleRu" class="strat-sub-title-ru">{{ strat.subRule.titleRu }}</span>
+          <span
+            v-if="strat.subRule.titleRu"
+            class="strat-sub-title-ru"
+          >{{ strat.subRule.titleRu }}</span>
         </div>
       </div>
       <div class="strat-body strat-sub-body">
-        <div v-for="field in strat.subRule.fields" :key="field.label" class="strat-row">
+        <div
+          v-for="field in strat.subRule.fields"
+          :key="field.label"
+          class="strat-row"
+        >
           <span class="strat-label">{{ field.label }}</span>
-          <div class="strat-content" v-html="renderField(field.text)"></div>
+          <div
+            class="strat-content"
+            v-html="renderField(field.text)"
+          />
         </div>
       </div>
     </div>

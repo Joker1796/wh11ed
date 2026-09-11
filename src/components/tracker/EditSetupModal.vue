@@ -1,16 +1,38 @@
 <template>
-  <BaseModal :title="labels.trackerEditSetupTitle" max-width="560px" @close="$emit('close')">
+  <BaseModal
+    :title="labels.trackerEditSetupTitle"
+    max-width="560px"
+    @close="$emit('close')"
+  >
     <div class="modal-body">
-      <p class="es-note">{{ labels.trackerEditSetupNote }}</p>
+      <p class="es-note">
+        {{ labels.trackerEditSetupNote }}
+      </p>
 
       <div class="players">
-        <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ playerLabel(i) }}</h3>
+        <div
+          v-for="(p, i) in players"
+          :key="i"
+          class="player-card"
+        >
+          <h3 class="player-head">
+            {{ playerLabel(i) }}
+          </h3>
           <label class="field">
-            <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
+            <input
+              v-model="p.name"
+              type="text"
+              :placeholder="namePlaceholder(i)"
+            >
           </label>
-          <label class="check" :class="{ on: p.battleReady }">
-            <input type="checkbox" v-model="p.battleReady" />
+          <label
+            class="check"
+            :class="{ on: p.battleReady }"
+          >
+            <input
+              v-model="p.battleReady"
+              type="checkbox"
+            >
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
           </label>
 
@@ -19,7 +41,10 @@
                whose game predates the feature — had no way back. Unlike the wizard, the list does
                not decide the army here: the faction is already being played. -->
           <div class="es-roster">
-            <div v-if="p.roster" class="roster-line">
+            <div
+              v-if="p.roster"
+              class="roster-line"
+            >
               <span class="rl-text">{{ p.roster.name || labels.rosterUntitled }}</span>
               <button
                 type="button"
@@ -27,15 +52,27 @@
                 :aria-label="labels.trackerRosterDetach"
                 :title="labels.trackerRosterDetach"
                 @click="clearRoster(p)"
-              >✕</button>
+              >
+                ✕
+              </button>
             </div>
-            <button v-else type="button" class="rp-open" @click="rosterPickerIdx = i">
-              <i class="bi bi-card-list"></i>
+            <button
+              v-else
+              type="button"
+              class="rp-open"
+              @click="rosterPickerIdx = i"
+            >
+              <i class="bi bi-card-list" />
               <span>{{ labels.trackerRosterAttach }}</span>
             </button>
             <!-- The one thing attaching can't fix, so it has to be said rather than silently
                  tolerated: the list is played under a different detachment than the game is. -->
-            <p v-if="detMismatch(p)" class="rl-warn">{{ labels.trackerRosterDetMismatch }}</p>
+            <p
+              v-if="detMismatch(p)"
+              class="rl-warn"
+            >
+              {{ labels.trackerRosterDetMismatch }}
+            </p>
           </div>
 
           <RosterPickerModal
@@ -53,19 +90,36 @@
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
-            <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerYou }}</button>
-            <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerOpponent }}</button>
+            <button
+              :class="{ on: settings.firstTurn === 1 }"
+              @click="settings.firstTurn = 1"
+            >{{ labels.trackerYou }}</button>
+            <button
+              :class="{ on: settings.firstTurn === 2 }"
+              @click="settings.firstTurn = 2"
+            >{{ labels.trackerOpponent }}</button>
           </div>
         </label>
 
         <label class="field">
           <span>
             {{ labels.trackerScoreMode }}
-            <button type="button" class="help-btn" @click="scoreHelpOpen = true" :aria-label="labels.trackerScoreHelp"><i class="bi bi-question-circle"></i></button>
+            <button
+              type="button"
+              class="help-btn"
+              :aria-label="labels.trackerScoreHelp"
+              @click="scoreHelpOpen = true"
+            ><i class="bi bi-question-circle" /></button>
           </span>
           <div class="seg">
-            <button :class="{ on: settings.scoreMode === 'vp' }" @click="settings.scoreMode = 'vp'">{{ labels.trackerScoreVp }}</button>
-            <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
+            <button
+              :class="{ on: settings.scoreMode === 'vp' }"
+              @click="settings.scoreMode = 'vp'"
+            >{{ labels.trackerScoreVp }}</button>
+            <button
+              :class="{ on: settings.scoreMode === 'bp' }"
+              @click="settings.scoreMode = 'bp'"
+            >{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
       </div>
@@ -75,12 +129,26 @@
            dialog should make the phase row available before Save, and this is the only way a game
            that started without a list can ever get the clock. -->
       <div class="settings">
-        <TrackOptions :settings="settings" :ctx="trackCtx" group="game" />
-        <TrackOptions :settings="settings" :ctx="trackCtx" group="roster" heading="trackerRosterHeading" />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="game"
+        />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="roster"
+          heading="trackerRosterHeading"
+        />
       </div>
 
-      <div class="settings layout-block" v-if="layouts.length">
-        <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
+      <div
+        v-if="layouts.length"
+        class="settings layout-block"
+      >
+        <h3 class="block-head">
+          {{ labels.trackerLayoutHeading }}
+        </h3>
         <div class="tabs">
           <button
             v-for="l in layouts"
@@ -88,19 +156,43 @@
             class="tab"
             :class="{ active: settings.layout === l.id }"
             @click="selectLayout(l.id)"
-          ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
-          <button class="tab" :class="{ active: settings.layout === 'custom' }" @click="layoutPickerOpen = true">{{ labels.trackerLayoutCustom }}</button>
+          >
+            <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
+          </button>
+          <button
+            class="tab"
+            :class="{ active: settings.layout === 'custom' }"
+            @click="layoutPickerOpen = true"
+          >
+            {{ labels.trackerLayoutCustom }}
+          </button>
         </div>
-        <LayoutCard v-if="currentLayout" :layout="currentLayout" />
+        <LayoutCard
+          v-if="currentLayout"
+          :layout="currentLayout"
+        />
       </div>
     </div>
 
     <footer class="modal-foot">
-      <button class="btn-ghost" @click="$emit('close')">{{ labels.trackerCancel }}</button>
-      <button class="btn-primary" @click="save">{{ labels.trackerSave }}</button>
+      <button
+        class="btn-ghost"
+        @click="$emit('close')"
+      >
+        {{ labels.trackerCancel }}
+      </button>
+      <button
+        class="btn-primary"
+        @click="save"
+      >
+        {{ labels.trackerSave }}
+      </button>
     </footer>
 
-    <ScoreHelpModal v-if="scoreHelpOpen" @close="scoreHelpOpen = false" />
+    <ScoreHelpModal
+      v-if="scoreHelpOpen"
+      @close="scoreHelpOpen = false"
+    />
     <LayoutPickerModal
       v-if="layoutPickerOpen"
       :selected="settings.layout === 'custom' ? settings.customLayout : null"

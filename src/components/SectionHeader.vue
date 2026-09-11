@@ -1,11 +1,26 @@
 <template>
-  <div class="section-header" :id="id">
-    <div v-if="phase" class="phase-tag">{{ phase }}</div>
+  <div
+    :id="id"
+    class="section-header"
+  >
+    <div
+      v-if="phase"
+      class="phase-tag"
+    >
+      {{ phase }}
+    </div>
     <div class="section-header-inner">
-      <div class="section-num-large">{{ num }}</div>
+      <div class="section-num-large">
+        {{ num }}
+      </div>
       <div class="section-info">
         <h2>{{ title }}</h2>
-        <p v-if="description" class="section-desc">{{ description }}</p>
+        <p
+          v-if="description"
+          class="section-desc"
+        >
+          {{ description }}
+        </p>
       </div>
     </div>
   </div>

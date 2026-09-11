@@ -1,17 +1,34 @@
 <template>
   <FactionLayout>
-    <section class="fsection" id="faq">
-      <h2 class="fsection-title">{{ labels.factionFaq }}</h2>
+    <section
+      id="faq"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionFaq }}
+      </h2>
 
       <template v-if="loaded">
-        <div v-if="updated.length" class="faq-updated">
+        <div
+          v-if="updated.length"
+          class="faq-updated"
+        >
           <div>{{ labels.factionFaqUpdated }}:</div>
-          <div v-for="(u, i) in updated" :key="i">{{ u.pub }} ({{ u.date }})</div>
+          <div
+            v-for="(u, i) in updated"
+            :key="i"
+          >
+            {{ u.pub }} ({{ u.date }})
+          </div>
         </div>
 
         <!-- Segmented switch between Errata and FAQ — only when both groups have entries;
              otherwise the single populated group is shown on its own. -->
-        <div v-if="errataEntries.length && qaEntries.length" class="faq-switch" role="tablist">
+        <div
+          v-if="errataEntries.length && qaEntries.length"
+          class="faq-switch"
+          role="tablist"
+        >
           <button
             type="button"
             class="faq-seg"
@@ -34,18 +51,45 @@
           </button>
         </div>
 
-        <div v-if="activeView === 'errata' && errataEntries.length" class="errata-list">
-          <div v-for="(e, i) in errataEntries" :key="'e' + i" class="errata-block">
-            <h4 v-if="e.header" class="errata-title" v-html="renderInline(e.header)" />
-            <div class="errata-body" v-html="renderRichText(e.body)" />
+        <div
+          v-if="activeView === 'errata' && errataEntries.length"
+          class="errata-list"
+        >
+          <div
+            v-for="(e, i) in errataEntries"
+            :key="'e' + i"
+            class="errata-block"
+          >
+            <h4
+              v-if="e.header"
+              class="errata-title"
+              v-html="renderInline(e.header)"
+            />
+            <div
+              class="errata-body"
+              v-html="renderRichText(e.body)"
+            />
           </div>
         </div>
 
-        <div v-else-if="activeView === 'qa' && qaEntries.length" class="faq-list">
-          <FaqItem v-for="(e, i) in qaEntries" :key="'q' + i" :q="e.q" :a="e.a" />
+        <div
+          v-else-if="activeView === 'qa' && qaEntries.length"
+          class="faq-list"
+        >
+          <FaqItem
+            v-for="(e, i) in qaEntries"
+            :key="'q' + i"
+            :q="e.q"
+            :a="e.a"
+          />
         </div>
 
-        <p v-if="!entries.length" class="faq-empty">{{ labels.factionFaqEmpty }}</p>
+        <p
+          v-if="!entries.length"
+          class="faq-empty"
+        >
+          {{ labels.factionFaqEmpty }}
+        </p>
       </template>
     </section>
   </FactionLayout>

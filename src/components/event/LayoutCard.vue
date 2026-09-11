@@ -6,8 +6,12 @@
       :aria-label="labels.eventLayoutViewFull"
       @click="showFull = true"
     >
-      <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img" />
-      <span class="expand-hint"><i class="bi bi-arrows-fullscreen"></i></span>
+      <AppImage
+        :src="imageSrc"
+        :alt="`Layout ${layout.id}`"
+        class="layout-img"
+      />
+      <span class="expand-hint"><i class="bi bi-arrows-fullscreen" /></span>
     </button>
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
@@ -23,22 +27,34 @@
   >
     <template #header>
       <header class="modal-head">
-        <h3 class="mh-title">{{ labels.eventLayout }} {{ layout.id }}</h3>
+        <h3 class="mh-title">
+          {{ labels.eventLayout }} {{ layout.id }}
+        </h3>
         <div class="mh-right">
           <button
             class="measurements-toggle"
             :aria-pressed="modalMeasurements"
             @click="modalMeasurements = !modalMeasurements"
           >
-            <i class="bi bi-rulers"></i>
+            <i class="bi bi-rulers" />
             <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
           </button>
-          <button class="mh-close" @click="showFull = false" :aria-label="labels.modalClose">✕</button>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="showFull = false"
+          >
+            ✕
+          </button>
         </div>
       </header>
     </template>
     <div class="modal-body layout-modal-body">
-      <AppImage :src="modalImageSrc" :alt="`Layout ${layout.id}`" class="layout-img-full" />
+      <AppImage
+        :src="modalImageSrc"
+        :alt="`Layout ${layout.id}`"
+        class="layout-img-full"
+      />
     </div>
   </BaseModal>
 </template>

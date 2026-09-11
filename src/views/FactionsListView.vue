@@ -1,30 +1,72 @@
 <template>
   <div class="factions-view">
     <div class="hero">
-      <h1 class="hero-title">{{ labels.factionsHeading }}</h1>
-      <div class="hero-subtitle">{{ labels.factionsSubtitle }}</div>
+      <h1 class="hero-title">
+        {{ labels.factionsHeading }}
+      </h1>
+      <div class="hero-subtitle">
+        {{ labels.factionsSubtitle }}
+      </div>
     </div>
 
     <div class="groups">
-      <section v-if="pinned.length" class="group pinned-group">
-        <h2 class="group-title">{{ labels.favPinnedGroup }}</h2>
+      <section
+        v-if="pinned.length"
+        class="group pinned-group"
+      >
+        <h2 class="group-title">
+          {{ labels.favPinnedGroup }}
+        </h2>
         <ul class="faction-list">
-          <li v-for="f in pinned" :key="'pin-' + f.slug" class="fac-row">
-            <RouterLink :to="`/factions/${f.slug}`" class="faction-link">{{ f.name }}</RouterLink>
-            <FavoriteStar :pinned="true" @toggle="toggleFaction(f.slug)" />
+          <li
+            v-for="f in pinned"
+            :key="'pin-' + f.slug"
+            class="fac-row"
+          >
+            <RouterLink
+              :to="`/factions/${f.slug}`"
+              class="faction-link"
+            >
+              {{ f.name }}
+            </RouterLink>
+            <FavoriteStar
+              :pinned="true"
+              @toggle="toggleFaction(f.slug)"
+            />
           </li>
         </ul>
       </section>
 
-      <section v-for="group in factionGroups" :key="group.id" class="group">
-        <h2 class="group-title">{{ labels[groupLabelKey(group.id)] }}</h2>
+      <section
+        v-for="group in factionGroups"
+        :key="group.id"
+        class="group"
+      >
+        <h2 class="group-title">
+          {{ labels[groupLabelKey(group.id)] }}
+        </h2>
         <ul class="faction-list">
-          <li v-for="f in group.factions" :key="f.slug" class="fac-row">
+          <li
+            v-for="f in group.factions"
+            :key="f.slug"
+            class="fac-row"
+          >
             <template v-if="f.ready">
-              <RouterLink :to="`/factions/${f.slug}`" class="faction-link">{{ f.name }}</RouterLink>
-              <FavoriteStar :pinned="isFactionPinned(f.slug)" @toggle="toggleFaction(f.slug)" />
+              <RouterLink
+                :to="`/factions/${f.slug}`"
+                class="faction-link"
+              >
+                {{ f.name }}
+              </RouterLink>
+              <FavoriteStar
+                :pinned="isFactionPinned(f.slug)"
+                @toggle="toggleFaction(f.slug)"
+              />
             </template>
-            <span v-else class="faction-link disabled">
+            <span
+              v-else
+              class="faction-link disabled"
+            >
               {{ f.name }}
               <span class="soon">{{ labels.factionsSoon }}</span>
             </span>

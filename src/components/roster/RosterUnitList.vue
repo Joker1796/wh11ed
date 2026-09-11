@@ -22,19 +22,37 @@
      which is what FactionAccentScope is for (see RosterUnitRulesModal.vue for the same trap). -->
 <template>
   <div class="rul">
-    <template v-for="g in groups" :key="g.id">
+    <template
+      v-for="g in groups"
+      :key="g.id"
+    >
       <template v-if="g.entries.length">
-        <h3 class="rul-head" :class="{ locked: g.locked }">
+        <h3
+          class="rul-head"
+          :class="{ locked: g.locked }"
+        >
           {{ g.ally ? g.ally.name : labels[GROUP_LABEL_KEYS[g.id]] }}
-          <em v-if="g.ally" class="rul-ally">{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
+          <em
+            v-if="g.ally"
+            class="rul-ally"
+          >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
         </h3>
-        <template v-for="(e, idx) in g.entries" :key="e.uid">
-          <div class="rul-unit" :class="{ 'rul-attached roster-attached': e.leaderOf, 'rul-picked': inPane && openUid === e.uid }">
+        <template
+          v-for="(e, idx) in g.entries"
+          :key="e.uid"
+        >
+          <div
+            class="rul-unit"
+            :class="{ 'rul-attached roster-attached': e.leaderOf, 'rul-picked': inPane && openUid === e.uid }"
+          >
             <!-- The row is itself a button (it opens the configuration), so the actions sit
                  OUTSIDE it rather than inside — a button inside a button is invalid and doesn't
                  get its own click on every browser. They are positioned over the tile's top-right
                  corner at every width (see .rul-acts below). -->
-            <div class="rul-headrow" :class="{ 'rul-one-act': dupBlocked(e) }">
+            <div
+              class="rul-headrow"
+              :class="{ 'rul-one-act': dupBlocked(e) }"
+            >
               <button
                 type="button"
                 class="rul-row"
@@ -49,7 +67,11 @@
                   :detachments="detachments"
                   :role="roleOf(e)"
                 />
-                <i v-if="!inPane" class="bi rul-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                <i
+                  v-if="!inPane"
+                  class="bi rul-chev"
+                  :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"
+                />
               </button>
               <span class="rul-acts">
                 <!-- Absent, not greyed, at the duplicate cap. A dead control earns its place by
@@ -64,7 +86,7 @@
                   :title="labels.rosterDuplicate"
                   @click="$emit('duplicate', e)"
                 >
-                  <i class="bi bi-copy"></i>
+                  <i class="bi bi-copy" />
                 </button>
                 <button
                   type="button"
@@ -73,18 +95,29 @@
                   :title="labels.rosterRemove"
                   @click="$emit('remove', e)"
                 >
-                  <i class="bi bi-trash3"></i>
+                  <i class="bi bi-trash3" />
                 </button>
               </span>
             </div>
-            <CollapseTransition v-if="!narrow && !inPane" :show="openUid === e.uid">
-              <div class="rul-fields"><slot name="fields" :entry="e" /></div>
+            <CollapseTransition
+              v-if="!narrow && !inPane"
+              :show="openUid === e.uid"
+            >
+              <div class="rul-fields">
+                <slot
+                  name="fields"
+                  :entry="e"
+                />
+              </div>
             </CollapseTransition>
           </div>
           <!-- The attached unit's own points, once, under the last row of the block: the numbers
                above it still read down the column and still add up to the roster total, which a
                combined figure on the bodyguard's row would have broken. -->
-          <p v-if="blockTotal(g.entries, idx) != null" class="roster-sum">
+          <p
+            v-if="blockTotal(g.entries, idx) != null"
+            class="roster-sum"
+          >
             {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
           </p>
         </template>
@@ -105,7 +138,10 @@
            unreachable. Accent inside, body outside. -->
       <div class="modal-body rul-sheet">
         <FactionAccentScope :faction-slug="slugOf(openEntry.id)">
-          <slot name="fields" :entry="openEntry" />
+          <slot
+            name="fields"
+            :entry="openEntry"
+          />
         </FactionAccentScope>
       </div>
     </BaseModal>

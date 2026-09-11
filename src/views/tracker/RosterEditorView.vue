@@ -1,6 +1,15 @@
 <template>
-  <div v-if="roster" class="roster-editor themed" :style="accentStyle">
-    <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
+  <div
+    v-if="roster"
+    class="roster-editor themed"
+    :style="accentStyle"
+  >
+    <RouterLink
+      to="/roster"
+      class="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+    </RouterLink>
 
     <header class="red-head">
       <input
@@ -9,9 +18,14 @@
         :value="roster.name"
         :placeholder="labels.rosterUntitled"
         @input="rename($event.target.value)"
-      />
-      <button v-if="roster.units.length" class="hdr-icon" :aria-label="labels.rosterExport" @click="exportOpen = true">
-        <i class="bi bi-box-arrow-up"></i>
+      >
+      <button
+        v-if="roster.units.length"
+        class="hdr-icon"
+        :aria-label="labels.rosterExport"
+        @click="exportOpen = true"
+      >
+        <i class="bi bi-box-arrow-up" />
       </button>
     </header>
 
@@ -41,10 +55,10 @@
       :limit="limit"
       :error-count="validation.errorCount"
       @update:name="rename"
-      @update:battleSize="setBattleSize"
-      @update:customPoints="setCustomPoints"
+      @update:battle-size="setBattleSize"
+      @update:custom-points="setCustomPoints"
       @update:disposition="setDisposition"
-      @update:checkLegality="setCheckLegality"
+      @update:check-legality="setCheckLegality"
       @update:notes="setNotes"
       @pick-faction="pickFaction"
       @toggle-detachment="toggleDetachment"
@@ -57,35 +71,61 @@
          roster list and the read-only list use. This screen kept its own underline tabs until
          2026-08-28, which made the editor the one roster screen whose tabs looked like something
          else. -->
-    <PageTabs v-if="!desk" class="red-tabs" :tabs="editorTabs" @select="tab = $event" />
+    <PageTabs
+      v-if="!desk"
+      class="red-tabs"
+      :tabs="editorTabs"
+      @select="tab = $event"
+    />
 
     <!-- Settings: faction, detachment(s), battle size -->
-    <div v-if="!desk && tab === 'settings'" class="red-panel">
+    <div
+      v-if="!desk && tab === 'settings'"
+      class="red-panel"
+    >
       <div class="red-choices">
-        <button class="choice" @click="factionPickerOpen = true">
+        <button
+          class="choice"
+          @click="factionPickerOpen = true"
+        >
           <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
           <span class="ch-value">{{ factionName || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down"></i>
+          <i class="bi bi-chevron-down" />
         </button>
-        <button class="choice" :disabled="!roster.faction" @click="detachmentPickerOpen = true">
+        <button
+          class="choice"
+          :disabled="!roster.faction"
+          @click="detachmentPickerOpen = true"
+        >
           <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
           <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down"></i>
+          <i class="bi bi-chevron-down" />
         </button>
         <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
              opponent's symbol names your Primary Mission. One detachment settles it; several are a
              choice, and the LIST is where it is declared. Not a picker: there are never more than
              a handful of candidates, so they fit in the tile that shows the answer. -->
-        <div v-if="dispositionCands.length" class="choice bsize">
+        <div
+          v-if="dispositionCands.length"
+          class="choice bsize"
+        >
           <span class="ch-label">{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-          <span v-if="dispositionCands.length === 1" class="ch-value">{{ dispositionCands[0] }}</span>
-          <div v-else class="seg disp-opts">
+          <span
+            v-if="dispositionCands.length === 1"
+            class="ch-value"
+          >{{ dispositionCands[0] }}</span>
+          <div
+            v-else
+            class="seg disp-opts"
+          >
             <button
               v-for="d in dispositionCands"
               :key="d"
               :class="{ on: roster.disposition === d }"
               @click="setDisposition(d)"
-            >{{ d }}</button>
+            >
+              {{ d }}
+            </button>
           </div>
         </div>
         <!-- The player's plan for this list, in their own words: read at the table (the view screen
@@ -99,7 +139,7 @@
             :maxlength="ROSTER_NOTES_MAX"
             :value="roster.notes || ''"
             @input="setNotes($event.target.value)"
-          ></textarea>
+          />
         </div>
         <div class="choice bsize">
           <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
@@ -110,8 +150,16 @@
               class="bsize-btn"
               :class="{ on: roster.battleSize === b.id }"
               @click="setBattleSize(b.id)"
-            >{{ b.points }}</button>
-            <button class="bsize-btn" :class="{ on: roster.battleSize === 'custom' }" @click="setBattleSize('custom')">{{ labels.rosterCustom }}</button>
+            >
+              {{ b.points }}
+            </button>
+            <button
+              class="bsize-btn"
+              :class="{ on: roster.battleSize === 'custom' }"
+              @click="setBattleSize('custom')"
+            >
+              {{ labels.rosterCustom }}
+            </button>
             <input
               v-if="roster.battleSize === 'custom'"
               class="bsize-input"
@@ -120,13 +168,20 @@
               step="5"
               :value="roster.customPoints"
               @input="setCustomPoints($event.target.value)"
-            />
+            >
           </div>
         </div>
       </div>
 
-      <label class="check" :class="{ on: roster.checkLegality !== false }">
-        <input type="checkbox" :checked="roster.checkLegality !== false" @change="setCheckLegality($event.target.checked)" />
+      <label
+        class="check"
+        :class="{ on: roster.checkLegality !== false }"
+      >
+        <input
+          type="checkbox"
+          :checked="roster.checkLegality !== false"
+          @change="setCheckLegality($event.target.checked)"
+        >
         <span>
           {{ labels.rosterCheckLegality }}
           <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
@@ -139,13 +194,27 @@
          /roster/:id/add — which since wargear started deciding a unit's price meant a navigation
          per unit. Both panes now read from the same `useRosterEditing` handles they always did;
          only the layout changed. -->
-    <div v-else class="red-panel">
-      <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
+    <div
+      v-else
+      class="red-panel"
+    >
+      <div
+        v-if="!roster.faction"
+        class="red-hint"
+      >
+        {{ labels.rosterPickFaction }}
+      </div>
       <template v-else>
         <!-- Same folded rules panel the creation wizard's Units step carries: editing a list is the
              same work as building one, and the rules are wanted in the same place. -->
-        <RosterRulesPanel :faction-slug="roster.faction" :detachments="roster.detachments || []" />
-        <RosterWorkbench :desk="desk" :selected="!!openEntry">
+        <RosterRulesPanel
+          :faction-slug="roster.faction"
+          :detachments="roster.detachments || []"
+        />
+        <RosterWorkbench
+          :desk="desk"
+          :selected="!!openEntry"
+        >
           <template #catalog>
             <RosterUnitBrowser
               v-if="factionData"
@@ -162,7 +231,12 @@
             />
           </template>
           <template #list>
-            <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
+            <p
+              v-if="!roster.units.length"
+              class="red-empty"
+            >
+              {{ labels.rosterUnitsEmpty }}
+            </p>
             <RosterUnitList
               v-else
               :groups="groupedUnits"
@@ -180,14 +254,22 @@
               @remove="removeEntry"
             >
               <template #fields="{ entry: e }">
-                <RosterEntryFields v-bind="fieldProps" :entry="e" @toggle-warlord="toggleWarlord" />
+                <RosterEntryFields
+                  v-bind="fieldProps"
+                  :entry="e"
+                  @toggle-warlord="toggleWarlord"
+                />
               </template>
             </RosterUnitList>
           </template>
           <!-- The desk's third column. Not rendered at all in the two-pane arrangement — there
                the list draws the same fields itself, under the row they belong to. -->
           <template #editor>
-            <RosterEntryFields v-bind="fieldProps" :entry="openEntry" @toggle-warlord="toggleWarlord" />
+            <RosterEntryFields
+              v-bind="fieldProps"
+              :entry="openEntry"
+              @toggle-warlord="toggleWarlord"
+            />
           </template>
         </RosterWorkbench>
       </template>
@@ -199,18 +281,43 @@
       <div class="rc-sticky-inner">
         <!-- On the desk the points and the issue badge are in the settings bar at the top, beside
              the choices that move them; repeating them here would be the same number twice. -->
-        <div v-if="!desk" class="rc-sticky-info">
-          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-          <button v-if="roster.faction" type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+        <div
+          v-if="!desk"
+          class="rc-sticky-info"
+        >
+          <span
+            class="rc-points"
+            :class="{ over: points > limit }"
+          >{{ points }} / {{ limit }}</span>
+          <button
+            v-if="roster.faction"
+            type="button"
+            class="issues-badge"
+            :class="validation.errorCount ? 'has-err' : 'ok'"
+            @click="issuesOpen = true"
+          >
             <template v-if="validation.errorCount">
-              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+              <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
             </template>
-            <i v-else class="bi bi-check-circle-fill"></i>
+            <i
+              v-else
+              class="bi bi-check-circle-fill"
+            />
           </button>
         </div>
         <div class="rc-sticky-actions">
-          <RouterLink to="/roster" class="btn-ghost">{{ labels.rosterCancel }}</RouterLink>
-          <button class="btn-primary" @click="save">{{ labels.rosterSave }}</button>
+          <RouterLink
+            to="/roster"
+            class="btn-ghost"
+          >
+            {{ labels.rosterCancel }}
+          </RouterLink>
+          <button
+            class="btn-primary"
+            @click="save"
+          >
+            {{ labels.rosterSave }}
+          </button>
         </div>
       </div>
     </div>

@@ -1,5 +1,8 @@
 <template>
-  <BaseModal :title="labels.navRules" @close="$emit('close')">
+  <BaseModal
+    :title="labels.navRules"
+    @close="$emit('close')"
+  >
     <div class="modal-body modal-list">
       <RouterLink
         v-for="s in t.sections"

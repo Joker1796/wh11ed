@@ -24,31 +24,77 @@
      never guaranteed. -->
 <template>
   <!-- ── The list: a table per fragment ──────────────────────────────────────────────────── -->
-  <table v-if="block.kind === 'list'" class="rps-table">
+  <table
+    v-if="block.kind === 'list'"
+    class="rps-table"
+  >
     <colgroup>
-      <col :style="{ width: block.cols.gear ? '34%' : 'auto' }" />
-      <col v-if="block.cols.gear" />
-      <col v-if="block.cols.pts" class="rps-col-pts" />
+      <col :style="{ width: block.cols.gear ? '34%' : 'auto' }">
+      <col v-if="block.cols.gear">
+      <col
+        v-if="block.cols.pts"
+        class="rps-col-pts"
+      >
     </colgroup>
     <thead>
       <tr>
-        <th class="c-name">{{ labels.printColUnit }}</th>
-        <th v-if="block.cols.gear" class="c-gear">{{ labels.printColWargear }}</th>
-        <th v-if="block.cols.pts" class="c-pts">{{ labels.printColPoints }}</th>
+        <th class="c-name">
+          {{ labels.printColUnit }}
+        </th>
+        <th
+          v-if="block.cols.gear"
+          class="c-gear"
+        >
+          {{ labels.printColWargear }}
+        </th>
+        <th
+          v-if="block.cols.pts"
+          class="c-pts"
+        >
+          {{ labels.printColPoints }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <template v-for="(u, i) in slice" :key="from + i">
-        <tr v-if="u.t === 'g'" class="rps-group" :data-u="uid(i)">
-          <th :colspan="1 + (block.cols.gear ? 1 : 0) + (block.cols.pts ? 1 : 0)">{{ u.label }}</th>
+      <template
+        v-for="(u, i) in slice"
+        :key="from + i"
+      >
+        <tr
+          v-if="u.t === 'g'"
+          class="rps-group"
+          :data-u="uid(i)"
+        >
+          <th :colspan="1 + (block.cols.gear ? 1 : 0) + (block.cols.pts ? 1 : 0)">
+            {{ u.label }}
+          </th>
         </tr>
-        <tr v-else class="rps-row" :class="{ attached: u.attached }" :data-u="uid(i)">
+        <tr
+          v-else
+          class="rps-row"
+          :class="{ attached: u.attached }"
+          :data-u="uid(i)"
+        >
           <td class="c-name">
             <span class="rps-unit">{{ u.name }}</span>
-            <span v-for="(tag, ti) in u.tags" :key="ti" class="rps-tag">{{ tag }}</span>
+            <span
+              v-for="(tag, ti) in u.tags"
+              :key="ti"
+              class="rps-tag"
+            >{{ tag }}</span>
           </td>
-          <td v-if="block.cols.gear" class="c-gear">{{ u.gear }}</td>
-          <td v-if="block.cols.pts" class="c-pts">{{ u.pts }}</td>
+          <td
+            v-if="block.cols.gear"
+            class="c-gear"
+          >
+            {{ u.gear }}
+          </td>
+          <td
+            v-if="block.cols.pts"
+            class="c-pts"
+          >
+            {{ u.pts }}
+          </td>
         </tr>
       </template>
     </tbody>
@@ -56,31 +102,82 @@
 
   <!-- ── Everything else: a stream of units ──────────────────────────────────────────────── -->
   <template v-else>
-    <template v-for="(u, i) in slice" :key="from + i">
-      <header v-if="u.t === 'header'" class="rps-head" :data-u="uid(i)">
-        <h1 class="rps-title">{{ u.title }}</h1>
-        <p class="rps-facts"><span v-for="(f, fi) in u.facts" :key="fi" class="rps-fact">{{ f }}</span></p>
+    <template
+      v-for="(u, i) in slice"
+      :key="from + i"
+    >
+      <header
+        v-if="u.t === 'header'"
+        class="rps-head"
+        :data-u="uid(i)"
+      >
+        <h1 class="rps-title">
+          {{ u.title }}
+        </h1>
+        <p class="rps-facts">
+          <span
+            v-for="(f, fi) in u.facts"
+            :key="fi"
+            class="rps-fact"
+          >{{ f }}</span>
+        </p>
       </header>
 
-      <h2 v-else-if="u.t === 'h2'" class="rps-h" :data-u="uid(i)">{{ u.label }}</h2>
+      <h2
+        v-else-if="u.t === 'h2'"
+        class="rps-h"
+        :data-u="uid(i)"
+      >
+        {{ u.label }}
+      </h2>
 
-      <div v-else-if="u.t === 'rule'" class="rps-rule" :data-u="uid(i)">
-        <h3 class="rps-rule-name">{{ u.name }}<em v-if="u.em"> · {{ u.em }}</em></h3>
-        <div v-if="u.body" class="rps-rule-body"><RuleBody :body="u.body" /></div>
+      <div
+        v-else-if="u.t === 'rule'"
+        class="rps-rule"
+        :data-u="uid(i)"
+      >
+        <h3 class="rps-rule-name">
+          {{ u.name }}<em v-if="u.em"> · {{ u.em }}</em>
+        </h3>
+        <div
+          v-if="u.body"
+          class="rps-rule-body"
+        >
+          <RuleBody :body="u.body" />
+        </div>
       </div>
 
-      <h3 v-else-if="u.t === 'phase'" class="rps-phase" :data-u="uid(i)">{{ u.label }}</h3>
+      <h3
+        v-else-if="u.t === 'phase'"
+        class="rps-phase"
+        :data-u="uid(i)"
+      >
+        {{ u.label }}
+      </h3>
 
-      <div v-else-if="u.t === 'pair'" class="rps-pair" :data-u="uid(i)">
-        <article v-for="st in u.items" :key="st.key" class="rps-strat">
+      <div
+        v-else-if="u.t === 'pair'"
+        class="rps-pair"
+        :data-u="uid(i)"
+      >
+        <article
+          v-for="st in u.items"
+          :key="st.key"
+          class="rps-strat"
+        >
           <h4 class="rps-strat-name">
             <span class="c-strat">{{ st.name }}</span><em v-if="st.nameRu"> · {{ st.nameRu }}</em>
             <span class="rps-cp">{{ st.cp }}</span>
           </h4>
-          <p class="rps-strat-when">{{ st.when }}</p>
+          <p class="rps-strat-when">
+            {{ st.when }}
+          </p>
           <!-- The gap between the parts is CSS, not a trailing space in the template — the
                compiler's whitespace condensing eats one, and TARGET ran straight into EFFECT. -->
-          <p v-if="opts.stratagemText" class="rps-strat-text">
+          <p
+            v-if="opts.stratagemText"
+            class="rps-strat-text"
+          >
             <span v-if="st.target"><strong>{{ labels.stratTarget }}:</strong> {{ st.target }}</span>
             <span v-if="st.effect"><strong>{{ labels.stratEffect }}:</strong> {{ st.effect }}</span>
             <span v-if="st.restrictions"><strong>{{ labels.stratRestrictions }}:</strong> {{ st.restrictions }}</span>
@@ -88,7 +185,11 @@
         </article>
       </div>
 
-      <div v-else-if="u.t === 'card'" class="rps-u" :data-u="uid(i)">
+      <div
+        v-else-if="u.t === 'card'"
+        class="rps-u"
+        :data-u="uid(i)"
+      >
         <RosterPrintUnitCard
           :unit-id="u.c.unitId"
           :faction-slug="u.c.factionSlug"

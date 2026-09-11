@@ -1,30 +1,58 @@
 <template>
-  <section v-if="sides.length" class="pr">
+  <section
+    v-if="sides.length"
+    class="pr"
+  >
     <!-- Closed by default, with the count in the header — an open block would push the round's
          actual scoring down the screen, which is exactly why CP and the army-rule card were moved
          BELOW the secondaries. The count is itself the reminder: "3 rules in this phase" does the
          job from the closed state, and opening it is one tap. The choice is remembered. -->
-    <button type="button" class="pr-head" :aria-expanded="open" @click="toggle">
-      <i class="bi pr-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+    <button
+      type="button"
+      class="pr-head"
+      :aria-expanded="open"
+      @click="toggle"
+    >
+      <i
+        class="bi pr-chev"
+        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+      />
       <span class="pr-title">{{ labels.trackerPhaseRules }}</span>
       <span class="pr-count">{{ total }}</span>
     </button>
 
     <CollapseTransition :show="open">
       <div class="pr-body">
-        <div v-for="side in sides" :key="side.pi" class="pr-side">
-          <h4 class="pr-who">{{ side.name }}</h4>
+        <div
+          v-for="side in sides"
+          :key="side.pi"
+          class="pr-side"
+        >
+          <h4 class="pr-who">
+            {{ side.name }}
+          </h4>
           <ul class="pr-list">
-            <li v-for="r in side.rules" :key="r.key" class="pr-rule">
+            <li
+              v-for="r in side.rules"
+              :key="r.key"
+              class="pr-rule"
+            >
               <!-- A name the reader cannot get to is half a reminder, so every line is a way in:
                    a unit to its card, a rule to its place on the faction page. -->
-              <button type="button" class="pr-go-btn" @click="go(r)">
+              <button
+                type="button"
+                class="pr-go-btn"
+                @click="go(r)"
+              >
                 <span class="pr-src">{{ r.src }}</span>
                 <span class="pr-name">
                   {{ r.name }}
-                  <small v-if="r.sub" class="pr-sub">{{ r.sub }}</small>
+                  <small
+                    v-if="r.sub"
+                    class="pr-sub"
+                  >{{ r.sub }}</small>
                 </span>
-                <i class="bi bi-chevron-right pr-go"></i>
+                <i class="bi bi-chevron-right pr-go" />
               </button>
             </li>
           </ul>
@@ -35,10 +63,13 @@
              the query so that page opens on it instead of on six collapsed accordions. No count:
              counting would mean loading the faction rules bundle onto the playing screen, which is
              the whole thing this block's index exists to avoid. -->
-        <RouterLink class="pr-strats" :to="{ path: '/stratagems', query: { phase } }">
-          <i class="bi bi-lightning-charge"></i>
+        <RouterLink
+          class="pr-strats"
+          :to="{ path: '/stratagems', query: { phase } }"
+        >
+          <i class="bi bi-lightning-charge" />
           {{ labels.trackerPhaseStrats }}
-          <i class="bi bi-chevron-right pr-go"></i>
+          <i class="bi bi-chevron-right pr-go" />
         </RouterLink>
       </div>
     </CollapseTransition>

@@ -1,12 +1,27 @@
 <template>
-  <h2 class="chapter-heading">{{ labels.eventSequenceHeading }}</h2>
-  <p class="chapter-desc">{{ labels.eventSequenceDesc }}</p>
+  <h2 class="chapter-heading">
+    {{ labels.eventSequenceHeading }}
+  </h2>
+  <p class="chapter-desc">
+    {{ labels.eventSequenceDesc }}
+  </p>
 
-  <p class="lead">{{ seq.intro }}</p>
+  <p class="lead">
+    {{ seq.intro }}
+  </p>
 
-  <template v-for="grp in stepChunks" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
-      <template v-for="block in grp.items" :key="block.id">
+  <template
+    v-for="grp in stepChunks"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
+      <template
+        v-for="block in grp.items"
+        :key="block.id"
+      >
         <RuleBlock
           :id="block.id"
           :title="block.title"
@@ -14,7 +29,10 @@
           :note="block.note"
           :see-also="block.seeAlso"
         />
-        <div v-if="block.table" class="table-section">
+        <div
+          v-if="block.table"
+          class="table-section"
+        >
           <DataTable
             :title="block.table.title"
             :headers="block.table.headers"
@@ -32,7 +50,10 @@
         :note="grp.item.note"
         :see-also="grp.item.seeAlso"
       />
-      <div v-if="grp.item.table" class="table-section">
+      <div
+        v-if="grp.item.table"
+        class="table-section"
+      >
         <DataTable
           :title="grp.item.table.title"
           :headers="grp.item.table.headers"
@@ -43,13 +64,21 @@
     </template>
   </template>
 
-  <h2 class="group-heading">{{ labels.eventSecondaryHeading }}</h2>
-  <template v-for="grp in secondaryChunks" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
+  <h2 class="group-heading">
+    {{ labels.eventSecondaryHeading }}
+  </h2>
+  <template
+    v-for="grp in secondaryChunks"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
       <RuleBlock
         v-for="block in grp.items"
-        :key="block.id"
         :id="block.id"
+        :key="block.id"
         :title="block.title"
         :body="block.body"
         :see-also="block.seeAlso"
@@ -64,13 +93,21 @@
     />
   </template>
 
-  <h2 class="group-heading">{{ labels.eventDesignerHeading }}</h2>
-  <template v-for="grp in designerChunks" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
+  <h2 class="group-heading">
+    {{ labels.eventDesignerHeading }}
+  </h2>
+  <template
+    v-for="grp in designerChunks"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
       <RuleBlock
         v-for="block in grp.items"
-        :key="block.id"
         :id="block.id"
+        :key="block.id"
         :title="block.title"
         :body="block.body"
         :see-also="block.seeAlso"

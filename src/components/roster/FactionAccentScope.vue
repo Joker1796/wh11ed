@@ -1,5 +1,10 @@
 <template>
-  <div class="fas-themed" :style="accentStyle"><slot /></div>
+  <div
+    class="fas-themed"
+    :style="accentStyle"
+  >
+    <slot />
+  </div>
 </template>
 
 <script setup>

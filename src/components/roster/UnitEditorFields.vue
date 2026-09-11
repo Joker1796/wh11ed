@@ -6,8 +6,13 @@
          field, and a section for it cost a heading, a rule and a row of a phone (CLAUDE.md,
          "Vertical density": spend sideways before spending down). -->
     <div class="ues-top">
-      <button v-if="def.linked && factionSlug" type="button" class="btn-ghost ues-sheet-link" @click="rulesOpen = true">
-        <i class="bi bi-file-earmark-text"></i> {{ labels.rosterShowDatasheet }}
+      <button
+        v-if="def.linked && factionSlug"
+        type="button"
+        class="btn-ghost ues-sheet-link"
+        @click="rulesOpen = true"
+      >
+        <i class="bi bi-file-earmark-text" /> {{ labels.rosterShowDatasheet }}
       </button>
       <label class="ues-note">
         <span class="ues-note-lab">{{ labels.rosterNote }}</span>
@@ -16,14 +21,17 @@
           :maxlength="ENTRY_NOTE_MAX"
           :value="entry.note || ''"
           @input="writeNote(entry, 'note', $event.target.value)"
-        />
+        >
       </label>
     </div>
     <!-- Teleported to <body>: this component can render inside an accordion wrapped by
          CollapseTransition, whose `contain: layout paint` makes it a containing block for
          `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
          be clipped to the (collapsed-height) accordion row instead of covering the viewport. -->
-    <Teleport v-if="rulesOpen" to="body">
+    <Teleport
+      v-if="rulesOpen"
+      to="body"
+    >
       <FactionAccentScope :faction-slug="factionSlug">
         <RosterUnitRulesModal
           :unit-id="sheetId"
@@ -33,7 +41,10 @@
         />
       </FactionAccentScope>
     </Teleport>
-    <Teleport v-if="weaponInfoNames" to="body">
+    <Teleport
+      v-if="weaponInfoNames"
+      to="body"
+    >
       <FactionAccentScope :faction-slug="factionSlug">
         <WeaponProfileModal
           :unit-id="sheetId"
@@ -43,7 +54,10 @@
         />
       </FactionAccentScope>
     </Teleport>
-    <Teleport v-if="enhInfoName" to="body">
+    <Teleport
+      v-if="enhInfoName"
+      to="body"
+    >
       <FactionAccentScope :faction-slug="factionSlug">
         <EnhancementRuleModal
           :name="enhInfoName"
@@ -54,8 +68,13 @@
     </Teleport>
 
     <!-- Unit size -->
-    <section v-if="def.sizes.length > 1" class="ues-sec">
-      <h4 class="ues-h">{{ labels.rosterUnitSize }}</h4>
+    <section
+      v-if="def.sizes.length > 1"
+      class="ues-sec"
+    >
+      <h4 class="ues-h">
+        {{ labels.rosterUnitSize }}
+      </h4>
       <div class="opt-row">
         <button
           v-for="(s, i) in def.sizes"
@@ -63,31 +82,55 @@
           class="pill"
           :class="{ on: (entry.size ?? 0) === i }"
           @click="setSize(i)"
-        >{{ sizeLabel(s) }} · {{ s.pts }}{{ labels.rosterPointsLabel }}<span
-          v-if="sizeTells[i]"
-          class="pill-tell"
-        > · {{ sizeTells[i] }}</span></button>
+        >
+          {{ sizeLabel(s) }} · {{ s.pts }}{{ labels.rosterPointsLabel }}<span
+            v-if="sizeTells[i]"
+            class="pill-tell"
+          > · {{ sizeTells[i] }}</span>
+        </button>
       </div>
     </section>
     <!-- Model count. Picking a bracket fills it to the top (see setSize), so the chip states the
          other end: this many models is allowed too, and the − is right there. -->
-    <section v-if="curRange" class="ues-sec ues-count">
+    <section
+      v-if="curRange"
+      class="ues-sec ues-count"
+    >
       <h4 class="ues-h">
         {{ labels.rosterModelsLabel }}
         <span class="ues-cap">{{ labels.rosterModelsMin.replace('{n}', curSize.per[0]) }}</span>
       </h4>
-      <NumberStepper :model-value="models" :min="curSize.per[0]" :max="curSize.per[1]" @update:model-value="setCount" />
+      <NumberStepper
+        :model-value="models"
+        :min="curSize.per[0]"
+        :max="curSize.per[1]"
+        @update:model-value="setCount"
+      />
     </section>
-    <p v-if="compLine" class="ues-comp">{{ compLine }}</p>
+    <p
+      v-if="compLine"
+      class="ues-comp"
+    >
+      {{ compLine }}
+    </p>
 
     <!-- Allegiance: a mark the unit must pick (Mark of Chaos, Daemonic Allegiance) or a capped
          detachment upgrade that hands it a keyword. Same widget for both — what differs is
          whether leaving it unset is an error, which validateRoster reports. -->
-    <section v-if="alleg" class="ues-sec">
+    <section
+      v-if="alleg"
+      class="ues-sec"
+    >
       <h4 class="ues-h">
         {{ alleg.t }}
-        <em v-if="alleg.req" class="ues-req">{{ labels.rosterAllegianceRequired }}</em>
-        <em v-else-if="alleg.max && defOf" class="ues-req">{{ allegSpentInArmy }} / {{ alleg.max }}</em>
+        <em
+          v-if="alleg.req"
+          class="ues-req"
+        >{{ labels.rosterAllegianceRequired }}</em>
+        <em
+          v-else-if="alleg.max && defOf"
+          class="ues-req"
+        >{{ allegSpentInArmy }} / {{ alleg.max }}</em>
       </h4>
       <div class="opt-row">
         <button
@@ -96,29 +139,57 @@
           class="pill"
           :class="{ on: entry.alleg === o.n }"
           @click="setAlleg(o.n)"
-        >{{ o.n }}<span v-if="o.wg" class="pill-tell"> · {{ items[o.wg] }}</span></button>
+        >
+          {{ o.n }}<span
+            v-if="o.wg"
+            class="pill-tell"
+          > · {{ items[o.wg] }}</span>
+        </button>
       </div>
     </section>
 
     <!-- Default loadout (read-only). Its own points, where it has any, are marked on the heading:
          the size pill shows the Munitorum bracket, and without this the difference between that
          and the unit's total (a Terminator Assault Squad's ten thunder hammers, +50) is invisible. -->
-    <section v-if="defaultLines.length" class="ues-sec">
+    <section
+      v-if="defaultLines.length"
+      class="ues-sec"
+    >
       <h4 class="ues-h">
         {{ labels.rosterDefaultWargear }}
-        <em v-if="defaultPts" class="ues-req">+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
+        <em
+          v-if="defaultPts"
+          class="ues-req"
+        >+{{ defaultPts }}{{ labels.rosterPointsLabel }}</em>
       </h4>
-      <p v-for="(l, i) in defaultLines" :key="i" class="ues-default">
-        <span v-if="l.mini" class="ues-mini">{{ l.mini }}:</span> {{ l.items }}
+      <p
+        v-for="(l, i) in defaultLines"
+        :key="i"
+        class="ues-default"
+      >
+        <span
+          v-if="l.mini"
+          class="ues-mini"
+        >{{ l.mini }}:</span> {{ l.items }}
       </p>
     </section>
 
     <!-- Warlord -->
-    <section v-if="canWarlord" class="ues-sec">
-      <div class="opt-tile" :class="{ on: isWarlord }">
+    <section
+      v-if="canWarlord"
+      class="ues-sec"
+    >
+      <div
+        class="opt-tile"
+        :class="{ on: isWarlord }"
+      >
         <label class="opt-select">
-          <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
-          <span class="opt-name"><i class="bi bi-flag-fill wl-flag"></i> {{ labels.rosterWarlord }}</span>
+          <input
+            type="checkbox"
+            :checked="isWarlord"
+            @change="$emit('toggle-warlord')"
+          >
+          <span class="opt-name"><i class="bi bi-flag-fill wl-flag" /> {{ labels.rosterWarlord }}</span>
         </label>
       </div>
     </section>
@@ -128,79 +199,176 @@
          first. It is GREYED OUT rather than removed while that isn't the case: an option that
          disappears when you touch an unrelated one reads as a bug, and the reader is left
          guessing what to undo. `blockers[gi]` says what to undo, in words. -->
-    <template v-for="(g, gi) in def.gear || []" :key="gi">
-    <section class="ues-sec" :class="{ 'ues-inert': blockers[gi] }">
-      <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
+    <template
+      v-for="(g, gi) in def.gear || []"
+      :key="gi"
+    >
+      <section
+        class="ues-sec"
+        :class="{ 'ues-inert': blockers[gi] }"
+      >
+        <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
            out of the datasheet, not a label. See the style rule for why that needs a different
            face. -->
-      <h4 class="ues-h ues-instr">
-        <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
-        {{ groupLines[gi].head }}
-        <span v-if="capChip(gi)" class="ues-cap">{{ capChip(gi) }}</span>
-      </h4>
-      <ul v-if="groupLines[gi].bullets.length" class="ues-blist">
-        <li v-for="(b, bi) in groupLines[gi].bullets" :key="bi">{{ b }}</li>
-      </ul>
-      <p v-if="groupLines[gi].note" class="ues-bnote">* {{ groupLines[gi].note }}</p>
-      <p v-if="blockers[gi]" class="ues-blocked">{{ blockerText(gi) }}</p>
-      <p v-else-if="caps[gi] && !caps[gi].limit" class="ues-bnote">{{ labels.rosterPickUnavailable }}</p>
+        <h4 class="ues-h ues-instr">
+          <span
+            v-if="miniName(g.m)"
+            class="ues-mini"
+          >{{ miniName(g.m) }}</span>
+          {{ groupLines[gi].head }}
+          <span
+            v-if="capChip(gi)"
+            class="ues-cap"
+          >{{ capChip(gi) }}</span>
+        </h4>
+        <ul
+          v-if="groupLines[gi].bullets.length"
+          class="ues-blist"
+        >
+          <li
+            v-for="(b, bi) in groupLines[gi].bullets"
+            :key="bi"
+          >
+            {{ b }}
+          </li>
+        </ul>
+        <p
+          v-if="groupLines[gi].note"
+          class="ues-bnote"
+        >
+          * {{ groupLines[gi].note }}
+        </p>
+        <p
+          v-if="blockers[gi]"
+          class="ues-blocked"
+        >
+          {{ blockerText(gi) }}
+        </p>
+        <p
+          v-else-if="caps[gi] && !caps[gi].limit"
+          class="ues-bnote"
+        >
+          {{ labels.rosterPickUnavailable }}
+        </p>
 
-      <!-- radio: replace with one of… — the default loadout is itself a real option (its own
+        <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
            a tracker-style checkbox (select); the separate trailing button (same idiom as
            RosterUnitBrowser's "+" add button) opens that row's weapon profile. -->
-      <div v-if="mode(g, gi) === 'radio'" class="opt-col">
         <div
-          v-for="opt in radioRows(g)"
-          :key="opt.oi ?? 'default'"
-          class="opt-tile"
-          :class="{ on: radioSel(gi) === opt.oi, disabled: !!blockers[gi] }"
+          v-if="mode(g, gi) === 'radio'"
+          class="opt-col"
         >
-          <label class="opt-select">
-            <input type="checkbox" :checked="radioSel(gi) === opt.oi" :disabled="!!blockers[gi]" @change="setRadio(gi, opt.oi)" />
-            <span class="opt-name">{{ opt.name }}</span>
-            <span v-if="opt.pts" class="opt-pts">+{{ opt.pts }}</span>
-          </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(opt.names)">
-            <i class="bi bi-info-circle"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- toggle: single optional item -->
-      <div v-else-if="mode(g, gi) === 'toggle'" class="opt-col">
-        <div class="opt-tile" :class="{ on: toggleOn(gi), disabled: !!blockers[gi] }">
-          <label class="opt-select">
-            <input type="checkbox" :checked="toggleOn(gi)" :disabled="!!blockers[gi]" @change="toggle(gi)" />
-            <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
-            <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
-          </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(g.o[0]))">
-            <i class="bi bi-info-circle"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- stepper: N models take X -->
-      <div v-else class="opt-col">
-        <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile" :class="{ disabled: !!blockers[gi] }">
-          <div class="opt-step-body">
-            <span class="opt-name">{{ optLabel(o) }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
-            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(gi, oi)" :disabled="!!blockers[gi]" @update:model-value="setStep(gi, oi, $event)" />
+          <div
+            v-for="opt in radioRows(g)"
+            :key="opt.oi ?? 'default'"
+            class="opt-tile"
+            :class="{ on: radioSel(gi) === opt.oi, disabled: !!blockers[gi] }"
+          >
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="radioSel(gi) === opt.oi"
+                :disabled="!!blockers[gi]"
+                @change="setRadio(gi, opt.oi)"
+              >
+              <span class="opt-name">{{ opt.name }}</span>
+              <span
+                v-if="opt.pts"
+                class="opt-pts"
+              >+{{ opt.pts }}</span>
+            </label>
+            <button
+              type="button"
+              class="opt-info"
+              :aria-label="labels.rosterViewInfo"
+              @click="openWeaponInfo(opt.names)"
+            >
+              <i class="bi bi-info-circle" />
+            </button>
           </div>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(o))">
-            <i class="bi bi-info-circle"></i>
-          </button>
         </div>
-      </div>
-    </section>
+
+        <!-- toggle: single optional item -->
+        <div
+          v-else-if="mode(g, gi) === 'toggle'"
+          class="opt-col"
+        >
+          <div
+            class="opt-tile"
+            :class="{ on: toggleOn(gi), disabled: !!blockers[gi] }"
+          >
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="toggleOn(gi)"
+                :disabled="!!blockers[gi]"
+                @change="toggle(gi)"
+              >
+              <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
+              <span
+                v-if="g.o[0][1]"
+                class="opt-pts"
+              >+{{ g.o[0][1] }}</span>
+            </label>
+            <button
+              type="button"
+              class="opt-info"
+              :aria-label="labels.rosterViewInfo"
+              @click="openWeaponInfo(optNames(g.o[0]))"
+            >
+              <i class="bi bi-info-circle" />
+            </button>
+          </div>
+        </div>
+
+        <!-- stepper: N models take X -->
+        <div
+          v-else
+          class="opt-col"
+        >
+          <div
+            v-for="(o, oi) in g.o"
+            :key="oi"
+            class="opt-tile"
+            :class="{ disabled: !!blockers[gi] }"
+          >
+            <div class="opt-step-body">
+              <span class="opt-name">{{ optLabel(o) }}<span
+                v-if="o[1]"
+                class="opt-pts"
+              > +{{ o[1] }}</span></span>
+              <NumberStepper
+                :model-value="stepCount(gi, oi)"
+                :min="0"
+                :max="stepMax(gi, oi)"
+                :disabled="!!blockers[gi]"
+                @update:model-value="setStep(gi, oi, $event)"
+              />
+            </div>
+            <button
+              type="button"
+              class="opt-info"
+              :aria-label="labels.rosterViewInfo"
+              @click="openWeaponInfo(optNames(o))"
+            >
+              <i class="bi bi-info-circle" />
+            </button>
+          </div>
+        </div>
+      </section>
     </template>
 
     <!-- Enhancement — only ones this unit could actually take (ineligible-for-this-unit options
          from the detachment's full list are hidden, not just disabled; an eligible one already
          used by another entry still shows, disabled, so it's clear why it can't be picked here). -->
-    <section v-if="visibleEnhOptions.length" class="ues-sec">
-      <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
+    <section
+      v-if="visibleEnhOptions.length"
+      class="ues-sec"
+    >
+      <h4 class="ues-h">
+        {{ labels.rosterEnhancement }}
+      </h4>
       <div class="opt-col">
         <div
           v-for="e in visibleEnhOptions"
@@ -217,16 +385,30 @@
               :checked="e.mandatory ? e.eligible : entry.enh === e.name"
               :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
               @change="toggleEnh(e.name)"
-            />
+            >
             <span class="opt-name">
               {{ e.name }}
-              <span v-if="e.mandatory && e.eligible" class="opt-tag">{{ labels.rosterEnhMandatory }}</span>
-              <span v-else-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+              <span
+                v-if="e.mandatory && e.eligible"
+                class="opt-tag"
+              >{{ labels.rosterEnhMandatory }}</span>
+              <span
+                v-else-if="e.used"
+                class="opt-tag"
+              >{{ labels.rosterEnhUsed }}</span>
             </span>
-            <span v-if="e.pts" class="opt-pts">+{{ e.pts }}</span>
+            <span
+              v-if="e.pts"
+              class="opt-pts"
+            >+{{ e.pts }}</span>
           </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openEnhInfo(e.name)">
-            <i class="bi bi-info-circle"></i>
+          <button
+            type="button"
+            class="opt-info"
+            :aria-label="labels.rosterViewInfo"
+            @click="openEnhInfo(e.name)"
+          >
+            <i class="bi bi-info-circle" />
           </button>
         </div>
       </div>
@@ -234,8 +416,13 @@
 
     <!-- Leader attachment — no separate "not attached" tile: unticking the selected checkbox
          already means that (same logic as the enhancement list above). -->
-    <section v-if="leaderTargets.length" class="ues-sec">
-      <h4 class="ues-h">{{ labels.rosterAttachTo }}</h4>
+    <section
+      v-if="leaderTargets.length"
+      class="ues-sec"
+    >
+      <h4 class="ues-h">
+        {{ labels.rosterAttachTo }}
+      </h4>
       <div class="opt-col">
         <div
           v-for="t in leaderTargets"
@@ -249,17 +436,22 @@
               :checked="entry.leaderOf === t.uid"
               :disabled="t.used && entry.leaderOf !== t.uid"
               @change="toggleLeader(t.uid)"
-            />
+            >
             <span class="opt-name">
               {{ t.name }}
-              <span v-if="t.type === 'support'" class="opt-tag">{{ labels.rosterSupportTag }}</span>
-              <span v-if="t.used && entry.leaderOf !== t.uid" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+              <span
+                v-if="t.type === 'support'"
+                class="opt-tag"
+              >{{ labels.rosterSupportTag }}</span>
+              <span
+                v-if="t.used && entry.leaderOf !== t.uid"
+                class="opt-tag"
+              >{{ labels.rosterEnhUsed }}</span>
             </span>
           </label>
         </div>
       </div>
     </section>
-
   </div>
 </template>
 

@@ -1,7 +1,13 @@
 <template>
-  <div v-if="game" class="history-view">
-    <button class="back" @click="back">
-      <i class="bi bi-chevron-left"></i> {{ labels.trackerBackToTracker }}
+  <div
+    v-if="game"
+    class="history-view"
+  >
+    <button
+      class="back"
+      @click="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ labels.trackerBackToTracker }}
     </button>
 
     <div class="hv-head">
@@ -11,19 +17,33 @@
 
     <!-- The lists that were fielded, if they were attached at setup — the game carries its own
          snapshot of each, so this still works long after the saved roster changed or went away. -->
-    <div v-if="rosterLinks.length" class="hv-rosters">
-      <RouterLink v-for="l in rosterLinks" :key="l.pi" class="hv-roster" :to="`/tracker/history/${game.id}/roster/${l.pi}`">
-        <i class="bi bi-card-list"></i>
+    <div
+      v-if="rosterLinks.length"
+      class="hv-rosters"
+    >
+      <RouterLink
+        v-for="l in rosterLinks"
+        :key="l.pi"
+        class="hv-roster"
+        :to="`/tracker/history/${game.id}/roster/${l.pi}`"
+      >
+        <i class="bi bi-card-list" />
         <span class="hv-roster-who">{{ l.who }}</span>
         <span class="hv-roster-name">{{ l.name }}</span>
       </RouterLink>
     </div>
 
-    <ScoreBoard :game="game" :finished="true" />
+    <ScoreBoard
+      :game="game"
+      :finished="true"
+    />
     <ScoreBreakdown :game="game" />
     <ArmyRuleSummary :game="game" />
 
-    <section v-if="layout" class="hv-layout">
+    <section
+      v-if="layout"
+      class="hv-layout"
+    >
       <h2>{{ labels.trackerLayout }} {{ layout.id }}</h2>
       <LayoutCard :layout="layout" />
     </section>
