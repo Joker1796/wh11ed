@@ -14,7 +14,7 @@
 //
 // Usage: npm run images:webp
 
-import { readdir, stat, unlink, access } from 'node:fs/promises'
+import { readdir, unlink, access } from 'node:fs/promises'
 import { join, relative, basename, extname, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'

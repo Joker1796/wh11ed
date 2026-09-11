@@ -342,7 +342,7 @@ describe('allegiance modifiers', () => {
     expect(marks).toContain('profile:t:0')
   })
 
-  it('handles the distance one too — "add 2\" to this model\'s Move"', () => {
+  it('handles the distance one too — "add 2" to this model\'s Move"', () => {
     const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Slaanesh' })
     const { sheet: out } = applyStatMods(sheet(), entries, destroyer, [])
     expect(out.profiles[0].m).toBe('8"')

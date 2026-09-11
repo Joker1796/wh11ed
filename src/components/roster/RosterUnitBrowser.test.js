@@ -223,7 +223,7 @@ describe('RosterUnitBrowser — allies', () => {
 // the reader says is on their shelf. Both HIDE (this list spends opacity on "not added yet"), and
 // both are one tap from off — which is why the count of what went is on screen beside them.
 describe('RosterUnitBrowser — the catalogue filters', () => {
-  const { collection, toggleOwned } = useCollection()
+  const { collection } = useCollection()
   const rowFor = (w, name) => w.findAll('.rub-item').find((r) => r.text().includes(name))
   // Budget first when it is offered at all, collection last — see the template.
   const filters = (w) => w.findAll('.rub-filter-list input[type="checkbox"]')

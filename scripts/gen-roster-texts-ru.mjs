@@ -341,7 +341,7 @@ const joinRu = (s) => noteRu(s)
 function translateClause(text) {
   // appdata occasionally leaks a list marker into the instruction itself ("■ This model's …"),
   // and the odd no-break space where a frame expects a plain one ("…replaced with 1 twin…").
-  let s = text.replace(/[   ]/g, ' ').trim().replace(/^■\s*/, '')
+  let s = text.replace(/[\u00a0\u2007\u202f]/g, ' ').trim().replace(/^■\s*/, '')
   if (!s) return null
 
   const list = s.match(LIST_HEAD)

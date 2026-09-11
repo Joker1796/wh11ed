@@ -53,10 +53,9 @@
 //
 // Usage: node scripts/sync-enhancement-restrictions.mjs   (also run as part of `npm run sync`).
 
-import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, norm, appdataToMarkup, loadJson, loadModule, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy } from './lib/sync-common.mjs'
+import { ROOT, norm, appdataToMarkup, loadModule, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
