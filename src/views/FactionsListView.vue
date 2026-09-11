@@ -157,7 +157,6 @@ a.faction-link:hover {
   letter-spacing: 1px;
   color: var(--text-dim);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 1px 5px;
   align-self: center;
 }

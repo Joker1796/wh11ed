@@ -40,7 +40,7 @@
           <div class="g-total">{{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}</div>
 
           <!-- CP -->
-          <template v-if="game.settings.trackCP">
+          <template v-if="showCp">
             <div class="g-label">{{ labels.trackerCp }}</div>
             <div class="g-cell g-span5"></div>
             <div class="g-total">{{ pl.cp }}</div>
@@ -62,6 +62,7 @@ import {
   missionBySlug, dispositionName,
 } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, leader as leaderOf } from '../../composables/gameScoring.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
 const props = defineProps({ game: { type: Object, default: null } })
@@ -69,6 +70,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
+// Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
+const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
@@ -105,13 +108,13 @@ function secondaries(pi) {
 .bd-toggle {
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
   width: 100%; padding: 0.6rem 1rem;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border);
   color: var(--text-primary); font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 .bd-toggle:hover { border-color: var(--accent); }
 .bd-body { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
 .bd-player {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem;
+  background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
 .bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
 .bd-name.win { color: var(--accent); }
@@ -137,7 +140,6 @@ function secondaries(pi) {
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
-  border-radius: 3px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;

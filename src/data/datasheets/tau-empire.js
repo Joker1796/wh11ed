@@ -302,7 +302,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 260,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -665,7 +665,7 @@ export default [
   },
   {
     "id": "commander-in-coldstar-battlesuit",
-    "name": "Commander In Coldstar Battlesuit",
+    "name": "Commander in Coldstar Battlesuit",
     "points": [
       {
         "models": 1,
@@ -675,7 +675,7 @@ export default [
     "flavor": "Capable of soaring at high speed over the battlefield, or even operating in the cold void of space, the XV86 Battlesuit is an exceptionally advanced weapon of war. It is favoured by those Commanders who seek to be everywhere at once, striking and fading wherever they are needed most.",
     "profiles": [
       {
-        "name": "Commander In Coldstar Battlesuit",
+        "name": "Commander in Coldstar Battlesuit",
         "m": "12\"",
         "t": "5",
         "sv": "3+",
@@ -873,7 +873,7 @@ export default [
   },
   {
     "id": "commander-in-enforcer-battlesuit",
-    "name": "Commander In Enforcer Battlesuit",
+    "name": "Commander in Enforcer Battlesuit",
     "points": [
       {
         "models": 1,
@@ -883,7 +883,7 @@ export default [
     "flavor": "Those Commanders who exhibit the most aggressive temperaments often choose to take to the field piloting an XV85 Enforcer Battlesuit. Especially large and formidable, these battlesuits boast heavier armour and an impressive array of weaponry and wargear. They are particularly suited to the close and deadly confines of urban warfare.",
     "profiles": [
       {
-        "name": "Commander In Enforcer Battlesuit",
+        "name": "Commander in Enforcer Battlesuit",
         "m": "8\"",
         "t": "5",
         "sv": "2+",
@@ -1317,12 +1317,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 90,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 100,
+        "points": 110,
         "note": "3rd+"
       }
     ],
@@ -1623,7 +1623,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The ubiquitous armoured transport of the Fire Caste, the Devilfish is an iconic symbol of T’au military expansion. Tough and surprisingly agile, it bears Fire Warriors safely into battle with impressive speed. Once there, its burst cannons and detachable drones or missile systems provide its passengers with additional fire support.",
@@ -1923,7 +1929,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 165,
         "note": "3rd+"
       }
     ],
@@ -2076,7 +2082,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 150,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -2653,7 +2659,7 @@ export default [
   },
   {
     "id": "kroot-lone-spear",
-    "name": "Kroot Lone-Spear",
+    "name": "Kroot Lone-spear",
     "points": [
       {
         "models": 1,
@@ -2663,7 +2669,7 @@ export default [
     "flavor": "Whether loners or grizzled mercenaries unable to fit within Kroot society, Lone-spears prefer the company of beasts and the surrounds of the wild. Mounted upon chameleonic Kalamondras, they make for talented long-range scouts. Moreover, armed with suitably potent firearms the Lone-spears excel in picking off valuable enemy targets and even eliminating armoured fighting vehicles.",
     "profiles": [
       {
-        "name": "Kroot Lone-Spear",
+        "name": "Kroot Lone-spear",
         "m": "12\"",
         "t": "5",
         "sv": "5+",
@@ -2745,7 +2751,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Kroot Lone-Spear"
+      "1 Kroot Lone-spear"
     ],
     "loadout": "**This model is equipped with:** Kroot long gun; close combat weapon; Kalamandra’s bite.",
     "options": [
@@ -3301,7 +3307,13 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 85
+        "points": 85,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 10,
+        "points": 100,
+        "note": "3rd+"
       }
     ],
     "flavor": "Pathfinder Teams wreak havoc behind enemy lines. Their firepower is formidable, especially when sniping with potent rail rifles, and their drones can optimise the team’s pulse fire or drive the enemy back with gravitic waves. Yet their deadliest ability is painting priority targets with massed markerlights for heavier T’au units to annihilate.",
@@ -3753,7 +3765,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 210,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -4157,7 +4169,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 385,
+        "points": 400,
         "note": "2nd+"
       }
     ],
@@ -4796,7 +4808,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 220
+        "points": 230
       }
     ],
     "flavor": "Shas’ri Locai and Shas’ri Lantar fight with an aggression rarely seen amongst the Fire caste. There is a focus to their ferocity, however, leaping close to their foes in jet-assisted bounds and unleashing punishing firepower before discharging kinetic shock waves built up by their neocapacitor shields and retreating again amidst the resultant carnage.",
@@ -5114,8 +5126,7 @@ export default [
         "points": 85
       },
       {
-        "models": 2,
-        "points": 105
+        "points": 20
       }
     ],
     "flavor": "In keeping with the Code of Fire, the Tidewall Shieldline provides a mobile fortification that can redeploy during battle. Its refractive field absorbs enemy fire, while its design allows entrenched Fire Warriors to ride the shieldline to a new position when it moves.",
@@ -5174,12 +5185,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 375,
+        "points": 395,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 375,
+        "points": 445,
         "note": "2nd+"
       }
     ],

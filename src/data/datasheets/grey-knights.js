@@ -4,7 +4,7 @@
 export default [
   {
     "id": "brother-captain",
-    "name": "Brother-captain",
+    "name": "Brother-Captain",
     "points": [
       {
         "models": 1,
@@ -14,7 +14,7 @@ export default [
     "flavor": "As the strong left hands of their Grand Masters, the Brother-Captains are seasoned battlefield commanders and potent warriors. They turn their prodigious psychic gifts to the swift annihilation of their enemies, augmenting their battle-brothers’ strength, sensing the foe’s hidden weaknesses, and setting an uncompromising example to those who follow them.",
     "profiles": [
       {
-        "name": "Brother-captain",
+        "name": "Brother-Captain",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -535,43 +535,19 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 140,
-        "note": "1st-3rd"
+        "points": 140
       },
       {
         "models": 5,
-        "points": 175,
-        "note": "1st-3rd"
+        "points": 175
       },
       {
         "models": 8,
-        "points": 300,
-        "note": "1st-3rd"
+        "points": 300
       },
       {
         "models": 10,
-        "points": 360,
-        "note": "1st-3rd"
-      },
-      {
-        "models": 4,
-        "points": 150,
-        "note": "4th+"
-      },
-      {
-        "models": 5,
-        "points": 185,
-        "note": "4th+"
-      },
-      {
-        "models": 8,
-        "points": 310,
-        "note": "4th+"
-      },
-      {
-        "models": 10,
-        "points": 385,
-        "note": "4th+"
+        "points": 360
       }
     ],
     "flavor": "Massively armoured, heavily armed and ruthlessly devoted to their sacred duties, Grey Knights Terminators form the indomitable heart of many strike forces. Some squads are accompanied by Apothecaries, whose nartheciums dispense healing salves to staunch grievous wounds, or Ancients who hold aloft finely wrought banners to inspire their battle-brothers in war.",
@@ -679,7 +655,7 @@ export default [
     "options": [
       "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Terminator can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*",
+      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
       "* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
@@ -926,7 +902,7 @@ export default [
   },
   {
     "id": "grand-master-in-nemesis-dreadknight",
-    "name": "Grand Master In Nemesis Dreadknight",
+    "name": "Grand Master in Nemesis Dreadknight",
     "points": [
       {
         "models": 1,
@@ -942,7 +918,7 @@ export default [
     "flavor": "Piloting a Nemesis Dreadknight allows a Grand Master to wield the kind of ordnance usually restricted to battle tanks. Augmented with his psychic puissance and the servo-driven strength to wield huge and terrifying melee weapons, the sheer killing power of such a warrior is terrifying indeed.",
     "profiles": [
       {
-        "name": "Grand Master In Nemesis Dreadknight",
+        "name": "Grand Master in Nemesis Dreadknight",
         "m": "8\"",
         "t": "8",
         "sv": "2+",
@@ -1780,12 +1756,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 250,
+        "points": 260,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 270,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -2078,27 +2054,27 @@ export default [
       },
       {
         "models": 10,
-        "points": 450,
+        "points": 460,
         "note": "1st-2nd"
       },
       {
         "models": 4,
-        "points": 185,
+        "points": 210,
         "note": "3rd+"
       },
       {
         "models": 5,
-        "points": 230,
+        "points": 255,
         "note": "3rd+"
       },
       {
         "models": 8,
-        "points": 375,
+        "points": 400,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 465,
+        "points": 500,
         "note": "3rd+"
       }
     ],
@@ -2201,13 +2177,13 @@ export default [
     ],
     "composition": [
       "1 Paragon",
-      "3-9 Paladins"
+      "4-9 Paladins"
     ],
     "loadout": "**Every model is equipped with:** storm bolter; Nemesis force weapon.",
     "options": [
       "For every 5 models in this unit, up to 2 Paladins can each have their storm bolter replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Paladin can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*",
+      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
       "* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
@@ -2229,22 +2205,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 110,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 220,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 120,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 230,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -2523,7 +2499,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The Razorback is an adaptation of the Rhino that sacrifices some transport capacity for a hull-mounted heavy weapon’s ammunition and power cells, ideal for rapidly transporting elite teams of power-armoured Grey Knights into battle. Razorbacks are thus able to lay down coordinated covering fire as their passengers disembark.",
@@ -2637,7 +2619,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Dauntless, durable and ruggedly resilient, Rhinos have been the ubiquitous armoured transport of the Space Marines for millennia. Those fielded by the Grey Knights are heavily warded, their hulls shot through with truesilver psychocircuitry that redoubles the protection of the Aegis in their vicinity.",
@@ -2756,7 +2744,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "36\"",
+        "range": "24\"",
         "a": "2",
         "bs": "3+",
         "s": "10",

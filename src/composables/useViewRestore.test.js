@@ -1,5 +1,5 @@
 import { afterEach, describe, it, expect } from 'vitest'
-import { currentSectionId } from './useViewRestore.js'
+import { currentSectionId, storedLocation } from './useViewRestore.js'
 
 // Build a column of section elements and fix each one's viewport `top` (jsdom has no
 // layout, so getBoundingClientRect is stubbed per element).
@@ -70,5 +70,30 @@ describe('currentSectionId (scroll-spy)', () => {
       { id: 'section-02-04', top: 300 },        // below the line → stops the scan
     ])
     expect(currentSectionId()).toBe('section-02-03')
+  })
+})
+
+describe('storedLocation', () => {
+  it('keeps the query — it is what a resumed screen needs to know WHICH thing it was on', () => {
+    // Losing this reopened the roster wizard empty, and the next faction pick started a second
+    // draft while the first sat orphaned on the Drafts tab.
+    expect(storedLocation('/roster/new?draft=abc123', null)).toBe('/roster/new?draft=abc123')
+    expect(storedLocation('/stratagems?phase=shooting', null)).toBe('/stratagems?phase=shooting')
+  })
+
+  it('replaces the URL hash with the section actually in view', () => {
+    expect(storedLocation('/core-rules#section-01', 'section-14')).toBe('/core-rules#section-14')
+  })
+
+  it('keeps a hash that is the payload when there is no section to displace it', () => {
+    expect(storedLocation('/roster/shared#r=eNpTeg', 'r=eNpTeg')).toBe('/roster/shared#r=eNpTeg')
+  })
+
+  it('carries query and anchor together', () => {
+    expect(storedLocation('/roster/xyz?unit=u1#top', 'section-03')).toBe('/roster/xyz?unit=u1#section-03')
+  })
+
+  it('leaves a plain path alone', () => {
+    expect(storedLocation('/ru/tracker', null)).toBe('/ru/tracker')
   })
 })

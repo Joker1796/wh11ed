@@ -3,7 +3,7 @@
     <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
          (style.css) that keeps a scroll at the list's end from chaining to the page behind.
          There is deliberately no body scroll-lock, so this class is what contains it. -->
-    <div class="modal-body">
+    <div class="modal-body modal-list">
       <button
         v-for="d in detachments"
         :key="d.id"
@@ -50,13 +50,6 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.75rem;
-  overflow-y: auto;
-}
 
 /* Narrow phones: BaseModal itself goes edge-to-edge (bottom sheet) at this breakpoint,
    so shrink the body's own gutter too — cards get closer to the full screen width
@@ -75,7 +68,6 @@ const labels = computed(() => ui[locale.value])
   text-align: left;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   transition: border-color var(--motion-fast), background var(--motion-fast);
 }

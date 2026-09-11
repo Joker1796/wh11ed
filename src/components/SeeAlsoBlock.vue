@@ -41,7 +41,6 @@ const resolvedRefs = computed(() => props.refs.map(ref => ({ ref, r: resolveRef(
   margin-bottom: 0.5rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 4px;
   padding: 0.6rem 0.8rem;
   font-size: 0.78rem;
 }

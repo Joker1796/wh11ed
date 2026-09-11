@@ -10,7 +10,10 @@
 //     the older 6-stratagem version) and Rules Updates (incl. the army-rule Unbridled
 //     Bloodlust rewrite).
 //   MFM (src/data/mfm/world-eaters.js) → per-enhancement points, per-detachment dp /
-//     forceDisposition, and the ONSLAUGHT `unique` tag.
+//     forceDisposition. The ONSLAUGHT `unique` tag is NOT the MFM's — that page has never
+//     printed it, in v1.2 or v1.3 — it comes from the detachment rule's own prose, which is
+//     why `npm run roster:data` lists these two as disagreeing with appdata's tag table and
+//     why they were left alone when v1.3 struck the Chaos Knights / Death Guard tags.
 //
 // 8 detachments total, matching the MFM list. EN-first: `ru` reuses the same object for
 // now. Markup follows useRenderInline / RuleBlock / StratCard conventions. Datasheets later.
@@ -580,7 +583,7 @@ const en = {
       name: "Brazen Engines",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Disruption",
       unique: "ONSLAUGHT",
       rule: {
         name: "Rampaging Terrors",
@@ -645,7 +648,7 @@ const en = {
       name: "Butchers of Khorne",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Adamantine Avalanche",
         flavor: "Hurling themselves into battle with savage ferocity, the sheer armoured bulk of the World Eaters\u2019 Terminator elites is enough to shatter armour and crush bone.",

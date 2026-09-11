@@ -178,11 +178,11 @@ export default [
       },
       {
         "models": 5,
-        "points": 185
+        "points": 180
       },
       {
         "models": 10,
-        "points": 370
+        "points": 360
       }
     ],
     "flavor": "Blightlord Terminators are incredibly tough, thanks to their Cataphractii armour and Nurgle’s gifts, and they are experts in breach assaults, boarding actions and sudden teleport strikes. Due to long periods spent aboard pox-ridden warships, they are saturated with foulness, which pours off them to rot flesh and corrode metal.",
@@ -778,7 +778,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Clad in a cocoon of slime-smeared armour plating, Death Guard Rhinos are ubiquitous and versatile armoured transports. They can move Death Guard squads rapidly across the battlefield in their festering holds, taking them to new battlefronts, bearing them through hostile terrain or supporting armoured offensives.",
@@ -1140,7 +1146,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 330,
+        "points": 315,
         "note": "3rd+"
       }
     ],
@@ -1249,7 +1255,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 320,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -1461,7 +1467,7 @@ export default [
   },
   {
     "id": "foetid-bloat-drone",
-    "name": "Foetid Bloat-drone",
+    "name": "Foetid Bloat-Drone",
     "points": [
       {
         "models": 1,
@@ -1474,10 +1480,10 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Foetid Bloat-drones are Daemon Engines that skim across the battlefield on clattering turbines. Adept at providing point support wherever needed, some mount grisly fleshmowers that allow them to charge the enemy lines in a blizzard of mangled flesh. Others are fitted with plaguespitters, sucking up battlefield filth before spewing it in diseased gouts across the foe.",
+    "flavor": "Foetid Bloat-Drones are Daemon Engines that skim across the battlefield on clattering turbines. Adept at providing point support wherever needed, some mount grisly fleshmowers that allow them to charge the enemy lines in a blizzard of mangled flesh. Others are fitted with plaguespitters, sucking up battlefield filth before spewing it in diseased gouts across the foe.",
     "profiles": [
       {
-        "name": "Foetid Bloat-drone",
+        "name": "Foetid Bloat-Drone",
         "m": "10\"",
         "t": "9",
         "sv": "3+",
@@ -1536,7 +1542,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Foetid Bloat-drone"
+      "1 Foetid Bloat-Drone"
     ],
     "loadout": "**This model is equipped with:** fleshmower; plague probe.",
     "options": [
@@ -1548,7 +1554,7 @@ export default [
       "Vehicle",
       "Daemon",
       "Nurgle",
-      "Foetid Bloat-drone"
+      "Foetid Bloat-Drone"
     ],
     "factionKeywords": [
       "Death Guard",
@@ -1558,7 +1564,7 @@ export default [
   },
   {
     "id": "foetid-bloat-drone-with-heavy-blight-launcher",
-    "name": "Foetid Bloat-drone with Heavy Blight Launcher",
+    "name": "Foetid Bloat-Drone with Heavy Blight Launcher",
     "points": [
       {
         "models": 1,
@@ -1571,10 +1577,10 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "Some Foetid Bloat-drones carry heavy blight launchers and the bulky ammo hoppers required to feed them. Thrumming ponderously into firing positions, these airborne monsters bombard the enemy with volleys of explosive shells. Each detonation unleashes swift-spreading blights that chew through flesh, rust metal and even corrode souls.",
+    "flavor": "Some Foetid Bloat-Drones carry heavy blight launchers and the bulky ammo hoppers required to feed them. Thrumming ponderously into firing positions, these airborne monsters bombard the enemy with volleys of explosive shells. Each detonation unleashes swift-spreading blights that chew through flesh, rust metal and even corrode souls.",
     "profiles": [
       {
-        "name": "Foetid Bloat-drone",
+        "name": "Foetid Bloat-Drone",
         "m": "10\"",
         "t": "9",
         "sv": "3+",
@@ -1621,7 +1627,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Foetid Bloat-drone"
+      "1 Foetid Bloat-Drone"
     ],
     "loadout": "**This model is equipped with:** heavy blight launcher; plague probe.",
     "keywords": [
@@ -1629,7 +1635,7 @@ export default [
       "Nurgle",
       "Chaos",
       "Fly",
-      "Foetid Bloat-drone with Heavy Blight Launcher",
+      "Foetid Bloat-Drone with Heavy Blight Launcher",
       "Daemon"
     ],
     "factionKeywords": [
@@ -1644,7 +1650,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "Embedded into a Foul Blightspawn’s body is a malignant churn. As he cranks its rusted handle, he mixes a foul concoction of bubbling diseases and pollutants. Once satisfied his burbling blend of choking stew is ready, he levels his plague sprayer at the foe. Out his mixture surges like projectile vomit, melting whatever it touches.",
@@ -1840,6 +1846,12 @@ export default [
       "note": "1-7 wounds remaining",
       "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Reverberating Summons",
+        "text": "Each time a model is destroyed by this weapon, you can select one friendly PLAGUEBEARERS unit within 12\" of the bearer and return 1 destroyed Plaguebearer model to that unit."
+      }
+    ],
     "composition": [
       "1 Great Unclean One"
     ],
@@ -2059,7 +2071,7 @@ export default [
       "This model’s multi-melta can be replaced with one of the following:\n▪ 1 plasma cannon\n▪ 1 twin autocannon\n▪ 1 twin lascannon\n▪ 1 twin heavy bolter\n▪ 1 additional Helbrute fist",
       "1 of this model’s Helbrute fists can be replaced with 1 missile launcher",
       "1 of this model’s Helbrute fists can be replaced with one of the following:\n▪ 1 Helbrute hammer\n▪ 1 power scourge",
-      "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*",
+      "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*\n* That Helbrute fist cannot then be replaced.",
       "* That Helbrute fist cannot then be replaced."
     ],
     "keywords": [
@@ -2627,7 +2639,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 390
+        "points": 375
       }
     ],
     "flavor": "To stand in Mortarion’s presence is lethal, such is the pestilential aura that surrounds him. Wielding his gigantic scythe, Silence, he cuts apart entire enemy squads in seconds. With furious blasts of Lantern, his devastating sidearm of unknown provenance, he disintegrates heavy infantry and armour alike.",
@@ -2769,11 +2781,11 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 95
       },
       {
         "models": 2,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "Belching stinking gases that hang thick in the air, Myphitic Blight-haulers use their all-terrain mobility and heavy armaments to hunt down the enemy’s tanks and provide fire support even in the most dangerous environments. Should the enemy get too close, these Daemon Engines pounce with fanged maws and sprays of bile.",
@@ -2883,7 +2895,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 50
       }
     ],
     "flavor": "Tocsins of misery and cursed plague bells tolling, Noxious Blightbringers sow weakness among the enemy. Each rippling sound wave erodes the enemy’s will to fight, shatters bone and metal alike, and spawns metaphysical maggots in the minds of psykers. To the Death Guard, every distorted peal is invigorating, and upon hearing them, they surge eagerly into the fray.",
@@ -3564,12 +3576,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185,
+        "points": 170,
         "note": "1st"
       },
       {
         "models": 1,
-        "points": 210,
+        "points": 200,
         "note": "2nd+"
       }
     ],

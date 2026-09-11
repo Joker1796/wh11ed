@@ -45,7 +45,6 @@ function toggle(id) { reason.value = reason.value === id ? null : id }
 </script>
 
 <style scoped>
-.modal-body { padding: 0.5rem 0.9rem 0.9rem; overflow-y: auto; }
 
 .ge-row {
   display: flex;
@@ -66,7 +65,6 @@ function toggle(id) { reason.value = reason.value === id ? null : id }
   margin: 0.6rem 0 0;
   padding: 0.6rem 0.7rem;
   background: var(--bg-secondary);
-  border-radius: 6px;
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.45;
@@ -80,7 +78,6 @@ function toggle(id) { reason.value = reason.value === id ? null : id }
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 6px;
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;

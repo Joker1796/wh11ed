@@ -135,19 +135,6 @@ const faction = computed(() =>
   font-style: italic;
 }
 
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
-
-.fsection-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
-}
-
 .det-meta {
   display: flex;
   flex-wrap: wrap;
@@ -163,7 +150,6 @@ const faction = computed(() =>
   color: var(--text-muted);
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 2px 7px;
 }
 
@@ -193,7 +179,6 @@ const faction = computed(() =>
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--accent);
-  border-radius: 0 0 6px 6px;
   padding: 0.9rem 1.1rem 1rem;
 }
 
@@ -247,7 +232,6 @@ const faction = computed(() =>
   letter-spacing: 1px;
   color: var(--accent);
   border: 1px solid var(--accent);
-  border-radius: 3px;
   padding: 1px 5px;
   white-space: nowrap;
 }
@@ -280,7 +264,6 @@ const faction = computed(() =>
 .ds-head {
   padding: 0.5rem 1rem 0.45rem;
   background: var(--accent);
-  border-radius: 6px 6px 0 0;
 }
 .ds-title {
   font-family: var(--font-display);
@@ -310,7 +293,6 @@ const faction = computed(() =>
 }
 
 @media (max-width: 640px) {
-  .fsection-title { font-size: 1.6rem; }
   .hero-title { font-size: 2rem; }
 }
 
@@ -323,7 +305,6 @@ const faction = computed(() =>
     width: 100vw;
     margin-left: calc(50% - 50vw);
     padding: 0.5rem 0.4rem 0.45rem;
-    border-radius: 0;
   }
 }
 

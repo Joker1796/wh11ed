@@ -465,12 +465,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140,
+        "points": 135,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 150,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -862,7 +862,6 @@ export default [
     "transport": "This model has a transport capacity of 20 Gargoyles models and 1 Winged Tyranid Prime model.",
     "keywords": [
       "Fly",
-      "Frame",
       "Great Devourer",
       "Harridan",
       "Monster",
@@ -1378,7 +1377,7 @@ export default [
     "loadout": "**This model is equipped with:** monstrous bonesword and lash whip; monstrous scything talons.",
     "options": [
       "This model’s monstrous bonesword and lash whip can be replaced with one of the following:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons",
-      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*",
+      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon.",
       "*This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon."
     ],
     "leader": {
@@ -1644,7 +1643,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 190,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
@@ -2159,6 +2158,12 @@ export default [
       "note": "1-5 wounds remaining",
       "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Harpooned",
+        "text": "When this unit declares a charge, if an enemy MONSTER/VEHICLE unit is within 12\" of this unit and was hit by an attack made by this weapon this turn, you can use this ability. If you do:\n▪ This unit has +2 to charge rolls until the end of the phase.\n▪ This unit must end that charge move engaged with that MONSTER/VEHICLE unit."
+      }
+    ],
     "composition": [
       "1 Norn Assimilator"
     ],
@@ -2375,7 +2380,7 @@ export default [
   },
   {
     "id": "parasite-of-mortrex",
-    "name": "Parasite Of Mortrex",
+    "name": "Parasite of Mortrex",
     "points": [
       {
         "models": 1,
@@ -2385,7 +2390,7 @@ export default [
     "flavor": "Swooping on leathery wings, Parasites of Mortrex use their barbed ovipositors to drive Ripper gestation pods deep into their victims’ bodies, from where the swiftly growing creatures soon eat their way out. Such was the doom of the defenders of Mortrex, the world first cursed by the Parasites’ onslaught.",
     "profiles": [
       {
-        "name": "Parasite Of Mortrex",
+        "name": "Parasite of Mortrex",
         "m": "12\"",
         "t": "5",
         "sv": "4+",
@@ -2531,32 +2536,32 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45,
+        "points": 40,
         "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 65,
+        "points": 70,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 95,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 55,
+        "points": 50,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 75,
+        "points": 80,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 110,
         "note": "3rd+"
       }
     ],
@@ -2773,7 +2778,7 @@ export default [
   },
   {
     "id": "screamer-killer",
-    "name": "Screamer-killer",
+    "name": "Screamer-Killer",
     "points": [
       {
         "models": 1,
@@ -2789,7 +2794,7 @@ export default [
     "flavor": "An older adaptation of the basic Carnifex strain, the Screamer-Killer was christened by terrified Imperial troops for the distinctive howl it emits as it generates then unleashes its bio-plasmic blasts. Screamer-Killers are often seen at the forefront of a Tyranid assault, where they can inflict the most damage quickly.",
     "profiles": [
       {
-        "name": "Screamer-killer",
+        "name": "Screamer-Killer",
         "m": "8\"",
         "t": "9",
         "sv": "2+",
@@ -2815,7 +2820,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Screamer-killer talons",
+        "name": "Screamer-Killer talons",
         "tags": [],
         "a": "10",
         "ws": "3+",
@@ -3608,8 +3613,8 @@ export default [
       "units": [
         "Termagants",
         "Hormagaunts",
-        "Tyranid Warriors With Ranged Bio-weapons",
-        "Tyranid Warriors With Melee Bio-weapons"
+        "Tyranid Warriors with Ranged Bio-weapons",
+        "Tyranid Warriors with Melee Bio-weapons"
       ]
     },
     "keywords": [
@@ -3626,7 +3631,7 @@ export default [
   },
   {
     "id": "tyranid-warriors-with-melee-bio-weapons",
-    "name": "Tyranid Warriors With Melee Bio-weapons",
+    "name": "Tyranid Warriors with Melee Bio-weapons",
     "points": [
       {
         "models": 3,
@@ -3640,7 +3645,7 @@ export default [
     "flavor": "When adapted for close-quarters battle with an array of vicious talons, claws and chitinous blades, Tyranid Warriors excel in leading the onslaught from the front. Even as they slaughter elite prey and send lesser foes fleeing in terror, the Tyranid Warriors act as nodal relays for the insidious Hive Mind and ensure the attack is pressed home with unstoppable ferocity.",
     "profiles": [
       {
-        "name": "Tyranid Warriors With Melee Bio-weapons",
+        "name": "Tyranid Warriors with Melee Bio-weapons",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
@@ -3687,7 +3692,7 @@ export default [
   },
   {
     "id": "tyranid-warriors-with-ranged-bio-weapons",
-    "name": "Tyranid Warriors With Ranged Bio-weapons",
+    "name": "Tyranid Warriors with Ranged Bio-weapons",
     "points": [
       {
         "models": 3,
@@ -3701,7 +3706,7 @@ export default [
     "flavor": "Strong, swift, independently intelligent and amongst the Hive Mind’s most adaptable bioforms, Tyranid Warriors are the backbone of many Tyranid invasions. Their synaptic link imbues them with advanced martial abilities, and also allows them to serve as synaptic linchpins within the wider swarms during battle.",
     "profiles": [
       {
-        "name": "Tyranid Warriors With Ranged Bio-weapons",
+        "name": "Tyranid Warriors with Ranged Bio-weapons",
         "m": "6\"",
         "t": "5",
         "sv": "4+",
@@ -3815,7 +3820,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 80,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 90,
+        "note": "4th+"
       }
     ],
     "flavor": "Tyrannocytes are huge spores, heat-resistant to endure atmospheric re-entry and with wet, pulsing interior chambers within which broods of organisms can ride down to a world’s surface. Once its passengers spill forth into battle, the Tyrannocyte drifts skyward again and goes hunting for its own prey.",
@@ -3887,12 +3898,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -4009,7 +4020,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160
+        "points": 170
       }
     ],
     "flavor": "Incredibly well armoured and resilient, Tyrant Guard form a mobile bulwark around their assigned synapse organism. So extreme is their bio-adaptation, they do not even possess weak spots such as eyes. Instead, they are guided as extensions of their charge’s synaptic will, acting as living weapons and shields.",
@@ -4371,8 +4382,8 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Gargoyles",
-        "Tyranid Warriors With Melee Bio-weapons",
-        "Tyranid Warriors With Ranged Bio-weapons"
+        "Tyranid Warriors with Melee Bio-weapons",
+        "Tyranid Warriors with Ranged Bio-weapons"
       ]
     },
     "keywords": [
@@ -4399,7 +4410,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "A Zoanthrope’s physical form is given over to harnessing the might of the Hive Mind. Not only do they act as synapse nodes, but they can also draw upon the energies of the Hive Mind to unleash searing psychic blasts, and to generate fields of defensive power that can stop an artillery shell dead.",

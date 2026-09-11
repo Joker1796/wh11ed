@@ -213,7 +213,7 @@ export default {
       '**Эта модель вооружена:** monstrous bonesword and lash whip; monstrous scything talons.',
     options: [
       'monstrous bonesword and lash whip этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons',
-      'monstrous scything talons этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*',
+      'monstrous scything talons этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* Эта модель не может быть вооружена одновременно stranglethorn cannon и heavy venom cannon. Эта модель не может быть вооружена более чем 1 heavy venom cannon и не может быть вооружена более чем 1 stranglethorn cannon.',
       '*Эта модель не может быть снаряжена одновременно stranglethorn cannon и heavy venom cannon. Эта модель не может быть снаряжена более чем 1 heavy venom cannon и не может быть снаряжена более чем 1 stranglethorn cannon.',
     ],
   },
@@ -333,6 +333,10 @@ export default {
       'Singular Purpose': SINGULAR_PURPOSE,
       'Harpoon Barbs':
         'Один раз за ход, когда вражеский юнит в дистанции ввязывания этой модели выбирается для отступления, бросьте один D6: на 2+ этот юнит получает D6 смертельных ран.',
+    },
+    wargearAbilities: {
+      'Harpooned':
+        'Когда этот юнит объявляет нападение, если вражеский юнит MONSTER/VEHICLE находится в пределах 12" от этого юнита и был поражён атакой этого оружия в этот ход, вы можете использовать эту способность. Если вы это делаете:\n▪ Этот юнит получает +2 к броскам нападения до конца фазы.\n▪ Этот юнит обязан закончить это движение нападения в контакте (engaged) с тем юнитом MONSTER/VEHICLE.',
     },
     damaged: { note: 'осталось 1–5 ран', text: dmgHit('1–5') },
     loadout:

@@ -12,7 +12,8 @@ export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', '
 // wh11ed faction slug → wh40k-appdata bundle/faction-keyword slug, for the 7 factions GW renamed
 // between the app dump and wh11ed's own filenames. Every other faction shares the same slug in both.
 // Single source of truth — imported by the reconciliation scripts (gen-source-ids, sync-appdata,
-// sync-tracker, gen-faction-faq). Invert it (appdata slug → wh11ed slug) when going the other way.
+// sync-tracker, gen-faction-faq, gen-roster-data). Invert it (appdata slug → wh11ed slug) when
+// going the other way.
 export const SLUG_MAP = {
   'space-marines': 'adeptus-astartes',
   'chaos-space-marines': 'heretic-astartes',
@@ -54,11 +55,16 @@ export function appdataToMarkup(text) {
   // bullet *inside* a `**bold**`/`__underline__` run ("**▪ Company Heroes Rule:**") or right after
   // an opening quote ("'■ Ranged weapons…") and sometimes uses `■` instead of `▪` — normalize all
   // of that so the bullet is always the line's leading char and buildRich's `^[▪•]` list-item
-  // check (useRenderInline.js) recognizes it.
-  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?[▪■][ \t]*/
+  // check (useRenderInline.js) recognizes it. `▫` is appdata's SECOND-level bullet — used
+  // throughout Codex: Orks' wargear options ("one of the following: ▫ 1 Kombi-rokkit") and
+  // in a handful of other factions' rules. RuleBody.vue nests it under the preceding `▪`,
+  // so it has to keep its own marker rather than being folded into `▪`; what it must not
+  // do is stay glued to the head line, which is what flattening produced before.
+  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?([▪■▫])[ \t]*/
   const normalizeBullet = (l) => {
     const m = l.match(BULLET_LEAD)
-    return m ? `▪ ${m[1] || ''}${l.slice(m[0].length)}` : l
+    if (!m) return l
+    return `${m[2] === '▫' ? '▫' : '▪'} ${m[1] || ''}${l.slice(m[0].length)}`
   }
   s = s
     .split('\n')
@@ -72,10 +78,17 @@ export function appdataToMarkup(text) {
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
 // converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
 // stores flavour in a separate `flavor` field, so including them would flag every rule.
+//
+// A block can carry SEVERAL of these fields, and every one of them is rule text: a
+// `triggerEffectAccordion` (Aeldari's Battle Focus manoeuvres) keeps the condition in `trigger`
+// and the rule itself in `effect`. Reading `text || trigger || effect` kept the trigger and threw
+// the effect away — "add 2\" to the Move characteristic of models in that unit" was in no reader's
+// hands, so gen-roster-modifiers proposed no record for it and the text-drift guards
+// (sync-faction-text, appdata-text-diff) compared our full prose against a half of appdata's.
 export function bodyText(body) {
   return (body || [])
     .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
-    .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
+    .map((b) => [b.text, b.trigger, b.effect].filter(Boolean).map(appdataToMarkup).filter(Boolean).join('\n'))
     .filter(Boolean)
     .join('\n')
 }
@@ -126,6 +139,37 @@ export async function loadModule(file) {
 // loop, 30x in a row for no reason).
 export function sourceIds() {
   return loadJson(path.join(ROOT, 'src/data/sourceIds.json'))
+}
+
+// ---- small helpers duplicated verbatim across the audit scripts, hoisted here so there's one copy.
+// `table` reads an appdata table (memoized via loadJson); `nameOfEn` pulls its English name;
+// `groupBy` indexes rows by a key; `escapeRegex`/`NUMBER_WORDS` feed the prose name/number matchers.
+export const table = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
+export const nameOfEn = (r) => r?.localisations?.en?.name || ''
+export const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+export function groupBy(rows, key) {
+  const m = new Map()
+  for (const r of rows) {
+    const arr = m.get(r[key]) || []
+    arr.push(r)
+    m.set(r[key], arr)
+  }
+  return m
+}
+
+// Invert sourceIds.json for one entity-kind prefix ('det' | 'ds' | 'strat' | 'enh' | 'armyrule' | 'wg')
+// → Map(appdata uuid → { slug, id }). Several audit scripts hand-rolled this exact loop to translate
+// an appdata id back to the wh11ed entity that carries it across a rename.
+export function invertSourceIds(prefix) {
+  const p = `${prefix}:`
+  const out = new Map()
+  for (const [slug, entries] of Object.entries(sourceIds() || {})) {
+    for (const [key, uuid] of Object.entries(entries)) {
+      if (key.startsWith(p)) out.set(uuid, { slug, id: key.slice(p.length) })
+    }
+  }
+  return out
 }
 
 // All 30 wh40k-appdata faction bundles, loaded once. Several scripts (sync-leader-units,

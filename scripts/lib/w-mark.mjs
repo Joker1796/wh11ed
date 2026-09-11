@@ -1,6 +1,6 @@
 // Shared brand-mark helper for the icon/splash/screenshot generators.
 //
-// The "W" (and the WH11ED wordmark) is rendered from the real display font
+// The "W" (and the WH RULES wordmark) is rendered from the real display font
 // (Sofia Sans Extra Condensed 800 — same as var(--font-display) for headings)
 // rather than a system serif. sharp/librsvg can't reliably find the @fontsource
 // woff by family name, so we extract the glyph outlines with opentype.js and emit

@@ -417,7 +417,7 @@ export default [
   },
   {
     "id": "corpuscarii-electro-priests",
-    "name": "Corpuscarii Electro-priests",
+    "name": "Corpuscarii Electro-Priests",
     "points": [
       {
         "models": 5,
@@ -431,7 +431,7 @@ export default [
     "flavor": "Electro-Priests of the Corpuscarii faction build up huge electrical potential as they zealously chant their canticles of battle. They conduct the Motive Force through their bodies, eager to share its illumination, releasing it from their gauntlets in coruscating arcs of electrical power that leap from target to target.",
     "profiles": [
       {
-        "name": "Corpuscarii Electro-priests",
+        "name": "Corpuscarii Electro-Priests",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -565,7 +565,7 @@ export default [
       "footer": "You must attach this model to a KASTELAN ROBOTS unit. If you cannot attach this model to a KASTELAN ROBOTS unit, this model cannot be deployed and counts as having been destroyed during the first battle round. While attached to a KASTELAN ROBOTS unit, this model loses the INFANTRY keyword."
     },
     "keywords": [
-      "Infantry",
+      "Vehicle",
       "Character",
       "Cybernetica Datasmith",
       "Tech-Priest",
@@ -579,7 +579,7 @@ export default [
   },
   {
     "id": "fulgurite-electro-priests",
-    "name": "Fulgurite Electro-priests",
+    "name": "Fulgurite Electro-Priests",
     "points": [
       {
         "models": 5,
@@ -593,7 +593,7 @@ export default [
     "flavor": "Crackling with power stolen from those they slay, Fulgurite Electro- Priests are fanatical cultists of the Machine God. With their heavy, copper-bound staves, they smite blasphemers that waste the Motive Force, leeching it from heretic warriors and harnessing the holy energy in their capacitors where it empowers their voltagheist field.",
     "profiles": [
       {
-        "name": "Fulgurite Electro-priests",
+        "name": "Fulgurite Electro-Priests",
         "m": "6\"",
         "t": "3",
         "sv": "7+",
@@ -651,7 +651,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -896,7 +896,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -990,12 +990,12 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 160,
+        "points": 150,
         "note": "1st"
       },
       {
         "models": 4,
-        "points": 320,
+        "points": 300,
         "note": "1st"
       },
       {
@@ -1005,7 +1005,7 @@ export default [
       },
       {
         "models": 4,
-        "points": 340,
+        "points": 330,
         "note": "2nd+"
       }
     ],
@@ -1540,7 +1540,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
@@ -1550,7 +1550,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
@@ -1652,22 +1652,22 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -1975,7 +1975,7 @@ export default [
     ],
     "loadout": "**The Serberys Sulphurhound Alpha model is equipped with:** Mechanicus pistol; sulphur breath; cavalry arc maul; clawed limbs.\n\n**Every Serberys Sulphurhound model is equipped with:** 2 phosphor pistols; sulphur breath; clawed limbs.",
     "options": [
-      "For every 3 models in this unit, 1 Serberys Sulphurhound’s 2 phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
+      "For every 3 models in this unit, 1 Serberys Sulphurhound’s twin phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
     ],
     "keywords": [
       "Imperium",
@@ -1994,7 +1994,13 @@ export default [
     "points": [
       {
         "models": 9,
-        "points": 65
+        "points": 65,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 9,
+        "points": 75,
+        "note": "3rd+"
       }
     ],
     "flavor": "Servitor Battleclades provide their Adeptus Mechanicus masters with expendable and extremely versatile combat assets in the field. Often sent to recover vital archeotech or data, their mix of firepower, close quarters punch, and array of servo-tools allows their Underseers to achieve whatever task is assigned to them.",
@@ -2621,7 +2627,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skitarii-vanguard",
@@ -2781,7 +2787,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skorpius-disintegrator",
@@ -2907,7 +2913,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Skorpius Duneriders enable forge lords to ferry squads of their cyborg infantry onto the front lines, overwhelming the foe through swiftly redeployed weight of numbers. Duneriders sweep onto enemy defences in a cloud of chemical smoke, saturating the area with heavy calibre shot as their payload of warriors disembarks.",
@@ -2983,7 +2995,7 @@ export default [
   },
   {
     "id": "sydonian-dragoons-with-radium-jezzails",
-    "name": "Sydonian Dragoons With Radium Jezzails",
+    "name": "Sydonian Dragoons with Radium Jezzails",
     "points": [
       {
         "models": 1,
@@ -3083,7 +3095,7 @@ export default [
   },
   {
     "id": "sydonian-dragoons-with-taser-lances",
-    "name": "Sydonian Dragoons With Taser Lances",
+    "name": "Sydonian Dragoons with Taser Lances",
     "points": [
       {
         "models": 1,
@@ -3288,17 +3300,17 @@ export default [
   },
   {
     "id": "tech-priest-dominus",
-    "name": "Tech-priest Dominus",
+    "name": "Tech-Priest Dominus",
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "Tech-Priests Dominus are the theocratic generals of a forge world’s armies. They lead congregations of warriors in binharic prayer and direct those beneath them with precision strategies. They are masters of machines, as capable of healing damage to their creations as they are at destroying the enemy’s corrupted engines.",
     "profiles": [
       {
-        "name": "Tech-priest Dominus",
+        "name": "Tech-Priest Dominus",
         "m": "6\"",
         "t": "4",
         "sv": "2+",
@@ -3408,8 +3420,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Fulgurite Electro-priests",
-        "Corpuscarii Electro-priests"
+        "Fulgurite Electro-Priests",
+        "Corpuscarii Electro-Priests"
       ]
     },
     "keywords": [
@@ -3427,7 +3439,7 @@ export default [
   },
   {
     "id": "tech-priest-enginseer",
-    "name": "Tech-priest Enginseer",
+    "name": "Tech-Priest Enginseer",
     "points": [
       {
         "models": 1,
@@ -3437,7 +3449,7 @@ export default [
     "flavor": "The most widespread of a forge world’s priesthood, Enginseers maintain many of the Imperium’s mechanisms, such as reactors, battle tanks and even starships. They have an intuitive connection with holy apparatuses, and can awaken the most recalcitrant of engine spirits with whispered machine cant.",
     "profiles": [
       {
-        "name": "Tech-priest Enginseer",
+        "name": "Tech-Priest Enginseer",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -3507,8 +3519,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Corpuscarii Electro-priests",
-        "Fulgurite Electro-priests",
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests",
         "Kataphron Breachers",
         "Kataphron Destroyers",
         "Skitarii Rangers",
@@ -3530,7 +3542,7 @@ export default [
   },
   {
     "id": "tech-priest-manipulus",
-    "name": "Tech-priest Manipulus",
+    "name": "Tech-Priest Manipulus",
     "points": [
       {
         "models": 1,
@@ -3540,7 +3552,7 @@ export default [
     "flavor": "Amongst the augmentations of a Tech-Priest Manipulus is a galvanic cell from which they channel powerful charges of the Motive Force. They drain power sources dry and use the energy to overcharge the cells of their warriors’ armaments, all while defending their divine work with blasts from their own arcane weapons.",
     "profiles": [
       {
-        "name": "Tech-priest Manipulus",
+        "name": "Tech-Priest Manipulus",
         "m": "6\"",
         "t": "4",
         "sv": "2+",
@@ -3617,8 +3629,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Fulgurite Electro-priests",
-        "Corpuscarii Electro-priests"
+        "Fulgurite Electro-Priests",
+        "Corpuscarii Electro-Priests"
       ]
     },
     "keywords": [
@@ -3711,8 +3723,8 @@ export default [
         "Kataphron Breachers",
         "Servitor Battleclade",
         "Hastarii Exterminators",
-        "Corpuscarii Electro-priests",
-        "Fulgurite Electro-priests"
+        "Corpuscarii Electro-Priests",
+        "Fulgurite Electro-Priests"
       ]
     },
     "keywords": [

@@ -31,7 +31,6 @@ const { renderInline } = useRenderInline()
 <style scoped>
 .tcard {
   border: 1px solid var(--border);
-  border-radius: 8px;
   background: var(--bg-card);
   padding: 0.85rem 0.95rem 0.95rem;
 }
@@ -68,7 +67,6 @@ const { renderInline } = useRenderInline()
   padding: 0.55rem 0.7rem;
   border-left: 3px solid var(--accent);
   background: var(--bg-secondary);
-  border-radius: 4px;
   font-size: 0.82rem;
   font-style: italic;
   color: var(--text-muted);

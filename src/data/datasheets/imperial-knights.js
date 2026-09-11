@@ -97,6 +97,12 @@ export default [
       "note": "1-10 wounds remaining",
       "text": "While this model has 1-10 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 24\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
     "composition": [
       "1 Acastus Knight Asterius"
     ],
@@ -484,6 +490,12 @@ export default [
       "note": "1-5 wounds remaining",
       "text": "While this model has 1-5 wounds remaining, subtract 3 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
     "composition": [
       "1 Armiger Moirax"
     ],
@@ -737,7 +749,13 @@ export default [
     "factionKeywords": [
       "Imperial Knights"
     ],
-    "baseSize": "170x109mm Oval Base"
+    "baseSize": "170x109mm Oval Base",
+    "rules": [
+      {
+        "name": "USING SIR HEKHTUR",
+        "text": "If your Canis Rex model is destroyed, this model is treated as a model disembarking from a destroyed TRANSPORT and must perform an Emergency Disembarkation. Sir Hekhtur cannot be selected as the target of any of your Stratagems other than Core Stratagems. Your Canis Rex unit is not considered to be destroyed until Sir Hekhtur is also destroyed."
+      }
+    ]
   },
   {
     "id": "sir-hekhtur",
@@ -795,7 +813,13 @@ export default [
       "Sir Hekhtur"
     ],
     "factionKeywords": [],
-    "baseSize": "25mm"
+    "baseSize": "25mm",
+    "rules": [
+      {
+        "name": "USING SIR HEKHTUR",
+        "text": "If your Canis Rex model is destroyed, this model is treated as a model disembarking from a destroyed TRANSPORT and must perform an Emergency Disembarkation. Sir Hekhtur cannot be selected as the target of any of your Stratagems other than Core Stratagems. Your Canis Rex unit is not considered to be destroyed until Sir Hekhtur is also destroyed."
+      }
+    ]
   },
   {
     "id": "cerastus-knight-acheron",
@@ -1269,7 +1293,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 420,
+        "points": 450,
         "note": "2nd+"
       }
     ],
@@ -1728,6 +1752,12 @@ export default [
       "note": "1-9 wounds remaining",
       "text": "While this model has 1‑9 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 18\" away from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
     "composition": [
       "1 Knight Defender"
     ],

@@ -39,19 +39,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
-
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
-const groupBy = (rows, key) => {
-  const m = new Map()
-  for (const r of rows) {
-    const arr = m.get(r[key]) || []
-    arr.push(r)
-    m.set(r[key], arr)
-  }
-  return m
-}
-const nameOf = (r) => r?.localisations?.en?.name || ''
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
@@ -111,13 +99,7 @@ function commonKeywords(datasheetIds) {
 }
 
 // --- sourceIds bridge, inverted: appdata detachment uuid → { slug, wh11ed detachment } -----------
-const sourceIds = sourceIdsMap() || {}
-const detByUuid = new Map()
-for (const [slug, entries] of Object.entries(sourceIds)) {
-  for (const [key, uuid] of Object.entries(entries)) {
-    if (key.startsWith('det:')) detByUuid.set(uuid, { slug, id: key.slice(4) })
-  }
-}
+const detByUuid = invertSourceIds('det')
 
 // A later Faction Pack errata sometimes converts a specific-detachments ally clause into a blanket
 // "any detachment of this Army Faction" rule folded into the faction's own armyRule instead — e.g.
@@ -167,6 +149,17 @@ function bodyHasName(body, name) {
 // against aeldari.js, which says "Asuryani" constantly as its own self-reference in stratagem
 // targeting text). Require the established idiom instead — "can include ... <name>" with no
 // "cannot" in between — so a restriction or a self-reference can't masquerade as a grant.
+// appdata labels an allied-faction row with the PARENT faction keyword; GW's own rule sometimes
+// names the narrower keyword the entitlement is actually about. Drukhari's "Corsairs and
+// Travelling Players" grants Harlequins and ANHRATHE (Corsairs) units, and appdata files those
+// Corsair datasheets under their parent, "Asuryani" — verified: the 14 datasheets in that row are
+// exactly 8 Harlequins + 6 Anhrathe, so the narrower word is not a narrower permission. Without
+// this the row flagged in all 8 Drukhari detachments while the clause sat, correct, in the army
+// rule. Keep this a NAMED map: a general "parent keyword counts" rule would let a real gap through.
+const ALLY_NAME_IN_PROSE = {
+  Asuryani: ['Anhrathe'],
+}
+
 function bodyGrantsInclusion(body, name) {
   const n = norm(name)
   const words = n.split(' ').filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
@@ -265,7 +258,8 @@ for (const af of read('allied_faction.json')) {
     const body = `${det.rule?.body || ''}\n${faction?.armyRule?.body || ''}`
     const missing = []
     for (const name of allyNames) {
-      if (!bodyHasName(body, name) && !shared.some((k) => bodyHasName(body, k))) {
+      const synonyms = ALLY_NAME_IN_PROSE[name] || []
+      if (!bodyHasName(body, name) && !shared.some((k) => bodyHasName(body, k)) && !synonyms.some((k) => bodyHasName(body, k))) {
         missing.push(`ally name "${name}" not found${shared.length ? ` (also tried shared keyword(s): ${shared.join(', ')})` : ''}`)
       }
     }

@@ -292,7 +292,7 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 ▪ **Desperate Escape:** Each model that is moved can be moved through enemy models.
 ◈ AFTER MOVING
 ▪ Your unit must be **unengaged**.
-▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to declare a charge** or **start an action**.
+▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to shoot**, **declare a charge** or **start an action**.
 ▪ **Desperate Escape:** If your unit is not **battle-shocked**, you must make a **battle-shock roll** for your unit (01.07).`,
         note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
         children: [
@@ -303,7 +303,11 @@ Many **move types** state conditions you must meet while/after moving. Those tha
             fromApp: true,
             body: `Some rules may reference the term 'Desperate Escape test'. In all instances this means the **hazard rolls** made for the **desperate escape** mode of a **fall-back move**.
 
-Abilities that subtract from a unit's Desperate Escape test instead subtract from those **hazard rolls**.`,
+Abilities that subtract from a unit's Desperate Escape test instead subtract from those **hazard rolls**.
+
+If a **[gloss:stratagem:stratagem]** or ability forces a unit to make a Desperate Escape test, that unit:
+▪ Must make one **hazard roll** for each model in that unit.
+▪ Must make a **[gloss:battle-shock-test:battle-shock roll]**.`,
             example: `A **battle-shocked** unit makes a **fall-back move** away from a unit of Bloodletters that have the Bane of Cowards ability. As a result of Bane of Cowards, because the unit making the **fall-back move** is **battle-shocked**, the **hazard rolls** they make as part of their **desperate escape** will be at -1.`,
           },
         ],
@@ -662,7 +666,7 @@ Players alternate selecting units to fight. **Fights First** units (**A** and **
 ◈ AFTER MOVING
 ▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
-▪ **Objective Consolidation:** Your unit must be within range of the selected objective.`,
+▪ **Objective Consolidation:** Your unit must be **unengaged** and within range of the selected objective.`,
         note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
         // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
         // 12.03: split the image+examples tail off the info-card block so the column
@@ -910,7 +914,7 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ **Отчаянный побег:** Каждую перемещаемую модель можно перемещать сквозь вражеские модели.
 ◈ ПОСЛЕ МАНЁВРА
 ▪ Ваш юнит должен быть **[gloss:unengaged:не связан боем]**.
-▪ До конца хода, если не указано иное, ваш юнит **не имеет права объявлять нападение** и **начинать [gloss:action:действие]**.
+▪ До конца хода, если не указано иное, ваш юнит **не имеет права стрелять**, **объявлять нападение** и **начинать [gloss:action:действие]**.
 ▪ **Отчаянный побег:** Если ваш юнит не подвержен **боевому шоку**, вы должны сделать **[gloss:battle-shock-test:проверку боевого шока]** для вашего юнита (01.07).`,
         note: '**ВЫБОР РЕЖИМОВ**\nНекоторые правила предписывают вам выбирать режим, например, [gloss:fall-back-move:для отступления] (09.07). Режимы взаимоисключающие, и вы должны оценивать каждый в представленном порядке. При совершении манёвра, если ваш юнит не соответствует условиям ни одного из режимов, он не может совершить этот манёвр.\n\nИногда режим является обязательным, если применим (например, [gloss:consolidation:режимы консолидации] (12.08)), но в [gloss:fall-back-move:случае отступления] [gloss:ordered-retreat:упорядоченное отступление] не является обязательным, поэтому вы можете вместо него выбрать [gloss:desperate-escape:отчаянный побег].\n\nМногие [gloss:move-type:типы манёвров] указывают условия, которые должны быть соблюдены во время/после манёвра. Те, которые помечены названием режима, применяются только если вы выбрали этот режим; те, которые не помечены названием режима, применяются всегда.',
         children: [
@@ -918,7 +922,11 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
             title: 'Проверка отчаянного побега (Desperate Escape Test)',
             body: `Некоторые правила могут ссылаться на термин «проверка отчаянного побега» (Desperate Escape test). Во всех случаях это означает **[gloss:hazard-roll:проверки опасности]**, совершаемые для режима **[gloss:desperate-escape:отчаянного побега]** при **[gloss:fall-back-move:отступлении]**.
 
-Способности, вычитающие значение из проверки отчаянного побега юнита, вместо этого вычитаются из этих **проверок опасности**.`,
+Способности, вычитающие значение из проверки отчаянного побега юнита, вместо этого вычитаются из этих **проверок опасности**.
+
+Если **[gloss:stratagem:стратагема]** или способность заставляет юнит сделать проверку отчаянного побега, этот юнит:
+▪ Должен сделать одну **[gloss:hazard-roll:проверку опасности]** за каждую модель в этом юните.
+▪ Должен сделать **[gloss:battle-shock-test:проверку боевого шока]**.`,
             example: `Юнит, подверженный **боевому шоку**, совершает **отступление**, отходя от юнита Bloodletters, обладающего способностью Bane of Cowards. Из-за Bane of Cowards, поскольку юнит, совершающий отступление, подвержен **боевому шоку**, **проверки опасности**, которые он делает в рамках отчаянного побега, будут иметь штраф -1.`,
           },
         ],
@@ -1212,7 +1220,7 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ◈ ПОСЛЕ МАНЁВРА
 ▪ **Продолжающаяся консолидация:** Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
 ▪ **Боевая консолидация:** Ваш юнит должен быть **[gloss:engaged:связан боем]** со всеми выбранными вражескими юнитами. Если один или несколько вражеских юнитов, **[gloss:engaged:связанных боем]** с вашим юнитом, ещё не были **[gloss:selected-to-fight:выбраны для боя]** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает [gloss:eligible-to-fight:право сражаться]** и **[gloss:selected-to-fight:выбирается для боя]** (12.04).
-▪ **Консолидация на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной [gloss:objective:цели].`,
+▪ **Консолидация на цели:** Ваш юнит должен быть **[gloss:unengaged:не связан боем]** и находиться в пределах досягаемости выбранной [gloss:objective:цели].`,
         note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **[gloss:consolidation:боевой консолидации]** ваш юнит может завершить свою консолидацию **[gloss:engaged:связанным боем]** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',
         splitBodies: [
           `### Продолжающаяся консолидация

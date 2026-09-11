@@ -698,7 +698,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Heroes of the Uprising",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Disruption",
       rule: {
         name: "Killer Reputation",
         flavor: "What passes for folk heroism amongst the deviants of the Genestealer Cults is part broodmind compulsion and unwilling worship, and part these champions’ ability to commit deeds of great and terrible violence against any who stand in the way of the cult.",
@@ -824,7 +824,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       name: "Xenocult Masses",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Disruption",
+      forceDisposition: "Reconnaissance",
       unique: "HOSTS",
       rule: {
         name: "Hordes of the Faithful",

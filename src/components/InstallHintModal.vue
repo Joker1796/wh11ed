@@ -33,7 +33,6 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-.modal-body { padding: 0.9rem; overflow-y: auto; }
 
 .ih-intro { margin: 0 0 0.8rem; font-size: 0.88rem; line-height: 1.5; color: var(--text-primary); }
 .ih-steps {
@@ -55,7 +54,6 @@ const labels = computed(() => ui[locale.value])
   height: 1.5rem;
   margin-right: 0.25rem;
   vertical-align: -0.4rem;
-  border-radius: 4px;
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
 }

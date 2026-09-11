@@ -4,7 +4,7 @@
 export default [
   {
     "id": "aestred-thurga-and-agathae-dolan",
-    "name": "Aestred Thurga And Agathae Dolan",
+    "name": "Aestred Thurga and Agathae Dolan",
     "points": [
       {
         "models": 2,
@@ -1017,7 +1017,7 @@ export default [
     ],
     "loadout": "**Each model is equipped with:** condemnor bolt pistol; null mace.",
     "options": [
-      "The Celestian Insidiant Superior’s condemnor bolt pistol can be replaced with 1 inferno pistol.",
+      "The Celestian Insidiant’s Superior’s condemnor bolt pistol can be replaced with 1 inferno pistol.",
       "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol replaced with 1 Ministorum hand flamer.",
       "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol and null mace replaced with 1 blessed sword.",
       "One Celestian Insidiant’s condemnor bolt pistol and null mace can be replaced with 1 virge of admonition.",
@@ -1028,6 +1028,7 @@ export default [
       "Infantry",
       "Grenades",
       "Imperium",
+      "Celestian",
       "Celestian Insidiants"
     ],
     "factionKeywords": [
@@ -1042,22 +1043,22 @@ export default [
       {
         "models": 5,
         "points": 75,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 150,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 90,
-        "note": "2nd+"
+        "points": 85,
+        "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 165,
-        "note": "2nd+"
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "Part of the Celestian elite of the Orders Militant, Celestian Sacresants are close-combat specialists who – rather than serve as bodyguards – are charged with a holy quest. Whether that be to secure sacred relics or purge sites of the unclean, the Sacresants are relentless in their pursuit of victory.",
@@ -1483,7 +1484,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 110,
+        "points": 100,
         "note": "3rd+"
       }
     ],
@@ -1857,7 +1858,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 85,
+        "points": 75,
         "note": "2nd+"
       }
     ],
@@ -2045,7 +2046,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 120,
+        "points": 115,
         "note": "4th+"
       }
     ],
@@ -3561,7 +3562,7 @@ export default [
     "abilities": [
       {
         "name": "Healing Tears",
-        "text": "While this unit contains a Celestine model, in your Command phase, if this unit is below its Starting Strength, either one destroyed Geminae Superia model or up to D3 other Bodyguard models are returned to this unit."
+        "text": "While this unit contains a Celestine model, in your Command phase, you can return 1 destroyed Geminae Superia model to this unit."
       },
       {
         "name": "Lifewards",
@@ -3810,12 +3811,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 95,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -4154,7 +4155,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Rhinos are the mainstay transport of the Adepta Sororitas, and before battle are blessed by Enginseers and Ministorum priests. They are durable, robust and easy to operate. Thanks to their indomitable machine spirits they rarely break down, and speed the warriors inside them across the battlefield wherever they are needed.",
@@ -4239,7 +4246,7 @@ export default [
   },
   {
     "id": "triumph-of-saint-katherine",
-    "name": "Triumph Of Saint Katherine",
+    "name": "Triumph of Saint Katherine",
     "points": [
       {
         "models": 1,
@@ -4249,7 +4256,7 @@ export default [
     "flavor": "At the centre of the Triumph is the blessed bier upon which lie the mortal remains of Saint Katherine, beneath the sconce containing her fiery heart. Wherever the Triumph goes, the Emperor’s radiance goes with it. The glory of the martyred Matriarch is spread and Battle Sisters are filled with conviction to purge the foes of Mankind.",
     "profiles": [
       {
-        "name": "Triumph Of Saint Katherine",
+        "name": "Triumph of Saint Katherine",
         "m": "6\"",
         "t": "3",
         "sv": "3+",
@@ -4360,11 +4367,23 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 75,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 85,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "Only those who experience a direct and persistent connection with the Emperor become Zephyrim. They are divine destroyers, figures of fathomless passion and integrity. On the battlefield they strike down their foes with ruthless precision, while their angelic singing drowns out the screams of the dying.",

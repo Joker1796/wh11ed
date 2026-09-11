@@ -87,6 +87,12 @@ export default [
         "text": "Once per turn, in your Shooting phase, one model with this ability can use it when it is selected to shoot. If it does, you must spend 1YP and, until the end of the phase, ranged weapons equipped by that model have the [SUSTAINED HITS 1] ability and, after that model has shot this phase, if one or more enemy units were destroyed by those attacks, you can gain up to 2YP."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Overcharge",
+        "text": "Each time the bearer takes a Hazardous test for this weapon profile, subtract 2 from the result."
+      }
+    ],
     "composition": [
       "1 Arkanyst Evaluator"
     ],
@@ -362,7 +368,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
@@ -372,7 +378,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -444,6 +450,12 @@ export default [
       {
         "name": "Breaching Fire",
         "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the start of your next Shooting phase, that enemy unit cannot have the Benefit of Cover."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified Hit roll of 4+ scores a Critical Hit."
       }
     ],
     "composition": [
@@ -556,11 +568,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 95
       },
       {
         "models": 10,
-        "points": 200
+        "points": 190
       }
     ],
     "flavor": "Cthonian Beserks are amongst the most heavily augmented and courageous Kin. Brandishing mining-tools-cum-weapons-of-war and unleashing explosives that tunnel through solid rock, the Beserks storm the enemy’s strongpoints and break them open like an asteroid filled with seams of precious ore.",
@@ -662,7 +674,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Earthshakers undermine enemy positions with subterranean artillery fire. Some batteries use tremor shells to destabilise strongpoints with deadly quakes. Breacher ordnance, meanwhile, drills to the surface before detonating in a storm of shrapnel, whilst those payloads which initially fail to lock onto their targets hunt them down using geomontic echolocation.",
@@ -1136,7 +1148,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Well-armoured, well-trained and equipped with an array of powerful weaponry, Hearthkyn Warriors form the backbone of most Oathbands. Led by their Theyns, they lay down hails of firepower, shrugging off the enemy’s return volleys before storming in to shatter their wavering foes for good.",
@@ -1482,6 +1494,10 @@ export default [
       {
         "name": "Panspectral Scanner",
         "text": "Each time a model in the bearer’s unit makes a ranged attack, re-roll a Hit roll of 1."
+      },
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets an enemy unit that is not within 12\", an unmodified successful Hit roll of 4+ scores a Critical Hit."
       }
     ],
     "damaged": {
@@ -1795,7 +1811,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
@@ -1805,7 +1821,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -1906,22 +1922,22 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -2126,7 +2142,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "A variant of the adaptable Kapricus design, the Carrier provides elite teams of Hernkyn Yaegirs with the means to penetrate enemy lines at speed. The transport’s quad magna-coils grant it the manoeuvrability to traverse almost any frontier terrain. At the same time, its banks of scanner uplinks enable it to lay down withering hails of accurate, suppressive fire to purge claim sites.",
@@ -2218,11 +2240,23 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 70,
+        "note": "1st-2nd"
       },
       {
         "models": 2,
-        "points": 130
+        "points": 140,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
+      },
+      {
+        "models": 2,
+        "points": 150,
+        "note": "3rd+"
       }
     ],
     "flavor": "Kapricus Defenders are swift, magna-coil scouting engines. Heavily armed, some carry magna-roil cannons that can annihilate battle tanks many times the Defender’s mass. Others carry rapid-firing rotary cannons, which, paired with a Defender's magna-coil autocannons, enable their Hernkyn crew to scythe through enemy infantry to support Kin advances.",
@@ -2406,7 +2440,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "4th+"
       }
     ],
     "flavor": "Designed to survive the worst that hostile worlds and alien predators can throw at it, the Sagitaur is a rugged ATV ideally suited to scouting operations and swift, armoured offensives. Sagitaurs mount a remarkable amount of firepower for their size, and can even knock out enemy battle tanks.",

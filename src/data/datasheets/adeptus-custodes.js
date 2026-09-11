@@ -195,19 +195,43 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 110
+        "points": 110,
+        "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 165
+        "points": 165,
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 275
+        "points": 280,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 330
+        "points": 340,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 140,
+        "note": "3rd+"
+      },
+      {
+        "models": 3,
+        "points": 195,
+        "note": "3rd+"
+      },
+      {
+        "models": 5,
+        "points": 310,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 370,
+        "note": "3rd+"
       }
     ],
     "flavor": "Even amongst the Adeptus Custodes, Allarus Custodians are renowned for their deeds. Teleporting into the most dangerous enemy strongholds, they rely upon the indomitable resilience of their Terminator plate to protect them as they hunt down demagogues and generals. Fighting as individual heroes, they swiftly tear the heart from their foe’s defence.",
@@ -333,7 +357,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "The Rhinos of the Silent Sisterhood are more than just armoured personnel carriers. Many have served the Imperium for hundreds, if not thousands of years. Highly rugged vehicles, their spacious capacity and powerful engines help them to safely carry their deadly cargo of Sisters into the fiercest of battles.",
@@ -716,7 +746,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Custodian Guard",
-        "Custodian Guard With Adrasite And Pyrithite Spears",
+        "Custodian Guard with Adrasite and Pyrithite Spears",
         "Custodian Wardens",
         "Sagittarum Custodians"
       ]
@@ -843,7 +873,7 @@ export default [
   },
   {
     "id": "contemptor-achillus-dreadnought",
-    "name": "Contemptor-achillus Dreadnought",
+    "name": "Contemptor-Achillus Dreadnought",
     "points": [
       {
         "models": 1,
@@ -859,7 +889,7 @@ export default [
     "flavor": "The Contemptor-Achillus adds still greater refinement to an already celebrated blueprint – the revered Contemptor Dreadnought – arming its occupant with a mighty dreadspear equally capable of searing through foes at range or vanquishing them with a single thrust of its glowing blade.",
     "profiles": [
       {
-        "name": "Contemptor-achillus Dreadnought",
+        "name": "Contemptor-Achillus Dreadnought",
         "m": "6\"",
         "t": "9",
         "sv": "2+",
@@ -959,7 +989,7 @@ export default [
   },
   {
     "id": "contemptor-galatus-dreadnought",
-    "name": "Contemptor-galatus Dreadnought",
+    "name": "Contemptor-Galatus Dreadnought",
     "points": [
       {
         "models": 1,
@@ -975,7 +1005,7 @@ export default [
     "flavor": "Like the Sentinel Guard of the ancient Legio Custodes, the Contemptor-Galatus is armed with a power blade and battle shield, albeit of a type greatly superior in size and potency. Coupled with the already resilient Contemptor chassis, this wargear enables the Galatus to stride through the inferno of battle with impunity, slaying elite infantry and crippling vehicles.",
     "profiles": [
       {
-        "name": "Contemptor-galatus Dreadnought",
+        "name": "Contemptor-Galatus Dreadnought",
         "m": "6\"",
         "t": "9",
         "sv": "2+",
@@ -1274,7 +1304,7 @@ export default [
   },
   {
     "id": "custodian-guard-with-adrasite-and-pyrithite-spears",
-    "name": "Custodian Guard With Adrasite And Pyrithite Spears",
+    "name": "Custodian Guard with Adrasite and Pyrithite Spears",
     "points": [
       {
         "models": 5,
@@ -1290,7 +1320,7 @@ export default [
     "flavor": "The signature armaments of the Custodian Guard combine deadly power blades and integrated ranged weapons. While guardian spears are the most recognisable of these potent devices, for specialised tasks the bolt weapons they mount can be exchanged for the adrathic destructors of adrasite spears or the melta beams of pyrithite spears.",
     "profiles": [
       {
-        "name": "Custodian Guard With Adrasite And Pyrithite Spears",
+        "name": "Custodian Guard with Adrasite and Pyrithite Spears",
         "m": "6\"",
         "t": "6",
         "sv": "2+",
@@ -1395,12 +1425,12 @@ export default [
       },
       {
         "models": 4,
-        "points": 230,
+        "points": 220,
         "note": "2nd+"
       },
       {
         "models": 5,
-        "points": 280,
+        "points": 270,
         "note": "2nd+"
       }
     ],
@@ -1501,7 +1531,7 @@ export default [
   },
   {
     "id": "knight-centura",
-    "name": "Knight-centura",
+    "name": "Knight-Centura",
     "points": [
       {
         "models": 1,
@@ -1511,7 +1541,7 @@ export default [
     "flavor": "Knight-Centuras are the leaders of Sisters of Silence cadres and the guardians of their traditions. They have earned the respect of their Sisters through years of service, impeccable fighting skills, immense power as Nulls and encyclopaedic knowledge of the witch and the sorcerer.",
     "profiles": [
       {
-        "name": "Knight-centura",
+        "name": "Knight-Centura",
         "m": "6\"",
         "t": "3",
         "sv": "3+",
@@ -1963,7 +1993,7 @@ export default [
   },
   {
     "id": "shield-captain",
-    "name": "Shield-captain",
+    "name": "Shield-Captain",
     "points": [
       {
         "models": 1,
@@ -1973,7 +2003,7 @@ export default [
     "flavor": "Shield-Captains are among the greatest warriors in the Imperium. No matter which weapons they wield, they display absolute mastery of them. Their tactical and strategic abilities know few peers, and they read the ebb and flow of a war at a glance before directing their forces accordingly.",
     "profiles": [
       {
-        "name": "Shield-captain",
+        "name": "Shield-Captain",
         "m": "6\"",
         "t": "6",
         "sv": "2+",
@@ -2101,7 +2131,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Custodian Guard",
-        "Custodian Guard With Adrasite And Pyrithite Spears",
+        "Custodian Guard with Adrasite and Pyrithite Spears",
         "Custodian Wardens",
         "Sagittarum Custodians"
       ]
@@ -2119,7 +2149,7 @@ export default [
   },
   {
     "id": "shield-captain-in-allarus-terminator-armour",
-    "name": "Shield-captain In Allarus Terminator Armour",
+    "name": "Shield-Captain in Allarus Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -2129,7 +2159,7 @@ export default [
     "flavor": "A Shield-Captain is already one of the most formidable combatants and superlative strategists in the Imperium. When clad in a nigh-on impenetrable suit of auramite Terminator armour, they become more powerful still – a walking fortress of Imperial might able to teleport directly into battle in a blaze of golden light.",
     "profiles": [
       {
-        "name": "Shield-captain In Allarus Terminator Armour",
+        "name": "Shield-Captain in Allarus Terminator Armour",
         "m": "5\"",
         "t": "7",
         "sv": "2+",
@@ -2237,7 +2267,7 @@ export default [
   },
   {
     "id": "shield-captain-on-dawneagle-jetbike",
-    "name": "Shield-captain On Dawneagle Jetbike",
+    "name": "Shield-Captain on Dawneagle Jetbike",
     "points": [
       {
         "models": 1,
@@ -2247,7 +2277,7 @@ export default [
     "flavor": "All Shield-Captains are decisive warriors who suffer no impediment to their mission. Those Shield-Captains swiftest in thought and action soar into battle on Dawneagle jetbikes, plunging into the heart of the foe. Though these warriors appear arrogant, this is far from true – their self-assuredness is matched entirely by their skill.",
     "profiles": [
       {
-        "name": "Shield-captain On Dawneagle Jetbike",
+        "name": "Shield-Captain on Dawneagle Jetbike",
         "m": "12\"",
         "t": "7",
         "sv": "2+",
@@ -2534,7 +2564,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Custodian Guard",
-        "Custodian Guard With Adrasite And Pyrithite Spears",
+        "Custodian Guard with Adrasite and Pyrithite Spears",
         "Custodian Wardens",
         "Sagittarum Custodians"
       ]
@@ -2624,7 +2654,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Custodian Guard",
-        "Custodian Guard With Adrasite And Pyrithite Spears",
+        "Custodian Guard with Adrasite and Pyrithite Spears",
         "Custodian Wardens",
         "Sagittarum Custodians"
       ]
@@ -2648,11 +2678,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 300
+        "points": 300,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 160,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 310,
+        "note": "3rd+"
       }
     ],
     "flavor": "The role of Venatari Custodian is vaunted as a high honour within the Adeptus Custodes, bestowed upon those with the most aquiline combat senses. These airborne hunting squads make masterful use of their archeotech jump packs to strike from the skies, swooping into the enemy’s midst to deliver swift ruin with their pistols and polearms.",
@@ -2990,11 +3032,23 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 145
+        "points": 145,
+        "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 215
+        "points": 215,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 170,
+        "note": "3rd+"
+      },
+      {
+        "models": 3,
+        "points": 240,
+        "note": "3rd+"
       }
     ],
     "flavor": "Veteran warriors who have seen battle on a hundred worlds, these Custodians know that the value of speed is in directing their might precisely where and when it is needed most. Master combatants and marksmen both, they can place piercing strikes and deadly salvoes with precision even when travelling at immense speeds.",

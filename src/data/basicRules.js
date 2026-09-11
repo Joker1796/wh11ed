@@ -120,7 +120,8 @@ Different instances of the same [gloss:datasheet:datasheet] are still considered
               fromApp: true,
               body: `Some rules allow you to split units into smaller units (e.g. the Transport ability of Drukhari Venoms). When using such rules:
 ▪ The same models can only be subdivided in this way once (e.g. those smaller units cannot themselves be split further).
-▪ If a rule is used to split a unit into multiple units before the battle, the **starting strength** of each individual unit is changed to be equal to the number of models in that unit.`,
+▪ If a rule is used to split a unit into multiple units before the battle, the **starting strength** of each individual unit is changed to be equal to the number of models in that unit.
+▪ A unit must be split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). If a rule states a specific **starting strength** of the split units, but this is not possible based on the number of models in the unit being split (e.g. due to attached **leader/support** models), split the unit as stated above.`,
             },
             {
               id: 'section-01-02-07',
@@ -479,7 +480,7 @@ When a value is modified (e.g. characteristic, dice roll, distance), do so in th
 6. Round any fractions up after applying all modifiers.
 
 ### When Modifying Characteristics
-When modifying characteristics, the following points also apply:
+When modifying characteristics, unless otherwise stated, the following points also apply:
 ▪ Characteristics of '-', '*' and 'N/A' can never be modified.
 ▪ Rules that modify a model's **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic modify the **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic of every weapon equipped by that model.
 ▪ After all modifiers have been applied:
@@ -1582,7 +1583,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Разделение юнитов',
               body: `Некоторые правила позволяют вам разделять юниты на меньшие юниты (например, способность Transport у Drukhari Venoms). При использовании таких правил:
 ▪ Одни и те же модели могут быть разделены таким образом только один раз (например, эти меньшие юниты сами не могут быть разделены далее).
-▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **[gloss:starting-strength:начальная численность]** каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.`,
+▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **[gloss:starting-strength:начальная численность]** каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.
+▪ Юнит должен делиться на два юнита с как можно более равным числом моделей (при таком разделении отметьте, какие модели образуют каждый из двух новых юнитов). Если правило задаёт конкретную **начальную численность** разделённых юнитов, но она недостижима при таком количестве моделей в разделяемом юните (например, из-за присоединённых моделей **leader/support**), разделите юнит так, как указано выше.`,
             },
             {
               title: 'Описание юнитов',
@@ -1847,7 +1849,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 6. Округлите любые дроби в большую сторону после применения всех модификаторов.
 
 ### При изменении характеристик
-При изменении характеристик также применяются следующие положения:
+При изменении характеристик, если не указано иное, также применяются следующие положения:
 ▪ Характеристики «-», «*» и «N/A» никогда не могут быть изменены.
 ▪ Правила, изменяющие характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** модели, изменяют характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** каждого оружия, которым экипирована эта модель.
 ▪ После применения всех модификаторов:
@@ -2338,7 +2340,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ 2. Wound Rolls (**броски на ранение**)
 ▪ 3. Save Rolls (**спас-броски**)
 ▪ 4. Inflict Damage (нанесение урона)`,
-          note: `Критические попадания(Critical Hits) и критические ранения(Critical Wounds): критические попадания(Critical Hits) по-прежнему являются попаданиями, а критические ранения(Critical Wounds) — ранениями. Кроме того, другие правила могут быть активированы критическим попаданием или критическим ранением, например, Смертельные попадания (Lethal Hits) и Опустошительные раны (Devastating Wounds).`,
+          note: `Критические попадания(Critical Hits) и критические ранения(Critical Wounds): критические попадания(Critical Hits) по-прежнему являются попаданиями, а критические ранения(Critical Wounds) — ранениями. Кроме того, другие правила могут быть активированы критическим попаданием или критическим ранением, например, [LETHAL HITS] и [DEVASTATING WOUNDS].`,
         },
         {
           title: 'Hit Rolls (броски на попадание)',

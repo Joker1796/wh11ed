@@ -2,7 +2,7 @@
 // and diffed against wh40k-appdata by `npm run sync`) is code-split into its own chunk via
 // import.meta.glob and only fetched when FactionDatasheetsView shows that faction — the
 // datasheet data must never be imported statically (it would bloat the shared view chunk).
-const modules = import.meta.glob(['./*.js', '!./index.js'])
+const modules = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
 
 // The 5 Space Marines Chapter codex files (Deathwatch, Black Templars, Blood Angels, Dark
 // Angels, Space Wolves) don't duplicate datasheets that are byte-identical to their

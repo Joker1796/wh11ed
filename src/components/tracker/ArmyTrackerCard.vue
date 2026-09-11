@@ -586,7 +586,6 @@ useFlashOnChange(counter, counterEl)
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
   border-left: 3px solid var(--accent);
-  border-radius: 6px;
 }
 
 .army-head {
@@ -639,7 +638,6 @@ useFlashOnChange(counter, counterEl)
   padding: 0.35rem 0.6rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.78rem;
@@ -673,7 +671,6 @@ useFlashOnChange(counter, counterEl)
   padding: 0.4rem 0.6rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
   text-align: left;
@@ -741,7 +738,6 @@ useFlashOnChange(counter, counterEl)
   font-size: 0.68rem;
 }
 
-
 /* ── Round-1 start bonus (GSC's Deeds That Speak to the Masses) ── */
 .army-bonus {
   margin-top: 0.55rem;
@@ -756,7 +752,6 @@ useFlashOnChange(counter, counterEl)
   padding: 0.4rem 0.7rem;
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   border: 1px solid var(--accent);
-  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.8rem;
@@ -817,7 +812,6 @@ useFlashOnChange(counter, counterEl)
   height: 26px;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -954,7 +948,6 @@ useFlashOnChange(counter, counterEl)
   padding: 0.45rem 0.7rem;
   background: var(--accent);
   border: 1px solid var(--accent);
-  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.85rem;
@@ -977,7 +970,6 @@ useFlashOnChange(counter, counterEl)
   padding: 0.35rem 0.7rem;
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   border: 1px solid var(--accent);
-  border-radius: 4px;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.78rem;
@@ -999,7 +991,6 @@ useFlashOnChange(counter, counterEl)
   height: 28px;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 4px;
   cursor: pointer;
   color: var(--text-muted);
   font-size: 0.9rem;

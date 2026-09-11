@@ -20,23 +20,24 @@
       <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
     </Transition>
 
-    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute }">
+    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--desk': isRosterDeskRoute }">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="appPath" />
         </Transition>
       </RouterView>
-      <AppFooter v-if="!isTrackerGameRoute" />
+      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute" />
     </main>
 
     <AppBottomNav @open-rules="showRules = true" @open-factions="showFactions = true" />
 
+    <WelcomeModal v-if="welcomeOpen" @close="welcomeOpen = false" />
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
     <RulesNavModal v-if="showRules" @close="showRules = false" />
     <KeywordPopover />
-    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
+    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" :resume-draft-id="resumeDraftId" />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
@@ -46,6 +47,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
+import { shouldWelcome } from './composables/useWelcome.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
@@ -57,6 +59,7 @@ import NavSidebar from './components/NavSidebar.vue'
 import AppNavbar from './components/AppNavbar.vue'
 import AppSubnav from './components/AppSubnav.vue'
 import AppBottomNav from './components/AppBottomNav.vue'
+import WelcomeModal from './components/WelcomeModal.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
@@ -65,15 +68,20 @@ import DomainMoveBanner from './components/DomainMoveBanner.vue'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
-import { useKeywordPopover } from './composables/useKeywordPopover.js'
+import { useAuth } from './composables/useAuth.js'
+import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useRouteSection } from './composables/useRouteSection.js'
+import { useRosters } from './composables/useRosters.js'
+import { useRosterDraftResume } from './composables/useRosterDraftResume.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
+import { stripLocale } from './router/locale.js'
 
 const route = useRoute()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
+const { ensureSession } = useAuth()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const installHintOpen = ref(false)
@@ -86,6 +94,10 @@ function toggleMobileNav() {
 
 const { locale } = useLocale()
 
+// The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
+// without it, or every predicate written against a bare path quietly stops matching in Russian.
+const appPath = computed(() => stripLocale(route.path))
+
 // Per-route <title> + meta description (read-only w.r.t. the router; hash routing unchanged).
 watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { immediate: true })
 
@@ -94,20 +106,54 @@ const { navigateTo } = useRefNavigation()
 
 const {
   isLanding, isEventRoute, isCoreRoute, isCombatPatrolFactionRoute,
-  isTrackerRoute, isTrackerGameRoute,
+  isTrackerRoute, isTrackerGameRoute, isGameRosterRoute,
 } = useRouteSection()
 
+// The footer is a tall multi-column block — fine on content/browsing pages, but it just eats
+// scarce mobile viewport below a dense, task-focused screen. Hidden on the tracker's own
+// live-game screen (isTrackerGameRoute, from useRouteSection) and on the roster builder's
+// creation wizard / editor (not the roster list, the shared-link landing, or a roster's
+// read-only view — those are browsing, not configuring).
+const isRosterEditRoute = computed(() =>
+  appPath.value.startsWith('/roster') &&
+  appPath.value !== '/roster' &&
+  appPath.value !== '/roster/shared' &&
+  !appPath.value.endsWith('/view')
+)
+
+// The two building screens lay themselves out in three columns above 1200px (see
+// components/roster/RosterWorkbench.vue), which the 860px reading measure cannot hold. Printing
+// is excluded: it is a roster route by path, but its width is the paper's.
+const isRosterDeskRoute = computed(() => isRosterEditRoute.value && !appPath.value.endsWith('/print'))
+
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
-// outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
+// that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
+// a long read (a roster opened out of the live game). Hidden while a full-screen modal/drawer is
+// open so it never overlaps them.
 const { current: currentGame } = useTracker()
 const showResumeGame = computed(() =>
   currentGame.value?.phase === 'playing' &&
-  !isTrackerRoute.value &&
+  (!isTrackerRoute.value || isGameRosterRoute.value) &&
   !isLanding.value &&
   !searchOpen.value &&
   !installHintOpen.value &&
   !mobileNavOpen.value
 )
+// "Back to your roster": the same idea one screen over. The creation wizard is left on purpose
+// mid-build — to go read what a detachment does — and its draft survives that, but the way back
+// didn't: /roster opens on Saved lists and the draft is one tab over, so a returning reader saw a
+// list without their roster in it. RosterCreateView notes the draft as it unmounts; the id is a
+// hint, so re-check it's still a draft — it may have been saved (finish() clears the flags) or
+// deleted from the list while the chip was up.
+const { rosterById } = useRosters()
+const { pendingDraftId } = useRosterDraftResume()
+const resumeDraftId = computed(() => {
+  const id = pendingDraftId.value
+  if (!id || appPath.value === '/roster/new') return null
+  if (isLanding.value || searchOpen.value || installHintOpen.value || mobileNavOpen.value) return null
+  return rosterById(id)?.draft ? id : null
+})
+
 // MobileUtilityBar decides its own visibility (resume / faction tabs / scroll-to-top, any
 // combination); this just mirrors that via the template ref so --mobile-bar-h stays in sync
 // without duplicating the logic.
@@ -128,6 +174,9 @@ function onKeydown(e) {
 }
 
 function onGlobalClick(e) {
+  // A button that opened the popover on its own (a chip's "i", a rule name under a datasheet's
+  // stats) is not "somewhere else" — without this its own click closes what it just opened.
+  if (opensPopover(e.target)) return
   const refEl = e.target.closest('.cross-ref')
   if (refEl) {
     const { route, anchor } = resolveRef(refEl.dataset.ref)
@@ -148,9 +197,19 @@ function onGlobalClick(e) {
   }
 }
 
+// The first-visit card, on the landing page only and only once (useWelcome.js). Decided on mount
+// rather than in a route watcher: a reader who navigates TO the landing later in the session is
+// already using the site, and telling them what it is at that point is noise.
+const welcomeOpen = ref(false)
+
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
+  welcomeOpen.value = shouldWelcome(appPath.value)
+  // Silent session restore, once per load: the navbar's account menu is on every page, so the
+  // answer to "am I signed in" can no longer wait for the tracker to be opened. Costs one
+  // request against the refresh cookie, resolves to 'anon' offline or with no backend.
+  ensureSession()
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
@@ -192,6 +251,17 @@ onUnmounted(() => {
   background: var(--bg-content);
 }
 
+/* The roster builder's desk layout: catalogue, list and the chosen unit's fields side by side.
+   Only above the threshold that layout itself uses — below it the screen is back to two panes at
+   the ordinary measure, and this class must not widen them. */
+@media (min-width: 1200px) {
+  .main-content--desk {
+    max-width: 1600px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
 /* ── Mobile ── */
 @media (max-width: 900px) {
   .main-content {
@@ -206,4 +276,14 @@ onUnmounted(() => {
     padding: 0 calc(0.5rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px)) calc(0.5rem + var(--safe-left));
   }
 }
+
+/* Roster creation wizard's fixed Back/Next bar (RosterCreateView's .rc-sticky — an unscoped
+   class name reached across the component boundary via :has(), same trick as its own
+   .rc-panel:has(.rc-sticky)) is glued flush above the bottom nav and doesn't move. It floats
+   in the same bottom-right corner MobileUtilityBar's own buttons (resume/faction tabs/
+   back-to-top) want, so THEY yield instead: this reserves the bar's real height in a variable
+   MobileUtilityBar's own bottom offset adds (see its .mobile-bar rule) — always the fixed
+   .rc-sticky height, not RosterEditorView's unrelated .red-sticky (a sticky totals readout,
+   no buttons, nothing to block). */
+.app-layout:has(.rc-sticky) { --roster-sticky-h: 3.75rem; }
 </style>

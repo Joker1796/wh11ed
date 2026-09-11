@@ -340,7 +340,6 @@ function handleDefClick(e) {
   border: 1px solid var(--border);
   color: var(--text-muted);
   padding: 0.3rem 0.9rem;
-  border-radius: 20px;
   font-size: 0.82rem;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
@@ -389,7 +388,6 @@ function handleDefClick(e) {
 .ability-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   overflow: hidden;
   scroll-margin-top: 72px;
 }
@@ -435,7 +433,6 @@ function handleDefClick(e) {
   font-weight: 700;
   text-transform: uppercase;
   padding: 1px 7px;
-  border-radius: 10px;
 }
 
 .ability-type-badge.weapon {
@@ -499,7 +496,6 @@ function handleDefClick(e) {
 /* Info card inside ability (Scout Move) */
 .ability-body .info-card {
   border: 1px solid var(--border);
-  border-radius: 4px;
   overflow: hidden;
   margin: 0.25rem 0 0.5rem;
   font-size: 0.88rem;
@@ -546,7 +542,6 @@ function handleDefClick(e) {
 .ability-card .example-block,
 .ability-card .note-box {
   margin: 0;
-  border-radius: 0;
   border-top: 1px solid var(--border-light);
 }
 
@@ -556,7 +551,6 @@ function handleDefClick(e) {
   padding: 1.25rem 1.5rem;
   border-left: 3px solid var(--accent);
   background: var(--bg-secondary);
-  border-radius: 0 6px 6px 0;
 }
 
 .digital-support-title {
@@ -583,7 +577,6 @@ function handleDefClick(e) {
   width: 120px;
   height: auto;
   display: block;
-  border-radius: 4px;
 }
 
 .digital-support p {

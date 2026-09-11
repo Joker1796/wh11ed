@@ -395,7 +395,7 @@ Friendly Adeptus Astartes Mounted have:
         },
         {
           name: 'Recon Hunter',
-          points: 20,
+          points: 30,
           flavor: 'This commander is an expert scout as well as hunter, and takes advantage of these skills to seize the most advantageous position before battle begins.',
           body: `Ravenwing model only. Models in the bearer's unit have the Scouts 9" ability.`,
         },
@@ -545,7 +545,7 @@ Friendly Adeptus Astartes Mounted have:
       name: 'Interrogation Conclave',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       rule: {
         name: 'Dread Catechism',
         flavor:
