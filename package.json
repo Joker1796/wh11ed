@@ -7,6 +7,7 @@
     "build": "vite build && node scripts/gen-seo-routes.mjs",
     "preview": "vite preview",
     "test": "vitest run",
+    "lint": "eslint .",
     "test:watch": "vitest",
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
@@ -56,7 +57,11 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@vue/test-utils": "^2.4.11",
+    "eslint": "^10.10.0",
+    "eslint-plugin-vue": "^10.11.0",
+    "globals": "^17.12.0",
     "jsdom": "^29.1.1",
     "opentype.js": "^2.0.0",
     "sharp": "^0.35.1",

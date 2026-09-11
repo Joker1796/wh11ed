@@ -38,6 +38,12 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm run parity
 
+      # eslint-plugin-vue on the templates + the core rules on the scripts. No formatter: a
+      # report here is a defect, never an indentation preference (see eslint.config.js).
+      - name: Lint
+        if: ${{ !cancelled() }}
+        run: npm run lint
+
       - name: Tests
         if: ${{ !cancelled() }}
         run: npm test
