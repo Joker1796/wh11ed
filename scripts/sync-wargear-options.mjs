@@ -38,10 +38,8 @@
 //
 // Usage: node scripts/sync-wargear-options.mjs   (also run as part of `npm run sync`).
 
-import fs from 'node:fs'
-import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, norm, loadJson, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap, table as read, groupBy, escapeRegex, NUMBER_WORDS } from './lib/sync-common.mjs'
+import { norm, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap, table as read, groupBy, escapeRegex, NUMBER_WORDS } from './lib/sync-common.mjs'
 
 const wargearItemName = new Map(read('wargear_item.json').map((r) => [r.id, r?.localisations?.en?.name || '']))
 

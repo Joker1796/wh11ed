@@ -21,12 +21,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import MissionCard from '../event/MissionCard.vue'
 import PickerRow from './PickerRow.vue'
-import { ui } from '../../i18n/ui.js'
-import { useLocale } from '../../composables/useLocale.js'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -34,9 +32,7 @@ const props = defineProps({
   selected: { type: String, default: null },   // slug
   randomLabel: { type: String, default: '' },
 })
-const emit = defineEmits(['pick', 'random', 'close'])
-const { locale } = useLocale()
-const labels = computed(() => ui[locale.value])
+defineEmits(['pick', 'random', 'close'])
 
 // Accordion: at most one mission expanded at a time; start on the selected one.
 const openId = ref(props.selected || null)

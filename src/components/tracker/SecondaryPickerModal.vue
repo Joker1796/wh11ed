@@ -40,7 +40,7 @@ const props = defineProps({
   selected: { type: Array, required: true },   // slugs
   max: { type: Number, default: 2 },
 })
-const emit = defineEmits(['toggle', 'close'])
+defineEmits(['toggle', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 

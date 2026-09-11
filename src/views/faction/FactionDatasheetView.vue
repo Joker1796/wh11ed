@@ -131,7 +131,7 @@ import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
 const route = useRoute()
-const { slug, faction } = useFactionPage()
+const { faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)

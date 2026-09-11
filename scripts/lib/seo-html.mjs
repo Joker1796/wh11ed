@@ -136,7 +136,6 @@ const weaponTable = (weapons, label) => {
  *  convention; only ability text and flavour come from the RU overlay. */
 export function datasheetBody(unit, factionName, locale, ru) {
   const t = L[locale]
-  const p = unit.profiles?.[0] || {}
   const out = [`<h1>${esc(unit.name)}</h1>`]
 
   const cost = unit.points?.map((x) => t.cost(x.models, x.points)).join(', ')

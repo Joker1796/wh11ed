@@ -31,7 +31,7 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-const emit = defineEmits(['confirm', 'close'])
+defineEmits(['confirm', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
