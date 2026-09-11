@@ -1332,7 +1332,6 @@ export const abilityNamesRu = {
   'Burning Lance': 'Пылающее копьё',
   'Unquenchable Resolve': 'Неугасимая решимость',
   'Fleet of Foot': 'Быстроногость',
-  'Crewed Platform': 'Обслуживаемая платформа',
   'Mindshock Pod (Aura, Psychic)': 'Mindshock pod (Аура, Психика)',
   Acrobatic: 'Акробатичность',
   'Whirling Death': 'Вихревая смерть',
