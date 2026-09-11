@@ -63,7 +63,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const route = useRoute()
-const { slug } = useFactionPage()
+useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { renderInline, renderRichText } = useRenderInline()

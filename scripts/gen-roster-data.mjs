@@ -683,7 +683,7 @@ function linkWargearConditions(datasheetId, drafts) {
     // Superior's condemnor bolt pistol" — and the first one starts a phrase that names no item.
     // So walk them from the left and keep the first candidate that resolves COMPLETELY; a partial
     // resolve is rejected rather than trimmed, since half a set is a wrong subtraction.
-    let from = 0, m = null, last = null
+    let from = 0, m, last = null
     while ((m = d.text.slice(from).match(REP_RE))) {
       last = m
       const uuids = resolvePhrase(m[1], d.miniId)

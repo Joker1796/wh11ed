@@ -214,11 +214,11 @@ const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 
 const {
-  datasheets, loaded, sheet, view, localize,
-  rulesFaction, rulesFactionEn, stratNamesRu,
+  loaded, view,
+  rulesFaction, stratNamesRu,
   statMods, statNotes, allGrantedKeywords, linkedFactionRules, abilityStates,
-  resolvedModifiers, abilityModifiers, unitKeywords, factionKeywordSets, activeConds, activeStratIds,
-  ruleBlocks, modSource, applies, switchesOfRule,
+  abilityModifiers,
+  ruleBlocks, modSource,
 } = useRosterUnitCard(props)
 
 function openArmyRule(name, rect) {

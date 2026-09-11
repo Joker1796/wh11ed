@@ -31,8 +31,6 @@ const flag = (n, d = null) => { const i = args.indexOf(n); return i >= 0 && args
 // prose-bearing appdata entity kinds (as they appear in changes.json). Everything else is scalar.
 const PROSE_KINDS = new Set(['datasheets', 'detachments', 'stratagems', 'enhancements', 'armyRules', 'rules', 'abilities', 'faction'])
 const PROSE_FIELDS = new Set(['body', 'rules', 'ruleText', 'lore', 'when', 'target', 'effect', 'restriction', 'unitComposition', 'text', 'trigger'])
-// appdata `kind` → the sourceIds.json prefix used to map it back to a wh11ed id.
-const KIND_TO_SRCID = { datasheets: 'ds', detachments: 'det', stratagems: 'strat', enhancements: 'enh', armyRules: 'armyrule' }
 
 // ---- --check / --done act on the existing queue -----------------------------------------------
 function loadQueue() {
