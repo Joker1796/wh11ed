@@ -16,19 +16,41 @@
      on that first tap and never before. -->
 <template>
   <section class="rrp">
-    <button type="button" class="rrp-head" :aria-expanded="open" @click="open = !open">
-      <i class="bi rrp-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+    <button
+      type="button"
+      class="rrp-head"
+      :aria-expanded="open"
+      @click="open = !open"
+    >
+      <i
+        class="bi rrp-chev"
+        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+      />
       <span class="rrp-title">{{ labels.rosterFactionRules }}</span>
-      <span v-if="detNames.length" class="rrp-sub">{{ detNames.join(' · ') }}</span>
+      <span
+        v-if="detNames.length"
+        class="rrp-sub"
+      >{{ detNames.join(' · ') }}</span>
     </button>
 
     <CollapseTransition :show="open">
       <div class="rrp-body">
         <template v-if="faction">
           <!-- The army rule: the one thing here that is true whatever the list picks. -->
-          <div v-if="faction.armyRule" class="rrp-sec">
-            <button type="button" class="rrp-sec-head" :aria-expanded="isOpen('army')" @click="toggle('army')">
-              <i class="bi rrp-chev" :class="isOpen('army') ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <div
+            v-if="faction.armyRule"
+            class="rrp-sec"
+          >
+            <button
+              type="button"
+              class="rrp-sec-head"
+              :aria-expanded="isOpen('army')"
+              @click="toggle('army')"
+            >
+              <i
+                class="bi rrp-chev"
+                :class="isOpen('army') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
               <span class="rrp-sec-title">{{ labels.factionArmyRule }}</span>
               <span class="rrp-sec-note">{{ faction.armyRule.name }}</span>
             </button>
@@ -46,11 +68,26 @@
           </div>
 
           <!-- One fold per picked detachment — a list may play two. -->
-          <div v-for="det in dets" :key="det.name" class="rrp-sec">
-            <button type="button" class="rrp-sec-head" :aria-expanded="isOpen(det.name)" @click="toggle(det.name)">
-              <i class="bi rrp-chev" :class="isOpen(det.name) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <div
+            v-for="det in dets"
+            :key="det.name"
+            class="rrp-sec"
+          >
+            <button
+              type="button"
+              class="rrp-sec-head"
+              :aria-expanded="isOpen(det.name)"
+              @click="toggle(det.name)"
+            >
+              <i
+                class="bi rrp-chev"
+                :class="isOpen(det.name) ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
               <span class="rrp-sec-title">{{ det.name }}</span>
-              <span v-if="det.rule" class="rrp-sec-note">{{ det.rule.name }}</span>
+              <span
+                v-if="det.rule"
+                class="rrp-sec-note"
+              >{{ det.rule.name }}</span>
             </button>
             <CollapseTransition :show="isOpen(det.name)">
               <div class="rrp-sec-body">
@@ -66,21 +103,45 @@
 
           <!-- Enhancements: the part of a detachment the builder actually spends points on, which
                is why they are their own fold rather than a tail of the detachment's rule. -->
-          <div v-if="enhancements.length" class="rrp-sec">
-            <button type="button" class="rrp-sec-head" :aria-expanded="isOpen('enh')" @click="toggle('enh')">
-              <i class="bi rrp-chev" :class="isOpen('enh') ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <div
+            v-if="enhancements.length"
+            class="rrp-sec"
+          >
+            <button
+              type="button"
+              class="rrp-sec-head"
+              :aria-expanded="isOpen('enh')"
+              @click="toggle('enh')"
+            >
+              <i
+                class="bi rrp-chev"
+                :class="isOpen('enh') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
               <span class="rrp-sec-title">{{ labels.factionEnhancements }}</span>
               <span class="rrp-sec-count">{{ enhancements.length }}</span>
             </button>
             <CollapseTransition :show="isOpen('enh')">
               <div class="rrp-sec-body">
-                <article v-for="e in enhancements" :key="e.name" class="rrp-enh">
+                <article
+                  v-for="e in enhancements"
+                  :key="e.name"
+                  class="rrp-enh"
+                >
                   <div class="rrp-enh-head">
                     <span class="rrp-enh-name">{{ e.name }}</span>
-                    <span v-if="e.nameRu" class="rrp-enh-ru">{{ e.nameRu }}</span>
-                    <span v-if="e.points != null" class="rrp-enh-pts">{{ e.points }}{{ labels.rosterPointsLabel }}</span>
+                    <span
+                      v-if="e.nameRu"
+                      class="rrp-enh-ru"
+                    >{{ e.nameRu }}</span>
+                    <span
+                      v-if="e.points != null"
+                      class="rrp-enh-pts"
+                    >{{ e.points }}{{ labels.rosterPointsLabel }}</span>
                   </div>
-                  <div class="rrp-enh-body" v-html="renderRichText(e.body)"></div>
+                  <div
+                    class="rrp-enh-body"
+                    v-html="renderRichText(e.body)"
+                  />
                 </article>
               </div>
             </CollapseTransition>
@@ -88,16 +149,32 @@
 
           <!-- Stratagems: the same card the stratagem pages draw, flat. A list's detachments are
                one or two, and each card names its own detachment, so there is nothing to group. -->
-          <div v-if="stratagems.length" class="rrp-sec">
-            <button type="button" class="rrp-sec-head" :aria-expanded="isOpen('strat')" @click="toggle('strat')">
-              <i class="bi rrp-chev" :class="isOpen('strat') ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <div
+            v-if="stratagems.length"
+            class="rrp-sec"
+          >
+            <button
+              type="button"
+              class="rrp-sec-head"
+              :aria-expanded="isOpen('strat')"
+              @click="toggle('strat')"
+            >
+              <i
+                class="bi rrp-chev"
+                :class="isOpen('strat') ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
               <span class="rrp-sec-title">{{ labels.factionStratagems }}</span>
               <span class="rrp-sec-count">{{ stratagems.length }}</span>
             </button>
             <CollapseTransition :show="isOpen('strat')">
               <div class="rrp-sec-body">
                 <div class="rrp-strats">
-                  <StratCard v-for="s in stratagems" :key="s.name" :strat="s" :sublabel="s.sublabel" />
+                  <StratCard
+                    v-for="s in stratagems"
+                    :key="s.name"
+                    :strat="s"
+                    :sublabel="s.sublabel"
+                  />
                 </div>
               </div>
             </CollapseTransition>

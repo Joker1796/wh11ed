@@ -1,27 +1,38 @@
 <template>
-  <BaseModal :title="labels.trackerEndTitle" max-width="460px" @close="$emit('close')">
-      <div class="modal-body">
-        <label
-          v-for="o in options"
-          :key="o.id"
-          class="ge-row"
-          :class="{ on: reason === o.id }"
+  <BaseModal
+    :title="labels.trackerEndTitle"
+    max-width="460px"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <label
+        v-for="o in options"
+        :key="o.id"
+        class="ge-row"
+        :class="{ on: reason === o.id }"
+      >
+        <span class="ge-text">{{ labels[o.label] }}</span>
+        <input
+          type="checkbox"
+          class="ge-check"
+          :checked="reason === o.id"
+          @change="toggle(o.id)"
         >
-          <span class="ge-text">{{ labels[o.label] }}</span>
-          <input
-            type="checkbox"
-            class="ge-check"
-            :checked="reason === o.id"
-            @change="toggle(o.id)"
-          />
-        </label>
+      </label>
 
-        <p class="ge-note">{{ labels.trackerEndNote }}</p>
-      </div>
+      <p class="ge-note">
+        {{ labels.trackerEndNote }}
+      </p>
+    </div>
 
-      <footer class="modal-foot">
-        <button class="ge-end" @click="$emit('confirm', reason)">{{ labels.trackerEndBattle }}</button>
-      </footer>
+    <footer class="modal-foot">
+      <button
+        class="ge-end"
+        @click="$emit('confirm', reason)"
+      >
+        {{ labels.trackerEndBattle }}
+      </button>
+    </footer>
   </BaseModal>
 </template>
 

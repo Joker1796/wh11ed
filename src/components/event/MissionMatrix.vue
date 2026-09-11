@@ -7,16 +7,37 @@
             <span class="corner-you">{{ labels.eventMatrixYou }} ↓</span>
             <span class="corner-opp">{{ labels.eventMatrixOpponent }} →</span>
           </th>
-          <th v-for="d in dispositions" :key="'col-' + d.id" class="col-head">
-            <img v-if="d.icon" :src="d.icon" :alt="d.name" class="dispo-icon" loading="lazy" decoding="async" />
+          <th
+            v-for="d in dispositions"
+            :key="'col-' + d.id"
+            class="col-head"
+          >
+            <img
+              v-if="d.icon"
+              :src="d.icon"
+              :alt="d.name"
+              class="dispo-icon"
+              loading="lazy"
+              decoding="async"
+            >
             <span class="dispo-name">{{ d.name }}</span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in dispositions" :key="'row-' + row.id">
+        <tr
+          v-for="row in dispositions"
+          :key="'row-' + row.id"
+        >
           <th class="row-head">
-            <img v-if="row.icon" :src="row.icon" :alt="row.name" class="dispo-icon" loading="lazy" decoding="async" />
+            <img
+              v-if="row.icon"
+              :src="row.icon"
+              :alt="row.name"
+              class="dispo-icon"
+              loading="lazy"
+              decoding="async"
+            >
             <span class="dispo-name">{{ row.name }}</span>
           </th>
           <td
@@ -26,7 +47,7 @@
             :class="{ active: isActive(row.id, col.id) }"
             @click="$emit('select', { you: row.id, opp: col.id })"
           >
-            <span class="cell-dot"></span>
+            <span class="cell-dot" />
           </td>
         </tr>
       </tbody>

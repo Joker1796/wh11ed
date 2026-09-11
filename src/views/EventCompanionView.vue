@@ -2,15 +2,20 @@
   <div class="view">
     <div class="view-hero">
       <h1>{{ labels.eventCompanionHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.eventCompanionDesc }}</p>
+      <p class="view-hero-desc">
+        {{ labels.eventCompanionDesc }}
+      </p>
     </div>
 
-    <EventCompanionToc :active-id="activeId" @select="goToAnchor" />
+    <EventCompanionToc
+      :active-id="activeId"
+      @select="goToAnchor"
+    />
 
     <section
       v-for="chapter in chapters"
-      :key="chapter.id"
       :id="chapter.id"
+      :key="chapter.id"
       class="event-chapter"
     >
       <component :is="chapter.component" />
@@ -31,7 +36,7 @@
       :aria-label="labels.openContents"
       @click="tocOpen = true"
     >
-      <i class="bi bi-list-ul"></i>
+      <i class="bi bi-list-ul" />
     </button>
 
     <EventCompanionTocModal

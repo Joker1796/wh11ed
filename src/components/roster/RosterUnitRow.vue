@@ -19,18 +19,35 @@
 <template>
   <span class="rur">
     <span class="rur-name">
-      <i v-if="entry.warlord" class="bi bi-flag-fill rur-wl"></i>
+      <i
+        v-if="entry.warlord"
+        class="bi bi-flag-fill rur-wl"
+      />
       {{ def?.name || entry.id }}
       <!-- The player's own note, in parentheses after the name — the way every list format that
            has the field prints it, ours included (rosterEngine's note helpers). Not a chip: a chip
            is a fact about the unit the app knows, this is a sentence the player wrote. -->
-      <span v-if="entry.note" class="rur-note">({{ entry.note }})</span>
+      <span
+        v-if="entry.note"
+        class="rur-note"
+      >({{ entry.note }})</span>
     </span>
     <span class="rur-pts">{{ points }}</span>
-    <span v-if="chips.length" class="rur-chips">
-      <span v-for="c in chips" :key="c.key" class="rur-chip" :class="{ role: c.role }">{{ c.text }}</span>
+    <span
+      v-if="chips.length"
+      class="rur-chips"
+    >
+      <span
+        v-for="c in chips"
+        :key="c.key"
+        class="rur-chip"
+        :class="{ role: c.role }"
+      >{{ c.text }}</span>
     </span>
-    <span v-if="picks.length" class="rur-picks">{{ picks.join(' · ') }}</span>
+    <span
+      v-if="picks.length"
+      class="rur-picks"
+    >{{ picks.join(' · ') }}</span>
   </span>
 </template>
 

@@ -1,18 +1,34 @@
 <template>
   <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
   <Transition name="fade">
-    <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
-      <div class="subnav-inner" :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }">
-        <template v-for="item in subNavItems" :key="item.path || item.hash">
+    <nav
+      v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && (!isFactionRoute || isFactionUnitPage)"
+      class="subnav"
+    >
+      <div
+        class="subnav-inner"
+        :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }"
+      >
+        <template
+          v-for="item in subNavItems"
+          :key="item.path || item.hash"
+        >
           <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
                multi-column jump-list of the faction's units (desktop only — .subnav
                itself is hidden on mobile). -->
-          <div v-if="item.unitsMenu" class="subnav-dropdown" @mouseenter="preloadUnitsMenu" @focusin="preloadUnitsMenu">
+          <div
+            v-if="item.unitsMenu"
+            class="subnav-dropdown"
+            @mouseenter="preloadUnitsMenu"
+            @focusin="preloadUnitsMenu"
+          >
             <RouterLink
               :to="item.path"
               class="subnav-link"
               :class="{ active: isItemActive(item) }"
-            >{{ item.label }}</RouterLink>
+            >
+              {{ item.label }}
+            </RouterLink>
             <div class="subnav-dropdown-menu">
               <div class="subnav-dropdown-panel">
                 <RouterLink
@@ -21,7 +37,9 @@
                   :to="`/factions/${route.params.slug}/datasheets/${u[0]}`"
                   class="nd-link"
                   :class="{ current: u[0] === route.params.unit }"
-                >{{ u[1] }}</RouterLink>
+                >
+                  {{ u[1] }}
+                </RouterLink>
               </div>
             </div>
           </div>
@@ -40,7 +58,9 @@
             :to="item.path"
             class="subnav-link"
             :class="{ active: isItemActive(item) }"
-          >{{ item.label }}</RouterLink>
+          >
+            {{ item.label }}
+          </RouterLink>
         </template>
       </div>
     </nav>

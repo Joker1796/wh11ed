@@ -1,15 +1,25 @@
 <template>
   <div class="stats-view">
-    <RouterLink to="/tracker" class="back">
-      <i class="bi bi-chevron-left"></i> {{ labels.subNavTrackerHome }}
+    <RouterLink
+      to="/tracker"
+      class="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ labels.subNavTrackerHome }}
     </RouterLink>
 
     <div class="hero">
       <h1>{{ labels.statsTitle }}</h1>
-      <p class="hero-desc">{{ labels.statsDesc }}</p>
+      <p class="hero-desc">
+        {{ labels.statsDesc }}
+      </p>
     </div>
 
-    <p v-if="!s.games" class="empty">{{ labels.statsEmpty }}</p>
+    <p
+      v-if="!s.games"
+      class="empty"
+    >
+      {{ labels.statsEmpty }}
+    </p>
 
     <template v-else>
       <!-- The numbers a player would recite from memory, in the order they would recite them. -->
@@ -22,7 +32,10 @@
           <span class="c-val">{{ record }}</span>
           <span class="c-lab">{{ labels.statsRecord }}</span>
         </li>
-        <li class="card" :class="{ soft: !s.enough }">
+        <li
+          class="card"
+          :class="{ soft: !s.enough }"
+        >
           <span class="c-val">{{ s.enough ? pct(s.winrate) : '—' }}</span>
           <span class="c-lab">{{ labels.statsWinrate }}</span>
         </li>
@@ -31,7 +44,10 @@
           <span class="c-lab">{{ labels.statsAvgScore }}</span>
         </li>
         <li class="card">
-          <span class="c-val" :class="diffClass">{{ signed(s.avgDiff) }}</span>
+          <span
+            class="c-val"
+            :class="diffClass"
+          >{{ signed(s.avgDiff) }}</span>
           <span class="c-lab">{{ labels.statsAvgDiff }}</span>
         </li>
         <li class="card">
@@ -39,7 +55,10 @@
           <span class="c-lab">{{ labels.statsAvgBp }}</span>
         </li>
         <li class="card">
-          <span class="c-val" :class="'res-' + (s.current.side || 'draw')">{{ streakText }}</span>
+          <span
+            class="c-val"
+            :class="'res-' + (s.current.side || 'draw')"
+          >{{ streakText }}</span>
           <span class="c-lab">{{ labels.statsStreak }}</span>
         </li>
         <li class="card">
@@ -50,13 +69,29 @@
 
       <!-- Two honesty notes, and they belong at the top rather than in a footnote: what the page
            refuses to turn into a percentage, and what it left out of the count entirely. -->
-      <p v-if="!s.enough" class="note">{{ smallSampleNote }}</p>
-      <p v-if="s.skipped" class="note">{{ skippedNote }}</p>
+      <p
+        v-if="!s.enough"
+        class="note"
+      >
+        {{ smallSampleNote }}
+      </p>
+      <p
+        v-if="s.skipped"
+        class="note"
+      >
+        {{ skippedNote }}
+      </p>
 
       <section class="block">
         <h2>{{ labels.statsCurve }}</h2>
-        <p class="block-hint">{{ labels.statsCurveHint }}</p>
-        <StatCurve :rounds="s.rounds" :aria="labels.statsCurve" :round-label="roundLetter" />
+        <p class="block-hint">
+          {{ labels.statsCurveHint }}
+        </p>
+        <StatCurve
+          :rounds="s.rounds"
+          :aria="labels.statsCurve"
+          :round-label="roundLetter"
+        />
         <p class="legend">
           <span class="lg you">{{ labels.trackerYou }}</span>
           <span class="lg opp">{{ labels.trackerOpponent }}</span>
@@ -65,51 +100,86 @@
 
       <section class="block">
         <h2>{{ labels.statsSplit }}</h2>
-        <StatStack :rows="splitRows" :parts="splitParts" />
+        <StatStack
+          :rows="splitRows"
+          :parts="splitParts"
+        />
       </section>
 
-      <section v-if="s.firstTurn.length" class="block">
+      <section
+        v-if="s.firstTurn.length"
+        class="block"
+      >
         <h2>{{ labels.statsFirstTurn }}</h2>
         <StatBars :rows="turnRows" />
       </section>
 
-      <section v-if="s.byFaction.length" class="block">
+      <section
+        v-if="s.byFaction.length"
+        class="block"
+      >
         <h2>{{ labels.statsMyFactions }}</h2>
         <StatBars :rows="rateRows(s.byFaction, factionName)" />
       </section>
 
-      <section v-if="s.byDetachment.length" class="block">
+      <section
+        v-if="s.byDetachment.length"
+        class="block"
+      >
         <h2>{{ labels.statsMyDetachments }}</h2>
         <StatBars :rows="rateRows(s.byDetachment)" />
       </section>
 
-      <section v-if="s.byOpponent.length" class="block">
+      <section
+        v-if="s.byOpponent.length"
+        class="block"
+      >
         <h2>{{ labels.statsOpponents }}</h2>
         <StatBars :rows="rateRows(s.byOpponent, factionName)" />
       </section>
 
-      <section v-if="s.byMission.length" class="block">
+      <section
+        v-if="s.byMission.length"
+        class="block"
+      >
         <h2>{{ labels.statsMissions }}</h2>
         <StatBars :rows="rateRows(s.byMission, primaryName)" />
       </section>
 
-      <section v-if="s.bySize.length > 1" class="block">
+      <section
+        v-if="s.bySize.length > 1"
+        class="block"
+      >
         <h2>{{ labels.statsFormat }}</h2>
         <StatBars :rows="rateRows(s.bySize, sizeName)" />
       </section>
 
       <!-- The one breakdown nobody else has: every card is logged with the round it was taken,
            scored or binned, so this is what each of them actually paid you. -->
-      <section v-if="s.secondaries.length" class="block">
+      <section
+        v-if="s.secondaries.length"
+        class="block"
+      >
         <h2>{{ labels.statsSecondaries }}</h2>
         <StatBars :rows="secondaryRows" />
       </section>
 
-      <section v-if="rosterRows.length" class="block">
+      <section
+        v-if="rosterRows.length"
+        class="block"
+      >
         <h2>{{ labels.statsRosters }}</h2>
         <ul class="rosters">
-          <li v-for="r in rosterRows" :key="r.id" class="ros">
-            <component :is="r.link ? RouterLink : 'span'" :to="r.link" class="ros-name">
+          <li
+            v-for="r in rosterRows"
+            :key="r.id"
+            class="ros"
+          >
+            <component
+              :is="r.link ? RouterLink : 'span'"
+              :to="r.link"
+              class="ros-name"
+            >
               {{ r.name }}
             </component>
             <span class="ros-meta">{{ r.meta }}</span>

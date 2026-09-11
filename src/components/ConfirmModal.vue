@@ -1,12 +1,28 @@
 <template>
-  <BaseModal :title="title" max-width="420px" @close="$emit('close')">
+  <BaseModal
+    :title="title"
+    max-width="420px"
+    @close="$emit('close')"
+  >
     <div class="modal-body">
-      <p class="cm-message">{{ message }}</p>
+      <p class="cm-message">
+        {{ message }}
+      </p>
     </div>
 
     <footer class="modal-foot">
-      <button class="btn-ghost" @click="$emit('close')">{{ cancelLabel }}</button>
-      <button class="btn-primary" @click="$emit('confirm')">{{ confirmLabel }}</button>
+      <button
+        class="btn-ghost"
+        @click="$emit('close')"
+      >
+        {{ cancelLabel }}
+      </button>
+      <button
+        class="btn-primary"
+        @click="$emit('confirm')"
+      >
+        {{ confirmLabel }}
+      </button>
     </footer>
   </BaseModal>
 </template>

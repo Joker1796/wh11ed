@@ -5,8 +5,15 @@
        and back-to-top (only once actually scrolled down) all show together, same small
        icon-button design — never a full-width bar eating reading space. -->
   <Transition name="slide-up">
-    <div v-if="visible" class="mobile-bar">
-      <TransitionGroup name="fab" tag="div" class="mb-actions">
+    <div
+      v-if="visible"
+      class="mobile-bar"
+    >
+      <TransitionGroup
+        name="fab"
+        tag="div"
+        class="mb-actions"
+      >
         <RouterLink
           v-if="showResumeGame"
           key="resume"
@@ -14,7 +21,9 @@
           class="mb-icon mb-text"
           :title="labels.resumeGameBar"
           :aria-label="labels.resumeGameBar"
-        >{{ labels.resumeGameShort }}</RouterLink>
+        >
+          {{ labels.resumeGameShort }}
+        </RouterLink>
 
         <!-- Same idea for a roster left half-built: the wizard is a screen people leave on
              purpose (to go read what a detachment does) and the way back through the nav lands
@@ -27,18 +36,25 @@
           class="mb-icon mb-text"
           :title="labels.rosterResumeDraftBar"
           :aria-label="labels.rosterResumeDraftBar"
-        >{{ labels.rosterResumeDraftShort }}</RouterLink>
+        >
+          {{ labels.rosterResumeDraftShort }}
+        </RouterLink>
 
         <!-- A contribution is either a jump (`to`, e.g. the faction hero's tab links) or an
              action (`onClick`, e.g. the Core Rules contents modal). -->
-        <template v-for="a in actions" :key="a.key">
+        <template
+          v-for="a in actions"
+          :key="a.key"
+        >
           <RouterLink
             v-if="a.to"
             :to="a.to"
             class="mb-icon"
             :title="a.label"
             :aria-label="a.label"
-          ><i :class="a.icon"></i></RouterLink>
+          >
+            <i :class="a.icon" />
+          </RouterLink>
           <button
             v-else
             type="button"
@@ -46,7 +62,9 @@
             :title="a.label"
             :aria-label="a.label"
             @click="a.onClick"
-          ><i :class="a.icon"></i></button>
+          >
+            <i :class="a.icon" />
+          </button>
         </template>
       </TransitionGroup>
 
@@ -58,7 +76,9 @@
         :title="labels.backToTop"
         :aria-label="labels.backToTop"
         @click="scrollToTop"
-      ><i class="bi bi-arrow-up"></i></button>
+      >
+        <i class="bi bi-arrow-up" />
+      </button>
     </div>
   </Transition>
 </template>

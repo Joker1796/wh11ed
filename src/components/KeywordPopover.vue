@@ -17,12 +17,31 @@
             <span :class="activeKeyword.kind === 'gloss' ? 'gloss-name' : 'keyword kw-name'">{{ activeKeyword.name }}</span>
             <!-- A name that stays English carries its translation under it, the way StratCard
                  prints the pair on the card itself. -->
-            <span v-if="activeKeyword.sub" class="kw-name-ru">{{ activeKeyword.sub }}</span>
+            <span
+              v-if="activeKeyword.sub"
+              class="kw-name-ru"
+            >{{ activeKeyword.sub }}</span>
           </span>
-          <span v-if="activeKeyword.num" class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
-          <button class="kw-close" :class="{ 'kw-close-push': !activeKeyword.num }" @click="close" :aria-label="labels.modalClose">✕</button>
+          <span
+            v-if="activeKeyword.num"
+            class="kw-num"
+            @click="navigateNum"
+          >{{ activeKeyword.num }}</span>
+          <button
+            class="kw-close"
+            :class="{ 'kw-close-push': !activeKeyword.num }"
+            :aria-label="labels.modalClose"
+            @click="close"
+          >
+            ✕
+          </button>
         </div>
-        <div v-if="activeKeyword.fullText" class="kw-popover-body" v-html="renderRichText(activeKeyword.fullText)" @click="handleBodyClick"></div>
+        <div
+          v-if="activeKeyword.fullText"
+          class="kw-popover-body"
+          @click="handleBodyClick"
+          v-html="renderRichText(activeKeyword.fullText)"
+        />
       </div>
     </Transition>
   </Teleport>

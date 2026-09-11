@@ -1,8 +1,13 @@
 <template>
   <FactionLayout>
     <!-- Datasheets (lazy-loaded per faction from src/data/datasheets/<slug>.js) -->
-    <section class="fsection" id="datasheets">
-      <h2 class="fsection-title">{{ labels.factionDatasheets }}</h2>
+    <section
+      id="datasheets"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionDatasheets }}
+      </h2>
       <template v-if="datasheets.length">
         <input
           v-model="dsQuery"
@@ -10,7 +15,7 @@
           class="ds-search"
           :placeholder="labels.dsSearch"
           :aria-label="labels.dsSearch"
-        />
+        >
         <!-- Global army choice (chapter + detachment), shared with the rule page.
              Chapter-less factions keep their datasheet list bar-free — a detachment
              picker filters nothing here. -->
@@ -25,18 +30,30 @@
              icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
              instead of on 90 chips. -->
         <p class="ds-legend">
-          <span><i class="bi bi-pin-angle"></i> {{ labels.favPinnedGroup }}</span>
-          <span><i class="bi bi-star"></i> {{ labels.rosterFilterOwned }}</span>
+          <span><i class="bi bi-pin-angle" /> {{ labels.favPinnedGroup }}</span>
+          <span><i class="bi bi-star" /> {{ labels.rosterFilterOwned }}</span>
         </p>
         <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
              still publishes is a rule somebody is reading. The switch is for the player building
              a matched-play list, and only appears for the factions that have any. -->
-        <label v-if="hasLegends" class="check ds-legends-filter" :class="{ on: hideLegends }">
-          <input v-model="hideLegends" type="checkbox" />
+        <label
+          v-if="hasLegends"
+          class="check ds-legends-filter"
+          :class="{ on: hideLegends }"
+        >
+          <input
+            v-model="hideLegends"
+            type="checkbox"
+          >
           <span>{{ labels.dsLegendsHide }}</span>
         </label>
-        <template v-for="g in groupedDatasheets" :key="g.key">
-          <h3 class="ds-group-head">{{ g.label }}</h3>
+        <template
+          v-for="g in groupedDatasheets"
+          :key="g.key"
+        >
+          <h3 class="ds-group-head">
+            {{ g.label }}
+          </h3>
           <div class="ds-grid">
             <RouterLink
               v-for="s in g.sheets"
@@ -54,7 +71,7 @@
                   :aria-pressed="isUnitFavorite(slug, s.id)"
                   @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
                 >
-                  <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+                  <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />
                 </button>
                 <!-- "I own this one" — the same mark the roster catalogue shows and filters by.
                      This grid is where a collection actually gets entered: the datasheet page
@@ -68,18 +85,33 @@
                   :aria-pressed="isOwned(slug, s.id)"
                   @click.stop.prevent="toggleOwned(slug, s.id, s.name)"
                 >
-                  <i :class="isOwned(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+                  <i :class="isOwned(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'" />
                 </button>
               </span>
               <span class="ds-chip-name">{{ s.name }}</span>
-              <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
-              <span v-if="s.legends" class="legends-badge" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span>
-              <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
+              <span
+                v-if="chapters.length && !chapter && chapterOf(s)"
+                class="ds-chip-chapter"
+              >{{ chapterOf(s) }}</span>
+              <span
+                v-if="s.legends"
+                class="legends-badge"
+                :title="labels.dsLegendsNote"
+              >{{ labels.dsLegends }}</span>
+              <span
+                v-if="s.points"
+                class="ds-chip-pts"
+              >{{ ptsSummary(s.points) }}</span>
             </RouterLink>
           </div>
         </template>
       </template>
-      <p v-else-if="loaded" class="ds-empty">{{ labels.factionsSoon }}</p>
+      <p
+        v-else-if="loaded"
+        class="ds-empty"
+      >
+        {{ labels.factionsSoon }}
+      </p>
     </section>
   </FactionLayout>
 </template>

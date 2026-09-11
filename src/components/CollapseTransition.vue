@@ -1,5 +1,8 @@
 <template>
-  <div class="collapse" :class="{ 'is-open': show }">
+  <div
+    class="collapse"
+    :class="{ 'is-open': show }"
+  >
     <div class="collapse-clip">
       <slot />
     </div>

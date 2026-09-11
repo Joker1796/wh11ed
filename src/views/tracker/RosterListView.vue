@@ -9,32 +9,60 @@
          tracker), the cloud on the right. Everything that line can say is produced by the single
          sync pass on entry; there is no manual "Sync" button, on purpose. -->
     <div class="cloud-bar">
-      <RouterLink class="hero-help" to="/help/rosters" :title="labels.helpSection" :aria-label="labels.helpSection">
-        <i class="bi bi-question-circle"></i>
+      <RouterLink
+        class="hero-help"
+        to="/help/rosters"
+        :title="labels.helpSection"
+        :aria-label="labels.helpSection"
+      >
+        <i class="bi bi-question-circle" />
       </RouterLink>
-      <RosterCloudBar hint class="rl-cloud" />
+      <RosterCloudBar
+        hint
+        class="rl-cloud"
+      />
     </div>
 
     <div class="cta">
-      <button class="btn-primary btn-lg" @click="onNew">
-        <i class="bi bi-plus-lg"></i> {{ labels.rosterNew }}
+      <button
+        class="btn-primary btn-lg"
+        @click="onNew"
+      >
+        <i class="bi bi-plus-lg" /> {{ labels.rosterNew }}
       </button>
       <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
            Pasting it beats rebuilding it, so the second way in sits beside the first. -->
-      <button class="btn-ghost" @click="importOpen = true">
-        <i class="bi bi-clipboard-plus"></i> {{ labels.rosterImport }}
+      <button
+        class="btn-ghost"
+        @click="importOpen = true"
+      >
+        <i class="bi bi-clipboard-plus" /> {{ labels.rosterImport }}
       </button>
     </div>
 
     <!-- Saved lists and unfinished ones are the same kind of card but not the same kind of thing:
          a draft is a wizard run that hasn't been saved yet, so it lives behind its own tab and
          opens back into the wizard rather than into the read-only view. -->
-    <PageTabs class="rl-tabs" :tabs="tabs" @select="tab = $event" />
+    <PageTabs
+      class="rl-tabs"
+      :tabs="tabs"
+      @select="tab = $event"
+    />
 
     <!-- An empty screen is where somebody stands who has not decided this is worth their evening,
          so it is also where the explanation belongs — not three taps away in a help menu. -->
-    <p v-if="!shown.length" class="empty">{{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}</p>
-    <TransitionGroup v-else tag="ul" name="list" class="rosters">
+    <p
+      v-if="!shown.length"
+      class="empty"
+    >
+      {{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}
+    </p>
+    <TransitionGroup
+      v-else
+      tag="ul"
+      name="list"
+      class="rosters"
+    >
       <li
         v-for="r in shown"
         :key="r.id"
@@ -57,27 +85,49 @@
             :aria-label="labels.trackerDelete"
             @click.stop="pendingDelete = r.id"
           >
-            <i class="bi bi-trash"></i>
+            <i class="bi bi-trash" />
           </button>
-          <button v-else class="kebab" :aria-label="labels.rosterMoreActions" @click.stop="menuFor = r.id">
-            <i class="bi bi-three-dots-vertical"></i>
+          <button
+            v-else
+            class="kebab"
+            :aria-label="labels.rosterMoreActions"
+            @click.stop="menuFor = r.id"
+          >
+            <i class="bi bi-three-dots-vertical" />
           </button>
         </div>
-        <span v-if="factionOf(r)" class="rfaction">{{ factionOf(r).name }}</span>
+        <span
+          v-if="factionOf(r)"
+          class="rfaction"
+        >{{ factionOf(r).name }}</span>
         <div class="roster-meta">
           <span class="meta-left">
-            <span class="rpoints" :class="{ over: (r.summary?.points || 0) > limitOf(r) }">
+            <span
+              class="rpoints"
+              :class="{ over: (r.summary?.points || 0) > limitOf(r) }"
+            >
               {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
             </span>
             <!-- What this list did on the table. Only ever present on a saved list — a draft
                  can't be attached to a game — and it links nowhere: the full record is on
                  /tracker/stats, which the tracker page carries a way into. -->
-            <span v-if="recordOf(r)" class="rrec" :title="labels.statsTitle">
-              <i class="bi bi-trophy"></i> {{ recordOf(r) }}
+            <span
+              v-if="recordOf(r)"
+              class="rrec"
+              :title="labels.statsTitle"
+            >
+              <i class="bi bi-trophy" /> {{ recordOf(r) }}
             </span>
-            <span v-if="r.draft" class="rstep">{{ draftStepLabel(r) }}</span>
-            <span v-else-if="r.summary?.issues" class="issues" :title="String(r.summary.issues)">
-              <i class="bi bi-exclamation-triangle-fill"></i> {{ r.summary.issues }}
+            <span
+              v-if="r.draft"
+              class="rstep"
+            >{{ draftStepLabel(r) }}</span>
+            <span
+              v-else-if="r.summary?.issues"
+              class="issues"
+              :title="String(r.summary.issues)"
+            >
+              <i class="bi bi-exclamation-triangle-fill" /> {{ r.summary.issues }}
             </span>
           </span>
           <span class="date">{{ formatDate(r.updatedAt) }}</span>
@@ -86,21 +136,54 @@
     </TransitionGroup>
 
     <!-- Per-card actions: edit / duplicate / delete (mirrors the tracker's per-card actions sheet). -->
-    <BaseModal v-if="menuFor" max-width="340px" @close="menuFor = null">
+    <BaseModal
+      v-if="menuFor"
+      max-width="340px"
+      @close="menuFor = null"
+    >
       <template #header>
         <header class="modal-head">
-          <h3 class="mh-title">{{ menuRosterName }}</h3>
-          <button class="mh-close" :aria-label="labels.modalClose" @click="menuFor = null">✕</button>
+          <h3 class="mh-title">
+            {{ menuRosterName }}
+          </h3>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="menuFor = null"
+          >
+            ✕
+          </button>
         </header>
       </template>
       <!-- Saved lists only — a draft deletes from its own card and never opens this. -->
       <div class="modal-body act-list">
-        <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
+        <button
+          class="act-btn"
+          @click="onEdit(menuFor)"
+        >
+          {{ labels.rosterEdit }}
+        </button>
         <!-- Export from here as well as from the editor: a finished list is passed on far more
              often than it is edited, and opening the editor to copy it is a detour. -->
-        <button class="act-btn" :disabled="exportBusy" @click="onExport(menuFor)">{{ labels.rosterExportTitle }}</button>
-        <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
-        <button class="act-btn act-danger" @click="onDelete(menuFor)">{{ labels.trackerDelete }}</button>
+        <button
+          class="act-btn"
+          :disabled="exportBusy"
+          @click="onExport(menuFor)"
+        >
+          {{ labels.rosterExportTitle }}
+        </button>
+        <button
+          class="act-btn"
+          @click="onDuplicate(menuFor)"
+        >
+          {{ labels.rosterDuplicate }}
+        </button>
+        <button
+          class="act-btn act-danger"
+          @click="onDelete(menuFor)"
+        >
+          {{ labels.trackerDelete }}
+        </button>
       </div>
     </BaseModal>
 
@@ -114,7 +197,11 @@
       @close="pendingDelete = null"
     />
 
-    <RosterImportModal v-if="importOpen" @imported="onImported" @close="importOpen = false" />
+    <RosterImportModal
+      v-if="importOpen"
+      @imported="onImported"
+      @close="importOpen = false"
+    />
 
     <RosterExportModal
       v-if="exportRoster"

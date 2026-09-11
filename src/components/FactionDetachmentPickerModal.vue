@@ -1,5 +1,9 @@
 <template>
-  <BaseModal :title="title || labels.factionDetachments" max-width="480px" @close="$emit('close')">
+  <BaseModal
+    :title="title || labels.factionDetachments"
+    max-width="480px"
+    @close="$emit('close')"
+  >
     <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
          (style.css) that keeps a scroll at the list's end from chaining to the page behind.
          There is deliberately no body scroll-lock, so this class is what contains it. -->
@@ -15,12 +19,27 @@
         <span class="fdp-top">
           <span class="fdp-heading">
             <span class="fdp-name">{{ d.name }}</span>
-            <span v-if="d.nameRu" class="fdp-name-ru">{{ d.nameRu }}</span>
+            <span
+              v-if="d.nameRu"
+              class="fdp-name-ru"
+            >{{ d.nameRu }}</span>
           </span>
-          <span v-if="d.dp || d.unique || d.tag" class="fdp-side">
-            <span v-if="d.dp" class="fdp-dp">{{ d.dp }} DP</span>
-            <span v-if="d.unique" class="fdp-unique">{{ d.unique }}</span>
-            <span v-if="d.tag" class="fdp-unique">{{ d.tag }}</span>
+          <span
+            v-if="d.dp || d.unique || d.tag"
+            class="fdp-side"
+          >
+            <span
+              v-if="d.dp"
+              class="fdp-dp"
+            >{{ d.dp }} DP</span>
+            <span
+              v-if="d.unique"
+              class="fdp-unique"
+            >{{ d.unique }}</span>
+            <span
+              v-if="d.tag"
+              class="fdp-unique"
+            >{{ d.tag }}</span>
           </span>
         </span>
       </button>

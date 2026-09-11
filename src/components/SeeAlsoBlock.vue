@@ -1,15 +1,27 @@
 <template>
   <div class="see-also">
-    <div class="see-also-label">{{ locale === 'ru' ? 'Смотрите также' : 'See also' }}</div>
-    <div v-if="title" class="see-also-title">{{ title }}</div>
+    <div class="see-also-label">
+      {{ locale === 'ru' ? 'Смотрите также' : 'See also' }}
+    </div>
+    <div
+      v-if="title"
+      class="see-also-title"
+    >
+      {{ title }}
+    </div>
     <ul>
-      <li v-for="{ ref, r } in resolvedRefs" :key="ref">
+      <li
+        v-for="{ ref, r } in resolvedRefs"
+        :key="ref"
+      >
         <RouterLink
           v-if="r.route"
           :to="{ path: r.route, hash: '#' + r.anchor }"
           class="see-also-link"
           @click.prevent="navigateTo(r)"
-        >{{ r.label }}</RouterLink>
+        >
+          {{ r.label }}
+        </RouterLink>
         <span v-else>{{ ref }}</span>
       </li>
     </ul>

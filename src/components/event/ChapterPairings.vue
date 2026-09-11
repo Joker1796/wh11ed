@@ -1,13 +1,31 @@
 <template>
-  <h2 class="chapter-heading">{{ labels.eventPairingsHeading }}</h2>
-  <p class="chapter-desc">{{ labels.eventPairingsDesc }}</p>
+  <h2 class="chapter-heading">
+    {{ labels.eventPairingsHeading }}
+  </h2>
+  <p class="chapter-desc">
+    {{ labels.eventPairingsDesc }}
+  </p>
 
-  <p class="lead">{{ pairings.intro }}</p>
+  <p class="lead">
+    {{ pairings.intro }}
+  </p>
 
-  <template v-for="grp in chunks" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
-      <template v-for="block in grp.items" :key="block.id">
-        <div v-if="block.flavor" class="event-flavor">
+  <template
+    v-for="grp in chunks"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
+      <template
+        v-for="block in grp.items"
+        :key="block.id"
+      >
+        <div
+          v-if="block.flavor"
+          class="event-flavor"
+        >
           <RuleBlock
             :id="block.id"
             :title="block.title"
@@ -27,7 +45,10 @@
       </template>
     </div>
     <template v-else>
-      <div v-if="grp.item.flavor" class="event-flavor">
+      <div
+        v-if="grp.item.flavor"
+        class="event-flavor"
+      >
         <RuleBlock
           :id="grp.item.id"
           :title="grp.item.title"

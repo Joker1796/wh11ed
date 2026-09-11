@@ -1,15 +1,36 @@
 <template>
-  <div v-if="briefing && briefing.length" class="m-briefing">
-    <template v-for="(part, pi) in briefing" :key="pi">
-      <div v-if="part.action" class="m-action">
-        <div class="m-action-head">{{ part.action }}</div>
-        <div v-for="(r, ri) in part.rows" :key="ri" class="m-action-row">
+  <div
+    v-if="briefing && briefing.length"
+    class="m-briefing"
+  >
+    <template
+      v-for="(part, pi) in briefing"
+      :key="pi"
+    >
+      <div
+        v-if="part.action"
+        class="m-action"
+      >
+        <div class="m-action-head">
+          {{ part.action }}
+        </div>
+        <div
+          v-for="(r, ri) in part.rows"
+          :key="ri"
+          class="m-action-row"
+        >
           <span class="m-action-label">{{ r.label }}</span>
           <span class="m-action-text">{{ r.text }}</span>
         </div>
       </div>
-      <p v-else class="m-brief-p">
-        <span v-if="part.label" class="m-brief-label">{{ part.label }}:</span>
+      <p
+        v-else
+        class="m-brief-p"
+      >
+        <span
+          v-if="part.label"
+          class="m-brief-label"
+        >{{ part.label }}:</span>
         {{ part.text }}
       </p>
     </template>

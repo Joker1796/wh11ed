@@ -1,71 +1,130 @@
 <template>
-  <BaseModal max-width="480px" @close="$emit('close')">
-      <template #header>
-        <header class="modal-head">
-          <div class="mh-text">
-            <h3 class="mh-title">{{ title }}</h3>
-            <p v-if="subtitle" class="mh-sub">{{ subtitle }}</p>
-          </div>
-          <div class="mh-right">
-            <span class="mh-vp">{{ vp }} VP</span>
-            <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
-          </div>
-        </header>
+  <BaseModal
+    max-width="480px"
+    @close="$emit('close')"
+  >
+    <template #header>
+      <header class="modal-head">
+        <div class="mh-text">
+          <h3 class="mh-title">
+            {{ title }}
+          </h3>
+          <p
+            v-if="subtitle"
+            class="mh-sub"
+          >
+            {{ subtitle }}
+          </p>
+        </div>
+        <div class="mh-right">
+          <span class="mh-vp">{{ vp }} VP</span>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="$emit('close')"
+          >
+            ✕
+          </button>
+        </div>
+      </header>
+    </template>
+
+    <div class="modal-body">
+      <p
+        v-if="readonly"
+        class="view-only"
+      >
+        <i class="bi bi-eye" /> {{ labels.trackerViewOnly }}
+      </p>
+
+      <template v-if="briefing && briefing.length">
+        <button
+          class="brief-toggle"
+          :aria-expanded="briefingOpen"
+          @click="toggleBriefing"
+        >
+          <span>{{ labels.trackerBriefing }}</span>
+          <i
+            class="bi"
+            :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"
+          />
+        </button>
+        <CollapseTransition :show="briefingOpen">
+          <MissionBriefing :briefing="briefing" />
+        </CollapseTransition>
       </template>
 
-      <div class="modal-body">
-        <p v-if="readonly" class="view-only">
-          <i class="bi bi-eye"></i> {{ labels.trackerViewOnly }}
-        </p>
+      <button
+        v-if="whenDrawn && !readonly"
+        class="redraw-btn"
+        @click="$emit('redraw', whenDrawn.mode)"
+      >
+        {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
+      </button>
 
-        <template v-if="briefing && briefing.length">
-          <button class="brief-toggle" @click="toggleBriefing" :aria-expanded="briefingOpen">
-            <span>{{ labels.trackerBriefing }}</span>
-            <i class="bi" :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-          </button>
-          <CollapseTransition :show="briefingOpen">
-            <MissionBriefing :briefing="briefing" />
-          </CollapseTransition>
-        </template>
-
-        <button v-if="whenDrawn && !readonly" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
-          {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
-        </button>
-
-        <div v-for="b in blocks" :key="b.bi" class="m-block">
-          <div class="m-bhead">
-            <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
-            <span class="m-heading">{{ b.heading }}</span>
-            <span v-if="b.when" class="m-when">{{ b.when }}</span>
-          </div>
-          <label v-for="r in b.rows" :key="r.ri" class="m-cond" :class="{ on: count(b.bi, r.ri) > 0, readonly }">
-            <!-- Read-only (set-aside card): show the recorded value, no editable controls. -->
-            <span v-if="readonly" class="m-static" :class="{ hit: count(b.bi, r.ri) > 0 }">
-              {{ r.perEach ? count(b.bi, r.ri) : (count(b.bi, r.ri) > 0 ? '✓' : '—') }}
-            </span>
-            <NumberStepper
-              v-else-if="r.perEach"
-              :modelValue="count(b.bi, r.ri)"
-              :min="0" :max="20"
-              @update:modelValue="v => $emit('set', b.bi, r.ri, v)"
-            />
-            <input
-              v-else
-              type="checkbox"
-              class="m-check"
-              :checked="count(b.bi, r.ri) > 0"
-              @change="e => $emit('set', b.bi, r.ri, e.target.checked ? 1 : 0)"
-            />
-            <span class="m-text">
-              <em v-if="r.modifier === 'or' && !r.perEach" class="or">{{ labels.trackerOr }}</em>
-              {{ r.text }}
-              <strong>{{ r.vp }} VP{{ r.perEach ? ' ' + labels.trackerEach : '' }}</strong>
-            </span>
-          </label>
+      <div
+        v-for="b in blocks"
+        :key="b.bi"
+        class="m-block"
+      >
+        <div class="m-bhead">
+          <span
+            v-if="b.kind"
+            class="kind"
+            :class="b.kind"
+          >{{ b.kind }}</span>
+          <span class="m-heading">{{ b.heading }}</span>
+          <span
+            v-if="b.when"
+            class="m-when"
+          >{{ b.when }}</span>
         </div>
+        <label
+          v-for="r in b.rows"
+          :key="r.ri"
+          class="m-cond"
+          :class="{ on: count(b.bi, r.ri) > 0, readonly }"
+        >
+          <!-- Read-only (set-aside card): show the recorded value, no editable controls. -->
+          <span
+            v-if="readonly"
+            class="m-static"
+            :class="{ hit: count(b.bi, r.ri) > 0 }"
+          >
+            {{ r.perEach ? count(b.bi, r.ri) : (count(b.bi, r.ri) > 0 ? '✓' : '—') }}
+          </span>
+          <NumberStepper
+            v-else-if="r.perEach"
+            :model-value="count(b.bi, r.ri)"
+            :min="0"
+            :max="20"
+            @update:model-value="v => $emit('set', b.bi, r.ri, v)"
+          />
+          <input
+            v-else
+            type="checkbox"
+            class="m-check"
+            :checked="count(b.bi, r.ri) > 0"
+            @change="e => $emit('set', b.bi, r.ri, e.target.checked ? 1 : 0)"
+          >
+          <span class="m-text">
+            <em
+              v-if="r.modifier === 'or' && !r.perEach"
+              class="or"
+            >{{ labels.trackerOr }}</em>
+            {{ r.text }}
+            <strong>{{ r.vp }} VP{{ r.perEach ? ' ' + labels.trackerEach : '' }}</strong>
+          </span>
+        </label>
       </div>
+    </div>
 
-      <footer v-if="note" class="modal-foot">{{ note }}</footer>
+    <footer
+      v-if="note"
+      class="modal-foot"
+    >
+      {{ note }}
+    </footer>
   </BaseModal>
 </template>
 

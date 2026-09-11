@@ -1,7 +1,10 @@
 <template>
   <header class="navbar">
     <div class="navbar-inner">
-      <RouterLink to="/" class="navbar-logo">
+      <RouterLink
+        to="/"
+        class="navbar-logo"
+      >
         <span class="logo-wh">WH40K</span>
         <span class="logo-sub">11th Edition</span>
       </RouterLink>
@@ -18,7 +21,9 @@
             :class="{ active: isRulesRoute }"
             aria-haspopup="true"
             @click="closeRulesMenu"
-          >{{ labels.navRules }}</RouterLink>
+          >
+            {{ labels.navRules }}
+          </RouterLink>
           <div class="nav-dropdown-menu">
             <div class="nav-dropdown-panel nav-dropdown-panel-simple">
               <RouterLink
@@ -27,7 +32,9 @@
                 :to="s.path"
                 class="nd-link"
                 @click="closeRulesMenu"
-              >{{ s.label }}</RouterLink>
+              >
+                {{ s.label }}
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -42,14 +49,35 @@
             :class="{ active: isFactionRoute }"
             aria-haspopup="true"
             @click="closeFactionMenu"
-          >{{ labels.navFactions }}</RouterLink>
+          >
+            {{ labels.navFactions }}
+          </RouterLink>
           <div class="nav-dropdown-menu">
             <div class="nav-dropdown-panel">
-              <div v-for="g in factionGroups" :key="g.id" class="nd-group">
-                <h4 class="nd-group-title">{{ labels[groupLabelKey(g.id)] }}</h4>
-                <template v-for="f in g.factions" :key="f.slug">
-                  <RouterLink v-if="f.ready" :to="`/factions/${f.slug}`" class="nd-link" @click="closeFactionMenu">{{ f.name }}</RouterLink>
-                  <span v-else class="nd-link disabled">{{ f.name }}<span class="nd-soon">{{ labels.factionsSoon }}</span></span>
+              <div
+                v-for="g in factionGroups"
+                :key="g.id"
+                class="nd-group"
+              >
+                <h4 class="nd-group-title">
+                  {{ labels[groupLabelKey(g.id)] }}
+                </h4>
+                <template
+                  v-for="f in g.factions"
+                  :key="f.slug"
+                >
+                  <RouterLink
+                    v-if="f.ready"
+                    :to="`/factions/${f.slug}`"
+                    class="nd-link"
+                    @click="closeFactionMenu"
+                  >
+                    {{ f.name }}
+                  </RouterLink>
+                  <span
+                    v-else
+                    class="nd-link disabled"
+                  >{{ f.name }}<span class="nd-soon">{{ labels.factionsSoon }}</span></span>
                 </template>
               </div>
             </div>
@@ -59,18 +87,45 @@
           to="/tracker"
           class="nav-link"
           :class="{ active: isTrackerRoute }"
-        >{{ labels.navTracker }}</RouterLink>
+        >
+          {{ labels.navTracker }}
+        </RouterLink>
         <RouterLink
           to="/roster"
           class="nav-link"
           :class="{ active: isRosterRoute }"
-        >{{ labels.navRoster }}</RouterLink>
+        >
+          {{ labels.navRoster }}
+        </RouterLink>
       </nav>
 
       <div class="navbar-actions">
-        <button class="search-btn" @click="$emit('open-search')" :title="labels.ariaSearchTitle" :aria-label="labels.ariaSearchTitle">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <button
+          class="search-btn"
+          :title="labels.ariaSearchTitle"
+          :aria-label="labels.ariaSearchTitle"
+          @click="$emit('open-search')"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="8"
+            /><line
+              x1="21"
+              y1="21"
+              x2="16.65"
+              y2="16.65"
+            />
           </svg>
           <span class="search-hint">Ctrl K</span>
         </button>
@@ -78,54 +133,77 @@
           class="lang-btn"
           role="switch"
           :aria-checked="locale === 'ru'"
-          @click="toggleLocale"
           :title="locale === 'en' ? labels.langToRu : labels.langToEn"
           :aria-label="locale === 'en' ? labels.langToRu : labels.langToEn"
+          @click="toggleLocale"
         >
-          <span class="lang-thumb" aria-hidden="true"></span>
-          <span class="lang-opt" data-lang="en">EN</span>
-          <span class="lang-opt" data-lang="ru">RU</span>
+          <span
+            class="lang-thumb"
+            aria-hidden="true"
+          />
+          <span
+            class="lang-opt"
+            data-lang="en"
+          >EN</span>
+          <span
+            class="lang-opt"
+            data-lang="ru"
+          >RU</span>
         </button>
         <button
           class="lore-btn"
           :class="{ active: hideLore }"
-          @click="toggleLore"
           :title="hideLore ? labels.loreShow : labels.loreHide"
           :aria-label="hideLore ? labels.loreShow : labels.loreHide"
           :aria-pressed="hideLore"
+          @click="toggleLore"
         >
-          <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
+          <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
         </button>
         <button
           class="theme-btn"
-          @click="toggleTheme"
           :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
           :aria-label="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
+          @click="toggleTheme"
         >
-          <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+          <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
         </button>
         <AccountMenu />
         <div class="settings-wrap">
           <button
             class="settings-btn"
             :class="{ active: settingsOpen }"
-            @click="toggleSettings"
             :aria-expanded="settingsOpen"
             :aria-label="labels.ariaSettings"
+            @click="toggleSettings"
           >
-            <i class="bi bi-gear-fill"></i>
+            <i class="bi bi-gear-fill" />
           </button>
           <Transition name="fade">
-            <div v-if="settingsOpen" class="settings-backdrop" @click="settingsOpen = false"></div>
+            <div
+              v-if="settingsOpen"
+              class="settings-backdrop"
+              @click="settingsOpen = false"
+            />
           </Transition>
           <Transition name="fade-pop">
-            <div v-if="settingsOpen" class="settings-menu">
-              <button class="settings-item" @click="toggleTheme">
-                <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+            <div
+              v-if="settingsOpen"
+              class="settings-menu"
+            >
+              <button
+                class="settings-item"
+                @click="toggleTheme"
+              >
+                <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'" />
                 <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
               </button>
-              <button class="settings-item" :class="{ active: hideLore }" @click="toggleLore">
-                <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
+              <button
+                class="settings-item"
+                :class="{ active: hideLore }"
+                @click="toggleLore"
+              >
+                <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'" />
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
               <button
@@ -133,18 +211,21 @@
                 class="settings-item"
                 @click="onInstallClick"
               >
-                <i class="bi bi-download"></i>
+                <i class="bi bi-download" />
                 <span>{{ labels.installApp }}</span>
               </button>
               <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
                    here it joins the theme and lore toggles rather than crowding the navbar. -->
               <template v-if="accountStatus === 'authed'">
                 <p class="settings-who">
-                  <i class="bi bi-cloud-check-fill"></i>
+                  <i class="bi bi-cloud-check-fill" />
                   <span>{{ accountName || labels.cloudSignedIn }}</span>
                 </p>
-                <button class="settings-item" @click="onSignOut">
-                  <i class="bi bi-box-arrow-right"></i>
+                <button
+                  class="settings-item"
+                  @click="onSignOut"
+                >
+                  <i class="bi bi-box-arrow-right" />
                   <span>{{ labels.cloudSignOut }}</span>
                 </button>
               </template>
@@ -154,11 +235,15 @@
                 :disabled="accountStatus === 'idle'"
                 @click="onSignIn"
               >
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person" />
                 <span>{{ labels.cloudSignInYandex }}</span>
               </button>
-              <button v-if="accountDev" class="settings-item" @click="onMockToggle">
-                <i class="bi bi-wrench"></i>
+              <button
+                v-if="accountDev"
+                class="settings-item"
+                @click="onMockToggle"
+              >
+                <i class="bi bi-wrench" />
                 <span>{{ accountStatus === 'authed' ? 'тест-выход' : 'тест-вход' }}</span>
               </button>
             </div>
@@ -167,11 +252,11 @@
         <button
           class="hamburger"
           :class="{ open: mobileNavOpen }"
-          @click="$emit('toggle-mobile-nav')"
           :aria-expanded="mobileNavOpen"
           :aria-label="labels.ariaToggleMenu"
+          @click="$emit('toggle-mobile-nav')"
         >
-          <span></span><span></span><span></span>
+          <span /><span /><span />
         </button>
       </div>
     </div>

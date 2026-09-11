@@ -1,25 +1,62 @@
 <template>
-  <BaseModal :title="labels.navFactions" @close="$emit('close')">
+  <BaseModal
+    :title="labels.navFactions"
+    @close="$emit('close')"
+  >
     <div class="modal-body modal-list">
       <template v-if="pinned.length">
-        <h4 class="fp-group">{{ labels.favPinnedGroup }}</h4>
-        <div v-for="f in pinned" :key="'pin-' + f.slug" class="fac">
-          <RouterLink :to="`/factions/${f.slug}`" class="fac-link" @click="$emit('close')">
+        <h4 class="fp-group">
+          {{ labels.favPinnedGroup }}
+        </h4>
+        <div
+          v-for="f in pinned"
+          :key="'pin-' + f.slug"
+          class="fac"
+        >
+          <RouterLink
+            :to="`/factions/${f.slug}`"
+            class="fac-link"
+            @click="$emit('close')"
+          >
             <span class="fac-name">{{ f.name }}</span>
           </RouterLink>
-          <FavoriteStar :pinned="true" @toggle="toggleFaction(f.slug)" />
+          <FavoriteStar
+            :pinned="true"
+            @toggle="toggleFaction(f.slug)"
+          />
         </div>
       </template>
-      <template v-for="g in factionGroups" :key="g.id">
-        <h4 class="fp-group">{{ labels[groupLabelKey(g.id)] }}</h4>
-        <template v-for="f in g.factions" :key="f.slug">
-          <div v-if="f.ready" class="fac">
-            <RouterLink :to="`/factions/${f.slug}`" class="fac-link" @click="$emit('close')">
+      <template
+        v-for="g in factionGroups"
+        :key="g.id"
+      >
+        <h4 class="fp-group">
+          {{ labels[groupLabelKey(g.id)] }}
+        </h4>
+        <template
+          v-for="f in g.factions"
+          :key="f.slug"
+        >
+          <div
+            v-if="f.ready"
+            class="fac"
+          >
+            <RouterLink
+              :to="`/factions/${f.slug}`"
+              class="fac-link"
+              @click="$emit('close')"
+            >
               <span class="fac-name">{{ f.name }}</span>
             </RouterLink>
-            <FavoriteStar :pinned="isFactionPinned(f.slug)" @toggle="toggleFaction(f.slug)" />
+            <FavoriteStar
+              :pinned="isFactionPinned(f.slug)"
+              @toggle="toggleFaction(f.slug)"
+            />
           </div>
-          <span v-else class="fac disabled">
+          <span
+            v-else
+            class="fac disabled"
+          >
             <span class="fac-name">{{ f.name }}</span>
             <span class="soon">{{ labels.factionsSoon }}</span>
           </span>

@@ -1,19 +1,47 @@
 <template>
-  <BaseModal :title="labels.trackerLayoutPickerTitle" max-width="560px" max-height="90dvh" @close="$emit('close')">
-      <div class="modal-body">
-        <MissionMatrix :dispositions="dispositions" :selected="sel" @select="sel = $event" />
+  <BaseModal
+    :title="labels.trackerLayoutPickerTitle"
+    max-width="560px"
+    max-height="90dvh"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <MissionMatrix
+        :dispositions="dispositions"
+        :selected="sel"
+        @select="sel = $event"
+      />
 
-        <div v-if="activeMatchup" class="lp-layouts">
-          <h4 class="lp-matchup">{{ matchupLabel(activeMatchup) }}</h4>
-          <div v-for="l in activeMatchup.layouts" :key="l.id" class="lp-layout" :class="{ on: isSelected(l) }">
-            <LayoutCard :layout="l" />
-            <button class="lp-pick" :class="{ on: isSelected(l) }" @click="pick(activeMatchup, l)">
-              {{ isSelected(l) ? '✓ ' : '' }}{{ labels.trackerSelect }}
-            </button>
-          </div>
+      <div
+        v-if="activeMatchup"
+        class="lp-layouts"
+      >
+        <h4 class="lp-matchup">
+          {{ matchupLabel(activeMatchup) }}
+        </h4>
+        <div
+          v-for="l in activeMatchup.layouts"
+          :key="l.id"
+          class="lp-layout"
+          :class="{ on: isSelected(l) }"
+        >
+          <LayoutCard :layout="l" />
+          <button
+            class="lp-pick"
+            :class="{ on: isSelected(l) }"
+            @click="pick(activeMatchup, l)"
+          >
+            {{ isSelected(l) ? '✓ ' : '' }}{{ labels.trackerSelect }}
+          </button>
         </div>
-        <p v-else class="lp-hint">{{ labels.trackerLayoutPickerHint }}</p>
       </div>
+      <p
+        v-else
+        class="lp-hint"
+      >
+        {{ labels.trackerLayoutPickerHint }}
+      </p>
+    </div>
   </BaseModal>
 </template>
 

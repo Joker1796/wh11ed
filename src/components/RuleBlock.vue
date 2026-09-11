@@ -1,10 +1,26 @@
 <template>
-  <div class="rule-block" :id="id">
-    <div class="rule-header" :class="{ 'rule-header--type': bodyIsInfoCard }">
-      <span v-if="sectionNum" class="section-num">{{ sectionNum }}</span>
+  <div
+    :id="id"
+    class="rule-block"
+  >
+    <div
+      class="rule-header"
+      :class="{ 'rule-header--type': bodyIsInfoCard }"
+    >
+      <span
+        v-if="sectionNum"
+        class="section-num"
+      >{{ sectionNum }}</span>
       <div class="rule-title-wrap">
-        <h3 class="rule-title">{{ title }}</h3>
-        <div v-if="subtitle" class="rule-title-ru">{{ subtitle }}</div>
+        <h3 class="rule-title">
+          {{ title }}
+        </h3>
+        <div
+          v-if="subtitle"
+          class="rule-title-ru"
+        >
+          {{ subtitle }}
+        </div>
       </div>
     </div>
 
@@ -12,24 +28,50 @@
       <!-- An info-card (◈…) body is a grid of labeled rows, not reflowing prose — floating
            SeeAlsoBlock beside it (the normal placement) squeezes its rows instead of wrapping
            cleanly. Render it after the table for those bodies instead. -->
-      <SeeAlsoBlock v-if="seeAlso && seeAlso.length && !bodyIsInfoCard" :refs="seeAlso" />
+      <SeeAlsoBlock
+        v-if="seeAlso && seeAlso.length && !bodyIsInfoCard"
+        :refs="seeAlso"
+      />
 
-      <div class="rule-body" @click="handleDefClick">
-        <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { '--side-image-width': sideImage.width } : undefined" />
-        <RuleBody :id="id" :body="body" />
+      <div
+        class="rule-body"
+        @click="handleDefClick"
+      >
+        <AppImage
+          v-if="sideImage"
+          class="side-image"
+          :src="sideImage.src"
+          :alt="sideImage.alt"
+          :style="sideImage.width ? { '--side-image-width': sideImage.width } : undefined"
+        />
+        <RuleBody
+          :id="id"
+          :body="body"
+        />
 
-        <SeeAlsoBlock v-if="seeAlso && seeAlso.length && bodyIsInfoCard" :refs="seeAlso" />
+        <SeeAlsoBlock
+          v-if="seeAlso && seeAlso.length && bodyIsInfoCard"
+          :refs="seeAlso"
+        />
 
-        <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
+        <div
+          v-if="note"
+          class="note-box"
+          v-html="renderParagraphs(note)"
+        />
 
-        <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
+        <div
+          v-if="example"
+          class="example-block"
+          v-html="renderInline(example)"
+        />
 
-        <slot></slot>
+        <slot />
 
         <SubRuleBlock
           v-for="child in children"
-          :key="child.id"
           :id="child.id"
+          :key="child.id"
           :section-num="child.sectionNum"
           :title="child.title"
           :body="child.body"

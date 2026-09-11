@@ -1,14 +1,28 @@
 <template>
   <!-- Top-of-screen notice that a new version shipped; links to the /changelog page. Mirrors
        DomainMoveBanner's placement (first child of .app-layout) and look. -->
-  <div v-if="visible" class="update-banner" role="status">
-    <i class="bi bi-stars ub-icon"></i>
-    <button class="ub-close" @click="markSeen" :aria-label="labels.updateDismiss">
-      <i class="bi bi-x"></i>
+  <div
+    v-if="visible"
+    class="update-banner"
+    role="status"
+  >
+    <i class="bi bi-stars ub-icon" />
+    <button
+      class="ub-close"
+      :aria-label="labels.updateDismiss"
+      @click="markSeen"
+    >
+      <i class="bi bi-x" />
     </button>
     <p class="ub-text">
       {{ labels.updateNoticeTitle }} <strong class="ub-ver">v{{ entry.version }}</strong>
-      <RouterLink to="/changelog" class="ub-link" @click="markSeen">{{ labels.updateNoticeAction }} →</RouterLink>
+      <RouterLink
+        to="/changelog"
+        class="ub-link"
+        @click="markSeen"
+      >
+        {{ labels.updateNoticeAction + ' →' }}
+      </RouterLink>
     </p>
   </div>
 </template>

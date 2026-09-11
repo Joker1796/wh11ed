@@ -2,20 +2,37 @@
   <!-- One row of a tracker picker: a name that expands to the full card, and a Select button
        glued to its right. Three modals draw exactly this list (missions, secondaries, twists) and
        used to carry three copies of the markup and of the seven `.tp-*` rules under it. -->
-  <div class="tp-item" :class="{ on: selected }">
+  <div
+    class="tp-item"
+    :class="{ on: selected }"
+  >
     <div class="tp-row">
-      <button class="tp-toggle" :aria-expanded="open" @click="$emit('toggle-open')">
+      <button
+        class="tp-toggle"
+        :aria-expanded="open"
+        @click="$emit('toggle-open')"
+      >
         <span class="tp-name">{{ name }}</span>
-        <i class="bi tp-chev" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+        <i
+          class="bi tp-chev"
+          :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+        />
       </button>
-      <button class="tp-pick" :class="{ on: selected }" :disabled="disabled" @click="$emit('pick')">
+      <button
+        class="tp-pick"
+        :class="{ on: selected }"
+        :disabled="disabled"
+        @click="$emit('pick')"
+      >
         {{ selected ? '✓ ' : '' }}{{ labels.trackerSelect }}
       </button>
     </div>
     <CollapseTransition :show="open">
       <!-- Whatever the picker shows about this entry — a MissionCard, a rule body. It renders in
            the CONSUMER's scope, so its styling stays with the modal that supplies it. -->
-      <div class="tp-body"><slot /></div>
+      <div class="tp-body">
+        <slot />
+      </div>
     </CollapseTransition>
   </div>
 </template>

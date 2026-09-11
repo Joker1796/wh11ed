@@ -1,7 +1,18 @@
 <template>
   <picture>
-    <source media="(max-width: 640px)" :srcset="sm" />
-    <img v-bind="$attrs" :src="full" :alt="alt" :width="dims?.[0]" :height="dims?.[1]" loading="lazy" decoding="async" />
+    <source
+      media="(max-width: 640px)"
+      :srcset="sm"
+    >
+    <img
+      v-bind="$attrs"
+      :src="full"
+      :alt="alt"
+      :width="dims?.[0]"
+      :height="dims?.[1]"
+      loading="lazy"
+      decoding="async"
+    >
   </picture>
 </template>
 

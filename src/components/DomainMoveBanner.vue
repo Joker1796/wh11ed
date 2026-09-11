@@ -1,26 +1,49 @@
 <template>
-  <div v-if="visible" class="domain-banner" role="status">
-    <i class="bi bi-signpost-2 db-icon"></i>
-    <button class="db-close" @click="dismiss" :aria-label="labels.updateDismiss">
-      <i class="bi bi-x"></i>
+  <div
+    v-if="visible"
+    class="domain-banner"
+    role="status"
+  >
+    <i class="bi bi-signpost-2 db-icon" />
+    <button
+      class="db-close"
+      :aria-label="labels.updateDismiss"
+      @click="dismiss"
+    >
+      <i class="bi bi-x" />
     </button>
     <template v-if="mode === 'pre'">
       <p class="db-title">
         {{ labels.domainMovePreTitle }}
-        <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
+        <a
+          :href="MOVED_TO_ORIGIN"
+          class="db-link"
+        >{{ newHost }}</a>
       </p>
       <p class="db-note">
         {{ labels.domainMovePreNote1 }}
-        <RouterLink to="/tracker" class="db-link">{{ labels.domainMovePreCta }}</RouterLink>
+        <RouterLink
+          to="/tracker"
+          class="db-link"
+        >
+          {{ labels.domainMovePreCta }}
+        </RouterLink>
       </p>
-      <p class="db-note">{{ labels.domainMovePreNote2 }}</p>
+      <p class="db-note">
+        {{ labels.domainMovePreNote2 }}
+      </p>
     </template>
     <template v-else>
       <p class="db-title">
         {{ labels.domainMoveTitle }}
-        <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
+        <a
+          :href="MOVED_TO_ORIGIN"
+          class="db-link"
+        >{{ newHost }}</a>
       </p>
-      <p class="db-note">{{ labels.domainMoveNote }}</p>
+      <p class="db-note">
+        {{ labels.domainMoveNote }}
+      </p>
     </template>
   </div>
 </template>

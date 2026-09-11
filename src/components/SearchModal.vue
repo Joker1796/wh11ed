@@ -1,9 +1,38 @@
 <template>
-  <div class="search-overlay" @click.self="$emit('close')">
-    <div ref="boxEl" class="search-box" role="dialog" aria-modal="true" :aria-label="labels.ariaSearchDialog" tabindex="-1">
+  <div
+    class="search-overlay"
+    @click.self="$emit('close')"
+  >
+    <div
+      ref="boxEl"
+      class="search-box"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="labels.ariaSearchDialog"
+      tabindex="-1"
+    >
       <div class="search-input-wrap">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <svg
+          class="search-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle
+            cx="11"
+            cy="11"
+            r="8"
+          /><line
+            x1="21"
+            y1="21"
+            x2="16.65"
+            y2="16.65"
+          />
         </svg>
         <input
           v-model="query"
@@ -14,15 +43,32 @@
           @keydown.down.prevent="moveSelection(1)"
           @keydown.up.prevent="moveSelection(-1)"
           @keydown.enter.prevent="goToSelected"
-        />
-        <button class="search-close" @click="$emit('close')" :aria-label="labels.ariaCloseSearch">Esc</button>
+        >
+        <button
+          class="search-close"
+          :aria-label="labels.ariaCloseSearch"
+          @click="$emit('close')"
+        >
+          Esc
+        </button>
       </div>
 
-      <div class="search-results" v-if="hasQuery">
-        <div v-if="results.length === 0" class="search-empty">
+      <div
+        v-if="hasQuery"
+        class="search-results"
+      >
+        <div
+          v-if="results.length === 0"
+          class="search-empty"
+        >
           {{ labels.searchNoResults }} "<strong>{{ query }}</strong>"
         </div>
-        <TransitionGroup v-else tag="ul" name="res" class="results-list">
+        <TransitionGroup
+          v-else
+          tag="ul"
+          name="res"
+          class="results-list"
+        >
           <li
             v-for="(item, i) in results"
             :key="item.key || item.id"
@@ -35,17 +81,36 @@
               <span class="result-num">{{ item.sectionNum }}</span>
               <span class="result-section">{{ item.sectionTitle }}</span>
             </div>
-            <div class="result-title" v-html="highlightMatch(item.title, query)"></div>
-            <div class="result-title-ru" v-if="item.titleRu" v-html="highlightMatch(item.titleRu, query)"></div>
-            <div class="result-snippet" v-if="item.snippet" v-html="highlightMatch(item.snippet, query)"></div>
+            <div
+              class="result-title"
+              v-html="highlightMatch(item.title, query)"
+            />
+            <div
+              v-if="item.titleRu"
+              class="result-title-ru"
+              v-html="highlightMatch(item.titleRu, query)"
+            />
+            <div
+              v-if="item.snippet"
+              class="result-snippet"
+              v-html="highlightMatch(item.snippet, query)"
+            />
           </li>
         </TransitionGroup>
       </div>
 
-      <div v-else-if="history.length" class="search-history">
+      <div
+        v-else-if="history.length"
+        class="search-history"
+      >
         <div class="sh-head">
           <span class="sh-title">{{ labels.searchRecent }}</span>
-          <button class="btn-ghost sh-clear" @click="clearHistory">{{ labels.searchClearHistory }}</button>
+          <button
+            class="btn-ghost sh-clear"
+            @click="clearHistory"
+          >
+            {{ labels.searchClearHistory }}
+          </button>
         </div>
         <ul class="results-list">
           <li
@@ -55,13 +120,27 @@
             :class="{ selected: i === selectedIndex }"
             @mouseenter="selectedIndex = i"
           >
-            <button class="sh-pick" @click="pick(h)">{{ h }}</button>
-            <button class="sh-forget" :aria-label="labels.ariaForgetQuery" @click="forget(h)">×</button>
+            <button
+              class="sh-pick"
+              @click="pick(h)"
+            >
+              {{ h }}
+            </button>
+            <button
+              class="sh-forget"
+              :aria-label="labels.ariaForgetQuery"
+              @click="forget(h)"
+            >
+              ×
+            </button>
           </li>
         </ul>
       </div>
 
-      <div v-else class="search-hint-text">
+      <div
+        v-else
+        class="search-hint-text"
+      >
         {{ labels.searchHint }}
       </div>
     </div>

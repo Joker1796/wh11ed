@@ -1,17 +1,41 @@
 <template>
   <div class="tracker-game">
-    <GameSetup v-if="!current || current.phase === 'setup'" @start="onStart" @cancel="goHome" />
+    <GameSetup
+      v-if="!current || current.phase === 'setup'"
+      @start="onStart"
+      @cancel="goHome"
+    />
     <RoundTracker v-else-if="current.phase === 'playing'" />
 
-    <div v-else-if="current.phase === 'finished'" class="finished">
-      <h2 class="finished-title">{{ labels.trackerGameOver }}</h2>
-      <p v-if="endReasonLabel" class="finished-reason">{{ endReasonLabel }}</p>
+    <div
+      v-else-if="current.phase === 'finished'"
+      class="finished"
+    >
+      <h2 class="finished-title">
+        {{ labels.trackerGameOver }}
+      </h2>
+      <p
+        v-if="endReasonLabel"
+        class="finished-reason"
+      >
+        {{ endReasonLabel }}
+      </p>
       <ScoreBoard :finished="true" />
       <ScoreBreakdown />
       <ArmyRuleSummary />
       <div class="finished-actions">
-        <button class="btn-ghost" @click="resume">{{ labels.trackerResume }}</button>
-        <button class="btn-primary" @click="backToTracker">{{ labels.trackerBackToTracker }}</button>
+        <button
+          class="btn-ghost"
+          @click="resume"
+        >
+          {{ labels.trackerResume }}
+        </button>
+        <button
+          class="btn-primary"
+          @click="backToTracker"
+        >
+          {{ labels.trackerBackToTracker }}
+        </button>
       </div>
     </div>
   </div>

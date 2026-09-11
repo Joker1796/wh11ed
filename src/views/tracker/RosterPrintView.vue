@@ -25,10 +25,18 @@
       <!-- Screen only: the panel is `display: none` in print. -->
       <div class="rpv-panel">
         <div class="rpv-panel-head">
-          <RouterLink :to="`/roster/${roster.id}/view`" class="back">← {{ labels.printBack }}</RouterLink>
+          <RouterLink
+            :to="`/roster/${roster.id}/view`"
+            class="back"
+          >
+            {{ '← ' + labels.printBack }}
+          </RouterLink>
           <span class="rpv-pages">{{ labels.printPages.replace('{n}', String(pageCount)) }}</span>
-          <button class="btn-primary rpv-print" @click="print">
-            <i class="bi bi-printer"></i> {{ labels.printAction }}
+          <button
+            class="btn-primary rpv-print"
+            @click="print"
+          >
+            <i class="bi bi-printer" /> {{ labels.printAction }}
           </button>
         </div>
 
@@ -39,39 +47,61 @@
               :key="p"
               :class="{ on: preset === p }"
               @click="applyPreset(p)"
-            >{{ p === 'compact' ? labels.printPresetCompact : labels.printPresetFull }}</button>
+            >
+              {{ p === 'compact' ? labels.printPresetCompact : labels.printPresetFull }}
+            </button>
           </div>
-          <span v-if="!preset" class="rpv-custom">{{ labels.printPresetCustom }}</span>
+          <span
+            v-if="!preset"
+            class="rpv-custom"
+          >{{ labels.printPresetCustom }}</span>
         </div>
 
         <!-- Two groups, and the second one is about a card — so it says nothing at all until
              cards are being printed, rather than offering five settings for a section that is
              not in the document. -->
-        <div v-for="g in shownGroups" :key="g.id" class="rpv-group">
-          <h3 class="rpv-group-h">{{ g.id === 'what' ? labels.printGroupWhat : labels.printGroupCard }}</h3>
+        <div
+          v-for="g in shownGroups"
+          :key="g.id"
+          class="rpv-group"
+        >
+          <h3 class="rpv-group-h">
+            {{ g.id === 'what' ? labels.printGroupWhat : labels.printGroupCard }}
+          </h3>
           <label
             v-for="o in g.rows"
             :key="o.id"
             class="check rpv-check"
             :class="{ on: settings[o.id], child: !!o.requires, off: !parentOn(o) }"
           >
-            <input type="checkbox" v-model="settings[o.id]" :disabled="!parentOn(o)" />
+            <input
+              v-model="settings[o.id]"
+              type="checkbox"
+              :disabled="!parentOn(o)"
+            >
             <span>
               {{ labels[o.label] }}
-              <em v-if="o.hint" class="check-note">{{ labels[o.hint] }}</em>
+              <em
+                v-if="o.hint"
+                class="check-note"
+              >{{ labels[o.hint] }}</em>
             </span>
           </label>
         </div>
 
         <div class="rpv-group rpv-layout">
-          <h3 class="rpv-group-h">{{ labels.printGroupLayout }}</h3>
+          <h3 class="rpv-group-h">
+            {{ labels.printGroupLayout }}
+          </h3>
           <div class="seg">
             <button
               v-for="d in PRINT_DENSITIES"
               :key="d.id"
               :class="{ on: settings.density === d.id }"
               @click="settings.density = d.id"
-            >{{ labels[DENSITY_LABELS[d.id]] }}</button>
+            >
+              {{ labels[DENSITY_LABELS[d.id]] }}
+            </button>
           </div>
           <div class="seg">
             <button
@@ -79,13 +109,22 @@
               :key="o"
               :class="{ on: settings.orientation === o }"
               @click="settings.orientation = o"
-            >{{ o === 'portrait' ? labels.printPortrait : labels.printLandscape }}</button>
+            >
+              {{ o === 'portrait' ? labels.printPortrait : labels.printLandscape }}
+            </button>
           </div>
         </div>
 
-        <p v-if="standalone" class="rpv-note">
+        <p
+          v-if="standalone"
+          class="rpv-note"
+        >
           {{ labels.printStandaloneNote }}
-          <a :href="href" target="_blank" rel="noopener">{{ labels.printOpenInBrowser }}</a>
+          <a
+            :href="href"
+            target="_blank"
+            rel="noopener"
+          >{{ labels.printOpenInBrowser }}</a>
         </p>
       </div>
 
@@ -93,7 +132,11 @@
            line breaks on screen exactly where it breaks on the sheet. The sheet inside renders
            REAL page boxes — what is in a box is what is on that sheet — and reports how many
            there are (see RosterPrintSheet.vue). -->
-      <div class="rpv-paper" :class="settings.orientation" :style="paperStyle">
+      <div
+        class="rpv-paper"
+        :class="settings.orientation"
+        :style="paperStyle"
+      >
         <RosterPrintSheet
           :roster="roster"
           :faction-data="factionData"

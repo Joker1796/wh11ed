@@ -1,26 +1,48 @@
 <template>
-  <BaseModal :title="labels.rosterImportTitle" max-width="560px" @close="$emit('close')">
+  <BaseModal
+    :title="labels.rosterImportTitle"
+    max-width="560px"
+    @close="$emit('close')"
+  >
     <div class="modal-body rim">
-      <p class="rim-hint">{{ labels.rosterImportHint }}</p>
+      <p class="rim-hint">
+        {{ labels.rosterImportHint }}
+      </p>
       <textarea
         v-model="text"
         class="rim-text"
         :placeholder="labels.rosterImportPlaceholder"
         spellcheck="false"
-      ></textarea>
+      />
 
-      <p v-if="error" class="rim-error">{{ error }}</p>
+      <p
+        v-if="error"
+        class="rim-error"
+      >
+        {{ error }}
+      </p>
 
       <!-- Only the short listhammer export gets this far without naming a faction: it carries no
            faction, detachment or battle size at all. Everything downstream (which datasheets to
            match against, what an enhancement belongs to) hangs on the answer, so it is asked
            plainly rather than guessed from unit names. -->
-      <label v-if="askFaction" class="rim-faction">
+      <label
+        v-if="askFaction"
+        class="rim-faction"
+      >
         <span>{{ labels.rosterImportPickFaction }}</span>
         <select v-model="pickedFaction">
           <option value="">—</option>
-          <optgroup v-for="g in factionGroups" :key="g.id" :label="groupLabel(g.id)">
-            <option v-for="f in g.factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
+          <optgroup
+            v-for="g in factionGroups"
+            :key="g.id"
+            :label="groupLabel(g.id)"
+          >
+            <option
+              v-for="f in g.factions"
+              :key="f.slug"
+              :value="f.slug"
+            >{{ f.name }}</option>
           </optgroup>
         </select>
       </label>
@@ -28,49 +50,103 @@
       <!-- The report is the whole point: an import that quietly drops a unit is worse than one
            that refuses. Everything we could not place is named, and the points are shown BOTH
            ways so a difference reads as a data-version difference and not as a bug. -->
-      <div v-if="report" class="rim-report">
+      <div
+        v-if="report"
+        class="rim-report"
+      >
         <p class="rim-line">
           <strong>{{ factionName }}</strong>
           <span v-if="report.detachments.matched.length"> · {{ report.detachments.matched.join(', ') }}</span>
         </p>
-        <p class="rim-line">{{ labels.rosterImportUnitsFound.replace('{n}', String(report.units.length)) }}</p>
-        <p class="rim-line" :class="{ warn: pointsDiffer }">
+        <p class="rim-line">
+          {{ labels.rosterImportUnitsFound.replace('{n}', String(report.units.length)) }}
+        </p>
+        <p
+          class="rim-line"
+          :class="{ warn: pointsDiffer }"
+        >
           {{ labels.rosterImportPoints.replace('{computed}', String(report.points.computed)).replace('{stated}', String(report.points.stated || report.points.statedUnits)) }}
         </p>
-        <p v-if="pointsDiffer" class="rim-note">{{ labels.rosterImportPointsNote }}</p>
-        <p v-if="repriced.length" class="rim-note">{{ labels.rosterImportPointsUnits.replace('{n}', repriced.join(', ')) }}</p>
+        <p
+          v-if="pointsDiffer"
+          class="rim-note"
+        >
+          {{ labels.rosterImportPointsNote }}
+        </p>
+        <p
+          v-if="repriced.length"
+          class="rim-note"
+        >
+          {{ labels.rosterImportPointsUnits.replace('{n}', repriced.join(', ')) }}
+        </p>
         <!-- Not a warning: the export printed those units twice on purpose, and the list's own
              total says so. Said out loud anyway, because the unit count is two short of what the
              text shows and nobody should have to wonder why. -->
-        <p v-if="report.repeated" class="rim-note">{{ labels.rosterImportRepeated.replace('{n}', String(report.repeated)) }}</p>
+        <p
+          v-if="report.repeated"
+          class="rim-note"
+        >
+          {{ labels.rosterImportRepeated.replace('{n}', String(report.repeated)) }}
+        </p>
 
-        <div v-if="report.missing.length" class="rim-warn">
+        <div
+          v-if="report.missing.length"
+          class="rim-warn"
+        >
           <span class="rim-warn-h">{{ labels.rosterImportMissingUnits }}</span>
           <span>{{ report.missing.map((m) => m.name).join(', ') }}</span>
         </div>
-        <div v-if="report.detachments.missing.length" class="rim-warn">
+        <div
+          v-if="report.detachments.missing.length"
+          class="rim-warn"
+        >
           <span class="rim-warn-h">{{ labels.rosterImportMissingDets }}</span>
           <span>{{ report.detachments.missing.join(', ') }}</span>
         </div>
-        <div v-if="missingGear.length" class="rim-warn">
+        <div
+          v-if="missingGear.length"
+          class="rim-warn"
+        >
           <span class="rim-warn-h">{{ labels.rosterImportMissingGear }}</span>
           <span>{{ missingGear.join(', ') }}</span>
         </div>
         <!-- An enhancement can only be placed once the detachment it belongs to is known, so a
              list that names none loses them all — say so instead of dropping them in silence. -->
-        <div v-if="missingEnh.length" class="rim-warn">
+        <div
+          v-if="missingEnh.length"
+          class="rim-warn"
+        >
           <span class="rim-warn-h">{{ labels.rosterImportMissingEnh }}</span>
           <span>{{ missingEnh.join(', ') }}</span>
-          <span v-if="!report.detachments.matched.length" class="rim-warn-note">{{ labels.rosterImportNoDets }}</span>
+          <span
+            v-if="!report.detachments.matched.length"
+            class="rim-warn-note"
+          >{{ labels.rosterImportNoDets }}</span>
         </div>
-        <p v-if="clean" class="rim-ok"><i class="bi bi-check-circle"></i> {{ labels.rosterImportClean }}</p>
+        <p
+          v-if="clean"
+          class="rim-ok"
+        >
+          <i class="bi bi-check-circle" /> {{ labels.rosterImportClean }}
+        </p>
       </div>
 
       <div class="rim-actions">
-        <button v-if="!report" class="rim-btn" :disabled="!text.trim() || busy" @click="read">
+        <button
+          v-if="!report"
+          class="rim-btn"
+          :disabled="!text.trim() || busy"
+          @click="read"
+        >
           {{ labels.rosterImportRead }}
         </button>
-        <button v-else class="rim-btn" @click="create">{{ labels.rosterImportCreate }}</button>
+        <button
+          v-else
+          class="rim-btn"
+          @click="create"
+        >
+          {{ labels.rosterImportCreate }}
+        </button>
       </div>
     </div>
   </BaseModal>

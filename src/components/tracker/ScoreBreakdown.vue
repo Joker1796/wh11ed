@@ -1,53 +1,107 @@
 <template>
   <div class="breakdown">
-    <button class="bd-toggle" @click="open = !open" :aria-expanded="open">
-      <i class="bi" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+    <button
+      class="bd-toggle"
+      :aria-expanded="open"
+      @click="open = !open"
+    >
+      <i
+        class="bi"
+        :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+      />
       {{ labels.trackerDetails }}
     </button>
 
     <CollapseTransition :show="open">
-    <div class="bd-body">
-      <div v-for="(pl, i) in game.players" :key="i" class="bd-player">
-        <div class="bd-name" :class="{ win: leaderIdx === i }">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</div>
-
-        <div class="grid">
-          <!-- Went first -->
-          <div class="g-label">{{ labels.trackerWentFirst }}</div>
-          <div v-for="r in ROUND_COUNT" :key="'wf'+r" class="g-cell">
-            <span v-if="r === 1 && game.settings.firstTurn === i + 1" class="tick">✓</span>
+      <div class="bd-body">
+        <div
+          v-for="(pl, i) in game.players"
+          :key="i"
+          class="bd-player"
+        >
+          <div
+            class="bd-name"
+            :class="{ win: leaderIdx === i }"
+          >
+            {{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}
           </div>
-          <div class="g-total"></div>
 
-          <!-- Primary -->
-          <div class="g-label">{{ dispositionName(pl.disposition) }}</div>
-          <div v-for="r in ROUND_COUNT" :key="'pr'+r" class="g-cell">
-            {{ pl.rounds[r - 1].primary || '-' }}
-          </div>
-          <div class="g-total">{{ primaryTotal(i) }}/{{ PRIMARY_GAME_CAP }}</div>
-
-          <!-- Secondary missions -->
-          <template v-for="(sec, si) in secondaries(i)" :key="'s'+sec.slug">
-            <div class="g-label sec-label">{{ sec.name }}</div>
-            <div v-for="r in ROUND_COUNT" :key="'s'+sec.slug+r" class="g-cell">
-              <template v-if="r >= sec.from && r <= sec.to">{{ sec.vp[r] || '-' }}</template>
+          <div class="grid">
+            <!-- Went first -->
+            <div class="g-label">
+              {{ labels.trackerWentFirst }}
             </div>
-            <div class="g-total">{{ si === 0 ? `${secondaryTotal(i)}/${SECONDARY_GAME_CAP}` : '' }}</div>
-          </template>
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'wf'+r"
+              class="g-cell"
+            >
+              <span
+                v-if="r === 1 && game.settings.firstTurn === i + 1"
+                class="tick"
+              >✓</span>
+            </div>
+            <div class="g-total" />
 
-          <!-- Battle Ready -->
-          <div class="g-label">{{ labels.trackerBattleReady }}</div>
-          <div class="g-cell g-span5"></div>
-          <div class="g-total">{{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}</div>
+            <!-- Primary -->
+            <div class="g-label">
+              {{ dispositionName(pl.disposition) }}
+            </div>
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'pr'+r"
+              class="g-cell"
+            >
+              {{ pl.rounds[r - 1].primary || '-' }}
+            </div>
+            <div class="g-total">
+              {{ primaryTotal(i) }}/{{ PRIMARY_GAME_CAP }}
+            </div>
 
-          <!-- CP -->
-          <template v-if="showCp">
-            <div class="g-label">{{ labels.trackerCp }}</div>
-            <div class="g-cell g-span5"></div>
-            <div class="g-total">{{ pl.cp }}</div>
-          </template>
+            <!-- Secondary missions -->
+            <template
+              v-for="(sec, si) in secondaries(i)"
+              :key="'s'+sec.slug"
+            >
+              <div class="g-label sec-label">
+                {{ sec.name }}
+              </div>
+              <div
+                v-for="r in ROUND_COUNT"
+                :key="'s'+sec.slug+r"
+                class="g-cell"
+              >
+                <template v-if="r >= sec.from && r <= sec.to">
+                  {{ sec.vp[r] || '-' }}
+                </template>
+              </div>
+              <div class="g-total">
+                {{ si === 0 ? `${secondaryTotal(i)}/${SECONDARY_GAME_CAP}` : '' }}
+              </div>
+            </template>
+
+            <!-- Battle Ready -->
+            <div class="g-label">
+              {{ labels.trackerBattleReady }}
+            </div>
+            <div class="g-cell g-span5" />
+            <div class="g-total">
+              {{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}
+            </div>
+
+            <!-- CP -->
+            <template v-if="showCp">
+              <div class="g-label">
+                {{ labels.trackerCp }}
+              </div>
+              <div class="g-cell g-span5" />
+              <div class="g-total">
+                {{ pl.cp }}
+              </div>
+            </template>
+          </div>
         </div>
       </div>
-    </div>
     </CollapseTransition>
   </div>
 </template>

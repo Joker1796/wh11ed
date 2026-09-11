@@ -1,5 +1,8 @@
 <template>
-  <div class="app-layout" :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }">
+  <div
+    class="app-layout"
+    :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }"
+  >
     <DomainMoveBanner />
     <UpdateNoticeBar />
 
@@ -11,33 +14,71 @@
     />
 
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
-    <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
+    <NavSidebar
+      :mobile-open="mobileNavOpen"
+      @close="mobileNavOpen = false"
+    />
 
     <AppSubnav />
 
     <!-- Overlay backdrop for drawer (fades in/out in step with the sliding drawer) -->
     <Transition name="fade">
-      <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
+      <div
+        v-if="mobileNavOpen"
+        class="nav-overlay"
+        @click="mobileNavOpen = false"
+      />
     </Transition>
 
-    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--desk': isRosterDeskRoute }">
+    <main
+      class="main-content"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute, 'main-content--desk': isRosterDeskRoute }"
+    >
       <RouterView v-slot="{ Component }">
-        <Transition name="fade" mode="out-in">
-          <component :is="Component" :key="appPath" />
+        <Transition
+          name="fade"
+          mode="out-in"
+        >
+          <component
+            :is="Component"
+            :key="appPath"
+          />
         </Transition>
       </RouterView>
       <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute" />
     </main>
 
-    <AppBottomNav @open-rules="showRules = true" @open-factions="showFactions = true" />
+    <AppBottomNav
+      @open-rules="showRules = true"
+      @open-factions="showFactions = true"
+    />
 
-    <WelcomeModal v-if="welcomeOpen" @close="welcomeOpen = false" />
-    <SearchModal v-if="searchOpen" @close="searchOpen = false" />
-    <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
-    <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
-    <RulesNavModal v-if="showRules" @close="showRules = false" />
+    <WelcomeModal
+      v-if="welcomeOpen"
+      @close="welcomeOpen = false"
+    />
+    <SearchModal
+      v-if="searchOpen"
+      @close="searchOpen = false"
+    />
+    <InstallHintModal
+      v-if="installHintOpen"
+      @close="installHintOpen = false"
+    />
+    <FactionsNavModal
+      v-if="showFactions"
+      @close="showFactions = false"
+    />
+    <RulesNavModal
+      v-if="showRules"
+      @close="showRules = false"
+    />
     <KeywordPopover />
-    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" :resume-draft-id="resumeDraftId" />
+    <MobileUtilityBar
+      ref="mobileBarRef"
+      :show-resume-game="showResumeGame"
+      :resume-draft-id="resumeDraftId"
+    />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast />

@@ -1,16 +1,36 @@
 <template>
   <div class="roster-shared">
-    <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
-    <h1 class="rs-title">{{ labels.rosterSharedTitle }}</h1>
+    <RouterLink
+      to="/roster"
+      class="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+    </RouterLink>
+    <h1 class="rs-title">
+      {{ labels.rosterSharedTitle }}
+    </h1>
 
-    <p v-if="error" class="rs-error"><i class="bi bi-exclamation-triangle"></i> {{ labels.rosterSharedInvalid }}</p>
+    <p
+      v-if="error"
+      class="rs-error"
+    >
+      <i class="bi bi-exclamation-triangle" /> {{ labels.rosterSharedInvalid }}
+    </p>
     <template v-else-if="payload">
       <pre class="rs-preview">{{ preview }}</pre>
-      <button class="rs-save" @click="save">
-        <i class="bi bi-download"></i> {{ labels.rosterSaveToMine }}
+      <button
+        class="rs-save"
+        @click="save"
+      >
+        <i class="bi bi-download" /> {{ labels.rosterSaveToMine }}
       </button>
     </template>
-    <p v-else class="rs-loading"><i class="bi bi-arrow-repeat spin"></i></p>
+    <p
+      v-else
+      class="rs-loading"
+    >
+      <i class="bi bi-arrow-repeat spin" />
+    </p>
   </div>
 </template>
 

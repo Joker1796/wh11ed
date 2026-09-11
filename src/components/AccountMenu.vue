@@ -8,41 +8,71 @@
     <button
       class="account-btn"
       :class="{ active: open, authed: status === 'authed' }"
-      @click="open = !open"
       :aria-expanded="open"
       :aria-label="labels.ariaAccount"
       :title="status === 'authed' ? accountName || labels.cloudSignedIn : labels.ariaAccount"
+      @click="open = !open"
     >
-      <i class="bi" :class="status === 'authed' ? 'bi-person-check-fill' : 'bi-person'"></i>
+      <i
+        class="bi"
+        :class="status === 'authed' ? 'bi-person-check-fill' : 'bi-person'"
+      />
     </button>
     <Transition name="fade">
-      <div v-if="open" class="account-backdrop" @click="open = false"></div>
+      <div
+        v-if="open"
+        class="account-backdrop"
+        @click="open = false"
+      />
     </Transition>
     <Transition name="fade-pop">
-      <div v-if="open" class="account-menu">
+      <div
+        v-if="open"
+        class="account-menu"
+      >
         <template v-if="status === 'authed'">
           <p class="am-who">
-            <i class="bi bi-cloud-check-fill"></i>
+            <i class="bi bi-cloud-check-fill" />
             <span>{{ accountName || labels.cloudSignedIn }}</span>
           </p>
-          <button class="am-item" @click="onSignOut">
-            <i class="bi bi-box-arrow-right"></i>
+          <button
+            class="am-item"
+            @click="onSignOut"
+          >
+            <i class="bi bi-box-arrow-right" />
             <span>{{ labels.cloudSignOut }}</span>
           </button>
         </template>
         <template v-else>
-          <p class="am-hint">{{ labels.cloudSignInHint }}</p>
+          <p class="am-hint">
+            {{ labels.cloudSignInHint }}
+          </p>
           <!-- status === 'idle': the silent session restore is still in flight — a disabled
                placeholder, so nobody fires a redundant OAuth redirect mid-restore. -->
-          <button v-if="status === 'idle'" class="ya-btn" disabled>
-            <i class="bi bi-arrow-repeat spin"></i>
+          <button
+            v-if="status === 'idle'"
+            class="ya-btn"
+            disabled
+          >
+            <i class="bi bi-arrow-repeat spin" />
           </button>
-          <button v-else class="ya-btn" @click="onSignIn">
-            <span class="ya-btn-logo" aria-hidden="true">Я</span>
+          <button
+            v-else
+            class="ya-btn"
+            @click="onSignIn"
+          >
+            <span
+              class="ya-btn-logo"
+              aria-hidden="true"
+            >Я</span>
             {{ labels.cloudSignInYandex }}
           </button>
         </template>
-        <button v-if="dev" class="am-item am-mock" @click="onMock">
+        <button
+          v-if="dev"
+          class="am-item am-mock"
+          @click="onMock"
+        >
           🔧 {{ status === 'authed' ? 'тест-выход' : 'тест-вход' }}
         </button>
       </div>

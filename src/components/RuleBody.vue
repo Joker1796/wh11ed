@@ -1,53 +1,142 @@
 <template>
-  <template v-for="(block, i) in blocks" :key="i">
-    <ul v-if="block.type === 'ul'" class="rule-list">
-      <li v-for="(item, j) in block.items" :key="j">
-        <span v-html="renderInline(item.text)"></span>
-        <ul v-if="item.sub?.length" class="rule-list rule-list--sub">
-          <li v-for="(s, k) in item.sub" :key="k" v-html="renderInline(s)"></li>
+  <template
+    v-for="(block, i) in blocks"
+    :key="i"
+  >
+    <ul
+      v-if="block.type === 'ul'"
+      class="rule-list"
+    >
+      <li
+        v-for="(item, j) in block.items"
+        :key="j"
+      >
+        <span v-html="renderInline(item.text)" />
+        <ul
+          v-if="item.sub?.length"
+          class="rule-list rule-list--sub"
+        >
+          <li
+            v-for="(s, k) in item.sub"
+            :key="k"
+            v-html="renderInline(s)"
+          />
         </ul>
       </li>
     </ul>
-    <ol v-else-if="block.type === 'ol'" class="rule-ol">
-      <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
+    <ol
+      v-else-if="block.type === 'ol'"
+      class="rule-ol"
+    >
+      <li
+        v-for="(item, j) in block.items"
+        :key="j"
+        v-html="renderInline(item)"
+      />
     </ol>
-    <div v-else-if="block.type === 'flow'" class="flow-list">
-      <div v-for="(item, j) in block.items" :key="j" class="flow-item">
+    <div
+      v-else-if="block.type === 'flow'"
+      class="flow-list"
+    >
+      <div
+        v-for="(item, j) in block.items"
+        :key="j"
+        class="flow-item"
+      >
         <span class="flow-arrow">→</span>
-        <span v-html="renderInline(item)"></span>
+        <span v-html="renderInline(item)" />
       </div>
     </div>
-    <div v-else-if="block.type === 'result-table'" class="result-table">
-      <div v-for="(row, j) in block.items" :key="j" class="result-row">
+    <div
+      v-else-if="block.type === 'result-table'"
+      class="result-table"
+    >
+      <div
+        v-for="(row, j) in block.items"
+        :key="j"
+        class="result-row"
+      >
         <span class="result-arrow">→</span>
-        <span class="result-condition" v-html="renderInline(row.condition)"></span>
+        <span
+          class="result-condition"
+          v-html="renderInline(row.condition)"
+        />
         <span
           class="result-outcome"
           :class="row.isFail ? 'result-fail' : 'result-success'"
           v-html="renderInline(row.outcome)"
-        ></span>
+        />
       </div>
     </div>
-    <AppImage v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
-    <div v-else-if="block.type === 'info-card'" class="info-card">
-      <div v-for="(row, k) in block.rows" :key="k" class="info-row">
-        <span class="info-label">{{ row.label }}</span><span v-if="row.content" class="info-content" v-html="renderInline(row.content)"></span>
-        <ul v-if="row.items.length" class="info-items">
-          <li v-for="(item, m) in row.items" :key="m" v-html="renderInline(item)"></li>
+    <AppImage
+      v-else-if="block.type === 'img'"
+      :src="block.src"
+      :alt="block.alt"
+      class="body-image"
+    />
+    <div
+      v-else-if="block.type === 'info-card'"
+      class="info-card"
+    >
+      <div
+        v-for="(row, k) in block.rows"
+        :key="k"
+        class="info-row"
+      >
+        <span class="info-label">{{ row.label }}</span><span
+          v-if="row.content"
+          class="info-content"
+          v-html="renderInline(row.content)"
+        />
+        <ul
+          v-if="row.items.length"
+          class="info-items"
+        >
+          <li
+            v-for="(item, m) in row.items"
+            :key="m"
+            v-html="renderInline(item)"
+          />
         </ul>
       </div>
     </div>
-    <div v-else-if="block.type === 'img-group'" class="img-group">
-      <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
+    <div
+      v-else-if="block.type === 'img-group'"
+      class="img-group"
+    >
+      <AppImage
+        v-for="(item, k) in block.srcs"
+        :key="k"
+        :src="item.src"
+        :alt="item.alt"
+      />
     </div>
-    <div v-else-if="block.type === 'faq'" class="faq-list">
-      <FaqItem v-for="(item, j) in block.items" :key="j" :q="item.q" :a="item.a" />
+    <div
+      v-else-if="block.type === 'faq'"
+      class="faq-list"
+    >
+      <FaqItem
+        v-for="(item, j) in block.items"
+        :key="j"
+        :q="item.q"
+        :a="item.a"
+      />
     </div>
-    <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading">
-      <span v-html="renderInline(block.text)"></span>
-      <span v-if="block.ru" class="rule-subheading-ru">{{ block.ru }}</span>
+    <h4
+      v-else-if="block.type === 'h4'"
+      :id="id ? h4AnchorId(id, block.n) : undefined"
+      class="rule-subheading"
+    >
+      <span v-html="renderInline(block.text)" />
+      <span
+        v-if="block.ru"
+        class="rule-subheading-ru"
+      >{{ block.ru }}</span>
     </h4>
-    <p v-else v-html="renderInline(block.text)"></p>
+    <p
+      v-else
+      v-html="renderInline(block.text)"
+    />
   </template>
 </template>
 
