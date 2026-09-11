@@ -118,11 +118,6 @@ export default [
       {
         "models": 1,
         "points": 330
-      },
-      {
-        "models": 1,
-        "points": 375,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Mephet’ran the Deceiver was ever the most duplicitous of his monstrous brood. Even shattered and bound within a restraining necrodermis, each Shard of the Deceiver still radiates a potent blend of deadly truths and bewildering lies against which the fallible senses of mortal beings possess no defence.",
@@ -206,11 +201,6 @@ export default [
       {
         "models": 1,
         "points": 360
-      },
-      {
-        "models": 1,
-        "points": 405,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "The very essence of life bleeds away when exposed to a Shard of the C’tan known as the Nightbringer. Aza’gorod he was, the Inevitable Blade; his spectral form, cowl of shadows and flashing scythe are said to have spawned countless avatars of death in the legends of primitive cultures the entire galaxy over.",
@@ -301,11 +291,6 @@ export default [
       {
         "models": 1,
         "points": 345
-      },
-      {
-        "models": 1,
-        "points": 380,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the Void Dragon fill the air around them with a searing scream of distorted static. With a gesture they can unmake the war engines of lesser beings, dragging the resultant disintegrating matter into themselves like the gravity well of a black hole and using it to replenish their own, ever flickering forms.",
@@ -1122,7 +1107,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, at the end of any phase, select one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of the bearer and resurrect that unit. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, select up to one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of this unit. That unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -1158,7 +1143,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 90,
+        "points": 80,
         "note": "2nd+"
       }
     ],
@@ -1236,7 +1221,7 @@ export default [
   },
   {
     "id": "convergence-of-dominion",
-    "name": "Convergence Of Dominion",
+    "name": "Convergence of Dominion",
     "points": [
       {
         "models": 1,
@@ -1254,7 +1239,7 @@ export default [
     "flavor": "Starsteles were placed upon worlds as territorial markers and silent guardians by jealous Necron nobles. Over the millennia they have become forgotten archaeological curios, or feared sources of superstitious rumour about vanishments and strange lights. Now they awaken again as their masters do.",
     "profiles": [
       {
-        "name": "Convergence Of Dominion",
+        "name": "Convergence of Dominion",
         "m": "-",
         "t": "9",
         "sv": "3+",
@@ -1566,7 +1551,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 220,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -2134,7 +2119,7 @@ export default [
   },
   {
     "id": "imotekh-the-stormlord",
-    "name": "Imotekh The Stormlord",
+    "name": "Imotekh the Stormlord",
     "points": [
       {
         "models": 1,
@@ -2144,7 +2129,7 @@ export default [
     "flavor": "Imotekh is a sublimely skilled strategist, wielding his armies with hyperlogical skill and unleashing deadly strategic ploys. In battle he incinerates enemies with his Gauntlet of Fire, blasts them with pan-dimensional energies from his Staff of the Destroyer or humbles them in punishing one-on-one duels.",
     "profiles": [
       {
-        "name": "Imotekh The Stormlord",
+        "name": "Imotekh the Stormlord",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -2249,27 +2234,27 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 175,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 50,
+        "points": 70,
         "note": "3rd+"
       },
       {
         "models": 2,
-        "points": 65,
+        "points": 85,
         "note": "3rd+"
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 110,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 205,
         "note": "3rd+"
       }
     ],
@@ -2348,7 +2333,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 160,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
@@ -2363,7 +2348,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 160,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -2450,7 +2435,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 80
       }
     ],
     "flavor": "Lokhust Lords skim into battle on swift grav-sled bodies. Driven by nihilistic hatred, their every optimised strike slaughters swathes of the foe. Meanwhile, should the enemy wound a Lokhust Lord, in return they must watch in despair as minute repair-scarabs spill from his phylactery in a silvery tide to repair his rent form.",
@@ -2519,7 +2504,7 @@ export default [
       },
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -2708,7 +2693,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and must be set up wholly within 6\" of this unit and not engaged with any enemy units. That unit cannot make a charge move this turn."
+        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and while making that ingress move, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent\u2019s deployment zone. That unit cannot make a charge move this turn."
       }
     ],
     "damaged": {
@@ -2741,7 +2726,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 80
+        "points": 85
       },
       {
         "models": 20,
@@ -3092,7 +3077,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 145,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -3102,7 +3087,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 155,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -3162,7 +3147,7 @@ export default [
   },
   {
     "id": "orikan-the-diviner",
-    "name": "Orikan The Diviner",
+    "name": "Orikan the Diviner",
     "points": [
       {
         "models": 1,
@@ -3172,7 +3157,7 @@ export default [
     "flavor": "Orikan is a master astromancer, using his knowledge of astral conjunctions to predict the tides of battle and empower himself with cosmic energies. He supplements these skills with chronomantic abilities that allow him to see events before they happen and know just where to aim his blows.",
     "profiles": [
       {
-        "name": "Orikan The Diviner",
+        "name": "Orikan the Diviner",
         "m": "5\"",
         "t": "4",
         "sv": "4+",
@@ -3325,7 +3310,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3357,7 +3342,7 @@ export default [
   },
   {
     "id": "overlord-with-translocation-shroud",
-    "name": "Overlord with translocation shroud",
+    "name": "Overlord with Translocation Shroud",
     "points": [
       {
         "models": 1,
@@ -3405,7 +3390,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3421,7 +3406,7 @@ export default [
       ]
     },
     "keywords": [
-      "Overlord with translocation shroud",
+      "Overlord with Translocation Shroud",
       "Infantry",
       "Noble",
       "Overlord",
@@ -3438,7 +3423,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 60
       }
     ],
     "flavor": "Plasmancers are unsubtle annihilators. They are capable of wielding energy as a weapon itself rather than needing to bind it to other forms. Arcs of unstable lightning leap from their forms to wrack nearby foes, and with a gesture these Crypteks can channel those same energies into searing ranged blasts.",
@@ -3869,7 +3854,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 105,
+        "note": "3rd+"
       }
     ],
     "flavor": "Skorpekh Lords have fallen far from their noble beginnings, allowing an obsession with slaughter to twist their bodies and minds. Lurching forward on tripod bodies, their enmitic annihilators blast victims messily apart as their claws and blades lash out to reap a crimson harvest across the battlefield.",
@@ -4049,7 +4040,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 465,
+        "points": 485,
         "note": "2nd+"
       }
     ],
@@ -4479,11 +4470,6 @@ export default [
         "models": 1,
         "points": 360,
         "note": "2nd+"
-      },
-      {
-        "models": 1,
-        "points": 380,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the C’tan serve the Necrons as enslaved living weapons. Greatest amongst them are the Transcendent C’tan, whose fury and power are so terrifying that they must be trammelled using the full might of Necron technology. When their cosmic powers are unleashed, reality itself is torn asunder.",
@@ -4566,7 +4552,7 @@ export default [
   },
   {
     "id": "trazyn-the-infinite",
-    "name": "Trazyn The Infinite",
+    "name": "Trazyn the Infinite",
     "points": [
       {
         "models": 1,
@@ -4576,7 +4562,7 @@ export default [
     "flavor": "A thief of moments in history, Trazyn takes to the battlefield to acquire that which cunning cannot secure. His Empathic Obliterator triggers psionic shock waves that kill not only his immediate victim, but those of a like mind nearby, while his ability to leap from one surrogate body to the next ensures he is hard to slay indeed.",
     "profiles": [
       {
-        "name": "Trazyn The Infinite",
+        "name": "Trazyn the Infinite",
         "m": "5\"",
         "t": "5",
         "sv": "2+",

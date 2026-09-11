@@ -116,6 +116,10 @@ export const pointsOverrides = {
   "captain-with-jump-pack": [
     { models: 1, points: 80 },
   ],
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "chaplain-with-jump-pack": [
     { models: 1, points: 80 },
   ],
@@ -193,7 +197,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Death Company Marines with Boltguns and Jump Packs",
-        "Death Company Marines With Jump Packs"
+        "Death Company Marines with Jump Packs"
       ]
     },
     "keywords": [
@@ -684,9 +688,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Sanguinary Guard",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -957,12 +961,12 @@ export default [
     "loadout": "**This model is equipped with:** heavy bolt pistol; Astartes chainsword.",
     "options": [
       "This model’s heavy bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 hand flamer",
-      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
+      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Company Marines With Jump Packs"
+        "Death Company Marines with Jump Packs"
       ]
     },
     "keywords": [
@@ -1573,11 +1577,11 @@ export default [
   },
   {
     "id": "death-company-marines-with-jump-packs",
-    "name": "Death Company Marines With Jump Packs",
+    "name": "Death Company Marines with Jump Packs",
     "points": [
       {
         "models": 5,
-        "points": 120,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
@@ -1587,7 +1591,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 135,
+        "points": 130,
         "note": "3rd+"
       },
       {
@@ -1599,7 +1603,7 @@ export default [
     "flavor": "The savagery induced by the Black Rage cannot be cured and so must be utilised to its fullest extent. When equipped with jump packs, Death Company Marines are lent great speed and mobility that, when allied to their vengeful rage, renders them lethal shock troops.",
     "profiles": [
       {
-        "name": "Death Company Marines With Jump Packs",
+        "name": "Death Company Marines with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -1733,7 +1737,7 @@ export default [
     "options": [
       "For every 5 models in this unit, 1 model’s heavy bolt pistol can be replaced with 1 plasma pistol.",
       "For every 5 models in this unit, 1 model’s Astartes chainsword can be replaced with 1 eviscerator.",
-      "Up to 2 models’ Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
+      "1 model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
       "For every 5 models in this unit, 1 model’s heavy bolt pistol and Astartes chainsword can be replaced with one of the following:\n▪ 1 hand flamer and 1 Astartes chainsword\n▪ 1 hand flamer and 1 power fist\n▪ 1 hand flamer and 1 power weapon\n▪ 1 heavy bolt pistol and 1 power fist\n▪ 1 heavy bolt pistol and 1 power weapon\n▪ 1 inferno pistol and 1 Astartes chainsword\n▪ 1 inferno pistol and 1 power fist\n▪ 1 inferno pistol and 1 power weapon\n▪ 1 plasma pistol and 1 Astartes chainsword\n▪ 1 plasma pistol and 1 power fist\n▪ 1 plasma pistol and 1 power weapon"
     ],
     "keywords": [
@@ -1826,7 +1830,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Company Marines With Jump Packs",
+        "Death Company Marines with Jump Packs",
         "Death Company Marines with Boltguns and Jump Packs"
       ]
     },
@@ -1854,7 +1858,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 125,
+        "points": 120,
         "note": "1st-2nd"
       },
       {
@@ -1864,7 +1868,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       },
       {
@@ -2085,7 +2089,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "The Sanguinor is a mysterious figure who fights only on battlefields of the most paramount importance, when the Blood Angels’ need is greatest. He inspires as much courage in the sons of Sanguinius as he does fear in the enemy, and surges across the field as if he were Sanguinius’ will made manifest.",

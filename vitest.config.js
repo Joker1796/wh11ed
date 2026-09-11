@@ -13,10 +13,14 @@ export default defineConfig({
     // `file:///images/…` URL is invalid and crashes the suite at import time).
     alias: [{ find: /^\/images\//, replacement: fileURLToPath(new URL('./public/images/', import.meta.url)) }],
   },
+  // Injected by vite.config.js in a real build; components read it for the footer / export header.
+  define: { __APP_VERSION__: JSON.stringify('0.0.0-test') },
   test: {
     globals: true,
     environment: 'jsdom',
-    include: ['src/**/*.test.js'],
+    // `scripts/` too since 2026-08-26: the build's SEO page renderer produces the only markup a
+    // non-executing crawler ever sees, and nobody reviews 3141 generated files by eye.
+    include: ['src/**/*.test.js', 'scripts/**/*.test.js'],
     setupFiles: ['./src/test-setup.js'],
     restoreMocks: true,
   },

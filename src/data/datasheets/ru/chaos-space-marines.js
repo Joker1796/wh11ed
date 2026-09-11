@@ -545,8 +545,8 @@ export default {
     },
     loadout: `${EQUIP_EVERY} bolt pistol; boltgun; close combat weapon.`,
     options: [
-      'boltgun у Aspiring Champion можно заменить на одно из следующего:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon',
-      'bolt pistol у Aspiring Champion можно заменить на одно из следующего:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon',
+      'boltgun у Aspiring Champion можно заменить на одно из следующего:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Максимум 1 на модель.',
+      'bolt pistol у Aspiring Champion можно заменить на одно из следующего:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Максимум 1 на модель.',
       '1 модель можно снабдить 1 Chaos icon.',
       'Любому числу Legionary их boltgun можно заменить на 1 Astartes chainsword.',
       'boltgun у одного Legionary можно заменить на 1 heavy melee weapon.',
@@ -615,6 +615,7 @@ export default {
     },
     loadout:
       '**Garreon the Corpsemaster вооружён:** absolvor bolt pistol; reductor array.\n\n**Garlon Souleater вооружён:** Mind Wrench; force stave.\n\n**Katar Garrix вооружён:** bolt pistol; Axe of Ending.\n\n**Captain Sargotta вооружён:** laspistol; power sabre.\n\n**The Enforcer вооружён:** Londaxi maimer; bionic gauntlet.',
+    leader: { text: LEADER_TEXT },
   },
 
   maulerfiend: {

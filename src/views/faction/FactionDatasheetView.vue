@@ -4,17 +4,35 @@
       <template v-if="sheet">
         <div class="ds-head">
           <h2 class="ds-title">{{ sheet.name }} <span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
+          <!-- A reader who followed a link straight here has to be told the same thing the grid's
+               badge says: the rules below are published, the unit is not matched-play legal. -->
+          <p v-if="sheet.legends" class="ds-legends-note">
+            <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
+          </p>
           <div class="ds-actions">
             <button
               type="button"
               class="ds-btn"
               :class="{ 'ds-btn-pin-on': fav }"
-              :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
-              :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :title="fav ? labels.favUnpin : labels.favPin"
+              :aria-label="fav ? labels.favUnpin : labels.favPin"
               :aria-pressed="fav"
               @click="toggleUnitFavorite(route.params.slug, sheet.id)"
             >
               <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+            </button>
+            <!-- "I own this one" — the mark the roster catalogue shows on its rows and can filter
+                 by. Same treatment as the pin: state is the outline→filled swap, no highlight. -->
+            <button
+              type="button"
+              class="ds-btn"
+              :class="{ 'ds-btn-pin-on': owned }"
+              :title="owned ? labels.dsOwnRemove : labels.dsOwnAdd"
+              :aria-label="owned ? labels.dsOwnRemove : labels.dsOwnAdd"
+              :aria-pressed="owned"
+              @click="toggleOwned(route.params.slug, sheet.id, sheet.name)"
+            >
+              <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'"></i>
             </button>
             <button
               type="button"
@@ -108,6 +126,7 @@ import { getDatasheetIndex } from '../../composables/useSearch.js'
 import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
+import { useCollection } from '../../composables/useCollection.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
@@ -170,6 +189,10 @@ const keywordUnits = computed(() => unitsWithKeyword(datasheets.value, activeKey
 // Favourite toggle (shared store with the datasheets list's "Favorites" group).
 const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
 const fav = computed(() => !!sheet.value && isUnitFavorite(route.params.slug, sheet.value.id))
+
+// Owned mark (shared store with the datasheets grid and the roster catalogue's star).
+const { isOwned, toggleOwned } = useCollection()
+const owned = computed(() => !!sheet.value && isOwned(route.params.slug, sheet.value.id))
 
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet
@@ -303,10 +326,6 @@ async function copyName() {
 </script>
 
 <style scoped>
-.fsection {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: var(--header-total);
-}
 
 /* Datasheet header band: the name row is a solid faction-color plate (same visual
    language as the weapon-table headers in DatasheetCard — --ds-th-bg is the accent in
@@ -320,7 +339,6 @@ async function copyName() {
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
   background: var(--ds-th-bg, var(--accent));
-  border-radius: 6px 6px 0 0;
   --ds-th-bg: var(--accent);
 }
 @media (prefers-color-scheme: dark) {
@@ -342,6 +360,20 @@ async function copyName() {
   margin: 0;
 }
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
+/* Sits under the title and inside the head block, so it reads before the statline rather than
+   after it. Muted, not alarming — the page below it is still a full datasheet. */
+.ds-legends-note {
+  flex-basis: 100%;
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+/* The badge leads the line here, so it gives up the inline left margin it wears mid-sentence. */
+.ds-legends-note .legends-badge {
+  margin-left: 0;
+  margin-right: 0.35em;
+}
+
 .ds-title-base {
   display: inline;
   margin-left: 0.45rem;
@@ -371,7 +403,6 @@ async function copyName() {
   min-height: 36px;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
   color: rgba(255, 255, 255, 0.85);
   font-size: 1rem;
   cursor: pointer;
@@ -405,7 +436,6 @@ async function copyName() {
   z-index: 500;
   background: var(--bg-insert);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
   padding: 0.75rem 2.1rem 0.8rem 0.9rem;
 }
@@ -461,7 +491,6 @@ async function copyName() {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     padding: 0.5rem 0.4rem 0.45rem;
-    border-radius: 0;
   }
   .ds-btn {
     min-width: 30px;

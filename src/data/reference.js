@@ -118,8 +118,7 @@ When using another **shooting type**, for each model in that unit (excluding MON
       name: 'Deadly Demise',
       type: 'unit',
       flavor: 'From detonating ammo stores to corrosive innards or frenzied death throes, some targets are deadly even in defeat.',
-      fullText: `This ability always takes the form **Deadly Demise X**. Each time a model in this unit is **[gloss:destroyed:destroyed]**, after the units embarked within it (if any) have made their **[gloss:emergency-disembark-move:emergency disembark moves]**, roll one D6. On a 6, that model suffers a **deadly demise**; each unit within 6" of that model suffers a number of **[gloss:mortal-wound:mortal wounds]** denoted by **X** (if this is a random number, roll separately for each unit within 6").`,
-      example: 'An Impulsor with a unit of Intercessors embarked within it is **destroyed** by ranged attacks. First, any unresolved attacks made by the attacking unit are resolved. Then the Intercessors make an **[gloss:emergency-disembark-move:emergency disembark move]**. Then the roll is made for the **Deadly Demise** ability, and on a 6, that ability is resolved. Finally, the Impulsor is removed from the battlefield.',
+      fullText: `This ability always takes the form **Deadly Demise X**. Each time a model with this ability is **[gloss:destroyed:destroyed]**, after the units embarked within it (if any) have made their **[gloss:emergency-disembark-move:emergency disembark moves]**, roll one D6. On a 6, that model suffers a **deadly demise**; each unit within 6" of that model suffers a number of **[gloss:mortal-wound:mortal wounds]** denoted by **X** (if this is a random number, roll separately for each unit within 6").`,
     },
     {
       num: '24.09',
@@ -470,8 +469,7 @@ See Attached Units (19).`,
     {
       // 24.08 Deadly Demise
       flavor: 'От детонирующих боеприпасов до едких внутренностей или бешеных предсмертных конвульсий — некоторые цели смертоносны даже после поражения.',
-      fullText: `Эта способность всегда имеет вид **Deadly Demise X**. Каждый раз, когда модель в этом юните **[gloss:destroyed:уничтожена]**, после того как юниты, находящиеся внутри неё (если таковые имеются), совершили свои **[gloss:emergency-disembark-move:аварийные манёвры высадки]**, бросьте один D6. На 6 эта модель получает **Deadly Demise**; каждый юнит в пределах 6" от этой модели получает количество **[gloss:mortal-wound:смертельных ран]**, обозначенное **X** (если это случайное число, бросьте отдельно для каждого юнита в пределах 6").`,
-      example: 'Импульсор (Impulsor) с отрядом Интерцессоров (Intercessors) внутри него уничтожен дистанционными атаками. Сначала отыгрываются любые незавершённые атаки, совершённые атакующим юнитом. Затем Интерцессоры совершают **[gloss:emergency-disembark-move:аварийный манёвр высадки]**. Затем совершается бросок для способности **Deadly Demise**, и на 6 эта способность отыгрывается. Наконец, Импульсор убирается с поля боя.',
+      fullText: `Эта способность всегда имеет вид **Deadly Demise X**. Каждый раз, когда модель с этой способностью **[gloss:destroyed:уничтожена]**, после того как юниты, находящиеся внутри неё (если таковые имеются), совершили свои **[gloss:emergency-disembark-move:аварийные манёвры высадки]**, бросьте один D6. На 6 эта модель получает **Deadly Demise**; каждый юнит в пределах 6" от этой модели получает количество **[gloss:mortal-wound:смертельных ран]**, обозначенное **X** (если это случайное число, бросьте отдельно для каждого юнита в пределах 6").`,
     },
     {
       // 24.09 Deep Strike

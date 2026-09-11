@@ -202,12 +202,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 100,
+        "points": 90,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -427,7 +427,7 @@ export default [
   },
   {
     "id": "ancient-in-terminator-armour",
-    "name": "Ancient In Terminator Armour",
+    "name": "Ancient in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -437,7 +437,7 @@ export default [
     "flavor": "Carrying the Space Marines’ sacred banners is a most vital task. Symbols of the Chapter’s might, Space Marines will gladly die to preserve them. This makes Ancients frequent targets. Clad in Terminator armour, they are near impervious to enemy fire, ensuring the standard always flies proud.",
     "profiles": [
       {
-        "name": "Ancient In Terminator Armour",
+        "name": "Ancient in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -652,6 +652,7 @@ export default [
       "units": [
         "Assault Intercessor Squad",
         "Assault Squad",
+        "Bladeguard Veteran Squad",
         "Crusader Squad",
         "Deathwatch Veterans",
         "Decimus Kill Team",
@@ -914,7 +915,7 @@ export default [
   },
   {
     "id": "assault-intercessors-with-jump-packs",
-    "name": "Assault Intercessors With Jump Packs",
+    "name": "Assault Intercessors with Jump Packs",
     "points": [
       {
         "models": 5,
@@ -940,7 +941,7 @@ export default [
     "flavor": "Thanks to their powerful jump packs, these warriors soar over the battlefield, slamming into the foe and cutting them down with point-blank bolt pistol fire and furious chainsword hacks before shooting off to their next target.",
     "profiles": [
       {
-        "name": "Assault Intercessors With Jump Packs",
+        "name": "Assault Intercessors with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -1050,7 +1051,7 @@ export default [
       "The Assault Intercessor Sergeant with Jump Pack’s heavy bolt pistol can be replaced with one of the following:\n▪ 1 hand flamer\n▪ 1 plasma pistol"
     ],
     "keywords": [
-      "Assault Intercessors With Jump Packs",
+      "Assault Intercessors with Jump Packs",
       "Infantry",
       "Jump Pack",
       "Grenades",
@@ -1536,7 +1537,7 @@ export default [
     "abilities": [
       {
         "name": "Bladeguard",
-        "text": "In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
+        "text": "Once per turn, per unit. In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
       }
     ],
     "composition": [
@@ -1993,7 +1994,7 @@ export default [
   },
   {
     "id": "captain-in-gravis-armour",
-    "name": "Captain In Gravis Armour",
+    "name": "Captain in Gravis Armour",
     "points": [
       {
         "models": 1,
@@ -2003,7 +2004,7 @@ export default [
     "flavor": "Clad in a suit of indomitable Gravis armour, a Space Marine Captain can fearlessly stride into the very fiercest battlefield firestorms. To don Gravis armour is to demonstrate the greatest determination to crush the enemy, no matter how deeply they are entrenched.",
     "profiles": [
       {
-        "name": "Captain In Gravis Armour",
+        "name": "Captain in Gravis Armour",
         "m": "5\"",
         "t": "6",
         "sv": "3+",
@@ -2136,7 +2137,7 @@ export default [
   },
   {
     "id": "captain-in-phobos-armour",
-    "name": "Captain In Phobos Armour",
+    "name": "Captain in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -2146,7 +2147,7 @@ export default [
     "flavor": "All Primaris Space Marines are trained in reconnaissance, stealth and sabotage while in the 10th Company. Donning his Phobos armour, a Captain will combine these skills with his incredible martial prowess and hard-won strategic expertise to lead strike forces of Vanguard warriors on dangerous covert missions.",
     "profiles": [
       {
-        "name": "Captain In Phobos Armour",
+        "name": "Captain in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -2236,7 +2237,7 @@ export default [
   },
   {
     "id": "captain-in-terminator-armour",
-    "name": "Captain In Terminator Armour",
+    "name": "Captain in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -2246,7 +2247,7 @@ export default [
     "flavor": "Space Marine Captains are expected to fight from the front, and few kinds of armour enable them to do so as effectively as Terminator plate. Formidably resilient, such a suit protects the Captain against all but the most devastating enemy fire and enables him to deploy by teleport strike right into the heart of the foe.",
     "profiles": [
       {
-        "name": "Captain In Terminator Armour",
+        "name": "Captain in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -2467,7 +2468,7 @@ export default [
   },
   {
     "id": "captain-with-jump-pack",
-    "name": "Captain With Jump Pack",
+    "name": "Captain with Jump Pack",
     "points": [
       {
         "models": 1,
@@ -2477,7 +2478,7 @@ export default [
     "flavor": "Many a Space Marine Captain favours fury and speed, and devises ingenious strategies to use these to devastating effect against their enemies. Being superlative warriors and inspiring leaders, they have no place but at the very forefront of battle. With a jump pack, Captains can lead their warriors as speartips for their assaults.",
     "profiles": [
       {
-        "name": "Captain With Jump Pack",
+        "name": "Captain with Jump Pack",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -2611,12 +2612,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
         "Sanguinary Guard",
         "Skyclaws",
         "Talonstrike Kill Team",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -2866,7 +2867,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 350
+        "points": 365
       }
     ],
     "flavor": "Centurion Devastator Squads dominate the field of battle, their presence dictating the flow of action. They frequently operate with Stormraven Gunships, which transport the Space Marines inside their bulky warsuits to the next position, where they function as an armoured firebase to clear enemy-held positions of all opposition.",
@@ -3085,7 +3086,7 @@ export default [
   },
   {
     "id": "chaplain-in-terminator-armour",
-    "name": "Chaplain In Terminator Armour",
+    "name": "Chaplain in Terminator Armour",
     "points": [
       {
         "models": 1,
@@ -3095,7 +3096,7 @@ export default [
     "flavor": "Every Space Marine is roused to war by the litanies of their Chaplains, and never is this spiritual fortification more vital than amidst the blood and horror of boarding actions and beachhead strikes. Thus, Chaplains are trained to wear formidable Terminator armour so they can fight alongside Veteran battle-brothers.",
     "profiles": [
       {
-        "name": "Chaplain In Terminator Armour",
+        "name": "Chaplain in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3181,7 +3182,7 @@ export default [
   },
   {
     "id": "chaplain-on-bike",
-    "name": "Chaplain On Bike",
+    "name": "Chaplain on Bike",
     "points": [
       {
         "models": 1,
@@ -3191,7 +3192,7 @@ export default [
     "flavor": "When a Chaplain takes to the field on a Raider-pattern bike, he is able to keep pace with even the swiftest armoured advance or spearhead breakthrough. Fighting in such an action, he will urge his brothers to victory as he bellows his catechisms and charges headlong into the foe, crozius arcanum swinging.",
     "profiles": [
       {
-        "name": "Chaplain On Bike",
+        "name": "Chaplain on Bike",
         "m": "12\"",
         "t": "5",
         "sv": "3+",
@@ -3277,7 +3278,7 @@ export default [
   },
   {
     "id": "chaplain-with-jump-pack",
-    "name": "Chaplain With Jump Pack",
+    "name": "Chaplain with Jump Pack",
     "points": [
       {
         "models": 1,
@@ -3287,7 +3288,7 @@ export default [
     "flavor": "Ever are the roared litanies of the Chaplains needed all over the battlefield, to stir the hearts of battle-brothers and drive fear into the enemy. With a jump pack a Chaplain can thunder to wherever he is most needed, or spearhead furious assaults into the enemy’s positions himself.",
     "profiles": [
       {
-        "name": "Chaplain With Jump Pack",
+        "name": "Chaplain with Jump Pack",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -3466,13 +3467,13 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
         "Death Company Marines with Boltguns and Jump Packs",
-        "Death Company Marines With Jump Packs",
+        "Death Company Marines with Jump Packs",
         "Skyclaws",
         "Talonstrike Kill Team",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -4239,8 +4240,8 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
-      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
+      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)"
     ],
     "keywords": [
@@ -4439,7 +4440,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 60,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "4th+"
       }
     ],
     "flavor": "Launched from ships in low orbit, Drop Pods full of Space Marines slam into the battlefield, their hatches blowing open upon the violent impact. Within seconds, the squad bursts out with weapons firing. Such deadly strikes send the foe into disarray as their lines are torn apart in the furious assault.",
@@ -4725,13 +4732,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 80,
-        "note": "3rd+"
+        "points": 80
       }
     ],
     "flavor": "The heavy Mk X Gravis armour of these fire support specialists allows them to weather storms of incoming projectiles. Standing firm, they return fire with their brutal heavy bolters, scything down enemy infantry and blowing apart the foe's light armoured vehicles with well-placed shots to weak spots in their targets' hulls.",
@@ -5620,7 +5621,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
@@ -5788,12 +5795,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 135,
+        "points": 140,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -6940,9 +6947,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Assault Intercessors With Jump Packs",
+        "Assault Intercessors with Jump Packs",
         "Assault Squad with Jump Packs",
-        "Vanguard Veteran Squad With Jump Packs"
+        "Vanguard Veteran Squad with Jump Packs"
       ]
     },
     "keywords": [
@@ -7343,12 +7350,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 250,
+        "points": 260,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 270,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -7482,13 +7489,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 105,
-        "note": "3rd+"
+        "points": 105
       }
     ],
     "flavor": "Streaking over the battlefield on humming anti-grav engines, the Land Speeder performs blistering attack runs to rake the enemy with shots then darts away before the foe can respond. It is a valuable rapid reconnaissance asset for Space Marine forces in the field and excels in providing highly mobile fire support.",
@@ -7596,7 +7597,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
       }
     ],
     "flavor": "Librarians are the Space Marines’ battle-psykers and keepers of lore. Wielding terrifying empyric energies, with but a thought they can crush a foe’s skull, throw up force shields to protect their brethren from incoming fire, and hurl blasts of psychic power.",
@@ -7717,7 +7724,7 @@ export default [
   },
   {
     "id": "librarian-in-phobos-armour",
-    "name": "Librarian In Phobos Armour",
+    "name": "Librarian in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -7727,7 +7734,7 @@ export default [
     "flavor": "Many Librarians learn the arcane arts of obscuration and illusion as part of their long and dangerous training. Donning Phobos armour, they take to the field and use these skills to fog the minds of their enemies, prise vital battle plans from their foes’ minds and turn the enemy’s shadows against them.",
     "profiles": [
       {
-        "name": "Librarian In Phobos Armour",
+        "name": "Librarian in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -7832,17 +7839,17 @@ export default [
   },
   {
     "id": "librarian-in-terminator-armour",
-    "name": "Librarian In Terminator Armour",
+    "name": "Librarian in Terminator Armour",
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 85
       }
     ],
     "flavor": "The powers of a Chapter’s Librarians lend a lethal psychic edge to its elite infantry spearheads. Whether it be gruelling boarding actions, ferocious urban combat or on the front line against overwhelming enemy numbers, Librarians in Terminator armour blast at the foe with their powerful psychic energies.",
     "profiles": [
       {
-        "name": "Librarian In Terminator Armour",
+        "name": "Librarian in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -8153,7 +8160,7 @@ export default [
   },
   {
     "id": "lieutenant-in-phobos-armour",
-    "name": "Lieutenant In Phobos Armour",
+    "name": "Lieutenant in Phobos Armour",
     "points": [
       {
         "models": 1,
@@ -8163,7 +8170,7 @@ export default [
     "flavor": "Highly capable combat commanders, Lieutenants can lead independent reconnaissance, sabotage and assassination forces far beyond Imperial lines. They are deadly warriors, and the last sensation of countless foes has been the cold press of a Space Marine Lieutenant’s knife to their neck.",
     "profiles": [
       {
-        "name": "Lieutenant In Phobos Armour",
+        "name": "Lieutenant in Phobos Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -8250,7 +8257,7 @@ export default [
   },
   {
     "id": "lieutenant-in-reiver-armour",
-    "name": "Lieutenant In Reiver Armour",
+    "name": "Lieutenant in Reiver Armour",
     "points": [
       {
         "models": 1,
@@ -8260,7 +8267,7 @@ export default [
     "flavor": "When a Space Marine commander needs the enemy broken in terror, he unleashes detachments led by Lieutenants clad in the wargear of the Reiver Squads. With the masterful leadership of the Lieutenant, these forces become more powerful than the sum of their parts, and drive contingents of the foe to flight.",
     "profiles": [
       {
-        "name": "Lieutenant In Reiver Armour",
+        "name": "Lieutenant in Reiver Armour",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -8337,7 +8344,7 @@ export default [
   },
   {
     "id": "lieutenant-with-combi-weapon",
-    "name": "Lieutenant With Combi-weapon",
+    "name": "Lieutenant with Combi-weapon",
     "points": [
       {
         "models": 1,
@@ -8347,7 +8354,7 @@ export default [
     "flavor": "Some Lieutenants in Phobos armour are tasked with operating behind enemy lines, acting as skilled assassins and intelligence gatherers. By the time the main Space Marine task force has arrived they have cast the enemy into disarray and collected incredible tactical data that will all but guarantee the assault’s success.",
     "profiles": [
       {
-        "name": "Lieutenant With Combi-weapon",
+        "name": "Lieutenant with Combi-weapon",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -9044,7 +9051,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "4th+"
       }
     ],
     "flavor": "The Razorback replaces some of the Rhino’s transport capacity with a heavy weapon turret, and provides fire support for armoured infantry assaults while delivering its own cargo of warriors to battle. Such is its success that for many Chapters it performs additional functions, notably as a mobile command centre.",
@@ -9782,7 +9795,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "The Rhino transport has served the Space Marines for ten thousand years, and forms a part of many of their strike forces. With robust self-repair systems, the Rhino is a rugged vehicle that can swiftly navigate nightmare battlefields to deliver its deadly cargo of Space Marines into the heart of battle.",
@@ -10314,7 +10333,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
     "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*",
+      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
       "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
       "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
       "* This model's Sternguard bolt rifle cannot be replaced."
@@ -10443,7 +10462,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -11646,7 +11665,7 @@ export default [
     "options": [
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 heavy bolter\n▪ 1 grav-cannon\n▪ 1 grav-gun\n▪ 1 lascannon\n▪ 1 meltagun\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon\n▪ 1 plasma gun",
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun",
-      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)."
     ],
     "keywords": [
@@ -12002,7 +12021,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
+      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
       "The Terminator Sergeant’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."
@@ -12344,7 +12363,7 @@ export default [
   },
   {
     "id": "vanguard-veteran-squad-with-jump-packs",
-    "name": "Vanguard Veteran Squad With Jump Packs",
+    "name": "Vanguard Veteran Squad with Jump Packs",
     "points": [
       {
         "models": 5,
@@ -12370,7 +12389,7 @@ export default [
     "flavor": "On the battlefield, Vanguard Veteran Squads with jump packs are peerless rapid- response troops as well as line-breakers. With great plumes of fire extending behind them they can arrive at the perfect time and place to ensure the decisiveness of an assault or utterly break an enemy incursion.",
     "profiles": [
       {
-        "name": "Vanguard Veteran Squad With Jump Packs",
+        "name": "Vanguard Veteran Squad with Jump Packs",
         "m": "12\"",
         "t": "4",
         "sv": "3+",
@@ -12549,7 +12568,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 250,
         "note": "2nd+"
       }
     ],
@@ -12758,7 +12777,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 95
       }
     ],
     "flavor": "Striding into battle with the weapons of his Primarch in his hands, the Forgefather lays low all who oppose him. Seeker of the lost relics of Vulkan, He’stan is relentless in his quest, willing to fight through any foe and face down any danger in order to see his oaths fulfilled.",

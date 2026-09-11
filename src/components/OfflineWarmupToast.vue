@@ -48,7 +48,6 @@ watch(status, (s) => {
   padding: 0.55rem 0.7rem 0.55rem 0.9rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 999px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
   font-size: 0.82rem;
   color: var(--text-primary);

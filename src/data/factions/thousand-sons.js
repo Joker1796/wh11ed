@@ -156,7 +156,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
         },
         {
           name: 'Umbralefic Crystal',
-          points: 20,
+          points: 30,
           flavor: 'One in command of this powerful relic – coalesced from the cursed gloom of Mangel III – can use its energies to temporarily fold space, creating a gate of sorcerous translocation through which they can step.',
           body: `Thousand Sons model only. (Once per battle, per army) In your Command phase, if this unit is unengaged, you can use this ability. If you do:
 ▪ Place this unit in strategic reserves.
@@ -523,7 +523,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Tzaangors
       name: 'Warpforged Cabal',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: 'Warpfire Infusion',
         flavor:
@@ -639,7 +639,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
       name: 'Ritual of Regeneration',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       rule: {
         name: 'Sorcerous Invigoration',
         flavor:
@@ -703,7 +703,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
       name: 'Sekhetar Cohort',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Disruption',
       rule: {
         name: 'Ensorcelled Animus',
         flavor:
@@ -839,7 +839,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
       id: 'hexwarp-thrallband',
       name: 'Hexwarp Thrallband',
       source: 'faction-pack',
-      dp: 2,
+      dp: 3,
       forceDisposition: 'Take and Hold',
       rule: {
         name: 'Flow of Magic',

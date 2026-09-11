@@ -20,7 +20,7 @@
       <dl v-if="!finished" class="breakdown">
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
         <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
-        <div v-if="game.settings.trackCP"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
+        <div v-if="showCp"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
       </dl>
     </div>
     <div v-if="leaderIdx === -1" class="tie">{{ labels.trackerTie }}</div>
@@ -34,6 +34,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
+import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
 const props = defineProps({
@@ -49,6 +50,7 @@ const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const grandTotal = (i) => grandTotalOf(game.value, i)
 const leaderIdx = computed(() => leaderOf(game.value))
+const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 // Battle Points are a finished-game metric — only shown on results when scoreMode is 'bp'.
 const bpMode = computed(() => props.finished && game.value?.settings?.scoreMode === 'bp')
 const bp = computed(() => battlePointsOf(game.value))
@@ -70,7 +72,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
   padding: 0.8rem;
   text-align: center;
 }
@@ -93,7 +94,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   color: #1a1a1a;
   background: #e3b341;
   padding: 1px 6px;
-  border-radius: 999px;
 }
 .grand {
   font-family: var(--font-display);
@@ -113,6 +113,11 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .breakdown div { display: flex; flex-direction: column; gap: 1px; }
 .breakdown dt { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); }
 .breakdown dd { margin: 0; font-family: var(--font-mono); font-weight: 700; color: var(--text-muted); }
+/* The badge straddles the board's top edge, and this screen puts the board directly under the
+   sticky header — so on a phone the two touched. The board makes room for it instead of the badge
+   moving onto the score columns (there it would sit across the player names): the extra strip is
+   paid for ONLY by a tied game, which is why it hangs off `:has()` rather than off the board. */
+.board:has(.tie) { margin-top: 0.6rem; }
 .tie {
   position: absolute;
   top: -0.5rem;
@@ -122,7 +127,6 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   text-transform: uppercase;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 999px;
   padding: 1px 8px;
   color: var(--text-dim);
 }

@@ -266,7 +266,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Stoic Defender',
           points: 15,
           flavor: 'This commander and their warriors hold their ground tenaciously against even overwhelming numbers.',
-          body: `Adeptus Astartes model only. While the [gloss:bearer:bearer] is [gloss:lead:leading] a unit, models in that unit have the Feel No Pain 6+ ability while they are within range of an [gloss:objective-marker:objective marker] you control and, while that unit is [gloss:battle-shocked:Battle-shocked], halve the [gloss:objective-control:Objective Control] characteristic of models in that unit instead of changing it to 0.`,
+          body: `Adeptus Astartes model only. While the [gloss:bearer:bearer] is [gloss:lead:leading] a unit, models in that unit have the Feel No Pain 6+ ability while they are within an [gloss:objective-marker:objective] you control and, while that unit is [gloss:battle-shocked:Battle-shocked], halve the [gloss:objective-control:Objective Control] characteristic of models in that unit instead of changing it to ‘-’.`,
         },
       ],
     },
@@ -276,7 +276,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Ironstorm Spearhead',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       rule: {
         name: 'Armoured Wrath',
         flavor:
@@ -378,7 +378,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Firestorm Assault Force',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: 'Close-range Eradication',
         flavor:
@@ -677,7 +677,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: '1st Company Task Force',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Extremis-level Threat',
         flavor:
@@ -777,7 +777,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Fulguris Task Force',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Reconnaissance',
       rule: {
         name: 'Skystrike',
         flavor:
@@ -895,7 +895,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
       name: 'Subversion Assets',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Reconnaissance',
+      forceDisposition: 'Disruption',
       rule: {
         name: 'Nowhere to Hide',
         flavor:
@@ -991,7 +991,7 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a [glo
           flavor: 'With steely discipline, Space Marine battle-brothers mount up swiftly, even as the enemy closes in.',
           when: 'End of the Fight phase.',
           target: 'One Adeptus Astartes Infantry unit from your army that is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, and one [gloss:friendly:friendly] Heavy Transport it is able to embark within.',
-          effect: 'If your Adeptus Astartes Infantry unit is [gloss:wholly-within:wholly within] 6" of that Heavy Transport, it can [gloss:embark:embark] within it.',
+          effect: 'If your Adeptus Astartes Infantry unit is [gloss:wholly-within:wholly within] 6" of that Heavy Transport, it can [gloss:embark:embark] within it. Your unit can embark within that Transport in a turn it [gloss:disembark:disembarked] from a Transport.',
           restrictions: '',
         },
         {
@@ -1381,7 +1381,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
       source: 'faction-pack',
       chapter: 'Iron Hands',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Calculated Annihilation',
         flavor:
@@ -1590,7 +1590,7 @@ Restrictions: Your army can include White Scars units, but it cannot include any
       source: 'faction-pack',
       chapter: 'Salamanders',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Priority Assets',
       rule: {
         name: "Vulkan's Quest",
         flavor:
@@ -1696,7 +1696,7 @@ Restrictions: Your army can include Salamanders units, but it cannot include any
       source: 'faction-pack',
       chapter: 'Imperial Fists',
       dp: 2,
-      forceDisposition: 'Priority Assets',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Wrath of Dorn',
         flavor:

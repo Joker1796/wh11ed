@@ -47,7 +47,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Kauyon",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "Patient Hunter",
         flavor: "The tactical philosophy known as the Kauyon allows for T’au commanders to draw the enemy into a deadly trap, springing it at the perfect moment to deliver a storm of fatal strikes against which none can escape.",
@@ -263,7 +263,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       name: "Mont’ka",
       source: 'codex',
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Killing Blow",
         flavor: "Mont’ka is the most aggressive style of T’au warfare. Its singular focus is the art of identifying a target of opportunity and attacking it swiftly with an overwhelming application of force.",
@@ -358,7 +358,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
         },
         {
           name: "Strike Swiftly",
-          points: 35,
+          points: 45,
           flavor: "This commander knows victory is best assured by taking the fight to the enemy as soon as battle is joined.",
           body: "T’AU EMPIRE model only. In the Resolve Pre-battle Abilities step, you can select up to two [gloss:friendly:friendly] T’AU EMPIRE units [gloss:within:within] 6\" of this model that do not have the [gloss:scouts:Scouts] ability. Until the end of the battle, all models in the selected units have the Scouts 6\" ability.",
         },
@@ -369,7 +369,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
       id: "retaliation-cadre",
       name: "Retaliation Cadre",
       source: 'codex',
-      dp: 2,
+      dp: 3,
       forceDisposition: "Purge the Foe",
       unique: "BATTLESUIT",
       rule: {

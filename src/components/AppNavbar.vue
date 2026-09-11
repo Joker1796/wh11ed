@@ -60,6 +60,11 @@
           class="nav-link"
           :class="{ active: isTrackerRoute }"
         >{{ labels.navTracker }}</RouterLink>
+        <RouterLink
+          to="/roster"
+          class="nav-link"
+          :class="{ active: isRosterRoute }"
+        >{{ labels.navRoster }}</RouterLink>
       </nav>
 
       <div class="navbar-actions">
@@ -99,6 +104,7 @@
         >
           <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
         </button>
+        <AccountMenu />
         <div class="settings-wrap">
           <button
             class="settings-btn"
@@ -130,6 +136,31 @@
                 <i class="bi bi-download"></i>
                 <span>{{ labels.installApp }}</span>
               </button>
+              <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
+                   here it joins the theme and lore toggles rather than crowding the navbar. -->
+              <template v-if="accountStatus === 'authed'">
+                <p class="settings-who">
+                  <i class="bi bi-cloud-check-fill"></i>
+                  <span>{{ accountName || labels.cloudSignedIn }}</span>
+                </p>
+                <button class="settings-item" @click="onSignOut">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>{{ labels.cloudSignOut }}</span>
+                </button>
+              </template>
+              <button
+                v-else
+                class="settings-item"
+                :disabled="accountStatus === 'idle'"
+                @click="onSignIn"
+              >
+                <i class="bi bi-person"></i>
+                <span>{{ labels.cloudSignInYandex }}</span>
+              </button>
+              <button v-if="accountDev" class="settings-item" @click="onMockToggle">
+                <i class="bi bi-wrench"></i>
+                <span>{{ accountStatus === 'authed' ? 'тест-выход' : 'тест-вход' }}</span>
+              </button>
             </div>
           </Transition>
         </div>
@@ -149,11 +180,15 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useLocale } from '../composables/useLocale.js'
+import { localePath } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
+import { useAccountActions } from '../composables/useAccountActions.js'
+import AccountMenu from './AccountMenu.vue'
 import { ui } from '../i18n/ui.js'
 import { factionGroups } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
@@ -163,11 +198,45 @@ defineProps({
 })
 const emit = defineEmits(['toggle-mobile-nav', 'open-search', 'open-install-hint'])
 
-const { locale, toggleLocale } = useLocale()
+const { locale, setLocale } = useLocale()
+const route = useRoute()
+const router = useRouter()
+
+// Switching language is a navigation now (RU lives at /ru/…), not a rewrite of the current
+// address. `replace` keeps the back button meaningful — a reader who toggles twice should end up
+// where they started, not three entries deep — and the router's scrollBehavior recognises a
+// locale-only change and leaves the scroll position alone, so the page doesn't jump.
+function toggleLocale() {
+  const next = locale.value === 'en' ? 'ru' : 'en'
+  setLocale(next)
+  router.replace({ path: localePath(route.path, next), query: route.query, hash: route.hash })
+}
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
-const { isRulesRoute, isFactionRoute, isTrackerRoute } = useRouteSection()
+const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
+const {
+  status: accountStatus,
+  accountName,
+  signIn,
+  signOut,
+  dev: accountDev,
+  toggleMock,
+} = useAccountActions()
+
+// Every gear-menu entry closes the menu behind it; the account ones are no different.
+function onSignIn() {
+  settingsOpen.value = false
+  signIn()
+}
+async function onSignOut() {
+  settingsOpen.value = false
+  await signOut()
+}
+function onMockToggle() {
+  settingsOpen.value = false
+  toggleMock()
+}
 
 const labels = computed(() => ui[locale.value])
 
@@ -280,7 +349,6 @@ function closeRulesMenu() {
   font-size: 0.85rem;
   font-weight: 500;
   color: rgba(255,255,255,0.65);
-  border-radius: 3px;
   transition: color 0.15s, background 0.15s;
   white-space: nowrap;
 }
@@ -341,7 +409,6 @@ function closeRulesMenu() {
   padding: 0.9rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 
@@ -393,7 +460,6 @@ a.nd-link:hover {
   letter-spacing: 0.5px;
   color: var(--text-dim);
   border: 1px solid var(--border);
-  border-radius: 3px;
   padding: 0 4px;
   align-self: center;
 }
@@ -413,7 +479,6 @@ a.nd-link:hover {
   width: 3.2rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 4px;
   padding: 0;
   cursor: pointer;
   overflow: hidden;
@@ -434,7 +499,6 @@ a.nd-link:hover {
   width: 50%;
   background: color-mix(in srgb, var(--accent) 55%, transparent);
   border: 1px solid var(--accent);
-  border-radius: 3px;
   transition: left 0.18s ease;
 }
 
@@ -469,7 +533,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0 0.65rem;
   cursor: pointer;
   font-size: 1.05rem;
@@ -490,7 +553,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0 0.65rem;
   cursor: pointer;
   font-size: 1.05rem;
@@ -522,7 +584,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
-  border-radius: 4px;
   padding: 0.3rem 0.55rem;
   cursor: pointer;
   font-size: 0.9rem;
@@ -558,7 +619,6 @@ a.nd-link:hover {
   padding: 0.3rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 
@@ -570,7 +630,6 @@ a.nd-link:hover {
   padding: 0.6rem 0.7rem;
   background: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   text-align: left;
   font-size: 0.85rem;
@@ -593,6 +652,30 @@ a.nd-link:hover {
   color: var(--accent);
 }
 
+/* Who you are, above the way out — a line, not a control. */
+.settings-who {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.6rem 0.7rem 0.2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+.settings-who .bi {
+  font-size: 1rem;
+  width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.settings-item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .search-btn {
   display: flex;
   align-items: center;
@@ -601,7 +684,6 @@ a.nd-link:hover {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.7);
-  border-radius: 4px;
   padding: 0 0.85rem;
   cursor: pointer;
   font-size: 0.88rem;
@@ -638,7 +720,6 @@ a.nd-link:hover {
   width: 22px;
   height: 2px;
   background: rgba(255,255,255,0.75);
-  border-radius: 2px;
   transition: transform 0.25s ease, opacity 0.2s ease;
   transform-origin: center;
 }

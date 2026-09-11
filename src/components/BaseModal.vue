@@ -19,7 +19,10 @@
       tabindex="-1"
       :style="{ '--modal-max-w': maxWidth, '--modal-max-h': maxHeight }"
     >
-      <!-- Custom header: the consumer supplies its own <header class="modal-head"> -->
+      <!-- Custom header: the consumer supplies its own <header class="modal-head">, and gets the
+           shared look for free — the chrome classes are global (style.css), not scoped here.
+           Prefer `title` when the header is only a heading and a close button; this slot is for
+           the ones that carry more (a subtitle, a VP counter). -->
       <slot v-if="$slots.header" name="header" :close="() => $emit('close')" />
       <!-- Default header: title + close -->
       <header v-else-if="title" class="modal-head">
@@ -43,7 +46,7 @@ import { useModalA11y } from '../composables/useModalA11y.js'
 defineProps({
   title: { type: String, default: '' },
   maxWidth: { type: String, default: '520px' },
-  maxHeight: { type: String, default: '85vh' },
+  maxHeight: { type: String, default: '85dvh' },
   zIndex: { type: Number, default: 400 },
 })
 const emit = defineEmits(['close'])
@@ -66,38 +69,31 @@ useModalA11y(root, () => emit('close'))
   justify-content: center;
   padding: 1rem;
 }
+/* Heights are in `dvh`, never `vh`. On iOS `vh` is the LARGE viewport — the page as it would be
+   with Safari's toolbars retracted — while the fixed overlay above is laid out against what is
+   actually on screen. A dialog capped in `vh` is therefore taller than the space it has, and
+   since a phone aligns it to the bottom edge, what goes off the screen is its top: the title and
+   the close button. `dvh` caps it at what the reader can see. */
 .modal {
   width: 100%;
   max-width: var(--modal-max-w, 520px);
-  max-height: var(--modal-max-h, 85vh);
+  max-height: var(--modal-max-h, 85dvh);
   display: flex;
   flex-direction: column;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 .modal:focus { outline: none; }
-/* Default header (custom headers carry their own .modal-head in the consumer's scope). */
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.mh-close {
-  background: none; border: none; color: var(--text-muted);
-  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
-}
-.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+/* .modal-head / .mh-title / .mh-close are global (style.css, "Modal chrome") rather than scoped
+   here: a consumer's own #header renders in ITS scope, which these rules would never reach. */
 
 @media (max-width: 560px) {
   .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
+  /* The only rounded corners in the app: on a phone the modal is a sheet that slides up from
+     the bottom edge, and the rounded top is what says so. */
+  .modal { max-width: 100%; max-height: 92dvh; border-radius: 12px 12px 0 0; }
 }
 
 /* Enter animation: the backdrop color fades in while the dialog scales in (slides up as

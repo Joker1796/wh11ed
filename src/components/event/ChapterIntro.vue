@@ -63,7 +63,6 @@ function renderParagraphs(text) {
   padding: 0.9rem 1.1rem;
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
-  border-radius: 4px;
   background: var(--bg-card);
 }
 .author-note-icon {

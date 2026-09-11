@@ -91,6 +91,10 @@ export const sharedUnitIds = [
 // (unit_composition_required_faction_keyword: 'Space Wolves') than the space-marines.js base
 // price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
 export const pointsOverrides = {
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "repulsor-executioner": [
     { models: 1, points: 230, note: "1st-2nd" },
     { models: 1, points: 250, note: "3rd+" },
@@ -189,7 +193,7 @@ export default [
   },
   {
     "id": "bjorn-the-fell-handed",
-    "name": "Bjorn The Fell-handed",
+    "name": "Bjorn the Fell-Handed",
     "points": [
       {
         "models": 1,
@@ -199,7 +203,7 @@ export default [
     "flavor": "Most ancient of all Space Marines and last of the Company of Russ, Bjorn the Fell-Handed has fought for millennia within a Dreadnought’s sarcophagus. The Space Wolves revere Bjorn as a living link to their deepest past, waking him only in times of dire need, and he still fights as furiously as he did at Russ’ side.",
     "profiles": [
       {
-        "name": "Bjorn The Fell-handed",
+        "name": "Bjorn the Fell-Handed",
         "m": "9\"",
         "t": "9",
         "sv": "2+",
@@ -1167,12 +1171,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 110,
+        "points": 130,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 210,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -1295,7 +1299,7 @@ export default [
   },
   {
     "id": "ulrik-the-slayer",
-    "name": "Ulrik The Slayer",
+    "name": "Ulrik the Slayer",
     "points": [
       {
         "models": 1,
@@ -1305,7 +1309,7 @@ export default [
     "flavor": "A paragon of wisdom and experience, Ulrik the Slayer has mentored many of the Space Wolves’ greatest champions. He is the Wolf High Priest, inspiring all who fight alongside him with his aggression and martial prowess. Turning his fearsome gaze upon mighty foes, Ulrik swears weighty oaths to cut them down.",
     "profiles": [
       {
-        "name": "Ulrik The Slayer",
+        "name": "Ulrik the Slayer",
         "m": "7\"",
         "t": "4",
         "sv": "3+",
@@ -1854,23 +1858,23 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 150,
-        "note": "1st"
-      },
-      {
-        "models": 10,
-        "points": 300,
-        "note": "1st"
-      },
-      {
-        "models": 5,
-        "points": 160,
-        "note": "2nd+"
+        "points": 155,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 310,
-        "note": "2nd+"
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 195,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 350,
+        "note": "3rd+"
       }
     ],
     "flavor": "Wolf Guard bedeck their Terminator armour with totems, trophies and marks of honour gained over their years of battle. They fight at the spearhead of assaults, eagerly seeking glory as enemy fire deflects harmlessly from their relic armour, the earth shaking beneath their heavy tread as they slay with stunning skill.",
@@ -2081,23 +2085,11 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 90,
-        "note": "1st-2nd"
+        "points": 90
       },
       {
         "models": 12,
-        "points": 180,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 6,
-        "points": 105,
-        "note": "3rd+"
-      },
-      {
-        "models": 12,
-        "points": 200,
-        "note": "3rd+"
+        "points": 180
       }
     ],
     "flavor": "Wolf Scouts are tasked with operating ahead of the main Space Wolves assault force, infiltrating enemy positions and seizing or sabotaging key locations. More than capable of operating alone for extended periods of time, they use guile and savagery to distract and harrass the foe.",

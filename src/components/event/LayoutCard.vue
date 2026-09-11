@@ -17,7 +17,7 @@
   <BaseModal
     v-if="showFull"
     max-width="min(96vw, 900px)"
-    max-height="94vh"
+    max-height="94dvh"
     :z-index="410"
     @close="showFull = false"
   >
@@ -76,7 +76,6 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
 .layout-card {
   margin: 0;
   border: 1px solid var(--border);
-  border-radius: 6px;
   overflow: hidden;
   background: var(--bg-card);
 }
@@ -145,46 +144,13 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
 .layout-modal-body :deep(.layout-img-full) {
   display: block;
   max-width: 100%;
-  max-height: calc(94vh - 60px);
+  max-height: calc(94dvh - 60px);
   width: auto;
   height: auto;
 }
 
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 0.9rem;
-  border-bottom: 1px solid var(--border);
-}
-.mh-title {
-  font-family: var(--font-display);
-  font-size: 1.49rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 0;
-}
-.mh-right {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-shrink: 0;
-}
-.mh-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  cursor: pointer;
-  min-width: 32px;
-  min-height: 32px;
-  border-radius: 4px;
-}
-.mh-close:hover {
-  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
-  color: var(--text-primary);
-}
+/* Denser header than the default. */
+.mh-close { min-width: 32px; min-height: 32px; }
 
 .measurements-toggle {
   display: inline-flex;
@@ -193,7 +159,6 @@ const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.ima
   flex-shrink: 0;
   padding: 0.35rem 0.8rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;

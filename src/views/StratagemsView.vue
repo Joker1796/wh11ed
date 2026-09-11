@@ -51,7 +51,7 @@
         </button>
         <CollapseTransition :show="openPhases.has(g.key)">
           <div class="strat-grid phase-grid">
-            <StratCard v-for="strat in g.strats" :key="stratKey(strat)" :strat="strat" />
+            <StratCard v-for="strat in g.strats" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
           </div>
         </CollapseTransition>
       </div>
@@ -59,13 +59,14 @@
 
     <!-- Flat list -->
     <div v-else class="strat-grid">
-      <StratCard v-for="strat in visibleStratagems" :key="stratKey(strat)" :strat="strat" />
+      <StratCard v-for="strat in visibleStratagems" :key="stratKey(strat)" :strat="strat" :sublabel="sublabelOf(strat)" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import StratCard from '../components/StratCard.vue'
 import CollapseTransition from '../components/CollapseTransition.vue'
 import { battlefields } from '../data/battlefields.js'
@@ -76,6 +77,7 @@ import { useTracker } from '../composables/useTracker.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
+const route = useRoute()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -212,37 +214,73 @@ watch(
   { immediate: true },
 )
 
-const filter = ref('core')
-// Reset to Core whenever a game ends, so the hidden filter state can't strand the view.
-watch(hasGame, (on) => { if (!on) filter.value = 'core' })
+// Mid-game the useful question is "what can anyone play right now", not "whose deck am I in" —
+// so All is the default while a game is on, and the three narrower tabs are there for when you
+// do want one deck. Without a game there is nothing to combine and the page stays core-only.
+const filter = ref(hasGame.value ? 'all' : 'core')
+// A game ending strands the combined view (its two thirds are gone), and a game starting is the
+// moment All becomes the useful default.
+watch(hasGame, (on) => { filter.value = on ? 'all' : 'core' })
 
 const filters = computed(() => {
   if (!hasGame.value) return []
   return [
+    { key: 'all', label: labels.value.stratFilterAll },
     { key: 'core', label: labels.value.stratFilterCore },
     { key: 'you', label: labels.value.stratFilterYou },
     { key: 'opp', label: labels.value.stratFilterOpp },
   ]
 })
 
+// In the combined list a card has to say whose it is: two players can field the SAME detachment
+// (a mirror match), and then the two copies are identical down to the sublabel. `_owner` answers
+// that, and keeps their keys apart.
+const owned = (strats, key) => strats.map((s) => ({ ...s, _owner: key }))
+const allStrats = computed(() => [
+  ...coreStrats.value,
+  ...owned(youStrats.value, 'you'),
+  ...owned(oppStrats.value, 'opp'),
+])
+
 const visibleStratagems = computed(() => {
-  if (!hasGame.value || filter.value === 'core') return coreStrats.value
+  if (!hasGame.value) return coreStrats.value
+  if (filter.value === 'all') return allStrats.value
   if (filter.value === 'you') return youStrats.value
   if (filter.value === 'opp') return oppStrats.value
   return coreStrats.value
 })
 
+// The player's own name where they gave one, else the tab's word for them.
+function ownerName(key) {
+  const pl = key === 'you' ? you.value : opp.value
+  return pl?.name || (key === 'you' ? labels.value.stratFilterYou : labels.value.stratFilterOpp)
+}
+
+// A detachment stratagem carries its own sublabel ("Gladius Task Force – Battle Tactic
+// Stratagem"); a core one carries none and StratCard falls back to "CORE STRATAGEM". Passing it
+// at all is the fix for every detachment card on this page having claimed to be a core one.
+function sublabelOf(strat) {
+  if (!strat.sublabel) return null
+  return strat._owner ? `${ownerName(strat._owner)} · ${strat.sublabel}` : strat.sublabel
+}
+
 function stratKey(strat) {
-  return strat.num || `${strat.sublabel || ''}|${strat.name}`
+  return `${strat._owner || ''}|${strat.num || `${strat.sublabel || ''}|${strat.name}`}`
 }
 
 // Group-by-phase view: a toggle swaps the flat grid for one accordion per phase.
 // Accordions start collapsed — the user expands whichever phase they need. The chosen
 // view mode is remembered across visits.
 const VIEW_KEY = 'wh11ed-stratagems-by-phase'
-const byPhase = ref(getItem(VIEW_KEY) === '1')
+// …unless the link that brought the reader here named a phase (`?phase=shooting`, from the
+// tracker's phase reminder): that is a request to see THAT phase, open. Both are read here, into
+// the refs' INITIAL values, rather than assigned afterwards — going through the toggle would fire
+// the watcher below and persist a view mode the reader never chose. `route` is optional-chained:
+// the page renders fine mounted without a router, and a missing query is not a reason to fail.
+const wantedPhase = PHASE_ORDER.includes(String(route?.query?.phase)) ? String(route.query.phase) : null
+const byPhase = ref(wantedPhase ? true : getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
-const openPhases = ref(new Set())
+const openPhases = ref(new Set(wantedPhase ? [wantedPhase] : []))
 
 const phaseGroups = computed(() => {
   // A stratagem can span several phases (its `_phases` array), so it appears under each.
@@ -290,7 +328,6 @@ function togglePhase(key) {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -320,7 +357,6 @@ function togglePhase(key) {
   width: 100%;
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
@@ -365,7 +401,6 @@ function togglePhase(key) {
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--bg-card);
   color: var(--text-muted);
   cursor: pointer;
@@ -388,22 +423,6 @@ function togglePhase(key) {
   font-style: italic;
   padding: 1.5rem 0;
   text-align: center;
-}
-
-.strat-grid {
-  column-count: 2;
-  column-gap: 1rem;
-}
-
-.strat-grid > * {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 640px) {
-  .strat-grid {
-    column-count: 1;
-  }
 }
 
 /* Narrow phones: with a game on there are 4 toolbar buttons (3 filters + the toggle),

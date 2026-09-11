@@ -60,7 +60,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Freeblade Company",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Knights of Legend",
         flavor: "Warriors such as these are truly indomitable. Driven on by deadly oaths, bolstered by ancient technology or shimmering with supernatural energies, they stride through the most punishing firestorms to emerge victorious on the other side.",
@@ -167,11 +167,11 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Gate Warden Lance",
       source: 'codex',
       dp: 2,
-      forceDisposition: "Priority Assets",
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Dauntless Defenders",
         flavor: "With a rigid, strategic intuition born of the unyielding fortifications defended by their ancestors, the Nobles of a Gate Warden Lance hold their ground with an arrogant superiority. While even one defends the marches of their claimed realm, they will fight to the ends of their honour to hurl back the besiegers.",
-        body: "At the start of the first battle round, select two objectives to be your foundations. Place a circular foundation marker in each one. When you draw a line from the closest part of one foundation marker to the closest part of the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line.\n\nWhile an IMPERIAL KNIGHTS unit from your army is on your defensive line, that unit has the following ability:\n\n**Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.",
+        body: "At the start of the first battle round, select two objectives to be your foundations. Place a circular 40mm foundation marker in each one. When you draw a line from any part of one of your foundation markers to any part of the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line.\n\nWhile an IMPERIAL KNIGHTS unit from your army is on your defensive line, that unit has the following ability:\n\n**Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.",
       },
       stratagems: [
         {
@@ -597,7 +597,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       name: "Dominus Foebreakers",
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: "Purge the Foe",
+      forceDisposition: "Priority Assets",
       rule: {
         name: "Rain of Devastation",
         flavor: "Packing together within the confines of cover might work against small arms, but in the face of Dominus-class Knights, it only serves to concentrate and magnify the fury of their firepower.",

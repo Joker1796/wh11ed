@@ -39,8 +39,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "imperialis-fleet",
       name: "Imperialis Fleet",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Disruption",
+      dp: 2,
+      forceDisposition: "Reconnaissance",
       rule: {
         name: "At all Costs",
         flavor: "While the nature of the missions undertaken by Imperial agents is as varied as they are, the vital importance of these tasks rarely changes. The enemies they face are the most unholy. The prizes they seek are as priceless as they are nightmarishly dangerous. Thus, when such warriors of the Imperium identify a priority target for elimination or acquisition, no effort is too great nor price too high to see their aims achieved.",
@@ -146,8 +146,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-hereticus-purgation-force",
       name: "Ordo Hereticus, Purgation Force",
       source: 'codex',
-      dp: 3,
-      forceDisposition: "Purge the Foe",
+      dp: 2,
+      forceDisposition: "Take and Hold",
       rule: {
         name: "Root out Heresy",
         flavor: "No matter how cunningly their heretical prey hides, they cannot escape the zealous retribution of the Ordo Hereticus.",
@@ -254,7 +254,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-malleus-daemon-hunters",
       name: "Ordo Malleus, Daemon Hunters",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
         name: "Destroy the Daemonic",
@@ -362,12 +362,12 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "ordo-xenos-alien-hunters",
       name: "Ordo Xenos, Alien Hunters",
       source: 'codex',
-      dp: 3,
+      dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {
         name: "Deathwatch Mission Tactics",
         flavor: "Thousands of years of collated strategic data and hard-won combat experience have provided the Deathwatch with the ultimate battlefield tactics to combat almost any foe.",
-        body: "At the start of your Command phase, you can select one of the Mission Tactics listed below. Until the start of your next Command phase, that Mission Tactic is active and its effects apply to all DEATHWATCH units from your army. Each Mission Tactic can only be selected once per battle.\nFuror Tactics\n\nThe warriors of the Deathwatch are often sorely outnumbered by swarming foes, yet by striking for maximum indiscriminate carnage they soon even the odds.\n\nWhile this Mission Tactic is active, weapons equipped by DEATHWATCH units from your army have the [SUSTAINED HITS 1] ability.\n\nMalleus Tactics\n\nEven the largest behemoth has a weak point, and the Deathwatch find them all.\n\nWhile this Mission Tactic is active, weapons equipped by DEATHWATCH units from your army have the [LETHAL HITS] ability.\n\nPurgatus Tactics\n\nAdopting Purgatus tactics, the Deathwatch focus their ire upon the commanders of the enemy host.\n\nWhile this Mission Tactic is active, each time a DEATHWATCH model from your army makes an attack, on a Critical Wound, that attack has the [PRECISION] ability.",
+        body: "At the start of your Command phase, you can select one of the Mission Tactics listed below. Until the start of your next Command phase, that Mission Tactic is active and its effects apply to all DEATHWATCH units from your army. Each Mission Tactic can only be selected once per battle.\nFuror Tactics\n\nWhile this Mission Tactic is active, weapons equipped by DEATHWATCH units from your army have the [SUSTAINED HITS 1] ability.\n\nMalleus Tactics\n\nWhile this Mission Tactic is active, weapons equipped by DEATHWATCH units from your army have the [LETHAL HITS] ability.\n\nPurgatus Tactics\n\nWhile this Mission Tactic is active, each time a DEATHWATCH model from your army makes an attack, on a Critical Wound, that attack has the [PRECISION] ability.",
       },
       stratagems: [
         {
@@ -469,8 +469,8 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       id: "veiled-blade-elimination-force",
       name: "Veiled Blade Elimination Force",
       source: 'faction-pack', // printed in the pack (identical to the codex text)
-      dp: 3,
-      forceDisposition: "Reconnaissance",
+      dp: 1,
+      forceDisposition: "Disruption",
       rule: {
         name: "Extremis Sanction",
         flavor: "When pursuing an extremis-level target, the agents of the Officio Assassinorum are expected to push their altered minds and bodies beyond the limits of endurance. Additional equipment, augmentation and ammunition may be provided to complete the task.",

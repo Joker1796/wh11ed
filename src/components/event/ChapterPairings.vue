@@ -62,10 +62,3 @@ const ec = computed(() => getEventContent(locale.value))
 const pairings = computed(() => ec.value.pairings)
 const chunks = computed(() => chunkBlocks(pairings.value.blocks))
 </script>
-
-<style scoped>
-.lead {
-  margin: 0 0 1.25rem;
-  line-height: 1.6;
-}
-</style>

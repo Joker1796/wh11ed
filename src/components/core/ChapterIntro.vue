@@ -129,6 +129,5 @@ const missionParagraphs = computed(() =>
   width: 140px;
   height: auto;
   display: block;
-  border-radius: 4px;
 }
 </style>

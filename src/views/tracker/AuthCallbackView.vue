@@ -15,13 +15,16 @@ import { useAuth } from '../../composables/useAuth.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { refresh } = useAuth()
+const { refresh, takeReturnPath } = useAuth()
 
-// The backend has just set the refresh cookie and redirected here. Exchange it for an access
-// token, then return to the tracker (whether or not it succeeded).
+// The backend has just set the refresh cookie and redirected here — always to this one path,
+// whichever page the user signed in from (it is the backend's APP_AFTER_LOGIN_URL, not a choice
+// this app makes). Exchange the cookie for an access token, then hand the user back to the page
+// that sent them, whether or not it succeeded. The tracker is the fallback: it is where the
+// button used to live, and where a session with nothing else to say is most useful.
 onMounted(async () => {
   await refresh()
-  router.replace('/tracker')
+  router.replace(takeReturnPath() || '/tracker')
 })
 </script>
 

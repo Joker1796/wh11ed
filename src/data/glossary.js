@@ -846,8 +846,8 @@ export const glossary = {
   },
   'go-to-ground': {
     term: 'Go to Ground',
-    en: 'A state, not an Action: a Hidden model within Solid terrain that made no ranged attacks this or the previous turn has gone to ground; while it has, subtract 3" from that model’s detection range, making it harder to spot.',
-    ru: 'Состояние, а не действие: скрытая модель внутри сплошного укрытия, не стрелявшая в этот и прошлый ход, считается залёгшей; пока она залегла, из её радиуса обнаружения вычитается 3", и её труднее обнаружить.',
+    en: 'A state, not an Action: a Hidden model concealed by Dense terrain that made no ranged attacks this or the previous turn has gone to ground; while it has, subtract 3" from that model’s detection range, making it harder to spot.',
+    ru: 'Состояние, а не действие: скрытая модель, укрытая плотным укрытием, не стрелявшая в этот и прошлый ход, считается залёгшей; пока она залегла, из её радиуса обнаружения вычитается 3", и её труднее обнаружить.',
   },
   'level-of-control': {
     term: 'Level of Control',

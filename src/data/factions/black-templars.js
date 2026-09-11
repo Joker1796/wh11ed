@@ -288,7 +288,7 @@ If this unit has the Infantry keyword:
       name: 'Godhammer Assault Force',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Purge the Foe',
       rule: {
         name: 'Shock and Awe',
         flavor:
@@ -463,7 +463,7 @@ If this unit has the Infantry keyword:
       name: 'The Living Miracle',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Disruption',
       rule: {
         name: 'Anointed Champion',
         flavor:

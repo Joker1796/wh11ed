@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
+import { LOCALE_SEGMENT, localePath, stripLocale } from './locale.js'
+import { locale as activeLocale, readStoredLocale, setLocale } from '../composables/useLocale.js'
 
 // Route views are lazy-loaded so each page (and its data file) ships in its own
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
@@ -12,8 +14,17 @@ const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
+const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
+const RosterListView    = () => import('../views/tracker/RosterListView.vue')
+const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
+const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
+const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
+const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
+const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
+const HelpView          = () => import('../views/HelpView.vue')
+const HelpTopicView     = () => import('../views/HelpTopicView.vue')
 const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
@@ -280,6 +291,17 @@ export const trackerGroupsRu = [
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
+// Roster Builder — its own top-level section, next to the Tracker (no longer folded into
+// it). One entry, like factionGroups below — the list page (/roster) is the section's own
+// landing page; the wizard/editor/shared-link routes underneath it aren't in the nav.
+export const rosterGroups = [
+  { label: 'Rosters', path: '/roster', sections: [] },
+]
+
+export const rosterGroupsRu = [
+  { label: 'Ростеры', path: '/roster', sections: [] },
+]
+
 // Factions — top-level section. List page (/factions) + two per-faction pages:
 // /factions/:slug (army rule + detachments, merged) and .../datasheets (units). The old
 // .../detachments URL redirects to the merged page. On desktop those two ride in the subnav
@@ -310,9 +332,36 @@ export const combatPatrolGroupsRu = combatPatrolIndex.map((f) => ({
 // isEventRoute, …) — one flag read off the matched route instead of a `path.startsWith()` guess
 // repeated at every call site. Routes with no bearing on that nav chrome (landing, disclaimer,
 // changelog, tracker sub-pages, 404) carry no section.
-export const router = createRouter({
-  history: createWebHistory(),
-  routes: [
+// Every public route exists twice: bare (EN) and under `/ru` — but as ONE record, via the
+// optional `LOCALE_SEGMENT` prefix. Duplicating the table would guarantee a drift the first time
+// somebody adds a page and updates only one copy.
+//
+// `redirect`/`beforeEnter` need help, though: they were written to return bare paths, and a
+// Russian visitor following one must stay Russian. `withLocale` re-applies the prefix to whatever
+// they return, so each of them stays written in one language and none has to know about locales.
+function reprefix(result, to) {
+  const loc = to?.params?.lang === 'ru' ? 'ru' : 'en'
+  if (typeof result === 'string') return localePath(result, loc)
+  if (result && typeof result === 'object' && typeof result.path === 'string') {
+    return { ...result, path: localePath(result.path, loc) }
+  }
+  return result // `true`, undefined, a named target — nothing to prefix
+}
+
+function withLocale(route) {
+  const out = { ...route, path: LOCALE_SEGMENT + (route.path === '/' ? '' : route.path) }
+  if (route.redirect) {
+    const r = route.redirect
+    out.redirect = (to) => reprefix(typeof r === 'function' ? r(to) : r, to)
+  }
+  if (route.beforeEnter) {
+    const b = route.beforeEnter
+    out.beforeEnter = (to, from) => reprefix(b(to, from), to)
+  }
+  return out
+}
+
+const localeRoutes = [
     { path: '/',               component: LandingView, meta: { section: 'landing' } },
     { path: CORE_PATH, component: CoreRulesView, meta: { section: 'core' } },
     // The seven former chapter routes. They stay valid forever — old bookmarks, shared
@@ -330,10 +379,45 @@ export const router = createRouter({
     })),
     { path: '/tracker',      component: TrackerHomeView, meta: { section: 'tracker' } },
     { path: '/tracker/game', component: TrackerGameView, meta: { section: 'tracker' } },
+    // Roster builder rides with the Tracker section (subnav + nav highlight) — public list
+    // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
+    // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static
+    // /roster/new and /roster/shared must precede the :id route so neither is captured as an id.
+    { path: '/roster',        component: RosterListView, meta: { section: 'roster' } },
+    { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
+    { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
+    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    // The same list as a document, with the panel that decides what goes on the paper.
+    // Private like the rest of them: a print of somebody's army list has no business in
+    // STATIC_ROUTES or in the sitemap.
+    { path: '/roster/:id/print', component: RosterPrintView, meta: { section: 'roster' } },
+    // The catalogue used to live here, as a page of its own. It is now a pane of the editor's
+    // Units tab — the redirect is for the links that outlive the route: a stored last route (the
+    // PWA resumes into one), a phone's back stack, a bookmark.
+    { path: '/roster/:id/add', redirect: (to) => `/roster/${to.params.id}` },
+    { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
+    // The army list attached to a player of the CURRENT game (:pi = 0|1). Same view as
+    // /roster/:id/view, reading the game's own snapshot instead of the saved-roster store — see
+    // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
+    { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
+    // Your battle record, read out of the same history. Private like /tracker/game: it is a view
+    // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
+    { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
+    // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
+    { path: '/tracker/history/:gid/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
+    // The guide was one page with six anchors until 2026-08-25. Links written against it — ours,
+    // and anyone's bookmark — arrive as /help#help-tracker; send those to the page that section
+    // became. An unknown topic bounces back to the contents from HelpTopicView itself.
+    {
+      path: '/help',
+      component: HelpView,
+      beforeEnter: (to) => (/^#help-[a-z-]+$/.test(to.hash) ? `/help/${to.hash.slice(6)}` : true),
+    },
+    { path: '/help/:topic', component: HelpTopicView },
     { path: '/changelog', component: ChangelogView },
     { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
     { path: '/factions/:slug',             component: FactionRuleView, meta: { section: 'faction' } },
@@ -350,8 +434,16 @@ export const router = createRouter({
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView, meta: { section: 'stratagems' } },
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    ...localeRoutes.map(withLocale),
     // Catch-all 404. The bucket's ErrorDocument serves index.html (HTTP 404) for any
-    // unknown path, so the SPA must render its own not-found page (with noindex).
+    // unknown path, so the SPA must render its own not-found page (with noindex). It is
+    // deliberately NOT locale-prefixed: one catch-all already swallows `/ru/nonsense`
+    // (checked against the matcher), and NotFoundView's noindex is what matters there.
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
   // Every `hash` in the app targets /core-rules or /event-companion, and both already
@@ -363,6 +455,9 @@ export const router = createRouter({
   // (landing on the wrong section) before the page has finished laying out. Leave hash
   // scrolling to scrollToAnchor entirely.
   scrollBehavior(to, from, savedPosition) {
+    // Switching language is not "going somewhere" — it is the same page in the other language,
+    // so the reader must keep their place. `false` means "don't touch the scroll position".
+    if (stripLocale(to.path) === stripLocale(from.path) && to.path !== from.path) return false
     if (savedPosition) return savedPosition
     return { top: 0 }
   },
@@ -383,11 +478,56 @@ if (isStandaloneDisplay()) {
   router.beforeEach((to) => {
     if (restored) return
     restored = true
-    if (to.path !== '/') return
+    // `stripLocale`, not `!== '/'`: with RU on a path prefix, "we landed on home" is `/` OR `/ru`,
+    // and comparing raw would silently switch the restore off for every Russian reader.
+    if (stripLocale(to.path) !== '/') return
     let saved = null
     try { saved = localStorage.getItem(LAST_ROUTE_KEY) } catch { /* ignore */ }
     if (!saved || saved === to.fullPath) return
     const resolved = router.resolve(saved)
-    if (resolved.matched.length && !SKIP_RESTORE.has(resolved.path)) return saved
+    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path))) return saved
   })
 }
+
+// --- Locale guards -------------------------------------------------------------------------
+// Registered AFTER the restore guard on purpose, so the restore still sees the pristine first
+// navigation; whatever it returns comes back through here and gets its prefix.
+
+// 1) Old links keep working forever. `?lang=ru` was the RU address for the site's whole life —
+//    it is in bookmarks, in chat logs and in the sitemap Yandex already crawled. Send it to the
+//    new address, keeping every other query param and the anchor, and replace rather than push so
+//    the back button doesn't land the reader right back on the old URL.
+router.beforeEach((to) => {
+  const lang = to.query.lang
+  if (lang !== 'ru' && lang !== 'en') return
+  const { lang: _dropped, ...query } = to.query
+  return { path: localePath(to.path, lang), query, hash: to.hash, replace: true }
+})
+
+// 2) A reader who chose Russian gets Russian, even from a bare link — which is also what makes
+//    the app's ~170 existing `to="/rules"` links keep working untouched: they arrive here bare
+//    and leave prefixed. This is the job `?lang=ru` used to do; the difference is that now the
+//    language shows in the address. It runs before the first render, so nothing paints in English
+//    and then flips.
+//    Crawlers have no stored preference and are unaffected — they get exactly the URL they asked
+//    for, which is the entire point of the two of them existing.
+//    The explicit EN toggle is not fought here: it persists 'en' BEFORE navigating, so by the
+//    time this runs the preference already says English.
+router.beforeEach((to) => {
+  if (to.params.lang === 'ru') return
+  if (readStoredLocale() !== 'ru') return
+  const target = localePath(to.path, 'ru')
+  if (target === to.path) return
+  if (!router.resolve(target).matched.some((r) => r.name !== 'not-found')) return
+  return { path: target, query: to.query, hash: to.hash, replace: true }
+})
+
+// 3) The address is the source of truth for the language on screen. Landing on a Russian URL also
+//    makes Russian the preference — otherwise someone who followed a shared `/ru/...` link would
+//    be thrown back to English by their first internal click. The reverse is deliberately NOT
+//    true: only the toggle in the navbar ever sets the preference back to English, so browsing an
+//    English page can't quietly undo a choice the reader made.
+router.beforeEach((to) => {
+  if (to.params.lang === 'ru') setLocale('ru')
+  else activeLocale.value = 'en'
+})

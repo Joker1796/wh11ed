@@ -95,6 +95,10 @@ export const sharedUnitIds = [
 // (unit_composition_required_faction_keyword: 'Dark Angels') than the space-marines.js base
 // price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
 export const pointsOverrides = {
+  "centurion-devastator-squad": [
+    { models: 3, points: 175 },
+    { models: 6, points: 350 },
+  ],
   "repulsor-executioner": [
     { models: 1, points: 230, note: "1st-2nd" },
     { models: 1, points: 250, note: "3rd+" },
@@ -406,12 +410,12 @@ export default [
       {
         "models": 5,
         "points": 240,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
         "points": 260,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Deathwing Knights are the Chapter’s ultimate death-dealers, their strikes breaking the enemy’s back in one fell swoop. Equipped with heirloom wargear, they teleport into the heart of the thickest fighting, led by Knight Masters who are whirlwinds of deathly destruction.",
@@ -864,7 +868,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 170,
         "note": "3rd+"
       }
     ],
@@ -963,7 +967,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 130,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -1169,7 +1173,7 @@ export default [
   },
   {
     "id": "lion-eljonson",
-    "name": "Lion El’jonson",
+    "name": "Lion El’Jonson",
     "points": [
       {
         "models": 1,
@@ -1179,7 +1183,7 @@ export default [
     "flavor": "Lion El’Jonson stalks from mist-wreathed shadow realms like an ancient questing knight hunting down the galaxy’s terrors. With the immense blade, Fealty, the Primarch cleaves apart the most heinous of monstrosities, while the Emperor’s Shield erupts in blazes of light and force in response to his foes’ savage blows.",
     "profiles": [
       {
-        "name": "Lion El’jonson",
+        "name": "Lion El’Jonson",
         "m": "8\"",
         "t": "9",
         "sv": "2+",
@@ -1258,7 +1262,7 @@ export default [
     "specialAbilities": [
       {
         "name": "Mist-wreathed Shadow Realms",
-        "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
+        "text": "In your Command phase, if this unit is unengaged, you can use this ability. If you do:\n\u25aa Place this unit in Strategic Reserves.\n\u25aa This unit can make an ingress move in your next Movement phase (including in your first turn)."
       },
       {
         "name": "Martial Exemplar (Aura)",
@@ -1569,7 +1573,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 125,
+        "points": 115,
         "note": "3rd+"
       }
     ],
@@ -1900,7 +1904,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 105
       }
     ],
     "flavor": "Sammael rides to war on the jetbike Corvex, a relic from the Dark Age of Technology. Upon this ancient mount, the Ravenwing’s commander charges into the fray, storm bolters and plasma cannon causing hideous damage before he moves in for the kill with the Raven Sword, an heirloom with a razor edge that can never dull.",

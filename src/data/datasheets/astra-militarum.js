@@ -631,7 +631,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 470,
+        "points": 450,
         "note": "2nd+"
       }
     ],
@@ -786,7 +786,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 440,
+        "points": 420,
         "note": "2nd+"
       }
     ],
@@ -909,7 +909,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 470,
+        "points": 450,
         "note": "2nd+"
       }
     ],
@@ -2033,7 +2033,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
@@ -2211,7 +2211,7 @@ export default [
     ],
     "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon more than once per unit unless it contains 20 models, in which case you cannot select the same weapon more than twice per unit.",
       "For every 10 models in this unit, 1 Shock Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).",
       "Any number of Shock Trooper Sergeants can each have their laspistol replaced with 1 bolt pistol.",
       "Any number of Shock Trooper Sergeants can each have their laspistol and chainsword replaced with 1 Sergeant's autogun and 1 close combat weapon.",
@@ -2502,11 +2502,11 @@ export default [
     ],
     "loadout": "**The Catachan Commander is equipped with:** laspistol; close combat weapon.\n\n**Every Veteran Guardsman is equipped with:** lasgun; laspistol; close combat weapon.",
     "options": [
-      "Any number of Veteran Guardsmen can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle",
+      "Any number of Veteran Guardsmen can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle\n* You cannot select the same weapon from this list more than once per unit.",
       "* You cannot select the same weapon from this list more than once per unit.",
       "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 master vox.**",
       "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 medi-pack.**",
-      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 regimental standard.**",
+      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 regimental standard.**\n\n** A model can only take one of these options.",
       "** A model can only take one of these options.",
       "The Catachan Commander’s laspistol can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
       "The Catachan Commander can be equipped with one of the following:\n▪ 1 boltgun\n▪ 1 chainsword\n▪ 1 power fist\n▪ 1 power weapon"
@@ -2543,7 +2543,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 65
+        "points": 70
       }
     ],
     "flavor": "Hailing from a death world teeming with horrific fauna, the Catachan people are well used to bringing down big game. Should the infantry find itself outmatched by lumbering monsters or heavy armour, Catachan Heavy Weapons Squads provide fire support, targeting the biggest and most lethal threats.",
@@ -2697,11 +2697,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
-        "points": 145
+        "points": 135
       }
     ],
     "flavor": "These heavily muscled soldiers are drawn from a warrior people that survive on the most infamous of death worlds. Skilled in deadly close combat with the fiercest of beasts amidst hazardous terrain, Jungle Fighters are also skilled infiltrators and trackers, adept at luring their prey into fiendish traps.",
@@ -2809,7 +2809,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Transport compartment loaded with a full squad of Astra Militarum infantry, the Centaur Rapid Strike Vehicle accelerates hard into battle. Rugged and simple, these transports eschew heavy firepower in favour of focusing on their primary role: to ferry their passengers to their destination unharmed and with the greatest possible haste.",
@@ -2884,7 +2890,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "A workhorse armoured troop carrier, the Chimera is a durable and practical tank, employed to ferry infantry into the harshest war zones. While embarked, its passengers operate the tank’s in-built lasgun arrays in safety; once they dismount, the Chimera provides fire support with its versatile heavy weapons.",
@@ -3008,7 +3020,7 @@ export default [
     "loadout": "**This model is equipped with:** multi-laser; heavy bolter; lasgun array; armoured tracks.",
     "options": [
       "This model’s heavy bolter can be replaced with 1 heavy flamer.",
-      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*",
+      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n* This weapon cannot be replaced.",
       "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter",
       "This model can be equipped with 1 hunter-killer missile.",
       "* This weapon cannot be replaced."
@@ -3144,7 +3156,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -3364,7 +3376,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Cadian Shock Troops",
         "Kasrkin",
         "Krieg Combat Engineers",
@@ -3494,7 +3506,7 @@ export default [
       "units": [
         "Krieg Combat Engineers",
         "Kasrkin",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
         "Tempestus Scions"
@@ -3596,21 +3608,21 @@ export default [
   },
   {
     "id": "death-korps-of-krieg",
-    "name": "Death Korps Of Krieg",
+    "name": "Death Korps of Krieg",
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 70
       },
       {
         "models": 20,
-        "points": 145
+        "points": 135
       }
     ],
     "flavor": "The grim regiments of the Death Korps of Krieg excel in the most gruelling of conditions, their famous siege regiments resolutely holding key positions no matter the onslaught unleashed upon them. They are extollers of a pitiless cult of sacrifice, but with their legendary endurance, death often claims their foes first.",
     "profiles": [
       {
-        "name": "Death Korps Of Krieg",
+        "name": "Death Korps of Krieg",
         "m": "6\"",
         "t": "3",
         "sv": "5+",
@@ -3831,9 +3843,10 @@ export default [
     ],
     "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
-      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**",
+      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced).**",
+      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**\n\n** A model can only take one of these options.",
       "Any number of Death Korps Watchmasters can each have their laspistol and chainsword replaced with 1 boltgun and 1 close combat weapon.",
       "Any number of Death Korps Watchmasters can each have their chainsword replaced with 1 power weapon.",
       "Any number of Death Korps Watchmasters can each have their laspistol replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
@@ -4051,6 +4064,12 @@ export default [
       "note": "1-4 wounds remaining",
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Plasma Warhead",
+        "text": "The bearer can only shoot with this weapon in your Shooting phase, and only if it Remained Stationary this turn and you did not use its Deathstrike Missile ability to Designate Target or Adjust Target this phase. When the bearer shoots with this weapon, do not select a target. Instead, resolve this weapon’s attacks, rolling for each unit within 6\" of the centre of its Deathstrike Target marker individually."
+      }
+    ],
     "composition": [
       "1 Deathstrike"
     ],
@@ -4084,7 +4103,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 435,
+        "points": 410,
         "note": "2nd+"
       }
     ],
@@ -4509,7 +4528,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 440,
+        "points": 415,
         "note": "2nd+"
       }
     ],
@@ -5083,7 +5102,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 125,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -5311,7 +5330,7 @@ export default [
     ],
     "loadout": "**The Kasrkin Sergeant is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Kasrkin Trooper is equipped with:** hot-shot lasgun; close combat weapon.",
     "options": [
-      "Up to 4 Kasrkin Troopers can each have their hot-shot lasgun replaced with one of the following:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "Up to 4 Kasrkin Troopers can each have their hot-shot lasgun replaced with one of the following:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than twice per unit.",
       "1 Kasrkin Trooper’s hot-shot lasgun can be replaced with 1 hot-shot marksman rifle.",
       "1 Kasrkin Trooper’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 melta mine.",
       "1 Kasrkin Trooper equipped with a hot-shot lasgun can be equipped with 1 vox-caster (that model’s hot-shot lasgun cannot be replaced).",
@@ -5802,7 +5821,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Krieg Combat Engineers",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -5831,7 +5850,7 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 60
+        "points": 70
       }
     ],
     "flavor": "Death Karps Heavy Weapons Squads are deployed to support infantry assaults, forming overlapping fields of fire to pin down the enemy and enable waves of infantry to advance. Fire Coordinators direct the gunners under their command and ensure that they keep up a punishing rate of fire.",
@@ -5958,12 +5977,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 195,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -6152,12 +6171,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 215,
+        "points": 195,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 250,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -6445,12 +6464,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 200,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -6639,12 +6658,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -6834,12 +6853,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 170,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -7041,12 +7060,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -7236,12 +7255,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -7428,12 +7447,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 145,
         "note": "3rd+"
       }
     ],
@@ -7796,7 +7815,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Cadian Shock Troops",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Catachan Jungle Fighters",
         "Kasrkin",
         "Krieg Combat Engineers",
@@ -7958,12 +7977,12 @@ export default [
       {
         "models": 5,
         "points": 85,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
         "points": 95,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Led by driven officers known as Tempestor Primes, the Command Squads of the Militarum Tempestus comprise veteran Tempestus Scions. These specialists guard and support the Tempestor Prime while the officer marshals their elite soldiers into the perfect positions for the mission at hand.",
@@ -8188,7 +8207,7 @@ export default [
     ],
     "loadout": "**The Tempestor Prime is equipped with:** bolt pistol; Tempestus dagger.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.",
     "options": [
-      "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than once per unit.",
       "1 Tempestus Scion equipped with a hot-shot lasgun can be equipped with 1 regimental standard (that model’s hot-shot lasgun cannot be replaced).",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 master vox.",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with one of the following:\n▪ 1 hot-shot laspistol and 1 medi-pack\n▪ 1 hot-shot lasgun, 1 hot-shot laspistol and 1 medi-pack [that model's hot-shot lasgun cannot be replaced]",
@@ -8315,7 +8334,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -8721,7 +8740,7 @@ export default [
         "Tempestus Scions",
         "Catachan Jungle Fighters",
         "Cadian Shock Troops",
-        "Death Korps Of Krieg"
+        "Death Korps of Krieg"
       ]
     },
     "keywords": [
@@ -9399,7 +9418,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 430,
+        "points": 405,
         "note": "2nd+"
       }
     ],
@@ -9607,7 +9626,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 450,
+        "points": 430,
         "note": "2nd+"
       }
     ],
@@ -9742,7 +9761,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 485,
+        "points": 465,
         "note": "2nd+"
       }
     ],
@@ -9858,7 +9877,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Designed to exploit gaps in the enemy battle line or plug holes torn in the Astra Militarum’s own, the Taurox is a swift armoured transport, its rugged tracks enabling it to cross difficult terrain with ease. The Taurox’s autocannons mow down the foe as it roars forward, eliminating threats to its passengers as they rapidly deploy.",
@@ -9945,7 +9970,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The Taurox Prime incorporates arcane technologies not available to the wider Astra Militarum, enabling it and its Tempestus Scion cargo to operate in the most hazardous of war zones. More heavily armed than its namesake, it fulfils a tactical support role, with an adaptability suited to the Tempestus Scions.",
@@ -10178,7 +10209,7 @@ export default [
         "Krieg Combat Engineers",
         "Catachan Jungle Fighters",
         "Kasrkin",
-        "Death Korps Of Krieg",
+        "Death Korps of Krieg",
         "Cadian Shock Troops"
       ]
     },
@@ -10439,7 +10470,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 165,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -10659,7 +10690,7 @@ export default [
     ],
     "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than once per unit, unless this unit contains 10 models, in which case you cannot select the same weapon more than twice per unit.",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 vox-caster.",
       "The Tempestor’s chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
       "The Tempestor’s hot-shot laspistol can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
@@ -10877,7 +10908,7 @@ export default [
     "composition": [
       "1 Valkyrie"
     ],
-    "loadout": "**This model is equipped with:** hellstrike missiles; multi-laser; armoured hull.",
+    "loadout": "**This model is equipped with:** hellstrike missiles; Militarum multi-laser; armoured hull.",
     "options": [
       "This model’s multi-laser can be replaced with 1 lascannon.",
       "This model’s hellstrike missiles can be replaced with 2 multiple rocket pods.",

@@ -144,21 +144,21 @@ export default [
   },
   {
     "id": "beasts-of-nurgle",
-    "name": "Beasts Of Nurgle",
+    "name": "Beasts of Nurgle",
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 80
       },
       {
         "models": 2,
-        "points": 140
+        "points": 150
       }
     ],
     "flavor": "Filled with dim-witted ebullience at odds with their plague-ridden and nightmarish forms, Beasts of Nurgle flollop into battle like eager hounds. They are drawn instinctively to mortal playthings, whose desperate cries and frantic flight they mistake for participation, at least until their luckless new friends have twitched their last.",
     "profiles": [
       {
-        "name": "Beasts Of Nurgle",
+        "name": "Beasts of Nurgle",
         "m": "6\"",
         "t": "9",
         "sv": "6+",
@@ -219,17 +219,17 @@ export default [
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 200,
         "note": "1st-2nd"
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 135,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 240,
         "note": "3rd+"
       }
     ],
@@ -916,7 +916,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 115,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 125,
+        "note": "3rd+"
       }
     ],
     "flavor": "These ghastly daemonic manifestations writhe into battle on nests of metallic tendrils, their leering attendants riding their twisted steeds to war. Each reflects the darkest desires of those who look upon its surface, even as it swallows up the most potent energies thrown against it.",
@@ -1109,7 +1115,7 @@ export default [
   },
   {
     "id": "daemon-prince-of-chaos-with-wings",
-    "name": "Daemon Prince Of Chaos With Wings",
+    "name": "Daemon Prince of Chaos with Wings",
     "points": [
       {
         "models": 1,
@@ -1119,7 +1125,7 @@ export default [
     "flavor": "A Daemon Prince’s obsessive greed and desire to inflict ever more destruction, bloodshed and misery can manifest in the form of hideous wings that speed them from one slaughter to the next. A servant of the Dark Gods so blessed is a horrifying harbinger of death drawn from insane nightmare.",
     "profiles": [
       {
-        "name": "Daemon Prince Of Chaos With Wings",
+        "name": "Daemon Prince of Chaos with Wings",
         "m": "12\"",
         "t": "9",
         "sv": "2+",
@@ -1228,7 +1234,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 90
+        "points": 100
       }
     ],
     "flavor": "Known to mortals as the handmaidens of Slaanesh, these daemons are a mixture of the beautiful and the monstrous, made all the more disturbing by the visceral clash of both. They delight in the carnage of battle, weaving around enemies’ clumsy blows as they shrill and sigh their delight amidst swift-taloned slaughter.",
@@ -1658,11 +1664,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 90
+        "points": 90,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 180
+        "points": 190,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 105,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 205,
+        "note": "3rd+"
       }
     ],
     "flavor": "Few daemonic entities approach the sheer disturbing horror of the Fiends of Slaanesh. Malicious hunting beasts that croon their delight across the battlefield, these ghastly abominations are wreathed in a soporific musk that leaves their prey witless and helpless before their flashing talons and stabbing tails.",
@@ -2112,6 +2130,12 @@ export default [
       "note": "1-7 wounds remaining",
       "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Reverberating Summons",
+        "text": "Each time a model is destroyed by this weapon, you can select one friendly PLAGUEBEARERS unit within 12\" of the bearer and return 1 destroyed Plaguebearer model to that unit."
+      }
+    ],
     "composition": [
       "1 Great Unclean One"
     ],
@@ -2309,8 +2333,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Beasts of Nurgle",
-        "Beasts Of Nurgle"
+        "Beasts of Nurgle"
       ]
     },
     "keywords": [
@@ -2633,23 +2656,23 @@ export default [
   },
   {
     "id": "keeper-of-secrets",
-    "name": "Keeper Of Secrets",
+    "name": "Keeper of Secrets",
     "points": [
       {
         "models": 1,
-        "points": 255,
+        "points": 265,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 270,
+        "points": 280,
         "note": "3rd+"
       }
     ],
     "flavor": "Darkly intelligent, horribly beguiling and deadly in battle, the Keepers of Secrets are the greatest champions of Slaaneshi daemon legions. Wielding unclean yet beautiful weapons and unleashing the sorcerous powers of obsession and torment, these daemons cut an elegantly hideous swathe across the battlefield.",
     "profiles": [
       {
-        "name": "Keeper Of Secrets",
+        "name": "Keeper of Secrets",
         "m": "14\"",
         "t": "10",
         "sv": "5+",
@@ -2792,7 +2815,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 315,
+        "points": 340,
         "note": "3rd+"
       }
     ],
@@ -3319,7 +3342,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 60,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "3rd+"
       }
     ],
     "flavor": "Poxbringers are the largest and foulest of Plaguebearers, their corporeal forms brimming with unclean vitality even as they exude an air of feculent despair. A miasmal haze of disease hangs about them, clotting upon the plagueswords of their fellow daemons and rendering their touch all the more infectious.",
@@ -3389,23 +3418,23 @@ export default [
   },
   {
     "id": "rendmaster-on-blood-throne",
-    "name": "Rendmaster On Blood Throne",
+    "name": "Rendmaster on Blood Throne",
     "points": [
       {
         "models": 1,
-        "points": 150,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
     "flavor": "The greatest of Khorne’s heralds are Rendmasters, who ride to battle atop monstrous Daemon Engines known as Blood Thrones. Infernal lore suggests these engines are fashioned from slivers of the Blood God’s own throne, and that wherever they plough into the foe, Khorne’s legions fight beneath his glowering gaze.",
     "profiles": [
       {
-        "name": "Rendmaster On Blood Throne",
+        "name": "Rendmaster on Blood Throne",
         "m": "8\"",
         "t": "9",
         "sv": "4+",
@@ -3649,7 +3678,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80
+        "points": 85
       },
       {
         "models": 10,
@@ -4026,7 +4055,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 100
       }
     ],
     "flavor": "Grotesque brazen war engines that rumble into battle with obscene eagerness, Skull Cannons are fed the corpses of the fallen to fuel their charnel fury. When they fire, these infernal weapons spit blazing skulls that arc through the air like meteors before exploding with thunderous violence upon impact.",
@@ -4588,7 +4617,7 @@ export default [
   },
   {
     "id": "syllesske",
-    "name": "Syll’esske",
+    "name": "Syll’Esske",
     "points": [
       {
         "models": 1,
@@ -4598,7 +4627,7 @@ export default [
     "flavor": "This strange alliance of the daemon herald Syll and the hulking Daemon Prince Esske has borne bloody fruit across countless battlefields. Not only do the pairing wreak red ruin amidst the foe themselves, but also their presence entices the daemons of Slaanesh to ever more excessive acts of cruelty and violence.",
     "profiles": [
       {
-        "name": "Syll’esske",
+        "name": "Syll’Esske",
         "m": "9\"",
         "t": "6",
         "sv": "6+",
@@ -4886,7 +4915,7 @@ export default [
   },
   {
     "id": "the-masque-of-slaanesh",
-    "name": "The Masque Of Slaanesh",
+    "name": "The Masque of Slaanesh",
     "points": [
       {
         "models": 1,
@@ -4896,7 +4925,7 @@ export default [
     "flavor": "Once high in the favour of the Dark Prince, this daemon was cursed by its petulant deity to dance eternally across reality and beyond for an imagined slight. Its endless acrobatic performance beguiles and bewilders, drawing those who witness it into joining the revels even at the expense of their own survival.",
     "profiles": [
       {
-        "name": "The Masque Of Slaanesh",
+        "name": "The Masque of Slaanesh",
         "m": "9\"",
         "t": "3",
         "sv": "7+",

@@ -416,7 +416,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
       name: 'Covenite Coterie',
       source: 'codex',
       dp: 2,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Take and Hold',
       unique: 'COVENS',
       rule: {
         name: 'Stitchflesh Abominations',
@@ -650,7 +650,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
       name: 'Exhibition of Slaughter',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Disruption',
+      forceDisposition: 'Reconnaissance',
       unique: 'WYCH CULT',
       rule: {
         name: 'Exacting Cruelty',
@@ -716,7 +716,7 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
       name: 'Kabalite Agonysts',
       source: 'faction-pack',
       dp: 1,
-      forceDisposition: 'Purge the Foe',
+      forceDisposition: 'Disruption',
       unique: 'KABAL',
       rule: {
         name: 'Contracted Harvest',

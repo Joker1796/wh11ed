@@ -631,28 +631,106 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "clanblade",
+    "name": "Clanblade",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Clanblade",
+        "m": "10\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Solar Carbine",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Drakesteed Fangs and Talons",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Moonblades",
+        "tags": [
+          "LETHAL HITS",
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Blade of the Clans",
+        "text": "This unit's melee attacks have [SUSTAINED HITS 1]."
+      },
+      {
+        "name": "Cornered Prey",
+        "text": "When an enemy unit engaged with this unit is selected to make a fall-back move, that enemy unit must use the desperate escape mode. If that enemy unit is Battle-shocked, -1 from those hazard rolls."
+      }
+    ],
+    "composition": [
+      "1 Clanblade"
+    ],
+    "loadout": "**This model is equipped with:** Drakesteed Fangs and Talons; Moonblades; Solar Carbine.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Dragon Knights"
+      ]
+    },
+    "keywords": [
+      "Aeldari",
+      "Character",
+      "Exodite",
+      "Mobile",
+      "Mounted"
+    ],
+    "factionKeywords": []
+  },
+  {
     "id": "corsair-skyreavers",
     "name": "Corsair Skyreavers",
     "points": [
       {
         "models": 5,
-        "points": 75,
-        "note": "1st-2nd"
+        "points": 75
       },
       {
         "models": 10,
-        "points": 140,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 90,
-        "note": "3rd+"
-      },
-      {
-        "models": 10,
-        "points": 160,
-        "note": "3rd+"
+        "points": 140
       }
     ],
     "flavor": "Equipped with winged jump packs, Corsair Skyreavers are utilised by Anhrathe commanders as mobile shock troops. Leaping recklessly into the fray, they bring to bear an array of dazzling weaponry, relying upon speed, agility and daring to evade incoming strikes and cut their opponents to shreds.",
@@ -796,7 +874,7 @@ export default [
     "loadout": "**Every model is equipped with:** shuriken pistol; Corsair blade.",
     "options": [
       "The Skyreaver Felarch can replace its shuriken pistol with one of the following:\n▪ 1 blast pistol\n▪ 1 neuro disruptor",
-      "For every 5 models in the unit, up to 2 Skyreaver models can each have their shuriken pistol and Corsair blade replaced with one of the following*:\n▪ 1 blaster and 1 close combat weapon\n▪ 1 flamer and 1 close combat weapon\n▪ 1 fusion gun and 1 close combat weapon\n▪ 1 shredder and 1 close combat weapon",
+      "For every 5 models in the unit, up to 2 Skyreaver models can each have their shuriken pistol and Corsair blade replaced with one of the following*:\n▪ 1 blaster and 1 close combat weapon\n▪ 1 flamer and 1 close combat weapon\n▪ 1 fusion gun and 1 close combat weapon\n▪ 1 shredder and 1 close combat weapon\n* You cannot select the same option more than once per unit unless it contains 10 models, in which case you cannot select the same weapon more than twice per unit.",
       "* You cannot select the same option more than once per unit unless it contains 10 models, in which case you cannot select the same weapon more than twice per unit."
     ],
     "keywords": [
@@ -1436,11 +1514,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100
+        "points": 95
       },
       {
         "models": 10,
-        "points": 210
+        "points": 200
       }
     ],
     "flavor": "Dark Reapers unleash firestorms with their long-ranged Reaper launchers, whether using infantry-shredding starswarm missiles or armour-piercing starshot variants. These salvoes are chillingly accurate, thanks to advanced targeting systems but also the Reapers’ armour, which anchors them firmly to the ground while they fire.",
@@ -1678,11 +1756,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 70
       },
       {
         "models": 10,
-        "points": 150
+        "points": 140
       }
     ],
     "flavor": "Furious in attack and immovable in defence, Dire Avengers wield Avenger catapults that unleash punishing bursts of monomolecular shurikens. Drawing on their faultless battle instincts, they always know when to launch lightning-fast assaults and when to fall back and draw the enemy into a kill zone.",
@@ -1806,12 +1884,128 @@ export default [
     ]
   },
   {
+    "id": "dragon-knights",
+    "name": "Dragon Knights",
+    "points": [
+      {
+        "models": 3,
+        "points": 90
+      },
+      {
+        "models": 6,
+        "points": 180
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Dragon Knight",
+        "m": "10\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      },
+      {
+        "name": "Dragon Knight Leader",
+        "m": "10\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Laser Lance",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Solar Carbine",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Drakesteed Fangs and Talons",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Laser Lance",
+        "tags": [
+          "LANCE"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "On the Hunt",
+        "text": "When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge."
+      },
+      {
+        "name": "Agile Reach",
+        "text": "When this unit is selected to fight, melee weapons equipped by unengaged models in this unit that are within 3\" of an enemy unit that is engaged with this unit can target that enemy unit."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Drakolithe",
+        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is unengaged or if that enemy unit ended that move engaged with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 mortal wound. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
+      }
+    ],
+    "composition": [
+      "1 Dragon Knight Leader",
+      "2-5 Dragon Knights"
+    ],
+    "loadout": "**Every model is equipped with:** Drakesteed Fangs and Talons; Laser Lance; Solar Carbine.",
+    "options": [
+      "For every 3 models in this unit, this unit can be equipped with 2 Drakolithe."
+    ],
+    "keywords": [
+      "Aeldari",
+      "Exodite",
+      "Mobile",
+      "Mounted"
+    ],
+    "factionKeywords": []
+  },
+  {
     "id": "eldrad-ulthran",
     "name": "Eldrad Ulthran",
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "One of the most potent Aeldari psykers ever to have lived, when Eldrad Ulthran takes to the field his enemies’ plans are already known to him. Such is Eldrad’s psychic might that he can break Titans and banish the mightiest of daemons, and over the millennia he has slain kings and champions beyond number.",
@@ -1889,11 +2083,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Warlock Conclave",
         "Storm Guardians",
         "Guardian Defenders"
-      ],
-      "footer": "* If this model is not already attached to a unit, you can attach this model to a unit even if one Warlocks unit has already been attached to it."
+      ]
     },
     "keywords": [
       "Infantry",
@@ -2176,7 +2368,6 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Warlock Conclave",
         "Storm Guardians",
         "Guardian Defenders"
       ]
@@ -2601,6 +2792,12 @@ export default [
       "note": "1-4 wounds remaining",
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
+    "wargearAbilities": [
+      {
+        "name": "Linked Fire",
+        "text": "When selecting targets for this weapon, you can measure range and determine visibility from another friendly FIRE PRISM model that is visible to the bearer. When doing so, this weapon has an Attacks characteristic of 1."
+      }
+    ],
     "composition": [
       "1 Fire Prism"
     ],
@@ -2859,7 +3056,7 @@ export default [
     ],
     "loadout": "**Every Guardian Defender is equipped with:** shuriken catapult; close combat weapon.\n\n**The Heavy Weapon Platform is equipped with:** shuriken cannon; close combat weapon.",
     "options": [
-      "The Heavy Weapon Platform’s shuriken cannon can be replaced with one of the following:\n▪ 1 missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 starcannon"
+      "The Heavy Weapon Platform can replace its shuriken cannon with one of the following:\n▪ 1 missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 starcannon"
     ],
     "keywords": [
       "Infantry",
@@ -3273,6 +3470,90 @@ export default [
       "Asuryani"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "leystalker",
+    "name": "Leystalker",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Leystalker",
+        "m": "10\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Long Rifle",
+        "tags": [
+          "DEVASTATING WOUNDS: NON-MONSTER/VEHICLE",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Drakesteed Fangs and Talons",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunting Blades",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Lone Operative, Stealth, Scouts 9\"",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Panicked Quarry",
+        "text": "In your Shooting phase, when this unit has shot, select one enemy unit (excluding Monster/Vehicle units) hit by those attacks. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Drakolithe",
+        "text": "When an enemy unit ends a move within 8\" of this unit, if this unit is unengaged or if that enemy unit ended that move engaged with this unit, you can use this ability. If you do, roll one D6:\n▪ On a 3+, that enemy unit suffers 1 mortal wound. Place one Drakolithe token next to the unit for each Drakolithe the unit is equipped with, removing one each time this ability is used."
+      }
+    ],
+    "composition": [
+      "1 Leystalker"
+    ],
+    "loadout": "**This model is equipped with:** 2 Drakolithe; Drakesteed Fangs and Talons; Long Rifle; Hunting Blades.",
+    "keywords": [
+      "Aeldari",
+      "Character",
+      "Exodite",
+      "Mobile",
+      "Mounted"
+    ],
+    "factionKeywords": []
   },
   {
     "id": "lhykhis",
@@ -4686,7 +4967,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 50
       }
     ],
     "flavor": "It falls to the Spiritseers to commune with the souls of the dead. In this capacity, they guide ghost warriors through the inferno of battle, bringing the world around them into greater focus. Aided in this way, ghost warriors become yet more lethal, their strikes and shots ensuring the swift demise of their foes.",
@@ -4861,7 +5142,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "These agile and nimble anti-grav transport craft swoop and spiral effortlessly through incoming fire, their flickering holo-fields giving them polychromatic camouflage. Armed with multiple heavy weapons, they provide great volumes of supporting fire for the troops they carry, scything down the foe with withering hails of shurikens.",
@@ -4931,12 +5218,126 @@ export default [
     "baseSize": "Large Flying Base"
   },
   {
+    "id": "stonesinger",
+    "name": "Stonesinger",
+    "points": [
+      {
+        "models": 1,
+        "points": 60
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Stonesinger",
+        "m": "10\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Song of Waning",
+        "tags": [
+          "ANTI-MONSTER/VEHICLE 3+",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Solar Carbine",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Venomcrest Spit",
+        "tags": [
+          "ANTI-NON-MONSTER/VEHICLE 3+",
+          "BLAST 1",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "-",
+        "s": "3",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Drakesteed Fangs and Talons",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Stone Stave",
+        "tags": [
+          "ANTI-NON-MONSTER/VEHICLE 2+",
+          "PSYCHIC"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Elemental Ensnarement",
+        "text": "At the end of your Fight phase, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:\n▪ On a 1, this unit is Battle-shocked.\n▪ Select one visible enemy Monster/Vehicle unit (excluding Titanic units) within 18\" of this unit. That enemy unit is ensnared until the start of your next turn. While a unit is ensnared, that unit has -2\" M and cannot be pinned."
+      }
+    ],
+    "composition": [
+      "1 Stonesinger"
+    ],
+    "loadout": "**This model is equipped with:** Drakesteed Fangs and Talons; Song of Waning; Solar Carbine; Stone Stave; Venomcrest Spit.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Dragon Knights"
+      ]
+    },
+    "keywords": [
+      "Aeldari",
+      "Character",
+      "Exodite",
+      "Mobile",
+      "Mounted",
+      "Psyker"
+    ],
+    "factionKeywords": []
+  },
+  {
     "id": "storm-guardians",
     "name": "Storm Guardians",
     "points": [
       {
         "models": 11,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Storm Guardians often support Aspect Warriors in close combat, wielding their pistols and blades with all the grace and skill of their kind. Other Storm Guardians bring special weapons to bear, burning foes out of cover with bursts from their flamers or melting through armoured bunkers with their fusion guns.",
@@ -5049,7 +5450,7 @@ export default [
     "options": [
       "Up to 2 Storm Guardians can each have their shuriken pistol replaced with 1 flamer.",
       "Up to 2 Storm Guardians can each have their shuriken pistol replaced with 1 fusion gun.",
-      "Up to 2 Storm Guardians can each have their close combat weapon replaced with 1 power sword."
+      "Up to 2 Storm Guardians can each have their Guardian combat weapon replaced with 1 power sword."
     ],
     "keywords": [
       "Guardians",
@@ -5224,7 +5625,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 115,
+        "points": 110,
         "note": "3rd+"
       },
       {
@@ -5386,7 +5787,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "The Visarch darts amongst the foe, taking off limbs and heads with the Cronesword Asu-var, the Sword of Silent Screams. The many faces that adorn his ancient suit of Bel-Anshoc armour represent the personalities he can take in battle, which include the sure blade of an Exarch and the acrobatic prowess of a Drukhari Wych.",
@@ -5439,7 +5840,7 @@ export default [
         "d": "3"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus, Disparate Paths",
     "abilities": [
       {
@@ -5468,12 +5869,9 @@ export default [
         "Corsair Voidscarred",
         "Guardian Defenders",
         "Storm Guardians",
-        "Ynnari Incubi",
         "Ynnari Kabalite Warriors",
-        "Ynnari Wyches",
-        "Yvraine"
-      ],
-      "footer": "* You can attach this unit to one of the above units, even if Yvraine has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
+        "Ynnari Wyches"
+      ]
     },
     "keywords": [
       "Character",
@@ -5715,8 +6113,8 @@ export default [
     "options": [
       "Any number of models can each have their Harlequin’s blade replaced with 1 Harlequin’s special weapon.",
       "The Lead Player’s Harlequin’s blade can be replaced with 1 power sword.",
-      "If this unit contains 9 or fewer models:\n▪ Up to 2 models can each have their shuriken pistol replaced with 1 neuro disruptor\n▪ Up to 2 models can each have their shuriken pistol replaced with 1 fusion pistol",
-      "If this unit contains 10 or more models:\n▪ Up to 4 models can each have their shuriken pistol replaced with 1 neuro disruptor\n▪ Up to 4 models can each have their shuriken pistol replaced with 1 fusion pistol"
+      "If this unit contains 9 or fewer models:\n▪ Up to two models can each have their shuriken pistol replaced with 1 neuro disruptor\n▪ Up to two models can each have their shuriken pistol replaced with 1 fusion pistol",
+      "If this unit contains 10 or more models:\n▪ Up to four models can each have their shuriken pistol replaced with 1 neuro disruptor\n▪ Up to four models can each have their shuriken pistol replaced with 1 fusion pistol"
     ],
     "keywords": [
       "Infantry",
@@ -6202,7 +6600,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 80
       },
       {
         "models": 2,
@@ -6333,7 +6731,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45
+        "points": 40
       }
     ],
     "flavor": "Seers who have trained as Aspect Warriors find it easier to develop destructive psychic powers. These Aeldari are called Warlocks. In battle, they frequently band together in conclaves to pool their eldritch power, or else lead other Aeldari squads such as Guardians from the front. Casting the runes of battle, they wreak havoc on the foe.",
@@ -6545,7 +6943,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus",
     "abilities": [
       {
@@ -6580,8 +6978,7 @@ export default [
       "units": [
         "Guardian Defenders",
         "Storm Guardians"
-      ],
-      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Guardian Defenders or Storm Guardians unit from your army (a unit cannot have more than one Warlock Conclave unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      ]
     }
   },
   {
@@ -6590,7 +6987,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 45
       },
       {
         "models": 2,
@@ -6689,7 +7086,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus",
     "abilities": [
       {
@@ -6724,8 +7121,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Windriders"
-      ],
-      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Windriders unit from your army (a unit cannot have more than one Warlock Skyrunners unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      ]
     }
   },
   {
@@ -6744,12 +7140,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 125,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 215,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -6909,7 +7305,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 115,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 125,
+        "note": "4th+"
       }
     ],
     "flavor": "The leading troop carriers in a craftworld’s arsenal, Wave Serpents transport warriors to any part of the battlefield at immense speeds. These troops are protected by a powerful energy field and receive covering fire from the vehicle’s powerful array of heavy weapons.",
@@ -7344,7 +7746,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 435,
+        "points": 405,
         "note": "2nd+"
       }
     ],
@@ -7487,7 +7889,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 425,
+        "points": 400,
         "note": "2nd+"
       }
     ],
@@ -8179,7 +8581,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Skimming low over the battlefield on screaming thrusters, Raiders bear murderous bands of Drukhari into battle with blistering speed. They are much favoured by the fanatical worshippers of Ynnead, allowing them to plunge into the heart of the foe’s lines and unleash a veritable hurricane of death and devastation before swiftly relocating to strike again elsewhere.",
@@ -8503,7 +8911,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "When the Drukhari fight alongside their Asuryani cousins in the cause of Ynnead, some ride into battle aboard needle-swift Venoms. Similar to the Vyper, these upscaled jetbikes serve more like airborne chariots that bear small bands of murderous Drukhari into the fight. So mounted, the worshippers of Ynnead are all but inescapable, pouncing swiftly upon their luckless prey.",
@@ -8739,7 +9153,7 @@ export default [
       },
       {
         "name": "Herald of Ynnead",
-        "text": "At the start of the Fight phase, select one enemy unit within Engagement Range of this model. Until the end of the phase, each time a friendly AELDARI model makes an attack that targets that unit, you can re-roll a Wound roll of 1."
+        "text": "**Herald of Ynnead:** At the start of the Fight phase, select one enemy unit within Engagement Range of this model. Until the end of the phase, each time a friendly AELDARI model makes an attack that targets that unit, you can re-roll a Wound roll of 1."
       }
     ],
     "specialAbilities": [

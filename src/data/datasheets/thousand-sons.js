@@ -359,7 +359,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -505,7 +505,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -646,7 +646,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 80,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 90,
+        "note": "4th+"
       }
     ],
     "flavor": "Many of the Rhinos employed by the Thousand Sons are ancient vehicles, their once-noble machine spirits safuratedby the malice of the Warp, their hulls mutated and discoloured by the energies of unfettered change. Still, they bear the foot soldiers of Tzeentch swiftly into battle, guns hammering as they go.",
@@ -1156,7 +1162,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 320,
+        "points": 350,
         "note": "2nd+"
       }
     ],
@@ -1356,7 +1362,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 95
       }
     ],
     "flavor": "Greatest amongst Magnus’ lieutenants, each Exalted Sorcerer embodies forbidden power and monstrous ambition. From the soul-burning detonations of their pistols’ cursed shells to the unfettered might of their sorcery and the shimmering shields cast by their corrupt sigils of Tzeentch, they are terrifyingly powerful warriors.",
@@ -1986,7 +1992,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -2067,7 +2073,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 100
       }
     ],
     "flavor": "Infernal Masters forge pacts with daemonic entities, euphemistically called tutelaries. Upon the battlefield, they can unleash the powers of these malign familiars to engulf their foes in swarms of momentarily corporeal terrors, to divine whispers of the future or to master the currents of the Empyrean itself.",
@@ -2289,7 +2295,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 315,
+        "points": 340,
         "note": "3rd+"
       }
     ],
@@ -2411,7 +2417,7 @@ export default [
   },
   {
     "id": "magnus-the-red",
-    "name": "Magnus The Red",
+    "name": "Magnus the Red",
     "points": [
       {
         "models": 1,
@@ -2421,7 +2427,7 @@ export default [
     "flavor": "None dare meet the one-eyed gaze of the Crimson King. He is a nexus of sorcerous energies, a sentient confluence of fate and magic bound within the shimmering flesh of a daemonic demigod. Magnus unleashes his magicks in an unstoppable tempest, and the luckiest of his victims are those who die swiftly.",
     "profiles": [
       {
-        "name": "Magnus The Red",
+        "name": "Magnus the Red",
         "m": "14\"",
         "t": "11",
         "sv": "2+",
@@ -3124,7 +3130,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 385,
+        "points": 400,
         "note": "3rd+"
       }
     ],
@@ -3343,11 +3349,23 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 85
+        "points": 85,
+        "note": "1st-2nd"
       },
       {
         "models": 4,
-        "points": 175
+        "points": 175,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 100,
+        "note": "3rd+"
+      },
+      {
+        "models": 4,
+        "points": 190,
+        "note": "3rd+"
       }
     ],
     "flavor": "Sekhetar Robots are often employed by their sorcerous masters as prophetic sentinels to guard sites of power or stalk unwary interlopers. Inscribed with spells of illusion and obfuscation, Sekhetar Robots can be hidden, awaiting the moment to activate and turn their arcane weapons on the foe in gouts of empyric energy and sorcerous missiles.",
@@ -3466,7 +3484,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 95,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 105,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Sorcerers of the Thousand Sons direct the ranks of Rubricae in battle. All the while, they wield their twisted sorceries to wrack the foe with rampant mutation, unleash unnatural firestorms upon the enemy or veil their warriors behind flickering illusions, protected throughout by the fickle favour of Tzeentch.",
@@ -3573,23 +3597,23 @@ export default [
   },
   {
     "id": "sorcerer-in-terminator-armour",
-    "name": "Sorcerer In Terminator Armour",
+    "name": "Sorcerer in Terminator Armour",
     "points": [
       {
         "models": 1,
-        "points": 95,
+        "points": 100,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 105,
+        "points": 110,
         "note": "3rd+"
       }
     ],
     "flavor": "Clad in hulking Terminator plate, a Sorcerer of the Thousand Sons can shrug off even the punishing fire of anti-tank weaponry. So protected, they can unleash their mutative magicks with impunity, leading offensives into even the most heavily defended enemy strongpoints and laying low any who bar their path.",
     "profiles": [
       {
-        "name": "Sorcerer In Terminator Armour",
+        "name": "Sorcerer in Terminator Armour",
         "m": "5\"",
         "t": "5",
         "sv": "2+",
@@ -3668,7 +3692,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Sorcerer In Terminator Armour"
+      "1 Sorcerer in Terminator Armour"
     ],
     "loadout": "**This model is equipped with:** Gaze of Hate; inferno combi-bolter; force weapon.",
     "options": [

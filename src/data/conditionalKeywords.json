@@ -434,34 +434,22 @@
     ]
   },
   "orks": {
-    "battlewagon": [
-      {
-        "kw": "Wagon",
-        "det": "rollin-deff"
-      }
-    ],
     "gretchin": [
       {
         "kw": "Battleline",
-        "det": "dread-mob"
-      }
-    ],
-    "hunta-rig": [
-      {
-        "kw": "Wagon",
-        "det": "rollin-deff"
-      }
-    ],
-    "kill-rig": [
-      {
-        "kw": "Wagon",
-        "det": "rollin-deff"
+        "det": "runt-swarm"
       }
     ],
     "stormboyz": [
       {
         "kw": "Battleline",
         "det": "taktikal-brigade"
+      }
+    ],
+    "warbikers": [
+      {
+        "kw": "Battleline",
+        "det": "kult-of-speed"
       }
     ]
   },

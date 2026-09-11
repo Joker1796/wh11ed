@@ -125,12 +125,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -575,7 +575,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -723,7 +723,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -865,7 +865,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Rhinos are well-adapted for battlefield transportation. Even when corrupted by the Warp and encrusted with dried blood, they remain as reliable as ever, safely carrying their passengers overfire-swept terrain. Many of these vehicles are adorned with blades and have machine spirits just as bloodthirsty as their occupants.",
@@ -1034,12 +1040,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 185,
+        "points": 175,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 360,
+        "points": 340,
         "note": "3rd+"
       }
     ],
@@ -1371,7 +1377,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 300,
+        "points": 310,
         "note": "2nd+"
       }
     ],
@@ -1460,7 +1466,7 @@ export default [
         "range": "48\"",
         "a": "2",
         "bs": "4+",
-        "s": "12",
+        "s": "10",
         "ap": "-2",
         "d": "D6+1"
       },
@@ -1592,12 +1598,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 280,
+        "points": 270,
         "note": "3rd+"
       }
     ],
@@ -1667,12 +1673,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 150,
+        "points": 145,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 290,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -1827,7 +1833,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 175,
+        "points": 155,
         "note": "3rd+"
       }
     ],
@@ -2252,7 +2258,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "-",
+        "oc": "0",
         "inv": "5+"
       }
     ],
@@ -2444,7 +2450,7 @@ export default [
   },
   {
     "id": "kh-rn-the-betrayer",
-    "name": "Khârn The Betrayer",
+    "name": "Khârn the Betrayer",
     "points": [
       {
         "models": 1,
@@ -2454,7 +2460,7 @@ export default [
     "flavor": "Khârn is a raging storm of slaughter, the embodiment of the eightfold path of Khorne. As he sprints into battle, his bellowed war cries boom from the vox-grille of his helm. Khârn’s mantra – ‘Kill! Maim! Burn!’ – has become infamous across the Imperium, a terrifying harbinger of the carnage to come.",
     "profiles": [
       {
-        "name": "Khârn The Betrayer",
+        "name": "Khârn the Betrayer",
         "m": "8\"",
         "t": "4",
         "sv": "3+",
@@ -2511,7 +2517,7 @@ export default [
       },
       {
         "name": "The Betrayer",
-        "text": "At the end of your Charge phase, if this model is leading a unit and that unit is not within Engagement Range of one or more enemy units, you must take a Leadership test for this model. If that test is failed, one Bodyguard model in that unit is destroyed."
+        "text": "At the end of your Charge phase, if this unit is on the battlefield, is unengaged, and contains a Bodyguard model, this unit makes a Leadership roll:\n\u25aa If that Leadership roll is failed, one Bodyguard model in this unit is destroyed."
       },
       {
         "name": "Berzerker Frenzy",
@@ -2548,11 +2554,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 170
+        "points": 160
       },
       {
         "models": 20,
-        "points": 330
+        "points": 320
       }
     ],
     "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers, and are fanatical in the extreme. The warp-fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under a rain of heavy blows, each potent enough to shear limbs and shatter shields.",
@@ -3116,7 +3122,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 155,
+        "points": 150,
         "note": "3rd+"
       }
     ],

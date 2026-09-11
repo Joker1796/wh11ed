@@ -140,7 +140,6 @@ function groupLabelKey(id) { return GROUP_LABEL_KEYS[id] || id }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 2px solid var(--accent);
-  border-radius: 0 0 5px 5px;
   text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }

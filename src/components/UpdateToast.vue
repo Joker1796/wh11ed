@@ -6,6 +6,7 @@
 <script setup>
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { stripLocale } from '../router/locale.js'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 
 const route = useRoute()
@@ -20,7 +21,7 @@ const pwaInstalled =
 
 // Don't reload while the user is on the live scoring screen — that's the one place a reload
 // (which survives via localStorage, but drops half-typed input / open modals) is disruptive.
-const onActiveGame = () => route.path.startsWith('/tracker/game')
+const onActiveGame = () => stripLocale(route.path).startsWith('/tracker/game')
 
 // registerType is 'prompt' (vite.config.js): the SW activates only when we call
 // updateServiceWorker. needRefresh flips to true once a new SW has finished installing in

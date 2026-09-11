@@ -106,10 +106,6 @@ const designerChunks = computed(() => chunkBlocks(seq.value.designerNotes))
 </script>
 
 <style scoped>
-.lead {
-  margin: 0 0 1.25rem;
-  line-height: 1.6;
-}
 .group-heading {
   font-family: var(--font-display);
   font-size: var(--fs-rule-title);
