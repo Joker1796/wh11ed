@@ -44,7 +44,10 @@ on bad reception. That shapes most of the decisions below.
   heavy data files, `index.html` uploaded with `cp` and not `sync`. Before "fixing" something that
   looks wrong, search this file for it: the reason is usually written down, along with what broke
   last time.
-- **No linter.** Match the surrounding code. Tests are Vitest (`npm test`).
+- **The linter is a gate, not a style opinion.** `npm run lint` (ESLint + `eslint-plugin-vue`,
+  config in `eslint.config.js`, a step in `ci.yml`) reports nothing on a clean tree, so anything
+  it says is new. Every opt-out in that config carries its reason in a comment — read it before
+  switching a rule on or off. Tests are Vitest (`npm test`).
 
 **Where to start:** *Architecture* below is the map — the data→view pipeline and the navigation
 model. This file is the engineering reference; `README.md` is the product overview for users.
@@ -82,6 +85,7 @@ so changing the tracker's game format or the auth flow means checking the backen
 npm run dev      # dev server at http://localhost:5173
 npm run build    # production build → dist/
 npm run preview  # preview the production build
+npm run lint     # GATE: ESLint + eslint-plugin-vue (see eslint.config.js; runs in CI)
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
@@ -101,7 +105,7 @@ npm run screenshots  # regenerate the manifest install-dialog screenshots (see P
 npm run splash       # regenerate the iOS apple-touch-startup-image launch screens (see PWA)
 ```
 
-No linter configured. **Tests:** Vitest (`npm test` = `vitest run`, `npm run test:watch`), config in `vitest.config.js` (jsdom env, `src/test-setup.js` installs a clean in-memory localStorage). Specs live next to source as `src/**/*.test.js`: pure scoring/BP/winner logic (`gameScoring.test.js`), pure tracker helpers (`useTracker.helpers.test.js`), the module-singleton store with `vi.resetModules()` between cases (`useTracker.store.test.js`), components via `@vue/test-utils` (`ScoreBoard`/`GameSetup`/`modals`), the search index (`useSearch.test.js`), and the cloud-backup layer with `vi.mock`'d auth/tracker deps (`useCloudSync.test.js`). Test files are not imported by the app, so they never reach the build/precache.
+**Lint:** `npm run lint` — ESLint with `eslint-plugin-vue`; `eslint.config.js` records, for every rule that is off, why. **Tests:** Vitest (`npm test` = `vitest run`, `npm run test:watch`), config in `vitest.config.js` (jsdom env, `src/test-setup.js` installs a clean in-memory localStorage). Specs live next to source as `src/**/*.test.js`: pure scoring/BP/winner logic (`gameScoring.test.js`), pure tracker helpers (`useTracker.helpers.test.js`), the module-singleton store with `vi.resetModules()` between cases (`useTracker.store.test.js`), components via `@vue/test-utils` (`ScoreBoard`/`GameSetup`/`modals`), the search index (`useSearch.test.js`), and the cloud-backup layer with `vi.mock`'d auth/tracker deps (`useCloudSync.test.js`). Test files are not imported by the app, so they never reach the build/precache.
 
 ## Architecture
 
