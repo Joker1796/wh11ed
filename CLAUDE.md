@@ -46,8 +46,14 @@ on bad reception. That shapes most of the decisions below.
   last time.
 - **The linter is a gate, not a style opinion.** `npm run lint` (ESLint + `eslint-plugin-vue`,
   config in `eslint.config.js`, a step in `ci.yml`) reports nothing on a clean tree, so anything
-  it says is new. Every opt-out in that config carries its reason in a comment — read it before
-  switching a rule on or off. Tests are Vitest (`npm test`).
+  it says is new. It formats the templates too (one attribute per line, plugin indentation) — so
+  **a line break in a template is not free**: Vue's `condense` turns the break between a tag and
+  its text into a real space. Harmless where the text is an element's only child (a block box
+  drops edge whitespace), visible where it sits in an inline flow beside a sibling — which is why
+  the footer version, the back-links and the print card's assembled lines are written the way
+  they are. Never build an output string out of adjacent template fragments; build it in script.
+  Every opt-out in that config carries its reason in a comment — read it before switching a rule
+  on or off. Tests are Vitest (`npm test`).
 
 **Where to start:** *Architecture* below is the map — the data→view pipeline and the navigation
 model. This file is the engineering reference; `README.md` is the product overview for users.
