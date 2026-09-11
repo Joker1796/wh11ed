@@ -1,5 +1,22 @@
 # Generated data sidecars are written with LF by their generators (scripts/gen-*.mjs) and their
 # freshness is verified by a byte-for-byte `--check` in `npm run sync`. Pin them to LF so an
 # autocrlf checkout on Windows can't rewrite them to CRLF and make that check false-positive.
+#
+# Keep this list in step with the `--check` calls at the top of scripts/sync.mjs — a generated
+# sidecar that lands here without its eol=lf line reports "stale" forever on a Windows checkout
+# even though regenerating it changes not one byte of content.
 src/data/conditionalKeywords.json text eol=lf
 src/data/sourceIds.json text eol=lf
+src/data/factionFaq.json text eol=lf
+
+# gen-roster-data.mjs owns EVERY .js directly under src/data/roster/ (30 faction files plus
+# core.js, items.js and index.js — see its writeOut calls); gen-roster-texts-ru.mjs owns
+# ru/texts.js.
+src/data/roster/*.js text eol=lf
+src/data/roster/ru/texts.js text eol=lf
+
+# The hand-written test sitting in that same directory is NOT generated and no `--check` reads
+# it, so hand it back to the repo's normal end-of-line handling. `!attr` is the only way to do
+# that: `text=auto` still leaves `eol` inherited from the glob above, which pinned the test to
+# LF too.
+src/data/roster/*.test.js !text !eol
