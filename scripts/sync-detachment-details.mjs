@@ -39,7 +39,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, loadJson, loadModule, norm, sourceIds as sourceIdsMap, table as read } from './lib/sync-common.mjs'
+import { ROOT, loadJson, loadModule, norm, sourceIds as sourceIdsMap, table as read } from './lib/sync-common.mjs'
 
 
 // Common words that appear in nearly every detachment rule regardless of content — excluded from

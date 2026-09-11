@@ -453,8 +453,6 @@ export const abilityNamesRu = {
   'Blessing of the Omnissiah': 'Благословение Омниссии',
   'Guardians of the Machine': 'Стражи машины',
   'Force Edge (Psychic)': 'Силовая кромка (Психика)',
-  'Ancient’s Banner': 'Штандарт Ancient',
-  'Apothecary’s Narthecium': 'Нартециум Apothecary',
   'Champion of the Order of Purifiers (Psychic)': 'Чемпион Ордена Очистителей (Психика)',
   'Foesight (Psychic)': 'Взор на врага (Психика)',
   'Warrior Strategist': 'Воин-стратег',

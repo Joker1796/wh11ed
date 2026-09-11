@@ -41,10 +41,9 @@
 // Report only — nothing is written. Usage: node scripts/sync-roster-restrictions.mjs (also run as
 // part of `npm run sync`).
 
-import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy, escapeRegex, NUMBER_WORDS, invertSourceIds } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy, escapeRegex, NUMBER_WORDS, invertSourceIds } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))

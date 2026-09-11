@@ -38,7 +38,7 @@ const props = defineProps({
   twists: { type: Array, required: true },   // [{ id, title, body, note?, example? }]
   selected: { type: String, default: null },
 })
-const emit = defineEmits(['pick', 'random', 'none', 'close'])
+defineEmits(['pick', 'random', 'none', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { renderInline } = useRenderInline()

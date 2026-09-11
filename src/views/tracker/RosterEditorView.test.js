@@ -44,7 +44,7 @@ async function waitFor(w, needle, tries = 60) {
 describe('RosterEditorView', () => {
   it('redirects to the list when the roster id is unknown', async () => {
     ROSTER_ID = 'missing'
-    const w = mount(RosterEditorView, { global: { stubs } })
+    mount(RosterEditorView, { global: { stubs } })
     await flushPromises()
     expect(replace).toHaveBeenCalledWith('/roster')
   })

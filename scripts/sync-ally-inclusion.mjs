@@ -36,10 +36,9 @@
 //
 // Usage: node scripts/sync-ally-inclusion.mjs   (also run as part of `npm run sync`).
 
-import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))

@@ -304,7 +304,7 @@ describe('replaced-item links', () => {
   // became three alternatives capped at one, and a legal list (he carries all three) came out
   // illegal. Eight groups game-wide say it in prose rather than as "Default Wargear".
   it('reads a group of nothing but defaults as the loadout, not as a choice', () => {
-    const names = (u, m) => (u.defaults.find(([mi]) => mi === m) || [, []])[1].map(([id]) => rosterItems.items[id])
+    const names = (u, m) => (u.defaults.find(([mi]) => mi === m) || [undefined, []])[1].map(([id]) => rosterItems.items[id])
     const breachers = groupsOf('imperial-agents', 'imperial-navy-breachers')
     expect(names(breachers, 1)).toEqual(expect.arrayContaining(['Navis heavy shotgun', 'Endurant Shield', 'Navis las-volley']))
     expect(breachers.gear.map(textOf)).not.toContain('One other Navis Armsman is equipped with:')

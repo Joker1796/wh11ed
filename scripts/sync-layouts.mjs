@@ -98,14 +98,12 @@ const mlById = Object.fromEntries(mlRows.map((r) => [r.id, r.localisations?.en?.
 const mdById = Object.fromEntries(T('mission_deployment.json').map((r) => [r.id, r.localisations?.en?.name]))
 
 const deploymentInfo = new Map() // unordered "a|b|letter" -> deployment map name, for the printout below
-let recommendedIssues = 0
 for (const row of fdmRows) {
   const friendly = fdName[row.friendlyForceDispositionId]
   const opposition = fdName[row.oppositionForceDispositionId]
   const presetIds = presetsByFdm[row.id] || []
   if (presetIds.length !== 3) {
     out.push(`  ! ${friendly} -> ${opposition}: expected 3 recommended presets, appdata has ${presetIds.length}`)
-    recommendedIssues++
     continue
   }
   const letters = new Set()
@@ -115,21 +113,18 @@ for (const row of fdmRows) {
     const parsed = layoutName && parseLayoutName(layoutName)
     if (!parsed) {
       out.push(`  ! ${friendly} -> ${opposition}: recommended preset ${pid} has an unparseable layout name "${layoutName}"`)
-      recommendedIssues++
-      continue
+        continue
     }
     letters.add(parsed.letter)
     const pairSlugs = [parsed.slugA, parsed.slugB].sort()
     const expectedSlugs = [slugByName.get(friendly), slugByName.get(opposition)].sort()
     if (pairSlugs[0] !== expectedSlugs[0] || pairSlugs[1] !== expectedSlugs[1]) {
       out.push(`  ! ${friendly} -> ${opposition}: recommended preset's own layout is for a DIFFERENT pair ("${layoutName}")`)
-      recommendedIssues++
     }
     deploymentInfo.set(unorderedKey(parsed.slugA, parsed.slugB, parsed.letter), mdById[preset.missionDeploymentId])
   }
   if (letters.size !== 3) {
     out.push(`  ! ${friendly} -> ${opposition}: recommended presets don't cover distinct A/B/C (got ${[...letters].join(',')})`)
-    recommendedIssues++
   }
 }
 

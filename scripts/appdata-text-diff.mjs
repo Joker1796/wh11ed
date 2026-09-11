@@ -58,7 +58,7 @@ function sem(s) {
     .replace(/[“”]/g, '"')
     .replace(/[-‐‑–—]/g, '-')
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
+    .replace(/[^\p{L}\p{N}"'+%/.-]+/gu, ' ')
     .replace(/(?<![\p{L}\p{N}])'|'(?![\p{L}\p{N}])/gu, '') // quote marks (keeps in-word apostrophes)
     .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
     .replace(/(?<=\p{L})\.(?=\p{L})/gu, ' ') // missing space after a period ("phase.just") — appdata artifact
