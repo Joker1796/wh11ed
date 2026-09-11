@@ -1,23 +1,54 @@
 <template>
-  <div class="faction-view" :class="{ themed: !!color }" :style="colorVars">
-    <div v-if="hero" class="hero">
-      <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
-      <h1 class="hero-title">{{ faction ? faction.name : labels.factionsHeading }}</h1>
+  <div
+    class="faction-view"
+    :class="{ themed: !!color }"
+    :style="colorVars"
+  >
+    <div
+      v-if="hero"
+      class="hero"
+    >
+      <RouterLink
+        to="/factions"
+        class="back-link"
+      >
+        {{ '← ' + labels.factionsBack }}
+      </RouterLink>
+      <h1 class="hero-title">
+        {{ faction ? faction.name : labels.factionsHeading }}
+      </h1>
       <!-- Page tabs (also the only way to switch between the three faction pages ≤900px,
            where the desktop subnav in App.vue is hidden and only the drawer is left). -->
-      <PageTabs v-if="faction" ref="tabsEl" class="hero-tabs" :tabs="navTabs" :aria-label="labels.navFactions" />
+      <PageTabs
+        v-if="faction"
+        ref="tabsEl"
+        class="hero-tabs"
+        :tabs="navTabs"
+        :aria-label="labels.navFactions"
+      />
     </div>
 
     <slot v-if="faction" />
-    <p v-else class="fsoon">{{ labels.factionsSoon }}</p>
+    <p
+      v-else
+      class="fsoon"
+    >
+      {{ labels.factionsSoon }}
+    </p>
 
     <!-- Desktop-only floating controls, bottom-right, shown only while the hero tabs are
          scrolled out of view (>900px has no bottom nav). Stacked in a column: a button for
          each of the two OTHER tabs (jump straight to either without cycling), then a "back
          to top" button at the bottom. Hidden on the per-unit page (hero=false) — the top
          subnav with the same links stays visible there (see App.vue isFactionUnitPage). -->
-    <div v-if="faction && hero" class="faction-fabs">
-      <TransitionGroup v-if="!tabsInView" name="fab">
+    <div
+      v-if="faction && hero"
+      class="faction-fabs"
+    >
+      <TransitionGroup
+        v-if="!tabsInView"
+        name="fab"
+      >
         <RouterLink
           v-for="t in otherTabs"
           :key="t.to"
@@ -26,7 +57,7 @@
           :title="t.label"
           :aria-label="t.label"
         >
-          <i :class="t.icon"></i>
+          <i :class="t.icon" />
         </RouterLink>
       </TransitionGroup>
       <Transition name="fab">
@@ -38,7 +69,7 @@
           :aria-label="labels.backToTop"
           @click="scrollToTop"
         >
-          <i class="bi bi-arrow-up"></i>
+          <i class="bi bi-arrow-up" />
         </button>
       </Transition>
     </div>

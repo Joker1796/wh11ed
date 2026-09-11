@@ -14,7 +14,7 @@
 // could not. The longhands and the logical properties (`border-start-end-radius`…) are the same
 // declaration written another way and are matched the same.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join, relative, sep } from 'node:path'
 
 // A circle is a shape, not a rounded box — spinners, dots, round counters. Always fine.
 const CIRCLE = '50%'
@@ -38,7 +38,10 @@ const files = []
 
 const offenders = []
 for (const p of files) {
-  const rel = relative('.', p)
+  // Posix separators, because ALLOWED is written with them: on Windows `relative` hands back
+  // `src\components\BaseModal.vue`, which matched no entry, so all five allowed corners reported
+  // as violations — the check was red on one machine and green in CI for the same tree.
+  const rel = relative('.', p).split(sep).join('/')
   readFileSync(p, 'utf8').split('\n').forEach((line, i) => {
     const m = line.match(/(border-(?:[a-z]+-){0,2}radius):\s*([^;}]+)/)
     if (!m) return

@@ -2,10 +2,21 @@
   <BaseModal @close="$emit('close')">
     <template #header>
       <header class="modal-head">
-        <h3 class="mh-title">{{ labels.trackerDpBudget }}</h3>
+        <h3 class="mh-title">
+          {{ labels.trackerDpBudget }}
+        </h3>
         <div class="mh-right">
-          <em class="dp-modal-count" :class="{ over: dpSpent > maxDp && !overAllowed }">{{ dpSpent }} / {{ maxDp }} DP</em>
-          <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
+          <em
+            class="dp-modal-count"
+            :class="{ over: dpSpent > maxDp && !overAllowed }"
+          >{{ dpSpent }} / {{ maxDp }} DP</em>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="$emit('close')"
+          >
+            ✕
+          </button>
         </div>
       </header>
     </template>
@@ -15,11 +26,22 @@
            most of the list, and a page of dimmed rows reads as a broken screen rather than as a
            constraint. The count says how many went and why, and Clear brings them all back in one
            tap — which is also the only way out of a full budget. -->
-      <div v-if="selected.length || hidden" class="det-tools">
-        <button type="button" class="btn-ghost det-clear" :disabled="!selected.length" @click="$emit('clear')">
+      <div
+        v-if="selected.length || hidden"
+        class="det-tools"
+      >
+        <button
+          type="button"
+          class="btn-ghost det-clear"
+          :disabled="!selected.length"
+          @click="$emit('clear')"
+        >
           {{ labels.detachmentClear }}
         </button>
-        <em v-if="hidden" class="det-hidden">{{ labels.detachmentHidden.replace('{n}', hidden) }}</em>
+        <em
+          v-if="hidden"
+          class="det-hidden"
+        >{{ labels.detachmentHidden.replace('{n}', hidden) }}</em>
       </div>
       <button
         v-for="d in offered"

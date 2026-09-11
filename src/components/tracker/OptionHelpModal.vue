@@ -1,7 +1,18 @@
 <template>
-  <BaseModal :title="title" max-width="420px" :z-index="410" @close="$emit('close')">
+  <BaseModal
+    :title="title"
+    max-width="420px"
+    :z-index="410"
+    @close="$emit('close')"
+  >
     <div class="modal-body">
-      <p v-for="(p, i) in paragraphs" :key="i" class="oh-text">{{ p }}</p>
+      <p
+        v-for="(p, i) in paragraphs"
+        :key="i"
+        class="oh-text"
+      >
+        {{ p }}
+      </p>
     </div>
   </BaseModal>
 </template>

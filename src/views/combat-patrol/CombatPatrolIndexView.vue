@@ -1,32 +1,67 @@
 <template>
   <div class="cp-index-view">
     <div class="hero">
-      <h1 class="hero-title">{{ labels.cpHeading }}</h1>
-      <div class="hero-subtitle">{{ labels.cpSubtitle }}</div>
+      <h1 class="hero-title">
+        {{ labels.cpHeading }}
+      </h1>
+      <div class="hero-subtitle">
+        {{ labels.cpSubtitle }}
+      </div>
     </div>
 
-    <section v-if="pinned.length" class="cp-group">
-      <h2 class="cp-group-title">{{ labels.favPinnedGroup }}</h2>
+    <section
+      v-if="pinned.length"
+      class="cp-group"
+    >
+      <h2 class="cp-group-title">
+        {{ labels.favPinnedGroup }}
+      </h2>
       <div class="cp-grid">
-        <div v-for="f in pinned" :key="'pin-' + f.slug" class="cp-card-row">
-          <RouterLink :to="`/combat-patrol/${f.slug}`" class="cp-card">
+        <div
+          v-for="f in pinned"
+          :key="'pin-' + f.slug"
+          class="cp-card-row"
+        >
+          <RouterLink
+            :to="`/combat-patrol/${f.slug}`"
+            class="cp-card"
+          >
             <span class="cp-card-name">{{ f.name }}</span>
             <span class="cp-card-box">{{ f.boxName }}</span>
           </RouterLink>
-          <FavoriteStar :pinned="true" @toggle="toggleFaction(f.slug)" />
+          <FavoriteStar
+            :pinned="true"
+            @toggle="toggleFaction(f.slug)"
+          />
         </div>
       </div>
     </section>
 
-    <section v-for="group in groups" :key="group.id" class="cp-group">
-      <h2 class="cp-group-title">{{ labels[groupLabelKey(group.id)] }}</h2>
+    <section
+      v-for="group in groups"
+      :key="group.id"
+      class="cp-group"
+    >
+      <h2 class="cp-group-title">
+        {{ labels[groupLabelKey(group.id)] }}
+      </h2>
       <div class="cp-grid">
-        <div v-for="f in group.factions" :key="f.slug" class="cp-card-row">
-          <RouterLink :to="`/combat-patrol/${f.slug}`" class="cp-card">
+        <div
+          v-for="f in group.factions"
+          :key="f.slug"
+          class="cp-card-row"
+        >
+          <RouterLink
+            :to="`/combat-patrol/${f.slug}`"
+            class="cp-card"
+          >
             <span class="cp-card-name">{{ f.name }}</span>
             <span class="cp-card-box">{{ f.boxName }}</span>
           </RouterLink>
-          <FavoriteStar :pinned="isFactionPinned(f.slug)" @toggle="toggleFaction(f.slug)" />
+          <FavoriteStar
+            :pinned="isFactionPinned(f.slug)"
+            @toggle="toggleFaction(f.slug)"
+          />
         </div>
       </div>
     </section>

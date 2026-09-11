@@ -6,7 +6,7 @@
       class="rub-search"
       :placeholder="labels.rosterSearchUnits"
       autocomplete="off"
-    />
+    >
 
     <!-- Two narrowing checkboxes, folded away under their own header — the same accordion the
          groups below use, so the pane reads as one list of collapsible things rather than as a
@@ -24,45 +24,91 @@
         :aria-expanded="filtersOpen"
         @click="filtersOpen = !filtersOpen"
       >
-        <i class="bi rub-chev" :class="filtersOpen ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <i
+          class="bi rub-chev"
+          :class="filtersOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
+        />
         <span class="rub-group-name">{{ labels.rosterFilters }}</span>
-        <span v-if="activeFilters" class="rub-group-count on">{{ activeFilters }}</span>
+        <span
+          v-if="activeFilters"
+          class="rub-group-count on"
+        >{{ activeFilters }}</span>
       </button>
       <CollapseTransition :show="filtersOpen">
         <div class="rub-filter-list">
-          <label v-if="hasBudget" class="check" :class="{ on: onlyAffordable }">
-            <input v-model="onlyAffordable" type="checkbox" />
+          <label
+            v-if="hasBudget"
+            class="check"
+            :class="{ on: onlyAffordable }"
+          >
+            <input
+              v-model="onlyAffordable"
+              type="checkbox"
+            >
             <span>{{ labels.rosterFilterBudget }}</span>
           </label>
-          <label class="check" :class="{ on: onlyOwned }">
-            <input v-model="onlyOwned" type="checkbox" />
-            <span><i class="bi bi-star-fill"></i> {{ labels.rosterFilterOwned }}</span>
+          <label
+            class="check"
+            :class="{ on: onlyOwned }"
+          >
+            <input
+              v-model="onlyOwned"
+              type="checkbox"
+            >
+            <span><i class="bi bi-star-fill" /> {{ labels.rosterFilterOwned }}</span>
           </label>
           <!-- Legends units are listed and marked rather than hidden, so a player who wants them
                out of the way says so once. Only offered where the faction has any. -->
-          <label v-if="hasLegends" class="check" :class="{ on: hideLegends }">
-            <input v-model="hideLegends" type="checkbox" />
+          <label
+            v-if="hasLegends"
+            class="check"
+            :class="{ on: hideLegends }"
+          >
+            <input
+              v-model="hideLegends"
+              type="checkbox"
+            >
             <span>{{ labels.dsLegendsHide }}</span>
           </label>
         </div>
       </CollapseTransition>
-      <em v-if="hiddenCount" class="rub-hidden">{{ labels.rosterFilterHidden.replace('{n}', hiddenCount) }}</em>
+      <em
+        v-if="hiddenCount"
+        class="rub-hidden"
+      >{{ labels.rosterFilterHidden.replace('{n}', hiddenCount) }}</em>
     </div>
 
     <div class="rub-body">
-      <p v-if="!shownCount" class="rub-empty">{{ labels.rosterNoResults }}</p>
-      <template v-for="g in groups" :key="g.id">
-        <div v-if="g.units.length" class="rub-group">
+      <p
+        v-if="!shownCount"
+        class="rub-empty"
+      >
+        {{ labels.rosterNoResults }}
+      </p>
+      <template
+        v-for="g in groups"
+        :key="g.id"
+      >
+        <div
+          v-if="g.units.length"
+          class="rub-group"
+        >
           <button
             type="button"
             class="rub-head"
             :aria-expanded="isOpen(g.id)"
             @click="toggleGroup(g.id)"
           >
-            <i class="bi rub-chev" :class="isOpen(g.id) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            <i
+              class="bi rub-chev"
+              :class="isOpen(g.id) ? 'bi-chevron-down' : 'bi-chevron-right'"
+            />
             <span class="rub-group-name">
               {{ groupLabel(g) }}
-              <em v-if="g.ally" class="rub-ally-cap">{{ allyCap(g.ally) }}</em>
+              <em
+                v-if="g.ally"
+                class="rub-ally-cap"
+              >{{ allyCap(g.ally) }}</em>
             </span>
             <span class="rub-group-count">{{ g.units.length }}</span>
           </button>
@@ -84,10 +130,18 @@
                   :aria-label="ownsUnit(u) ? labels.dsOwnRemove : labels.dsOwnAdd"
                   @click.stop="toggleOwnUnit(u)"
                 >
-                  <i :class="ownsUnit(u) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+                  <i :class="ownsUnit(u) ? 'bi bi-star-fill' : 'bi bi-star'" />
                 </button>
                 <span class="rub-text">
-                  <span class="rub-name">{{ u.name }}<span v-if="u.flags?.legends" class="legends-badge" :title="labels.dsLegendsNote">{{ labels.dsLegends }}</span><span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
+                  <span class="rub-name">{{ u.name }}<span
+                    v-if="u.flags?.legends"
+                    class="legends-badge"
+                    :title="labels.dsLegendsNote"
+                  >{{ labels.dsLegends }}</span><span
+                    v-if="countOf(u.id)"
+                    class="rub-count"
+                    :class="{ over: isOver(u) }"
+                  > {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
                 <button
@@ -97,7 +151,7 @@
                   :aria-label="labels.rosterRemove"
                   @click.stop="$emit('remove', u.id)"
                 >
-                  <i class="bi bi-dash-lg"></i>
+                  <i class="bi bi-dash-lg" />
                 </button>
                 <button
                   type="button"
@@ -107,7 +161,7 @@
                   :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
                   @click.stop="$emit('add', u.id)"
                 >
-                  <i class="bi bi-plus-lg"></i>
+                  <i class="bi bi-plus-lg" />
                 </button>
               </div>
             </div>

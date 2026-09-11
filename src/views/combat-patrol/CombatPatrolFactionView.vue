@@ -1,71 +1,180 @@
 <template>
-  <div v-if="faction" class="cp-faction-view" :class="{ themed: !!color }" :style="colorVars">
+  <div
+    v-if="faction"
+    class="cp-faction-view"
+    :class="{ themed: !!color }"
+    :style="colorVars"
+  >
     <div class="hero">
-      <h1 class="hero-title">{{ faction.name }}</h1>
-      <div class="hero-subtitle">{{ faction.boxName }}</div>
+      <h1 class="hero-title">
+        {{ faction.name }}
+      </h1>
+      <div class="hero-subtitle">
+        {{ faction.boxName }}
+      </div>
     </div>
 
     <!-- Detachment rule -->
-    <section class="fsection" id="rule">
-      <div v-if="faction.dp || faction.forceDisposition" class="det-meta">
-        <span v-if="faction.dp" class="det-meta-item">{{ faction.dp }} DP</span>
-        <span v-if="faction.forceDisposition" class="det-meta-item">{{ faction.forceDisposition }}</span>
+    <section
+      id="rule"
+      class="fsection"
+    >
+      <div
+        v-if="faction.dp || faction.forceDisposition"
+        class="det-meta"
+      >
+        <span
+          v-if="faction.dp"
+          class="det-meta-item"
+        >{{ faction.dp }} DP</span>
+        <span
+          v-if="faction.forceDisposition"
+          class="det-meta-item"
+        >{{ faction.forceDisposition }}</span>
       </div>
-      <p v-if="faction.rule.flavor" class="faction-flavor">{{ faction.rule.flavor }}</p>
-      <RuleBlock :id="`cp-${route.params.slug}-rule`" :title="faction.rule.name" :subtitle="faction.rule.nameRu" :body="faction.rule.body" />
+      <p
+        v-if="faction.rule.flavor"
+        class="faction-flavor"
+      >
+        {{ faction.rule.flavor }}
+      </p>
+      <RuleBlock
+        :id="`cp-${route.params.slug}-rule`"
+        :title="faction.rule.name"
+        :subtitle="faction.rule.nameRu"
+        :body="faction.rule.body"
+      />
     </section>
 
     <!-- Army rule -->
-    <section class="fsection" id="army-rule">
-      <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
-      <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
-      <RuleBlock :id="`cp-${route.params.slug}-army-rule`" :title="faction.armyRule.name" :subtitle="faction.armyRule.nameRu" :body="faction.armyRule.body" :example="faction.armyRule.example" />
+    <section
+      id="army-rule"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionArmyRule }}
+      </h2>
+      <p
+        v-if="faction.armyRule.flavor"
+        class="faction-flavor"
+      >
+        {{ faction.armyRule.flavor }}
+      </p>
+      <RuleBlock
+        :id="`cp-${route.params.slug}-army-rule`"
+        :title="faction.armyRule.name"
+        :subtitle="faction.armyRule.nameRu"
+        :body="faction.armyRule.body"
+        :example="faction.armyRule.example"
+      />
     </section>
 
     <!-- Stratagems -->
-    <section v-if="faction.stratagems?.length" class="fsection" id="stratagems">
-      <h2 class="fsection-title">{{ labels.factionStratagems }}</h2>
+    <section
+      v-if="faction.stratagems?.length"
+      id="stratagems"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionStratagems }}
+      </h2>
       <div class="strat-grid">
-        <StratCard v-for="s in faction.stratagems" :key="s.name" :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`" :strat="s" :sublabel="s.sublabel" />
+        <StratCard
+          v-for="s in faction.stratagems"
+          :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`"
+          :key="s.name"
+          :strat="s"
+          :sublabel="s.sublabel"
+        />
       </div>
     </section>
 
     <!-- Enhancements -->
-    <section v-if="faction.enhancements?.length" class="fsection" id="enhancements">
-      <h2 class="fsection-title">{{ labels.factionEnhancements }}</h2>
+    <section
+      v-if="faction.enhancements?.length"
+      id="enhancements"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionEnhancements }}
+      </h2>
       <div class="enh-grid">
-        <article v-for="e in faction.enhancements" :key="e.name" :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`" class="enh-card">
+        <article
+          v-for="e in faction.enhancements"
+          :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`"
+          :key="e.name"
+          class="enh-card"
+        >
           <div class="enh-head">
             <div class="enh-heading">
               <span class="enh-name">{{ e.name }}</span>
-              <span v-if="e.nameRu" class="enh-name-ru">{{ e.nameRu }}</span>
+              <span
+                v-if="e.nameRu"
+                class="enh-name-ru"
+              >{{ e.nameRu }}</span>
             </div>
             <div class="enh-tags">
-              <span v-if="e.upgrade" class="enh-tag">Upgrade</span>
-              <span v-if="e.isDefault" class="enh-tag enh-tag-default">{{ labels.cpDefaultEnh }}</span>
+              <span
+                v-if="e.upgrade"
+                class="enh-tag"
+              >Upgrade</span>
+              <span
+                v-if="e.isDefault"
+                class="enh-tag enh-tag-default"
+              >{{ labels.cpDefaultEnh }}</span>
             </div>
           </div>
-          <p v-if="e.flavor" class="faction-flavor">{{ e.flavor }}</p>
-          <div class="enh-body" v-html="renderRichText(e.body)"></div>
+          <p
+            v-if="e.flavor"
+            class="faction-flavor"
+          >
+            {{ e.flavor }}
+          </p>
+          <div
+            class="enh-body"
+            v-html="renderRichText(e.body)"
+          />
         </article>
       </div>
     </section>
 
     <!-- Datasheets -->
-    <section v-if="faction.datasheets?.length" class="fsection" id="datasheets">
-      <h2 class="fsection-title">{{ labels.factionDatasheets }}</h2>
+    <section
+      v-if="faction.datasheets?.length"
+      id="datasheets"
+      class="fsection"
+    >
+      <h2 class="fsection-title">
+        {{ labels.factionDatasheets }}
+      </h2>
       <div class="ds-list">
-        <div v-for="ds in faction.datasheets" :key="ds.id" class="ds-unit">
+        <div
+          v-for="ds in faction.datasheets"
+          :key="ds.id"
+          class="ds-unit"
+        >
           <div class="ds-head">
-            <h3 class="ds-title">{{ ds.name }}<span v-if="ds.baseSize" class="ds-title-base">({{ fmtBase(ds.baseSize) }})</span></h3>
+            <h3 class="ds-title">
+              {{ ds.name }}<span
+                v-if="ds.baseSize"
+                class="ds-title-base"
+              >({{ fmtBase(ds.baseSize) }})</span>
+            </h3>
           </div>
           <DatasheetCard :sheet="ds" />
         </div>
       </div>
     </section>
   </div>
-  <div v-else class="cp-faction-view" :class="{ themed: !!color }" :style="colorVars">
-    <p class="cp-empty">{{ labels.factionsSoon }}</p>
+  <div
+    v-else
+    class="cp-faction-view"
+    :class="{ themed: !!color }"
+    :style="colorVars"
+  >
+    <p class="cp-empty">
+      {{ labels.factionsSoon }}
+    </p>
   </div>
 </template>
 

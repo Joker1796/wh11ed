@@ -1,12 +1,27 @@
 <template>
-  <h2 class="chapter-heading">{{ labels.eventTeamsHeading }}</h2>
-  <p class="chapter-desc">{{ labels.eventTeamsDesc }}</p>
+  <h2 class="chapter-heading">
+    {{ labels.eventTeamsHeading }}
+  </h2>
+  <p class="chapter-desc">
+    {{ labels.eventTeamsDesc }}
+  </p>
 
-  <p class="lead">{{ teams.intro }}</p>
+  <p class="lead">
+    {{ teams.intro }}
+  </p>
 
-  <template v-for="grp in chunks" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
-      <template v-for="block in grp.items" :key="block.id">
+  <template
+    v-for="grp in chunks"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
+      <template
+        v-for="block in grp.items"
+        :key="block.id"
+      >
         <RuleBlock
           :id="block.id"
           :title="block.title"
@@ -14,7 +29,10 @@
           :note="block.note"
           :see-also="block.seeAlso"
         />
-        <div v-if="block.table" class="table-section">
+        <div
+          v-if="block.table"
+          class="table-section"
+        >
           <DataTable
             :title="block.table.title"
             :headers="block.table.headers"
@@ -32,7 +50,10 @@
         :note="grp.item.note"
         :see-also="grp.item.seeAlso"
       />
-      <div v-if="grp.item.table" class="table-section">
+      <div
+        v-if="grp.item.table"
+        class="table-section"
+      >
         <DataTable
           :title="grp.item.table.title"
           :headers="grp.item.table.headers"

@@ -1,15 +1,27 @@
 <template>
   <div class="changelog-view">
     <div class="hero">
-      <h1 class="hero-title">{{ labels.changelogTitle }}</h1>
-      <p class="hero-sub">{{ labels.changelogSubtitle }}</p>
+      <h1 class="hero-title">
+        {{ labels.changelogTitle }}
+      </h1>
+      <p class="hero-sub">
+        {{ labels.changelogSubtitle }}
+      </p>
     </div>
 
     <div class="changelog-body">
-      <section v-for="e in visibleEntries" :key="e.version" :id="`v${e.version}`" class="cl-entry">
+      <section
+        v-for="e in visibleEntries"
+        :id="`v${e.version}`"
+        :key="e.version"
+        class="cl-entry"
+      >
         <header class="cl-head">
           <span class="cl-ver">v{{ e.version }}</span>
-          <time class="cl-date" :datetime="e.date">{{ formatDate(e.date) }}</time>
+          <time
+            class="cl-date"
+            :datetime="e.date"
+          >{{ formatDate(e.date) }}</time>
         </header>
         <ul class="cl-list">
           <!-- Rendered, not printed: entries have always been written in the app's own body markup
@@ -22,10 +34,14 @@
             :key="i"
             :class="{ 'cl-h': note.h }"
             v-html="renderInline(note.h || note)"
-          ></li>
+          />
         </ul>
       </section>
-      <button v-if="changelog.length > visibleCount" class="show-more" @click="showMore">
+      <button
+        v-if="changelog.length > visibleCount"
+        class="show-more"
+        @click="showMore"
+      >
         {{ labels.changelogShowMore }}
       </button>
     </div>

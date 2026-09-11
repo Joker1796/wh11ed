@@ -1,30 +1,67 @@
 <template>
   <div class="setup">
     <div class="setup-head">
-      <h2 class="setup-title">{{ labels.trackerSetupTitle }}</h2>
+      <h2 class="setup-title">
+        {{ labels.trackerSetupTitle }}
+      </h2>
       <div class="steps">
-        <span class="step" :class="{ on: step === 1, done: step > 1 }" :aria-current="step === 1 ? 'step' : undefined">1 · {{ labels.trackerStepArmies }}</span>
+        <span
+          class="step"
+          :class="{ on: step === 1, done: step > 1 }"
+          :aria-current="step === 1 ? 'step' : undefined"
+        >1 · {{ labels.trackerStepArmies }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 2, done: step > 2 }" :aria-current="step === 2 ? 'step' : undefined">2 · {{ labels.trackerStepMission }}</span>
+        <span
+          class="step"
+          :class="{ on: step === 2, done: step > 2 }"
+          :aria-current="step === 2 ? 'step' : undefined"
+        >2 · {{ labels.trackerStepMission }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 3, done: step > 3 }" :aria-current="step === 3 ? 'step' : undefined">3 · {{ labels.trackerStepBattlefield }}</span>
+        <span
+          class="step"
+          :class="{ on: step === 3, done: step > 3 }"
+          :aria-current="step === 3 ? 'step' : undefined"
+        >3 · {{ labels.trackerStepBattlefield }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 4 }" :aria-current="step === 4 ? 'step' : undefined">4 · {{ labels.trackerStepDeploy }}</span>
+        <span
+          class="step"
+          :class="{ on: step === 4 }"
+          :aria-current="step === 4 ? 'step' : undefined"
+        >4 · {{ labels.trackerStepDeploy }}</span>
       </div>
-      <div class="steps-compact">{{ step }} / 4 · {{ stepLabel }}</div>
+      <div class="steps-compact">
+        {{ step }} / 4 · {{ stepLabel }}
+      </div>
     </div>
 
     <!-- ───────── Step 1 — Armies ───────── -->
-    <div v-show="step === 1" :ref="el => (panelEls[0] = el)" class="step-panel">
+    <div
+      v-show="step === 1"
+      :ref="el => (panelEls[0] = el)"
+      class="step-panel"
+    >
       <div class="field game-type">
         <span>{{ labels.trackerGameType }}</span>
         <div class="seg seg-wrap">
-          <button :class="{ on: !settings.combatPatrol }" @click="setCombatPatrol(false)">{{ labels.trackerGameTypeCompetitive }}</button>
-          <button :class="{ on: settings.combatPatrol }" @click="setCombatPatrol(true)">{{ labels.trackerGameTypeCombatPatrol }}</button>
+          <button
+            :class="{ on: !settings.combatPatrol }"
+            @click="setCombatPatrol(false)"
+          >
+            {{ labels.trackerGameTypeCompetitive }}
+          </button>
+          <button
+            :class="{ on: settings.combatPatrol }"
+            @click="setCombatPatrol(true)"
+          >
+            {{ labels.trackerGameTypeCombatPatrol }}
+          </button>
         </div>
       </div>
 
-      <div v-if="!settings.combatPatrol" class="field battle-size">
+      <div
+        v-if="!settings.combatPatrol"
+        class="field battle-size"
+      >
         <span>{{ labels.trackerBattleSize }}</span>
         <div class="seg">
           <button
@@ -32,16 +69,28 @@
             :key="b.id"
             :class="{ on: settings.battleSize === b.id }"
             @click="settings.battleSize = b.id"
-          >{{ b.name }} · {{ b.points }} · {{ b.maxDp }}DP</button>
+          >
+            {{ b.name }} · {{ b.points }} · {{ b.maxDp }}DP
+          </button>
         </div>
       </div>
 
       <div class="players">
-        <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ playerLabel(i) }}</h3>
+        <div
+          v-for="(p, i) in players"
+          :key="i"
+          class="player-card"
+        >
+          <h3 class="player-head">
+            {{ playerLabel(i) }}
+          </h3>
 
           <label class="field">
-            <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
+            <input
+              v-model="p.name"
+              type="text"
+              :placeholder="namePlaceholder(i)"
+            >
           </label>
 
           <!-- An attached list IS the army: it decides the faction, so it stands in the faction
@@ -51,7 +100,10 @@
           <div class="field">
             <span>{{ p.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
             <div class="faction-row">
-              <div v-if="p.roster" class="ro roster-line">
+              <div
+                v-if="p.roster"
+                class="ro roster-line"
+              >
                 <span class="rl-text">
                   <template v-if="p.roster.faction">{{ factionName(p.roster.faction) }} · </template>{{ p.roster.name || labels.rosterUntitled }}
                 </span>
@@ -61,11 +113,20 @@
                   :aria-label="labels.trackerRosterDetach"
                   :title="labels.trackerRosterDetach"
                   @click="clearRoster(p)"
-                >✕</button>
+                >
+                  ✕
+                </button>
               </div>
-              <button v-else class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
-                <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
-                <i class="bi bi-chevron-right ct-chev"></i>
+              <button
+                v-else
+                class="btn-choose-twist faction-btn"
+                @click="factionPickerIdx = i"
+              >
+                <span
+                  class="ct-name"
+                  :class="{ placeholder: !p.factionSlug }"
+                >{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
+                <i class="bi bi-chevron-right ct-chev" />
               </button>
               <button
                 type="button"
@@ -74,7 +135,9 @@
                 :aria-label="labels.trackerRosterAttach"
                 :title="labels.trackerRosterAttach"
                 @click="rosterPickerIdx = i"
-              ><i class="bi bi-card-list"></i></button>
+              >
+                <i class="bi bi-card-list" />
+              </button>
             </div>
             <FactionPickerModal
               v-if="factionPickerIdx === i"
@@ -92,11 +155,23 @@
             />
           </div>
 
-          <div v-if="!settings.combatPatrol" class="field">
+          <div
+            v-if="!settings.combatPatrol"
+            class="field"
+          >
             <span>
-              {{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em>
-              <button v-if="p.detachments.length === 1 && dpSpent(p) > maxDp" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
-                <i class="bi bi-question-circle"></i>
+              {{ labels.trackerDpBudget }} <em
+                class="dp-count"
+                :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }"
+              >{{ dpSpent(p) }} / {{ maxDp }} DP</em>
+              <button
+                v-if="p.detachments.length === 1 && dpSpent(p) > maxDp"
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerDpOverHelp"
+                @click="dpHelpOpen = true"
+              >
+                <i class="bi bi-question-circle" />
               </button>
             </span>
             <button
@@ -104,10 +179,18 @@
               class="btn-choose-twist"
               @click="detPickerIdx = i"
             >
-              <span class="ct-name" :class="{ placeholder: !p.detachments.length }">{{ detSummary(p) }}</span>
-              <i class="bi bi-chevron-right ct-chev"></i>
+              <span
+                class="ct-name"
+                :class="{ placeholder: !p.detachments.length }"
+              >{{ detSummary(p) }}</span>
+              <i class="bi bi-chevron-right ct-chev" />
             </button>
-            <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
+            <p
+              v-else
+              class="det-empty"
+            >
+              {{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
+            </p>
             <DetachmentPickerModal
               v-if="detPickerIdx === i"
               :detachments="detachmentsFor(p.factionSlug)"
@@ -119,36 +202,81 @@
               @close="detPickerIdx = -1"
             />
           </div>
-          <div v-else class="field">
+          <div
+            v-else
+            class="field"
+          >
             <span>{{ labels.trackerCpBox }}</span>
-            <p v-if="!p.factionSlug" class="det-empty">{{ labels.trackerSelectFaction }}</p>
-            <p v-else-if="cpFactionFor(p)" class="ro cp-box-line">{{ cpFactionFor(p).boxName }} · {{ cpFactionFor(p).dp }} DP</p>
-            <p v-else class="det-empty">{{ labels.trackerNoDetachments }}</p>
+            <p
+              v-if="!p.factionSlug"
+              class="det-empty"
+            >
+              {{ labels.trackerSelectFaction }}
+            </p>
+            <p
+              v-else-if="cpFactionFor(p)"
+              class="ro cp-box-line"
+            >
+              {{ cpFactionFor(p).boxName }} · {{ cpFactionFor(p).dp }} DP
+            </p>
+            <p
+              v-else
+              class="det-empty"
+            >
+              {{ labels.trackerNoDetachments }}
+            </p>
           </div>
 
           <label class="field">
             <span>{{ labels.trackerRole }}</span>
             <div class="seg">
-              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
-              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
+              <button
+                :class="{ on: p.role === 'attacker' }"
+                @click="setRole(i, 'attacker')"
+              >{{ labels.trackerAttacker }}</button>
+              <button
+                :class="{ on: p.role === 'defender' }"
+                @click="setRole(i, 'defender')"
+              >{{ labels.trackerDefender }}</button>
             </div>
           </label>
 
-          <label class="check br-check" :class="{ on: p.battleReady }">
-            <input type="checkbox" v-model="p.battleReady" />
+          <label
+            class="check br-check"
+            :class="{ on: p.battleReady }"
+          >
+            <input
+              v-model="p.battleReady"
+              type="checkbox"
+            >
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
           </label>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="cancel">{{ labels.trackerCancel }}</button>
-        <button class="btn-primary" :disabled="!canArmies" @click="step = 2">{{ labels.trackerNextStep }} →</button>
+        <button
+          class="btn-ghost"
+          @click="cancel"
+        >
+          {{ labels.trackerCancel }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canArmies"
+          @click="step = 2"
+        >
+          {{ labels.trackerNextStep }} →
+        </button>
       </div>
     </div>
 
     <!-- ───────── Step 2 — Mission ───────── -->
-    <div v-show="step === 2" :ref="el => (panelEls[1] = el)" class="step-panel">
+    <div
+      v-show="step === 2"
+      :ref="el => (panelEls[1] = el)"
+      class="step-panel"
+    >
       <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. FIRST on this
            page, because it is what decides the mission shown under it: Scrambled Communications
            swaps the two primaries and Mirrored World replaces both, and `derivePrimary` reads
@@ -156,39 +284,85 @@
            last step, as it was until 2026-08-25, it rewrote a card the player had already read
            and moved on from. Not offered for Combat Patrol (the box's own rules don't mention it
            either way; keeping this simple, matching how basic-box play works). -->
-      <div v-if="!settings.combatPatrol" class="settings twist-block">
-        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
-        <button class="btn-choose-twist" @click="twistPickerOpen = true">
-          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="bi bi-chevron-right ct-chev"></i>
+      <div
+        v-if="!settings.combatPatrol"
+        class="settings twist-block"
+      >
+        <h3 class="block-head">
+          {{ labels.trackerTwistHeading }}
+        </h3>
+        <button
+          class="btn-choose-twist"
+          @click="twistPickerOpen = true"
+        >
+          <span
+            class="ct-name"
+            :class="{ placeholder: !chosenTwist }"
+          >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+          <i class="bi bi-chevron-right ct-chev" />
         </button>
-        <details v-if="chosenTwist" class="twist-chosen">
+        <details
+          v-if="chosenTwist"
+          class="twist-chosen"
+        >
           <summary>{{ labels.trackerTwistRules }}</summary>
-          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
+          <div class="twist-chosen-body">
+            <RuleBody :body="chosenTwist.body" />
+          </div>
         </details>
-        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
+        <div
+          v-if="settings.twist === 'mirrored-world'"
+          class="field twist-mission"
+        >
           <span>{{ labels.trackerTwistMission }}</span>
-          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
+          <button
+            class="btn-choose-twist"
+            @click="mirrorPickerOpen = true"
+          >
+            <span
+              class="ct-name"
+              :class="{ placeholder: !settings.twistMission }"
+            >{{ mirrorSummary }}</span>
+            <i class="bi bi-chevron-right ct-chev" />
           </button>
         </div>
       </div>
 
       <div class="players">
-        <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ playerLabel(i) }}</h3>
-          <p class="army-summary">{{ p.name || playerLabel(i) }} — {{ factionName(p.factionSlug) }}</p>
+        <div
+          v-for="(p, i) in players"
+          :key="i"
+          class="player-card"
+        >
+          <h3 class="player-head">
+            {{ playerLabel(i) }}
+          </h3>
+          <p class="army-summary">
+            {{ p.name || playerLabel(i) }} — {{ factionName(p.factionSlug) }}
+          </p>
 
           <label class="field">
             <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
             <!-- faction has no detachments at all → manual choice (only way to set it) -->
-            <select v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length" v-model="p.disposition">
-              <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
-              <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
+            <select
+              v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length"
+              v-model="p.disposition"
+            >
+              <option
+                :value="null"
+                disabled
+              >{{ labels.trackerDispositionManual }}</option>
+              <option
+                v-for="d in dispositions"
+                :key="d.id"
+                :value="d.id"
+              >{{ d.name }}</option>
             </select>
             <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
-            <div v-else-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
+            <div
+              v-else-if="candidateDispositions(p).length > 1"
+              class="seg seg-wrap"
+            >
               <button
                 v-for="id in candidateDispositions(p)"
                 :key="id"
@@ -197,47 +371,98 @@
               >{{ dispositionName(id) }}</button>
             </div>
             <!-- exactly 1 → auto, read-only -->
-            <input v-else-if="candidateDispositions(p).length === 1" type="text" :value="dispositionName(p.disposition)" readonly class="ro" />
+            <input
+              v-else-if="candidateDispositions(p).length === 1"
+              type="text"
+              :value="dispositionName(p.disposition)"
+              readonly
+              class="ro"
+            >
             <!-- nothing chosen yet → gated behind picking a detachment -->
-            <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
+            <p
+              v-else
+              class="det-empty"
+            >{{ labels.trackerPickDetachmentFirst }}</p>
           </label>
 
-          <div class="primary-block" v-if="primaryCards[i]">
+          <div
+            v-if="primaryCards[i]"
+            class="primary-block"
+          >
             <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
             <div class="primary-card">
-              <MissionCard :mission="primaryCards[i]" :show-lore="false" collapsible :default-open="false" />
+              <MissionCard
+                :mission="primaryCards[i]"
+                :show-lore="false"
+                collapsible
+                :default-open="false"
+              />
             </div>
           </div>
 
           <label class="field">
             <span>{{ labels.trackerSecondaryMode }}</span>
             <div class="seg">
-              <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
-              <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
+              <button
+                :class="{ on: p.secondaryMode === 'tactical' }"
+                @click="p.secondaryMode = 'tactical'"
+              >{{ labels.trackerTactical }}</button>
+              <button
+                :class="{ on: p.secondaryMode === 'fixed' }"
+                @click="p.secondaryMode = 'fixed'"
+              >{{ labels.trackerFixed }}</button>
             </div>
           </label>
 
-          <div v-if="p.secondaryMode === 'fixed'" class="field">
+          <div
+            v-if="p.secondaryMode === 'fixed'"
+            class="field"
+          >
             <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-            <button class="btn-choose-twist" @click="fixedPickerFor = i">
-              <span class="ct-name" :class="{ placeholder: !p.fixedSecondaries.length }">{{ fixedSummary(p) }}</span>
-              <i class="bi bi-chevron-right ct-chev"></i>
+            <button
+              class="btn-choose-twist"
+              @click="fixedPickerFor = i"
+            >
+              <span
+                class="ct-name"
+                :class="{ placeholder: !p.fixedSecondaries.length }"
+              >{{ fixedSummary(p) }}</span>
+              <i class="bi bi-chevron-right ct-chev" />
             </button>
           </div>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canMission" @click="step = 3">{{ labels.trackerNextStep }} →</button>
+        <button
+          class="btn-ghost"
+          @click="step = 1"
+        >
+          ← {{ labels.trackerBack }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canMission"
+          @click="step = 3"
+        >
+          {{ labels.trackerNextStep }} →
+        </button>
       </div>
     </div>
 
     <!-- ───────── Step 3 — Field & deployment (layout, first turn) ───────── -->
-    <div v-show="step === 3" :ref="el => (panelEls[2] = el)" class="step-panel">
+    <div
+      v-show="step === 3"
+      :ref="el => (panelEls[2] = el)"
+      class="step-panel"
+    >
       <div class="settings layout-block">
-        <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
-        <p class="layout-note">{{ labels.trackerLayoutNote }}</p>
+        <h3 class="block-head">
+          {{ labels.trackerLayoutHeading }}
+        </h3>
+        <p class="layout-note">
+          {{ labels.trackerLayoutNote }}
+        </p>
         <template v-if="layouts.length">
           <div class="tabs">
             <button
@@ -246,12 +471,28 @@
               class="tab"
               :class="{ active: settings.layout === l.id }"
               @click="selectLayout(l.id)"
-            ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
-            <button class="tab" :class="{ active: settings.layout === 'custom' }" @click="layoutPickerOpen = true">{{ labels.trackerLayoutCustom }}</button>
+            >
+              <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
+            </button>
+            <button
+              class="tab"
+              :class="{ active: settings.layout === 'custom' }"
+              @click="layoutPickerOpen = true"
+            >
+              {{ labels.trackerLayoutCustom }}
+            </button>
           </div>
-          <LayoutCard v-if="currentLayout" :layout="currentLayout" />
+          <LayoutCard
+            v-if="currentLayout"
+            :layout="currentLayout"
+          />
         </template>
-        <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
+        <p
+          v-else
+          class="det-empty"
+        >
+          {{ labels.trackerLayoutPending }}
+        </p>
       </div>
 
       <!-- Who deploys first sits with the layout: both answer "where and in what order do we set
@@ -260,41 +501,94 @@
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
-            <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerYou }}</button>
-            <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerOpponent }}</button>
+            <button
+              :class="{ on: settings.firstTurn === 1 }"
+              @click="settings.firstTurn = 1"
+            >{{ labels.trackerYou }}</button>
+            <button
+              :class="{ on: settings.firstTurn === 2 }"
+              @click="settings.firstTurn = 2"
+            >{{ labels.trackerOpponent }}</button>
           </div>
         </label>
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
+        <button
+          class="btn-ghost"
+          @click="step = 2"
+        >
+          ← {{ labels.trackerBack }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canBattlefield"
+          @click="step = 4"
+        >
+          {{ labels.trackerNextStep }} →
+        </button>
       </div>
     </div>
 
     <!-- ───────── Step 4 — Settings (how the app runs this game) ───────── -->
-    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
+    <div
+      v-show="step === 4"
+      :ref="el => (panelEls[3] = el)"
+      class="step-panel"
+    >
       <div class="settings deploy-opts">
         <label class="field">
           <span>
             {{ labels.trackerScoreMode }}
-            <button type="button" class="help-btn" @click="scoreHelpOpen = true" :aria-label="labels.trackerScoreHelp"><i class="bi bi-question-circle"></i></button>
+            <button
+              type="button"
+              class="help-btn"
+              :aria-label="labels.trackerScoreHelp"
+              @click="scoreHelpOpen = true"
+            ><i class="bi bi-question-circle" /></button>
           </span>
           <div class="seg">
-            <button :class="{ on: settings.scoreMode === 'vp' }" @click="settings.scoreMode = 'vp'">{{ labels.trackerScoreVp }}</button>
-            <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
+            <button
+              :class="{ on: settings.scoreMode === 'vp' }"
+              @click="settings.scoreMode = 'vp'"
+            >{{ labels.trackerScoreVp }}</button>
+            <button
+              :class="{ on: settings.scoreMode === 'bp' }"
+              @click="settings.scoreMode = 'bp'"
+            >{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
       </div>
 
       <div class="settings">
-        <TrackOptions :settings="settings" :ctx="trackCtx" group="game" />
-        <TrackOptions :settings="settings" :ctx="trackCtx" group="roster" heading="trackerRosterHeading" guide />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="game"
+        />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="roster"
+          heading="trackerRosterHeading"
+          guide
+        />
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="step = 3">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canStart" @click="start">{{ labels.trackerStart }}</button>
+        <button
+          class="btn-ghost"
+          @click="step = 3"
+        >
+          ← {{ labels.trackerBack }}
+        </button>
+        <button
+          class="btn-primary"
+          :disabled="!canStart"
+          @click="start"
+        >
+          {{ labels.trackerStart }}
+        </button>
       </div>
     </div>
 
@@ -328,7 +622,10 @@
       @close="mirrorPickerOpen = false"
     />
 
-    <ScoreHelpModal v-if="scoreHelpOpen" @close="scoreHelpOpen = false" />
+    <ScoreHelpModal
+      v-if="scoreHelpOpen"
+      @close="scoreHelpOpen = false"
+    />
 
     <LayoutPickerModal
       v-if="layoutPickerOpen"
@@ -337,9 +634,16 @@
       @close="layoutPickerOpen = false"
     />
 
-    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+    <BaseModal
+      v-if="dpHelpOpen"
+      :title="labels.trackerDpOverTitle"
+      max-width="380px"
+      @close="dpHelpOpen = false"
+    >
       <div class="modal-body">
-        <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
+        <p class="dp-help-text">
+          {{ labels.trackerDpOverText }}
+        </p>
       </div>
     </BaseModal>
   </div>

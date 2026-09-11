@@ -2,11 +2,21 @@
   <footer class="app-footer">
     <div class="footer-cols">
       <div class="footer-col">
-        <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
-        <p class="footer-contact"><a :href="'mailto:' + contactEmail">{{ contactEmail }}</a></p>
-        <p class="footer-contact"><RouterLink to="/disclaimer">{{ t.footer.disclaimerLink }}</RouterLink></p>
+        <p class="footer-col-label">
+          {{ t.footer.contactLabel }}
+        </p>
+        <p class="footer-contact">
+          <a :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
+        </p>
+        <p class="footer-contact">
+          <RouterLink to="/disclaimer">
+            {{ t.footer.disclaimerLink }}
+          </RouterLink>
+        </p>
         <p class="footer-version">
-          <RouterLink to="/changelog">v{{ version }}</RouterLink>
+          <RouterLink to="/changelog">
+            {{ 'v' + version }}
+          </RouterLink>
           <span class="footer-data-version">{{ t.footer.dataVersionLabel }} {{ dataVersion }}</span>
         </p>
       </div>
@@ -14,23 +24,46 @@
       <!-- Mobile-only: acknowledgements + open-source are secondary info, collapsed by
            default so the footer doesn't dominate the screen. Desktop always shows them
            (forced open, toggle hidden — see the media queries below). -->
-      <button class="footer-toggle" :aria-expanded="showDetails" @click="showDetails = !showDetails">
-        <i :class="showDetails ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+      <button
+        class="footer-toggle"
+        :aria-expanded="showDetails"
+        @click="showDetails = !showDetails"
+      >
+        <i :class="showDetails ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" />
         <span>{{ showDetails ? t.footer.detailsHide : t.footer.detailsShow }}</span>
       </button>
 
-      <CollapseTransition class="footer-collapse" :show="showDetails">
+      <CollapseTransition
+        class="footer-collapse"
+        :show="showDetails"
+      >
         <div class="footer-secondary">
           <div class="footer-col">
-            <p class="footer-col-label">{{ t.footer.thanksLabel }}</p>
-            <p v-for="th in t.footer.thanks" :key="th.label" class="footer-thanks">
-              {{ th.label }}<br /><span class="footer-who">{{ th.who }}</span>
+            <p class="footer-col-label">
+              {{ t.footer.thanksLabel }}
+            </p>
+            <p
+              v-for="th in t.footer.thanks"
+              :key="th.label"
+              class="footer-thanks"
+            >
+              {{ th.label }}<br><span class="footer-who">{{ th.who }}</span>
             </p>
           </div>
           <div class="footer-col">
-            <p class="footer-col-label">{{ t.footer.openSourceLabel }}</p>
-            <p class="footer-thanks">{{ t.footer.openSourceText }}</p>
-            <p class="footer-contact"><a :href="repoUrl" target="_blank" rel="noopener">{{ t.footer.repoLinkLabel }}</a></p>
+            <p class="footer-col-label">
+              {{ t.footer.openSourceLabel }}
+            </p>
+            <p class="footer-thanks">
+              {{ t.footer.openSourceText }}
+            </p>
+            <p class="footer-contact">
+              <a
+                :href="repoUrl"
+                target="_blank"
+                rel="noopener"
+              >{{ t.footer.repoLinkLabel }}</a>
+            </p>
           </div>
         </div>
       </CollapseTransition>

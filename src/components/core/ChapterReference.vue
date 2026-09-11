@@ -8,13 +8,19 @@
   />
 
   <!-- 24.01 и 24.02 -->
-  <template v-for="grp in chunkSubsections(abilityIntroData)" :key="grp.key">
-    <div v-if="grp.type === 'columns'" class="rule-columns">
+  <template
+    v-for="grp in chunkSubsections(abilityIntroData)"
+    :key="grp.key"
+  >
+    <div
+      v-if="grp.type === 'columns'"
+      class="rule-columns"
+    >
       <RuleBlock
         v-for="sub in grp.items"
-        :key="sub.id"
         :id="sub.id"
-        :sectionNum="sub.sectionNum"
+        :key="sub.id"
+        :section-num="sub.sectionNum"
         :title="sub.title"
         :body="sub.body"
         :example="sub.example"
@@ -24,7 +30,7 @@
     <RuleBlock
       v-else
       :id="grp.item.id"
-      :sectionNum="grp.item.sectionNum"
+      :section-num="grp.item.sectionNum"
       :title="grp.item.title"
       :body="grp.item.body"
       :example="grp.item.example"
@@ -33,7 +39,10 @@
   </template>
 
   <!-- Filter buttons -->
-  <div id="abilities-list" class="ability-filters">
+  <div
+    id="abilities-list"
+    class="ability-filters"
+  >
     <button
       v-for="f in filters"
       :key="f.value"
@@ -45,47 +54,106 @@
     </button>
   </div>
 
-  <TransitionGroup tag="div" name="list" class="abilities-list">
+  <TransitionGroup
+    tag="div"
+    name="list"
+    class="abilities-list"
+  >
     <div
       v-for="ability in filteredAbilities"
+      :id="'ability-' + ability.num.replace('.','_')"
       :key="ability.num"
       class="ability-card"
-      :id="'ability-' + ability.num.replace('.','_')"
     >
       <div class="ability-header">
         <span class="ability-num">{{ ability.num }}</span>
-        <h3 class="ability-name" :class="ability.type">{{ ability.name }}</h3>
-        <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
+        <h3
+          class="ability-name"
+          :class="ability.type"
+        >
+          {{ ability.name }}
+        </h3>
+        <span
+          class="ability-type-badge"
+          :class="ability.type"
+        >{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
       </div>
 
-      <div class="ability-body" @click="handleDefClick">
-        <p v-if="ability.flavor" class="ability-flavor" v-html="renderInline(ability.flavor)" />
+      <div
+        class="ability-body"
+        @click="handleDefClick"
+      >
+        <p
+          v-if="ability.flavor"
+          class="ability-flavor"
+          v-html="renderInline(ability.flavor)"
+        />
 
-        <template v-for="(block, bi) in parseBody(ability.fullText)" :key="bi">
-          <ul v-if="block.type === 'ul'" class="ability-list">
-            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+        <template
+          v-for="(block, bi) in parseBody(ability.fullText)"
+          :key="bi"
+        >
+          <ul
+            v-if="block.type === 'ul'"
+            class="ability-list"
+          >
+            <li
+              v-for="(item, li) in block.items"
+              :key="li"
+              v-html="renderInline(item)"
+            />
           </ul>
-          <ol v-else-if="block.type === 'ol'" class="ability-ol">
-            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          <ol
+            v-else-if="block.type === 'ol'"
+            class="ability-ol"
+          >
+            <li
+              v-for="(item, li) in block.items"
+              :key="li"
+              v-html="renderInline(item)"
+            />
           </ol>
-          <div v-else-if="block.type === 'info-card'" class="info-card">
-            <div v-for="(row, ri) in block.rows" :key="ri" class="info-row">
-              <div class="info-label">{{ row.label }}</div>
-              <div class="info-content" v-html="renderInline(row.content)" />
+          <div
+            v-else-if="block.type === 'info-card'"
+            class="info-card"
+          >
+            <div
+              v-for="(row, ri) in block.rows"
+              :key="ri"
+              class="info-row"
+            >
+              <div class="info-label">
+                {{ row.label }}
+              </div>
+              <div
+                class="info-content"
+                v-html="renderInline(row.content)"
+              />
             </div>
           </div>
-          <p v-else v-html="renderInline(block.text)" />
+          <p
+            v-else
+            v-html="renderInline(block.text)"
+          />
         </template>
       </div>
 
-      <div v-if="ability.example" class="example-block" v-html="renderInline(ability.example)" />
+      <div
+        v-if="ability.example"
+        class="example-block"
+        v-html="renderInline(ability.example)"
+      />
 
-      <div v-if="ability.note" class="note-box ability-note-box" v-html="renderNoteHtml(ability.note)" />
+      <div
+        v-if="ability.note"
+        class="note-box ability-note-box"
+        v-html="renderNoteHtml(ability.note)"
+      />
 
       <SubRuleBlock
         v-for="child in ability.children"
-        :key="child.id"
         :id="child.id"
+        :key="child.id"
         :section-num="child.sectionNum"
         :title="child.title"
         :body="child.body"
@@ -107,11 +175,21 @@
   />
 
   <div class="digital-support">
-    <h2 class="digital-support-title">{{ labels.digitalSupportTitle }}</h2>
+    <h2 class="digital-support-title">
+      {{ labels.digitalSupportTitle }}
+    </h2>
     <div class="digital-support-body">
       <div class="digital-support-qr">
-        <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
-          <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
+        <a
+          href="https://warhammer40000.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            src="/images/wh40k-app-qr.png"
+            alt="QR code — Warhammer 40,000 App"
+            class="qr-img"
+          >
         </a>
       </div>
       <p>{{ labels.digitalSupportText }}</p>
@@ -119,15 +197,35 @@
   </div>
 
   <div class="appendix-columns">
-    <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
-      <h3 class="appendix-title">{{ entry.title }}</h3>
+    <div
+      v-for="entry in appendixData"
+      :id="entry.id"
+      :key="entry.id"
+      class="appendix-block"
+    >
+      <h3 class="appendix-title">
+        {{ entry.title }}
+      </h3>
 
       <div @click="handleDefClick">
-        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-          <ul v-if="block.type === 'ul'" class="appendix-list">
-            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+        <template
+          v-for="(block, bi) in parseBody(entry.body)"
+          :key="bi"
+        >
+          <ul
+            v-if="block.type === 'ul'"
+            class="appendix-list"
+          >
+            <li
+              v-for="(item, li) in block.items"
+              :key="li"
+              v-html="renderInline(item)"
+            />
           </ul>
-          <p v-else v-html="renderInline(block.text)" />
+          <p
+            v-else
+            v-html="renderInline(block.text)"
+          />
         </template>
       </div>
 
@@ -138,8 +236,16 @@
         :stacked="entry.table.stacked"
       />
 
-      <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
-      <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
+      <div
+        v-if="entry.example"
+        class="example-block"
+        v-html="renderInline(entry.example)"
+      />
+      <div
+        v-if="entry.note"
+        class="note-box"
+        v-html="renderNoteHtml(entry.note)"
+      />
     </div>
   </div>
 
@@ -152,15 +258,35 @@
   />
 
   <div class="appendix-columns">
-    <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
-      <h3 class="appendix-title">{{ entry.header }}</h3>
+    <div
+      v-for="entry in errataData"
+      :id="entry.id"
+      :key="entry.id"
+      class="appendix-block"
+    >
+      <h3 class="appendix-title">
+        {{ entry.header }}
+      </h3>
 
       <div @click="handleDefClick">
-        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-          <ul v-if="block.type === 'ul'" class="appendix-list">
-            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+        <template
+          v-for="(block, bi) in parseBody(entry.body)"
+          :key="bi"
+        >
+          <ul
+            v-if="block.type === 'ul'"
+            class="appendix-list"
+          >
+            <li
+              v-for="(item, li) in block.items"
+              :key="li"
+              v-html="renderInline(item)"
+            />
           </ul>
-          <p v-else v-html="renderInline(block.text)" />
+          <p
+            v-else
+            v-html="renderInline(block.text)"
+          />
         </template>
       </div>
     </div>
@@ -175,7 +301,13 @@
   />
 
   <div class="faq-list">
-    <FaqItem v-for="(faq, i) in faqsData" :id="'faq-' + i" :key="i" :q="faq.q" :a="faq.a" />
+    <FaqItem
+      v-for="(faq, i) in faqsData"
+      :id="'faq-' + i"
+      :key="i"
+      :q="faq.q"
+      :a="faq.a"
+    />
   </div>
 </template>
 

@@ -1,5 +1,8 @@
 <template>
-  <template v-for="section in sections" :key="section.id">
+  <template
+    v-for="section in sections"
+    :key="section.id"
+  >
     <SectionHeader
       :id="'section-' + section.id.padStart(2,'0')"
       :num="section.num"
@@ -15,9 +18,18 @@
       class="section-img section-img--lead"
     />
 
-    <template v-for="grp in chunkSubsections(section.subsections)" :key="grp.key">
-      <div v-if="grp.type === 'columns'" class="rule-columns">
-        <template v-for="sub in grp.items" :key="sub.id">
+    <template
+      v-for="grp in chunkSubsections(section.subsections)"
+      :key="grp.key"
+    >
+      <div
+        v-if="grp.type === 'columns'"
+        class="rule-columns"
+      >
+        <template
+          v-for="sub in grp.items"
+          :key="sub.id"
+        >
           <RuleBlock
             :id="sub.id"
             :section-num="sub.sectionNum"
@@ -29,8 +41,14 @@
             :side-image="sub.sideImage"
             :children="sub.children"
           >
-            <div v-if="sub.illustration" class="section-illustration">
-              <AppImage :src="sub.illustration.src" :alt="sub.illustration.alt" />
+            <div
+              v-if="sub.illustration"
+              class="section-illustration"
+            >
+              <AppImage
+                :src="sub.illustration.src"
+                :alt="sub.illustration.alt"
+              />
               <SeeAlsoBlock
                 :title="sub.illustration.seeAlso.title"
                 :refs="sub.illustration.seeAlso.refs"
@@ -42,9 +60,15 @@
               :alt="sub.image.alt"
               class="section-img"
             />
-            <DefinitionBlock v-if="sub.definitions" :definitions="sub.definitions" />
+            <DefinitionBlock
+              v-if="sub.definitions"
+              :definitions="sub.definitions"
+            />
           </RuleBlock>
-          <div v-if="sub.id === 'section-05-02' && section.woundTable" class="table-section">
+          <div
+            v-if="sub.id === 'section-05-02' && section.woundTable"
+            class="table-section"
+          >
             <DataTable
               :title="labels.woundTableTitle"
               :headers="section.woundTable.headers"
@@ -73,8 +97,14 @@
           :side-image="grp.item.sideImage"
           :children="grp.item.children"
         >
-          <div v-if="grp.item.illustration" class="section-illustration">
-            <AppImage :src="grp.item.illustration.src" :alt="grp.item.illustration.alt" />
+          <div
+            v-if="grp.item.illustration"
+            class="section-illustration"
+          >
+            <AppImage
+              :src="grp.item.illustration.src"
+              :alt="grp.item.illustration.alt"
+            />
             <SeeAlsoBlock
               :title="grp.item.illustration.seeAlso.title"
               :refs="grp.item.illustration.seeAlso.refs"
@@ -86,9 +116,15 @@
             :alt="grp.item.image.alt"
             class="section-img"
           />
-          <DefinitionBlock v-if="grp.item.definitions" :definitions="grp.item.definitions" />
+          <DefinitionBlock
+            v-if="grp.item.definitions"
+            :definitions="grp.item.definitions"
+          />
         </RuleBlock>
-        <div v-if="grp.item.id === 'section-05-02' && section.woundTable" class="table-section">
+        <div
+          v-if="grp.item.id === 'section-05-02' && section.woundTable"
+          class="table-section"
+        >
           <DataTable
             :title="labels.woundTableTitle"
             :headers="section.woundTable.headers"

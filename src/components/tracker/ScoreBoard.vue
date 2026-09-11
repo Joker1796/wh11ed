@@ -8,22 +8,40 @@
     >
       <div class="col-head">
         <span class="pname">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</span>
-        <span v-if="leaderIdx === i && !finished" class="lead-tag">{{ labels.trackerLeader }}</span>
+        <span
+          v-if="leaderIdx === i && !finished"
+          class="lead-tag"
+        >{{ labels.trackerLeader }}</span>
       </div>
-      <div class="grand" :ref="el => (grandEls[i] = el)">
+      <div
+        :ref="el => (grandEls[i] = el)"
+        class="grand"
+      >
         <template v-if="bpMode">
           {{ bp[i] }}<span class="grand-unit">BP</span>
           <span class="grand-vp">{{ grandTotal(i) }} VP</span>
         </template>
-        <template v-else>{{ grandTotal(i) }}<span class="grand-unit">VP</span></template>
+        <template v-else>
+          {{ grandTotal(i) }}<span class="grand-unit">VP</span>
+        </template>
       </div>
-      <dl v-if="!finished" class="breakdown">
+      <dl
+        v-if="!finished"
+        class="breakdown"
+      >
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
         <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
-        <div v-if="showCp"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
+        <div v-if="showCp">
+          <dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd>
+        </div>
       </dl>
     </div>
-    <div v-if="leaderIdx === -1" class="tie">{{ labels.trackerTie }}</div>
+    <div
+      v-if="leaderIdx === -1"
+      class="tie"
+    >
+      {{ labels.trackerTie }}
+    </div>
   </div>
 </template>
 

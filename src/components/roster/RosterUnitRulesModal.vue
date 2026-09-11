@@ -1,5 +1,10 @@
 <template>
-  <BaseModal :title="view.sheet?.name" max-width="720px" max-height="90dvh" @close="$emit('close')">
+  <BaseModal
+    :title="view.sheet?.name"
+    max-width="720px"
+    max-height="90dvh"
+    @close="$emit('close')"
+  >
     <div class="modal-body">
       <!-- FactionAccentScope re-applies the faction-accent recipe: BaseModal teleports to
            <body>, outside FactionLayout's .faction-view.themed ancestor, so without this every
@@ -16,16 +21,34 @@
              entryContext): whether this entry is the Warlord, what enhancement it carries, who
              it's attached to. Only rendered when there's something to say, so a plain unit's
              card opens exactly as before. -->
-        <div v-if="view.context" class="rum-ctx">
-          <span v-if="view.context.warlord" class="rum-chip rum-chip-wl">
-            <i class="bi bi-flag-fill"></i> {{ labels.rosterWarlord }}
+        <div
+          v-if="view.context"
+          class="rum-ctx"
+        >
+          <span
+            v-if="view.context.warlord"
+            class="rum-chip rum-chip-wl"
+          >
+            <i class="bi bi-flag-fill" /> {{ labels.rosterWarlord }}
           </span>
-          <span v-if="view.context.enhancement" class="rum-chip">
+          <span
+            v-if="view.context.enhancement"
+            class="rum-chip"
+          >
             {{ labels.rosterEnhancement }}: <strong>{{ view.context.enhancement.name }}</strong>
-            <span v-if="view.context.enhancement.pts" class="rum-chip-pts">+{{ view.context.enhancement.pts }}</span>
-            <span v-if="view.context.enhancement.mandatory" class="rum-chip-tag">{{ labels.rosterEnhMandatory }}</span>
+            <span
+              v-if="view.context.enhancement.pts"
+              class="rum-chip-pts"
+            >+{{ view.context.enhancement.pts }}</span>
+            <span
+              v-if="view.context.enhancement.mandatory"
+              class="rum-chip-tag"
+            >{{ labels.rosterEnhMandatory }}</span>
           </span>
-          <span v-if="view.context.attachedTo" class="rum-chip">
+          <span
+            v-if="view.context.attachedTo"
+            class="rum-chip"
+          >
             {{ labels.rosterAttachedTo }} <strong>{{ view.context.attachedTo }}</strong>
           </span>
         </div>
@@ -35,12 +58,18 @@
              of its own rather than sitting among the states, and each chip says how long it lasts.
              Flipping one rewrites the card and the row in the list behind it; the clock takes it
              back down on its own. -->
-        <div v-if="gameCtx?.strats?.length" class="rum-strats rum-boxed">
+        <div
+          v-if="gameCtx?.strats?.length"
+          class="rum-strats rum-boxed"
+        >
           <h4 class="rum-strats-h">
             {{ labels.srcStratagem }}
             <!-- The reason that applies to the WHOLE block is said once here (Battle-shock, or the
                  unit having been targeted this phase already). -->
-            <span v-if="stratsBlockedNote" class="rum-strats-note">{{ stratsBlockedNote }}</span>
+            <span
+              v-if="stratsBlockedNote"
+              class="rum-strats-note"
+            >{{ stratsBlockedNote }}</span>
             <!-- What cannot be spent right now is FOLDED AWAY rather than shown inert: in a phase
                  where two of nine are usable, seven greyed chips are what you read past to find
                  them. It stays one tap away, because "where did my stratagem go" is a worse
@@ -53,10 +82,21 @@
               class="rum-strats-more"
               :aria-expanded="showBlocked"
               @click="showBlocked = !showBlocked"
-            >{{ labels.stratBlockedCount.replace('{n}', String(blockedChips.length)) }}</button>
+            >
+              {{ labels.stratBlockedCount.replace('{n}', String(blockedChips.length)) }}
+            </button>
           </h4>
-          <ConditionChips :switches="openChips" @toggle="$emit('toggle-strat', $event)" @info="openChipInfo" />
-          <p v-if="!openChips.length && !showBlocked" class="rum-strats-empty">{{ labels.stratNowEmpty }}</p>
+          <ConditionChips
+            :switches="openChips"
+            @toggle="$emit('toggle-strat', $event)"
+            @info="openChipInfo"
+          />
+          <p
+            v-if="!openChips.length && !showBlocked"
+            class="rum-strats-empty"
+          >
+            {{ labels.stratNowEmpty }}
+          </p>
           <CollapseTransition :show="showBlocked">
             <ConditionChips
               class="rum-strats-blocked"
@@ -68,9 +108,18 @@
         </div>
         <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
              Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
-        <div v-if="gameCtx?.picks?.length" class="rum-strats">
-          <h4 class="rum-strats-h">{{ gameCtx.picks[0].from?.set || labels.dsAbilities }}</h4>
-          <ConditionChips :switches="gameCtx.picks" @toggle="$emit('toggle-pick', $event)" @info="openChipInfo" />
+        <div
+          v-if="gameCtx?.picks?.length"
+          class="rum-strats"
+        >
+          <h4 class="rum-strats-h">
+            {{ gameCtx.picks[0].from?.set || labels.dsAbilities }}
+          </h4>
+          <ConditionChips
+            :switches="gameCtx.picks"
+            @toggle="$emit('toggle-pick', $event)"
+            @info="openChipInfo"
+          />
           <!-- What the option that is UP still waits on. Pulse Jet's +6" M needs two things — the
                option picked and the unit having Advanced — and the second used to live only inside
                the ability that names it, several taps down. Both halves of one answer, together;
@@ -87,9 +136,18 @@
              unit's row in the list (where Battle-shock is marked) — one store, two ways in; an
              aura the rules answer for (22.01: the bearer's own unit, the unit it is attached to)
              never appears here, because there is nothing to ask. -->
-        <div v-if="gameCtx?.auras?.length" class="rum-strats">
-          <h4 class="rum-strats-h">{{ labels.dsAuras }}</h4>
-          <ConditionChips :switches="gameCtx.auras" @toggle="$emit('toggle-aura', $event)" @info="openChipInfo" />
+        <div
+          v-if="gameCtx?.auras?.length"
+          class="rum-strats"
+        >
+          <h4 class="rum-strats-h">
+            {{ labels.dsAuras }}
+          </h4>
+          <ConditionChips
+            :switches="gameCtx.auras"
+            @toggle="$emit('toggle-aura', $event)"
+            @info="openChipInfo"
+          />
         </div>
         <!-- This unit's own states. There USED to be no strip here, on the rule that a state is
              flipped where the thing it changes is read — never in a strip that says nothing about
@@ -99,9 +157,18 @@
              this, seeing what Empowered does meant opening the accordion on the row to flip it and
              then opening the card to read the number. The chips inside the abilities and rules
              below stay — they sit in collapsed bodies, and are the same store either way. -->
-        <div v-if="gameCtx?.switches?.length" class="rum-strats">
-          <h4 class="rum-strats-h">{{ labels.rosterUnitStates }}</h4>
-          <ConditionChips :switches="gameCtx.switches" @toggle="$emit('toggle-cond', $event)" @info="openChipInfo" />
+        <div
+          v-if="gameCtx?.switches?.length"
+          class="rum-strats"
+        >
+          <h4 class="rum-strats-h">
+            {{ labels.rosterUnitStates }}
+          </h4>
+          <ConditionChips
+            :switches="gameCtx.switches"
+            @toggle="$emit('toggle-cond', $event)"
+            @info="openChipInfo"
+          />
         </div>
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
@@ -119,13 +186,13 @@
           :hide-possible="!!gameCtx"
           :ability-states="abilityStates"
           :ability-switches="abilitySwitches"
-          @toggle-cond="$emit('toggle-cond', $event)"
           collapsible
+          @toggle-cond="$emit('toggle-cond', $event)"
           @faction-rule-click="openArmyRule"
           @mod-source-click="openModSource"
         >
           <template #before-keywords>
-          <!-- What else bears on this unit right now: its enhancement, the roster's detachment
+            <!-- What else bears on this unit right now: its enhancement, the roster's detachment
                rules, the army rule, and the abilities of any Leader attached to it. Attribution,
                not inference — each block says where it comes from and nothing is silently folded
                into the datasheet above (see rosterModifiers.js's ruleSourcesFor).
@@ -133,41 +200,75 @@
                The block itself is NOT an accordion: it's a marked container that always shows
                what applies, and each rule inside collapses on its own. One level of chevrons,
                and opening the container can't dump four long rule bodies at once. -->
-          <section v-if="ruleBlocks.length" class="rum-rules">
-            <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
-            <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
-              <DsAccordion collapsible :start-open="false">
-                <template #header="{ open, toggle }">
-                  <button type="button" class="rum-rule-btn" :aria-expanded="open" @click="toggle">
-                    <span class="rum-rule-text">
-                      <span class="rum-rule-src">{{ b.src }}</span>
-                      <span class="rum-rule-name">{{ b.name }}</span>
-                    </span>
-                    <i class="bi rum-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-                  </button>
-                </template>
-                <div class="rum-rule-body">
-                  <!-- The switches this rule's OWN modifiers are gated on, at the rule. A state
+            <section
+              v-if="ruleBlocks.length"
+              class="rum-rules"
+            >
+              <h4 class="rum-rules-h">
+                {{ labels.rosterInEffect }}
+              </h4>
+              <div
+                v-for="b in ruleBlocks"
+                :key="b.key"
+                class="rum-rule"
+              >
+                <DsAccordion
+                  collapsible
+                  :start-open="false"
+                >
+                  <template #header="{ open, toggle }">
+                    <button
+                      type="button"
+                      class="rum-rule-btn"
+                      :aria-expanded="open"
+                      @click="toggle"
+                    >
+                      <span class="rum-rule-text">
+                        <span class="rum-rule-src">{{ b.src }}</span>
+                        <span class="rum-rule-name">{{ b.name }}</span>
+                      </span>
+                      <i
+                        class="bi rum-chev"
+                        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+                      />
+                    </button>
+                  </template>
+                  <div class="rum-rule-body">
+                    <!-- The switches this rule's OWN modifiers are gated on, at the rule. A state
                        that decides what a rule does belongs where the rule is read, not only in a
                        strip at the top of another screen — the same switch, one store. -->
-                  <ConditionChips
-                    v-if="b.switches?.length"
-                    class="rum-rule-conds"
-                    :switches="b.switches"
-                    @toggle="$emit('toggle-cond', $event)"
-                  />
-                  <RuleBody v-if="b.body" :body="b.body" />
-                  <div v-for="a in b.abilities || []" :key="a.name" class="rum-ability">
-                    <strong>{{ a.name }}<span v-if="a.nameEn" class="rum-name-en"> ({{ a.nameEn }})</span>:</strong> <span v-html="renderInline(a.text)"></span>
+                    <ConditionChips
+                      v-if="b.switches?.length"
+                      class="rum-rule-conds"
+                      :switches="b.switches"
+                      @toggle="$emit('toggle-cond', $event)"
+                    />
+                    <RuleBody
+                      v-if="b.body"
+                      :body="b.body"
+                    />
+                    <div
+                      v-for="a in b.abilities || []"
+                      :key="a.name"
+                      class="rum-ability"
+                    >
+                      <strong>{{ a.name }}<span
+                        v-if="a.nameEn"
+                        class="rum-name-en"
+                      > ({{ a.nameEn }})</span>:</strong> <span v-html="renderInline(a.text)" />
+                    </div>
                   </div>
-                </div>
-              </DsAccordion>
-            </div>
-          </section>
+                </DsAccordion>
+              </div>
+            </section>
           </template>
         </DatasheetCard>
-        <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
-
+        <p
+          v-else-if="loaded"
+          class="rum-missing"
+        >
+          {{ labels.factionsSoon }}
+        </p>
       </FactionAccentScope>
     </div>
   </BaseModal>

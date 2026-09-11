@@ -1,9 +1,16 @@
 <template>
-  <BaseModal :title="labels.rosterExportTitle" max-width="520px" @close="$emit('close')">
+  <BaseModal
+    :title="labels.rosterExportTitle"
+    max-width="520px"
+    @close="$emit('close')"
+  >
     <div class="modal-body rex">
       <!-- One list, three dialects: which one you need depends on where it is going (a TO's inbox,
            a tournament header, a Discord channel), so the choice is a switch and not a setting. -->
-      <div class="rex-fmts" role="tablist">
+      <div
+        class="rex-fmts"
+        role="tablist"
+      >
         <button
           v-for="f in FORMATS"
           :key="f"
@@ -13,17 +20,39 @@
           role="tab"
           :aria-selected="format === f"
           @click="format = f"
-        >{{ labels[FMT_LABEL[f]] }}</button>
+        >
+          {{ labels[FMT_LABEL[f]] }}
+        </button>
       </div>
-      <p class="rex-hint">{{ labels[FMT_HINT[format]] }}</p>
-      <textarea class="rex-text" readonly :value="text" @focus="$event.target.select()"></textarea>
+      <p class="rex-hint">
+        {{ labels[FMT_HINT[format]] }}
+      </p>
+      <textarea
+        class="rex-text"
+        readonly
+        :value="text"
+        @focus="$event.target.select()"
+      />
       <div class="rex-actions">
-        <button class="rex-btn" @click="copy(text, 'text')">
-          <i class="bi" :class="copied === 'text' ? 'bi-check-lg' : 'bi-clipboard'"></i>
+        <button
+          class="rex-btn"
+          @click="copy(text, 'text')"
+        >
+          <i
+            class="bi"
+            :class="copied === 'text' ? 'bi-check-lg' : 'bi-clipboard'"
+          />
           {{ copied === 'text' ? labels.rosterCopied : labels.rosterCopyText }}
         </button>
-        <button class="rex-btn" :disabled="!url" @click="copy(url, 'link')">
-          <i class="bi" :class="copied === 'link' ? 'bi-check-lg' : 'bi-link-45deg'"></i>
+        <button
+          class="rex-btn"
+          :disabled="!url"
+          @click="copy(url, 'link')"
+        >
+          <i
+            class="bi"
+            :class="copied === 'link' ? 'bi-check-lg' : 'bi-link-45deg'"
+          />
           {{ copied === 'link' ? labels.rosterCopied : labels.rosterCopyLink }}
         </button>
       </div>

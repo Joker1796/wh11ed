@@ -1,15 +1,32 @@
 <template>
-  <BaseModal :title="labels.welcomeTitle" max-width="440px" @close="dismiss">
+  <BaseModal
+    :title="labels.welcomeTitle"
+    max-width="440px"
+    @close="dismiss"
+  >
     <div class="modal-body welcome">
-      <p class="welcome-lead">{{ labels.welcomeLead }}</p>
+      <p class="welcome-lead">
+        {{ labels.welcomeLead }}
+      </p>
       <ul class="welcome-list">
-        <li><i class="bi bi-grid-3x3-gap"></i><span>{{ labels.welcomeWhat }}</span></li>
-        <li><i class="bi bi-wifi-off"></i><span>{{ labels.welcomeOffline }}</span></li>
-        <li><i class="bi bi-phone"></i><span>{{ labels.welcomeLocal }}</span></li>
+        <li><i class="bi bi-grid-3x3-gap" /><span>{{ labels.welcomeWhat }}</span></li>
+        <li><i class="bi bi-wifi-off" /><span>{{ labels.welcomeOffline }}</span></li>
+        <li><i class="bi bi-phone" /><span>{{ labels.welcomeLocal }}</span></li>
       </ul>
       <div class="welcome-actions">
-        <RouterLink class="welcome-more" to="/help" @click="dismiss">{{ labels.welcomeMore }} →</RouterLink>
-        <button class="welcome-ok" @click="dismiss">{{ labels.welcomeClose }}</button>
+        <RouterLink
+          class="welcome-more"
+          to="/help"
+          @click="dismiss"
+        >
+          {{ labels.welcomeMore + ' →' }}
+        </RouterLink>
+        <button
+          class="welcome-ok"
+          @click="dismiss"
+        >
+          {{ labels.welcomeClose }}
+        </button>
       </div>
     </div>
   </BaseModal>

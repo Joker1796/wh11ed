@@ -1,22 +1,36 @@
 <template>
-  <BaseModal :title="title" @close="$emit('close')">
-      <div class="modal-body">
-        <div v-if="randomLabel" class="tp-actions">
-          <button class="btn-ghost tp-act" @click="$emit('random')">{{ randomLabel }}</button>
-        </div>
-
-        <PickerRow
-          v-for="m in missions"
-          :key="m.slug"
-          :name="m.name"
-          :open="openId === m.slug"
-          :selected="selected === m.slug"
-          @toggle-open="toggleOpen(m.slug)"
-          @pick="$emit('pick', m.slug)"
+  <BaseModal
+    :title="title"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <div
+        v-if="randomLabel"
+        class="tp-actions"
+      >
+        <button
+          class="btn-ghost tp-act"
+          @click="$emit('random')"
         >
-          <MissionCard :mission="m" :show-lore="false" />
-        </PickerRow>
+          {{ randomLabel }}
+        </button>
       </div>
+
+      <PickerRow
+        v-for="m in missions"
+        :key="m.slug"
+        :name="m.name"
+        :open="openId === m.slug"
+        :selected="selected === m.slug"
+        @toggle-open="toggleOpen(m.slug)"
+        @pick="$emit('pick', m.slug)"
+      >
+        <MissionCard
+          :mission="m"
+          :show-lore="false"
+        />
+      </PickerRow>
+    </div>
   </BaseModal>
 </template>
 

@@ -1,5 +1,8 @@
 <template>
-  <template v-for="section in sections" :key="section.id">
+  <template
+    v-for="section in sections"
+    :key="section.id"
+  >
     <SectionHeader
       :id="'section-' + section.id.padStart(2,'0')"
       :num="section.num"
@@ -12,10 +15,23 @@
       v-for="grp in chunkSubsections(splitSubsections(section.subsections).filter(s => !s.renderAfterStratagems && !s.inline))"
       :key="grp.key"
     >
-      <div v-if="grp.type === 'columns'" class="rule-columns">
-        <template v-for="sub in grp.items" :key="sub.id">
-          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
-            <RuleBody :id="sub.id" :body="sub.body" />
+      <div
+        v-if="grp.type === 'columns'"
+        class="rule-columns"
+      >
+        <template
+          v-for="sub in grp.items"
+          :key="sub.id"
+        >
+          <div
+            v-if="sub.isSplitBlock"
+            :id="sub.id"
+            class="split-block"
+          >
+            <RuleBody
+              :id="sub.id"
+              :body="sub.body"
+            />
           </div>
           <RuleBlock
             v-else
@@ -33,8 +49,15 @@
       </div>
 
       <template v-else>
-        <div v-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
-          <RuleBody :id="grp.item.id" :body="grp.item.body" />
+        <div
+          v-if="grp.item.isSplitBlock"
+          :id="grp.item.id"
+          class="split-block"
+        >
+          <RuleBody
+            :id="grp.item.id"
+            :body="grp.item.body"
+          />
         </div>
         <GroupLabelBlock
           v-else-if="grp.item.isGroupLabel"
@@ -58,15 +81,26 @@
 
     <!-- Stratagems grid for section 15 -->
     <template v-if="section.id === '15' && section.stratagems">
-      <div class="stratagems-section" id="section-15-list">
+      <div
+        id="section-15-list"
+        class="stratagems-section"
+      >
         <div class="strat-grid">
-          <StratCard v-for="strat in section.stratagems" :key="strat.num" :id="'strat-' + strat.num.replace('.', '-')" :strat="strat" />
+          <StratCard
+            v-for="strat in section.stratagems"
+            :id="'strat-' + strat.num.replace('.', '-')"
+            :key="strat.num"
+            :strat="strat"
+          />
         </div>
       </div>
     </template>
 
     <!-- Subsections rendered after stratagem grid (e.g. Snap Shooting) -->
-    <template v-for="sub in section.subsections.filter(s => s.renderAfterStratagems && !s.inline)" :key="sub.id + '-after'">
+    <template
+      v-for="sub in section.subsections.filter(s => s.renderAfterStratagems && !s.inline)"
+      :key="sub.id + '-after'"
+    >
       <RuleBlock
         :id="sub.id"
         :section-num="sub.sectionNum"

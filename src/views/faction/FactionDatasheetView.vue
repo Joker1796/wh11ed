@@ -3,10 +3,18 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <h2 class="ds-title">{{ sheet.name }} <span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
+          <h2 class="ds-title">
+            {{ sheet.name }} <span
+              v-if="sheet.baseSize"
+              class="ds-title-base"
+            >({{ fmtBase(sheet.baseSize) }})</span>
+          </h2>
           <!-- A reader who followed a link straight here has to be told the same thing the grid's
                badge says: the rules below are published, the unit is not matched-play legal. -->
-          <p v-if="sheet.legends" class="ds-legends-note">
+          <p
+            v-if="sheet.legends"
+            class="ds-legends-note"
+          >
             <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
           </p>
           <div class="ds-actions">
@@ -19,7 +27,7 @@
               :aria-pressed="fav"
               @click="toggleUnitFavorite(route.params.slug, sheet.id)"
             >
-              <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+              <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />
             </button>
             <!-- "I own this one" — the mark the roster catalogue shows on its rows and can filter
                  by. Same treatment as the pin: state is the outline→filled swap, no highlight. -->
@@ -32,7 +40,7 @@
               :aria-pressed="owned"
               @click="toggleOwned(route.params.slug, sheet.id, sheet.name)"
             >
-              <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+              <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />
             </button>
             <button
               type="button"
@@ -42,7 +50,7 @@
               :aria-label="copied ? labels.dsCopied : labels.dsCopyName"
               @click="copyName"
             >
-              <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'"></i>
+              <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'" />
             </button>
             <button
               v-if="sheet.flavor"
@@ -55,7 +63,7 @@
               :aria-pressed="loreOpen"
               @click="toggleLorePopover"
             >
-              <i :class="loreOpen ? 'bi bi-book-fill' : 'bi bi-book'"></i>
+              <i :class="loreOpen ? 'bi bi-book-fill' : 'bi bi-book'" />
             </button>
             <a
               :href="imageUrl"
@@ -65,7 +73,7 @@
               :title="labels.dsSearchImage"
               :aria-label="labels.dsSearchImage"
             >
-              <i class="bi bi-image"></i>
+              <i class="bi bi-image" />
             </a>
           </div>
         </div>
@@ -79,7 +87,12 @@
           @keyword-click="activeKeyword = $event"
         />
       </template>
-      <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
+      <p
+        v-else-if="loaded"
+        class="ds-missing"
+      >
+        {{ labels.factionsSoon }}
+      </p>
     </section>
 
     <KeywordUnitsModal
@@ -102,8 +115,16 @@
           :aria-label="labels.loreShow"
           @click.stop
         >
-          <button class="ds-lore-close" :aria-label="labels.modalClose" @click="closeLore">✕</button>
-          <p class="ds-lore-text">{{ sheet.flavor }}</p>
+          <button
+            class="ds-lore-close"
+            :aria-label="labels.modalClose"
+            @click="closeLore"
+          >
+            ✕
+          </button>
+          <p class="ds-lore-text">
+            {{ sheet.flavor }}
+          </p>
         </div>
       </Transition>
     </Teleport>

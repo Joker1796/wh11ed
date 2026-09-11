@@ -1,8 +1,12 @@
 <template>
   <div class="links-view">
     <div class="hero">
-      <h1 class="hero-title">{{ labels.linksHeading }}</h1>
-      <div class="hero-subtitle">{{ labels.linksSubtitle }}</div>
+      <h1 class="hero-title">
+        {{ labels.linksHeading }}
+      </h1>
+      <div class="hero-subtitle">
+        {{ labels.linksSubtitle }}
+      </div>
     </div>
 
     <div class="links-grid">
@@ -15,7 +19,7 @@
         class="link-card"
       >
         <span class="link-title">{{ l.label }}</span>
-        <span class="link-host"><i class="bi bi-file-earmark-pdf"></i> warhammer-community.com</span>
+        <span class="link-host"><i class="bi bi-file-earmark-pdf" /> warhammer-community.com</span>
       </a>
     </div>
   </div>

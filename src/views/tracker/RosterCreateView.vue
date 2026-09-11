@@ -1,6 +1,14 @@
 <template>
-  <div class="roster-create themed" :style="accentStyle">
-    <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
+  <div
+    class="roster-create themed"
+    :style="accentStyle"
+  >
+    <RouterLink
+      to="/roster"
+      class="back"
+    >
+      <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+    </RouterLink>
 
     <!-- The step markers are navigation, not just a progress read-out: any step already
          reachable can be jumped to directly. Step 2 stays disabled until step 1 has a faction,
@@ -11,10 +19,28 @@
          There were three: picking units and configuring them were a step apart, which since
          wargear started deciding a unit's price meant walking back and forth between them. They
          are one step with two panes now — the same layout the editor's Units tab uses. -->
-    <div v-if="!desk" class="rc-steps">
-      <button type="button" class="rc-step" :class="{ on: step === 1, done: step > 1 }" @click="goToStep(1)">1<span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span></button>
+    <div
+      v-if="!desk"
+      class="rc-steps"
+    >
+      <button
+        type="button"
+        class="rc-step"
+        :class="{ on: step === 1, done: step > 1 }"
+        @click="goToStep(1)"
+      >
+        <span>1</span><span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span>
+      </button>
       <span class="rc-step-sep">→</span>
-      <button type="button" class="rc-step" :class="{ on: step === 2 }" :disabled="!canLeaveStep1" @click="goToStep(2)">2<span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span></button>
+      <button
+        type="button"
+        class="rc-step"
+        :class="{ on: step === 2 }"
+        :disabled="!canLeaveStep1"
+        @click="goToStep(2)"
+      >
+        <span>2</span><span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span>
+      </button>
     </div>
 
     <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
@@ -42,10 +68,10 @@
       :limit="limit"
       :error-count="validation.errorCount"
       @update:name="name = $event"
-      @update:battleSize="battleSize = $event"
-      @update:customPoints="customPoints = Math.max(0, Number($event) || 0)"
+      @update:battle-size="battleSize = $event"
+      @update:custom-points="customPoints = Math.max(0, Number($event) || 0)"
       @update:disposition="disposition = $event"
-      @update:checkLegality="checkLegality = $event"
+      @update:check-legality="checkLegality = $event"
       @update:notes="notes = $event"
       @pick-faction="pickFaction"
       @toggle-detachment="toggleDetachment"
@@ -53,11 +79,18 @@
       @open-issues="issuesOpen = true"
     />
 
-    <div v-show="!desk && step === 1" class="rc-panel">
+    <div
+      v-show="!desk && step === 1"
+      class="rc-panel"
+    >
       <div class="rc-card">
         <label class="field">
           <span>{{ labels.rosterNameLabel }}</span>
-          <input v-model="name" type="text" :placeholder="labels.rosterNewName" />
+          <input
+            v-model="name"
+            type="text"
+            :placeholder="labels.rosterNewName"
+          >
         </label>
 
         <div class="field">
@@ -68,8 +101,15 @@
               :key="b.id"
               :class="{ on: battleSize === b.id }"
               @click="battleSize = b.id"
-            >{{ b.points }}</button>
-            <button :class="{ on: battleSize === 'custom' }" @click="battleSize = 'custom'">{{ labels.rosterCustom }}</button>
+            >
+              {{ b.points }}
+            </button>
+            <button
+              :class="{ on: battleSize === 'custom' }"
+              @click="battleSize = 'custom'"
+            >
+              {{ labels.rosterCustom }}
+            </button>
           </div>
           <input
             v-if="battleSize === 'custom'"
@@ -78,74 +118,141 @@
             type="number"
             min="0"
             step="5"
-          />
+          >
         </div>
 
         <div class="field">
           <span>{{ labels.rosterFactionLabel }}</span>
-          <button class="btn-choose" @click="factionPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
+          <button
+            class="btn-choose"
+            @click="factionPickerOpen = true"
+          >
+            <span
+              class="ct-name"
+              :class="{ placeholder: !factionSlug }"
+            >{{ factionName || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev" />
           </button>
         </div>
 
         <div class="field">
           <span>
             {{ labels.rosterDetachmentLabel }}
-            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp && !dpOverAllowed }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
-            <button v-if="dpOverAllowed" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
-              <i class="bi bi-question-circle"></i>
+            <em
+              v-if="factionSlug"
+              class="dp-count"
+              :class="{ over: dpSpent > effBattle.dp && !dpOverAllowed }"
+            >{{ dpSpent }} / {{ effBattle.dp }} DP</em>
+            <button
+              v-if="dpOverAllowed"
+              type="button"
+              class="help-btn"
+              :aria-label="labels.trackerDpOverHelp"
+              @click="dpHelpOpen = true"
+            >
+              <i class="bi bi-question-circle" />
             </button>
           </span>
-          <button v-if="factionSlug" class="btn-choose" @click="detachmentPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
+          <button
+            v-if="factionSlug"
+            class="btn-choose"
+            @click="detachmentPickerOpen = true"
+          >
+            <span
+              class="ct-name"
+              :class="{ placeholder: !detachments.length }"
+            >{{ detachmentSummary || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev" />
           </button>
-          <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
+          <p
+            v-else
+            class="det-empty"
+          >
+            {{ labels.rosterPickFaction }}
+          </p>
         </div>
 
         <!-- An army has ONE Force Disposition — the card selected after mustering, on which the
              opponent's symbol names your Primary Mission. One detachment settles it; several are
              a choice, and the LIST is where it is declared (the tracker's own setup asks the same
              question the same way). -->
-        <div v-if="factionSlug" class="field">
+        <div
+          v-if="factionSlug"
+          class="field"
+        >
           <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
-          <div v-if="dispositionCands.length > 1" class="seg">
+          <div
+            v-if="dispositionCands.length > 1"
+            class="seg"
+          >
             <button
               v-for="d in dispositionCands"
               :key="d"
               :class="{ on: disposition === d }"
               @click="disposition = d"
-            >{{ d }}</button>
+            >
+              {{ d }}
+            </button>
           </div>
-          <input v-else-if="dispositionCands.length === 1" type="text" :value="dispositionCands[0]" readonly />
-          <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
+          <input
+            v-else-if="dispositionCands.length === 1"
+            type="text"
+            :value="dispositionCands[0]"
+            readonly
+          >
+          <p
+            v-else
+            class="det-empty"
+          >
+            {{ labels.trackerPickDetachmentFirst }}
+          </p>
         </div>
 
-        <label class="check" :class="{ on: checkLegality }">
-          <input type="checkbox" v-model="checkLegality" />
+        <label
+          class="check"
+          :class="{ on: checkLegality }"
+        >
+          <input
+            v-model="checkLegality"
+            type="checkbox"
+          >
           <span>
             {{ labels.rosterCheckLegality }}
             <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
           </span>
         </label>
       </div>
-
     </div>
 
     <!-- Step 2: the catalogue and the list side by side (`.roster-panes` in style.css, shared
          with the editor's Units tab). Click a catalogue row to preview its rules card, "+" to add
          it; click a unit in the list to configure it, which on a narrow screen opens as a sheet
          (RosterUnitList decides that). -->
-    <div v-show="desk || step === 2" class="rc-panel">
+    <div
+      v-show="desk || step === 2"
+      class="rc-panel"
+    >
       <!-- What this list plays with, above the list being built: army rule, each picked
            detachment's rule, their enhancements and stratagems. Folded — see the component. -->
-      <RosterRulesPanel v-if="factionSlug" :faction-slug="factionSlug" :detachments="detachments" />
+      <RosterRulesPanel
+        v-if="factionSlug"
+        :faction-slug="factionSlug"
+        :detachments="detachments"
+      />
       <!-- On the desk this screen has no faction yet to build against until one is picked in the
            bar above, and the columns would be three empty boxes; the hint says which choice
            unlocks them, the way the reference layout does. -->
-      <p v-if="desk && !factionSlug" class="rc-cfg-empty">{{ labels.rosterPickFaction }}</p>
-      <RosterWorkbench v-else :desk="desk" :selected="!!openEntry">
+      <p
+        v-if="desk && !factionSlug"
+        class="rc-cfg-empty"
+      >
+        {{ labels.rosterPickFaction }}
+      </p>
+      <RosterWorkbench
+        v-else
+        :desk="desk"
+        :selected="!!openEntry"
+      >
         <template #catalog>
           <RosterUnitBrowser
             v-if="factionData"
@@ -162,7 +269,12 @@
           />
         </template>
         <template #list>
-          <p v-if="!units.length" class="rc-cfg-empty">{{ labels.rosterUnitsEmpty }}</p>
+          <p
+            v-if="!units.length"
+            class="rc-cfg-empty"
+          >
+            {{ labels.rosterUnitsEmpty }}
+          </p>
           <RosterUnitList
             v-else
             :groups="groupedUnits"
@@ -180,12 +292,20 @@
             @remove="removeEntry"
           >
             <template #fields="{ entry: e }">
-              <RosterEntryFields v-bind="fieldProps" :entry="e" @toggle-warlord="toggleWarlord" />
+              <RosterEntryFields
+                v-bind="fieldProps"
+                :entry="e"
+                @toggle-warlord="toggleWarlord"
+              />
             </template>
           </RosterUnitList>
         </template>
         <template #editor>
-          <RosterEntryFields v-bind="fieldProps" :entry="openEntry" @toggle-warlord="toggleWarlord" />
+          <RosterEntryFields
+            v-bind="fieldProps"
+            :entry="openEntry"
+            @toggle-warlord="toggleWarlord"
+          />
         </template>
       </RosterWorkbench>
     </div>
@@ -197,27 +317,63 @@
          there, and the reading is consistent: the step's forward move is always in the corner. -->
     <div class="rc-sticky">
       <div class="rc-sticky-inner">
-        <div v-if="!desk && step === 2" class="rc-sticky-info">
-          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-          <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+        <div
+          v-if="!desk && step === 2"
+          class="rc-sticky-info"
+        >
+          <span
+            class="rc-points"
+            :class="{ over: points > limit }"
+          >{{ points }} / {{ limit }}</span>
+          <button
+            type="button"
+            class="issues-badge"
+            :class="validation.errorCount ? 'has-err' : 'ok'"
+            @click="issuesOpen = true"
+          >
             <template v-if="validation.errorCount">
-              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+              <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
             </template>
-            <i v-else class="bi bi-check-circle-fill"></i>
+            <i
+              v-else
+              class="bi bi-check-circle-fill"
+            />
           </button>
         </div>
         <div class="rc-sticky-actions">
           <!-- No steps on the desk, so nothing to go back to and nothing to go forward to: the
                bar carries the one action the screen ends in. -->
           <template v-if="desk">
-            <button class="btn-primary" :disabled="!canLeaveStep1" @click="finish">{{ labels.rosterSave }}</button>
+            <button
+              class="btn-primary"
+              :disabled="!canLeaveStep1"
+              @click="finish"
+            >
+              {{ labels.rosterSave }}
+            </button>
           </template>
           <template v-else-if="step === 1">
-            <button class="btn-primary" :disabled="!canLeaveStep1" @click="goToUnits">{{ labels.trackerNextStep }} →</button>
+            <button
+              class="btn-primary"
+              :disabled="!canLeaveStep1"
+              @click="goToUnits"
+            >
+              {{ labels.trackerNextStep }} →
+            </button>
           </template>
           <template v-else>
-            <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
-            <button class="btn-primary" @click="finish">{{ labels.rosterSave }}</button>
+            <button
+              class="btn-ghost"
+              @click="step = 1"
+            >
+              ← {{ labels.trackerBack }}
+            </button>
+            <button
+              class="btn-primary"
+              @click="finish"
+            >
+              {{ labels.rosterSave }}
+            </button>
           </template>
         </div>
       </div>
@@ -239,9 +395,16 @@
       @clear="clearDetachments"
       @close="detachmentPickerOpen = false"
     />
-    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+    <BaseModal
+      v-if="dpHelpOpen"
+      :title="labels.trackerDpOverTitle"
+      max-width="380px"
+      @close="dpHelpOpen = false"
+    >
       <div class="modal-body">
-        <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
+        <p class="dp-help-text">
+          {{ labels.trackerDpOverText }}
+        </p>
       </div>
     </BaseModal>
     <RosterIssuesModal

@@ -1,25 +1,51 @@
 <template>
-  <BaseModal max-height="88dvh" @close="$emit('close')">
-      <template #header>
-        <header class="modal-head">
-          <div class="mh-text">
-            <h3 class="mh-title">{{ labels.trackerViewGame }}</h3>
-            <p class="mh-sub">{{ formatDate(game.finishedAt || game.createdAt) }}</p>
-          </div>
-          <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
-        </header>
-      </template>
+  <BaseModal
+    max-height="88dvh"
+    @close="$emit('close')"
+  >
+    <template #header>
+      <header class="modal-head">
+        <div class="mh-text">
+          <h3 class="mh-title">
+            {{ labels.trackerViewGame }}
+          </h3>
+          <p class="mh-sub">
+            {{ formatDate(game.finishedAt || game.createdAt) }}
+          </p>
+        </div>
+        <button
+          class="mh-close"
+          :aria-label="labels.modalClose"
+          @click="$emit('close')"
+        >
+          ✕
+        </button>
+      </header>
+    </template>
 
-      <div class="modal-body">
-        <p v-if="endReasonLabel" class="gs-reason">{{ endReasonLabel }}</p>
-        <ScoreBoard :game="game" :finished="true" />
-        <ScoreBreakdown :game="game" />
-        <ArmyRuleSummary :game="game" />
-      </div>
+    <div class="modal-body">
+      <p
+        v-if="endReasonLabel"
+        class="gs-reason"
+      >
+        {{ endReasonLabel }}
+      </p>
+      <ScoreBoard
+        :game="game"
+        :finished="true"
+      />
+      <ScoreBreakdown :game="game" />
+      <ArmyRuleSummary :game="game" />
+    </div>
 
-      <footer class="modal-foot">
-        <button class="gs-resume" @click="$emit('resume', game.id)">{{ labels.trackerResume }}</button>
-      </footer>
+    <footer class="modal-foot">
+      <button
+        class="gs-resume"
+        @click="$emit('resume', game.id)"
+      >
+        {{ labels.trackerResume }}
+      </button>
+    </footer>
   </BaseModal>
 </template>
 

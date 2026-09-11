@@ -1,6 +1,8 @@
 <template>
   <div class="track-opts">
-    <h3 class="block-head">{{ labels[heading] }}</h3>
+    <h3 class="block-head">
+      {{ labels[heading] }}
+    </h3>
 
     <!-- A checkbox and the "i" beside it. A <label> forwards any click inside it to its control,
          so the help button cannot live in there — it would silently flip the setting it explains.
@@ -12,17 +14,23 @@
       class="opt-row"
       :class="{ off: !enabledOf(o), child: !!o.requires }"
     >
-      <label class="check" :class="{ on: enabledOf(o) && settings[o.setting] }">
+      <label
+        class="check"
+        :class="{ on: enabledOf(o) && settings[o.setting] }"
+      >
         <input
-          type="checkbox"
           v-model="settings[o.setting]"
+          type="checkbox"
           :disabled="!enabledOf(o)"
-        />
+        >
         <span>
           {{ labels[o.label] }}
           <!-- Why a row cannot be flipped, or a caveat about what flipping it will get you. The
                first replaces the second: a row nobody can touch has nothing to caveat. -->
-          <em v-if="reasonOf(o)" class="check-note">{{ labels[reasonOf(o)] }}</em>
+          <em
+            v-if="reasonOf(o)"
+            class="check-note"
+          >{{ labels[reasonOf(o)] }}</em>
         </span>
       </label>
       <!-- Live even for a disabled row: what a greyed-out option WOULD do is exactly what you
@@ -32,11 +40,21 @@
         class="opt-info"
         :aria-label="`${labels[o.label]} — ${labels.trackerOptionHelp}`"
         @click="helpFor = o"
-      ><i class="bi bi-question-circle"></i></button>
+      >
+        <i class="bi bi-question-circle" />
+      </button>
     </div>
 
-    <div v-if="guide" class="opt-guide-row">
-      <RouterLink class="opt-guide" to="/help/tracker">{{ labels.trackerTrackGuide }}</RouterLink>
+    <div
+      v-if="guide"
+      class="opt-guide-row"
+    >
+      <RouterLink
+        class="opt-guide"
+        to="/help/tracker"
+      >
+        {{ labels.trackerTrackGuide }}
+      </RouterLink>
     </div>
 
     <OptionHelpModal

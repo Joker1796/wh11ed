@@ -1,27 +1,49 @@
 <template>
-  <BaseModal :title="labels.trackerTwistPickerTitle" @close="$emit('close')">
-      <div class="modal-body">
-        <div class="tp-actions">
-          <button class="btn-ghost tp-act" @click="$emit('random')">{{ labels.trackerRandomTwist }}</button>
-          <button class="tp-act" :class="selected ? 'btn-ghost' : 'btn-primary'" @click="$emit('none')">{{ labels.trackerNoTwist }}</button>
-        </div>
-
-        <PickerRow
-          v-for="t in twists"
-          :key="t.id"
-          :name="t.title"
-          :open="openId === t.id"
-          :selected="selected === t.id"
-          @toggle-open="toggle(t.id)"
-          @pick="$emit('pick', t.id)"
+  <BaseModal
+    :title="labels.trackerTwistPickerTitle"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <div class="tp-actions">
+        <button
+          class="btn-ghost tp-act"
+          @click="$emit('random')"
         >
-          <div class="tw-body">
-            <p v-if="t.example" class="tcard-flavor" v-html="renderInline(t.example)"></p>
-            <RuleBody :body="t.body" />
-            <p v-if="t.note" class="tp-note" v-html="renderInline(t.note)"></p>
-          </div>
-        </PickerRow>
+          {{ labels.trackerRandomTwist }}
+        </button>
+        <button
+          class="tp-act"
+          :class="selected ? 'btn-ghost' : 'btn-primary'"
+          @click="$emit('none')"
+        >
+          {{ labels.trackerNoTwist }}
+        </button>
       </div>
+
+      <PickerRow
+        v-for="t in twists"
+        :key="t.id"
+        :name="t.title"
+        :open="openId === t.id"
+        :selected="selected === t.id"
+        @toggle-open="toggle(t.id)"
+        @pick="$emit('pick', t.id)"
+      >
+        <div class="tw-body">
+          <p
+            v-if="t.example"
+            class="tcard-flavor"
+            v-html="renderInline(t.example)"
+          />
+          <RuleBody :body="t.body" />
+          <p
+            v-if="t.note"
+            class="tp-note"
+            v-html="renderInline(t.note)"
+          />
+        </div>
+      </PickerRow>
+    </div>
   </BaseModal>
 </template>
 

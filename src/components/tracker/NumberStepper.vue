@@ -1,8 +1,25 @@
 <template>
   <div class="stepper">
-    <button class="step-btn" :disabled="disabled || modelValue <= min" @click="bump(-step)" :aria-label="labels.ariaDecrease">−</button>
-    <span ref="valEl" class="step-val">{{ modelValue }}</span>
-    <button class="step-btn" :disabled="disabled || (max != null && modelValue >= max)" @click="bump(step)" :aria-label="labels.ariaIncrease">+</button>
+    <button
+      class="step-btn"
+      :disabled="disabled || modelValue <= min"
+      :aria-label="labels.ariaDecrease"
+      @click="bump(-step)"
+    >
+      −
+    </button>
+    <span
+      ref="valEl"
+      class="step-val"
+    >{{ modelValue }}</span>
+    <button
+      class="step-btn"
+      :disabled="disabled || (max != null && modelValue >= max)"
+      :aria-label="labels.ariaIncrease"
+      @click="bump(step)"
+    >
+      +
+    </button>
   </div>
 </template>
 

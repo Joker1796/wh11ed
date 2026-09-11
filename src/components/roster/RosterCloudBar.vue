@@ -4,8 +4,15 @@
        "Sync" button because entering the list page already runs the one pass there is. It shows
        on the list page (where the pass happens) and on a saved list's view page, which is where
        the editor's Save lands — that is how the click that saved a list gets an answer. -->
-  <p v-if="text" class="rc-bar" :class="{ err: state === 'error' }">
-    <i class="bi" :class="icon"></i>
+  <p
+    v-if="text"
+    class="rc-bar"
+    :class="{ err: state === 'error' }"
+  >
+    <i
+      class="bi"
+      :class="icon"
+    />
     <span>{{ text }}</span>
   </p>
 </template>

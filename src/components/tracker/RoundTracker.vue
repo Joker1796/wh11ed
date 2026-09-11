@@ -3,7 +3,14 @@
     <ScoreBoard />
 
     <div class="round-bar">
-      <button class="rb-nav" :disabled="current.currentRound <= 1" :aria-label="labels.ariaPrevRound" @click="goToRound(current.currentRound - 1)">‹</button>
+      <button
+        class="rb-nav"
+        :disabled="current.currentRound <= 1"
+        :aria-label="labels.ariaPrevRound"
+        @click="goToRound(current.currentRound - 1)"
+      >
+        ‹
+      </button>
       <div class="rb-rounds">
         <button
           v-for="n in ROUND_COUNT"
@@ -13,20 +20,49 @@
           :aria-label="`${labels.trackerRound} ${n}`"
           :aria-current="current.currentRound === n ? 'step' : undefined"
           @click="goToRound(n)"
-        >{{ n }}</button>
+        >
+          {{ n }}
+        </button>
       </div>
-      <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" :aria-label="labels.ariaNextRound" @click="goToRound(current.currentRound + 1)">›</button>
+      <button
+        class="rb-nav"
+        :disabled="current.currentRound >= ROUND_COUNT"
+        :aria-label="labels.ariaNextRound"
+        @click="goToRound(current.currentRound + 1)"
+      >
+        ›
+      </button>
     </div>
 
     <!-- The clock, one row under the rounds: whose turn and which phase. Only for a game that
          asked for it; a game without it looks exactly as it did. -->
-    <div v-if="phasesOn" class="phase-bar">
-      <button class="pb-nav" :disabled="!canStepPhase(-1)" :aria-label="labels.ariaPrevPhase" @click="stepPhase(-1)">‹</button>
-      <button class="pb-now" @click="phasePickerOpen = true">
+    <div
+      v-if="phasesOn"
+      class="phase-bar"
+    >
+      <button
+        class="pb-nav"
+        :disabled="!canStepPhase(-1)"
+        :aria-label="labels.ariaPrevPhase"
+        @click="stepPhase(-1)"
+      >
+        ‹
+      </button>
+      <button
+        class="pb-now"
+        @click="phasePickerOpen = true"
+      >
         <span class="pb-who">{{ playerSide(turnIndex) }}</span>
         <span class="pb-phase">{{ phaseLabel(current.currentPhase || 'command', labels) }}</span>
       </button>
-      <button class="pb-nav" :disabled="!canStepPhase(1)" :aria-label="labels.ariaNextPhase" @click="stepPhase(1)">›</button>
+      <button
+        class="pb-nav"
+        :disabled="!canStepPhase(1)"
+        :aria-label="labels.ariaNextPhase"
+        @click="stepPhase(1)"
+      >
+        ›
+      </button>
     </div>
 
     <!-- …and, under it, what has something to say in the slot the clock is standing on. -->
@@ -42,7 +78,10 @@
     />
 
     <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
-    <details v-if="activeTwist" class="twist-card">
+    <details
+      v-if="activeTwist"
+      class="twist-card"
+    >
       <summary><span class="tc-label">{{ labels.trackerTwist }}</span> {{ activeTwist.title }}</summary>
       <div class="twist-card-body">
         <RuleBody :body="activeTwist.body" />
@@ -50,23 +89,46 @@
     </details>
 
     <div class="players">
-      <div v-for="(pl, i) in current.players" :key="i" class="player">
-        <h3 class="ptitle">{{ playerName(i) }}</h3>
-        <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
-        <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
+      <div
+        v-for="(pl, i) in current.players"
+        :key="i"
+        class="player"
+      >
+        <h3 class="ptitle">
+          {{ playerName(i) }}
+        </h3>
+        <p class="pmeta">
+          {{ dispositionName(pl.disposition) }}
+        </p>
+        <p
+          v-if="pl.detachments && pl.detachments.length"
+          class="pdet"
+        >
+          {{ pl.detachments.join(' · ') }}
+        </p>
         <!-- Primary mission — tap to open the scoring modal -->
-        <div class="sec-title-row">{{ labels.trackerPrimary }}</div>
-        <button v-if="primaryMission(i)" class="card-open" @click="openPrimary = i">
+        <div class="sec-title-row">
+          {{ labels.trackerPrimary }}
+        </div>
+        <button
+          v-if="primaryMission(i)"
+          class="card-open"
+          @click="openPrimary = i"
+        >
           <span class="card-name">{{ primaryName(i) }}</span>
           <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
         </button>
         <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no card
              to tick. The missions themselves are not optional — see trackerOptions.js. -->
-        <div v-else class="score-row">
+        <div
+          v-else
+          class="score-row"
+        >
           <NumberStepper
-            :modelValue="pl.rounds[current.currentRound - 1].primary"
-            :min="0" :max="PRIMARY_ROUND_CAP"
-            @update:modelValue="v => setRoundPrimary(i, current.currentRound - 1, v)"
+            :model-value="pl.rounds[current.currentRound - 1].primary"
+            :min="0"
+            :max="PRIMARY_ROUND_CAP"
+            @update:model-value="v => setRoundPrimary(i, current.currentRound - 1, v)"
           />
           <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
         </div>
@@ -81,17 +143,32 @@
              the better answer (only this army's units, with the game's live modifiers), and
              without one the faction's datasheets are the next best thing. It reads the player
              it belongs to, so the opponent's army is one tap away from their own card. -->
-        <div v-if="cpOn || pl.roster || pl.factionSlug" class="score-row cp-row">
+        <div
+          v-if="cpOn || pl.roster || pl.factionSlug"
+          class="score-row cp-row"
+        >
           <template v-if="cpOn">
             <span class="sr-label">{{ labels.trackerCp }}</span>
-            <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
+            <NumberStepper
+              :model-value="pl.cp"
+              :min="0"
+              @update:model-value="v => setCp(i, v)"
+            />
           </template>
-          <RouterLink v-if="pl.roster" class="proster" :to="`/tracker/game/roster/${i}`">
-            <i class="bi bi-card-list"></i>
+          <RouterLink
+            v-if="pl.roster"
+            class="proster"
+            :to="`/tracker/game/roster/${i}`"
+          >
+            <i class="bi bi-card-list" />
             {{ labels.trackerRosterOpen }}
           </RouterLink>
-          <RouterLink v-else-if="pl.factionSlug" class="proster" :to="`/factions/${pl.factionSlug}/datasheets`">
-            <i class="bi bi-people-fill"></i>
+          <RouterLink
+            v-else-if="pl.factionSlug"
+            class="proster"
+            :to="`/factions/${pl.factionSlug}/datasheets`"
+          >
+            <i class="bi bi-people-fill" />
             {{ labels.factionDatasheets }}
           </RouterLink>
         </div>
@@ -99,7 +176,10 @@
         <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
              secondaries and the CP row. Opt-in per player (settings.trackArmyYou /
              trackArmyOpp, default on) and renders only for factions with a spec. -->
-        <ArmyTrackerCard v-if="armyRuleOn(pl)" :pi="i" />
+        <ArmyTrackerCard
+          v-if="armyRuleOn(pl)"
+          :pi="i"
+        />
       </div>
     </div>
 
@@ -124,10 +204,15 @@
           :title="labels.trackerEditSetup"
           @click="editSetupOpen = true"
         >
-          <i class="bi bi-chevron-left"></i>
-          <i class="bi bi-gear"></i>
+          <i class="bi bi-chevron-left" />
+          <i class="bi bi-gear" />
         </button>
-        <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
+        <button
+          class="btn-ghost"
+          @click="endModalOpen = true"
+        >
+          {{ labels.trackerFinish }}
+        </button>
       </div>
       <button
         v-if="current.currentRound < ROUND_COUNT"
@@ -139,8 +224,15 @@
       </button>
     </div>
 
-    <GameEndModal v-if="endModalOpen" @confirm="onEndBattle" @close="endModalOpen = false" />
-    <EditSetupModal v-if="editSetupOpen" @close="editSetupOpen = false" />
+    <GameEndModal
+      v-if="endModalOpen"
+      @confirm="onEndBattle"
+      @close="endModalOpen = false"
+    />
+    <EditSetupModal
+      v-if="editSetupOpen"
+      @close="editSetupOpen = false"
+    />
   </div>
 </template>
 

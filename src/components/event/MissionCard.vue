@@ -1,5 +1,9 @@
 <template>
-  <article class="mcard" :class="{ collapsible, 'is-open': open }" :id="`mission-${mission.slug}`">
+  <article
+    :id="`mission-${mission.slug}`"
+    class="mcard"
+    :class="{ collapsible, 'is-open': open }"
+  >
     <!-- When collapsible, the header is a toggle (chevron) that folds the body into an accordion. -->
     <component
       :is="collapsible ? 'button' : 'header'"
@@ -8,29 +12,67 @@
       :aria-expanded="collapsible ? open : undefined"
       @click="collapsible && (open = !open)"
     >
-      <h3 class="mcard-name">{{ mission.name }}</h3>
-      <span v-if="mission.nameRu" class="mcard-name-ru">{{ mission.nameRu }}</span>
-      <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
+      <h3 class="mcard-name">
+        {{ mission.name }}
+      </h3>
+      <span
+        v-if="mission.nameRu"
+        class="mcard-name-ru"
+      >{{ mission.nameRu }}</span>
+      <span
+        v-if="subtitle"
+        class="mcard-sub"
+      >{{ subtitle }}</span>
       <!-- Affordance that the header expands (collapsed state only). -->
-      <span v-if="collapsible && !open" class="mcard-hint">{{ labels.missionExpand }}</span>
-      <i v-if="collapsible" class="bi mcard-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+      <span
+        v-if="collapsible && !open"
+        class="mcard-hint"
+      >{{ labels.missionExpand }}</span>
+      <i
+        v-if="collapsible"
+        class="bi mcard-chev"
+        :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"
+      />
     </component>
 
     <CollapseTransition :show="collapsible ? open : true">
       <div class="mcard-body">
-        <p v-if="mission.lore && showLore" class="mcard-lore">{{ mission.lore }}</p>
+        <p
+          v-if="mission.lore && showLore"
+          class="mcard-lore"
+        >
+          {{ mission.lore }}
+        </p>
 
         <MissionBriefing :briefing="mission.briefing" />
 
-        <div v-for="(b, bi) in mission.blocks" :key="bi" class="m-block">
+        <div
+          v-for="(b, bi) in mission.blocks"
+          :key="bi"
+          class="m-block"
+        >
           <div class="m-bhead">
-            <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
+            <span
+              v-if="b.kind"
+              class="kind"
+              :class="b.kind"
+            >{{ b.kind }}</span>
             <span class="m-heading">{{ b.heading }}</span>
-            <span v-if="b.when" class="m-when">{{ b.when }}</span>
+            <span
+              v-if="b.when"
+              class="m-when"
+            >{{ b.when }}</span>
           </div>
-          <div v-for="(r, ri) in b.rows" :key="ri" class="m-cond">
+          <div
+            v-for="(r, ri) in b.rows"
+            :key="ri"
+            class="m-cond"
+          >
             <span class="m-text">
-              <em v-if="r.modifier === 'or'" class="or">{{ labels.trackerOr }}</em>
+              <em
+                v-if="r.modifier === 'or'"
+                class="or"
+              >{{ labels.trackerOr }}</em>
               {{ r.text }}
               <strong>{{ r.vp }} VP{{ isPerEach(r.text) ? ' ' + labels.trackerEach : '' }}</strong>
             </span>

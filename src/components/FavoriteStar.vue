@@ -8,7 +8,10 @@
     :title="pinned ? labels.favUnpin : labels.favPin"
     @click.stop.prevent="$emit('toggle')"
   >
-    <i class="bi" :class="pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle'"></i>
+    <i
+      class="bi"
+      :class="pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle'"
+    />
   </button>
 </template>
 

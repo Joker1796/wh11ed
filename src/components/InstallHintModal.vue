@@ -1,23 +1,43 @@
 <template>
-  <BaseModal :title="labels.installIosTitle" max-width="380px" :z-index="410" @close="$emit('close')">
-      <div class="modal-body">
-        <p class="ih-intro">{{ labels.installIosIntro }}</p>
-        <ol class="ih-steps">
-          <li>
-            <span class="ih-share" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 16V4"/><path d="M8 8l4-4 4 4"/>
-                <path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>
-              </svg>
-            </span>
-            {{ labels.installIosStep1 }}
-          </li>
-          <li>{{ labels.installIosStep2 }}</li>
-          <li>{{ labels.installIosStep3 }}</li>
-        </ol>
-        <p class="ih-note">{{ labels.installIosNote }}</p>
-      </div>
+  <BaseModal
+    :title="labels.installIosTitle"
+    max-width="380px"
+    :z-index="410"
+    @close="$emit('close')"
+  >
+    <div class="modal-body">
+      <p class="ih-intro">
+        {{ labels.installIosIntro }}
+      </p>
+      <ol class="ih-steps">
+        <li>
+          <span
+            class="ih-share"
+            aria-hidden="true"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 16V4" /><path d="M8 8l4-4 4 4" />
+              <path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" />
+            </svg>
+          </span>
+          {{ labels.installIosStep1 }}
+        </li>
+        <li>{{ labels.installIosStep2 }}</li>
+        <li>{{ labels.installIosStep3 }}</li>
+      </ol>
+      <p class="ih-note">
+        {{ labels.installIosNote }}
+      </p>
+    </div>
   </BaseModal>
 </template>
 

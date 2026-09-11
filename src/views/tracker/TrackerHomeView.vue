@@ -9,25 +9,54 @@
          tracker is — which the heading and the buttons already say. On a phone the row wraps and
          the link lands back under the title, which is where it was. -->
     <div class="cloud-bar">
-      <RouterLink class="hero-help" to="/help/tracker" :title="labels.helpSection" :aria-label="labels.helpSection">
-        <i class="bi bi-question-circle"></i>
+      <RouterLink
+        class="hero-help"
+        to="/help/tracker"
+        :title="labels.helpSection"
+        :aria-label="labels.helpSection"
+      >
+        <i class="bi bi-question-circle" />
       </RouterLink>
       <template v-if="status === 'authed'">
         <span class="cloud-account">
-          <i class="bi bi-cloud-check-fill"></i>
+          <i class="bi bi-cloud-check-fill" />
           {{ user?.email || user?.displayName || labels.cloudSignedIn }}
         </span>
-        <span v-if="lastError" class="cloud-err">{{ labels.cloudError }}</span>
+        <span
+          v-if="lastError"
+          class="cloud-err"
+        >{{ labels.cloudError }}</span>
       </template>
-      <span v-else class="cloud-hint">{{ labels.cloudSignInHint }}</span>
+      <span
+        v-else
+        class="cloud-hint"
+      >{{ labels.cloudSignInHint }}</span>
     </div>
 
     <div class="cta">
-      <RouterLink v-if="current" to="/tracker/game" class="btn-primary btn-lg">{{ labels.trackerResume }}</RouterLink>
-      <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary btn-lg">{{ labels.trackerContinueSetup }}</RouterLink>
+      <RouterLink
+        v-if="current"
+        to="/tracker/game"
+        class="btn-primary btn-lg"
+      >
+        {{ labels.trackerResume }}
+      </RouterLink>
+      <RouterLink
+        v-if="setupDraft && !current"
+        to="/tracker/game"
+        class="btn-primary btn-lg"
+      >
+        {{ labels.trackerContinueSetup }}
+      </RouterLink>
       <!-- Starting a new game is the quiet option once one is already running: it is the way to
            throw away what is on screen, not the way forward. -->
-      <button class="btn-lg" :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'" @click="startNew">{{ labels.trackerNewGame }}</button>
+      <button
+        class="btn-lg"
+        :class="current || setupDraft ? 'btn-ghost' : 'btn-primary'"
+        @click="startNew"
+      >
+        {{ labels.trackerNewGame }}
+      </button>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
            sign-in button: the account is app-wide (the roster builder syncs through the same one),
@@ -37,18 +66,31 @@
 
     <!-- The one number people came back for. It sits above the list because a record is a
          summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
-    <RouterLink v-if="stats.games" to="/tracker/stats" class="record-bar">
+    <RouterLink
+      v-if="stats.games"
+      to="/tracker/stats"
+      class="record-bar"
+    >
       <span class="rb-rec">{{ recordText }}</span>
       <span class="rb-lab">{{ labels.statsLink }}</span>
-      <span v-if="stats.enough" class="rb-rate">{{ winrateText }}</span>
-      <i class="bi bi-chevron-right"></i>
+      <span
+        v-if="stats.enough"
+        class="rb-rate"
+      >{{ winrateText }}</span>
+      <i class="bi bi-chevron-right" />
     </RouterLink>
 
     <section class="history">
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
-        <span v-if="status === 'authed' && inSync" class="in-sync">
-          <i class="bi" :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"></i>
+        <span
+          v-if="status === 'authed' && inSync"
+          class="in-sync"
+        >
+          <i
+            class="bi"
+            :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"
+          />
           {{ cloudEmpty ? labels.cloudEmpty : labels.cloudInSync }}
           <!-- Force a full push+pull now (auto-sync already runs on entry) — for pulling changes
                from another device without leaving the page. -->
@@ -60,12 +102,22 @@
             :aria-label="labels.cloudSync"
             @click="syncNow"
           >
-            <i class="bi bi-arrow-clockwise"></i>
+            <i class="bi bi-arrow-clockwise" />
           </button>
         </span>
       </div>
-      <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
-      <TransitionGroup v-else tag="ul" name="list" class="games">
+      <p
+        v-if="!history.length"
+        class="empty"
+      >
+        {{ labels.trackerNoGames }}
+      </p>
+      <TransitionGroup
+        v-else
+        tag="ul"
+        name="list"
+        class="games"
+      >
         <li
           v-for="g in visibleGames"
           :key="g.id"
@@ -82,11 +134,15 @@
                 v-if="status === 'authed' && isBackedUp(g)"
                 class="bi bi-cloud-check-fill cloud-flag"
                 :title="labels.cloudBackedUp"
-              ></i>
+              />
               {{ formatDate(g.finishedAt || g.createdAt) }}
             </span>
-            <button class="del" :title="labels.trackerDelete" @click.stop="onDeleteGame(g.id)">
-              <i class="bi bi-trash"></i>
+            <button
+              class="del"
+              :title="labels.trackerDelete"
+              @click.stop="onDeleteGame(g.id)"
+            >
+              <i class="bi bi-trash" />
             </button>
           </div>
 
@@ -96,8 +152,12 @@
               <span class="gc-faction">{{ factionName(g, 0) }}</span>
             </div>
             <div class="gc-center">
-              <div class="gc-score">{{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}</div>
-              <div class="gc-result">{{ resultLabel(g) }}</div>
+              <div class="gc-score">
+                {{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}
+              </div>
+              <div class="gc-result">
+                {{ resultLabel(g) }}
+              </div>
             </div>
             <div class="gc-side gc-side--right">
               <span class="gc-name">{{ pname(g, 1) }}</span>
@@ -105,10 +165,16 @@
             </div>
           </div>
 
-          <div class="gc-foot">{{ footLine(g) }}</div>
+          <div class="gc-foot">
+            {{ footLine(g) }}
+          </div>
         </li>
       </TransitionGroup>
-      <button v-if="history.length > visibleCount" class="show-more" @click="showMore">
+      <button
+        v-if="history.length > visibleCount"
+        class="show-more"
+        @click="showMore"
+      >
         {{ labels.trackerShowMore }}
       </button>
     </section>

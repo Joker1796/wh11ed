@@ -1,6 +1,13 @@
 <template>
-  <div class="setup-loading" role="status" aria-live="polite">
-    <span class="spinner" aria-hidden="true"></span>
+  <div
+    class="setup-loading"
+    role="status"
+    aria-live="polite"
+  >
+    <span
+      class="spinner"
+      aria-hidden="true"
+    />
   </div>
 </template>
 

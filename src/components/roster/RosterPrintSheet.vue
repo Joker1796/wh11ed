@@ -23,7 +23,11 @@
   <div class="rps">
     <!-- The measuring flow. Hidden but laid out at the paper's width; display:none would
          collapse it and there would be nothing to measure. -->
-    <div ref="measureEl" class="rps-measure" aria-hidden="true">
+    <div
+      ref="measureEl"
+      class="rps-measure"
+      aria-hidden="true"
+    >
       <RosterPrintFragment
         v-for="b in blocks"
         :key="b.id"

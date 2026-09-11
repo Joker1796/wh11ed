@@ -1,29 +1,44 @@
 <template>
   <BaseModal @close="$emit('close')">
-      <template #header>
-        <header class="modal-head">
-          <h3 class="mh-title">{{ labels.trackerChooseFixed }}</h3>
-          <div class="mh-right">
-            <span class="mh-count" :class="{ full: selected.length >= max }">{{ selected.length }} / {{ max }}</span>
-            <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
-          </div>
-        </header>
-      </template>
+    <template #header>
+      <header class="modal-head">
+        <h3 class="mh-title">
+          {{ labels.trackerChooseFixed }}
+        </h3>
+        <div class="mh-right">
+          <span
+            class="mh-count"
+            :class="{ full: selected.length >= max }"
+          >{{ selected.length }} / {{ max }}</span>
+          <button
+            class="mh-close"
+            :aria-label="labels.modalClose"
+            @click="$emit('close')"
+          >
+            ✕
+          </button>
+        </div>
+      </header>
+    </template>
 
-      <div class="modal-body">
-        <PickerRow
-          v-for="m in missions"
-          :key="m.slug"
-          :name="m.name"
-          :open="openId === m.slug"
-          :selected="selected.includes(m.slug)"
-          :disabled="!selected.includes(m.slug) && selected.length >= max"
-          @toggle-open="toggleOpen(m.slug)"
-          @pick="$emit('toggle', m.slug)"
-        >
-          <MissionCard :mission="m" :subtitle="m.category" :show-lore="false" />
-        </PickerRow>
-      </div>
+    <div class="modal-body">
+      <PickerRow
+        v-for="m in missions"
+        :key="m.slug"
+        :name="m.name"
+        :open="openId === m.slug"
+        :selected="selected.includes(m.slug)"
+        :disabled="!selected.includes(m.slug) && selected.length >= max"
+        @toggle-open="toggleOpen(m.slug)"
+        @pick="$emit('toggle', m.slug)"
+      >
+        <MissionCard
+          :mission="m"
+          :subtitle="m.category"
+          :show-lore="false"
+        />
+      </PickerRow>
+    </div>
   </BaseModal>
 </template>
 

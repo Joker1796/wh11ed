@@ -1,5 +1,5 @@
 <template>
-  <hr class="turn-diagram-break" />
+  <hr class="turn-diagram-break">
   <div class="turn-diagram">
     <div
       v-for="(step, i) in steps"
@@ -7,12 +7,21 @@
       class="turn-step"
       :class="{ 'turn-step--edge': step.icon === 'turn-step' }"
     >
-      <div class="turn-step-num">{{ i + 1 }}</div>
-      <div class="turn-step-body">
-        <div class="turn-step-title">{{ step.title }}</div>
-        <div class="turn-step-desc">{{ step.desc }}</div>
+      <div class="turn-step-num">
+        {{ i + 1 }}
       </div>
-      <div class="turn-step-icon" :class="'turn-step-icon--' + step.icon"></div>
+      <div class="turn-step-body">
+        <div class="turn-step-title">
+          {{ step.title }}
+        </div>
+        <div class="turn-step-desc">
+          {{ step.desc }}
+        </div>
+      </div>
+      <div
+        class="turn-step-icon"
+        :class="'turn-step-icon--' + step.icon"
+      />
     </div>
   </div>
 </template>

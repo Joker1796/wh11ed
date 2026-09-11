@@ -1,26 +1,62 @@
 <template>
-  <section :id="id" class="sub-rule">
-    <button class="sub-rule-head" :aria-expanded="open" @click="open = !open">
+  <section
+    :id="id"
+    class="sub-rule"
+  >
+    <button
+      class="sub-rule-head"
+      :aria-expanded="open"
+      @click="open = !open"
+    >
       <span class="sub-rule-title">
         <span class="section-num">{{ sectionNum }}</span>
         <span>{{ title }}</span>
       </span>
-      <span v-if="fromApp" class="from-app">from app</span>
-      <i class="bi sub-rule-chevron" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      <span
+        v-if="fromApp"
+        class="from-app"
+      >from app</span>
+      <i
+        class="bi sub-rule-chevron"
+        :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"
+      />
     </button>
 
     <CollapseTransition :show="open">
       <div class="sub-rule-body-wrap">
-        <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
+        <SeeAlsoBlock
+          v-if="seeAlso && seeAlso.length"
+          :refs="seeAlso"
+        />
 
-        <div class="rule-body" @click="handleDefClick">
-          <RuleBody :id="id" :body="body" />
+        <div
+          class="rule-body"
+          @click="handleDefClick"
+        >
+          <RuleBody
+            :id="id"
+            :body="body"
+          />
 
-          <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" :stacked="table.stacked" />
+          <DataTable
+            v-if="table"
+            :headers="table.headers"
+            :rows="table.rows"
+            :footnote="table.footnote"
+            :stacked="table.stacked"
+          />
 
-          <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
+          <div
+            v-if="note"
+            class="note-box"
+            v-html="renderParagraphs(note)"
+          />
 
-          <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
+          <div
+            v-if="example"
+            class="example-block"
+            v-html="renderInline(example)"
+          />
         </div>
       </div>
     </CollapseTransition>

@@ -10,22 +10,66 @@
       <!-- Three gridlines and nothing else: this is a shape to read at a glance, and the exact
            numbers are printed underneath rather than crowded onto the plot. -->
       <g class="sc-grid">
-        <template v-for="g in gridlines" :key="g.v">
-          <line :x1="PAD.l" :x2="W - PAD.r" :y1="y(g.v)" :y2="y(g.v)" />
-          <text :x="PAD.l - 5" :y="y(g.v) + 3">{{ g.v }}</text>
+        <template
+          v-for="g in gridlines"
+          :key="g.v"
+        >
+          <line
+            :x1="PAD.l"
+            :x2="W - PAD.r"
+            :y1="y(g.v)"
+            :y2="y(g.v)"
+          />
+          <text
+            :x="PAD.l - 5"
+            :y="y(g.v) + 3"
+          >{{ g.v }}</text>
         </template>
       </g>
-      <path class="sc-area" :d="area" />
-      <polyline class="sc-line sc-opp" :points="line(oppPts)" />
-      <polyline class="sc-line sc-you" :points="line(youPts)" />
-      <circle v-for="(p, i) in oppPts" :key="'o' + i" class="sc-dot sc-opp" :cx="x(i)" :cy="y(p)" r="2.5" />
-      <circle v-for="(p, i) in youPts" :key="'y' + i" class="sc-dot sc-you" :cx="x(i)" :cy="y(p)" r="3" />
-      <text v-for="(r, i) in rounds" :key="'x' + i" class="sc-xlab" :x="x(i)" :y="H - 6">{{ r.round }}</text>
+      <path
+        class="sc-area"
+        :d="area"
+      />
+      <polyline
+        class="sc-line sc-opp"
+        :points="line(oppPts)"
+      />
+      <polyline
+        class="sc-line sc-you"
+        :points="line(youPts)"
+      />
+      <circle
+        v-for="(p, i) in oppPts"
+        :key="'o' + i"
+        class="sc-dot sc-opp"
+        :cx="x(i)"
+        :cy="y(p)"
+        r="2.5"
+      />
+      <circle
+        v-for="(p, i) in youPts"
+        :key="'y' + i"
+        class="sc-dot sc-you"
+        :cx="x(i)"
+        :cy="y(p)"
+        r="3"
+      />
+      <text
+        v-for="(r, i) in rounds"
+        :key="'x' + i"
+        class="sc-xlab"
+        :x="x(i)"
+        :y="H - 6"
+      >{{ r.round }}</text>
     </svg>
 
     <!-- The chart is the shape; this is the data. Also what a screen reader and a narrow phone get. -->
     <figcaption class="sc-nums">
-      <div v-for="(r, i) in rounds" :key="r.round" class="sc-num">
+      <div
+        v-for="(r, i) in rounds"
+        :key="r.round"
+        class="sc-num"
+      >
         <span class="sc-num-r">{{ roundLabel }}{{ r.round }}</span>
         <span class="sc-num-you">{{ fmt(youPts[i]) }}</span>
         <span class="sc-num-opp">{{ fmt(oppPts[i]) }}</span>
