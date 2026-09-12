@@ -75,18 +75,21 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**803 из 1447** юнитов с `aliasesRu` (личные + 322 паттерна в `datasheetAliasRulesRu.js`,
-батчи 18-20 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
-Daemons). Закрытых на 100% фракций теперь 10: drukhari, genestealer-cults, imperial-knights,
-leagues-of-votann, adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions,
-tau-empire, chaos-daemons. Остаток бэклога по покрытию: tyranids 7/52, aeldari 25/76,
-astra-militarum 25/72, deathwatch 34/89, black-templars 34/90 — там уже не «фракция не
-начата», а хвост рядовых юнитов.
-**Демонические датащиты продублированы** в кодексах Death Guard / World Eaters / Thousand
-Sons / Emperor's Children под теми же именами, поэтому один демонический паттерн поднимает
-покрытие сразу в пяти фракциях (батч 20 дал +60 юнитов при 42 правилах). Тот же приём
-сработает и с общими юнитами Хаоса, которые всё ещё без алиасов во всех четырёх кодексах
-разом: Chaos Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer.
+**857 из 1447** юнитов с `aliasesRu` (личные + 353 паттерна в `datasheetAliasRulesRu.js`,
+батчи 18-21 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
+Daemons, Chaos Space Marines). Закрытых на 100% фракций теперь 11: drukhari,
+genestealer-cults, imperial-knights, leagues-of-votann, adeptus-mechanicus, chaos-knights,
+titan-legions, chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines. Остаток
+бэклога по покрытию: tyranids 7/52, aeldari 25/76, astra-militarum 25/72, deathwatch 34/89,
+black-templars 34/90, space-marines 49/103 — там уже не «фракция не начата», а хвост рядовых
+юнитов.
+**Перепечатанные датащиты — главный множитель покрытия.** Демоны продублированы в кодексах
+Death Guard / World Eaters / Thousand Sons / Emperor's Children, общие юниты Хаоса (Chaos
+Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer) — там же, под теми же именами.
+Батч 20 дал +60 юнитов при 42 правилах, батч 21 — +54 при 31. Дальше тот же приём работает
+на космодесанте: ордена делят датащиты между собой и с `space-marines` (там ещё и
+`sharedUnitIds`, см. `gen-datasheet-index.mjs`). Планируя батч, сначала считать, сколько
+датащитов поднимет паттерн — скрипт на 20 строк в `scripts/.drafts/`, а не глазами.
 **Планируя следующий батч, сначала смотреть, есть ли фракция в wh-glossary:** кодекса тиранид
 в корпусе нет вообще (греп по Termagant/Zoanthrope/Trygon/Tervigon — ноль), поэтому тиранидский
 батч будет сплошной транслитерацией; богатые разделы — Караул Смерти (1736 строк), T'au (1236),
