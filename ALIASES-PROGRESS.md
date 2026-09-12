@@ -75,16 +75,14 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**1210 из 1447 (84%)** юнитов с `aliasesRu` (личные + 434 паттерна в `datasheetAliasRulesRu.js`,
-батчи 18-23). **Закрыто на 100% 19 фракций из 30:** drukhari, genestealer-cults,
-imperial-knights, leagues-of-votann, adeptus-mechanicus, chaos-knights, titan-legions,
-chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines, space-marines,
-space-wolves, dark-angels, blood-angels, black-templars, deathwatch, imperial-agents,
-grey-knights.
+**1256 из 1447 (87%)** юнитов с `aliasesRu` (личные + 478 паттернов в `datasheetAliasRulesRu.js`,
+батчи 18-24). **Закрыто на 100% 25 фракций из 30** — все, кроме пяти ниже.
 
-**Остаток бэклога** (по возрастанию покрытия): tyranids 7/52, aeldari 25/76, astra-militarum
-26/72, orks 32/67, death-guard 20/36, adeptus-custodes 22/31, necrons 38/52, thousand-sons
-26/34, emperors-children 18/23, world-eaters 24/30, adepta-sororitas 31/33.
+**Остаток бэклога — ровно пять фракций:** tyranids 7/52, aeldari 25/76, astra-militarum 26/72,
+orks 32/67, necrons 38/52. Обеспеченность источником у них разная: эльдары и арлекины — 647
+строк корпуса, орки — 578, тёмные эльдары (для пересечений) — 511, по некронам и гвардии
+разделы меньше, **по тиранидам в корпусе нет ничего** — этот батч будет сплошной
+транслитерацией, планировать его стоит последним.
 **Перепечатанные датащиты — главный множитель покрытия.** Демоны продублированы в кодексах
 Death Guard / World Eaters / Thousand Sons / Emperor's Children, общие юниты Хаоса (Chaos
 Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer) — там же, под теми же именами.
