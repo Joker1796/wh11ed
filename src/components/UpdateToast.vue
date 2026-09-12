@@ -31,19 +31,35 @@ const onActiveGame = () => stripLocale(route.path).startsWith('/tracker/game')
 //     game screen, but never while the user sits on an active tracker game.
 //
 // By default the SW is only checked for updates at registration (app start), so a long-lived
-// session never learns about a new deploy. Poll hourly AND on return to the foreground.
-const UPDATE_CHECK_MS = 60 * 60 * 1000 // hourly
+// session never learns about a new deploy. Poll, and also look on the two occasions a reader
+// gives us for free: coming back to the tab, and moving to another page.
+//
+// The interval was an hour until 2026-09-12, when the precache was cut from 15.5 MB to ~0.9 MB.
+// The old number was sized for the old cost: a check that found something meant installing the
+// whole app, so asking often was asking for a long download at a bad moment. Now an update is a
+// handful of files, and the thing worth minimising is the time a reader spends on a stale build.
+const UPDATE_CHECK_MS = 15 * 60 * 1000
+// …but a check on every navigation would be a request per click. One floor for all the
+// opportunistic triggers, so a reader clicking through ten datasheets costs one conditional GET.
+const CHECK_FLOOR_MS = 2 * 60 * 1000
+
+let lastCheck = 0
+let checkSW = () => {}
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return
-    const check = () => {
-      if (navigator.onLine) registration.update().catch(() => {})
+    checkSW = () => {
+      if (!navigator.onLine) return
+      const now = Date.now()
+      if (now - lastCheck < CHECK_FLOOR_MS) return
+      lastCheck = now
+      registration.update().catch(() => {})
     }
-    setInterval(check, UPDATE_CHECK_MS)
+    setInterval(() => { lastCheck = 0; checkSW() }, UPDATE_CHECK_MS)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        check() // look for a newer SW…
+        checkSW() // look for a newer SW…
         applyIfSafe() // …and apply one that's already waiting, if it's safe to reload now
       }
     })
@@ -62,6 +78,11 @@ watch(needRefresh, (ready) => {
   if (ready) applyIfSafe()
 }, { immediate: true })
 
-// Leaving the live game screen is a safe moment to apply a deferred update.
-watch(() => route.path, () => applyIfSafe())
+// A navigation is two things at once: a safe moment to apply an update that was waiting, and a
+// free moment to go looking for one — the reader has just asked for a page, so one more
+// conditional GET is not what they will notice.
+watch(() => route.path, () => {
+  applyIfSafe()
+  checkSW()
+})
 </script>
