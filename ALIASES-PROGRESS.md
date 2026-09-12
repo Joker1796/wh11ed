@@ -75,10 +75,12 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**659 из 1447** юнитов с `aliasesRu` (личные + 200 паттернов в `datasheetAliasRulesRu.js`,
-батч 17 — Imperial Knights + Genestealer Cults class-wide, применён и не закоммичен; обе
-фракции закрыты на 100% по датащитам, побочно покрыты 10/20 Chaos Knights — их собственные
-шасси (Knight Desecrator/Rampager/Tyrant…, War Dog *) остались бэклогом на следующую партию).
+**710 из 1447** юнитов с `aliasesRu` (личные + 247 паттернов в `datasheetAliasRulesRu.js`,
+батч 18 — Chaos Knights + оба легиона титанов + Adeptus Mechanicus class-wide). Закрытых
+на 100% фракций теперь 8: drukhari, genestealer-cults, imperial-knights, leagues-of-votann,
+adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions. Остаток бэклога по
+покрытию: tyranids 7/52, chaos-daemons 11/53, tau-empire 10/43, aeldari 25/76, astra-militarum
+25/72 — там уже не «фракция не начата», а хвост рядовых юнитов.
 `npm test` — 1745/1745, `npm run lint` и `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в

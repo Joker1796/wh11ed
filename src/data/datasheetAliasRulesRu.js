@@ -252,4 +252,69 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bPrimus\b/i, aliasesRu: ['примус'] },
   { pattern: /\bReductus Saboteur\b/i, aliasesRu: ['Саботажник Редуктус'] },
   { pattern: /\bSanctus\b/i, aliasesRu: ['Санктус', 'святой'] },
+  // Chaos Knights — their own chassis (batch 18). The generic `War Dog` rule also covers
+  // War Dog Moirax, whose per-chassis alias comes from the Imperial Knights block above.
+  { pattern: /\bWar Dog\b/i, aliasesRu: ['Рыцарь типа «Боевой пёс»', 'вардоги'] },
+  { pattern: /\bWar Dog Brigand\b/i, aliasesRu: ['Боевой пёс «Разбойник»', 'бриганд'] },
+  { pattern: /\bWar Dog Executioner\b/i, aliasesRu: ['Боевой пёс «Палач»', 'экзекутор'] },
+  { pattern: /\bWar Dog Huntsman\b/i, aliasesRu: ['Боевой пёс «Охотник»', 'хантсман'] },
+  { pattern: /\bWar Dog Karnivore\b/i, aliasesRu: ['Боевой пёс «Плотоядный»', 'карнивор'] },
+  { pattern: /\bWar Dog Stalker\b/i, aliasesRu: ['Боевой пёс «Ловчий»', 'сталкер'] },
+  { pattern: /\bKnight Desecrator\b/i, aliasesRu: ['Рыцарь типа «Искоренитель»', 'десекратор'] },
+  { pattern: /\bKnight Despoiler\b/i, aliasesRu: ['Рыцарь типа «Разоритель»', 'деспойлер'] },
+  { pattern: /\bKnight Rampager\b/i, aliasesRu: ['Рыцарь типа «Неистовый»', 'рампагер'] },
+  { pattern: /\bKnight Ruinator\b/i, aliasesRu: ['Рыцарь типа «Разрушитель»', 'руинатор'] },
+  { pattern: /\bKnight Tyrant\b/i, aliasesRu: ['Рыцарь типа «Тиран»', 'тирант'] },
+  // Titan Legions — the patterns carry no `Chaos` prefix on purpose, so each one covers both
+  // the Imperial titan and its Chaos Titan Legions twin, the same way knight chassis do.
+  { pattern: /\bWarlord Titan\b/i, aliasesRu: ['титан типа «Владыка войны»', 'варлорд'] },
+  {
+    pattern: /\bReaver Titan\b/i,
+    aliasesRu: ['линейный титан типа «Разбойник»', 'ривер', 'ревер'],
+  },
+  {
+    pattern: /\bWarhound Titan\b/i,
+    aliasesRu: ['разведывательный титан типа «Гончая»', 'вархаунд'],
+  },
+  { pattern: /\bWarbringer\b/i, aliasesRu: ['титан «Воинствующая немезида»', 'варбрингер'] },
+  // Adeptus Mechanicus (batch 18) — wh-glossary covers this faction unusually well: its
+  // "ТЕРМИНЫ ИЗ КОДЕКСА АДЕПТУС МЕХАНИКУС" section plus the novel «Война в музее», which is
+  // where the archaeopters, pteraxii and serberys names come from. Note the glossary's own
+  // warning on Kastelan — "не Кастелян!!!, ибо есть другой робот — Castellan" — so the robot
+  // is "Кастелан" with an А, distinct from Knight Castellan's "рыцарь-кастелян" above.
+  { pattern: /\bSkitarii\b/i, aliasesRu: ['скитарии'] },
+  { pattern: /\bSkitarii Rangers\b/i, aliasesRu: ['скитарии-егеря', 'Ренджеры'] },
+  { pattern: /\bSkitarii Vanguard\b/i, aliasesRu: ['авангард скитариев'] },
+  { pattern: /\bSkitarii Marshal\b/i, aliasesRu: ['маршал скитариев'] },
+  { pattern: /\bKataphron Breachers\b/i, aliasesRu: ['катафроны-прорывники'] },
+  { pattern: /\bKataphron Destroyers\b/i, aliasesRu: ['катафроны-уничтожители'] },
+  { pattern: /\bIronstrider\b/i, aliasesRu: ['айронстрайдер', 'железный верхоход'] },
+  { pattern: /\bSydonian Dragoons\b/i, aliasesRu: ['сидонийские драгуны'] },
+  { pattern: /\bSydonian Skatros\b/i, aliasesRu: ['сидонийский скатрос'] },
+  {
+    pattern: /\bOnager Dunecrawler\b/i,
+    aliasesRu: ['дюнный ползун «Онагер»', 'дюноход', 'дюнкраулер'],
+  },
+  { pattern: /\bKastelan\b/i, aliasesRu: ['робот типа «Кастелан»', 'кастеланы'] },
+  { pattern: /\bCybernetica Datasmith\b/i, aliasesRu: ['инфокузнец', 'датасмит'] },
+  { pattern: /\bCorpuscarii\b/i, aliasesRu: ['электрожрецы-корпускарии'] },
+  { pattern: /\bFulgurite\b/i, aliasesRu: ['электрожрецы-фульгуриты'] },
+  { pattern: /\bSicarian Infiltrators\b/i, aliasesRu: ['сикарийские лазутчики'] },
+  { pattern: /\bSicarian Ruststalkers\b/i, aliasesRu: ['сикарийские ловцы', 'растсталкеры'] },
+  { pattern: /\bSerberys Raiders\b/i, aliasesRu: ['серберисы-налётчики', 'сербери-налётчики'] },
+  { pattern: /\bSerberys Sulphurhounds\b/i, aliasesRu: ['серберисы-серногончие'] },
+  { pattern: /\bPteraxii Skystalkers\b/i, aliasesRu: ['птераксии-неболовчие', 'небесные ловцы'] },
+  { pattern: /\bPteraxii Sterylizors\b/i, aliasesRu: ['птераксии-стерилизёры'] },
+  { pattern: /\bArchaeopter Fusilave\b/i, aliasesRu: ['археоптер-фузилав'] },
+  { pattern: /\bArchaeopter Stratoraptor\b/i, aliasesRu: ['археоптер-стратораптор'] },
+  { pattern: /\bArchaeopter Transvector\b/i, aliasesRu: ['археоптер-трансвектор'] },
+  { pattern: /\bSkorpius Disintegrator\b/i, aliasesRu: ['боевой танк «Скорпиус-Дезинтегратор»'] },
+  { pattern: /\bSkorpius Dunerider\b/i, aliasesRu: ['дюноход «Скорпиус»'] },
+  { pattern: /\bTech-Priest Dominus\b/i, aliasesRu: ['техножрец-доминус'] },
+  { pattern: /\bTech-Priest Enginseer\b/i, aliasesRu: ['техножрец-энжинсир', 'машиновидец'] },
+  { pattern: /\bTech-Priest Manipulus\b/i, aliasesRu: ['техножрец-манипулус'] },
+  { pattern: /\bTechnoarcheologist\b/i, aliasesRu: ['техноархеолог'] },
+  { pattern: /\bServitor Battleclade\b/i, aliasesRu: ['сервиторы', 'боевой клад'] },
+  { pattern: /\bHastarii Exterminators\b/i, aliasesRu: ['гастарии-экстерминаторы'] },
+  { pattern: /\bHastarii Fusiliers\b/i, aliasesRu: ['гастарии-фузилёры'] },
 ]
