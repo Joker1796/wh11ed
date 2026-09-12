@@ -17,9 +17,9 @@ describe('search', () => {
     expect(typeof item.score).toBe('number')
   })
 
-  it('caps results at 10 and sorts title matches (score 2) before body-only (score 1)', () => {
+  it('caps results at 20 and sorts title matches (score 2) before body-only (score 1)', () => {
     const res = search('move', 'en')
-    expect(res.length).toBeLessThanOrEqual(10)
+    expect(res.length).toBeLessThanOrEqual(20)
     for (let i = 1; i < res.length; i++) {
       expect(res[i - 1].score).toBeGreaterThanOrEqual(res[i].score)
     }
@@ -125,7 +125,7 @@ describe('datasheet unit search', () => {
 
   it('finds units by a name-pattern alias shared across a whole class of unit (e.g. "термосы" for any Terminator-type datasheet)', async () => {
     // This class-wide nickname (src/data/datasheetAliasRulesRu.js) matches dozens of
-    // Terminator-type datasheets across many factions — more than search()'s top-10 cap, so
+    // Terminator-type datasheets across many factions — more than search()'s top-20 cap, so
     // don't assert on any one specific faction's result surviving the cap, just that the
     // mechanism actually fires and surfaces the alias.
     await preloadDatasheetIndex()
@@ -133,6 +133,29 @@ describe('datasheet unit search', () => {
     expect(res.length).toBeGreaterThan(0)
     expect(res.every((r) => r.title.includes('Terminator'))).toBe(true)
     expect(res.every((r) => r.titleRu === 'термосы')).toBe(true)
+  })
+
+  it('finds a faction page by its EN name or RU alias, ranked above its units', () => {
+    // No preload needed — faction names ride statically in the search chunk.
+    for (const [q, locale] of [['некроны', 'ru'], ['necrons', 'en'], ['гвардия', 'ru']]) {
+      const res = search(q, locale)
+      const hit = res.find((r) => r.key?.startsWith('faction-'))
+      expect(hit, `query «${q}»`).toBeTruthy()
+    }
+    const res = search('некроны', 'ru')
+    expect(res[0].route).toBe('/factions/necrons')
+    expect(res[0].titleRu).toBe('некроны')
+  })
+
+  it('matches names and aliases apostrophe-blind — «ктан» finds the C’tan datasheets', async () => {
+    // The data spells C’tan / Mont’ka / T’au with the typographic ’ nobody types; a query
+    // without it (or with the straight ') must still land. Guards stripApos/foldName.
+    await preloadDatasheetIndex()
+    for (const q of ['ктан', "к'тан", 'ctan']) {
+      const res = search(q, 'ru')
+      const unit = res.find((r) => r.route === '/factions/necrons/datasheets/transcendent-ctan')
+      expect(unit, `query «${q}»`).toBeTruthy()
+    }
   })
 
   it('finds a unit by its RU alias/nickname and surfaces which alias matched', async () => {

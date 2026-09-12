@@ -9,6 +9,8 @@ import { getEventContent } from '../data/eventCompanion.js'
 import { getMissions } from '../data/missions.js'
 import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
+import { factionGroups } from '../data/factionsIndex.js'
+import { factionAliasesRu } from '../data/factionAliasesRu.js'
 import { h4AnchorId } from './anchors.js'
 import { splitBodyEntries } from './columnChunks.js'
 
@@ -431,16 +433,17 @@ export async function getDatasheetIndex() {
 
 function searchDatasheets(q, locale) {
   if (!dsIndex) return []
+  const qn = stripApos(q)
   const isRu = locale === 'ru'
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
     for (const [id, name, aliasesRu] of units) {
-      const nameHit = foldYo(name.toLowerCase()).includes(q)
+      const nameHit = foldName(name).includes(qn)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
       // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
       // result matched at all, not on every result for a unit that merely has aliases on file.
-      const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldYo(a.toLowerCase()).includes(q))
+      const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldName(a).includes(qn))
       if (!nameHit && !aliasHit) continue
       results.push({
         id: '',
@@ -476,9 +479,42 @@ export function preloadFactionRulesIndex() {
   return frPromise
 }
 
+// Faction landing pages by name («некроны», "necrons" → /factions/necrons). EN names come from
+// factionsIndex.js (tiny, already in the root bundle); the RU aliases ride in their own module
+// so their strings load only with this search chunk. Scored above the name-only hits below —
+// a query that IS a faction's name should lead with the faction's own page, its units after it.
+function searchFactions(q, locale) {
+  const isRu = locale === 'ru'
+  const L = ui[locale] || ui.en
+  const qn = stripApos(q)
+  const results = []
+  for (const group of factionGroups) {
+    for (const f of group.factions) {
+      if (!f.ready) continue
+      const nameHit = foldName(f.name).includes(qn)
+      const aliasHit = !nameHit && (factionAliasesRu[f.slug] || []).find((a) => foldName(a).includes(qn))
+      if (!nameHit && !aliasHit) continue
+      results.push({
+        id: '',
+        key: `faction-${f.slug}`,
+        sectionNum: '',
+        title: f.name,
+        titleRu: isRu && aliasHit ? aliasHit : '',
+        body: '',
+        snippet: '',
+        route: `/factions/${f.slug}`,
+        sectionTitle: L.navFactions,
+        score: 2.5,
+      })
+    }
+  }
+  return results
+}
+
 // True if `q` (already folded/lowercased) is found in any of the given names.
 function anyNameMatches(q, ...names) {
-  return names.some((n) => n && foldYo(n.toLowerCase()).includes(q))
+  const qn = stripApos(q)
+  return names.some((n) => n && foldName(n).includes(qn))
 }
 
 // Names are language-agnostic (kept EN in results, like stratagem/unit names elsewhere) but
@@ -633,8 +669,20 @@ function getIndexById(locale) {
 
 // Treat 'ё'/'Ё' as 'е'/'Е' for search matching — Russian users almost never type ё,
 // even though the indexed rules text (correctly) uses it (e.g. «манёвр»).
+// foldYo must stay a 1:1 char replace: the body-snippet slicing in search() reuses
+// the folded string's indices against the original text.
 function foldYo(s) {
   return s.replace(/ё/g, 'е').replace(/Ё/g, 'Е')
+}
+
+// NAME matching is additionally apostrophe-blind: the data spells C’tan / Mont’ka / T’au with
+// the typographic ’ nobody types, so «ктан», «к'тан» and "ctan" must all reach them. Only for
+// names — body/title matching keeps the 1:1 foldYo, or the snippet indices above would shift.
+function stripApos(s) {
+  return s.replace(/[’'`]/g, '')
+}
+function foldName(s) {
+  return stripApos(foldYo(s.toLowerCase()))
 }
 
 // A query that is purely a section number (1–3 groups of 1–2 digits, optional
@@ -725,12 +773,15 @@ export function search(query, locale = 'en') {
   // Faction rules (army rule/detachment/stratagem/enhancement names), Combat Patrol names, and
   // datasheet unit names go after the core rules items: with equal scores the stable sort keeps
   // rule-body titles (the app's primary content) above same-scored name-only hits.
+  results.push(...searchFactions(q, locale))
   results.push(...searchFactionRules(q, locale))
   results.push(...searchCombatPatrol(q, locale))
   results.push(...searchDatasheets(q, locale))
   // Sort the full match set before slicing — capping earlier (in index order) would drop a
-  // later high-relevance title hit before it could be ranked.
-  return results.sort((a, b) => b.score - a.score).slice(0, 10)
+  // later high-relevance title hit before it could be ranked. 20, not 10: a class-wide RU
+  // alias («терминатор») legitimately matches more than ten datasheets, and a cap that eats
+  // half of them reads as "the unit is not there".
+  return results.sort((a, b) => b.score - a.score).slice(0, 20)
 }
 
 export function highlightMatch(text, query) {

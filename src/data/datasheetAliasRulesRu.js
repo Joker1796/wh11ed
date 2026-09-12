@@ -804,6 +804,9 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bTomb Blades\b/i, aliasesRu: ['«Могильный клинок»', 'томб блейды'] },
   { pattern: /\bTriarch Praetorians\b/i, aliasesRu: ['триархические преторианцы'] },
   { pattern: /\bTranscendent C’tan\b/i, aliasesRu: ['трансцендентный К’тан'] },
+  // Every C’tan datasheet answers to the bare race name; the three shards also to «осколок».
+  { pattern: /\bC’tan\b/i, aliasesRu: ['К’тан'] },
+  { pattern: /\bC’tan Shard\b/i, aliasesRu: ['осколок К’тана'] },
   { pattern: /\bSeraptek\b/i, aliasesRu: ['«Сераптек»', 'сераптек'] },
   { pattern: /\bConvergence of Dominion\b/i, aliasesRu: ['Сплетение владычества'] },
   // Tyranids (batch 28). The one faction wh-glossary does not cover at all — grepping it for
