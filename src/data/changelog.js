@@ -17,6 +17,22 @@
 
 export const changelog = [
   {
+    version: '2.3.14',
+    date: '2026-09-13',
+    en: [
+      { h: 'Search: factions, apostrophes, and a longer answer' },
+      'Faction pages are now findable by name — «некроны», «гвардия», «хсм» or plain "necrons" all lead with the faction\'s own page, its units after it. Until now the search only knew a faction\'s units, not the faction itself.',
+      'Apostrophes no longer stand in the way: «ктан» (and "ctan") finds the C’tan datasheets, «тау» finds T’au — no need to guess which apostrophe the data uses.',
+      'And the answer got room to breathe: up to 20 results instead of 10, so a nickname shared by a whole class of units — «терминатор» — no longer loses half its matches to the cap.',
+    ],
+    ru: [
+      { h: 'Поиск: фракции, апострофы и более длинный ответ' },
+      'Страницы фракций теперь находятся по названию — «некроны», «гвардия», «хсм» или просто "necrons" ставят первой саму страницу фракции, а за ней её юниты. До сих пор поиск знал юниты фракции, но не её саму.',
+      'Апострофы больше не мешают: «ктан» (и "ctan") находит датащиты К’тан, «тау» находит T’au — не нужно угадывать, какой апостроф стоит в данных.',
+      'И ответу стало просторнее: до 20 результатов вместо 10, так что прозвище целого класса юнитов — «терминатор» — больше не теряет половину совпадений из-за лимита.',
+    ],
+  },
+  {
     version: '2.3.13',
     date: '2026-09-12',
     en: [
