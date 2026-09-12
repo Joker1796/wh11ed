@@ -524,4 +524,55 @@ export const datasheetAliasRulesRu = [
   // Same English word, different machine in another faction: the Primaris rule above is
   // narrowed to `Eradicator Squad` so this tank keeps the glossary's own «Искоренитель».
   { pattern: /\bLeman Russ Eradicator\b/i, aliasesRu: ['«Леман Русс» типа «Искоренитель»'] },
+  // Chapter-specific Space Marine units, plus Imperial Agents (batch 23). wh-glossary is at
+  // its strongest here — Space Wolves 753 lines, Deathwatch 1736, own sections for the Dark
+  // and Blood Angels — so almost everything below is sourced rather than transliterated.
+  { pattern: /\bDeath Company\b/i, aliasesRu: ['рота смерти'] },
+  { pattern: /\bSanguinary Guard\b/i, aliasesRu: ['Сангвинарная Гвардия'] },
+  { pattern: /\bSanguinary Priest\b/i, aliasesRu: ['сангвинарный жрец'] },
+  { pattern: /\bDeathwing\b/i, aliasesRu: ['Крыло Смерти'] },
+  { pattern: /\bRavenwing\b/i, aliasesRu: ['Крыло Ворона'] },
+  { pattern: /\bDeathwing Knights\b/i, aliasesRu: ['рыцари Крыла Смерти'] },
+  { pattern: /\bRavenwing Black Knights\b/i, aliasesRu: ['Чёрные рыцари Крыла Ворона'] },
+  { pattern: /\bRavenwing Darkshroud\b/i, aliasesRu: ['«Саван тьмы»'] },
+  { pattern: /\bRavenwing Dark Talon\b/i, aliasesRu: ['«Тёмный коготь»'] },
+  { pattern: /\bInner Circle Companions\b/i, aliasesRu: ['спутники Внутреннего круга'] },
+  { pattern: /\bNephilim\b/i, aliasesRu: ['реактивный истребитель «Нефилим»'] },
+  { pattern: /\bBlood Claws\b/i, aliasesRu: ['Кровавые Когти'] },
+  { pattern: /\bGrey Hunters\b/i, aliasesRu: ['Серые Охотники'] },
+  { pattern: /\bIron Priest\b/i, aliasesRu: ['железный жрец'] },
+  { pattern: /\bWolf Priest\b/i, aliasesRu: ['волчий жрец'] },
+  { pattern: /\bThunderwolf\b/i, aliasesRu: ['кавалерия громовых волков', 'громовые волки'] },
+  { pattern: /\bFenrisian Wolves\b/i, aliasesRu: ['фенрисские волки'] },
+  { pattern: /\bWulfen\b/i, aliasesRu: ['вульфены'] },
+  { pattern: /\bSword Brethren\b/i, aliasesRu: ['Братья Меча'] },
+  { pattern: /\bCrusader Squad\b/i, aliasesRu: ['отделение крестоносцев'] },
+  { pattern: /\bEmperor’s Champion\b/i, aliasesRu: ['чемпион Императора'] },
+  // Anchored: a loose \bCastellan\b would also hit Knight Castellan (Imperial Knights),
+  // Castellan Crowe (Grey Knights) and Cadian Castellan (Astra Militarum). Third collision
+  // around this word after the Kastelan robot — see the Mechanicus block above.
+  { pattern: /^Castellan$/i, aliasesRu: ['кастелян'] },
+  // Left broad on purpose: all four matches really are marshals (Black Templars' Marshal and
+  // High Marshal Helbrecht, Skitarii Marshal, Astra Militarum's Lord Marshal Dreir).
+  { pattern: /\bMarshal\b/i, aliasesRu: ['маршал'] },
+  { pattern: /\bExecrator\b/i, aliasesRu: ['экзекратор'] },
+  { pattern: /\bKill Team\b/i, aliasesRu: ['истребительная команда'] },
+  { pattern: /\bDeathwatch Veterans\b/i, aliasesRu: ['ветераны Караула Смерти'] },
+  { pattern: /\bKor’sarro Khan\b/i, aliasesRu: ['Кор\'сарро-хан'] },
+  { pattern: /\bAdrax Agatone\b/i, aliasesRu: ['Адракс Агатон'] },
+  { pattern: /\bSuboden Khan\b/i, aliasesRu: ['Субоден-хан'] },
+  { pattern: /\bVictrix Honour Guard\b/i, aliasesRu: ['почётная гвардия Виктрикс'] },
+  { pattern: /\bWardens of Ultramar\b/i, aliasesRu: ['Стражи Ультрамара'] },
+  { pattern: /\bChampion\b/i, aliasesRu: ['чемпион'] },
+  { pattern: /\bInquisitor\b/i, aliasesRu: ['инквизитор'] },
+  { pattern: /\bInquisitorial Agents\b/i, aliasesRu: ['подручные инквизитора'] },
+  { pattern: /\bNavigator\b/i, aliasesRu: ['навигатор'] },
+  { pattern: /\bImperial Navy Breachers\b/i, aliasesRu: ['прорывники корабельной пехоты'] },
+  { pattern: /\bVoidsmen-at-Arms\b/i, aliasesRu: ['пустотники'] },
+  { pattern: /\bRogue Trader\b/i, aliasesRu: ['вольный торговец'] },
+  { pattern: /\bExaction Squad\b/i, aliasesRu: ['отряд взыскания'] },
+  { pattern: /\bSubductor Squad\b/i, aliasesRu: ['отряд субдукторов'] },
+  { pattern: /\bVigilant Squad\b/i, aliasesRu: ['отряд Бдящих'] },
+  { pattern: /\bSisters of Battle Squad\b/i, aliasesRu: ['отделение сестёр битвы'] },
+  { pattern: /\bWatch Master\b/i, aliasesRu: ['мастер караула'] },
 ]

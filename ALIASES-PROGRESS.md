@@ -75,17 +75,16 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**1157 из 1447 (80%)** юнитов с `aliasesRu` (личные + 391 паттерн в `datasheetAliasRulesRu.js`,
-батчи 18-22 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
-Daemons, Chaos Space Marines, общий космодесант). Закрыто на 100% 11 фракций: drukhari,
-genestealer-cults, imperial-knights, leagues-of-votann, adeptus-mechanicus, chaos-knights,
-titan-legions, chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines; все шесть
-орденов космодесанта стоят на 92-95%.
+**1210 из 1447 (84%)** юнитов с `aliasesRu` (личные + 434 паттерна в `datasheetAliasRulesRu.js`,
+батчи 18-23). **Закрыто на 100% 19 фракций из 30:** drukhari, genestealer-cults,
+imperial-knights, leagues-of-votann, adeptus-mechanicus, chaos-knights, titan-legions,
+chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines, space-marines,
+space-wolves, dark-angels, blood-angels, black-templars, deathwatch, imperial-agents,
+grey-knights.
 
 **Остаток бэклога** (по возрастанию покрытия): tyranids 7/52, aeldari 25/76, astra-militarum
-25/72, orks 32/67, imperial-agents 16/29, death-guard 20/36, adeptus-custodes 21/31,
-necrons 38/52 + собственные юниты орденов (Death Company, Ravenwing, Deathwing, Wulfen,
-Sword Brethren, Kill Team'ы — 37 датащитов на шесть фракций).
+26/72, orks 32/67, death-guard 20/36, adeptus-custodes 22/31, necrons 38/52, thousand-sons
+26/34, emperors-children 18/23, world-eaters 24/30, adepta-sororitas 31/33.
 **Перепечатанные датащиты — главный множитель покрытия.** Демоны продублированы в кодексах
 Death Guard / World Eaters / Thousand Sons / Emperor's Children, общие юниты Хаоса (Chaos
 Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer) — там же, под теми же именами.
