@@ -592,6 +592,12 @@ container queries the roster panes lay themselves out with (16.0), `overscroll-b
 Raising the floor further is a decision, not a detail — check here before reaching for a new
 feature.
 
+**The JS now says the same thing.** Vite 7 changed the default `build.target` to
+baseline-widely-available (`chrome107`/`edge107`/`firefox104`/`safari16`), where Vite 6 emitted for
+`safari14`. Nothing is set in `vite.config.js`, so that default is what ships — which is the CSS
+floor above, a couple of point releases lower. Downgrading it means setting `build.target`
+explicitly, and it would only ever buy back browsers the stylesheet has already left behind.
+
 ## Deployment
 
 Hosted at **wh-rules.ru** on a **Yandex Object Storage** bucket (`wh-rules.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
