@@ -1,5 +1,7 @@
-// One saved roster's editing state: the roster itself, its lazily-loaded faction data, live points
-// and validation, and the add/duplicate/remove semantics.
+// One saved roster's editing state: the roster itself, its lazily-loaded faction data, and the
+// add/duplicate/remove semantics. Everything that is merely READ off the pair — points, the
+// detachments in play, per-entry pricing, the legality verdict — is useRosterDerived.js, which the
+// wizard and the print sheet call directly over rosters this composable does not own.
 //
 // It was written when the editor (/roster/:id) and the add-units page (/roster/:id/add) were two
 // screens editing ONE roster, and a second copy of addUnit() would have been free to disagree
@@ -14,10 +16,9 @@
 
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRosters, uid } from './useRosters.js'
-import { addUnitEntry, duplicateUnitEntry, effectiveBattle, removeUnitEntry, rosterPoints } from './rosterEngine.js'
-import { validateRoster } from './rosterValidation.js'
+import { addUnitEntry, duplicateUnitEntry, removeUnitEntry } from './rosterEngine.js'
+import { useRosterDerived } from './useRosterDerived.js'
 import { summaryOf } from './rosterSummary.js'
-import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 
 export function useRosterEditing(rosterId) {
@@ -39,23 +40,8 @@ export function useRosterEditing(rosterId) {
     }
   }, { immediate: true })
 
-  const unitMap = computed(() => new Map((factionData.value?.units || []).map((u) => [u.id, u])))
-  const defOf = (id) => unitMap.value.get(id)
-
-  const curDetachments = computed(() =>
-    (roster.value?.detachments || [])
-      .map((name) => (factionData.value?.detachments || []).find((d) => d.name === name))
-      .filter(Boolean))
-
-  const effBattle = computed(() => effectiveBattle(roster.value || {}, rosterCore))
-  const limit = computed(() => effBattle.value.points)
-  const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
-
-  // Never blocks, only reports — see rosterValidation.js.
-  const validation = computed(() =>
-    factionData.value
-      ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
-      : { points: points.value, issues: [], errorCount: 0 })
+  const derived = useRosterDerived(roster, factionData)
+  const { points, validation } = derived
 
   // Denormalise the summary onto the roster so the list screens show points/unit-count without
   // loading faction data — see rosterSummary.js for why the cache exists and who else writes it.
@@ -73,7 +59,7 @@ export function useRosterEditing(rosterId) {
   // a leader attachment that pointed at the removed unit.
   function addUnit(unitId) {
     if (!roster.value) return
-    if (addUnitEntry(roster.value.units, defOf(unitId), unitId, uid())) touch()
+    if (addUnitEntry(roster.value.units, derived.defOf(unitId), unitId, uid())) touch()
   }
 
   // A configured copy of one line, placed right after it — see rosterEngine's duplicateUnitEntry
@@ -96,7 +82,7 @@ export function useRosterEditing(rosterId) {
   }
 
   return {
-    roster, factionData, loadingFaction, defOf, curDetachments,
-    effBattle, limit, points, validation, touch, addUnit, duplicateUnit, removeUnit,
+    roster, factionData, loadingFaction, ...derived,
+    touch, addUnit, duplicateUnit, removeUnit,
   }
 }

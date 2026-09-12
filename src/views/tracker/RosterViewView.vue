@@ -259,16 +259,16 @@
                       <!-- Attached characters sit under their bodyguard (rosterEngine's
                          joinAttached); the tag says which slot, which nesting alone can't. -->
                       <span
-                        v-if="attachRole(e)"
+                        v-if="rowMeta.get(e.uid)?.role"
                         class="rvunit-role"
-                      >{{ attachRole(e) }}</span>
+                      >{{ rowMeta.get(e.uid).role }}</span>
                     </span>
                     <span
-                      v-if="statCellsOf(e).length"
+                      v-if="rowMeta.get(e.uid)?.stats.length"
                       class="rvunit-stats"
                     >
                       <span
-                        v-for="s in statCellsOf(e)"
+                        v-for="s in rowMeta.get(e.uid).stats"
                         :key="s.label"
                         class="rvst"
                         :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
@@ -584,14 +584,14 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRosters } from '../../composables/useRosters.js'
+import { useRosterDerived } from '../../composables/useRosterDerived.js'
+import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import rosterCore from '../../data/roster/core.js'
-import { validateRoster } from '../../composables/rosterValidation.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { factionGroups } from '../../data/factionsIndex.js'
-import { GROUP_LABEL_KEYS, allySourceOf, sectionsOf, attachedBlockTotal, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, leadsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, attachedBlockTotal, entrySummary, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -708,18 +708,22 @@ const viewTabs = computed(() => {
   ]
 })
 
-// ── Faction accent (mirrors the editor) ──
-const allFactions = factionGroups.flatMap((g) => g.factions)
-const factionColor = computed(() => allFactions.find((f) => f.slug === roster.value?.faction)?.color)
-const accentStyle = computed(() => factionColor.value
-  ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
-  : {})
+// ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
+const { accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
 
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
 const factionData = ref(null)
 watch(() => roster.value?.faction, async (slug) => {
   factionData.value = slug ? await loadRosterFaction(slug, { allies: usesAllies(roster.value) }) : null
 }, { immediate: true })
+
+// Everything this screen reads off the pair — the unit lookup, the detachments in play, the battle
+// size, the pricing, the sectioning and the legality verdict — is useRosterDerived.js, so the list
+// a player reads at the table can never disagree with the editor they built it in. Declared here,
+// above its first use: the whole file below reads `defOf` and `curDetachments`.
+const {
+  defOf, curDetachments, limit, points, entryMeta, groupedUnits, attachRole, validation,
+} = useRosterDerived(roster, factionData)
 
 // ── Base statline (M/T/SV/W/LD/OC + invuln) for the compact unit rows — not in the compact
 // roster data layer, so pull it from the full datasheet file (already needed by the unit rules
@@ -870,9 +874,9 @@ const viewingLeaderTargets = computed(() => (viewingEntry.value
 // would be the worst of both, so this list and that card go through one implementation
 // (rosterStatMods.js) with the same inputs.
 function statCellsOf(entry) {
-  const sheet = fullSheets.value.get(entry?.id)
-  if (!sheet?.profiles?.[0]) return []
-  const { sheet: modded, marks } = statModCache.value.get(entry.uid) || statModsFor(entry, sheet)
+  // statModCache holds every entry whose datasheet is in, which is every entry that gets this far.
+  const { sheet: modded, marks } = statModCache.value.get(entry?.uid) || {}
+  if (!modded?.profiles?.[0]) return []
   const p = modded.profiles[0]
   const marked = new Set(marks)
   const cell = (key, label, value) => ({ key, label, value, mod: marked.has(`profile:${key}:0`) })
@@ -984,9 +988,10 @@ function chosenFor(entry, resolved) {
 // they are judged against, and the game state that proves them. One function because the card and
 // the CHIPS have to agree — a stratagem this unit cannot be the target of must be missing from
 // both, and two places working it out separately is how they come to differ.
-function modContextFor(entry, sheet) {
+function modContextFor(entry) {
   const resolved = resolvedFor(entry)
   if (!resolved.length) return null
+  const sheet = fullSheets.value.get(entry?.id)
   const active = activeFor(entry)
   const printed = [...(sheet?.keywords || []), ...(sheet?.factionKeywords || [])]
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
@@ -1009,17 +1014,44 @@ function modContextFor(entry, sheet) {
   return { resolved: gateStratagems(resolved, [...kws, ...attached], factionKeywordSets.value), kws, active, chosen }
 }
 
+// ONE context per entry for the whole screen. Four readers want it — the stat plates, the
+// army-wide switch strip, the per-unit chips and the open unit's modal — and three of them walk
+// the whole list, so resolving it where it is asked for meant working the records, the keyword
+// grants and the stratagem gate out three times per unit (~120 resolutions on a list of forty).
+// It is also the answer the plates and the chips MUST share: a stratagem a unit cannot be the
+// target of has to be missing from both, and two passes are how they come to differ.
+//
+// Lazily computed, like any other: a game that keeps no modifier state never reads it, and then
+// nothing here runs at all.
+const ctxByUid = computed(() => {
+  const m = new Map()
+  for (const e of roster.value?.units || []) m.set(e.uid, modContextFor(e))
+  return m
+})
+// Every caller passes an entry of THIS roster, which is what the map is built from — a `null` in it
+// is a unit no modifier record bears on, the same answer modContextFor gives directly.
+const ctxOf = (entry) => ctxByUid.value.get(entry?.uid) || null
+
+// What one row of the list needs beyond its name and its points. Both halves were read TWICE from
+// the template — a `v-if` and the thing it guards — which for the plates meant running the whole
+// stat pass a second time per row, and for the tag meant walking the list for the host and asking
+// leadsFor about it again. A Map lookup is what the template does instead.
+const rowMeta = computed(() => {
+  const m = new Map()
+  for (const e of roster.value?.units || []) m.set(e.uid, { role: attachRole(e), stats: statCellsOf(e) })
+  return m
+})
+
 // The gated list on its own, for the callers that only want the records and not the keyword set
 // that produced them.
-const gatedFor = (entry) => modContextFor(entry, fullSheets.value.get(entry?.id))?.resolved || []
+const gatedFor = (entry) => ctxOf(entry)?.resolved || []
 
 function statModsFor(entry, sheet) {
   // The master, in the one place that can answer for all of it: no rewritten numbers, no marks,
   // no notes — so the plates, the card behind them and the "possible" summary all fall back to the
   // printed datasheet together. Nothing downstream needs its own gate.
   if (!modsOn.value) return { sheet, marks: [] }
-  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
-  const ctx = modContextFor(entry, sheet)
+  const ctx = ctxOf(entry)
   if (!ctx) return { sheet, marks: [] }
   return applyStatMods(sheet, ctx.resolved, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen)
 }
@@ -1255,8 +1287,8 @@ function toggleUnitCond(sw) {
   toggleUnitCondFor(viewingEntry.value, sw)
 }
 
-// One pass per entry, not one per plate: statCellsOf() is called from the template for every row,
-// and resolving + applying the modifier records is real work to repeat six times a row.
+// One pass per entry, not one per plate: the modifier layer's resolve-and-apply is real work and
+// the row reads its output six times.
 const statModCache = computed(() => {
   const m = new Map()
   for (const e of roster.value?.units || []) {
@@ -1266,46 +1298,15 @@ const statModCache = computed(() => {
   return m
 })
 
-const unitMap = computed(() => {
-  const m = new Map()
-  for (const u of factionData.value?.units || []) m.set(u.id, u)
-  return m
-})
-function defOf(id) { return unitMap.value.get(id) }
-
 // The detachments this army is actually playing, as ids — the gate for a detachment rule's aura
 // (rosterStatMods' aurasReaching), which unlike every other aura is not vouched for by an entry
 // sitting in the list.
 const fieldedDetIds = computed(() => new Set(curDetachments.value.map((d) => d.id)))
 
-const curDetachments = computed(() =>
-  (roster.value?.detachments || [])
-    .map((name) => (factionData.value?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean))
-
-const effBattle = computed(() => effectiveBattle(roster.value || {}, rosterCore))
-const limit = computed(() => effBattle.value.points)
-
-const entryMeta = computed(() => {
-  const seen = new Map()
-  const m = new Map()
-  for (const e of roster.value?.units || []) {
-    const copyIndex = (seen.get(e.id) || 0) + 1
-    seen.set(e.id, copyIndex)
-    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachments.value), copyIndex })
-  }
-  return m
-})
 const nameFit = computed(() => rosterNameFit(roster.value?.name))
-const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
 
-// The same verdict the editor's footer badge shows, on the screen people actually read. Computed
-// only once the faction data is in — before that every unit id looks unknown and the list would
-// accuse itself of holding units that don't exist.
+// The same verdict the editor's footer badge shows, on the screen people actually read.
 const issuesOpen = ref(false)
-const validation = computed(() => (factionData.value && roster.value
-  ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
-  : { issues: [], errorCount: 0 }))
 const issues = computed(() => validation.value.issues)
 const errorCount = computed(() => validation.value.errorCount)
 const warnCount = computed(() => issues.value.length - errorCount.value)
@@ -1347,14 +1348,6 @@ async function copyWholeList() {
   }
 }
 
-// Allies read as their own part of the list, exactly as the editor shows them (rosterEngine's
-// sectionsOf); `keepLocked` so a unit whose group the Detachment doesn't unlock is still on screen.
-const groupedUnits = computed(() =>
-  sectionsOf(roster.value?.units, {
-    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
-    pairAttached: true,
-  }).map((sec) => ({ ...sec, entries: sec.items })))
-
 // The datasheet behind an allied unit belongs to its own faction, and the namespaced id says so.
 const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
@@ -1362,15 +1355,9 @@ function summaryLine(e) {
   return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel, labels.value.rosterWarlord)
 }
 
-// Which slot an attached character fills, and what its whole unit costs. The two halves of an
-// attached unit already share every state this screen writes (see attachedEntries) — since
-// 2026-08-27 they finally share a place on the list too (rosterEngine's joinAttached).
-function attachRole(e) {
-  const host = e.leaderOf && roster.value?.units.find((u) => u.uid === e.leaderOf)
-  if (!host) return ''
-  const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
-  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
-}
+// What a whole attached unit costs. Which SLOT the character fills is `attachRole` from
+// useRosterDerived — the two halves already share every state this screen writes (see
+// attachedEntries), and since 2026-08-27 a place on the list too (rosterEngine's joinAttached).
 const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => entryMeta.value.get(x.uid)?.points)
 
 // ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems.
