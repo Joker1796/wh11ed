@@ -76,8 +76,9 @@ export const help = {
         title: 'Offline, and installing the app',
         body: `**A browser tab stays light on purpose** — it downloads the app and the text, and fetches pictures only as you look at them. That is the right trade for someone who opened one rule on the way to the club.
 **The installed app goes fully offline.** Install it from the menu (⚙ → Install app; on an iPhone: Share → Add to Home Screen), open it once with a connection, and it downloads everything it needs. After that a venue with no signal changes nothing.
+▪ **Want the lot without installing?** ⚙ → Download for offline. The button says how much it is before you tap it, and it does the same thing the installed app does for itself.
 ▪ Updates arrive by themselves and are never applied in the middle of a game.
-▪ It is worth doing the first launch at home, not in the queue at the event.`,
+▪ It is worth doing the first launch — or that download — at home, not in the queue at the event.`,
       },
       {
         id: 'help-data',
@@ -142,8 +143,9 @@ export const help = {
         title: 'Офлайн и установка приложения',
         body: `**Вкладка в браузере намеренно остаётся лёгкой** — она качает приложение и тексты, а картинки подтягивает по мере просмотра. Это правильный размен для того, кто открыл одно правило по дороге в клуб.
 **Установленное приложение работает полностью офлайн.** Поставьте его из меню (⚙ → «Установить приложение»; на айфоне: «Поделиться» → «На экран «Домой»»), один раз откройте при связи — и оно скачает всё нужное. После этого площадка без сети ничего не меняет.
+▪ **Хотите всё сразу, но без установки?** ⚙ → «Скачать для офлайна». На кнопке написан размер до того, как вы её нажмёте, а делает она то же самое, что установленное приложение делает само.
 ▪ Обновления приходят сами и никогда не применяются посреди партии.
-▪ Первый запуск стоит сделать дома, а не в очереди на ивенте.`,
+▪ Первый запуск — или эту загрузку — стоит сделать дома, а не в очереди на ивенте.`,
       },
       {
         id: 'help-data',

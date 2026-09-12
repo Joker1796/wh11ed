@@ -13,6 +13,27 @@ the current (locale-neutral) illustration story. If you're reading an older note
 mentions `BasicRulesView`/`AdvancedRulesView`/`BattlefieldsView` rewriting image paths per
 locale, it's stale — those views don't exist anymore either.
 
+## An image is never edited in place — it is renamed
+
+`npm run imghash` (a CI step) fails when a file under this directory keeps its name and changes
+its bytes. The reason is that image URLs carry no content hash, and both caches that hold them key
+on the URL alone: the bucket's `Cache-Control` (30 days) and — decisively — the service worker's
+CacheFirst `/images/` route, which never revalidates whatever the headers say. A reader who has
+already loaded the old picture keeps it, on their phone, at the table, and no deploy can reach
+them.
+
+So replacing an illustration means **a new filename**, and updating whatever references it (the
+`[img:/images/…]` paths in the data files). Adding and deleting are safe by construction — a new
+name is a URL nobody has cached, a deleted one is simply never requested again — and only need
+recording:
+
+```bash
+npm run imghash -- --write     # rewrite scripts/lib/image-hashes.json
+```
+
+That is also the escape hatch for an in-place change you mean to ship anyway: the baseline diff is
+then a line in the PR a reviewer can see, rather than a silent decision.
+
 ## Folders
 
 One folder per rules chapter: `intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire` — plus `event/` for Event Companion assets (layout diagrams, edge markers, legend icons, disposition emblems — see `src/components/event/CLAUDE.md`, documented separately since that pipeline extracts from a different source PDF via pymupdf, not the WebP recipe below). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`.
@@ -39,4 +60,8 @@ Used for the `command/battle-shock-*-diagram` panels — straight, consistent cr
 1. **Render** the page at 600 dpi: `pdftoppm -f N -l N -r 600 -png sources/WH40k_11ed_CORE-Rules_*.pdf /tmp/p` → a 3780×5434 PNG (page index = printed page no.).
 2. **Crop axis-aligned bboxes.** The source elements are straight, so a rectangular bbox auto-fixes human crookedness. Detect bands by brightness/colour (page bg cream ~RGB 245 on p.31); **stacked elements share one left/right `x` range** — derive it from the cleanest element and reuse, varying only the per-element `y`. Downscale (LANCZOS) to the existing file's width (battle-shock 1190).
 3. **Battle-shock panels (p.31):** `x[355:2221]`, 4 y-bands (~1865×1075). Crops can land on the cream page edge → thin **white/light border lines**; trim outer rows/cols whose mean brightness `>140` before resizing.
-4. **Encode directly with `cwebp`, not `npm run images:webp`** — `gen-webp.mjs` forces *lossless* for `.png` and ignores `command/*.png` (not an illustration there), and a `.jpg` intermediate would double-compress. Use lossy: `cwebp -q 74` / `-q 70` with `-resize 800 0` for the `-sm`. Overwrite the existing `.webp` + `-sm.webp` **keeping the same filenames**. Then `npm run build`. Note: these are photographic, so lossy ≈ the old quality in bytes; lower `q` is what makes them lighter. (History: PRs #26/#28/#29.)
+4. **Encode directly with `cwebp`, not `npm run images:webp`** — `gen-webp.mjs` forces *lossless* for `.png` and ignores `command/*.png` (not an illustration there), and a `.jpg` intermediate would double-compress. Use lossy: `cwebp -q 74` / `-q 70` with `-resize 800 0` for the `-sm`. **Write NEW filenames** — `npm run imghash` refuses an overwrite, and for the reason in the section
+at the top of this file: the old bytes are already in readers' caches and nothing can evict them.
+Update the `[img:]` paths in the data, run `npm run imghash -- --write`, then `npm run build`.
+(This step used to say "keeping the same filenames", which is how the rule got broken before it was
+a gate.) Note: these are photographic, so lossy ≈ the old quality in bytes; lower `q` is what makes them lighter. (History: PRs #26/#28/#29.)

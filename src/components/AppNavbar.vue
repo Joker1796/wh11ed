@@ -214,6 +214,20 @@
                 <i class="bi bi-download" />
                 <span>{{ labels.installApp }}</span>
               </button>
+              <!-- The rest of the app, on demand. The shell is ~1 MB and everything else is
+                   fetched as it is opened (useOfflineWarmup.js), which is what keeps a tab light —
+                   so the reader who wants the whole thing on a train has to be able to say so.
+                   Next to "Install app" because it is the same kind of decision about this
+                   device, and the size is on the button: nobody should discover it afterwards. -->
+              <button
+                class="settings-item"
+                :class="{ active: warmed && warmupStatus !== 'warming' }"
+                :disabled="warmupStatus === 'warming'"
+                @click="onDownloadOffline"
+              >
+                <i :class="offlineIcon" />
+                <span>{{ offlineLabel }}</span>
+              </button>
               <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
                    here it joins the theme and lore toggles rather than crowding the navbar. -->
               <template v-if="accountStatus === 'authed'">
@@ -271,6 +285,7 @@ import { localePath } from '../router/locale.js'
 import { useTheme } from '../composables/useTheme.js'
 import { useLoreVisibility } from '../composables/useLoreVisibility.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
+import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
 import AccountMenu from './AccountMenu.vue'
@@ -328,6 +343,32 @@ const labels = computed(() => ui[locale.value])
 const settingsOpen = ref(false)
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
+  // Read the download size only when the menu is actually opened — it is one small JSON, but
+  // fetching it on every page load to fill a label nobody is looking at would be exactly the kind
+  // of weight this whole change is removing.
+  if (settingsOpen.value) loadOfflineSize()
+}
+
+// ── "Download for offline" ───────────────────────────────────────────────────────────────────
+const { status: warmupStatus, done: warmupDone, total: warmupTotal, bytes: warmupBytes, warmed } = useOfflineWarmup()
+
+// Megabytes, rounded — a reader deciding whether to spend their data does not need the kilobytes,
+// and a number with three decimals reads as a spec rather than as a warning.
+const offlineSize = computed(() => (warmupBytes.value ? `${Math.round(warmupBytes.value / 1048576)} ${labels.value.megabytes}` : ''))
+const offlineLabel = computed(() => {
+  if (warmupStatus.value === 'warming') return `${labels.value.offlineDownloading} ${warmupDone.value}/${warmupTotal.value}`
+  if (warmed.value) return labels.value.offlineDownloaded
+  return offlineSize.value ? `${labels.value.offlineDownload} · ${offlineSize.value}` : labels.value.offlineDownload
+})
+const offlineIcon = computed(() => {
+  if (warmupStatus.value === 'warming') return 'bi bi-arrow-repeat'
+  return warmed.value ? 'bi bi-cloud-check-fill' : 'bi bi-cloud-arrow-down'
+})
+// The menu stays open: the progress is on this very item, and closing it would hide the one thing
+// that says the download started. The toast repeats it once the menu does close.
+function onDownloadOffline() {
+  if (warmupStatus.value === 'warming') return
+  startOfflineWarmup()
 }
 
 // Was handled by App.vue's global Escape handler before this dropdown lived here —

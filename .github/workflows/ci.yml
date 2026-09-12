@@ -44,6 +44,14 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm run lint
 
+      # An image URL is cached for a year by the CDN and forever by the service worker, both of
+      # which key on the URL alone — so an illustration changed in place never reaches anyone who
+      # has already seen the old one. The rule has been written down since the caching split was
+      # designed; this is what makes it hold.
+      - name: Images renamed, not edited in place
+        if: ${{ !cancelled() }}
+        run: npm run imghash
+
       - name: Tests
         if: ${{ !cancelled() }}
         run: npm test

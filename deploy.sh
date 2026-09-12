@@ -72,10 +72,19 @@ aws s3 sync dist/assets "$BUCKET/assets" \
   --cache-control "public, max-age=31536000, immutable" \
   --delete
 
-# 2) Everything else except HTML (favicon, /images/, fonts, PWA icons) — 1 year, but
-#    NOT immutable: names are stable, so re-uploading the same name needs a CDN purge
-#    to refresh the edge (browser copies still live up to a year — rename the file
-#    when you change an image). The PWA service worker + manifest are re-set in step 3.
+# 2) Everything else except HTML (favicon, /images/, fonts, PWA icons) — 30 days, NOT
+#    immutable: these names are stable, so the URL alone is what every cache keys on.
+#
+#    It was a year until 2026-09-12. What actually pins a stale illustration is not this
+#    header — it is the service worker's CacheFirst `/images/` route, which never revalidates
+#    whatever we send — and that is now guarded by `npm run imghash`, which fails the build
+#    when an image is edited in place instead of renamed. The shorter TTL is the belt to that
+#    braces: it bounds how long a reader WITHOUT a service worker (a crawler, a first visit, a
+#    cleared install) can be stuck with old bytes if the gate is ever bypassed, and a repeat
+#    visitor pays nothing for it because the service worker serves them from cache anyway.
+#
+#    The two offline manifests are excluded and re-set in step 2b: they DESCRIBE a set that
+#    changes every deploy, so caching them at all is a category error.
 #
 #    SEO route keys (step 3b) live in the bucket but NOT in dist/, so this sync's
 #    `--delete` would remove them. Exclude every route's top-level segment (derived
@@ -86,13 +95,14 @@ if [ -f dist/.seo-routes.txt ]; then
     [ -n "$seg" ] && ROUTE_EXCLUDES+=(--exclude "$seg" --exclude "$seg/*")
   done < <(cut -d/ -f2 dist/.seo-routes.txt | sort -u)
 fi
-echo "▶ images/favicon/icons  →  1 year"
+echo "▶ images/favicon/icons  →  30 days"
 aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
+  --exclude "offline-manifest.json" --exclude "image-manifest.json" \
   ${ROUTE_EXCLUDES[@]+"${ROUTE_EXCLUDES[@]}"} \
-  --cache-control "public, max-age=31536000" \
+  --cache-control "public, max-age=2592000" \
   --delete
 
 # 2b) PWA service worker + manifest — MUST revalidate so updates reach clients.
@@ -112,6 +122,11 @@ set_nocache() { # <file> <content-type>
 set_nocache sw.js "application/javascript; charset=utf-8"
 set_nocache registerSW.js "application/javascript; charset=utf-8"
 set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
+# The offline warm-up's shopping lists. Every deploy renames the hashed chunks they name, so a
+# cached copy sends the warm-up after files that no longer exist — and the app reads them with
+# `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
+set_nocache offline-manifest.json "application/json; charset=utf-8"
+set_nocache image-manifest.json "application/json; charset=utf-8"
 
 # 2c) SEO files — short TTL so crawlers pick up changes quickly. Excluded from the
 #     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.
