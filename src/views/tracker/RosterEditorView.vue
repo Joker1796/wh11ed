@@ -372,16 +372,11 @@ import PageTabs from '../../components/PageTabs.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterEditing } from '../../composables/useRosterEditing.js'
+import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { factionGroups } from '../../data/factionsIndex.js'
-import {
-  allySourceOf, sectionsOf, unitPoints, capKeyOf,
-  ROSTER_NOTES_MAX,
-  leadsFor, dispositionCandidates, grantedKeywordsFor,
-} from '../../composables/rosterEngine.js'
-import { duplicateCounts, duplicateLimit } from '../../composables/rosterValidation.js'
+import { ROSTER_NOTES_MAX, dispositionCandidates } from '../../composables/rosterEngine.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 
@@ -414,10 +409,12 @@ function save() {
 }
 
 // Roster, faction data, live points, validation and the add/duplicate/remove semantics all come
-// from useRosterEditing.js.
+// from useRosterEditing.js — everything from `defOf` down is what it reads off the roster through
+// useRosterDerived.js, the same answers the wizard and the read-only view get.
 const {
   roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
   addUnit, duplicateUnit, removeUnit,
+  slugFor, entryMeta, groupedUnits, attachRole, dupBlocked, fieldProps,
 } = useRosterEditing(() => route.params.id)
 
 // A missing/deleted id → back to the list (no broken editor shell).
@@ -426,12 +423,8 @@ watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
 const nameFit = computed(() => rosterNameFit(roster.value?.name))
 
 // ── Army choices ──
-const allFactions = factionGroups.flatMap((g) => g.factions)
-const factionName = computed(() => allFactions.find((f) => f.slug === roster.value?.faction)?.name || '')
-const factionColor = computed(() => allFactions.find((f) => f.slug === roster.value?.faction)?.color)
-const accentStyle = computed(() => factionColor.value
-  ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
-  : {})
+// The faction accent, from the recipe every faction-coloured screen shares (useFactionAccent.js).
+const { factionName, accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
 
 // Detachment options for the tracker's DP-budget-aware multi-select picker (same shape and
 // layout as the tracker: DP cost + Force Disposition).
@@ -511,18 +504,6 @@ function toggleOpen(entryUid) {
 // "the unit being worked on", whichever arrangement is showing it.
 const openEntry = computed(() => roster.value?.units.find((u) => u.uid === openUid.value) || null)
 
-// What `RosterEntryFields` needs beyond the entry itself, and it is the same object wherever the
-// fields are rendered — under the row, or in the column beside it.
-const fieldProps = computed(() => ({
-  items: rosterItems.items,
-  texts: rosterItems.texts,
-  detachments: curDetachments.value,
-  units: roster.value?.units || [],
-  defOf,
-  armySlug: roster.value?.faction || '',
-  slugOf: slugFor,
-}))
-
 // Delete ONE line, not "a copy of this datasheet": two of the same unit are configured
 // separately, so the row's own uid is what goes. removeUnit() detaches any Leader that pointed
 // at it (rosterEngine's removeUnitEntry) — the reason both screens share that one implementation.
@@ -535,20 +516,6 @@ function removeEntry(entry) {
 // stays shut: a copy is wanted AS the original far more often than not, and opening it would push
 // the row that was just tapped off the screen.
 function duplicateEntry(entry) { duplicateUnit(entry.uid) }
-// The catalogue's "+" stops at the duplicate cap when legality checking is on; so does this, off
-// the same two helpers, or the one control that can add a unit without going through the
-// catalogue would be the one that ignores the cap.
-const dupCounts = computed(() => duplicateCounts(roster.value?.units, defOf))
-function dupBlocked(e) {
-  if (roster.value?.checkLegality === false) return false
-  const def = defOf(e.id)
-  if (!def) return true
-  // Battleline the army's Detachments grant doubles the cap — same question sectionsOf and
-  // validateRoster ask, so the copy button can never disagree with the warning list.
-  const granted = grantedKeywordsFor(allySourceOf(def.id)?.[1] || def.id, slugFor(def.id), curDetachments.value).map((g) => g.kw)
-  const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit, granted) : Infinity
-  return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
-}
 
 // An issue that concerns one specific entry sends the reader here
 // (`?unit=<uid>`) — open that unit's accordion and drop the query so a reload doesn't reopen it.
@@ -568,41 +535,8 @@ function toggleWarlord(entryUid) {
   if (!on) e.warlord = true
   touch()
 }
-// Which slot an attached character fills — the one thing sitting under its bodyguard doesn't say
-// (see sectionsOf's joinAttached: the two used to name each other because they were sections apart).
-function attachRole(e) {
-  const host = e.leaderOf && roster.value.units.find((u) => u.uid === e.leaderOf)
-  if (!host) return ''
-  const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
-  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
-}
-// Per-entry points + copy index (copy tax assigned in list order), for row display and the fields.
-const entryMeta = computed(() => {
-  const seen = new Map()
-  const m = new Map()
-  for (const e of roster.value?.units || []) {
-    const copyIndex = (seen.get(e.id) || 0) + 1
-    seen.set(e.id, copyIndex)
-    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachments.value), copyIndex })
-  }
-  return m
-})
 const issuesOpen = ref(false)
 const exportOpen = ref(false)
-
-// Allies get their own headings rather than being filed under a battlefield role — same split
-// the catalogue pane uses (rosterEngine's sectionsOf). `keepLocked` because a list can already
-// hold a unit whose group the current Detachment doesn't unlock: it stays visible, under its group
-// and marked, instead of vanishing from the screen while still counting in the total.
-const groupedUnits = computed(() =>
-  sectionsOf(roster.value?.units, {
-    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
-    pairAttached: true,
-  }).map((sec) => ({ ...sec, entries: sec.items })))
-
-// An allied unit's datasheet belongs to ITS faction (Draxus is an Imperial Agents sheet), which
-// is what the namespaced id records.
-function slugFor(id) { return allySourceOf(id)?.[0] || roster.value?.faction }
 
 function rename(name) {
   roster.value.name = name

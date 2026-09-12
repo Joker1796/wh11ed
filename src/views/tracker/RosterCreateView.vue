@@ -432,17 +432,15 @@ import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
-import { duplicateCounts, duplicateLimit, validateRoster } from '../../composables/rosterValidation.js'
+import { useRosterDerived } from '../../composables/useRosterDerived.js'
+import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { summaryOf } from '../../composables/rosterSummary.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { forgetDraft, rememberDraft } from '../../composables/useRosterDraftResume.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
-import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  allySourceOf, sectionsOf, unitPoints, rosterPoints, capKeyOf, ROSTER_NOTES_MAX,
-  leadsFor, effectiveBattle, grantedKeywordsFor,
-  addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
+  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
 } from '../../composables/rosterEngine.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 
@@ -469,13 +467,8 @@ const checkLegality = ref(true)
 const notes = ref('')
 const units = ref([])
 
-// ── Faction accent (mirrors the editor) ──
-const allFactions = factionGroups.flatMap((g) => g.factions)
-const factionColor = computed(() => allFactions.find((f) => f.slug === factionSlug.value)?.color)
-const accentStyle = computed(() => factionColor.value
-  ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
-  : {})
-const factionName = computed(() => allFactions.find((f) => f.slug === factionSlug.value)?.name || '')
+// ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
+const { factionName, accentStyle } = useFactionAccent(factionSlug)
 
 // ── Faction data (dynamic-imported, same lazy source the editor uses) ──
 const factionData = ref(null)
@@ -491,12 +484,23 @@ watch(factionSlug, async (slug) => {
   }
 }, { immediate: true })
 
-const unitMap = computed(() => {
-  const m = new Map()
-  for (const u of factionData.value?.units || []) m.set(u.id, u)
-  return m
-})
-function defOf(id) { return unitMap.value.get(id) }
+// The wizard's fields ARE a roster, they just aren't a stored one until a faction is picked — so
+// they are assembled into the shape everything downstream reads and handed to useRosterDerived.js,
+// the same module the editor and the read-only view get their numbers from. A wizard with its own
+// idea of what a list costs, or of which Battleline a Detachment grants, is exactly the drift this
+// removes.
+const draftRoster = computed(() => ({
+  faction: factionSlug.value,
+  detachments: detachments.value,
+  battleSize: battleSize.value,
+  customPoints: customPoints.value,
+  checkLegality: checkLegality.value,
+  units: units.value,
+}))
+const {
+  defOf, curDetachments, effBattle, limit, points, slugFor,
+  entryMeta, groupedUnits, attachRole, dupBlocked, validation, fieldProps,
+} = useRosterDerived(draftRoster, factionData)
 
 // ── Faction / detachment / battle size choices ──
 const factionPickerOpen = ref(false)
@@ -513,10 +517,6 @@ function pickFaction(slug) {
 }
 const detachmentOptions = computed(() =>
   (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
-const curDetachments = computed(() =>
-  detachments.value
-    .map((n) => (factionData.value?.detachments || []).find((d) => d.name === n))
-    .filter(Boolean))
 const detachmentSummary = computed(() => detachments.value.join(', '))
 const dispositionCands = computed(() => dispositionCandidates(curDetachments.value))
 const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
@@ -534,8 +534,6 @@ const dpOverAllowed = computed(() => detachments.value.length === 1 && dpSpent.v
 const dpHelpOpen = ref(false)
 
 const battleSizes = rosterCore.battleSizes
-const effBattle = computed(() => effectiveBattle({ battleSize: battleSize.value, customPoints: customPoints.value }, rosterCore))
-const limit = computed(() => effBattle.value.points)
 
 // ── Unit selection (step 2) ──
 // Same two operations the editor performs, from rosterEngine — not a second implementation. The
@@ -557,20 +555,6 @@ function removeEntry(entry) {
 function duplicateEntry(entry) {
   if (duplicateUnitEntry(units.value, entry.uid, uid())) syncUnits()
 }
-// The catalogue's "+" stops at the duplicate cap while legality checking is on; so does the copy
-// button, off the same two helpers (see RosterEditorView, which asks it the same way).
-const dupCounts = computed(() => duplicateCounts(units.value, defOf))
-function dupBlocked(e) {
-  if (!checkLegality.value) return false
-  const def = defOf(e.id)
-  if (!def) return true
-  // Battleline the army's Detachments grant doubles the cap — same question sectionsOf and
-  // validateRoster ask, so the copy button can never disagree with the warning list.
-  const granted = grantedKeywordsFor(allySourceOf(def.id)?.[1] || def.id, slugFor(def.id), curDetachments.value).map((g) => g.kw)
-  const cap = effBattle.value?.dupLimit ? duplicateLimit(def, effBattle.value.dupLimit, granted) : Infinity
-  return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
-}
-
 // Write the units through to the saved roster as soon as there IS one (step 2 onwards). The wizard
 // used to hold them in component state until "Done", so leaving the way every other screen expects
 // to be left — the "Back to list" link, the phone's back gesture, a reload — threw away everything
@@ -579,22 +563,13 @@ function dupBlocked(e) {
 function syncUnits() {
   if (rosterId.value) updateRoster(rosterId.value, { units: units.value })
 }
-const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
-
-// Live validation, same as the editor's (see rosterValidation.js — never blocks, just reports).
-// Only reachable once a faction is picked; shown from step 2 on, next to the points readout in
+// Live validation is `validation` above (rosterValidation.js — never blocks, just reports). Only
+// reachable once a faction is picked; shown from step 2 on, next to the points readout in
 // .rc-sticky. The main case worth surfacing this early for: units added under a bigger battle
 // size, then the size lowered again on step 1 — duplicate caps shrink out from under counts
 // that already exist (RosterUnitBrowser.vue's isOver badge flags this per-unit, this is the
 // same overDuplicate check, army-wide).
 const issuesOpen = ref(false)
-const validation = computed(() =>
-  factionData.value
-    ? validateRoster(
-        { faction: factionSlug.value, detachments: detachments.value, battleSize: battleSize.value, customPoints: customPoints.value, units: units.value },
-        { faction: factionData.value, core: rosterCore },
-      )
-    : { points: points.value, issues: [], errorCount: 0 })
 
 // ── Per-unit configuration (the list pane of step 2) ──
 // Only one entry's fields open at a time — opening another closes whichever was open, same as a
@@ -607,17 +582,6 @@ function toggleOpen(entryUid) {
 // narrow arrangement, so there is one idea of "the unit being worked on".
 const openEntry = computed(() => units.value.find((u) => u.uid === openUid.value) || null)
 
-// Everything `RosterEntryFields` needs beyond the entry, identical wherever the fields land.
-const fieldProps = computed(() => ({
-  items: rosterItems.items,
-  texts: rosterItems.texts,
-  detachments: curDetachments.value,
-  units: units.value,
-  defOf,
-  armySlug: factionSlug.value || '',
-  slugOf: slugFor,
-}))
-
 function toggleWarlord(entryUid) {
   const e = units.value.find((u) => u.uid === entryUid)
   if (!e) return
@@ -625,36 +589,6 @@ function toggleWarlord(entryUid) {
   for (const u of units.value) delete u.warlord // exactly one warlord per army
   if (!on) e.warlord = true
 }
-// Which slot an attached character fills — the editor asks it the same way, and the block itself
-// is drawn by RosterUnitList (rosterEngine's joinAttached).
-function attachRole(e) {
-  const host = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
-  if (!host) return ''
-  const type = leadsFor(defOf(e.id), e, curDetachments.value).find((l) => l.to === host.id)?.type
-  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
-}
-// Per-entry points + copy index (copy tax assigned in list order), for the row + the fields.
-const entryMeta = computed(() => {
-  const seen = new Map()
-  const m = new Map()
-  for (const e of units.value) {
-    const copyIndex = (seen.get(e.id) || 0) + 1
-    seen.set(e.id, copyIndex)
-    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachments.value), copyIndex })
-  }
-  return m
-})
-// Same split the editor and the browser use — allies under their own heading (rosterEngine's
-// sectionsOf), a group the detachment doesn't unlock kept visible once something is in it.
-const groupedUnits = computed(() =>
-  sectionsOf(units.value, {
-    faction: factionData.value, detachments: curDetachments.value, defOf, keepLocked: true,
-    pairAttached: true,
-  }).map((sec) => ({ ...sec, entries: sec.items })))
-
-// An allied unit's datasheet belongs to its own faction; the namespaced id says which.
-function slugFor(id) { return allySourceOf(id)?.[0] || factionSlug.value }
-
 // ── The draft: this wizard's persistence ──────────────────────────────────────────────────────
 // Everything collected here lives in a stored roster from the moment a FACTION is picked — the
 // first choice that means anything, and the one every later step depends on. Until then, opening

@@ -417,6 +417,37 @@ moment the modal closed.
   ONE. A list of candidates is not a declaration, and a name none of the matched detachments offers
   is ignored by `dispositionOf` rather than shown.
 
+## Shared derivations (`src/composables/useRosterDerived.js`)
+
+Everything four screens read OFF a roster once its faction data is in: `unitMap`/`defOf`,
+`curDetachments` (the roster stores detachment NAMES; these are the objects), `effBattle`/`limit`,
+`points`, `entryMeta` (per-entry points + copy index), `groupedUnits` (`sectionsOf` with the
+options every list screen uses), `attachRole`, `slugFor`, `dupCounts`/`dupBlocked`, `validation`
+and `fieldProps`.
+
+**It exists because those four had four copies of the same dozen lines.** They are not four
+different questions — a roster costs what it costs whichever screen is showing it — and the copies
+had already drifted once (the wizard's own `removeUnit` forgot to detach a Leader from the unit
+leaving the list, which is what `useRosterEditing` was written to stop). Every later fix to
+pricing or sectioning had to be made in three places or it silently wasn't.
+
+**Over refs, not over an id.** The wizard's roster does not exist as a stored object until a
+faction is picked and the print sheet is handed one through props, so both assemble a computed of
+the same shape (`{ faction, detachments, battleSize, customPoints, checkLegality, units }`) and
+hand it over. `useRosterEditing.js` is the wrapper for the one case that does own an id.
+
+**Reads only.** Nothing in it writes to the roster, which is what lets a screen call it for a list
+it does not own — the print sheet, the game's snapshot.
+
+Its consumers and what each takes: `RosterEditorView` (through `useRosterEditing`),
+`RosterCreateView` (its assembled draft), `RosterViewView` (the store's roster or the game's
+snapshot), `RosterPrintSheet` (its props, renaming `curDetachments` to `dataDetachments` because
+that component also takes a `detachments` PROP carrying the PROSE ones).
+
+The faction ACCENT went the same way — `useFactionAccent.js`, a slug in and `--fa-light`/`--fa-dark`
+out, shared by the three roster screens and `FactionAccentScope`. What `--accent` means inside each
+screen stays that screen's scoped CSS; only the lookup is shared.
+
 ## Pure logic (`src/composables/roster*.js`)
 
 No Vue, no store — testable without mounting anything. Not colocated with this component
@@ -1086,12 +1117,15 @@ instead needs a height calculation that every one of those bars is free to inval
 **The catalogue no longer takes focus on mount.** Autofocusing its search box was right while it
 had a screen to itself; as a pane it would pop the keyboard over the list the reader came to see.
 
-`src/composables/useRosterEditing.js` still holds the editor's state — roster, faction data,
-points, validation, add/duplicate/remove. It was written to keep the editor and the add-units page
-from each having their own idea of what adding a unit means; with the catalogue folded in it has
-one consumer, and is kept because the wizard performs the same operations on a roster it does not
-own. The implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry` /
+`src/composables/useRosterEditing.js` still holds the editor's state — the roster, its faction
+data and add/duplicate/remove. It was written to keep the editor and the add-units page from each
+having their own idea of what adding a unit means; with the catalogue folded in it has one
+consumer, and is kept because the wizard performs the same operations on a roster it does not own.
+The implementations underneath (`rosterEngine`'s `addUnitEntry` / `duplicateUnitEntry` /
 `removeUnitEntry`) are what actually keep the two screens agreeing.
+
+**What it merely READS off the roster is `useRosterDerived.js`** (see Shared derivations above):
+it is a thin wrapper adding the load-by-id and the mutations on top.
 
 An issue raised from the catalogue concerns one entry, which is now in the pane beside it — the
 issues modal just opens that entry's configuration. The editor still accepts `?unit=<uid>` and
@@ -2465,8 +2499,9 @@ Three things hold this together and are easy to break:
   didn't, which let a plate and the card behind it disagree — the one thing the two sharing
   `rosterStatMods.js` exists to prevent. No current record makes them differ (8 unconditional
   keyword grants, none gating a profile stat), so this is a latent case kept closed, not a repair.
-  That view also memoizes the pass per entry (`statModCache`) rather than re-running it for each of
-  the six plates in a row.
+  That view resolves the CONTEXT once per entry (`ctxByUid`) and the applied sheet once per entry
+  (`statModCache`), rather than re-running either for each of the four readers that walk the list —
+  the plates, the army-wide switch strip, the per-unit chips and the unit modal.
 
 The layer is detachable: delete `src/data/rosterModifiers/` and `loadRosterModifiers` resolves to
 null, the card keeps its printed numbers, and Tiers A+B are unaffected. Nothing is written into
