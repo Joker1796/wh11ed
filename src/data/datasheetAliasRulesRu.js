@@ -317,4 +317,63 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bServitor Battleclade\b/i, aliasesRu: ['сервиторы', 'боевой клад'] },
   { pattern: /\bHastarii Exterminators\b/i, aliasesRu: ['гастарии-экстерминаторы'] },
   { pattern: /\bHastarii Fusiliers\b/i, aliasesRu: ['гастарии-фузилёры'] },
+  // T'au Empire (batch 19) — wh-glossary carries a 1236-line T'au section that walks the
+  // roster line by line, down to the machine codes (TY7, TX7, AX3, KV128, KX139), so nearly
+  // every rule here is sourced rather than transliterated. `Kroot` is intentionally the broad
+  // rule covering all seven kroot datasheets; it does not touch Krootox (word boundary), which
+  // has its own two rules.
+  { pattern: /\bDevilfish\b/i, aliasesRu: ['TY7 «Рыба-дьявол»', 'девилфиш'] },
+  { pattern: /\bHammerhead\b/i, aliasesRu: ['TX7 «Рыба-молот»', 'хаммерхед'] },
+  { pattern: /\bSky Ray\b/i, aliasesRu: ['корабль ПВО «Небесный скат»', 'скайрей'] },
+  { pattern: /\bPiranhas?\b/i, aliasesRu: ['лёгкий скиммер «Пиранья»', 'пираньи'] },
+  {
+    pattern: /\bRazorshark\b/i,
+    aliasesRu: ['штурмовик AX3 «Акула-бритва»', 'рейзоршарк'],
+  },
+  {
+    pattern: /\bSun Shark\b/i,
+    aliasesRu: ['бомбардировщик AX39 «Солнечная акула»', 'сан шарк'],
+  },
+  { pattern: /\bTiger Shark\b/i, aliasesRu: ['«Тигровая акула»', 'тайгер шарк'] },
+  { pattern: /\bManta\b/i, aliasesRu: ['тяжёлый десантный корабль «Манта»'] },
+  { pattern: /\bStormsurge\b/i, aliasesRu: ['KV128 «Нагон»', 'штормсёрдж'] },
+  { pattern: /\bBreacher Team\b/i, aliasesRu: ['команда прорыва', 'прорывники'] },
+  { pattern: /\bStrike Team\b/i, aliasesRu: ['ударная команда'] },
+  { pattern: /\bPathfinder Team\b/i, aliasesRu: ['команда следопытов', 'патфайндеры'] },
+  {
+    pattern: /\bFiresight Team\b/i,
+    aliasesRu: ['команда операторов прицельного устройства', 'файрсайт'],
+  },
+  { pattern: /\bCadre Fireblade\b/i, aliasesRu: ['Огненный Клинок кадры'] },
+  { pattern: /\bBroadside\b/i, aliasesRu: ['боескафандр «Залп»', 'бродсайд'] },
+  {
+    pattern: /\bStealth Battlesuits\b/i,
+    aliasesRu: ['боескафандр-невидимка', 'стелс-БСК', 'стелсы'],
+  },
+  {
+    pattern: /\bTa’unar\b/i,
+    aliasesRu: ['бронескафандр стратегического превосходства «Тау\'нар»', 'таунар'],
+  },
+  {
+    pattern: /\bCommander in Coldstar Battlesuit\b/i,
+    aliasesRu: ['командир в БСК «Холодная звезда»', 'колдстар'],
+  },
+  {
+    pattern: /\bCommander in Enforcer Battlesuit\b/i,
+    aliasesRu: ['командир в БСК «Блюститель»', 'энфорсер'],
+  },
+  { pattern: /\bKroot\b/i, aliasesRu: ['круты'] },
+  { pattern: /\bKroot Carnivores\b/i, aliasesRu: ['плотоядный отряд крутов', 'карнивор-круты'] },
+  { pattern: /\bKroot Hounds\b/i, aliasesRu: ['крутские гончие', 'крутогончие'] },
+  { pattern: /\bKroot Flesh Shaper\b/i, aliasesRu: ['формирователь плоти'] },
+  { pattern: /\bKroot Trail Shaper\b/i, aliasesRu: ['формирователь троп'] },
+  { pattern: /\bKroot War Shaper\b/i, aliasesRu: ['формирователь войны'] },
+  { pattern: /\bKroot Farstalkers\b/i, aliasesRu: ['круты-дальноходы'] },
+  { pattern: /\bKroot Lone-spear\b/i, aliasesRu: ['одинокое копьё'] },
+  { pattern: /\bKrootox Riders\b/i, aliasesRu: ['наездники на крутоксах', 'крутобизон'] },
+  { pattern: /\bKrootox Rampagers\b/i, aliasesRu: ['крутоксы-погромщики'] },
+  { pattern: /\bVespid\b/i, aliasesRu: ['веспиды-жалокрылы'] },
+  { pattern: /\bTidewall Droneport\b/i, aliasesRu: ['база дронов «Волнолом»'] },
+  { pattern: /\bTidewall Gunrig\b/i, aliasesRu: ['башенная установка «Волнолом»'] },
+  { pattern: /\bTidewall Shieldline\b/i, aliasesRu: ['экранированная стена «Волнолом»'] },
 ]

@@ -75,12 +75,17 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**710 из 1447** юнитов с `aliasesRu` (личные + 247 паттернов в `datasheetAliasRulesRu.js`,
-батч 18 — Chaos Knights + оба легиона титанов + Adeptus Mechanicus class-wide). Закрытых
-на 100% фракций теперь 8: drukhari, genestealer-cults, imperial-knights, leagues-of-votann,
-adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions. Остаток бэклога по
-покрытию: tyranids 7/52, chaos-daemons 11/53, tau-empire 10/43, aeldari 25/76, astra-militarum
-25/72 — там уже не «фракция не начата», а хвост рядовых юнитов.
+**743 из 1447** юнитов с `aliasesRu` (личные + 280 паттернов в `datasheetAliasRulesRu.js`,
+батчи 18-19 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire). Закрытых
+на 100% фракций теперь 9: drukhari, genestealer-cults, imperial-knights, leagues-of-votann,
+adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions, tau-empire. Остаток
+бэклога по покрытию: tyranids 7/52, chaos-daemons 11/53, aeldari 25/76, astra-militarum 25/72,
+deathwatch 34/89 — там уже не «фракция не начата», а хвост рядовых юнитов.
+**Планируя следующий батч, сначала смотреть, есть ли фракция в wh-glossary:** кодекса тиранид
+в корпусе нет вообще (греп по Termagant/Zoanthrope/Trygon/Tervigon — ноль), поэтому тиранидский
+батч будет сплошной транслитерацией; богатые разделы — Караул Смерти (1736 строк), T'au (1236),
+Космодесант Хаоса (838), эльдары и арлекины (647), Адептус Механикус (608), орки (578),
+тёмные эльдары (511).
 `npm test` — 1745/1745, `npm run lint` и `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
