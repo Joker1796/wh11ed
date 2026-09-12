@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.3.13',
+    date: '2026-09-12',
+    en: [
+      { h: 'Search now understands Russian unit names' },
+      'Unit names stay English on the datasheets — that is the site\'s convention — but the search no longer insists you type them that way. Every one of the 1447 datasheets across all 30 factions can now be found by its Russian name: «терминаторы», «кустодианская стража», «Мортарион» all land on the right page, the same as their English spellings always did.',
+      { h: 'The site is far lighter in a browser tab' },
+      'Opening the site in a tab used to quietly download 15.5 MB before you read a single rule. Now it takes under 1 MB — the app itself and nothing else; each page and picture is saved for you as you open it. Updates reach you faster for the same reason: a new release no longer has to re-download that whole bundle before it can take effect, and the app now checks for one every 15 minutes instead of once an hour.',
+      { h: 'Download for offline — for everyone, not just the installed app' },
+      'Full offline used to be something only the installed app arranged for itself. Now it is a button: ⚙ menu → “Download for offline”, with the size written on the button before you commit to it. The installed app still prepares itself automatically — and either way the download now fetches the app\'s screens first and the illustrations after, so even an interrupted download leaves every page readable.',
+    ],
+    ru: [
+      { h: 'Поиск теперь понимает русские названия юнитов' },
+      'Названия юнитов на датащитах остаются английскими — это конвенция сайта, — но поиск больше не требует вводить их именно так. Каждый из 1447 датащитов во всех 30 фракциях теперь находится по русскому названию: «терминаторы», «кустодианская стража», «Мортарион» приводят на нужную страницу так же, как всегда приводили английские написания.',
+      { h: 'Сайт стал сильно легче во вкладке браузера' },
+      'Открытая во вкладке страница раньше незаметно скачивала 15,5 МБ ещё до того, как вы прочли первое правило. Теперь — меньше 1 МБ: само приложение и ничего больше; каждая страница и картинка сохраняются по мере того, как вы их открываете. По той же причине обновления доходят быстрее: новому релизу больше не нужно перекачивать весь тот объём, чтобы вступить в силу, а проверка обновлений идёт раз в 15 минут вместо раза в час.',
+      { h: 'Скачать для офлайна — всем, а не только установленному приложению' },
+      'Полный офлайн раньше устраивало себе только установленное приложение. Теперь это кнопка: меню ⚙ → «Скачать для офлайна», и размер написан прямо на кнопке — до того, как вы согласитесь. Установленное приложение по-прежнему готовится само — и в обоих случаях сначала скачиваются экраны приложения, а иллюстрации после, так что даже прерванная закачка оставляет все страницы читаемыми.',
+    ],
+  },
+  {
     version: '2.3.12',
     date: '2026-09-10',
     en: [
