@@ -277,11 +277,11 @@ export default [
         "tags": [
           "DEVASTATING WOUNDS"
         ],
-        "a": "6",
+        "a": "8",
         "ws": "2+",
-        "s": "6",
+        "s": "5",
         "ap": "-2",
-        "d": "3"
+        "d": "2"
       }
     ],
     "core": "Leader",

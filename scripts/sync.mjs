@@ -61,19 +61,59 @@
 // See DATA-SYNC.md for the full procedure this feeds into (classifying findings, the RU-follows-
 // EN-immediately rule, the local session log, closing out a data_version bump).
 import { SYNCED_DATA_VERSION, appdataDataVersion } from './lib/sync-common.mjs'
+import { applyBaseline, findingKey, loadBaseline, writeBaseline, BASELINE_PATH } from './lib/sync-baseline.mjs'
+
+// `--baseline` records every finding this run produced as accepted (scripts/lib/sync-baseline.json)
+// rather than filtering against it. Read that file's own header before reaching for it.
+const RECORD_BASELINE = process.argv.includes('--baseline')
+const baseline = RECORD_BASELINE ? {} : loadBaseline()
+const seenKeys = new Set()
+const recorded = {}
+let totalSuppressed = 0
 
 // Each check runs in the SAME process as every other — a thrown exception in one (a new appdata
 // shape a script didn't expect, say) must not take down the rest of the audit the way it would
 // have for every OTHER section if this were still spawnSync-per-script. Catch and report inline.
-async function run(label, modulePath, args = []) {
+async function run(label, modulePath, args = [], { filtered = false } = {}) {
   console.log(`\n${'═'.repeat(72)}\n▶ ${label}\n${'═'.repeat(72)}`)
+  // The GATES and the `--check` staleness probes are never filtered: their output IS the verdict,
+  // and a suppressed gate line is a gate that has stopped gating. Only the report-only sections go
+  // through the baseline, and they say so at their own call site.
+  if (!filtered) {
+    try {
+      const mod = await import(modulePath)
+      return (await mod.run(args)) || 0
+    } catch (err) {
+      console.log(`  ✗ ${label} crashed: ${err.stack || err}`)
+      return 1
+    }
+  }
+
+  // Captured rather than printed as it goes: a finding owns the lines indented under it, so
+  // whether to drop one can only be decided with the whole section in hand.
+  const buffered = []
+  const real = console.log
+  console.log = (...a) => buffered.push(...a.join(' ').split('\n'))
+  let code
   try {
     const mod = await import(modulePath)
-    return (await mod.run(args)) || 0
+    code = (await mod.run(args)) || 0
   } catch (err) {
-    console.log(`  ✗ ${label} crashed: ${err.stack || err}`)
-    return 1
+    buffered.push(`  ✗ ${label} crashed: ${err.stack || err}`)
+    code = 1
+  } finally {
+    console.log = real
   }
+
+  const { kept, suppressed, seen } = applyBaseline(buffered, baseline)
+  for (const k of seen) {
+    seenKeys.add(k)
+    if (RECORD_BASELINE) recorded[k] = ''
+  }
+  totalSuppressed += suppressed
+  for (const line of kept) console.log(line)
+  if (suppressed) console.log(`  · ${suppressed} known finding(s) suppressed by the baseline`)
+  return code
 }
 
 console.log(`${'═'.repeat(72)}\n▶ appdata data_version\n${'═'.repeat(72)}`)
@@ -100,21 +140,21 @@ const omissionsFailed = await run('check-rule-omissions (GATE)', './check-rule-o
 const detMetaFailed = await run('check-detachment-meta (GATE)', './check-detachment-meta.mjs')
 const wTagsFailed = await run('check-weapon-abilities (GATE)', './check-weapon-abilities.mjs')
 const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datasheet-rules.mjs')
-await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'])
-await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'])
-await run('sync-tracker', './sync-tracker.mjs')
-await run('sync-core', './sync-core.mjs')
-await run('sync-event-companion', './sync-event-companion.mjs')
-await run('sync-enh-bodyguards', './sync-enh-bodyguards.mjs')
-await run('sync-leader-units', './sync-leader-units.mjs')
-await run('sync-detachment-details', './sync-detachment-details.mjs')
-await run('sync-wargear-options', './sync-wargear-options.mjs')
-await run('sync-ally-inclusion', './sync-ally-inclusion.mjs')
-await run('sync-roster-restrictions', './sync-roster-restrictions.mjs')
-await run('sync-enhancement-restrictions', './sync-enhancement-restrictions.mjs')
-await run('sync-army-rule-coverage', './sync-army-rule-coverage.mjs')
-await run('sync-layouts', './sync-layouts.mjs')
-await run('sync-combat-patrol', './sync-combat-patrol.mjs')
+await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'], { filtered: true })
+await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'], { filtered: true })
+await run('sync-tracker', './sync-tracker.mjs', [], { filtered: true })
+await run('sync-core', './sync-core.mjs', [], { filtered: true })
+await run('sync-event-companion', './sync-event-companion.mjs', [], { filtered: true })
+await run('sync-enh-bodyguards', './sync-enh-bodyguards.mjs', [], { filtered: true })
+await run('sync-leader-units', './sync-leader-units.mjs', [], { filtered: true })
+await run('sync-detachment-details', './sync-detachment-details.mjs', [], { filtered: true })
+await run('sync-wargear-options', './sync-wargear-options.mjs', [], { filtered: true })
+await run('sync-ally-inclusion', './sync-ally-inclusion.mjs', [], { filtered: true })
+await run('sync-roster-restrictions', './sync-roster-restrictions.mjs', [], { filtered: true })
+await run('sync-enhancement-restrictions', './sync-enhancement-restrictions.mjs', [], { filtered: true })
+await run('sync-army-rule-coverage', './sync-army-rule-coverage.mjs', [], { filtered: true })
+await run('sync-layouts', './sync-layouts.mjs', [], { filtered: true })
+await run('sync-combat-patrol', './sync-combat-patrol.mjs', [], { filtered: true })
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
@@ -127,4 +167,21 @@ if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — se
 if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
 if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
 if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing from ours (`npm run dsrules`).')
+if (RECORD_BASELINE) {
+  const n = writeBaseline(recorded)
+  console.log(`✓ baseline written: ${n} finding(s) recorded as accepted in ${BASELINE_PATH}.`)
+  console.log('  Read the diff before committing it — every line in there is a decision.')
+} else {
+  if (totalSuppressed) console.log(`· ${totalSuppressed} known finding(s) suppressed by scripts/lib/sync-baseline.json.`)
+  // An entry that matched nothing is either a finding that got fixed or one whose wording moved —
+  // and the second case is a baseline quietly hiding something else. Same reasoning as
+  // check-rule-omissions.mjs reporting a stale ALLOW entry.
+  const stale = Object.keys(baseline).filter((k) => !seenKeys.has(findingKey(k)))
+  if (stale.length) {
+    console.log(`⚠ ${stale.length} baseline entr(ies) matched nothing this run — fixed, or reworded:`)
+    for (const k of stale.slice(0, 20)) console.log(`    ${k}`)
+    if (stale.length > 20) console.log(`    …and ${stale.length - 20} more`)
+    console.log('  Re-record with `npm run sync -- --baseline` once you have read why.')
+  }
+}
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')

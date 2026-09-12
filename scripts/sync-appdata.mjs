@@ -49,7 +49,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
 const STAT_FIELDS = [['m', 'M'], ['t', 'T'], ['sv', 'Sv'], ['w', 'W'], ['ld', 'Ld'], ['oc', 'OC']]
@@ -208,12 +208,18 @@ async function syncFaction(slug) {
         const wgId = smap[`wg:${d.id}:${norm(w.name)}`]
         const item = (wgId && appWgById.get(wgId)) || matchWeapon(w.name, isRanged, appDs.wargear)
         if (!item) { lines.push(`  - datasheet "${d.name}" extra ${kind} weapon (not in appdata): "${w.name}"`); continue }
-        const profiles = (item.profiles || []).filter((p) => (p.type === 'ranged') === isRanged)
+        const profiles = (item.profiles || []).filter((p) => isWeaponType(p.type, isRanged))
         // A profile's own mode label can be a substring of another's within the same item (e.g.
         // "witchfire" vs "focused witchfire") — endsWith() would match BOTH, so among all
         // candidates take the longest (most specific) match, not the first in array order.
+        // The loose pass is the same fallback matchWeapon uses and for the same reason: Drazhar's
+        // row ends "– dual blades" where appdata's profile is "(dual blade)", and taking
+        // profiles[0] instead silently compared our dual-blade row against the single-blade
+        // profile AND left the real one looking unclaimed.
+        const pick = (fold) => profiles.filter((p) => fold(w.name).endsWith(fold(p.name)))
+          .sort((a, b) => b.name.length - a.name.length)[0]
         const profile = profiles.length <= 1 ? profiles[0]
-          : profiles.filter((p) => norm(w.name).endsWith(norm(p.name))).sort((a, b) => b.name.length - a.name.length)[0] || profiles[0]
+          : pick(norm) || pick(looseName) || profiles[0]
         if (!profile) continue
         claimedProfiles.add(`${item.id}|${profile.type}|${profile.name}`)
         for (const [wf, af] of WEAPON_FIELDS[kind]) {
