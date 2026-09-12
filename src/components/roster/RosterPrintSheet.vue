@@ -61,17 +61,17 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, watch } from 'vue'
 import RosterPrintFragment from './RosterPrintFragment.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
-import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import {
-  GROUP_LABEL_KEYS, allySourceOf, sectionsOf, dispositionOf, effectiveBattle, leadsFor,
-  mandatoryEnhancementFor, rosterPoints, unitPoints, wargearNames, leaderTargetsFor,
+  GROUP_LABEL_KEYS, allySourceOf, dispositionOf, mandatoryEnhancementFor, wargearNames,
+  leaderTargetsFor,
 } from '../../composables/rosterEngine.js'
+import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { enhKey } from '../../composables/rosterModifiers.js'
 import { PHASE_ORDER, phaseLabel } from '../../composables/stratagemPhases.js'
 import { MM_PX, paginatePrint, printPageHeightPx, printPageWidthMm } from '../../data/rosterPrintOptions.js'
@@ -100,22 +100,15 @@ const labels = computed(() => ui[locale.value])
 // the one table that has to stay readable wider for no one.
 const showGear = computed(() => !props.opts.unitCards)
 
-const unitMap = computed(() => {
-  const m = new Map()
-  for (const u of props.factionData?.units || []) m.set(u.id, u)
-  return m
-})
-const defOf = (id) => unitMap.value.get(id)
-
-// The compact bundle's detachment objects (points, keywords) rather than the prose ones — this is
-// what rosterEngine reads for legality and pricing.
-const dataDetachments = computed(() =>
-  (props.roster?.detachments || [])
-    .map((name) => (props.factionData?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean))
-
-const effBattle = computed(() => effectiveBattle(props.roster || {}, rosterCore))
-const total = computed(() => rosterPoints(props.roster?.units, defOf, dataDetachments.value))
+// The list's own numbers, from the module every roster screen reads them through
+// (useRosterDerived.js) — a printed list that disagrees with the app about the total is worse than
+// no list. `curDetachments` is renamed on the way in: it is the compact bundle's detachment objects
+// (points, keywords), which rosterEngine prices and gates with, and this component also takes a
+// `detachments` PROP carrying the PROSE ones (rule, stratagems, enhancements) for the rules pages.
+const {
+  defOf, curDetachments: dataDetachments, effBattle, points: total, entryMeta,
+  groupedUnits: groups, attachRole: roleOf,
+} = useRosterDerived(toRef(props, 'roster'), toRef(props, 'factionData'))
 
 // What the sheet says about itself. Two of these are ours rather than the game's — the data
 // version and the date — and they are the answer to "why does this list price differently in your
@@ -137,35 +130,8 @@ const facts = computed(() => {
   return out.filter(Boolean)
 })
 
-const groups = computed(() => sectionsOf(props.roster?.units, {
-  faction: props.factionData,
-  detachments: dataDetachments.value,
-  defOf,
-  keepLocked: true,
-  pairAttached: true,
-}).map((sec) => ({ ...sec, entries: sec.items })))
-
-// The same running copy-index the editor prices with: the fourth Chaos Lord costs more than the
-// first, and a printed list that disagrees with the app about the total is worse than no list.
-const entryPoints = computed(() => {
-  const seen = new Map()
-  const m = new Map()
-  for (const e of props.roster?.units || []) {
-    const copyIndex = (seen.get(e.id) || 0) + 1
-    seen.set(e.id, copyIndex)
-    m.set(e.uid, unitPoints(defOf(e.id), e, copyIndex, dataDetachments.value))
-  }
-  return m
-})
-const pointsOf = (e) => entryPoints.value.get(e.uid)
-
-function roleOf(e) {
-  if (!e.leaderOf) return ''
-  const host = (props.roster?.units || []).find((u) => u.uid === e.leaderOf)
-  if (!host) return ''
-  const type = leadsFor(defOf(e.id), e, dataDetachments.value).find((lt) => lt.to === host.id)?.type
-  return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
-}
+// The copy tax is assigned in list order, so the fourth Chaos Lord costs more than the first.
+const pointsOf = (e) => entryMeta.value.get(e.uid)?.points
 
 // What tells this copy from another copy of the same datasheet, in the order it is asked for.
 function tagsOf(e) {
