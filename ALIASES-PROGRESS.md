@@ -75,12 +75,18 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**743 из 1447** юнитов с `aliasesRu` (личные + 280 паттернов в `datasheetAliasRulesRu.js`,
-батчи 18-19 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire). Закрытых
-на 100% фракций теперь 9: drukhari, genestealer-cults, imperial-knights, leagues-of-votann,
-adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions, tau-empire. Остаток
-бэклога по покрытию: tyranids 7/52, chaos-daemons 11/53, aeldari 25/76, astra-militarum 25/72,
-deathwatch 34/89 — там уже не «фракция не начата», а хвост рядовых юнитов.
+**803 из 1447** юнитов с `aliasesRu` (личные + 322 паттерна в `datasheetAliasRulesRu.js`,
+батчи 18-20 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
+Daemons). Закрытых на 100% фракций теперь 10: drukhari, genestealer-cults, imperial-knights,
+leagues-of-votann, adeptus-mechanicus, chaos-knights, titan-legions, chaos-titan-legions,
+tau-empire, chaos-daemons. Остаток бэклога по покрытию: tyranids 7/52, aeldari 25/76,
+astra-militarum 25/72, deathwatch 34/89, black-templars 34/90 — там уже не «фракция не
+начата», а хвост рядовых юнитов.
+**Демонические датащиты продублированы** в кодексах Death Guard / World Eaters / Thousand
+Sons / Emperor's Children под теми же именами, поэтому один демонический паттерн поднимает
+покрытие сразу в пяти фракциях (батч 20 дал +60 юнитов при 42 правилах). Тот же приём
+сработает и с общими юнитами Хаоса, которые всё ещё без алиасов во всех четырёх кодексах
+разом: Chaos Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer.
 **Планируя следующий батч, сначала смотреть, есть ли фракция в wh-glossary:** кодекса тиранид
 в корпусе нет вообще (греп по Termagant/Zoanthrope/Trygon/Tervigon — ноль), поэтому тиранидский
 батч будет сплошной транслитерацией; богатые разделы — Караул Смерти (1736 строк), T'au (1236),
@@ -172,6 +178,9 @@ census по EPIC HERO.
   транслитерации (Adrax Agatone, Prince Yriel, Kharseth, Lhykhis, Shalaxi Helbane, The Blue
   Scribes, The Masque of Slaanesh, Syll'Esske, Haarken Worldclaimer, Kravek Morne, Nekrosor
   Ammentar, Ephrael Stern, Intranzia Fraye, Aestred Thurga/Agathae Dolan, Lord Marshal Dreir).
+  **Список стоит перепроверять грепом, а не помнить:** Shalaxi Helbane, The Blue Scribes,
+  The Masque of Slaanesh и Syll'Esske числились здесь, а в батче 20 первые два нашлись в
+  глоссарии («Шалакси Адский Бич», «Голубые писари»), остальным два дали транслитерацию.
 
 ## Когда закрывать эту задачу
 
