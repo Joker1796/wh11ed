@@ -201,4 +201,55 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bCustodian Wardens\b/i, aliasesRu: ['кустодианские стражи', 'кустодиан варден'] },
   { pattern: /\bAquilon\b/i, aliasesRu: ['Хранители Аквилона', 'аквилон кустодианс'] },
   { pattern: /\bSagittarum\b/i, aliasesRu: ['Сагиттарум Кустодианы'] },
+  // Imperial Knights — chassis and class names (batch 17). Sourced from wh-glossary's
+  // "РАЗНОВИДНОСТИ РЫЦАРСКИХ КОСТЮМОВ" section, which walks the roster line by line.
+  // Questoris/Cerastus/Acastus deliberately also match the Chaos Knights copies of the same
+  // chassis ("Chaos Cerastus Knight Lancer") — same machine, same Russian name. `Moirax` is
+  // kept as a bare transliteration for the same reason in reverse: it also matches "War Dog
+  // Moirax", which is a War Dog, not an Armiger, so it must not inherit "оруженосец".
+  { pattern: /\bQuestoris\b/i, aliasesRu: ['рыцарь-квесторис'] },
+  { pattern: /\bCerastus\b/i, aliasesRu: ['рыцарь-церастус'] },
+  { pattern: /\bAcastus\b/i, aliasesRu: ['рыцарь-акастус'] },
+  { pattern: /\bArmiger\b/i, aliasesRu: ['Армигер', 'рыцарь-оруженосец'] },
+  { pattern: /\bKnight Castellan\b/i, aliasesRu: ['рыцарь-кастелян'] },
+  { pattern: /\bKnight Crusader\b/i, aliasesRu: ['рыцарь-крестоносец', 'крусейдер', 'крусэйдер'] },
+  { pattern: /\bKnight Errant\b/i, aliasesRu: ['рыцарь-странник', 'еррант'] },
+  { pattern: /\bKnight Gallant\b/i, aliasesRu: ['Рыцарь типа «Бравый»', 'галлант'] },
+  { pattern: /\bKnight Paladin\b/i, aliasesRu: ['рыцарь-паладин'] },
+  { pattern: /\bKnight Warden\b/i, aliasesRu: ['рыцарь-хранитель', 'варден'] },
+  { pattern: /\bKnight Valiant\b/i, aliasesRu: ['Рыцарь типа «Храбрый»', 'Валиант'] },
+  { pattern: /\bKnight Preceptor\b/i, aliasesRu: ['рыцарь-наставник', 'Прецептор'] },
+  { pattern: /\bKnight Destrier\b/i, aliasesRu: ['рыцарь-дестриер'] },
+  { pattern: /\bKnight Defender\b/i, aliasesRu: ['Рыцарь-защитник'] },
+  { pattern: /\bHelverin\b/i, aliasesRu: ['оруженосец-хельверин'] },
+  { pattern: /\bMoirax\b/i, aliasesRu: ['мойракс'] },
+  { pattern: /\bWarglaive\b/i, aliasesRu: ['оруженосец-глевия', 'варглейв', 'варглэйв'] },
+  // Chaos Knights' own Abominant, kept apart from the Genestealer Cults one below: the GSC
+  // "изрожденец" is a hulking cult mutant, this is a knight suit that merely shares the word.
+  { pattern: /\bKnight Abominant\b/i, aliasesRu: ['рыцарь-абоминант'] },
+  // Genestealer Cults — troop types (batch 17). Mostly straight from wh-glossary's
+  // "ТЕРМИНЫ ИЗ КОДЕКСА КУЛЬТОВ ГЕНОКРАДОВ". Anchored /^Abominant$/ so the Chaos Knights
+  // "Knight Abominant" above keeps its own alias instead of inheriting "изрожденец".
+  { pattern: /\bAberrants?\b/i, aliasesRu: ['аберрант', 'вырожденец'] },
+  { pattern: /\bAcolyte Hybrids\b/i, aliasesRu: ['гибрид-аколит'] },
+  { pattern: /\bAcolyte Iconward\b/i, aliasesRu: ['аколит-знамёнщик'] },
+  { pattern: /^Abominant$/i, aliasesRu: ['абоминант', 'изрожденец'] },
+  { pattern: /\bAtalan Jackals\b/i, aliasesRu: ['аталанские шакалы'] },
+  { pattern: /\bAchilles Ridgerunners?\b/i, aliasesRu: ['Ахиллес Риджраннер'] },
+  { pattern: /\bBenefictus\b/i, aliasesRu: ['Бенефиктус', 'благословенный'] },
+  { pattern: /\bBiophagus\b/i, aliasesRu: ['биофаг'] },
+  { pattern: /\bClamavus\b/i, aliasesRu: ['Кламавус'] },
+  { pattern: /\bGoliath Rockgrinder\b/i, aliasesRu: ['камнедробилка «Голиаф»'] },
+  { pattern: /\bGoliath Truck\b/i, aliasesRu: ['грузовик «Голиаф»'] },
+  { pattern: /\bHybrid Metamorphs\b/i, aliasesRu: ['гибридные метаморфы'] },
+  { pattern: /\bJackal Alphus\b/i, aliasesRu: ['Альфа-шакал'] },
+  { pattern: /\bKelermorph\b/i, aliasesRu: ['Келерморф'] },
+  { pattern: /\bLocus\b/i, aliasesRu: ['Локус'] },
+  { pattern: /\bMagus\b/i, aliasesRu: ['магус'] },
+  { pattern: /\bNeophyte Hybrids\b/i, aliasesRu: ['гибрид-неофит'] },
+  { pattern: /\bNexos\b/i, aliasesRu: ['нексос'] },
+  { pattern: /\bPatriarch\b/i, aliasesRu: ['патриарх'] },
+  { pattern: /\bPrimus\b/i, aliasesRu: ['примус'] },
+  { pattern: /\bReductus Saboteur\b/i, aliasesRu: ['Саботажник Редуктус'] },
+  { pattern: /\bSanctus\b/i, aliasesRu: ['Санктус', 'святой'] },
 ]
