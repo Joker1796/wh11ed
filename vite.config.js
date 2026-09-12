@@ -161,8 +161,20 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['vue', 'vue-router'],
+        // Vue and the router in one long-lived chunk, so a deploy that only touches app code
+        // leaves it (and its precache entry) alone. Written as a FUNCTION, not the `{ vendor:
+        // ['vue', 'vue-router'] }` object it used to be: Vite 8 bundles with Rolldown, which
+        // accepts only the function form and fails the build outright on the object
+        // ("manualChunks is not a function"). The regex has to name `@vue` as well — the object
+        // form pulled in whatever was reachable only from those two entries, which is where
+        // @vue/runtime-dom and friends live.
+        // The id is normalised before matching rather than the separator being spelled into the
+        // pattern: a module id arrives with backslashes on Windows, and a posix-only pattern is
+        // exactly how `npm run radii` once ran red on one machine and green in CI on one tree.
+        manualChunks(id) {
+          return /\/node_modules\/(vue|vue-router|@vue)\//.test(id.replace(/\\/g, '/'))
+            ? 'vendor'
+            : undefined
         },
       },
     },
