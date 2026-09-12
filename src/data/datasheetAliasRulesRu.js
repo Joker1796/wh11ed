@@ -474,4 +474,54 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bMasters of the Maelstrom\b/i, aliasesRu: ['Мастера Мальстрёма'] },
   { pattern: /\bHaarken Worldclaimer\b/i, aliasesRu: ['Хааркен Покоритель Миров'] },
   { pattern: /\bKravek Morne\b/i, aliasesRu: ['Кравек Морн'] },
+  // Space Marines — the units every Chapter codex reprints (batch 22). This is the biggest
+  // multiplier in the whole task: 48 Primaris datasheets ship in six codices each (space-marines,
+  // black-templars, deathwatch, blood-angels, dark-angels, space-wolves), so `Intercessor` alone
+  // resolves to 24 datasheets and `Captain` to more than thirty.
+  //
+  // wh-glossary predates the Primaris range and has no entry for most of these, but it does
+  // translate squad names built on them — "отд. изнич. Драйдена" (Hellblaster Squad Dryden),
+  // "отд. голов. Стилгара" (Reiver Squad Stilgar), "отд. ударн. Глоккуса" (Inceptor Squad
+  // Gloccus), "отд. агресс. Траска" (Aggressor Squad Trask). Those roots are the sourced half
+  // of this block; the rest is transliteration, reviewed with the user.
+  { pattern: /\bIntercessors?\b/i, aliasesRu: ['заступники', 'интерцессоры'] },
+  { pattern: /\bAssault Intercessors?\b/i, aliasesRu: ['штурмовые заступники'] },
+  { pattern: /\bHeavy Intercessor\b/i, aliasesRu: ['тяжёлые заступники'] },
+  { pattern: /\bHellblaster\b/i, aliasesRu: ['отделение изничтожителей', 'хеллбластеры'] },
+  { pattern: /\bAggressor\b/i, aliasesRu: ['отделение агрессоров', 'агрессоры'] },
+  { pattern: /\bEradicator Squad\b/i, aliasesRu: ['эрадикаторы'] },
+  { pattern: /\bIncursor\b/i, aliasesRu: ['инкурсоры'] },
+  { pattern: /\bInfiltrator Squad\b/i, aliasesRu: ['отделение лазутчиков', 'инфильтраторы'] },
+  { pattern: /\bReiver\b/i, aliasesRu: ['отделение головорезов', 'риверы'] },
+  { pattern: /\bInceptor\b/i, aliasesRu: ['ударное отделение', 'инцепторы'] },
+  { pattern: /\bOutrider\b/i, aliasesRu: ['моторазведчики', 'аутрайдеры'] },
+  { pattern: /\bDesolation\b/i, aliasesRu: ['опустошающее отделение', 'десолейшены'] },
+  { pattern: /\bEliminator\b/i, aliasesRu: ['элиминаторы'] },
+  { pattern: /\bSuppressor\b/i, aliasesRu: ['супрессоры'] },
+  { pattern: /\bInfernus\b/i, aliasesRu: ['инфернусы'] },
+  { pattern: /\bBladeguard Veteran\b/i, aliasesRu: ['клинковая гвардия', 'блэйдгарды'] },
+  { pattern: /\bBladeguard Ancient\b/i, aliasesRu: ['знаменосец клинковой гвардии'] },
+  { pattern: /\bJudiciar\b/i, aliasesRu: ['юдициар'] },
+  { pattern: /\bCaptain\b/i, aliasesRu: ['капитан'] },
+  { pattern: /\bLieutenant\b/i, aliasesRu: ['лейтенант'] },
+  { pattern: /\bAncient\b/i, aliasesRu: ['знаменосец'] },
+  { pattern: /\bCompany Heroes\b/i, aliasesRu: ['герои роты'] },
+  { pattern: /\bSternguard Veteran\b/i, aliasesRu: ['арьергардные ветераны', 'стернгарды'] },
+  { pattern: /\bVanguard Veteran\b/i, aliasesRu: ['авангардные ветераны', 'вангарды'] },
+  { pattern: /\bCenturion\b/i, aliasesRu: ['центурионы'] },
+  { pattern: /\bTactical Squad\b/i, aliasesRu: ['тактическое отделение', 'тактички'] },
+  { pattern: /\bRepulsor\b/i, aliasesRu: ['репульсор'] },
+  { pattern: /\bImpulsor\b/i, aliasesRu: ['импульсор'] },
+  { pattern: /\bGladiator\b/i, aliasesRu: ['гладиатор'] },
+  { pattern: /\bAstraeus\b/i, aliasesRu: ['«Астрей»'] },
+  { pattern: /\bInvader ATV\b/i, aliasesRu: ['квадроцикл «Захватчик»', 'инвейдер'] },
+  { pattern: /\bInvictor\b/i, aliasesRu: ['боескафандр «Инвиктор»'] },
+  { pattern: /\bStorm Speeder\b/i, aliasesRu: ['штормспидер'] },
+  { pattern: /\bDrop Pod\b/i, aliasesRu: ['десантная капсула', 'дроппод'] },
+  { pattern: /\bHammerfall\b/i, aliasesRu: ['бункер «Падение молота»'] },
+  { pattern: /\bFirestrike\b/i, aliasesRu: ['сервотурели «Огненный удар»'] },
+  { pattern: /\bCorvus Blackstar\b/i, aliasesRu: ['«Чёрная звезда Корвуса»', 'корвус'] },
+  // Same English word, different machine in another faction: the Primaris rule above is
+  // narrowed to `Eradicator Squad` so this tank keeps the glossary's own «Искоренитель».
+  { pattern: /\bLeman Russ Eradicator\b/i, aliasesRu: ['«Леман Русс» типа «Искоренитель»'] },
 ]

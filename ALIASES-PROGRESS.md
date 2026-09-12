@@ -75,21 +75,31 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**857 из 1447** юнитов с `aliasesRu` (личные + 353 паттерна в `datasheetAliasRulesRu.js`,
-батчи 18-21 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
-Daemons, Chaos Space Marines). Закрытых на 100% фракций теперь 11: drukhari,
+**1157 из 1447 (80%)** юнитов с `aliasesRu` (личные + 391 паттерн в `datasheetAliasRulesRu.js`,
+батчи 18-22 — Chaos Knights, оба легиона титанов, Adeptus Mechanicus, T'au Empire, Chaos
+Daemons, Chaos Space Marines, общий космодесант). Закрыто на 100% 11 фракций: drukhari,
 genestealer-cults, imperial-knights, leagues-of-votann, adeptus-mechanicus, chaos-knights,
-titan-legions, chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines. Остаток
-бэклога по покрытию: tyranids 7/52, aeldari 25/76, astra-militarum 25/72, deathwatch 34/89,
-black-templars 34/90, space-marines 49/103 — там уже не «фракция не начата», а хвост рядовых
-юнитов.
+titan-legions, chaos-titan-legions, tau-empire, chaos-daemons, chaos-space-marines; все шесть
+орденов космодесанта стоят на 92-95%.
+
+**Остаток бэклога** (по возрастанию покрытия): tyranids 7/52, aeldari 25/76, astra-militarum
+25/72, orks 32/67, imperial-agents 16/29, death-guard 20/36, adeptus-custodes 21/31,
+necrons 38/52 + собственные юниты орденов (Death Company, Ravenwing, Deathwing, Wulfen,
+Sword Brethren, Kill Team'ы — 37 датащитов на шесть фракций).
 **Перепечатанные датащиты — главный множитель покрытия.** Демоны продублированы в кодексах
 Death Guard / World Eaters / Thousand Sons / Emperor's Children, общие юниты Хаоса (Chaos
 Spawn, Helbrute, Heldrake, Maulerfiend, Forgefiend, Sorcerer) — там же, под теми же именами.
-Батч 20 дал +60 юнитов при 42 правилах, батч 21 — +54 при 31. Дальше тот же приём работает
-на космодесанте: ордена делят датащиты между собой и с `space-marines` (там ещё и
-`sharedUnitIds`, см. `gen-datasheet-index.mjs`). Планируя батч, сначала считать, сколько
-датащитов поднимет паттерн — скрипт на 20 строк в `scripts/.drafts/`, а не глазами.
+Батч 20 дал +60 юнитов при 42 правилах, батч 21 — +54 при 31, а батч 22 (общий космодесант) —
+**+300 при 38**: примарис-датащиты выходят в шести кодексах каждый, поэтому одно правило
+`Intercessor` покрывает 24 датащита, `Gladiator` — 18, `Captain` — 41. Планируя батч, сначала
+считать, сколько датащитов поднимет паттерн — скрипт на 20 строк в `scripts/.drafts/`, а не
+глазами.
+
+**Глоссарий может подпирать термин косвенно.** Примарис-линейки в корпусе нет, но переводы
+названий отделений её выдают: «отд. изнич. Драйдена» (Hellblaster Squad Dryden) → корень
+«изничтожители», «отд. голов. Стилгара» (Reiver Squad) → «головорезы», «отд. ударн. Глоккуса»
+(Inceptor Squad) → «ударные», «отд. агресс. Траска» → «агрессоры». Грепать стоит не только
+само имя юнита, но и конструкции с ним.
 **Планируя следующий батч, сначала смотреть, есть ли фракция в wh-glossary:** кодекса тиранид
 в корпусе нет вообще (греп по Termagant/Zoanthrope/Trygon/Tervigon — ноль), поэтому тиранидский
 батч будет сплошной транслитерацией; богатые разделы — Караул Смерти (1736 строк), T'au (1236),
