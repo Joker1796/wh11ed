@@ -38,6 +38,19 @@ export function appdataDataVersion() {
 // classification suffix ("Fear Made Manifest (Aura)"), case/whitespace-insensitive.
 export const norm = (s) => (s || '').toLowerCase().replace(/(?:\s*\([^)]*\))+\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
 
+// `norm` plus the two differences that are never a difference in a WEAPON name: a hyphen where the
+// other side wrote a space, and a plural where the other side wrote a singular. Both sides do both
+// — appdata prints "Close-combat weapon" on a Land Speeder and "Close combat weapon" on a Strike
+// Team — so this is not a tolerance for one party's sloppiness. Used only as the last resort in
+// matchWeapon (and the profile picker), never for a first-pass identity: nothing in the corpus is
+// told apart by that letter, but an exact match must always win over a folded one.
+export const looseName = (s) => norm(s).replace(/-/g, ' ').replace(/s\b/g, '').replace(/\s+/g, ' ').trim()
+
+// appdata types a C'tan power as its own profile kind; wh11ed carries those rows inside `ranged[]`
+// with a `C'TAN POWER` tag, which is how the datasheet prints them. Comparing the two literally
+// made three Tesseract Vault powers both "extra" here and "missing" there.
+export const isWeaponType = (type, isRanged) => (type === 'melee' ? !isRanged : isRanged)
+
 export function appdataToMarkup(text) {
   if (!text) return ''
   let s = text
@@ -217,12 +230,39 @@ export async function loadWh11edDatasheets(slug) {
 // build the `wg:` sourceId bridge (gen-source-ids.mjs) and, at sync time, as the fallback for
 // weapon rows not yet in that bridge (sync-appdata.mjs) — one shared heuristic, not two that could
 // silently drift apart and disagree about which appdata entry a row corresponds to.
+//
+// Three passes, each looser than the last, and a row is only ever handed to the next one when the
+// stricter ones found nothing. Every pass below was added because the SAME weapon, carried
+// identically by both sides, was being reported twice — once as our row being "extra (not in
+// appdata)" and once as appdata's profile being "missing in wh11ed". 46 lines of the 5000-line
+// report were that, which is how a real finding stays unread.
 export function matchWeapon(rowName, isRanged, appWargear) {
   const rn = norm(rowName)
+  const ofType = (item) => (item.profiles || []).filter((p) => isWeaponType(p.type, isRanged))
+
+  // 1. By ITEM name, which is what appdata usually calls the weapon.
   for (const item of appWargear || []) {
-    const profiles = (item.profiles || []).filter((p) => (p.type === 'ranged') === isRanged)
+    const profiles = ofType(item)
     if (!profiles.length) continue
     if (profiles.length === 1 ? norm(item.name) === rn : rn.startsWith(norm(item.name))) return item
+  }
+  // 2. By PROFILE name. appdata sometimes names the item after the thing CARRYING the gun and the
+  //    profile after the gun itself — a T'au "Gun Drone" whose only profile is "Twin pulse
+  //    carbine", which is what the datasheet prints and therefore what wh11ed carries. 18 T'au
+  //    datasheets were reported as missing a drone they have and disagreeing about nothing.
+  for (const item of appWargear || []) {
+    if (ofType(item).some((p) => norm(p.name) === rn)) return item
+  }
+  // 3. Loosely (see looseName): the two sides spell the same weapon with and without a hyphen
+  //    ("Close-combat weapon" / "Close combat weapon" — appdata itself does both), and in the
+  //    singular or plural ("Tesla sphere" / "Tesla spheres"). Last, because it is a tolerance and
+  //    not a rule: nothing in the corpus is told apart by that letter, but an exact match should
+  //    always win over one.
+  const ln = looseName(rowName)
+  for (const item of appWargear || []) {
+    const profiles = ofType(item)
+    if (!profiles.length) continue
+    if (looseName(item.name) === ln || profiles.some((p) => looseName(p.name) === ln)) return item
   }
   return null
 }

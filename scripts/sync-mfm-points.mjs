@@ -22,7 +22,7 @@
 //         datasheet entry.
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DS = path.join(ROOT, 'src/data/datasheets')
@@ -37,8 +37,14 @@ const sameRows = (a, b) =>
 // same price line regardless of note (to detect redundant allied duplicates)
 const samePrice = (a, b) => (a.models ?? null) === (b.models ?? null) && a.points === b.points
 
-const smMod = await import(path.join(DS, 'space-marines.js'))
-const smMfm = (await import(path.join(MFM, 'space-marines.js'))).default
+// A bare absolute path is not a module specifier on Windows — `c:\…` reads as a URL scheme and
+// the ESM loader refuses it outright, which is why this script had been failing to run at all
+// there. Same trap `check-radii.mjs` records for path SEPARATORS: a script that only ever ran on
+// one OS is a script that only ever worked on one OS.
+const load = (p) => import(pathToFileURL(p).href)
+
+const smMod = await load(path.join(DS, 'space-marines.js'))
+const smMfm = (await load(path.join(MFM, 'space-marines.js'))).default
 const smById = new Map(smMod.default.map((u) => [u.id, u]))
 
 // SM base expected points by unit name (main units + named-character sections)
@@ -55,8 +61,8 @@ for (const file of readdirSync(DS).sort()) {
   if (!file.endsWith('.js') || file === 'index.js') continue
   const slug = file.replace('.js', '')
   let mfm
-  try { mfm = (await import(path.join(MFM, file))).default } catch { continue }
-  const mod = await import(path.join(DS, file))
+  try { mfm = (await load(path.join(MFM, file))).default } catch { continue }
+  const mod = await load(path.join(DS, file))
   const isChapter = !!mod.sharedUnitIds?.length
 
   // ---- expected points per own-unit name -------------------------------

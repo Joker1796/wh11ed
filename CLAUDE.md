@@ -94,6 +94,7 @@ npm run preview  # preview the production build
 npm run lint     # GATE: ESLint + eslint-plugin-vue (see eslint.config.js; runs in CI)
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
+npm run sync -- --baseline  # re-record scripts/lib/sync-baseline.json (the accepted findings the report above suppresses) — read the diff before committing it
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
 npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
 npm run omissions    # GATE: fail when appdata's Core Rules say something wh11ed's transcription does not (see Data gates)
