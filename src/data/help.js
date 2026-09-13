@@ -74,7 +74,7 @@ export const help = {
       {
         id: 'help-broadcast',
         title: 'Broadcasting to OBS',
-        body: `**A broadcast is a read-only live scoreboard** of the game you are tracking, for OBS or any browser on another device: you keep scoring on your phone, the overlay follows along a couple of seconds behind. It needs a signed-in account — the link is served through the cloud — and a connection on both ends.
+        body: `**A broadcast is a read-only live scoreboard** of the game you are tracking, for OBS or any browser on another device: you keep scoring on your phone, the overlay catches up within a few seconds. It needs a signed-in account — the link is served through the cloud — and a connection on both ends.
 ▪ **Turn it on.** In the game settings (step 4 of the setup, or the ⚙ Setup dialog mid-game) enable "Broadcast button (OBS)" — a broadcast button appears next to the game controls. Tap it, start the broadcast, copy the link.
 ▪ **In OBS**: add a **Browser Source**, paste the link, and give the source the size of the slot in your layout. The page background is transparent, so the panels sit straight on the video.
 ▪ **The overlay packs itself into whatever window it gets**: a wide slot puts the teams side by side, a tall one stacks them. Need a hard shape instead? Pick an aspect ratio (16:9, 4:3, 1:1, 9:16) under "Overlay options" and it holds that shape whatever the window does.
@@ -153,7 +153,7 @@ export const help = {
       {
         id: 'help-broadcast',
         title: 'Трансляция в OBS',
-        body: `**Трансляция — живое табло вашей партии, только для чтения**, для OBS или любого браузера на другом устройстве: счёт ведётся с телефона, оверлей обновляется с задержкой в пару секунд. Нужны вход в аккаунт — ссылка работает через облако — и связь с обеих сторон.
+        body: `**Трансляция — живое табло вашей партии, только для чтения**, для OBS или любого браузера на другом устройстве: счёт ведётся с телефона, оверлей подхватывает изменения за несколько секунд. Нужны вход в аккаунт — ссылка работает через облако — и связь с обеих сторон.
 ▪ **Включение.** В настройках игры (шаг 4 сетапа или диалог ⚙ во время партии) включите «Кнопка трансляции (OBS)» — рядом с управлением игрой появится кнопка трансляции. Нажмите её, запустите трансляцию, скопируйте ссылку.
 ▪ **В OBS**: добавьте **Browser Source**, вставьте ссылку и задайте источнику размер слота вашего макета. Фон страницы прозрачный, панели лягут прямо на видео.
 ▪ **Оверлей сам вписывается в любое окно**: широкий слот кладёт команды рядом, вертикальный — столбиком. Нужна жёсткая форма? В «Настроить оверлей» выберите соотношение сторон (16:9, 4:3, 1:1, 9:16) — и он держит её при любом окне.

@@ -278,6 +278,13 @@ function refit() {
   fitLeft.value = Math.max(0, (vw - best.w * scale) / 2)
   fitTop.value = Math.max(0, (vh - best.h * scale) / 2)
 }
+// How often the overlay asks. Five seconds, not the two it started with: a score changes every
+// few minutes, nobody watching a stream can tell the difference — and the gateway's budget is
+// 600 requests a MINUTE for the whole API, so each viewer costing 12 instead of 30 is the
+// difference between fifty overlays fitting and twenty. The push is debounced ~1.5 s, so a tap
+// on the phone is on screen within about six seconds; unchanged polls cost a 304.
+const POLL_MS = 5000
+
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
 
@@ -333,7 +340,7 @@ async function poll() {
 
 onMounted(() => {
   poll()
-  timer = setInterval(poll, 2000)
+  timer = setInterval(poll, POLL_MS)
   window.addEventListener('resize', refit)
   refit()
 })

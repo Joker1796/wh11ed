@@ -650,7 +650,7 @@ export const ui = {
     trackerHelpPhaseRules: "A block under the clock listing what has something to say in the phase the game is standing on: the army rule, the detachment rule, and — with an army list attached — the abilities of the units in it. Both players get a section, because a rule that fires in your OPPONENT'S phase is the one most easily forgotten.\nIt shows names, not rule text: tap through to the unit or the faction page for that. Stratagems are a link to their own page, which already groups them by phase.",
     trackerTrackBroadcast: 'Broadcast button (OBS)',
     trackerHelpBroadcast:
-      'Adds a broadcast button to the game screen: a read-only live scoreboard of this game for OBS or any browser. You keep scoring on your phone; an overlay on another device follows along a couple of seconds behind.\n' +
+      'Adds a broadcast button to the game screen: a read-only live scoreboard of this game for OBS or any browser. You keep scoring on your phone; an overlay on another device catches up within a few seconds.\n' +
       '\n' +
       'The link is served through your account\u2019s cloud, so starting a broadcast needs you signed in. Anyone with the link can watch \u2014 and only watch; a new link cuts the old one off.',
     trackerOptNeedsRoster: 'Available once an army list is attached',
@@ -1487,7 +1487,7 @@ export const ui = {
     trackerHelpPhaseRules: 'Блок под часами, перечисляющий, у чего есть что сказать в текущей фазе: армейское правило, правило детачмента и — с прикреплённым листом — способности юнитов из него. Секция у каждого игрока: правило, срабатывающее в фазу ОППОНЕНТА, забывается легче всего.\nПоказаны названия, а не текст правил: за текстом — переход на юнита или на страницу фракции. Стратагемы — ссылкой на их собственную страницу, где они уже сгруппированы по фазам.',
     trackerTrackBroadcast: 'Кнопка трансляции (OBS)',
     trackerHelpBroadcast:
-      'Добавляет на экран игры кнопку трансляции: живое табло этой партии (только чтение) для OBS или любого браузера. Счёт ведётся с телефона, а оверлей на другом устройстве обновляется с задержкой в пару секунд.\n' +
+      'Добавляет на экран игры кнопку трансляции: живое табло этой партии (только чтение) для OBS или любого браузера. Счёт ведётся с телефона, а оверлей на другом устройстве подхватывает изменения за несколько секунд.\n' +
       '\n' +
       'Ссылка работает через облако аккаунта, поэтому для запуска нужен вход. Смотреть может любой, у кого есть ссылка \u2014 и только смотреть; новая ссылка обрывает старую.',
     trackerOptNeedsRoster: 'Доступно с прикреплённым листом',
