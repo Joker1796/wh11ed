@@ -214,6 +214,16 @@
           <i class="bi bi-chevron-left" />
           <i class="bi bi-gear" />
         </button>
+        <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. -->
+        <button
+          class="btn-ghost btn-icon"
+          :class="{ 'bc-on': broadcastOn }"
+          :aria-label="labels.trackerBroadcastTitle"
+          :title="labels.trackerBroadcastTitle"
+          @click="broadcastOpen = true"
+        >
+          <i class="bi bi-broadcast" />
+        </button>
         <button
           class="btn-ghost"
           @click="endModalOpen = true"
@@ -240,6 +250,10 @@
       v-if="editSetupOpen"
       @close="editSetupOpen = false"
     />
+    <BroadcastModal
+      v-if="broadcastOpen"
+      @close="broadcastOpen = false"
+    />
   </div>
 </template>
 
@@ -252,6 +266,7 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
+import BroadcastModal from './BroadcastModal.vue'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
 import RuleBody from '../RuleBody.vue'
@@ -262,6 +277,7 @@ import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { useTracker, membersOf, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { useBroadcast } from '../../composables/useBroadcast.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -276,6 +292,12 @@ const openPrimary = ref(-1)   // index of the player whose primary scoring modal
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
 const phasePickerOpen = ref(false)
+const broadcastOpen = ref(false)
+
+// Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream
+// resumes pushing without reopening the dialog. `enabled` also lights the toolbar button.
+const { enabled: broadcastOn, init: initBroadcast } = useBroadcast()
+initBroadcast()
 
 // players[0] is always the first-turn player, so the turn IS a player index (useTracker).
 const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
@@ -554,5 +576,11 @@ function onEndBattle(reason) {
 @media (max-width: 360px) {
   .btn-next .next-full { display: none; }
   .btn-next .next-short { display: inline; }
+}
+
+/* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
+.bc-on {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 </style>

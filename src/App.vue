@@ -3,10 +3,11 @@
     class="app-layout"
     :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }"
   >
-    <DomainMoveBanner />
-    <UpdateNoticeBar />
+    <DomainMoveBanner v-if="!isBare" />
+    <UpdateNoticeBar v-if="!isBare" />
 
     <AppNavbar
+      v-if="!isBare"
       :mobile-nav-open="mobileNavOpen"
       @toggle-mobile-nav="toggleMobileNav"
       @open-search="searchOpen = true"
@@ -15,11 +16,12 @@
 
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar
+      v-if="!isBare"
       :mobile-open="mobileNavOpen"
       @close="mobileNavOpen = false"
     />
 
-    <AppSubnav />
+    <AppSubnav v-if="!isBare" />
 
     <!-- Overlay backdrop for drawer (fades in/out in step with the sliding drawer) -->
     <Transition name="fade">
@@ -45,10 +47,11 @@
           />
         </Transition>
       </RouterView>
-      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute" />
+      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isBare" />
     </main>
 
     <AppBottomNav
+      v-if="!isBare"
       @open-rules="showRules = true"
       @open-factions="showFactions = true"
     />
@@ -75,13 +78,14 @@
     />
     <KeywordPopover />
     <MobileUtilityBar
+      v-if="!isBare"
       ref="mobileBarRef"
       :show-resume-game="showResumeGame"
       :resume-draft-id="resumeDraftId"
     />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
-    <OfflineWarmupToast />
+    <OfflineWarmupToast v-if="!isBare" />
   </div>
 </template>
 
@@ -138,6 +142,9 @@ const { locale } = useLocale()
 // The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
 // without it, or every predicate written against a bare path quietly stops matching in Russian.
 const appPath = computed(() => stripLocale(route.path))
+// A bare route (the broadcast overlay OBS captures) renders with NO app chrome at all —
+// navbar, drawer, subnav, bottom nav, utility bar and toasts stay out of the frame.
+const isBare = computed(() => !!route.meta.bare)
 
 // Per-route <title> + meta description (read-only w.r.t. the router; hash routing unchanged).
 watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { immediate: true })
