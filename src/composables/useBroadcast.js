@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, effectScope } from 'vue'
 import { useAuth } from './useAuth.js'
 import { useTracker } from './useTracker.js'
 import { broadcastPayload } from './broadcastPayload.js'
@@ -61,16 +61,25 @@ export function useBroadcast() {
 
   // Armed once per app load, from the broadcast UI (the only place that can turn this on).
   // Deep-watching `current` is the same recipe the store's own persistence uses.
+  //
+  // In a DETACHED effect scope, deliberately: init() runs inside a component's setup, and a
+  // bare watch() there is adopted by that component and dies with it — leaving the game
+  // screen killed the pushes while `watcherArmed` stayed true, so nothing ever re-armed and
+  // the overlay silently froze on the last delivered snapshot. The watcher must live as long
+  // as the app, like the store's own persistence watcher.
   function init() {
     if (watcherArmed) return
     watcherArmed = true
-    watch(
-      current,
-      (g) => {
-        if (g?.broadcast?.token && status.value === 'authed') schedulePush()
-      },
-      { deep: true },
-    )
+    const scope = effectScope(true)
+    scope.run(() => {
+      watch(
+        current,
+        (g) => {
+          if (g?.broadcast?.token && status.value === 'authed') schedulePush()
+        },
+        { deep: true },
+      )
+    })
   }
 
   async function enable() {

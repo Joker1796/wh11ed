@@ -115,6 +115,7 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
+import { useTheme } from '../../composables/useTheme.js'
 
 defineEmits(['close'])
 const { locale } = useLocale()
@@ -128,7 +129,10 @@ const BLOCK_LABELS = {
   meta: 'bcBlockMeta', players: 'bcBlockPlayers', roles: 'bcBlockRoles', cp: 'bcBlockCp',
   vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs',
 }
-const theme = ref('dark')
+// Seeded from the SITE's current theme — the dialog is recreated on every open, so the seg
+// starts on whatever the reader is looking at; the overlay itself still obeys only its URL.
+const { theme: appTheme } = useTheme()
+const theme = ref(appTheme.value === 'light' ? 'light' : 'dark')
 const shown = reactive(Object.fromEntries(OVERLAY_BLOCKS.map((b) => [b, true])))
 
 // The configured link. Defaults add no parameters, so the plain URL stays the common case.
