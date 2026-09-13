@@ -54,6 +54,7 @@ const STATIC_ROUTES = [
   '/help/rules',
   '/help/rosters',
   '/help/tracker',
+  '/help/broadcast',
   '/help/offline',
   '/help/data',
   '/disclaimer',

@@ -71,7 +71,7 @@ describe('HelpView — the contents', () => {
     expect(nav.map((a) => a.attributes('href'))).toEqual(help.en.sections.map((s) => `/help/${slugOf(s)}`))
     // Reads as a contents list, not as a row of tags: numbered, one per line, titled.
     expect(w.find('.help-nav-h').text()).toBe('Contents')
-    expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1.', '2.', '3.', '4.', '5.', '6.'])
+    expect(nav.map((a) => a.find('.help-nav-n').text())).toEqual(['1.', '2.', '3.', '4.', '5.', '6.', '7.'])
     expect(nav[0].find('.help-nav-t').text()).toBe(help.en.sections[0].title)
   })
 

@@ -45,6 +45,12 @@
         </div>
         <p class="bc-obs">
           {{ labels.trackerBroadcastObsHint }}
+          <RouterLink
+            class="bc-help"
+            to="/help/broadcast"
+          >
+            {{ labels.trackerBroadcastHelpLink }}
+          </RouterLink>
         </p>
 
         <!-- The overlay's presentation lives in the LINK (?theme, ?hide) — this is a URL
@@ -246,6 +252,7 @@ function onDisable() { disable() }
   line-height: 1.5;
   color: var(--text-muted);
 }
+.bc-help { white-space: nowrap; }
 .bc-opts { margin-top: 0.7rem; }
 .bc-opts > summary {
   cursor: pointer;
