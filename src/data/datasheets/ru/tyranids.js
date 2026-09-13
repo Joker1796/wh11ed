@@ -70,7 +70,7 @@ export default {
   },
 
   deathleaper: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Смертохват', 'Дезлипер'],
     flavor:
       'Deathleaper — усовершенствование штамма Lictor, созданное действовать как оружие ужаса. Обладая инстинктивным пониманием того, как сеять страх среди популяций добычи, он использует свои навыки скрытности, инфильтрации и убийства, чтобы сеять паранойю и страх прежде, чем флот-улей нападёт всей массой.',
@@ -357,7 +357,7 @@ export default {
   },
 
   'old-one-eye': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Калтский Зверь', 'Зверь Калта'],
     flavor:
       'Известный как Зверь Калта, этот неудержимый громила был впервые замечен во время Первой Тиранической Войны. Хоть за века многие считали его убитым, всегда покрытое шрамами чудовище восстаёт вновь. Тиранидский ли это подвид или то же самое неудержимое чудовище, пришедшее опять, — загадка, над которой мало кто на его пути живёт достаточно долго, чтобы поразмыслить.',
@@ -496,7 +496,7 @@ export default {
   },
 
   'the-red-terror': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Красный Ужас'],
     flavor:
       'Змеевидный демон, что роет туннели под полем боя, чтобы ударить по ничего не подозревающей добыче, The Red Terror — редкая биоформа, порождённая сеять хаос глубоко за вражескими линиями. Способный растягивать челюсти, чтобы проглотить добычу целиком, зверь к тому же способен быстро поглощать её биомассу, чтобы регенерировать свои раны.',
@@ -513,7 +513,7 @@ export default {
   },
 
   'the-swarmlord': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Повелитель Роя', 'Свормлорд', 'Свармлорд'],
     flavor:
       'Swarmlord — герольд Hive Mind и, возможно, столь же древен, как сама раса тиранидов. По смерти зверь всегда поглощается через синаптическую связь и порождается заново. Он председательствовал при уничтожении бесчисленных цивилизаций, и с каждым воплощением становится лишь смертоноснее.',

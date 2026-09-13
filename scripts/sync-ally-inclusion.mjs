@@ -9,7 +9,7 @@
 // `tables/` has it. This script does that grep once and remembers it.
 //
 // Scope: `allied_faction` has 21 rows total (small, checked by hand once — see
-// APPDATA-COVERAGE-PLAN.md). 13 of them have at least one `allied_faction_required_detachment` row
+// the appdata coverage audit). 13 of them have at least one `allied_faction_required_detachment` row
 // — a detachment whose rule grants the inclusion, checked here (a row spanning several detachments,
 // e.g. 16 for the "every Chaos Space Marines detachment can include one signature unit from another
 // Chaos Legion" rule, is just checked once per detachment). The other 8 are universal — a codex-wide

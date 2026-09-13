@@ -32,7 +32,7 @@ export default {
   },
 
   'berehk-stornbr-w': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Берек Сторнброу'],
     flavor:
       'Владея могучим кирко-молотом Kromlôk’s Revenge, Berehk Stornbröw ведёт своих собственноручно избранных Cthonian Beserks — известных как Berehk’s Breakers — в самое сердце битвы. Способный стряхнуть почти любую кару, что обрушивают на него враги, и продолжать сражаться, Berehk — неудержимая сила разрушения, что специализируется на сокрушении вражеских чемпионов.',
@@ -82,7 +82,7 @@ export default {
   },
 
   'buri-aegnirssen': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Бури Эгнирссен'],
     flavor:
       'Buri Aegnirssen врывается во врага с яростной безоглядностью того, кому нечего терять. Взмахами своего универсального darkstar glaive по имени Bane этот заядлый выживший прорубает кровавый путь сквозь врага. Даже самой чудовищной добыче не уклониться от исполинского размаха мести Трижды-пожранного.',
@@ -391,7 +391,7 @@ export default {
   },
 
   'thar-the-destined': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Утер Предначертанный'],
     flavor:
       'Уже один из самых прославленных героев Kin, Kâhl Ûthar the Destined отмечен поистине высокой судьбой. Мало кто способен оценить врага столь же быстро и беспощадно, как Ûthar. Едва он раскусит своих врагов, как вскоре рубит их на куски пылающим Blade of the Ancestors.',

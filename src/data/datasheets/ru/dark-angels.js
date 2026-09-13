@@ -44,7 +44,7 @@ export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
 
   asmodai: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Асмодей'],
     flavor:
       'Асмодай — самый успешный Interrogator-Chaplain Dark Angels. Неумолимый и лишённый юмора, в бою он возносит боевой дух братьев к новым высотам, превращая их в неудержимые машины убийства, распевая свои литании ненависти с непоколебимой верой.',
@@ -59,7 +59,7 @@ export default {
   },
 
   azrael: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Азраэль'],
     flavor:
       'Верховный Великий магистр Азраэль — маяк вдохновения для тех, кто следует за ним, и ему воздают огромное уважение за талант стратега. Мастерский командир, он быстро схватывает меняющуюся обстановку боя и направляет свои силы с наибольшей выгодой. В гуще Азраэль обезглавливает врагов каждым ударом Sword of Secrets.',
@@ -78,7 +78,7 @@ export default {
   },
 
   belial: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Белиал'],
     flavor:
       'Белиал — прирождённый воин, убийца, чьё мастерство в бою всегда выделялось даже среди его постчеловеческих братьев. При всех своих способностях он стойкий перфекционист, корящий себя за каждую мнимую слабость. В бою он владеет Sword of Silence — обсидиановой реликвией Ордена, что словно поглощает окрестный звук.',
@@ -133,7 +133,7 @@ export default {
   },
 
   ezekiel: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Иезекииль', 'Изекиль'],
     flavor:
       'Иезекииль — Великий магистр библиариев. Мастер интерромантии, его варп-шёпоты рвут рассудок врагов. Его клинок, известный как Traitor’s Bane, был выкован, чтобы разить тех, кто обратился против Императора. Это грозное force weapon, что, по слухам, навеки заточает души Падших.',
@@ -174,7 +174,7 @@ export default {
   },
 
   lazarus: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Лазарь'],
     flavor:
       'Магистр Лазарь владеет своим мечом Enmity’s Edge со всем воинским мастерством, что подобает Company Master Dark Angels. Даже в самом свирепом бою он являет спокойствие, сохраняя самообладание и отдавая мастерские приказы, что принесли великие победы.',
@@ -189,7 +189,7 @@ export default {
   },
 
   'lion-eljonson': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Лев Эль’Джонсон', 'Лев Эльджонсон', 'Лев'],
     flavor:
       'Лев Эль’Джонсон выходит из окутанных туманом теневых царств, словно древний странствующий рыцарь, охотящийся на ужасы галактики. Огромным клинком Fealty примарх рассекает чудовищнейших из тварей, а Emperor’s Shield вспыхивает светом и силой в ответ на свирепые удары врагов.',
@@ -280,7 +280,7 @@ export default {
   },
 
   sammael: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Саммаэль'],
     flavor:
       'Саммаэль идёт на войну на джетбайке Corvex — реликвии Тёмной эры технологий. На этом древнем скакуне командир Ravenwing врывается в схватку, и storm bolter с plasma cannon наносят чудовищный урон, прежде чем он подходит для добивания с Raven Sword — фамильным клинком с бритвенной кромкой, что никогда не тупится.',

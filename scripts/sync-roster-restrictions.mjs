@@ -7,7 +7,7 @@
 // (`faction_keyword_excluded_datasheet`, e.g. Black Templars' banned Codex: Space Marines kit) —
 // must be reflected in wh11ed's text.
 //
-// Why this exists: APPDATA-COVERAGE-PLAN.md flagged this as script #3. Before writing any
+// Why this exists: the appdata coverage audit flagged this as script #3. Before writing any
 // checking logic, every row in `keyword_restriction_group` (16) was read by hand against the
 // actual wh11ed datasheet/faction files — all 16 turned out to already be present, correctly
 // worded (Patriarch's SUPREME COMMANDER, Emperor's Champion's CHOSEN OF THE EMPEROR, Death
@@ -30,7 +30,7 @@
 // "which faction/detachment can take this points bracket at all" data, closer to the
 // datasheet-filing question sync-appdata.mjs/the datasheet-drift reconciliation already covers
 // than to a prose restriction) — reported separately, informationally, below rather than hard
-// flagged; APPDATA-COVERAGE-PLAN.md has the open question.
+// flagged; whether wh11ed should model it at all is still an open product question.
 //
 // Matching: bridged via src/data/sourceIds.json's `det:<wh11ed-id>` → appdata detachment uuid for
 // detachment-scoped checks. Named-unit checks match by datasheet NAME across every wh11ed
@@ -242,7 +242,7 @@ for (const g of krg) {
 // are already structurally impossible to include (absent from a Chapter's sharedUnitIds fold-in
 // list — see CLAUDE.md's "SM-Chapter datasheet dedup" — or, for a unique pilot-ejection model like
 // Sir Hekhtur, carries no factionKeywords/points at all in wh11ed) — each verified by hand against
-// the actual wh11ed files (2026-07-28), not assumed; see APPDATA-COVERAGE-PLAN.md script #3 notes.
+// the actual wh11ed files (2026-07-28), not assumed; see the coverage audit's script #3 notes.
 // Filtered out here so they don't false-flag every run.
 const KNOWN_EQUIVALENT = {
   'Shadow Legion': { names: null, note: 'covered by this detachment\'s own "Thralls of the First Prince" category ban (Daemon Prince/Daemon Prince with Wings/Epic Hero, excluding Be’lakor)' },

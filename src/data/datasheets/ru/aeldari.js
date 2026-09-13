@@ -29,7 +29,7 @@ const dmgHitMinus = (range) =>
 
 export default {
   asurmen: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Азурмен'],
     flavor:
       'Воинское мастерство Асурмена захватывает дух, а величие его героического присутствия столь огромно, что ближние Aspect Warriors напитываются его непревзойдённым тактическим чутьём. Помимо наручных шурикеновых катапульт, известных как Bloody Twins, он несёт Sword of Asur, в чьей рукояти — камень души брата Асурмена, Тетесиса.',
@@ -93,7 +93,7 @@ export default {
   },
 
   baharroth: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Бахаррот'],
     flavor:
       'Бахаррот движется с грацией зефира и бьёт с силой урагана. В бою он сияет собственным блеском: пикирует на дистанцию, открывает огонь и отворачивает к следующей добыче. В упор он разит великолепным Shining Blade, снося головы его изящно изогнутой кромкой.',
@@ -276,7 +276,7 @@ export default {
   },
 
   'eldrad-ulthran': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Эльдрад Ультран', 'Эльдрад'],
     flavor:
       'Один из могущественнейших псайкеров-аэльдари, когда-либо живших, — когда Эльдрад Ультран выходит на поле, планы его врагов уже известны ему. Псионическая мощь Эльдрада такова, что он способен ломать Титанов и изгонять сильнейших демонов, а за тысячелетия он сразил королей и чемпионов без числа.',
@@ -370,7 +370,7 @@ export default {
   },
 
   fuegan: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Фуэган'],
     flavor:
       'Фуэган посвятил себя полному уничтожению врагов Asuryani, и след трупов, что он оставил за собой, тянется через галактику. Тех, на кого он обращает свой огненный взор, он либо стирает из бытия жгучими залпами своего огненного копья Searsong, либо рассекает надвое яростными ударами Fire Axe.',
@@ -430,7 +430,7 @@ export default {
   },
 
   'jain-zar': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Джаин Зар'],
     flavor:
       'Всегда во главе атаки, славящаяся скоростью и свирепостью, Джаин Зар несёт Blade of Destruction — древний экзекьюшенер. Им она чертит кровавые дуги, прорубаясь сквозь врагов, прежде чем перескочить на новую позицию. Взмахом запястья она спускает Silent Death — трёхлезвийное метательное оружие, что с лёгкостью сносит врагу голову.',
@@ -774,7 +774,7 @@ export default {
   },
 
   'the-visarch': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Визарх'],
     flavor:
       'Visarch мечется среди врагов, снося конечности и головы кронмечом Asu-var, Мечом Безмолвных Криков. Многочисленные лики, что украшают его древний доспех Bel-Anshoc, представляют личины, что он может принимать в бою, — среди них верный клинок Экзарха и акробатическое мастерство ведьмы-друкари.',
@@ -793,7 +793,7 @@ export default {
   },
 
   'the-yncarne': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Инкарна'],
     flavor:
       'Прорвавшись в реальное пространство, Yncarne наступает на врагов среди вихря мертвенных шёпотов. Это ревущий психический ураган, что вырывает жизнь из тех, кто заслужил его гнев. Ближние Ynnari бодрятся его леденящей мощью, а враги обращаются в прах под взором Yncarne или рассекаются надвое его размашистыми ударами.',
@@ -1221,7 +1221,7 @@ export default {
   },
 
   yvraine: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Иврейн', 'Иврайн'],
     flavor:
       'Ивраина владеет кронмечом Kha-vir, Мечом Печалей, что обращает врага в пепел легчайшим касанием. Когда она вступает в бой, в ней проявляется мощь Иннеада — настолько, что воины Возрождённых, сражающиеся вокруг неё, превращаются в кровавые размытия насилия.',

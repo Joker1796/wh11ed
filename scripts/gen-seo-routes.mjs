@@ -113,7 +113,7 @@ async function factionRoutes() {
 
 // Combat Patrol routes are auto-detected from src/data/combatPatrol.js the same way faction
 // routes are above — this list grows on its own as Phase 3 authors more boxes, no changes
-// needed here (see APPDATA-COVERAGE-PLAN.md's "Combat Patrol support" plan).
+// needed here (see the Combat Patrol coverage audit).
 async function combatPatrolRoutes() {
   const file = join(ROOT, 'src/data/combatPatrol.js')
   if (!existsSync(file)) return []

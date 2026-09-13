@@ -51,7 +51,7 @@ export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
 
   astorath: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Асторат'],
     flavor:
       'Где сыны Сангвиния на грани Чёрной Ярости — туда и идёт Асторат. Полный решимости даровать этим воинам славную последнюю победу, он сражается как одержимый, снося головы врагам, ведя за собой исходящих пеной космодесантников, охваченных безудержной яростью.',
@@ -97,7 +97,7 @@ export default {
   },
 
   'chief-librarian-mephiston': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Мефистон'],
     flavor:
       'Мефистон — неимоверно мощный воин и псайкер. Он единственный из Blood Angels, кто, как известно, подавил Чёрную Ярость, воскреснув из состояния близкой смерти с исключительной силой, мощью и скоростью. Многие шепчутся за его спиной, спрашивая, какую цену он заплатил за такое преображение.',
@@ -111,7 +111,7 @@ export default {
   },
 
   'commander-dante': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Данте'],
     flavor:
       'Данте парит над полем боя, сияя в своей золотой броне, прежде чем с рёвом ринуться в кровавый бой на огненных шлейфах. Оказавшись в гуще, пронзительный взгляд его посмертной маски леденит врагов от ужаса, а безукоризненно выверенные удары Axe Mortalis повергают врага за врагом.',
@@ -225,7 +225,7 @@ export default {
   },
 
   lemartes: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Лемартес'],
     flavor:
       'Жизнь Лемарта — непрерывная битва. Воин железной воли, он каким-то образом сохраняет ясность рассудка, хотя и поддался Чёрной Ярости. Он ведёт Death Company Blood Angels как Хранитель Потерянных, владея древним оружием, известным как Blood Crozius. Его вдохновение сделало Death Company ещё грознее.',
@@ -274,7 +274,7 @@ export default {
   },
 
   'the-sanguinor': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Сангвинор'],
     flavor:
       'Сангвинор — загадочная фигура, что сражается лишь на битвах наивысшей важности, когда нужда Blood Angels наибольшая. Он вселяет в сынов Сангвиния столько же отваги, сколько страха во врага, и проносится по полю, будто воля Сангвиния, обретшая плоть.',

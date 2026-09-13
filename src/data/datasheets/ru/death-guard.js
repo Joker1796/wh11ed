@@ -351,7 +351,7 @@ export default {
   },
 
   mortarion: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Мортарион', 'Морти'],
     flavor:
       'Стоять рядом с Мортарионом смертельно — таков окружающий его чумной ореол. Владея своей исполинской косой Silence, он рассекает целые вражеские отряды за секунды. Яростными залпами Lantern, своего убийственного оружия неведомого происхождения, он распыляет и тяжёлую пехоту, и броню.',
@@ -507,7 +507,7 @@ export default {
   },
 
   rotigus: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ротигус'],
     flavor:
       'Ротигус Дождеотец вваливается в бой, изрыгая реки едкой, чумной скверны на всех, кто встал на его пути. В раздутом кулаке он сжимает gnarlrod, а нескончаемый заразный ливень сопровождает демона — плодородный потоп, способный утопить, развратить и мутировать всё, чего коснётся.',
@@ -535,7 +535,7 @@ export default {
   },
 
   typhus: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Тифус', 'Тифон'],
     flavor:
       'Носитель Destroyer Hive, Тифус тысячелетиями странствует по галактике, разнося Гниль Нургла и убивая миллиарды. Выходя на поле, он рассекает бессчётных врагов своей облепленной скверной power scythe и высвобождает роящийся ужас своего Destroyer Hive, чтобы поглотить их убийственными чумными мухами.',

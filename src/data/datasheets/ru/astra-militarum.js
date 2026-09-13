@@ -395,7 +395,7 @@ export default {
   },
 
   'commissar-graves': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Грейвз'],
     flavor:
       'Хладноглазые убийцы, всегда готовые казнить солдат за любую мнимую провинность, Грейвз и её свита требуют абсолютной верности и преданности долгу. Едущая в бой на своём доработанном Centaur RSV по имени Vigilance, Грейвз с готовностью перехватывает и отменяет приказы, что считает трусливыми, служа при этом фигурой и страха, и вдохновения.',
@@ -418,7 +418,7 @@ export default {
   },
 
   'commissar-graves-on-foot': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Грейвз'],
     flavor:
       'Воплощение бескомпромиссной нетерпимости, комиссар Тения Грейвз внушает страх и уважение в равной мере. Она требует абсолютного повиновения и самоотверженной агрессии и от офицеров, и от солдат, и без колебаний казнит любого, кто не отвечает её взыскательным меркам.',
@@ -440,7 +440,7 @@ export default {
   },
 
   'commissar-yarrick': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Яррик', 'Ярик'],
     flavor:
       'Мало кто из чемпионов Империума вдохновляет простых солдат так, как комиссар Себастьян Яррик. Он и сам способен прорубить просеку сквозь врагов, нанося громовые удары своей трофейной power klaw, выкашивая их из storm bolter и пуская лазерные разряды из своего окулярного аугметика — так называемого Bale Eye.',
@@ -564,7 +564,7 @@ export default {
   },
 
   'gaunts-ghosts': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Гаунт', 'Ибрагим Гаунт', 'Призраки Гаунта'],
     flavor:
       'Полковник-комиссар Ибрам Гаунт совмещает посты внушающего страх политофицера и полкового командира Танитского Первого-и-Единственного. Вместе со скрытными и смертоносными офицерами и солдатами полка — теми, кого зовут Призраками Гаунта, — печально известные рейды Гаунта, тайные задания и невероятные победы закрепили его легенду.',
@@ -839,7 +839,7 @@ export default {
   },
 
   'lord-solar-leontus': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Леонтус', 'Аркадиан Леонт'],
     flavor:
       'Аркадиан Леонт бросает целые армии Astra Militarum против апокалиптических вторжений и мятежей масштаба сектора. Учёный войны и мастер-тактик, лорд-командующий Солар возвышается над полем боя на своём кибернетическом жеребце Konstantin, направляя клинок на врага и рыча приказы.',
@@ -911,7 +911,7 @@ export default {
   },
 
   'nork-deddog': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Норк Деддог'],
     flavor:
       'Верность Норка Деддога и его мастерство телохранителя вне сомнений. Громадный огрин скорее получит страшные раны, чем допустит хоть царапину на тех, кого защищает. Десятки побед одержаны благодаря его бездумному героизму, пока он стреляет, потрошит или бьёт головой любую угрозу своим подопечным.',
@@ -1062,7 +1062,7 @@ export default {
   },
 
   'sly-marbo': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Марбо', 'Слай Марбо'],
     flavor:
       'Слай Марбо — армия из одного человека. Он действует в одиночку, бьёт из засады и снова растворяется в тенях. Легендарный солдат, Марбо выпотрошил ксено-ужасов и перерезал глоток предателям без счёта своим отравленным клинком, а из своего ripper pistol пускает град ядовитых осколков.',
@@ -1198,7 +1198,7 @@ export default {
   },
 
   'ursula-creed': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     // Note: the approved list said "Ursarkar E. Creed" / "Урсакар Крид" — this dataset's current
     // datasheet is "Ursula Creed" (GW's newer version of the character), so the alias targets her.
     aliasesRu: ['Урсула Крид', 'Крид'],

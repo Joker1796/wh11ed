@@ -3,7 +3,7 @@
 // WHY THIS EXISTS: every deep URL used to serve the same `index.html`, so all 3142 addresses in
 // the sitemap carried the landing page's title and no content at all until JavaScript ran. Google
 // renders JS; Yandex — the audience this project targets — barely does, so to it the whole site
-// was one page repeated three thousand times. See SEO.md.
+// was one page repeated three thousand times. See CLAUDE.md → Architecture (History-mode SEO machinery).
 //
 // WHERE THE OUTPUT GOES: NOT into `dist/`. `globPatterns` in vite.config.js precaches
 // `**/*.html`, so thousands of generated pages landing in dist/ would be dragged into the service

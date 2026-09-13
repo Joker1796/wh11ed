@@ -40,7 +40,7 @@ export default {
       'USING SIR HEKHTUR':
         'Если ваша модель Canis Rex уничтожена, эта модель считается моделью, высаживающейся из уничтоженного TRANSPORT, и обязана совершить Emergency Disembarkation. Sir Hekhtur не может быть выбран целью ваших стратагем, кроме Core Stratagems. Ваш юнит Canis Rex не считается уничтоженным, пока не уничтожен и Sir Hekhtur.',
     },
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Гектур', 'Сэр Гектур'],
     flavor:
       'Некогда пленник Iron Warriors, Sir Hekhtur выстоял под мучительными пытками и спасся лишь благодаря несокрушимой вере, решимости и чести. Ныне он странствует по галактике, освобождая имперских граждан, порабощённых силами Архиврага.',
@@ -125,7 +125,7 @@ export default {
       'USING SIR HEKHTUR':
         'Если ваша модель Canis Rex уничтожена, эта модель считается моделью, высаживающейся из уничтоженного TRANSPORT, и обязана совершить Emergency Disembarkation. Sir Hekhtur не может быть выбран целью ваших стратагем, кроме Core Stratagems. Ваш юнит Canis Rex не считается уничтоженным, пока не уничтожен и Sir Hekhtur.',
     },
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Канис Рекс'],
     flavor:
       'Canis Rex — последний неосквернённый осколок Дома Cerberan. Под управлением своего пилота, сэра Хектура, Canis Rex стал прославленной легендой. Свирепость — а порой и явная интуитивная самостоятельность — его духа машины делает этого Knight смертоносным на поле боя. Пульсирующими залпами лазерного огня и сокрушительными взмахами исполинского кулака он безжалостно давит поработителей-угнетателей.',

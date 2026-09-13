@@ -4,7 +4,7 @@
 // Why this exists: this class of bug was already found once by luck rather than a standing check
 // (necrons' "Veil of Darkness" — its own appdata prose never says "NECRONS model only" anywhere;
 // only the STRUCTURAL `enhancement_required_keyword_group_faction_keyword` row says so. wh11ed had
-// been missing it until fixed in an earlier session — see APPDATA-COVERAGE-PLAN.md #4). Building
+// been missing it until fixed in an earlier session — see the appdata coverage audit #4). Building
 // this script found a second, previously-unknown case the same way: space-marines.js's "Scroll of
 // Proclamation" was missing "Adeptus Astartes model only." in EN — and RU (ru/space-marines.js)
 // already had "Только модель Adeptus Astartes." in the equivalent position, so this was a one-sided
@@ -129,7 +129,7 @@ function wordPresent(word, haystackNorm) {
 // OF THE VOIDDRAGON** model only" — but the datasheet's own catalog name (datasheet.json) is
 // correctly spaced "C'tan Shard of the Void Dragon", matching wh11ed and every other reference to
 // it. Same class as the "Nuncio-acquila" appdata self-contradiction documented in
-// APPDATA-COVERAGE-PLAN.md's sync-wargear-options section — a verified non-issue, not a wh11ed gap.
+// the coverage audit's sync-wargear-options section — a verified non-issue, not a wh11ed gap.
 const KNOWN_PROSE_TYPO_WORDS = new Set(['voiddragon'])
 // Tolerant of the last word's plural form disagreeing (e.g. structural datasheet name "Scout
 // Sentinels" vs a prose reference to just "one Sentinel") — used only in the tier-2 structural

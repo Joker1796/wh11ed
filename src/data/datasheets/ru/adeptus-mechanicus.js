@@ -71,7 +71,7 @@ export default {
   },
 
   'belisarius-cawl': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Велизарий Коул', 'Белизарий Коул'],
     flavor:
       'Боевая форма Белизария Кола — многоконечностный биомеханический гибрид. Передовые бионические протезы дают ему безмерную силу и живучесть, а извивающиеся щупальца стремительно чинят его кибернетическое тело. Десять тысяч лет Кол искоренял врагов Империума и до сих пор ведёт приверженцев Бога-Машины в святом стяжании.',
@@ -514,7 +514,7 @@ export default {
   },
 
   'thulia-ghuld': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Тулия Гульд'],
     flavor:
       'Аватар воинского аспекта Омниссии, Тулия Гульд внушает фанатичную преданность марсианским когортам, что она ведёт на войну. Своим Jericho-class conversion resonator она обращает полосы врагов в рассеивающуюся звуковую энергию, а её Rod of the War Forge излучает несущие волны, чтобы подстегнуть её воинов в бой.',

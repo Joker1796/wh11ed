@@ -3,7 +3,7 @@ import { router } from './index.js'
 import { localeOfPath, localePath, stripLocale, RU_PREFIX } from './locale.js'
 import { setLocale } from '../composables/useLocale.js'
 
-// RU moved from `?lang=ru` onto a `/ru` path prefix on 2026-08-26 (SEO-RU-URLS-PLAN.md). Two
+// RU moved from `?lang=ru` onto a `/ru` path prefix on 2026-08-26 (CLAUDE.md → Architecture). Two
 // things have to stay true forever: every page must exist at both addresses, and every link
 // written before the move must still land where it always did.
 

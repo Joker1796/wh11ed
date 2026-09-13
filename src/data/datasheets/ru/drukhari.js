@@ -53,7 +53,7 @@ export default {
   },
 
   drazhar: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Дражар', 'Дразар'],
     flavor:
       'Крадучись по полям боя реального пространства с единственным, убийственным сосредоточением, Drazhar сражается в полном безмолвии. Его владение клинком феноменально, его мастерство несравненно. Единственное его желание — убивать ради самого убийства, ибо он прорубает кровавый путь и сквозь могучих чемпионов, и сквозь незадачливое отребье, обращая всех в изрубленные трупы с одинаковой презрительной лёгкостью.',
@@ -181,7 +181,7 @@ export default {
   },
 
   'lady-malys': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Малис', 'Леди Малис'],
     flavor:
       'Мало кто из галактических военных вождей может сравниться с интеллектом Lady Malys или её талантом плести сложные стратегические сети вокруг врагов. Какие бы схемы ни замышляли её враги, Malys уже всё предвидела и подготовила меры, оставляя противников в смятении и лёгкой добычей для её мелькающих клинков.',
@@ -198,7 +198,7 @@ export default {
   },
 
   'lelith-hesperax': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Лелит Гесперакс', 'Лелит'],
     flavor:
       'Lelith Hesperax — бесспорная королева арен Коморры, воительница, способная повергнуть могущественнейших бронированных врагов и чудовищнейших тварей парой простых — хоть и прекрасно сбалансированных — ножей. Hesperax превращает каждую свою битву в спектакль, танцуя и виясь вокруг жертв с насмешливой лёгкостью, доводя всё до эффектно кровавого крещендо.',

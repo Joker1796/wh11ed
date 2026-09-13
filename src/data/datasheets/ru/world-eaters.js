@@ -23,7 +23,7 @@ const dmgHitMinus = (range) =>
 
 export default {
   angron: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ангрон'],
     flavor:
       'Ангрон — ярость, обретшая бессмертную форму. Машина разрушения, он обладает силой, чтобы голыми руками разрывать имперские бастионы и останавливать Titan на ходу. Вооружённый мечом Samni’arius и топором Spinegrinder, он способен прорубить путь сквозь целые армии врагов в вихре апокалиптического кровопролития.',
@@ -345,7 +345,7 @@ export default {
   },
 
   'kh-rn-the-betrayer': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Кхарн Предатель'],
     flavor:
       'Кхарн — бушующая буря резни, воплощение восьмеричного пути Кхорна. Когда он мчится в бой, его рёв боевого клича гремит из вокс-решётки его шлема. Мантра Кхарна — «Убей! Искалечь! Сожги!» — стала печально известна по всему Империуму, ужасающим предвестником грядущей бойни.',
@@ -401,7 +401,7 @@ export default {
   },
 
   'lord-invocatus': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Инвокатус', 'Лорд Инвокатус'],
     flavor:
       'Мастер стремительных набегов, сокрушительных контратак и стратегий «ударил и ушёл», Lord Invocatus стремится пролить больше крови и взять больше черепов для Кхорна, перемещаясь из одной зоны боевых действий в другую на огромной скорости, ведя свои воинства, что врезаются во вражеские боевые линии, верхом на своём могучем Juggernaut по имени Khal’guruth.',
@@ -456,7 +456,7 @@ export default {
   },
 
   skarbrand: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Скарбранд'],
     flavor:
       'Никогда не останавливаясь, никогда не отступая, Skarbrand штурмует реальное пространство, разрубая каждого незадачливого врага на своём пути. Хуже того, всех, кто оказывается в присутствии демона, охватывает его дикая жажда убийства — безумие, что обращает изящные стратегии в оргии первобытной дикости.',

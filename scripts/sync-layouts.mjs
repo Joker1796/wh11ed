@@ -2,7 +2,7 @@
 // (src/data/eventCompanion.js's `matchups[]`/`layoutImages`, extracted from the app's APK by
 // scripts/extract-layout-images.mjs) against wh40k-appdata's structural mission_layout family.
 //
-// Investigated per APPDATA-COVERAGE-PLAN.md's open question: appdata does NOT carry the layout
+// Investigated per the coverage audit's open question: appdata does NOT carry the layout
 // artwork itself (that only exists as a compiled APK resource, see extract-layout-images.mjs's own
 // header), but it DOES fully encode the layout<->matchup<->A/B/C pairing, cross-checked two ways:
 //   - `mission_layout.json` (48 rows: 45 real "X / Y - Layout Z" + 3 unused generic placeholders)

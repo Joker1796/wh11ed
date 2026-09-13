@@ -18,7 +18,7 @@
 //   - by name pattern: src/data/datasheetAliasRulesRu.js — a whole CLASS of unit sharing one
 //     widespread nickname (Terminator-anything → "термосы"), applied to any datasheet whose EN
 //     name matches the rule's pattern, across every faction.
-// See ALIASES-PROGRESS.md for the curation guidelines, sourcing and per-faction status.
+// See src/data/CLAUDE.md (RU search aliases) for the curation guidelines and sourcing.
 
 import { existsSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'

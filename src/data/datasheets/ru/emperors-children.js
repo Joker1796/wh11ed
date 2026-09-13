@@ -153,7 +153,7 @@ export default {
   },
 
   fulgrim: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Фулгрим', 'Фениксиец'],
     damaged: { note: 'осталось 1–6 ран', text: dmgHit('1–6') },
     abilities: {
@@ -252,7 +252,7 @@ export default {
   },
 
   'lucius-the-eternal': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Люций Вечный', 'Люций'],
     abilities: {
       'A Challenge Worthy of Skill':

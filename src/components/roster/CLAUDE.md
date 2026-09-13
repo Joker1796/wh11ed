@@ -3016,12 +3016,10 @@ they do.)
 
 ## Known gaps
 
-See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list — kept there
-rather than here since that file is the transient tracking doc and this one is the stable
-reference. Cloud backup used to head that list; it was built on 2026-08-22 (see "Cloud sync"
-above) and the backend half still has to be deployed. The overlay's own tracking docs
-(`ROSTER-MODIFIERS-PROGRESS.md`, `ROSTER-IN-GAME-PROGRESS.md`) were retired into this file on
-2026-08-22, once their last phases closed; their journals are in the git history.
+The builder's transient tracking docs are gone — this file is the stable reference, and the
+work-in-progress journals they held were retired once their phases closed (they survive in the git
+history). Cloud backup used to head the open-questions list; it was built on 2026-08-22 (see
+"Cloud sync" above) and has been deployed and verified in production since 2026-08-26.
 
 One modelling gap, now CONTAINED rather than open: appdata gives a faction several army rules, our
 faction files one (sometimes a merge, `Synapse & Shadow in the Warp`). A record for a rule we do not

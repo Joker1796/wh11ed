@@ -42,7 +42,7 @@ export default {
   },
 
   'callidus-assassin': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['ассасин-каллидус', 'каллидус', 'калидус'],
     flavor:
       'Там, где действует Callidus Assassin, расцветает анархия. С помощью меняющего облик наркотика полиморфина они втираются в ближайшее окружение цели, саботируя системы и сея дезинформацию, прежде чем сойтись с жертвой — залпами разрушающего разум пистолета и взмахами загадочного клинка.',
@@ -78,7 +78,7 @@ export default {
   },
 
   'culexus-assassin': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['ассасин-кулексус', 'кулексус'],
     flavor:
       'Culexus Assassin источает вокруг себя ауру гнетущего страха. Их главные цели — псайкеры, которых само присутствие этих бездушных убийц терзает мукой, а под чародейскими залпами animus speculum ни одна ведьма долго не живёт.',
@@ -116,7 +116,7 @@ export default {
   },
 
   'eversor-assassin': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['ассасин-эверсор', 'эверсор'],
     flavor:
       'Берсерки-убийцы, накачанные нестабильными химическими стимуляторами, Eversor Assassin — ураганы клинков и когтей. Их спускают с цепи как оружие террора и истребления — убить не только назначенную цель, но и всех вокруг неё.',
@@ -230,7 +230,7 @@ export default {
   },
 
   'inquisitor-coteaz': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Котеаз'],
     flavor:
       'Пуританин Ordo Malleus, инквизитор Котеаз каждый час бодрствования проводит за изучением докладов своих бесчисленных агентов — или лицом к лицу с демонами, еретиками и чужаками в открытом бою. Он отказывается обращать силу Варпа себе на пользу и вместо этого направляет её на борьбу с демоническим и на суд над теми, кому недостаёт чистоты.',
@@ -250,7 +250,7 @@ export default {
   },
 
   'inquisitor-draxus': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Драксус', 'Кирия Драксус'],
     flavor:
       'Дерзкая и целеустремлённая инквизитор Ordo Xenos, Кирия Драксус — специалист по охоте на некронов. Радикальная во взглядах, она принимает необходимость сотрудничать с некоторыми чужаками ради защиты Империума. О некронах она узнала от аэльдари, а свои псионические способности отточила под наставничеством как ксеносов, так и людей.',
@@ -266,7 +266,7 @@ export default {
   },
 
   'inquisitor-greyfax': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Грейфакс'],
     flavor:
       'Инквизитора Грейфакс страшатся даже многие в её собственном ордене — Ordo Hereticus. Лишённая жалости и раскаяния, она воин с железной волей. К тому же она могущественный псайкер: телепатические способности позволяют ей распознавать ложь допрашиваемых. Некоторые клеймят Грейфакс опасной радикалкой, но её преданность Империуму неоспорима.',
@@ -282,7 +282,7 @@ export default {
   },
 
   'inquisitor-kroyle': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Кройл', 'Инигох Кройл'],
     flavor:
       'Радикальный инквизитор Ordo Xenos, Инигох Кройл — непревзойдённый охотник на чудовищ-ксеносов. Со спины покорённого гарралиска Кройл выслеживает и настигает добычу-ксеносов, валя даже самых грозных целей пропитанными ядом выстрелами своего Jindarii tox-cycler.',
@@ -478,7 +478,7 @@ export default {
   },
 
   'vindicare-assassin': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['ассасин-виндикар', 'виндикар'],
     flavor:
       'Приглушённый треск exitus rifle Vindicare Assassin — всё, что большинство когда-либо узнаёт о его присутствии. Это — и брызги мозга жертвы. Смертоносные стрелки, они находят идеальную огневую позицию, чтобы выцелить добычу, а против более многочисленных врагов быстро множат счёт тел выстрел за мастерским выстрелом.',

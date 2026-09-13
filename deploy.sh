@@ -3,7 +3,7 @@
 # Build + upload to Yandex Object Storage with correct per-file Cache-Control.
 #
 # TARGET: wh-rules.ru — the one live domain. The old wh11ed.ru is FROZEN on its last build
-# (v2.2.6, carrying the "we're moving" banner) and is NOT redeployed; see MIGRATION.md.
+# (v2.2.6, carrying the "we're moving" banner) and is NOT redeployed; see DEPLOY.md.
 # `.env.deploy.wh11ed` is kept only as a rollback escape hatch (ENVFILE=.env.deploy.wh11ed),
 # never as part of a normal release.
 #

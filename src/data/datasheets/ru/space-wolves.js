@@ -46,7 +46,7 @@ export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
 
   'arjac-rockfist': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Арьяк', 'Арьяк Роккфист'],
     flavor:
       'Арьяк Роккфист — исполинская гора мышц и молчаливая наковальня стойкости. Владея огромным Foehammer (что напоминает о его прежней роли Iron Priest кузни), Арьяк крушит врагов сокрушительной силой. Как личный чемпион Великого Волка, Арьяк блюдёт честь Ордена.',
@@ -61,7 +61,7 @@ export default {
   },
 
   'bjorn-the-fell-handed': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Бьорн', 'Бьорн Разящая Рука'],
     flavor:
       'Древнейший из всех космодесантников и последний из Роты Русса, Бьорн Свирепорукий сражается тысячелетиями в саркофаге Dreadnought. Space Wolves чтят Бьорна как живую связь с их глубочайшим прошлым, пробуждая его лишь в час крайней нужды, и он всё ещё бьётся столь же яростно, как когда-то рядом с Руссом.',
@@ -131,7 +131,7 @@ export default {
   },
 
   'logan-grimnar': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Логан Гримнар'],
     flavor:
       'Логан Гримнар — Великий Волк и Верховный Король Фенриса — один из дольше всех служащих Магистров Орденов. Ведя войну против всех, кто угрожает Space Wolves или Империуму, Гримнар харизмой и веками героических побед обессмертил себя как одного из самых прославленных воинов галактики.',
@@ -150,7 +150,7 @@ export default {
   },
 
   murderfang: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Смертоклык'],
     flavor:
       'В час нужды из-под Клыка спускают неистовую механическую тварь, чьи чудовищно жестокие когти рвут врагов в кровавые клочья. Орден зовёт её Murderfang. Её истинная личность неизвестна, ибо её бессмысленные рычащие ярости лишены речи; ныне она известна лишь как сила необузданного разрушения.',
@@ -166,7 +166,7 @@ export default {
   },
 
   'njal-stormcaller': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ньял', 'Ньял Буревестник'],
     flavor:
       'Призывая ледяные бураны, чтобы рассеять врагов, Ньял Буревестник — стихийное средоточие псионической ярости. Он Верховный Рунный Жрец Space Wolves и владеет трещащим посохом, которым нейтрализует вражеские чары.',
@@ -181,7 +181,7 @@ export default {
   },
 
   'ragnar-blackmane': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Рагнар Чёрная Грива', 'Рагнар Черногривый'],
     flavor:
       'Безмерно уверенный в себе и всегда рвущийся первым в схватку, Волчий Лорд Рагнар Чёрная Грива регулярно ведёт свою Великую Роту в сокрушительные планетарные вторжения. Уже не столь горяч, как в юности, Рагнар в берсеркерской ярости всё ещё яростный ураган насилия, а его ужасающий вой леденит кровь врагов.',
@@ -213,7 +213,7 @@ export default {
   },
 
   'ulrik-the-slayer': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ульрик Убийца'],
     flavor:
       'Образец мудрости и опыта, Ульрик Убийца наставил многих величайших чемпионов Space Wolves. Он Волчий Верховный Жрец, вдохновляющий всех, кто сражается рядом, своей агрессией и воинским мастерством. Обращая свой грозный взор на могучих врагов, Ульрик даёт тяжкие клятвы повергнуть их.',

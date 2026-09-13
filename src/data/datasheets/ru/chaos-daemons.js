@@ -39,7 +39,7 @@ const dmgHitMinus = (range) =>
 
 export default {
   belakor: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Белакор'],
     flavor:
       'Мало какие варп-сущности столь же могучи или коварны, как Бе’лакор. Окутанный тенями и пляшущим колдовским светом, Тёмный Владыка сеет ужас и муку среди всех, кто его узрит. Каждый удар его Blade of Shadows оставляет за собой пустые оболочки убитых врагов — просто новые жертвы наступающей тьмы.',
@@ -232,7 +232,7 @@ export default {
   },
 
   epidemius: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Эпидемий'],
     flavor:
       'Несомый на своём троне копошащейся грудой Nurgling, Эпидемий без устали ведёт учёт бесконечных зараз и недугов, выпущенных в реальное пространство последователями Нургла. Чем выше поднимается счёт Эпидемия на данном поле боя, тем благосклоннее Бог Чумы улыбается своим слугам поблизости.',
@@ -400,7 +400,7 @@ export default {
   },
 
   'kairos-fateweaver': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Кайрос Судьбоплёт'],
     flavor:
       'Владея выкованным в варпе Staff of Tomorrow и способностью предсказывать всё, что может случиться, зная при этом всё, что уже произошло, Kairos Fateweaver — один из хитрейших стратегов галактики. То, чего демону недостаёт в телесной и боевой мощи, он с лихвой восполняет чистой тзинчианской хитростью.',
@@ -418,7 +418,7 @@ export default {
   },
 
   karanak: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Каранак'],
     flavor:
       'Каранак охотится на тех, кто оскорбил Кхорна. Чуя добычу сквозь время и пространство, он — неотвратимый хищник. Бестелесный вой Каранака призывает Blood Hunt Кхорна присоединиться к погоне — кавалькаду свирепых демонов, жаждущих буйства и резни.',
@@ -561,7 +561,7 @@ export default {
   },
 
   rotigus: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ротигус'],
     flavor:
       'Ротигус Дождеотец вваливается в бой, изрыгая хлещущие реки едкой, чумной скверны на всех, кто встал на его пути. В раздутом кулаке он сжимает gnarlrod, а нескончаемый заразный ливень сопровождает демона — плодородный потоп, способный утопить, развратить и мутировать всё, чего коснётся.',
@@ -621,7 +621,7 @@ export default {
   },
 
   skarbrand: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Скарбранд'],
     flavor:
       'Никогда не останавливаясь, никогда не отступая, Skarbrand штурмует реальное пространство, разрубая каждого незадачливого врага на своём пути. Хуже того, всех, кто оказывается в присутствии демона, охватывает его дикая жажда убийства — безумие, что обращает изящные стратегии в оргии первобытной дикости.',
@@ -679,7 +679,7 @@ export default {
   },
 
   skulltaker: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Собиратель Черепов', 'Скуллтэйкер'],
     flavor:
       'Skulltaker — палач Кхорна. Владея ужасающим Slayer Sword, Skulltaker каждым ударом сносит очередную голову с плеч врага. Сражаясь во главе Cohort of Blood — грозного собрания могущественнейших Bloodletter, — Skulltaker жнёт для Кхорна всё больший урожай достойных черепов.',
@@ -766,7 +766,7 @@ export default {
   },
 
   'the-changeling': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Перевёртыш'],
     flavor:
       'Известный также как Плут Тзинча, Changeling может по воле менять свою форму, подражая смертным существам от мельчайшего насекомого до титанического чудовища. Любимая игра демона — выдавать себя за ключевых смертных вождей или героев, а затем творить несказанные пакости, злоупотребляя их властью и положением.',

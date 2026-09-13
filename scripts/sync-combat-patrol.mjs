@@ -12,7 +12,7 @@
 //
 // Also scans every faction bundle in wh40k-appdata/factions/ for an isCombatPatrol detachment and
 // reports which ones aren't authored in combatPatrol.js yet — the Phase 3 punch list (see
-// APPDATA-COVERAGE-PLAN.md's "Combat Patrol support" plan).
+// the Combat Patrol coverage audit).
 //
 // Report only — nothing is written (combatPatrol.js is hand-authored prose, same rule as every
 // other faction data file). Usage: node scripts/sync-combat-patrol.mjs (also run as part of

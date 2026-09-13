@@ -9,8 +9,8 @@ on top. Once installed it works with no connection at all, and **nothing here ne
 🌐 **[wh-rules.ru](https://wh-rules.ru)** · open source under [MIT](LICENSE) · contributions
 welcome
 
-> The site used to live at `wh11ed.ru`. That domain is frozen on its last build and will be
-> redirected here; everything ships to `wh-rules.ru` now.
+> The site used to live at `wh11ed.ru`. That domain is frozen on its last build and redirects
+> here; everything ships to `wh-rules.ru` now.
 
 This repo is the frontend, and the frontend is ~99% of the product. See
 [wh-rules.ru](https://github.com/Joker1796/wh-rules.ru) for how the whole project fits together.
@@ -121,9 +121,8 @@ scripts/          # generators & importers: WebP, PWA icons, SEO routes, datashe
 public/images/    # illustrations + icons, one folder per rules chapter
 ```
 
-Source PDFs are **not** in this repo (see the `sources/` note in the
-[umbrella repo](https://github.com/Joker1796/wh-rules.ru)); they're only needed to re-extract
-content, never to build or run.
+Source PDFs are **not** in this repo; they're only needed to re-extract content, never to build
+or run.
 
 ## Content shape
 

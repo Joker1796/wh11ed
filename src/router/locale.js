@@ -4,7 +4,7 @@
 // path only — there is no such thing as a key for "path + query" — and the CDN is configured with
 // `ignore_query_string`, so `/rules` and `/rules?lang=ru` were physically the same object. That
 // made a Russian page incapable of ever carrying its own HTML, which is exactly what the crawler
-// we care about (Yandex, which barely executes JS) needs to see. See SEO-RU-URLS-PLAN.md.
+// we care about (Yandex, which barely executes JS) needs to see. See CLAUDE.md → Architecture (History-mode SEO machinery).
 //
 // English keeps the bare path: it is already indexed, its bucket keys exist, and changing it would
 // be risk spent on the audience we did NOT prioritise.

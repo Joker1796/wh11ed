@@ -21,7 +21,7 @@ const dmgHitMinus = (range) =>
 
 export default {
   ahriman: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Ариман'],
     flavor:
       'Ариман сражается с исключительной сосредоточенностью и пугающей решимостью. На расстоянии он обрушивает бури псионической ярости, что преображают, мутируют и стирают из бытия всех, кто встал перед ним. Пикируя на своём Disc of Tzeentch, Верховный Чародей поражает уцелевших своим ужасающим Black Staff.',
@@ -278,7 +278,7 @@ export default {
   },
 
   'kairos-fateweaver': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Кайрос Судьбоплёт'],
     flavor:
       'Владея выкованным в варпе Staff of Tomorrow и способностью предсказывать всё, что может случиться, зная при этом всё, что уже произошло, Kairos Fateweaver — один из хитрейших стратегов галактики. То, чего демону недостаёт в телесной и боевой мощи, он с лихвой восполняет чистой тзинчианской хитростью.',
@@ -309,7 +309,7 @@ export default {
   },
 
   'magnus-the-red': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Магнус Красный', 'Магнус'],
     flavor:
       'Никто не смеет встретить одноглазый взор Багрового Короля. Он — нексус чародейских энергий, разумное слияние судьбы и магии, заключённое в мерцающей плоти демонического полубога. Магнус обрушивает свою магию неудержимой бурей, и счастливейшие из его жертв — те, кто умирает быстро.',

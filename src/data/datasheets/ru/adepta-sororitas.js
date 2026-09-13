@@ -20,7 +20,7 @@ const dmgHitMinus = (range) =>
 
 export default {
   'aestred-thurga-and-agathae-dolan': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Эстред Турга', 'Агата Долан', 'Эстред Турга и Агата Долан'],
     flavor:
       'Эстред Турга — и сама по себе могучая воительница, но с великим смирением сознаёт, что древний реликтовый штандарт, что она несёт, куда важнее, чем она когда-либо сможет быть. Она с радостью умрёт, защищая Auto-Tapestry of the Emperor’s Judgement, а Сёстры, что сражаются рядом, вдохновляются на великие деяния веры в его присутствии — деяния, записываемые Хагиолатером, Агатой Долан.',
@@ -166,7 +166,7 @@ export default {
   },
 
   daemonifuge: {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Эфраэль Стерн', 'Эфраэль Штерн', 'Демонифуг'],
     flavor:
       'Эфраэль Стерн, Daemonifuge, способна являть странные силы, что некоторые считают колдовством. Но она — ревностная защитница Имперского Кредо с непоколебимой преданностью. Вместе со своим спутником-эльдари, Kyganil, Стерн обращает свою усиленную силу и скорость против врагов Императора.',
@@ -284,7 +284,7 @@ export default {
   },
 
   'intranzia-fraye': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Интранция Фрай', 'Интранзия Фрайе', 'Интранция Фрейе'],
     flavor:
       'Едущая в бой на своём Throne of Blame, Интранция Фрай разит нечистых, выкрикивая вокс-усиленные обличения. Враги, выделенные для её суда, становятся средоточием гнева её сестёр: Adepta Sororitas яростно стремятся очистить этих еретиков, дабы самим не быть осуждёнными и наказанными их нетерпимой Dogmata Superior.',
@@ -299,7 +299,7 @@ export default {
   },
 
   'junith-eruita': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Джунит Эруита', 'Юнифь Эруита'],
     flavor:
       'Джунит Эруита несётся в бой, окутанная святым огнём. Она парит над полем боя на гудящих волнах энергии в кафедре Saint Holline’s Basilica. Её присутствие и голос вдохновляют всех вокруг, наполняя их верой, а её heavy flamer окатывают врагов очищающим пламенем.',
@@ -347,7 +347,7 @@ export default {
   },
 
   'morvenn-vahl': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Морвенн Валь', 'Морен Вал'],
     flavor:
       'Агрессивная, дерзкая и немногословная, Морвенн Валь ведёт Adepta Sororitas с передовой. Выходя на поле в древнем Paragon Warsuit, она разит врага за врагом оглушительными очередями Fidelis, сокрушительными залпами ракет и точными выпадами Lance of Illumination.',
@@ -432,7 +432,7 @@ export default {
   },
 
   'saint-celestine': {
-    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Целестина', 'Святая Целестина'],
     flavor:
       'Saint Celestine — живое воплощение мощи Императора, и она излучает святой свет. Под ним верные наполняются отвагой, а еретики испытывают всепоглощающий ужас. Окружённая своими избранными чемпионками Geminae, она жестами способна исцелять больных или разить, как сам суд Императора, повергая врага божественной силой.',

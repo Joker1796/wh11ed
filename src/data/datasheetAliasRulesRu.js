@@ -3,7 +3,7 @@
 // Terminators", "Terminator Squad", "Chaos Terminator Squad", …) should all be findable via the
 // widespread community nickname "термосы". This is the pattern-based counterpart to the
 // per-unit `aliasesRu` field in src/data/datasheets/ru/<slug>.js (for one-off named characters
-// like Ghazghkull/Abaddon) — see ALIASES-PROGRESS.md for how the two combine and the sourcing/
+// like Ghazghkull/Abaddon) — see src/data/CLAUDE.md (RU search aliases) for how the two combine and the sourcing/
 // approval process behind this specific list (reviewed line-by-line with the user against
 // wh-glossary/terms/game.tsv + a filtered community-jargon pass).
 //

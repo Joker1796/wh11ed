@@ -8,7 +8,7 @@
 // Why this exists: this is by far the largest source of past manual fixes across the 30-faction
 // reconciliation (detached footnotes, wrong option counts, missing options entirely — Boyz,
 // Warboss, Kasrkin, Skitarii Rangers, etc., repeated across nearly every faction commit on the
-// closed branch — see APPDATA-COVERAGE-PLAN.md). `sync-faction-text.mjs` only fuzzy-diffs
+// closed branch — see the appdata coverage audit). `sync-faction-text.mjs` only fuzzy-diffs
 // `wargearRules` prose against appdata's free text; nothing has ever checked the actual
 // structural choice/count/limit data. This script does.
 //
@@ -19,7 +19,7 @@
 // three families which reference `wargearItemId` directly.
 //
 // Approach: NOT a 1:1 option-block match — appdata sometimes splits what wh11ed presents as one
-// option, and vice versa (see APPDATA-COVERAGE-PLAN.md's own note on this). Instead, for every
+// option, and vice versa (see the coverage audit's own note on this). Instead, for every
 // appdata choice set this script checks (a) presence: each wargear item the set references has
 // its name findable *somewhere* in the datasheet's combined text (options + loadout + weapon
 // profile names + ability names — appdata's "pick one of ghostaxe/ghostsword" style choice is

@@ -100,7 +100,7 @@ function wordPresent(word, haystackNorm) {
 }
 
 // Rules already read by hand and confirmed NOT a wh11ed gap, despite low word-overlap — see the
-// investigation write-up above and in APPDATA-COVERAGE-PLAN.md for what each one actually is.
+// investigation write-up above and in the appdata coverage audit for what each one actually is.
 const KNOWN_EQUIVALENT = new Map([
   ['death-guard|Nurgle’s Gift (Aura)', 'present verbatim (Contagion Range/Afflicted mechanic, all 3 Plagues) — the low overlap is from each Plague\'s flowery italic flavour description being reworded/shortened in wh11ed, not from missing mechanical content'],
   ['space-wolves|Sagas', 'a cross-reference framing sentence only ("each Detachment rule includes a Saga you can complete") — every Space Wolves detachment already implements its own named Saga mechanic (Saga of the Beastslayer/Bold/Hunter/…), just under each detachment\'s own heading rather than repeating this framing sentence'],
