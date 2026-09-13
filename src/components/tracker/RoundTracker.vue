@@ -101,11 +101,21 @@
           {{ dispositionName(pl.disposition) }}
         </p>
         <p
-          v-if="pl.detachments && pl.detachments.length"
+          v-if="!isDoubles && pl.detachments && pl.detachments.length"
           class="pdet"
         >
           {{ pl.detachments.join(' · ') }}
         </p>
+        <!-- Doubles: the army identity lives on the members — one line each. -->
+        <template v-if="isDoubles">
+          <p
+            v-for="(m, mi) in pl.members"
+            :key="mi"
+            class="pdet"
+          >
+            {{ memberLine(m, mi) }}
+          </p>
+        </template>
         <!-- Primary mission — tap to open the scoring modal -->
         <div class="sec-title-row">
           {{ labels.trackerPrimary }}
@@ -144,7 +154,7 @@
              without one the faction's datasheets are the next best thing. It reads the player
              it belongs to, so the opponent's army is one tap away from their own card. -->
         <div
-          v-if="cpOn || pl.roster || pl.factionSlug"
+          v-if="cpOn || armyLinks(pl, i).length"
           class="score-row cp-row"
         >
           <template v-if="cpOn">
@@ -156,29 +166,26 @@
             />
           </template>
           <RouterLink
-            v-if="pl.roster"
+            v-for="l in armyLinks(pl, i)"
+            :key="l.to"
             class="proster"
-            :to="`/tracker/game/roster/${i}`"
+            :to="l.to"
           >
-            <i class="bi bi-card-list" />
-            {{ labels.trackerRosterOpen }}
-          </RouterLink>
-          <RouterLink
-            v-else-if="pl.factionSlug"
-            class="proster"
-            :to="`/factions/${pl.factionSlug}/datasheets`"
-          >
-            <i class="bi bi-people-fill" />
-            {{ labels.factionDatasheets }}
+            <i :class="`bi ${l.icon}`" />
+            {{ l.label }}
           </RouterLink>
         </div>
 
         <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
              secondaries and the CP row. Opt-in per player (settings.trackArmyYou /
-             trackArmyOpp, default on) and renders only for factions with a spec. -->
+             trackArmyOpp, default on) and renders only for factions with a spec. Doubles:
+             one SHARED card for a unified force of one faction (the companion: one pool per
+             force), else one card per member — see armyCards(). -->
         <ArmyTrackerCard
-          v-if="armyRuleOn(pl)"
+          v-for="c in armyCards(pl)"
+          :key="c.mi ?? 'side'"
           :pi="i"
+          :mi="c.mi"
         />
       </div>
     </div>
@@ -253,7 +260,8 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, membersOf, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -296,6 +304,52 @@ function onPickPhase(turn, phase) {
 // `trackArmyRule` flag, and any flag a saved game predates.
 function armyRuleOn(pl) {
   return tracks(current.value.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
+}
+
+const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
+
+function memberName(m, mi) {
+  return m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
+}
+
+// One line per doubles member under the side heading: who fields what. The light factionsIndex
+// supplies the name — never the heavy trackerFactions dataset (kept off in-game screens).
+function memberLine(m, mi) {
+  const parts = [factionIndexBySlug(m.factionSlug)?.name, m.detachments?.join(' · ')].filter(Boolean)
+  return `${memberName(m, mi)} — ${parts.join(' · ')}`
+}
+
+// The army buttons of the CP row: one per army. Singles keeps its single list-or-datasheets
+// button with the usual labels; doubles labels each button with the member it belongs to.
+function armyLinks(pl, i) {
+  const out = []
+  membersOf(pl).forEach((m, mi) => {
+    if (m.roster) {
+      out.push({
+        to: isDoubles.value ? `/tracker/game/roster/${i}/${mi}` : `/tracker/game/roster/${i}`,
+        icon: 'bi-card-list',
+        label: isDoubles.value ? memberName(m, mi) : labels.value.trackerRosterOpen,
+      })
+    } else if (m.factionSlug) {
+      out.push({
+        to: `/factions/${m.factionSlug}/datasheets`,
+        icon: 'bi-people-fill',
+        label: isDoubles.value ? memberName(m, mi) : labels.value.factionDatasheets,
+      })
+    }
+  })
+  return out
+}
+
+// Which army-rule tracker cards the side gets. Singles: the one side-level card. Doubles: a
+// unified force of ONE faction shares one pool (side-level state, mi null); otherwise each
+// member with a faction tracks their own army's rule.
+function armyCards(pl) {
+  if (!armyRuleOn(pl)) return []
+  if (!isDoubles.value) return [{ mi: null }]
+  const [a, b] = pl.members
+  if (pl.forceType === 'unified' && a.factionSlug && a.factionSlug === b.factionSlug) return [{ mi: null }]
+  return pl.members.map((m, mi) => ({ mi })).filter(({ mi }) => !!pl.members[mi].factionSlug)
 }
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored

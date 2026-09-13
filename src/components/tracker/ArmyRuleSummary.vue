@@ -18,8 +18,8 @@
     <CollapseTransition :show="open">
       <div class="as-body">
         <div
-          v-for="s in summaries"
-          :key="s.pi"
+          v-for="(s, si) in summaries"
+          :key="`${s.pi}:${si}`"
           class="as-player"
         >
           <div class="as-name">
@@ -78,7 +78,7 @@ import { ref, computed, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, membersOf } from '../../composables/useTracker.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
@@ -173,17 +173,44 @@ const summaries = ref([])
 async function build() {
   const g = game.value
   if (!g?.players) { summaries.value = []; return }
-  const need = g.players.some((pl) => trackedFor(g, pl) && hasArmyData(pl) && pl.factionSlug)
-  if (!need) { summaries.value = []; return }
+  // The recaps a side may hold: its own state (singles, or a unified doubles force's shared
+  // pool — spec then read off the first member, where the army identity lives) and, in doubles,
+  // each member's own. Mirrors RoundTracker's armyCards split.
+  const holders = []
+  g.players.forEach((pl, pi) => {
+    if (!trackedFor(g, pl)) return
+    const members = membersOf(pl)
+    if (hasArmyData(pl)) {
+      holders.push({
+        state: pl, pi,
+        faction: pl.factionSlug || members[0]?.factionSlug || null,
+        detachments: pl.factionSlug ? (pl.detachments || []) : members.flatMap((m) => m.detachments || []),
+        label: null,
+      })
+    }
+    members.forEach((m, mi) => {
+      if (m === pl || !hasArmyData(m) || !m.factionSlug) return
+      holders.push({
+        state: m, pi,
+        faction: m.factionSlug,
+        detachments: m.detachments || [],
+        label: m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
+      })
+    })
+  })
+  if (!holders.some((h) => h.faction)) { summaries.value = []; return }
 
   const { resolveArmyTracker, localizeArmyTracker } = await import('../../data/armyTrackers/index.js')
   const out = []
-  g.players.forEach((pl, pi) => {
-    if (!trackedFor(g, pl) || !hasArmyData(pl)) return
-    const spec = resolveArmyTracker(pl.factionSlug, pl.detachments || [])
-    if (!spec) return
-    out.push(buildSummary(g, pl, pi, localizeArmyTracker(spec, locale.value)))
-  })
+  for (const h of holders) {
+    if (!h.faction) continue
+    const spec = resolveArmyTracker(h.faction, h.detachments)
+    if (!spec) continue
+    const s = buildSummary(g, h.state, h.pi, localizeArmyTracker(spec, locale.value))
+    if (!s.faction) s.faction = factionIndexBySlug(h.faction)?.name || ''
+    if (h.label) s.player = h.label
+    out.push(s)
+  }
   summaries.value = out
 }
 watch([game, locale], build, { immediate: true })

@@ -82,3 +82,35 @@ describe('GameSetup', () => {
     expect(body.find('.sh-table').exists()).toBe(true) // ScoreHelpModal rendered (teleported to body)
   })
 })
+
+describe('GameSetup — doubles', () => {
+  const modeButtons = (w) => w.findAll('.game-type .seg button')
+
+  it('switching to Doubles turns each side into a team card with two member blocks', async () => {
+    const w = mount(GameSetup)
+    await modeButtons(w)[1].trigger('click') // Competitive · Doubles · Combat Patrol
+    expect(w.findAll('.member-block')).toHaveLength(4)
+    expect(w.findAll('.player-card input[placeholder="Team name"]')).toHaveLength(2)
+    // Force type + per-player DP controls appear.
+    expect(w.text()).toContain('Force type')
+    expect(w.text()).toContain('DP per player')
+  })
+
+  it('the army already picked on the side card becomes member 1\'s on the switch', async () => {
+    const w = mount(GameSetup)
+    await w.findAll('.faction-btn')[0].trigger('click')
+    w.findComponent({ name: 'FactionPickerModal' }).vm.$emit('pick', 'orks')
+    await flushPromises()
+    await modeButtons(w)[1].trigger('click')
+    const firstMember = w.findAll('.member-block')[0]
+    expect(firstMember.text()).toContain('Orks')
+  })
+
+  it('switching back to Competitive restores the singles card', async () => {
+    const w = mount(GameSetup)
+    await modeButtons(w)[1].trigger('click')
+    await modeButtons(w)[0].trigger('click')
+    expect(w.findAll('.member-block')).toHaveLength(0)
+    expect(w.findAll('.faction-btn')).toHaveLength(2)
+  })
+})

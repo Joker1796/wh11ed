@@ -23,9 +23,9 @@
     >
       <RouterLink
         v-for="l in rosterLinks"
-        :key="l.pi"
+        :key="`${l.pi}:${l.mi ?? ''}`"
         class="hv-roster"
-        :to="`/tracker/history/${game.id}/roster/${l.pi}`"
+        :to="l.mi == null ? `/tracker/history/${game.id}/roster/${l.pi}` : `/tracker/history/${game.id}/roster/${l.pi}/${l.mi}`"
       >
         <i class="bi bi-card-list" />
         <span class="hv-roster-who">{{ l.who }}</span>
@@ -59,7 +59,7 @@ import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, membersOf } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 
@@ -72,8 +72,19 @@ const { history } = useTracker()
 
 const game = computed(() => history.value.find((g) => g.id === route.params.id) || null)
 
+// One pill per attached list — a doubles side can carry up to two (one per member), each
+// linking to its own member's snapshot (`mi` in the path; null/absent in singles).
 const rosterLinks = computed(() => (game.value?.players || [])
-  .map((p, pi) => ({ pi, name: p.roster?.name || '', who: p.name || (p.isYou ? labels.value.trackerYou : labels.value.trackerOpponent), has: !!p.roster?.units }))
+  .flatMap((p, pi) => {
+    const sideWho = p.name || (p.isYou ? labels.value.trackerYou : labels.value.trackerOpponent)
+    return membersOf(p).map((m, rawMi) => ({
+      pi,
+      mi: m === p ? null : rawMi,
+      name: m.roster?.name || '',
+      who: m === p ? sideWho : (m.name || sideWho),
+      has: !!m.roster?.units,
+    }))
+  })
   .filter((l) => l.has))
 
 // Battlefield layout diagram — recommended (by dispositions + letter) or a custom pick.

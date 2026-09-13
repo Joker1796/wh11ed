@@ -150,3 +150,55 @@ describe('RoundTracker — what the game keeps track of', () => {
     expect(w.findAll('.card-open').length + w.findAll('.score-row').length).toBeGreaterThan(0)
   })
 })
+
+describe('RoundTracker — doubles', () => {
+  function startDoubles(membersA, membersB, over = {}) {
+    startGame(
+      { teamName: 'Alpha', members: membersA, ...over.p0 },
+      { teamName: 'Beta', members: membersB, ...over.p1 },
+      { gameType: 'doubles', ...over.settings },
+    )
+  }
+  const M = (name, factionSlug, detachments = []) => ({ name, factionSlug, detachments })
+
+  it('labels each army button with its member and routes to that member\'s slice', () => {
+    startDoubles(
+      [M('Ann', 'orks'), M('Bob', 'aeldari')],
+      [M('Cat', 'drukhari'), M('Dan', null)],
+    )
+    // Attach a roster to side 0's member 1 so both link kinds appear.
+    tracker.current.value.players[0].members[1].roster = { units: [{ uid: 'a', id: 'x', size: 0 }] }
+    const w = mountTracker()
+    const links = armyLinks(w)
+    expect(links).toContain('/factions/orks/datasheets')       // Ann, no list
+    expect(links).toContain('/tracker/game/roster/0/1')        // Bob's list
+    expect(links).toContain('/factions/drukhari/datasheets')   // Cat
+    expect(links).toHaveLength(3)                              // Dan has nothing to link
+  })
+
+  it('renders ONE shared army card for a unified same-faction team, two for convenience', () => {
+    startDoubles(
+      [M('Ann', 'drukhari'), M('Bob', 'drukhari')],
+      [M('Cat', 'orks'), M('Dan', 'aeldari')],
+    )
+    const w = mountTracker()
+    const cards = w.findAllComponents({ name: 'ArmyTrackerCard' })
+    // Side 0 (unified, same faction): one card, side-level state (mi null).
+    const side0 = cards.filter((c) => c.props('pi') === 0)
+    expect(side0).toHaveLength(1)
+    expect(side0[0].props('mi')).toBeNull()
+    // Side 1 (convenience): one card per member.
+    const side1 = cards.filter((c) => c.props('pi') === 1)
+    expect(side1.map((c) => c.props('mi')).sort()).toEqual([0, 1])
+  })
+
+  it('shows the team name and one identity line per member', () => {
+    startDoubles(
+      [M('Ann', 'orks', ['War Horde']), M('Bob', 'aeldari')],
+      [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
+    )
+    const w = mountTracker()
+    expect(w.text()).toContain('Alpha')
+    expect(w.text()).toContain('Ann — Orks · War Horde')
+  })
+})

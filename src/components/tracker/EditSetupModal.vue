@@ -18,13 +18,88 @@
           <h3 class="player-head">
             {{ playerLabel(i) }}
           </h3>
-          <label class="field">
+          <label
+            v-if="isDoubles"
+            class="field"
+          >
+            <span>{{ labels.trackerTeamName }}</span>
             <input
-              v-model="p.name"
+              v-model="p.teamName"
               type="text"
-              :placeholder="namePlaceholder(i)"
+              :placeholder="labels.trackerTeamName"
             >
           </label>
+
+          <!-- The name + list block, once per army: the side itself in singles, each member in
+               doubles (same armiesOf recipe as the wizard's step 1). -->
+          <div
+            v-for="(m, mi) in armiesOf(p)"
+            :key="mi"
+            :class="{ 'member-block': isDoubles }"
+          >
+            <h4
+              v-if="isDoubles"
+              class="member-head"
+            >
+              {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
+            </h4>
+            <label class="field">
+              <input
+                v-model="m.name"
+                type="text"
+                :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
+              >
+            </label>
+
+            <!-- Attaching a list AFTER the game started. The wizard is the other (and usual) place
+                 to do this; without it here, a player who built a list but forgot to pick it — or
+                 whose game predates the feature — had no way back. Unlike the wizard, the list does
+                 not decide the army here: the faction is already being played. -->
+            <div class="es-roster">
+              <div
+                v-if="m.roster"
+                class="roster-line"
+              >
+                <span class="rl-text">{{ m.roster.name || labels.rosterUntitled }}</span>
+                <button
+                  type="button"
+                  class="rl-clear"
+                  :aria-label="labels.trackerRosterDetach"
+                  :title="labels.trackerRosterDetach"
+                  @click="clearRoster(m)"
+                >
+                  ✕
+                </button>
+              </div>
+              <button
+                v-else
+                type="button"
+                class="rp-open"
+                @click="rosterPickerKey = ak(i, mi)"
+              >
+                <i class="bi bi-card-list" />
+                <span>{{ labels.trackerRosterAttach }}</span>
+              </button>
+              <!-- The one thing attaching can't fix, so it has to be said rather than silently
+                   tolerated: the list is played under a different detachment than the game is. -->
+              <p
+                v-if="detMismatch(m)"
+                class="rl-warn"
+              >
+                {{ labels.trackerRosterDetMismatch }}
+              </p>
+            </div>
+
+            <RosterPickerModal
+              v-if="rosterPickerKey === ak(i, mi)"
+              :selected="m.roster ? (m.rosterId || '') : null"
+              :faction="m.factionSlug"
+              @pick="r => pickRoster(m, r)"
+              @clear="clearRoster(m)"
+              @close="rosterPickerKey = ''"
+            />
+          </div>
+
           <label
             class="check"
             :class="{ on: p.battleReady }"
@@ -35,54 +110,6 @@
             >
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
           </label>
-
-          <!-- Attaching a list AFTER the game started. The wizard is the other (and usual) place
-               to do this; without it here, a player who built a list but forgot to pick it — or
-               whose game predates the feature — had no way back. Unlike the wizard, the list does
-               not decide the army here: the faction is already being played. -->
-          <div class="es-roster">
-            <div
-              v-if="p.roster"
-              class="roster-line"
-            >
-              <span class="rl-text">{{ p.roster.name || labels.rosterUntitled }}</span>
-              <button
-                type="button"
-                class="rl-clear"
-                :aria-label="labels.trackerRosterDetach"
-                :title="labels.trackerRosterDetach"
-                @click="clearRoster(p)"
-              >
-                ✕
-              </button>
-            </div>
-            <button
-              v-else
-              type="button"
-              class="rp-open"
-              @click="rosterPickerIdx = i"
-            >
-              <i class="bi bi-card-list" />
-              <span>{{ labels.trackerRosterAttach }}</span>
-            </button>
-            <!-- The one thing attaching can't fix, so it has to be said rather than silently
-                 tolerated: the list is played under a different detachment than the game is. -->
-            <p
-              v-if="detMismatch(p)"
-              class="rl-warn"
-            >
-              {{ labels.trackerRosterDetMismatch }}
-            </p>
-          </div>
-
-          <RosterPickerModal
-            v-if="rosterPickerIdx === i"
-            :selected="p.roster ? (p.rosterId || '') : null"
-            :faction="p.factionSlug"
-            @pick="r => pickRoster(p, r)"
-            @clear="clearRoster(p)"
-            @close="rosterPickerIdx = -1"
-          />
         </div>
       </div>
 
@@ -214,7 +241,7 @@ import { trackSettingsOf, normalizeTrackSettings } from '../../data/trackerOptio
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, membersOf } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 
@@ -223,6 +250,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, updateSetup } = useTracker()
 const game = current.value
+
+const isDoubles = game.settings.gameType === 'doubles'
 
 // Local draft — only committed to the store on Save, so Cancel discards edits cleanly.
 const players = reactive(game.players.map(p => ({
@@ -235,7 +264,28 @@ const players = reactive(game.players.map(p => ({
   roster: p.roster || null,
   factionSlug: p.factionSlug || null,
   detachments: [...(p.detachments || [])],
+  // Doubles: the team name and each member's editable slice, mirroring the side's own fields.
+  teamName: p.teamName || '',
+  members: (p.members || []).map(m => ({
+    name: m.name,
+    rosterId: m.rosterId || null,
+    roster: m.roster || null,
+    factionSlug: m.factionSlug || null,
+    detachments: [...(m.detachments || [])],
+  })),
 })))
+
+// The armies a side fields — itself in singles, its members in doubles (see GameSetup.vue).
+function armiesOf(p) {
+  return isDoubles ? p.members : [p]
+}
+function ak(i, mi) {
+  return `${i}:${mi}`
+}
+// Takes either a draft side or a game side (trackCtx below reads the GAME's players).
+function sideFaction(p) {
+  return membersOf(p).find((m) => m.factionSlug)?.factionSlug ?? null
+}
 const settings = reactive({
   // Every "what to track" flag, filled in for a game saved before it existed — the table owns the
   // back-compat (retired field names, per-option defaults), so this dialog carries none of it.
@@ -248,7 +298,7 @@ const settings = reactive({
   customLayout: game.settings.customLayout,
 })
 
-const anyRoster = computed(() => players.some((p) => !!p.roster))
+const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
 
 function isYou(i) { return game.players[i].isYou ?? i === 0 }
 function playerLabel(i) { return isYou(i) ? labels.value.trackerYou : labels.value.trackerOpponent }
@@ -271,7 +321,8 @@ function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l
 const scoreHelpOpen = ref(false)
 
 // ── Attaching an army list to a game already under way ──
-const rosterPickerIdx = ref(-1)
+// Keyed by ak(side, member) — '' = closed; the handlers take the army object itself.
+const rosterPickerKey = ref('')
 
 // The wizard's pickRoster lets the list DICTATE the faction and the detachments (see GameSetup).
 // Here it may only fill in what is still blank: the faction of a game saved before one was
@@ -281,7 +332,7 @@ const rosterPickerIdx = ref(-1)
 function pickRoster(p, roster) {
   p.rosterId = roster.id || null
   p.roster = rosterSnapshot(roster)
-  rosterPickerIdx.value = -1
+  rosterPickerKey.value = ''
   if (!p.factionSlug && roster.faction) p.factionSlug = roster.faction
   if (!p.detachments.length && roster.detachments?.length) p.detachments = [...roster.detachments]
 }
@@ -291,7 +342,7 @@ function pickRoster(p, roster) {
 function clearRoster(p) {
   p.rosterId = null
   p.roster = null
-  rosterPickerIdx.value = -1
+  rosterPickerKey.value = ''
 }
 
 // Order doesn't matter (a detachment list is a set of picks), and an empty side isn't a
@@ -310,18 +361,20 @@ function detMismatch(p) {
 // resolves once; same lazy registry import as the in-game card.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
-// Mapped by isYou, since players are reordered by first turn.
+// Mapped by isYou, since players are reordered by first turn. membersOf covers both game
+// types — the side is its own only member in singles.
 const you = game.players.find(p => p.isYou) ?? game.players[0]
 const opp = game.players.find(p => !p.isYou) ?? game.players[1]
 ;(async () => {
   const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
-  armyYouTrackable.value = !!(you?.factionSlug && resolveArmyTracker(you.factionSlug))
-  armyOppTrackable.value = !!(opp?.factionSlug && resolveArmyTracker(opp.factionSlug))
+  const trackable = (pl) => membersOf(pl).some((m) => m.factionSlug && resolveArmyTracker(m.factionSlug))
+  armyYouTrackable.value = trackable(you)
+  armyOppTrackable.value = trackable(opp)
 })()
 
 const trackCtx = computed(() => ({
-  you: { faction: you?.factionSlug, trackable: armyYouTrackable.value },
-  opp: { faction: opp?.factionSlug, trackable: armyOppTrackable.value },
+  you: { faction: sideFaction(you), trackable: armyYouTrackable.value },
+  opp: { faction: sideFaction(opp), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
 
@@ -334,6 +387,7 @@ function save() {
       name: p.name, battleReady: p.battleReady,
       rosterId: p.rosterId, roster: p.roster,
       factionSlug: p.factionSlug, detachments: p.detachments,
+      ...(isDoubles ? { teamName: p.teamName, members: p.members.map(m => ({ ...m })) } : {}),
     })),
   })
   emit('close')
@@ -404,6 +458,19 @@ function save() {
   font-weight: 500;
   color: var(--accent);
   margin-bottom: 0.75rem;
+}
+/* Doubles member sub-boxes — same frame recipe as the wizard's (GameSetup's .member-block). */
+.member-block {
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+.member-head {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
 }
 .field {
   display: flex;

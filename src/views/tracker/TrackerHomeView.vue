@@ -206,7 +206,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
@@ -332,7 +332,11 @@ function pname(g, side) {
   return pl?.name || (side === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
 function factionName(g, side) {
-  return factionIndexBySlug(g.players[idxOf(g, side)]?.factionSlug)?.name || labels.value.trackerUnknownFaction
+  // A doubles side fields two armies (side-level factionSlug is empty by design) — name both.
+  const names = membersOf(g.players[idxOf(g, side)] || {})
+    .map((m) => factionIndexBySlug(m?.factionSlug)?.name)
+    .filter(Boolean)
+  return names.join(' + ') || labels.value.trackerUnknownFaction
 }
 
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the

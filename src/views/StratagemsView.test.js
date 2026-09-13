@@ -15,7 +15,12 @@ const { activeGame } = vi.hoisted(() => ({
 
 vi.mock('../composables/useTracker.js', async () => {
   const { ref } = await import('vue')
-  return { useTracker: () => ({ current: ref(activeGame) }) }
+  return {
+    useTracker: () => ({ current: ref(activeGame) }),
+    // The real membersOf (tiny, pure): a side is its own only member unless it carries doubles
+    // members — the view's side signatures and per-side loading go through it.
+    membersOf: (pl) => (Array.isArray(pl?.members) && pl.members.length ? pl.members : [pl]),
+  }
 })
 
 // The view reads `route.query.phase`. `useRoute` resolves through inject, which a bare mount has

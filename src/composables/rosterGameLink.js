@@ -17,6 +17,20 @@
 import { migrateRoster } from './useRosters.js'
 import { rosterPayload } from './rosterShare.js'
 
+// ── Doubles member access ──────────────────────────────────────────────────────────────────────
+// A game side is one army in singles and a TEAM of two in doubles (side.members, each member
+// carrying the army identity: name/factionSlug/detachments/roster + its own army/ctx state).
+// These two are the one way any consumer reaches that identity — pure functions over the game's
+// own objects, living here (not in useTracker.js) so the roster views can use them without
+// pulling the store's heavy mission data. useTracker.js re-exports them.
+export function membersOf(pl) {
+  return Array.isArray(pl?.members) && pl.members.length ? pl.members : [pl]
+}
+export function memberAt(pl, mi) {
+  if (mi == null) return pl
+  return (Array.isArray(pl?.members) && pl.members[mi]) || pl
+}
+
 // The army as it stood when the game began. Same field set (and the same `v`) a share link
 // carries — one definition of "a roster in transit", so a snapshot and a link migrate identically.
 export function rosterSnapshot(roster) {
