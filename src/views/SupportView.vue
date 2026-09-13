@@ -44,7 +44,8 @@
 <script setup>
 // The donation page (/support), reached from the footer and nowhere else: the audience is a
 // player mid-game on a phone, and an ask anywhere in that flow costs more than it collects.
-// Copy lives in landing.js's bilingual `footer.support`, like the disclaimer's does.
+// Copy lives in landing.js's bilingual `footer.support`, like the disclaimer's does, and is
+// written in the AUTHOR'S OWN VOICE (first person) — keep it that way when editing.
 import { computed } from 'vue'
 import { landing } from '../data/landing.js'
 import { useLocale } from '../composables/useLocale.js'
