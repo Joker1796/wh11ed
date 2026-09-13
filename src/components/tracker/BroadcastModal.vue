@@ -156,7 +156,7 @@ const shown = reactive({
 })
 // Phrased (and stored) as an ACTION, unlike the show-rows above: checked = the set-aside
 // cards leave the overlay. Rides the same hide= vocabulary as 'secs-done'.
-const hideDone = ref(false)
+const hideDone = ref(true) // hidden by default — the stream cares about the live hand
 
 // The configured link. Defaults add no parameters, so the plain URL stays the common case.
 // Fit mode: the overlay scales itself into whatever window OBS gives the Browser Source —
