@@ -17,6 +17,32 @@
 
 export const changelog = [
   {
+    version: '2.4.0',
+    date: '2026-09-13',
+    en: [
+      { h: 'Doubles: team games, by the official companion' },
+      'The tracker now runs Warhammer Doubles: pick “Doubles” in the game setup and each side becomes a team — a team name and two players, each with their own faction and detachment. Scoring stays per team, exactly as the official Doubles Event Companion has it: one CP pool, one Force Disposition (from either army), one secondary deck, one Battle Ready bonus.',
+      'Unified Force and Force of Convenience are understood too: the setup derives the force type from the two factions (and lets you override it), a unified force of one faction shares a single army-rule tracker — one Waaagh!, one pain-token pool — while a force of convenience tracks each army separately, with the owner\'s name on the card.',
+      'Both teammates can attach their own army lists, and everything that follows a list — unit cards with the game\'s modifiers, phase reminders, the stratagem page — knows about all four armies in the game.',
+      { h: 'Broadcast your game to OBS' },
+      'A new tool for those who stream: a read-only live scoreboard of the game you are tracking, for OBS or any browser on another device. Score on your phone; the overlay follows a couple of seconds behind. Off by default — enable “Broadcast button (OBS)” in the game settings, start the broadcast, paste the link into a Browser Source.',
+      'Everything you pick in the broadcast settings — the theme, the aspect ratio, which blocks to show: round and phase, rosters, CP, the VP breakdown, secondary cards — is baked right into the link. Copy the link and you have copied the setup — change the toggles and copy again, and both links work at once: different OBS scenes can hold differently configured views of the same broadcast, and the overlay packs itself into whatever window each one gets. Your army lists and rule switches never leave the phone. The full guide lives in Help → “Broadcasting to OBS”.',
+      { h: 'A tidier game screen' },
+      'Disposition and detachments on the in-game player cards are now folded under “Army details” — the card opens on what matters mid-game, the missions and the score. The setup\'s first step got a cleaner mobile layout, and the Attacker/Defender and Force type fields explain themselves with a ⓘ.',
+    ],
+    ru: [
+      { h: 'Doubles: парные игры по официальному компаньону' },
+      'Трекер теперь умеет Warhammer Doubles: выберите «Парная (Doubles)» в настройке игры — и каждая сторона становится командой: название и два игрока, у каждого своя фракция и свой детачмент. Счёт остаётся командным, ровно как в официальном Doubles Event Companion: один пул CP, одна Force Disposition (от любой из армий), одна колода вторичек, один бонус Battle Ready.',
+      'Unified Force и Force of Convenience тоже поняты: сетап выводит тип силы из двух фракций (и даёт переключить вручную), unified-сила одной фракции делит один трекер армейского правила — один Waaagh!, один пул жетонов боли — а force of convenience ведёт каждую армию отдельно, с именем владельца на карточке.',
+      'Оба игрока команды могут прикрепить свои листы, и всё, что следует за листом — карточки юнитов с модификаторами партии, напоминания по фазам, страница стратагем — знает про все четыре армии в игре.',
+      { h: 'Трансляция партии в OBS' },
+      'Новый инструмент для тех, кто стримит: живое табло вашей партии, только для чтения, для OBS или любого браузера на другом устройстве. Счёт ведётся с телефона; оверлей обновляется с задержкой в пару секунд. По умолчанию выключено — включите «Кнопка трансляции (OBS)» в настройках игры, запустите трансляцию, вставьте ссылку в Browser Source.',
+      'Всё, что вы выбрали в настройках трансляции — тема, соотношение сторон, какие блоки показывать: раунд и фазу, составы, CP, разбивку VP, карты вторичек — зашивается прямо в ссылку. Скопировали ссылку — скопировали и настройку; переставьте галочки и скопируйте ещё раз — обе ссылки работают одновременно: разные сцены OBS могут держать по-разному настроенные виды одной трансляции, и оверлей сам вписывается в окно каждой из них. Ваши армейские листы и свитчи правил телефон не покидают. Полная инструкция — в справке, тема «Трансляция в OBS».',
+      { h: 'Игровой экран стал опрятнее' },
+      'Диспозиция и детачменты на карточках игроков во время партии свёрнуты в «Детали армии» — карточка открывается на том, что важно в игре: миссиях и счёте. Первый шаг сетапа получил аккуратную мобильную вёрстку, а поля «Роль» и «Force type» объясняют себя по кнопке ⓘ.',
+    ],
+  },
+  {
     version: '2.3.14',
     date: '2026-09-13',
     en: [
