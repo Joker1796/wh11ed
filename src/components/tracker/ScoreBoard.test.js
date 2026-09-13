@@ -54,10 +54,13 @@ describe('ScoreBoard — Battle Points while the game is on', () => {
     // The big figure is still the VP total, not the BP one.
     expect(w.findAll('.grand')[0].text()).toContain('30')
     expect(w.findAll('.grand')[0].text()).toContain('VP')
+    // The figure and its unit are separate spans (the unit reuses the VP one's class, so the
+    // two labels are identical by construction) — hence no space between them in text().
     const bp = w.findAll('.grand-bp')
     expect(bp).toHaveLength(2)
-    expect(bp[0].text()).toBe('13 BP') // 30 vs 10 → a 16–20 gap is 13–7
-    expect(bp[1].text()).toBe('7 BP')
+    expect(bp[0].text()).toBe('13BP') // 30 vs 10 → a 16–20 gap is 13–7
+    expect(bp[1].text()).toBe('7BP')
+    expect(bp[0].find('.grand-unit').text()).toBe('BP')
   })
 
   it('shows no BP in a game played to VP', () => {

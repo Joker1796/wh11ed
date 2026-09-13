@@ -25,7 +25,7 @@
           {{ grandTotal(i) }}<span class="grand-unit">VP</span><span
             v-if="liveBp"
             class="grand-bp"
-          >{{ bp[i] }} BP</span>
+          >{{ bp[i] }}<span class="grand-unit">BP</span></span>
         </template>
       </div>
       <dl
@@ -131,7 +131,15 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 .grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-mono); font-weight: 600; }
 /* The running Battle Points, on the total's own line: small and muted, so the eye still lands
    on the VP first. */
-.grand-bp { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.5rem; font-family: var(--font-mono); font-weight: 600; }
+/* The running Battle Points share the total's typography — same display face, same unit
+   styling — one size down and a shade quieter, so the VP figure still leads the line. */
+.grand-bp {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 0.7rem;
+}
 .breakdown {
   display: flex;
   justify-content: center;
