@@ -604,6 +604,15 @@ export const ui = {
     trackerMemberName: 'Name',
     trackerForceType: 'Force type',
     trackerForceTypeAuto: 'Auto',
+    trackerForceTypeHelpAria: 'What is a force type?',
+    trackerForceTypeHelp:
+      'Doubles terminology: a team\u2019s two armies together are its force.\n' +
+      '\n' +
+      'Unified Force \u2014 both armies share all their faction keywords (two Adeptus Astartes Chapters count even with different Chapter keywords; allied units are ignored). The armies are friendly to each other: the army rule runs as one shared pool, units can embark in a teammate\u2019s transports, and if both players also chose the same detachments, detachment rules work across the whole force.\n' +
+      '\n' +
+      'Force of Convenience \u2014 any other pairing. Each army uses its own army rules, and a teammate\u2019s units are neither friendly nor enemy \u2014 abilities that affect friendly units do not reach them.\n' +
+      '\n' +
+      'Auto derives the type from the two chosen factions; override it if your lists change the answer (allies, for example).',
     trackerChooseDetachments: 'Choose detachments',
     trackerNoDetachments: 'No detachments for this faction — you pick a disposition on the next step.',
     trackerActiveDisposition: 'Active disposition',
@@ -1389,6 +1398,15 @@ export const ui = {
     trackerMemberName: 'Имя',
     trackerForceType: 'Force type',
     trackerForceTypeAuto: 'Авто',
+    trackerForceTypeHelpAria: 'Что такое тип силы?',
+    trackerForceTypeHelp:
+      'Термин парных игр: две армии команды вместе \u2014 это force (сила).\n' +
+      '\n' +
+      'Unified Force \u2014 обе армии делят все faction keywords (два ордена Adeptus Astartes считаются единой силой даже с разными ключевыми словами орденов; союзные юниты не учитываются). Армии дружественны друг другу: армейское правило работает как один общий пул, юниты могут садиться в транспорты напарника, а если игроки взяли ещё и одинаковые детачменты \u2014 правила детачментов действуют на всю силу.\n' +
+      '\n' +
+      'Force of Convenience \u2014 любая другая пара. Каждая армия использует свои армейские правила, а юниты напарника не считаются ни дружественными, ни вражескими \u2014 способности с «friendly units» до них не достают.\n' +
+      '\n' +
+      '«Авто» выводит тип из выбранных фракций; переключите вручную, если ваши списки меняют ответ (например, союзники).',
     trackerChooseDetachments: 'Выбрать детачменты',
     trackerNoDetachments: 'У этой фракции нет детачментов — Force Disposition выберете на следующем шаге.',
     trackerActiveDisposition: 'Force Disposition',

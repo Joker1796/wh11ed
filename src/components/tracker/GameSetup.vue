@@ -290,27 +290,44 @@
 
           <!-- Force type (Doubles Companion terminology). Auto derives from the two factions
                (same faction / two SM Chapters → Unified); the player can override — allies on a
-               list can flip the real answer, and the app doesn't read lists at that depth. -->
-          <label
+               list can flip the real answer, and the app doesn't read lists at that depth.
+               A div, not a label: it wraps only buttons, and a label would forward clicks. -->
+          <div
             v-if="isDoubles"
             class="field"
           >
-            <span>{{ labels.trackerForceType }}</span>
+            <span>
+              {{ labels.trackerForceType }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerForceTypeHelpAria"
+                @click="forceTypeHelpOpen = true"
+              >
+                <i class="bi bi-question-circle" />
+              </button>
+            </span>
             <div class="seg seg-wrap">
               <button
                 :class="{ on: !p.forceType }"
                 @click="p.forceType = null"
-              >{{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}</button>
+              >
+                {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
+              </button>
               <button
                 :class="{ on: p.forceType === 'unified' }"
                 @click="p.forceType = 'unified'"
-              >Unified</button>
+              >
+                Unified
+              </button>
               <button
                 :class="{ on: p.forceType === 'convenience' }"
                 @click="p.forceType = 'convenience'"
-              >Convenience</button>
+              >
+                Convenience
+              </button>
             </div>
-          </label>
+          </div>
 
           <label class="field">
             <span>{{ labels.trackerRole }}</span>
@@ -719,6 +736,13 @@
       @close="layoutPickerOpen = false"
     />
 
+    <OptionHelpModal
+      v-if="forceTypeHelpOpen"
+      :title="labels.trackerForceType"
+      :text="labels.trackerForceTypeHelp"
+      @close="forceTypeHelpOpen = false"
+    />
+
     <BaseModal
       v-if="dpHelpOpen"
       :title="labels.trackerDpOverTitle"
@@ -746,6 +770,7 @@ import FactionPickerModal from './FactionPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
+import OptionHelpModal from './OptionHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
@@ -904,6 +929,7 @@ function randomTwist() {
 
 const scoreHelpOpen = ref(false)
 const dpHelpOpen = ref(false)
+const forceTypeHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
