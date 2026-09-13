@@ -167,12 +167,14 @@ const cols = computed(() => (route.query.cols === '1' ? 1 : 2))
 const canvasEl = ref(null)
 const fitScale = ref(1)
 const fitLeft = ref(0)
+const fitTop = ref(0)
 const fitStyle = computed(() => {
   if (!isFit.value) return undefined
   return {
     width: `${cols.value === 1 ? 460 : 900}px`,
     transform: `scale(${fitScale.value})`,
     left: `${fitLeft.value}px`,
+    top: `${fitTop.value}px`,
   }
 })
 function refit() {
@@ -183,7 +185,10 @@ function refit() {
   const ch = el.scrollHeight || 1
   const scale = Math.min(window.innerWidth / cw, window.innerHeight / ch)
   fitScale.value = scale
+  // Center the leftover air on both axes — a slab of empty window under the scoreboard reads
+  // as a bug; a symmetric margin reads as breathing room.
   fitLeft.value = Math.max(0, (window.innerWidth - cw * scale) / 2)
+  fitTop.value = Math.max(0, (window.innerHeight - ch * scale) / 2)
 }
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
@@ -296,10 +301,25 @@ html:has(.bo-root) .app-layout {
 }
 .bo-root.fit .bo-canvas {
   position: absolute;
-  top: 0;
   transform-origin: top left;
-  padding: 0.5rem;
+  padding: 0.35rem;
 }
+/* Fit mode is a stream slot — density over air: every pixel of the window is paid for. */
+.bo-root.fit .bo-top {
+  padding: 0.35rem 0.7rem;
+  margin-bottom: 0.45rem;
+}
+.bo-root.fit .bo-sides { gap: 0.45rem; }
+.bo-root.fit .bo-side { padding: 0.45rem 0.7rem; }
+.bo-root.fit .bo-roles { margin-bottom: 0.3rem; }
+.bo-root.fit .bo-players { margin-bottom: 0.35rem; }
+.bo-root.fit .bo-score {
+  margin-bottom: 0.3rem;
+  padding: 0.25rem 0;
+  gap: 1rem;
+}
+.bo-root.fit .bo-primary { margin-bottom: 0.2rem; }
+.bo-root.fit .bo-secs li { padding: 0.06rem 0; }
 /* The canvas is wider than the viewport in fit mode, so column count is a CLASS decision
    there, not the width media query's. */
 .bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
