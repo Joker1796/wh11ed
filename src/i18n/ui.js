@@ -571,6 +571,13 @@ export const ui = {
     trackerDetachment: 'Detachment',
     trackerDisposition: 'Force Disposition',
     trackerRole: 'Role',
+    trackerRoleHelpAria: 'What does the role change?',
+    trackerRoleHelp:
+      'One side is the Attacker and the other the Defender \u2014 picking a role here flips the other side automatically. In the official sequence the roll-off winner decides who is which.\n' +
+      '\n' +
+      'The role decides two things. Your Secondary Missions: the Attacker and the Defender have their own versions of the cards \u2014 the deck you draw from (and the Fixed missions you can pick) follows your role. And your side of the battlefield: the layout diagram marks the Attacker\u2019s and the Defender\u2019s edges, and during deployment the Defender sets up units first.\n' +
+      '\n' +
+      'The Primary Mission does not depend on the role \u2014 it comes from the Force Dispositions.',
     trackerAttacker: 'Attacker',
     trackerDefender: 'Defender',
     trackerSelectFaction: 'Pick a faction first',
@@ -1365,6 +1372,13 @@ export const ui = {
     trackerDetachment: 'Детачмент',
     trackerDisposition: 'Force Disposition',
     trackerRole: 'Роль',
+    trackerRoleHelpAria: 'На что влияет роль?',
+    trackerRoleHelp:
+      'Одна сторона \u2014 Attacker, другая \u2014 Defender: выбор роли здесь автоматически переключает вторую сторону. По официальной последовательности, кто есть кто, решает победитель ролл-оффа.\n' +
+      '\n' +
+      'Роль решает две вещи. Вторичные миссии: у Attacker и Defender свои версии карт \u2014 колода, из которой вы тянете (и Fixed-миссии, которые можно выбрать), зависит от роли. И ваша сторона стола: на схеме расстановки помечены края Attacker и Defender, а при расстановке Defender выставляет юниты первым.\n' +
+      '\n' +
+      'Первичная миссия от роли не зависит \u2014 она определяется по Force Disposition.',
     trackerAttacker: 'Attacker',
     trackerDefender: 'Defender',
     trackerSelectFaction: 'Сначала выберите фракцию',

@@ -329,19 +329,34 @@
             </div>
           </div>
 
-          <label class="field">
-            <span>{{ labels.trackerRole }}</span>
+          <!-- A div, not a label, for the same reason as Force type: the help button. -->
+          <div class="field">
+            <span>
+              {{ labels.trackerRole }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerRoleHelpAria"
+                @click="roleHelpOpen = true"
+              >
+                <i class="bi bi-question-circle" />
+              </button>
+            </span>
             <div class="seg">
               <button
                 :class="{ on: p.role === 'attacker' }"
                 @click="setRole(i, 'attacker')"
-              >{{ labels.trackerAttacker }}</button>
+              >
+                {{ labels.trackerAttacker }}
+              </button>
               <button
                 :class="{ on: p.role === 'defender' }"
                 @click="setRole(i, 'defender')"
-              >{{ labels.trackerDefender }}</button>
+              >
+                {{ labels.trackerDefender }}
+              </button>
             </div>
-          </label>
+          </div>
 
           <label
             class="check br-check"
@@ -743,6 +758,13 @@
       @close="forceTypeHelpOpen = false"
     />
 
+    <OptionHelpModal
+      v-if="roleHelpOpen"
+      :title="labels.trackerRole"
+      :text="labels.trackerRoleHelp"
+      @close="roleHelpOpen = false"
+    />
+
     <BaseModal
       v-if="dpHelpOpen"
       :title="labels.trackerDpOverTitle"
@@ -930,6 +952,7 @@ function randomTwist() {
 const scoreHelpOpen = ref(false)
 const dpHelpOpen = ref(false)
 const forceTypeHelpOpen = ref(false)
+const roleHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)

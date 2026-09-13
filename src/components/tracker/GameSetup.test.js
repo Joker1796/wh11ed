@@ -78,7 +78,8 @@ describe('GameSetup', () => {
     const w = mount(GameSetup)
     const body = new DOMWrapper(document.body)
     expect(body.find('.sh-table').exists()).toBe(false)
-    await w.find('.help-btn').trigger('click')
+    // By aria-label, not first-match: step 1 now carries its own help buttons (role, force type).
+    await w.find('button[aria-label="About BP"]').trigger('click')
     expect(body.find('.sh-table').exists()).toBe(true) // ScoreHelpModal rendered (teleported to body)
   })
 })
