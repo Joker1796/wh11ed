@@ -8,7 +8,7 @@
 //
 // RELEASE PROCESS: when a deploy carries user-facing changes worth announcing, add a new entry at the
 // TOP with the version it ships as (deploy.sh auto-bumps patch, so it's the next patch unless you
-// bump manually) and a short EN/RU note list. Trivial/无-note deploys need no entry — they pass
+// bump manually) and a short EN/RU note list. Trivial/no-note deploys need no entry — they pass
 // silently (the stored version advances without a banner). Keep notes short and player-facing.
 //
 // NOTE SHAPE: each `en`/`ru` item is either a plain string (a bullet) or `{ h: 'text' }` (a section
@@ -16,6 +16,16 @@
 // a heading at position i in `en` must be a heading at position i in `ru`.
 
 export const changelog = [
+  {
+    version: '2.4.2',
+    date: '2026-09-13',
+    en: [
+      'When a game is scored in Battle Points, the score now shows them as you play: the BP the game would finish on stand next to the VP total, round after round, instead of waiting for the last one.',
+    ],
+    ru: [
+      'Если партия считается в Battle Points, они теперь видны прямо по ходу игры: BP, на которых партия закончилась бы сейчас, стоят рядом с общим счётом VP, а не ждут последнего раунда.',
+    ],
+  },
   {
     version: '2.4.1',
     date: '2026-09-13',
