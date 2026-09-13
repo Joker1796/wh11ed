@@ -235,17 +235,13 @@ function refit() {
     const w = forcedW.value
     best = { w, h: probe(el, w, w < 640), oneCol: w < 640 }
   } else {
-    // Solve BOTH column modes and keep whichever fills the box denser — two columns whenever
-    // the width allows it to win, one column for tall targets. The aspect is a step function
-    // across the column break, so a single search can jump over the target; comparing the two
-    // solves is what makes the answer stable.
-    const fillOf = (c) => {
-      const scale = Math.min(boxW / c.w, boxH / c.h)
-      return (c.w * c.h * scale * scale) / (boxW * boxH)
-    }
-    const two = solve(el, false, 560, 1400, target)
-    const one = solve(el, true, 360, 760, target)
-    best = fillOf(two) >= fillOf(one) ? two : one
+    // Column count follows the BOX's shape, not a density metric: a landscape slot reads as
+    // "teams side by side" and a portrait one as a column, full stop. (A pure max-fill rule
+    // was tried and picked a stretched single column in a wide window whenever the content
+    // ran short — denser by a few percent, wrong to every human eye.) The width search then
+    // runs within the chosen mode only.
+    const oneCol = target < 1.05
+    best = oneCol ? solve(el, true, 360, 760, target) : solve(el, false, 560, 1400, target)
   }
   el.classList.toggle('one-col', best.oneCol)
   el.style.width = `${best.w}px`
