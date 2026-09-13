@@ -95,6 +95,22 @@
               >
               <span>{{ labels.trackerBroadcastFit }}</span>
             </label>
+            <div
+              v-if="fit"
+              class="bc-theme-row"
+            >
+              <span>{{ labels.trackerBroadcastAspect }}</span>
+              <div class="seg">
+                <button
+                  v-for="a in ASPECTS"
+                  :key="a"
+                  :class="{ on: aspect === a }"
+                  @click="aspect = a"
+                >
+                  {{ a === 'window' ? labels.trackerBroadcastAspectWindow : a }}
+                </button>
+              </div>
+            </div>
           </div>
         </details>
         <div class="bc-actions">
@@ -162,7 +178,9 @@ const hideDone = ref(true) // hidden by default — the stream cares about the l
 // Fit mode: the overlay scales itself into whatever window OBS gives the Browser Source —
 // for a prepared slot in a stream layout. cols=1 stacks the two sides for portrait slots.
 const fit = ref(true) // on by default — the overlay is built for a prepared OBS slot;
-// the window's own aspect drives the layout (the overlay packs it densely by itself).
+// the window's own aspect drives the layout unless a fixed ratio below locks it.
+const ASPECTS = ['window', '16:9', '4:3', '1:1', '9:16']
+const aspect = ref('window')
 
 const overlayUrl = computed(() => {
   if (!shareUrl.value) return null
@@ -171,7 +189,10 @@ const overlayUrl = computed(() => {
   const hide = OVERLAY_BLOCKS.filter((b) => !shown[b])
   if (hideDone.value) hide.push('secs-done')
   if (hide.length) params.set('hide', hide.join(','))
-  if (fit.value) params.set('fit', '1')
+  if (fit.value) {
+    params.set('fit', '1')
+    if (aspect.value !== 'window') params.set('ar', aspect.value)
+  }
   const q = params.toString()
   return q ? `${shareUrl.value}?${q}` : shareUrl.value
 })

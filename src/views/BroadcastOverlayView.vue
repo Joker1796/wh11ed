@@ -171,6 +171,15 @@ const forcedW = computed(() => {
   const n = Number(route.query.w)
   return Number.isFinite(n) && n >= 360 ? Math.min(n, 1400) : null
 })
+// ?ar=16:9 LOCKS the scoreboard to that aspect whatever the window's shape: the layout is
+// solved for the ratio and the box letterboxes into the window. Without it the window's own
+// shape is the target (the auto mode above).
+const aspect = computed(() => {
+  const m = String(route.query.ar || '').match(/^(\d+(?:\.\d+)?)[:x/](\d+(?:\.\d+)?)$/)
+  if (!m) return null
+  const r = Number(m[1]) / Number(m[2])
+  return Number.isFinite(r) && r > 0.1 && r < 10 ? r : null
+})
 const canvasEl = ref(null)
 const fitScale = ref(1)
 const fitLeft = ref(0)
@@ -190,12 +199,25 @@ function refit() {
   const el = canvasEl.value
   const vw = window.innerWidth
   const vh = window.innerHeight
+  // The target box: the whole window, or — with a locked aspect — the largest box of that
+  // ratio the window can hold (the rest of the window letterboxes).
+  let boxW = vw
+  let boxH = vh
+  if (aspect.value) {
+    if (vw / Math.max(1, vh) > aspect.value) {
+      boxH = vh
+      boxW = vh * aspect.value
+    } else {
+      boxW = vw
+      boxH = vw / aspect.value
+    }
+  }
   let w = forcedW.value
   if (!w) {
     // Binary search the layout width whose natural aspect matches the window's. Wider is
     // always flatter (monotonic), so nine probes pin it to ~2px; each probe is a synchronous
     // set-width + scrollHeight read — a forced reflow, cheap on a DOM this small, every 2 s.
-    const target = vw / Math.max(1, vh)
+    const target = boxW / Math.max(1, boxH)
     let lo = 360
     let hi = 1400
     for (let i = 0; i < 9; i++) {
@@ -210,7 +232,7 @@ function refit() {
   el.style.width = `${w}px`
   // scrollHeight is layout height — transforms don't feed back into it, so this is stable.
   const ch = el.scrollHeight || 1
-  const scale = Math.min(vw / w, vh / ch)
+  const scale = Math.min(boxW / w, boxH / ch)
   fitScale.value = scale
   // Center the leftover air on both axes — a slab of empty window under the scoreboard reads
   // as a bug; a symmetric margin reads as breathing room.
@@ -221,7 +243,7 @@ const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
 
 // Refit whenever the payload changes shape (a drawn card adds a row) or the mode flips.
-watch([data, isFit, forcedW], async () => {
+watch([data, isFit, forcedW, aspect], async () => {
   await nextTick()
   refit()
 })
