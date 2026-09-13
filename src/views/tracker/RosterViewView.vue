@@ -599,6 +599,7 @@ import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf } from '../../composables/rosterGameContext.js'
+import { memberAt } from '../../composables/rosterGameLink.js'
 import { phaseLabel, usableInSlot, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { loadRosterFactionRules, normName } from '../../composables/rosterFactionRules.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -620,6 +621,8 @@ const { rosterById } = useRosters()
 // useTracker is imported dynamically on purpose: it statically pulls the mission/event datasets,
 // and the ordinary roster route must not carry them.
 const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi) : null))
+// Doubles: which member of the side this list belongs to (absent in singles → the side itself).
+const gameMi = computed(() => (route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const inGame = computed(() => gamePi.value != null)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
@@ -642,8 +645,11 @@ const game = computed(() => {
     : tracker.value.current.value
 })
 // The roster is frozen in the snapshot, but what is TRUE about the battle is not, and that is
-// what decides whether a conditional modifier applies.
-const gamePlayer = computed(() => game.value?.players?.[gamePi.value] || null)
+// what decides whether a conditional modifier applies. In doubles the member is the holder of
+// the roster and of every rule switch, so it stands in for the side everywhere below; the clock
+// alone stays keyed by side (the turn belongs to the team).
+const gameSide = computed(() => game.value?.players?.[gamePi.value] || null)
+const gamePlayer = computed(() => memberAt(gameSide.value, gameMi.value))
 // What the game is standing on, from THIS player's side: round, whose turn, which phase. One
 // object rather than a bare round, because a switch that lasts a phase has to be able to say so.
 const gameClock = computed(() => clockOf(game.value, gamePi.value))
@@ -657,7 +663,7 @@ const canSwitch = computed(() => inGame.value && !historyId.value)
 const keeps = (setting) => !inGame.value || tracks(game.value?.settings, setting)
 const modsOn = computed(() => keeps('trackModifiers'))
 
-watch([gamePi, historyId], async ([pi]) => {
+watch([gamePi, gameMi, historyId], async ([pi]) => {
   if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
   const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
     import('../../composables/useTracker.js'),
@@ -1182,14 +1188,14 @@ function toggleChips(uid) {
 }
 function toggleUnitChip(entry, sw) {
   if (sw.aura) {
-    tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on)
+    tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
     return
   }
   if (sw.pick) {
     // The set's own size caps it, and the store evicts the oldest pick — the same way a condition
     // group behaves, so picking a third relic drops the one that has been up longest.
     const siblings = (pickSwitchCache.value.get(entry.uid) || []).filter((c) => c.group === sw.group).map((c) => c.id)
-    tracker.value?.setUnitPick(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, { siblings, limit: sw.groupLimit })
+    tracker.value?.setUnitPick(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, { siblings, limit: sw.groupLimit }, gameMi.value)
     return
   }
   toggleUnitCondFor(entry, sw)
@@ -1217,16 +1223,16 @@ function toggleUnitCondFor(entry, sw) {
   for (const part of attachedEntries(entry)) {
     if (!sw.on) {
       for (const sid of stratagemsClearedBy(sw.id, resolvedFor(part), gamePlayer.value, gameClock.value, part)) {
-        tracker.value?.setUnitStratagem(gamePi.value, part.uid, sid, at, false)
+        tracker.value?.setUnitStratagem(gamePi.value, part.uid, sid, at, false, gameMi.value)
       }
     }
-    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on)
+    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value)
   }
 }
 
 function toggleArmyCond(sw) {
   if (sw.auto) return // read from the tracker — flip it there, not here
-  tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
+  tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
 }
 
 // The card the unit modal needs: what is true for that entry, and the switches it may flip. Both
@@ -1265,12 +1271,12 @@ const viewingGameCtx = computed(() => {
 // One handler for both scopes — the switch says which store it belongs to.
 function toggleUnitStrat(st) {
   if (!viewingEntry.value) return
-  tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on)
+  tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
 }
 
 function toggleViewingAura(sw) {
   if (!viewingEntry.value) return
-  tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on)
+  tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
 }
 
 function toggleViewingPick(sw) {
@@ -1280,7 +1286,7 @@ function toggleViewingPick(sw) {
 function toggleUnitCond(sw) {
   if (sw.auto || !viewingEntry.value) return
   if (sw.scope === 'army') {
-    tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on)
+    tracker.value?.setArmyCondition(gamePi.value, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
     return
   }
   // Same handler as the row in the list, so the card and the row can never differ on what a switch does.

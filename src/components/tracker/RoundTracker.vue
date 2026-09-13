@@ -97,15 +97,37 @@
         <h3 class="ptitle">
           {{ playerName(i) }}
         </h3>
-        <p class="pmeta">
-          {{ dispositionName(pl.disposition) }}
-        </p>
-        <p
-          v-if="pl.detachments && pl.detachments.length"
-          class="pdet"
+        <!-- Disposition and detachments are setup facts, consulted rarely mid-game — folded by
+             default so the card opens on what IS the game: the missions and the score. Native
+             <details>, the same accordion the twist reminder above uses. -->
+        <details
+          v-if="hasArmyInfo(pl)"
+          class="pinfo"
         >
-          {{ pl.detachments.join(' · ') }}
-        </p>
+          <summary>{{ labels.trackerArmyDetails }}</summary>
+          <p
+            v-if="dispositionName(pl.disposition)"
+            class="pmeta"
+          >
+            {{ labels.trackerDisposition }}: {{ dispositionName(pl.disposition) }}
+          </p>
+          <p
+            v-if="!isDoubles && pl.detachments && pl.detachments.length"
+            class="pdet"
+          >
+            {{ pl.detachments.join(' · ') }}
+          </p>
+          <!-- Doubles: the army identity lives on the members — one line each. -->
+          <template v-if="isDoubles">
+            <p
+              v-for="(m, mi) in pl.members"
+              :key="mi"
+              class="pdet"
+            >
+              {{ memberLine(m, mi) }}
+            </p>
+          </template>
+        </details>
         <!-- Primary mission — tap to open the scoring modal -->
         <div class="sec-title-row">
           {{ labels.trackerPrimary }}
@@ -144,7 +166,7 @@
              without one the faction's datasheets are the next best thing. It reads the player
              it belongs to, so the opponent's army is one tap away from their own card. -->
         <div
-          v-if="cpOn || pl.roster || pl.factionSlug"
+          v-if="cpOn || armyLinks(pl, i).length"
           class="score-row cp-row"
         >
           <template v-if="cpOn">
@@ -156,29 +178,26 @@
             />
           </template>
           <RouterLink
-            v-if="pl.roster"
+            v-for="l in armyLinks(pl, i)"
+            :key="l.to"
             class="proster"
-            :to="`/tracker/game/roster/${i}`"
+            :to="l.to"
           >
-            <i class="bi bi-card-list" />
-            {{ labels.trackerRosterOpen }}
-          </RouterLink>
-          <RouterLink
-            v-else-if="pl.factionSlug"
-            class="proster"
-            :to="`/factions/${pl.factionSlug}/datasheets`"
-          >
-            <i class="bi bi-people-fill" />
-            {{ labels.factionDatasheets }}
+            <i :class="`bi ${l.icon}`" />
+            {{ l.label }}
           </RouterLink>
         </div>
 
         <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
              secondaries and the CP row. Opt-in per player (settings.trackArmyYou /
-             trackArmyOpp, default on) and renders only for factions with a spec. -->
+             trackArmyOpp, default on) and renders only for factions with a spec. Doubles:
+             one SHARED card for a unified force of one faction (the companion: one pool per
+             force), else one card per member — see armyCards(). -->
         <ArmyTrackerCard
-          v-if="armyRuleOn(pl)"
+          v-for="c in armyCards(pl)"
+          :key="c.mi ?? 'side'"
           :pi="i"
+          :mi="c.mi"
         />
       </div>
     </div>
@@ -207,6 +226,21 @@
           <i class="bi bi-chevron-left" />
           <i class="bi bi-gear" />
         </button>
+        <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. The
+             button is offered only when the game asked for it (settings.trackBroadcast, a row
+             of the option table; niche feature, off by default) — but a broadcast already LIVE
+             keeps it whatever the row says: a stream running with no visible control would be
+             the dishonest kind of hidden. -->
+        <button
+          v-if="broadcastOn || tracks(current.settings, 'trackBroadcast')"
+          class="btn-ghost btn-icon"
+          :class="{ 'bc-on': broadcastOn }"
+          :aria-label="labels.trackerBroadcastTitle"
+          :title="labels.trackerBroadcastTitle"
+          @click="broadcastOpen = true"
+        >
+          <i class="bi bi-broadcast" />
+        </button>
         <button
           class="btn-ghost"
           @click="endModalOpen = true"
@@ -233,6 +267,10 @@
       v-if="editSetupOpen"
       @close="editSetupOpen = false"
     />
+    <BroadcastModal
+      v-if="broadcastOpen"
+      @close="broadcastOpen = false"
+    />
   </div>
 </template>
 
@@ -245,6 +283,7 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
+import BroadcastModal from './BroadcastModal.vue'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
 import RuleBody from '../RuleBody.vue'
@@ -253,7 +292,9 @@ import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, membersOf, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { useBroadcast } from '../../composables/useBroadcast.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -268,6 +309,12 @@ const openPrimary = ref(-1)   // index of the player whose primary scoring modal
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
 const phasePickerOpen = ref(false)
+const broadcastOpen = ref(false)
+
+// Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream
+// resumes pushing without reopening the dialog. `enabled` also lights the toolbar button.
+const { enabled: broadcastOn, init: initBroadcast } = useBroadcast()
+initBroadcast()
 
 // players[0] is always the first-turn player, so the turn IS a player index (useTracker).
 const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
@@ -296,6 +343,58 @@ function onPickPhase(turn, phase) {
 // `trackArmyRule` flag, and any flag a saved game predates.
 function armyRuleOn(pl) {
   return tracks(current.value.settings, (pl.isYou ?? false) ? 'trackArmyYou' : 'trackArmyOpp')
+}
+
+const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
+
+// The folded army-details block has to have something inside — the oldest saved games carry
+// neither a disposition nor detachments, and an empty accordion is a broken-looking row.
+function hasArmyInfo(pl) {
+  return !!dispositionName(pl.disposition) || !!pl.detachments?.length || isDoubles.value
+}
+
+function memberName(m, mi) {
+  return m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
+}
+
+// One line per doubles member under the side heading: who fields what. The light factionsIndex
+// supplies the name — never the heavy trackerFactions dataset (kept off in-game screens).
+function memberLine(m, mi) {
+  const parts = [factionIndexBySlug(m.factionSlug)?.name, m.detachments?.join(' · ')].filter(Boolean)
+  return `${memberName(m, mi)} — ${parts.join(' · ')}`
+}
+
+// The army buttons of the CP row: one per army. Singles keeps its single list-or-datasheets
+// button with the usual labels; doubles labels each button with the member it belongs to.
+function armyLinks(pl, i) {
+  const out = []
+  membersOf(pl).forEach((m, mi) => {
+    if (m.roster) {
+      out.push({
+        to: isDoubles.value ? `/tracker/game/roster/${i}/${mi}` : `/tracker/game/roster/${i}`,
+        icon: 'bi-card-list',
+        label: isDoubles.value ? memberName(m, mi) : labels.value.trackerRosterOpen,
+      })
+    } else if (m.factionSlug) {
+      out.push({
+        to: `/factions/${m.factionSlug}/datasheets`,
+        icon: 'bi-people-fill',
+        label: isDoubles.value ? memberName(m, mi) : labels.value.factionDatasheets,
+      })
+    }
+  })
+  return out
+}
+
+// Which army-rule tracker cards the side gets. Singles: the one side-level card. Doubles: a
+// unified force of ONE faction shares one pool (side-level state, mi null); otherwise each
+// member with a faction tracks their own army's rule.
+function armyCards(pl) {
+  if (!armyRuleOn(pl)) return []
+  if (!isDoubles.value) return [{ mi: null }]
+  const [a, b] = pl.members
+  if (pl.forceType === 'unified' && a.factionSlug && a.factionSlug === b.factionSlug) return [{ mi: null }]
+  return pl.members.map((m, mi) => ({ mi })).filter(({ mi }) => !!pl.members[mi].factionSlug)
 }
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
@@ -433,8 +532,21 @@ function onEndBattle(reason) {
   padding: 0.8rem;
 }
 .ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
-.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
+/* The folded setup facts under the side title. Summary styled as a quiet one-line control —
+   the card's first loud thing must stay the primary mission, not this. */
+.pinfo { margin: 0.1rem 0 0.5rem; }
+.pinfo > summary {
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  padding: 0.15rem 0;
+}
+@media (hover: hover) { .pinfo > summary:hover { color: var(--text-muted); } }
+.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.2rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
 .sec-title-row {
   font-size: 0.75rem;
   font-weight: 700;
@@ -500,5 +612,11 @@ function onEndBattle(reason) {
 @media (max-width: 360px) {
   .btn-next .next-full { display: none; }
   .btn-next .next-short { display: inline; }
+}
+
+/* The broadcast button is a STATE: lit while the game is streaming to an overlay. */
+.bc-on {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 </style>

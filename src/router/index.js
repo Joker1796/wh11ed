@@ -22,6 +22,7 @@ const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
+const BroadcastOverlayView = () => import('../views/BroadcastOverlayView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
 const HelpView          = () => import('../views/HelpView.vue')
 const HelpTopicView     = () => import('../views/HelpTopicView.vue')
@@ -396,17 +397,21 @@ const localeRoutes = [
     // PWA resumes into one), a phone's back stack, a bookmark.
     { path: '/roster/:id/add', redirect: (to) => `/roster/${to.params.id}` },
     { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
-    // The army list attached to a player of the CURRENT game (:pi = 0|1). Same view as
-    // /roster/:id/view, reading the game's own snapshot instead of the saved-roster store — see
-    // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
-    { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
+    // The army list attached to a player of the CURRENT game (:pi = 0|1; :mi = doubles member
+    // 0|1, absent in singles). Same view as /roster/:id/view, reading the game's own snapshot
+    // instead of the saved-roster store — see rosterGameLink.js. Private, like /tracker/game:
+    // not in STATIC_ROUTES, not in the sitemap.
+    { path: '/tracker/game/roster/:pi/:mi?', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
     // Your battle record, read out of the same history. Private like /tracker/game: it is a view
     // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
     { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
-    { path: '/tracker/history/:gid/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
+    { path: '/tracker/history/:gid/roster/:pi/:mi?', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
+    // The live-broadcast overlay an OBS Browser Source opens. `bare` strips the app chrome
+    // (App.vue); private like /tracker/game — not in STATIC_ROUTES, auto non-indexable.
+    { path: '/broadcast/:token', component: BroadcastOverlayView, meta: { section: 'tracker', bare: true } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
     // The guide was one page with six anchors until 2026-08-25. Links written against it — ours,
@@ -485,7 +490,8 @@ if (isStandaloneDisplay()) {
     try { saved = localStorage.getItem(LAST_ROUTE_KEY) } catch { /* ignore */ }
     if (!saved || saved === to.fullPath) return
     const resolved = router.resolve(saved)
-    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path))) return saved
+    // meta.bare (the broadcast overlay) is a capture surface, not a place to resume reading.
+    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path)) && !resolved.meta?.bare) return saved
   })
 }
 

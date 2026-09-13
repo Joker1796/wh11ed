@@ -93,7 +93,7 @@ import { useRouter } from 'vue-router'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, membersOf } from '../../composables/useTracker.js'
 import { usableInSlot, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
 import { allySourceOf } from '../../composables/rosterEngine.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -133,74 +133,90 @@ function rulesFor(pi) {
   const pl = current.value?.players?.[pi]
   const idx = index.value
   if (!pl || !idx) return []
-  const fac = idx[pl.factionSlug]
   const mine = turn.value === pi
   const out = []
-  const take = (e, src, sub = null) => {
-    if (e && usableInSlot(e.p, e.s, phase.value, mine)) {
-      out.push({ key: `${src}|${e.n}`, src, name: nameOf(e), sub, slug: pl.factionSlug, at: e.at, det: e.id })
-    }
-  }
+  // Faction-level lines are deduped across a doubles side's members: a unified force of one
+  // faction runs ONE army rule (the companion's shared pool), and even two copies of the same
+  // detachment carry one rule with one anchor — a second identical line reminds of nothing.
+  const seen = new Set()
 
-  if (fac) {
-    take(fac.army, labels.value.trackerArmyRule)
-    // The detachment's own rule, under the detachment's name — which is what the game stores.
-    for (const name of pl.detachments || []) {
-      const byName = fac.dets || {}
-      const key = Object.keys(byName).find((k) => norm(k) === norm(name))
-      if (key) take(byName[key], name)
+  membersOf(pl).forEach((m, rawMi) => {
+    const mi = m === pl ? null : rawMi
+    const fac = idx[m.factionSlug]
+    const take = (e, src, sub = null) => {
+      if (!e || !usableInSlot(e.p, e.s, phase.value, mine)) return
+      const k = `${src}|${e.n}|${m.factionSlug}`
+      if (seen.has(k)) return
+      seen.add(k)
+      out.push({ key: k, src, name: nameOf(e), sub, slug: m.factionSlug, at: e.at, det: e.id })
     }
-  }
 
-  // Unit abilities need a list: without one there is no way to know which units are on the table,
-  // and every datasheet of the faction would be noise rather than a reminder.
-  const units = pl.roster?.units || []
-  const byRule = new Map()
-  for (const u of units) {
-    // An allied unit's id carries its own faction ("agents-of-the-imperium:callidus-assassin"),
-    // so it is looked up in that faction's entry rather than missed.
-    const ally = allySourceOf(u.id)
-    const src = ally ? idx[ally[0]] : fac
-    const rec = src?.units?.[ally ? ally[1] : u.id]
-    if (!rec) continue
-    for (const e of rec.a) {
-      if (!usableInSlot(e.p, e.s, phase.value, mine)) continue
-      // One line per RULE: three Intercessor Squads with the same ability are one reminder with
-      // three names under it, not three identical lines.
-      const key = `${e.n}`
-      if (!byRule.has(key)) {
-        byRule.set(key, {
-          key: `u|${key}`,
-          src: labels.value.trackerPhaseUnit,
-          name: nameOf(e),
-          units: new Set(),
-          // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
-          // up carrying the rule: with three Intercessor Squads there is no single card to mean,
-          // so the line lets the reader pick. Counted by entry, not by name — three squads of
-          // the same datasheet are three cards, even though the line names "Boyz" once.
-          to: cardOf(pl, pi, u, ally),
-          entries: 0,
-        })
+    if (fac) {
+      take(fac.army, labels.value.trackerArmyRule)
+      // The detachment's own rule, under the detachment's name — which is what the game stores.
+      for (const name of m.detachments || []) {
+        const byName = fac.dets || {}
+        const key = Object.keys(byName).find((k) => norm(k) === norm(name))
+        if (key) take(byName[key], name)
       }
-      const r = byRule.get(key)
-      if (++r.entries > 1) r.to = listOf(pl, pi)
-      r.units.add(rec.n)
     }
-  }
-  for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
+
+    // Unit abilities need a list: without one there is no way to know which units are on the
+    // table, and every datasheet of the faction would be noise rather than a reminder. Kept per
+    // member — the line has to lead into the list that actually holds the unit.
+    const units = m.roster?.units || []
+    const byRule = new Map()
+    for (const u of units) {
+      // An allied unit's id carries its own faction ("agents-of-the-imperium:callidus-assassin"),
+      // so it is looked up in that faction's entry rather than missed.
+      const ally = allySourceOf(u.id)
+      const src = ally ? idx[ally[0]] : fac
+      const rec = src?.units?.[ally ? ally[1] : u.id]
+      if (!rec) continue
+      for (const e of rec.a) {
+        if (!usableInSlot(e.p, e.s, phase.value, mine)) continue
+        // One line per RULE: three Intercessor Squads with the same ability are one reminder with
+        // three names under it, not three identical lines.
+        const key = `${e.n}`
+        if (!byRule.has(key)) {
+          byRule.set(key, {
+            key: `u|${mi ?? ''}|${key}`,
+            src: labels.value.trackerPhaseUnit,
+            name: nameOf(e),
+            units: new Set(),
+            // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
+            // up carrying the rule: with three Intercessor Squads there is no single card to mean,
+            // so the line lets the reader pick. Counted by entry, not by name — three squads of
+            // the same datasheet are three cards, even though the line names "Boyz" once.
+            to: cardOf(m, pi, mi, u, ally),
+            entries: 0,
+          })
+        }
+        const r = byRule.get(key)
+        if (++r.entries > 1) r.to = listOf(m, pi, mi)
+        r.units.add(rec.n)
+      }
+    }
+    for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
+  })
   return out
 }
 
+function rosterPath(pi, mi) {
+  return mi == null ? `/tracker/game/roster/${pi}` : `/tracker/game/roster/${pi}/${mi}`
+}
+
 // The unit's card: inside the attached list when the game carries one — that is where this game's
-// own modifiers are applied — and the faction's datasheet page otherwise.
-function cardOf(pl, pi, entry, ally) {
-  if (pl.roster) return { path: `/tracker/game/roster/${pi}`, query: { unit: entry.uid } }
-  const slug = ally ? ally[0] : pl.factionSlug
+// own modifiers are applied — and the faction's datasheet page otherwise. `m` is the army that
+// fields the unit (the side in singles, a member in doubles — hence the mi in the roster path).
+function cardOf(m, pi, mi, entry, ally) {
+  if (m.roster) return { path: rosterPath(pi, mi), query: { unit: entry.uid } }
+  const slug = ally ? ally[0] : m.factionSlug
   const id = ally ? ally[1] : entry.id
   return `/factions/${slug}/datasheets/${id}`
 }
-function listOf(pl, pi) {
-  return pl.roster ? `/tracker/game/roster/${pi}` : `/factions/${pl.factionSlug}/datasheets`
+function listOf(m, pi, mi) {
+  return m.roster ? rosterPath(pi, mi) : `/factions/${m.factionSlug}/datasheets`
 }
 
 // The RU name where the datasheet overlay had one; rule and unit names stay English by convention.

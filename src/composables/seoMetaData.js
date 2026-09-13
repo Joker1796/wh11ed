@@ -155,6 +155,13 @@ const ROUTES = {
       ru: 'Как работает трекер партии: миссии и секондари, очки победы и командные очки по пяти раундам, история игр и статистика, с применением правил вашего листа.',
     },
   },
+  '/help/broadcast': {
+    title: { en: 'Broadcasting to OBS', ru: 'Трансляция в OBS' },
+    description: {
+      en: 'A read-only live scoreboard of your tracked game for OBS or any browser: enable it in the game settings, paste the link into a Browser Source, choose what it shows.',
+      ru: 'Живое табло вашей партии для OBS или любого браузера: включите в настройках игры, вставьте ссылку в Browser Source, выберите, что показывать.',
+    },
+  },
   '/help/offline': {
     title: { en: 'Offline, and installing the app', ru: 'Офлайн и установка' },
     description: {

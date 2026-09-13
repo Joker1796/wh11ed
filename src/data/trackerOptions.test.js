@@ -95,8 +95,8 @@ describe('availability', () => {
 
   it('leaves the tracker\'s own rows alone', () => {
     // Only the two army rows want anything; the clock and its reminder are always offered.
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'phases', 'phase-rules'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'phases', 'phase-rules'])
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'phases', 'phase-rules', 'broadcast'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'phases', 'phase-rules', 'broadcast'])
   })
 })
 

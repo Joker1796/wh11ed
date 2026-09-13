@@ -108,6 +108,21 @@ export const TRACK_OPTIONS = [
     remember: true,
     requires: 'trackPhases',
   },
+  {
+    // The OBS-broadcast button. A niche feature, so the ROW is what puts the button on the
+    // game screen at all — off by default, remembered like the clock. One deliberate
+    // asymmetry in the reader (RoundTracker): a broadcast already LIVE keeps its lit button
+    // whatever this row says — a stream running with no visible control would be the
+    // dishonest kind of hidden. Signing in is required at USE time, not here: the row is
+    // always offered, and the broadcast dialog explains the account part itself.
+    id: 'broadcast',
+    setting: 'trackBroadcast',
+    group: 'game',
+    label: 'trackerTrackBroadcast',
+    help: 'trackerHelpBroadcast',
+    default: false,
+    remember: true,
+  },
 
   // ── The roster screen ──────────────────────────────────────────────────────────────────────
   // The master, and under it the five families of switch the modifier layer asks a player to

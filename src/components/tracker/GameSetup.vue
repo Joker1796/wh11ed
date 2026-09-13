@@ -40,18 +40,24 @@
       :ref="el => (panelEls[0] = el)"
       class="step-panel"
     >
-      <div class="field game-type">
+      <div class="field game-type seg-thirds">
         <span>{{ labels.trackerGameType }}</span>
-        <div class="seg seg-wrap">
+        <div class="seg">
           <button
-            :class="{ on: !settings.combatPatrol }"
-            @click="setCombatPatrol(false)"
+            :class="{ on: !settings.combatPatrol && !isDoubles }"
+            @click="setGameMode('singles')"
           >
-            {{ labels.trackerGameTypeCompetitive }}
+            {{ labels.trackerGameTypeSingles }}
+          </button>
+          <button
+            :class="{ on: isDoubles }"
+            @click="setGameMode('doubles')"
+          >
+            {{ labels.trackerGameTypeDoubles }}
           </button>
           <button
             :class="{ on: settings.combatPatrol }"
-            @click="setCombatPatrol(true)"
+            @click="setGameMode('combatPatrol')"
           >
             {{ labels.trackerGameTypeCombatPatrol }}
           </button>
@@ -60,17 +66,44 @@
 
       <div
         v-if="!settings.combatPatrol"
-        class="field battle-size"
+        class="field battle-size seg-thirds"
       >
         <span>{{ labels.trackerBattleSize }}</span>
+        <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
+             numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
+             the width said and every button broke differently. -->
         <div class="seg">
           <button
             v-for="b in battleSizes"
             :key="b.id"
+            class="bs-btn"
             :class="{ on: settings.battleSize === b.id }"
             @click="settings.battleSize = b.id"
           >
-            {{ b.name }} · {{ b.points }} · {{ b.maxDp }}DP
+            <span class="bs-name">{{ b.name }}</span>
+            <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Doubles: each player musters their own army, so the DP budget is per player. The
+           battle size's own budget is the default; the event may set another (the companion
+           leaves it to the organiser — "всё настраивается"). Label BESIDE the seg: three short
+           buttons don't need the row, and the phone's vertical space does (CLAUDE.md's
+           vertical-density rule — spend sideways before spending down). -->
+      <div
+        v-if="isDoubles"
+        class="field field-inline"
+      >
+        <span>{{ labels.trackerDpPerPlayer }}</span>
+        <div class="seg">
+          <button
+            v-for="n in [1, 2, 3]"
+            :key="n"
+            :class="{ on: memberMaxDp === n }"
+            @click="settings.dpPerPlayer = n === maxDp ? null : n"
+          >
+            {{ n }} DP
           </button>
         </div>
       </div>
@@ -85,161 +118,245 @@
             {{ playerLabel(i) }}
           </h3>
 
-          <label class="field">
+          <label
+            v-if="isDoubles"
+            class="field"
+          >
+            <span>{{ labels.trackerTeamName }}</span>
             <input
-              v-model="p.name"
+              v-model="p.teamName"
               type="text"
-              :placeholder="namePlaceholder(i)"
+              :placeholder="labels.trackerTeamName"
             >
           </label>
 
-          <!-- An attached list IS the army: it decides the faction, so it stands in the faction
-               picker's place rather than beside one that could contradict it, and the button that
-               attaches one sits in the same row — the two answer the same question. Detaching with
-               the ✕ leaves the faction the list chose selected, and hands the picker back. -->
-          <div class="field">
-            <span>{{ p.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
-            <div class="faction-row">
-              <div
-                v-if="p.roster"
-                class="ro roster-line"
+          <!-- The army-identity block below (name / faction·roster / detachments) is written once
+               and looped: armiesOf(p) is the side itself in singles, its two members in doubles —
+               the two shapes are identical, so `m` stands for either. -->
+          <div
+            v-for="(m, mi) in armiesOf(p)"
+            :key="mi"
+            :class="{ 'member-block': isDoubles }"
+          >
+            <h4
+              v-if="isDoubles"
+              class="member-head"
+            >
+              {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
+            </h4>
+
+            <label class="field">
+              <input
+                v-model="m.name"
+                type="text"
+                :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
               >
-                <span class="rl-text">
-                  <template v-if="p.roster.faction">{{ factionName(p.roster.faction) }} · </template>{{ p.roster.name || labels.rosterUntitled }}
-                </span>
+            </label>
+
+            <!-- An attached list IS the army: it decides the faction, so it stands in the faction
+                 picker's place rather than beside one that could contradict it, and the button that
+                 attaches one sits in the same row — the two answer the same question. Detaching with
+                 the ✕ leaves the faction the list chose selected, and hands the picker back. -->
+            <div class="field">
+              <span>{{ m.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
+              <div class="faction-row">
+                <div
+                  v-if="m.roster"
+                  class="ro roster-line"
+                >
+                  <span class="rl-text">
+                    <template v-if="m.roster.faction">{{ factionName(m.roster.faction) }} · </template>{{ m.roster.name || labels.rosterUntitled }}
+                  </span>
+                  <button
+                    type="button"
+                    class="rl-clear"
+                    :aria-label="labels.trackerRosterDetach"
+                    :title="labels.trackerRosterDetach"
+                    @click="clearRoster(m)"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <button
+                  v-else
+                  class="btn-choose-twist faction-btn"
+                  @click="factionPickerKey = ak(i, mi)"
+                >
+                  <span
+                    class="ct-name"
+                    :class="{ placeholder: !m.factionSlug }"
+                  >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                  <i class="bi bi-chevron-right ct-chev" />
+                </button>
                 <button
                   type="button"
-                  class="rl-clear"
-                  :aria-label="labels.trackerRosterDetach"
-                  :title="labels.trackerRosterDetach"
-                  @click="clearRoster(p)"
+                  class="rp-open"
+                  :class="{ on: !!m.roster }"
+                  :aria-label="labels.trackerRosterAttach"
+                  :title="labels.trackerRosterAttach"
+                  @click="rosterPickerKey = ak(i, mi)"
                 >
-                  ✕
+                  <i class="bi bi-card-list" />
                 </button>
               </div>
+              <FactionPickerModal
+                v-if="factionPickerKey === ak(i, mi)"
+                :selected="m.factionSlug"
+                :combat-patrol-only="settings.combatPatrol"
+                @pick="slug => selectFaction(m, slug)"
+                @close="factionPickerKey = ''"
+              />
+              <RosterPickerModal
+                v-if="rosterPickerKey === ak(i, mi)"
+                :selected="m.roster ? (m.rosterId || '') : null"
+                @pick="r => pickRoster(m, r)"
+                @clear="clearRoster(m)"
+                @close="rosterPickerKey = ''"
+              />
+            </div>
+
+            <div
+              v-if="!settings.combatPatrol"
+              class="field"
+            >
+              <span>
+                {{ labels.trackerDpBudget }} <em
+                  class="dp-count"
+                  :class="{ over: dpSpent(m) > memberMaxDp && m.detachments.length !== 1 }"
+                >{{ dpSpent(m) }} / {{ memberMaxDp }} DP</em>
+                <button
+                  v-if="m.detachments.length === 1 && dpSpent(m) > memberMaxDp"
+                  type="button"
+                  class="help-btn"
+                  :aria-label="labels.trackerDpOverHelp"
+                  @click="dpHelpOpen = true"
+                >
+                  <i class="bi bi-question-circle" />
+                </button>
+              </span>
               <button
-                v-else
-                class="btn-choose-twist faction-btn"
-                @click="factionPickerIdx = i"
+                v-if="m.factionSlug && detachmentsFor(m.factionSlug).length"
+                class="btn-choose-twist"
+                @click="detPickerKey = ak(i, mi)"
               >
                 <span
                   class="ct-name"
-                  :class="{ placeholder: !p.factionSlug }"
-                >{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
+                  :class="{ placeholder: !m.detachments.length }"
+                >{{ detSummary(m) }}</span>
                 <i class="bi bi-chevron-right ct-chev" />
               </button>
-              <button
-                type="button"
-                class="rp-open"
-                :class="{ on: !!p.roster }"
-                :aria-label="labels.trackerRosterAttach"
-                :title="labels.trackerRosterAttach"
-                @click="rosterPickerIdx = i"
+              <p
+                v-else
+                class="det-empty"
               >
-                <i class="bi bi-card-list" />
-              </button>
+                {{ m.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
+              </p>
+              <DetachmentPickerModal
+                v-if="detPickerKey === ak(i, mi)"
+                :detachments="detachmentsFor(m.factionSlug)"
+                :selected="m.detachments"
+                :max-dp="memberMaxDp"
+                :dp-spent="dpSpent(m)"
+                @toggle="d => toggleDetachment(m, d)"
+                @clear="m.detachments.splice(0)"
+                @close="detPickerKey = ''"
+              />
             </div>
-            <FactionPickerModal
-              v-if="factionPickerIdx === i"
-              :selected="p.factionSlug"
-              :combat-patrol-only="settings.combatPatrol"
-              @pick="slug => selectFaction(p, slug)"
-              @close="factionPickerIdx = -1"
-            />
-            <RosterPickerModal
-              v-if="rosterPickerIdx === i"
-              :selected="p.roster ? (p.rosterId || '') : null"
-              @pick="r => pickRoster(p, r)"
-              @clear="clearRoster(p)"
-              @close="rosterPickerIdx = -1"
-            />
+            <div
+              v-else
+              class="field"
+            >
+              <span>{{ labels.trackerCpBox }}</span>
+              <p
+                v-if="!m.factionSlug"
+                class="det-empty"
+              >
+                {{ labels.trackerSelectFaction }}
+              </p>
+              <p
+                v-else-if="cpFactionFor(m)"
+                class="ro cp-box-line"
+              >
+                {{ cpFactionFor(m).boxName }} · {{ cpFactionFor(m).dp }} DP
+              </p>
+              <p
+                v-else
+                class="det-empty"
+              >
+                {{ labels.trackerNoDetachments }}
+              </p>
+            </div>
           </div>
 
+          <!-- Force type (Doubles Companion terminology). Auto derives from the two factions
+               (same faction / two SM Chapters → Unified); the player can override — allies on a
+               list can flip the real answer, and the app doesn't read lists at that depth.
+               A div, not a label: it wraps only buttons, and a label would forward clicks. -->
           <div
-            v-if="!settings.combatPatrol"
+            v-if="isDoubles"
             class="field"
           >
             <span>
-              {{ labels.trackerDpBudget }} <em
-                class="dp-count"
-                :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }"
-              >{{ dpSpent(p) }} / {{ maxDp }} DP</em>
+              {{ labels.trackerForceType }}
               <button
-                v-if="p.detachments.length === 1 && dpSpent(p) > maxDp"
                 type="button"
                 class="help-btn"
-                :aria-label="labels.trackerDpOverHelp"
-                @click="dpHelpOpen = true"
+                :aria-label="labels.trackerForceTypeHelpAria"
+                @click="forceTypeHelpOpen = true"
               >
                 <i class="bi bi-question-circle" />
               </button>
             </span>
-            <button
-              v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
-              class="btn-choose-twist"
-              @click="detPickerIdx = i"
-            >
-              <span
-                class="ct-name"
-                :class="{ placeholder: !p.detachments.length }"
-              >{{ detSummary(p) }}</span>
-              <i class="bi bi-chevron-right ct-chev" />
-            </button>
-            <p
-              v-else
-              class="det-empty"
-            >
-              {{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}
-            </p>
-            <DetachmentPickerModal
-              v-if="detPickerIdx === i"
-              :detachments="detachmentsFor(p.factionSlug)"
-              :selected="p.detachments"
-              :max-dp="maxDp"
-              :dp-spent="dpSpent(p)"
-              @toggle="d => toggleDetachment(p, d)"
-              @clear="p.detachments.splice(0)"
-              @close="detPickerIdx = -1"
-            />
-          </div>
-          <div
-            v-else
-            class="field"
-          >
-            <span>{{ labels.trackerCpBox }}</span>
-            <p
-              v-if="!p.factionSlug"
-              class="det-empty"
-            >
-              {{ labels.trackerSelectFaction }}
-            </p>
-            <p
-              v-else-if="cpFactionFor(p)"
-              class="ro cp-box-line"
-            >
-              {{ cpFactionFor(p).boxName }} · {{ cpFactionFor(p).dp }} DP
-            </p>
-            <p
-              v-else
-              class="det-empty"
-            >
-              {{ labels.trackerNoDetachments }}
-            </p>
+            <div class="seg seg-fill">
+              <button
+                :class="{ on: !p.forceType }"
+                @click="p.forceType = null"
+              >
+                {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
+              </button>
+              <button
+                :class="{ on: p.forceType === 'unified' }"
+                @click="p.forceType = 'unified'"
+              >
+                Unified
+              </button>
+              <button
+                :class="{ on: p.forceType === 'convenience' }"
+                @click="p.forceType = 'convenience'"
+              >
+                Convenience
+              </button>
+            </div>
           </div>
 
-          <label class="field">
-            <span>{{ labels.trackerRole }}</span>
+          <!-- A div, not a label, for the same reason as Force type: the help button. -->
+          <div class="field">
+            <span>
+              {{ labels.trackerRole }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerRoleHelpAria"
+                @click="roleHelpOpen = true"
+              >
+                <i class="bi bi-question-circle" />
+              </button>
+            </span>
             <div class="seg">
               <button
                 :class="{ on: p.role === 'attacker' }"
                 @click="setRole(i, 'attacker')"
-              >{{ labels.trackerAttacker }}</button>
+              >
+                {{ labels.trackerAttacker }}
+              </button>
               <button
                 :class="{ on: p.role === 'defender' }"
                 @click="setRole(i, 'defender')"
-              >{{ labels.trackerDefender }}</button>
+              >
+                {{ labels.trackerDefender }}
+              </button>
             </div>
-          </label>
+          </div>
 
           <label
             class="check br-check"
@@ -334,11 +451,17 @@
           :key="i"
           class="player-card"
         >
+          <!-- The team name rides in the heading, muted, so "You"/"Opponent" stays the anchor
+               and the name reads as an annotation. Written adjacent (no line break before the
+               span): a break here would condense into a stray space ahead of the separator. -->
           <h3 class="player-head">
-            {{ playerLabel(i) }}
+            {{ playerLabel(i) }}<span
+              v-if="isDoubles && p.teamName"
+              class="ph-team"
+            >&nbsp;· {{ p.teamName }}</span>
           </h3>
           <p class="army-summary">
-            {{ p.name || playerLabel(i) }} — {{ factionName(p.factionSlug) }}
+            {{ armySummary(p, i) }}
           </p>
 
           <label class="field">
@@ -361,7 +484,7 @@
             <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
             <div
               v-else-if="candidateDispositions(p).length > 1"
-              class="seg seg-wrap"
+              class="seg seg-fill"
             >
               <button
                 v-for="id in candidateDispositions(p)"
@@ -634,6 +757,20 @@
       @close="layoutPickerOpen = false"
     />
 
+    <OptionHelpModal
+      v-if="forceTypeHelpOpen"
+      :title="labels.trackerForceType"
+      :text="labels.trackerForceTypeHelp"
+      @close="forceTypeHelpOpen = false"
+    />
+
+    <OptionHelpModal
+      v-if="roleHelpOpen"
+      :title="labels.trackerRole"
+      :text="labels.trackerRoleHelp"
+      @close="roleHelpOpen = false"
+    />
+
     <BaseModal
       v-if="dpHelpOpen"
       :title="labels.trackerDpOverTitle"
@@ -661,12 +798,13 @@ import FactionPickerModal from './FactionPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
+import OptionHelpModal from './OptionHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
-import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import RosterPickerModal from './RosterPickerModal.vue'
@@ -702,10 +840,18 @@ const matchups = eventCompanion.en.matchups   // layout image paths are language
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
-function defaultPlayer(role, name = '') {
-  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null }
+function defaultMember() {
+  return { name: '', factionSlug: null, detachments: [], rosterId: null, roster: null }
 }
-const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
+function defaultPlayer(role, name = '') {
+  return {
+    name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical',
+    fixedSecondaries: [], battleReady: false, rosterId: null, roster: null,
+    // Doubles fields — inert in singles (makePlayer ignores them there).
+    teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
+  }
+}
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -717,6 +863,23 @@ const players = reactive([
   { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
 ])
 const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
+
+// ── Doubles ────────────────────────────────────────────────────────────────────────────────
+const isDoubles = computed(() => settings.gameType === 'doubles')
+// The armies a side fields: itself in singles, its two members in doubles. The member shape is
+// a subset of the side's (name/factionSlug/detachments/rosterId/roster), so the army-identity
+// template block and every helper below take either.
+function armiesOf(p) {
+  return isDoubles.value ? p.members : [p]
+}
+// Army key for the picker modals (which army a modal is open for): side index + member index.
+function ak(i, mi) {
+  return `${i}:${mi}`
+}
+function derivedForceLabel(p) {
+  const t = deriveForceType(p.members[0].factionSlug, p.members[1].factionSlug)
+  return t ? ` (${t === 'unified' ? 'Unified' : 'Convenience'})` : ''
+}
 
 // Every faction now gets SOME form of the army-rule card during the game — an interactive
 // counter/toggle/etc. for the ~11 factions with a registered spec, or a read-only reference
@@ -730,28 +893,38 @@ const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
 
 // Either player having a list is enough: the clock belongs to the game, not to one side.
-const anyRoster = computed(() => players.some((p) => !!p.roster))
+const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
+
+// A side's faction for the option table: in doubles, the first member with one (the row's
+// availability question is "does this side field an army at all", not "which").
+function sideFaction(p) {
+  return armiesOf(p).find((m) => m.factionSlug)?.factionSlug ?? null
+}
 
 // What the option table needs to know about this game, keyed by SIDE — in the wizard players[0]
 // is always You, but once the game starts the array is reordered by first turn, so the block
 // never indexes players itself.
 const trackCtx = computed(() => ({
-  you: { faction: players[0].factionSlug, trackable: armyYouTrackable.value },
-  opp: { faction: players[1].factionSlug, trackable: armyOppTrackable.value },
+  you: { faction: sideFaction(players[0]), trackable: armyYouTrackable.value },
+  opp: { faction: sideFaction(players[1]), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
 watch(
-  () => players.map(p => p.factionSlug).join('|'),
+  () => players.map(p => armiesOf(p).map(m => m.factionSlug).join(',')).join('|'),
   async () => {
     const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
-    armyYouTrackable.value = !!(players[0]?.factionSlug && resolveArmyTracker(players[0].factionSlug))
-    armyOppTrackable.value = !!(players[1]?.factionSlug && resolveArmyTracker(players[1].factionSlug))
+    const trackable = (p) => armiesOf(p).some((m) => m.factionSlug && resolveArmyTracker(m.factionSlug))
+    armyYouTrackable.value = trackable(players[0])
+    armyOppTrackable.value = trackable(players[1])
   },
   { immediate: true },
 )
 
 const battleSizes = BATTLE_SIZES
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
+// The budget ONE army must fit in: the battle size's in singles; per player in doubles (the
+// battle size's by default, or the organiser's own via settings.dpPerPlayer — null = follow).
+const memberMaxDp = computed(() => (isDoubles.value ? (settings.dpPerPlayer ?? maxDp.value) : maxDp.value))
 
 // Twists — optional pre-game modifiers (names English; localized prose from the data).
 const twistList = computed(() => getEventContent(locale.value).twists.blocks)
@@ -784,6 +957,8 @@ function randomTwist() {
 
 const scoreHelpOpen = ref(false)
 const dpHelpOpen = ref(false)
+const forceTypeHelpOpen = ref(false)
+const roleHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
@@ -863,11 +1038,32 @@ async function resolveArmyChoice(p) {
   if (p.roster?.detachments?.length) p.detachments = [...p.roster.detachments]
 }
 
-function setCombatPatrol(on) {
-  if (settings.combatPatrol === on) return
-  settings.combatPatrol = on
-  if (on) { settings.twist = null; settings.twistMission = null }
-  players.forEach(p => resolveArmyChoice(p))
+// The three mutually exclusive game modes of the seg above: standard singles, doubles
+// (Warhammer Doubles Event Companion), Combat Patrol. Doubles is competitive-only —
+// the companion modifies the standard mission sequence, and a CP box has one fixed army.
+function setGameMode(mode) {
+  const wasDoubles = isDoubles.value
+  const toCp = mode === 'combatPatrol'
+  settings.gameType = mode === 'doubles' ? 'doubles' : 'singles'
+  if (settings.combatPatrol !== toCp) {
+    settings.combatPatrol = toCp
+    if (toCp) { settings.twist = null; settings.twistMission = null }
+    players.forEach(p => resolveArmyChoice(p))
+  }
+  // Entering doubles: the army already picked on the side card becomes member 1's — the
+  // person filling the form is not asked to re-enter what they just typed. Side fields are
+  // left in place (hidden in doubles, and still there if they switch back).
+  if (!wasDoubles && mode === 'doubles') {
+    players.forEach(p => {
+      const m = p.members[0]
+      if (m.factionSlug || m.roster || m.name) return
+      m.name = p.name
+      m.factionSlug = p.factionSlug
+      m.detachments = [...p.detachments]
+      m.rosterId = p.rosterId
+      m.roster = p.roster
+    })
+  }
 }
 
 function toggleFixed(p, slug) {
@@ -879,9 +1075,10 @@ function toggleFixed(p, slug) {
 // Fixed-secondary picker modal — open for player index (-1 = closed). Lists the
 // localized full mission cards so their text can be read before choosing.
 const fixedPickerFor = ref(-1)
-const detPickerIdx = ref(-1)
-const factionPickerIdx = ref(-1)
-const rosterPickerIdx = ref(-1)
+// Army-scoped pickers are keyed by ak(side, member) — '' = closed (see armiesOf/ak above).
+const detPickerKey = ref('')
+const factionPickerKey = ref('')
+const rosterPickerKey = ref('')
 
 // Attaching a roster is what DECIDES the army, so it sets the faction (and, through the faction
 // watcher, resolveArmyChoice's detachments) rather than being validated against an earlier pick.
@@ -889,7 +1086,7 @@ const rosterPickerIdx = ref(-1)
 function pickRoster(p, roster) {
   p.rosterId = roster.id || null
   p.roster = rosterSnapshot(roster)
-  rosterPickerIdx.value = -1
+  rosterPickerKey.value = ''
   if (roster.faction && p.factionSlug !== roster.faction) p.factionSlug = roster.faction
   else resolveArmyChoice(p)
 }
@@ -899,13 +1096,13 @@ function pickRoster(p, roster) {
 function clearRoster(p) {
   p.rosterId = null
   p.roster = null
-  rosterPickerIdx.value = -1
+  rosterPickerKey.value = ''
 }
 
 // Faction is single-select: picking one applies it and closes the modal immediately.
 function selectFaction(p, slug) {
   p.factionSlug = slug
-  factionPickerIdx.value = -1
+  factionPickerKey.value = ''
 }
 const fixedModalMissions = computed(() => {
   if (fixedPickerFor.value < 0) return []
@@ -929,11 +1126,13 @@ function candidateDispositions(p) {
   // Combat Patrol: exactly one, fixed disposition — already resolved onto p.disposition by
   // resolveArmyChoice, just echo it back in the shape the step-2 template expects.
   if (settings.combatPatrol) return p.disposition ? [p.disposition] : []
-  const ids = p.detachments
-    .map(name => detachmentInfo(p.factionSlug, name)?.forceDisposition)
+  // Doubles: one disposition per TEAM, "available to either of the armies in that team"
+  // (companion, Muster step) — so the candidates are the union over the side's armies.
+  const ids = armiesOf(p).flatMap(m => m.detachments
+    .map(name => detachmentInfo(m.factionSlug, name)?.forceDisposition)
     .filter(Boolean)
     .map(name => DISPOSITIONS.find(d => d.name === name)?.id)
-    .filter(Boolean)
+    .filter(Boolean))
   return [...new Set(ids)]
 }
 function setRole(idx, role) {
@@ -945,20 +1144,27 @@ function toggleDetachment(p, d) {
   const i = p.detachments.indexOf(d.name)
   if (i >= 0) p.detachments.splice(i, 1)
   // You can always include at least one detachment (even over budget); further
-  // detachments must fit within the battle size's DP budget.
-  else if (p.detachments.length === 0 || dpSpent(p) + d.dp <= maxDp.value) p.detachments.push(d.name)
+  // detachments must fit within the army's DP budget (per player in doubles).
+  else if (p.detachments.length === 0 || dpSpent(p) + d.dp <= memberMaxDp.value) p.detachments.push(d.name)
 }
 
 // Changing faction resets its detachment/disposition choices (or, in Combat Patrol mode,
-// re-resolves them from the newly picked box — see resolveArmyChoice).
-players.forEach(p => watch(() => p.factionSlug, () => resolveArmyChoice(p)))
+// re-resolves them from the newly picked box — see resolveArmyChoice). Members get the same
+// watcher: their army-identity fields behave exactly like the side's own (inert in singles).
+players.forEach(p => {
+  watch(() => p.factionSlug, () => resolveArmyChoice(p))
+  p.members.forEach(m => watch(() => m.factionSlug, () => resolveArmyChoice(m)))
+})
 
-// Shrinking the battle size (e.g. Strike Force → Incursion) can invalidate the chosen
-// detachments' DP, so clear each player's detachments and disposition for a fresh pick.
-watch(() => settings.battleSize, (next, prev) => {
-  const maxOf = id => BATTLE_SIZES.find(b => b.id === id)?.maxDp ?? 3
-  if (maxOf(next) >= maxOf(prev)) return
-  players.forEach(p => { p.detachments = []; p.disposition = null })
+// Shrinking the DP budget (battle size, or doubles' per-player override) can invalidate the
+// chosen detachments' DP, so clear every army's detachments (and the side dispositions) for a
+// fresh pick.
+watch(memberMaxDp, (next, prev) => {
+  if (next >= prev) return
+  players.forEach(p => {
+    armiesOf(p).forEach(m => { m.detachments = [] })
+    p.disposition = null
+  })
 })
 
 function factionHasDetachments(p) {
@@ -973,6 +1179,18 @@ players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
   }
   if (!ids.includes(p.disposition)) p.disposition = ids[0]
 }, { deep: true }))
+
+// Step-2 recap line under the side heading: who fields what. The doubles team name is NOT
+// here — it rides in the heading itself (the muted .ph-team span above), so this line is the
+// members alone. Built in script, never from adjacent template fragments (see the lint note
+// in CLAUDE.md — inline whitespace is load-bearing there).
+function armySummary(p, i) {
+  if (!isDoubles.value) return `${p.name || playerLabel(i)} — ${factionName(p.factionSlug)}`
+  return p.members
+    .map(m => [m.name, factionName(m.factionSlug)].filter(Boolean).join(': '))
+    .filter(Boolean)
+    .join(' · ')
+}
 
 function primaryName(i) {
   const me = players[i], opp = players[i === 0 ? 1 : 0]
@@ -1012,14 +1230,16 @@ const layoutPickerOpen = ref(false)
 function selectLayout(id) { settings.layout = id; settings.customLayout = null }
 function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
 
-// Step 1 (Armies): both players have a valid army — faction + a detachment where the
-// faction has them.
+// Step 1 (Armies): every army (each side in singles, all four members in doubles) has a
+// faction + a detachment where the faction has them.
 const canArmies = computed(() =>
   players.every(p =>
-    p.factionSlug &&
-    (settings.combatPatrol
-      ? p.detachments.length > 0
-      : (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0))
+    armiesOf(p).every(m =>
+      m.factionSlug &&
+      (settings.combatPatrol
+        ? m.detachments.length > 0
+        : (detachmentsFor(m.factionSlug).length === 0 || m.detachments.length > 0))
+    )
   )
 )
 
@@ -1204,6 +1424,28 @@ function cancel() {
   color: var(--accent);
   margin-bottom: 0.75rem;
 }
+/* The team name beside "You"/"Opponent" in a step-2 heading — muted so the fixed side label
+   stays the anchor and the free-text name cannot be mistaken for part of it. */
+.ph-team {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85em;
+}
+/* Doubles: one bordered sub-box per member inside the team card — the frame does the grouping
+   work (square-corner house style: a surface is told from its background by the border). */
+.member-block {
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+.member-block .field:last-child { margin-bottom: 0; }
+.member-head {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
 .field {
   display: flex;
   flex-direction: column;
@@ -1230,38 +1472,53 @@ function cancel() {
 }
 .dp-count.over { color: #c0392b; }
 :global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
-.game-type {
+.seg-thirds {
   align-items: flex-start;
   margin-bottom: 1rem;
 }
-.battle-size {
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-.battle-size .seg { flex-wrap: wrap; justify-content: flex-start; }
-/* 3 battle sizes (Incursion/Strike Force/Onslaught) is one too many for the flex-wrap
-   pill row on narrow phones: each button keeps its own (very different) content width,
-   so they stack one-per-line, left-aligned, with a large empty gap on every row — reads
-   as broken rather than just narrow. A 3-column grid of equal-width tiles uses the width
-   evenly instead — compact, not square (an aspect-ratio: 1 tile reads as too tall for a
-   single form field); the smaller phones get a second, tighter font-size step since
-   "Strike Force · 2000 · 3DP" wrapped onto two lines is still tight at 0.82rem. */
+.seg-thirds .seg { flex-wrap: wrap; justify-content: flex-start; }
+/* Three same-weight options is one too many for the flex-wrap pill row on narrow phones:
+   each button keeps its own (very different) content width, so they wrap 2+1 with a ragged
+   empty cell — reads as broken rather than just narrow. A 3-column grid of equal-width
+   tiles uses the width evenly instead. Applies to both three-option segs of this step —
+   both carry .seg-thirds for exactly this treatment. */
 @media (max-width: 560px) {
-  .battle-size .seg {
+  .seg-thirds .seg {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
   }
-  .battle-size .seg button {
+  .seg-thirds .seg button {
     padding: 0.4rem 0.3rem;
     text-align: center;
     white-space: normal;
     line-height: 1.25;
   }
-  .battle-size .seg button + button { border-left: 1px solid var(--border); }
+  .seg-thirds .seg button + button { border-left: 1px solid var(--border); }
 }
 @media (max-width: 380px) {
-  .battle-size .seg button { font-size: 0.72rem; }
+  .seg-thirds .seg button { font-size: 0.72rem; }
+}
+/* A battle-size button is two deliberate lines — the name, then the numbers under it in
+   small print — instead of one long string breaking wherever the width says. */
+.bs-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+.bs-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+/* Label beside the control, not above it (the doubles DP-per-player row): three short
+   buttons leave the row half-empty, and vertical space is the scarce axis on a phone. */
+.field-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .btn-choose-twist {
@@ -1343,7 +1600,32 @@ function cancel() {
   color: var(--text-muted);
   font-size: 0.9rem;
 }
-.seg-wrap { flex-wrap: wrap; }
+/* A seg whose options may not fit one row (doubles: up to 5 candidate dispositions, the
+   force-type trio). Buttons GROW to fill each wrapped row — a lone option in the last row
+   becomes a full-width button, so a ragged empty cell cannot exist. Dividers come from the
+   1px gap over the border-coloured background, which stays correct in both directions when
+   rows wrap (the plain seg's button+button left border does not). */
+.seg-fill {
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1px;
+  background: var(--border);
+}
+.seg-fill button {
+  flex: 1 1 auto;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.25;
+}
+.seg-fill button + button { border-left: none; }
+/* Balanced rows by COUNT, not by whatever width the names happen to have: exactly four
+   options break 2+2, exactly five break 3+2 (a 3+1 or 4+1 split reads as an accident even
+   with the stretch). :has(:nth-child(N):last-child) is "exactly N children" — same :has()
+   the app already leans on elsewhere, within the Safari 16.2 floor. The basis percentages
+   only cap how many fit a row; flex-grow still stretches each row to full width. */
+.seg-fill:has(> button:nth-child(4):last-child) > button { flex-basis: 34%; }
+.seg-fill:has(> button:nth-child(5):last-child) > button { flex-basis: 26%; }
+.seg-fill:has(> button:nth-child(5):last-child) > button:nth-child(n + 4) { flex-basis: 36%; }
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
 .br-check { margin-top: 0.2rem; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a

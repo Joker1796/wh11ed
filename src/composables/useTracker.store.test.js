@@ -594,3 +594,110 @@ describe('condition switches', () => {
   })
 })
 
+
+describe('doubles', () => {
+  function setupDoubles(over = {}) {
+    return setupGame({
+      settings: { gameType: 'doubles', ...(over.settings || {}) },
+      players: [
+        {
+          teamName: 'Alpha', disposition: D0, role: 'attacker', secondaryMode: 'tactical',
+          fixedSecondaries: [], battleReady: true,
+          members: [
+            { name: 'Ann', factionSlug: 'orks', detachments: ['War Horde'] },
+            { name: 'Bob', factionSlug: 'aeldari', detachments: ['Battle Host'] },
+          ],
+        },
+        {
+          teamName: 'Beta', disposition: D1, role: 'defender', secondaryMode: 'tactical',
+          fixedSecondaries: [], battleReady: false,
+          members: [
+            { name: 'Cat', factionSlug: 'drukhari', detachments: [] },
+            { name: 'Dan', factionSlug: 'drukhari', detachments: [] },
+          ],
+        },
+      ],
+      ...over.players ? { players: over.players } : {},
+    })
+  }
+
+  it('deriveForceType: same faction and SM chapters are unified, the rest convenience', () => {
+    expect(mod.deriveForceType('orks', 'orks')).toBe('unified')
+    expect(mod.deriveForceType('black-templars', 'space-wolves')).toBe('unified')
+    expect(mod.deriveForceType('orks', 'aeldari')).toBe('convenience')
+    expect(mod.deriveForceType(null, 'orks')).toBeNull()
+  })
+
+  it('membersOf/memberAt: a singles side is its own only member', () => {
+    tracker.newGame(setupGame())
+    const side = tracker.current.value.players[0]
+    expect(mod.membersOf(side)).toEqual([side])
+    expect(mod.memberAt(side, null)).toBe(side)
+    expect(mod.memberAt(side, 1)).toBe(side) // out-of-range falls back to the side
+  })
+
+  it('newGame builds team sides: name = teamName, members populated, side army fields empty', () => {
+    tracker.newGame(setupDoubles())
+    const g = tracker.current.value
+    expect(g.settings.gameType).toBe('doubles')
+    const side = g.players[0]
+    expect(side.name).toBe('Alpha')
+    expect(side.teamName).toBe('Alpha')
+    expect(side.factionSlug).toBeNull()
+    expect(side.detachments).toEqual([])
+    expect(side.members).toHaveLength(2)
+    expect(side.members[0]).toMatchObject({ name: 'Ann', factionSlug: 'orks' })
+    expect(mod.membersOf(side)).toBe(side.members)
+    // Scoring state stays side-level.
+    expect(side.cp).toBe(0)
+    expect(side.rounds).toHaveLength(mod.ROUND_COUNT)
+    expect(side.primarySlug).toBeTruthy()
+  })
+
+  it('forceType: derived from the members, overridable via the setup payload', () => {
+    tracker.newGame(setupDoubles())
+    expect(tracker.current.value.players[0].forceType).toBe('convenience') // orks + aeldari
+    expect(tracker.current.value.players[1].forceType).toBe('unified')     // drukhari ×2
+    const s = setupDoubles()
+    s.players[1].forceType = 'convenience'
+    tracker.newGame(s)
+    expect(tracker.current.value.players[1].forceType).toBe('convenience')
+  })
+
+  it('army mutators without mi hit the side (unified shared pool), with mi hit that member', () => {
+    tracker.newGame(setupDoubles())
+    tracker.setArmyCounter(0, 3)          // side-level: the unified force's shared pool
+    tracker.setArmyCounter(0, 5, 1)       // member 1's own pool
+    const side = tracker.current.value.players[0]
+    expect(side.army.counter).toBe(3)
+    expect(side.members[1].army.counter).toBe(5)
+    expect(side.members[0].army).toEqual({})
+  })
+
+  it('ctx mutators with mi keep member contexts apart', () => {
+    tracker.newGame(setupDoubles())
+    tracker.setUnitCondition(0, 'u1', 'charged', 101, true, 0)
+    const side = tracker.current.value.players[0]
+    expect(side.members[0].ctx.units.u1).toEqual({ charged: 101 })
+    expect(side.members[1].ctx).toBeUndefined()
+    expect(side.ctx).toBeUndefined()
+  })
+
+  it('updateSetup patches teamName (mirrored into name) and member fields', () => {
+    tracker.newGame(setupDoubles())
+    tracker.updateSetup({ players: [
+      { teamName: 'Alpha Strike', members: [{ name: 'Anna' }, {}] },
+      {},
+    ] })
+    const side = tracker.current.value.players[0]
+    expect(side.teamName).toBe('Alpha Strike')
+    expect(side.name).toBe('Alpha Strike')
+    expect(side.members[0].name).toBe('Anna')
+    expect(side.members[1].name).toBe('Bob')
+  })
+
+  it('a doubles game survives the isValidGame load guard', () => {
+    tracker.newGame(setupDoubles())
+    expect(mod.isValidGame(JSON.parse(JSON.stringify(tracker.current.value)))).toBe(true)
+  })
+})

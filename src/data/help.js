@@ -72,6 +72,17 @@ export const help = {
 ▪ Sign in — the account button in the top bar, or the ⚙ menu on a phone — and the history and your army lists keep themselves in step across your devices: nothing to press, and a new phone starts where the old one left off.`,
       },
       {
+        id: 'help-broadcast',
+        title: 'Broadcasting to OBS',
+        body: `**A broadcast is a read-only live scoreboard** of the game you are tracking, for OBS or any browser on another device: you keep scoring on your phone, the overlay follows along a couple of seconds behind. It needs a signed-in account — the link is served through the cloud — and a connection on both ends.
+▪ **Turn it on.** In the game settings (step 4 of the setup, or the ⚙ Setup dialog mid-game) enable "Broadcast button (OBS)" — a broadcast button appears next to the game controls. Tap it, start the broadcast, copy the link.
+▪ **In OBS**: add a **Browser Source**, paste the link, and give the source the size of the slot in your layout. The page background is transparent, so the panels sit straight on the video.
+▪ **The overlay packs itself into whatever window it gets**: a wide slot puts the teams side by side, a tall one stacks them. Need a hard shape instead? Pick an aspect ratio (16:9, 4:3, 1:1, 9:16) under "Overlay options" and it holds that shape whatever the window does.
+▪ **What it shows is chosen there too**: round and phase, team rosters, roles, CP, the VP breakdown, mission names, the secondary cards (played-out ones are hidden by default). The choice lives in the link itself — two OBS scenes can hold two differently configured links of one broadcast.
+▪ **Who can see it:** anyone with the link, and only watch. "New link" cuts the old one off; "Stop broadcast" ends it. A broadcast nobody has updated for a week expires by itself.
+▪ **What never leaves the phone:** army lists, rule switches, notes. The drawn secondary cards are shown — they are drawn face-up and are open information at the table.`,
+      },
+      {
         id: 'help-offline',
         title: 'Offline, and installing the app',
         body: `**A browser tab stays light on purpose** — it downloads the app and the text, and fetches pictures only as you look at them. That is the right trade for someone who opened one rule on the way to the club.
@@ -137,6 +148,17 @@ export const help = {
 ▪ Сыгранные партии уходят в историю, где видно, из чего сложился счёт.
 ▪ Из них сама собой складывается **статистика**: винрейт, средний счёт, как идут дела на первом и на втором ходу, кто вас обыгрывает и какие вторичные карты реально приносят очки. Пока партий меньше пяти, показываем счёт, а не проценты: три партии — это не процент.
 ▪ Войдите в аккаунт — кнопка аккаунта в верхней панели, на телефоне пункт в меню ⚙ — и история с армейскими листами сами держатся в актуальном состоянии на всех ваших устройствах: нажимать ничего не нужно, а новый телефон начинает с того же места.`,
+      },
+      {
+        id: 'help-broadcast',
+        title: 'Трансляция в OBS',
+        body: `**Трансляция — живое табло вашей партии, только для чтения**, для OBS или любого браузера на другом устройстве: счёт ведётся с телефона, оверлей обновляется с задержкой в пару секунд. Нужны вход в аккаунт — ссылка работает через облако — и связь с обеих сторон.
+▪ **Включение.** В настройках игры (шаг 4 сетапа или диалог ⚙ во время партии) включите «Кнопка трансляции (OBS)» — рядом с управлением игрой появится кнопка трансляции. Нажмите её, запустите трансляцию, скопируйте ссылку.
+▪ **В OBS**: добавьте **Browser Source**, вставьте ссылку и задайте источнику размер слота вашего макета. Фон страницы прозрачный, панели лягут прямо на видео.
+▪ **Оверлей сам вписывается в любое окно**: широкий слот кладёт команды рядом, вертикальный — столбиком. Нужна жёсткая форма? В «Настроить оверлей» выберите соотношение сторон (16:9, 4:3, 1:1, 9:16) — и он держит её при любом окне.
+▪ **Что показывать — выбирается там же**: раунд и фаза, составы команд, роли, CP, разбивка VP, названия миссий, карты вторичек (отыгранные по умолчанию скрыты). Выбор живёт в самой ссылке — две сцены OBS могут держать две по-разному настроенные ссылки одной трансляции.
+▪ **Кто видит:** любой, у кого есть ссылка, — и только смотрит. «Новая ссылка» обрывает старую; «Выключить» завершает трансляцию. Трансляция, которую неделю не обновляли, гаснет сама.
+▪ **Что не покидает телефон:** армейские листы, свитчи правил, заметки. Вытянутые карты вторичек показываются — они тянутся в открытую и за столом являются открытой информацией.`,
       },
       {
         id: 'help-offline',

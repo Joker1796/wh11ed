@@ -105,7 +105,7 @@ import { battlefields } from '../data/battlefields.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useBilingualSections } from '../composables/useBilingualMerge.js'
-import { useTracker } from '../composables/useTracker.js'
+import { useTracker, membersOf } from '../composables/useTracker.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
@@ -182,18 +182,19 @@ async function loadFactionSource(slug, loc) {
   }
 }
 
-async function loadPlayerStrats(player, loc) {
-  if (!player?.factionSlug || !player.detachments?.length) return []
+// One ARMY's detachment stratagems (the side itself in singles, one doubles member otherwise).
+async function loadArmyStrats(m, loc) {
+  if (!m?.factionSlug || !m.detachments?.length) return []
   if (current.value?.settings?.combatPatrol) {
-    const f = await loadCombatPatrolFaction(player.factionSlug, loc)
+    const f = await loadCombatPatrolFaction(m.factionSlug, loc)
     if (!f) return []
     // Phase grouping always keys off the English `when` text (see coreEnStrats above), even
     // when rendering the RU faction — fetch the EN entry too when locale isn't already 'en'.
-    const enF = loc === 'en' ? f : await loadCombatPatrolFaction(player.factionSlug, 'en')
+    const enF = loc === 'en' ? f : await loadCombatPatrolFaction(m.factionSlug, 'en')
     return (f.stratagems || []).map((s, i) => ({ ...s, _phases: phasesOf(enF?.stratagems?.[i]?.when) }))
   }
-  const sources = [player.factionSlug]
-  if (SM_CHAPTERS.has(player.factionSlug)) sources.push('space-marines')
+  const sources = [m.factionSlug]
+  if (SM_CHAPTERS.has(m.factionSlug)) sources.push('space-marines')
   // normName(detachment) → { det, stratNamesRu }; the chapter's own data wins over the shared one.
   const lookup = new Map()
   for (const slug of sources) {
@@ -205,15 +206,32 @@ async function loadPlayerStrats(player, loc) {
     }
   }
   const out = []
-  for (const name of player.detachments) {
+  for (const name of m.detachments) {
     const entry = lookup.get(normName(name))
     if (!entry) continue
     for (const s of entry.det.stratagems || []) {
-      const strat = { ...s }
+      const strat = { ...s, _det: normName(name) }
       const ru = entry.stratNamesRu && entry.stratNamesRu[s.name]
       if (ru) strat.nameRu = ru
       out.push(strat)
     }
+  }
+  return out
+}
+
+// A SIDE's stratagems: its one army in singles, both members' in doubles. The same detachment
+// fielded by both teammates yields ONE set of cards — within a team the two copies are identical
+// (the owner prefix only disambiguates across sides), so a second copy is noise.
+async function loadPlayerStrats(player, loc) {
+  if (!player) return []
+  const out = []
+  const seenDets = new Set()
+  for (const m of membersOf(player)) {
+    for (const s of await loadArmyStrats(m, loc)) {
+      if (s._det && seenDets.has(s._det)) continue
+      out.push(s)
+    }
+    for (const name of m?.detachments || []) seenDets.add(normName(name))
   }
   return out
 }
@@ -233,15 +251,14 @@ async function loadStrats() {
   oppStrats.value = o
 }
 
+// One signature per side covering every army it fields (both members' factions/detachments in
+// doubles) — the two bare factionSlug/detachments keys this replaces missed the members.
+const sideSig = (pl) =>
+  membersOf(pl || {})
+    .map((m) => `${m?.factionSlug || ''}:${(m?.detachments || []).join(',')}`)
+    .join('|')
 watch(
-  [
-    hasGame,
-    locale,
-    () => you.value?.factionSlug,
-    () => opp.value?.factionSlug,
-    () => (you.value?.detachments || []).join('|'),
-    () => (opp.value?.detachments || []).join('|'),
-  ],
+  [hasGame, locale, () => sideSig(you.value), () => sideSig(opp.value)],
   loadStrats,
   { immediate: true },
 )

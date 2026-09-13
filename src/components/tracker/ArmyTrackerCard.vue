@@ -6,7 +6,7 @@
   >
     <div class="army-head">
       <div class="army-heading">
-        <span class="army-label">{{ view.label }}</span>
+        <span class="army-label">{{ cardLabel }}</span>
         <span
           v-if="view.ruleName"
           class="army-rule-name"
@@ -16,7 +16,7 @@
         v-if="view.kind === 'counter' && !view.spends"
         :model-value="counter"
         :min="view.min ?? 0"
-        @update:model-value="v => setArmyCounter(pi, v)"
+        @update:model-value="v => setArmyCounter(pi, v, mi)"
       />
       <!-- A counter with dedicated spend buttons (GSC): the spend picker + the round-1 bonus now
            cover every way the value changes, so manual +/- would just risk drifting from the actual
@@ -33,7 +33,7 @@
         :model-value="poolRemaining"
         :min="0"
         :max="roundStart"
-        @update:model-value="v => setArmyPool(pi, currentRound, v)"
+        @update:model-value="v => setArmyPool(pi, currentRound, v, mi)"
       />
       <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
       <button
@@ -41,7 +41,7 @@
         class="army-head-reset"
         :aria-label="labels.trackerArmyReset"
         :title="labels.trackerArmyReset"
-        @click="undoArmyToggle(pi)"
+        @click="undoArmyToggle(pi, mi)"
       >
         <i class="bi bi-arrow-counterclockwise" />
       </button>
@@ -152,7 +152,7 @@
           :key="v"
           class="army-die-add"
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
-          @click="addArmyDie(pi, v)"
+          @click="addArmyDie(pi, v, mi)"
         >
           <i
             class="bi"
@@ -214,7 +214,7 @@
       <button
         v-if="usedCount === 0"
         class="army-call"
-        @click="fireArmyToggle(pi, currentRound)"
+        @click="fireArmyToggle(pi, currentRound, mi)"
       >
         {{ labels.trackerArmyCall }} {{ view.label }}
       </button>
@@ -255,7 +255,7 @@
         <button
           v-if="canCallAgain"
           class="army-again"
-          @click="fireArmyToggle(pi, currentRound)"
+          @click="fireArmyToggle(pi, currentRound, mi)"
         >
           {{ view.againLabel || labels.trackerArmyCallAgain }}
         </button>
@@ -366,7 +366,7 @@
               class="army-resurrect-undo"
               :aria-label="labels.trackerArmyReset"
               :title="labels.trackerArmyReset"
-              @click="undoArmyResurrect(pi, i)"
+              @click="undoArmyResurrect(pi, i, mi)"
             >
               <i class="bi bi-arrow-counterclockwise" />
             </button>
@@ -435,7 +435,7 @@
       :options="view.options"
       :selected="multiIds"
       :max="view.max"
-      @toggle="(id) => toggleArmyMulti(pi, currentRound, id, view.max)"
+      @toggle="(id) => toggleArmyMulti(pi, currentRound, id, view.max, mi)"
       @close="showBlessingPicker = false"
     />
 
@@ -446,7 +446,7 @@
       :title="view.label"
       :spends="view.spends"
       :remaining="counter"
-      @spend="(s) => resurrectArmyUnit(pi, counter - s.cost, s.label, s.cost)"
+      @spend="(s) => resurrectArmyUnit(pi, counter - s.cost, s.label, s.cost, mi)"
       @close="showSpendPicker = false"
     />
 
@@ -477,7 +477,7 @@ import ArmySpendModal from './ArmySpendModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTheme } from '../../composables/useTheme.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
@@ -486,6 +486,9 @@ import { ui } from '../../i18n/ui.js'
 
 const props = defineProps({
   pi: { type: Number, required: true },
+  // Doubles member index — which army of the side this card tracks. null = the side itself:
+  // singles, or a unified doubles force's SHARED pool (one card, side-level state).
+  mi: { type: Number, default: null },
 })
 
 const {
@@ -497,7 +500,30 @@ const { locale } = useLocale()
 const { theme } = useTheme()
 const labels = computed(() => ui[locale.value])
 
-const player = computed(() => current.value?.players?.[props.pi] || null)
+const side = computed(() => current.value?.players?.[props.pi] || null)
+// The state holder every army.* read/write below goes through — the side, or one doubles member.
+const player = computed(() => memberAt(side.value, props.mi))
+// Where the SPEC comes from. The holder itself when it names a faction; a unified doubles side
+// names none (army identity lives on the members), so its first member speaks for the shared
+// force — same faction on both by construction — with the two members' detachments pooled.
+const specFaction = computed(
+  () => player.value?.factionSlug ?? (side.value ? membersOf(side.value)[0]?.factionSlug : null) ?? null,
+)
+const specDetachments = computed(() =>
+  player.value?.factionSlug
+    ? (player.value.detachments || [])
+    : (side.value ? membersOf(side.value).flatMap((m) => m.detachments || []) : []),
+)
+// Doubles per-member card: the label itself names whose army this is — "Army rule: Ann"
+// (the shared unified card keeps the bare label: it is the team's). Built in script, not
+// from adjacent template fragments.
+const memberTag = computed(() => {
+  if (props.mi == null) return null
+  return player.value?.name || (props.mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
+})
+const cardLabel = computed(() =>
+  memberTag.value ? `${view.value?.label}: ${memberTag.value}` : view.value?.label,
+)
 // Combat Patrol isn't one of the normal battle sizes (settings.battleSize is left at whatever
 // it was before the "Тип игры" toggle was switched) — resolve to a dedicated id so specs with a
 // battle-size-keyed `start`/`perRound` (GSC, Aeldari) can carry a `combatPatrol` entry instead of
@@ -508,7 +534,7 @@ const battleSize = computed(() =>
 // Tint the whole card in the faction's own colour (the same palette FactionLayout applies to the
 // faction pages): resolve light/dark against the active theme and override --accent for the subtree,
 // so every accent-coloured element (dice, chips, spend badges, readout, rule name, stepper) follows.
-const factionColor = computed(() => factionIndexBySlug(player.value?.factionSlug)?.color || null)
+const factionColor = computed(() => factionIndexBySlug(specFaction.value)?.color || null)
 const accentVars = computed(() => {
   const c = factionColor.value
   if (!c) return undefined
@@ -537,10 +563,10 @@ const showResurrected = ref(false)
 // GSC round-1 start-bonus (Deeds That Speak to the Masses) — applied at most once per game.
 const bonusApplied = computed(() => player.value?.army?.bonusApplied ?? false)
 function applyBonus() {
-  applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount)
+  applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount, props.mi)
 }
 function undoBonus() {
-  undoArmyBonus(props.pi, counter.value - view.value.startBonus.amount)
+  undoArmyBonus(props.pi, counter.value - view.value.startBonus.amount, props.mi)
 }
 // Dice-pool primitive: the bank of D6 values. Spending one is confirmed (scarce, easy to mis-tap):
 // tapping a die stages its index here; confirming removes it.
@@ -551,7 +577,7 @@ const showBlessingPicker = ref(false)
 // GSC resurrect/spend picker (the ~10 unit costs, kept off the card).
 const showSpendPicker = ref(false)
 function confirmSpendDie() {
-  if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value)
+  if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value, props.mi)
   pendingDie.value = null
 }
 // Pool primitive (Battle Focus): tokens refill each round to the battle-size allotment plus any
@@ -579,8 +605,8 @@ const multiSelected = computed(() =>
 )
 // Pick (or clear) the option — battle-long for `once` specs, per-round otherwise.
 function pickOption(id) {
-  if (view.value?.once) setArmyChoice(props.pi, id)
-  else setArmySelection(props.pi, currentRound.value, id)
+  if (view.value?.once) setArmyChoice(props.pi, id, props.mi)
+  else setArmySelection(props.pi, currentRound.value, id, props.mi)
 }
 // A battle-long (`once`) pick is chosen at the start of the first battle round and committed for the
 // rest of the game (Templar Vows, Death Guard's Plague). Once made, from round 2 on the picker is
@@ -648,15 +674,14 @@ const hasActiveBody = computed(() => activeRules.value.some((r) => r.body))
 const spec = ref(null)
 let token = 0
 async function resolve() {
-  const pl = player.value
-  if (!pl?.factionSlug) { spec.value = null; return }
+  if (!specFaction.value) { spec.value = null; return }
   const t = ++token
   const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
   if (t !== token) return // a newer resolve superseded this one
-  spec.value = resolveArmyTracker(pl.factionSlug, pl.detachments || [])
+  spec.value = resolveArmyTracker(specFaction.value, specDetachments.value)
 }
 watch(
-  [() => player.value?.factionSlug, () => (player.value?.detachments || []).join('|')],
+  [specFaction, () => specDetachments.value.join('|')],
   resolve,
   { immediate: true },
 )
@@ -713,7 +738,7 @@ async function loadReferenceView(slug, loc) {
 const view = ref(null)
 let viewToken = 0
 watch(
-  [spec, locale, () => player.value?.factionSlug, () => current.value?.settings?.combatPatrol],
+  [spec, locale, specFaction, () => current.value?.settings?.combatPatrol],
   async ([s, loc, slug]) => {
     const t = ++viewToken
     let next

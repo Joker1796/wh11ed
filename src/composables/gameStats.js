@@ -193,6 +193,10 @@ export function buildStats(history = []) {
       r.oppVp += (o.opp?.rounds?.[i]?.primary || 0) + secondaryInRound(o.opp, i + 1)
     }
 
+    // A doubles game carries its factions/detachments/rosters on the side's MEMBERS and leaves
+    // these side-level fields empty, so it drops out of the faction/detachment/roster buckets
+    // here by construction (a team win isn't one faction's matchup datum) while still counting
+    // in everything above. Don't "fix" by reading members — that would double-count each game.
     into(byFaction, o.you?.factionSlug, o)
     into(byOpponent, o.opp?.factionSlug, o)
     into(byMission, o.you?.primarySlug, o)

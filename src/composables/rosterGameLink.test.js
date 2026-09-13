@@ -45,6 +45,15 @@ describe('rosterSnapshot', () => {
     // scoring state room to spare inside the 64 KB, so nothing has to be measured at attach time.
     const snap = rosterSnapshot(big)
     expect(JSON.stringify({ players: [{ roster: snap }, { roster: snap }] }).length).toBeLessThan(32 * 1024)
+
+    // Doubles: FOUR lists (two members per side), each on this deliberately bloated 60-entry
+    // list — still comfortably inside the API cap with the scoring state's share left over.
+    // Real doubles lists are half-size armies, so this is the pathological ceiling, not the norm.
+    const doubles = { players: [
+      { members: [{ roster: snap }, { roster: snap }] },
+      { members: [{ roster: snap }, { roster: snap }] },
+    ] }
+    expect(JSON.stringify(doubles).length).toBeLessThan(52 * 1024)
   })
 })
 

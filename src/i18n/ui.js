@@ -570,13 +570,22 @@ export const ui = {
     trackerRosterDetMismatch: "The list's detachment differs from the one being played. The game keeps its own — its stratagems and DP already depend on it.",
     trackerDetachment: 'Detachment',
     trackerDisposition: 'Force Disposition',
+    trackerArmyDetails: 'Army details',
     trackerRole: 'Role',
+    trackerRoleHelpAria: 'What does the role change?',
+    trackerRoleHelp:
+      'One side is the Attacker and the other the Defender \u2014 picking a role here flips the other side automatically. In the official sequence the roll-off winner decides who is which.\n' +
+      '\n' +
+      'The role decides your side of the battlefield: the layout diagram marks the Attacker\u2019s and the Defender\u2019s edges, and during deployment the Defender sets up units first.\n' +
+      '\n' +
+      'The missions are unaffected: the Primary comes from the Force Dispositions, and the Secondary Missions are one list shared by both roles.',
     trackerAttacker: 'Attacker',
     trackerDefender: 'Defender',
     trackerSelectFaction: 'Pick a faction first',
     trackerBattleSize: 'Battle Size',
     trackerGameType: 'Game Type',
-    trackerGameTypeCompetitive: 'Competitive Game',
+    trackerGameTypeSingles: 'Singles',
+    trackerGameTypeDoubles: 'Doubles',
     trackerGameTypeCombatPatrol: 'Combat Patrol',
     trackerCpBox: 'Combat Patrol box',
     trackerUnknownFaction: 'Unknown Faction',
@@ -596,6 +605,22 @@ export const ui = {
     trackerSelect: 'Select',
     trackerContinueSetup: 'Continue setup',
     trackerDpBudget: 'Detachment Points',
+    trackerDpPerPlayer: 'DP per player',
+    trackerTeamName: 'Team name',
+    trackerPlayer1: 'Player 1',
+    trackerPlayer2: 'Player 2',
+    trackerMemberName: 'Name',
+    trackerForceType: 'Force type',
+    trackerForceTypeAuto: 'Auto',
+    trackerForceTypeHelpAria: 'What is a force type?',
+    trackerForceTypeHelp:
+      'Doubles terminology: a team\u2019s two armies together are its force.\n' +
+      '\n' +
+      'Unified Force \u2014 both armies share all their faction keywords (two Adeptus Astartes Chapters count even with different Chapter keywords; allied units are ignored). The armies are friendly to each other: the army rule runs as one shared pool, units can embark in a teammate\u2019s transports, and if both players also chose the same detachments, detachment rules work across the whole force.\n' +
+      '\n' +
+      'Force of Convenience \u2014 any other pairing. Each army uses its own army rules, and a teammate\u2019s units are neither friendly nor enemy \u2014 abilities that affect friendly units do not reach them.\n' +
+      '\n' +
+      'Auto derives the type from the two chosen factions; override it if your lists change the answer (allies, for example).',
     trackerChooseDetachments: 'Choose detachments',
     trackerNoDetachments: 'No detachments for this faction — you pick a disposition on the next step.',
     trackerActiveDisposition: 'Active disposition',
@@ -623,6 +648,11 @@ export const ui = {
     trackerPhaseUnit: 'unit',
     trackerPhaseStrats: 'Stratagems for this phase',
     trackerHelpPhaseRules: "A block under the clock listing what has something to say in the phase the game is standing on: the army rule, the detachment rule, and — with an army list attached — the abilities of the units in it. Both players get a section, because a rule that fires in your OPPONENT'S phase is the one most easily forgotten.\nIt shows names, not rule text: tap through to the unit or the faction page for that. Stratagems are a link to their own page, which already groups them by phase.",
+    trackerTrackBroadcast: 'Broadcast button (OBS)',
+    trackerHelpBroadcast:
+      'Adds a broadcast button to the game screen: a read-only live scoreboard of this game for OBS or any browser. You keep scoring on your phone; an overlay on another device follows along a couple of seconds behind.\n' +
+      '\n' +
+      'The link is served through your account\u2019s cloud, so starting a broadcast needs you signed in. Anyone with the link can watch \u2014 and only watch; a new link cuts the old one off.',
     trackerOptNeedsRoster: 'Available once an army list is attached',
     trackerOptNeedsFaction: 'No faction chosen',
     trackerTrackModifiers: 'Live modifiers',
@@ -732,6 +762,34 @@ export const ui = {
     trackerEndNote: 'Choosing a concede awards the win to the other player regardless of points. Leave both unchecked to decide the winner by points. You can resume any finished game later from your history.',
     trackerViewGame: 'Game',
     trackerLayout: 'Layout',
+    trackerBroadcastTitle: 'Broadcast',
+    trackerBroadcastHint: 'A read-only live scoreboard of this game for OBS or any browser: keep scoring on your phone, the overlay on another device follows along.',
+    trackerBroadcastSignIn: 'Sign in to broadcast — the link is served through your account\u2019s cloud.',
+    trackerBroadcastEnable: 'Start broadcast',
+    trackerBroadcastCopy: 'Copy',
+    trackerBroadcastCopied: 'Copied',
+    trackerBroadcastRegenerate: 'New link',
+    trackerBroadcastDisable: 'Stop broadcast',
+    trackerBroadcastObsHint: 'Add this URL as a Browser Source in OBS (transparent background). Anyone with the link can watch; \u201cNew link\u201d cuts off the old one.',
+    trackerBroadcastError: 'Broadcast error — will retry on the next change.',
+    trackerBroadcastHelpLink: 'How to use it',
+    trackerBroadcastCustomize: 'Overlay options',
+    trackerBroadcastTheme: 'Theme',
+    trackerBroadcastThemeDark: 'Dark',
+    trackerBroadcastThemeLight: 'Light',
+    bcBlockMeta: 'Header (round · phase · layout)',
+    bcBlockPlayers: 'Rosters (players & factions)',
+    bcBlockRoles: 'Roles & force type',
+    bcBlockCp: 'CP',
+    bcBlockVp: 'VP breakdown (primary / secondary)',
+    bcBlockPrimary: 'Primary mission name',
+    bcBlockSecs: 'Secondary missions',
+    bcHideSecsDone: 'Hide played-out secondaries',
+    trackerBroadcastFit: 'Fit into the OBS window (scale to fill)',
+    trackerBroadcastAspect: 'Aspect ratio',
+    trackerBroadcastAspectWindow: 'Window',
+    broadcastWaiting: 'Waiting for the game\u2026',
+    broadcastGone: 'This broadcast is over or the link was replaced.',
     trackerDetails: 'Score breakdown',
     trackerWentFirst: 'Went first',
     trackerBattleReady: 'Battle Ready',
@@ -1335,13 +1393,22 @@ export const ui = {
     trackerRosterDetMismatch: 'Детачмент списка отличается от того, по которому идёт партия. Партия остаётся на своём — от него уже зависят стратагемы и DP.',
     trackerDetachment: 'Детачмент',
     trackerDisposition: 'Force Disposition',
+    trackerArmyDetails: 'Детали армии',
     trackerRole: 'Роль',
+    trackerRoleHelpAria: 'На что влияет роль?',
+    trackerRoleHelp:
+      'Одна сторона \u2014 Attacker, другая \u2014 Defender: выбор роли здесь автоматически переключает вторую сторону. По официальной последовательности, кто есть кто, решает победитель ролл-оффа.\n' +
+      '\n' +
+      'Роль определяет вашу сторону стола: на схеме расстановки помечены края Attacker и Defender, а при развёртывании Defender выставляет юниты первым.\n' +
+      '\n' +
+      'На миссии роль не влияет: первичная определяется по Force Disposition, а вторичные миссии \u2014 единый список, общий для обеих ролей.',
     trackerAttacker: 'Attacker',
     trackerDefender: 'Defender',
     trackerSelectFaction: 'Сначала выберите фракцию',
     trackerBattleSize: 'Размер игры',
     trackerGameType: 'Тип игры',
-    trackerGameTypeCompetitive: 'Соревновательная игра',
+    trackerGameTypeSingles: 'Одиночная (Singles)',
+    trackerGameTypeDoubles: 'Парная (Doubles)',
     trackerGameTypeCombatPatrol: 'Комбат Патруль',
     trackerCpBox: 'Набор Combat Patrol',
     trackerUnknownFaction: 'Фракция не указана',
@@ -1361,6 +1428,22 @@ export const ui = {
     trackerSelect: 'Выбрать',
     trackerContinueSetup: 'Продолжить настройку',
     trackerDpBudget: 'Очки детачмента',
+    trackerDpPerPlayer: 'DP на игрока',
+    trackerTeamName: 'Название команды',
+    trackerPlayer1: 'Игрок 1',
+    trackerPlayer2: 'Игрок 2',
+    trackerMemberName: 'Имя',
+    trackerForceType: 'Force type',
+    trackerForceTypeAuto: 'Авто',
+    trackerForceTypeHelpAria: 'Что такое тип силы?',
+    trackerForceTypeHelp:
+      'Термин парных игр: две армии команды вместе \u2014 это force (сила).\n' +
+      '\n' +
+      'Unified Force \u2014 обе армии делят все faction keywords (два ордена Adeptus Astartes считаются единой силой даже с разными ключевыми словами орденов; союзные юниты не учитываются). Армии дружественны друг другу: армейское правило работает как один общий пул, юниты могут садиться в транспорты напарника, а если игроки взяли ещё и одинаковые детачменты \u2014 правила детачментов действуют на всю силу.\n' +
+      '\n' +
+      'Force of Convenience \u2014 любая другая пара. Каждая армия использует свои армейские правила, а юниты напарника не считаются ни дружественными, ни вражескими \u2014 способности с «friendly units» до них не достают.\n' +
+      '\n' +
+      '«Авто» выводит тип из выбранных фракций; переключите вручную, если ваши списки меняют ответ (например, союзники).',
     trackerChooseDetachments: 'Выбрать детачменты',
     trackerNoDetachments: 'У этой фракции нет детачментов — Force Disposition выберете на следующем шаге.',
     trackerActiveDisposition: 'Force Disposition',
@@ -1385,6 +1468,11 @@ export const ui = {
     trackerPhaseUnit: 'юнит',
     trackerPhaseStrats: 'Стратагемы этой фазы',
     trackerHelpPhaseRules: 'Блок под часами, перечисляющий, у чего есть что сказать в текущей фазе: армейское правило, правило детачмента и — с прикреплённым листом — способности юнитов из него. Секция у каждого игрока: правило, срабатывающее в фазу ОППОНЕНТА, забывается легче всего.\nПоказаны названия, а не текст правил: за текстом — переход на юнита или на страницу фракции. Стратагемы — ссылкой на их собственную страницу, где они уже сгруппированы по фазам.',
+    trackerTrackBroadcast: 'Кнопка трансляции (OBS)',
+    trackerHelpBroadcast:
+      'Добавляет на экран игры кнопку трансляции: живое табло этой партии (только чтение) для OBS или любого браузера. Счёт ведётся с телефона, а оверлей на другом устройстве обновляется с задержкой в пару секунд.\n' +
+      '\n' +
+      'Ссылка работает через облако аккаунта, поэтому для запуска нужен вход. Смотреть может любой, у кого есть ссылка \u2014 и только смотреть; новая ссылка обрывает старую.',
     trackerOptNeedsRoster: 'Доступно с прикреплённым листом',
     trackerOptNeedsFaction: 'Фракция не выбрана',
     trackerTrackModifiers: 'Живые модификаторы',
@@ -1494,6 +1582,34 @@ export const ui = {
     trackerEndNote: 'Если отметить сдачу — победа присуждается другому игроку независимо от очков. Оставьте оба пустыми, чтобы определить победителя по очкам. Любую завершённую игру можно возобновить позже из истории.',
     trackerViewGame: 'Просмотр игры',
     trackerLayout: 'Расстановка',
+    trackerBroadcastTitle: 'Трансляция',
+    trackerBroadcastHint: 'Живое табло этой партии (только чтение) для OBS или любого браузера: счёт ведётся с телефона, оверлей на другом устройстве обновляется сам.',
+    trackerBroadcastSignIn: 'Войдите в аккаунт, чтобы включить трансляцию — ссылка работает через облако.',
+    trackerBroadcastEnable: 'Включить трансляцию',
+    trackerBroadcastCopy: 'Копировать',
+    trackerBroadcastCopied: 'Скопировано',
+    trackerBroadcastRegenerate: 'Новая ссылка',
+    trackerBroadcastDisable: 'Выключить',
+    trackerBroadcastObsHint: 'Добавьте этот URL в OBS как Browser Source (фон прозрачный). Смотреть может любой, у кого есть ссылка; «Новая ссылка» обрывает старую.',
+    trackerBroadcastError: 'Ошибка трансляции — повторим при следующем изменении.',
+    trackerBroadcastHelpLink: 'Инструкция',
+    trackerBroadcastCustomize: 'Настроить оверлей',
+    trackerBroadcastTheme: 'Тема',
+    trackerBroadcastThemeDark: 'Тёмная',
+    trackerBroadcastThemeLight: 'Светлая',
+    bcBlockMeta: 'Шапка (раунд · фаза · расстановка)',
+    bcBlockPlayers: 'Состав (игроки и фракции)',
+    bcBlockRoles: 'Роли и force type',
+    bcBlockCp: 'CP',
+    bcBlockVp: 'Разбивка VP (первичка / вторичка)',
+    bcBlockPrimary: 'Название первичной миссии',
+    bcBlockSecs: 'Вторичные миссии',
+    bcHideSecsDone: 'Скрыть отыгранные вторички',
+    trackerBroadcastFit: 'Вписывать в окно OBS (масштабировать)',
+    trackerBroadcastAspect: 'Соотношение сторон',
+    trackerBroadcastAspectWindow: 'Окно',
+    broadcastWaiting: 'Ждём партию…',
+    broadcastGone: 'Трансляция завершена или ссылка заменена.',
     trackerDetails: 'Детализация очков',
     trackerWentFirst: 'Первый ход',
     trackerBattleReady: 'Battle Ready',

@@ -14,6 +14,7 @@ import {
 import { BATTLE_PHASES } from './stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
+import { membersOf, memberAt } from './rosterGameLink.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -43,6 +44,38 @@ export {
   SECONDARY_GAME_CAP,
   BATTLE_READY_VP,
 } from './gameScoring.js'
+
+// ── Doubles (Warhammer Doubles Event Companion v1.1) ──────────────────────────────────────────
+// settings.gameType: 'singles' (default, absent on every game saved before this) | 'doubles'.
+// A game always has exactly TWO sides (players[]); in doubles each side is a team carrying
+// `teamName` + `members: [M, M]`, where a member holds the army identity (name / factionSlug /
+// detachments / rosterId+roster / army tracker state). Everything the scoring engine reads —
+// cp, rounds, secondary, primarySlug, disposition, role, battleReady — stays on the side,
+// because the official companion keys all of it to the team (shared CP pool, one disposition,
+// one secondary deck, +10 Battle Ready per team).
+//
+// Consumers never branch on the game type: membersOf(side) is the one way to reach army
+// identity, and in singles the side IS its only member. memberAt(side, null) returns the side
+// itself — that is where a unified force's SHARED army-rule pool lives (the companion: "there
+// will be one pain token pool, and the force gains tokens", so one tracker card, side-level
+// state, exactly like singles). The two live in rosterGameLink.js (pure, light) so the roster
+// views can reach them without this module's heavy mission data; re-exported here for everyone
+// already importing the store (the mutators below use memberAt themselves).
+export { membersOf, memberAt }
+
+// Unified Force = both armies share all faction keywords (same faction, or — the companion's
+// explicit carve-out — any two ADEPTUS ASTARTES Chapters); anything else is a Force of
+// Convenience. This is the setup wizard's DEFAULT; the player can override it there (allies
+// on a list can flip the real answer, and the app doesn't read lists at that depth).
+export const SM_CHAPTER_SLUGS = new Set([
+  'space-marines', 'black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves',
+])
+export function deriveForceType(slugA, slugB) {
+  if (!slugA || !slugB) return null
+  if (slugA === slugB) return 'unified'
+  if (SM_CHAPTER_SLUGS.has(slugA) && SM_CHAPTER_SLUGS.has(slugB)) return 'unified'
+  return 'convenience'
+}
 
 // The 5 Force Dispositions (canonical id + English name), reused from the Event Companion.
 export const DISPOSITIONS = eventCompanion.en.dispositions.map(d => ({ id: d.id, name: d.name }))
@@ -288,15 +321,35 @@ function shuffle(arr) {
   return a
 }
 
+// One member of a doubles team: the army-identity slice of a side, plus its own army-rule
+// tracker blob (a force of convenience runs each army's rules separately). `ctx` (the roster
+// condition switches) is created lazily by the mutators, same as on a side.
+function makeMember(m = {}) {
+  return {
+    name: m.name || '',
+    factionSlug: m.factionSlug || null,
+    detachments: [...(m.detachments || [])],
+    rosterId: m.rosterId || null,
+    roster: m.roster || null,
+    army: {},
+  }
+}
+
 function makePlayer(p, opponent, settings, isYou = false) {
   const primary = derivePrimary(p.disposition, opponent.disposition, settings)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
+  const doubles = settings.gameType === 'doubles'
+  const members = doubles ? [makeMember(p.members?.[0]), makeMember(p.members?.[1])] : null
   return {
     isYou: !!isYou,
-    name: p.name || '',
-    factionSlug: p.factionSlug || null,
-    detachments: [...(p.detachments || [])],   // up to 3 DP worth; each grants a disposition
+    // In doubles the side's display name IS the team name — every existing reader of
+    // `name` (ScoreBoard, history, the backend's metadata) keeps working unchanged.
+    name: doubles ? (p.teamName || '') : (p.name || ''),
+    // Army identity lives on the members in doubles; the side's own fields stay empty so
+    // no consumer (stats aggregation above all) mistakes one member's faction for the side's.
+    factionSlug: doubles ? null : (p.factionSlug || null),
+    detachments: doubles ? [] : [...(p.detachments || [])], // up to 3 DP worth; each grants a disposition
     disposition: p.disposition,                // the active disposition (drives the primary mission)
     role: p.role,
     secondaryMode,                             // tactical | fixed — chosen per player
@@ -306,13 +359,26 @@ function makePlayer(p, opponent, settings, isYou = false) {
     // in history still renders the list that was played even after the saved roster is edited or
     // deleted) and `rosterId` is provenance only, and may dangle. Built/read by rosterGameLink.js;
     // stored in the roster's own compact form (ids + indices) to stay inside the API's 64 KB cap.
-    rosterId: p.rosterId || null,
-    roster: p.roster || null,
+    rosterId: doubles ? null : (p.rosterId || null),
+    roster: doubles ? null : (p.roster || null),
+    ...(doubles
+      ? {
+          teamName: p.teamName || '',
+          members,
+          // Resolved at start (wizard default = deriveForceType, player may override there).
+          forceType:
+            p.forceType ||
+            deriveForceType(members[0].factionSlug, members[1].factionSlug) ||
+            'convenience',
+        }
+      : {}),
     primarySlug: primary ? primary.slug : null,
     cp: 0,
     // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob
     // interpreted by src/data/armyTrackers. Empty until a widget writes to it; absent on games
     // saved before this existed, so readers/mutations must default it (see setArmyCounter).
+    // In doubles this side-level blob is the UNIFIED force's shared pool; a force of
+    // convenience tracks per member (members[mi].army) instead.
     army: {},
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
     secondary: {
@@ -402,16 +468,20 @@ export function useTracker() {
 
   // Army-rule counter primitive (Pain tokens, Yield Points, …). `army` may be absent on games
   // saved before it existed, so initialize it lazily. Clamped ≥ 0; pools have no fixed max.
-  function setArmyCounter(pi, value) {
-    const pl = current.value.players[pi]
+  //
+  // Every army/ctx mutator below takes a trailing optional `mi` (doubles member index):
+  // memberAt resolves the holder — the side itself when mi is null (singles, or a unified
+  // doubles force's shared pool), otherwise that member. Existing callers pass nothing.
+  function setArmyCounter(pi, value, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     pl.army.counter = Math.max(0, value)
   }
 
   // Army-rule selection primitive (Doctrina Imperative, etc.) — a per-round pick (the choice resets
   // each battle round, so it's keyed by round). Clicking the active option again clears it.
-  function setArmySelection(pi, round, id) {
-    const pl = current.value.players[pi]
+  function setArmySelection(pi, round, id, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.selectionByRound) pl.army.selectionByRound = {}
     if (pl.army.selectionByRound[round] === id) delete pl.army.selectionByRound[round]
@@ -422,8 +492,8 @@ export function useTracker() {
   // options per battle round (unlike setArmySelection's single per-round pick), reset each round.
   // Stored as a per-round array of ids. Tapping an active option removes it; a new pick is ignored
   // once the round is at its cap (the widget also disables the chips then).
-  function toggleArmyMulti(pi, round, id, max) {
-    const pl = current.value.players[pi]
+  function toggleArmyMulti(pi, round, id, max, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.multiByRound) pl.army.multiByRound = {}
     const cur = pl.army.multiByRound[round] || []
@@ -439,8 +509,8 @@ export function useTracker() {
   // Army-rule battle-long selection (Templar Vows, Death Guard Plague) — a single pick made once for
   // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
   // Clicking the active option again clears it.
-  function setArmyChoice(pi, id) {
-    const pl = current.value.players[pi]
+  function setArmyChoice(pi, id, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (pl.army.choice === id) delete pl.army.choice
     else pl.army.choice = id
@@ -479,8 +549,8 @@ export function useTracker() {
     for (const s of siblings.slice(0, Math.max(0, siblings.length - (limit - 1)))) delete store[s.id]
   }
 
-  function setArmyCondition(pi, id, at, on) {
-    const pl = current.value.players[pi]
+  function setArmyCondition(pi, id, at, on, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.army) pl.ctx.army = {}
     if (on) {
@@ -491,8 +561,8 @@ export function useTracker() {
 
   // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
   // uids are stable for the life of the game whatever happens to the saved roster.
-  function setUnitCondition(pi, uid, id, at, on) {
-    const pl = current.value.players[pi]
+  function setUnitCondition(pi, uid, id, at, on, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.units) pl.ctx.units = {}
     if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
@@ -508,8 +578,8 @@ export function useTracker() {
   // that stops meaning anything (rosterGameContext's activeStratagems). Kept apart from `ctx.units`
   // because a stratagem is not a state of the unit: several can be up at once, they are alternatives
   // to nothing, and they are identified by the record they came from rather than by a condition id.
-  function setUnitStratagem(pi, uid, sid, at, on) {
-    const pl = current.value.players[pi]
+  function setUnitStratagem(pi, uid, sid, at, on, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.strats) pl.ctx.strats = {}
     if (!pl.ctx.strats[uid]) pl.ctx.strats[uid] = {}
@@ -527,8 +597,8 @@ export function useTracker() {
   // `siblings` are the set's other option sids and `limit` how many it holds, both from the record
   // (`ref.set` / `ref.pickLimit`): the store enforces the cap without knowing what a set IS,
   // evicting the OLDEST pick the same way a condition group does.
-  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}) {
-    const pl = current.value.players[pi]
+  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.picks) pl.ctx.picks = {}
     if (!pl.ctx.picks[uid]) pl.ctx.picks[uid] = {}
@@ -551,8 +621,8 @@ export function useTracker() {
   // window (rosterGameContext's activeAuras — a battle round, since what changes it is movement).
   // The bearer's own unit and the unit it is attached to are never in here: Core Rules 22.01 makes
   // those certain, and the app answers them from the list.
-  function setUnitAura(pi, uid, sid, at, on) {
-    const pl = current.value.players[pi]
+  function setUnitAura(pi, uid, sid, at, on, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.auras) pl.ctx.auras = {}
     if (!pl.ctx.auras[uid]) pl.ctx.auras[uid] = {}
@@ -564,15 +634,15 @@ export function useTracker() {
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
-  function fireArmyToggle(pi, round) {
-    const pl = current.value.players[pi]
+  function fireArmyToggle(pi, round, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.toggleRounds) pl.army.toggleRounds = []
     pl.army.toggleRounds.push(round)
   }
   // Undo the most recent fire (reset / correct a mis-tap).
-  function undoArmyToggle(pi) {
-    const pl = current.value.players[pi]
+  function undoArmyToggle(pi, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army?.toggleRounds?.length) return
     pl.army.toggleRounds.pop()
     if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
@@ -581,14 +651,14 @@ export function useTracker() {
   // Army-rule dice-pool primitive (Miracle dice, …) — a bank of D6 values. Add records a rolled
   // value; remove spends one die by index. (A Miracle die's value can't change once rolled, so
   // there's no in-place edit — a wrong one is removed and re-added.)
-  function addArmyDie(pi, value) {
-    const pl = current.value.players[pi]
+  function addArmyDie(pi, value, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.dice) pl.army.dice = []
     pl.army.dice.push(value)
   }
-  function removeArmyDie(pi, index) {
-    const pl = current.value.players[pi]
+  function removeArmyDie(pi, index, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army?.dice) return
     pl.army.dice.splice(index, 1)
     if (!pl.army.dice.length) delete pl.army.dice
@@ -598,8 +668,8 @@ export function useTracker() {
   // (unspent tokens are lost at round's end), so the remaining count is stored per round, keyed like
   // selectionByRound. An untouched round has no entry; the widget defaults it to the battle-size
   // allotment (+ any detachment bonus) and this records the explicit remaining after a spend. ≥ 0.
-  function setArmyPool(pi, round, value) {
-    const pl = current.value.players[pi]
+  function setArmyPool(pi, round, value, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.poolByRound) pl.army.poolByRound = {}
     pl.army.poolByRound[round] = Math.max(0, value)
@@ -609,8 +679,8 @@ export function useTracker() {
   // on top of the counter change itself, so the spend has a visible history instead of just a number
   // going down. The component computes the new counter value (current effective value − cost), same
   // convention as setArmyCounter, so this stays a generic "counter + its spend log" primitive.
-  function resurrectArmyUnit(pi, newCounterValue, label, cost) {
-    const pl = current.value.players[pi]
+  function resurrectArmyUnit(pi, newCounterValue, label, cost, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     pl.army.counter = Math.max(0, newCounterValue)
     if (!pl.army.resurrected) pl.army.resurrected = []
@@ -618,8 +688,8 @@ export function useTracker() {
   }
   // Undo one spend-log entry (a mis-tap in the picker) — refunds its cost back onto the counter and
   // drops the entry.
-  function undoArmyResurrect(pi, index) {
-    const pl = current.value.players[pi]
+  function undoArmyResurrect(pi, index, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     const entry = pl.army?.resurrected?.[index]
     if (!entry) return
     pl.army.resurrected.splice(index, 1)
@@ -631,16 +701,16 @@ export function useTracker() {
   // the tracker doesn't record enhancement picks, so this is a manual bump gated to round 1 (it's a
   // STARTING-pool bonus, meaningless once the battle is under way). `bonusApplied` guards against
   // double-tapping; the component computes the new counter value, same convention as setArmyCounter.
-  function applyArmyBonus(pi, newCounterValue) {
-    const pl = current.value.players[pi]
+  function applyArmyBonus(pi, newCounterValue, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (pl.army.bonusApplied) return
     pl.army.counter = Math.max(0, newCounterValue)
     pl.army.bonusApplied = true
   }
   // Undo the bonus (mis-tap) — the component passes the counter value with it subtracted back out.
-  function undoArmyBonus(pi, newCounterValue) {
-    const pl = current.value.players[pi]
+  function undoArmyBonus(pi, newCounterValue, mi) {
+    const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army?.bonusApplied) return
     pl.army.counter = Math.max(0, newCounterValue)
     delete pl.army.bonusApplied
@@ -875,6 +945,18 @@ export function useTracker() {
       if (p.roster !== undefined) pl.roster = p.roster
       if (p.factionSlug !== undefined) pl.factionSlug = p.factionSlug
       if (p.detachments !== undefined) pl.detachments = [...p.detachments]
+      // Doubles: the team name doubles as the side's display name (see makePlayer), and the
+      // members' editable fields mirror the side-level ones above under the same narrow rules.
+      if (p.teamName !== undefined) { pl.teamName = p.teamName; pl.name = p.teamName }
+      if (p.members !== undefined && Array.isArray(pl.members)) p.members.forEach((m, mi) => {
+        const mem = pl.members[mi]
+        if (!m || !mem) return
+        if (m.name !== undefined) mem.name = m.name
+        if (m.rosterId !== undefined) mem.rosterId = m.rosterId
+        if (m.roster !== undefined) mem.roster = m.roster
+        if (m.factionSlug !== undefined) mem.factionSlug = m.factionSlug
+        if (m.detachments !== undefined) mem.detachments = [...m.detachments]
+      })
     })
     if (settings) {
       // players[0] is always the first-turn player (see newGame) and firstTurn itself
