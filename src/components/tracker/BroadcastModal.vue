@@ -33,7 +33,7 @@
             type="text"
             class="bc-link"
             readonly
-            :value="shareUrl"
+            :value="overlayUrl"
             @focus="$event.target.select()"
           >
           <button
@@ -46,6 +46,43 @@
         <p class="bc-obs">
           {{ labels.trackerBroadcastObsHint }}
         </p>
+
+        <!-- The overlay's presentation lives in the LINK (?theme, ?hide) — this is a URL
+             builder, not settings: two OBS scenes can hold two differently-configured links
+             of the same token. Defaults produce a clean parameterless URL. -->
+        <details class="bc-opts">
+          <summary>{{ labels.trackerBroadcastCustomize }}</summary>
+          <div class="bc-opts-body">
+            <div class="bc-theme-row">
+              <span>{{ labels.trackerBroadcastTheme }}</span>
+              <div class="seg">
+                <button
+                  :class="{ on: theme === 'dark' }"
+                  @click="theme = 'dark'"
+                >
+                  {{ labels.trackerBroadcastThemeDark }}
+                </button>
+                <button
+                  :class="{ on: theme === 'light' }"
+                  @click="theme = 'light'"
+                >
+                  {{ labels.trackerBroadcastThemeLight }}
+                </button>
+              </div>
+            </div>
+            <label
+              v-for="b in OVERLAY_BLOCKS"
+              :key="b"
+              class="bc-block"
+            >
+              <input
+                v-model="shown[b]"
+                type="checkbox"
+              >
+              <span>{{ labels[BLOCK_LABELS[b]] }}</span>
+            </label>
+          </div>
+        </details>
         <div class="bc-actions">
           <button
             class="btn-ghost"
@@ -73,7 +110,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -84,11 +121,32 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { enabled, shareUrl, canBroadcast, lastError, enable, regenerate, disable } = useBroadcast()
 
+// The overlay's toggleable blocks, in display order — ids match BroadcastOverlayView's `hide=`
+// vocabulary. The total is deliberately not here: it is what a scoreboard is.
+const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'primary', 'secs']
+const BLOCK_LABELS = {
+  meta: 'bcBlockMeta', players: 'bcBlockPlayers', roles: 'bcBlockRoles', cp: 'bcBlockCp',
+  vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs',
+}
+const theme = ref('dark')
+const shown = reactive(Object.fromEntries(OVERLAY_BLOCKS.map((b) => [b, true])))
+
+// The configured link. Defaults add no parameters, so the plain URL stays the common case.
+const overlayUrl = computed(() => {
+  if (!shareUrl.value) return null
+  const params = new URLSearchParams()
+  if (theme.value === 'light') params.set('theme', 'light')
+  const hide = OVERLAY_BLOCKS.filter((b) => !shown[b])
+  if (hide.length) params.set('hide', hide.join(','))
+  const q = params.toString()
+  return q ? `${shareUrl.value}?${q}` : shareUrl.value
+})
+
 const copied = ref(false)
 async function copy() {
-  if (!shareUrl.value) return
+  if (!overlayUrl.value) return
   try {
-    await navigator.clipboard.writeText(shareUrl.value)
+    await navigator.clipboard.writeText(overlayUrl.value)
     copied.value = true
     setTimeout(() => { copied.value = false }, 1500)
   } catch { /* clipboard denied — the input stays selectable by hand */ }
@@ -132,6 +190,37 @@ function onDisable() { disable() }
   font-size: 0.78rem;
   line-height: 1.5;
   color: var(--text-muted);
+}
+.bc-opts { margin-top: 0.7rem; }
+.bc-opts > summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.15rem 0;
+}
+@media (hover: hover) { .bc-opts > summary:hover { color: var(--text-primary); } }
+.bc-opts-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0 0.1rem;
+}
+.bc-theme-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+.bc-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  cursor: pointer;
 }
 .bc-actions {
   display: flex;

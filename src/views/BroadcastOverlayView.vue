@@ -1,7 +1,13 @@
 <template>
-  <div class="bo-root">
+  <div
+    class="bo-root"
+    :class="theme"
+  >
     <template v-if="state === 'ok' && data">
-      <div class="bo-top">
+      <div
+        v-if="show('meta')"
+        class="bo-top"
+      >
         <span class="bo-round">{{ labels.trackerRound }} {{ data.round }}</span>
         <span
           v-if="data.battlePhase"
@@ -26,7 +32,10 @@
             </h2>
             <span class="bo-total">{{ s.total }}</span>
           </header>
-          <p class="bo-roles">
+          <p
+            v-if="show('roles')"
+            class="bo-roles"
+          >
             <template v-if="s.role">
               {{ s.role === 'attacker' ? labels.trackerAttacker : labels.trackerDefender }}
             </template>
@@ -37,7 +46,10 @@
               · {{ labels.trackerFirstTurn }}
             </template>
           </p>
-          <ul class="bo-players">
+          <ul
+            v-if="show('players')"
+            class="bo-players"
+          >
             <li
               v-for="(p, pi2) in s.players"
               :key="pi2"
@@ -50,29 +62,34 @@
             </li>
           </ul>
 
-          <dl class="bo-score">
-            <div>
-              <dt>{{ labels.trackerPrimary }}</dt>
-              <dd>{{ s.primary?.vp ?? 0 }}</dd>
-            </div>
-            <div>
-              <dt>{{ labels.trackerSecondary }}</dt>
-              <dd>{{ s.secondaryVp ?? 0 }}</dd>
-            </div>
-            <div>
+          <dl
+            v-if="show('vp') || show('cp')"
+            class="bo-score"
+          >
+            <template v-if="show('vp')">
+              <div>
+                <dt>{{ labels.trackerPrimary }}</dt>
+                <dd>{{ s.primary?.vp ?? 0 }}</dd>
+              </div>
+              <div>
+                <dt>{{ labels.trackerSecondary }}</dt>
+                <dd>{{ s.secondaryVp ?? 0 }}</dd>
+              </div>
+            </template>
+            <div v-if="show('cp')">
               <dt>CP</dt>
               <dd>{{ s.cp }}</dd>
             </div>
           </dl>
 
           <p
-            v-if="s.primary?.name"
+            v-if="show('primary') && s.primary?.name"
             class="bo-primary"
           >
             {{ s.primary.name }}
           </p>
           <ul
-            v-if="s.secondaries && s.secondaries.length"
+            v-if="show('secs') && s.secondaries && s.secondaries.length"
             class="bo-secs"
           >
             <li
@@ -119,6 +136,15 @@ import { phaseLabel } from '../composables/stratagemPhases.js'
 const route = useRoute()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// Presentation is the LINK's business (?theme=light&hide=meta,cp,...): different OBS scenes
+// are different URLs of one token, and the pushed payload stays pure data. Unknown ids in
+// `hide` are ignored; the total is deliberately not hideable — it is what a scoreboard is.
+const theme = computed(() => (route.query.theme === 'light' ? 'light' : 'dark'))
+const hidden = computed(() => new Set(String(route.query.hide || '').split(',').filter(Boolean)))
+function show(block) {
+  return !hidden.value.has(block)
+}
 
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
@@ -201,6 +227,15 @@ html:has(.bo-root) .app-layout {
   max-width: 900px;
   margin: 0 auto;
 }
+/* The light preset (?theme=light): translucent light panels + dark text, for bright tables
+   and light stream layouts. Same tokens, different values — nothing else changes. */
+.bo-root.light {
+  --bo-panel: rgba(248, 247, 243, 0.9);
+  --bo-line: rgba(20, 20, 24, 0.22);
+  --bo-text: #17171b;
+  --bo-dim: rgba(23, 23, 27, 0.62);
+  --bo-gold: #8a6a1f;
+}
 .bo-top {
   display: flex;
   align-items: baseline;
@@ -243,6 +278,9 @@ html:has(.bo-root) .app-layout {
   font-family: var(--font-display, inherit);
   font-size: 1.5rem;
   font-weight: 500;
+  /* Explicit: the global h1-h4 rule colors headings by the APP theme, which the overlay must
+     not follow — it sits on video and answers only to its own ?theme=. */
+  color: var(--bo-text);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
