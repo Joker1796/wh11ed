@@ -160,12 +160,18 @@ const BLOCK_LABELS = {
 // starts on whatever the reader is looking at; the overlay itself still obeys only its URL.
 const { theme: appTheme } = useTheme()
 const theme = ref(appTheme.value === 'light' ? 'light' : 'dark')
-const shown = reactive(Object.fromEntries(OVERLAY_BLOCKS.map((b) => [b, true])))
+// Defaults tuned for a stream slot: rosters and roles OFF (the table talk covers who plays
+// what — the slot's pixels go to the score), everything else on.
+const shown = reactive({
+  ...Object.fromEntries(OVERLAY_BLOCKS.map((bk) => [bk, true])),
+  players: false,
+  roles: false,
+})
 
 // The configured link. Defaults add no parameters, so the plain URL stays the common case.
 // Fit mode: the overlay scales itself into whatever window OBS gives the Browser Source —
 // for a prepared slot in a stream layout. cols=1 stacks the two sides for portrait slots.
-const fit = ref(false)
+const fit = ref(true) // on by default — the overlay is built for a prepared OBS slot
 const fitCols = ref(2)
 
 const overlayUrl = computed(() => {
