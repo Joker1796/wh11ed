@@ -126,6 +126,14 @@
              as a pattern to assemble. -->
         <div class="bc-json">
           <span class="bc-json-label">{{ labels.trackerBroadcastJson }}</span>
+          <!-- The dev mock keeps the broadcast in localStorage and never touches the server,
+               so this address cannot answer on the stand — say so rather than let it 400. -->
+          <p
+            v-if="isMockToken"
+            class="bc-json-dev"
+          >
+            {{ labels.trackerBroadcastJsonDev }}
+          </p>
           <div class="bc-link-row">
             <input
               type="text"
@@ -232,6 +240,7 @@ const overlayUrl = computed(() => {
 
 // The data feed behind the overlay: same token, the API host instead of the site.
 const jsonUrl = computed(() => (token.value ? `${API_BASE_URL}/broadcast/${token.value}` : null))
+const isMockToken = computed(() => import.meta.env.DEV && !!token.value?.startsWith('mock-'))
 
 const copiedJson = ref(false)
 async function copyJson() {
@@ -335,6 +344,11 @@ function onDisable() { disable() }
   margin-bottom: 0.25rem;
   font-size: 0.78rem;
   color: var(--text-muted);
+}
+.bc-json-dev {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  color: var(--accent);
 }
 .bc-actions {
   display: flex;
