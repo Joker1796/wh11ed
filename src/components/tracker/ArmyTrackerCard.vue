@@ -6,15 +6,11 @@
   >
     <div class="army-head">
       <div class="army-heading">
-        <span class="army-label">{{ view.label }}</span>
+        <span class="army-label">{{ cardLabel }}</span>
         <span
           v-if="view.ruleName"
           class="army-rule-name"
         >{{ view.ruleName }}</span>
-        <span
-          v-if="memberTag"
-          class="army-member"
-        >{{ memberTag }}</span>
       </div>
       <NumberStepper
         v-if="view.kind === 'counter' && !view.spends"
@@ -518,12 +514,16 @@ const specDetachments = computed(() =>
     ? (player.value.detachments || [])
     : (side.value ? membersOf(side.value).flatMap((m) => m.detachments || []) : []),
 )
-// Doubles per-member card: name the army the card belongs to (the shared unified card needs no
-// tag — it is the team's).
+// Doubles per-member card: the label itself names whose army this is — "Army rule: Ann"
+// (the shared unified card keeps the bare label: it is the team's). Built in script, not
+// from adjacent template fragments.
 const memberTag = computed(() => {
   if (props.mi == null) return null
   return player.value?.name || (props.mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
 })
+const cardLabel = computed(() =>
+  memberTag.value ? `${view.value?.label}: ${memberTag.value}` : view.value?.label,
+)
 // Combat Patrol isn't one of the normal battle sizes (settings.battleSize is left at whatever
 // it was before the "Тип игры" toggle was switched) — resolve to a dedicated id so specs with a
 // battle-size-keyed `start`/`perRound` (GSC, Aeldari) can carry a `combatPatrol` entry instead of
@@ -801,12 +801,6 @@ useFlashOnChange(counter, counterEl)
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
-}
-
-/* Doubles: whose army this per-member card tracks (the shared unified card carries no tag). */
-.army-member {
-  font-size: 0.7rem;
-  color: var(--accent);
 }
 
 /* Read-only counter (a `spends`-driven counter like GSC's — no manual +/-, see NumberStepper's
