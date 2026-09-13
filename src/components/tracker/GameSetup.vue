@@ -40,14 +40,14 @@
       :ref="el => (panelEls[0] = el)"
       class="step-panel"
     >
-      <div class="field game-type">
+      <div class="field game-type seg-thirds">
         <span>{{ labels.trackerGameType }}</span>
-        <div class="seg seg-wrap">
+        <div class="seg">
           <button
             :class="{ on: !settings.combatPatrol && !isDoubles }"
             @click="setGameMode('singles')"
           >
-            {{ labels.trackerGameTypeCompetitive }}
+            {{ labels.trackerGameTypeSingles }}
           </button>
           <button
             :class="{ on: isDoubles }"
@@ -66,27 +66,34 @@
 
       <div
         v-if="!settings.combatPatrol"
-        class="field battle-size"
+        class="field battle-size seg-thirds"
       >
         <span>{{ labels.trackerBattleSize }}</span>
+        <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
+             numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
+             the width said and every button broke differently. -->
         <div class="seg">
           <button
             v-for="b in battleSizes"
             :key="b.id"
+            class="bs-btn"
             :class="{ on: settings.battleSize === b.id }"
             @click="settings.battleSize = b.id"
           >
-            {{ b.name }} · {{ b.points }} · {{ b.maxDp }}DP
+            <span class="bs-name">{{ b.name }}</span>
+            <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
           </button>
         </div>
       </div>
 
       <!-- Doubles: each player musters their own army, so the DP budget is per player. The
            battle size's own budget is the default; the event may set another (the companion
-           leaves it to the organiser — "всё настраивается"). -->
+           leaves it to the organiser — "всё настраивается"). Label BESIDE the seg: three short
+           buttons don't need the row, and the phone's vertical space does (CLAUDE.md's
+           vertical-density rule — spend sideways before spending down). -->
       <div
         v-if="isDoubles"
-        class="field battle-size"
+        class="field field-inline"
       >
         <span>{{ labels.trackerDpPerPlayer }}</span>
         <div class="seg">
@@ -1403,38 +1410,53 @@ function cancel() {
 }
 .dp-count.over { color: #c0392b; }
 :global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
-.game-type {
+.seg-thirds {
   align-items: flex-start;
   margin-bottom: 1rem;
 }
-.battle-size {
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-.battle-size .seg { flex-wrap: wrap; justify-content: flex-start; }
-/* 3 battle sizes (Incursion/Strike Force/Onslaught) is one too many for the flex-wrap
-   pill row on narrow phones: each button keeps its own (very different) content width,
-   so they stack one-per-line, left-aligned, with a large empty gap on every row — reads
-   as broken rather than just narrow. A 3-column grid of equal-width tiles uses the width
-   evenly instead — compact, not square (an aspect-ratio: 1 tile reads as too tall for a
-   single form field); the smaller phones get a second, tighter font-size step since
-   "Strike Force · 2000 · 3DP" wrapped onto two lines is still tight at 0.82rem. */
+.seg-thirds .seg { flex-wrap: wrap; justify-content: flex-start; }
+/* Three same-weight options is one too many for the flex-wrap pill row on narrow phones:
+   each button keeps its own (very different) content width, so they wrap 2+1 with a ragged
+   empty cell — reads as broken rather than just narrow. A 3-column grid of equal-width
+   tiles uses the width evenly instead. Applies to both three-option segs of this step —
+   both carry .seg-thirds for exactly this treatment. */
 @media (max-width: 560px) {
-  .battle-size .seg {
+  .seg-thirds .seg {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
   }
-  .battle-size .seg button {
+  .seg-thirds .seg button {
     padding: 0.4rem 0.3rem;
     text-align: center;
     white-space: normal;
     line-height: 1.25;
   }
-  .battle-size .seg button + button { border-left: 1px solid var(--border); }
+  .seg-thirds .seg button + button { border-left: 1px solid var(--border); }
 }
 @media (max-width: 380px) {
-  .battle-size .seg button { font-size: 0.72rem; }
+  .seg-thirds .seg button { font-size: 0.72rem; }
+}
+/* A battle-size button is two deliberate lines — the name, then the numbers under it in
+   small print — instead of one long string breaking wherever the width says. */
+.bs-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+.bs-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+/* Label beside the control, not above it (the doubles DP-per-player row): three short
+   buttons leave the row half-empty, and vertical space is the scarce axis on a phone. */
+.field-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .btn-choose-twist {
