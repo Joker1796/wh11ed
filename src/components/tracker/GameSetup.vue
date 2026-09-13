@@ -451,8 +451,14 @@
           :key="i"
           class="player-card"
         >
+          <!-- The team name rides in the heading, muted, so "You"/"Opponent" stays the anchor
+               and the name reads as an annotation. Written adjacent (no line break before the
+               span): a break here would condense into a stray space ahead of the separator. -->
           <h3 class="player-head">
-            {{ playerLabel(i) }}
+            {{ playerLabel(i) }}<span
+              v-if="isDoubles && p.teamName"
+              class="ph-team"
+            >&nbsp;· {{ p.teamName }}</span>
           </h3>
           <p class="army-summary">
             {{ armySummary(p, i) }}
@@ -1174,16 +1180,16 @@ players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
   if (!ids.includes(p.disposition)) p.disposition = ids[0]
 }, { deep: true }))
 
-// Step-2 recap line under the side heading: who fields what. Doubles shows the team and both
-// armies; built in script, never from adjacent template fragments (see the lint note in
-// CLAUDE.md — inline whitespace is load-bearing there).
+// Step-2 recap line under the side heading: who fields what. The doubles team name is NOT
+// here — it rides in the heading itself (the muted .ph-team span above), so this line is the
+// members alone. Built in script, never from adjacent template fragments (see the lint note
+// in CLAUDE.md — inline whitespace is load-bearing there).
 function armySummary(p, i) {
   if (!isDoubles.value) return `${p.name || playerLabel(i)} — ${factionName(p.factionSlug)}`
-  const armies = p.members
+  return p.members
     .map(m => [m.name, factionName(m.factionSlug)].filter(Boolean).join(': '))
     .filter(Boolean)
     .join(' · ')
-  return `${p.teamName || playerLabel(i)} — ${armies}`
 }
 
 function primaryName(i) {
@@ -1417,6 +1423,13 @@ function cancel() {
   font-weight: 500;
   color: var(--accent);
   margin-bottom: 0.75rem;
+}
+/* The team name beside "You"/"Opponent" in a step-2 heading — muted so the fixed side label
+   stays the anchor and the free-text name cannot be mistaken for part of it. */
+.ph-team {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85em;
 }
 /* Doubles: one bordered sub-box per member inside the team card — the frame does the grouping
    work (square-corner house style: a surface is told from its background by the border). */
