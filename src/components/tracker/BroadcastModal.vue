@@ -83,26 +83,18 @@
             </label>
             <label class="bc-block">
               <input
+                v-model="hideDone"
+                type="checkbox"
+              >
+              <span>{{ labels.bcHideSecsDone }}</span>
+            </label>
+            <label class="bc-block">
+              <input
                 v-model="fit"
                 type="checkbox"
               >
               <span>{{ labels.trackerBroadcastFit }}</span>
             </label>
-            <div
-              v-if="fit"
-              class="bc-theme-row bc-width-row"
-            >
-              <span>{{ labels.trackerBroadcastWidth }}</span>
-              <input
-                v-model.number="fitW"
-                type="range"
-                min="360"
-                max="1400"
-                step="20"
-                class="bc-width"
-              >
-              <span class="bc-width-val">{{ fitW }}</span>
-            </div>
           </div>
         </details>
         <div class="bc-actions">
@@ -146,10 +138,10 @@ const { enabled, shareUrl, canBroadcast, lastError, enable, regenerate, disable 
 
 // The overlay's toggleable blocks, in display order — ids match BroadcastOverlayView's `hide=`
 // vocabulary. The total is deliberately not here: it is what a scoreboard is.
-const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'primary', 'secs', 'secs-done']
+const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'primary', 'secs']
 const BLOCK_LABELS = {
   meta: 'bcBlockMeta', players: 'bcBlockPlayers', roles: 'bcBlockRoles', cp: 'bcBlockCp',
-  vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs', 'secs-done': 'bcBlockSecsDone',
+  vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs',
 }
 // Seeded from the SITE's current theme — the dialog is recreated on every open, so the seg
 // starts on whatever the reader is looking at; the overlay itself still obeys only its URL.
@@ -162,25 +154,24 @@ const shown = reactive({
   players: false,
   roles: false,
 })
+// Phrased (and stored) as an ACTION, unlike the show-rows above: checked = the set-aside
+// cards leave the overlay. Rides the same hide= vocabulary as 'secs-done'.
+const hideDone = ref(false)
 
 // The configured link. Defaults add no parameters, so the plain URL stays the common case.
 // Fit mode: the overlay scales itself into whatever window OBS gives the Browser Source —
 // for a prepared slot in a stream layout. cols=1 stacks the two sides for portrait slots.
-const fit = ref(true) // on by default — the overlay is built for a prepared OBS slot
-// The aspect knob: the overlay lays out at this width and fit-scales into the window, so
-// narrower = taller proportions (columns follow the width on their own).
-const fitW = ref(900)
+const fit = ref(true) // on by default — the overlay is built for a prepared OBS slot;
+// the window's own aspect drives the layout (the overlay packs it densely by itself).
 
 const overlayUrl = computed(() => {
   if (!shareUrl.value) return null
   const params = new URLSearchParams()
   if (theme.value === 'light') params.set('theme', 'light')
   const hide = OVERLAY_BLOCKS.filter((b) => !shown[b])
+  if (hideDone.value) hide.push('secs-done')
   if (hide.length) params.set('hide', hide.join(','))
-  if (fit.value) {
-    params.set('fit', '1')
-    if (Number(fitW.value) !== 900) params.set('w', String(fitW.value))
-  }
+  if (fit.value) params.set('fit', '1')
   const q = params.toString()
   return q ? `${shareUrl.value}?${q}` : shareUrl.value
 })
@@ -264,15 +255,6 @@ function onDisable() { disable() }
   font-size: 0.82rem;
   color: var(--text-primary);
   cursor: pointer;
-}
-.bc-width-row { margin-top: 0.2rem; }
-.bc-width { flex: 1; min-width: 0; accent-color: var(--accent); }
-.bc-width-val {
-  min-width: 3.2ch;
-  text-align: right;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-primary);
 }
 .bc-actions {
   display: flex;

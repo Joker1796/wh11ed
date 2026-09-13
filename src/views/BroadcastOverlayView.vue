@@ -1,7 +1,7 @@
 <template>
   <div
     class="bo-root"
-    :class="[theme, { fit: isFit, cols1: cols === 1 }]"
+    :class="[theme, { fit: isFit }]"
   >
     <div
       ref="canvasEl"
@@ -163,26 +163,23 @@ function visibleSecs(side) {
 // transform-scaled so the whole thing fits both axes. cols=1 stacks the sides for portrait
 // windows (fit mode ignores the width media query — the canvas is wider than the viewport).
 const isFit = computed(() => route.query.fit === '1')
-// ?w= is the ASPECT knob: the canvas lays out at this width and fit-scales into the window,
-// so narrower = taller proportions. Columns follow the width like a responsive page would
-// (an explicit ?cols=1|2 still overrides).
-const baseW = computed(() => {
+// The WINDOW is the aspect: refit() binary-searches the layout width whose natural
+// proportions match the window's, so the scoreboard packs the slot as densely as it can —
+// no knob to turn. Columns follow the probed width via a container query. ?w= remains as an
+// expert override (fixes the layout width; fit still scales it in).
+const forcedW = computed(() => {
   const n = Number(route.query.w)
-  return Number.isFinite(n) && n >= 360 ? Math.min(n, 1400) : 900
-})
-const cols = computed(() => {
-  if (route.query.cols === '1') return 1
-  if (route.query.cols === '2') return 2
-  return baseW.value >= 640 ? 2 : 1
+  return Number.isFinite(n) && n >= 360 ? Math.min(n, 1400) : null
 })
 const canvasEl = ref(null)
 const fitScale = ref(1)
 const fitLeft = ref(0)
 const fitTop = ref(0)
+// Width is set imperatively by refit() (it probes layouts); the style binding carries only
+// the transform and the centering offsets.
 const fitStyle = computed(() => {
   if (!isFit.value) return undefined
   return {
-    width: `${route.query.cols === '1' && !route.query.w ? 460 : baseW.value}px`,
     transform: `scale(${fitScale.value})`,
     left: `${fitLeft.value}px`,
     top: `${fitTop.value}px`,
@@ -191,21 +188,40 @@ const fitStyle = computed(() => {
 function refit() {
   if (!isFit.value || !canvasEl.value || typeof window === 'undefined') return
   const el = canvasEl.value
-  const cw = el.offsetWidth || 1
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  let w = forcedW.value
+  if (!w) {
+    // Binary search the layout width whose natural aspect matches the window's. Wider is
+    // always flatter (monotonic), so nine probes pin it to ~2px; each probe is a synchronous
+    // set-width + scrollHeight read — a forced reflow, cheap on a DOM this small, every 2 s.
+    const target = vw / Math.max(1, vh)
+    let lo = 360
+    let hi = 1400
+    for (let i = 0; i < 9; i++) {
+      const mid = Math.round((lo + hi) / 2)
+      el.style.width = `${mid}px`
+      const ratio = mid / (el.scrollHeight || 1)
+      if (ratio > target) hi = mid
+      else lo = mid
+    }
+    w = Math.round((lo + hi) / 2)
+  }
+  el.style.width = `${w}px`
   // scrollHeight is layout height — transforms don't feed back into it, so this is stable.
   const ch = el.scrollHeight || 1
-  const scale = Math.min(window.innerWidth / cw, window.innerHeight / ch)
+  const scale = Math.min(vw / w, vh / ch)
   fitScale.value = scale
   // Center the leftover air on both axes — a slab of empty window under the scoreboard reads
   // as a bug; a symmetric margin reads as breathing room.
-  fitLeft.value = Math.max(0, (window.innerWidth - cw * scale) / 2)
-  fitTop.value = Math.max(0, (window.innerHeight - ch * scale) / 2)
+  fitLeft.value = Math.max(0, (vw - w * scale) / 2)
+  fitTop.value = Math.max(0, (vh - ch * scale) / 2)
 }
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
 
 // Refit whenever the payload changes shape (a drawn card adds a row) or the mode flips.
-watch([data, isFit, cols, baseW], async () => {
+watch([data, isFit, forcedW], async () => {
   await nextTick()
   refit()
 })
@@ -331,10 +347,14 @@ html:has(.bo-root) .app-layout {
 }
 .bo-root.fit .bo-primary { margin-bottom: 0.2rem; }
 .bo-root.fit .bo-secs li { padding: 0.06rem 0; }
-/* The canvas is wider than the viewport in fit mode, so column count is a CLASS decision
-   there, not the width media query's. */
+/* The canvas is wider (or narrower) than the viewport in fit mode, so column count follows
+   the CANVAS width via a container query, not the viewport media query — which is also what
+   lets refit()'s width probes see the real reflowed height at every candidate width. */
+.bo-root.fit .bo-canvas { container-type: inline-size; }
 .bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.bo-root.fit.cols1 .bo-sides { grid-template-columns: minmax(0, 1fr); }
+@container (max-width: 639px) {
+  .bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr); }
+}
 .bo-top {
   display: flex;
   align-items: baseline;
