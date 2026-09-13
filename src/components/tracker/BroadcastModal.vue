@@ -90,23 +90,18 @@
             </label>
             <div
               v-if="fit"
-              class="bc-theme-row"
+              class="bc-theme-row bc-width-row"
             >
-              <span>{{ labels.trackerBroadcastCols }}</span>
-              <div class="seg">
-                <button
-                  :class="{ on: fitCols === 2 }"
-                  @click="fitCols = 2"
-                >
-                  2
-                </button>
-                <button
-                  :class="{ on: fitCols === 1 }"
-                  @click="fitCols = 1"
-                >
-                  1
-                </button>
-              </div>
+              <span>{{ labels.trackerBroadcastWidth }}</span>
+              <input
+                v-model.number="fitW"
+                type="range"
+                min="360"
+                max="1400"
+                step="20"
+                class="bc-width"
+              >
+              <span class="bc-width-val">{{ fitW }}</span>
             </div>
           </div>
         </details>
@@ -172,7 +167,9 @@ const shown = reactive({
 // Fit mode: the overlay scales itself into whatever window OBS gives the Browser Source —
 // for a prepared slot in a stream layout. cols=1 stacks the two sides for portrait slots.
 const fit = ref(true) // on by default — the overlay is built for a prepared OBS slot
-const fitCols = ref(2)
+// The aspect knob: the overlay lays out at this width and fit-scales into the window, so
+// narrower = taller proportions (columns follow the width on their own).
+const fitW = ref(900)
 
 const overlayUrl = computed(() => {
   if (!shareUrl.value) return null
@@ -182,7 +179,7 @@ const overlayUrl = computed(() => {
   if (hide.length) params.set('hide', hide.join(','))
   if (fit.value) {
     params.set('fit', '1')
-    if (fitCols.value === 1) params.set('cols', '1')
+    if (Number(fitW.value) !== 900) params.set('w', String(fitW.value))
   }
   const q = params.toString()
   return q ? `${shareUrl.value}?${q}` : shareUrl.value
@@ -267,6 +264,15 @@ function onDisable() { disable() }
   font-size: 0.82rem;
   color: var(--text-primary);
   cursor: pointer;
+}
+.bc-width-row { margin-top: 0.2rem; }
+.bc-width { flex: 1; min-width: 0; accent-color: var(--accent); }
+.bc-width-val {
+  min-width: 3.2ch;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-primary);
 }
 .bc-actions {
   display: flex;

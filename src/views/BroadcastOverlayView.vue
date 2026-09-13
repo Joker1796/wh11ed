@@ -163,7 +163,18 @@ function visibleSecs(side) {
 // transform-scaled so the whole thing fits both axes. cols=1 stacks the sides for portrait
 // windows (fit mode ignores the width media query — the canvas is wider than the viewport).
 const isFit = computed(() => route.query.fit === '1')
-const cols = computed(() => (route.query.cols === '1' ? 1 : 2))
+// ?w= is the ASPECT knob: the canvas lays out at this width and fit-scales into the window,
+// so narrower = taller proportions. Columns follow the width like a responsive page would
+// (an explicit ?cols=1|2 still overrides).
+const baseW = computed(() => {
+  const n = Number(route.query.w)
+  return Number.isFinite(n) && n >= 360 ? Math.min(n, 1400) : 900
+})
+const cols = computed(() => {
+  if (route.query.cols === '1') return 1
+  if (route.query.cols === '2') return 2
+  return baseW.value >= 640 ? 2 : 1
+})
 const canvasEl = ref(null)
 const fitScale = ref(1)
 const fitLeft = ref(0)
@@ -171,7 +182,7 @@ const fitTop = ref(0)
 const fitStyle = computed(() => {
   if (!isFit.value) return undefined
   return {
-    width: `${cols.value === 1 ? 460 : 900}px`,
+    width: `${route.query.cols === '1' && !route.query.w ? 460 : baseW.value}px`,
     transform: `scale(${fitScale.value})`,
     left: `${fitLeft.value}px`,
     top: `${fitTop.value}px`,
@@ -194,7 +205,7 @@ const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
 
 // Refit whenever the payload changes shape (a drawn card adds a row) or the mode flips.
-watch([data, isFit, cols], async () => {
+watch([data, isFit, cols, baseW], async () => {
   await nextTick()
   refit()
 })
