@@ -1618,6 +1618,14 @@ function cancel() {
   line-height: 1.25;
 }
 .seg-fill button + button { border-left: none; }
+/* Balanced rows by COUNT, not by whatever width the names happen to have: exactly four
+   options break 2+2, exactly five break 3+2 (a 3+1 or 4+1 split reads as an accident even
+   with the stretch). :has(:nth-child(N):last-child) is "exactly N children" — same :has()
+   the app already leans on elsewhere, within the Safari 16.2 floor. The basis percentages
+   only cap how many fit a row; flex-grow still stretches each row to full width. */
+.seg-fill:has(> button:nth-child(4):last-child) > button { flex-basis: 34%; }
+.seg-fill:has(> button:nth-child(5):last-child) > button { flex-basis: 26%; }
+.seg-fill:has(> button:nth-child(5):last-child) > button:nth-child(n + 4) { flex-basis: 36%; }
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
 .br-check { margin-top: 0.2rem; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a
