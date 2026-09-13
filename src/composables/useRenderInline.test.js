@@ -3,48 +3,30 @@ import { useRenderInline } from './useRenderInline.js'
 
 const { renderInline } = useRenderInline()
 
-describe('renderInline auto-bolded keywords', () => {
-  it('bolds core unit-type keywords', () => {
-    expect(renderInline('an INFANTRY unit')).toBe('an <strong>INFANTRY</strong> unit')
+// The three link shapes a changelog note or a rule can carry. The internal one is the reason
+// this file exists: it must stay an <a> (copyable, keyboard-reachable) AND carry the class
+// App.vue's global handler routes on — a plain href there reloads the whole app.
+describe('renderInline — links', () => {
+  it('renders an external link into a new tab, safely', () => {
+    const html = renderInline('see [the rules](https://example.com/x) here')
+    expect(html).toContain('<a href="https://example.com/x"')
+    expect(html).toContain('target="_blank"')
+    expect(html).toContain('rel="noopener noreferrer"')
   })
 
-  it('bolds Faction and allegiance keywords', () => {
-    expect(renderInline('a HERETIC ASTARTES unit')).toBe('a <strong>HERETIC ASTARTES</strong> unit')
-    expect(renderInline('your WARLORD')).toBe('your <strong>WARLORD</strong>')
+  it('renders a mailto link in place, without a new tab', () => {
+    const html = renderInline('write to [me](mailto:a@b.c)')
+    expect(html).toContain('<a href="mailto:a@b.c" class="ext-link">me</a>')
+    expect(html).not.toContain('target="_blank"')
   })
 
-  // The alternation is sorted longest-first for exactly this: CHAOS is itself a keyword and
-  // a prefix of CHAOS KNIGHTS, IMPERIUM is a suffix of AGENTS OF THE IMPERIUM. A naive
-  // (declaration-order) alternation bolds only the fragment.
-  it('prefers the longest keyword over one nested inside it', () => {
-    expect(renderInline('CHAOS KNIGHTS')).toBe('<strong>CHAOS KNIGHTS</strong>')
-    expect(renderInline('AGENTS OF THE IMPERIUM')).toBe('<strong>AGENTS OF THE IMPERIUM</strong>')
-    // …while the short forms still match on their own.
-    expect(renderInline('the CHAOS keyword')).toBe('the <strong>CHAOS</strong> keyword')
+  it('renders an in-app path as an int-link, for the router to pick up', () => {
+    const html = renderInline('open [Support the project](/support) now')
+    expect(html).toContain('<a href="/support" class="int-link">Support the project</a>')
+    expect(html).not.toContain('target="_blank"')
   })
 
-  // TITANIC is a core keyword and a strict prefix of ADEPTUS TITANICUS; the \b guard is what
-  // stops it matching mid-word.
-  it('does not match a keyword that is only a prefix of a longer word', () => {
-    expect(renderInline('ADEPTUS TITANICUS')).toBe('<strong>ADEPTUS TITANICUS</strong>')
-  })
-
-  // Case-sensitive on purpose — data that spells a keyword in Title Case is left alone, which
-  // is what keeps files like space-marines.js (Title Case throughout) visually unchanged.
-  it('leaves Title Case spellings alone', () => {
-    expect(renderInline('an Adeptus Astartes unit')).toBe('an Adeptus Astartes unit')
-  })
-
-  it('handles the typographic apostrophe in keyword names', () => {
-    expect(renderInline('T’AU EMPIRE')).toBe('<strong>T’AU EMPIRE</strong>')
-    expect(renderInline('EMPEROR’S CHILDREN')).toBe('<strong>EMPEROR’S CHILDREN</strong>')
-  })
-
-  // The module-level regex carries the /g flag; String.replace resets its lastIndex, but a
-  // regression here would silently drop every other match.
-  it('is not stateful across calls', () => {
-    const once = renderInline('a NECRONS unit')
-    expect(renderInline('a NECRONS unit')).toBe(once)
-    expect(renderInline('another NECRONS unit')).toContain('<strong>NECRONS</strong>')
+  it('leaves a bare path alone — only the markdown form is a link', () => {
+    expect(renderInline('go to /support')).toBe('go to /support')
   })
 })
