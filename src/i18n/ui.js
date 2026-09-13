@@ -570,6 +570,7 @@ export const ui = {
     trackerRosterDetMismatch: "The list's detachment differs from the one being played. The game keeps its own — its stratagems and DP already depend on it.",
     trackerDetachment: 'Detachment',
     trackerDisposition: 'Force Disposition',
+    trackerArmyDetails: 'Army details',
     trackerRole: 'Role',
     trackerRoleHelpAria: 'What does the role change?',
     trackerRoleHelp:
@@ -1371,6 +1372,7 @@ export const ui = {
     trackerRosterDetMismatch: 'Детачмент списка отличается от того, по которому идёт партия. Партия остаётся на своём — от него уже зависят стратагемы и DP.',
     trackerDetachment: 'Детачмент',
     trackerDisposition: 'Force Disposition',
+    trackerArmyDetails: 'Детали армии',
     trackerRole: 'Роль',
     trackerRoleHelpAria: 'На что влияет роль?',
     trackerRoleHelp:

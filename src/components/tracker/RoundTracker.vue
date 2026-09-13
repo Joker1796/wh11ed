@@ -97,25 +97,37 @@
         <h3 class="ptitle">
           {{ playerName(i) }}
         </h3>
-        <p class="pmeta">
-          {{ dispositionName(pl.disposition) }}
-        </p>
-        <p
-          v-if="!isDoubles && pl.detachments && pl.detachments.length"
-          class="pdet"
+        <!-- Disposition and detachments are setup facts, consulted rarely mid-game — folded by
+             default so the card opens on what IS the game: the missions and the score. Native
+             <details>, the same accordion the twist reminder above uses. -->
+        <details
+          v-if="hasArmyInfo(pl)"
+          class="pinfo"
         >
-          {{ pl.detachments.join(' · ') }}
-        </p>
-        <!-- Doubles: the army identity lives on the members — one line each. -->
-        <template v-if="isDoubles">
+          <summary>{{ labels.trackerArmyDetails }}</summary>
           <p
-            v-for="(m, mi) in pl.members"
-            :key="mi"
+            v-if="dispositionName(pl.disposition)"
+            class="pmeta"
+          >
+            {{ dispositionName(pl.disposition) }}
+          </p>
+          <p
+            v-if="!isDoubles && pl.detachments && pl.detachments.length"
             class="pdet"
           >
-            {{ memberLine(m, mi) }}
+            {{ pl.detachments.join(' · ') }}
           </p>
-        </template>
+          <!-- Doubles: the army identity lives on the members — one line each. -->
+          <template v-if="isDoubles">
+            <p
+              v-for="(m, mi) in pl.members"
+              :key="mi"
+              class="pdet"
+            >
+              {{ memberLine(m, mi) }}
+            </p>
+          </template>
+        </details>
         <!-- Primary mission — tap to open the scoring modal -->
         <div class="sec-title-row">
           {{ labels.trackerPrimary }}
@@ -330,6 +342,12 @@ function armyRuleOn(pl) {
 
 const isDoubles = computed(() => current.value?.settings?.gameType === 'doubles')
 
+// The folded army-details block has to have something inside — the oldest saved games carry
+// neither a disposition nor detachments, and an empty accordion is a broken-looking row.
+function hasArmyInfo(pl) {
+  return !!dispositionName(pl.disposition) || !!pl.detachments?.length || isDoubles.value
+}
+
 function memberName(m, mi) {
   return m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
 }
@@ -509,8 +527,21 @@ function onEndBattle(reason) {
   padding: 0.8rem;
 }
 .ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
-.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
+/* The folded setup facts under the side title. Summary styled as a quiet one-line control —
+   the card's first loud thing must stay the primary mission, not this. */
+.pinfo { margin: 0.1rem 0 0.5rem; }
+.pinfo > summary {
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  padding: 0.15rem 0;
+}
+@media (hover: hover) { .pinfo > summary:hover { color: var(--text-muted); } }
+.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.2rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
 .sec-title-row {
   font-size: 0.75rem;
   font-weight: 700;
