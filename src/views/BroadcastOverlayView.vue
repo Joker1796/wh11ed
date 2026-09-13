@@ -194,6 +194,23 @@ const fitStyle = computed(() => {
     top: `${fitTop.value}px`,
   }
 })
+// One layout probe: candidate width + column mode in, natural height out. Synchronous
+// forced reflow — cheap on a DOM this small.
+function probe(el, w, oneCol) {
+  el.classList.toggle('one-col', oneCol)
+  el.style.width = `${w}px`
+  return el.scrollHeight || 1
+}
+// Binary-search the width whose natural aspect is closest to `target` within one column mode.
+function solve(el, oneCol, lo, hi, target) {
+  for (let i = 0; i < 8; i++) {
+    const mid = Math.round((lo + hi) / 2)
+    if (mid / probe(el, mid, oneCol) > target) hi = mid
+    else lo = mid
+  }
+  const w = Math.round((lo + hi) / 2)
+  return { w, h: probe(el, w, oneCol), oneCol }
+}
 function refit() {
   if (!isFit.value || !canvasEl.value || typeof window === 'undefined') return
   const el = canvasEl.value
@@ -212,32 +229,32 @@ function refit() {
       boxH = vw / aspect.value
     }
   }
-  let w = forcedW.value
-  if (!w) {
-    // Binary search the layout width whose natural aspect matches the window's. Wider is
-    // always flatter (monotonic), so nine probes pin it to ~2px; each probe is a synchronous
-    // set-width + scrollHeight read — a forced reflow, cheap on a DOM this small, every 2 s.
-    const target = boxW / Math.max(1, boxH)
-    let lo = 360
-    let hi = 1400
-    for (let i = 0; i < 9; i++) {
-      const mid = Math.round((lo + hi) / 2)
-      el.style.width = `${mid}px`
-      const ratio = mid / (el.scrollHeight || 1)
-      if (ratio > target) hi = mid
-      else lo = mid
+  const target = boxW / Math.max(1, boxH)
+  let best
+  if (forcedW.value) {
+    const w = forcedW.value
+    best = { w, h: probe(el, w, w < 640), oneCol: w < 640 }
+  } else {
+    // Solve BOTH column modes and keep whichever fills the box denser — two columns whenever
+    // the width allows it to win, one column for tall targets. The aspect is a step function
+    // across the column break, so a single search can jump over the target; comparing the two
+    // solves is what makes the answer stable.
+    const fillOf = (c) => {
+      const scale = Math.min(boxW / c.w, boxH / c.h)
+      return (c.w * c.h * scale * scale) / (boxW * boxH)
     }
-    w = Math.round((lo + hi) / 2)
+    const two = solve(el, false, 560, 1400, target)
+    const one = solve(el, true, 360, 760, target)
+    best = fillOf(two) >= fillOf(one) ? two : one
   }
-  el.style.width = `${w}px`
-  // scrollHeight is layout height — transforms don't feed back into it, so this is stable.
-  const ch = el.scrollHeight || 1
-  const scale = Math.min(boxW / w, boxH / ch)
+  el.classList.toggle('one-col', best.oneCol)
+  el.style.width = `${best.w}px`
+  const scale = Math.min(boxW / best.w, boxH / best.h)
   fitScale.value = scale
   // Center the leftover air on both axes — a slab of empty window under the scoreboard reads
   // as a bug; a symmetric margin reads as breathing room.
-  fitLeft.value = Math.max(0, (vw - w * scale) / 2)
-  fitTop.value = Math.max(0, (vh - ch * scale) / 2)
+  fitLeft.value = Math.max(0, (vw - best.w * scale) / 2)
+  fitTop.value = Math.max(0, (vh - best.h * scale) / 2)
 }
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
@@ -369,14 +386,11 @@ html:has(.bo-root) .app-layout {
 }
 .bo-root.fit .bo-primary { margin-bottom: 0.2rem; }
 .bo-root.fit .bo-secs li { padding: 0.06rem 0; }
-/* The canvas is wider (or narrower) than the viewport in fit mode, so column count follows
-   the CANVAS width via a container query, not the viewport media query — which is also what
-   lets refit()'s width probes see the real reflowed height at every candidate width. */
-.bo-root.fit .bo-canvas { container-type: inline-size; }
+/* Column count in fit mode is refit()'s decision (it solves both modes and keeps the denser
+   one), carried as a class — not the viewport media query's, which reads the window, not the
+   canvas. */
 .bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-@container (max-width: 639px) {
-  .bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr); }
-}
+.bo-root.fit .bo-canvas.one-col .bo-sides { grid-template-columns: minmax(0, 1fr); }
 .bo-top {
   display: flex;
   align-items: baseline;
