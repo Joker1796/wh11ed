@@ -127,6 +127,18 @@ let timer = null
 let inFlight = false
 
 async function poll() {
+  // DEV-only mock transport (fenced like useAuth's mock — Vite strips it from prod builds):
+  // a 'mock-' token is served out of localStorage, where the tracker tab's dev-mock pushes
+  // land, so the two-tab flow works with no server in the loop.
+  if (import.meta.env.DEV && String(route.params.token).startsWith('mock-')) {
+    try {
+      const b = JSON.parse(localStorage.getItem('wh11ed-dev-mock-broadcast') || 'null')
+      if (!b || b.token !== route.params.token) { state.value = 'gone'; return }
+      if (b.payload) { data.value = b.payload; state.value = 'ok' }
+      else if (state.value !== 'ok') state.value = 'waiting'
+    } catch { /* ignore */ }
+    return
+  }
   if (inFlight) return
   inFlight = true
   try {

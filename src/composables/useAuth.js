@@ -26,6 +26,19 @@ const MOCK_FLAG = 'wh11ed-dev-mock-auth'
 const MOCK_USER = { id: 'mock', email: 'test@local', displayName: 'Tester' }
 let mockActive = false
 const mockCloud = new Map() // gameId → full game blob (a fake backend store)
+// Broadcast goes through localStorage, not a Map: the overlay is ANOTHER TAB of the same
+// origin (per-tab module state can't reach it), and localStorage is the one same-origin
+// channel a polling read loop can watch without a server in the loop.
+const MOCK_BC_KEY = 'wh11ed-dev-mock-broadcast'
+function mockBcRead() {
+  try { return JSON.parse(localStorage.getItem(MOCK_BC_KEY) || 'null') } catch { return null }
+}
+function mockBcWrite(v) {
+  try {
+    if (v) localStorage.setItem(MOCK_BC_KEY, JSON.stringify(v))
+    else localStorage.removeItem(MOCK_BC_KEY)
+  } catch { /* ignore */ }
+}
 const mockRosterCloud = new Map() // rosterId → full roster blob
 const mockRosterGraves = new Map() // rosterId → deletedAt (the API tombstones, so the mock does too)
 
@@ -96,6 +109,31 @@ function mockFetch(path, opts = {}) {
       return mockJson({ ok: true })
     }
   }
+  // Broadcast (matched before the generic /games/:id, which would swallow the sub-path).
+  const mb = path.match(/^\/games\/(.+)\/broadcast$/)
+  if (mb) {
+    const gameId = decodeURIComponent(mb[1])
+    if (method === 'POST') {
+      const token = 'mock-' + Math.random().toString(36).slice(2, 10)
+      mockBcWrite({ token, gameId, payload: null, updatedAt: null })
+      return mockJson({ token })
+    }
+    if (method === 'GET') {
+      const b = mockBcRead()
+      return b && b.gameId === gameId ? mockJson({ token: b.token }) : mockJson({ error: 'not_found' }, 404)
+    }
+    if (method === 'DELETE') {
+      mockBcWrite(null)
+      return mockJson({ ok: true })
+    }
+  }
+  const ml = path.match(/^\/broadcast\/live\/(.+)$/)
+  if (ml && method === 'PUT') {
+    const b = mockBcRead()
+    if (!b || b.gameId !== decodeURIComponent(ml[1])) return mockJson({ error: 'not_found' }, 404)
+    mockBcWrite({ ...b, payload: JSON.parse(opts.body), updatedAt: new Date().toISOString() })
+    return mockJson({ ok: true })
+  }
   const m = path.match(/^\/games\/(.+)$/)
   if (m) {
     const id = decodeURIComponent(m[1])
@@ -135,6 +173,7 @@ function mockSignIn() {
 function mockSignOut() {
   mockActive = false
   mockCloud.clear()
+  mockBcWrite(null)
   mockRosterCloud.clear()
   mockRosterGraves.clear()
   accessToken = null
