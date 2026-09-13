@@ -149,6 +149,17 @@
               {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
             </button>
           </div>
+          <!-- The one rule a custom overlay has to know, where the address is handed over —
+               a 429 with no explanation is the worst way to learn it. -->
+          <p class="bc-json-hint">
+            {{ labels.trackerBroadcastJsonHint }}
+            <RouterLink
+              class="bc-help"
+              to="/help/broadcast"
+            >
+              {{ labels.trackerBroadcastHelpLink }}
+            </RouterLink>
+          </p>
         </div>
 
         <div class="bc-actions">
@@ -343,6 +354,12 @@ function onDisable() { disable() }
   display: block;
   margin-bottom: 0.25rem;
   font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.bc-json-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.74rem;
+  line-height: 1.45;
   color: var(--text-muted);
 }
 .bc-json-dev {
