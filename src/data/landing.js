@@ -58,7 +58,7 @@ export const landing = {
       support: {
         title: 'Support the project',
         intro: 'This app is free, has no ads, asks for no account and sells nothing. I write it and keep it up to date on my own, in my spare time. I pay for the domain, the CDN and the storage myself.',
-        what: 'A donation changes nothing about the app: there is no paid tier, no perks, nothing gets unlocked. It simply keeps this going, and it tells me the work is worth something. Any amount is welcome, once or never again.',
+        what: 'A donation changes nothing about the app: there is no paid tier, no perks, nothing gets unlocked. It simply keeps this going, and it tells me the work is worth something.',
         how: 'The button opens the payment page. It works from any Russian bank, without a fee. On a computer, scan the code with your phone instead.',
         button: 'Support via SBP',
         qrAlt: 'QR code of the donation link',
@@ -129,7 +129,7 @@ export const landing = {
       support: {
         title: 'Поддержать проект',
         intro: 'Приложение бесплатное, без рекламы, без обязательного аккаунта и без платных функций. Я пишу его и поддерживаю в актуальном состоянии один, в своё свободное время. Домен, CDN и хранилище оплачиваю сам.',
-        what: 'Донат ничего не меняет в приложении: платной версии нет, привилегий нет, ничего не открывается. Он просто помогает всему этому продолжаться и говорит мне, что работа чего-то стоит. Любая сумма, один раз или никогда.',
+        what: 'Донат ничего не меняет в приложении: платной версии нет, привилегий нет, ничего не открывается. Он просто помогает всему этому продолжаться и говорит мне, что работа чего-то стоит.',
         how: 'Кнопка открывает страницу оплаты: заплатить можно из любого российского банка, без комиссии. С компьютера удобнее отсканировать код телефоном.',
         button: 'Поддержать через СБП',
         qrAlt: 'QR-код ссылки для доната',
