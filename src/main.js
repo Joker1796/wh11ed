@@ -1,8 +1,12 @@
 import { createApp } from 'vue'
+import { installErrorLog } from './composables/useErrorLog.js'
 import { router } from './router/index.js'
 import App from './App.vue'
 import './fonts.js'
 import './style.css'
+
+// First, before anything can throw: the error ring buffer bug reports attach.
+installErrorLog()
 
 const app = createApp(App)
 

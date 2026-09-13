@@ -85,6 +85,12 @@
                 <dt>CP</dt>
                 <dd>{{ s.cp }}</dd>
               </div>
+              <!-- Battle Points only where the players play to them; in VP mode it is a figure
+                   nobody at that table is chasing. -->
+              <div v-if="show('bp') && data.scoreMode === 'bp'">
+                <dt>BP</dt>
+                <dd>{{ s.bp }}</dd>
+              </div>
             </dl>
 
             <p
@@ -93,6 +99,26 @@
             >
               {{ s.primary.name }}
             </p>
+            <!-- The game round by round: the VP each one scored, and — in BP mode — the
+                 Battle Points it would have ended on. The shape of the game, not just its
+                 last number. -->
+            <ol
+              v-if="show('rounds') && s.rounds"
+              class="bo-rounds"
+            >
+              <li
+                v-for="r in s.rounds"
+                :key="r.round"
+                :class="{ now: r.round === data.round }"
+              >
+                <span class="bo-r-n">{{ r.round }}</span>
+                <span class="bo-r-vp">{{ r.round <= data.round ? r.vp : '·' }}</span>
+                <span
+                  v-if="data.scoreMode === 'bp'"
+                  class="bo-r-bp"
+                >{{ r.round <= data.round ? r.bp : '·' }}</span>
+              </li>
+            </ol>
             <ul
               v-if="show('secs') && visibleSecs(s).length"
               class="bo-secs"
@@ -381,6 +407,7 @@ html:has(.bo-root) .app-layout {
   gap: 1rem;
 }
 .bo-root.fit .bo-primary { margin-bottom: 0.2rem; }
+.bo-root.fit .bo-rounds { margin-bottom: 0.25rem; }
 .bo-root.fit .bo-secs li { padding: 0.06rem 0; }
 /* Column count in fit mode is refit()'s decision (it solves both modes and keeps the denser
    one), carried as a class — not the viewport media query's, which reads the window, not the
@@ -485,6 +512,32 @@ html:has(.bo-root) .app-layout {
   font-size: 0.85rem;
   color: var(--bo-gold);
 }
+/* The per-round strip: five equal cells, the live one lit. Reads as a row of figures, not a
+   table — an overlay has no room for headers. */
+.bo-rounds {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 0.35rem;
+  padding: 0;
+  background: var(--bo-line);
+  border: 1px solid var(--bo-line);
+}
+.bo-rounds li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  padding: 0.2rem 0.1rem;
+  background: var(--bo-panel);
+  font-size: 0.8rem;
+  line-height: 1.15;
+}
+.bo-rounds li.now { background: color-mix(in srgb, var(--bo-gold) 22%, var(--bo-panel)); }
+.bo-r-n { font-size: 0.6rem; color: var(--bo-dim); }
+.bo-r-vp { font-weight: 700; }
+.bo-r-bp { font-size: 0.7rem; color: var(--bo-gold); }
 .bo-secs { list-style: none; margin: 0; padding: 0; }
 .bo-secs li {
   display: flex;

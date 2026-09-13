@@ -109,6 +109,8 @@ function mockFetch(path, opts = {}) {
       return mockJson({ ok: true })
     }
   }
+  // Bug reports: accept and drop — the stand has no inbox, and the modal only needs an ok.
+  if (path === '/feedback' && method === 'POST') return mockJson({ ok: true })
   // Broadcast (matched before the generic /games/:id, which would swallow the sub-path).
   const mb = path.match(/^\/games\/(.+)\/broadcast$/)
   if (mb) {

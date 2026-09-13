@@ -183,6 +183,13 @@ const ROUTES = {
       ru: 'Официальные исходные PDF Warhammer Community для Warhammer 40,000 11-й редакции — Core Rules, Event Companion, Teams Event Companion и Terrain Area Footprints.',
     },
   },
+  '/support': {
+    title: { en: 'Support the project', ru: 'Поддержать проект' },
+    description: {
+      en: 'The app is free, ad-free and account-free. If it saves you time at the table, you can support the person who keeps it up to date.',
+      ru: 'Приложение бесплатное, без рекламы и без обязательного аккаунта. Если оно экономит вам время за столом — можно поддержать того, кто его поддерживает.',
+    },
+  },
   '/disclaimer': {
     title: { en: 'Legal & Disclaimer', ru: 'Правовая информация' },
     description: {

@@ -13,6 +13,20 @@
             {{ t.footer.disclaimerLink }}
           </RouterLink>
         </p>
+        <p class="footer-contact">
+          <button
+            type="button"
+            class="footer-feedback"
+            @click="openFeedback"
+          >
+            {{ fbLabel }}
+          </button>
+        </p>
+        <p class="footer-contact">
+          <RouterLink to="/support">
+            {{ t.footer.supportLink }}
+          </RouterLink>
+        </p>
         <p class="footer-version">
           <RouterLink to="/changelog">
             {{ 'v' + version }}
@@ -78,12 +92,17 @@
 // Content is the bilingual landing.js `footer` object.
 import { ref, computed } from 'vue'
 import { landing } from '../data/landing.js'
+import { ui } from '../i18n/ui.js'
+import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { useLocale } from '../composables/useLocale.js'
 import CollapseTransition from './CollapseTransition.vue'
 
 const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
+// The bug-report entry: same dialog the ⚙ menu opens (module-singleton state).
+const { openFeedback } = useFeedbackModal()
+const fbLabel = computed(() => ui[locale.value].feedbackMenu)
 
 const contactEmail = 'gorlovevgeni9617@gmail.com'
 // The umbrella repo (not this one): explains how the frontend, API and glossary fit together.
@@ -147,6 +166,18 @@ const showDetails = ref(false)
 .footer-who {
   font-style: italic;
 }
+
+.footer-feedback {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (hover: hover) { .footer-feedback:hover { color: var(--accent); } }
 
 .footer-version {
   /* pinned to the bottom of the contact column, level with the tallest column's last line */

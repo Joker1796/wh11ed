@@ -58,6 +58,7 @@ const STATIC_ROUTES = [
   '/help/offline',
   '/help/data',
   '/disclaimer',
+  '/support',
   '/changelog',
 ]
 

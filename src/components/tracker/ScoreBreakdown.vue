@@ -89,6 +89,25 @@
               {{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}
             </div>
 
+            <!-- Battle Points, round by round — the running result, i.e. what the game would
+                 have ended on after each round. Only for a game played to BP: in VP mode it is
+                 a number nobody at that table is playing to. -->
+            <template v-if="showBp">
+              <div class="g-label">
+                {{ labels.trackerScoreBp }}
+              </div>
+              <div
+                v-for="r in ROUND_COUNT"
+                :key="'bp'+r"
+                class="g-cell"
+              >
+                {{ bpRounds[i][r - 1] }}
+              </div>
+              <div class="g-total">
+                {{ bpNow[i] }}/20
+              </div>
+            </template>
+
             <!-- CP -->
             <template v-if="showCp">
               <div class="g-label">
@@ -115,7 +134,15 @@ import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
   missionBySlug, dispositionName,
 } from '../../composables/useTracker.js'
-import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, leader as leaderOf } from '../../composables/gameScoring.js'
+import {
+  BATTLE_READY_VP as BR_VP,
+  battlePoints,
+  battlePointsFromVp,
+  leader as leaderOf,
+  primaryTotal as primaryTotalOf,
+  roundBreakdown,
+  secondaryTotal as secondaryTotalOf,
+} from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
@@ -126,6 +153,28 @@ const { current } = useTracker()
 const game = computed(() => props.game || current.value)
 // Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
 const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
+
+// The Battle Points line: what each round would have ended on (cumulative VP + the
+// Battle-Ready bonus, run through the same table the finished game uses) and where they stand
+// now. Same computation the broadcast payload publishes, off the same helpers.
+const showBp = computed(() => game.value?.settings?.scoreMode === 'bp')
+const bpNow = computed(() => battlePoints(game.value))
+const bpRounds = computed(() => {
+  const g = game.value
+  if (!g) return [[], []]
+  const rounds = [roundBreakdown(g, 0), roundBreakdown(g, 1)]
+  const bonus = [0, 1].map((i) => (g.players?.[i]?.battleReady ? BR_VP : 0))
+  const out = [[], []]
+  for (let r = 0; r < ROUND_COUNT; r++) {
+    const [a, b] = battlePointsFromVp(
+      rounds[0][r].cumulativeVp + bonus[0],
+      rounds[1][r].cumulativeVp + bonus[1],
+    )
+    out[0].push(a)
+    out[1].push(b)
+  }
+  return out
+})
 
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)

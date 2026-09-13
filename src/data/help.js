@@ -80,7 +80,8 @@ export const help = {
 ▪ **The overlay packs itself into whatever window it gets**: a wide slot puts the teams side by side, a tall one stacks them. Need a hard shape instead? Pick an aspect ratio (16:9, 4:3, 1:1, 9:16) under "Overlay options" and it holds that shape whatever the window does.
 ▪ **What it shows is chosen there too**: round and phase, team rosters, roles, CP, the VP breakdown, mission names, the secondary cards (played-out ones are hidden by default). The choice lives in the link itself — two OBS scenes can hold two differently configured links of one broadcast.
 ▪ **Who can see it:** anyone with the link, and only watch. "New link" cuts the old one off; "Stop broadcast" ends it. A broadcast nobody has updated for a week expires by itself.
-▪ **What never leaves the phone:** army lists, rule switches, notes. The drawn secondary cards are shown — they are drawn face-up and are open information at the table.`,
+▪ **What never leaves the phone:** army lists, rule switches, notes. The drawn secondary cards are shown — they are drawn face-up and are open information at the table.
+▪ **Building your own overlay?** The same link serves the raw data: **api.wh-rules.ru/broadcast/<token>** answers with the whole public state of the match as JSON — round and phase, both sides with their players, CP, the VP breakdown, the secondary cards, and every battle round with its own score and Battle Points. It is open to any origin and carries an ETag, so your own HTML/CSS can poll it and show whatever it likes. The field-by-field contract is in the API's README.`,
       },
       {
         id: 'help-offline',
@@ -158,7 +159,8 @@ export const help = {
 ▪ **Оверлей сам вписывается в любое окно**: широкий слот кладёт команды рядом, вертикальный — столбиком. Нужна жёсткая форма? В «Настроить оверлей» выберите соотношение сторон (16:9, 4:3, 1:1, 9:16) — и он держит её при любом окне.
 ▪ **Что показывать — выбирается там же**: раунд и фаза, составы команд, роли, CP, разбивка VP, названия миссий, карты вторичек (отыгранные по умолчанию скрыты). Выбор живёт в самой ссылке — две сцены OBS могут держать две по-разному настроенные ссылки одной трансляции.
 ▪ **Кто видит:** любой, у кого есть ссылка, — и только смотрит. «Новая ссылка» обрывает старую; «Выключить» завершает трансляцию. Трансляция, которую неделю не обновляли, гаснет сама.
-▪ **Что не покидает телефон:** армейские листы, свитчи правил, заметки. Вытянутые карты вторичек показываются — они тянутся в открытую и за столом являются открытой информацией.`,
+▪ **Что не покидает телефон:** армейские листы, свитчи правил, заметки. Вытянутые карты вторичек показываются — они тянутся в открытую и за столом являются открытой информацией.
+▪ **Делаете свой оверлей?** Та же ссылка отдаёт сырые данные: **api.wh-rules.ru/broadcast/<токен>** возвращает всё публичное состояние матча в JSON — раунд и фазу, обе стороны с игроками, CP, разбивку VP, карты вторичек и каждый боевой раунд со своим счётом и Battle Points. Доступ открыт с любого origin, есть ETag — так что ваша вёрстка может опрашивать его и показывать что угодно. Описание каждого поля — в README нашего API.`,
       },
       {
         id: 'help-offline',

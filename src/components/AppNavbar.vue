@@ -228,6 +228,13 @@
                 <i :class="offlineIcon" />
                 <span>{{ offlineLabel }}</span>
               </button>
+              <button
+                class="settings-item"
+                @click="onFeedback"
+              >
+                <i class="bi bi-bug" />
+                <span>{{ labels.feedbackMenu }}</span>
+              </button>
               <!-- The account, on the phone. The desktop has a button of its own (AccountMenu);
                    here it joins the theme and lore toggles rather than crowding the navbar. -->
               <template v-if="accountStatus === 'authed'">
@@ -288,6 +295,7 @@ import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
+import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import AccountMenu from './AccountMenu.vue'
 import { ui } from '../i18n/ui.js'
 import { factionGroups } from '../data/factionsIndex.js'
@@ -341,6 +349,13 @@ function onMockToggle() {
 const labels = computed(() => ui[locale.value])
 
 const settingsOpen = ref(false)
+
+// Bug reports: the ⚙ menu is the one surface present on every screen, so the entry lives here.
+const { openFeedback } = useFeedbackModal()
+function onFeedback() {
+  settingsOpen.value = false
+  openFeedback()
+}
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
   // Read the download size only when the menu is actually opened — it is one small JSON, but

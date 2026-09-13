@@ -119,6 +119,38 @@
             </div>
           </div>
         </details>
+
+        <!-- The same broadcast as raw JSON, for someone writing their own overlay. Outside the
+             options fold on purpose: those settings dress OUR overlay, this hands over the data
+             instead — and the token is already here, so it goes out ready to paste rather than
+             as a pattern to assemble. -->
+        <div class="bc-json">
+          <span class="bc-json-label">{{ labels.trackerBroadcastJson }}</span>
+          <!-- The dev mock keeps the broadcast in localStorage and never touches the server,
+               so this address cannot answer on the stand — say so rather than let it 400. -->
+          <p
+            v-if="isMockToken"
+            class="bc-json-dev"
+          >
+            {{ labels.trackerBroadcastJsonDev }}
+          </p>
+          <div class="bc-link-row">
+            <input
+              type="text"
+              class="bc-link"
+              readonly
+              :value="jsonUrl"
+              @focus="$event.target.select()"
+            >
+            <button
+              class="btn-ghost bc-copy"
+              @click="copyJson"
+            >
+              {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
+            </button>
+          </div>
+        </div>
+
         <div class="bc-actions">
           <button
             class="btn-ghost"
@@ -152,18 +184,20 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useTheme } from '../../composables/useTheme.js'
+import { API_BASE_URL } from '../../config.js'
 
 defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { enabled, shareUrl, canBroadcast, lastError, enable, regenerate, disable } = useBroadcast()
+const { enabled, token, shareUrl, canBroadcast, lastError, enable, regenerate, disable } = useBroadcast()
 
 // The overlay's toggleable blocks, in display order — ids match BroadcastOverlayView's `hide=`
 // vocabulary. The total is deliberately not here: it is what a scoreboard is.
-const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'primary', 'secs']
+const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'bp', 'rounds', 'primary', 'secs']
 const BLOCK_LABELS = {
   meta: 'bcBlockMeta', players: 'bcBlockPlayers', roles: 'bcBlockRoles', cp: 'bcBlockCp',
-  vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs',
+  vp: 'bcBlockVp', bp: 'bcBlockBp', rounds: 'bcBlockRounds', primary: 'bcBlockPrimary',
+  secs: 'bcBlockSecs',
 }
 // Seeded from the SITE's current theme — the dialog is recreated on every open, so the seg
 // starts on whatever the reader is looking at; the overlay itself still obeys only its URL.
@@ -175,6 +209,7 @@ const shown = reactive({
   ...Object.fromEntries(OVERLAY_BLOCKS.map((bk) => [bk, true])),
   players: false,
   roles: false,
+  rounds: false, // a per-round strip is a wide thing; a slot has to ask for it
 })
 // Phrased (and stored) as an ACTION, unlike the show-rows above: checked = the set-aside
 // cards leave the overlay. Rides the same hide= vocabulary as 'secs-done'.
@@ -202,6 +237,20 @@ const overlayUrl = computed(() => {
   const q = params.toString()
   return q ? `${shareUrl.value}?${q}` : shareUrl.value
 })
+
+// The data feed behind the overlay: same token, the API host instead of the site.
+const jsonUrl = computed(() => (token.value ? `${API_BASE_URL}/broadcast/${token.value}` : null))
+const isMockToken = computed(() => import.meta.env.DEV && !!token.value?.startsWith('mock-'))
+
+const copiedJson = ref(false)
+async function copyJson() {
+  if (!jsonUrl.value) return
+  try {
+    await navigator.clipboard.writeText(jsonUrl.value)
+    copiedJson.value = true
+    setTimeout(() => { copiedJson.value = false }, 1500)
+  } catch { /* clipboard denied — the field stays selectable by hand */ }
+}
 
 const copied = ref(false)
 async function copy() {
@@ -283,6 +332,23 @@ function onDisable() { disable() }
   font-size: 0.82rem;
   color: var(--text-primary);
   cursor: pointer;
+}
+/* Separated from the fold above by a rule: it answers a different question. */
+.bc-json {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
+.bc-json-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.bc-json-dev {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  color: var(--accent);
 }
 .bc-actions {
   display: flex;

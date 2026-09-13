@@ -68,6 +68,7 @@
       v-if="installHintOpen"
       @close="installHintOpen = false"
     />
+    <FeedbackModal v-if="feedbackOpen" />
     <FactionsNavModal
       v-if="showFactions"
       @close="showFactions = false"
@@ -91,12 +92,15 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
+import { useFeedbackModal } from './composables/useFeedbackModal.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
+// Async like the search palette: the dialog pulls the tracker store for its attach offer.
+const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))
 const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
 const RulesNavModal = defineAsyncComponent(() => import('./components/RulesNavModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
@@ -122,9 +126,11 @@ import { useRosters } from './composables/useRosters.js'
 import { useRosterDraftResume } from './composables/useRosterDraftResume.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
-import { stripLocale } from './router/locale.js'
+import { localePath, stripLocale } from './router/locale.js'
 
 const route = useRoute()
+const router = useRouter()
+const { open: feedbackOpen } = useFeedbackModal()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
 const { ensureSession } = useAuth()
 const mobileNavOpen = ref(false)
@@ -230,6 +236,18 @@ function onGlobalClick(e) {
     const { route, anchor } = resolveRef(refEl.dataset.ref)
     if (route && anchor) navigateTo({ route, anchor })
     return
+  }
+  // An in-app link rendered into v-html text (a changelog note pointing at a page). A plain
+  // <a href> would reload the whole SPA — and in the installed app that is a cold boot — so it
+  // is routed here, through localePath so a Russian reader stays under /ru.
+  const intEl = e.target.closest('a.int-link')
+  if (intEl && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+    const href = intEl.getAttribute('href')
+    if (href?.startsWith('/')) {
+      e.preventDefault()
+      router.push(localePath(href, locale.value))
+      return
+    }
   }
   const glossEl = e.target.closest('.gloss')
   if (glossEl) {

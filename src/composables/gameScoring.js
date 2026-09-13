@@ -31,6 +31,37 @@ export function secondaryTotal(game, pi) {
   return Math.min(total, SECONDARY_GAME_CAP)
 }
 
+// Secondary VP scored in ONE battle round. The per-card caps live above (5 per scoring for a
+// tactical card, 20 across the game for a fixed one), so the game-long cap cannot be applied
+// per round — a fixed-secondary curve can read a little high mid-game. This is the SHAPE of the
+// scoring, never a second opinion on the total: that is secondaryTotal's, and it is capped.
+export function secondaryInRound(player, round) {
+  const scored = player?.secondary?.scored || []
+  const tactical = player?.secondaryMode !== 'fixed'
+  let vp = 0
+  for (const e of scored) {
+    if (e?.round !== round) continue
+    vp += tactical ? Math.min(e.vp || 0, TACTICAL_SECONDARY_CAP) : (e.vp || 0)
+  }
+  return vp
+}
+
+// One player's five rounds: what each scored, and the running VP through it. The Battle-Ready
+// bonus is NOT in here — it belongs to the game, not to a round; a caller building a running
+// result adds it once (see broadcastPayload's per-round BP).
+export function roundBreakdown(game, pi) {
+  const pl = game?.players?.[pi]
+  const out = []
+  let cumulative = 0
+  for (let i = 0; i < ROUND_COUNT; i++) {
+    const primary = pl?.rounds?.[i]?.primary || 0
+    const secondary = secondaryInRound(pl, i + 1)
+    cumulative += primary + secondary
+    out.push({ round: i + 1, primary, secondary, vp: primary + secondary, cumulativeVp: cumulative })
+  }
+  return out
+}
+
 export function grandTotal(game, pi) {
   const bonus = game.players?.[pi]?.battleReady ? BATTLE_READY_VP : 0
   return primaryTotal(game, pi) + secondaryTotal(game, pi) + bonus
