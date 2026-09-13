@@ -109,7 +109,7 @@
             v-if="dispositionName(pl.disposition)"
             class="pmeta"
           >
-            {{ dispositionName(pl.disposition) }}
+            {{ labels.trackerDisposition }}: {{ dispositionName(pl.disposition) }}
           </p>
           <p
             v-if="!isDoubles && pl.detachments && pl.detachments.length"
