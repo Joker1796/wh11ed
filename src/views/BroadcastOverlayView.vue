@@ -1,127 +1,133 @@
 <template>
   <div
     class="bo-root"
-    :class="theme"
+    :class="[theme, { fit: isFit, cols1: cols === 1 }]"
   >
-    <template v-if="state === 'ok' && data">
-      <div
-        v-if="show('meta')"
-        class="bo-top"
-      >
-        <span class="bo-round">{{ labels.trackerRound }} {{ data.round }}</span>
-        <span
-          v-if="data.battlePhase"
-          class="bo-phase"
-        >{{ phaseLabel(data.battlePhase, labels) }}</span>
-        <span
-          v-if="data.layout"
-          class="bo-layout"
-        >{{ labels.trackerLayout }} {{ data.layout }}</span>
-      </div>
-
-      <div class="bo-sides">
-        <section
-          v-for="(s, i) in data.sides"
-          :key="i"
-          class="bo-side"
-          :class="{ turn: data.turn === i }"
+    <div
+      ref="canvasEl"
+      class="bo-canvas"
+      :style="fitStyle"
+    >
+      <template v-if="state === 'ok' && data">
+        <div
+          v-if="show('meta')"
+          class="bo-top"
         >
-          <header class="bo-head">
-            <h2 class="bo-team">
-              {{ s.teamName || (i === 0 ? 'A' : 'B') }}
-            </h2>
-            <span class="bo-total">{{ s.total }}</span>
-          </header>
-          <p
-            v-if="show('roles')"
-            class="bo-roles"
+          <span class="bo-round">{{ labels.trackerRound }} {{ data.round }}</span>
+          <span
+            v-if="data.battlePhase"
+            class="bo-phase"
+          >{{ phaseLabel(data.battlePhase, labels) }}</span>
+          <span
+            v-if="data.layout"
+            class="bo-layout"
+          >{{ labels.trackerLayout }} {{ data.layout }}</span>
+        </div>
+
+        <div class="bo-sides">
+          <section
+            v-for="(s, i) in data.sides"
+            :key="i"
+            class="bo-side"
+            :class="{ turn: data.turn === i }"
           >
-            <template v-if="s.role">
-              {{ s.role === 'attacker' ? labels.trackerAttacker : labels.trackerDefender }}
-            </template>
-            <template v-if="s.forceType">
-              · {{ s.forceType === 'unified' ? 'Unified Force' : 'Force of Convenience' }}
-            </template>
-            <template v-if="s.firstTurn">
-              · {{ labels.trackerFirstTurn }}
-            </template>
-          </p>
-          <ul
-            v-if="show('players')"
-            class="bo-players"
-          >
-            <li
-              v-for="(p, pi2) in s.players"
-              :key="pi2"
+            <header class="bo-head">
+              <h2 class="bo-team">
+                {{ s.teamName || (i === 0 ? 'A' : 'B') }}
+              </h2>
+              <span class="bo-total">{{ s.total }}</span>
+            </header>
+            <p
+              v-if="show('roles')"
+              class="bo-roles"
             >
-              <span class="bo-pname">{{ p.name || (pi2 === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2) }}</span>
-              <span
-                v-if="p.faction"
-                class="bo-pfac"
-              >{{ p.faction }}<template v-if="p.detachments && p.detachments.length"> · {{ p.detachments.join(', ') }}</template></span>
-            </li>
-          </ul>
-
-          <dl
-            v-if="show('vp') || show('cp')"
-            class="bo-score"
-          >
-            <template v-if="show('vp')">
-              <div>
-                <dt>{{ labels.trackerPrimary }}</dt>
-                <dd>{{ s.primary?.vp ?? 0 }}</dd>
-              </div>
-              <div>
-                <dt>{{ labels.trackerSecondary }}</dt>
-                <dd>{{ s.secondaryVp ?? 0 }}</dd>
-              </div>
-            </template>
-            <div v-if="show('cp')">
-              <dt>CP</dt>
-              <dd>{{ s.cp }}</dd>
-            </div>
-          </dl>
-
-          <p
-            v-if="show('primary') && s.primary?.name"
-            class="bo-primary"
-          >
-            {{ s.primary.name }}
-          </p>
-          <ul
-            v-if="show('secs') && s.secondaries && s.secondaries.length"
-            class="bo-secs"
-          >
-            <li
-              v-for="sec in s.secondaries"
-              :key="sec.slug"
-              :class="{ aside: !sec.active }"
+              <template v-if="s.role">
+                {{ s.role === 'attacker' ? labels.trackerAttacker : labels.trackerDefender }}
+              </template>
+              <template v-if="s.forceType">
+                · {{ s.forceType === 'unified' ? 'Unified Force' : 'Force of Convenience' }}
+              </template>
+              <template v-if="s.firstTurn">
+                · {{ labels.trackerFirstTurn }}
+              </template>
+            </p>
+            <ul
+              v-if="show('players')"
+              class="bo-players"
             >
-              <span class="bo-sec-name">{{ sec.name }}</span>
-              <span class="bo-sec-vp">{{ sec.vp }}</span>
-            </li>
-          </ul>
-        </section>
-      </div>
-    </template>
+              <li
+                v-for="(p, pi2) in s.players"
+                :key="pi2"
+              >
+                <span class="bo-pname">{{ p.name || (pi2 === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2) }}</span>
+                <span
+                  v-if="p.faction"
+                  class="bo-pfac"
+                >{{ p.faction }}<template v-if="p.detachments && p.detachments.length"> · {{ p.detachments.join(', ') }}</template></span>
+              </li>
+            </ul>
 
-    <p
-      v-else-if="state === 'waiting'"
-      class="bo-msg"
-    >
-      {{ labels.broadcastWaiting }}
-    </p>
-    <p
-      v-else-if="state === 'gone'"
-      class="bo-msg"
-    >
-      {{ labels.broadcastGone }}
-    </p>
+            <dl
+              v-if="show('vp') || show('cp')"
+              class="bo-score"
+            >
+              <template v-if="show('vp')">
+                <div>
+                  <dt>{{ labels.trackerPrimary }}</dt>
+                  <dd>{{ s.primary?.vp ?? 0 }}</dd>
+                </div>
+                <div>
+                  <dt>{{ labels.trackerSecondary }}</dt>
+                  <dd>{{ s.secondaryVp ?? 0 }}</dd>
+                </div>
+              </template>
+              <div v-if="show('cp')">
+                <dt>CP</dt>
+                <dd>{{ s.cp }}</dd>
+              </div>
+            </dl>
+
+            <p
+              v-if="show('primary') && s.primary?.name"
+              class="bo-primary"
+            >
+              {{ s.primary.name }}
+            </p>
+            <ul
+              v-if="show('secs') && visibleSecs(s).length"
+              class="bo-secs"
+            >
+              <li
+                v-for="sec in visibleSecs(s)"
+                :key="sec.slug"
+                :class="{ aside: !sec.active }"
+              >
+                <span class="bo-sec-name">{{ sec.name }}</span>
+                <span class="bo-sec-vp">{{ sec.vp }}</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </template>
+
+      <p
+        v-else-if="state === 'waiting'"
+        class="bo-msg"
+      >
+        {{ labels.broadcastWaiting }}
+      </p>
+      <p
+        v-else-if="state === 'gone'"
+        class="bo-msg"
+      >
+        {{ labels.broadcastGone }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { API_BASE_URL } from '../config.js'
 import { ui } from '../i18n/ui.js'
@@ -145,9 +151,48 @@ const hidden = computed(() => new Set(String(route.query.hide || '').split(',').
 function show(block) {
   return !hidden.value.has(block)
 }
+// hide=secs-done drops the set-aside (played-out) cards, leaving only the active hand.
+function visibleSecs(side) {
+  const list = side.secondaries || []
+  return hidden.value.has('secs-done') ? list.filter((c) => c.active) : list
+}
 
+// ── Fit mode (?fit=1[&cols=1]) ────────────────────────────────────────────────────────────
+// For a PREPARED window in a stream layout: OBS gives the Browser Source a fixed size, and
+// the scoreboard scales itself to fill it — laid out at a fixed base width, measured, then
+// transform-scaled so the whole thing fits both axes. cols=1 stacks the sides for portrait
+// windows (fit mode ignores the width media query — the canvas is wider than the viewport).
+const isFit = computed(() => route.query.fit === '1')
+const cols = computed(() => (route.query.cols === '1' ? 1 : 2))
+const canvasEl = ref(null)
+const fitScale = ref(1)
+const fitLeft = ref(0)
+const fitStyle = computed(() => {
+  if (!isFit.value) return undefined
+  return {
+    width: `${cols.value === 1 ? 460 : 900}px`,
+    transform: `scale(${fitScale.value})`,
+    left: `${fitLeft.value}px`,
+  }
+})
+function refit() {
+  if (!isFit.value || !canvasEl.value || typeof window === 'undefined') return
+  const el = canvasEl.value
+  const cw = el.offsetWidth || 1
+  // scrollHeight is layout height — transforms don't feed back into it, so this is stable.
+  const ch = el.scrollHeight || 1
+  const scale = Math.min(window.innerWidth / cw, window.innerHeight / ch)
+  fitScale.value = scale
+  fitLeft.value = Math.max(0, (window.innerWidth - cw * scale) / 2)
+}
 const data = ref(null)
 const state = ref('waiting') // waiting | ok | gone
+
+// Refit whenever the payload changes shape (a drawn card adds a row) or the mode flips.
+watch([data, isFit, cols], async () => {
+  await nextTick()
+  refit()
+})
 let etag = null
 let timer = null
 let inFlight = false
@@ -196,9 +241,12 @@ async function poll() {
 onMounted(() => {
   poll()
   timer = setInterval(poll, 2000)
+  window.addEventListener('resize', refit)
+  refit()
 })
 onUnmounted(() => {
   if (timer) clearInterval(timer)
+  window.removeEventListener('resize', refit)
 })
 </script>
 
@@ -236,6 +284,26 @@ html:has(.bo-root) .app-layout {
   --bo-dim: rgba(23, 23, 27, 0.62);
   --bo-gold: #8a6a1f;
 }
+/* Fit mode: the root pins to the viewport, the canvas lays out at its fixed base width and
+   is transform-scaled by refit() to fill the window OBS gave us. */
+.bo-root.fit {
+  position: fixed;
+  inset: 0;
+  padding: 0;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+}
+.bo-root.fit .bo-canvas {
+  position: absolute;
+  top: 0;
+  transform-origin: top left;
+  padding: 0.5rem;
+}
+/* The canvas is wider than the viewport in fit mode, so column count is a CLASS decision
+   there, not the width media query's. */
+.bo-root.fit .bo-sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.bo-root.fit.cols1 .bo-sides { grid-template-columns: minmax(0, 1fr); }
 .bo-top {
   display: flex;
   align-items: baseline;
