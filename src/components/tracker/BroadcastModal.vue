@@ -101,27 +101,6 @@
               >
               <span>{{ labels.trackerBroadcastFit }}</span>
             </label>
-            <!-- The same broadcast as raw JSON, for someone writing their own overlay: the
-                 token is already here, so hand it over ready to paste rather than as a
-                 pattern to assemble. -->
-            <div class="bc-json">
-              <span class="bc-json-label">{{ labels.trackerBroadcastJson }}</span>
-              <div class="bc-link-row">
-                <input
-                  type="text"
-                  class="bc-link"
-                  readonly
-                  :value="jsonUrl"
-                  @focus="$event.target.select()"
-                >
-                <button
-                  class="btn-ghost bc-copy"
-                  @click="copyJson"
-                >
-                  {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
-                </button>
-              </div>
-            </div>
             <div
               v-if="fit"
               class="bc-theme-row"
@@ -140,6 +119,30 @@
             </div>
           </div>
         </details>
+
+        <!-- The same broadcast as raw JSON, for someone writing their own overlay. Outside the
+             options fold on purpose: those settings dress OUR overlay, this hands over the data
+             instead — and the token is already here, so it goes out ready to paste rather than
+             as a pattern to assemble. -->
+        <div class="bc-json">
+          <span class="bc-json-label">{{ labels.trackerBroadcastJson }}</span>
+          <div class="bc-link-row">
+            <input
+              type="text"
+              class="bc-link"
+              readonly
+              :value="jsonUrl"
+              @focus="$event.target.select()"
+            >
+            <button
+              class="btn-ghost bc-copy"
+              @click="copyJson"
+            >
+              {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
+            </button>
+          </div>
+        </div>
+
         <div class="bc-actions">
           <button
             class="btn-ghost"
@@ -321,7 +324,12 @@ function onDisable() { disable() }
   color: var(--text-primary);
   cursor: pointer;
 }
-.bc-json { margin-top: 0.6rem; }
+/* Separated from the fold above by a rule: it answers a different question. */
+.bc-json {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+}
 .bc-json-label {
   display: block;
   margin-bottom: 0.25rem;
