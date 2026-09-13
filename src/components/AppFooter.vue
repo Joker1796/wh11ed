@@ -22,6 +22,11 @@
             {{ fbLabel }}
           </button>
         </p>
+        <p class="footer-contact">
+          <RouterLink to="/support">
+            {{ t.footer.supportLink }}
+          </RouterLink>
+        </p>
         <p class="footer-version">
           <RouterLink to="/changelog">
             {{ 'v' + version }}

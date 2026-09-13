@@ -22,6 +22,7 @@ const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
+const SupportView       = () => import('../views/SupportView.vue')
 const BroadcastOverlayView = () => import('../views/BroadcastOverlayView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
 const HelpView          = () => import('../views/HelpView.vue')
@@ -414,6 +415,7 @@ const localeRoutes = [
     { path: '/broadcast/:token', component: BroadcastOverlayView, meta: { section: 'tracker', bare: true } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
+    { path: '/support', component: SupportView },
     // The guide was one page with six anchors until 2026-08-25. Links written against it — ours,
     // and anyone's bookmark — arrive as /help#help-tracker; send those to the page that section
     // became. An unknown topic bounces back to the contents from HelpTopicView itself.
