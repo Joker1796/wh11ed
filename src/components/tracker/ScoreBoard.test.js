@@ -43,3 +43,25 @@ describe('ScoreBoard', () => {
     expect(w.find('.tie').exists()).toBe(true)
   })
 })
+
+// DURING play the board is the other way round from the result screen: VP is the headline and
+// Battle Points ride quietly beside it. A game played to VP shows none at all.
+describe('ScoreBoard — Battle Points while the game is on', () => {
+  const live = (scoreMode) => ({ ...finishedGame(30, 10, scoreMode), phase: 'playing' })
+
+  it('keeps VP as the headline and puts BP beside it', () => {
+    const w = mount(ScoreBoard, { props: { game: live('bp') } })
+    // The big figure is still the VP total, not the BP one.
+    expect(w.findAll('.grand')[0].text()).toContain('30')
+    expect(w.findAll('.grand')[0].text()).toContain('VP')
+    const bp = w.findAll('.grand-bp')
+    expect(bp).toHaveLength(2)
+    expect(bp[0].text()).toBe('13 BP') // 30 vs 10 → a 16–20 gap is 13–7
+    expect(bp[1].text()).toBe('7 BP')
+  })
+
+  it('shows no BP in a game played to VP', () => {
+    const w = mount(ScoreBoard, { props: { game: live('vp') } })
+    expect(w.findAll('.grand-bp')).toHaveLength(0)
+  })
+})

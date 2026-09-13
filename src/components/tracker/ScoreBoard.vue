@@ -22,7 +22,10 @@
           <span class="grand-vp">{{ grandTotal(i) }} VP</span>
         </template>
         <template v-else>
-          {{ grandTotal(i) }}<span class="grand-unit">VP</span>
+          {{ grandTotal(i) }}<span class="grand-unit">VP</span><span
+            v-if="liveBp"
+            class="grand-bp"
+          >{{ bp[i] }} BP</span>
         </template>
       </div>
       <dl
@@ -69,8 +72,12 @@ const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const grandTotal = (i) => grandTotalOf(game.value, i)
 const leaderIdx = computed(() => leaderOf(game.value))
 const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
-// Battle Points are a finished-game metric — only shown on results when scoreMode is 'bp'.
+// On the RESULT, Battle Points are the headline and VP the footnote: the game is over and BP
+// is what it counted for. DURING play the two swap places — VP is the number the players are
+// ticking up all evening and BP merely follows it, swinging by two points on a single
+// objective — so BP rides quietly beside the total instead of replacing it.
 const bpMode = computed(() => props.finished && game.value?.settings?.scoreMode === 'bp')
+const liveBp = computed(() => !props.finished && game.value?.settings?.scoreMode === 'bp')
 const bp = computed(() => battlePointsOf(game.value))
 
 // Pulse a column's grand total when it changes (scoring feedback).
@@ -122,6 +129,9 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 }
 .grand-unit { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.2rem; font-family: var(--font-mono); }
 .grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-mono); font-weight: 600; }
+/* The running Battle Points, on the total's own line: small and muted, so the eye still lands
+   on the VP first. */
+.grand-bp { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.5rem; font-family: var(--font-mono); font-weight: 600; }
 .breakdown {
   display: flex;
   justify-content: center;
