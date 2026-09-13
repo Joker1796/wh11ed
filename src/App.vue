@@ -68,6 +68,7 @@
       v-if="installHintOpen"
       @close="installHintOpen = false"
     />
+    <FeedbackModal v-if="feedbackOpen" />
     <FactionsNavModal
       v-if="showFactions"
       @close="showFactions = false"
@@ -93,10 +94,13 @@
 import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
+import { useFeedbackModal } from './composables/useFeedbackModal.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
+// Async like the search palette: the dialog pulls the tracker store for its attach offer.
+const FeedbackModal = defineAsyncComponent(() => import('./components/FeedbackModal.vue'))
 const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
 const RulesNavModal = defineAsyncComponent(() => import('./components/RulesNavModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
@@ -125,6 +129,7 @@ import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { stripLocale } from './router/locale.js'
 
 const route = useRoute()
+const { open: feedbackOpen } = useFeedbackModal()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
 const { ensureSession } = useAuth()
 const mobileNavOpen = ref(false)
