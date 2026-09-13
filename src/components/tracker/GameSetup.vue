@@ -307,7 +307,7 @@
                 <i class="bi bi-question-circle" />
               </button>
             </span>
-            <div class="seg seg-wrap">
+            <div class="seg seg-fill">
               <button
                 :class="{ on: !p.forceType }"
                 @click="p.forceType = null"
@@ -484,7 +484,7 @@
             <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
             <div
               v-else-if="candidateDispositions(p).length > 1"
-              class="seg seg-wrap"
+              class="seg seg-fill"
             >
               <button
                 v-for="id in candidateDispositions(p)"
@@ -1600,7 +1600,24 @@ function cancel() {
   color: var(--text-muted);
   font-size: 0.9rem;
 }
-.seg-wrap { flex-wrap: wrap; }
+/* A seg whose options may not fit one row (doubles: up to 5 candidate dispositions, the
+   force-type trio). Buttons GROW to fill each wrapped row — a lone option in the last row
+   becomes a full-width button, so a ragged empty cell cannot exist. Dividers come from the
+   1px gap over the border-coloured background, which stays correct in both directions when
+   rows wrap (the plain seg's button+button left border does not). */
+.seg-fill {
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1px;
+  background: var(--border);
+}
+.seg-fill button {
+  flex: 1 1 auto;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.25;
+}
+.seg-fill button + button { border-left: none; }
 /* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
 .br-check { margin-top: 0.2rem; }
 /* Primary mission: an inset label (matching the field labels, like the secondary section) over a
