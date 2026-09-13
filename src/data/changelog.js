@@ -17,6 +17,30 @@
 
 export const changelog = [
   {
+    version: '2.4.1',
+    date: '2026-09-13',
+    en: [
+      { h: 'Tell me about a bug, from inside the app' },
+      'A rule that reads wrong, a button that does nothing, points that disagree with the app — there is now a way to say so without leaving the page: "Report a bug" in the ⚙ menu and in the footer. A couple of sentences is enough, and no account is needed.',
+      'The report carries what makes it findable: the app version, the page you were on, and the last errors the app ran into. You can read exactly what is attached before you send it, and add the game or the army list you were looking at if the problem is about them. Nothing else leaves your device.',
+      { h: 'Broadcast: a feed for custom overlays, and Battle Points round by round' },
+      'The broadcast link now also serves the match as plain JSON, open to any page, so anyone who streams can build their own overlay in HTML and CSS and show exactly what their layout needs.',
+      'And Battle Points stopped being a single number at the end of the game: every battle round now carries the BP the game would have finished on — in the feed, in the built-in overlay (two new optional blocks), and in the game\u2019s own score breakdown.',
+      { h: 'Supporting the project' },
+      'The app is free, has no ads and sells nothing, and it stays that way. For anyone who wants to chip in for the domain and the servers anyway, there is now a page for it: [Support the project](/support), linked at the bottom of any page.',
+    ],
+    ru: [
+      { h: 'Сообщить об ошибке прямо из приложения' },
+      'Правило прочитано неверно, кнопка ничего не делает, очки расходятся с приложением — теперь об этом можно сказать, не уходя со страницы: «Сообщить об ошибке» в меню ⚙ и в подвале. Пары предложений достаточно, аккаунт не нужен.',
+      'К отчёту прикладывается то, что делает его находимым: версия приложения, страница, на которой вы были, и последние ошибки, на которые приложение наткнулось. Что именно отправится, можно прочитать до отправки, а если проблема в конкретной партии или листе — приложить и их. Больше с устройства не уходит ничего.',
+      { h: 'Трансляция: поток для своих оверлеев и Battle Points по раундам' },
+      'Ссылка трансляции теперь отдаёт партию ещё и обычным JSON, открытым для любой страницы: те, кто стримит, могут сверстать собственный оверлей на HTML и CSS и показывать ровно то, что нужно их макету.',
+      'А Battle Points перестали быть одной цифрой в конце: у каждого боевого раунда теперь есть BP, на которых партия закончилась бы после него — и в потоке, и во встроенном оверлее (два новых блока на выбор), и в разбивке счёта самой партии.',
+      { h: 'Поддержка проекта' },
+      'Приложение бесплатное, без рекламы, ничего не продаёт — и таким остаётся. Для тех, кто всё же хочет помочь с доменом и серверами, появилась страница: [Поддержать проект](/support), ссылка на неё внизу любой страницы.',
+    ],
+  },
+  {
     version: '2.4.0',
     date: '2026-09-13',
     en: [
