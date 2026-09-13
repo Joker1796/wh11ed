@@ -226,8 +226,13 @@
           <i class="bi bi-chevron-left" />
           <i class="bi bi-gear" />
         </button>
-        <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. -->
+        <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. The
+             button is offered only when the game asked for it (settings.trackBroadcast, a row
+             of the option table; niche feature, off by default) — but a broadcast already LIVE
+             keeps it whatever the row says: a stream running with no visible control would be
+             the dishonest kind of hidden. -->
         <button
+          v-if="broadcastOn || tracks(current.settings, 'trackBroadcast')"
           class="btn-ghost btn-icon"
           :class="{ 'bc-on': broadcastOn }"
           :aria-label="labels.trackerBroadcastTitle"
