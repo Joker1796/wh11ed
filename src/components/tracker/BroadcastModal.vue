@@ -101,6 +101,27 @@
               >
               <span>{{ labels.trackerBroadcastFit }}</span>
             </label>
+            <!-- The same broadcast as raw JSON, for someone writing their own overlay: the
+                 token is already here, so hand it over ready to paste rather than as a
+                 pattern to assemble. -->
+            <div class="bc-json">
+              <span class="bc-json-label">{{ labels.trackerBroadcastJson }}</span>
+              <div class="bc-link-row">
+                <input
+                  type="text"
+                  class="bc-link"
+                  readonly
+                  :value="jsonUrl"
+                  @focus="$event.target.select()"
+                >
+                <button
+                  class="btn-ghost bc-copy"
+                  @click="copyJson"
+                >
+                  {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
+                </button>
+              </div>
+            </div>
             <div
               v-if="fit"
               class="bc-theme-row"
@@ -152,11 +173,12 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useTheme } from '../../composables/useTheme.js'
+import { API_BASE_URL } from '../../config.js'
 
 defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { enabled, shareUrl, canBroadcast, lastError, enable, regenerate, disable } = useBroadcast()
+const { enabled, token, shareUrl, canBroadcast, lastError, enable, regenerate, disable } = useBroadcast()
 
 // The overlay's toggleable blocks, in display order — ids match BroadcastOverlayView's `hide=`
 // vocabulary. The total is deliberately not here: it is what a scoreboard is.
@@ -204,6 +226,19 @@ const overlayUrl = computed(() => {
   const q = params.toString()
   return q ? `${shareUrl.value}?${q}` : shareUrl.value
 })
+
+// The data feed behind the overlay: same token, the API host instead of the site.
+const jsonUrl = computed(() => (token.value ? `${API_BASE_URL}/broadcast/${token.value}` : null))
+
+const copiedJson = ref(false)
+async function copyJson() {
+  if (!jsonUrl.value) return
+  try {
+    await navigator.clipboard.writeText(jsonUrl.value)
+    copiedJson.value = true
+    setTimeout(() => { copiedJson.value = false }, 1500)
+  } catch { /* clipboard denied — the field stays selectable by hand */ }
+}
 
 const copied = ref(false)
 async function copy() {
@@ -285,6 +320,13 @@ function onDisable() { disable() }
   font-size: 0.82rem;
   color: var(--text-primary);
   cursor: pointer;
+}
+.bc-json { margin-top: 0.6rem; }
+.bc-json-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 .bc-actions {
   display: flex;
