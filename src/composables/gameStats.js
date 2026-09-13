@@ -15,6 +15,7 @@ import {
   battlePointsFromVp,
   grandTotal,
   primaryTotal,
+  secondaryInRound,
   secondaryTotal,
 } from './gameScoring.js'
 import { getItem } from './safeStorage.js'
@@ -110,21 +111,6 @@ function into(map, key, o) {
   if (key == null || key === '') return
   if (!map.has(key)) map.set(key, blank(key))
   tally(map.get(key), o)
-}
-
-// Secondary VP scored in one battle round. The per-card caps live in gameScoring (5 per scoring for
-// tactical, 20 across the whole game for fixed) — the game-long one can't be applied per round, so
-// a fixed-secondary curve can read a little high mid-game. The end-of-game totals in `split` are
-// the capped ones; this is the shape of the scoring, not a second opinion on the total.
-function secondaryInRound(player, round) {
-  const scored = player?.secondary?.scored || []
-  const tactical = player?.secondaryMode !== 'fixed'
-  let vp = 0
-  for (const e of scored) {
-    if (e?.round !== round) continue
-    vp += tactical ? Math.min(e.vp || 0, TACTICAL_SECONDARY_CAP) : (e.vp || 0)
-  }
-  return vp
 }
 
 // Current run and longest win run. `history` is newest-first (archiveGame unshifts), so the current

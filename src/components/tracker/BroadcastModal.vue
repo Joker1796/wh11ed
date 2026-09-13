@@ -160,10 +160,11 @@ const { enabled, shareUrl, canBroadcast, lastError, enable, regenerate, disable 
 
 // The overlay's toggleable blocks, in display order — ids match BroadcastOverlayView's `hide=`
 // vocabulary. The total is deliberately not here: it is what a scoreboard is.
-const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'primary', 'secs']
+const OVERLAY_BLOCKS = ['meta', 'players', 'roles', 'cp', 'vp', 'bp', 'rounds', 'primary', 'secs']
 const BLOCK_LABELS = {
   meta: 'bcBlockMeta', players: 'bcBlockPlayers', roles: 'bcBlockRoles', cp: 'bcBlockCp',
-  vp: 'bcBlockVp', primary: 'bcBlockPrimary', secs: 'bcBlockSecs',
+  vp: 'bcBlockVp', bp: 'bcBlockBp', rounds: 'bcBlockRounds', primary: 'bcBlockPrimary',
+  secs: 'bcBlockSecs',
 }
 // Seeded from the SITE's current theme — the dialog is recreated on every open, so the seg
 // starts on whatever the reader is looking at; the overlay itself still obeys only its URL.
@@ -175,6 +176,7 @@ const shown = reactive({
   ...Object.fromEntries(OVERLAY_BLOCKS.map((bk) => [bk, true])),
   players: false,
   roles: false,
+  rounds: false, // a per-round strip is a wide thing; a slot has to ask for it
 })
 // Phrased (and stored) as an ACTION, unlike the show-rows above: checked = the set-aside
 // cards leave the overlay. Rides the same hide= vocabulary as 'secs-done'.

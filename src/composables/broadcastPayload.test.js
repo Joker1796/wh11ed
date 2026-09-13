@@ -101,3 +101,40 @@ describe('broadcastPayload', () => {
     expect(payload(g).battlePhase).toBeTruthy()
   })
 })
+
+describe('broadcastPayload — per-round scoring and Battle Points', () => {
+  it('breaks the game down by round, with the running VP through each', () => {
+    const g = singles()
+    tracker.setRoundPrimary(0, 0, 8)
+    tracker.setRoundPrimary(0, 1, 6)
+    const rounds = payload(g).sides[0].rounds
+    expect(rounds).toHaveLength(5)
+    expect(rounds[0]).toMatchObject({ round: 1, primary: 8, vp: 8, cumulativeVp: 8 })
+    expect(rounds[1]).toMatchObject({ round: 2, primary: 6, vp: 6, cumulativeVp: 14 })
+    expect(rounds[4].cumulativeVp).toBe(14) // untouched rounds carry the running total forward
+  })
+
+  it('carries Battle Points now AND as they stood after each round', () => {
+    const g = singles() // side 0 is battle-ready (+10), side 1 is not
+    tracker.setRoundPrimary(0, 0, 8) // side 0: 8 + the 10 it starts with = 18
+    tracker.setRoundPrimary(1, 0, 15) // the opponent maxes both rounds (15 is the per-round cap)
+    tracker.setRoundPrimary(1, 1, 15)
+    const p = payload(g)
+    const [a, b] = [p.sides[0], p.sides[1]]
+    expect(a.battleReadyVp).toBe(10)
+    expect(b.battleReadyVp).toBe(0)
+    // Every round carries a figure, and the pair always sums to the 20 the table hands out.
+    expect(a.rounds.map((r) => r.bp + b.rounds[r.round - 1].bp)).toEqual([20, 20, 20, 20, 20])
+    expect(a.rounds[0].bp).toBe(10) // 18–15 after round 1: a ≤5 gap is the 10–10 draw
+    expect(a.rounds[1].bp).toBe(8) // 18–30 after round 2: behind by 12 → 8–12
+    expect(a.bp + b.bp).toBe(20)
+    expect(a.bp).toBe(a.rounds[4].bp) // "now" agrees with the last round's running figure
+  })
+
+  it('reports the score mode and battle size the game is played to', () => {
+    const p = payload(singles())
+    expect(p.scoreMode).toBe('vp')
+    expect(p.battleSize).toBe('strikeForce')
+    expect(p.endReason).toBeNull()
+  })
+})
