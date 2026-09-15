@@ -274,7 +274,21 @@ export default {
       "hash": "792980f7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly LEGIONES DAEMONICA INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда LEGIONES DAEMONICA INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "132a3018-8899-4d29-9efb-ed1d7735badf:daemon-prince-of-chaos",
@@ -1152,7 +1166,21 @@ export default {
       "hash": "80378352",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deadly Demise D3+3",
+          "when": {
+            "en": "while the bearer has destroyed one or more enemy units this battle, instead of any other Deadly Demise on its datasheet",
+            "ru": "пока носитель уничтожил хотя бы один вражеский отряд в этой битве, вместо любого другого Deadly Demise в датащите"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f8020def-f6bf-421b-ab9d-9b2fd1dfadc3",
@@ -1661,7 +1689,16 @@ export default {
       "hash": "347c0fce",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f88709cb-ae58-4672-8582-698049889c24",

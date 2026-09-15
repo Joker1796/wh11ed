@@ -66,7 +66,21 @@ export default {
       "hash": "8e3cb8a3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "once per battle per unit, after this unit was destroyed and returned to strategic reserves",
+            "ru": "раз за битву на отряд, после того как отряд был уничтожен и вернулся в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5be527f6-9a6c-4654-8b35-1d2800f18bc5:battlewagon",
@@ -1260,6 +1274,19 @@ export default {
           },
           "cond": [
             "blocked-subset"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "ORKS PSYKER models only, when the Visions of Violence psychic roll is made",
+            "ru": "только модели ORKS PSYKER, при psychic roll Visions of Violence"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]

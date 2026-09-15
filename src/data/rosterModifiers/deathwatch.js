@@ -462,7 +462,16 @@ export default {
       "hash": "6e300347",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ],
+      "dur": "round"
     },
     {
       "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",

@@ -2347,7 +2347,15 @@ export default {
       "hash": "6aeccd03",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "83b098fb-38a3-45f2-93d4-14cc224ddcdc:pathfinder-team",

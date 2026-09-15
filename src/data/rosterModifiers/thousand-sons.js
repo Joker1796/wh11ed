@@ -161,7 +161,21 @@ export default {
       "hash": "2a13fb8e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly THOUSAND SONS INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда THOUSAND SONS INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "0622b621-95f4-46da-a965-8ed18b8373bf:daemon-prince-of-tzeentch",
@@ -913,7 +927,21 @@ export default {
       "hash": "a15ddc15",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
+            "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "23b38434-e051-4b26-a841-cbe2d62b5904",
@@ -1152,7 +1180,21 @@ export default {
       "hash": "fbdf20f6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly SEKHETAR ROBOTS unit",
+            "ru": "пока в пределах 3\" от дружественного отряда SEKHETAR ROBOTS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "cb50a092-b387-493d-a329-fb3ebb9d603a",
@@ -1195,7 +1237,21 @@ export default {
       "hash": "b5c10428",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly THOUSAND SONS VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда THOUSAND SONS VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4f20a5e0-7e45-486f-b80d-7f769e1c6ece",
@@ -1246,7 +1302,22 @@ export default {
       "hash": "143577b0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "set",
+          "value": 5,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0e2f4b29-498d-4e89-9af1-373f8d3ae792",
@@ -1320,7 +1391,16 @@ export default {
       "hash": "584f1494",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs Psychic Attacks)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "fafdea87-fdba-4af0-abf1-0ec3f7b086dc",
@@ -1335,7 +1415,16 @@ export default {
       "hash": "2e9c5baa",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "1321ba9d-f02a-4d64-bbe3-610c0fd8778c",
@@ -1377,7 +1466,22 @@ export default {
       "hash": "d9ca6a9a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "RUBRIC MARINES units only, while this stratagem is in force",
+            "ru": "только отряды RUBRIC MARINES, пока действует стратагема"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2eee2081-a2c8-4686-892f-68f2e3ee2eb9",

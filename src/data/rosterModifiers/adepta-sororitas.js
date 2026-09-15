@@ -355,7 +355,15 @@ export default {
       "hash": "337e357b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "12584d64-1474-48b2-b896-251c429ef437:ministorum-priest",
@@ -522,7 +530,21 @@ export default {
       "hash": "d5b038c7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while this unit still contains a Geminae Superia model",
+            "ru": "пока в отряде есть модель Geminae Superia"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "125bc084-8a95-4395-88c0-b7e7dfc85e84:sanctifiers",
@@ -1849,7 +1871,22 @@ export default {
       "hash": "7b172a86",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "PENITENT models only, while this stratagem is in force",
+            "ru": "только модели PENITENT, пока действует стратагема"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "cbaa005e-618e-46f8-b2ef-09858ca6861d",

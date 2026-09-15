@@ -27,6 +27,8 @@
 //     [PLASMA WARHEAD], …) must have text either in reference.js or on that datasheet. Non-zero exit
 //   - check-datasheet-rules — GATE: a named rule appdata files on a datasheet (SUPREME COMMANDER,
 //     "Using Sir Hekhtur", …) must be carried somewhere on wh11ed's sheet. Non-zero exit
+//   - check-core-grants — GATE: a rule whose prose hands a unit a CORE ability must say so in the
+//     modifier layer, so the roster card prints it on its Core line. Non-zero exit
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
 //     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
@@ -140,6 +142,7 @@ const omissionsFailed = await run('check-rule-omissions (GATE)', './check-rule-o
 const detMetaFailed = await run('check-detachment-meta (GATE)', './check-detachment-meta.mjs')
 const wTagsFailed = await run('check-weapon-abilities (GATE)', './check-weapon-abilities.mjs')
 const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datasheet-rules.mjs')
+const coreGrantsFailed = await run('check-core-grants (GATE)', './check-core-grants.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'], { filtered: true })
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'], { filtered: true })
 await run('sync-tracker', './sync-tracker.mjs', [], { filtered: true })
@@ -167,6 +170,7 @@ if (omissionsFailed) console.log('✗ core rules are MISSING appdata text — se
 if (detMetaFailed) console.log('✗ a faction rules page disagrees with the MFM on dp / Force Disposition (`npm run detmeta`).')
 if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhere (`npm run wtags`).')
 if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing from ours (`npm run dsrules`).')
+if (coreGrantsFailed) console.log('✗ a rule grants a core ability the modifier layer does not carry (`npm run coregrants`).')
 if (RECORD_BASELINE) {
   const n = writeBaseline(recorded)
   console.log(`✓ baseline written: ${n} finding(s) recorded as accepted in ${BASELINE_PATH}.`)

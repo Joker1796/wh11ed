@@ -128,7 +128,21 @@ export default {
       "hash": "dfc9c1f4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly WORLD EATERS INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда WORLD EATERS INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "79ed7c3d-9cfc-4975-9b8c-df6efe860286:eightbound",
@@ -239,7 +253,16 @@ export default {
       "hash": "4ced3263",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "a65415ae-941f-4500-a868-cbf1c0ed6f25:lord-on-juggernaut",
@@ -384,7 +407,21 @@ export default {
       "hash": "8000d291",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly FRENZIED REAVERS INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда FRENZIED REAVERS INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "1cd5e4a2-6e59-4213-bca8-d2bc680bd681",
@@ -572,6 +609,19 @@ export default {
           "when": {
             "en": "BLOOD LEGIONS units, while the Daemonic Rage ability is paid for with 3BTP",
             "ru": "отряды BLOOD LEGIONS, пока за 3BTP активирована Daemonic Rage"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs Psychic Attacks and mortal wounds)",
+          "when": {
+            "en": "BLOOD LEGIONS and WORLD EATERS units, while the Enraged Abjuration ability is paid for with 2BTP",
+            "ru": "отряды BLOOD LEGIONS и WORLD EATERS, пока за 2BTP активирована Enraged Abjuration"
           },
           "cond": [
             "never"
@@ -849,7 +899,22 @@ export default {
       "hash": "669b32ae",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
@@ -956,7 +1021,21 @@ export default {
       "hash": "2a5f25c5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deadly Demise D3+1",
+          "when": {
+            "en": "instead of the Deadly Demise D3 ability",
+            "ru": "вместо способности Deadly Demise D3"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "04245333-93c8-497c-9c6c-2bfe63210589",

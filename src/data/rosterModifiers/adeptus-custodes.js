@@ -197,7 +197,21 @@ export default {
       "hash": "6a098c7c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "until the end of a phase this unit used this ability in (once per battle)",
+            "ru": "до конца фазы, в которой отряд применил эту способность (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
@@ -1210,7 +1224,22 @@ export default {
       "hash": "e85bb0b8",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "CHARACTER models only, while this stratagem is in force",
+            "ru": "только модели CHARACTER, пока действует стратагема"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3d93b0b2-7640-4265-985b-0c1a9e206643",
@@ -1325,7 +1354,16 @@ export default {
       "hash": "53ba30ad",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e71fa2b3-af09-442a-b69d-5160a2c30289",

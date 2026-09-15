@@ -301,7 +301,21 @@ export default {
       "hash": "4375ff00",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "until your next Shooting phase, when this unit used this ability to go into strategic reserves",
+            "ru": "до вашей следующей Shooting phase, если отряд применил эту способность и ушёл в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
@@ -641,7 +655,21 @@ export default {
       "hash": "75f5205a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ASTRA MILITARUM VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ASTRA MILITARUM VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "76861981-15ee-4efa-84a1-7302daa8e7a6:tech-priest-enginseer",
@@ -1047,7 +1075,16 @@ export default {
       "hash": "03ae5d87",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "de0f8d4e-827f-4582-9af5-290b0fc40780",
@@ -1205,7 +1242,22 @@ export default {
       "hash": "6722076d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": {
+            "en": "while the bearer is leading a REGIMENT unit",
+            "ru": "пока носитель ведёт отряд REGIMENT"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e38c0b38-9334-43e5-aaf5-abe27a176bc8",
@@ -1555,7 +1607,16 @@ export default {
       "hash": "3c4a457e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "5eb2bbea-e871-43f3-a6d0-b216ed4ec55e",

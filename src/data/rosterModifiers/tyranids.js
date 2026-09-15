@@ -237,7 +237,21 @@ export default {
       "hash": "cea69fa9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "until the end of the battle, while within range of the objective marker Singular Purpose selected",
+            "ru": "до конца битвы, пока в зоне objective marker, выбранного способностью Singular Purpose"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "88a02083-c150-45cc-8e5b-71bd828c6c55:norn-emissary",
@@ -251,7 +265,21 @@ export default {
       "hash": "cea69fa9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": {
+            "en": "until the end of the battle, while within range of the objective marker Singular Purpose selected",
+            "ru": "до конца битвы, пока в зоне objective marker, выбранного способностью Singular Purpose"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c7285376-ad91-4341-81ca-ec7cf356e639:norn-emissary",
@@ -445,7 +473,16 @@ export default {
       "hash": "0a8aee18",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "fbb597fc-642e-4616-bb1c-441dc9eaad5a:vardenghast-swarm-barbgaunts",
@@ -498,7 +535,16 @@ export default {
       "hash": "ecdaf1f7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "eb6947dc-3f61-4800-8fb2-bed18e5f1f1e:winged-hive-tyrant",
@@ -757,7 +803,22 @@ export default {
       "hash": "d69eff9d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "while the bearer is within 6\" of a friendly HARVESTER unit",
+            "ru": "пока носитель в пределах 6\" от дружественного отряда HARVESTER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c96ad299-23ee-4528-9b36-00173e02299d",
@@ -822,7 +883,21 @@ export default {
       "hash": "842c8612",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs Psychic Attacks)",
+          "when": {
+            "en": "until the end of a phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца фазы, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "87509b4c-bbec-4bef-8ffe-c9d57a9351b4",

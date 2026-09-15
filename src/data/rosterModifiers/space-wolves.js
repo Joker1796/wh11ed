@@ -69,7 +69,21 @@ export default {
       "hash": "986336f6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS ASTARTES VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c363373f-a93a-4ca3-87ea-4e5de5d9d00a:njal-stormcaller",

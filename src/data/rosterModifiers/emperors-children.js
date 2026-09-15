@@ -70,7 +70,21 @@ export default {
       "hash": "8318f2b9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly SLAANESH INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда SLAANESH INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a4c58c7b-269b-4a5b-a1ec-476f7314b90e:defiler",
@@ -291,7 +305,21 @@ export default {
       "hash": "5b8055de",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "at the start of the Fight phase, while this model is not leading a unit",
+            "ru": "в начале Fight phase, пока модель не ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "09d47f55-a9bd-448a-81f2-a256005c8cd2:maulerfiend",
@@ -810,7 +838,22 @@ export default {
       "hash": "4f1f261a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "75e69566-9f5c-408f-8780-7581588e4710",
@@ -1042,7 +1085,23 @@ export default {
       "hash": "4cc38390",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "cd9eea99-4b5b-4a1f-b876-6a4d45610a7d",

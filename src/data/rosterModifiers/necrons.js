@@ -257,7 +257,21 @@ export default {
       "hash": "93fccbf0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly NECRONS unit",
+            "ru": "пока в пределах 3\" от другого дружественного отряда NECRONS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "af817f85-0876-4ef6-9171-059e66d6f7d4:illuminor-szeras",
@@ -335,7 +349,21 @@ export default {
       "hash": "f493341c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly DESTROYER CULT unit",
+            "ru": "пока в пределах 3\" от другого дружественного отряда DESTROYER CULT"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "6a0f149c-0d22-4446-a2ca-8ae8bb8c2331:obelisk",
@@ -993,7 +1021,22 @@ export default {
       "hash": "250c323a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "a6e993f2-c457-4c04-b5f9-c1a7deda2c37",
@@ -1031,7 +1074,21 @@ export default {
       "hash": "f531ccd6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
+            "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b6b83c22-ccc1-4e7b-8abe-ab09ddd291c9",

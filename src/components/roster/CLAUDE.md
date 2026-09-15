@@ -2360,9 +2360,34 @@ in the RU locale — the same overlay the card fetches, so nothing new rides in 
 added 2026-08-23 because a Hospitaller's "models in that unit have the Feel No Pain 5+ ability" was
 prose and nothing else. It is returned from `applyStatMods` like a granted keyword — never written
 into the sheet — and `DatasheetCard` prints it on the **Core line** beside the printed ones, dashed
-and starred, with its source in the title. **196 are stated** across 192 records: 97 plain grants to
-the record's own unit ("This unit has Stealth", "Models in the bearer's unit have the Deep Strike
-ability"), 11 to a LED unit, 8 auras, 8 keyword-scoped detachment rules, and 28 spent by a stratagem.
+and starred, with its source in the title. **320 are stated** across 309 records: 218 to the card the
+record was found on, 46 to a LED unit, 31 to the unit a Leader is attached to, 22 auras and 3 to the
+Character leading a bodyguard unit.
+
+**The layer is NOT only numeric, and calling it that cost 106 records.** This file and the
+generator both described Tier C as "what a rule does to a statline", so the review pass answered
+"does granting an ability count?" differently from record to record: Chameleonic got its Stealth
+and Stealth Optimisation, four lines away in the same faction, was closed as `reviewed: true,
+effects: []`. Both readings are defensible from that description, which is why the fix is a gate and
+not a sentence — `npm run coregrants` (`scripts/check-core-grants.mjs`) reads every source's prose
+for the twelve grantable core abilities and fails when the record carries no `stat: 'core'` for one.
+The 2026-09-15 pass it opened closed 106 records; the remaining 39 are in its ALLOW table, each with
+the reason, and they fall into five shapes worth knowing before writing a record:
+
+- **a unit picked off the roster** ("select up to three KABALITE WARRIORS units … those units gain
+  the Infiltrators ability") — a record reaches the card it is printed on, the unit its bearer
+  leads, or a unit inside an aura it carries. None of those names a unit chosen in a deployment
+  step, and this is the largest group (12 records);
+- **the DEDICATED TRANSPORT the bearer starts inside** — there is no target for it, and the bearer
+  gains nothing itself;
+- **a sibling CHARACTER in the same unit** ("other CHARACTER models attached to that unit") —
+  `leader` names the one Character leading a unit, not a second one standing beside the first;
+- **the ability as a PRECONDITION** ("if your unit has the Deep Strike ability, it can be placed
+  into Strategic Reserves") or **taken away** (the Vindicare's Dead-shot) — the layer grants, and
+  grants only;
+- **an army-wide rule whose body yields no scope** — Chaos Daemons' First Prince of Chaos splits
+  five ways by god and `ruleScopes` reads nothing off it, so an effect would land on every unit in
+  the list. Reaching nobody is the honest answer; reaching everybody is not.
 
 **The qualifier rides in the value, behind the name.** 94 of these grants bite only against certain
 attacks, and a bare `Feel No Pain 4+` on the Core line would be a plain error — so the value reads

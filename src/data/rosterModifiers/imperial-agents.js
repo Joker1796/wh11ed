@@ -504,7 +504,22 @@ export default {
       "hash": "90b508e3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while this unit is the one selected for this ability in the Declare Battle Formations step and is leading a unit",
+            "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "9a2a9f27-0b49-4bdc-8718-77a8122c1ddd:sanctifiers",
@@ -1536,6 +1551,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "EVERSOR ASSASSIN units only, while this stratagem is in force",
+            "ru": "только отряды EVERSOR ASSASSIN, пока действует стратагема"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "dur": "phase"

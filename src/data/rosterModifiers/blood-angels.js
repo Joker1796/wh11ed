@@ -195,7 +195,22 @@ export default {
       "hash": "10c8dbde",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": {
+            "en": "unless the unit starts the battle embarked within a TRANSPORT",
+            "ru": "если отряд не начинает битву на борту TRANSPORT"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "1a3197fa-adeb-4ecc-874a-1581437a938b:death-company-dreadnought",
@@ -687,7 +702,22 @@ export default {
       "hash": "94c8620d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e088a79c-17c8-4672-9719-801a89b21419",
@@ -752,7 +782,22 @@ export default {
       "hash": "94c8620d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
+            "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",

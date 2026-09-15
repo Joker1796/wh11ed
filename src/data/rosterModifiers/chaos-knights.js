@@ -454,7 +454,21 @@ export default {
       "hash": "bd88e7f1",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "while the Darkness Dread ability is active for your army",
+            "ru": "пока для армии активна Dread-способность Darkness"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -1172,7 +1186,23 @@ export default {
       "hash": "29627615",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs attacks made by Battle-shocked models)",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "27661185-4352-4946-a96b-554be5d5502e",

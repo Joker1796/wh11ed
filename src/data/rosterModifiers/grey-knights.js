@@ -118,7 +118,21 @@ export default {
       "hash": "cb1dcef3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly GREY KNIGHTS VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда GREY KNIGHTS VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "68c418e0-4997-43dc-816c-6502ae9e6795:brotherhood-terminator-squad",

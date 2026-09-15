@@ -667,7 +667,21 @@ export default {
       "hash": "0075b36b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly WRAITH CONSTRUCT unit",
+            "ru": "пока в пределах 3\" от дружественного отряда WRAITH CONSTRUCT"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b3663a94-996e-49eb-9222-a6454f12733a:spiritseer",
@@ -705,7 +719,21 @@ export default {
       "hash": "cb16a106",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly WRAITH CONSTRUCT unit",
+            "ru": "пока в пределах 3\" от дружественного отряда WRAITH CONSTRUCT"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f40fc41c-07ce-4fb5-a82f-9f836a09b78b:starfangs",
@@ -727,7 +755,22 @@ export default {
       "hash": "3cc5239e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "until the end of the phase, for the one AELDARI INFANTRY unit this ability selected",
+            "ru": "до конца фазы, для одного отряда AELDARI INFANTRY, выбранного этой способностью"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "5807db74-ec48-49cf-ab65-62ed949dcc29:stonesinger",
@@ -1278,7 +1321,22 @@ export default {
       "hash": "21c2d773",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "at the start of the Fight phase, while this unit is below its Starting Strength",
+            "ru": "в начале Fight phase, пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "d3d0bb1a-87c9-4e46-9237-2d6c05ccee4a:ynnari-succubus",
@@ -1549,7 +1607,21 @@ export default {
       "hash": "863f06db",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly AELDARI VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда AELDARI VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "af33d000-b02d-40ef-9c11-0e0e92432740",
@@ -1804,7 +1876,22 @@ export default {
       "hash": "800a886e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "0ab6c77a-f7e0-4175-a08a-d7ac02cee847",
@@ -1927,7 +2014,16 @@ export default {
       "hash": "8aae3144",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds, Psychic Attacks and [DEVASTATING WOUNDS])",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "d4232944-2e90-4b98-8350-2fedc2258f40",
@@ -2371,7 +2467,16 @@ export default {
       "hash": "2e05f68c",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "def8613e-eee9-4cb4-9297-76807bced5b5",

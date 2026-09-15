@@ -841,7 +841,21 @@ export default {
       "hash": "3ce15cdd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
+            "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "45391896-5ae3-4cb5-a2fe-d3f400f7f454",
@@ -986,7 +1000,22 @@ export default {
       "hash": "83560bfd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "until your next Movement phase, for the one other IMPERIAL KNIGHTS model within 12\" selected at the end of your Movement phase",
+            "ru": "до вашей следующей Movement phase, для одной другой модели IMPERIAL KNIGHTS в пределах 12\", выбранной в конце вашей Movement phase"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "464d34c9-9ef4-4120-9894-b08d3263286a",

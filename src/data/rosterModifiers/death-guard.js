@@ -125,7 +125,21 @@ export default {
       "hash": "dad06274",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly DEATH GUARD INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда DEATH GUARD INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "cb37619a-5b58-4891-a794-8b2891848d10:deathshroud-terminators",
@@ -139,7 +153,16 @@ export default {
       "hash": "27530f8e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "6584d4a0-f5f6-4791-ba72-38d97ae9d21e:foul-blightspawn",
@@ -153,7 +176,22 @@ export default {
       "hash": "274de3a9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "until the end of a Fight phase this model used this ability in (once per battle)",
+            "ru": "до конца Fight phase, в которой модель применила эту способность (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "6f4fdefb-fb32-450e-8d72-7220fd01c2b3:great-unclean-one",
@@ -623,7 +661,21 @@ export default {
       "hash": "3c31d88d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "once per battle per army, when an enemy unit targets this unit in your opponent's Shooting phase",
+            "ru": "раз за битву на армию, когда вражеский отряд выбирает этот отряд целью в Shooting phase оппонента"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "5c3eba83-5786-4320-92e5-b6369e5c0535",
@@ -697,7 +749,21 @@ export default {
       "hash": "197925b9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly DEATH GUARD VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда DEATH GUARD VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
@@ -1152,7 +1218,16 @@ export default {
       "hash": "e0cc51db",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ea30e94c-cf87-4f02-8210-0fb635615b18",

@@ -440,7 +440,21 @@ export default {
       "hash": "e10dbb71",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly HERETIC ASTARTES INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда HERETIC ASTARTES INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "dffec24a-b638-4df7-82c4-9033614b490e:huron-blackheart",
@@ -728,7 +742,21 @@ export default {
       "hash": "0f2a72fb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "CHARACTER models only, while the unit contains a Traitor Ogryn model",
+            "ru": "только модели CHARACTER, пока в отряде есть модель Traitor Ogryn"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "8078cf2e-7725-43ca-ab8e-8ca17fcdfcae:vashtorr-the-arkifane",
@@ -742,7 +770,21 @@ export default {
       "hash": "0425934e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly DAEMON VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда DAEMON VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "75f0b9f2-fe46-4f7a-a0ab-2742ef5ac288:vashtorr-the-arkifane",
@@ -859,7 +901,21 @@ export default {
       "hash": "e468c98d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly HERETIC ASTARTES VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда HERETIC ASTARTES VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "760cb5a0-d9f6-468c-851e-1e2930ab667b:zarkan-s-daemonkin-possessed",
@@ -1640,7 +1696,22 @@ export default {
       "hash": "e794e390",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": {
+            "en": "while the bearer is leading a unit that already has the Scouts 6\" ability",
+            "ru": "пока носитель ведёт отряд, у которого уже есть Scouts 6\""
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "b75b9a64-a5bb-4f4d-8f77-1661f71300ab",
@@ -2161,7 +2232,22 @@ export default {
       "hash": "0061db28",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "until your next Command phase, for the one friendly HERETIC ASTARTES VEHICLE unit within 12\" selected in your Command phase",
+            "ru": "до вашей следующей Command phase, для одного дружественного отряда HERETIC ASTARTES VEHICLE в пределах 12\", выбранного в вашу Command phase"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "163a57f4-8b75-4ef4-b9db-bc8272981dd2",

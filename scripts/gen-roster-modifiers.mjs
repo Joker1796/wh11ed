@@ -57,7 +57,7 @@ const FORMAT_VERSION = 1
 
 // Every faction wh11ed actually ships rules for — the roster data directory is the list, since a
 // modifier is only ever read from a roster.
-function factionSlugs() {
+export function factionSlugs() {
   return fs.readdirSync(path.join(ROOT, 'src/data/roster'))
     .filter((f) => f.endsWith('.js') && !['core.js', 'index.js', 'items.js', 'index.test.js'].includes(f))
     .map((f) => f.slice(0, -3))
@@ -75,6 +75,16 @@ export function proseHash(text) {
     .toLowerCase()
   return crypto.createHash('sha1').update(normalised).digest('hex').slice(0, 8)
 }
+
+// The core abilities a RULE can hand out, as opposed to the ones only a datasheet prints. Leader,
+// Super-heavy Walker and Damaged are left out on purpose: nothing grants them, and "has the Leader
+// ability" is how half the game's prose refers to attachment. Exported because
+// check-core-grants.mjs audits the records this list proposes — one list, so the gate cannot end up
+// asking about an ability the generator never suggests, or staying silent about a new one.
+export const GRANTABLE_CORE = [
+  'Deadly Demise', 'Deep Strike', 'Feel No Pain', 'Fights First', 'Firing Deck', 'Hover',
+  'Infiltrators', 'Lone Operative', 'Scouts', 'Scout Move', 'Stealth', 'Support',
+]
 
 // Does this prose look like it changes a printed number? Deliberately loose: a false positive
 // costs one line in the review queue, a false negative means a real modifier is never even
@@ -107,7 +117,7 @@ const CANDIDATE = new RegExp([
   // It is not a characteristic, but it belongs on the card's Core line all the same: the reader
   // is owed the same "this unit has it now" the printed ones get. Only the named core abilities,
   // so "has the Chapter Master ability" (a datasheet ability) does not drag every rule in.
-  '(?:has|have|gains?) (?:the )?(?:Deadly Demise|Deep Strike|Feel No Pain|Fights First|Firing Deck|Hover|Infiltrators|Lone Operative|Scouts|Scout Move|Stealth|Support)\\b',
+  `(?:has|have|gains?) (?:the )?(?:${GRANTABLE_CORE.join('|')})\\b`,
   '(?:attacks|weapons)[^.]{0,70}have (?:the )?\\[',
   // The same grant with any other subject in front: "the bearer's Eldritch Storm weapon has
   // [DEVASTATING WOUNDS]", "that attack has the [PRECISION] ability". The pattern above needs the
@@ -374,7 +384,39 @@ function sourcesOf(bundle, detById) {
   return out.filter((s) => s.sid && s.prose)
 }
 
-async function readExisting(slug) {
+// The seven kinds of source a record can hang off, for one faction, assembled exactly as the audit
+// below assembles them. Exported so a gate auditing these records reads the SAME corpus: a second
+// walk over appdata written beside this one would be free to drift, and then the gate would be
+// checking records against prose the generator never saw.
+export function sourceContext() {
+  return {
+    detBySid: invertSourceIds('det'),
+    dsBySid: invertSourceIds('ds'),
+    allegTables: {
+      groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
+      abilities: table('allegiance_ability.json').reduce((m, a) => {
+        if (!m.has(a.allegianceAbilityGroupId)) m.set(a.allegianceAbilityGroupId, [])
+        m.get(a.allegianceAbilityGroupId).push(a)
+        return m
+      }, new Map()),
+      dsGroup: new Map(table('datasheet.json').filter((d) => d.allegianceAbilityGroupId).map((d) => [d.id, d.allegianceAbilityGroupId])),
+    },
+  }
+}
+
+export function sourcesForSlug(slug, ctx) {
+  const appSlug = SLUG_MAP[slug] || slug
+  const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
+  if (!bundle) return null
+  return [
+    ...sourcesOf(bundle, ctx.detBySid),
+    ...allegianceSources(ctx.allegTables, (bundle.datasheets || []).map((d) => d.id)),
+    ...abilitySources(bundle, ctx.dsBySid),
+    ...wargearSources(bundle, ctx.dsBySid),
+  ]
+}
+
+export async function readExisting(slug) {
   const file = path.join(OUT_DIR, `${slug}.js`)
   if (!fs.existsSync(file)) return null
   const mod = await loadModule(file)
@@ -459,31 +501,14 @@ export async function run(argv = process.argv.slice(2)) {
     return 0
   }
 
-  const detBySid = invertSourceIds('det')
-  const dsBySid = invertSourceIds('ds')
-  const allegTables = {
-    groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
-    abilities: table('allegiance_ability.json').reduce((m, a) => {
-      if (!m.has(a.allegianceAbilityGroupId)) m.set(a.allegianceAbilityGroupId, [])
-      m.get(a.allegianceAbilityGroupId).push(a)
-      return m
-    }, new Map()),
-    dsGroup: new Map(table('datasheet.json').filter((d) => d.allegianceAbilityGroupId).map((d) => [d.id, d.allegianceAbilityGroupId])),
-  }
+  const ctx = sourceContext()
   const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
   for (const slug of factionSlugs()) {
-    const appSlug = SLUG_MAP[slug] || slug
-    const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
-    if (!bundle) continue
-    const sources = [
-      ...sourcesOf(bundle, detBySid),
-      ...allegianceSources(allegTables, (bundle.datasheets || []).map((d) => d.id)),
-      ...abilitySources(bundle, dsBySid),
-      ...wargearSources(bundle, dsBySid),
-    ]
+    const sources = sourcesForSlug(slug, ctx)
+    if (!sources) continue
     const existing = await readExisting(slug)
     const result = classify(existing, sources, ver)
 

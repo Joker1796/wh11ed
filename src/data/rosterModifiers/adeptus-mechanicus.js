@@ -95,7 +95,21 @@ export default {
       "hash": "402acad0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly ADEPTUS MECHANICUS unit",
+            "ru": "пока в пределах 3\" от другого дружественного отряда ADEPTUS MECHANICUS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "087b86ef-bc68-421c-89b3-c93aa5854ad9:belisarius-cawl",
@@ -255,7 +269,16 @@ export default {
       "hash": "c377d4d6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "34fc460d-17ad-4f87-a136-41f4d23a76ab:onager-dunecrawler",
@@ -412,7 +435,21 @@ export default {
       "hash": "3337914a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS MECHANICUS VEHICLE unit and not leading a unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS MECHANICUS VEHICLE и не ведёт отряд"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "dc5cdab8-d4dd-4988-a586-be5533ff02f1:tech-priest-enginseer",
@@ -640,7 +677,21 @@ export default {
       "hash": "402acad0",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly ADEPTUS MECHANICUS unit",
+            "ru": "пока в пределах 3\" от другого дружественного отряда ADEPTUS MECHANICUS"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "16118a77-1935-4242-9170-934f9416cf42:thulia-ghuld",
@@ -913,7 +964,15 @@ export default {
       "hash": "568f8cf5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "070d6e51-e685-4f6b-bfa2-64f2d6807ce3",
@@ -1366,7 +1425,22 @@ export default {
       "hash": "e4e604d3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "6f6d7403-0605-4345-b7d6-d304b861a7a0",
@@ -1409,7 +1483,24 @@ export default {
       "hash": "84a78712",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Scouts 6\"",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "c5c70e06-87e7-4ed4-a1d9-b5828d640d87",
@@ -1482,7 +1573,23 @@ export default {
       "hash": "b72b2093",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+ (vs mortal wounds)",
+          "when": null
+        }
+      ],
+      "dur": "round"
     },
     {
       "sid": "85cd645b-36de-4c71-94fb-d1dd8b63d61d",
@@ -1539,7 +1646,22 @@ export default {
       "hash": "26d88d82",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "CULT MECHANICUS models only, while this stratagem is in force",
+            "ru": "только модели CULT MECHANICUS, пока действует стратагема"
+          },
+          "cond": [
+            "blocked-subset"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2a8a67fa-6d84-4862-b69d-37cfa44b9fd6",
@@ -1641,7 +1763,16 @@ export default {
       "hash": "23e16f0a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "45ceb232-8964-463c-bebe-2677603b1444",

@@ -131,6 +131,16 @@ September even though `sync-core` printed it on every run — one finding among 
   the Daemon Primarchs, whose SUPREME COMMANDER sits in `specialAbilities`, and "fixing" those
   duplicated the plate on all four sheets.
 
+- **`npm run coregrants`** (`scripts/check-core-grants.mjs`) — a rule whose prose hands a unit one
+  of the twelve grantable CORE abilities ("this unit has Stealth", "models in that unit have the
+  Feel No Pain 6+ ability") must carry a `stat: 'core'` grant in `src/data/rosterModifiers/`, so the
+  roster card prints it on its Core line instead of leaving the reader to find it in a paragraph.
+  It exists because `npm run modifiers:check` cannot see this and should not: for that audit
+  `reviewed: true` is a closed question, and 133 records had been closed on the wrong reading of
+  what the layer is for. Exceptions are named one by one in the script's ALLOW table — never by a
+  regex, because "does not have" is easy to pattern-match and the next wording will not be. See
+  `src/components/roster/CLAUDE.md` → "A granted CORE ability" for the five shapes that are in there.
+
 The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files
 several rules under ONE number (09.07.01 is both "Desperate Escape Test" and "Desperate Escape"),

@@ -121,7 +121,21 @@ export default {
       "hash": "2a39a8aa",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while within range of an objective marker and/or within 6\" of the centre of the battlefield",
+            "ru": "пока в зоне objective marker и/или в пределах 6\" от центра поля"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "38dea634-aa17-4e2d-ab34-fd659752945e:apothecary-biologis",
@@ -909,7 +923,21 @@ export default {
       "hash": "357331f5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS ASTARTES VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "71d74c1c-087e-4c70-96a5-bca5e6bfd2b6:iron-father-feirros",
@@ -1104,7 +1132,16 @@ export default {
       "hash": "8b7e3236",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "c82f018e-0e17-4c00-9ef3-5d025e1fc846:librarian-in-terminator-armour",
@@ -1522,7 +1559,21 @@ export default {
       "hash": "36943dfb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS ASTARTES INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e89c5fdd-1344-409a-968f-7ee791cfcfc6:storm-speeder-hailstrike",
@@ -1642,7 +1693,21 @@ export default {
       "hash": "986336f6",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS ASTARTES VEHICLE unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "99cbd2c2-4531-4410-abdb-72c7d24e3d5f:techmarine",
@@ -2359,7 +2424,22 @@ export default {
       "hash": "17cd2b0c",
       "ver": 931,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "while the bearer is leading a unit and its models are within range of an objective marker you control",
+            "ru": "пока носитель ведёт отряд и его модели в зоне objective marker, который вы контролируете"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "1816609d-be8c-4b19-bf30-7b04cf8d4536",
@@ -3175,7 +3255,21 @@ export default {
       "hash": "5c33311b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "while this unit has the Telekinesis Discipline ability",
+            "ru": "пока у отряда есть способность Telekinesis Discipline"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "4d288693-6483-4250-98d0-29c21fb619d6",
@@ -3235,7 +3329,22 @@ export default {
       "hash": "b4c579a5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e443e399-f25c-4e3c-9f2d-152578603ec9",
@@ -3450,7 +3559,22 @@ export default {
       "hash": "b4c579a5",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "aada0d58-5120-4fe2-9f65-a42abbb7de06",
@@ -4347,7 +4471,16 @@ export default {
       "hash": "3cecd180",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "7cac734b-0aa3-4cc8-a869-0c52cddac5b5",

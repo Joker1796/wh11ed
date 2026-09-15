@@ -106,6 +106,7 @@ npm run parity       # GATE: EN↔RU parity — faction data AND the rulebook fi
 npm run detmeta      # GATE: a faction page's detachment dp / Force Disposition vs the MFM (see Data gates)
 npm run wtags        # GATE: every weapon tag printed on a datasheet must have text somewhere (see Data gates)
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
+npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
 npm run imghash      # GATE (also in CI): fail when an image under public/images/ was edited in place instead of renamed (see PWA)

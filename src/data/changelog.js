@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.4.3',
+    date: '2026-09-15',
+    en: [
+      'A rule that hands your unit a core ability — Stealth from an enhancement, Feel No Pain from the Character leading it, Deep Strike from a detachment — now says so on the unit card\'s Core line, next to the abilities the datasheet prints. Until now a hundred of these were only in the rule text below, and you had to read a paragraph to find out what your unit had. 106 rules across every faction were reread for this.',
+    ],
+    ru: [
+      'Правило, дающее отряду core-способность — Stealth от улучшения, Feel No Pain от ведущего его персонажа, Deep Strike от детачмента, — теперь так и написано в строке Core на карточке отряда, рядом со способностями из датащита. Раньше сотня таких грантов жила только в тексте правила ниже, и чтобы понять, что у отряда есть, приходилось вычитывать абзац. Ради этого перечитаны 106 правил по всем фракциям.',
+    ],
+  },
+  {
     version: '2.4.2',
     date: '2026-09-13',
     en: [

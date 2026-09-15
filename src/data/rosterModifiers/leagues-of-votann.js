@@ -47,7 +47,21 @@ export default {
       "hash": "03485ce3",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of another friendly LEAGUES OF VOTANN INFANTRY unit that does not itself have Lone Operative",
+            "ru": "пока в пределах 3\" от другого дружественного отряда LEAGUES OF VOTANN INFANTRY, у которого самого нет Lone Operative"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayer-s-bulwark-brokhyr-thunderkyn",
@@ -102,7 +116,21 @@ export default {
       "hash": "653bd1cd",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly LEAGUES OF VOTANN VEHICLE or IRONKIN STEELJACKS unit and this unit is not an Attached unit",
+            "ru": "пока в пределах 3\" от дружественного отряда LEAGUES OF VOTANN VEHICLE или IRONKIN STEELJACKS и отряд не Attached"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "72f9560a-4651-44e7-a8e3-cd7ba5c9df96:einhyr-champion",
@@ -379,7 +407,21 @@ export default {
       "hash": "c342f7bd",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly LEAGUES OF VOTANN ARTILLERY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда LEAGUES OF VOTANN ARTILLERY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "delve-assault-shift"
@@ -902,7 +944,16 @@ export default {
       "hash": "e7aadbf4",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a102c8c5-5cdb-4563-ac4d-97d0e1313bea",

@@ -179,7 +179,21 @@ export default {
       "hash": "36943dfb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": {
+            "en": "while within 3\" of a friendly ADEPTUS ASTARTES INFANTRY unit",
+            "ru": "пока в пределах 3\" от дружественного отряда ADEPTUS ASTARTES INFANTRY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "e0cefd1e-fc89-484e-98dc-2f41f7322b40:lion-eljonson",
@@ -382,7 +396,16 @@ export default {
       "hash": "0f321044",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null,
+          "target": "aura"
+        }
+      ]
     },
     {
       "sid": "7fcd5eab-c360-44c6-8f5e-c02f512ee488:sammael",
@@ -742,7 +765,38 @@ export default {
       "hash": "28d64d38",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 6+",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": {
+            "en": "while the bearer is leading a unit that is Battle-shocked, instead of Feel No Pain 6+",
+            "ru": "пока носитель ведёт отряд, который Battle-shocked, вместо Feel No Pain 6+"
+          },
+          "cond": [
+            "unit-leading",
+            "unit-battle-shocked"
+          ],
+          "target": "led",
+          "alt": 0
+        }
+      ]
     },
     {
       "sid": "7018776e-8c69-4371-b038-0d6dd2fe8537",
@@ -1308,7 +1362,21 @@ export default {
       "hash": "35b72d9f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
+            "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "b2bf043f-39ca-4ae5-83e4-dd5dab3a3bb1:deathwing-terminator-squad",
@@ -1323,7 +1391,21 @@ export default {
       "hash": "35b72d9f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+ (vs mortal wounds)",
+          "when": {
+            "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
+            "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a298ee2e-4181-43e7-81a7-158bdc457d53:ezekiel",
