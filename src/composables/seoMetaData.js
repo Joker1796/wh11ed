@@ -100,8 +100,8 @@ const ROUTES = {
   '/event-companion': {
     title: { en: 'Event Companion', ru: 'Event Companion' },
     description: {
-      en: 'The Warhammer 40,000 Event Companion on one page: pre-game mission sequence, all primary and secondary missions plus twists, terrain layouts and the mission matrix, pairings and rankings, running a Teams Event, and errata & FAQs for tournaments.',
-      ru: 'Warhammer 40,000 Event Companion одной страницей: предбоевая последовательность миссии, все основные и вторичные миссии плюс твисты, раскладки террейна и матрица миссий, паринги и ранжирование, командные ивенты, эррата и FAQ для турниров.',
+      en: 'The Warhammer 40,000 Event Companion on one page: pre-game mission sequence, all primary and secondary missions plus twists, terrain layouts and the mission matrix, pairings and rankings, running a Teams or Doubles Event, and errata & FAQs for tournaments.',
+      ru: 'Warhammer 40,000 Event Companion одной страницей: предбоевая последовательность миссии, все основные и вторичные миссии плюс твисты, раскладки террейна и матрица миссий, паринги и ранжирование, командные ивенты и формат Doubles, эррата и FAQ для турниров.',
     },
   },
   '/tracker': {
