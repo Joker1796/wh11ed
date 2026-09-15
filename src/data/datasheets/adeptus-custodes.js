@@ -433,7 +433,7 @@ export default [
     "options": [
       "This model can be equipped with 1 hunter-killer missile."
     ],
-    "transport": "This model has a transport capacity of 12 Anathema Psykana Infantry models.",
+    "transport": "This model has a transport capacity of 12 ANATHEMA PSYKANA INFANTRY models.",
     "keywords": [
       "Anathema Psykana",
       "Dedicated Transport",
@@ -1153,7 +1153,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of 8 Adeptus Custodes Infantry models.",
+    "transport": "This model has a transport capacity of 8 ADEPTUS CUSTODES INFANTRY models.",
     "keywords": [
       "Coronus Grav-carrier",
       "Fly",
@@ -3012,7 +3012,7 @@ export default [
       "This model can be equipped with 1 hunter-killer missile.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 6 Adeptus Custodes Infantry models.",
+    "transport": "This model has a transport capacity of 6 ADEPTUS CUSTODES INFANTRY models.",
     "keywords": [
       "Imperium",
       "Transport",

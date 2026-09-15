@@ -95,7 +95,7 @@ export default [
       },
       {
         "name": "Overlord",
-        "text": "Once per battle, at the start of any phase, you can select one friendly Drukhari unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
+        "text": "Once per battle, at the start of any phase, you can select one friendly DRUKHARI unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
       },
       {
         "name": "Devious Mastermind",
@@ -615,7 +615,7 @@ export default [
       },
       {
         "name": "Phantasm Grenade Launcher",
-        "text": "The bearer’s unit has the Smoke keyword."
+        "text": "The bearer’s unit has the SMOKE keyword."
       },
       {
         "name": "Stimm-needler",
@@ -780,7 +780,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Phantasm Grenade Launcher",
-        "text": "The bearer’s unit has the Smoke and Grenades keywords."
+        "text": "The bearer’s unit has the SMOKE and GRENADES keywords."
       }
     ],
     "composition": [
@@ -1074,7 +1074,7 @@ export default [
       },
       {
         "name": "Phantasm Grenade Launcher",
-        "text": "The bearer’s unit has the Smoke and Grenades keywords."
+        "text": "The bearer’s unit has the SMOKE and GRENADES keywords."
       }
     ],
     "composition": [
@@ -1159,7 +1159,7 @@ export default [
       },
       {
         "name": "Precognisant",
-        "text": "If your army includes this model, after both players have deployed their armies, select up to three Drukhari units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
+        "text": "If your army includes this model, after both players have deployed their armies, select up to three DRUKHARI units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       },
       {
         "name": "Mind Like a Steel Trap",
@@ -1444,7 +1444,7 @@ export default [
     "options": [
       "This model’s dark lance can be replaced with 1 disintegrator cannon."
     ],
-    "transport": "This model has a transport capacity of 11 Drukhari Infantry models (excluding Jump Pack models).",
+    "transport": "This model has a transport capacity of 11 DRUKHARI INFANTRY models (excluding Jump Pack models).",
     "keywords": [
       "Dedicated Transport",
       "Fly",
@@ -2203,7 +2203,7 @@ export default [
       },
       {
         "name": "Murderous Crossfire",
-        "text": "After this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly Drukhari unit makes a ranged attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per turn."
+        "text": "After this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly DRUKHARI unit makes a ranged attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per turn."
       }
     ],
     "composition": [
@@ -2565,7 +2565,7 @@ export default [
       },
       {
         "name": "Aerialists",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Drukhari Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT (you cannot select a unit that can Fly). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from a TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly DRUKHARI INFANTRY unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT (you cannot select a unit that can FLY). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from a TRANSPORT."
       }
     ],
     "composition": [
@@ -2575,7 +2575,7 @@ export default [
     "options": [
       "This model’s twin splinter rifle can be replaced with 1 splinter cannon."
     ],
-    "transport": "This model has a transport capacity of 6 Drukhari Infantry models (excluding Jump Pack models).\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one Kabalite Warriors, Hand of the Archon or Wyches unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this model; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
+    "transport": "This model has a transport capacity of 6 DRUKHARI INFANTRY models (excluding Jump Pack models).\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one Kabalite Warriors, Hand of the Archon or Wyches unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this model; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
     "keywords": [
       "Transport",
       "Dedicated Transport",

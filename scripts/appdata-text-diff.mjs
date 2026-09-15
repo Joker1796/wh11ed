@@ -50,6 +50,7 @@ if (!MODE_DS && !MODE_FAC) {
 function sem(s) {
   return String(s || '')
     .replace(/\[gloss:[^:\]]+:([^\]]*)\]/g, '$1')
+    .replace(/\[core:([^\]]*)\]/g, '$1')
     .replace(/\[def:[^:\]]+:([^\]]*)\]/g, '$1')
     .replace(/\{(?:red|blue|green):([^}]*)\}/g, '$1')
     .replace(/\*\*|__|###/g, '')

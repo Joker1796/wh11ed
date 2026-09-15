@@ -122,7 +122,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 14 Emperor’s Children Infantry models. Each Terminator and Flawless Blade model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 14 EMPEROR’S CHILDREN INFANTRY models. Each Terminator and Flawless Blade model takes up the space of 2 models.",
     "keywords": [
       "Vehicle",
       "Transport",
@@ -231,7 +231,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Emperor’s Children Infantry models (excluding TERMINATOR and Flawless Blade models).",
+    "transport": "This model has a transport capacity of 12 EMPEROR’S CHILDREN INFANTRY models (excluding TERMINATOR and Flawless Blade models).",
     "keywords": [
       "Slaanesh",
       "Chaos",
@@ -517,7 +517,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Excess",
-        "text": "While this model is within 3\" of one or more friendly Slaanesh Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly SLAANESH INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Excessive Vigour (Aura)",
@@ -1531,7 +1531,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Slaanesh (Aura)",
-        "text": "While a friendly Legions of Excess unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
+        "text": "While a friendly LEGIONS OF EXCESS unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
       },
       {
         "name": "Mesmerising Form",

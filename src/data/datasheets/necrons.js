@@ -789,7 +789,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Fabricator Claw Array (Aura)",
-        "text": "While a friendly Necrons Vehicle unit is within 6\" of the bearer, models in that unit have the Feel No Pain 6+ ability."
+        "text": "While a friendly NECRONS VEHICLE unit is within 6\" of the bearer, models in that unit have the Feel No Pain 6+ ability."
       },
       {
         "name": "Gloom Prism (Aura)",
@@ -1190,7 +1190,7 @@ export default [
     "abilities": [
       {
         "name": "Timesplinter Mantle",
-        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to hit rolls."
       },
       {
         "name": "Chronometron",
@@ -1854,7 +1854,7 @@ export default [
       "1 Ghost Ark"
     ],
     "loadout": "**This model is equipped with:** 2 gauss flayer arrays; armoured bulk.",
-    "transport": "This model has a transport capacity of 10 Necron Warrior models and 1 Necrons Infantry Character model.",
+    "transport": "This model has a transport capacity of 10 NECRON WARRIOR models and 1 NECRONS INFANTRY CHARACTER model.",
     "keywords": [
       "Transport",
       "Ghost Ark",
@@ -2007,7 +2007,7 @@ export default [
       },
       {
         "name": "Mechanical Augmentation (Aura)",
-        "text": "While a friendly Necrons Battleline unit is within 3\" of this model, each time a model in that unit makes an attack, improve the Armour Penetration characteristic of that attack by 1, and each time an attack targets that unit, worsen the Armour Penetration characteristic of that attack by 1."
+        "text": "While a friendly NECRONS BATTLELINE unit is within 3\" of this model, each time a model in that unit makes an attack, improve the Armour Penetration characteristic of that attack by 1, and each time an attack targets that unit, worsen the Armour Penetration characteristic of that attack by 1."
       },
       {
         "name": "Atomic Energy Manipulator",
@@ -2693,7 +2693,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and while making that ingress move, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent\u2019s deployment zone. That unit cannot make a charge move this turn."
+        "text": "In your movement phase (excluding the first battle round), you can select one friendly NECRONS INFANTRY unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and while making that ingress move, that unit must be set up wholly within 6\" of this unit and unengaged (instead of more than 8\" horizontally from all enemy units), even if that is within your opponent\u2019s deployment zone. That unit cannot make a charge move this turn."
       }
     ],
     "damaged": {
@@ -2876,7 +2876,7 @@ export default [
       },
       {
         "name": "Infectious Murder-madness (Aura)",
-        "text": "While a friendly NECRONS unit (excluding Monster and Titanic units) is within 6\" of this model, each time a model in that unit makes an attack, if that model has the Destroyer Cult keyword or that enemy unit is the closest eligible target, that attack has the [SUSTAINED HITS 1] ability."
+        "text": "While a friendly NECRONS unit (excluding MONSTER and TITANIC units) is within 6\" of this model, each time a model in that unit makes an attack, if that model has the Destroyer Cult keyword or that enemy unit is the closest eligible target, that attack has the [SUSTAINED HITS 1] ability."
       },
       {
         "name": "Prophet of Destruction",
@@ -2957,7 +2957,7 @@ export default [
     "abilities": [
       {
         "name": "Invasion Beams",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Necrons Infantry unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly NECRONS INFANTRY unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       },
       {
         "name": "Quantum Invader",
@@ -2972,7 +2972,7 @@ export default [
       "1 Night Scythe"
     ],
     "loadout": "**This model is equipped with:** twin tesla destructor; armoured bulk.",
-    "transport": "This model has a transport capacity of 1 Necrons Infantry unit.",
+    "transport": "This model has a transport capacity of 1 NECRONS INFANTRY unit.",
     "keywords": [
       "Night Scythe",
       "Fly",

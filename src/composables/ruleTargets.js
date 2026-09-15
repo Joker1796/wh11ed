@@ -86,6 +86,9 @@ const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 function passages(body) {
   return (body || '')
     .replace(/\*\*/g, '')
+    // A core ability named in prose ([core:Stealth]) is emphasis, not a target — unwrap it to the
+    // bare name so the brackets can never be read as a keyword's.
+    .replace(/\[core:([^\]]*)\]/g, '$1')
     .split(/\n\s*\n|\n(?=###\s)|\n?(?=▪\s)/)
     .filter((p) => p.trim())
 }

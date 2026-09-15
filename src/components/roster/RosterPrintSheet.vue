@@ -463,6 +463,15 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
   cursor: default;
 }
 
+/* A core ability named in prose ([core:Stealth]). On screen the dotted underline says "this
+   opens the rule"; on paper nothing opens, and a dotted rule under a word reads as a correction
+   mark. The bold is the emphasis the rulebook itself prints, so that is what survives. */
+.rps :deep(.core-ability) {
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: default;
+}
+
 /* style.css's GLOBAL table dressing, taken off every table in the document at once. The global
    `th` is light text on a dark band — and the paper palette pins the band light while the text
    var stays near-white, which printed the weapon-table headers white on white. The stripes and

@@ -3533,7 +3533,7 @@ export default [
     "abilities": [
       {
         "name": "Panicked Quarry",
-        "text": "In your Shooting phase, when this unit has shot, select one enemy unit (excluding Monster/Vehicle units) hit by those attacks. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll."
+        "text": "In your Shooting phase, when this unit has shot, select one enemy unit (excluding MONSTER/VEHICLE units) hit by those attacks. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll."
       }
     ],
     "wargearAbilities": [
@@ -3627,7 +3627,7 @@ export default [
       },
       {
         "name": "Whispering Web",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly Aeldari model makes an attack that targets that unit, an unmodified Hit roll of 5+ scores a Critical Hit."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly AELDARI model makes an attack that targets that unit, an unmodified Hit roll of 5+ scores a Critical Hit."
       }
     ],
     "composition": [
@@ -3962,7 +3962,7 @@ export default [
     "abilities": [
       {
         "name": "Titanic Advance",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding Titanic models) and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
       },
       {
         "name": "Towering Wraith Construct",
@@ -4072,7 +4072,7 @@ export default [
       },
       {
         "name": "Prince of Corsairs",
-        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any Transport it is embarked within is on the battlefield), select up to three AELDARI units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
+        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any TRANSPORT it is embarked within is on the battlefield), select up to three AELDARI units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "composition": [
@@ -4273,7 +4273,7 @@ export default [
     "abilities": [
       {
         "name": "Titanic Advance",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding Titanic models) and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
       },
       {
         "name": "Towering Wraith Construct",
@@ -4863,7 +4863,7 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Grace",
-        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to Hit rolls."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to Hit rolls."
       }
     ],
     "composition": [
@@ -5112,7 +5112,7 @@ export default [
     "abilities": [
       {
         "name": "Hallucinogen Grenades",
-        "text": "At the start of your opponent’s Shooting phase, this unit can use this ability. If it does, select one Aeldari Infantry unit from your army visible to and within 36\" of this unit: until the end of the phase, that unit has the Stealth ability."
+        "text": "At the start of your opponent’s Shooting phase, this unit can use this ability. If it does, select one AELDARI INFANTRY unit from your army visible to and within 36\" of this unit: until the end of the phase, that unit has the Stealth ability."
       }
     ],
     "composition": [
@@ -5194,14 +5194,14 @@ export default [
     "abilities": [
       {
         "name": "Rapid Embarkation",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Harlequins Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly HARLEQUINS INFANTRY unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       }
     ],
     "composition": [
       "1 Starweaver"
     ],
     "loadout": "**This model is equipped with:** 2 shuriken cannons; close combat weapon.",
-    "transport": "This model has a transport capacity of 6 Harlequins Infantry models.",
+    "transport": "This model has a transport capacity of 6 HARLEQUINS INFANTRY models.",
     "keywords": [
       "Dedicated Transport",
       "Smoke",
@@ -5308,7 +5308,7 @@ export default [
     "abilities": [
       {
         "name": "Elemental Ensnarement",
-        "text": "At the end of your Fight phase, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:\n▪ On a 1, this unit is Battle-shocked.\n▪ Select one visible enemy Monster/Vehicle unit (excluding Titanic units) within 18\" of this unit. That enemy unit is ensnared until the start of your next turn. While a unit is ensnared, that unit has -2\" M and cannot be pinned."
+        "text": "At the end of your Fight phase, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:\n▪ On a 1, this unit is Battle-shocked.\n▪ Select one visible enemy MONSTER/VEHICLE unit (excluding TITANIC units) within 18\" of this unit. That enemy unit is ensnared until the start of your next turn. While a unit is ensnared, that unit has -2\" M and cannot be pinned."
       }
     ],
     "composition": [
@@ -5849,7 +5849,7 @@ export default [
       },
       {
         "name": "Yvraine’s Champion",
-        "text": "While this model is leading a unit, other Character models attached to that unit have the Feel No Pain 4+ ability."
+        "text": "While this model is leading a unit, other CHARACTER models attached to that unit have the Feel No Pain 4+ ability."
       }
     ],
     "specialAbilities": [
@@ -6822,7 +6822,7 @@ export default [
       },
       {
         "name": "Psychic Communion (Psychic)",
-        "text": "Each time this model is selected to shoot, until the end of the phase, add 1 to the Attacks and Strength characteristics of its Destructor weapon for each other friendly Aeldari Psyker model within 6\" of this model (to a maximum of +2)."
+        "text": "Each time this model is selected to shoot, until the end of the phase, add 1 to the Attacks and Strength characteristics of its Destructor weapon for each other friendly AELDARI PSYKER model within 6\" of this model (to a maximum of +2)."
       }
     ],
     "composition": [
@@ -6952,7 +6952,7 @@ export default [
       },
       {
         "name": "Psychic Communion (Psychic)",
-        "text": "Each time this unit is selected to shoot, for each Warlock model in this unit, until the end of the phase, add 1 to the Attacks and Strength characteristics of that model’s Destructor weapon for each other friendly Aeldari Psyker model within 6\" of that model (to a maximum of +2)."
+        "text": "Each time this unit is selected to shoot, for each Warlock model in this unit, until the end of the phase, add 1 to the Attacks and Strength characteristics of that model’s Destructor weapon for each other friendly AELDARI PSYKER model within 6\" of that model (to a maximum of +2)."
       }
     ],
     "composition": [
@@ -7095,7 +7095,7 @@ export default [
       },
       {
         "name": "Psychic Communion (Psychic)",
-        "text": "Each time this unit is selected to shoot, for each Warlock model in this unit, until the end of the phase, add 1 to the Attacks and Strength characteristics of that model’s Destructor weapon for each other friendly Aeldari Psyker model within 6\" of that model (to a maximum of +2)."
+        "text": "Each time this unit is selected to shoot, for each Warlock model in this unit, until the end of the phase, add 1 to the Attacks and Strength characteristics of that model’s Destructor weapon for each other friendly AELDARI PSYKER model within 6\" of that model (to a maximum of +2)."
       }
     ],
     "composition": [
@@ -7624,7 +7624,7 @@ export default [
       },
       {
         "name": "Psychic Guidance",
-        "text": "While this unit is within 12\" of one or more friendly Aeldari Psyker models, models in this unit have a Leadership characteristic of 6+ and each time a model in this unit makes an attack, add 1 to the Hit roll."
+        "text": "While this unit is within 12\" of one or more friendly AELDARI PSYKER models, models in this unit have a Leadership characteristic of 6+ and each time a model in this unit makes an attack, add 1 to the Hit roll."
       }
     ],
     "wargearAbilities": [
@@ -7714,7 +7714,7 @@ export default [
       },
       {
         "name": "Psychic Guidance",
-        "text": "While this unit is within 12\" of one or more friendly Aeldari Psyker models, models in this unit have a Leadership characteristic of 6+ and each time a model in this unit makes an attack, add 1 to the Hit roll."
+        "text": "While this unit is within 12\" of one or more friendly AELDARI PSYKER models, models in this unit have a Leadership characteristic of 6+ and each time a model in this unit makes an attack, add 1 to the Hit roll."
       }
     ],
     "composition": [
@@ -8165,7 +8165,7 @@ export default [
       },
       {
         "name": "Psychic Guidance",
-        "text": "While this model is within 12\" of one or more friendly Aeldari Psyker models, improve the Ballistic Skill and Weapon Skill characteristics of weapons equipped by this model by 1 and it has a Leadership characteristic of 6+."
+        "text": "While this model is within 12\" of one or more friendly AELDARI PSYKER models, improve the Ballistic Skill and Weapon Skill characteristics of weapons equipped by this model by 1 and it has a Leadership characteristic of 6+."
       }
     ],
     "composition": [
@@ -8541,7 +8541,7 @@ export default [
     "abilities": [
       {
         "name": "Sadistic Raiders",
-        "text": "At the end of your Command phase, if you control an objective marker that this unit (or a Transport it is embarked within) is within range of, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
+        "text": "At the end of your Command phase, if you control an objective marker that this unit (or a TRANSPORT it is embarked within) is within range of, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [
@@ -8651,7 +8651,7 @@ export default [
     "options": [
       "This model’s dark lance can be replaced with 1 disintegrator cannon."
     ],
-    "transport": "This model has a transport capacity of 11 models from the following units: The Visarch, Ynnari Archon, Ynnari Incubi, Ynnari Kabalite Warriors, Ynnari Succubus, Ynnari Wyches, Yvraine",
+    "transport": "This model has a transport capacity of 11 models from the following units: The Visarch, YNNARI ARCHON, YNNARI INCUBI, YNNARI KABALITE WARRIORS, YNNARI SUCCUBUS, YNNARI WYCHES, Yvraine",
     "keywords": [
       "Dedicated Transport",
       "Fly",
@@ -8979,7 +8979,7 @@ export default [
     "abilities": [
       {
         "name": "Lithe Embarkation",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Ynnari Infantry unit that only includes models from the units listed in this unit’s Transport section, that has 6 or fewer models and that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly YNNARI INFANTRY unit that only includes models from the units listed in this unit’s Transport section, that has 6 or fewer models and that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       }
     ],
     "composition": [
@@ -8989,7 +8989,7 @@ export default [
     "options": [
       "This model’s twin splinter rifle can be replaced with 1 splinter cannon."
     ],
-    "transport": "This model has a transport capacity of 6 models from the following units: The Visarch, Ynnari Archon, Ynnari Incubi, Ynnari Kabalite Warriors, Ynnari Succubus, Ynnari Wyches, Yvraine.\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one YNNARI KABALITE WARRIORS or YNNARI WYCHES unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
+    "transport": "This model has a transport capacity of 6 models from the following units: The Visarch, YNNARI ARCHON, YNNARI INCUBI, Ynnari Kabalite Warriors, YNNARI SUCCUBUS, Ynnari Wyches, Yvraine.\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one YNNARI KABALITE WARRIORS or YNNARI WYCHES unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
     "keywords": [
       "Dedicated Transport",
       "Transport",

@@ -55,7 +55,7 @@ export default [
     "abilities": [
       {
         "name": "Hulking Bodyguards",
-        "text": "While a Character is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
+        "text": "While a CHARACTER is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
       }
     ],
     "composition": [
@@ -361,7 +361,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Cult Icon",
-        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed Character models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
+        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed CHARACTER models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
       }
     ],
     "composition": [
@@ -474,7 +474,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Cult Icon",
-        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed Character models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
+        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed CHARACTER models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
       }
     ],
     "composition": [
@@ -1166,7 +1166,7 @@ export default [
     "options": [
       "This model’s heavy mining laser can be replaced with one of the following:\n▪ 1 clearance incinerator\n▪ 1 heavy seismic cannon"
     ],
-    "transport": "This model has a transport capacity of 6 Genestealer Cults Infantry models.",
+    "transport": "This model has a transport capacity of 6 GENESTEALER CULTS INFANTRY models.",
     "keywords": [
       "Goliath Rockgrinder",
       "Great Devourer",
@@ -1268,7 +1268,7 @@ export default [
       "1 Goliath Truck"
     ],
     "loadout": "**This model is equipped with:** heavy stubber; twin autocannon; demolition charge cache; armoured hull.",
-    "transport": "This model has a transport capacity of 12 Genestealer Cults Infantry models.",
+    "transport": "This model has a transport capacity of 12 GENESTEALER CULTS INFANTRY models.",
     "keywords": [
       "Transport",
       "Great Devourer",
@@ -1387,7 +1387,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Cult Icon",
-        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed Character models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
+        "text": "In your Command phase, you can return up to D3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to 3 destroyed models to that unit instead. This ability cannot be used to return destroyed CHARACTER models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
       }
     ],
     "composition": [
@@ -1617,7 +1617,7 @@ export default [
       },
       {
         "name": "Bodyguard",
-        "text": "While this model is leading a unit, other Character models attached to that unit have the Feel No Pain 4+ ability."
+        "text": "While this model is leading a unit, other CHARACTER models attached to that unit have the Feel No Pain 4+ ability."
       }
     ],
     "composition": [
@@ -1921,7 +1921,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Cult Icon",
-        "text": "In your Command phase, you can return up to 3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to D3+3 destroyed models to that unit instead. This ability cannot be used to return destroyed Character models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
+        "text": "In your Command phase, you can return up to 3 destroyed models to the bearer’s unit. If the bearer’s unit is within range of an objective marker you control, you can return up to D3+3 destroyed models to that unit instead. This ability cannot be used to return destroyed CHARACTER models in Attached units and any [ONE SHOT] weapons equipped by returned models that were shot before they were destroyed are still considered to have been shot."
       }
     ],
     "composition": [

@@ -24,10 +24,10 @@ const en = {
     flavor:
       'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt.',
     body: `### Oath of Moment
-If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
+If your Army Faction is ADEPTUS ASTARTES, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
 
 ### The Sons of Sanguinius
-▪ If an Adeptus Astartes unit has a second Faction keyword on its datasheet, that Faction keyword is the name of that unit's Chapter. For example, Lemartes has both the Adeptus Astartes and Blood Angels Faction keywords, and is therefore from the Blood Angels Chapter.
+▪ If an Adeptus Astartes unit has a second Faction keyword on its datasheet, that Faction keyword is the name of that unit's Chapter. For example, Lemartes has both the Adeptus Astartes and BLOOD ANGELS Faction keywords, and is therefore from the Blood Angels Chapter.
 ▪ You cannot include units from more than one Chapter in your army.
 
 **Designer's Note:** The rules presented in this section assume that the Adeptus Astartes units in your army are from the Blood Angels Chapter, but they can also be used to represent any Blood Angels successor Chapter, such as one described in the background section of this book, or even one of your own invention. However, players who wish to faithfully recreate the Blood Angels Chapter on the tabletop should only include Blood Angels Epic Heroes if their collection is intended to represent the First Founding Chapter itself; Mephiston is the Chief Librarian of the Blood Angels, for example, and not of any of their successors.`,
@@ -56,7 +56,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           flavor: "Keeping the beast within under tight control, the Blood Angels nonetheless tap into that inner rage and shackle it to their precisely aimed blows.",
           when: "Fight phase.",
           target: "One ADEPTUS ASTARTES unit from your army that has not been selected to fight this phase.",
-          effect: "Until the end of the phase, melee weapons equipped by models in your unit have the [LETHAL HITS] ability. If your unit is a Character unit, until the end of the phase, those weapons have the [LANCE] ability as well.",
+          effect: "Until the end of the phase, melee weapons equipped by models in your unit have the [LETHAL HITS] ability. If your unit is a CHARACTER unit, until the end of the phase, those weapons have the [LANCE] ability as well.",
           restrictions: "",
         },
         {
@@ -77,7 +77,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           turn: "opponent",
           flavor: "The enemy is engulfed in a soul-deep shadow for just a moment, as though mighty wings have spread above them and marred their vision with occluding darkness.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One Adeptus Astartes Character unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
+          target: "One ADEPTUS ASTARTES CHARACTER unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 18\".",
           restrictions: "",
         },
@@ -88,7 +88,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           turn: "your",
           flavor: "In this most desperate moment of need, a lone battle-brother rises to the challenge as a true inheritor of the Angel’s legacy.",
           when: "Your Command phase.",
-          target: "One Adeptus Astartes Infantry unit from your army.",
+          target: "One ADEPTUS ASTARTES INFANTRY unit from your army.",
           effect: "Select one non-CHARACTER model in your unit. Until the start of your next Command phase, your model has the Character keyword.\n\n**Designer’s Note:** While in effect, your model’s unit is therefore a CHARACTER unit, meaning it can interact with the Legacy of the Angel Detachment rule, in addition to other rules that interact with CHARACTER units.",
           restrictions: "",
         },
@@ -110,7 +110,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           turn: "opponent",
           flavor: "In the face of encroaching doom, as the world seems to burn around them, these scions of Sanguinius leap high into the tormented heavens, ready to strike down with vengeful fury upon the enemy teeming below.",
           when: "End of your opponent’s Fight phase.",
-          target: "One Adeptus Astartes Jump Pack unit from your army. You cannot target a unit that is within Engagement Range of one or more enemy units, unless it is The Sanguinor.",
+          target: "One ADEPTUS ASTARTES JUMP PACK unit from your army. You cannot target a unit that is within Engagement Range of one or more enemy units, unless it is The Sanguinor.",
           effect: "Remove your unit from the battlefield and place it into Strategic Reserves.",
           restrictions: "",
         },
@@ -132,7 +132,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           name: "Blazing Icon",
           points: 20,
           flavor: "What was before merely a decorative blood drop pendant now shines with a seemingly miraculous light as bright as any star. The foe are forced to avert their gaze from its wrathful magnificence.",
-          body: "Adeptus Astartes Infantry model only. Enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer’s unit.",
+          body: "ADEPTUS ASTARTES INFANTRY model only. Enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer’s unit.",
         },
         {
           name: "Ordained Sacrifice",
@@ -216,7 +216,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           cp: "1CP",
           turn: "your",
           flavor: "The Blood Angels enact a sweeping advance.",
-          when: "Your Movement phase, just after an Adeptus Astartes unit from your army has Advanced.",
+          when: "Your Movement phase, just after an ADEPTUS ASTARTES unit from your army has Advanced.",
           target: "That ADEPTUS ASTARTES unit.",
           effect: "Until the end of the turn, your unit is eligible to either shoot or declare a charge, even though it Advanced. You can instead choose for your unit to give in to the Red Thirst; if it does, it becomes Battle-shocked (but the effects of this Stratagem still apply to it) and until the end of the turn, your unit is eligible to both shoot and declare a charge, even though it Advanced.",
           restrictions: "",
@@ -227,7 +227,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           name: "Speed of the Primarch",
           points: 25,
           flavor: "Such is this warriors rage-fuelled speed, it is as if the Primarch himself fights alongside his sons.",
-          body: "Adeptus Astartes model only. Once per battle, at the start of the Fight phase, the bearer can use this Enhancement. If it does, until the end of the phase, models in the bearer’s unit have the Fights First ability.",
+          body: "ADEPTUS ASTARTES model only. Once per battle, at the start of the Fight phase, the bearer can use this Enhancement. If it does, until the end of the phase, models in the bearer’s unit have the Fights First ability.",
         },
         {
           name: "Rage-fuelled Warrior",
@@ -239,13 +239,13 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           name: "Icon of the Angel",
           points: 20,
           flavor: "The Icon of the Angel reminds the Blood Angels of the heretics who fled after laying low Sanguinius, exhorting them to let no enemy escape their grasp again.",
-          body: "Adeptus Astartes model only. Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of the bearer’s unit is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests.",
+          body: "ADEPTUS ASTARTES model only. Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of the bearer’s unit is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests.",
         },
         {
           name: "Gift of Foresight",
           points: 15,
           flavor: "This heroic warrior bears a glimmering of Sanguinius' prophetic gifts. Flashes of foresight allow him to weave around his enemy's blows with supernatural skill.",
-          body: "Adeptus Astartes model only. Once per battle round, just after making a Hit roll, a Wound roll or a saving throw for the bearer, you can treat the result as an unmodified roll of 6 instead.",
+          body: "ADEPTUS ASTARTES model only. Once per battle round, just after making a Hit roll, a Wound roll or a saving throw for the bearer, you can treat the result as an unmodified roll of 6 instead.",
         },
       ],
     },
@@ -281,7 +281,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           turn: "either",
           flavor: "So savagely butchered are the corpses left strewn by the Blood Angels that the mere sight of them gives the enemy pause.",
           when: "Any phase.",
-          target: "One Blood Angels unit from your army that was just destroyed while it was within range of one or more objective markers you controlled at the end of the previous phase. You can use this Stratagem on that unit even though it was just destroyed.",
+          target: "One BLOOD ANGELS unit from your army that was just destroyed while it was within range of one or more objective markers you controlled at the end of the previous phase. You can use this Stratagem on that unit even though it was just destroyed.",
           effect: "Select one of those objective markers. That objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: "",
         },
@@ -400,7 +400,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           turn: "either",
           flavor: "The Blood Angels would gladly put themselves in harm's way to protect others, just as Sanguinius sacrificed his own life.",
           when: "Start of the Fight phase.",
-          target: "One Adeptus Astartes Jump Pack unit from your army.",
+          target: "One ADEPTUS ASTARTES JUMP PACK unit from your army.",
           effect: "Until the end of the phase, each time an enemy model within Engagement Range of your unit selects its targets, it must select your unit as the target of all of its attacks.",
           restrictions: "",
         },
@@ -410,7 +410,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           cp: "1CP",
           turn: "your",
           flavor: "The roar of the Blood Angels jump packs is as a funeral dirge to their foes.",
-          when: "Your Movement phase, just after an Adeptus Astartes Jump Pack unit from your army Advances or Falls Back.",
+          when: "Your Movement phase, just after an ADEPTUS ASTARTES JUMP PACK unit from your army Advances or Falls Back.",
           target: "That ADEPTUS ASTARTES JUMP PACK unit.",
           effect: "Until the end of the turn, your unit is eligible to shoot and declare a charge in a turn in which it Advanced or Fell Back.",
           restrictions: "",
@@ -455,7 +455,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           name: "Archangel’s Shard",
           points: 15,
           flavor: "When Sanguinius battled Horus, his magnificent blade was tragically shattered against the Warmasters profane battle plate. The shards were gathered up and new swords forged to incorporate them, each one gifted to a different successor Chapter.",
-          body: "Adeptus Astartes Jump Pack model only. The bearer’s melee weapons have the [ANTI-CHAOS 5+] and [LANCE] abilities.",
+          body: "ADEPTUS ASTARTES JUMP PACK model only. The bearer’s melee weapons have the [ANTI-CHAOS 5+] and [LANCE] abilities.",
         },
         {
           name: "Gleaming Pinions",
@@ -681,7 +681,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           flavor: "When they power forward in rapid leaps, the glare emitted by their jump packs\u2019 nacelles reflecting from the mirrored gleam of their armour, the Sanguinary Guard seem to glow with a blinding radiance few can look upon.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly SANGUINARY GUARD unit.",
           target: "That SANGUINARY GUARD unit.",
-          effect: "Your unit has Stealth.",
+          effect: "Your unit has [core:Stealth].",
           restrictions: "",
         },
       ],

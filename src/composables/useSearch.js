@@ -48,6 +48,7 @@ function stripMarkup(text) {
     .replace(/\{[a-z]+:(.+?)}/g, '$1')
     .replace(/\[def:[^:]+:([^\]]+)]/g, '$1')
     .replace(/\[gloss:[^\]:]+:([^\]]+)]/g, '$1')
+    .replace(/\[core:([^\]]+)]/g, '$1')
     .replace(/\((\d{2}\.\d{2})\)/g, '($1)')
     .trim()
 }

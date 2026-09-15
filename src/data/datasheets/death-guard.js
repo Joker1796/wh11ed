@@ -305,7 +305,7 @@ export default [
     "abilities": [
       {
         "name": "Blistering Fusillade",
-        "text": "If this unit has a Starting Strength of 5 or more, or if a Character is leading this unit, then each time a model in this unit makes a ranged attack that targets an Afflicted unit, improve the Strength and Armour Penetration characteristics of that attack by 1."
+        "text": "If this unit has a Starting Strength of 5 or more, or if a CHARACTER is leading this unit, then each time a model in this unit makes a ranged attack that targets an Afflicted unit, improve the Strength and Armour Penetration characteristics of that attack by 1."
       }
     ],
     "composition": [
@@ -457,7 +457,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 14 Death Guard Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 14 DEATH GUARD INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Vehicle",
       "Chaos",
@@ -742,7 +742,7 @@ export default [
     "abilities": [
       {
         "name": "Hail of Corrosive Disease",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks. Until the end of the phase, each time a friendly Death Guard unit makes a ranged attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per phase."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks. Until the end of the phase, each time a friendly DEATH GUARD unit makes a ranged attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per phase."
       }
     ],
     "damaged": {
@@ -867,7 +867,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 additional combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Death Guard Infantry models. It cannot transport Terminator models.",
+    "transport": "This model has a transport capacity of 12 DEATH GUARD INFANTRY models. It cannot transport Terminator models.",
     "keywords": [
       "Nurgle",
       "Chaos",
@@ -1005,15 +1005,15 @@ export default [
     "abilities": [
       {
         "name": "Death Guard Defenders",
-        "text": "While this model is within 3\" of one or more friendly Death Guard Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly DEATH GUARD INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Fevered Strategist",
-        "text": "Once per battle round, one model from your army with this ability can use it when a friendly Death Guard unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+        "text": "Once per battle round, one model from your army with this ability can use it when a friendly DEATH GUARD unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Miasma of Pestilence (Aura)",
-        "text": "While a friendly Death Guard unit is within 6\" of this model, each time a ranged attack targets that unit, models in that unit have the Benefit of Cover against that attack."
+        "text": "While a friendly DEATH GUARD unit is within 6\" of this model, each time a ranged attack targets that unit, models in that unit have the Benefit of Cover against that attack."
       }
     ],
     "composition": [
@@ -1835,7 +1835,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Nurgle (Aura)",
-        "text": "While a friendly Plague Legions unit is within 6\" of this model, add 1 to the Toughness characteristic of models in that unit."
+        "text": "While a friendly PLAGUE LEGIONS unit is within 6\" of this model, add 1 to the Toughness characteristic of models in that unit."
       },
       {
         "name": "Nurgle’s Rot (Psychic)",
@@ -2144,7 +2144,7 @@ export default [
       },
       {
         "name": "Blessed Icon of Disease",
-        "text": "Once per battle, at the start of any phase, you can select one friendly Death Guard unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
+        "text": "Once per battle, at the start of any phase, you can select one friendly DEATH GUARD unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
       }
     ],
     "composition": [
@@ -2416,7 +2416,7 @@ export default [
       },
       {
         "name": "Blight Bombardment",
-        "text": "At the start of your Shooting phase, select one enemy unit within 30\" of and visible to this model. Until the end of the phase, each time a friendly Death Guard model makes a ranged attack that targets that unit, re-roll a Hit roll of 1 (if that attack is made with a Blast weapon, you can re-roll the Hit roll instead)."
+        "text": "At the start of your Shooting phase, select one enemy unit within 30\" of and visible to this model. Until the end of the phase, each time a friendly DEATH GUARD model makes a ranged attack that targets that unit, re-roll a Hit roll of 1 (if that attack is made with a Blast weapon, you can re-roll the Hit roll instead)."
       }
     ],
     "composition": [
@@ -3124,7 +3124,7 @@ export default [
     "abilities": [
       {
         "name": "Death’s Heads",
-        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly Plague Legions unit makes an attack that targets that unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly PLAGUE LEGIONS unit makes an attack that targets that unit, you can re-roll the Wound roll."
       }
     ],
     "wargearAbilities": [
@@ -3841,7 +3841,7 @@ export default [
     "abilities": [
       {
         "name": "Virulent Blessing (Psychic)",
-        "text": "At the start of the Fight phase, you can select one enemy unit within 24\" and visible to this model. Until the end of the phase, each time an attack made by a Plague Legions model is allocated to a model in that unit, add 1 to the Damage characteristic of that attack."
+        "text": "At the start of the Fight phase, you can select one enemy unit within 24\" and visible to this model. Until the end of the phase, each time an attack made by a PLAGUE LEGIONS model is allocated to a model in that unit, add 1 to the Damage characteristic of that attack."
       },
       {
         "name": "Deluge of Nurgle (Aura)",

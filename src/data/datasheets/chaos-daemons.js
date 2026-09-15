@@ -560,7 +560,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Khorne (Aura)",
-        "text": "While a friendly Khorne Legiones Daemonica unit is within 6\" of this model, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "text": "While a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this model, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
       },
       {
         "name": "Relentless Carnage",
@@ -568,7 +568,7 @@ export default [
       },
       {
         "name": "Greater Daemon of Khorne (Aura)",
-        "text": "While a friendly Khorne Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       }
     ],
     "damaged": {
@@ -879,7 +879,7 @@ export default [
       },
       {
         "name": "Storm of Mutating Sorcery (Psychic)",
-        "text": "In your Shooting phase, after this model has shot, select one enemy Infantry unit hit by one or more of those attacks. That unit must take a Battle-shock test."
+        "text": "In your Shooting phase, after this model has shot, select one enemy INFANTRY unit hit by one or more of those attacks. That unit must take a Battle-shock test."
       }
     ],
     "composition": [
@@ -1059,11 +1059,11 @@ export default [
     "abilities": [
       {
         "name": "Daemonic Lord",
-        "text": "While this model is within 3\" of one or more friendly Legiones Daemonica Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly LEGIONES DAEMONICA INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Prince of Darkness (Aura)",
-        "text": "While a friendly Legiones Daemonica unit is within 6\" of this model, models in that unit have the Stealth ability."
+        "text": "While a friendly LEGIONES DAEMONICA unit is within 6\" of this model, models in that unit have the Stealth ability."
       },
       {
         "name": "Unholy Vigour",
@@ -1347,7 +1347,7 @@ export default [
       },
       {
         "name": "Tally of Pestilence",
-        "text": "Keep a tally of how many enemy models are destroyed by Nurgle Legiones Daemonica models from your army during the battle. At the start of your Command phase, if this tally is 7 or more, you gain 1CP and the tally is reset to 0."
+        "text": "Keep a tally of how many enemy models are destroyed by NURGLE LEGIONES DAEMONICA models from your army during the battle. At the start of your Command phase, if this tally is 7 or more, you gain 1CP and the tally is reset to 0."
       }
     ],
     "composition": [
@@ -1627,7 +1627,7 @@ export default [
     "abilities": [
       {
         "name": "Shroud of Flies (Aura)",
-        "text": "While a friendly Nurgle Legiones Daemonica unit is within 6\" of this FORTIFICATION, models in that unit have the Stealth ability."
+        "text": "While a friendly NURGLE LEGIONES DAEMONICA unit is within 6\" of this FORTIFICATION, models in that unit have the Stealth ability."
       },
       {
         "name": "Diseased Cover",
@@ -1973,7 +1973,7 @@ export default [
     "abilities": [
       {
         "name": "Fluxmaster",
-        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to Hit rolls."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to Hit rolls."
       },
       {
         "name": "Altered Reality (Psychic)",
@@ -2115,11 +2115,11 @@ export default [
     "abilities": [
       {
         "name": "Greater Daemon of Nurgle (Aura)",
-        "text": "While a friendly Nurgle Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly NURGLE LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       },
       {
         "name": "Daemon Lord of Nurgle (Aura)",
-        "text": "While a friendly Nurgle Legiones Daemonica unit is within 6\" of this model, add 1 to the Toughness characteristic of models in that unit."
+        "text": "While a friendly NURGLE LEGIONES DAEMONICA unit is within 6\" of this model, add 1 to the Toughness characteristic of models in that unit."
       },
       {
         "name": "Nurgle’s Rot (Psychic)",
@@ -2520,7 +2520,7 @@ export default [
     "abilities": [
       {
         "name": "Greater Daemon of Tzeentch (Aura)",
-        "text": "While a friendly Tzeentch Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly TZEENTCH LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       },
       {
         "name": "One Head Looks Forward",
@@ -2762,7 +2762,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Slaanesh (Aura)",
-        "text": "While a friendly Slaanesh Legiones Daemonica unit is within 6\" of this model, improve the Armour Penetration of melee weapons in that unit by 1."
+        "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, improve the Armour Penetration of melee weapons in that unit by 1."
       },
       {
         "name": "Mesmerising Form",
@@ -2770,7 +2770,7 @@ export default [
       },
       {
         "name": "Greater Daemon of Slaanesh (Aura)",
-        "text": "While a friendly Slaanesh Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       }
     ],
     "wargearAbilities": [
@@ -2900,7 +2900,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Tzeentch (Aura)",
-        "text": "While a friendly Tzeentch Legiones Daemonica unit is within 6\" of this model, each time a model in that unit makes a ranged attack, add 1 to the Strength characteristic of that attack."
+        "text": "While a friendly TZEENTCH LEGIONES DAEMONICA unit is within 6\" of this model, each time a model in that unit makes a ranged attack, add 1 to the Strength characteristic of that attack."
       },
       {
         "name": "Master of Magicks (Psychic)",
@@ -2908,7 +2908,7 @@ export default [
       },
       {
         "name": "Greater Daemon of Tzeentch (Aura)",
-        "text": "While a friendly Tzeentch Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly TZEENTCH LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       }
     ],
     "damaged": {
@@ -3226,7 +3226,7 @@ export default [
     "abilities": [
       {
         "name": "Death’s Heads",
-        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly Nurgle Legiones Daemonica unit makes an attack that targets that unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly NURGLE LEGIONES DAEMONICA unit makes an attack that targets that unit, you can re-roll the Wound roll."
       }
     ],
     "wargearAbilities": [
@@ -3471,7 +3471,7 @@ export default [
     "abilities": [
       {
         "name": "Blood Throne",
-        "text": "At the start of the Fight phase, select one enemy unit within 18\" of and visible to this model. Until the end of the phase, each time a friendly Khorne Legiones Daemonica unit makes an attack that targets that unit, improve the Strength, Armour Penetration and Damage characteristics of that attack by 1."
+        "text": "At the start of the Fight phase, select one enemy unit within 18\" of and visible to this model. Until the end of the phase, each time a friendly KHORNE LEGIONES DAEMONICA unit makes an attack that targets that unit, improve the Strength, Armour Penetration and Damage characteristics of that attack by 1."
       },
       {
         "name": "Champion Slayer",
@@ -3567,11 +3567,11 @@ export default [
     "abilities": [
       {
         "name": "Greater Daemon of Nurgle (Aura)",
-        "text": "While a friendly Nurgle Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly NURGLE LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       },
       {
         "name": "Virulent Blessing (Psychic)",
-        "text": "At the start of the Fight phase, you can select one enemy unit within 24\" and visible to this model. Until the end of the phase, each time an attack made by a Nurgle Legiones Daemonica model is allocated to a model in that unit, add 1 to the Damage characteristic of that attack."
+        "text": "At the start of the Fight phase, you can select one enemy unit within 24\" and visible to this model. Until the end of the phase, each time an attack made by a NURGLE LEGIONES DAEMONICA model is allocated to a model in that unit, add 1 to the Damage characteristic of that attack."
       },
       {
         "name": "Deluge of Nurgle (Aura)",
@@ -3856,7 +3856,7 @@ export default [
     "abilities": [
       {
         "name": "Greater Daemon of Slaanesh (Aura)",
-        "text": "While a friendly Slaanesh Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       },
       {
         "name": "No Prey Can Evade",
@@ -3955,11 +3955,11 @@ export default [
     "abilities": [
       {
         "name": "Greater Daemon of Khorne (Aura)",
-        "text": "While a friendly Khorne Legiones Daemonica unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
+        "text": "While a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this model, that unit is within your army’s Shadow of Chaos."
       },
       {
         "name": "Rage Embodied (Aura)",
-        "text": "While a friendly Khorne Legiones Daemonica unit is within 6\" of this model, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit."
+        "text": "While a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this model, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit."
       },
       {
         "name": "Murderlust",
@@ -4018,7 +4018,7 @@ export default [
     "abilities": [
       {
         "name": "Shadow of Khorne (Aura)",
-        "text": "The area of the battlefield within 6\" of this FORTIFICATION is considered to be within your army’s Shadow of Chaos. In addition, while a friendly Khorne Legiones Daemonica unit is within 6\" of this FORTIFICATION, each time you take a Battle-shock test for that unit, you can re-roll that test."
+        "text": "The area of the battlefield within 6\" of this FORTIFICATION is considered to be within your army’s Shadow of Chaos. In addition, while a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this FORTIFICATION, each time you take a Battle-shock test for that unit, you can re-roll that test."
       },
       {
         "name": "Cover",
@@ -4262,7 +4262,7 @@ export default [
       },
       {
         "name": "Skulls for Khorne",
-        "text": "Each time this model makes an attack that targets a Character unit, you can re-roll the Hit roll and you can re-roll the Wound roll. Each time this model destroys an enemy Character unit, you gain 1CP."
+        "text": "Each time this model makes an attack that targets a CHARACTER unit, you can re-roll the Hit roll and you can re-roll the Wound roll. Each time this model destroys an enemy Character unit, you gain 1CP."
       }
     ],
     "composition": [
@@ -4495,7 +4495,7 @@ export default [
     "abilities": [
       {
         "name": "Scuttling Walker",
-        "text": "Each time this model makes a Normal or Advance move, it can move over friendly Monster and Vehicle models and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal or Advance move, it can move over friendly MONSTER and VEHICLE models and terrain features that are 4\" or less in height as if they were not there."
       }
     ],
     "specialAbilities": [
@@ -4953,7 +4953,7 @@ export default [
     "abilities": [
       {
         "name": "The Eternal Dance",
-        "text": "At the start of the Fight phase, select one enemy unit within 6\" of this model. Until the end of the phase:\n▪ Each time a friendly Slaanesh Legiones Daemonica model makes a melee attack that targets that enemy unit, add 1 to the Wound roll.\n▪ Each time a model in that enemy unit makes a melee attack, subtract 1 from the Wound roll."
+        "text": "At the start of the Fight phase, select one enemy unit within 6\" of this model. Until the end of the phase:\n▪ Each time a friendly SLAANESH LEGIONES DAEMONICA model makes a melee attack that targets that enemy unit, add 1 to the Wound roll.\n▪ Each time a model in that enemy unit makes a melee attack, subtract 1 from the Wound roll."
       },
       {
         "name": "Dazzling Acrobatics",
@@ -5062,7 +5062,7 @@ export default [
     "abilities": [
       {
         "name": "Tormentbringer (Aura)",
-        "text": "While a friendly Slaanesh Legiones Daemonica unit is within 6\" of this model, melee weapons in that unit have the [SUSTAINED HITS 1] ability."
+        "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, melee weapons in that unit have the [SUSTAINED HITS 1] ability."
       },
       {
         "name": "Hysterical Frenzy (Psychic)",
@@ -5140,7 +5140,7 @@ export default [
       },
       {
         "name": "Symphony of Pain (Psychic)",
-        "text": "At the end of your Movement phase, you can select one enemy unit that is Battle-shocked and within 12\" of this model. Until the end of the turn, each time a Slaanesh Legiones Daemonica model from your army makes an attack that targets that enemy unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
+        "text": "At the end of your Movement phase, you can select one enemy unit that is Battle-shocked and within 12\" of this model. Until the end of the turn, each time a SLAANESH LEGIONES DAEMONICA model from your army makes an attack that targets that enemy unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
       }
     ],
     "composition": [

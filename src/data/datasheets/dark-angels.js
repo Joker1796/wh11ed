@@ -1256,7 +1256,7 @@ export default [
       },
       {
         "name": "Dark Angels Bodyguard",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Astartes Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES INFANTRY units, this model has the Lone Operative ability."
       }
     ],
     "specialAbilities": [
@@ -1678,7 +1678,7 @@ export default [
     "abilities": [
       {
         "name": "Narthecium",
-        "text": "While this unit contains a Ravenwing Apothecary, in your Command phase, you can return 1 destroyed model (excluding Character and Invader ATV models) to this unit."
+        "text": "While this unit contains a Ravenwing Apothecary, in your Command phase, you can return 1 destroyed model (excluding CHARACTER and Invader ATV models) to this unit."
       },
       {
         "name": "Astartes Banner",

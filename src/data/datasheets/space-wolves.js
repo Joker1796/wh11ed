@@ -705,15 +705,15 @@ export default [
     "abilities": [
       {
         "name": "Iron Priest",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Astartes Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES VEHICLE units, this model has the Lone Operative ability."
       },
       {
         "name": "Gift of the Iron Wolf",
-        "text": "In your Command phase, you can select one friendly Adeptus Astartes Vehicle model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, select one ranged weapon equipped by that model to have the [RAPID FIRE 1] ability. Each model can only be selected for this ability or the Blessing of the Omnissiah ability once per turn."
+        "text": "In your Command phase, you can select one friendly ADEPTUS ASTARTES VEHICLE model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, select one ranged weapon equipped by that model to have the [RAPID FIRE 1] ability. Each model can only be selected for this ability or the Blessing of the Omnissiah ability once per turn."
       },
       {
         "name": "Judgement of the Omnissiah",
-        "text": "Each time this model makes an attack that targets an enemy unit within Engagement Range of one or more friendly Adeptus Astartes Vehicle units, you can re-roll the Wound roll."
+        "text": "Each time this model makes an attack that targets an enemy unit within Engagement Range of one or more friendly ADEPTUS ASTARTES VEHICLE units, you can re-roll the Wound roll."
       }
     ],
     "composition": [
@@ -813,7 +813,7 @@ export default [
     "abilities": [
       {
         "name": "High King of Fenris",
-        "text": "Once per battle round, in your Movement phase, you can select one friendly Space Wolves unit that is in Reserves. If you do, until the end of the phase, for the purpose of setting up that unit on the battlefield, treat the current battle round number as being one higher than it actually is."
+        "text": "Once per battle round, in your Movement phase, you can select one friendly SPACE WOLVES unit that is in Reserves. If you do, until the end of the phase, for the purpose of setting up that unit on the battlefield, treat the current battle round number as being one higher than it actually is."
       },
       {
         "name": "Guile of the Wolf",
@@ -1533,7 +1533,7 @@ export default [
     "abilities": [
       {
         "name": "Fervour of the Ancients (Aura)",
-        "text": "While a friendly Space Wolves unit is within 6\" of this model, add 1 to Advance and Charge rolls made for that unit."
+        "text": "While a friendly SPACE WOLVES unit is within 6\" of this model, add 1 to Advance and Charge rolls made for that unit."
       }
     ],
     "wargearAbilities": [
@@ -1817,7 +1817,7 @@ export default [
       },
       {
         "name": "Headhunters",
-        "text": "At the start of the battle, select one unit from your opponent’s army to be this unit’s quarry. Weapons equipped by HEADTAKERS models in this unit have the [DEVASTATING WOUNDS] and [PRECISION] abilities while targeting its quarry. Each time this unit’s quarry is destroyed, select one new enemy unit to be this unit’s quarry. This ability can be used even if this unit is embarked within a Transport."
+        "text": "At the start of the battle, select one unit from your opponent’s army to be this unit’s quarry. Weapons equipped by HEADTAKERS models in this unit have the [DEVASTATING WOUNDS] and [PRECISION] abilities while targeting its quarry. Each time this unit’s quarry is destroyed, select one new enemy unit to be this unit’s quarry. This ability can be used even if this unit is embarked within a TRANSPORT."
       },
       {
         "name": "Hunting Hounds",

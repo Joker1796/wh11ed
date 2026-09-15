@@ -29,6 +29,7 @@ const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;
 // the asterisks go.
 const stripMarkup = (s) => String(s ?? '')
   .replace(/\[(?:gloss|def):[^\]:]+:([^\]]+)\]/g, '$1')
+  .replace(/\[core:([^\]]+)\]/g, '$1')
   .replace(/\{(?:red|blue|green):([^}]+)\}/g, '$1')
   .replace(/\*\*(.+?)\*\*/g, '$1')
   .replace(/__(.+?)__/g, '$1')

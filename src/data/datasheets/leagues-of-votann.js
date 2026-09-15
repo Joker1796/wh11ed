@@ -80,7 +80,7 @@ export default [
     "abilities": [
       {
         "name": "Science Guild Support",
-        "text": "While this model is within 3\" of one or more other friendly Leagues of Votann Infantry units (excluding units with the Lone Operative ability), this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more other friendly LEAGUES OF VOTANN INFANTRY units (excluding units with the Lone Operative ability), this model has the Lone Operative ability."
       },
       {
         "name": "Resource Transmutation",
@@ -323,7 +323,7 @@ export default [
     "abilities": [
       {
         "name": "Brôkhyr Guild Support",
-        "text": "While this unit is within 3\" of one or more friendly Leagues of Votann Vehicle or Ironkin Steeljacks units, if this unit is not an Attached unit, it has the Lone Operative ability."
+        "text": "While this unit is within 3\" of one or more friendly LEAGUES OF VOTANN VEHICLE or Ironkin Steeljacks units, if this unit is not an Attached unit, it has the Lone Operative ability."
       },
       {
         "name": "Multispectral Visor",
@@ -331,7 +331,7 @@ export default [
       },
       {
         "name": "Forgewrought Expertise",
-        "text": "At the end of your Movement phase, this unit can repair one friendly Leagues of Votann Vehicle, Exoframe or Ironkin Steeljacks unit within 3\" of it. One model in that unit regains up to D3 lost wounds, or up to 3 lost wounds instead if this unit contains an Ironkin Assistant model. Each unit can only be repaired once per turn."
+        "text": "At the end of your Movement phase, this unit can repair one friendly LEAGUES OF VOTANN VEHICLE, Exoframe or Ironkin Steeljacks unit within 3\" of it. One model in that unit regains up to D3 lost wounds, or up to 3 lost wounds instead if this unit contains an Ironkin Assistant model. Each unit can only be repaired once per turn."
       }
     ],
     "composition": [
@@ -1118,7 +1118,7 @@ export default [
       },
       {
         "name": "Grimnyr’s Regard",
-        "text": "Once per battle, at the start of any phase, you can select one friendly Leagues of Votann unit that is Battle-shocked and within 12\" of this unit’s GRIMNYR model. That unit is no longer Battle-shocked."
+        "text": "Once per battle, at the start of any phase, you can select one friendly LEAGUES OF VOTANN unit that is Battle-shocked and within 12\" of this unit’s GRIMNYR model. That unit is no longer Battle-shocked."
       }
     ],
     "composition": [
@@ -1513,7 +1513,7 @@ export default [
       "This model’s cyclic ion cannon can be replaced with one of the following:\n▪ 1 SP heavy conversion beamer\n▪ 1 heavy magna-rail cannon",
       "This model’s panspectral scanner can be replaced with 1 Hekaton warhead."
     ],
-    "transport": "This model has a transport capacity of 14 Leagues of Votann Infantry models. Each Exoarmour, Exoframe or Ironkin Steeljacks model takes up the space of 2 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 14 LEAGUES OF VOTANN INFANTRY models. Each Exoarmour, Exoframe or Ironkin Steeljacks model takes up the space of 2 models. It cannot transport Artillery models.",
     "keywords": [
       "Hekaton Land Fortress",
       "Vehicle",
@@ -2557,7 +2557,7 @@ export default [
     "options": [
       "This model’s HYLAS beam cannon can be replaced with one of the following:\n▪ 1 L7 missile launcher and 1 Sagitaur missile launcher\n▪ 1 MATR autocannon"
     ],
-    "transport": "This model has a transport capacity of 6 Leagues of Votann Infantry models. It cannot transport Artillery, Exoarmour, Exoframe or Ironkin Steeljacks models.\n\nAt the start of the Declare Battle Formations step, you can select one Hearthkyn Warriors unit from your army that has not been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
+    "transport": "This model has a transport capacity of 6 LEAGUES OF VOTANN INFANTRY models. It cannot transport Artillery, Exoarmour, Exoframe or Ironkin Steeljacks models.\n\nAt the start of the Declare Battle Formations step, you can select one Hearthkyn Warriors unit from your army that has not been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
     "keywords": [
       "Sagitaur",
       "Dedicated Transport",
@@ -2628,7 +2628,7 @@ export default [
       },
       {
         "name": "Grim Efficiency",
-        "text": "Once per battle round, when a friendly Leagues of Votann unit within 12“ of this model is targeted with a Stratagem, this model can use this ability. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, when a friendly LEAGUES OF VOTANN unit within 12“ of this model is targeted with a Stratagem, this model can use this ability. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       }
     ],
     "wargearAbilities": [

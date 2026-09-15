@@ -1720,7 +1720,7 @@ export default [
       "This model’s 2 twin pulse carbines can be replaced with 2 smart missile systems.",
       "This model can be equipped with up to 2 seeker missiles."
     ],
-    "transport": "This model has a transport capacity of 12 T’au Empire Infantry models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
+    "transport": "This model has a transport capacity of 12 T’AU EMPIRE INFANTRY models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
     "keywords": [
       "Transport",
       "Devilfish",
@@ -2636,11 +2636,11 @@ export default [
     "abilities": [
       {
         "name": "Loping Pounce",
-        "text": "At the start of your Command phase, if this unit is within 6\" of one or more friendly Kroot Infantry units, then until the end of the turn, this unit is eligible to declare a charge in a turn in which it Advanced."
+        "text": "At the start of your Command phase, if this unit is within 6\" of one or more friendly KROOT INFANTRY units, then until the end of the turn, this unit is eligible to declare a charge in a turn in which it Advanced."
       },
       {
         "name": "Hunting Hounds",
-        "text": "While this unit is within 12\" of one or more friendly Kroot Character models, the Objective Control characteristic of models in this unit is 1."
+        "text": "While this unit is within 12\" of one or more friendly KROOT CHARACTER models, the Objective Control characteristic of models in this unit is 1."
       }
     ],
     "composition": [
@@ -3137,7 +3137,7 @@ export default [
     "abilities": [
       {
         "name": "Kroot Packmates",
-        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly Kroot Infantry unit within 6\" of this unit is selected as the target of an attack, one unit from your army with this ability can use it. If it does, after that enemy unit has finished making its attacks, that unit with this ability can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly KROOT INFANTRY unit within 6\" of this unit is selected as the target of an attack, one unit from your army with this ability can use it. If it does, after that enemy unit has finished making its attacks, that unit with this ability can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
       }
     ],
     "composition": [
@@ -3285,7 +3285,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of all of the following:\n▪ 200 T’au Empire Infantry or TACTICAL DRONE models\n▪ 4 Devilfish, Sky Ray Gunship or Hammerhead models\n▪ 8 Battlesuit models with a Wounds characteristic of 9 or less",
+    "transport": "This model has a transport capacity of all of the following:\n▪ 200 T’AU EMPIRE INFANTRY or TACTICAL DRONE models\n▪ 4 Devilfish, Sky Ray Gunship or Hammerhead models\n▪ 8 Battlesuit models with a Wounds characteristic of 9 or less",
     "keywords": [
       "Aircraft",
       "Fly",
@@ -4330,7 +4330,7 @@ export default [
       },
       {
         "name": "Titan-killer",
-        "text": "Each time this model makes a ranged attack that targets a Titanic or TOWERING unit, you can re-roll the Hit roll."
+        "text": "Each time this model makes a ranged attack that targets a TITANIC or TOWERING unit, you can re-roll the Hit roll."
       }
     ],
     "damaged": {
@@ -5025,7 +5025,7 @@ export default [
       },
       {
         "name": "Tidewall Cover",
-        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this FORTIFICATION, that model has the Benefit of Cover against that attack."
       }
     ],
     "composition": [
@@ -5035,7 +5035,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of 11 T’au Empire Infantry models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
+    "transport": "This model has a transport capacity of 11 T’AU EMPIRE INFANTRY models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
     "keywords": [
       "Fortification",
       "Tidewall Droneport",
@@ -5103,7 +5103,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of 11 T’au Empire Infantry models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
+    "transport": "This model has a transport capacity of 11 T’AU EMPIRE INFANTRY models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models.",
     "keywords": [
       "Fortification",
       "Vehicle",
@@ -5165,7 +5165,7 @@ export default [
     "options": [
       "This model can be equipped with 1 Tidewall defence platform."
     ],
-    "transport": "This model has a transport capacity of 11 T’au Empire Infantry models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models. If this model is equipped with a Tidewall defence platform, it has a transport capacity of 22 T’au Infantry models instead.",
+    "transport": "This model has a transport capacity of 11 T’AU EMPIRE INFANTRY models. It cannot transport Battlesuit, Kroot or Vespid Stingwings models. If this model is equipped with a Tidewall defence platform, it has a transport capacity of 22 T’AU INFANTRY models instead.",
     "keywords": [
       "Fortification",
       "Vehicle",

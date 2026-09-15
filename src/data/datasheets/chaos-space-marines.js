@@ -549,7 +549,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Heretic Astartes Infantry models (excluding Obliterator and Jump Pack models). Each Possessed, Mutilators and Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 12 HERETIC ASTARTES INFANTRY models (excluding Obliterator and Jump Pack models). Each Possessed, Mutilators and Terminator model takes up the space of 2 models.",
     "keywords": [
       "Chaos",
       "Vehicle",
@@ -1342,7 +1342,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Heretic Astartes Infantry models. It cannot transport Terminator, Jump Pack, Mutilators, Obliterators or Possessed models.",
+    "transport": "This model has a transport capacity of 12 HERETIC ASTARTES INFANTRY models. It cannot transport Terminator, Jump Pack, Mutilators, Obliterators or Possessed models.",
     "keywords": [
       "Transport",
       "Vehicle",
@@ -3686,7 +3686,7 @@ export default [
     "abilities": [
       {
         "name": "Dark Blessing (Aura)",
-        "text": "While a friendly Heretic Astartes Infantry unit is within 6\" of this model, each time a ranged attack is allocated to a model in that unit, that model has the Benefit of Cover against that attack."
+        "text": "While a friendly HERETIC ASTARTES INFANTRY unit is within 6\" of this model, each time a ranged attack is allocated to a model in that unit, that model has the Benefit of Cover against that attack."
       },
       {
         "name": "Ascended Daemon",
@@ -3694,7 +3694,7 @@ export default [
       },
       {
         "name": "Lord of Chaos",
-        "text": "While this model is within 3\" of one or more friendly Heretic Astartes Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly HERETIC ASTARTES INFANTRY units, this model has the Lone Operative ability."
       }
     ],
     "specialAbilities": [
@@ -3894,7 +3894,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Badab (Aura)",
-        "text": "While a friendly Heretic Astartes Infantry unit (excluding Battle-shocked units and Damned units) is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit."
+        "text": "While a friendly HERETIC ASTARTES INFANTRY unit (excluding Battle-shocked units and Damned units) is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit."
       },
       {
         "name": "Hamadrya’s Knowledge (Psychic)",
@@ -4969,11 +4969,11 @@ export default [
     "abilities": [
       {
         "name": "Choice Samples",
-        "text": "While this unit’s Garreon the Corpsemaster is on the battlefield, in your Command phase, select one of the following: you can return 1 destroyed model (excluding CHARACTER models) to this unit, or, if one or more Heretic Astartes Infantry units from your army are below Starting Strength and within 3\" of this unit, you gain 1CP."
+        "text": "While this unit’s Garreon the Corpsemaster is on the battlefield, in your Command phase, select one of the following: you can return 1 destroyed model (excluding CHARACTER models) to this unit, or, if one or more HERETIC ASTARTES INFANTRY units from your army are below Starting Strength and within 3\" of this unit, you gain 1CP."
       },
       {
         "name": "Fleet Command",
-        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any Transport it is embarked within is on the battlefield) select up to three HERETIC ASTARTES units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any TRANSPORT it is embarked within is on the battlefield) select up to three HERETIC ASTARTES units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
       },
       {
         "name": "Plunder",
@@ -6803,7 +6803,7 @@ export default [
     "abilities": [
       {
         "name": "Unholy Mechanisms (Aura)",
-        "text": "While a friendly Daemon Vehicle unit is within 6\" of this model, add 2 to the Strength characteristic of weapons equipped by models in that unit."
+        "text": "While a friendly DAEMON VEHICLE unit is within 6\" of this model, add 2 to the Strength characteristic of weapons equipped by models in that unit."
       },
       {
         "name": "Reorder Reality",
@@ -6811,7 +6811,7 @@ export default [
       },
       {
         "name": "Indentured Daemon Engines",
-        "text": "While this model is within 3\" of one or more friendly Daemon Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly DAEMON VEHICLE units, this model has the Lone Operative ability."
       }
     ],
     "damaged": {
@@ -7085,11 +7085,11 @@ export default [
     "abilities": [
       {
         "name": "Warpsmith",
-        "text": "While this model is within 3\" of one or more friendly Heretic Astartes Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly HERETIC ASTARTES VEHICLE units, this model has the Lone Operative ability."
       },
       {
         "name": "Master of Mechanisms",
-        "text": "In your Command phase, select one friendly Heretic Astartes Vehicle model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per Command phase."
+        "text": "In your Command phase, select one friendly HERETIC ASTARTES VEHICLE model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per Command phase."
       },
       {
         "name": "Enrage Machine Spirits",

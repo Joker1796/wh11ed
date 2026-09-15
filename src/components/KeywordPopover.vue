@@ -105,7 +105,7 @@ function handleBodyClick(e) {
     openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
     return
   }
-  const kwEl = e.target.closest('.keyword')
+  const kwEl = e.target.closest('.keyword, .core-ability')
   if (kwEl) {
     open(kwEl.textContent.replace(/^\[|\]$/g, '').trim(), kwEl.getBoundingClientRect())
   }

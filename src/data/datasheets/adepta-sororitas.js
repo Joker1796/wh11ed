@@ -992,7 +992,7 @@ export default [
       },
       {
         "name": "Virtue of Intolerance",
-        "text": "At the start of the battle, select one unit from your opponent’s army to be this unit’s quarry. Each time a model in this unit makes an attack that targets its quarry, that attack has the [PRECISION] ability and you can re-roll the Hit roll. This ability can be used even if this unit is embarked within a Transport."
+        "text": "At the start of the battle, select one unit from your opponent’s army to be this unit’s quarry. Each time a model in this unit makes an attack that targets its quarry, that attack has the [PRECISION] ability and you can re-roll the Hit roll. This ability can be used even if this unit is embarked within a TRANSPORT."
       }
     ],
     "wargearAbilities": [
@@ -2155,7 +2155,7 @@ export default [
       "This model can be equipped with 1 hunter-killer missile.",
       "This model’s immolation flamers can be replaced with one of the following:\n▪ 1 twin heavy bolter\n▪ 1 twin multi-melta"
     ],
-    "transport": "This model has a transport capacity of 6 Adepta Sororitas Infantry models. It cannot transport Jump Pack models or the Triumph of Saint Katherine.\n\nAt the start of the Declare Battle Formations step, you can select one Battle Sisters Squad, Dominion Squad or Sisters Novitiate Squad from your army. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units. If you are splitting a unit that has the Cherub ability, only one of the new units can use that ability during the battle – make a note of which of the new units this will be). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another Transport, or it can be deployed as a separate unit.",
+    "transport": "This model has a transport capacity of 6 ADEPTA SORORITAS INFANTRY models. It cannot transport Jump Pack models or the Triumph of Saint Katherine.\n\nAt the start of the Declare Battle Formations step, you can select one Battle Sisters Squad, Dominion Squad or Sisters Novitiate Squad from your army. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units. If you are splitting a unit that has the Cherub ability, only one of the new units can use that ability during the battle – make a note of which of the new units this will be). One of these units must start the battle embarked within this TRANSPORT; the other can start the battle embarked within another Transport, or it can be deployed as a separate unit.",
     "keywords": [
       "Dedicated Transport",
       "Transport",
@@ -4229,7 +4229,7 @@ export default [
     "options": [
       "This model can be equipped with 1 hunter-killer missile."
     ],
-    "transport": "This model has a transport capacity of 12 Adepta Sororitas Infantry models. It cannot transport Jump Pack models or the Triumph of Saint Katherine.",
+    "transport": "This model has a transport capacity of 12 ADEPTA SORORITAS INFANTRY models. It cannot transport Jump Pack models or the Triumph of Saint Katherine.",
     "keywords": [
       "Sororitas Rhino",
       "Imperium",

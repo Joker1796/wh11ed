@@ -28,7 +28,7 @@ const en = {
     // model was simplified to a flat "heals D3 wounds" (appdata Codex army rule; the pre-errata
     // wording survives only in the Combat Patrol box). The example below is kept as-is — appdata
     // itself retains it under the new wording.
-    body: `If your Army Faction is Necrons, at the end of your Command phase, each friendly unit with this ability that is on the battlefield activates its Reanimation Protocols:
+    body: `If your Army Faction is NECRONS, at the end of your Command phase, each friendly unit with this ability that is on the battlefield activates its Reanimation Protocols:
 ▪ When a unit's Reanimation Protocols activate, that unit heals D3 wounds.`,
     example: `A unit of Lokhust Destroyers (which have a Wounds characteristic of 3) activates its Reanimation Protocols. The unit had a Starting Strength of 3, but currently contains 2 models, and one of those models has lost 1 wound. A 3 is rolled to see how many wounds are reanimated. The first of these reanimated wounds restores the wounded Lokhust Destroyer back to 3 wounds. The second of these reanimated wounds returns the destroyed Lokhust Destroyer to the battlefield with 1 wound remaining. The third of these reanimated wounds restores one of the remaining lost wounds to the same Lokhust Destroyer that was just returned. The unit now contains 3 models, two of which have 3 wounds remaining and one of which has 2 wounds remaining.`,
   },
@@ -46,7 +46,7 @@ const en = {
         name: 'Command Protocols',
         flavor:
           'The Necron nobility and their high-ranking courtiers make war in a codified and relentless fashion. Their command protocols crackle out across multi-dimensional spectra from carrier-wave projectors, compelling their semi-sentient soldiery into battle one overriding directive at a time.',
-        body: `While a Necrons Character model is leading this unit, each time a model in this unit makes an attack, add 1 to the Hit roll.`,
+        body: `While a NECRONS CHARACTER model is leading this unit, each time a model in this unit makes an attack, add 1 to the Hit roll.`,
       },
       stratagems: [
         {
@@ -57,7 +57,7 @@ const en = {
           flavor: 'Necron rulers possess enhanced self-repair systems.',
           when: 'Any phase.',
           target:
-            'One Necrons Infantry Character model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
+            'One NECRONS INFANTRY CHARACTER model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
           effect:
             'At the end of the phase, set up the destroyed model on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. That model has half of its starting number of wounds remaining.',
           restrictions: 'Each model can only be targeted with this Stratagem once per battle.',
@@ -71,9 +71,9 @@ const en = {
             'Nanoscarabs are released in boiling black clouds that whirl about the legions and effect rapid repairs.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has resolved its attacks.",
           target:
-            "One Necrons unit from your army that had one or more of its models destroyed as a result of the attacking unit's attacks.",
+            "One NECRONS unit from your army that had one or more of its models destroyed as a result of the attacking unit's attacks.",
           effect:
-            'Your unit activates its Reanimation Protocols and reanimates D3 wounds (or D3+1 wounds if a Necrons Character is leading your unit).',
+            'Your unit activates its Reanimation Protocols and reanimates D3 wounds (or D3+1 wounds if a NECRONS CHARACTER is leading your unit).',
           restrictions: '',
         },
         {
@@ -83,9 +83,9 @@ const en = {
           turn: 'your',
           flavor: 'Necrons strike with data-augmented accuracy.',
           when: 'Fight phase.',
-          target: 'One Necrons unit from your army that has not been selected to fight this phase.',
+          target: 'One NECRONS unit from your army that has not been selected to fight this phase.',
           effect:
-            'Until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in your unit. In addition, if a Necrons Character is leading your unit, until the end of the phase, improve the Armour Penetration characteristic of melee weapons equipped by models in your unit by 1 (this is not cumulative with any other modifiers that improve Armour Penetration).',
+            'Until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in your unit. In addition, if a NECRONS CHARACTER is leading your unit, until the end of the phase, improve the Armour Penetration characteristic of melee weapons equipped by models in your unit by 1 (this is not cumulative with any other modifiers that improve Armour Penetration).',
           restrictions: '',
         },
         {
@@ -95,9 +95,9 @@ const en = {
           turn: 'your',
           flavor: 'Arcing energies leap from one Necron to the next, lending them unnatural speed and surety.',
           when: 'Your Movement phase.',
-          target: 'One Necrons unit from your army.',
+          target: 'One NECRONS unit from your army.',
           effect:
-            'Until the end of the turn, ranged weapons equipped by models in your unit have the [ASSAULT] ability. In addition, if a Necrons Character is leading your unit, until the end of the phase, you can re-roll Advance rolls made for your unit.',
+            'Until the end of the turn, ranged weapons equipped by models in your unit have the [ASSAULT] ability. In addition, if a NECRONS CHARACTER is leading your unit, until the end of the phase, you can re-roll Advance rolls made for your unit.',
           restrictions: '',
         },
         {
@@ -108,9 +108,9 @@ const en = {
           flavor:
             'The legions employ the strategies of their masters in perfect synchronicity, laying down hails of mechanically coordinated fire.',
           when: 'Your Shooting phase.',
-          target: 'One Necrons unit from your army that has not been selected to shoot this phase.',
+          target: 'One NECRONS unit from your army that has not been selected to shoot this phase.',
           effect:
-            'Until the end of the phase, each time a model in your unit makes an attack that targets a unit within half range, re-roll a Hit roll of 1. If a Necrons Character is leading your unit, until the end of the phase, you can re-roll the Hit roll for that attack instead.',
+            'Until the end of the phase, each time a model in your unit makes an attack that targets a unit within half range, re-roll a Hit roll of 1. If a NECRONS CHARACTER is leading your unit, until the end of the phase, you can re-roll the Hit roll for that attack instead.',
           restrictions: '',
         },
         {
@@ -120,9 +120,9 @@ const en = {
           turn: 'opponent',
           flavor:
             "Criss-cross fire leaps from the Necron ranks, forming a blazing corona of deadly energy to punish those who dare threaten the indignant nobility's legions.",
-          when: "Your opponent's Shooting phase, just after an enemy unit destroys a Necrons unit from your army.",
+          when: "Your opponent's Shooting phase, just after an enemy unit destroys a NECRONS unit from your army.",
           target:
-            'One Necrons Character unit from your army that was within 6" of that Necrons unit when it was destroyed.',
+            'One NECRONS CHARACTER unit from your army that was within 6" of that Necrons unit when it was destroyed.',
           effect:
             'After the attacking unit has resolved its attacks, your unit can shoot as if it were your Shooting phase, but it must target only that enemy unit when doing so, and can only do so if that enemy unit is an eligible target.',
           restrictions: '',
@@ -134,14 +134,14 @@ const en = {
           points: 20,
           flavor:
             'With this device the bearer can twist space and time about them, enfolding them in a swirling darkness. When it fades, they have vanished, rematerialising elsewhere through a miracle of arcane science.',
-          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
+          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has [core:Deep Strike] until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
         },
         {
           name: 'Nether-realm Casket',
           points: 20,
           flavor:
             'Clouds of hyper-dense particles billow from this small artefact, to obscure and shield the bearer from the foe.',
-          body: `Necrons model only. While the bearer is leading a unit, models in that unit have the Stealth ability.`,
+          body: `NECRONS model only. While the bearer is leading a unit, models in that unit have the Stealth ability.`,
         },
         {
           name: 'Phasal Subjugator',
@@ -149,14 +149,14 @@ const en = {
           aura: true,
           flavor:
             'This engraved sigil-circuitry transforms the fierce will of the bearer into a surging lash across every phasal state.',
-          body: `Necrons model only. While a friendly Necrons unit (excluding Character units) is within 6" of the bearer, each time a model in that unit makes an attack, add 1 to the Hit roll.`,
+          body: `NECRONS model only. While a friendly Necrons unit (excluding CHARACTER units) is within 6" of the bearer, each time a model in that unit makes an attack, add 1 to the Hit roll.`,
         },
         {
           name: 'Enaegic Dermal Bond',
           points: 30,
           flavor:
             'The bearer’s living metal mantle is bonded to mirror versions of itself across many dimensional thresholds.',
-          body: `Necrons model only. The bearer has the Feel No Pain 4+ ability.`,
+          body: `NECRONS model only. The bearer has the Feel No Pain 4+ ability.`,
         },
       ],
     },
@@ -260,14 +260,14 @@ Each time a Destroyer Cult unit from your army makes a ranged attack that target
           points: 20,
           flavor:
             'This Necron’s sanity suffered during the Great Sleep. Now they are driven by a wrathful zeal, one which has seeped through the carrier waves of their commandments and into their followers.',
-          body: `Necrons model only. In the Fight phase, each time a model in the bearer's unit is destroyed, if that model has not fought this phase, roll one D6: on a 4+, do not remove the destroyed model from play; it can fight after the attacking model's unit has finished making its attacks, and is then removed from play.`,
+          body: `NECRONS model only. In the Fight phase, each time a model in the bearer's unit is destroyed, if that model has not fought this phase, roll one D6: on a 4+, do not remove the destroyed model from play; it can fight after the attacking model's unit has finished making its attacks, and is then removed from play.`,
         },
         {
           name: 'Ingrained Superiority',
           points: 5,
           flavor:
             'An immortal destroyer, this war leader’s every victim is etched irrevocably into their cognitive engrams. Every weakness they ever overcame is recalled, frailties they can exploit on each new battlefield.',
-          body: `Necrons model only. Each time a model in the bearer's unit makes an attack, on a Critical Wound, improve the Armour Penetration characteristic of that attack by 1.`,
+          body: `NECRONS model only. Each time a model in the bearer's unit makes an attack, on a Critical Wound, improve the Armour Penetration characteristic of that attack by 1.`,
         },
         {
           name: 'Soulless Reaper',
@@ -339,7 +339,7 @@ Each time a model in a Cryptek or Canoptek unit from your army makes an attack, 
           when: 'Start of your Shooting phase.',
           target: 'One Cryptek model from your army.',
           effect:
-            'Select one objective marker within 18" of your Cryptek model. Until the end of the phase, weapons equipped by friendly Necrons models have the [IGNORES COVER] ability while targeting units within range of that objective marker.',
+            'Select one objective marker within 18" of your Cryptek model. Until the end of the phase, weapons equipped by friendly NECRONS models have the [IGNORES COVER] ability while targeting units within range of that objective marker.',
           restrictions: '',
         },
         {
@@ -423,7 +423,7 @@ Each time a model in a Cryptek or Canoptek unit from your army makes an attack, 
         flavor:
           'Employing fractal corridors, dolmen gates and ancient translocation science, the Necrons are able to phase in and out of existence. Nowhere is safe for the terrified foe as mechanoid hunters appear from unfolding planar lattices to slaughter or escape retribution into gulfs of darkness, only to materialise elsewhere to kill anew.',
         // Faction-Pack Rules Update revises the battle-size table (was 2 / 3 / 4).
-        body: `At the end of your opponent's turn, you can select a number of Necrons units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:
+        body: `At the end of your opponent's turn, you can select a number of NECRONS units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:
 ▪ Incursion: Up to 1 unit
 ▪ Strike Force: Up to 2 units
 ▪ Onslaught: Up to 3 units
@@ -439,9 +439,9 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "Obeying recall protocols, threatened tomb defenders will phase out of existence, only to be relocated to a more advantageous position by the tomb's hulking Monoliths.",
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has shot or fought.",
           target:
-            "One Necrons Infantry unit from your army that had one or more of its models destroyed as a result of the attacking unit's attacks and one friendly Monolith model.",
+            "One NECRONS INFANTRY unit from your army that had one or more of its models destroyed as a result of the attacking unit's attacks and one friendly Monolith model.",
           effect:
-            'Remove your Infantry unit from the battlefield and then set it back up anywhere on the battlefield that is wholly within 6" of your Monolith model and not within Engagement Range of one or more enemy units.',
+            'Remove your INFANTRY unit from the battlefield and then set it back up anywhere on the battlefield that is wholly within 6" of your Monolith model and not within Engagement Range of one or more enemy units.',
           restrictions: '',
         },
         {
@@ -452,7 +452,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: 'Necron quantum shielding is a true marvel of techno-arcana. Channelled with energy reserves from the rising tomb structures, the shielding is capable of adaptive remodulation to diffuse and deflect the most powerful enemy attacks.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target:
-            "One Necrons Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+            "One NECRONS VEHICLE unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, models in your unit have a 4+ invulnerable save.',
           restrictions: '',
         },
@@ -463,8 +463,8 @@ Once you have made your selections, remove those units from the battlefield and 
           turn: 'your',
           flavor: 'There is no rest for Necrons who fall in the service of their master. In dark crypts, their bodies are repaired and they are dispatched once more to war.',
           when: 'Your Command phase.',
-          target: 'Your Necrons Warlord.',
-          effect: "For each of your Necrons units in Reserves, that Reserves unit's Reanimation Protocols activate.",
+          target: 'Your NECRONS WARLORD.',
+          effect: "For each of your NECRONS units in Reserves, that Reserves unit's Reanimation Protocols activate.",
           restrictions: '',
         },
         {
@@ -476,7 +476,7 @@ Once you have made your selections, remove those units from the battlefield and 
           when: 'Your Movement phase.',
           // Faction-Pack Rules Update: target now excludes MONSTER units.
           target:
-            'One Necrons unit from your army (excluding Monster units) that is arriving using an ingress move this phase.',
+            'One NECRONS unit from your army (excluding MONSTER units) that is arriving using an ingress move this phase.',
           effect:
             'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy models.',
           restrictions: 'A unit targeted with this Stratagem is not eligible to declare a charge in the same turn.',
@@ -489,7 +489,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "As the tomb's warriors pass through a dimensional displacement corridor, the passage's surface is lit with data-glyphs providing hyperlogical tactical information. When they step from an eternity gate, they are already prepared for the hunt.",
           when: 'Your Charge phase.',
           target:
-            'One Necrons unit from your army that was set up on the battlefield this turn using the Eternity Gate ability of a Monolith model that started the turn on the battlefield.',
+            'One NECRONS unit from your army that was set up on the battlefield this turn using the Eternity Gate ability of a Monolith model that started the turn on the battlefield.',
           effect: 'Your unit is eligible to charge this phase.',
           restrictions: '',
         },
@@ -501,7 +501,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "Towering war engines rise from an erupting tomb in its defence, directing entropic energies to weaken and fracture the enemies' own weapons and turning them into dangerous tools only the desperate would use.",
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target:
-            "One Titanic model from your army that was selected as the target of one or more of the attacking unit's attacks and is within 18\" of the attacking unit.",
+            "One TITANIC model from your army that was selected as the target of one or more of the attacking unit's attacks and is within 18\" of the attacking unit.",
           effect: 'Until the end of the phase, weapons equipped by models in the attacking unit have the [HAZARDOUS] ability.',
           restrictions: '',
         },
@@ -511,25 +511,25 @@ Once you have made your selections, remove those units from the battlefield and 
           name: 'Dimensional Overseer',
           points: 25,
           flavor: "With a mind as labyrinthine as the multi-dimensional tomb itself, this commander directs their servants in complex forays through the tomb's hyperspatial architecture, catching the witless enemy off guard.",
-          body: `Necrons model only. While the bearer is on the battlefield or in Strategic Reserves, add one to the number of units from your army that you can select for the Hyperphasing rule.`,
+          body: `NECRONS model only. While the bearer is on the battlefield or in Strategic Reserves, add one to the number of units from your army that you can select for the Hyperphasing rule.`,
         },
         {
           name: 'Arisen Tyrant',
           points: 25,
           flavor: 'This ancient being will suffer no threats to their rule, stepping imperiously from twisting nightmare dimensions to annihilate any who dare to oppose them.',
-          body: `Necrons model only. Each time a model in the bearer's unit makes an attack, re-roll a Hit roll of 1. If the bearer's unit was set up on the battlefield this turn, you can re-roll the Hit roll instead.`,
+          body: `NECRONS model only. Each time a model in the bearer's unit makes an attack, re-roll a Hit roll of 1. If the bearer's unit was set up on the battlefield this turn, you can re-roll the Hit roll instead.`,
         },
         {
           name: 'Hyperspatial Transfer Node',
           points: 15,
           flavor: 'Wound with filaments of temporal circuitry, this amulet enables the bearer to accelerate themselves and their closest guardians in stuttering bursts of compressed time.',
-          body: `Necrons model only. Each time the bearer's unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6" to the Move characteristic of models in the bearer's unit.`,
+          body: `NECRONS model only. Each time the bearer's unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6" to the Move characteristic of models in the bearer's unit.`,
         },
         {
           name: 'Osteoclave Fulcrum',
           points: 20,
           flavor: "This hypermaterial key unlocks portals between transpatial dimensions embedded into a tomb's architecture. Through such limitless doorways, the Necrons can pursue their quarry wherever they hide.",
-          body: `Necrons model only. Models in the bearer's unit have the Deep Strike ability.`,
+          body: `NECRONS model only. Models in the bearer's unit have the Deep Strike ability.`,
         },
       ],
     },
@@ -554,8 +554,8 @@ Once you have made your selections, remove those units from the battlefield and 
           cp: '1CP',
           turn: 'either',
           flavor: 'With a pulse of necroneural energy that erodes the foe’s will, the Necron commander declares the fall of the enemy general, promising their remaining forces that it is only a matter of time until they join their master in ignoble death.',
-          when: "Any phase, just after your opponent's Warlord is destroyed.",
-          target: 'Your Necrons Warlord.',
+          when: "Any phase, just after your opponent's WARLORD is destroyed.",
+          target: 'Your NECRONS WARLORD.',
           effect: 'Until the end of the battle, each time an enemy unit takes a Battle-shock or Leadership test, subtract 1 from the result.',
           restrictions: '',
         },
@@ -566,7 +566,7 @@ Once you have made your selections, remove those units from the battlefield and 
           turn: 'your',
           flavor: 'It is not only android soldiery that be compelled to serve. With a command, prized war engines and ornate weapons are empowered to hyperlethality.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit from your army (excluding Titanic units) that has not been selected to shoot or fight this phase.',
+          target: 'One NECRONS unit from your army (excluding TITANIC units) that has not been selected to shoot or fight this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack, an unmodified Hit roll of 5+ scores a Critical Hit.',
           restrictions: '',
         },
@@ -578,7 +578,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: 'A tomb world’s war engines are the pride of its nobility and they will suffer no affront to them, demanding the reassembly of slablike armour atom by atom even as the foe seek to sunder the vehicles.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target:
-            "One Necrons Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+            "One NECRONS VEHICLE unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time an attack is allocated to a model in your unit, subtract 1 from the Damage characteristic of that attack.',
           restrictions: '',
         },
@@ -616,7 +616,7 @@ Once you have made your selections, remove those units from the battlefield and 
           // Faction-Pack Rules Update: target now "One Lychguard or Triarch unit".
           target: 'One Lychguard or Triarch unit from your army.',
           effect:
-            'Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in your unit. If your unit has the Vehicle keyword, add 3 to the Objective Control characteristic instead.',
+            'Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in your unit. If your unit has the VEHICLE keyword, add 3 to the Objective Control characteristic instead.',
           restrictions: '',
         },
       ],
@@ -625,7 +625,7 @@ Once you have made your selections, remove those units from the battlefield and 
           name: 'Honourable Combatant',
           points: 10,
           flavor: "A strict adherent to the ancient codes, this noble reserves their greatest displays of power to execute the enemy's leaders. Such champions are brought low in ostentatious manner, the inspiration or strategy they once provided severed at a stroke.",
-          body: `Overlord model only. Each time the bearer's unit destroys an enemy Character unit, your opponent loses 1CP if they have any.`,
+          body: `Overlord model only. Each time the bearer's unit destroys an enemy CHARACTER unit, your opponent loses 1CP if they have any.`,
         },
         {
           name: 'Unflinching Will',
@@ -660,7 +660,7 @@ Once you have made your selections, remove those units from the battlefield and 
         name: 'Hypermotility Protocols',
         flavor:
           'Command protocols and neural impulses flood the mechanical bodies of these android warriors, lending them greater speed of thought and movement.',
-        body: `▪ Friendly Immortals/Necron Warriors units' ranged attacks have [ASSAULT].
+        body: `▪ Friendly IMMORTALS/NECRON WARRIORS units' ranged attacks have [ASSAULT].
 ▪ When a friendly Immortals/Necron Warriors unit is selected to make an advance move, that move does not prevent that unit from being eligible to start an action.
 
 This detachment has the Dynasty tag and cannot be taken with another Dynasty detachment.`,
@@ -684,7 +684,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           turn: 'your',
           flavor: 'Moved like playing pieces by the irresistible will of their noble masters, the Necron soldiery rapidly secured ever more dynastic territory.',
           when: 'End of your Movement phase.',
-          target: 'One friendly Immortals/Necron Warriors unit.',
+          target: 'One friendly IMMORTALS/NECRON WARRIORS unit.',
           effect: 'Select one objective your unit is controlling. That objective is secured.',
           restrictions: '',
         },
@@ -694,8 +694,8 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           cp: '1CP',
           turn: 'opponent',
           flavor: 'In response to enemy threats, these Necron footsoldiers unseal canoptek urns and unleash a localised nanoscarab plague to saturate the site they are holding.',
-          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly Immortals/Necron Warriors unit has shot.",
-          target: 'That Immortals/Necron Warriors unit.',
+          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly IMMORTALS/NECRON WARRIORS unit has shot.",
+          target: 'That IMMORTALS/NECRON WARRIORS unit.',
           effect: 'Your unit shoots using snap shooting, but while doing so your unit can only target that enemy unit.',
           restrictions: '',
         },
@@ -706,7 +706,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           points: 20,
           upgrade: true,
           flavor: 'Goaded into battle by overriding imperatives, these Warriors march relentlessly out to enact the will of their masters.',
-          body: `Necron Warriors unit only. This unit has Scouts 5".`,
+          body: `NECRON WARRIORS unit only. This unit has [core:Scouts 5"].`,
         },
         {
           name: 'Tools of Dominion',
@@ -728,7 +728,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
         name: 'Transdimensional Deployment',
         flavor:
           'Transported to the battlefield via dimension-shifting technologies, Tomb Blades materialise in crackling fields of energy and strafe unprepared targets, often to devastating effect.',
-        body: `▪ Friendly Tomb Blades units have Deep Strike.
+        body: `▪ Friendly Tomb Blades units have [core:Deep Strike].
 ▪ When a friendly Tomb Blades unit is selected to shoot, if that unit made an ingress move this turn, that unit's ranged attacks have +1 to hit rolls.`,
       },
       stratagems: [
@@ -738,8 +738,8 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           cp: '1CP',
           turn: 'your',
           flavor: 'Once their targeting imperatives are locked in place, these hurtling Necron killers keep hammering their targets with fire even as they spiral and swoop back and forth across the enemy lines.',
-          when: 'Your Movement phase, when a friendly Necrons Mounted unit is selected to make a fall-back move.',
-          target: 'That Necrons Mounted unit.',
+          when: 'Your Movement phase, when a friendly NECRONS MOUNTED unit is selected to make a fall-back move.',
+          target: 'That NECRONS MOUNTED unit.',
           effect: 'That move does not prevent your unit from being eligible to shoot.',
           restrictions: '',
         },
@@ -749,8 +749,8 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           cp: '1CP',
           turn: 'opponent',
           flavor: 'Reacting with android hyperresponsiveness, these skimmer Necrons fire thrusters and surge across the battlefield.',
-          when: "Your opponent's Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged Necrons Mounted unit.",
-          target: 'That Necrons Mounted unit.',
+          when: "Your opponent's Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged NECRONS MOUNTED unit.",
+          target: 'That NECRONS MOUNTED unit.',
           effect: 'Your unit can make a normal move of up to D3+3".',
           restrictions: '',
         },
@@ -760,8 +760,8 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           cp: '1CP',
           turn: 'opponent',
           flavor: 'So rapidly and seemingly randomly does this skyborne unit jink through incoming fire that it is almost impossible for foes to land a solid direct hit.',
-          when: "Your opponent's Shooting phase, when an enemy unit targets a friendly Necrons Mounted unit.",
-          target: 'That Necrons Mounted unit.',
+          when: "Your opponent's Shooting phase, when an enemy unit targets a friendly NECRONS MOUNTED unit.",
+          target: 'That NECRONS MOUNTED unit.',
           effect: "Ranged attacks that target your unit with a S greater than your unit's T have -1 to wound rolls.",
           restrictions: '',
         },
@@ -795,7 +795,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
         name: 'Empowered Engines',
         flavor:
           'When a Necron ruler unleashes the mightiest war engines from amongst their armoury, they may charge their finest Crypteks to enhance them first.',
-        body: `Friendly Necrons Titanic Fly units have +6" M.
+        body: `Friendly NECRONS TITANIC FLY units have +6" M.
 
 This detachment has the Hypercrypt tag and cannot be taken with another Hypercrypt detachment.`,
       },
@@ -806,8 +806,8 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           cp: '1CP',
           turn: 'opponent',
           flavor: "The layers of this war machine's armour are interspersed with molecule-thin webs of additional quantum shielding to absorb and localise impacts.",
-          when: "Your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Necrons Titanic Fly unit.",
-          target: 'That Necrons Titanic Fly unit.',
+          when: "Your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly NECRONS TITANIC FLY unit.",
+          target: 'That NECRONS TITANIC FLY unit.',
           effect: 'Attacks that target your unit have -1 AP until that enemy unit has attacked.',
           restrictions: '',
         },
@@ -818,7 +818,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: "From the war machine's pinnacle rolls an expanding wave of invisible particles that paints the foe in sharp relief upon Necron targeting systems.",
           when: 'Start of your Shooting phase.',
-          target: 'One friendly Necrons Titanic Fly unit.',
+          target: 'One friendly NECRONS TITANIC FLY unit.',
           effect: 'Select one visible enemy unit within 12" of your unit. That enemy unit has +3" detection range.',
           restrictions: '',
         },
@@ -839,7 +839,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Prelocational Optimiser',
           points: 25,
           flavor: "Subtle transplanar optics allow this war leader to peer through the energy veil of a Monolith's eternity gate and dissect the defences and weaknesses of the enemies beyond it. This ensures their emergence from the portal is as grandly bloody and spectacular as possible.",
-          body: `Necrons model only. When this unit is selected to shoot, if this unit was set up using a Monolith's Eternity Gate ability this turn, this unit's ranged attacks have [LETHAL HITS], or [SUSTAINED HITS 1].`,
+          body: `NECRONS model only. When this unit is selected to shoot, if this unit was set up using a Monolith's Eternity Gate ability this turn, this unit's ranged attacks have [LETHAL HITS], or [SUSTAINED HITS 1].`,
         },
         {
           name: 'Mortality Shroud',
@@ -862,7 +862,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
         name: 'Relentless Onslaught',
         flavor:
           'The Necrons possess countless terrifying engines of war. When mustered in great number, these instruments of annihilation sweep across the battlefield, seeking to reclaim lost realms and obliterate any foolish enough to trespass upon the territories of their ancient dynasty.',
-        body: `Each time a Necrons model (excluding Monster models) from your army makes an attack that targets a unit within range of one or more objective markers, add 1 to the Hit roll. In addition, ranged weapons equipped by Necrons Vehicle and Necrons Mounted models (excluding Titanic models) from your army have the [ASSAULT] ability.`,
+        body: `Each time a NECRONS model (excluding MONSTER models) from your army makes an attack that targets a unit within range of one or more objective markers, add 1 to the Hit roll. In addition, ranged weapons equipped by NECRONS VEHICLE and NECRONS MOUNTED models (excluding TITANIC models) from your army have the [ASSAULT] ability.`,
       },
       stratagems: [
         {
@@ -872,7 +872,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'The Necrons are driven to reclaim what is theirs, exterminating all who would impede such efforts without mercy.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit (excluding Monster and Titanic units) from your army that has not been selected to shoot or fight this phase.',
+          target: 'One NECRONS unit (excluding MONSTER and TITANIC units) from your army that has not been selected to shoot or fight this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack, if the target of that attack is within range of one or more objective markers, add 1 to the Wound roll.',
           restrictions: '',
         },
@@ -883,7 +883,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'opponent',
           flavor: 'Wrought from living metal and further protected by the arcane technologies of Crypteks, the forms of Necron vehicles and steeds are almost impervious to conventional weapons.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
-          target: "One Necrons Vehicle or Necrons Mounted unit (excluding Titanic units) from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One NECRONS VEHICLE or NECRONS MOUNTED unit (excluding TITANIC units) from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time an attack targets a model in your unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of that unit, subtract 1 from the Wound roll.',
           restrictions: '',
         },
@@ -894,7 +894,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: "The time-bending technologies in the nobility's powerful vehicles allow them to traverse the battlefield in stuttering bursts of hypervelocity.",
           when: 'Your Movement phase.',
-          target: 'One Necrons Vehicle or Necrons Mounted unit (excluding Titanic units) from your army that has not been selected to move this phase.',
+          target: 'One NECRONS VEHICLE or NECRONS MOUNTED unit (excluding TITANIC units) from your army that has not been selected to move this phase.',
           effect: 'Until the end of the phase, if your unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6" to the Move characteristic of models in your unit.',
           restrictions: '',
         },
@@ -905,7 +905,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'Using phase-shifting technology, Necron war engines can slip into alternate dimensions, leaving only ghostly traces as they move through solid matter.',
           when: 'Your Movement phase.',
-          target: 'One Necrons Vehicle or Necrons Mounted unit (excluding Titanic units) from your army.',
+          target: 'One NECRONS VEHICLE or NECRONS MOUNTED unit (excluding TITANIC units) from your army.',
           effect: 'Until the end of the phase, models in your unit can move horizontally through models and terrain features.',
           restrictions: '',
         },
@@ -916,7 +916,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'Should the unclean thralls of lesser species threaten dynastic territories, the fallen Necron soldiery will rise to repel the interlopers.',
           when: 'End of your Fight phase.',
-          target: 'One Necrons unit (excluding Monster and Titanic units) from your army that is within range of one or more objective markers you control.',
+          target: 'One NECRONS unit (excluding MONSTER and TITANIC units) from your army that is within range of one or more objective markers you control.',
           effect: "Your unit's Reanimation Protocols activate.",
           restrictions: '',
         },
@@ -927,7 +927,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'opponent',
           flavor: 'Subroutines buried deep within the neural networks of Necron soldiers and crews enable them to react instantaneously to targeting locks, repositioning themselves to evade incoming fire or close in upon the foe.',
           when: "Your opponent's Shooting phase, just after an enemy unit has shot.",
-          target: "One Necrons unit from your army (excluding Monster and Titanic units) that was the target of one or more of the attacking unit's attacks.",
+          target: "One NECRONS unit from your army (excluding MONSTER and TITANIC units) that was the target of one or more of the attacking unit's attacks.",
           effect: 'Your unit can make a Normal move of up to D6".',
           restrictions: '',
         },
@@ -938,25 +938,25 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           points: 30,
           aura: true,
           flavor: "When this noble unleashes the might of their cosmic armoury, their followers are left in no doubt as to the importance of the battle at hand. If they do not strive to live up to the lethal effectiveness of the dynasty's war engines, their Overlord's wrath will be terrible.",
-          body: `Overlord or Catacomb Command Barge model only. While a friendly Necrons unit (excluding Monster and Titanic units) is within 6" of the bearer, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.`,
+          body: `Overlord or Catacomb Command Barge model only. While a friendly NECRONS unit (excluding MONSTER and TITANIC units) is within 6" of the bearer, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.`,
         },
         {
           name: 'Miniaturised Nebuloscope',
           points: 15,
           flavor: "Feeding vampirically on datastreams from the dynasty's war engines, this device enables its owner to track enemies through multiple dimensions, leaving them no hiding place.",
-          body: `Necrons model only. Ranged weapons equipped by models in the bearer's unit have the [IGNORES COVER] ability.`,
+          body: `NECRONS model only. Ranged weapons equipped by models in the bearer's unit have the [IGNORES COVER] ability.`,
         },
         {
           name: 'Demanding Leader',
           points: 10,
           flavor: 'This Necron noble is a master of rapid warfare, commanding armoured columns with great precision.',
-          body: `Necrons model only. In your Command phase, select one friendly Necrons Vehicle or Necrons Mounted unit (excluding Titanic units) within 6" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.`,
+          body: `NECRONS model only. In your Command phase, select one friendly NECRONS VEHICLE or NECRONS MOUNTED unit (excluding TITANIC units) within 6" of the bearer. Until the start of your next Command phase, that unit is eligible to shoot in a turn in which it Fell Back.`,
         },
         {
           name: 'Chrono-impedance Fields',
           points: 25,
           flavor: 'When activated, this device wreathes dynastic craft in a time-dilation field that reduces the force of incoming blows and shots.',
-          body: `Necrons model only. In your Command phase, select one friendly Necrons Vehicle or Necrons Mounted unit (excluding Titanic units) within 6" of the bearer. Until the start of your next Command phase, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack.`,
+          body: `NECRONS model only. In your Command phase, select one friendly NECRONS VEHICLE or NECRONS MOUNTED unit (excluding TITANIC units) within 6" of the bearer. Until the start of your next Command phase, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack.`,
         },
       ],
     },
@@ -982,7 +982,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: "Targeting analysis of the targets' molecular makeup allows all attempts at shielding or obfuscation to be bypassed with contemptuous ease.",
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit from your army that has not been selected to shoot or fight this phase.',
+          target: 'One NECRONS unit from your army that has not been selected to shoot or fight this phase.',
           effect: "Until the end of the phase, each time a model in your unit makes an attack, you can ignore any or all modifiers to the following: that attack's Ballistic Skill or Weapon Skill characteristic; the Hit roll. If your unit has the Cryptek keyword, you can also ignore any or all modifiers to the Wound roll.",
           restrictions: '',
         },
@@ -993,8 +993,8 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'opponent',
           flavor: 'This thrumming cloud of minute nanoscarabs whirls around the Necrons, affecting instantaneous repairs.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
-          target: "One Cryptek Infantry unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'If your unit has the Necron Warriors keyword, until the end of the phase, models in your unit have a 5+ invulnerable save. If your unit has the Immortals keyword, until the end of the phase, models in your unit have a 4+ invulnerable save.',
+          target: "One CRYPTEK INFANTRY unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          effect: 'If your unit has the NECRON WARRIORS keyword, until the end of the phase, models in your unit have a 5+ invulnerable save. If your unit has the Immortals keyword, until the end of the phase, models in your unit have a 4+ invulnerable save.',
           restrictions: '',
         },
         {
@@ -1005,7 +1005,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           flavor: "A portion of the Cryptek's animus clings to the battlefield just long enough to possess their servants and use them to exact revenge.",
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has shot or fought.",
           target: "One Cryptek model from your army that was destroyed by one of the attacking unit's attacks. You can use this Stratagem on that model even though it was just destroyed.",
-          effect: 'Until the end of the battle, each time a friendly Necrons model makes an attack that targets the attacking unit, you can re-roll the Hit roll.',
+          effect: 'Until the end of the battle, each time a friendly NECRONS model makes an attack that targets the attacking unit, you can re-roll the Hit roll.',
           restrictions: '',
         },
         {
@@ -1016,7 +1016,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           flavor: "Quantum reservoirs of potent energies held within this Cryptek's warrior jewellery release a fragment of their charge to augment nearby Necron forces.",
           when: 'Start of your Shooting phase.',
           target: 'One Cryptek unit from your army.',
-          effect: 'Select one friendly Necrons model (excluding Monsters and Vehicles) within 12" of a Cryptek model in your unit. Until the end of the phase, that friendly Necrons model has the Cryptek keyword.',
+          effect: 'Select one friendly NECRONS model (excluding MONSTERS and VEHICLES) within 12" of a Cryptek model in your unit. Until the end of the phase, that friendly Necrons model has the Cryptek keyword.',
           restrictions: '',
         },
         {
@@ -1037,7 +1037,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'opponent',
           flavor: 'Drawing upon the accumulated precausal potential energies that coalesce around significant locations, the conclave are able to steal that power and use it to trigger the unrealized probable remanifestation matrices of their own forces.',
           when: "Your opponent's Command phase.",
-          target: 'One Necrons unit from your army within range of one or more objective markers.',
+          target: 'One NECRONS unit from your army within range of one or more objective markers.',
           effect: "Your unit's Reanimation Protocols activate. If it is a Cryptek unit, it reanimates an additional 1 wound.",
           restrictions: '',
         },
@@ -1047,7 +1047,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Quantum Abacus',
           points: 15,
           flavor: 'This cloud-like familiar of fractal computational electrons possesses a cogitational intellect that, when fed raw data, produces inspired strategic guidance.',
-          body: `Necrons model only. Each time you select the bearer's unit as the target of a Stratagem, roll one D6, adding 1 if it is within range of one or more objectives: on a 4+, you gain 1CP.`,
+          body: `NECRONS model only. Each time you select the bearer's unit as the target of a Stratagem, roll one D6, adding 1 if it is within range of one or more objectives: on a 4+, you gain 1CP.`,
         },
         {
           name: 'Atomic Disintegrators',
@@ -1059,13 +1059,13 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Gauntlet of Compression',
           points: 20,
           flavor: "Clinging to the bearer's hand like a glove woven from shadow, this strange device folds space-time with a single gesture, momentarily compressing the relative distance between Necron weapons and their targets.",
-          body: `Necrons model only. Add 6" to the Range characteristic of ranged weapons equipped by models in the bearer's unit.`,
+          body: `NECRONS model only. Add 6" to the Range characteristic of ranged weapons equipped by models in the bearer's unit.`,
         },
         {
           name: 'Gravitic Bolas',
           points: 15,
           flavor: "Projected from the bearer's staff as a secondary energistic emission, these solid-state electro-shackles bind and trammel their victims in crackling fetters.",
-          body: `Cryptek model only. In your Shooting phase, after the bearer has shot, select one enemy unit hit by one or more of those attacks (excluding Titanic units); until the start of your next turn, that enemy unit is pinned. While a unit is pinned, subtract 2 from that unit's Move characteristic and subtract 2 from Charge rolls made for that unit.`,
+          body: `Cryptek model only. In your Shooting phase, after the bearer has shot, select one enemy unit hit by one or more of those attacks (excluding TITANIC units); until the start of your next turn, that enemy unit is pinned. While a unit is pinned, subtract 2 from that unit's Move characteristic and subtract 2 from Charge rolls made for that unit.`,
         },
       ],
     },
@@ -1081,7 +1081,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
         flavor:
           'The fury of the Destroyers and — by extension — of the cursed legion is not a wild or reckless thing. It is rather a ruthlessly methodical annihilation of the enemy, in which the Destroyers take the lead while ripples of their strange madness roll out to infect nearby Necrons and goad them, too, to greater efforts of tireless murder.',
         body: `▪ Add 2 to the Strength characteristic of weapons equipped by Destroyer Cult models from your army.
-▪ The first time each turn that a Destroyer Cult unit from your army makes attacks that destroy a unit or cause it to become Below Half-strength, after that unit has finished resolving its attacks, until the end of the turn, add 2 to the Strength characteristic of weapons equipped by friendly Necrons models (excluding Destroyer Cult, Monster and Titanic models).`,
+▪ The first time each turn that a Destroyer Cult unit from your army makes attacks that destroy a unit or cause it to become Below Half-strength, after that unit has finished resolving its attacks, until the end of the turn, add 2 to the Strength characteristic of weapons equipped by friendly NECRONS models (excluding Destroyer Cult, MONSTER and TITANIC models).`,
       },
       stratagems: [
         {
@@ -1091,7 +1091,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'In the grip of the Destroyer madness, these Necrons strike and slay with inhuman speed and efficiency.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit (excluding Monsters and Vehicles) from your army that has not been selected to shoot or fight this phase.',
+          target: 'One NECRONS unit (excluding MONSTERS and VEHICLES) from your army that has not been selected to shoot or fight this phase.',
           effect: 'Until the end of the phase, weapons equipped by models in your unit have the [SUSTAINED HITS 1] ability.',
           restrictions: '',
         },
@@ -1113,7 +1113,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'In the absolute destruction of their enemies, the corrupted Necrons find fresh purpose and a macabre simulacrum of new life.',
           when: 'Your Shooting phase or the Fight phase, just after the first time a Destroyer Cult unit from your army destroys an enemy unit this turn.',
-          target: 'One friendly Necrons unit (excluding Monsters and Vehicles) within 9" of that Destroyer Cult unit.',
+          target: 'One friendly NECRONS unit (excluding MONSTERS and VEHICLES) within 9" of that Destroyer Cult unit.',
           effect: "The friendly unit's Reanimation Protocols activate.",
           restrictions: '',
         },
@@ -1135,7 +1135,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'your',
           flavor: 'It is as though witnessing other Necrons engaged in acts of merciless butchery stokes the Destroyer madness in their fellows.',
           when: 'Your Charge phase.',
-          target: 'One Necrons unit (excluding Monsters and Vehicles) from your army that has not declared a charge this phase.',
+          target: 'One NECRONS unit (excluding MONSTERS and VEHICLES) from your army that has not declared a charge this phase.',
           effect: 'Until the end of the phase, each time your unit declares a charge, if one or more targets of that charge are within Engagement Range of one or more friendly units, add 2 to the Charge roll.',
           restrictions: '',
         },
@@ -1146,7 +1146,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           turn: 'opponent',
           flavor: 'The android soldiery of the cursed legion are maddened with the desire to engage and slay their victims at close quarters.',
           when: "End of your opponent's Charge phase.",
-          target: 'One Necrons unit (excluding Monsters and Vehicles) from your army that is within 6" of one or more enemy units and would be eligible to declare a charge against one or more of those enemy units if it were your Charge phase.',
+          target: 'One NECRONS unit (excluding MONSTERS and VEHICLES) from your army that is within 6" of one or more enemy units and would be eligible to declare a charge against one or more of those enemy units if it were your Charge phase.',
           effect: 'Your unit now declares a charge that only targets one or more of those enemy units, and you resolve that charge.',
           restrictions: '',
         },
@@ -1191,7 +1191,7 @@ In the Declare Battle Formations step, the bearer can be attached to a Lokhust D
         name: 'Cosmic Distortion',
         flavor:
           "To unleash such a power is a strategy of last resort for most Necrons, for it sees multiple C'tan shards released from tesseract oubliettes and hurled into the heart of the foe. The quantum dissonance and molecular erosion caused by multiple C'tan shards in close proximity is enough to fray the very physical being of the foe at an atomic level.",
-        body: `Necrons Monster units from your army have the following ability:
+        body: `NECRONS MONSTER units from your army have the following ability:
 
 Distortion Fields (Aura): While an enemy unit is within 6" of this unit, it is unravelling. While an enemy unit is unravelling, each time an attack targets that unit, improve the Armour Penetration characteristic of that attack by 1.
 
@@ -1207,7 +1207,7 @@ This eldritch device fetters and directs the Deceiver's powers within a vortex t
 
 The energies of this binding latch onto enemy targets and shunt the shard into alignment with them. C'tan Shard of the Nightbringer model only. This model is eligible to declare a charge in a turn in which it Advanced.
 
-This device bleeds off the Void Dragon shard's energies and earths them violently through nearby machines. C'tan Shard of the Void Dragon model only. Once per turn, at the start of your opponent's Shooting phase, select one enemy Vehicle unit visible to the bearer. That unit must take a Leadership test. Until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll and, if that Leadership test was failed, subtract 1 from the Wound roll as well.
+This device bleeds off the Void Dragon shard's energies and earths them violently through nearby machines. C'tan Shard of the Void Dragon model only. Once per turn, at the start of your opponent's Shooting phase, select one enemy VEHICLE unit visible to the bearer. That unit must take a Leadership test. Until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll and, if that Leadership test was failed, subtract 1 from the Wound roll as well.
 
 This binding uses atomic resonance magnetism to compel the shard into the midst of the foe. Transcendent C'tan model only. In your turn, when this unit makes an ingress/advance move using its Transdimensional Displacement ability, this unit can end that move more than 6" horizontally from all enemy units (instead of more than 8"). When this unit ends that move within 8" of an enemy unit, this unit is not eligible to declare a charge until the end of the turn.`,
       },
@@ -1218,8 +1218,8 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           cp: '1CP',
           turn: 'either',
           flavor: 'Tear one shard suddenly from the complex web of atomic resonances and its severing triggers a violent energistic dissonance blast.',
-          when: 'Any phase, just after a Necrons Monster model from your army is destroyed, before making its Deadly Demise roll.',
-          target: 'That Necrons Monster model. You can use this Stratagem on that model even though it was just destroyed.',
+          when: 'Any phase, just after a NECRONS MONSTER model from your army is destroyed, before making its Deadly Demise roll.',
+          target: 'That NECRONS MONSTER model. You can use this Stratagem on that model even though it was just destroyed.',
           effect: "Until the end of the phase, your model's Deadly Demise ability inflicts mortal wounds on a D6 roll of 3+ instead of on a 6.",
           restrictions: '',
         },
@@ -1230,7 +1230,7 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           turn: 'your',
           flavor: 'Those without the will to hold themselves together start to physically tatter apart in a molecular haze in the presence of so many god shards.',
           when: 'Command phase.',
-          target: 'One Necrons Monster unit from your army.',
+          target: 'One NECRONS MONSTER unit from your army.',
           effect: 'Select one unravelling enemy unit visible to your unit. That enemy unit must take a Battle-shock test. When doing so, subtract 1 from the result. If that test is failed, that enemy unit suffers D3+1 mortal wounds.',
           restrictions: 'You can only use this Stratagem once per battle round.',
         },
@@ -1240,8 +1240,8 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           cp: '1CP',
           turn: 'your',
           flavor: "The power of the C'tan rips the foe's greatest assets apart and forcibly reknits nearby Necron soldiery using the stolen corporeal matter.",
-          when: 'Your Shooting phase or the Fight phase, just after a Necrons Monster unit from your army destroys an enemy unit.',
-          target: 'One friendly Necrons unit (excluding Monsters) within 6" of that Monster unit.',
+          when: 'Your Shooting phase or the Fight phase, just after a NECRONS MONSTER unit from your army destroys an enemy unit.',
+          target: 'One friendly NECRONS unit (excluding MONSTERS) within 6" of that Monster unit.',
           effect: "If that enemy unit was unravelling at the start of the phase, your friendly unit's Reanimation Protocols activate.",
           restrictions: 'You can only use this Stratagem once per turn.',
         },
@@ -1252,7 +1252,7 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           turn: 'your',
           flavor: "Necrons' android senses can target the foe by reading the exotic radiation signatures wreathed about them by the C'tan shards' onslaught.",
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit (excluding Monsters) from your army that has not been selected to shoot or fight this phase.',
+          target: 'One NECRONS unit (excluding MONSTERS) from your army that has not been selected to shoot or fight this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets an enemy unit, re-roll a Hit roll of 1. If the target of that attack is unravelling, re-roll a Wound roll of 1 as well.',
           restrictions: '',
         },
@@ -1263,7 +1263,7 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           turn: 'either',
           flavor: 'With the battlefield shuddering in and out of sync with time and space, slain Necrons still strike at their enemies through cracks in temporal causality.',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: "One Necrons unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One NECRONS unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time a model in your unit is destroyed, if that model has not fought this phase, roll one D6, adding 1 if the attacking unit is unravelling: on a 4+, do not remove the destroyed model from play; it can fight after the attacking unit has finished making its attacks, and is then removed from play.',
           restrictions: '',
         },
@@ -1274,7 +1274,7 @@ This binding uses atomic resonance magnetism to compel the shard into the midst 
           turn: 'opponent',
           flavor: 'The very stuff of reality flows together at an atomic level, and the foe find to their horror that they are literally — and gruesomely — rooted to the spot.',
           when: "Your opponent's Movement phase, when an unravelling enemy unit is selected to Fall Back.",
-          target: 'One Necrons unit from your army that is within Engagement Range of that enemy unit.',
+          target: 'One NECRONS unit from your army that is within Engagement Range of that enemy unit.',
           effect: 'When that enemy unit Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests.',
           restrictions: '',
         },

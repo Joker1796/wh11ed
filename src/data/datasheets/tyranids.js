@@ -761,7 +761,7 @@ export default [
     "abilities": [
       {
         "name": "Spore Mine Cysts",
-        "text": "At the end of your opponent’s Fight phase, you can do one of the following:\n▪ Select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit and roll six D6 for that unit: for each 3+, that unit suffers 1 mortal wound.\n▪ Add a new SPORE MINES unit containing D3 models to your army and set it up anywhere on the battlefield that is within 6\" of this model and more than 8\" horizontally away from all enemy units. You cannot select this option for more than one model per turn."
+        "text": "At the end of your opponent’s Fight phase, you can do one of the following:\n▪ Select one visible enemy unit (excluding [core:Lone Operative] units) within 24\" of this unit and roll six D6 for that unit: for each 3+, that unit suffers 1 mortal wound.\n▪ Add a new SPORE MINES unit containing D3 models to your army and set it up anywhere on the battlefield that is within 6\" of this model and more than 8\" horizontally away from all enemy units. You cannot select this option for more than one model per turn."
       }
     ],
     "damaged": {
@@ -859,7 +859,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of 20 Gargoyles models and 1 Winged Tyranid Prime model.",
+    "transport": "This model has a transport capacity of 20 Gargoyles models and 1 WINGED TYRANID PRIME model.",
     "keywords": [
       "Fly",
       "Great Devourer",
@@ -1063,7 +1063,7 @@ export default [
     "options": [
       "None"
     ],
-    "transport": "This model has a transport capacity of 20 Tyranids Infantry models. Each model with a Wounds characteristic of more than 1 takes up the space of 3 models. This model cannot transport models that can Fly.",
+    "transport": "This model has a transport capacity of 20 TYRANIDS INFANTRY models. Each model with a Wounds characteristic of more than 1 takes up the space of 3 models. This model cannot transport models that can FLY.",
     "keywords": [
       "Frame",
       "Great Devourer",
@@ -3876,7 +3876,7 @@ export default [
       "1 Tyrannocyte"
     ],
     "loadout": "**This model is equipped with:** Tyrannocyte bio-weapons; flensing whips.",
-    "transport": "This model has a transport capacity of 20 Tyranids Infantry models, or 1 Tyranids Monster model with a Wounds characteristic of 12 or less. Each INFANTRY model with a Wounds characteristic of more than 1 takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 20 TYRANIDS INFANTRY models, or 1 TYRANIDS MONSTER model with a Wounds characteristic of 12 or less. Each INFANTRY model with a Wounds characteristic of more than 1 takes up the space of 3 models.",
     "keywords": [
       "Dedicated Transport",
       "Fly",
@@ -4133,7 +4133,7 @@ export default [
     "abilities": [
       {
         "name": "Foul Spores (Aura)",
-        "text": "Friendly TYRANIDS units within 6\" of this unit have Stealth."
+        "text": "Friendly TYRANIDS units within 6\" of this unit have [core:Stealth]."
       }
     ],
     "composition": [
@@ -4473,7 +4473,7 @@ export default [
       },
       {
         "name": "Warp Field (Aura, Psychic)",
-        "text": "While a friendly Tyranids unit is within 6\" of this unit, models in that unit have a 6+ invulnerable save."
+        "text": "While a friendly TYRANIDS unit is within 6\" of this unit, models in that unit have a 6+ invulnerable save."
       }
     ],
     "composition": [

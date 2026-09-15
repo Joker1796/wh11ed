@@ -37,7 +37,7 @@ const en = {
     name: 'Templar Vows',
     flavor:
       'On the eve of battle, the Black Templars gather to be led in prayer and contemplation by their champions. United in their hatred of the foe, they swear a mighty vow to uphold in the battle ahead.',
-    body: `If your [gloss:army-faction:Army Faction] is Adeptus Astartes, at the start of the first [gloss:battle-round:battle round], select one of the following [gloss:bt-templar-vow:Vows] to be active for Adeptus Astartes units from your army. While a Vow is active for a unit from your army, that unit has the associated ability shown below.
+    body: `If your [gloss:army-faction:Army Faction] is ADEPTUS ASTARTES, at the start of the first [gloss:battle-round:battle round], select one of the following [gloss:bt-templar-vow:Vows] to be active for Adeptus Astartes units from your army. While a Vow is active for a unit from your army, that unit has the associated ability shown below.
 
 ### Abhor the Witch, Destroy the Witch
 This unit's [gloss:melee-attacks:melee attacks] that target a [gloss:psyker:Psyker] unit have [PRECISION].
@@ -52,7 +52,7 @@ Each time a model in this unit makes a melee attack, if the [gloss:strength:Stre
 This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn in which it [gloss:fall-back-move:Fell Back], and each time a model in this unit makes a [gloss:pile-in:Pile-in] or [gloss:consolidation:Consolidation] move, it does not need to end that move closer to the closest enemy model, provided it ends that move as close as possible to the closest enemy unit.
 
 ### Uphold the Honour of the Emperor
-If this unit has the Infantry keyword:
+If this unit has the INFANTRY keyword:
 ▪ At the end of your Command phase, if this unit is within range of an [gloss:objective-marker:objective marker] you control, that objective marker remains under your control until your opponent's [gloss:level-of-control:Level of Control] over that objective marker is greater than yours at the end of a phase.
 ▪ If the mission you are playing features [gloss:action:Actions], this unit is eligible to start to perform an Action in a turn in which it [gloss:advance:Advanced].
 
@@ -84,7 +84,7 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: "With a zealous cry, the Black Templars press forward, using their ceramite-armoured bulk to smash into the foe and overwhelm the enemy's lines.",
           when: 'Fight phase.',
-          target: 'One Adeptus Astartes Infantry unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
+          target: 'One ADEPTUS ASTARTES INFANTRY unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes a [gloss:pile-in:Pile-in] or [gloss:consolidation:Consolidation] move, it can move up to 6" instead of up to 3".',
           restrictions: 'A unit cannot be targeted with this and the Hearts Hardened to Duty Stratagem in the same phase unless it has the Chaplain or Judiciar [gloss:keywords:keywords].',
         },
@@ -94,8 +94,8 @@ If this unit has the Infantry keyword:
           cp: '1CP',
           turn: 'either',
           flavor: 'To suffer not blind aggression is to evade the snares of foul deceit and honourably reject self-aggrandisement.',
-          when: 'Fight phase, just before an Adeptus Astartes Infantry unit from your army [gloss:consolidation:Consolidates].',
-          target: 'That Adeptus Astartes Infantry unit.',
+          when: 'Fight phase, just before an ADEPTUS ASTARTES INFANTRY unit from your army [gloss:consolidation:Consolidates].',
+          target: 'That ADEPTUS ASTARTES INFANTRY unit.',
           effect: 'Until the end of the phase, each time a model in your unit makes a Consolidation move, it does not need to end that move closer to the closest enemy model (or the closest enemy unit if the Suffer Not the Unclean to Live [gloss:bt-templar-vow:Vow] is active for it).',
           restrictions: '',
         },
@@ -106,7 +106,7 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: "Filled with the spirit of Sigismund, his heirs seek out the foe's dark and unclean champions so that they may be crushed in the sight of their thralls.",
           when: 'Fight phase.',
-          target: 'One Adeptus Astartes Infantry unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
+          target: 'One ADEPTUS ASTARTES INFANTRY unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
           effect: 'Until the end of the phase, [gloss:melee-weapons:melee weapons] equipped by models in your unit have the [PRECISION] ability.',
           restrictions: '',
         },
@@ -118,7 +118,7 @@ If this unit has the Infantry keyword:
           flavor: "The warrior priests of a crusade drive Sigismund's heirs into the heart of battle, daring the greatest abominations to face their spiritual strength.",
           when: 'Fight phase.',
           target: 'One Chaplain or Judiciar unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes a [gloss:melee-attacks:melee attack] that targets an enemy unit, [gloss:re-roll:re-roll] a [gloss:hit-roll:Hit roll] of 1. If that target is a Monster or Vehicle unit, re-roll a [gloss:wound-roll:Wound roll] of 1 as well.',
+          effect: 'Until the end of the phase, each time a model in your unit makes a [gloss:melee-attacks:melee attack] that targets an enemy unit, [gloss:re-roll:re-roll] a [gloss:hit-roll:Hit roll] of 1. If that target is a MONSTER or VEHICLE unit, re-roll a [gloss:wound-roll:Wound roll] of 1 as well.',
           restrictions: '',
         },
         {
@@ -140,7 +140,7 @@ If this unit has the Infantry keyword:
           turn: 'opponent',
           flavor: "To face the Emperor's transhuman crusaders as they chant their litanies of detestation can chill the soul.",
           when: "Your opponent's Charge phase, just after an enemy unit [gloss:declare-charge:declares a charge].",
-          target: 'One Adeptus Astartes Infantry unit from your army that was selected as one of the targets of that charge.',
+          target: 'One ADEPTUS ASTARTES INFANTRY unit from your army that was selected as one of the targets of that charge.',
           effect: 'That enemy unit must take a [gloss:battle-shock-test:Battle-shock test], subtracting 1 from the result.',
           restrictions: '',
         },
@@ -162,13 +162,13 @@ If this unit has the Infantry keyword:
           name: 'Oathbound Exemplar',
           points: 15,
           flavor: 'With a ceaseless and booming oratory, this commander exhorts his warriors in their duty to the Emperor. Honour, he declaims, must be pursued relentlessly.',
-          body: `Adeptus Astartes Infantry model only. Add 1 to [gloss:advance-roll:Advance rolls] made for the [gloss:bearer:bearer]'s unit. If the mission pack you are playing features [gloss:action:Actions], the bearer's unit is eligible to start to perform an Action in a turn in which it [gloss:advance:Advanced].`,
+          body: `ADEPTUS ASTARTES INFANTRY model only. Add 1 to [gloss:advance-roll:Advance rolls] made for the [gloss:bearer:bearer]'s unit. If the mission pack you are playing features [gloss:action:Actions], the bearer's unit is eligible to start to perform an Action in a turn in which it [gloss:advance:Advanced].`,
         },
         {
           name: 'Zealous Vanguard',
           points: 20,
           flavor: "This warrior is an unstoppable crusader whose hearts burn like twin pyres of eager zeal. Ever at the forefront of combat, he leads his warriors as the tip of the crusade's blade.",
-          body: `Adeptus Astartes model only. Models in the [gloss:bearer:bearer]'s unit have the [gloss:scouts:Scouts] 6" ability.`,
+          body: `ADEPTUS ASTARTES model only. Models in the [gloss:bearer:bearer]'s unit have the [gloss:scouts:Scouts] 6" ability.`,
         },
       ],
     },
@@ -206,7 +206,7 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: "Where the Emperor's domain is imperilled by the unholy, the Black Templars vow to cleanse it.",
           when: 'Fight phase.',
-          target: 'One Adeptus Astartes unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
+          target: 'One ADEPTUS ASTARTES unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
           effect: "Until the end of the phase, each time a model in your unit makes an attack, if that model's unit is within range of one or more [gloss:objective-marker:objective markers] or the target unit is within range of one or more objective markers, improve the [gloss:armour-penetration:Armour Penetration] characteristic of that attack by 1.",
           restrictions: '',
         },
@@ -217,7 +217,7 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: 'Perhaps guided by visions from the Emperor, Black Templars can pick out heresy wherever it lurks.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Adeptus Astartes unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] or fight this phase.',
+          target: 'One ADEPTUS ASTARTES unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] or fight this phase.',
           effect: "Until the end of the phase, [gloss:ranged-weapons:ranged weapons] equipped by models in your unit have the [IGNORES COVER] ability and each time a model in your unit makes an attack, you can ignore any or all [gloss:modifier:modifiers] to the following: that attack's [gloss:ballistic-skill:Ballistic Skill] or [gloss:weapon-skill:Weapon Skill] characteristic; the [gloss:hit-roll:Hit roll].",
           restrictions: '',
         },
@@ -228,8 +228,8 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: "The sacred standards of a crusade embody its warriors' honour, and no one would see them lost.",
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit destroys an Ancient model from your army that has not been targeted with the Refusal to Yield Stratagem this phase.",
-          target: 'One Adeptus Astartes unit from your army [gloss:visible:visible] to that enemy unit.',
-          effect: 'Until the end of the battle, each time an Adeptus Astartes model from your army makes an attack that targets that enemy unit, add 1 to the [gloss:hit-roll:Hit roll].',
+          target: 'One ADEPTUS ASTARTES unit from your army [gloss:visible:visible] to that enemy unit.',
+          effect: 'Until the end of the battle, each time an ADEPTUS ASTARTES model from your army makes an attack that targets that enemy unit, add 1 to the [gloss:hit-roll:Hit roll].',
           restrictions: 'You cannot target that Ancient model with the Refusal to Yield Stratagem this phase.',
         },
         {
@@ -250,7 +250,7 @@ If this unit has the Infantry keyword:
           turn: 'opponent',
           flavor: 'When the Emperor blesses his crusaders with the opportunity to seize the initiative, none refuse.',
           when: "End of your opponent's Charge phase.",
-          target: 'One Adeptus Astartes unit from your army that is [gloss:within:within] 6" of one or more enemy units and would be [gloss:eligible-to-charge:eligible to declare a charge] against one or more of those enemy units if it were your Charge phase.',
+          target: 'One ADEPTUS ASTARTES unit from your army that is [gloss:within:within] 6" of one or more enemy units and would be [gloss:eligible-to-charge:eligible to declare a charge] against one or more of those enemy units if it were your Charge phase.',
           effect: 'Your unit now [gloss:declare-charge:declares a charge] that only targets one or more of those enemy units, and you resolve that charge.',
           restrictions: 'Note that even if this charge is successful, your unit does not receive any Charge bonus this turn.',
         },
@@ -260,7 +260,7 @@ If this unit has the Infantry keyword:
           name: 'Consecrating Aura',
           points: 25,
           flavor: "The piety and honour of this warrior can be felt wherever he fights. His presence rouses the ardent souls of the Black Templars, warding Sigismund's heirs from the blasphemy of the unbeliever.",
-          body: `Adeptus Astartes model only. Models in the [gloss:bearer:bearer]'s unit have a 5+ [gloss:invulnerable-save:invulnerable save].`,
+          body: `ADEPTUS ASTARTES model only. Models in the [gloss:bearer:bearer]'s unit have a 5+ [gloss:invulnerable-save:invulnerable save].`,
         },
         {
           name: 'Imperialis of the Eternal Crusade',
@@ -272,7 +272,7 @@ If this unit has the Infantry keyword:
           name: "Orb of the Emperor's Aegis",
           points: 10,
           flavor: "When activated, this icon-wreathed sphere briefly emits a glowing nimbus of protective energy so powerful that it can hold back the corruptive fury of the naked Warp. Thus shielded, Black Templars may use their fleets' teleportarium shrines even without the awesome protection of Terminator armour.",
-          body: `Adeptus Astartes model only. Models in the [gloss:bearer:bearer]'s unit have the Deep Strike ability.`,
+          body: `ADEPTUS ASTARTES model only. Models in the [gloss:bearer:bearer]'s unit have the Deep Strike ability.`,
         },
         {
           name: 'Warden of Honour',
@@ -304,7 +304,7 @@ If this unit has the Infantry keyword:
           turn: 'either',
           flavor: 'There is no room for hesitation or exultation for the Black Templars. With one knot of blasphemy expunged, the crusaders surge in search of the next.',
           when: 'End of the Fight phase.',
-          target: 'One Adeptus Astartes Infantry unit from your army that was [gloss:eligible-to-fight:eligible to fight] this phase.',
+          target: 'One ADEPTUS ASTARTES INFANTRY unit from your army that was [gloss:eligible-to-fight:eligible to fight] this phase.',
           effect: 'If your unit is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, it can make a [gloss:normal-move:Normal move] of up to 6". It cannot [gloss:embark:embark] within a [gloss:transport:Transport] at the end of this move if it [gloss:disembark:disembarked] from a Transport this turn.',
           restrictions: '',
         },
@@ -314,8 +314,8 @@ If this unit has the Infantry keyword:
           cp: '1CP',
           turn: 'your',
           flavor: 'Surging from assault ramps, the Black Templars let nothing bar them from the most unholy threats, using their armoured might to bludgeon a path into battle.',
-          when: 'Your Charge phase, just after you make a [gloss:charge-roll:Charge roll] for an Adeptus Astartes unit from your army that [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn.',
-          target: 'That Adeptus Astartes unit.',
+          when: 'Your Charge phase, just after you make a [gloss:charge-roll:Charge roll] for an ADEPTUS ASTARTES unit from your army that [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn.',
+          target: 'That ADEPTUS ASTARTES unit.',
           effect: 'Until the end of the phase, each time your unit makes a [gloss:charge-move:Charge move], models in your unit can move through models (when doing so, its models can move within [gloss:engagement-range:Engagement Range] of enemy models, but they can only end that move within Engagement Range of enemy models if those enemy models belong to a unit that your unit [gloss:declare-charge:declared a charge] against this turn).',
           restrictions: '',
         },
@@ -327,7 +327,7 @@ If this unit has the Infantry keyword:
           flavor: 'Little can threaten to overwhelm the venerable Land Raider. Its multiple, hydraulically augmented assault ramps slam into closing aggressors, enabling its deadly cargo to deploy quickly.',
           when: 'Your Movement phase.',
           target: 'One Land Raider model from your army that has not been [gloss:selected-to-move:selected to move] this phase.',
-          effect: 'One Adeptus Astartes unit [gloss:embarked:embarked] within your Land Raider can [gloss:disembark:disembark]. When doing so, models in that unit can be set up anywhere on the battlefield [gloss:wholly-within:wholly within] 6" of your Land Raider and can be set up within [gloss:engagement-range:Engagement Range] of one or more enemy units.',
+          effect: 'One ADEPTUS ASTARTES unit [gloss:embarked:embarked] within your Land Raider can [gloss:disembark:disembark]. When doing so, models in that unit can be set up anywhere on the battlefield [gloss:wholly-within:wholly within] 6" of your Land Raider and can be set up within [gloss:engagement-range:Engagement Range] of one or more enemy units.',
           restrictions: '',
         },
         {
@@ -337,7 +337,7 @@ If this unit has the Infantry keyword:
           turn: 'your',
           flavor: "Like the mailed fist of the Master of Mankind, the crusade's armoured battle tanks, transports and combat walkers smash their way through choked war zones to reach those deserving execution.",
           when: 'Your Movement phase.',
-          target: 'One Adeptus Astartes Vehicle model from your army that has not been [gloss:selected-to-move:selected to move] this phase.',
+          target: 'One ADEPTUS ASTARTES VEHICLE model from your army that has not been [gloss:selected-to-move:selected to move] this phase.',
           effect: 'Until the end of the phase, each time your model makes a [gloss:normal-move:Normal] or [gloss:advance-move:Advance] move, it can move horizontally through [gloss:terrain-feature:terrain features].',
           restrictions: '',
         },
@@ -348,7 +348,7 @@ If this unit has the Infantry keyword:
           turn: 'your',
           flavor: "Prepared within their troop compartment by a broadcast litany of their foe's ungodly sins, the crusaders emerge with their hearts full of hatred.",
           when: 'Your Fight phase.',
-          target: 'One Adeptus Astartes unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
+          target: 'One ADEPTUS ASTARTES unit from your army that has not been [gloss:selected-to-fight:selected to fight] this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack, if it [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn, [gloss:re-roll:re-roll] a [gloss:wound-roll:Wound roll] of 1. If that Transport has the Land Raider [gloss:keywords:keyword], you can re-roll the Wound roll instead.',
           restrictions: '',
         },
@@ -359,7 +359,7 @@ If this unit has the Infantry keyword:
           turn: 'opponent',
           flavor: "Their hulls blessed by the chants of Techmarines and their prayer-servitors, a crusade's war engines can be entreated to withstand the most malign attacks.",
           when: "Your opponent's Shooting phase, just after an enemy unit has [gloss:select-targets:selected its targets].",
-          target: "One Adeptus Astartes Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One ADEPTUS ASTARTES VEHICLE unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time an attack is allocated to a model in your unit, subtract 1 from the Damage characteristic of that attack.',
           restrictions: '',
         },
@@ -369,25 +369,25 @@ If this unit has the Infantry keyword:
           name: 'Paragon of Fury',
           points: 25,
           flavor: "This crusader's hatred for the heretic and the unbeliever burns with the fury of a newborn star.",
-          body: `Adeptus Astartes model only. Add 2 to the [gloss:strength:Strength] characteristic of [gloss:melee-weapons:melee weapons] equipped by the [gloss:bearer:bearer]. Each time a [gloss:melee-attacks:melee attack] made by the bearer is allocated to an enemy model, if the bearer [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn, add 1 to the Damage characteristic of that attack.`,
+          body: `ADEPTUS ASTARTES model only. Add 2 to the [gloss:strength:Strength] characteristic of [gloss:melee-weapons:melee weapons] equipped by the [gloss:bearer:bearer]. Each time a [gloss:melee-attacks:melee attack] made by the bearer is allocated to an enemy model, if the bearer [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn, add 1 to the Damage characteristic of that attack.`,
         },
         {
           name: 'Battle-Psalm Precentor',
           points: 10,
           flavor: 'The chanted oratory of this commander rises in volume and stentorian vehemence as he leads his brothers into the charge until he seems like a wrathful war deity closing with his ungodly prey.',
-          body: `Adeptus Astartes model only. Each time the [gloss:bearer:bearer]'s unit [gloss:declare-charge:declares a charge], if an enemy unit takes a [gloss:battle-shock-test:Battle-shock test] as a result of the Shock and Awe [gloss:detachment-rule:Detachment rule], subtract 1 from that Battle-shock test.`,
+          body: `ADEPTUS ASTARTES model only. Each time the [gloss:bearer:bearer]'s unit [gloss:declare-charge:declares a charge], if an enemy unit takes a [gloss:battle-shock-test:Battle-shock test] as a result of the Shock and Awe [gloss:detachment-rule:Detachment rule], subtract 1 from that Battle-shock test.`,
         },
         {
           name: 'Augury Servo-Host',
           points: 15,
           flavor: "This warrior's auto-senses are linked to a circling host of servo-skulls crafted from the remains of favoured serfs and failed neophytes. Fitted with ocular probes and sensor vanes, they provide the Black Templar with advanced targeting information to pick out the unbelievers who cower in concealment.",
-          body: `Adeptus Astartes model only. At the start of your Shooting phase, select one enemy unit [gloss:within:within] 12" of and [gloss:visible:visible] to the [gloss:bearer:bearer]. Until the end of the phase, models in that unit cannot have the [gloss:benefit-of-cover:Benefit of Cover].`,
+          body: `ADEPTUS ASTARTES model only. At the start of your Shooting phase, select one enemy unit [gloss:within:within] 12" of and [gloss:visible:visible] to the [gloss:bearer:bearer]. Until the end of the phase, models in that unit cannot have the [gloss:benefit-of-cover:Benefit of Cover].`,
         },
         {
           name: 'Herald of Sacred Slaughter',
           points: 15,
           flavor: "A pious harbinger of the crusade's destructive potential, this warrior pushes forward at the first opportunity, eager to bring the Emperor's judgement to the foe.",
-          body: `Adeptus Astartes model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, if the [gloss:bearer:bearer] starts the battle [gloss:embarked:embarked] within a Dedicated Transport, that Dedicated Transport has the [gloss:scouts:Scouts] 9" ability.`,
+          body: `ADEPTUS ASTARTES model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, if the [gloss:bearer:bearer] starts the battle [gloss:embarked:embarked] within a DEDICATED TRANSPORT, that Dedicated Transport has the [gloss:scouts:Scouts] 9" ability.`,
         },
       ],
     },
@@ -511,7 +511,7 @@ If this unit has the Infantry keyword:
           flavor: 'So powerfully gripped by holy fervour are these warriors that they fight on through even the most grievous wounds to body and mind.',
           when: 'Any phase, when a [gloss:friendly:friendly] Chaplain unit suffers a [gloss:mortal-wound:mortal wound].',
           target: 'That Chaplain unit.',
-          effect: 'Your unit has Feel No Pain 4+ against mortal wounds.',
+          effect: 'Your unit has [core:Feel No Pain 4+] against mortal wounds.',
           restrictions: '',
         },
         {

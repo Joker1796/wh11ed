@@ -76,3 +76,36 @@ describe('renderInline — links', () => {
     expect(renderInline('go to /support')).toBe('go to /support')
   })
 })
+
+// A core ability named in rule prose. It must NOT come out as the bracketed `.keyword` pill —
+// that is the weapon-row tag treatment, and the whole point of this form is that the rulebook
+// prints a unit ability as bold Title Case inside the sentence.
+describe('renderInline — a core ability in prose', () => {
+  it('renders as a quiet clickable span, not as a keyword pill', () => {
+    expect(renderInline('This unit has [core:Stealth].'))
+      .toBe('This unit has <span class="core-ability">Stealth</span>.')
+  })
+
+  it('keeps the printed name as written, qualifier and all', () => {
+    expect(renderInline('models in that unit have [core:Feel No Pain 5+]'))
+      .toBe('models in that unit have <span class="core-ability">Feel No Pain 5+</span>')
+  })
+
+  it('leaves a bracketed weapon ability as the pill it is', () => {
+    expect(renderInline('attacks have [LETHAL HITS]'))
+      .toBe('attacks have <span class="keyword">[LETHAL HITS]</span>')
+  })
+})
+
+// The plural the rules write and the datasheet does not: a sheet carries MONSTER, a rule says
+// "excluding MONSTERS and VEHICLES".
+describe('renderInline — plural keywords', () => {
+  it('bolds the plural of a core keyword', () => {
+    expect(renderInline('excluding MONSTERS and VEHICLES'))
+      .toBe('excluding <strong>MONSTERS</strong> and <strong>VEHICLES</strong>')
+  })
+
+  it('still refuses a keyword that is only a prefix of a longer word', () => {
+    expect(renderInline('INFANTRYMAN')).toBe('INFANTRYMAN')
+  })
+})

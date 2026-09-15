@@ -223,7 +223,7 @@ export default [
       "This model can be equipped with 1 hurricane bolter.",
       "This model can be equipped with one of the following:\n▪ 1 auspex array\n▪ 1 infernum halo-launcher"
     ],
-    "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry or Kill Team models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY or Kill Team models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Corvus Blackstar",
       "Fly",

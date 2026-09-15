@@ -271,7 +271,7 @@ export default [
     "options": [
       "This model’s command uplink can be replaced with 1 chaff launcher."
     ],
-    "transport": "This model has a transport capacity of 11 Skitarii Infantry or Tech-Priest Infantry models. It cannot transport Jump Pack, Kataphron or Sydonian Skatros models.",
+    "transport": "This model has a transport capacity of 11 SKITARII INFANTRY or TECH-PRIEST INFANTRY models. It cannot transport Jump Pack, Kataphron or Sydonian Skatros models.",
     "keywords": [
       "Archaeopter Transvector",
       "Fly",
@@ -1217,7 +1217,7 @@ export default [
     "abilities": [
       {
         "name": "Breaching Command",
-        "text": "Each time a model in this unit makes an attack, re-roll a Hit roll of 1. While this unit is within 6\" of one or more friendly Adeptus Mechanicus Battleline units, you can re-roll the Hit roll instead."
+        "text": "Each time a model in this unit makes an attack, re-roll a Hit roll of 1. While this unit is within 6\" of one or more friendly ADEPTUS MECHANICUS BATTLELINE units, you can re-roll the Hit roll instead."
       }
     ],
     "composition": [
@@ -1499,7 +1499,7 @@ export default [
       },
       {
         "name": "Scuttling Walker",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move through friendly Monster and Vehicle models and sections of terrain features that are 4\" or less in height."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move through friendly MONSTER and VEHICLE models and sections of terrain features that are 4\" or less in height."
       }
     ],
     "wargearAbilities": [
@@ -1623,7 +1623,7 @@ export default [
     "abilities": [
       {
         "name": "Ride the Thermals",
-        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to 6\".\n▪ Make a Normal move of up to 12\", provided every model in this unit ends that move wholly within 6\" of one or more friendly Adeptus Mechanicus Battleline units.\nIn either case, if it does, until the end of the turn, this unit is not eligible to declare a charge."
+        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to 6\".\n▪ Make a Normal move of up to 12\", provided every model in this unit ends that move wholly within 6\" of one or more friendly ADEPTUS MECHANICUS BATTLELINE units.\nIn either case, if it does, until the end of the turn, this unit is not eligible to declare a charge."
       }
     ],
     "composition": [
@@ -2256,7 +2256,7 @@ export default [
       },
       {
         "name": "Neurostatic Interference (Aura)",
-        "text": "While an enemy unit is within 6\" of this unit, each time a Battle-shock or Leadership test is taken for that unit, subtract 1 from that test. While this unit is within 6\" of one or more friendly Adeptus Mechanicus Battleline units, subtract 2 from that test instead."
+        "text": "While an enemy unit is within 6\" of this unit, each time a Battle-shock or Leadership test is taken for that unit, subtract 1 from that test. While this unit is within 6\" of one or more friendly ADEPTUS MECHANICUS BATTLELINE units, subtract 2 from that test instead."
       }
     ],
     "composition": [
@@ -2361,7 +2361,7 @@ export default [
     "abilities": [
       {
         "name": "Optimised Gait",
-        "text": "Add 1 to Advance and Charge rolls made for this unit. While this unit is within 6\" of one or more friendly Adeptus Mechanicus Battleline units, add 2 to Advance and Charge rolls made for this unit instead."
+        "text": "Add 1 to Advance and Charge rolls made for this unit. While this unit is within 6\" of one or more friendly ADEPTUS MECHANICUS BATTLELINE units, add 2 to Advance and Charge rolls made for this unit instead."
       }
     ],
     "composition": [
@@ -2970,14 +2970,14 @@ export default [
       },
       {
         "name": "Fire Support",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit it scored one or more hits against this phase. Until the end of the phase, each time a friendly model that disembarked from this Transport this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit it scored one or more hits against this phase. Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
       }
     ],
     "composition": [
       "1 Skorpius Dunerider"
     ],
     "loadout": "**This model is equipped with:** cognis heavy stubber array; armoured hull.",
-    "transport": "This model has a transport capacity of 12 Adeptus Mechanicus Infantry models. It cannot transport Jump Pack, Kataphron or Sydonian Skatros models.",
+    "transport": "This model has a transport capacity of 12 ADEPTUS MECHANICUS INFANTRY models. It cannot transport Jump Pack, Kataphron or Sydonian Skatros models.",
     "keywords": [
       "Vehicle",
       "Transport",
@@ -3501,7 +3501,7 @@ export default [
     "abilities": [
       {
         "name": "Enginseer",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Mechanicus Vehicle units, unless it is leading a unit, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS MECHANICUS VEHICLE units, unless it is leading a unit, this model has the Lone Operative ability."
       },
       {
         "name": "Omnissiah’s Blessing",
@@ -3509,7 +3509,7 @@ export default [
       },
       {
         "name": "Vengeance for the Omnissiah",
-        "text": "If a friendly Adeptus Mechanicus Vehicle model is destroyed within 12\" of this model, until the end of the battle, this model’s Omnissian axe has an Attacks characteristic of 6."
+        "text": "If a friendly ADEPTUS MECHANICUS VEHICLE model is destroyed within 12\" of this model, until the end of the battle, this model’s Omnissian axe has an Attacks characteristic of 6."
       }
     ],
     "composition": [

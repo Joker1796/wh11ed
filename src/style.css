@@ -521,6 +521,22 @@ tr:nth-child(even) td {
   cursor: pointer;
 }
 
+/* A CORE ability named inside rule prose ([core:Stealth]) — the rulebook prints these bold and in
+   Title Case, so they are EMPHASIS, not a tag: the pill above is the weapon-row treatment and 75 of
+   them mid-sentence would read as weapon tags. Clickable all the same (same popover), signalled the
+   quiet way .def-link and .ds-kw-link already do on this site: a dotted underline, no box. */
+.core-ability {
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, var(--link-accent) 55%, transparent);
+}
+
+.core-ability:hover {
+  color: var(--link-accent-hover);
+}
+
 /* Section number badge */
 .section-num {
   display: inline-block;

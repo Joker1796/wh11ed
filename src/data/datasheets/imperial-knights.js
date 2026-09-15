@@ -1745,7 +1745,7 @@ export default [
       },
       {
         "name": "Selfless Protector",
-        "text": "Each time a ranged attack is allocated to an Imperial Knights model from your army, if that model is not fully visible to every model in the attacking unit because of this Knight Defender model, that model has the Benefit of Cover and a 4+ invulnerable save against that attack."
+        "text": "Each time a ranged attack is allocated to an IMPERIAL KNIGHTS model from your army, if that model is not fully visible to every model in the attacking unit because of this Knight Defender model, that model has the Benefit of Cover and a 4+ invulnerable save against that attack."
       }
     ],
     "damaged": {

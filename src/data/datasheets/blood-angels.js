@@ -794,7 +794,7 @@ export default [
     "abilities": [
       {
         "name": "Forlorn Hero",
-        "text": "While this model is leading a unit, unless that unit starts the battle embarked within a Transport, models in that unit have the Scouts 6\" ability."
+        "text": "While this model is leading a unit, unless that unit starts the battle embarked within a TRANSPORT, models in that unit have the Scouts 6\" ability."
       },
       {
         "name": "Black Rage",
@@ -1948,7 +1948,7 @@ export default [
       },
       {
         "name": "Heirs of Azkaellon",
-        "text": "While a Character model is leading this unit, each time a melee attack targets this unit, subtract 1 from the Wound roll."
+        "text": "While a CHARACTER model is leading this unit, each time a melee attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
     "wargearAbilities": [

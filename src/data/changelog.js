@@ -20,9 +20,15 @@ export const changelog = [
     version: '2.4.3',
     date: '2026-09-15',
     en: [
+      { h: 'Rules read like rules again' },
+      'A core ability named inside a rule — Stealth on an enhancement, Deep Strike from a detachment, Feel No Pain from a Character — now stands out in the sentence instead of sitting in it as ordinary words, and tapping it opens the rule. Keywords got their capitals back in a thousand places too, so ADEPTUS ASTARTES TRANSPORT reads as the keyword it is. A player wrote in about one such line; it turned out to be one of many, and the rest were found the same way.',
+      { h: 'Unit cards' },
       'A rule that hands your unit a core ability — Stealth from an enhancement, Feel No Pain from the Character leading it, Deep Strike from a detachment — now says so on the unit card\'s Core line, next to the abilities the datasheet prints. Until now a hundred of these were only in the rule text below, and you had to read a paragraph to find out what your unit had. 106 rules across every faction were reread for this.',
     ],
     ru: [
+      { h: 'Правила снова читаются как правила' },
+      'Core-способность, названная внутри правила — Stealth у улучшения, Deep Strike от детачмента, Feel No Pain от персонажа, — теперь выделяется в предложении, а не тонет в нём обычными словами, и по ней открывается текст самого правила. Заодно в тысяче мест ключевым словам вернули капс, и ADEPTUS ASTARTES TRANSPORT снова читается как ключевое слово. Об одной такой строке написал игрок; она оказалась одной из многих, и остальные нашлись тем же способом.',
+      { h: 'Карточки юнитов' },
       'Правило, дающее отряду core-способность — Stealth от улучшения, Feel No Pain от ведущего его персонажа, Deep Strike от детачмента, — теперь так и написано в строке Core на карточке отряда, рядом со способностями из датащита. Раньше сотня таких грантов жила только в тексте правила ниже, и чтобы понять, что у отряда есть, приходилось вычитывать абзац. Ради этого перечитаны 106 правил по всем фракциям.',
     ],
   },

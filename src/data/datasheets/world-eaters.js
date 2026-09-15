@@ -392,7 +392,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Khorne (Aura)",
-        "text": "While a friendly Blood Legions unit is within 6\" of this model, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
+        "text": "While a friendly BLOOD LEGIONS unit is within 6\" of this model, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
       },
       {
         "name": "Relentless Carnage",
@@ -549,7 +549,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 14 World Eaters Infantry models. Each Possessed and Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 14 WORLD EATERS INFANTRY models. Each Possessed and Terminator model takes up the space of 2 models.",
     "keywords": [
       "Land Raider",
       "Khorne",
@@ -953,7 +953,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 additional combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 World Eaters Infantry models. It cannot transport Possessed or Terminator models.",
+    "transport": "This model has a transport capacity of 12 WORLD EATERS INFANTRY models. It cannot transport Possessed or Terminator models.",
     "keywords": [
       "Khorne",
       "Vehicle",
@@ -1252,7 +1252,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Murder",
-        "text": "While this model is within 3\" of one or more friendly World Eaters Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly WORLD EATERS INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Devastating Assault",
@@ -1260,7 +1260,7 @@ export default [
       },
       {
         "name": "Direct the Slaughter",
-        "text": "Once per battle round, one model from your army with this ability can use it when a friendly World Eaters unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+        "text": "Once per battle round, one model from your army with this ability can use it when a friendly WORLD EATERS unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -3274,7 +3274,7 @@ export default [
     "abilities": [
       {
         "name": "Rage Embodied (Aura)",
-        "text": "While a friendly Blood Legions unit is within 6\" of this model, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit."
+        "text": "While a friendly BLOOD LEGIONS unit is within 6\" of this model, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit."
       },
       {
         "name": "Murderlust",

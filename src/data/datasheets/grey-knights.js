@@ -272,7 +272,7 @@ export default [
       },
       {
         "name": "Litanies of Sanctity",
-        "text": "Once per battle, at the start of any phase, you can select one friendly Grey Knights unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
+        "text": "Once per battle, at the start of any phase, you can select one friendly GREY KNIGHTS unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
       }
     ],
     "composition": [
@@ -493,11 +493,11 @@ export default [
     "abilities": [
       {
         "name": "Techmarine",
-        "text": "While this model is within 3\" of one or more friendly Grey Knights Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly GREY KNIGHTS VEHICLE units, this model has the Lone Operative ability."
       },
       {
         "name": "Blessing of the Omnissiah",
-        "text": "In your Command phase, you can select one friendly Grey Knights Vehicle model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
+        "text": "In your Command phase, you can select one friendly GREY KNIGHTS VEHICLE model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
       },
       {
         "name": "Guardians of the Machine",
@@ -1168,7 +1168,7 @@ export default [
     "abilities": [
       {
         "name": "Sanctuary (Psychic)",
-        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to hit rolls."
       },
       {
         "name": "Hammer Aflame (Psychic)",
@@ -1324,7 +1324,7 @@ export default [
       "This model’s Thunderhawk cluster bombs can be replaced with 1 hellstrike missile battery.",
       "This model’s Thunderhawk heavy cannon can be replaced with 1 turbo-laser destructor."
     ],
-    "transport": "This model has a transport capacity of 30 Grey Knights Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 30 GREY KNIGHTS INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Fly",
       "Imperium",
@@ -1598,7 +1598,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 12 Grey Knights Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 12 GREY KNIGHTS INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Land Raider",
       "Imperium",
@@ -1734,7 +1734,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 16 Grey Knights Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 16 GREY KNIGHTS INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Land Raider",
       "Imperium",
@@ -1872,7 +1872,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 14 Grey Knights Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 14 GREY KNIGHTS INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Imperium",
       "Land Raider",
@@ -2598,7 +2598,7 @@ export default [
       "This model can be equipped with 1 storm bolter.",
       "This model’s twin heavy bolter can be replaced with 1 twin lascannon."
     ],
-    "transport": "This model has a transport capacity of 6 Grey Knights Infantry models. It cannot transport Terminator models.",
+    "transport": "This model has a transport capacity of 6 GREY KNIGHTS INFANTRY models. It cannot transport Terminator models.",
     "keywords": [
       "Dedicated Transport",
       "Smoke",
@@ -2681,7 +2681,7 @@ export default [
     "abilities": [
       {
         "name": "Truesilver Aegis (Aura)",
-        "text": "While a friendly Grey Knights unit is wholly within 6\" of this unit, models in that unit have the Feel No Pain 6+ ability against mortal wounds."
+        "text": "While a friendly GREY KNIGHTS unit is wholly within 6\" of this unit, models in that unit have the Feel No Pain 6+ ability against mortal wounds."
       }
     ],
     "composition": [
@@ -2692,7 +2692,7 @@ export default [
       "This model can be equipped with 1 hunter-killer missile.",
       "This model can be equipped with 1 additional storm bolter."
     ],
-    "transport": "This model has a transport capacity of 12 Grey Knights Infantry models. It cannot transport Terminator models.",
+    "transport": "This model has a transport capacity of 12 GREY KNIGHTS INFANTRY models. It cannot transport Terminator models.",
     "keywords": [
       "Vehicle",
       "Imperium",
@@ -3034,7 +3034,7 @@ export default [
       "This model’s twin assault cannon can be replaced with one of the following:\n▪ 1 twin heavy plasma cannon\n▪ 1 twin lascannon",
       "This model’s typhoon missile launcher can be replaced with one of the following:\n▪ 1 twin heavy bolter\n▪ 1 twin multi-melta"
     ],
-    "transport": "This model has a transport capacity of 12 Grey Knights Infantry models and 1 Grey Knights Venerable Dreadnought model. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 12 GREY KNIGHTS INFANTRY models and 1 GREY KNIGHTS VENERABLE DREADNOUGHT model. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Fly",
       "Imperium",
@@ -3427,7 +3427,7 @@ export default [
     "abilities": [
       {
         "name": "Guidance of the Ancients (Psychic)",
-        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a Grey Knights model from your army makes an attack that targets that unit, add 1 to the Hit roll."
+        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a GREY KNIGHTS model from your army makes an attack that targets that unit, add 1 to the Hit roll."
       }
     ],
     "composition": [

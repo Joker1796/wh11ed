@@ -63,7 +63,7 @@ export default {
     ],
     damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
     transport:
-      'Эта модель имеет транспортную вместимость 12 моделей Adeptus Astartes Infantry или Kill Team. Каждая модель Jump Pack, Gravis или Terminator занимает место 2 моделей, а каждая модель Centurion — место 3 моделей.',
+      'Эта модель имеет транспортную вместимость 12 моделей ADEPTUS ASTARTES INFANTRY или Kill Team. Каждая модель Jump Pack, Gravis или Terminator занимает место 2 моделей, а каждая модель Centurion — место 3 моделей.',
   },
 
   'deathwatch-terminator-squad': {

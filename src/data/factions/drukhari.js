@@ -90,7 +90,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'either',
           flavor: 'Even attempting to strike the Drukhari is like trying to lay a blade to smoke, so sly and swift are they.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
-          target: "One Drukhari unit from your army (excluding Haemonculus Covens units) that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One DRUKHARI unit from your army (excluding Haemonculus Covens units) that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the Hit roll.',
           restrictions: '',
         },
@@ -101,7 +101,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'either',
           flavor: 'It is hardwired into the Drukhari psyche to prey upon weakened and suffering victims.',
           when: 'Start of your Shooting phase or the start of the Fight phase.',
-          target: 'Up to two Drukhari Battleline units from your army, or one other Drukhari unit from your army.',
+          target: 'Up to two DRUKHARI BATTLELINE units from your army, or one other Drukhari unit from your army.',
           effect: 'You can spend 1 Pain token. Until the end of the phase, each time a model in each of those units makes an attack that targets an enemy unit that is Below Half-strength, add 1 to the Hit roll. If you spent 1 Pain token, add 1 to the Wound roll as well.',
           restrictions: '',
         },
@@ -112,7 +112,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'either',
           flavor: 'Wicked sickles and serrated blades hack through writhing flesh as the Drukhari harvest agony and suffering.',
           when: 'Start of the Fight phase.',
-          target: 'Up to two Wracks units from your army, or one other Drukhari unit from your army.',
+          target: 'Up to two Wracks units from your army, or one other DRUKHARI unit from your army.',
           effect: 'Until the end of the phase, melee weapons equipped by models in each of those units have the [LETHAL HITS] ability.',
           restrictions: '',
         },
@@ -123,7 +123,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'your',
           flavor: 'The exhilarating promise of bloodshed goads these warriors into battle with preternatural haste.',
           when: 'Start of your Movement phase.',
-          target: 'Up to two Wyches units from your army, or one other Drukhari unit from your army, that have not been selected to move this phase.',
+          target: 'Up to two Wyches units from your army, or one other DRUKHARI unit from your army, that have not been selected to move this phase.',
           effect: "Until the end of the phase, each time one of those units Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in that unit (this is not cumulative with the Reavers' Matchless Swiftness ability).",
           restrictions: '',
         },
@@ -134,7 +134,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'your',
           flavor: 'The Drukhari are masters at using hit-and-run tactics, engaging a target with a flurry of shots before quickly manoeuvring into cover or out of sight.',
           when: 'End of your Shooting phase.',
-          target: 'Up to two Kabalite Warriors units from your army, or one other Drukhari unit from your army (excluding Scourges and Aircraft).',
+          target: 'Up to two Kabalite Warriors units from your army, or one other DRUKHARI unit from your army (excluding Scourges and AIRCRAFT).',
           effect: 'Each of those units can make a Normal move of up to 6".',
           restrictions: 'You cannot select units that are within Engagement Range of one or more enemy units. Until the end of the turn, those units are not eligible to declare a charge.',
         },
@@ -144,7 +144,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           name: 'Dark Vitality',
           points: 20,
           flavor: 'Surrounded by terror and pain, this champion of the Dark City is a veritable conduit of cruel vitality.',
-          body: `Drukhari model only. The bearer's unit is always Empowered – you do not need to spend any Pain tokens to activate that unit's Pain abilities.`,
+          body: `DRUKHARI model only. The bearer's unit is always Empowered – you do not need to spend any Pain tokens to activate that unit's Pain abilities.`,
         },
         {
           name: 'Labyrinthine Cunning',
@@ -164,7 +164,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           name: 'Crucible of Malediction',
           points: 15,
           flavor: 'This repulsive artefact contains the tortured souls of psykers. When released, these essences scream across the battlefield, spreading terror and madness.',
-          body: `Haemonculus model only. Once per battle, in your Shooting phase, the bearer can use this Enhancement. If it does, you can spend 1 Pain token. Then, each enemy unit within 12" of the bearer must take a Battle-shock test, subtracting 1 from that test if you spent 1 Pain token. Each time a Psyker unit fails that test, it suffers 3 mortal wounds.`,
+          body: `Haemonculus model only. Once per battle, in your Shooting phase, the bearer can use this Enhancement. If it does, you can spend 1 Pain token. Then, each enemy unit within 12" of the bearer must take a Battle-shock test, subtracting 1 from that test if you spent 1 Pain token. Each time a PSYKER unit fails that test, it suffers 3 mortal wounds.`,
         },
       ],
     },
@@ -190,9 +190,9 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           cp: '1CP',
           turn: 'either',
           flavor: 'Wielding a horrifying array of hooked boarding blades, barbed lariats and other specialised tools of agony, these warriors hack and slash at their foes even as their transport skims low overhead.',
-          when: 'Fight phase, just after a Drukhari Transport from your army has selected its targets.',
-          target: 'That Transport.',
-          effect: 'After your Transport has fought, select one enemy unit that was the target of one or more of those attacks and roll one D6 for each model embarked within your Transport, adding 1 to the result if that embarked model is a Wracks model: for each 5+, that enemy unit suffers 1 mortal wound (to a maximum of 6 mortal wounds).',
+          when: 'Fight phase, just after a DRUKHARI TRANSPORT from your army has selected its targets.',
+          target: 'That TRANSPORT.',
+          effect: 'After your TRANSPORT has fought, select one enemy unit that was the target of one or more of those attacks and roll one D6 for each model embarked within your Transport, adding 1 to the result if that embarked model is a Wracks model: for each 5+, that enemy unit suffers 1 mortal wound (to a maximum of 6 mortal wounds).',
           restrictions: '',
         },
         {
@@ -202,9 +202,9 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'either',
           flavor: 'Employing smoke grenades, paralysing mists or simple cunning and agility, these warriors slip away like spectres.',
           when: 'End of the Fight phase.',
-          target: 'One Drukhari Infantry unit from your army that fought this phase.',
+          target: 'One DRUKHARI INFANTRY unit from your army that fought this phase.',
           // Faction-Pack Rules Update added the final embark-in-a-disembark-turn sentence.
-          effect: 'Your unit can make a Normal or Fall Back move, but unless it is a Wyches unit, it must end that move wholly within 3" horizontally and 5" vertically of a friendly Drukhari Transport and must embark within that Transport at the end of that move (otherwise, it cannot make that move). Your unit can embark within that Transport in a turn it disembarked from that Transport.',
+          effect: 'Your unit can make a Normal or Fall Back move, but unless it is a Wyches unit, it must end that move wholly within 3" horizontally and 5" vertically of a friendly DRUKHARI TRANSPORT and must embark within that Transport at the end of that move (otherwise, it cannot make that move). Your unit can embark within that Transport in a turn it disembarked from that Transport.',
           restrictions: '',
         },
         {
@@ -213,8 +213,8 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           cp: '1CP',
           turn: 'your',
           flavor: 'Incredible alien agility and a delight in taking wild risks help these warriors to leap acrobatically from their skimming transports directly into battle.',
-          when: 'Your Movement phase, just after a Drukhari Infantry unit from your army disembarks from a Transport that made a Normal move this phase.',
-          target: 'That Infantry unit.',
+          when: 'Your Movement phase, just after a DRUKHARI INFANTRY unit from your army disembarks from a TRANSPORT that made a Normal move this phase.',
+          target: 'That INFANTRY unit.',
           effect: 'Until the end of the turn, your unit is eligible to declare a charge.',
           restrictions: '',
         },
@@ -225,7 +225,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'your',
           flavor: 'These warriors are well versed in raining suppressing fire on the foe even as they close with them from on high, shredding defences and leaving the survivors easy prey for the raid.',
           when: 'Your Shooting phase.',
-          target: 'One Drukhari unit from your army that has not been selected to shoot this phase and that disembarked from a Transport this turn.',
+          target: 'One DRUKHARI unit from your army that has not been selected to shoot this phase and that disembarked from a TRANSPORT this turn.',
           effect: 'Until the end of the phase, ranged weapons equipped by models in your unit have the [SUSTAINED HITS 1] ability, or the [SUSTAINED HITS 2] ability if your unit is a Kabalite Warriors or Hand of the Archon unit.',
           restrictions: '',
         },
@@ -237,8 +237,8 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           flavor: 'The crew of this skimmer delight in evading and taunting their enemies with mocking ease.',
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
           // Faction-Pack Rules Update changed the Target's 9" to 8".
-          target: 'One Drukhari Transport from your army that is within 8" of that enemy unit.',
-          effect: 'Your Transport can make a Normal move of up to 6".',
+          target: 'One DRUKHARI TRANSPORT from your army that is within 8" of that enemy unit.',
+          effect: 'Your TRANSPORT can make a Normal move of up to 6".',
           restrictions: '',
         },
         {
@@ -248,7 +248,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           turn: 'opponent',
           flavor: 'These powerful Drukhari devices occlude their raiding vehicles from physical sight, targeting sensors, and even psychic senses.',
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One Drukhari Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One DRUKHARI VEHICLE unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, models in your unit have a 4+ invulnerable save.',
           restrictions: '',
         },
@@ -258,7 +258,7 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           name: 'Phantasmal Smoke',
           points: 15,
           flavor: 'Phantasm grenade launchers worked into sweeping hull plates discharge, laying down covering spreads of hallucinogenic vapours that daze and distract the foe.',
-          body: `Drukhari model only. While the bearer's unit is wholly within 6" of a friendly Drukhari Transport:
+          body: `DRUKHARI model only. While the bearer's unit is wholly within 6" of a friendly DRUKHARI TRANSPORT:
 ▪ Models in the bearer's unit have the Stealth ability.
 ▪ Each time a ranged attack targets the bearer's unit, models in that unit have the Benefit of Cover against that attack.`,
         },
@@ -266,19 +266,19 @@ If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe*
           name: 'Sadistic Fulcrum',
           points: 15,
           flavor: 'Witnessing this murderous warrior wreaking havoc, the sadistic crew of the Drukhari transports are filled with the vigour only the suffering of others can provide.',
-          body: `Drukhari model only. Each time you spend 1 Pain token to Empower the bearer's unit in the Shooting phase, select one friendly Drukhari Transport within 6" of the bearer's unit; until the end of the phase, each time that Transport makes an attack, you can re-roll the Hit roll.`,
+          body: `DRUKHARI model only. Each time you spend 1 Pain token to Empower the bearer's unit in the Shooting phase, select one friendly DRUKHARI TRANSPORT within 6" of the bearer's unit; until the end of the phase, each time that Transport makes an attack, you can re-roll the Hit roll.`,
         },
         {
           name: 'Spiteful Raider',
           points: 10,
           flavor: 'This cruel realspace raider knows the best reason to take something from the foe is for the simple spite of denying them that which they most desire to keep.',
-          body: `Drukhari model only. Each time the bearer's unit destroys an enemy unit in the Fight phase, if that enemy unit was within range of one or more objective markers when the bearer's unit was selected to fight, you gain 1 additional Pain token.`,
+          body: `DRUKHARI model only. Each time the bearer's unit destroys an enemy unit in the Fight phase, if that enemy unit was within range of one or more objective markers when the bearer's unit was selected to fight, you gain 1 additional Pain token.`,
         },
         {
           name: 'Nightmare Shroud',
           points: 20,
           flavor: 'This strange artefact wreathes its bearer in a cloying cloud of shadow. Flitting into battle under cover of this pall, they are nigh impossible for the prey to see coming.',
-          body: `Drukhari model only. Each time the bearer's unit disembarks from a Transport, until the end of the turn, enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer's unit.`,
+          body: `DRUKHARI model only. Each time the bearer's unit disembarks from a TRANSPORT, until the end of the turn, enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer's unit.`,
         },
       ],
     },
@@ -333,7 +333,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'either',
           flavor: 'Imitating Lelith Hesperax, these warriors begin their gladiatorial bout with an opening so spectacularly violent that none can fail to be impressed.',
           when: 'Fight phase.',
-          target: 'One Drukhari unit from your army that made a Charge move this turn and has not been selected to fight this phase.',
+          target: 'One DRUKHARI unit from your army that made a Charge move this turn and has not been selected to fight this phase.',
           effect: 'Until the end of the phase, melee weapons equipped by models in your unit have the [LETHAL HITS] ability. If your unit is a Wyches unit, until the end of the phase, improve the Armour Penetration characteristic of melee weapons equipped by models in your unit by 1 as well.',
           restrictions: '',
         },
@@ -442,8 +442,8 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           cp: '1CP',
           turn: 'either',
           flavor: "So extreme are the foe's agonies that they spread a shock wave of terror through their comrades.",
-          when: 'Fight phase, just after a Drukhari unit from your army destroys an enemy unit.',
-          target: 'That Drukhari unit.',
+          when: 'Fight phase, just after a DRUKHARI unit from your army destroys an enemy unit.',
+          target: 'That DRUKHARI unit.',
           effect: 'Each enemy unit within 9" of and visible to your unit must take a Battle-shock test, subtracting 1 from that test if your unit is a Haemonculus Covens unit.',
           restrictions: '',
         },
@@ -455,7 +455,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           flavor: 'The venoms wielded by these warriors are potent enough to impress Shaimesh himself.',
           when: 'Fight phase, just after a Haemonculus Covens unit from your army has fought.',
           target: 'That Haemonculus Covens unit.',
-          effect: "Select one enemy unit (excluding Vehicles) hit by one or more of your unit's attacks this phase. Until the end of the battle, that enemy unit is poisoned. At the start of each Command phase, roll one D6 for each poisoned unit on the battlefield: on a 4+, that unit suffers D3 mortal wounds.",
+          effect: "Select one enemy unit (excluding VEHICLES) hit by one or more of your unit's attacks this phase. Until the end of the battle, that enemy unit is poisoned. At the start of each Command phase, roll one D6 for each poisoned unit on the battlefield: on a 4+, that unit suffers D3 mortal wounds.",
           restrictions: '',
         },
         {
@@ -476,7 +476,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'either',
           flavor: 'These epicureans of extreme sensation revel in their agonies as much as those of the foe.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
-          target: "One Drukhari unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One DRUKHARI unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           // Faction-Pack Rules Update reworded the Effect ("until the attacking unit has finished…").
           effect: 'Spend 1 Pain token. Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1. At the end of the phase, if your unit is still on the battlefield and it is a Haemonculus Covens unit, you gain 1 Pain token.',
           restrictions: '',
@@ -518,7 +518,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           points: 15,
           aura: true,
           flavor: 'The Repugnomancers focus all their study on the art of triggering instinctive revulsion and horror. Though considered gauche by many other Haemonculi, the results of their foul craft on the battlefield are undeniable.',
-          body: `Haemonculus model only. Add 3" to the range of the bearer's Fear Incarnate ability, and each time a friendly Drukhari unit within 9" of the bearer fails a Battle-shock test or is destroyed, roll one D6: on a 4+, you gain 1 Pain token.`,
+          body: `Haemonculus model only. Add 3" to the range of the bearer's Fear Incarnate ability, and each time a friendly DRUKHARI unit within 9" of the bearer fails a Battle-shock test or is destroyed, roll one D6: on a 4+, you gain 1 Pain token.`,
         },
       ],
     },
@@ -537,15 +537,15 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
         body: `At the start of the first battle round, select one of the Contracts below, then select one unit from your opponent's army that matches the 'Contract' description in that Contract. Until that Contract is completed, that unit is your Contract unit and **Kabal** and **Blades for Hire** units from your army have the ability stated in that Contract. At the start of your Command phase, if your Contract unit is destroyed, that Contract is completed and you gain 3 Pain tokens.
 
 ### Trophy Hunters
-**Contract:** One Character unit.
+**Contract:** One CHARACTER unit.
 **Ability:** Each time a Kabal or Blades for Hire model in this unit makes an attack that targets the Contract unit, that attack has the [PRECISION] ability.
 
 ### Sow Fear and Terror
-**Contract:** One Infantry or Mounted unit (excluding units containing only Character models). At the start of your Command phase, this Contract is completed if all non-Character models in that unit are destroyed.
+**Contract:** One INFANTRY or Mounted unit (excluding units containing only Character models). At the start of your Command phase, this Contract is completed if all non-Character models in that unit are destroyed.
 **Ability:** Each time a Kabal or Blades for Hire model in this unit makes an attack that targets an Infantry or Mounted unit, that attack has the [SUSTAINED HITS 1] ability.
 
 ### Show of Strength
-**Contract:** One Monster or Vehicle unit.
+**Contract:** One MONSTER or VEHICLE unit.
 **Ability:** Each time a Kabal or Blades for Hire model in this unit makes an attack that targets a Monster or Vehicle unit, that attack has the [LETHAL HITS] ability.`,
       },
       stratagems: [
@@ -556,8 +556,8 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'either',
           flavor: 'What better way to eliminate rivals than tricking them into taking the blade meant for your ribs?',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: "One Kabal or Blades for Hire unit from your army that was selected as the target of one or more of the attacking unit's attacks, and one friendly Drukhari unit (excluding Vehicles).",
-          effect: 'Until the end of the phase, each time you would allocate an attack to a model in your Kabal or Blades for Hire unit, if your Drukhari unit is within Engagement Range of the attacking model, no saving throw is made for that attack; instead, your Drukhari unit suffers a number of mortal wounds equal to the Damage characteristic of that attack.',
+          target: "One Kabal or Blades for Hire unit from your army that was selected as the target of one or more of the attacking unit's attacks, and one friendly DRUKHARI unit (excluding VEHICLES).",
+          effect: 'Until the end of the phase, each time you would allocate an attack to a model in your Kabal or Blades for Hire unit, if your DRUKHARI unit is within Engagement Range of the attacking model, no saving throw is made for that attack; instead, your Drukhari unit suffers a number of mortal wounds equal to the Damage characteristic of that attack.',
           restrictions: '',
         },
         {
@@ -567,7 +567,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'either',
           flavor: 'Borne away screaming into the shadows, everyone knows these unfortunates face a dreadful fate.',
           when: 'Fight phase.',
-          target: 'One Drukhari unit from your army that has not been selected to fight this phase.',
+          target: 'One DRUKHARI unit from your army that has not been selected to fight this phase.',
           effect: "Until the end of the phase, each time a model in your unit makes an attack, add 1 to the Hit roll. If your Contract unit is destroyed as a result of those attacks, every unit in your opponent's army must take a Battle-shock test. You cannot gain more than 3 Pain tokens as a result of failed Battle-shock tests caused by this Stratagem.",
           restrictions: '',
         },
@@ -873,7 +873,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           turn: 'either',
           flavor: 'Jealous competition descends into frenzied carnage as the kill count climbs higher and the intoxicating screams of the dying fill the air.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Drukhari or Harlequins unit from your army that has not been selected to shoot or fight this phase.',
+          target: 'One DRUKHARI or HARLEQUINS unit from your army that has not been selected to shoot or fight this phase.',
           effect: 'Select [LETHAL HITS] or [SUSTAINED HITS 1]. Until the end of the phase, weapons equipped by models in your unit have the selected ability.',
           restrictions: '',
         },
@@ -884,7 +884,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           turn: 'either',
           flavor: 'These warriors are so absorbed by their desire to win the wager that they risk death to land their killing blows.',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: "One Drukhari or Harlequins unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One DRUKHARI or HARLEQUINS unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: "Until the end of the phase, each time a model in your unit is destroyed, if that model has not fought this phase, roll one D6, adding 1 to the result if that unit is losing the wager: on a 4+, do not remove it from play. That destroyed model can fight after the attacking model's unit has finished making its attacks, and is then removed from play.",
           restrictions: '',
         },
@@ -895,7 +895,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           turn: 'either',
           flavor: 'In bounding leaps and graceful pirouettes, the cavalcade of capricious killers bounds through hails of fire, cackling gleefully as they come.',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: "One Drukhari or Harlequins unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          target: "One DRUKHARI or HARLEQUINS unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the Hit roll.',
           restrictions: '',
         },
@@ -905,7 +905,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           cp: '1CP',
           turn: 'your',
           flavor: 'Having selected their victims, these killers strive to complete the kill with speed and brutality whilst moving ever closer to winning their macabre wager.',
-          when: 'Your Movement phase, just after a Drukhari or Harlequins unit from your army has Advanced.',
+          when: 'Your Movement phase, just after a DRUKHARI or HARLEQUINS unit from your army has Advanced.',
           target: 'That unit.',
           effect: 'Until the end of the turn, your unit is eligible to shoot and declare a charge in a turn in which it Advanced.',
           restrictions: '',
@@ -916,7 +916,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           cp: '1CP',
           turn: 'your',
           flavor: 'Commorrite or Harlequin, these lithe combatants move with stunning speed, darting in and out of firing lines before their foes can raise their weapons.',
-          when: 'Your Movement phase or your Charge phase, just after a Drukhari or Harlequins unit from your army is selected to make a Normal, Advance or Fall Back move, is set up on the battlefield, or declares a charge.',
+          when: 'Your Movement phase or your Charge phase, just after a DRUKHARI or HARLEQUINS unit from your army is selected to make a Normal, Advance or Fall Back move, is set up on the battlefield, or declares a charge.',
           target: 'That unit.',
           effect: 'Until the end of the turn, enemy units cannot use the Fire Overwatch Stratagem to shoot at your unit.',
           restrictions: '',
@@ -928,7 +928,7 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           turn: 'opponent',
           flavor: "The saedath's victims become unwitting partners in a frantic dance of ghastly slaughter.",
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: 'One Drukhari Infantry or Harlequins Infantry unit from your army that is within 8" of that enemy unit.',
+          target: 'One DRUKHARI INFANTRY or HARLEQUINS INFANTRY unit from your army that is within 8" of that enemy unit.',
           effect: 'Your unit can make a Normal move of up to D6". If your unit is currently losing the wager, it can make a Normal move of up to 6" instead.',
           restrictions: '',
         },
@@ -938,27 +938,27 @@ Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that
           name: 'Archraider',
           points: 15,
           flavor: 'A veteran of countless realspace raids or vehicular saedaths, this warrior champion utilises the speed of their sleek anti-grav craft to surprise their enemies.',
-          body: `Harlequins or Drukhari model only. In the Declare Battle Formations step, if the bearer starts the battle embarked within a Dedicated Transport, that Dedicated Transport has the Scouts 9" ability.`,
+          body: `HARLEQUINS or DRUKHARI model only. In the Declare Battle Formations step, if the bearer starts the battle embarked within a Dedicated Transport, that Dedicated Transport has the Scouts 9" ability.`,
         },
         {
           name: 'Conductor of Torment',
           points: 20,
           flavor: 'This cruel champion of Commorragh seeks only to bathe in the agony of the foe. To them, the outcome of any wager is secondary to the symphony of suffering.',
-          body: `Drukhari model only. In your Command phase, you can do one of the following:
+          body: `DRUKHARI model only. In your Command phase, you can do one of the following:
 ▪ If your Drukhari units are currently losing the wager, you can gain 1 Pain token. If you do, Drukhari units from your army are now winning the wager.
-▪ If your Drukhari units are currently winning the wager, you can discard 1 Pain token. If you do, Harlequins units from your army are now winning the wager.`,
+▪ If your Drukhari units are currently winning the wager, you can discard 1 Pain token. If you do, HARLEQUINS units from your army are now winning the wager.`,
         },
         {
           name: "Reaper's Cowl",
           points: 25,
           flavor: 'This ebon cloak contains a shadow field generator, which shrouds the bearer in a field of umbral darkness.',
-          body: `Harlequins model only. Models in the bearer's unit have the Stealth and Infiltrators abilities.`,
+          body: `HARLEQUINS model only. Models in the bearer's unit have the Stealth and Infiltrators abilities.`,
         },
         {
           name: 'Webway Walker',
           points: 15,
           flavor: "This elite combatant possesses intricate knowledge of the Webway's hidden paths and employs them to enhance this dreadful performance.",
-          body: `Harlequins or Drukhari model only. Models in the bearer's unit have the Deep Strike ability. Each time the bearer's unit is set up on the battlefield using the Deep Strike ability, if that unit is currently losing the wager, until the end of the turn, you can re-roll Charge rolls made for that unit.`,
+          body: `HARLEQUINS or DRUKHARI model only. Models in the bearer's unit have the Deep Strike ability. Each time the bearer's unit is set up on the battlefield using the Deep Strike ability, if that unit is currently losing the wager, until the end of the turn, you can re-roll Charge rolls made for that unit.`,
         },
       ],
     },

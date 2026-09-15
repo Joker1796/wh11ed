@@ -69,7 +69,7 @@ export default [
     "abilities": [
       {
         "name": "Scryer of Fates (Psychic)",
-        "text": "If your army includes this model, after both players have deployed their armies, you can select up to three Thousand Sons units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
+        "text": "If your army includes this model, after both players have deployed their armies, you can select up to three THOUSAND SONS units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       },
       {
         "name": "Arch-Sorcerer of Tzeentch (Psychic)",
@@ -332,7 +332,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 inferno combi-bolter\n▪ 1 inferno combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 14 Thousand Sons Infantry models. Each Terminator model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 14 THOUSAND SONS INFANTRY models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
       "Vehicle",
       "Land Raider",
@@ -464,7 +464,7 @@ export default [
     "abilities": [
       {
         "name": "Ensorcelled Annihilation",
-        "text": "Each time this model makes a ranged attack that targets a MONSTER or VEHICLE unit that was hit by one or more Psychic Attacks made by a Thousand Sons Psyker model from your army this phase (including the Doombolt Ritual), you can re-roll the Hit roll and you can re-roll the Damage roll."
+        "text": "Each time this model makes a ranged attack that targets a MONSTER or VEHICLE unit that was hit by one or more Psychic Attacks made by a THOUSAND SONS PSYKER model from your army this phase (including the Doombolt Ritual), you can re-roll the Hit roll and you can re-roll the Damage roll."
       }
     ],
     "damaged": {
@@ -610,7 +610,7 @@ export default [
     "abilities": [
       {
         "name": "Ensorcelled Destruction",
-        "text": "Each time this model makes a ranged attack that targets a unit (excluding MONSTERS and VEHICLES) that was hit by one or more Psychic Attacks made by a Thousand Sons Psyker model from your army this phase (including the Doombolt Ritual), improve the Strength and Armour Penetration characteristics of that attack by 1."
+        "text": "Each time this model makes a ranged attack that targets a unit (excluding MONSTERS and VEHICLES) that was hit by one or more Psychic Attacks made by a THOUSAND SONS PSYKER model from your army this phase (including the Doombolt Ritual), improve the Strength and Armour Penetration characteristics of that attack by 1."
       }
     ],
     "damaged": {
@@ -733,7 +733,7 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 additional inferno combi-bolter\n▪ 1 inferno combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 inferno combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Thousand Sons Infantry models (excluding TERMINATOR models).",
+    "transport": "This model has a transport capacity of 12 THOUSAND SONS INFANTRY models (excluding TERMINATOR models).",
     "keywords": [
       "Transport",
       "Dedicated Transport",
@@ -1009,15 +1009,15 @@ export default [
     "abilities": [
       {
         "name": "Servile Pawns",
-        "text": "While this model is within 3\" of one or more friendly Thousand Sons Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly THOUSAND SONS INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Spirit Snare",
-        "text": "Each time a friendly Thousand Sons Psyker model with the Cabal of Sorcerers ability is destroyed while within 9\" of one or more models with this ability, select one of those models with this ability: until the end of the battle, each time the selected model attempts a Ritual, add 1 to the Psychic test result (to a maximum of +2)."
+        "text": "Each time a friendly THOUSAND SONS PSYKER model with the Cabal of Sorcerers ability is destroyed while within 9\" of one or more models with this ability, select one of those models with this ability: until the end of the battle, each time the selected model attempts a Ritual, add 1 to the Psychic test result (to a maximum of +2)."
       },
       {
         "name": "Glamour of Tzeentch (Aura, Psychic)",
-        "text": "While a friendly Thousand Sons Infantry unit is within 6\" of this model, models in that unit have the Stealth ability."
+        "text": "While a friendly THOUSAND SONS INFANTRY unit is within 6\" of this model, models in that unit have the Stealth ability."
       }
     ],
     "composition": [
@@ -1945,7 +1945,7 @@ export default [
     "abilities": [
       {
         "name": "Terrifying Assault",
-        "text": "In your Shooting phase and the Fight phase, after this model has shot or fought, select one enemy unit hit by one or more of those attacks. That unit must take a Battle-shock test, subtracting 1 from that test if it is within 9\" of one or more Thousand Sons Psyker units from your army."
+        "text": "In your Shooting phase and the Fight phase, after this model has shot or fought, select one enemy unit hit by one or more of those attacks. That unit must take a Battle-shock test, subtracting 1 from that test if it is within 9\" of one or more THOUSAND SONS PSYKER units from your army."
       },
       {
         "name": "Devoted to Destruction",
@@ -2380,7 +2380,7 @@ export default [
     "abilities": [
       {
         "name": "Daemon Lord of Tzeentch (Aura)",
-        "text": "While a friendly Scintillating Legions unit is within 6\" of this model, each time a model in that unit makes a ranged attack, add 1 to the Strength characteristic of that attack."
+        "text": "While a friendly SCINTILLATING LEGIONS unit is within 6\" of this model, each time a model in that unit makes a ranged attack, add 1 to the Strength characteristic of that attack."
       },
       {
         "name": "Master of Magicks (Psychic)",
@@ -2745,7 +2745,7 @@ export default [
       },
       {
         "name": "Immaterial Flare (Aura)",
-        "text": "While a friendly Thousand Sons Psyker model is within 6\" of this model, each time that model Channels the Warp, add 1 to the Psychic test result. This is not cumulative with any other modifiers to the Psychic test result."
+        "text": "While a friendly THOUSAND SONS PSYKER model is within 6\" of this model, each time that model Channels the Warp, add 1 to the Psychic test result. This is not cumulative with any other modifiers to the Psychic test result."
       }
     ],
     "damaged": {

@@ -49,6 +49,7 @@ export function plainText(s) {
   let t = s
   t = t.replace(/\[img:[^\]]*\]/g, ' ')
   t = t.replace(/\[(?:gloss|def):[^:\]]*:([^\]]*)\]/g, '$1') // [gloss:id:label] / [def:id:label] → label
+  t = t.replace(/\[core:([^\]]*)\]/g, '$1') // [core:Stealth] → Stealth
   t = t.replace(/\{[a-z]+:([^}]*)\}/gi, '$1') // {red:TEXT} → TEXT
   // "Example:" label — sometimes a CSS-generated lead-in on wh11ed's side (.example-block::before,
   // not stored data) with no equivalent stored text, sometimes literal inline text on both sides

@@ -528,7 +528,7 @@ export default [
       },
       {
         "name": "Infernum Halo-launcher",
-        "text": "The bearer has the Smoke keyword."
+        "text": "The bearer has the SMOKE keyword."
       }
     ],
     "damaged": {
@@ -1602,7 +1602,7 @@ export default [
     "options": [
       "This model can be equipped with 1 hunter-killer missile."
     ],
-    "transport": "This model has a transport capacity of 12 AGENTS OF THE IMPERIUM Infantry models. It cannot transport TERMINATOR or OFFICIO ASSASSINORUM models.",
+    "transport": "This model has a transport capacity of 12 AGENTS OF THE IMPERIUM INFANTRY models. It cannot transport TERMINATOR or OFFICIO ASSASSINORUM models.",
     "keywords": [
       "Imperium",
       "Vehicle",
@@ -1713,7 +1713,7 @@ export default [
     "abilities": [
       {
         "name": "Authority of the Inquisition",
-        "text": "While this model is leading a unit, it can embark within any Transport that its Bodyguard unit can embark within."
+        "text": "While this model is leading a unit, it can embark within any TRANSPORT that its Bodyguard unit can embark within."
       },
       {
         "name": "Power of the Rosette",
@@ -2190,7 +2190,7 @@ export default [
     "abilities": [
       {
         "name": "On My Signal, Fire!",
-        "text": "After this unit has shot, you can select one enemy unit hit by those attacks. Until the end of the phase, each time an Agents of the Imperium or Imperium Infantry Battleline model from your army makes an attack that targets that enemy unit, you can re-roll the Hit roll."
+        "text": "After this unit has shot, you can select one enemy unit hit by those attacks. Until the end of the phase, each time an AGENTS OF THE IMPERIUM or IMPERIUM INFANTRY BATTLELINE model from your army makes an attack that targets that enemy unit, you can re-roll the Hit roll."
       },
       {
         "name": "Tox-cycler",
@@ -3910,7 +3910,7 @@ export default [
     "abilities": [
       {
         "name": "Dead-shot",
-        "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have Lone Operative; hidden enemy units have +15\" detection range."
+        "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have [core:Lone Operative]; hidden enemy units have +15\" detection range."
       },
       {
         "name": "Shieldbreaker",

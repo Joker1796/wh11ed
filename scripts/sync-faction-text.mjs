@@ -41,6 +41,7 @@ function plainText(s) {
   let t = s
   t = t.replace(/\[gloss:[^:\]]+:([^\]]*)\]/g, '$1') // [gloss:id:label] → label
   t = t.replace(/\[def:[^:\]]+:([^\]]*)\]/g, '$1') // [def:id:label] → label
+  t = t.replace(/\[core:([^\]]*)\]/g, '$1') // [core:Stealth] → Stealth
   t = t.replace(/\*\*/g, '').replace(/__/g, '') // bold / underline
   t = t.replace(/\s*\((?:\d+\.)*\d+\)/g, '') // (NN) / (NN.NN) numeric cross-refs
   t = t.replace(/[[\]]/g, '') // [KEYWORD] / [ABILITY] bracket markers (both sides have them)
@@ -115,14 +116,18 @@ const nameRelated = (a, b) => {
   return x === y || x.includes(y) || y.includes(x)
 }
 
-async function syncFaction(slug) {
+// Walk every (label, wh11ed text, appdata candidates) triple this faction offers and hand each to
+// `visit`. Exported because check-emphasis.mjs asks a DIFFERENT question of the SAME pairs — did
+// our sentence keep the emphasis appdata's carries? — and a second pairing written beside this one
+// would be free to drift, after which the two audits would disagree about which appdata rule a
+// sentence of ours even corresponds to. Returns a reason string when there is nothing to pair.
+export async function eachFactionTextPair(slug, visit) {
   const appSlug = SLUG_MAP[slug] || slug
   const bundle = await loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
   const factionMod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
   const en = Object.values(factionMod || {})[0]?.en
-  const out = []
-  if (!bundle) { console.log(`\n=== ${slug} (appdata: ${appSlug}) ===\n  no appdata bundle found — check SLUG_MAP or spelling`); return }
-  if (!en) { console.log(`\n=== ${slug} (appdata: ${appSlug}) ===\n  no src/data/factions/<slug>.js found`); return }
+  if (!bundle) return 'no appdata bundle found — check SLUG_MAP or spelling'
+  if (!en) return 'no src/data/factions/<slug>.js found'
 
   const cp = combatPatrolNames()
   const appDetachments = (bundle.detachments || []).filter((d) => !cp.detachments.has(norm(d.name)))
@@ -131,7 +136,7 @@ async function syncFaction(slug) {
   // Army rule — wh11ed carries one combined `armyRule`; match appdata army rule(s) by name.
   if (en.armyRule?.body) {
     const cands = appArmyRules.filter((r) => nameRelated(en.armyRule.name, r.name)).map((r) => r.body)
-    compare(out, `army rule "${en.armyRule.name}"`, en.armyRule.body, cands)
+    visit(`army rule "${en.armyRule.name}"`, en.armyRule.body, cands)
   }
 
   // Detachments: the detachment rule, then per-detachment stratagems and enhancements.
@@ -143,7 +148,7 @@ async function syncFaction(slug) {
     if (d.rule?.body) {
       let ruleCands = (appDet.rules || []).filter((r) => nameRelated(d.rule.name, r.name))
       if (!ruleCands.length && (appDet.rules || []).length === 1) ruleCands = appDet.rules // single unnamed-match rule
-      compare(out, `detachment "${d.name}" · rule "${d.rule.name}"`, d.rule.body, ruleCands.map((r) => r.body))
+      visit(`detachment "${d.name}" · rule "${d.rule.name}"`, d.rule.body, ruleCands.map((r) => r.body))
     }
 
     const appStratByName = byNormName(appDet.stratagems || [], (s) => s.name)
@@ -151,17 +156,17 @@ async function syncFaction(slug) {
       const a = appStratByName.get(norm(s.name))
       if (!a) continue
       const lbl = `detachment "${d.name}" · stratagem "${s.name}"`
-      compare(out, `${lbl} · WHEN`, s.when, [a.when])
-      compare(out, `${lbl} · TARGET`, s.target, [a.target])
-      compare(out, `${lbl} · EFFECT`, s.effect, [a.effect])
-      compare(out, `${lbl} · RESTRICTIONS`, s.restrictions, [a.restriction])
+      visit(`${lbl} · WHEN`, s.when, [a.when])
+      visit(`${lbl} · TARGET`, s.target, [a.target])
+      visit(`${lbl} · EFFECT`, s.effect, [a.effect])
+      visit(`${lbl} · RESTRICTIONS`, s.restrictions, [a.restriction])
     }
 
     const appEnhByName = byNormName(appDet.enhancements || [], (e) => e.name)
     for (const e of d.enhancements || []) {
       const a = appEnhByName.get(norm(e.name))
       if (!a) continue
-      compare(out, `detachment "${d.name}" · enhancement "${e.name}"`, e.body, [a.rules])
+      visit(`detachment "${d.name}" · enhancement "${e.name}"`, e.body, [a.rules])
     }
   }
 
@@ -176,7 +181,7 @@ async function syncFaction(slug) {
     for (const ab of d.abilities || []) {
       const a = appAbilityByName.get(norm(ab.name))
       if (!a) continue
-      compare(out, `datasheet "${d.name}" · ability "${ab.name}"`, ab.text, [a.rules])
+      visit(`datasheet "${d.name}" · ability "${ab.name}"`, ab.text, [a.rules])
     }
 
     // wargearAbilities — a wargear item's own passive rule text (e.g. Storm Shield's invulnerable
@@ -185,7 +190,7 @@ async function syncFaction(slug) {
     for (const wa of d.wargearAbilities || []) {
       const w = appWgByName.get(norm(wa.name))
       if (!w?.ruleText) continue
-      compare(out, `datasheet "${d.name}" · wargear ability "${wa.name}"`, wa.text, [w.ruleText])
+      visit(`datasheet "${d.name}" · wargear ability "${wa.name}"`, wa.text, [w.ruleText])
     }
 
     // rules[] (BODYGUARD/ATTACHED UNIT/etc structural plates) — appdata buckets these, PLUS the
@@ -196,7 +201,7 @@ async function syncFaction(slug) {
     for (const r of d.rules || []) {
       const a = appRulesByName.get(norm(r.name))
       if (!a) continue
-      compare(out, `datasheet "${d.name}" · rule "${r.name}"`, r.text, [a.rules])
+      visit(`datasheet "${d.name}" · rule "${r.name}"`, r.text, [a.rules])
     }
     if (d.leader?.text) {
       // appdata's "Leader"/"Support" rules[] entry is ONE combined text (intro sentence + the
@@ -210,25 +215,25 @@ async function syncFaction(slug) {
       const whLeaderProse = [d.leader.text, d.leader.footer || ''].filter(Boolean).join('\n')
       const stripUnitBullets = (s) => (s || '').split('\n').filter((l) => !/^[▪■•]/.test(l.trim())).join('\n')
       const cands = [appRulesByName.get('leader'), appRulesByName.get('support')].filter(Boolean).map((r) => stripUnitBullets(r.rules))
-      if (cands.length) compare(out, `datasheet "${d.name}" · leader`, whLeaderProse, cands)
+      if (cands.length) visit(`datasheet "${d.name}" · leader`, whLeaderProse, cands)
     }
     if (d.transport) {
       const t = appRulesByName.get('transport')
-      if (t) compare(out, `datasheet "${d.name}" · transport`, d.transport, [t.rules])
+      if (t) visit(`datasheet "${d.name}" · transport`, d.transport, [t.rules])
     }
 
     // damaged — the wounds-threshold band. appdata may carry more than one damageAbility entry
     // (multi-threshold superheavies); no drift is reported if wh11ed's text matches ANY of them.
     if (d.damaged?.text) {
       const cands = (appDs.damageAbility || []).map((r) => r.rules).filter(Boolean)
-      if (cands.length) compare(out, `datasheet "${d.name}" · damaged`, d.damaged.text, cands)
+      if (cands.length) visit(`datasheet "${d.name}" · damaged`, d.damaged.text, cands)
     }
 
     // composition + loadout vs appdata's single unitComposition string — reconstruct wh11ed's
     // side in the same bullet-list-then-prose shape so plainText() sees comparable text.
     if ((d.composition?.length || d.loadout) && appDs.unitComposition) {
       const whComp = [...(d.composition || []).map((c) => `▪ ${c}`), d.loadout || ''].filter(Boolean).join('\n')
-      compare(out, `datasheet "${d.name}" · composition`, whComp, [appDs.unitComposition])
+      visit(`datasheet "${d.name}" · composition`, whComp, [appDs.unitComposition])
     }
 
     // options vs wargearRules — both are independent "replace X with Y" blocks with no guaranteed
@@ -244,13 +249,20 @@ async function syncFaction(slug) {
       for (const opt of d.options || []) {
         const optWords = new Set(plainText(opt).split(' '))
         const ranked = [...wgRulesTexts].sort((a, b) => overlap(plainText(appMarkup(b)), optWords) - overlap(plainText(appMarkup(a)), optWords))
-        compare(out, `datasheet "${d.name}" · wargear option`, opt, ranked)
+        visit(`datasheet "${d.name}" · wargear option`, opt, ranked)
       }
     }
   }
 
-  console.log(`\n=== ${slug} (appdata: ${appSlug}) ===`)
-  if (!out.length) console.log('  no text differences found')
+  return null
+}
+
+async function syncFaction(slug) {
+  const out = []
+  const why = await eachFactionTextPair(slug, (label, whText, cands) => compare(out, label, whText, cands))
+  console.log(`\n=== ${slug} (appdata: ${SLUG_MAP[slug] || slug}) ===`)
+  if (why) console.log(`  ${why}`)
+  else if (!out.length) console.log('  no text differences found')
   else out.forEach((l) => console.log(l))
 }
 

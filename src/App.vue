@@ -254,7 +254,9 @@ function onGlobalClick(e) {
     openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
     return
   }
-  const kwEl = e.target.closest('.keyword')
+  // `.core-ability` is the same popover from a quieter span — a core ability named in rule prose,
+  // printed bold and in Title Case rather than as a bracketed pill (see useRenderInline).
+  const kwEl = e.target.closest('.keyword, .core-ability')
   if (kwEl) {
     const text = kwEl.textContent.replace(/^\[|\]$/g, '').trim()
     openKeyword(text, kwEl.getBoundingClientRect())

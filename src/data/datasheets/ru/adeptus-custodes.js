@@ -85,7 +85,7 @@ export default {
     loadout: `${EQUIP_THIS} storm bolter; armoured tracks.`,
     options: ['Эту модель можно снабдить 1 hunter-killer missile.'],
     transport:
-      'Эта модель имеет транспортную вместимость 12 моделей Anathema Psykana Infantry.',
+      'Эта модель имеет транспортную вместимость 12 моделей ANATHEMA PSYKANA INFANTRY.',
   },
 
   'aquilon-custodians': {
@@ -177,7 +177,7 @@ export default {
     options: ['Нет.'],
     damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
     transport:
-      'Эта модель имеет транспортную вместимость 8 моделей Adeptus Custodes Infantry.',
+      'Эта модель имеет транспортную вместимость 8 моделей ADEPTUS CUSTODES INFANTRY.',
   },
 
   'custodian-guard': {
@@ -433,7 +433,7 @@ export default {
     ],
     damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
     transport:
-      'Эта модель имеет транспортную вместимость 6 моделей Adeptus Custodes Infantry.',
+      'Эта модель имеет транспортную вместимость 6 моделей ADEPTUS CUSTODES INFANTRY.',
   },
 
   'vertus-praetors': {

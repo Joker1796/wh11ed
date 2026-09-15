@@ -13,7 +13,9 @@
 //     all-caps English and stay verbatim in RU. Catches both the qualifier-fold desync above and
 //     a whole class of latent EN typos where an ability was written lower/mixed-case
 //     (`[assault]`, `[sustained hits 1]`) — those break the KeywordPopover lookup. [gloss:…]/
-//     [def:…]/[img:…] are excluded (their labels legitimately differ per locale).
+//     [def:…]/[img:…] are excluded (their labels legitimately differ per locale). [core:…] is
+//     DELIBERATELY not excluded: its payload is a core ability's name, which stays English on
+//     both sides by the same convention the brackets do, so it belongs under the strict check.
 //   • block-marker signature (▪ ◈ → ### ◆ [img:) must match EN↔RU.
 //   • `**` / `__` must be balanced on each side (no stray `****`).
 //   • RU field present whenever the EN sibling has text.

@@ -29,7 +29,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
 ### Kill Teams
 Each time an attack targets a Kill Team unit from your army that contains models with different Toughness characteristics, until the attacking unit has finished making its attacks, use the Toughness characteristic of the majority of the models in that unit when determining what result is required for that attack to successfully wound. If two or more Toughness characteristics are tied for majority, use the highest Toughness characteristic.
 
-For the purposes of determining which models can embark within a Transport model, Kill Team models follow the normal restrictions listed on the Transport model.`,
+For the purposes of determining which models can embark within a TRANSPORT model, Kill Team models follow the normal restrictions listed on the Transport model.`,
   },
 
   detachments: [
@@ -74,7 +74,7 @@ For the purposes of determining which models can embark within a Transport model
           turn: "opponent",
           flavor: "Site-to-site battlefield teleportation is a rare capability indeed, used only by the Deathwatch in extreme situations.",
           when: "End of your opponent’s Fight phase.",
-          target: "Up to two Kill Team units from your army, or one other Adeptus Astartes Infantry unit from your army, if those units are not within Engagement Range of one or more enemy units.",
+          target: "Up to two Kill Team units from your army, or one other ADEPTUS ASTARTES INFANTRY unit from your army, if those units are not within Engagement Range of one or more enemy units.",
           effect: "Remove those units from the battlefield and place them into Strategic Reserves. Until the end of your next Movement phase, models in those units that do not have the Deep Strike ability have the Deep Strike ability.",
           restrictions: "",
         },

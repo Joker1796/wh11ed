@@ -883,7 +883,7 @@ export default [
       "This model’s 2 twin heavy flamers can be replaced with 2 twin heavy bolters.",
       "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers"
     ],
-    "transport": "This model has a transport capacity of 26 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 26 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Vehicle",
       "Titanic",
@@ -1835,7 +1835,7 @@ export default [
     "rules": [
       {
         "name": "EMBARKING",
-        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+        "text": "While embarked within a TRANSPORT, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
       }
     ]
   },
@@ -2687,7 +2687,7 @@ export default [
     "rules": [
       {
         "name": "EMBARKING",
-        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+        "text": "While embarked within a TRANSPORT, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
       }
     ]
   },
@@ -2869,7 +2869,7 @@ export default [
     "options": [
       "None."
     ],
-    "transport": "This model has a transport capacity of 12 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Vehicle",
       "Imperium",
@@ -3025,7 +3025,7 @@ export default [
       "This model can be equipped with 1 hunter-killer missile.",
       "* This weapon cannot be replaced."
     ],
-    "transport": "This model has a transport capacity of 12 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Dedicated Transport",
       "Chimera",
@@ -3127,7 +3127,7 @@ export default [
     "abilities": [
       {
         "name": "Summary Execution",
-        "text": "Once per battle round, at the start of any phase, you can select one friendly Astra Militarum Infantry unit that is Battle-shocked and within 12\" of this model. If you do, one model in that unit is destroyed, and that unit is then no longer Battle-shocked."
+        "text": "Once per battle round, at the start of any phase, you can select one friendly ASTRA MILITARUM INFANTRY unit that is Battle-shocked and within 12\" of this model. If you do, one model in that unit is destroyed, and that unit is then no longer Battle-shocked."
       },
       {
         "name": "Political Overwatch",
@@ -3257,11 +3257,11 @@ export default [
     "abilities": [
       {
         "name": "Mechanised Spearhead",
-        "text": "In your Movement phase, each time a friendly Astra Militarum Regiment unit disembarks from a Transport that is within 6\" of this model, after that unit has been set up, this model can issue 1 Order to that Regiment unit, regardless of how many Orders this model has already issued this turn."
+        "text": "In your Movement phase, each time a friendly ASTRA MILITARUM REGIMENT unit disembarks from a TRANSPORT that is within 6\" of this model, after that unit has been set up, this model can issue 1 Order to that Regiment unit, regardless of how many Orders this model has already issued this turn."
       },
       {
         "name": "Brutal Disciplinarian",
-        "text": "Once per turn, at the start of any phase, you can select one friendly Astra Militarum Infantry unit (excluding units that only contain one model) that is Battle-shocked and within 24\" of and visible to this model. If you do, one model in that unit is destroyed, and that unit is no longer Battle-shocked."
+        "text": "Once per turn, at the start of any phase, you can select one friendly ASTRA MILITARUM INFANTRY unit (excluding units that only contain one model) that is Battle-shocked and within 24\" of and visible to this model. If you do, one model in that unit is destroyed, and that unit is no longer Battle-shocked."
       }
     ],
     "wargearAbilities": [
@@ -3353,7 +3353,7 @@ export default [
       },
       {
         "name": "Brutal Disciplinarian",
-        "text": "Once per turn, at the start of any phase, you can select one friendly Astra Militarum Infantry (excluding units that only contain one model) unit that is Battle-shocked and within 12\" of this model. If you do, one model in that unit is destroyed, and that unit is no longer Battle-shocked."
+        "text": "Once per turn, at the start of any phase, you can select one friendly ASTRA MILITARUM INFANTRY (excluding units that only contain one model) unit that is Battle-shocked and within 12\" of this model. If you do, one model in that unit is destroyed, and that unit is no longer Battle-shocked."
       }
     ],
     "specialAbilities": [
@@ -3602,7 +3602,7 @@ export default [
     "rules": [
       {
         "name": "COMPACT",
-        "text": "This model can embark within an Astra Militarum Transport model as if it were an Infantry model. If it does, it takes up the space of 7 models."
+        "text": "This model can embark within an ASTRA MILITARUM TRANSPORT model as if it were an INFANTRY model. If it does, it takes up the space of 7 models."
       }
     ]
   },
@@ -4201,7 +4201,7 @@ export default [
       "This model’s 2 twin heavy flamers can be replaced with 2 twin heavy bolters.",
       "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers"
     ],
-    "transport": "This model has a transport capacity of 26 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 26 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Smoke",
       "Titanic",
@@ -5967,7 +5967,7 @@ export default [
     "rules": [
       {
         "name": "EMBARKING",
-        "text": "While embarked within a Transport, each Heavy Weapons Gunner model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+        "text": "While embarked within a TRANSPORT, each Heavy Weapons Gunner model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
       }
     ]
   },
@@ -9720,7 +9720,7 @@ export default [
     "abilities": [
       {
         "name": "Mount Up!",
-        "text": "At the end of your opponent’s Movement phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Astra Militarum Infantry unit (excluding Artillery units) that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+        "text": "At the end of your opponent’s Movement phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly ASTRA MILITARUM INFANTRY unit (excluding Artillery units) that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
       }
     ],
     "damaged": {
@@ -9735,7 +9735,7 @@ export default [
       "This model’s 2 twin heavy flamers can be replaced with 2 twin heavy bolters.",
       "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers"
     ],
-    "transport": "This model has a transport capacity of 40 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 40 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Titanic",
       "Vehicle",
@@ -9949,7 +9949,7 @@ export default [
     "options": [
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 12 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Dedicated Transport",
       "Taurox",
@@ -10107,7 +10107,7 @@ export default [
       "This model’s twin Taurox hot-shot volley gun can be replaced with 1 twin autocannon.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 12 Militarum Tempestus Infantry or Astra Militarum Infantry Character models.",
+    "transport": "This model has a transport capacity of 12 MILITARUM TEMPESTUS INFANTRY or ASTRA MILITARUM INFANTRY CHARACTER models.",
     "keywords": [
       "Vehicle",
       "Imperium",
@@ -10185,15 +10185,15 @@ export default [
     "abilities": [
       {
         "name": "Enginseer",
-        "text": "While this model is within 3\" of one or more friendly Astra Militarum Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ASTRA MILITARUM VEHICLE units, this model has the Lone Operative ability."
       },
       {
         "name": "Omnissiah’s Blessing",
-        "text": "In your Command phase, select one friendly Astra Militarum Vehicle model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds and, until the start of your next Command phase, that VEHICLE model has a 4+ invulnerable save. Each model can only be selected for this ability once per turn."
+        "text": "In your Command phase, select one friendly ASTRA MILITARUM VEHICLE model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds and, until the start of your next Command phase, that VEHICLE model has a 4+ invulnerable save. Each model can only be selected for this ability once per turn."
       },
       {
         "name": "Vengeance for the Omnissiah",
-        "text": "If a friendly Astra Militarum Vehicle model is destroyed within 12\" of this model, until the end of the battle, this model’s Enginseer axe has an Attacks characteristic of 6."
+        "text": "If a friendly ASTRA MILITARUM VEHICLE model is destroyed within 12\" of this model, until the end of the battle, this model’s Enginseer axe has an Attacks characteristic of 6."
       }
     ],
     "composition": [
@@ -10914,7 +10914,7 @@ export default [
       "This model’s hellstrike missiles can be replaced with 2 multiple rocket pods.",
       "This model can be equipped with 2 heavy bolters."
     ],
-    "transport": "This model has a transport capacity of 12 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Fly",
       "Imperium",

@@ -14,6 +14,22 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 - **Glosses (popover, preferred):** term glosses are an inline token `[gloss:<id>:<visible label>]` (rendered by `useRenderInline.js` → `.gloss` span; a click/tap opens `KeywordPopover` via `App.vue`'s global handler → `openGloss`). `<id>` keys a central `src/data/glossary.js` entry `{ term, en, ru }` — `term` is the English original shown in the popover header (same in both locales), `en`/`ru` are short 1–2 sentence definitions. **Define each term once** in `glossary.js`; reuse the id across occurrences (the `<visible label>` carries the local inflection, e.g. RU `[gloss:base:базы]` / EN `[gloss:base:base]`). Add tokens in **both** the EN and RU subsections. The token is not a block marker, so EN↔RU block parity is unaffected. Don't gloss terms already covered by `KeywordPopover` (ALL-CAPS keywords like INFANTRY/VEHICLE, `[BRACKET]` abilities from `coreAbilities`) — they have their own popover.
 - **Glosses (legacy parenthetical, being migrated):** most data still carries the English original in parens — `РУС (ENG)`, e.g. `критическому ранению (critical wound)` — but this form is for ordinary (non-caps) terms only, written as `**рус** (eng)`. **ALL-CAPS keywords (INFANTRY, AIRCRAFT, WARLORD, …) are never translated** — use the bare English keyword in RU text too (no Russian rendering, no parens, e.g. `модель CHARACTER`, not `ТЕХНИКИ (VEHICLE)`), and leave it unbolded (the renderer bolds it). `[BRACKET]` ability names stay English (KeywordPopover lookup). The paired EN subsection (same `id`/`sectionNum`) is the source of truth for the English term. Migrate these to the `[gloss:…]` token form above as sections are touched.
 - **Bold (`**…**`):** game terms are emphasized wherever the official PDF emphasizes them, in **both** languages. Do not bold things the renderer already bolds (ALL-CAPS keywords, `◈ LABEL |` info-card labels) or anything inside `seeAlso` refs / image paths. `### h4` headings render through `renderInline` too, so inline markup (`**bold**`, `[KEYWORD]`, cross-refs) works there — `**…**` adds emphasis on top of the heading's own (CSS) weight; only use it where the PDF emphasizes a term within the heading.
+- **A core ability named in prose is `[core:Name]`** — "this unit has `[core:Stealth]`", "models in
+  that unit have `[core:Feel No Pain 5+]`". It renders bold, in the Title Case the rulebook itself
+  prints, and opens the rule in the same popover a `[KEYWORD]` does. **Not** `[STEALTH]`: that is
+  the bordered mono pill a weapon row's `[LETHAL HITS]` gets, and a unit ability wearing it reads
+  as a weapon tag. The name must be one `reference.js` carries as `type: 'unit'`, or the span links
+  to nothing. `npm run emphasis` finds the places that need it; **the RU twin needs the same marker
+  in the same edit** — `parity` compares the bracket multiset as an error, and rightly.
+- **A keyword keeps its capitals.** appdata writes them that way and the renderer bolds the ones it
+  knows (`useRenderInline`'s CORE_KEYWORDS/FACTION_KEYWORDS, plurals included) — so `ADEPTUS
+  ASTARTES TRANSPORT`, never `Adeptus Astartes Transport`, and never `**ADEPTUS ASTARTES**` on top.
+  Half a compound in capitals is the worst of the three: `ADEPTUS ASTARTES Infantry` shows the
+  reader two spellings of one keyword in one sentence.
+- **What we deliberately do NOT mark:** game terms of prose that the canon emphasises — "unengaged",
+  "detection range", "Hit rolls" — about 2100 places, plus ~1460 keywords outside the renderer's
+  auto-bold list. Marking those buys far less than it costs, and `npm run emphasis` prints both
+  counts on every run so the decision stays visible instead of rotting into undocumented debt.
 - **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes. **`npm run parity` now enforces this on the rulebook files too** (it used to cover faction data only): block markers, `[BRACKET]` abilities, measurements (`3"`, `D6`, `4+`, `+1`) and ALL-CAPS keywords must match EN↔RU, and every EN field must have RU text. Rule cross-references (`09.07`) deliberately are not compared — each locale points where its own layout needs. Notes (`**` counts) are summarised; `--notes` lists them.
 - **RU transliteration:** follow the source's apostrophes, using the typographic `’` (U+2019) — `Kauyon` → «кауйон» (none), `Mont’ka` → «монт’ка», `T'au` → «т’ау». Latin forms inside RU text keep their own (`T'au Empire`, the `T'AU EMPIRE` keyword). These match the Russian community's translation guide; that guide covers Black Library prose, so it applies to **flavour text and transliteration only** and never overrides the rule above that unit/detachment/stratagem names and ALL-CAPS keywords stay English. Settled cases are recorded here as they're decided — that's the source of truth for this repo.
   - `Scion` → «**сцион**», never «скион» (decided 2026-09-10). Every inflection follows the same
@@ -140,6 +156,16 @@ September even though `sync-core` printed it on every run — one finding among 
   what the layer is for. Exceptions are named one by one in the script's ALLOW table — never by a
   regex, because "does not have" is easy to pattern-match and the next wording will not be. See
   `src/components/roster/CLAUDE.md` → "A granted CORE ability" for the five shapes that are in there.
+
+- **`npm run emphasis`** (`scripts/check-emphasis.mjs`) — emphasis the canon carries that our prose
+  dropped: a core ability named in a sentence, a keyword that lost its capitals. It exists because
+  `sync:text` cannot see this and should not — its `plainText()` strips markup off BOTH sides before
+  comparing, or the report would be solid noise. Same pairing, same corpus, opposite question; the
+  walker is shared (`eachFactionTextPair`) so the two can never disagree about which canon rule a
+  sentence of ours corresponds to. It gates class A (core abilities) and the keywords the renderer
+  would bold if they were capitalised; everything else it counts out loud. `scripts/lib/emphasis-baseline.json`
+  holds the spots a pass could not place by machine — a WORK LIST, not an amnesty, and its size is
+  printed on every run. `--baseline` re-records it; read the diff.
 
 The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files

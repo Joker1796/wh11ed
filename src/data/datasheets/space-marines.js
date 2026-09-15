@@ -1773,7 +1773,7 @@ export default [
       },
       {
         "name": "Cerebrex Logic Engine",
-        "text": "▪ At the start of the Declare Battle Formations step, you can select one Adeptus Astartes Infantry unit from your army. Until the end of the battle, that unit gains the Scouts 6\" ability.\n▪ After both players have deployed their armies, you can select one ADEPTUS ASTARTES unit from your army and redeploy it. When doing so, you can set that unit up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
+        "text": "▪ At the start of the Declare Battle Formations step, you can select one ADEPTUS ASTARTES INFANTRY unit from your army. Until the end of the battle, that unit gains the Scouts 6\" ability.\n▪ After both players have deployed their armies, you can select one ADEPTUS ASTARTES unit from your army and redeploy it. When doing so, you can set that unit up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "composition": [
@@ -2203,7 +2203,7 @@ export default [
       },
       {
         "name": "Master of Deceit",
-        "text": "After both players have deployed their armies, if your army includes one or more models with this ability, you can select up to three friendly Adeptus Astartes Infantry units and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "After both players have deployed their armies, if your army includes one or more models with this ability, you can select up to three friendly ADEPTUS ASTARTES INFANTRY units and redeploy all of those units. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "composition": [
@@ -3574,7 +3574,7 @@ export default [
       },
       {
         "name": "Master of Prescience (Psychic)",
-        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls.\n▪ (Once per battle round, per army) When you target this unit with the Counteroffensive/Fire Overwatch/Heroic Intervention Stratagem, that use is -1 CP."
+        "text": "▪ This unit has [core:Stealth].\n▪ Melee attacks that target this unit have -1 to hit rolls.\n▪ (Once per battle round, per army) When you target this unit with the Counteroffensive/Fire Overwatch/Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -4411,7 +4411,7 @@ export default [
     "abilities": [
       {
         "name": "Wisdom of the Ancients (Aura)",
-        "text": "While a friendly Adeptus Astartes Infantry unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
+        "text": "While a friendly ADEPTUS ASTARTES INFANTRY unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
       }
     ],
     "composition": [
@@ -4481,7 +4481,7 @@ export default [
     "composition": [
       "1 Drop Pod"
     ],
-    "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry models. It cannot transport Centurion, Gravis, Jump Pack, Wulfen or Terminator models.",
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. It cannot transport Centurion, Gravis, Jump Pack, Wulfen or Terminator models.",
     "keywords": [
       "Vehicle",
       "Drop Pod",
@@ -5765,7 +5765,7 @@ export default [
       "This model’s 2 storm bolters can be replaced with 2 fragstorm grenade launchers.",
       "This model can be equipped with one of the following:\n▪ 1 bellicatus missile array\n▪ 1 ironhail skytalon array\n▪ 1 orbital comms array\n▪ 1 shield dome"
     ],
-    "transport": "This model has a transport capacity of 7 Tacticus or Phobos Infantry models. It cannot transport Jump Pack models.",
+    "transport": "This model has a transport capacity of 7 Tacticus or PHOBOS INFANTRY models. It cannot transport Jump Pack models.",
     "keywords": [
       "Dedicated Transport",
       "Imperium",
@@ -6729,7 +6729,7 @@ export default [
       },
       {
         "name": "Iron Father",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Astartes Vehicle units, it has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES VEHICLE units, it has the Lone Operative ability."
       },
       {
         "name": "Master of the Forge",
@@ -7191,7 +7191,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Land Raider",
       "Imperium",
@@ -7328,7 +7328,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 16 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 16 ADEPTUS ASTARTES INFANTRY models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Land Raider Crusader",
       "Land Raider",
@@ -7467,7 +7467,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 14 ADEPTUS ASTARTES INFANTRY models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Vehicle",
       "Imperium",
@@ -9139,7 +9139,7 @@ export default [
     "abilities": [
       {
         "name": "Fire Support",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks, Until the end of the phase, each time a friendly model that disembarked from this Transport this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks, Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
       }
     ],
     "composition": [
@@ -9590,7 +9590,7 @@ export default [
       "This model’s twin heavy bolter can be replaced with 1 twin lascannon.",
       "This model’s heavy onslaught gatling cannon can be replaced with 1 las-talon."
     ],
-    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 14 ADEPTUS ASTARTES INFANTRY models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Transport",
       "Vehicle",
@@ -9775,7 +9775,7 @@ export default [
       "This model can be equipped with 1 ironhail heavy stubber.",
       "This model can be equipped with 1 Icarus rocket pod."
     ],
-    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 7 ADEPTUS ASTARTES INFANTRY models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Repulsor Executioner",
       "Imperium",
@@ -9951,7 +9951,7 @@ export default [
       },
       {
         "name": "Ultramarines Bodyguard",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Astartes Infantry units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES INFANTRY units, this model has the Lone Operative ability."
       },
       {
         "name": "Armour of Fate",
@@ -10765,7 +10765,7 @@ export default [
     "abilities": [
       {
         "name": "Interceptor",
-        "text": "Each time this model makes a ranged attack that targets a unit that can Fly, add 1 to the Hit roll."
+        "text": "Each time this model makes a ranged attack that targets a unit that can FLY, add 1 to the Hit roll."
       }
     ],
     "composition": [
@@ -10973,7 +10973,7 @@ export default [
       "This model’s typhoon missile launcher can be replaced with one of the following:\n▪ 1 twin heavy bolter\n▪ 1 twin multi-melta",
       "This model can be equipped with 2 hurricane bolters."
     ],
-    "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry models and 1 Dreadnought model. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models and 1 Dreadnought model. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Fly",
       "Imperium",
@@ -11098,7 +11098,7 @@ export default [
     "abilities": [
       {
         "name": "Strafing Run",
-        "text": "Each time this model makes a ranged attack that targets a unit that cannot Fly, add 1 to the Hit roll."
+        "text": "Each time this model makes a ranged attack that targets a unit that cannot FLY, add 1 to the Hit roll."
       }
     ],
     "composition": [
@@ -11753,15 +11753,15 @@ export default [
     "abilities": [
       {
         "name": "Techmarine",
-        "text": "While this model is within 3\" of one or more friendly Adeptus Astartes Vehicle units, this model has the Lone Operative ability."
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES VEHICLE units, this model has the Lone Operative ability."
       },
       {
         "name": "Blessing of the Omnissiah",
-        "text": "In your Command phase, you can select one friendly Adeptus Astartes Vehicle model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, each time that Vehicle model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
+        "text": "In your Command phase, you can select one friendly ADEPTUS ASTARTES VEHICLE model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, each time that Vehicle model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
       },
       {
         "name": "Vengeance of the Omnissiah",
-        "text": "If a friendly Adeptus Astartes Vehicle model is destroyed within 12\" of this model, until the end of the battle, this model’s Omnissian power axe has an Attacks characteristic of 7."
+        "text": "If a friendly ADEPTUS ASTARTES VEHICLE model is destroyed within 12\" of this model, until the end of the battle, this model’s Omnissian power axe has an Attacks characteristic of 7."
       }
     ],
     "composition": [
@@ -13021,7 +13021,7 @@ export default [
       },
       {
         "name": "Strategium Command",
-        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any Transport it is embarked within is on the battlefield), select up to three ADEPTUS ASTARTES units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any TRANSPORT it is embarked within is on the battlefield), select up to three ADEPTUS ASTARTES units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "wargearAbilities": [
