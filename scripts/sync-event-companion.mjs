@@ -10,8 +10,17 @@
 //
 // appdata's Event Companion publication has FOUR editions, each its own rule_section:
 // the main Warhammer Event Companion, Teams, Doubles and Dominatus. wh11ed implements
-// only the first two (Doubles/Dominatus are out of scope — a product decision, not a
-// bug), so those two are only inventoried (container count), never diffed line-by-line.
+// three of them; Dominatus is out of scope (a product decision, not a bug) and is only
+// inventoried (container count), never diffed line-by-line.
+//
+// DOUBLES IS A DELTA CHAPTER, and is checked accordingly (see syncDoubles). Its companion
+// restates all 14 steps, but three of them are word-for-word the main sequence and the rest
+// differ only by reading "player" as "team", so wh11ed carries the changes and points back
+// at the Sequence chapter for the rest. Word-diffing our condensed paragraph against 20
+// appdata containers would print a page of noise on every run, so those containers are
+// checked against THEIR OWN main-edition twin instead: fold the player→team vocabulary and
+// the two must be the same rule. The day that stops holding, the condensation is out of
+// date and the report says which step broke it — which is the thing worth catching.
 //
 // Matching an appdata rule_container to a wh11ed entry is by TITLE, not by any stable
 // id (appdata's rule_container ids for Event Companion aren't in sourceIds.json — that
@@ -44,6 +53,7 @@ const ruleSections = T('rule_section.json').filter((r) => r.publicationId === EC
 const sectionName = Object.fromEntries(ruleSections.map((r) => [r.id, r.localisations?.en?.name]))
 const MAIN_ID = ruleSections.find((r) => r.localisations?.en?.name === 'Event Companion')?.id
 const TEAMS_ID = ruleSections.find((r) => r.localisations?.en?.name === 'Teams Event Companion')?.id
+const DOUBLES_ID = ruleSections.find((r) => r.localisations?.en?.name === 'Doubles Event Companion')?.id
 
 const allContainers = T('rule_container.json').filter((c) => sectionName[c.ruleSectionId])
 const componentsByContainer = {}
@@ -282,7 +292,135 @@ function syncTwists(en) {
   else out.forEach((l) => console.log(l))
 }
 
-// ── Doubles / Dominatus inventory only (out of scope — not implemented in wh11ed) ───
+// ── Doubles: the delta chapter ──────────────────────────────────────────────────────
+// What wh11ed transcribes (matched + word-diffed like any other edition). Several of these
+// report a standing difference and are meant to: the Introduction is reframed for a reader
+// who already has the Event Companion; Muster gains a lead-in and drops the "and then the
+// battle is waged" hand-off to the sequence; Units and Models / Army and Detachment Rules
+// move appdata's inline "For example…" paragraphs into the `note` field, as every other
+// chapter in this file does; and the ones whose whole diff is the word "for" are this data's
+// "**Example:**" house style against appdata's "For example,". Read these lines for NEW
+// canon text, not for the reordering.
+function flattenDoubles(en) {
+  const out = []
+  const byId = Object.fromEntries(en.doubles.blocks.map((b) => [b.id, b]))
+  const push = (title, ...parts) => {
+    const text = parts.filter(Boolean).join('\n')
+    if (title) out.push({ title, text })
+  }
+  const block = (title, id) => {
+    const b = byId[id]
+    if (b) push(title, b.body, b.note)
+  }
+  push('Introduction', en.doubles.intro, byId['doubles-overview']?.body)
+  block('1. Muster Armies', 'doubles-muster')
+  block('Terminology', 'doubles-terminology')
+  block('Units and Models 01.02', 'doubles-units-models')
+  block('Gain Core CP 08.02', 'doubles-core-cp')
+  block('Using Stratagems 15.01', 'doubles-stratagems')
+  block('Transports 18.00', 'doubles-transports')
+  block('Army and Detachment Rules', 'doubles-army-detachment')
+  block('Point Restrictions', 'doubles-points')
+  return out
+}
+
+// Containers deliberately NOT carried as their own text, and not checkable by the swap rule
+// either — each with the reason. A key that stops matching a container is reported as stale,
+// the same discipline check-rule-omissions.mjs uses for its own ALLOW table.
+const DOUBLES_ALLOW = {
+  'WARHAMMER DOUBLES EVENT MISSION SEQUENCE':
+    'one framing sentence ("each team — two players — completes the following step"), carried in the chapter intro and the Muster block',
+  '3. DETERMINE A LAYOUT':
+    'the main edition\'s step minus its A/B/C rotation advice, and pointing at the Event Companion for the layouts — our chapter defers to EC:sequence for both',
+  '12. BEGIN THE BATTLE':
+    'the main step plus one sentence ("the players in a team take their turn together"), which doubles-sequence carries verbatim',
+  'WARHAMMER DOUBLES EVENTS':
+    'the page header over Terminology + Core Rules Changes, not a rule',
+  'CORE RULES CHANGES':
+    'a one-line lead-in to the six Core Rules changes, each of which is carried as its own block',
+}
+
+// The one vocabulary difference a condensed step is allowed to have: the Doubles companion is
+// the main sequence read by team instead of by player. Applied to BOTH sides, so it can only
+// make the comparison more forgiving, never invent a difference.
+const teamFold = (s) =>
+  s
+    .replace(/\byour teams?\b/g, 'you')
+    .replace(/\bteams?\b/g, 'player')
+    .replace(/\beach players?\b/g, 'player')
+    .replace(/\bwhich player\b/g, 'who')
+    .replace(/\byour\b/g, 'you')
+    .replace(/\barmies\b/g, 'army')
+    .replace(/\b(?:which|who)\b/g, 'who')
+    .split(' ')
+    .map((w) => (w.length > 3 && w.endsWith('s') ? w.slice(0, -1) : w))
+    .map((w) => (w === 'are' || w === 'were' ? 'is' : w === 'have' ? 'has' : w))
+    .join(' ')
+
+function syncDoubles(en) {
+  const appEntries = containerEntries(DOUBLES_ID).filter((e) => e.text)
+  const mainEntries = containerEntries(MAIN_ID).filter((e) => e.text)
+  const whEntries = flattenDoubles(en)
+  const out = []
+  const used = new Set()
+  let swapChecked = 0
+  const allowSeen = new Set()
+
+  const findByTitle = (list, title, skip) => {
+    let idx = list.findIndex((a, i) => !skip?.has(i) && normTitle(a.title) === normTitle(title))
+    if (idx !== -1) return idx
+    let best = -1
+    let bestScore = 0
+    list.forEach((a, i) => {
+      if (skip?.has(i)) return
+      const score = titleOverlap(a.title, title)
+      if (score > bestScore) { bestScore = score; best = i }
+    })
+    return bestScore >= 0.5 ? best : -1
+  }
+
+  // 1 — what we transcribe, diffed word by word.
+  for (const wh of whEntries) {
+    const idx = findByTitle(appEntries, wh.title, used)
+    if (idx === -1) {
+      out.push(`  ? "${wh.title}": no matching appdata container found (title-based match failed)`)
+      continue
+    }
+    used.add(idx)
+    compare(out, `"${wh.title}" (appdata: "${appEntries[idx].title}")`, wh.text, appEntries[idx].text)
+  }
+
+  // 2 — everything else: allowed by name, or still the main rule with the vocabulary swapped.
+  appEntries.forEach((a, i) => {
+    if (used.has(i)) return
+    if (DOUBLES_ALLOW[a.title.trim()]) { allowSeen.add(a.title.trim()); return }
+    const mi = findByTitle(mainEntries, a.title)
+    if (mi === -1) {
+      out.push(`  + missing in wh11ed: appdata container "${a.title}"\n      ${a.text.replace(/\n/g, '\n      ')}`)
+      return
+    }
+    swapChecked++
+    const doub = teamFold(plainText(a.text))
+    const main = teamFold(plainText(mainEntries[mi].text))
+    if (doub === main) return
+    const { whMid, appMid } = wordDiff(main, doub)
+    out.push(`  ~ "${a.title}": condensed into "The Rest of the Sequence", but it no longer reads as the main step with player→team`)
+    out.push(`      main:    …${whMid}…`)
+    out.push(`      doubles: …${appMid}…`)
+    out.push(`      canonical (paste-ready):\n        ${a.text.replace(/\n/g, '\n        ')}`)
+  })
+
+  for (const [title, why] of Object.entries(DOUBLES_ALLOW)) {
+    if (!allowSeen.has(title)) out.push(`  ! stale allow: appdata no longer has a container "${title}" (${why})`)
+  }
+
+  console.log(`\n=== Event Companion · Doubles (delta chapter) ===`)
+  if (!out.length) console.log('  no text differences found')
+  else out.forEach((l) => console.log(l))
+  console.log(`  ${swapChecked} condensed step(s) confirmed as the main rule with player→team; ${allowSeen.size} allowed by name.`)
+}
+
+// ── Dominatus inventory only (out of scope — not implemented in wh11ed) ─────────────
 function inventoryOnly(label, ruleSectionId) {
   const entries = containerEntries(ruleSectionId).filter((e) => e.text)
   console.log(`\n=== Event Companion · ${label} (NOT implemented in wh11ed — inventory only) ===`)
@@ -296,9 +434,10 @@ export async function run() {
 
   syncEdition('Main', MAIN_ID, flattenMain(en))
   syncEdition('Teams', TEAMS_ID, flattenTeams(en))
+  syncDoubles(en)
   syncTwists(en)
   for (const rs of ruleSections) {
-    if (rs.id === MAIN_ID || rs.id === TEAMS_ID) continue
+    if (rs.id === MAIN_ID || rs.id === TEAMS_ID || rs.id === DOUBLES_ID) continue
     inventoryOnly(rs.localisations?.en?.name, rs.id)
   }
   return 0

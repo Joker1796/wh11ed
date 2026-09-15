@@ -31,6 +31,8 @@
     "dsrules": "node scripts/check-datasheet-rules.mjs",
     "coregrants": "node scripts/check-core-grants.mjs",
     "emphasis": "node scripts/check-emphasis.mjs",
+    "layouts": "node scripts/check-layout-art.mjs",
+    "companions": "node scripts/check-companion-pdfs.mjs",
     "radii": "node scripts/check-radii.mjs",
     "dupes": "node scripts/check-css-dupes.mjs",
     "imghash": "node scripts/check-image-renames.mjs",

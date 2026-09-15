@@ -146,6 +146,8 @@ const wTagsFailed = await run('check-weapon-abilities (GATE)', './check-weapon-a
 const dsRulesFailed = await run('check-datasheet-rules (GATE)', './check-datasheet-rules.mjs')
 const coreGrantsFailed = await run('check-core-grants (GATE)', './check-core-grants.mjs')
 const emphasisFailed = await run('check-emphasis (GATE)', './check-emphasis.mjs')
+const layoutArtFailed = await run('check-layout-art (GATE)', './check-layout-art.mjs')
+const companionsFailed = await run('check-companion-pdfs (GATE)', './check-companion-pdfs.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'], { filtered: true })
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'], { filtered: true })
 await run('sync-tracker', './sync-tracker.mjs', [], { filtered: true })
@@ -175,6 +177,8 @@ if (wTagsFailed) console.log('✗ a weapon tag on a datasheet has no text anywhe
 if (dsRulesFailed) console.log('✗ a datasheet rule appdata prints is missing from ours (`npm run dsrules`).')
 if (coreGrantsFailed) console.log('✗ a rule grants a core ability the modifier layer does not carry (`npm run coregrants`).')
 if (emphasisFailed) console.log('✗ prose dropped emphasis the canon carries (`npm run emphasis`).')
+if (layoutArtFailed) console.log('✗ the Event Companion layout diagrams do not match the app\'s artwork (`npm run layouts`).')
+if (companionsFailed) console.log('✗ an Event Companion PDF moved on without us (`npm run companions`).')
 if (RECORD_BASELINE) {
   const n = writeBaseline(recorded)
   console.log(`✓ baseline written: ${n} finding(s) recorded as accepted in ${BASELINE_PATH}.`)

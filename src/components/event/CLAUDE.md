@@ -7,14 +7,36 @@ rendering pipeline and `body` markup syntax — shared with Core Rules — see r
 Architecture section and `src/components/core/CLAUDE.md`; this doc only covers what's
 Event-Companion-specific.
 
-## One page, seven chapters — same recipe as Core Rules, different pieces
+## One page, eight chapters — same recipe as Core Rules, different pieces
 
-**The Event Companion is one page too.** `/event-companion` (`src/views/EventCompanionView.vue`) renders all seven chapters at once, each as its own component in `src/components/event/` (`ChapterIntro`, `ChapterSequence`, `ChapterMissions`, `ChapterLayouts`, `ChapterPairings`, `ChapterTeams`, `ChapterFaq`). Same recipe as Core Rules — `content-visibility: auto` per chapter `<section>`, `scrollToAnchor()` for in-page jumps, a two-variant `EventCompanionToc.vue` (`page`/`modal`, calqued on `CoreRulesToc.vue`) — but the underlying data has no `sectionNum` to key off, so it needed its own pieces:
+**The Event Companion is one page too.** `/event-companion` (`src/views/EventCompanionView.vue`) renders all eight chapters at once, each as its own component in `src/components/event/` (`ChapterIntro`, `ChapterSequence`, `ChapterMissions`, `ChapterLayouts`, `ChapterPairings`, `ChapterTeams`, `ChapterDoubles`, `ChapterFaq`). Same recipe as Core Rules — `content-visibility: auto` per chapter `<section>`, `scrollToAnchor()` for in-page jumps, a two-variant `EventCompanionToc.vue` (`page`/`modal`, calqued on `CoreRulesToc.vue`) — but the underlying data has no `sectionNum` to key off, so it needed its own pieces:
 
 - The six **former** routes (`/event-companion/sequence`, `/event-companion/missions`, …) still resolve — they redirect to their chapter's anchor. `EVENT_CHAPTER_ANCHORS` in `router/index.js` is the registry for that mapping and for the `hash` on each `eventGroups` entry; `/event-companion` itself was already the shortest of the seven paths, so it's reused as the merged page's own path rather than minting a new one the way `/core-rules` was. Every event group shares `path: EVENT_PATH` and differs only by `hash`, same convention as `navGroups`.
-- Event Companion blocks (`sequence.blocks`, `pairings.blocks`, `teams.blocks`, …) carry no `sectionNum` at all, so `composables/columnChunks.js` (Core Rules' balancer) can't be reused — reusing it as-is would read every block as "always full" and silently disable columning. `composables/blockColumnChunks.js` is the analogous chunker, keyed on whether a block carries its own `table` instead. Two-column layout applies only to the four prose chapters (Introduction, Sequence, Pairings, Teams); Missions/Layouts/FAQ are self-made widgets (filter bar + masonry cards, the interactive matrix, an FAQ list) that stay full width.
+- Event Companion blocks (`sequence.blocks`, `pairings.blocks`, `teams.blocks`, …) carry no `sectionNum` at all, so `composables/columnChunks.js` (Core Rules' balancer) can't be reused — reusing it as-is would read every block as "always full" and silently disable columning. `composables/blockColumnChunks.js` is the analogous chunker, keyed on whether a block carries its own `table` instead. Two-column layout applies only to the five prose chapters (Introduction, Sequence, Pairings, Teams, Doubles); Missions/Layouts/FAQ are self-made widgets (filter bar + masonry cards, the interactive matrix, an FAQ list) that stay full width.
 - `useRefNavigation.js`'s `EC:<key>` cross-reference tokens (used throughout the prose) resolve to a **default chapter anchor** when the ref names no more specific `#anchor` of its own — most refs have none, so without this default they'd land on the top of the merged page instead of their chapter.
 - Teams was added to the TOC/subnav/search for the first time here (previously reachable only via a direct link, hidden from the app's own navigation) — once everything is one page, hiding one of the seven chapters would have been an arbitrary exception.
+- **Doubles (2026-09-15) is the one chapter that never had a route**, so it is NOT in `EVENT_CHAPTER_ANCHORS` (nothing to redirect from) — `#ec-chapter-doubles` is its whole address, the same treatment Introduction gets.
+- The three prose chapters that are only "blocks run through `chunkBlocks`" (Pairings, Teams, Doubles) share `EventProseBlocks.vue` → `EventProseBlock.vue` rather than repeating the same twenty lines of template; the per-block extras live there (`flavor` wrapper, own `DataTable`). Sequence/Missions/Layouts/FAQ have real widgets of their own and stay as they are.
+
+## Doubles is a DELTA chapter (and the gate knows it)
+
+`doubles` carries **only what a Doubles event changes**: mustering, the terminology (force /
+unified force / force of convenience), the six Core Rules changes, and one `doubles-sequence`
+block naming the steps where "player" is read as "team". The companion itself restates all 14
+steps, but 3 are word-for-word the main sequence and the rest differ only by that swap —
+transcribing them again would be ~250 lines of near-duplicate prose per locale to keep in step
+with the Sequence chapter by hand.
+
+**`scripts/sync-event-companion.mjs` checks the condensation instead of trusting it.** The
+containers wh11ed transcribes are word-diffed like any other edition; every other Doubles
+container is compared against **its own main-edition twin** with the player→team vocabulary
+folded on both sides (`teamFold`). Equal → the condensation still holds, and the run prints how
+many steps it confirmed. Not equal → the report names the step and prints the canon text: that
+is the day the chapter needs a new bullet. A handful of containers are neither (a page header,
+step 3's dropped layout-rotation advice) and sit in `DOUBLES_ALLOW` with a written reason; a key
+that stops matching is reported as stale. `npm run parity` covers the chapter's EN↔RU parity — it
+walks `eventCompanion.js`'s chapter MAP now, which it silently skipped until this chapter was
+added (the file was in `RULE_FILES` but `walk()` only descends arrays).
 
 ## Data
 
@@ -24,6 +46,14 @@ Event-Companion-specific.
 - **Terrain & Layouts (one chapter):** `ChapterLayouts.vue` = terrain prose + footprints `DataTable` + the collapsible **LAYOUTS KEY** legend (show/hide persisted to `localStorage` key `wh11ed-event-key-hidden`) + the interactive 5×5 `MissionMatrix.vue` + matchup viewer (`LayoutCard.vue`).
 - **Data shapes:** `dispositions[]` = the 5 Force Dispositions (`{ id, name, icon }`); `matchups[]` (15, generated) each carry `layouts:[{id:'A'|'B'|'C', image, edge:'h'|'v'}]` resolved from the `layoutImages`/`layoutEdges` lookups keyed by `${a}|${b}`; `terrain.legend[]` = the LAYOUTS KEY entries (`{ id, label, desc, icon }`, grouped in the view by id into terrain / zones / edges / objectives).
 - **Edge bars per layout:** `LayoutCard` draws the attacker (red ✕) / defender (blue shield) battlefield-edge bars on the sides given by `layout.edge` — `'h'` = top/bottom (`marker-{attacker,defender}.webp`), `'v'` = left/right (`marker-{attacker,defender}-v.webp`). The `edge` orientation per layout was read from the source PDF's vector marker lines (red line = attacker edge, blue = defender) for all 45 layouts; gutters are equal in both orientations so the image size doesn't jump across A/B/C tabs.
+- **Layout artwork is versioned per layout, and gated.** The 45 diagrams come from the GW app's
+  APK (`scripts/extract-layout-images.mjs`), and GW redraws a handful at a time — 27 of the 45 on
+  2026-08-26, which wh11ed missed for three weeks because no appdata table carries these pictures.
+  `scripts/lib/layout-art.json` now records each layout's source hashes and its file version, so
+  `npm run layouts` can name exactly what a newer APK redrew, and the extractor bumps only those
+  files (`-v3`, `-clean-v3`) — the 18 untouched layouts keep their URLs and nobody re-downloads
+  them. Never overwrite a layout image in place. `layoutEdges` is hand-read and the same gate
+  re-checks it against the tint in each picture, because a redraw can rotate a battlefield.
 - **Assets** (`public/images/event/`) are all extracted from the source PDF: 45 layout diagrams `layout-<a>-<b>-<letter>`, the `marker-attacker`/`marker-defender` edge bars, `legend-*` key icons, and `dispo-*` disposition emblems. On disk these are now **WebP** (see `public/images/CLAUDE.md`) though the data still references them by their `.jpg`/`.png` paths. Unlike Core Rules, these ARE bilingual assets in spirit but rendered as one shared diagram (no `-ru` variant — text is a separate, translatable overlay, not baked into the image). The matrix is text-only on desktop and icon-only on mobile (fits without horizontal scroll).
 
 ## Extracting layout/vector assets from the source PDF

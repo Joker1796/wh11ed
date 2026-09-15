@@ -1,0 +1,230 @@
+{
+  "source": "Warhammer+40,000_+The+App_2.6.0_APKPure.xapk",
+  "layouts": {
+    "take-and-hold|take-and-hold|A": {
+      "version": 2,
+      "measurement": "5507a84379ab24ce",
+      "clean": "e17c546f342b3300"
+    },
+    "take-and-hold|take-and-hold|B": {
+      "version": 3,
+      "measurement": "a21d95d4df36474f",
+      "clean": "e5af5f4e53603dae"
+    },
+    "take-and-hold|take-and-hold|C": {
+      "version": 3,
+      "measurement": "2a016dd07d237011",
+      "clean": "ca4ed9cff6a546b0"
+    },
+    "take-and-hold|purge-the-foe|A": {
+      "version": 2,
+      "measurement": "9d095cab0032344c",
+      "clean": "cf2baccf936e0f94"
+    },
+    "take-and-hold|purge-the-foe|B": {
+      "version": 2,
+      "measurement": "41ce715e1eb5e931",
+      "clean": "1a17b855d2ec640f"
+    },
+    "take-and-hold|purge-the-foe|C": {
+      "version": 2,
+      "measurement": "8707406c21be7a40",
+      "clean": "1d1d1aba7f428f5e"
+    },
+    "take-and-hold|disruption|A": {
+      "version": 3,
+      "measurement": "a77c58d152062eed",
+      "clean": "efe1344888c2c5da"
+    },
+    "take-and-hold|disruption|B": {
+      "version": 3,
+      "measurement": "7f23175478ece120",
+      "clean": "6a5b0b3aa8323ef3"
+    },
+    "take-and-hold|disruption|C": {
+      "version": 3,
+      "measurement": "230feae64a7990dd",
+      "clean": "4c39d5bace7c92e2"
+    },
+    "take-and-hold|reconnaissance|A": {
+      "version": 3,
+      "measurement": "2499fcbb13942bc8",
+      "clean": "9c87a476715848bb"
+    },
+    "take-and-hold|reconnaissance|B": {
+      "version": 2,
+      "measurement": "34ac7aa0933d9d81",
+      "clean": "8eb8f4b26333c424"
+    },
+    "take-and-hold|reconnaissance|C": {
+      "version": 3,
+      "measurement": "93c85e7de9f53e9d",
+      "clean": "a7744b2154d219b0"
+    },
+    "take-and-hold|priority-assets|A": {
+      "version": 2,
+      "measurement": "21ed3db904714755",
+      "clean": "4e3dd7d0557a5434"
+    },
+    "take-and-hold|priority-assets|B": {
+      "version": 3,
+      "measurement": "4e8f688fded6ba3b",
+      "clean": "e2237882eb9cad30"
+    },
+    "take-and-hold|priority-assets|C": {
+      "version": 2,
+      "measurement": "69d5e816e302cd3f",
+      "clean": "f45cbe50eca05d91"
+    },
+    "purge-the-foe|purge-the-foe|A": {
+      "version": 3,
+      "measurement": "e796ef47d2a1b6cc",
+      "clean": "b5d6b24da86fd91e"
+    },
+    "purge-the-foe|purge-the-foe|B": {
+      "version": 3,
+      "measurement": "4f4e7fe2ec1ebdb3",
+      "clean": "be1ab095bdad7357"
+    },
+    "purge-the-foe|purge-the-foe|C": {
+      "version": 3,
+      "measurement": "71cd83fcc9efdd9a",
+      "clean": "8b5f4a7eb2b8c527"
+    },
+    "purge-the-foe|disruption|A": {
+      "version": 3,
+      "measurement": "fbf6abdde3e1b8be",
+      "clean": "63b670d2444ea236"
+    },
+    "purge-the-foe|disruption|B": {
+      "version": 3,
+      "measurement": "e6ef1a8cc650ebb3",
+      "clean": "1ef3fadb879c3250"
+    },
+    "purge-the-foe|disruption|C": {
+      "version": 2,
+      "measurement": "a439ade70e04bda1",
+      "clean": "baebda0eb8d0114e"
+    },
+    "purge-the-foe|reconnaissance|A": {
+      "version": 3,
+      "measurement": "c718513c12d9aae2",
+      "clean": "7a2a26e1defb2224"
+    },
+    "purge-the-foe|reconnaissance|B": {
+      "version": 2,
+      "measurement": "c065e80773ad3162",
+      "clean": "1184e9db4c9f5727"
+    },
+    "purge-the-foe|reconnaissance|C": {
+      "version": 3,
+      "measurement": "1e15fe8bf964c777",
+      "clean": "38a9206648194836"
+    },
+    "purge-the-foe|priority-assets|A": {
+      "version": 2,
+      "measurement": "512ebb5ded0098be",
+      "clean": "18a2ee0816288439"
+    },
+    "purge-the-foe|priority-assets|B": {
+      "version": 3,
+      "measurement": "80768a4bcd87557e",
+      "clean": "ed6e3b37a2065d8b"
+    },
+    "purge-the-foe|priority-assets|C": {
+      "version": 2,
+      "measurement": "7cc9ae6c6d1fd21c",
+      "clean": "d4fb524f780fd1af"
+    },
+    "disruption|disruption|A": {
+      "version": 2,
+      "measurement": "ddf7af3b90791fd9",
+      "clean": "bb8eab6b41e1d491"
+    },
+    "disruption|disruption|B": {
+      "version": 2,
+      "measurement": "b993eabbbdef7e8d",
+      "clean": "f28049dea29f6ce6"
+    },
+    "disruption|disruption|C": {
+      "version": 2,
+      "measurement": "eafdc50a4b61f647",
+      "clean": "336d79f6c8a0cdba"
+    },
+    "disruption|reconnaissance|A": {
+      "version": 3,
+      "measurement": "7cd9fe1749e18c88",
+      "clean": "24b51fe3528dd685"
+    },
+    "disruption|reconnaissance|B": {
+      "version": 3,
+      "measurement": "78b22349b1a4376b",
+      "clean": "5c277813c261257d"
+    },
+    "disruption|reconnaissance|C": {
+      "version": 2,
+      "measurement": "04463e21e25d1589",
+      "clean": "4b507aa82211863e"
+    },
+    "disruption|priority-assets|A": {
+      "version": 3,
+      "measurement": "762aaac848d49316",
+      "clean": "b8f0e0d0603f2523"
+    },
+    "disruption|priority-assets|B": {
+      "version": 3,
+      "measurement": "9c95733c7bdf89f1",
+      "clean": "c79cf0c70666383c"
+    },
+    "disruption|priority-assets|C": {
+      "version": 3,
+      "measurement": "68ce15735f63ea17",
+      "clean": "f04bfbab8e61b8c9"
+    },
+    "reconnaissance|reconnaissance|A": {
+      "version": 3,
+      "measurement": "40f7d885f19ac416",
+      "clean": "1e796f942e952ed6"
+    },
+    "reconnaissance|reconnaissance|B": {
+      "version": 3,
+      "measurement": "0601da8460820f7e",
+      "clean": "406aad159f6b34a5"
+    },
+    "reconnaissance|reconnaissance|C": {
+      "version": 3,
+      "measurement": "0027302694a545ee",
+      "clean": "fb0af814593f73b9"
+    },
+    "reconnaissance|priority-assets|A": {
+      "version": 2,
+      "measurement": "cbb740608c87b174",
+      "clean": "396d4883f7c94566"
+    },
+    "reconnaissance|priority-assets|B": {
+      "version": 3,
+      "measurement": "ede82aab4e9c22a6",
+      "clean": "b1a37badac98e35f"
+    },
+    "reconnaissance|priority-assets|C": {
+      "version": 2,
+      "measurement": "431774ba8e56eccf",
+      "clean": "eb739981639f7972"
+    },
+    "priority-assets|priority-assets|A": {
+      "version": 2,
+      "measurement": "5e3b51fa15e3dda6",
+      "clean": "8fbe75e7f9a9846e"
+    },
+    "priority-assets|priority-assets|B": {
+      "version": 3,
+      "measurement": "9067bb5ba2b47886",
+      "clean": "719864efbd5410cc"
+    },
+    "priority-assets|priority-assets|C": {
+      "version": 3,
+      "measurement": "6b1c25793a840178",
+      "clean": "5de7c11fd382dc25"
+    }
+  }
+}

@@ -348,6 +348,7 @@ function indexEventCompanion(items, locale) {
     L.eventLayoutsHeading)
   add('ec-chapter-pairings', L.eventPairingsHeading, [L.eventPairingsDesc, ec.pairings.intro], L.eventPairingsHeading)
   add('ec-chapter-teams', L.eventTeamsHeading, [L.eventTeamsDesc, ec.teams.intro], L.eventTeamsHeading)
+  add('ec-chapter-doubles', L.eventDoublesHeading, [L.eventDoublesDesc, ec.doubles.intro], L.eventDoublesHeading)
   add('ec-chapter-faq', L.eventFaqHeading, [L.eventFaqDesc, ec.faq.intro, ec.faq.errata], L.eventFaqHeading)
 
   // Mission Sequence — main steps, secondary rules, designer notes
@@ -376,6 +377,11 @@ function indexEventCompanion(items, locale) {
   for (const b of ec.teams.blocks || []) {
     const table = b.table ? [b.table.title, rowsText(b.table)] : []
     add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], L.eventTeamsHeading)
+  }
+
+  // Doubles — a delta chapter: no tables of its own, the VP maximums live on Sequence's.
+  for (const b of ec.doubles.blocks || []) {
+    add(b.id, b.title, [b.body, b.note], L.eventDoublesHeading)
   }
 
   // Twists — rendered on the Missions chapter (deep-link to #twist-<id>). titleRu comes

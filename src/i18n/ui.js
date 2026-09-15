@@ -621,6 +621,7 @@ export const ui = {
       'Force of Convenience \u2014 any other pairing. Each army uses its own army rules, and a teammate\u2019s units are neither friendly nor enemy \u2014 abilities that affect friendly units do not reach them.\n' +
       '\n' +
       'Auto derives the type from the two chosen factions; override it if your lists change the answer (allies, for example).',
+    trackerForceTypeHelpLink: 'Doubles rules in the Event Companion →',
     trackerChooseDetachments: 'Choose detachments',
     trackerNoDetachments: 'No detachments for this faction — you pick a disposition on the next step.',
     trackerActiveDisposition: 'Active disposition',
@@ -843,6 +844,8 @@ export const ui = {
     eventPairingsDesc: 'Recommendations for fairly pairing players and determining rankings',
     eventTeamsHeading: 'Teams Event',
     eventTeamsDesc: 'Team composition, the pairing system and team scoring for a Teams Event',
+    eventDoublesHeading: 'Doubles Event',
+    eventDoublesDesc: 'What changes when two players field one force: mustering, the sequence, and the Core Rules changes',
     eventFaqHeading: 'Errata & FAQs',
     eventFaqDesc: 'Updates and clarifications for the Chapter Approved Mission Deck',
     eventSecondaryHeading: 'Secondary Missions',
@@ -1462,6 +1465,7 @@ export const ui = {
       'Force of Convenience \u2014 любая другая пара. Каждая армия использует свои армейские правила, а юниты напарника не считаются ни дружественными, ни вражескими \u2014 способности с «friendly units» до них не достают.\n' +
       '\n' +
       '«Авто» выводит тип из выбранных фракций; переключите вручную, если ваши списки меняют ответ (например, союзники).',
+    trackerForceTypeHelpLink: 'Правила Doubles в Event Companion →',
     trackerChooseDetachments: 'Выбрать детачменты',
     trackerNoDetachments: 'У этой фракции нет детачментов — Force Disposition выберете на следующем шаге.',
     trackerActiveDisposition: 'Force Disposition',
@@ -1681,6 +1685,8 @@ export const ui = {
     eventPairingsDesc: 'Рекомендации по честному составлению пар и определению ранга',
     eventTeamsHeading: 'Командный ивент',
     eventTeamsDesc: 'Состав команды, система паринга и командный подсчёт для командного ивента',
+    eventDoublesHeading: 'Doubles-ивент',
+    eventDoublesDesc: 'Что меняется, когда двое игроков выставляют одну силу: сбор армий, последовательность и изменения базовых правил',
     eventFaqHeading: 'Эррата и FAQ',
     eventFaqDesc: 'Обновления и разъяснения к Chapter Approved Mission Deck',
     eventSecondaryHeading: 'Вторичные миссии',

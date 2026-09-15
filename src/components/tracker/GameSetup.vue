@@ -761,6 +761,8 @@
       v-if="forceTypeHelpOpen"
       :title="labels.trackerForceType"
       :text="labels.trackerForceTypeHelp"
+      :link-to="DOUBLES_CHAPTER"
+      :link-label="labels.trackerForceTypeHelpLink"
       @close="forceTypeHelpOpen = false"
     />
 
@@ -810,6 +812,11 @@ import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
 import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
+
+// Where the Doubles terminology in the force-type help actually comes from — the Event
+// Companion's Doubles chapter. A route object, not a string, so the locale guard can add
+// the /ru prefix; the setup draft is persisted, so leaving the wizard for it is safe.
+const DOUBLES_CHAPTER = { path: '/event-companion', hash: '#ec-chapter-doubles' }
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()

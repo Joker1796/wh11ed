@@ -25,6 +25,15 @@ describe('search', () => {
     }
   })
 
+  it('finds the Doubles chapter in both locales — it is a delta chapter, so its terms exist nowhere else', () => {
+    for (const locale of ['en', 'ru']) {
+      const res = search('force of convenience', locale)
+      const hit = res.find((r) => r.id === 'doubles-terminology')
+      expect(hit, locale).toBeTruthy()
+      expect(hit.route).toBe('/event-companion')
+    }
+  })
+
   it('is case-insensitive', () => {
     expect(search('CHARGE', 'en').length).toBe(search('charge', 'en').length)
   })

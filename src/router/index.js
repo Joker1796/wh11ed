@@ -185,7 +185,8 @@ export const navGroupsRu = [
 // live on the one /event-companion page now; what used to be a route per page is an
 // anchor on it. EVENT_CHAPTER_ANCHORS is the single registry for the old-URL redirects
 // (Introduction itself isn't in there — /event-companion IS the merged page's own path,
-// not a redirect) and for the `hash` on each group below.
+// not a redirect; neither is Doubles, which was added after the merge and so never had a
+// route of its own to redirect FROM) and for the `hash` on each group below.
 export const EVENT_PATH = '/event-companion'
 export const EVENT_CHAPTER_ANCHORS = {
   '/event-companion/sequence': 'ec-chapter-sequence',
@@ -235,6 +236,15 @@ export const eventGroups = [
       { id: 'teams-pairing',    label: 'Pairing Teams' },
     ],
   },
+  {
+    label: 'Doubles', path: EVENT_PATH, hash: '#ec-chapter-doubles',
+    sections: [
+      { id: 'doubles-muster',      label: 'Muster Armies' },
+      { id: 'doubles-sequence',    label: 'The Rest of the Sequence' },
+      { id: 'doubles-terminology', label: 'Terminology' },
+      { id: 'doubles-units-models', label: 'Core Rules Changes' },
+    ],
+  },
   { label: 'Errata & FAQs',    path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
@@ -275,6 +285,15 @@ export const eventGroupsRu = [
       { id: 'pairing-system',   label: 'Система паринга' },
       { id: 'team-scoring-bp',  label: 'Командный подсчёт' },
       { id: 'teams-pairing',    label: 'Составление пар команд' },
+    ],
+  },
+  {
+    label: 'Doubles', path: EVENT_PATH, hash: '#ec-chapter-doubles',
+    sections: [
+      { id: 'doubles-muster',      label: 'Сбор армий' },
+      { id: 'doubles-sequence',    label: 'Остальная последовательность' },
+      { id: 'doubles-terminology', label: 'Терминология' },
+      { id: 'doubles-units-models', label: 'Изменения базовых правил' },
     ],
   },
   { label: 'Эррата и FAQ',              path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },

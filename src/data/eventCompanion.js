@@ -11,39 +11,39 @@
 // `layoutImages` = the measurement/inch-callout variant (default, matches the physical
 // Chapter Approved page); `layoutImagesClean` = the no-measurement variant (toggle).
 const layoutImages = {
-  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-v2.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-v2.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-v2.png' },
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-v2.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-v3.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-v3.png' },
   'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a-v2.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b-v2.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c-v2.png' },
-  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-v2.png', B: '/images/event/layout-take-and-hold-disruption-b-v2.png', C: '/images/event/layout-take-and-hold-disruption-c-v2.png' },
-  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-v2.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-v2.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-v2.png' },
-  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-v2.png', B: '/images/event/layout-take-and-hold-priority-assets-b-v2.png', C: '/images/event/layout-take-and-hold-priority-assets-c-v2.png' },
-  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-v2.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-v2.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-v2.png' },
-  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-v2.png', B: '/images/event/layout-purge-the-foe-disruption-b-v2.png', C: '/images/event/layout-purge-the-foe-disruption-c-v2.png' },
-  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-v2.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-v2.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-v2.png' },
-  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-v2.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-v2.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-v2.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-v3.png', B: '/images/event/layout-take-and-hold-disruption-b-v3.png', C: '/images/event/layout-take-and-hold-disruption-c-v3.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-v3.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-v2.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-v3.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-v2.png', B: '/images/event/layout-take-and-hold-priority-assets-b-v3.png', C: '/images/event/layout-take-and-hold-priority-assets-c-v2.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-v3.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-v3.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-v3.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-v3.png', B: '/images/event/layout-purge-the-foe-disruption-b-v3.png', C: '/images/event/layout-purge-the-foe-disruption-c-v2.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-v3.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-v2.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-v3.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-v2.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-v3.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-v2.png' },
   'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a-v2.png', B: '/images/event/layout-disruption-disruption-b-v2.png', C: '/images/event/layout-disruption-disruption-c-v2.png' },
-  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-v2.png', B: '/images/event/layout-disruption-reconnaissance-b-v2.png', C: '/images/event/layout-disruption-reconnaissance-c-v2.png' },
-  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-v2.png', B: '/images/event/layout-disruption-priority-assets-b-v2.png', C: '/images/event/layout-disruption-priority-assets-c-v2.png' },
-  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-v2.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-v2.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-v2.png' },
-  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-v2.png', B: '/images/event/layout-reconnaissance-priority-assets-b-v2.png', C: '/images/event/layout-reconnaissance-priority-assets-c-v2.png' },
-  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-v2.png', B: '/images/event/layout-priority-assets-priority-assets-b-v2.png', C: '/images/event/layout-priority-assets-priority-assets-c-v2.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-v3.png', B: '/images/event/layout-disruption-reconnaissance-b-v3.png', C: '/images/event/layout-disruption-reconnaissance-c-v2.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-v3.png', B: '/images/event/layout-disruption-priority-assets-b-v3.png', C: '/images/event/layout-disruption-priority-assets-c-v3.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-v3.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-v3.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-v3.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-v2.png', B: '/images/event/layout-reconnaissance-priority-assets-b-v3.png', C: '/images/event/layout-reconnaissance-priority-assets-c-v2.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-v2.png', B: '/images/event/layout-priority-assets-priority-assets-b-v3.png', C: '/images/event/layout-priority-assets-priority-assets-c-v3.png' },
 }
 
 const layoutImagesClean = {
-  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-clean.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-clean.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-clean.png' },
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-clean.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-clean-v3.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-clean-v3.png' },
   'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a-clean.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b-clean.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c-clean.png' },
-  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-clean.png', B: '/images/event/layout-take-and-hold-disruption-b-clean.png', C: '/images/event/layout-take-and-hold-disruption-c-clean.png' },
-  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-clean.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-clean.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-clean.png' },
-  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-clean.png', B: '/images/event/layout-take-and-hold-priority-assets-b-clean.png', C: '/images/event/layout-take-and-hold-priority-assets-c-clean.png' },
-  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-clean.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-clean.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-clean.png' },
-  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-clean.png', B: '/images/event/layout-purge-the-foe-disruption-b-clean.png', C: '/images/event/layout-purge-the-foe-disruption-c-clean.png' },
-  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-clean.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-clean.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-clean.png' },
-  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-clean.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-clean.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-clean.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-clean-v3.png', B: '/images/event/layout-take-and-hold-disruption-b-clean-v3.png', C: '/images/event/layout-take-and-hold-disruption-c-clean-v3.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-clean-v3.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-clean.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-clean-v3.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-clean.png', B: '/images/event/layout-take-and-hold-priority-assets-b-clean-v3.png', C: '/images/event/layout-take-and-hold-priority-assets-c-clean.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-clean-v3.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-clean-v3.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-clean-v3.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-clean-v3.png', B: '/images/event/layout-purge-the-foe-disruption-b-clean-v3.png', C: '/images/event/layout-purge-the-foe-disruption-c-clean.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-clean-v3.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-clean.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-clean-v3.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-clean.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-clean-v3.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-clean.png' },
   'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a-clean.png', B: '/images/event/layout-disruption-disruption-b-clean.png', C: '/images/event/layout-disruption-disruption-c-clean.png' },
-  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-clean.png', B: '/images/event/layout-disruption-reconnaissance-b-clean.png', C: '/images/event/layout-disruption-reconnaissance-c-clean.png' },
-  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-clean.png', B: '/images/event/layout-disruption-priority-assets-b-clean.png', C: '/images/event/layout-disruption-priority-assets-c-clean.png' },
-  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-clean.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-clean.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-clean.png' },
-  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-clean.png', B: '/images/event/layout-reconnaissance-priority-assets-b-clean.png', C: '/images/event/layout-reconnaissance-priority-assets-c-clean.png' },
-  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-clean.png', B: '/images/event/layout-priority-assets-priority-assets-b-clean.png', C: '/images/event/layout-priority-assets-priority-assets-c-clean.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-clean-v3.png', B: '/images/event/layout-disruption-reconnaissance-b-clean-v3.png', C: '/images/event/layout-disruption-reconnaissance-c-clean.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-clean-v3.png', B: '/images/event/layout-disruption-priority-assets-b-clean-v3.png', C: '/images/event/layout-disruption-priority-assets-c-clean-v3.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-clean-v3.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-clean-v3.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-clean-v3.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-clean.png', B: '/images/event/layout-reconnaissance-priority-assets-b-clean-v3.png', C: '/images/event/layout-reconnaissance-priority-assets-c-clean.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-clean.png', B: '/images/event/layout-priority-assets-priority-assets-b-clean-v3.png', C: '/images/event/layout-priority-assets-priority-assets-c-clean-v3.png' },
 }
 
 // Battlefield-edge orientation per layout, read from the source PDF's marker lines
@@ -165,7 +165,12 @@ const en = {
           'Each combination of Primary Missions has three recommended [LAYOUT]s, labelled ' +
           '**A**, **B** and **C**, which can be found in the **Terrain Layouts** section of ' +
           'this reference. As directed by the organiser, the players either use the layout ' +
-          'specified or randomly determine which to use.',
+          'specified or randomly determine which to use.\n\n' +
+          'We recommend running through layouts **A**, **B** and **C** sequentially, ' +
+          'repeating this as needed for the number of games being played.\n\n' +
+          '**Examples:** For a 5 round event, we recommend the layout order A, B, C, A, B. ' +
+          'For a 6 round event, we recommend A, B, C, A, B, C. For an 8 round event, we ' +
+          'recommend A, B, C, A, B, C, A, B.',
         seeAlso: ['Terrain Layouts EC:layouts'],
       },
       {
@@ -797,6 +802,197 @@ const en = {
     ],
   },
 
+  // ── Doubles Event Companion (supplement) ──────────────────────────────────
+  // A DELTA chapter, unlike Teams: the Doubles companion restates the whole 14-step
+  // sequence, but 3 of its steps are word-for-word the main one and the rest differ only
+  // by reading "player" as "team" (verified step by step against appdata's Doubles rule
+  // section). Transcribing all 14 again would be ~250 lines of near-duplicate prose in
+  // each locale that then has to be kept in step with the Sequence chapter by hand, so
+  // only what actually changes is carried here; `doubles-sequence` names the steps the
+  // team-vs-player swap touches and points back at EC:sequence for the rest.
+  doubles: {
+    intro:
+      "A Doubles event is one in which players compete in teams of two, with a team's two " +
+      "armies fighting as a single force against another team's. This chapter collects only " +
+      'what Doubles changes; every step and rule not named here is the standard Event ' +
+      'Companion one.',
+    blocks: [
+      {
+        id: 'doubles-overview',
+        title: 'Overview',
+        body:
+          'The Warhammer Doubles Event Companion is used **alongside** the Warhammer Event ' +
+          'Companion. It changes three things:\n' +
+          '▪ **Mission Sequence:** adjustments to the steps used to generate a mission and ' +
+          'prepare the battlefield.\n' +
+          "▪ **Terminology:** what a Doubles event calls a team's pair of armies, and how " +
+          'much those armies share.\n' +
+          '▪ **Core Rules Changes:** the adjustments that let two players fight alongside ' +
+          'each other.\n' +
+          'For everything else — errata, FAQs, missions and terrain layouts — refer to the ' +
+          'rest of the Event Companion. Pairing and ranking at a Doubles event is done **by ' +
+          'team** rather than by player, but is otherwise the standard methodology.',
+        seeAlso: ['Mission Sequence EC:sequence', 'Pairings & Rankings EC:pairings'],
+      },
+      {
+        id: 'doubles-muster',
+        title: '1 · Muster Armies',
+        body:
+          'Before the event each team — two players — musters as described in the Warhammer ' +
+          '40,000 app, with the following exceptions:\n' +
+          '▪ EPIC HERO units, datasheets that cannot be included more than once in your army, ' +
+          '[gloss:enhancement:enhancements], and any other ‘once per army’ items cannot be included more than ' +
+          'once **across both armies** within a team.\n' +
+          '▪ A particular [gloss:upgrade:Upgrade] can be included more than once in a ' +
+          "player's army following the usual muster armies rules, but cannot be included in " +
+          '**both** armies in a team.\n' +
+          "▪ Each team selects one CHARACTER model from either army to be their team's " +
+          '[gloss:warlord:WARLORD].\n' +
+          '▪ Each team selects one [FORCE DISPOSITION] card available to either of the armies ' +
+          'in that team and records that on their roster.',
+        note:
+          '**Example:** a team could not include a Genestealer Cults Patriarch more than ' +
+          'once, or the same Upgrade in both armies, even if both players have selected the ' +
+          'same detachments.\n\n' +
+          "**Designer's Note:** Players within a team can choose to use the same faction " +
+          'keywords or different keywords, and can choose the same detachments or a ' +
+          'different selection of detachments. See Terminology and Core Rules Changes below ' +
+          "for what that does to the team's armies.",
+        seeAlso: ['Muster Armies EC:sequence#step-1'],
+      },
+      {
+        id: 'doubles-sequence',
+        title: 'The Rest of the Sequence',
+        body:
+          'The remaining steps are the standard ones, resolved **by team instead of by ' +
+          'player** — the two players decide together and count as one side:\n' +
+          "▪ **2 · Determine Mission** — each team finds their opponents' Force Disposition " +
+          "symbol on their own card; the [PRIMARY MISSION] below it is that **team's**.\n" +
+          '▪ **5 · Determine Attacker and Defender** — [gloss:roll-off:roll off]: the winner ' +
+          'decides which **team** is the Attacker and which the Defender.\n' +
+          '▪ **6 · Select Secondary Missions** — each team notes down Tactical or Fixed, ' +
+          'draws and discards as one, and its Secondary Missions are active for the whole ' +
+          'team.\n' +
+          '▪ **8 · Deploy Armies** — **teams** take it in turns to set up one unit at a time, ' +
+          "starting with the Defender. A TITANIC unit costs the team its **next** turn to set " +
+          'up a unit, and once a team has finished, the other team sets up whatever is left.\n' +
+          '▪ **9 · Redeploy Units** and **11 · Resolve Pre-battle Rules** — **teams** ' +
+          'alternate, starting with the Attacker and with the team taking the first turn ' +
+          'respectively.\n' +
+          '▪ **12 · Begin the Battle** — the players in a team **take their turn together**, ' +
+          'as if they were a single player.\n' +
+          '▪ **13 · End the Battle** — teams play out their turns to the end of the fifth ' +
+          'battle round even if a team has no models left on the battlefield.\n' +
+          '▪ **14 · Determine Victor** — a team scores 10VP if **their armies** are painted ' +
+          'to a Battle Ready standard, and the team with the most VP is the victor. The ' +
+          'maximum VP per source is unchanged: 45VP primary, 45VP secondary, 10VP Battle ' +
+          'Ready — a team total, not one per player.',
+        note:
+          'Steps **3 · Determine a Layout**, **4 · Create the Battlefield**, **7 · Declare ' +
+          'Battle Formations** and **10 · Determine First Turn** are unchanged word for word, ' +
+          "as are the Designer's Notes on reading Secondary Mission cards.",
+        seeAlso: ['Mission Sequence EC:sequence'],
+      },
+      {
+        id: 'doubles-terminology',
+        title: 'Terminology',
+        body:
+          'Warhammer Doubles events use the following terminology:\n' +
+          '▪ **Force:** the combined armies of a pair of players.\n' +
+          '▪ **Unified Force:** a force where both armies have all the same [gloss:faction-keyword:faction keywords] ' +
+          'in common. For ADEPTUS ASTARTES forces to be a unified force, units in one army do ' +
+          'not need to have the same Chapter keyword as units in the other army.\n' +
+          '▪ **Force of Convenience:** any force which is not a unified force.',
+        note:
+          "**Designer's Note:** Ignore units included as allies — for example an IMPERIAL " +
+          'KNIGHTS unit included in another IMPERIUM army — when determining whether a force ' +
+          'is a unified force or a force of convenience.',
+      },
+      {
+        id: 'doubles-units-models',
+        title: 'Units and Models 01.02',
+        body:
+          'In a **unified force**, models/units in both armies that make up that force are ' +
+          '[gloss:friendly:friendly] models/units.\n\n' +
+          'Otherwise, models/units in your force that are not part of your army are **neither ' +
+          'friendly nor enemy** models/units.',
+        note:
+          '**Example:** in a unified force with the ADEPTUS ASTARTES faction keyword, units ' +
+          'in one army can benefit from the Blessings of the Omnissiah ability of a ' +
+          "Techmarine in their teammate's army.\n\n" +
+          '**Example:** in a force of convenience, units in one army (even one whose units ' +
+          "have the IMPERIUM keyword) will not benefit from their teammate's ability that " +
+          'affects friendly IMPERIUM units.',
+        seeAlso: ['Units and Models 01.02'],
+      },
+      {
+        id: 'doubles-core-cp',
+        title: 'Gain Core CP 08.02',
+        body:
+          'Each **force** (rather than each player) gains 1 Command Point ' +
+          '([gloss:command-points:CP]). Forces may not generate more than one extra CP per ' +
+          'battle round.',
+        seeAlso: ['Gain Core CP 08.02'],
+      },
+      {
+        id: 'doubles-stratagems',
+        title: 'Using Stratagems 15.01',
+        body:
+          "A force's CP total is **shared** by both players on the team. Rules limiting the " +
+          'use of [gloss:stratagem:stratagems] are applied to a force, rather than to each ' +
+          'player or army.',
+        note:
+          '**Example:** a unit in your force can only be the target of one of your force’s ' +
+          'stratagems per phase, and use of the Insane Bravery stratagem is limited to once ' +
+          'per battle, **per force**.',
+        seeAlso: ['Using Stratagems 15.01'],
+      },
+      {
+        id: 'doubles-transports',
+        title: 'Transports 18.00',
+        body:
+          'In a **unified force**, units/models from one army can [gloss:embark:embark] ' +
+          'within/begin the battle embarked within a TRANSPORT model from the other army, as ' +
+          'long as that unit could normally embark within that TRANSPORT.',
+        note:
+          '**Example:** in a unified force with the ADEPTUS ASTARTES faction keyword, a ' +
+          'Techmarine from one army can embark within/begin the battle embarked within an ' +
+          'Impulsor from the other army.',
+        seeAlso: ['Transports 18.00'],
+      },
+      {
+        id: 'doubles-army-detachment',
+        title: 'Army and Detachment Rules',
+        body:
+          'In a **unified force**, the force uses its [gloss:army-rules:army rules] as if it ' +
+          'were a single army — one shared pool, gained by the force rather than by each ' +
+          'army in it. Otherwise, each army within a force uses its own army rules.\n\n' +
+          'In a **unified force**, if both players have chosen the **same** detachments, the ' +
+          'force uses its [gloss:detachment-rule:detachment rules] as if it were a single ' +
+          "army. Otherwise, each player's detachment rules can only affect enemy units and " +
+          'units in **their own** army — even in a unified force.',
+        note:
+          '**Example:** a unified force with the DRUKHARI faction keyword has one pain token ' +
+          'pool, and the force gains pain tokens as described in Power From Pain.\n\n' +
+          '**Example:** if the players of a unified force with the ADEPTUS ASTARTES faction ' +
+          'keyword have selected different detachments, one player could not target the ' +
+          "other player's units with a stratagem (even one that targets a friendly ADEPTUS " +
+          'ASTARTES unit), or grant them the benefit of any detachment rule (even one that ' +
+          'affects all friendly ADEPTUS ASTARTES units).',
+      },
+      {
+        id: 'doubles-points',
+        title: 'Point Restrictions',
+        body:
+          "Rules that have restrictions based on the size of a player's army are based on " +
+          'the [gloss:points-limit:points limit] of the army of that **individual** player.',
+        note:
+          '**Example:** if a player wishes to bring Chaos Daemons as allies, doing so would ' +
+          "be based on the points limit of that player's army within their force.",
+      },
+    ],
+  },
+
   // ── Twists: optional pre-game mission modifiers ────────────────────────────
   twists: {
     intro:
@@ -901,6 +1097,22 @@ const en = {
     errata: 'Chapter Approved Mission Deck errata: **None.**',
     items: [
       {
+        q: 'The Plunder [SECONDARY MISSION] references ‘One unit within a terrain area that is not within your territory.’ Is the requirement to be ‘not within your territory’ referring to the unit or the terrain area?',
+        a: 'The terrain area.',
+      },
+      {
+        q: 'If the unit I select to be my Beacon unit upon drawing the Beacon [SECONDARY MISSION] is destroyed prior to achieving the mission, can I select a new Beacon unit?',
+        a: 'No, which means you will be unable to achieve that mission. We recommend discarding it on your turn to gain 1CP!',
+      },
+      {
+        q: 'For the purposes of VP scoring limits, is the end of the battle the same timing as the end of the fifth battle round?',
+        a: 'No, VP scored at the end of the battle are not subject to the 15VP per battle round scoring limit.',
+      },
+      {
+        q: 'When a mission action places an [OPERATION MARKER] and applies a status (e.g. ‘decoyed’), does removing that operation marker also remove that status?',
+        a: 'Yes.',
+      },
+      {
         q: 'Some [PRIMARY MISSION] cards let a player place [OPERATION MARKER]s on the battlefield. Can I remove these?',
         a: 'Your Primary Mission card will specify how and when you can remove operation markers from the battlefield. If it doesn\'t, you cannot remove operation markers.',
       },
@@ -988,7 +1200,11 @@ const ru = {
           'Для каждой комбинации основных миссий есть три рекомендованные [LAYOUT], ' +
           'обозначенные **A**, **B** и **C**, которые можно найти в разделе ' +
           '**Terrain Layouts** этого справочника. По указанию организатора игроки либо ' +
-          'используют заданную расстановку, либо определяют её случайно.',
+          'используют заданную расстановку, либо определяют её случайно.\n\n' +
+          'Рекомендуем идти по расстановкам **A**, **B** и **C** по порядку, повторяя цикл ' +
+          'столько раз, сколько партий в ивенте.\n\n' +
+          '**Примеры:** для ивента из 5 раундов рекомендуем порядок A, B, C, A, B. Для 6 ' +
+          'раундов — A, B, C, A, B, C. Для 8 раундов — A, B, C, A, B, C, A, B.',
         seeAlso: ['Расстановки тиррейна EC:layouts'],
       },
       {
@@ -1499,6 +1715,182 @@ const ru = {
     ],
   },
 
+  doubles: {
+    intro:
+      'Doubles-ивент — это мероприятие, где игроки соревнуются командами по два человека, ' +
+      'и две армии команды сражаются как одна сила против армий другой команды. В этой ' +
+      'главе собрано только то, что формат Doubles меняет; всё, что здесь не названо, ' +
+      'работает как в обычном Event Companion.',
+    blocks: [
+      {
+        title: 'Обзор',
+        body:
+          'Warhammer Doubles Event Companion используется **вместе** с Warhammer Event ' +
+          'Companion. Он меняет три вещи:\n' +
+          '▪ **Последовательность миссии:** изменения в шагах генерации миссии и подготовки ' +
+          'поля боя.\n' +
+          '▪ **Терминология:** как формат называет пару армий команды и насколько эти армии ' +
+          'общие.\n' +
+          '▪ **Изменения базовых правил:** поправки, которые позволяют двум игрокам ' +
+          'сражаться плечом к плечу.\n' +
+          'По всему остальному — эррата, FAQ, миссии и раскладки террейна — обращайтесь к ' +
+          'остальной части Event Companion. Паринг и ранжирование на Doubles-ивенте идут ' +
+          '**по командам**, а не по игрокам, но в остальном методика обычная.',
+        seeAlso: ['Последовательность миссии EC:sequence', 'Паринги и ранжирование EC:pairings'],
+      },
+      {
+        title: '1 · Сбор армий',
+        body:
+          'Перед ивентом каждая команда — двое игроков — собирает армии, как описано в ' +
+          'приложении Warhammer 40,000, со следующими исключениями:\n' +
+          '▪ Юниты EPIC HERO, листы данных, которые нельзя включить в армию более одного ' +
+          'раза, [gloss:enhancement:улучшения] и любые другие элементы «once per army» ' +
+          'нельзя включить более одного раза **на обе армии** команды.\n' +
+          '▪ Конкретный [gloss:upgrade:Upgrade] можно включить в армию игрока более одного ' +
+          'раза по обычным правилам сбора армий, но нельзя включить в **обе** армии ' +
+          'команды.\n' +
+          '▪ Каждая команда выбирает одну модель CHARACTER из любой из двух армий, которая ' +
+          'станет [gloss:warlord:WARLORD] команды.\n' +
+          '▪ Каждая команда выбирает одну карту [FORCE DISPOSITION], доступную любой из её ' +
+          'армий, и записывает её в ростер.',
+        note:
+          '**Пример:** команда не может включить Genestealer Cults Patriarch дважды или ' +
+          'один и тот же Upgrade в обе армии, даже если оба игрока выбрали одинаковые ' +
+          'детачменты.\n\n' +
+          '**Designer’s Note:** игроки внутри команды могут брать как одинаковые, так и ' +
+          'разные ключевые слова фракции, и как одинаковые, так и разные детачменты. Что ' +
+          'это даёт армиям команды — в разделах «Терминология» и «Изменения базовых ' +
+          'правил» ниже.',
+        seeAlso: ['Сбор армий EC:sequence#step-1'],
+      },
+      {
+        title: 'Остальная последовательность',
+        body:
+          'Остальные шаги — обычные, но выполняются **командой, а не игроком**: двое игроков ' +
+          'решают вместе и считаются одной стороной:\n' +
+          '▪ **2 · Определение миссии** — каждая команда находит символ Force Disposition ' +
+          'соперников на своей карте; указанная под ним [PRIMARY MISSION] — основная миссия ' +
+          '**команды**.\n' +
+          '▪ **5 · Определение Атакующего и Защищающегося** — [gloss:roll-off:сделайте ' +
+          'ролл-офф]: победитель решает, какая **команда** будет Атакующей, а какая ' +
+          'Защищающейся.\n' +
+          '▪ **6 · Выбор вторичных миссий** — каждая команда записывает, тактические у неё ' +
+          'миссии или фиксированные, тянет и сбрасывает карты как одно целое, и её вторичные ' +
+          'миссии активны для всей команды.\n' +
+          '▪ **8 · Развёртывание армий** — **команды** по очереди выставляют по одному юниту, ' +
+          'начиная с Защищающейся. Юнит TITANIC стоит команде её **следующей** очереди ' +
+          'выставления, а когда команда закончила, вторая команда доставляет оставшееся.\n' +
+          '▪ **9 · Передислокация юнитов** и **11 · Отыгрыш предбоевых правил** — **команды** ' +
+          'чередуются, начиная с Атакующей и с команды, которая ходит первой, ' +
+          'соответственно.\n' +
+          '▪ **12 · Начало битвы** — игроки одной команды **играют свой ход вместе**, как ' +
+          'если бы они были одним игроком.\n' +
+          '▪ **13 · Окончание битвы** — команды доигрывают ходы до конца пятого раунда, даже ' +
+          'если у команды не осталось моделей на поле боя.\n' +
+          '▪ **14 · Определение победителя** — команда получает 10VP, если **её армии** ' +
+          'покрашены до стандарта Battle Ready, и побеждает команда с наибольшим числом VP. ' +
+          'Максимум VP по каждому источнику не меняется: 45VP за основную миссию, 45VP за ' +
+          'вторичные, 10VP за покраску — это потолок команды, а не каждого игрока.',
+        note:
+          'Шаги **3 · Определение расстановки**, **4 · Создание поля боя**, **7 · Объявление ' +
+          'боевых построений** и **10 · Определение первого хода** не меняются дословно, как ' +
+          'и Designer’s Notes про чтение карт вторичных миссий.',
+        seeAlso: ['Последовательность миссии EC:sequence'],
+      },
+      {
+        title: 'Терминология',
+        body:
+          'На Doubles-ивентах используется следующая терминология:\n' +
+          '▪ **Force** (сила) — объединённые армии пары игроков.\n' +
+          '▪ **Unified Force** — сила, у обеих армий которой полностью совпадают ' +
+          '[gloss:faction-keyword:ключевые слова фракции]. Чтобы сила ADEPTUS ASTARTES была ' +
+          'unified force, юнитам одной армии не обязательно иметь то же ключевое слово ' +
+          'ордена, что и юнитам другой.\n' +
+          '▪ **Force of Convenience** — любая сила, которая не является unified force.',
+        note:
+          '**Designer’s Note:** не учитывайте юниты, взятые как союзники — например юнит ' +
+          'IMPERIAL KNIGHTS в другой армии IMPERIUM, — когда определяете, unified force ' +
+          'перед вами или force of convenience.',
+      },
+      {
+        title: 'Юниты и модели 01.02',
+        body:
+          'В **unified force** модели и юниты обеих армий, составляющих эту силу, ' +
+          '[gloss:friendly:дружественны] друг другу.\n\n' +
+          'Иначе модели и юниты вашей силы, не входящие в вашу армию, **не считаются ни ' +
+          'дружественными, ни вражескими**.',
+        note:
+          '**Пример:** в unified force с ключевым словом фракции ADEPTUS ASTARTES юниты ' +
+          'одной армии могут пользоваться способностью Blessings of the Omnissiah ' +
+          'техномарина из армии напарника.\n\n' +
+          '**Пример:** в force of convenience юниты одной армии (даже если у них есть ' +
+          'ключевое слово IMPERIUM) не получат способность напарника, действующую на ' +
+          'дружественные юниты IMPERIUM.',
+        seeAlso: ['Юниты и модели 01.02'],
+      },
+      {
+        title: 'Получение базовых CP 08.02',
+        body:
+          'Каждая **сила** (а не каждый игрок) получает 1 командное очко ' +
+          '([gloss:command-points:CP]). Сила не может получить более одного ' +
+          'дополнительного CP за раунд битвы.',
+        seeAlso: ['Получение базовых CP 08.02'],
+      },
+      {
+        title: 'Использование стратагем 15.01',
+        body:
+          'Запас CP у силы **общий** на обоих игроков команды. Правила, ограничивающие ' +
+          'использование [gloss:stratagem:стратагем], применяются к силе, а не к каждому ' +
+          'игроку или армии.',
+        note:
+          '**Пример:** юнит в вашей силе может быть целью только одной стратагемы вашей силы ' +
+          'за фазу, а использование стратагемы Insane Bravery ограничено одним разом за ' +
+          'битву, **на силу**.',
+        seeAlso: ['Использование стратегем 15.01'],
+      },
+      {
+        title: 'Транспорты 18.00',
+        body:
+          'В **unified force** юниты и модели из одной армии могут ' +
+          '[gloss:embark:погрузиться] в модель TRANSPORT из другой армии или начать битву ' +
+          'внутри неё, если этот юнит в принципе может грузиться в такой TRANSPORT.',
+        note:
+          '**Пример:** в unified force с ключевым словом фракции ADEPTUS ASTARTES техномарин ' +
+          'из одной армии может погрузиться в Impulsor из другой или начать битву внутри ' +
+          'него.',
+        seeAlso: ['Транспорты 18.00'],
+      },
+      {
+        title: 'Армейские правила и правила детачментов',
+        body:
+          'В **unified force** сила использует свои [gloss:army-rules:армейские правила] так, ' +
+          'будто это одна армия — один общий пул, который пополняет сила, а не каждая армия ' +
+          'в ней. Иначе каждая армия внутри силы использует свои армейские правила.\n\n' +
+          'В **unified force**, если оба игрока выбрали **одинаковые** детачменты, сила ' +
+          'использует [gloss:detachment-rule:правила детачмента] так, будто это одна армия. ' +
+          'Иначе правила детачмента каждого игрока действуют только на вражеские юниты и на ' +
+          'юниты **его собственной** армии — даже в unified force.',
+        note:
+          '**Пример:** у unified force с ключевым словом фракции DRUKHARI один пул pain ' +
+          'token, и их получает сила, как описано в Power From Pain.\n\n' +
+          '**Пример:** если игроки unified force с ключевым словом фракции ADEPTUS ASTARTES ' +
+          'выбрали разные детачменты, один игрок не сможет ни нацелить стратагему на юниты ' +
+          'другого (даже стратагему, которая целится в дружественный юнит ADEPTUS ASTARTES), ' +
+          'ни дать им эффект правила детачмента (даже такого, которое действует на все ' +
+          'дружественные юниты ADEPTUS ASTARTES).',
+      },
+      {
+        title: 'Ограничения по очкам',
+        body:
+          'Правила с ограничениями, зависящими от размера армии игрока, считаются от ' +
+          '[gloss:points-limit:лимита очков] армии этого **отдельного** игрока.',
+        note:
+          '**Пример:** если игрок хочет взять Chaos Daemons как союзников, это считается от ' +
+          'лимита очков армии этого игрока внутри его силы.',
+      },
+    ],
+  },
+
   twists: {
     intro:
       'Твисты — это опциональные модификаторы, согласованные перед битвой, которые ' +
@@ -1595,6 +1987,22 @@ const ru = {
       'приведены ниже.',
     errata: 'Эррата колоды Chapter Approved Mission Deck: **отсутствует.**',
     items: [
+      {
+        q: 'Вторичная миссия Plunder [SECONDARY MISSION] говорит про «One unit within a terrain area that is not within your territory». К чему относится условие «не в пределах вашей территории» — к юниту или к участку укрытий?',
+        a: 'К участку укрытий.',
+      },
+      {
+        q: 'Если юнит, выбранный маяком (Beacon) при вытягивании вторичной миссии Beacon [SECONDARY MISSION], уничтожен до выполнения миссии, можно ли выбрать новый юнит-маяк?',
+        a: 'Нет — а значит, выполнить эту миссию уже не получится. Советуем сбросить её в свой ход и получить 1 CP!',
+      },
+      {
+        q: 'Считается ли конец битвы тем же моментом, что и конец пятого раунда битвы, когда речь про лимиты набора VP?',
+        a: 'Нет: VP, набранные в конце битвы, не попадают под лимит в 15VP за раунд битвы.',
+      },
+      {
+        q: 'Если действие миссии ставит [OPERATION MARKER] и накладывает статус (например, «decoyed»), снимается ли статус вместе с этим маркером операции?',
+        a: 'Да.',
+      },
       {
         q: 'Некоторые карты [PRIMARY MISSION] позволяют игроку размещать [OPERATION MARKER] на поле боя. Можно ли их убирать?',
         a: 'Ваша карта основной миссии укажет, как и когда вы можете убирать маркеры операций с поля боя. Если она этого не указывает, убирать маркеры операций нельзя.',

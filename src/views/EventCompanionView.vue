@@ -59,6 +59,7 @@ import ChapterMissions from '../components/event/ChapterMissions.vue'
 import ChapterLayouts from '../components/event/ChapterLayouts.vue'
 import ChapterPairings from '../components/event/ChapterPairings.vue'
 import ChapterTeams from '../components/event/ChapterTeams.vue'
+import ChapterDoubles from '../components/event/ChapterDoubles.vue'
 import ChapterFaq from '../components/event/ChapterFaq.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -83,6 +84,7 @@ const chapters = [
   { id: 'ec-chapter-layouts', component: ChapterLayouts },
   { id: 'ec-chapter-pairings', component: ChapterPairings },
   { id: 'ec-chapter-teams', component: ChapterTeams },
+  { id: 'ec-chapter-doubles', component: ChapterDoubles },
   { id: 'ec-chapter-faq', component: ChapterFaq },
 ]
 

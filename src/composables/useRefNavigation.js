@@ -27,6 +27,7 @@ const EVENT_CHAPTER_ANCHORS = {
   layouts: 'ec-chapter-layouts',
   pairings: 'ec-chapter-pairings',
   teams: 'ec-chapter-teams',
+  doubles: 'ec-chapter-doubles',
   faq: 'ec-chapter-faq',
 }
 

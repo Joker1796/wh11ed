@@ -1,0 +1,25 @@
+{
+  "companions": {
+    "doubles": {
+      "version": "1.1",
+      "file": "eng_wh40k_doubles_event_companion-x8bakj0hba-chdctfbcoc.pdf",
+      "implemented": true
+    },
+    "teams": {
+      "version": "1.0",
+      "file": "eng_22-07_warhammer_40,000_teams_event_companion-7ow8c92xdm-dyf3i4qpst.pdf",
+      "implemented": true
+    },
+    "dominatus": {
+      "version": "1.1",
+      "file": "eng_22-07_warhammer_40,000_warhammer_dominatus_event_companion-qltehqtely-atbn2qffac.pdf",
+      "implemented": false
+    },
+    "main": {
+      "version": "1.2",
+      "file": "eng_wh40k_event_companion-pl87i44rzn-a7ieny8i9x.pdf",
+      "implemented": true,
+      "faq": 8
+    }
+  }
+}
