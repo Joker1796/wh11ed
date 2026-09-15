@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.4.4',
+    date: '2026-09-15',
+    en: [
+      { h: 'Doubles — the 2v2 format is in the Event Companion' },
+      'A team of two whose armies fight as one force now has its own chapter, in both languages.',
+      'It carries what Doubles actually changes: what a team may only take once across both armies, which steps are resolved by team instead of by player, and the Core Rules changes — one shared CP pool, stratagem limits per force, riding in a teammate\'s transports, and whose army and detachment rules reach whose units.',
+      'The tracker\'s "force type" help links straight to it, so Unified Force and Force of Convenience are explained where the rest of the rules live.',
+      { h: 'Fixes' },
+      'In a doubles game, long player names in the CP row pushed the card past the edge of the screen and the whole page could be dragged sideways on a phone. The army buttons now take their own line and trim a long name instead.',
+    ],
+    ru: [
+      { h: 'Doubles — формат 2 на 2 в Event Companion' },
+      'У команды из двух игроков, чьи армии воюют как одна сила, теперь своя глава — на обоих языках.',
+      'В ней то, что Doubles действительно меняет: что команда может взять лишь один раз на обе армии, какие шаги выполняются командой, а не игроком, и изменения базовых правил — общий запас CP, лимиты стратагем на силу, погрузка в транспорты напарника и чьи армейские правила и правила детачмента до чьих юнитов достают.',
+      'Подсказка про «тип силы» в трекере ведёт прямо туда — Unified Force и Force of Convenience объяснены там же, где остальные правила.',
+      { h: 'Починено' },
+      'В партии 2 на 2 длинные имена игроков в строке CP распирали карточку за край экрана, и на телефоне всю страницу можно было утащить вбок. Теперь кнопки армий уходят на свою строку, а длинное имя обрезается.',
+    ],
+  },
+  {
     version: '2.4.3',
     date: '2026-09-15',
     en: [
