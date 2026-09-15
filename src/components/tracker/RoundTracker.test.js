@@ -176,6 +176,20 @@ describe('RoundTracker — doubles', () => {
     expect(links).toHaveLength(3)                              // Dan has nothing to link
   })
 
+  it('gives a long member name something to ellipsize and the full name on hover', () => {
+    // The button label is typed by the player, so it has no width it can promise: without the
+    // inner span (nothing for text-overflow to clip) the CP row's minimum width overflowed the
+    // card on a phone and scrolled the whole document sideways.
+    startDoubles(
+      [M('Фёдор Михайлович', 'orks'), M('Михаил Юрьевич', 'aeldari')],
+      [M('Cat', 'drukhari'), M('Dan', 'drukhari')],
+    )
+    const w = mountTracker()
+    const btn = w.findAll('a.proster').find((a) => a.text().includes('Фёдор'))
+    expect(btn.find('.proster-label').exists()).toBe(true)
+    expect(btn.attributes('title')).toBe('Фёдор Михайлович')
+  })
+
   it('renders ONE shared army card for a unified same-faction team, two for convenience', () => {
     startDoubles(
       [M('Ann', 'drukhari'), M('Bob', 'drukhari')],

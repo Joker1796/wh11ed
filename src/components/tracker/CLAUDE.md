@@ -143,6 +143,18 @@ Squads with the same ability are one reminder, not three identical lines.
 
 **The steps were re-cut on 2026-08-25** rather than a fifth being added for the roster options, and two of the moves were fixes rather than tidying. **The twist belongs with the mission because it CHANGES it**: Scrambled Communications swaps the two primaries, Mirrored World replaces both, and step 2's own preview goes through `derivePrimary(disp, disp, settings)` — which reads `settings.twist`. Chosen on the last step, as it was, it rewrote a card the player had already read and walked away from. **Who goes first belongs with the layout** — both answer "where and in what order do we set up", and step 3 was otherwise one tab row and a picture. What was left, the score mode and the toggles, is a settings page and now says so. The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
 
+**A name the player typed sets no floor — anywhere.** The same bug as the setup cards below,
+found on a phone in a doubles game (2026-09-15): the CP row is one non-wrapping flex row, and in
+doubles it carries **two** army buttons labelled with the members' own names. A flex item never
+shrinks below its min-content — the longest word of that name — so the row's minimum came to
+~367px against ~349px of card on a 393px iPhone; it overflowed its card and the whole DOCUMENT
+scrolled sideways, which on iOS also drags the fixed navbar off the visual viewport (that offset
+is the symptom a player actually reports). The fix is the pattern, not the patch: `.cp-row` wraps,
+its buttons are `flex: 1 1 auto; min-width: 0`, and the label is its own `.proster-label` span
+with `text-overflow: ellipsis` and the full name on `title`. A second line is spent only when the
+width is genuinely gone. Only the FIRST button keeps `margin-left: auto` — one on each split the
+free space between the pair instead of holding it at the far end.
+
 **The two army cards use `minmax(0, 1fr)`, not `1fr`.** A grid item's automatic minimum is its
 MIN-CONTENT width, and the attached-roster line inside a card is `white-space: nowrap` so it can
 ellipsize — which makes its min-content the WHOLE name. A list called "We build thick city on rock

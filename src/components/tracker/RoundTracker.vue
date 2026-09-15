@@ -182,9 +182,10 @@
             :key="l.to"
             class="proster"
             :to="l.to"
+            :title="l.label"
           >
             <i :class="`bi ${l.icon}`" />
-            {{ l.label }}
+            <span class="proster-label">{{ l.label }}</span>
           </RouterLink>
         </div>
 
@@ -524,6 +525,14 @@ function onEndBattle(reason) {
   color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
   transition: background 0.15s, border-color 0.15s;
 }
+/* In doubles the label is a name the PLAYER typed, so the button has no width it can promise.
+   A flex item never shrinks below its min-content — the longest word of that name — so without
+   this the pair of army buttons set a floor under the whole CP row: on a 393px phone the row's
+   minimum came to ~367px against ~349px of card, the row overflowed its card and the DOCUMENT
+   scrolled sideways (on iOS that also drags the fixed navbar off the visual viewport, which is
+   what it looks like from the outside). Ellipsis instead of a floor, with the full name on
+   `title` — the same lesson as the setup cards' `minmax(0, 1fr)`. */
+.proster-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .proster:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .player {
@@ -576,9 +585,14 @@ function onEndBattle(reason) {
    The CP label drops `.sr-label`'s column width here — it labels the stepper right next to it,
    not a column of rows — and the roster button sits at the far end, opposite the pair. With CP
    tracking off that button is the row's only child and stays left, like everything else. */
-.cp-row { margin-top: 0.6rem; }
+.cp-row { margin-top: 0.6rem; flex-wrap: wrap; }
 .cp-row .sr-label { min-width: 0; }
-.cp-row .sr-label ~ .proster { margin-left: auto; }
+/* Only the FIRST army button takes the auto margin: with two of them (doubles) an auto margin
+   each split the free space between the pair instead of keeping it together at the far end.
+   `flex: 1 1 auto` + the ellipsis above is what lets the pair drop to a second line and share
+   it evenly when the row can't fit — a row is spent only when the width is genuinely gone. */
+.cp-row .sr-label ~ .proster:first-of-type { margin-left: auto; }
+.cp-row .proster { flex: 1 1 auto; min-width: 0; }
 .sr-label {
   min-width: 4.5rem;
   font-size: 0.75rem;
