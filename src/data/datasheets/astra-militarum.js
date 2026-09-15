@@ -3845,7 +3845,6 @@ export default [
     "options": [
       "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
-      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced).**",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**\n\n** A model can only take one of these options.",
       "Any number of Death Korps Watchmasters can each have their laspistol and chainsword replaced with 1 boltgun and 1 close combat weapon.",
       "Any number of Death Korps Watchmasters can each have their chainsword replaced with 1 power weapon.",
@@ -8210,7 +8209,7 @@ export default [
       "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than once per unit.",
       "1 Tempestus Scion equipped with a hot-shot lasgun can be equipped with 1 regimental standard (that model’s hot-shot lasgun cannot be replaced).",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 master vox.",
-      "1 Tempestus Scion’s hot-shot lasgun can be replaced with one of the following:\n▪ 1 hot-shot laspistol and 1 medi-pack\n▪ 1 hot-shot lasgun, 1 hot-shot laspistol and 1 medi-pack [that model's hot-shot lasgun cannot be replaced]",
+      "1 Tempestus Scion’s hot-shot lasgun can be replaced with one of the following:\n▪ 1 hot-shot laspistol and 1 medi-pack\n▪ 1 hot-shot lasgun, 1 hot-shot laspistol and 1 medi-pack (that model's hot-shot lasgun cannot be replaced)",
       "The Tempestor Prime’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 command rod",
       "* You cannot select the same weapon from this list more than once per unit."
     ],

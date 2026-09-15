@@ -1829,7 +1829,7 @@ export default [
     "abilities": [
       {
         "name": "Tactica Obliqua",
-        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8” of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following: ■ Make a Normal move of up to D6\" ■ Make a Normal move of up to 6\" provided every model in this unit ends that move wholly within 6\" of one or more friendly **ADEPTUS MECHANICUS BATTLELINE** units."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8” of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to D6\"\n▪ Make a Normal move of up to 6\" provided every model in this unit ends that move wholly within 6\" of one or more friendly **ADEPTUS MECHANICUS BATTLELINE** units."
       }
     ],
     "wargearAbilities": [

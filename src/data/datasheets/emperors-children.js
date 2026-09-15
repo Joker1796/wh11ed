@@ -425,7 +425,7 @@ export default [
     "abilities": [
       {
         "name": "Lethal Obsession",
-        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit **declares a charge**: ■ This unit can re-roll that **charge roll**. ■ This unit __must__ end that **charge move engaged** with that enemy unit."
+        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit **declares a charge**:\n▪ This unit can re-roll that **charge roll**.\n▪ This unit __must__ end that **charge move engaged** with that enemy unit."
       }
     ],
     "composition": [

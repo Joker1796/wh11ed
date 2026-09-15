@@ -609,13 +609,9 @@ export default {
       Plunder:
         'Один раз за битву, после того как этот юнит завершил обычный манёвр, вы можете выбрать один видимый вражеский юнит в пределах 12" от него и бросить один D6: на 2+ этот вражеский юнит получает D3+1 смертельные раны.',
     },
-    special: {
-      'MASTERS OF THE MAELSTROM':
-        'В начале шага Declare Battle Formations этот юнит может присоединиться к одному из следующих юнитов. Этот юнит затем считается частью того юнита до конца битвы, а начальная численность того юнита соответственно увеличивается.\n▪ Chosen, Legionaries, Red Corsairs Raiders\nЭтот юнит не может присоединиться к Attached-юниту, и только Huron Blackheart может присоединиться к юниту, к которому присоединился этот юнит.',
-    },
     loadout:
       '**Garreon the Corpsemaster вооружён:** absolvor bolt pistol; reductor array.\n\n**Garlon Souleater вооружён:** Mind Wrench; force stave.\n\n**Katar Garrix вооружён:** bolt pistol; Axe of Ending.\n\n**Captain Sargotta вооружён:** laspistol; power sabre.\n\n**The Enforcer вооружён:** Londaxi maimer; bionic gauntlet.',
-    leader: { text: LEADER_TEXT },
+    leader: { text: LEADER_TEXT, footer: '* Этот юнит не может присоединиться к Attached-юниту, и только HURON BLACKHEART может присоединиться к юниту, к которому присоединился этот юнит.' },
   },
 
   maulerfiend: {

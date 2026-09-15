@@ -1542,7 +1542,7 @@ export default [
       },
       {
         "name": "Visions of Heresy",
-        "text": "■ This unit can re-roll charge rolls. ■ When you target this unit with the Fire Overwatch/Heroic Intervention stratagem, that use is -1 CP."
+        "text": "▪ This unit can re-roll charge rolls.\n▪ When you target this unit with the Fire Overwatch/Heroic Intervention stratagem, that use is -1 CP."
       }
     ],
     "composition": [

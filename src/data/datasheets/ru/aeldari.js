@@ -929,10 +929,6 @@ export default {
     },
     loadout: `${EQUIP_EVERY} Destructor; shuriken pistol; witchblade.`,
     options: ['Любому числу моделей их witchblade можно заменить на 1 singing spear.'],
-    rules: {
-      ATTACHMENT:
-        'В начале шага Declare Battle Formations, если этот юнит не является Attached-юнитом, он может присоединиться к одному юниту GUARDIAN DEFENDERS или STORM GUARDIANS из вашей армии (к одному юниту не может быть присоединено более одного юнита WARLOCK CONCLAVE). Если он это делает, до конца битвы каждая модель этого юнита считается частью того юнита телохранителей (Bodyguard), а начальная численность того юнита телохранителей соответственно увеличивается.',
-    },
     leader: { text: LEADER_TEXT },
   },
 
@@ -947,10 +943,6 @@ export default {
     },
     loadout: `${EQUIP_EVERY} Destructor; shuriken pistol; twin shuriken catapult; witchblade.`,
     options: ['Любому числу моделей их witchblade можно заменить на 1 singing spear.'],
-    rules: {
-      ATTACHMENT:
-        'В начале шага Declare Battle Formations, если этот юнит не является Attached-юнитом, он может присоединиться к одному юниту WINDRIDERS из вашей армии (к одному юниту не может быть присоединено более одного юнита WARLOCK SKYRUNNERS). Если он это делает, до конца битвы каждая модель этого юнита считается частью того юнита телохранителей (Bodyguard), а начальная численность того юнита телохранителей соответственно увеличивается.',
-    },
     leader: { text: LEADER_TEXT },
   },
 

@@ -1597,13 +1597,9 @@ export default {
       'Refractor Field': INV5,
       'Storm Shield': INV4,
     },
-    special: {
-      'HEROES OF ULTRAMAR':
-        'В начале шага Declare Battle Formations этот юнит может присоединиться к одному из следующих юнитов. Этот юнит затем считается частью того юнита до конца битвы, а начальная численность того юнита соответственно увеличивается.\n▪ Assault Intercessor Squad, Bladeguard Veteran Squad, Intercessor Squad, Sternguard Veteran Squad\n\nЭтот юнит не может присоединиться к Attached-юниту, и только Captain Titus может присоединиться к юниту, к которому присоединился этот юнит.',
-    },
     loadout:
       '**Ancient Gadriel вооружён:** bolt rifle; close combat weapon.\n\n**Veteran Sergeant Metaurus вооружён:** heavy bolt pistol; master-crafted power weapon; storm shield.\n\n**Gaius Silva вооружён:** archeotech laspistol; power weapon; refractor field.\n\n**Aemelia Minervas вооружена:** archeotech laspistol; power weapon.\n\n**Dainal Kornelius вооружён:** Astropathic Blast; force stave.\n\n**Lucia Vestha вооружена:** archeotech laspistol; close combat weapon.',
-    leader: { text: LEADER_TEXT },
+    leader: { text: LEADER_TEXT, footer: '* Этот юнит не может присоединиться к Attached-юниту, и только CAPTAIN TITUS может присоединиться к юниту, к которому присоединился этот юнит.' },
   },
 
   whirlwind: {
@@ -1660,7 +1656,6 @@ export const abilityNamesRu = {
   'Deeds of Heroism': 'Деяния героизма',
   'Defensive Array': 'Оборонительный массив',
   'Deployment Complete': 'Развёртывание завершено',
-  'Designer’s Note': 'Примечание разработчика',
   Destructor: 'Разрушитель',
   'Drop Pod Assault': 'Штурм капсулой высадки',
   'Duty Eternal': 'Вечный долг',

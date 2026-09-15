@@ -12,9 +12,8 @@ const SHARED = [
   'centurion-devastator-squad', 'chaplain', 'chaplain-in-terminator-armour', 'chaplain-on-bike',
   'chaplain-with-jump-pack', 'company-heroes', 'desolation-squad', 'devastator-squad',
   'dreadnought', 'drop-pod', 'eliminator-squad', 'eradicator-squad',
-  'eradicator-squad-with-heavy-bolters', 'firestrike-servo-turrets', 'gladiator-lancer',
-  'gladiator-reaper', 'gladiator-valiant', 'hammerfall-bunker', 'heavy-intercessor-squad',
-  'hellblaster-squad', 'impulsor', 'inceptor-squad', 'incursor-squad', 'infernus-squad',
+  'eradicator-squad-with-heavy-bolters', 'firestrike-servo-turrets',   'hammerfall-bunker', 'heavy-intercessor-squad',
+  'hellblaster-squad', 'inceptor-squad', 'incursor-squad', 'infernus-squad',
   'infiltrator-squad', 'intercessor-squad', 'invader-atv', 'invictor-tactical-warsuit',
   'judiciar', 'land-raider', 'land-raider-redeemer', 'land-speeder',
   'lieutenant', 'lieutenant-in-phobos-armour', 'lieutenant-in-reiver-armour',
@@ -31,12 +30,24 @@ const SHARED = [
 // locally below (still reusing smRu's flavor/loadout/etc via the spread) instead of being
 // borrowed wholesale via SHARED.
 
+// Five Black Templars sheets carry one wargear option the generic space-marines copy doesn't
+// (appdata gives them their own datasheet id), so their RU `options` can't be inherited: the
+// generic line offers the stubber alone where the Chapter's own card offers a choice of two.
+const STUBBER_OR_MELTA =
+  'Эту модель можно снабдить одним из следующего:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta'
+const withOption = (entry, index, text) => (entry?.options || []).map((o, i) => (i === index ? text : o))
+
 const LEADER_TEXT = 'Эту модель можно присоединить к следующим юнитам:'
 const EQUIP_THIS = '**Эта модель вооружена:**'
 const EQUIP_EVERY = '**Каждая модель вооружена:**'
 
 export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
+
+  'gladiator-lancer': { ...smRu['gladiator-lancer'], options: withOption(smRu['gladiator-lancer'], 1, STUBBER_OR_MELTA) },
+  'gladiator-reaper': { ...smRu['gladiator-reaper'], options: withOption(smRu['gladiator-reaper'], 0, STUBBER_OR_MELTA) },
+  'gladiator-valiant': { ...smRu['gladiator-valiant'], options: withOption(smRu['gladiator-valiant'], 0, STUBBER_OR_MELTA) },
+  impulsor: { ...smRu.impulsor, options: withOption(smRu.impulsor, 0, STUBBER_OR_MELTA) },
 
   'land-raider-crusader': {
     ...smRu['land-raider-crusader'],
@@ -49,6 +60,8 @@ export default {
 
   repulsor: {
     ...smRu.repulsor,
+    // The Chapter's own sheet adds a third option the generic one doesn't have.
+    options: [...(smRu.repulsor?.options || []), 'Эту модель можно снабдить 1 multi-melta.'],
     abilities: {
       ...smRu.repulsor?.abilities,
       'Stabilised Disembarkation':
@@ -58,6 +71,7 @@ export default {
 
   'repulsor-executioner': {
     ...smRu['repulsor-executioner'],
+    options: withOption(smRu['repulsor-executioner'], 1, STUBBER_OR_MELTA),
     abilities: {
       ...smRu['repulsor-executioner']?.abilities,
       'Interception Strike':
@@ -161,7 +175,7 @@ export default {
       'Armour of Faith':
         'Один раз за фазу, когда атака распределяется по этой модели и спас-бросок провален, вы можете изменить характеристику Урона (Damage) этой атаки на 0.',
       'Sigismund’s Heir':
-        'Каждый раз, когда юнит этой модели объявляет нападение, если вражеский юнит CHARACTER находится в пределах 12" от этого юнита, вы можете задействовать эту часть этой способности. Если вы это делаете: этот юнит может перебросить этот бросок нападения; этот юнит обязан завершить этот манёвр нападения в дистанции ввязывания одного или более из этих вражеских юнитов CHARACTER.\n\n(Один раз за битву, за армию) В фазе ближнего боя, когда этот юнит выбирается для схватки, если этот юнит находится в дистанции ввязывания юнита CHARACTER, вы можете задействовать эту часть этой способности. Если вы это делаете, атаки ближнего боя этого юнита имеют способность [DEVASTATING WOUNDS].',
+        '▪ Когда этот юнит объявляет нападение, если вражеский юнит CHARACTER находится в пределах 12" от этого юнита, вы можете задействовать эту часть этой способности. Если вы это делаете:\n▪ Этот юнит может перебросить этот бросок нападения.\n▪ Этот юнит __обязан__ завершить этот манёвр нападения в дистанции ввязывания одного или более из этих вражеских юнитов CHARACTER.\n▪ (Один раз за битву, за армию) В фазе ближнего боя, когда этот юнит выбирается для схватки, если этот юнит находится в дистанции ввязывания юнита CHARACTER, вы можете задействовать эту часть этой способности. Если вы это делаете, атаки ближнего боя этого юнита имеют способность [DEVASTATING WOUNDS].',
     },
     special: {
       'CHOSEN OF THE EMPEROR':

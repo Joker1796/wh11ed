@@ -4000,7 +4000,7 @@ export default [
         "points": 105
       }
     ],
-    "flavor": "Rumbling up from the tortured ground amidst geysers of gore and skulls, these grotesque altars mar the land wherever the daemons of Khorne advance. They are sites of sacrifice, the blood shed atop them causing waves of wrathful unreality to roll out across the battlefield, spreading hate and destruction. UNIT COMPOSITION ■ 1 Skull Altar This model is equipped with: nothing.",
+    "flavor": "Rumbling up from the tortured ground amidst geysers of gore and skulls, these grotesque altars mar the land wherever the daemons of Khorne advance. They are sites of sacrifice, the blood shed atop them causing waves of wrathful unreality to roll out across the battlefield, spreading hate and destruction.",
     "profiles": [
       {
         "name": "Skull Altar",

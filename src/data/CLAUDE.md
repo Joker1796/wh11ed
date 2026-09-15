@@ -104,7 +104,7 @@ own `SHARED` list already assumed the correct fold — so only the EN files need
 
 ## Data gates
 
-Five checks fail the build rather than printing a report. Every one of them exists because a player
+These checks fail the build rather than printing a report. Every one of them exists because a player
 found the bug first: 09.07 Fall-back Move lost the word "shoot" in June and stayed wrong until
 September even though `sync-core` printed it on every run — one finding among 287 — and on
 2026-09-10 the same reader-before-gate pattern produced the two below it.
@@ -116,10 +116,26 @@ September even though `sync-core` printed it on every run — one finding among 
   lives. Deliberate condensations live in the script's `ALLOW` table with a written reason; the
   count of suppressed findings prints on every run, and an `ALLOW` entry that stops matching is
   reported as stale. Runs first inside `npm run sync` so its verdict is not buried.
-- **`npm run parity`** (`scripts/parity-check.mjs`) — EN↔RU. The faction pass was there already; the
-  rulebook pass (`basicRules`/`battleRound`/`advancedRules`/`battlefields`/`muster`/
-  `eventCompanion`, reference.js §24, `glossary.js`) was added when it turned out nothing enforced
-  the parity rule this file has always stated. See Bilingual content conventions.
+- **`npm run parity`** (`scripts/parity-check.mjs`) — EN↔RU, and now over **every** bilingual
+  surface in the repo, in four passes: faction data; the rulebook files (`basicRules`/`battleRound`/
+  `advancedRules`/`battlefields`/`muster`/`eventCompanion`/`intro`, reference.js §24, `glossary.js`);
+  the **datasheet overlays**; and `missionsRu` / `combatPatrolRu` / `factionFaqRu`. See Bilingual
+  content conventions. Two lessons are baked into it:
+  - **`eventCompanion` was listed but not actually walked until 2026-09-15** — its `en`/`ru` are a
+    MAP of chapters, not an array of numbered sections, and the walker returned on the first
+    `Array.isArray` guard. A gate naming a file it silently skips is worse than one that never
+    claimed it.
+  - **The datasheets — ~8900 field pairs, the biggest RU surface here — were checked by nothing at
+    all** until a coverage audit the same day. They needed their own pass because the overlay is
+    keyed by datasheet id and its ability maps by the ENGLISH ability name: a key that no longer
+    matches is not an error anywhere, it just silently renders the English text. The pass mirrors
+    `localizeSheet` (both spellings of the wargear/special keys, `abilitySets` option names, the
+    SM-Chapter spread) and carries a tripwire that fails loudly if that merge is rewritten.
+    First run: 9 real findings, including four RU texts keyed to abilities GW had renamed away.
+    It covers every keyed surface of the overlay: the four ability lists (both spellings, and an
+    error if an entry carries both — `localizeSheet`'s `||` would drop the second), the nested
+    `abilitySets` maps, and `abilityNamesRu`, the faction-wide EN-name → RU-header map (2493 keys,
+    of which 7 pointed at nothing). `aliasesRu` is deliberately out: it is search input, not rules.
 
 - **`npm run detmeta`** (`scripts/check-detachment-meta.mjs`) — a detachment's `dp` /
   `forceDisposition` in the hand-authored `src/data/factions/<slug>.js` against `src/data/mfm/`.
@@ -166,6 +182,26 @@ September even though `sync-core` printed it on every run — one finding among 
   would bold if they were capitalised; everything else it counts out loud. `scripts/lib/emphasis-baseline.json`
   holds the spots a pass could not place by machine — a WORK LIST, not an amnesty, and its size is
   printed on every run. `--baseline` re-records it; read the diff.
+
+- **`npm run layouts`** (`scripts/check-layout-art.mjs`) — the Event Companion's 45 Terrain Layout
+  diagrams against the artwork in the GW app's own APK (`../sources/apk`), recorded in
+  `scripts/lib/layout-art.json`. It exists because the pictures are in NO appdata table — the app
+  only ships them as compiled resources — so every reconciliation script we own was blind to them:
+  on 2026-08-26 GW redrew **27 of the 45** and wh11ed served the July battlefields for three weeks.
+  A redraw gets new FILENAMES (`-v3`), never a silent overwrite, because images are cached 30 days
+  by the bucket and forever by the service worker; `node scripts/extract-layout-images.mjs` does
+  the bump for exactly the changed ones. The gate also checks the bookkeeping (every referenced
+  file on disk, no orphans, data ↔ manifest versions agree) and re-reads `layoutEdges` off the
+  deployment-zone tint in each picture — a redraw can rotate a layout, and that table is
+  hand-written. Diagonal deployments tint both axes and are reported as unresolvable, not guessed.
+- **`npm run companions`** (`scripts/check-companion-pdfs.mjs`) — the four Event Companion PDFs in
+  `../sources` against `scripts/lib/companion-pdfs.json`: the VERSION we have actually read, and
+  every `Q:` of the Chapter Approved Mission Deck FAQ. That FAQ is in no appdata table at all
+  (checked by publicationId and ruleContainerId — zero rows), which is why the four answers added
+  on 2026-08-26 were missing until a player-driven audit found them. A republished PDF fails the
+  gate and prints GW's own WHAT'S NEW; `--write` re-records it once the change has landed.
+  Dominatus is tracked here as deliberately unimplemented — it only adapts the separate Dominatus
+  deck, whose contents GW ships nowhere (appdata's `mission_pack_location*` tables are empty).
 
 The first two share `scripts/lib/core-corpus.mjs` with `sync-core` — one normalization recipe, so the gate
 and the report can never disagree about what a rule says. A caveat that cost a day: appdata files

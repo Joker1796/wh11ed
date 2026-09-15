@@ -112,13 +112,16 @@ const measures = (s) =>
 // One EN/RU field pair, checked the same way wherever it comes from (a faction's rule body, a
 // rulebook subsection). `checkMeasures` is off for faction data: its numbers already ride along
 // inside the bracket abilities the pass compares verbatim.
-function checkPair(label, en, rutext, errors, notes, { checkMeasures = false } = {}) {
+// `starsBalance` exists for one field family: a datasheet's `options`/`composition` lines use a
+// trailing `**` as a FOOTNOTE MARKER ("…can be equipped with 1 master vox.**"), not as bold — so
+// an odd count there is the convention, not a defect. Everywhere else an unbalanced `**` is one.
+function checkPair(label, en, rutext, errors, notes, { checkMeasures = false, starsBalance = true } = {}) {
   const e = S(en)
   const r = S(rutext)
   if (e.trim() && !r.trim()) return errors.push(`${label}: RU missing (EN has text)`)
   if (!e.trim() && !r.trim()) return
-  if (stars(e) % 2) errors.push(`${label}: EN ** unbalanced (${stars(e)})`)
-  if (stars(r) % 2) errors.push(`${label}: RU ** unbalanced (${stars(r)})`)
+  if (starsBalance && stars(e) % 2) errors.push(`${label}: EN ** unbalanced (${stars(e)})`)
+  if (starsBalance && stars(r) % 2) errors.push(`${label}: RU ** unbalanced (${stars(r)})`)
   if (unders(e) % 2) errors.push(`${label}: EN __ unbalanced`)
   if (unders(r) % 2) errors.push(`${label}: RU __ unbalanced`)
   if (markerSig(e) !== markerSig(r)) errors.push(`${label}: block markers EN [${markerSig(e)}] vs RU [${markerSig(r)}]`)
@@ -194,8 +197,8 @@ console.log(`\n${checked} faction(s) checked, ${totalErrors} error(s).`)
 // side by side. A shape mismatch (one side gained a subsection the other did not) is reported
 // once and that branch is not descended into — the positional pairing below it would be
 // meaningless and would bury the real finding under dozens of false ones.
-const RULE_FILES = ['basicRules', 'battleRound', 'advancedRules', 'battlefields', 'muster', 'eventCompanion']
-const TEXT_FIELDS = ['description', 'body', 'note', 'example', 'fullText']
+const RULE_FILES = ['basicRules', 'battleRound', 'advancedRules', 'battlefields', 'muster', 'eventCompanion', 'intro']
+const TEXT_FIELDS = ['description', 'body', 'note', 'example', 'fullText', 'intro', 'q', 'a', 'errata', 'keyNote', 'tableNote', 'authorNote', 'lore', 'missions', 'app']
 
 if (!only) {
   const errors = []
@@ -219,13 +222,41 @@ if (!only) {
       }
       walk(e.subsections, r.subsections, here)
       walk(e.children, r.children, here)
+      // Event Companion chapters keep their prose in `blocks` (plus the two extra arrays the
+      // Sequence chapter splits out), not in `subsections`.
+      walk(e.blocks, r.blocks, here)
     })
+  }
+
+  // The core-rules files are arrays of numbered sections; the Event Companion is a MAP of
+  // chapters instead (`{ sequence, terrain, pairings, teams, doubles, twists, faq }`), each
+  // with its own prose fields and `blocks`. It had been in RULE_FILES since the rulebook pass
+  // was written, and `walk`'s `Array.isArray` guard silently dropped the whole file on the
+  // floor — a gate listed as covering it and covering none of it. This descends the map to the
+  // arrays `walk` understands. RU inherits a field wholesale by leaving it undefined (ids,
+  // images, mission-deck card names), so a key missing on the RU side is skipped, not an error.
+  const walkTree = (en, ru, label) => {
+    if (Array.isArray(en)) return walk(en, ru, label)
+    if (!en || typeof en !== 'object' || !ru || typeof ru !== 'object') return
+    for (const [key, ev] of Object.entries(en)) {
+      const rv = ru[key]
+      if (rv === undefined || rv === null) continue
+      if (typeof ev === 'string') {
+        if (!TEXT_FIELDS.includes(key) || (!S(ev) && !S(rv))) continue
+        pairs++
+        checkPair(`${label}.${key}`, ev, rv, errors, notes, { checkMeasures: true })
+      } else if (Array.isArray(ev)) {
+        walk(ev, rv, `${label}.${key}`)
+      } else if (ev && typeof ev === 'object') {
+        walkTree(ev, rv, `${label}.${key}`)
+      }
+    }
   }
 
   for (const f of RULE_FILES) {
     const mod = await loadModule(path.join(ROOT, 'src', 'data', `${f}.js`))
     const data = mod[Object.keys(mod)[0]]
-    walk(data.en, data.ru, f)
+    walkTree(data.en, data.ru, f)
   }
   // reference.js keeps §24 in two exports of its own shape: the framework subsections and the
   // flat ability list (whose text field is `fullText`, already in TEXT_FIELDS).
@@ -248,6 +279,287 @@ if (!only) {
   // time of writing. Printing all of them every run is how a gate stops being read; ask for them.
   if (notes.length && args.includes('--notes')) for (const n of notes) console.log(`    · ${n}`)
   else if (notes.length) console.log(`    · ${notes.length} ** / __ count note(s) — run with --notes to list`)
+  if (!errors.length && !notes.length) console.log('    ✓ no differences')
+}
+
+// ---- pass 3: the datasheets, EN↔RU (skipped by --faction, like the rulebook pass) -------------
+// The single biggest RU surface in the repo — ~2300 ability texts across 30 factions — and until
+// 2026-09-15 nothing checked it: the faction pass above reads `factions/<slug>.js` only, and the
+// datasheet overlays live in their own tree. A coverage audit ran this by hand and found nine real
+// findings on the first pass, including four RU ability texts keyed to a name no datasheet carries
+// any more — a translation that silently never reaches the reader.
+//
+// The overlay is sparse and keyed by DATASHEET ID, and its ability maps are keyed by the ENGLISH
+// ability name (see localizeSheet in src/data/datasheets/ru/index.js). That is what makes a stale
+// key invisible at runtime: nothing matches, so nothing is translated, and the card renders the
+// English text with no error anywhere. Hence the two questions here — does every overlay key still
+// name something that exists, and does the text it carries have the same shape as its EN twin.
+if (!only) {
+  const errors = []
+  const notes = []
+  let pairs = 0
+  let units = 0
+  const dsDir = path.join(ROOT, 'src', 'data', 'datasheets')
+  const dsRuDir = path.join(dsDir, 'ru')
+  // Mirrors localizeSheet's own key handling. The two-spelling entries are not sloppiness we are
+  // tolerating: the earlier overlays were authored as `wargear`/`special` and the later ones as
+  // `wargearAbilities`/`specialAbilities`, and the merge accepts both — so must this, or half the
+  // texts would read as unchecked.
+  const ABILITY_LISTS = [
+    ['abilities', ['abilities']],
+    ['wargearAbilities', ['wargearAbilities', 'wargear']],
+    ['specialAbilities', ['specialAbilities', 'special']],
+    ['rules', ['rules']],
+  ]
+  const STRING_FIELDS = ['flavor', 'loadout', 'transport']
+
+  // Tripwire: if localizeSheet stops spelling the aliases this pass assumes, the pass is checking
+  // the wrong fields and would go quiet rather than wrong-loud. Cheap to assert, so assert.
+  const ruIndexSrc = fs.readFileSync(path.join(dsRuDir, 'index.js'), 'utf8')
+  for (const expected of ['o.wargearAbilities || o.wargear', 'o.specialAbilities || o.special']) {
+    if (!ruIndexSrc.includes(expected)) {
+      notes.push(`localizeSheet no longer contains "${expected}" — re-read it, this pass mirrors its key handling`)
+    }
+  }
+
+  const dsFiles = fs
+    .readdirSync(dsDir)
+    .filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js'))
+  const enMods = {}
+  for (const f of dsFiles) enMods[f.replace('.js', '')] = await loadModule(path.join(dsDir, f))
+  const listOf = (mod) => Object.values(mod || {}).find((v) => Array.isArray(v) && v[0] && v[0].id) || []
+  // Every name an overlay may legitimately key on: the four ability lists, each set's own name,
+  // and the options inside it.
+  const abilityNamesOf = (u) => [
+    ...(u.abilities || []),
+    ...(u.wargearAbilities || []),
+    ...(u.specialAbilities || []),
+    ...(u.rules || []),
+    ...(u.abilitySets || []).flatMap((set) => set.options || []),
+  ].map((a) => a.name).concat((u.abilitySets || []).map((set) => set.name))
+  const smList = listOf(enMods['space-marines'])
+
+  for (const slug of Object.keys(enMods)) {
+    const ruFile = path.join(dsRuDir, `${slug}.js`)
+    if (!fs.existsSync(ruFile)) continue
+    const overlay = (await loadModule(ruFile))?.default || {}
+    // The 5 SM-Chapter codices don't duplicate a datasheet identical to the shared pool; their RU
+    // overlay legitimately carries entries for those folded-in ids (see ../index.js sharedIdsFor).
+    const en = [...listOf(enMods[slug])]
+    for (const id of enMods[slug]?.sharedUnitIds || []) {
+      const u = smList.find((x) => x.id === id)
+      if (u) en.push(u)
+    }
+    const byId = new Map(en.map((u) => [u.id, u]))
+
+    for (const [id, o] of Object.entries(overlay)) {
+      const u = byId.get(id)
+      if (!u) {
+        errors.push(`datasheets/ru/${slug}.js: overlay for "${id}" — no datasheet has that id`)
+        continue
+      }
+      units++
+      const here = `${slug}/${id}`
+      for (const f of STRING_FIELDS) {
+        if (typeof o[f] !== 'string') continue
+        pairs++
+        checkPair(`${here}.${f}`, u[f], o[f], errors, notes)
+      }
+      // composition/options are full-replacement arrays authored in EN order, so a length that
+      // drifted means a line of the EN list has no RU twin (or gained one that isn't there).
+      for (const f of ['composition', 'options']) {
+        if (!Array.isArray(o[f]) || !Array.isArray(u[f])) continue
+        if (o[f].length !== u[f].length) {
+          errors.push(`${here}.${f}: EN has ${u[f].length} line(s), RU ${o[f].length}`)
+          continue
+        }
+        o[f].forEach((line, i) => {
+          pairs++
+          checkPair(`${here}.${f}[${i}]`, u[f][i], line, errors, notes, { starsBalance: false })
+        })
+      }
+      for (const f of ['damaged', 'leader']) {
+        if (!o[f] || typeof o[f] !== 'object') continue
+        for (const [k, v] of Object.entries(o[f])) {
+          if (typeof v !== 'string') continue
+          pairs++
+          checkPair(`${here}.${f}.${k}`, u[f]?.[k], v, errors, notes)
+        }
+      }
+      // A set's options are localized from the same `special`/`specialAbilities` map (localizeSheet
+      // keeps that fallback so overlays written before the grouping still apply), so they count as
+      // valid keys for it — reporting them as stale is how this pass first lied to me.
+      const setOptions = (u.abilitySets || []).flatMap((set) => set.options || [])
+      // The 5 SM-Chapter RU overlays are built by SPREADING the space-marines entry for the same id
+      // and overriding a field or two (`...smRu.repulsor`). Where the Chapter has its own datasheet
+      // for that id, the inherited keys name the generic sheet's abilities and simply don't apply —
+      // inapplicable, not stale. Judge those against the generic sheet too, or the pass invents a
+      // finding for every Chapter-unique variant of a shared unit.
+      const smTwin = smList.find((x) => x.id === id)
+      // `abilitySets` — the "pick one" groups on Primarch-grade sheets. Overlay shape is its own:
+      // { [setName]: { name?, options: { [enName]: ruText | {name,text} } } }. Small (4 sheets, 10
+      // texts) but the only overlay whose keys are nested two deep, so a rename rots twice as quietly.
+      for (const [setName, set] of Object.entries(o.abilitySets || {})) {
+        const enSet = (u.abilitySets || []).find((x) => x.name === setName)
+        if (!enSet) {
+          errors.push(`${here}.abilitySets: RU text keyed "${setName}" — the datasheet has no ability set of that name`)
+          continue
+        }
+        for (const [optName, val] of Object.entries(set.options || {})) {
+          const opt = (enSet.options || []).find((x) => x.name === optName)
+          if (!opt) {
+            errors.push(`${here}.abilitySets["${setName}"]: RU text keyed "${optName}" — that set has no such option`)
+            continue
+          }
+          const text = typeof val === 'string' ? val : val?.text
+          if (typeof text !== 'string') continue
+          pairs++
+          checkPair(`${here}.abilitySets["${setName}"] "${optName}"`, opt.text, text, errors, notes)
+        }
+      }
+      for (const [enKey, ruKeys] of ABILITY_LISTS) {
+        // localizeSheet resolves the two spellings with `o.wargearAbilities || o.wargear`, so an
+        // entry carrying BOTH silently drops the short-form map on the floor. None do today; the
+        // day one does, the texts under it would read as translated and never render.
+        if (ruKeys.length > 1 && ruKeys.every((k) => o[k])) {
+          errors.push(`${here}: overlay has both \`${ruKeys[0]}\` and \`${ruKeys[1]}\` — localizeSheet reads only the first, so the second never renders`)
+        }
+        for (const rk of ruKeys) {
+          const map = o[rk]
+          if (!map || typeof map !== 'object' || Array.isArray(map)) continue
+          const pool = [
+            ...(u[enKey] || []),
+            ...(enKey === 'specialAbilities' ? setOptions : []),
+            ...(smTwin && smTwin !== u ? smTwin[enKey] || [] : []),
+          ]
+          for (const [name, val] of Object.entries(map)) {
+            const a = pool.find((x) => x.name === name)
+            if (!a) {
+              errors.push(`${here}.${rk}: RU text keyed "${name}" — no ${enKey} of that name on the datasheet, so it never reaches the reader`)
+              continue
+            }
+            const text = typeof val === 'string' ? val : val?.text
+            if (typeof text !== 'string') continue
+            pairs++
+            checkPair(`${here}.${rk} "${name}"`, a.text, text, errors, notes)
+          }
+        }
+      }
+    }
+
+    // `abilityNamesRu` translates the ability NAME in the card header, keyed by the English name
+    // for the whole faction at once (2493 entries across the repo). Nothing pointed at a name that
+    // no longer exists would fail — the header would just stay English — so check the keys resolve.
+    // The 5 SM-Chapter maps are built as `{ ...smNames, ...own }`, so a generic name they inherit
+    // but do not field is inapplicable, not stale: judge those against the whole space-marines pool.
+    const ruMod = await loadModule(ruFile)
+    const isChapter = (enMods[slug]?.sharedUnitIds || []).length > 0
+    const pool = new Set(en.flatMap(abilityNamesOf))
+    if (isChapter) for (const n of smList.flatMap(abilityNamesOf)) pool.add(n)
+    for (const key of Object.keys(ruMod?.abilityNamesRu || {})) {
+      if (!pool.has(key)) {
+        errors.push(`datasheets/ru/${slug}.js abilityNamesRu: "${key}" names no ability on any ${slug} datasheet — the header it was written for is gone`)
+      }
+    }
+  }
+
+  totalErrors += errors.length
+  console.log(`\ndatasheets EN↔RU — ${units} localized sheet(s), ${pairs} field pair(s), ${errors.length} error(s)${notes.length ? `, ${notes.length} note(s)` : ''}`)
+  for (const e of errors) console.log(`    ✗ ${e}`)
+  if (notes.length && args.includes('--notes')) for (const n of notes) console.log(`    · ${n}`)
+  else if (notes.length) console.log(`    · ${notes.length} note(s) — run with --notes to list`)
+  if (!errors.length && !notes.length) console.log('    ✓ no differences')
+}
+
+// ---- pass 4: the overlays nothing else reads — missions, Combat Patrol, faction FAQ ----------
+// Three more sparse RU overlays that no script touched before the same audit. Mission cards are
+// rules (they are how VP is scored), Combat Patrol is a whole second rulebook for its 24 boxes,
+// and the per-faction FAQ overlay is index-aligned by hand after every `npm run faq`.
+if (!only) {
+  const errors = []
+  const notes = []
+  let pairs = 0
+
+  // missions.js ↔ missionsRu.js — primary keyed by slug, secondary by `slug|role`.
+  const { missions } = await loadModule(path.join(ROOT, 'src', 'data', 'missions.js'))
+  const { missionsRu } = await loadModule(path.join(ROOT, 'src', 'data', 'missionsRu.js'))
+  const missionPair = (label, en, ru) => {
+    if (!ru) return errors.push(`${label}: no RU entry`)
+    const enBlocks = en.blocks || []
+    const ruBlocks = ru.blocks || []
+    if (enBlocks.length !== ruBlocks.length) {
+      return errors.push(`${label}: ${enBlocks.length} EN block(s) vs ${ruBlocks.length} RU`)
+    }
+    enBlocks.forEach((b, i) => {
+      const rb = ruBlocks[i]
+      pairs++
+      checkPair(`${label} block ${i} · when`, b.when, rb.when, errors, notes)
+      const enRows = b.rows || []
+      const ruRows = rb.rows || []
+      if (enRows.length !== ruRows.length) {
+        return errors.push(`${label} block ${i}: ${enRows.length} EN row(s) vs ${ruRows.length} RU`)
+      }
+      enRows.forEach((row, j) => {
+        pairs++
+        checkPair(`${label} block ${i} row ${j}`, typeof row === 'string' ? row : row.text, typeof ruRows[j] === 'string' ? ruRows[j] : ruRows[j]?.text, errors, notes)
+      })
+    })
+  }
+  for (const m of missions.en.primary) missionPair(`mission ${m.slug}`, m, missionsRu.primary?.[m.slug])
+  for (const m of missions.en.secondary) missionPair(`mission ${m.slug}|${m.role}`, m, missionsRu.secondary?.[`${m.slug}|${m.role}`])
+
+  // combatPatrol.js — compare the MERGED ru tree against en, which is what the reader gets
+  // (deepOverlay matches array entries by name/id, so comparing the raw overlay by index lies).
+  const { combatPatrol } = await loadModule(path.join(ROOT, 'src', 'data', 'combatPatrol.js'))
+  const cpEn = combatPatrol.en.factions || []
+  const cpRu = combatPatrol.ru.factions || []
+  cpEn.forEach((f, i) => {
+    const r = cpRu[i]
+    if (!r) return errors.push(`combat patrol ${f.name}: no RU side`)
+    for (const key of ['rule', 'armyRule']) {
+      if (!f[key]?.body) continue
+      pairs++
+      checkPair(`combat patrol ${f.name} · ${key}`, f[key].body, r[key]?.body, errors, notes)
+    }
+    ;(f.stratagems || []).forEach((st, j) => {
+      const rs = (r.stratagems || [])[j]
+      pairs++
+      checkPair(`combat patrol ${f.name} · stratagem "${st.name}"`, st.effect, rs?.effect, errors, notes)
+    })
+    ;(f.enhancements || []).forEach((eh, j) => {
+      const re = (r.enhancements || [])[j]
+      pairs++
+      checkPair(`combat patrol ${f.name} · enhancement "${eh.name}"`, eh.body ?? eh.text, re?.body ?? re?.text, errors, notes)
+    })
+  })
+
+  // factionFaq.json ↔ factionFaqRu.json — the RU side is an index-aligned overlay, re-aligned by
+  // hand after every `npm run faq`; a shifted index silently answers the wrong question.
+  const faqEn = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionFaq.json'), 'utf8'))
+  const faqRu = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionFaqRu.json'), 'utf8'))
+  for (const [slug, entry] of Object.entries(faqEn)) {
+    const enItems = Array.isArray(entry) ? entry : entry.items || []
+    const ruEntry = faqRu[slug]
+    const ruItems = Array.isArray(ruEntry) ? ruEntry : ruEntry?.items || []
+    if (!ruEntry) {
+      if (enItems.length) notes.push(`faction FAQ ${slug}: ${enItems.length} EN item(s), no RU overlay`)
+      continue
+    }
+    if (enItems.length !== ruItems.length) {
+      errors.push(`faction FAQ ${slug}: ${enItems.length} EN item(s) vs ${ruItems.length} RU — the overlay is index-aligned`)
+      continue
+    }
+    enItems.forEach((it, i) => {
+      pairs++
+      checkPair(`faction FAQ ${slug}[${i}] · a`, it.a ?? it.answer, ruItems[i]?.a ?? ruItems[i]?.answer, errors, notes)
+    })
+  }
+
+  totalErrors += errors.length
+  console.log(`\nmissions / combat patrol / faction FAQ EN↔RU — ${pairs} field pair(s), ${errors.length} error(s)${notes.length ? `, ${notes.length} note(s)` : ''}`)
+  for (const e of errors) console.log(`    ✗ ${e}`)
+  if (notes.length && args.includes('--notes')) for (const n of notes) console.log(`    · ${n}`)
+  else if (notes.length) console.log(`    · ${notes.length} note(s) — run with --notes to list`)
   if (!errors.length && !notes.length) console.log('    ✓ no differences')
 }
 

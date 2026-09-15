@@ -848,7 +848,6 @@ export const abilityNamesRu = {
   'Suppression Volley': 'Подавляющий залп',
   'Pulse Bombs': 'Импульсные бомбы',
   'Coordinated Strike': 'Скоординированный удар',
-  'Super-heavy Walker': 'Сверхтяжёлый шагоход',
   'Exemplars of Mont’ka': 'Образцы Mont’ka',
   'Neocapacitor Shields': 'Неоконденсаторные щиты',
   'Retro-thrusters': 'Ретро-двигатели',

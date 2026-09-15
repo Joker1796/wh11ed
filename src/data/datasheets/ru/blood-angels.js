@@ -197,7 +197,7 @@ export default {
     abilities: {
       'Black Rage': BLACK_RAGE,
       'Visions of Heresy':
-        'Этот юнит может перебрасывать броски нападения. Когда вы нацеливаете стратагему Fire Overwatch или Heroic Intervention на этот юнит, это применение стоит на 1 CP меньше.',
+        '▪ Этот юнит может перебрасывать броски нападения.\n▪ Когда вы нацеливаете стратагему Fire Overwatch или Heroic Intervention на этот юнит, это применение стоит на 1 CP меньше.',
     },
     loadout: `${EQUIP_EVERY} bolt pistol; bolt rifle; close combat weapon.`,
     options: [

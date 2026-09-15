@@ -1899,7 +1899,7 @@ export default [
     "abilities": [
       {
         "name": "Talonstrike Doctrines",
-        "text": "Each time this unit is set up on the battlefield, until the end of the turn: ■ Improve the Armour Penetration characteristic of weapons equipped by models in this unit by 1. ■ Melee weapons equipped by models in this unit have the [**LANCE**] ability"
+        "text": "Each time this unit is set up on the battlefield, until the end of the turn:\n▪ Improve the Armour Penetration characteristic of weapons equipped by models in this unit by 1.\n▪ Melee weapons equipped by models in this unit have the [LANCE] ability"
       }
     ],
     "specialAbilities": [
