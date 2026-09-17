@@ -74,9 +74,29 @@ function mockMeta(g) {
   }
 }
 
+// A shared game (useParty.js) cannot be mocked: its whole point is another phone reached
+// through a real server. On the stand the mock forwards /party calls to the local backend with
+// a token that backend minted for the purpose (`npm run dev:jwt` in wh11ed-api), pasted into
+// localStorage under this key. Without one, the forwarded call is simply 401 — the dialog
+// then says the sync errored, which is the truth.
+const DEV_JWT_KEY = 'wh11ed-dev-jwt'
+function devJwt() {
+  try { return localStorage.getItem(DEV_JWT_KEY) || '' } catch { return '' }
+}
+
 // Stand-in for the API: same shapes useCloudSync expects, no network.
 function mockFetch(path, opts = {}) {
   const method = (opts.method || 'GET').toUpperCase()
+  if (path.startsWith('/party')) {
+    return fetch(api(path), {
+      ...opts,
+      headers: {
+        ...(opts.headers || {}),
+        Authorization: `Bearer ${devJwt()}`,
+        ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
+      },
+    })
+  }
   if (path === '/me') return mockJson(MOCK_USER)
   if (path === '/games' && method === 'GET') {
     return mockJson({ games: [...mockCloud.values()].map(mockMeta) })

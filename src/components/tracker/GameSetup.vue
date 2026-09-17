@@ -329,35 +329,6 @@
             </div>
           </div>
 
-          <!-- A div, not a label, for the same reason as Force type: the help button. -->
-          <div class="field">
-            <span>
-              {{ labels.trackerRole }}
-              <button
-                type="button"
-                class="help-btn"
-                :aria-label="labels.trackerRoleHelpAria"
-                @click="roleHelpOpen = true"
-              >
-                <i class="bi bi-question-circle" />
-              </button>
-            </span>
-            <div class="seg">
-              <button
-                :class="{ on: p.role === 'attacker' }"
-                @click="setRole(i, 'attacker')"
-              >
-                {{ labels.trackerAttacker }}
-              </button>
-              <button
-                :class="{ on: p.role === 'defender' }"
-                @click="setRole(i, 'defender')"
-              >
-                {{ labels.trackerDefender }}
-              </button>
-            </div>
-          </div>
-
           <label
             class="check br-check"
             :class="{ on: p.battleReady }"
@@ -573,67 +544,107 @@
       </div>
     </div>
 
-    <!-- ───────── Step 3 — Field & deployment (layout, first turn) ───────── -->
+    <!-- ───────── Step 3 — Field & deployment (attacker, layout, first turn) ───────── -->
     <div
       v-show="step === 3"
       :ref="el => (panelEls[2] = el)"
       class="step-panel"
     >
-      <div class="settings layout-block">
-        <h3 class="block-head">
-          {{ labels.trackerLayoutHeading }}
-        </h3>
-        <p class="layout-note">
-          {{ labels.trackerLayoutNote }}
-        </p>
-        <template v-if="layouts.length">
-          <div class="tabs">
-            <button
-              v-for="l in layouts"
-              :key="l.id"
-              class="tab"
-              :class="{ active: settings.layout === l.id }"
-              @click="selectLayout(l.id)"
-            >
-              <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
-            </button>
-            <button
-              class="tab"
-              :class="{ active: settings.layout === 'custom' }"
-              @click="layoutPickerOpen = true"
-            >
-              {{ labels.trackerLayoutCustom }}
-            </button>
+      <!-- Attacker / Defender belongs here, not on the army cards (where it sat until
+           2026-09-17): in the Mission Sequence it is rolled for after the mission and before
+           deployment, and what it decides is the side of the table — the layout below marks the
+           Attacker's and the Defender's edges. The roles are linked, so it is one control asking
+           who the Attacker is, not two segs that flip each other. The secondary decks differ by
+           role too, but the fixed cards are the same four in both, so a choice made on step 2 —
+           against the default roles — survives a flip here. -->
+      <!-- Desktop (>700px, the same threshold as the two player cards on steps 1–2): the layout
+           on the left, the two deployment questions in one card on the right, and the picture
+           capped to the height the screen has left — so the step fits one screen, like the two
+           before it. On a phone the same DOM stacks: questions, then the layout. -->
+      <div class="two-col deploy-grid">
+        <div class="settings deploy-opts deploy-card">
+          <div class="field">
+            <span>
+              {{ labels.trackerAttacker }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerRoleHelpAria"
+                @click="roleHelpOpen = true"
+              >
+                <i class="bi bi-question-circle" />
+              </button>
+            </span>
+            <div class="seg">
+              <button
+                :class="{ on: players[0].role === 'attacker' }"
+                @click="setRole(0, 'attacker')"
+              >
+                {{ playerLabel(0) }}
+              </button>
+              <button
+                :class="{ on: players[1].role === 'attacker' }"
+                @click="setRole(1, 'attacker')"
+              >
+                {{ playerLabel(1) }}
+              </button>
+            </div>
           </div>
-          <LayoutCard
-            v-if="currentLayout"
-            :layout="currentLayout"
-          />
-        </template>
-        <p
-          v-else
-          class="det-empty"
-        >
-          {{ labels.trackerLayoutPending }}
-        </p>
-      </div>
+          <!-- Who deploys first sits with the layout: both answer "where and in what order do we
+               set up", and neither is a setting of the app. -->
+          <label class="field">
+            <span>{{ labels.trackerFirstTurn }}</span>
+            <div class="seg">
+              <button
+                :class="{ on: settings.firstTurn === 1 }"
+                @click="settings.firstTurn = 1"
+              >{{ labels.trackerYou }}</button>
+              <button
+                :class="{ on: settings.firstTurn === 2 }"
+                @click="settings.firstTurn = 2"
+              >{{ labels.trackerOpponent }}</button>
+            </div>
+          </label>
+        </div>
 
-      <!-- Who deploys first sits with the layout: both answer "where and in what order do we set
-           up", and neither is a setting of the app. -->
-      <div class="settings deploy-opts">
-        <label class="field">
-          <span>{{ labels.trackerFirstTurn }}</span>
-          <div class="seg">
-            <button
-              :class="{ on: settings.firstTurn === 1 }"
-              @click="settings.firstTurn = 1"
-            >{{ labels.trackerYou }}</button>
-            <button
-              :class="{ on: settings.firstTurn === 2 }"
-              @click="settings.firstTurn = 2"
-            >{{ labels.trackerOpponent }}</button>
-          </div>
-        </label>
+        <div class="settings layout-block">
+          <h3 class="block-head">
+            {{ labels.trackerLayoutHeading }}
+          </h3>
+          <p class="layout-note">
+            {{ labels.trackerLayoutNote }}
+          </p>
+          <template v-if="layouts.length">
+            <div class="tabs">
+              <button
+                v-for="l in layouts"
+                :key="l.id"
+                class="tab"
+                :class="{ active: settings.layout === l.id }"
+                @click="selectLayout(l.id)"
+              >
+                <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
+              </button>
+              <button
+                class="tab"
+                :class="{ active: settings.layout === 'custom' }"
+                @click="layoutPickerOpen = true"
+              >
+                {{ labels.trackerLayoutCustom }}
+              </button>
+            </div>
+            <LayoutCard
+              v-if="currentLayout"
+              :layout="currentLayout"
+            />
+          </template>
+          <p
+            v-else
+            class="det-empty"
+          >
+            {{ labels.trackerLayoutPending }}
+          </p>
+        </div>
       </div>
 
       <div class="actions">
@@ -659,43 +670,48 @@
       :ref="el => (panelEls[3] = el)"
       class="step-panel"
     >
-      <div class="settings deploy-opts">
-        <label class="field">
-          <span>
-            {{ labels.trackerScoreMode }}
-            <button
-              type="button"
-              class="help-btn"
-              :aria-label="labels.trackerScoreHelp"
-              @click="scoreHelpOpen = true"
-            ><i class="bi bi-question-circle" /></button>
-          </span>
-          <div class="seg">
-            <button
-              :class="{ on: settings.scoreMode === 'vp' }"
-              @click="settings.scoreMode = 'vp'"
-            >{{ labels.trackerScoreVp }}</button>
-            <button
-              :class="{ on: settings.scoreMode === 'bp' }"
-              @click="settings.scoreMode = 'bp'"
-            >{{ labels.trackerScoreBp }}</button>
-          </div>
-        </label>
-      </div>
-
-      <div class="settings">
-        <TrackOptions
-          :settings="settings"
-          :ctx="trackCtx"
-          group="game"
-        />
-        <TrackOptions
-          :settings="settings"
-          :ctx="trackCtx"
-          group="roster"
-          heading="trackerRosterHeading"
-          guide
-        />
+      <!-- Two cards, side by side on desktop: what is about the GAME (the score mode and the
+           `game` option group) and what is about the attached LIST (the `roster` group) — the
+           split trackerOptions.js already makes. Thirteen rows in one column ran past a screen;
+           two columns of six or seven fit one, like the steps before. -->
+      <div class="two-col">
+        <div class="settings deploy-opts">
+          <label class="field">
+            <span>
+              {{ labels.trackerScoreMode }}
+              <button
+                type="button"
+                class="help-btn"
+                :aria-label="labels.trackerScoreHelp"
+                @click="scoreHelpOpen = true"
+              ><i class="bi bi-question-circle" /></button>
+            </span>
+            <div class="seg">
+              <button
+                :class="{ on: settings.scoreMode === 'vp' }"
+                @click="settings.scoreMode = 'vp'"
+              >{{ labels.trackerScoreVp }}</button>
+              <button
+                :class="{ on: settings.scoreMode === 'bp' }"
+                @click="settings.scoreMode = 'bp'"
+              >{{ labels.trackerScoreBp }}</button>
+            </div>
+          </label>
+          <TrackOptions
+            :settings="settings"
+            :ctx="trackCtx"
+            group="game"
+          />
+        </div>
+        <div class="settings deploy-opts">
+          <TrackOptions
+            :settings="settings"
+            :ctx="trackCtx"
+            group="roster"
+            heading="trackerRosterHeading"
+            guide
+          />
+        </div>
       </div>
 
       <div class="actions">
@@ -1397,7 +1413,7 @@ function cancel() {
   .player-card,
   .settings { --pc-pad: 0.5rem; }
 }
-/* The two-or-three control cards on steps 3 and 4: stacked, each on its own line. */
+/* A control card whose fields stack, each on its own line (steps 3 and 4). */
 .deploy-opts {
   flex-direction: column;
   align-items: stretch;
@@ -1405,6 +1421,41 @@ function cancel() {
 }
 .layout-block {
   display: block;
+}
+/* Steps 3 and 4 on desktop: two columns, the same threshold the player cards of steps 1–2 use,
+   so each step fits one screen the way those do. Below it the same DOM simply stacks. */
+.two-col {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--stack-gap);
+  align-items: start;
+}
+.two-col > .settings { margin-top: 0; }
+/* On a phone the two deployment questions share one row — each is a label over a two-word
+   switch, and a column of them spent two rows on what fits in one. They still wrap on a screen
+   too narrow for the pair (~330px). Desktop keeps them stacked in the side column. */
+@media (max-width: 700px) {
+  .deploy-card { flex-direction: row; flex-wrap: wrap; gap: 0.9rem 1.25rem; }
+  .deploy-card .field { flex: 1 1 9rem; min-width: 0; }
+  .deploy-card .seg { display: flex; width: 100%; }
+  .deploy-card .seg button { flex: 1 1 auto; text-align: center; }
+}
+@media (min-width: 701px) {
+  .two-col { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* The layout is the picture, so it takes two thirds and the questions one; DOM order is
+     questions first (a phone reads them before the picture), the grid puts the picture left. */
+  .deploy-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  .deploy-grid .layout-block { order: -1; }
+  /* The picture is what made this step scroll: cap it to what the screen has left after the
+     chrome (header 96px, stepper, card head/hint/tabs, caption, the buttons — ~30rem all told),
+     let it be narrower than the card, centred; the full size is still one click away. */
+  .layout-block :deep(.layout-card .layout-img) {
+    width: auto;
+    max-width: 100%;
+    max-height: max(260px, calc(100dvh - 30rem));
+    margin: 0 auto;
+  }
 }
 .block-head {
   font-family: var(--font-display);

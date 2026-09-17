@@ -23,9 +23,14 @@
       <ScoreBoard :finished="true" />
       <ScoreBreakdown />
       <ArmyRuleSummary />
+      <!-- A shared game reopens only from the host's phone (the server refuses everyone else);
+           a guest sees the button disabled with the reason. "Back to tracker" archives the game
+           on this phone either way — for a guest that is how the game becomes theirs to keep. -->
       <div class="finished-actions">
         <button
           class="btn-ghost"
+          :disabled="!canResume"
+          :title="canResume ? '' : labels.partyResumeHostOnly"
           @click="resume"
         >
           {{ labels.trackerResume }}
@@ -34,7 +39,7 @@
           class="btn-primary"
           @click="backToTracker"
         >
-          {{ labels.trackerBackToTracker }}
+          {{ partyActive && !isHost ? labels.partySaveToHistory : labels.trackerBackToTracker }}
         </button>
       </div>
     </div>
@@ -42,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import SetupLoading from '../../components/tracker/SetupLoading.vue'
 // Async: GameSetup pulls in the faction/detachment dataset (mfmFactions.js, ~290 KB via
@@ -61,11 +66,18 @@ import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { useParty } from '../../composables/useParty.js'
 
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, newGame, resumeGame, archiveGame } = useTracker()
+
+// This is a LIVE screen of the game: while it is up, a shared game polls for the other phones'
+// changes (useParty's gate); leaving it sends what is pending and stops the polling.
+const { active: partyActive, isHost, canResume, attach, detach } = useParty()
+onMounted(attach)
+onUnmounted(detach)
 
 const END_REASON_LABELS = {
   played: 'trackerEndPlayed',
@@ -85,7 +97,7 @@ function goHome() {
   router.push('/tracker')
 }
 function resume() {
-  resumeGame()
+  if (canResume.value) resumeGame()
 }
 function backToTracker() {
   archiveGame()

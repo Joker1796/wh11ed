@@ -701,3 +701,85 @@ describe('doubles', () => {
     expect(mod.isValidGame(JSON.parse(JSON.stringify(tracker.current.value)))).toBe(true)
   })
 })
+
+// P0 of multi-device sync (hub journal 2026-09-16-multi-device-sync): the store takes another
+// device's slice through ONE door, and the tree it leaves behind is a game every other reader
+// already trusts.
+describe('applyRemote (multi-device sync)', () => {
+  let sliceGame
+  beforeEach(async () => { ({ sliceGame } = await import('./gameSlices.js')) })
+
+  it('lands the other side\'s slice on a valid tree and leaves this side\'s edits alone', () => {
+    tracker.newGame(setupGame())
+    tracker.setRoundPrimary(0, 0, 12)
+    tracker.setCp(0, 3)
+    tracker.setUnitCondition(0, 'u1', 'charged', 120, true)
+    const mine = tracker.current.value.players[0]
+    const theirs = tracker.current.value.players[1]
+
+    // The opponent's phone: same game, their side scored and drawn on.
+    const remote = JSON.parse(JSON.stringify(tracker.current.value))
+    remote.players[1].cp = 6
+    remote.players[1].rounds[0].primary = 10
+    remote.players[1].secondary.hand = [remote.players[1].secondary.deck[0]]
+    remote.players[1].secondary.deck = remote.players[1].secondary.deck.slice(1)
+    remote.players[1].isYou = true // on THEIR phone, side 1 is You
+    remote.players[0].cp = 0       // stale on their phone — must not come back through side1
+
+    expect(tracker.applyRemote('side1', sliceGame(remote).side1)).toBe(true)
+    const g = tracker.current.value
+    expect(mod.isValidGame(JSON.parse(JSON.stringify(g)))).toBe(true)
+    expect(g.players[1]).toBe(theirs)
+    expect(g.players[0]).toBe(mine)
+    expect(g.players[1].cp).toBe(6)
+    expect(g.players[1].secondary.hand).toHaveLength(1)
+    expect(g.players[1].isYou).toBe(false)
+    expect(g.players[0].cp).toBe(3)
+    expect(g.players[0].rounds[0].primary).toBe(12)
+    expect(g.players[0].ctx.units.u1.charged).toBe(120)
+    // The scoring engine reads the applied tree like any other.
+    expect(tracker.primaryTotal(1)).toBe(10)
+    expect(tracker.grandTotal(0)).toBe(12)
+    // …and the mutators keep writing into it.
+    tracker.setCp(1, 7)
+    expect(g.players[1].cp).toBe(7)
+  })
+
+  it('a shared slice moves the clock and the finish state, players untouched', () => {
+    tracker.newGame(setupGame())
+    tracker.setCp(0, 2)
+    const remote = JSON.parse(JSON.stringify(tracker.current.value))
+    remote.currentRound = 3
+    remote.currentPhase = 'fight'
+    remote.phase = 'finished'
+    remote.finishedAt = '2026-09-17T12:00:00.000Z'
+    tracker.applyRemote('shared', sliceGame(remote).shared)
+    const g = tracker.current.value
+    expect(g.currentRound).toBe(3)
+    expect(g.currentPhase).toBe('fight')
+    expect(g.phase).toBe('finished')
+    expect(g.players[0].cp).toBe(2)
+    expect(mod.isValidGame(JSON.parse(JSON.stringify(g)))).toBe(true)
+  })
+
+  it('persists like a local tap — the debounced save picks it up', () => {
+    vi.useFakeTimers()
+    tracker.newGame(setupGame())
+    vi.runAllTimers()
+    const remote = JSON.parse(JSON.stringify(tracker.current.value))
+    remote.players[1].cp = 9
+    tracker.applyRemote('side1', sliceGame(remote).side1)
+    return Promise.resolve().then(() => {
+      vi.runAllTimers()
+      const saved = JSON.parse(localStorage.getItem('wh11ed-tracker-current'))
+      expect(saved.players[1].cp).toBe(9)
+      vi.useRealTimers()
+    })
+  })
+
+  it('refuses when there is no game to write into', () => {
+    expect(tracker.current.value).toBeNull()
+    expect(tracker.applyRemote('side0', { cp: 1 })).toBe(false)
+    expect(tracker.current.value).toBeNull()
+  })
+})

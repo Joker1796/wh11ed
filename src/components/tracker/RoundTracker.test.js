@@ -216,3 +216,44 @@ describe('RoundTracker — doubles', () => {
     expect(w.text()).toContain('Ann — Orks · War Horde')
   })
 })
+
+// A shared game (useParty.js): the side another phone plays is on screen but not touchable,
+// and the setup button belongs to the host. Nothing changes for a game that is not shared.
+describe('RoundTracker — a shared game', () => {
+  function withParty(over) {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {}, ...over }
+  }
+  const cards = (w) => w.findAll('.player')
+
+  it('leaves both cards live and the setup button enabled with no party', () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    const w = mountTracker()
+    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
+    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
+    expect(w.find('.plocked').exists()).toBe(false)
+  })
+
+  it('a guest gets the other side inert, captioned, and no setup', () => {
+    withParty({ host: false, side: 1 })
+    const w = mountTracker()
+    expect(cards(w)[0].attributes('inert')).toBeDefined()
+    expect(cards(w)[0].find('.plocked').exists()).toBe(true)
+    expect(cards(w)[1].attributes('inert')).toBeUndefined()
+    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('the host edits both sides and keeps the setup', () => {
+    withParty({ host: true, side: 0 })
+    const w = mountTracker()
+    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
+    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
+    expect(w.find('.sync-ind').exists()).toBe(true)
+  })
+
+  it('a phone the host removed edits its own game again', () => {
+    withParty({ host: false, side: 1, revoked: true })
+    const w = mountTracker()
+    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
+  })
+})

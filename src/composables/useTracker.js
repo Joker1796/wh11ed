@@ -15,6 +15,7 @@ import { BATTLE_PHASES } from './stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
+import { applySlice } from './gameSlices.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -971,6 +972,19 @@ export function useTracker() {
     }
   }
 
+  // ── Multi-device sync: the one door another device's changes come in through ────────────────
+  // A slice (gameSlices.js: shared / side0 / side1 / roster0 / roster1) written into the live game
+  // in place. Nothing else here is bypassed: the mutation lands on `current`, so the deep watcher
+  // persists it exactly like a local tap, and every other slice — the other side's scores, this
+  // side's list, this device's `isYou` — stays as it was. False when there is no game to write
+  // into or the slice is not one we know; the sync layer decides what to do about that (a game
+  // that has not been joined yet is assembled whole, not applied piecemeal).
+  function applyRemote(name, data) {
+    const g = current.value
+    if (!isValidGame(g)) return false
+    return applySlice(g, name, data)
+  }
+
   // Pull a finished game back out of history into active play (used for games that ended
   // early). Strips the finished metadata; the caller guards against overwriting a live game.
   function resumeFromHistory(id) {
@@ -986,10 +1000,14 @@ export function useTracker() {
     saveNow()
   }
 
-  // Save the finished game to history and clear the current slot.
+  // Save the finished game to history and clear the current slot. The record does not carry the
+  // shared-game handle (`party`, useParty.js): it is this phone's credential for a live link, and
+  // the link ends with the game — dropping it here is what tells the sync layer so.
   function archiveGame() {
     if (!current.value) return
-    history.value = [JSON.parse(JSON.stringify(current.value)), ...history.value]
+    const record = JSON.parse(JSON.stringify(current.value))
+    delete record.party
+    history.value = [record, ...history.value]
     current.value = null
     saveNow() // persist synchronously — don't let an iOS PWA suspend drop the just-saved game
   }
@@ -1030,6 +1048,7 @@ export function useTracker() {
     restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, stepPhase, goToPhase, canStepPhase, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
+    applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }

@@ -80,6 +80,84 @@ of them (prose, blank line = new paragraph); a setting whose answer is a *table*
 (`ScoreHelpModal`). `src/data/trackerOptions.test.js` gates that every row's label and help exist in
 **both** locales — `ui.js` has no parity check of its own.
 
+## Slices — the game as multi-device sync moves it
+
+`src/composables/gameSlices.js` (pure, light) cuts a game into five independently versioned
+parts: **`shared`** (everything at the top level but `players`: the clock, `settings`, `phase`
+and the finish metadata), **`side0` / `side1`** (a player object minus its list and minus
+`isYou`) and **`roster0` / `roster1`** (`rosterId` + `roster`, and per member in doubles). A
+slice is the unit of conflict AND of rights: a side's two slices are written by that side (both
+partners in doubles), the shared one by anyone in the game. The roster is its own slice because it
+is the heaviest thing in a game and changes only on attach/detach — inside the side slice it would
+ride along with every CP tap. Measured on a fully played five-round Strike Force game with lists on
+both sides (2026-09-17): whole game 7.5 KB, one list 1.3 KB, a side without its list ~2.2 KB (of
+which the secondary deck/hand/scored ~1.3 KB), shared 0.6 KB.
+
+**`isYou` is device-local and never synced** — the other phone's answer is the opposite one, and
+the stats page, the You/Opponent labels and `trackArmyYou`/`trackArmyOpp` all read it.
+`applySlice` keeps the local flag; `assembleGame(slices, { you })` sets it for a joining device.
+
+**`useTracker().applyRemote(name, data)` is the one door another device's changes come in
+through.** It writes the slice into `current` IN PLACE (`applySlice`), so the game object and the
+player objects keep their identity for every reader holding `current.value.players[pi]`, the deep
+watcher persists it like a local tap, and no other slice is touched. It refuses (false) with no
+valid game to write into — a device that has not joined yet assembles the whole game instead.
+`changedSlices(before, after)` (stable-keyed JSON, so key order after an apply is not a change) is
+the same comparison the sync layer makes to decide what to send. The plan and its reasons live in
+the hub journal `journal/active/2026-09-16-multi-device-sync.md`.
+
+## The shared game (`useParty.js`)
+
+One game on several phones. The host — the only one who needs an account — shares the game in
+progress (`share()`: `POST /party` with the five slices); the others open `/tracker/join/:invite?`
+(`PartyJoinView.vue`), by link, QR or the six-digit code, and take a SEAT named after one of the
+game's players (`join()` then `takeSeat()`, which `assembleGame`s the server's slices with `isYou`
+on the chosen side and REPLACES `current`). The handle lives in the game — `current.party = { id,
+memberId, token, side, mi, host, seq, versions, status }` — like the broadcast token, so it
+survives reloads through the store's own persistence; the base cut (the slices as the server last
+saw them) sits in `wh11ed-party-base`. **What is shared is the game, never the navigation.**
+
+**The tick.** `sync()` compares the game's cut against the base, sends the slices that differ
+(each with the version it was based on) together with `since` — the last party `seq` this phone
+saw — and takes back every slice someone else changed, in ONE `POST /party/{id}/sync` (the gateway
+charges per request). A `409` means a write was based on a stale version: the server's copies
+land through `applyRemote`, this phone's change is gone, and the player taps again — the honest
+outcome when two partners edit one side inside three seconds. `423` is a finished game a guest
+cannot reopen; `401` the host removed this phone (`party.revoked`); `404` the host ended it
+(`party.ended`) — both leave the game on the phone as its own. A slice this phone may not write
+(`canEdit(side)`: the host any, a guest its own side) snaps back to the base rather than going
+out. Nothing is queued offline: the base stays put and the first tick back sends the difference.
+
+**The gate is on receiving.** A phone polls (3 s, the server's micro-cache window; 15 s once the
+game is finished, because only the host can reopen it and a guest who stopped listening would
+never learn; 10 s from any screen for a host feeding a broadcast) while a LIVE screen is mounted —
+`TrackerGameView` and the game's own roster (`RosterViewView` in-game, which writes rule switches)
+call `attach()`/`detach()` — and the page is visible and online. Coming back polls at once. Leaving
+the screen, `visibilitychange: hidden` and `pagehide` send what is pending first (`flush`, with
+`keepalive`), so a score corrected a second before the lock does not wait for the unlock. A local
+change goes out 800 ms after the last tap, not on the next tick.
+
+**Rights on screen, never hidden.** `RoundTracker` renders the side another phone plays greyed and
+`inert` (a presence attribute — `undefined`, not `false`) with the reason under its title; the
+setup gear is disabled for a guest with "host only"; the finished screen's Resume is disabled for a
+guest and its primary button reads "Save to my history". `RosterViewView`'s `canSwitch` includes
+`canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
+spinner only for a request older than 400 ms — except on resume, when it is wanted at once — and a
+warning glyph with its reason. `PartyModal.vue` (the people icon beside the broadcast one) is the
+host's invite (link, QR via the lazily imported `qrcode`, code with its ten minutes, a fresh code or
+link), the member list with last-seen, seat moves, kick, hand-over and "stop sharing"; a guest sees
+its standing and "leave".
+
+**Leaving is implicit.** `useParty`'s deep watcher notices the game leaving with its handle —
+archived from the finished screen, from the tracker home's "New game", from the join view's
+"save it and join" — and says goodbye for it: a guest frees its seat (`POST /party/{id}/leave`),
+a host ends the party (`DELETE`). `archiveGame` strips `party` from the record. `init()` arms
+that watcher; the tracker home, the game screen and the game roster all call it.
+
+**Deliberately not synced:** `isYou`, `trackArmyYou`/`trackArmyOpp`/`trackArmyRule`, `party`,
+`broadcast` (see Slices). In doubles the host's seat is the TEAM (`mi: null`); partners joining
+pick a member seat. The server contract is `wh11ed-api/README.md` "A shared live game".
+
 ## The phase reminder (`PhaseRules.vue`)
 
 Under the clock, one accordion: **what has something to say in the phase the game is standing on**,
@@ -139,7 +217,7 @@ Squads with the same ability are one reminder, not three identical lines.
 
 ## Setup wizard
 
-**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + **attacker/defender role** + battle ready); step 2 "Mission" (**the twist**, then active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Field & deployment" (recommended layout A/B/C via `LayoutCard`, then who goes first); step 4 "Settings" (the score mode and the two option blocks).
+**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + battle ready); step 2 "Mission" (**the twist**, then active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Field & deployment" (**who is the Attacker** — one linked seg, moved here from the army cards on 2026-09-17 because the Mission Sequence rolls for it after the mission and before deployment, and what it decides is the side of the table the layout marks; then the recommended layout A/B/C via `LayoutCard`, then who goes first); step 4 "Settings" (the score mode and the two option blocks). The secondary decks differ by role, but the four fixed-capable cards are the same slugs in both, so fixed picks made on step 2 against the default roles survive a flip on step 3. **Steps 3 and 4 are two columns above 700px** (`.two-col`, the threshold the player cards of steps 1–2 already use) so each fits one desktop screen like those do: step 3 puts the layout left (two thirds) with its picture capped to the height the screen has left (`max(260px, 100dvh − 30rem)`) and the two deployment questions in one card right; step 4 puts the score mode with the `game` option group left and the `roster` group right — the split `trackerOptions.js` already makes. DOM order is phone order (questions, then the picture); the grid reorders.
 
 **The steps were re-cut on 2026-08-25** rather than a fifth being added for the roster options, and two of the moves were fixes rather than tidying. **The twist belongs with the mission because it CHANGES it**: Scrambled Communications swaps the two primaries, Mirrored World replaces both, and step 2's own preview goes through `derivePrimary(disp, disp, settings)` — which reads `settings.twist`. Chosen on the last step, as it was, it rewrote a card the player had already read and walked away from. **Who goes first belongs with the layout** — both answer "where and in what order do we set up", and step 3 was otherwise one tab row and a picture. What was left, the score mode and the toggles, is a settings page and now says so. The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
 

@@ -17,6 +17,30 @@
 
 export const changelog = [
   {
+    version: '2.5.0',
+    date: '2026-09-17',
+    en: [
+      { h: 'One game, several phones' },
+      'Share the game you are playing: the people at the table join by link, QR or a six-digit code and each scores their own side. The board — round, phase, both scores — is the same on every phone, within a few seconds.',
+      'Only the host needs an account; the others join without one. When the game ends, everyone can keep it in their own history.',
+      'The tracker keeps working without a signal: play on, and the phones catch up when the connection is back. A dot on the round bar says where the sync stands.',
+      { h: 'Setting up a game' },
+      'Attacker and Defender moved from the army cards to step 3, "Field & deployment" — next to the layout whose edges they decide, and where the official sequence rolls for them.',
+      'On a phone the "Next round" button is a chevron, so the row of controls under the game stays on one line even with the broadcast button showing.',
+      'On a desktop, steps 3 and 4 of the setup now fit one screen: the layout sits beside the deployment questions, and the settings are split into two columns — the game on the left, the army list on the right.',
+    ],
+    ru: [
+      { h: 'Одна партия — несколько телефонов' },
+      'Поделитесь партией, которую ведёте: игроки за столом подключаются по ссылке, QR или шестизначному коду и каждый ведёт свою сторону. Табло — раунд, фаза, оба счёта — одно на всех, с задержкой в несколько секунд.',
+      'Аккаунт нужен только хосту, остальные подключаются без него. Когда партия закончится, каждый может сохранить её в свою историю.',
+      'Без связи трекер работает как раньше: играйте дальше, телефоны догонят друг друга, когда связь вернётся. Точка на полосе раундов показывает, как дела у синхронизации.',
+      { h: 'Настройка партии' },
+      'Выбор Attacker и Defender переехал с карточек армий на шаг 3, «Поле и расстановка» — рядом с раскладкой, чьи края он определяет, и там, где его разыгрывают по официальной последовательности.',
+      'На телефоне кнопка «Следующий раунд» стала шевроном, чтобы ряд кнопок под партией помещался в одну строку даже с кнопкой трансляции.',
+      'На десктопе шаги 3 и 4 настройки теперь помещаются в один экран: раскладка стоит рядом с вопросами развёртывания, а настройки разбиты на две колонки — партия слева, армейский лист справа.',
+    ],
+  },
+  {
     version: '2.4.4',
     date: '2026-09-15',
     en: [

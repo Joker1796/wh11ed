@@ -12,6 +12,7 @@ const CoreRulesView     = () => import('../views/CoreRulesView.vue')
 const EventCompanionView = () => import('../views/EventCompanionView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
+const PartyJoinView     = () => import('../views/tracker/PartyJoinView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
@@ -400,6 +401,8 @@ const localeRoutes = [
     })),
     { path: '/tracker',      component: TrackerHomeView, meta: { section: 'tracker' } },
     { path: '/tracker/game', component: TrackerGameView, meta: { section: 'tracker' } },
+    // Joining a shared game (useParty.js): the invite link carries its token; the code is typed.
+    { path: '/tracker/join/:invite?', component: PartyJoinView, meta: { section: 'tracker' } },
     // Roster builder rides with the Tracker section (subnav + nav highlight) — public list
     // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
     // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static

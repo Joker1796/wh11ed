@@ -568,7 +568,7 @@
 </template>
 
 <script setup>
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
@@ -653,8 +653,10 @@ const gamePlayer = computed(() => memberAt(gameSide.value, gameMi.value))
 // What the game is standing on, from THIS player's side: round, whose turn, which phase. One
 // object rather than a bare round, because a switch that lasts a phase has to be able to say so.
 const gameClock = computed(() => clockOf(game.value, gamePi.value))
-// A record is not editable; only a game in progress offers the switches.
-const canSwitch = computed(() => inGame.value && !historyId.value)
+// A record is not editable; only a game in progress offers the switches — and in a shared game
+// only the side this phone plays (the sync layer would snap any other write back anyway).
+const partyCanEdit = ref(() => true)
+const canSwitch = computed(() => inGame.value && !historyId.value && partyCanEdit.value(gamePi.value))
 
 // What this game asked the modifier layer to keep (src/data/trackerOptions.js). OFF THE TABLE
 // everything is on: there is no game to have settings, and a list read in the builder gets the
@@ -663,15 +665,27 @@ const canSwitch = computed(() => inGame.value && !historyId.value)
 const keeps = (setting) => !inGame.value || tracks(game.value?.settings, setting)
 const modsOn = computed(() => keeps('trackModifiers'))
 
-watch([gamePi, gameMi, historyId], async ([pi]) => {
+// The roster of the game in progress is a LIVE screen of that game — it writes rule switches —
+// so while it is up a shared game polls for the other phones' changes (useParty's gate). Loaded
+// with the store, dynamically, for the same reason: the plain roster route must not carry it.
+let liveParty = null
+watch([gamePi, gameMi, historyId], async ([pi, , gid]) => {
   if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
-  const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
+  const [{ useTracker }, { rosterFromPlayer }, { useParty }] = await Promise.all([
     import('../../composables/useTracker.js'),
     import('../../composables/rosterGameLink.js'),
+    import('../../composables/useParty.js'),
   ])
   tracker.value = useTracker()
   gameRoster.value = rosterFromPlayer(gamePlayer.value)
+  const party = useParty()
+  partyCanEdit.value = party.canEdit
+  if (!gid && !liveParty) {
+    liveParty = party
+    party.attach()
+  }
 }, { immediate: true })
+onUnmounted(() => { if (liveParty) liveParty.detach() })
 
 // This list's own record, read once from storage (gameStats.js) — the read-only side of the game
 // history, so this route keeps working without the tracker store it dynamic-imports above. Off the

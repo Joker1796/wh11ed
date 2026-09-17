@@ -902,6 +902,22 @@ strong {
 
 @media (hover: hover) { .help-btn:hover { color: var(--accent); } }
 
+/* A link handed over to be copied: a read-only field beside its Copy button. Two dialogs share
+   it (the broadcast overlay's link, a shared game's invite); the field is mono so a URL reads as
+   one, and the touch-screen 16px rule below covers it like any input. */
+.copy-row { display: flex; gap: 0.4rem; }
+.copy-field {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--accent);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.copy-btn { white-space: nowrap; }
+
 /* ── Section help ──────────────────────────────────────────────────────────
    The door from a section (Rules / Tracker / Rosters) to its page of the guide. An icon, not the
    words "Section help": it sits in the row above the content on screens whose first fold is the

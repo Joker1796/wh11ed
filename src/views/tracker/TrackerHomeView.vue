@@ -64,6 +64,14 @@
            the games stand. -->
     </div>
 
+    <!-- Someone else's game on this phone (useParty.js). A quiet line under the buttons, not a
+         fourth button: the usual visitor is here for their own game. -->
+    <p class="join-line">
+      <RouterLink to="/tracker/join">
+        <i class="bi bi-people-fill" /> {{ labels.partyHomeJoin }}
+      </RouterLink>
+    </p>
+
     <!-- The one number people came back for. It sits above the list because a record is a
          summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
     <RouterLink
@@ -210,6 +218,7 @@ import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracke
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
+import { useParty } from '../../composables/useParty.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { buildStats } from '../../composables/gameStats.js'
 
@@ -267,6 +276,9 @@ function openGame(id) {
 
 onMounted(async () => {
   initCloudSync()
+  // A shared game archived from here ("New game", resuming another) has to say goodbye to the
+  // other phones; the watcher that does so is armed once, and this is the earliest screen.
+  useParty().init()
   // The session is restored app-wide (App.vue) now that the account lives in the navbar; this
   // await just joins that in-flight restore — refresh() de-dupes, so it costs no extra request.
   await ensureSession()
@@ -450,8 +462,15 @@ function footLine(g) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.9rem;
 }
+.join-line {
+  text-align: center;
+  margin: 0 0 2rem;
+  font-size: 0.85rem;
+}
+.join-line a { color: var(--text-muted); text-decoration: none; }
+@media (hover: hover) { .join-line a:hover { color: var(--accent); } }
 
 /* Phones: these are three ordinary buttons (resume / new game / sign in), not three panels. They
    stay the size of their own label — stretching them to share the row only turns the longest one

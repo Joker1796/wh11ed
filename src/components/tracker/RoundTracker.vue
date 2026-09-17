@@ -32,6 +32,9 @@
       >
         ›
       </button>
+      <!-- A shared game's sync state rides on the round bar — a row of its own would cost the
+           vertical space the phone does not have. Renders nothing for a game that is not shared. -->
+      <SyncIndicator />
     </div>
 
     <!-- The clock, one row under the rounds: whose turn and which phase. Only for a game that
@@ -89,14 +92,28 @@
     </details>
 
     <div class="players">
+      <!-- In a shared game a side this phone does not play is shown as it is, greyed and
+           inert, with the reason under its title — never hidden: what the opponent has scored
+           is exactly what a player wants to see. `inert` is what keeps every control inside
+           (steppers, cards, the army tracker) from taking a tap; the sync layer snaps back
+           anything that gets past it. `inert` is a presence attribute — a rendered "false"
+           would still be inert — hence `undefined` rather than false. -->
       <div
         v-for="(pl, i) in current.players"
         :key="i"
         class="player"
+        :class="{ 'player-locked': !canEdit(i) }"
+        :inert="canEdit(i) ? undefined : true"
       >
         <h3 class="ptitle">
           {{ playerName(i) }}
         </h3>
+        <p
+          v-if="!canEdit(i)"
+          class="plocked"
+        >
+          {{ labels.partyOtherSide }}
+        </p>
         <!-- Disposition and detachments are setup facts, consulted rarely mid-game — folded by
              default so the card opens on what IS the game: the missions and the score. Native
              <details>, the same accordion the twist reminder above uses. -->
@@ -218,14 +235,28 @@
 
     <div class="actions">
       <div class="actions-left">
+        <!-- Setup is the host's in a shared game (it rewrites both sides — a swapped first turn
+             is all five slices); a guest sees the button disabled with the reason. -->
         <button
           class="btn-ghost btn-icon"
           :aria-label="labels.trackerEditSetup"
-          :title="labels.trackerEditSetup"
+          :title="partyActive && !isHost ? labels.partyHostOnly : labels.trackerEditSetup"
+          :disabled="partyActive && !isHost"
           @click="editSetupOpen = true"
         >
           <i class="bi bi-chevron-left" />
           <i class="bi bi-gear" />
+        </button>
+        <!-- The shared game (several phones on this one game): a state like the broadcast,
+             lit while shared. Always offered — it is how the other side gets to score. -->
+        <button
+          class="btn-ghost btn-icon"
+          :class="{ 'bc-on': partyActive }"
+          :aria-label="labels.partyTitle"
+          :title="labels.partyTitle"
+          @click="partyOpen = true"
+        >
+          <i class="bi bi-people-fill" />
         </button>
         <!-- Live broadcast (the OBS overlay): a state, not a page — lit while streaming. The
              button is offered only when the game asked for it (settings.trackBroadcast, a row
@@ -252,10 +283,15 @@
       <button
         v-if="current.currentRound < ROUND_COUNT"
         class="btn-primary btn-next"
+        :aria-label="labels.trackerNext"
+        :title="labels.trackerNext"
         @click="goToRound(current.currentRound + 1)"
       >
         <span class="next-full">{{ labels.trackerNext }}</span>
-        <span class="next-short">{{ labels.trackerRoundShort }} {{ current.currentRound + 1 }}</span>
+        <i
+          class="bi bi-chevron-right next-icon"
+          aria-hidden="true"
+        />
       </button>
     </div>
 
@@ -272,6 +308,10 @@
       v-if="broadcastOpen"
       @close="broadcastOpen = false"
     />
+    <PartyModal
+      v-if="partyOpen"
+      @close="partyOpen = false"
+    />
   </div>
 </template>
 
@@ -285,6 +325,8 @@ import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
 import EditSetupModal from './EditSetupModal.vue'
 import BroadcastModal from './BroadcastModal.vue'
+import PartyModal from './PartyModal.vue'
+import SyncIndicator from './SyncIndicator.vue'
 import PhasePickerModal from './PhasePickerModal.vue'
 import PhaseRules from './PhaseRules.vue'
 import RuleBody from '../RuleBody.vue'
@@ -296,6 +338,7 @@ import { tracks } from '../../data/trackerOptions.js'
 import { useTracker, membersOf, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
+import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -311,6 +354,11 @@ const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
 const phasePickerOpen = ref(false)
 const broadcastOpen = ref(false)
+const partyOpen = ref(false)
+
+// The shared game: which side this phone may edit, and whether it is the host. With no party,
+// canEdit is true for both and nothing here changes.
+const { active: partyActive, isHost, canEdit } = useParty()
 
 // Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream
 // resumes pushing without reopening the dialog. `enabled` also lights the toolbar button.
@@ -608,24 +656,39 @@ function onEndBattle(reason) {
   display: inline-flex; align-items: center; gap: 0.25rem;
   padding: 0.6rem 0.7rem; font-size: 1rem; line-height: 1;
 }
+/* A side another phone plays: readable, not touchable. */
+.player-locked { opacity: 0.72; }
+.plocked {
+  margin: 0.1rem 0 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
 @media (max-width: 700px) {
   .players { grid-template-columns: 1fr; }
 }
-@media (max-width: 480px) {
-  .actions { flex-wrap: wrap; }
-}
-/* Small phones: shrink the finish/next buttons so the row stays on one line. Kicks in before
-   full-size buttons would start wrapping (~418px) — otherwise "Next round" drops to a 2nd line. */
-@media (max-width: 430px) {
-  .actions .btn-primary, .actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
-  .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
-}
-/* Smallest phones (~320–360px): the full "Next round" label no longer fits — swap it for the
-   compact "Round N" (the round it advances to). */
-.btn-next .next-short { display: none; }
-@media (max-width: 360px) {
+/* The row is five controls now (setup, shared game, broadcast when on, finish, next), and on
+   a phone the two worded ones cannot both keep their words: "Следующий раунд" beside
+   "Завершить игру" wrapped the primary onto a line of its own (seen 2026-09-17). Below the
+   threshold the NEXT button is a chevron — the one action here that is the same every round and
+   needs no reading — and the row stays one line; the label lives on in aria-label/title. The
+   finish button keeps its words: it is the destructive one. Above the threshold nothing changes. */
+.btn-next .next-icon { display: none; }
+@media (max-width: 560px) {
   .btn-next .next-full { display: none; }
-  .btn-next .next-short { display: inline; }
+  .btn-next .next-icon { display: inline; }
+  .btn-next { padding-left: 0.9rem; padding-right: 0.9rem; font-size: 1rem; line-height: 1; }
+}
+/* Small phones: shrink the remaining buttons so five still fit one line (~360px). */
+@media (max-width: 430px) {
+  .actions .btn-primary:not(.btn-next), .actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
+  .actions .btn-next { padding: 0.45rem 0.7rem; }
+  .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
+  .actions-left { gap: 0.4rem; }
+  .actions { gap: 0.4rem; }
+}
+/* If a long finish label still does not fit, the row wraps rather than overflows. */
+@media (max-width: 360px) {
+  .actions { flex-wrap: wrap; }
 }
 
 /* The broadcast button is a STATE: lit while the game is streaming to an overlay. */

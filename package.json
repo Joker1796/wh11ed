@@ -57,6 +57,7 @@
     "@fontsource/sofia-sans-extra-condensed": "^5.2.8",
     "@vitejs/plugin-vue": "^6.0.8",
     "bootstrap-icons": "^1.13.1",
+    "qrcode": "^1.5.4",
     "vite": "^8.3.0",
     "vue": "^3.5.38",
     "vue-router": "^5.3.1"

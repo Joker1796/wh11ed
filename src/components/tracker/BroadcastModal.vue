@@ -28,16 +28,16 @@
       </template>
 
       <template v-else>
-        <div class="bc-link-row">
+        <div class="copy-row">
           <input
             type="text"
-            class="bc-link"
+            class="copy-field"
             readonly
             :value="overlayUrl"
             @focus="$event.target.select()"
           >
           <button
-            class="btn-ghost bc-copy"
+            class="btn-ghost copy-btn"
             @click="copy"
           >
             {{ copied ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
@@ -134,16 +134,16 @@
           >
             {{ labels.trackerBroadcastJsonDev }}
           </p>
-          <div class="bc-link-row">
+          <div class="copy-row">
             <input
               type="text"
-              class="bc-link"
+              class="copy-field"
               readonly
               :value="jsonUrl"
               @focus="$event.target.select()"
             >
             <button
-              class="btn-ghost bc-copy"
+              class="btn-ghost copy-btn"
               @click="copyJson"
             >
               {{ copiedJson ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
@@ -293,19 +293,6 @@ function onDisable() { disable() }
   color: var(--text-muted);
 }
 .bc-enable { width: 100%; }
-.bc-link-row { display: flex; gap: 0.4rem; }
-.bc-link {
-  flex: 1;
-  min-width: 0;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--accent);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  /* ≥16px on coarse pointers is the global rule; the URL benefits from mono anyway. */
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
-.bc-copy { white-space: nowrap; }
 .bc-obs {
   margin: 0.6rem 0 0;
   font-size: 0.78rem;
@@ -377,8 +364,5 @@ function onDisable() { disable() }
   margin: 0.6rem 0 0;
   font-size: 0.78rem;
   color: var(--accent);
-}
-@media (pointer: coarse) {
-  .bc-link { font-size: 16px; }
 }
 </style>
