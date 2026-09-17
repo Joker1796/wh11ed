@@ -185,7 +185,15 @@
         v-if="lastError"
         class="pt-err"
       >
-        {{ labels.partyStatusError }}
+        {{ devHint ? `${labels.partyStatusError} — ${lastError}` : labels.partyStatusError }}
+      </p>
+      <!-- The stand's one trap, said where it bites: with the mock account and no dev token the
+           share is a 401, and "sync error" alone sends the tester to the network tab. -->
+      <p
+        v-if="devHint"
+        class="pt-note-small"
+      >
+        {{ labels.partyDevJwtHint }}
       </p>
     </div>
   </BaseModal>
@@ -207,6 +215,12 @@ const {
   share, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave,
 } = useParty()
 const { current } = useTracker()
+
+// DEV only (stripped from production builds): the share failed and no stand token is set.
+const devHint = computed(() => {
+  if (!import.meta.env.DEV || !lastError.value) return false
+  try { return !localStorage.getItem('wh11ed-dev-jwt') } catch { return false }
+})
 
 const sharing = ref(false)
 async function onShare() {

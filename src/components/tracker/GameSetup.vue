@@ -4,30 +4,29 @@
       <h2 class="setup-title">
         {{ labels.trackerSetupTitle }}
       </h2>
+      <!-- The desktop step chips are buttons (2026-09-17): any step behind you, and any step ahead
+           whose way is clear — the same gates the Next buttons use, so a chip can never skip past
+           an unfinished step. A chip that cannot be reached yet is disabled, not hidden. -->
       <div class="steps">
-        <span
-          class="step"
-          :class="{ on: step === 1, done: step > 1 }"
-          :aria-current="step === 1 ? 'step' : undefined"
-        >1 · {{ labels.trackerStepArmies }}</span>
-        <span class="step-sep">→</span>
-        <span
-          class="step"
-          :class="{ on: step === 2, done: step > 2 }"
-          :aria-current="step === 2 ? 'step' : undefined"
-        >2 · {{ labels.trackerStepMission }}</span>
-        <span class="step-sep">→</span>
-        <span
-          class="step"
-          :class="{ on: step === 3, done: step > 3 }"
-          :aria-current="step === 3 ? 'step' : undefined"
-        >3 · {{ labels.trackerStepBattlefield }}</span>
-        <span class="step-sep">→</span>
-        <span
-          class="step"
-          :class="{ on: step === 4 }"
-          :aria-current="step === 4 ? 'step' : undefined"
-        >4 · {{ labels.trackerStepDeploy }}</span>
+        <template
+          v-for="(st, i) in STEPS"
+          :key="st.n"
+        >
+          <span
+            v-if="i"
+            class="step-sep"
+          >→</span>
+          <button
+            type="button"
+            class="step"
+            :class="{ on: step === st.n, done: step > st.n }"
+            :aria-current="step === st.n ? 'step' : undefined"
+            :disabled="!canGoTo(st.n)"
+            @click="step = st.n"
+          >
+            {{ st.n }} · {{ labels[st.label] }}
+          </button>
+        </template>
       </div>
       <div class="steps-compact">
         {{ step }} / 4 · {{ stepLabel }}
@@ -605,34 +604,42 @@
               >{{ labels.trackerOpponent }}</button>
             </div>
           </label>
+          <!-- Desktop: the layout tabs join the questions in the side column, so the picture on
+               the left has the whole card to itself. On a phone they stay above the picture. -->
+          <div
+            v-if="desk && layouts.length"
+            class="field"
+          >
+            <span>{{ labels.trackerLayoutHeading }}</span>
+            <LayoutTabs
+              :layouts="layouts"
+              :selected="settings.layout"
+              @select="selectLayout"
+              @custom="layoutPickerOpen = true"
+            />
+            <p class="layout-note">
+              {{ labels.trackerLayoutNote }}
+            </p>
+          </div>
         </div>
 
         <div class="settings layout-block">
-          <h3 class="block-head">
-            {{ labels.trackerLayoutHeading }}
-          </h3>
-          <p class="layout-note">
-            {{ labels.trackerLayoutNote }}
-          </p>
+          <template v-if="!desk">
+            <h3 class="block-head">
+              {{ labels.trackerLayoutHeading }}
+            </h3>
+            <p class="layout-note">
+              {{ labels.trackerLayoutNote }}
+            </p>
+          </template>
           <template v-if="layouts.length">
-            <div class="tabs">
-              <button
-                v-for="l in layouts"
-                :key="l.id"
-                class="tab"
-                :class="{ active: settings.layout === l.id }"
-                @click="selectLayout(l.id)"
-              >
-                <span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}
-              </button>
-              <button
-                class="tab"
-                :class="{ active: settings.layout === 'custom' }"
-                @click="layoutPickerOpen = true"
-              >
-                {{ labels.trackerLayoutCustom }}
-              </button>
-            </div>
+            <LayoutTabs
+              v-if="!desk"
+              :layouts="layouts"
+              :selected="settings.layout"
+              @select="selectLayout"
+              @custom="layoutPickerOpen = true"
+            />
             <LayoutCard
               v-if="currentLayout"
               :layout="currentLayout"
@@ -769,6 +776,7 @@
     <LayoutPickerModal
       v-if="layoutPickerOpen"
       :selected="settings.layout === 'custom' ? settings.customLayout : null"
+      :matchup="{ you: players[0].disposition, opp: players[1].disposition }"
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />
@@ -808,6 +816,8 @@
 import { reactive, ref, computed, watch, nextTick } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
+import LayoutTabs from './LayoutTabs.vue'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
@@ -982,6 +992,9 @@ const scoreHelpOpen = ref(false)
 const dpHelpOpen = ref(false)
 const forceTypeHelpOpen = ref(false)
 const roleHelpOpen = ref(false)
+// Step 3's two-column desktop layout (`.two-col`, >700px): the layout tabs move into the side
+// column there, and the SAME breakpoint decides it in script so the tabs are drawn once.
+const desk = useMediaQuery('(min-width: 701px)')
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
@@ -1278,6 +1291,22 @@ const canMission = computed(() =>
 // on the earlier steps.
 const canBattlefield = computed(() => canMission.value)
 
+// The step chips in the header. A step is reachable when every step before it is complete —
+// exactly what its Next button checks — so jumping ahead from the chips is never a way around
+// a gate. Going back is always allowed.
+const STEPS = [
+  { n: 1, label: 'trackerStepArmies' },
+  { n: 2, label: 'trackerStepMission' },
+  { n: 3, label: 'trackerStepBattlefield' },
+  { n: 4, label: 'trackerStepDeploy' },
+]
+function canGoTo(n) {
+  if (n <= step.value) return true
+  if (n === 2) return canArmies.value
+  if (n === 3) return canMission.value
+  return canBattlefield.value
+}
+
 // Step 4 (Settings): every row has a default — gate on the earlier steps too.
 const canStart = computed(() =>
   canMission.value && players.every(p => p.role)
@@ -1338,6 +1367,7 @@ function cancel() {
   gap: 0.5rem;
 }
 .step {
+  font: inherit;
   font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -1345,11 +1375,17 @@ function cancel() {
   color: var(--text-dim);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--border);
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
+@media (hover: hover) { .step:not(:disabled):not(.on):hover { border-color: var(--accent); color: var(--accent); } }
+.step:disabled { cursor: default; opacity: 0.55; }
 .step.on {
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
+  cursor: default;
 }
 .step.done {
   color: var(--accent);
@@ -1448,12 +1484,14 @@ function cancel() {
   .deploy-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
   .deploy-grid .layout-block { order: -1; }
   /* The picture is what made this step scroll: cap it to what the screen has left after the
-     chrome (header 96px, stepper, card head/hint/tabs, caption, the buttons — ~30rem all told),
-     let it be narrower than the card, centred; the full size is still one click away. */
+     chrome — header 96px, the title/stepper row, the card's padding, the caption under the
+     picture, the Back/Next row and the page's bottom padding, ~23rem all told now that the
+     heading, hint and tabs live in the side column. Narrower than the card, centred; the full
+     size is still one click away. */
   .layout-block :deep(.layout-card .layout-img) {
     width: auto;
     max-width: 100%;
-    max-height: max(260px, calc(100dvh - 30rem));
+    max-height: max(260px, calc(100dvh - 23rem));
     margin: 0 auto;
   }
 }
@@ -1464,6 +1502,8 @@ function cancel() {
   color: var(--accent);
   margin: 0 0 0.3rem;
 }
+.deploy-card .layout-note { margin: 0.4rem 0 0; }
+.deploy-card .layout-tabs { margin-bottom: 0; }
 .layout-note {
   margin: 0 0 0.75rem;
   font-size: 0.82rem;
@@ -1722,7 +1762,5 @@ function cancel() {
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }
-  .tab-word { display: none; }
-  .tab { min-width: 44px; min-height: 44px; }
 }
 </style>

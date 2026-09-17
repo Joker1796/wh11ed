@@ -144,25 +144,30 @@
                   > {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
-                <button
-                  v-if="countOf(u.id)"
-                  type="button"
-                  class="rub-remove"
-                  :aria-label="labels.rosterRemove"
-                  @click.stop="$emit('remove', u.id)"
-                >
-                  <i class="bi bi-dash-lg" />
-                </button>
-                <button
-                  type="button"
-                  class="rub-add"
-                  :disabled="atCap(u)"
-                  :aria-label="labels.rosterAddUnit"
-                  :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
-                  @click.stop="$emit('add', u.id)"
-                >
-                  <i class="bi bi-plus-lg" />
-                </button>
+                <!-- The +/− rail. Side by side where the row has the width; in a narrow pane
+                     (half a phone) the two stack, + over −, so a row with a copy in the list is
+                     not two columns narrower than its neighbours. -->
+                <span class="rub-rail">
+                  <button
+                    type="button"
+                    class="rub-add"
+                    :disabled="atCap(u)"
+                    :aria-label="labels.rosterAddUnit"
+                    :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
+                    @click.stop="$emit('add', u.id)"
+                  >
+                    <i class="bi bi-plus-lg" />
+                  </button>
+                  <button
+                    v-if="countOf(u.id)"
+                    type="button"
+                    class="rub-remove"
+                    :aria-label="labels.rosterRemove"
+                    @click.stop="$emit('remove', u.id)"
+                  >
+                    <i class="bi bi-dash-lg" />
+                  </button>
+                </span>
               </div>
             </div>
           </CollapseTransition>
@@ -425,6 +430,19 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-empty { color: var(--text-muted); font-style: italic; padding: 0.5rem; }
 
 .rub-group { display: flex; flex-direction: column; }
+/* A group's header is the catalogue's navigation — ninety rows are scanned by role, not by name —
+   so it is the loudest thing in the column: a bar TINTED with the accent (a fifth of it over the
+   secondary surface — the full accent, tried first, was a wall of bright green on a Necron list
+   that outshouted the Save button), the role in primary text (2026-09-18, a player's ask). The
+   same mix the pickers use for a selected row, so a tinted bar already means "a heading, not a
+   button" everywhere. The Filters header above keeps the quiet look: it is a control over the
+   list, not a place in it. */
+.rub-group > .rub-head {
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
+  color: var(--text-primary);
+}
+.rub-group > .rub-head .rub-group-count { color: var(--text-muted); }
+@media (hover: hover) { .rub-group > .rub-head:hover { background: color-mix(in srgb, var(--accent) 32%, var(--bg-secondary)); } }
 .rub-head {
   display: flex;
   align-items: center;
@@ -500,6 +518,9 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-star.on { color: var(--accent); opacity: 1; }
 @media (hover: hover) { .rub-star:hover { opacity: 1; } }
 
+.rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
+/* Wide: − then +, reading order in the row (the − is the rarer action, the + stays outermost). */
+.rub-rail .rub-remove { order: -1; }
 .rub-remove,
 .rub-add {
   flex-shrink: 0;
@@ -539,7 +560,11 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   .rub-filter-list .check input[type="checkbox"] { width: 16px; height: 16px; }
   .rub-hidden { font-size: 0.62rem; }
   .rub-star { width: 1.5rem; font-size: 0.75rem; }
+  /* The rail turns into a column: + on top, − under it, one border between them. */
+  .rub-rail { flex-direction: column; border-left: 1px solid var(--border); }
+  .rub-rail .rub-remove { order: 0; border-left: none; border-top: 1px solid var(--border); }
+  .rub-rail .rub-add { border-left: none; }
   .rub-remove,
-  .rub-add { width: 1.7rem; font-size: 0.85rem; }
+  .rub-add { width: 1.7rem; min-height: 1.7rem; flex: 1; font-size: 0.85rem; }
 }
 </style>

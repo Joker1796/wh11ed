@@ -750,6 +750,12 @@ watchEffect(() => {
 @media (max-width: 900px) {
   .rc-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
 }
+/* The desk (RosterWorkbench, ≥1200px) sizes its columns to end above the footer itself, and
+   App.vue's desk padding reserves the footer's room — any reserve here on top of that is height
+   the page has to scroll by. */
+@media (min-width: 1200px) {
+  .roster-create, .rc-panel { padding-bottom: 0; }
+}
 /* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
    .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
 .rc-card {

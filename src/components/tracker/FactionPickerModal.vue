@@ -11,13 +11,15 @@
         <div
           v-for="f in pinned"
           :key="'pin-' + f.slug"
-          class="fac"
+          class="fac tone tone-bar"
           :class="{ on: selected === f.slug }"
+          :style="toneOf(f.slug)"
         >
           <button
             class="fac-link"
             @click="$emit('pick', f.slug)"
           >
+            <span class="tone-badge">{{ abbrOf(f.slug) }}</span>
             <span class="fac-name">{{ f.name }}</span>
             <span
               v-if="selected === f.slug"
@@ -40,13 +42,15 @@
         <div
           v-for="f in g.factions"
           :key="f.slug"
-          class="fac"
+          class="fac tone tone-bar"
           :class="{ on: selected === f.slug }"
+          :style="toneOf(f.slug)"
         >
           <button
             class="fac-link"
             @click="$emit('pick', f.slug)"
           >
+            <span class="tone-badge">{{ abbrOf(f.slug) }}</span>
             <span class="fac-name">{{ f.name }}</span>
             <span
               v-if="selected === f.slug"
@@ -76,6 +80,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { FACTION_GROUPS, COMBAT_PATROL_FACTION_GROUPS } from '../../composables/trackerFactions.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const props = defineProps({
   selected: { type: String, default: null },
@@ -97,6 +102,18 @@ const GROUP_LABEL_KEYS = {
   chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
 }
 function groupLabel(id) { return labels.value[GROUP_LABEL_KEYS[id]] || '' }
+
+// Colour identification (2026-09-17, a player's ask): thirty rows of text tell apart by
+// reading only; a bar and a monogram in the faction's own colour — the same pair the faction
+// pages use as their accent — let the eye land on the right one. The colour lives in
+// factionsIndex.js; the rows here come from the MFM list, which has no colour of its own.
+function toneOf(slug) {
+  const c = factionIndexBySlug(slug)?.color
+  return c ? { '--tone-light': c.light, '--tone-dark': c.dark } : undefined
+}
+function abbrOf(slug) {
+  return factionIndexBySlug(slug)?.abbr || ''
+}
 </script>
 
 <style scoped>
@@ -126,14 +143,13 @@ function groupLabel(id) { return labels.value[GROUP_LABEL_KEYS[id]] || '' }
   min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.6rem;
   text-align: left;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
-.fac-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+.fac-name { flex: 1; min-width: 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
 .fac-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 </style>

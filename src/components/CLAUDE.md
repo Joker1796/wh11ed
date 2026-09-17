@@ -64,7 +64,13 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
   `.fsection-title`, `.rc-sticky*` + `.issues-badge` (the roster wizard's footer bar), `.lead`,
   `.split-block`, `.strat-grid`, `.act-list` + `.act-btn` + `.act-danger` (the "…" actions sheet
   a card or a header opens — one full-width button per thing you can do; global since 2026-08-28,
-  when the third copy was about to be written and `npm run dupes` would have failed).
+  when the third copy was about to be written and `npm run dupes` would have failed),
+  `.copy-row` + `.copy-field` + `.copy-btn` (a link handed over to be copied), and **`.tone`** +
+  `.tone-bar` / `.tone-badge` / `.tone-chip` (2026-09-17: an element carrying `--tone-light` /
+  `--tone-dark` gets `--tone` resolved for the reader's theme — the faction colour pair from
+  `factionsIndex.js`, or a disposition's from `data/dispositionColors.js` — and wears it as a
+  left bar, a monogram badge or a small chip; the faction and detachment pickers use it, kept
+  apart from `--accent` so a row's own colour never hijacks the screen's selection highlight).
 - **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
   PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
   is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.

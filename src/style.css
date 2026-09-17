@@ -918,6 +918,46 @@ strong {
 }
 .copy-btn { white-space: nowrap; }
 
+/* A colour that follows the theme. An element carrying `--tone-light` / `--tone-dark` (a faction's
+   pair from factionsIndex.js, a disposition's from dispositionColors.js) and this class gets
+   `--tone` resolved for the theme the reader is on — the same three-state recipe
+   FactionAccentScope uses for `--accent`, kept apart from it so a row can be tinted by its own
+   colour while the screen's accent (the selected-row highlight, hover) stays what it is. */
+.tone { --tone: var(--tone-light); }
+@media (prefers-color-scheme: dark) { .tone { --tone: var(--tone-dark); } }
+:root[data-theme='light'] .tone { --tone: var(--tone-light); }
+:root[data-theme='dark'] .tone { --tone: var(--tone-dark); }
+/* The two ways a list row wears its tone: a bar on its left edge, and a small monogram badge. */
+.tone-bar { border-left: 4px solid var(--tone, var(--border)); }
+.tone-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  height: 1.7rem;
+  padding: 0 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+  background: color-mix(in srgb, var(--tone) 16%, transparent);
+  color: var(--tone);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.tone-chip {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+  background: color-mix(in srgb, var(--tone) 12%, transparent);
+  color: var(--tone);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
 /* ── Section help ──────────────────────────────────────────────────────────
    The door from a section (Rules / Tracker / Rosters) to its page of the guide. An icon, not the
    words "Section help": it sits in the row above the content on screens whose first fold is the

@@ -11,13 +11,15 @@
         <div
           v-for="f in pinned"
           :key="'pin-' + f.slug"
-          class="fac"
+          class="fac tone tone-bar"
+          :style="toneOf(f)"
         >
           <RouterLink
             :to="`/factions/${f.slug}`"
             class="fac-link"
             @click="$emit('close')"
           >
+            <span class="tone-badge">{{ f.abbr }}</span>
             <span class="fac-name">{{ f.name }}</span>
           </RouterLink>
           <FavoriteStar
@@ -39,13 +41,15 @@
         >
           <div
             v-if="f.ready"
-            class="fac"
+            class="fac tone tone-bar"
+            :style="toneOf(f)"
           >
             <RouterLink
               :to="`/factions/${f.slug}`"
               class="fac-link"
               @click="$emit('close')"
             >
+              <span class="tone-badge">{{ f.abbr }}</span>
               <span class="fac-name">{{ f.name }}</span>
             </RouterLink>
             <FavoriteStar
@@ -97,6 +101,13 @@ const GROUP_LABEL_KEYS = {
 function groupLabelKey(id) {
   return GROUP_LABEL_KEYS[id] || id
 }
+
+// The same colour identification as the tracker's faction picker (FactionPickerModal): a bar
+// and a monogram in the faction's own colour. The rows here ARE the index entries, so the pair
+// and the monogram are right on them.
+function toneOf(f) {
+  return f.color ? { '--tone-light': f.color.light, '--tone-dark': f.color.dark } : undefined
+}
 </script>
 
 <style scoped>
@@ -126,6 +137,7 @@ function groupLabelKey(id) {
   min-width: 0;
   display: flex;
   align-items: center;
+  gap: 0.6rem;
   text-decoration: none;
 }
 .fac-link:hover { text-decoration: none; }

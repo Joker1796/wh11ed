@@ -43,15 +43,29 @@
           class="det-hidden"
         >{{ labels.detachmentHidden.replace('{n}', hidden) }}</em>
       </div>
+      <!-- Each row wears its Force Disposition's colour — the bar on its edge and the chip under
+           the name — because the disposition is what a detachment is FOR, and five of them down a
+           list are told apart faster by hue than by reading (dispositionColors.js). The DP cost
+           sits on the right, where a cost is looked for. -->
       <button
         v-for="d in offered"
         :key="d.name"
-        class="det"
+        class="det tone tone-bar"
         :class="{ on: selected.includes(d.name) }"
+        :style="toneOf(d)"
         @click="$emit('toggle', d)"
       >
-        <span class="det-name">{{ d.name }}</span>
-        <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}<template v-if="d.unique"> · {{ d.unique }}</template></span>
+        <span class="det-main">
+          <span class="det-name">{{ d.name }}</span>
+          <span class="det-tags">
+            <span class="tone-chip">{{ d.forceDisposition }}</span>
+            <span
+              v-if="d.unique"
+              class="det-unique"
+            >{{ d.unique }}</span>
+          </span>
+        </span>
+        <span class="det-dp">{{ d.dp }} DP</span>
       </button>
     </div>
   </BaseModal>
@@ -62,6 +76,7 @@ import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { dispositionColor } from '../../data/dispositionColors.js'
 
 const props = defineProps({
   detachments: { type: Array, required: true },
@@ -94,6 +109,11 @@ const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTa
 const offered = computed(() => props.detachments.filter((d) => props.selected.includes(d.name)
   || (!clashes(d) && (props.selected.length === 0 || props.dpSpent + d.dp <= props.maxDp))))
 const hidden = computed(() => props.detachments.length - offered.value.length)
+
+function toneOf(d) {
+  const c = dispositionColor(d.forceDisposition)
+  return c ? { '--tone-light': c.light, '--tone-dark': c.dark } : undefined
+}
 </script>
 
 <style scoped>
@@ -108,9 +128,8 @@ const hidden = computed(() => props.detachments.length - offered.value.length)
 
 .det {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1px;
+  align-items: center;
+  gap: 0.6rem;
   text-align: left;
   padding: 0.4rem 0.55rem;
   border: 1px solid var(--border);
@@ -126,6 +145,19 @@ const hidden = computed(() => props.detachments.length - offered.value.length)
 .det-tools { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 .det-clear { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
 .det-hidden { font-size: 0.75rem; font-style: normal; color: var(--text-dim); text-align: right; }
+.det-main { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; }
 .det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
-.det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
+.det-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.det-unique { font-size: 0.66rem; color: var(--text-dim); font-family: var(--font-mono); text-transform: uppercase; }
+.det-dp {
+  flex-shrink: 0;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.det.on .det-dp { border-color: var(--accent); color: var(--accent); }
 </style>

@@ -15,6 +15,10 @@
     </button>
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
+      <!-- The caption row is already a space-between flex row; a consumer that acts on the
+           layout (the tracker's picker and its Select button) puts its control here, level
+           with the name, instead of under the card. -->
+      <slot name="caption-end" />
     </figcaption>
   </figure>
 

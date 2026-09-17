@@ -1,5 +1,8 @@
 <template>
-  <div class="matrix-wrap">
+  <div
+    class="matrix-wrap"
+    :class="{ compact }"
+  >
     <table class="matrix">
       <thead>
         <tr>
@@ -44,7 +47,8 @@
             v-for="col in dispositions"
             :key="row.id + '-' + col.id"
             class="cell"
-            :class="{ active: isActive(row.id, col.id) }"
+            :class="{ active: isActive(row.id, col.id), recommended: isRecommended(row.id, col.id) }"
+            :title="isRecommended(row.id, col.id) ? labels.trackerLayoutMatchupYours : undefined"
             @click="$emit('select', { you: row.id, opp: col.id })"
           >
             <span class="cell-dot" />
@@ -63,6 +67,12 @@ import { useLocale } from '../../composables/useLocale.js'
 const props = defineProps({
   dispositions: { type: Array, required: true },
   selected: { type: Object, default: null }, // { you, opp }
+  // The matchup of the game being set up — marked so the reader knows which cell is theirs
+  // while browsing the other fourteen (the tracker's layout picker).
+  recommended: { type: Object, default: null }, // { you, opp }
+  // Icons-only at any width (the phone look): for a dialog that puts the matrix beside the
+  // layouts and cannot spare 520px for the names.
+  compact: { type: Boolean, default: false },
 })
 defineEmits(['select'])
 
@@ -71,6 +81,9 @@ const labels = computed(() => ui[locale.value])
 
 function isActive(rowId, colId) {
   return props.selected && props.selected.you === rowId && props.selected.opp === colId
+}
+function isRecommended(rowId, colId) {
+  return props.recommended && props.recommended.you === rowId && props.recommended.opp === colId
 }
 </script>
 
@@ -156,42 +169,29 @@ function isActive(rowId, colId) {
   background: var(--text-on-accent);
 }
 
-/* Mobile: drop the names, show only emblem icons, and fit the table to the
-   viewport (no horizontal scroll on typical phones). */
-@media (max-width: 600px) {
-  .matrix {
-    min-width: 0;
-    table-layout: fixed;
-  }
-  .dispo-name {
-    display: none;
-  }
-  .dispo-icon {
-    display: block;
-    width: 26px;
-    height: 26px;
-    object-fit: contain;
-    margin: 0 auto;
-  }
-  .col-head,
-  .row-head {
-    padding: 0.35rem 0.15rem;
-  }
-  .row-head .dispo-icon {
-    margin: 0 auto;
-  }
-  .cell {
-    height: 40px;
-  }
-  /* Narrow corner: hide the words, keep just the direction arrows. */
-  .corner {
-    padding: 0.3rem 0.15rem;
-  }
-  .corner-you,
-  .corner-opp {
-    font-size: 0.6rem;
-    white-space: normal;
-    line-height: 1.2;
-  }
+/* The reader's own matchup: a dashed ring, so it stays visible while another cell is active. */
+.cell.recommended {
+  outline: 2px dashed var(--accent);
+  outline-offset: -4px;
 }
+
+/* Mobile — and the compact mode — drop the names, show only emblem icons, and fit the table to
+   the space (no horizontal scroll on typical phones). One rule body, applied by width or by
+   the `compact` class; the mixin-less way to say it twice is to list both selectors. */
+@media (max-width: 600px) {
+  .matrix { min-width: 0; table-layout: fixed; }
+  .dispo-name { display: none; }
+  .dispo-icon { display: block; width: 26px; height: 26px; object-fit: contain; margin: 0 auto; }
+  .col-head, .row-head { padding: 0.35rem 0.15rem; }
+  .cell { height: 40px; }
+  .corner { padding: 0.3rem 0.15rem; }
+  .corner-you, .corner-opp { font-size: 0.6rem; white-space: normal; line-height: 1.2; }
+}
+.compact .matrix { min-width: 0; table-layout: fixed; }
+.compact .dispo-name { display: none; }
+.compact .dispo-icon { display: block; width: 26px; height: 26px; object-fit: contain; margin: 0 auto; }
+.compact .col-head, .compact .row-head { padding: 0.35rem 0.15rem; }
+.compact .cell { height: 40px; }
+.compact .corner { padding: 0.3rem 0.15rem; }
+.compact .corner-you, .compact .corner-opp { font-size: 0.6rem; white-space: normal; line-height: 1.2; }
 </style>

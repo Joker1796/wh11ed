@@ -1034,10 +1034,17 @@ steps, and the phone its modal.
 
 - **`RosterWorkbench.vue`** owns both arrangements, so the catalogue and the list are written once
   per screen: `desk` renders the three columns, otherwise it renders the same `.roster-panes`
-  markup the two screens always had. Each desk column **sticks under the navbar and scrolls inside
-  itself** — the trick the catalogue pane already used, not a fixed-height shell whose height every
-  floating bar in the app is free to invalidate. All three are `container-type: inline-size`, which
-  is why nothing inside them needed rewriting: the rows already size themselves against their pane.
+  markup the two screens always had. Each desk column **scrolls inside itself, and the page does
+  not scroll at all** (2026-09-18): the columns are `height: 100dvh − --rw-top − --roster-sticky-h
+  − 1rem`, where `--rw-top` is where they start in the document, MEASURED by the workbench (a
+  ResizeObserver on the body, re-run on resize — the settings bar and the faction-rules fold above
+  them are as tall as their content, which CSS cannot know), and `App.vue`'s desk padding reserves
+  exactly the same bar-plus-gap below, so the page ends at the window's edge. Until 2026-09-18 the
+  columns were sticky under the navbar and capped against it alone, and the page still scrolled by
+  the height of everything above them — four scrollbars. A `min-height: 16rem` floor keeps a column
+  usable if the fold above opens on something long; the page then scrolls, which beats an unusable
+  column. All three are `container-type: inline-size`, which is why nothing inside them needed
+  rewriting: the rows already size themselves against their pane.
 - **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
   battle size, Force Disposition, then the points and the issue badge. It holds no state: both
   callers own a roster and do different things with the same answer (the wizard's faction pick also

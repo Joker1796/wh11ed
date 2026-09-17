@@ -327,6 +327,10 @@ onUnmounted(() => {
     max-width: 1600px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    /* Exactly the room the fixed Cancel/Save bar and the gap above it take — the desk's
+       columns are sized against the same two numbers (RosterWorkbench), so the page ends at
+       the window's edge and never scrolls. The general 4rem reserve is for the phone's bars. */
+    padding-bottom: calc(var(--roster-sticky-h, 0px) + 1rem);
   }
 }
 

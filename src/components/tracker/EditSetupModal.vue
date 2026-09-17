@@ -223,6 +223,7 @@
     <LayoutPickerModal
       v-if="layoutPickerOpen"
       :selected="settings.layout === 'custom' ? settings.customLayout : null"
+      :matchup="{ you: game.players[0].disposition, opp: game.players[1].disposition }"
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />

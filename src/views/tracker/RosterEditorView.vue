@@ -602,6 +602,12 @@ function rename(name) {
 @media (max-width: 900px) {
   .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
 }
+/* The desk (RosterWorkbench, ≥1200px) sizes its columns to end above the footer itself, and
+   App.vue's desk padding reserves the footer's room — any reserve here on top of that is height
+   the page has to scroll by. */
+@media (min-width: 1200px) {
+  .roster-editor, .red-panel { padding-bottom: 0; }
+}
 
 /* ONE card of settings, not five tiles. Each setting used to be its own bordered box that sized
    itself to its own words — a faction name, two detachment names, an empty notes field — so the
