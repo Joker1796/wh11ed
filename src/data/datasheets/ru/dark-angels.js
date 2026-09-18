@@ -1,6 +1,6 @@
 // Dark Angels — русский перевод листов данных. Делят 84 листа с генерик-Space Marines
 // (тот же id и EN-текст) — переиспользуются из ./space-marines.js. Здесь переведены только
-// 16 листов, уникальных для Dark Angels (Deathwing, Ravenwing, именные герои).
+// 19 листов, уникальных для Dark Angels (Deathwing, Ravenwing, именные герои, три Legends).
 // Конвенции те же (см. ./index.js).
 import smRu, { abilityNamesRu as smNames } from './space-marines.js'
 
@@ -92,6 +92,36 @@ export default {
     leader: { text: LEADER_TEXT },
   },
 
+  // Warhammer Legends, from the Faction Pack (EN sheet carries source: 'faction-pack').
+  'deathwing-command-squad': {
+    flavor:
+      'Порой отделение Deathwing формируется в почётную стражу, сопровождающую высокопоставленных членов Внутреннего круга — библиариев, дознавателей-капелланов и даже магистров рот. Вместе они ведут своих братьев прямо в сердце битвы, туда, где их умения нужнее всего.',
+    abilities: {
+      Narthecium:
+        'Пока этот юнит содержит Apothecary, в вашей фазе командования вы можете вернуть 1 уничтоженную модель (исключая модели CHARACTER) в этот юнит.',
+      'Astartes Banner':
+        'Пока этот юнит содержит Ancient, прибавьте 1 к характеристике Контроля целей (OC) моделей этого юнита.',
+      'Honour or Death':
+        'Пока этот юнит содержит Company Champion, прибавьте 1 к броскам продвижения и нападения для этого юнита. Когда вы нацеливаете стратагему Heroic Intervention на этот юнит, это применение стоит на 1 CP меньше.',
+    },
+    wargear: {
+      'Storm Shield': 'Носитель имеет характеристику Ран (Wounds) 4.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит Character из вашей армии со способностью Leader может быть присоединён к юниту Terminator Squad, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout:
+      '**Deathwing Ancient вооружён:** storm bolter; power fist.\n\n**Deathwing Apothecary вооружён:** storm bolter; chainfist.\n\n**Deathwing Champion вооружён:** halberd of Caliban.\n\n**Каждый Deathwing Command Terminator вооружён:** storm bolter; power fist.',
+    options: [
+      'Любому числу Deathwing Command Terminator их storm bolter и power fist можно заменить на одно из следующего:\n▪ 1 twin lightning claws\n▪ 1 thunder hammer и 1 storm shield',
+      'Любому числу Deathwing Command Terminator их power fist можно заменить на 1 chainfist.',
+      'power fist 1 Deathwing Command Terminator можно заменить на 1 power weapon.',
+      'За каждые 5 моделей в этом юните 1 Deathwing Command Terminator может заменить свой storm bolter на одно из следующего:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 plasma cannon\n▪ 1 storm bolter и 1 cyclone missile launcher (storm bolter этой модели заменить нельзя)',
+      'Этот юнит можно снабдить 1 Watcher in the Dark.*\n* Правила Watcher in the Dark приведены на датащите Deathwing Knights.',
+    ],
+  },
+
   'deathwing-knights': {
     flavor:
       'Deathwing Knights — высшие сеятели смерти Ордена, чьи удары ломают хребет врагу одним махом. Снаряжённые фамильным военным снаряжением, они телепортируются в самое сердце жесточайшего боя, ведомые Knight Master — вихрями смертоносного разрушения.',
@@ -110,6 +140,26 @@ export default {
       'Всем Deathwing Knight в этом юните их mace of absolution можно заменить на 1 power weapon.',
       'Этот юнит можно снабдить 1 Watcher in the Dark.',
     ],
+  },
+
+  // Warhammer Legends, from the Faction Pack.
+  'deathwing-strikemaster': {
+    flavor:
+      'Deathwing Strikemaster служат лейтенантами Deathwing. Чтобы заслужить столь почётный чин, они совершили деяния огромной отваги на бесчисленных полях сражений, оттачивая своё мастерство воинов и командиров. В бою они направляют братьев Deathwing с умением и гордостью, неся врагу смерть.',
+    abilities: {
+      'Tactical Precision':
+        'Пока эта модель возглавляет юнит, оружие моделей этого юнита имеет способность [LETHAL HITS].',
+      'Vanquish the Foe':
+        'Каждый раз, когда эта модель совершает атаку по вражескому юниту ниже половинной численности, прибавьте 1 к броску попадания и прибавьте 1 к броску ранения.',
+    },
+    wargear: {
+      'Storm Shield': 'Носитель имеет характеристику Ран (Wounds) 6.',
+    },
+    loadout: `${EQUIP_THIS} storm bolter; master-crafted power weapon.`,
+    options: [
+      'storm bolter и master-crafted power weapon этой модели можно заменить либо на 1 twin lightning claws, либо на два разных вида оружия из следующего списка:\n▪ 1 storm bolter\n▪ 1 chainfist\n▪ 1 mace of absolution\n▪ 1 power fist\n▪ 1 thunder hammer\n▪ 1 storm shield',
+    ],
+    leader: { text: LEADER_TEXT },
   },
 
   'deathwing-terminator-squad': {
@@ -279,6 +329,21 @@ export default {
     options: ['heavy bolter этой модели можно заменить на 1 assault cannon.'],
   },
 
+  // Warhammer Legends, from the Faction Pack.
+  'ravenwing-talonmaster': {
+    flavor:
+      'Talonmaster на Land Speeder, оснащённом дополнительными ауспик-сканерами и вокс-кастерами, направляет огонь Ravenwing, и его снаряжение не даёт укрыться ни одной добыче. Он находит даже врагов, ищущих временного убежища в густой местности, и раскрывает их положение всем воинам Ravenwing.',
+    abilities: {
+      Talonmaster:
+        'Пока эта модель находится в пределах 3" от одного или более других дружественных юнитов ADEPTUS ASTARTES MOUNTED или ADEPTUS ASTARTES FLY VEHICLE, эта модель имеет способность Lone Operative.',
+      'Nowhere to Hide':
+        'Пока дружественный юнит ADEPTUS ASTARTES MOUNTED или ADEPTUS ASTARTES FLY VEHICLE находится в пределах 6" от этой модели, дальнобойное оружие моделей этого юнита имеет способность [IGNORES COVER].',
+      'Master of Manoeuvre':
+        'В фазе движения вашего оппонента, когда вражеский юнит завершает обычный манёвр, продвижение или отступление в пределах 8" от этой модели, если эта модель не находится в дистанции ввязывания одного или более вражеских юнитов, эта модель может совершить обычный манёвр до 6".',
+    },
+    loadout: `${EQUIP_THIS} twin assault cannon; twin heavy bolter; power weapon.`,
+  },
+
   sammael: {
     // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
     aliasesRu: ['Саммаэль'],
@@ -326,4 +391,9 @@ export const abilityNamesRu = {
   'Icon of Old Caliban (Aura)': 'Икона старого Калибана (Аура)',
   'Grand Master of the Ravenwing': 'Великий магистр Ravenwing',
   'Cut Off Their Escape': 'Отрежь им отход',
+  // Legends (Faction Pack)
+  Talonmaster: 'Мастер когтей',
+  'Nowhere to Hide': 'Негде спрятаться',
+  'Master of Manoeuvre': 'Мастер манёвра',
+  'Vanquish the Foe': 'Сокруши врага',
 }
