@@ -60,6 +60,7 @@ for (const sub of smMfm.subfactions) {
 
 let drift = 0
 const missingLegends = []
+const LEGENDS_MFM_NAMES = { 'sentry pylons': 'sentry pylon' }
 const report = (msg) => { console.log(msg); drift++ }
 
 for (const file of readdirSync(DS).sort()) {
@@ -75,8 +76,11 @@ for (const file of readdirSync(DS).sort()) {
   for (const u of mfm.units ?? []) expected.set(norm(u.name), [...u.options])
   const legendsNames = new Set()
   for (const u of mfm.legends ?? []) {
-    legendsNames.add(norm(u.name))
-    if (!expected.has(norm(u.name))) expected.set(norm(u.name), [...u.options])
+    // The MFM prints a few Legends names differently from the Faction Pack datasheet they price
+    // ("Sentry Pylons" for the pack's SENTRY PYLON); the datasheet keeps the pack's name.
+    const name = LEGENDS_MFM_NAMES[norm(u.name)] || norm(u.name)
+    legendsNames.add(name)
+    if (!expected.has(name)) expected.set(name, [...u.options])
   }
   const chapterShared = new Map() // name -> options (Chapter price of shared SM units)
   for (const sub of mfm.subfactions ?? []) {

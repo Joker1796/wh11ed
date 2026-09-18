@@ -33,7 +33,10 @@ const start = src.indexOf('export default [')
 if (start === -1) { console.error(`${file}: no "export default [" array`); process.exit(1) }
 const arrStart = start + 'export default '.length
 const arrEnd = src.lastIndexOf(']') + 1
-const data = JSON.parse(src.slice(arrStart, arrEnd))
+// Seven of the files carry a trailing comma inside a `leader` block (`],\n    },`) — an array
+// literal, not JSON — so the text is evaluated as JavaScript; it is this repo's own data. The
+// rewrite below serialises it as JSON, which drops those commas: a few-line normalisation.
+const data = new Function(`return ${src.slice(arrStart, arrEnd)}`)()
 
 const entries = JSON.parse(fs.readFileSync(entriesPath, 'utf-8'))
 if (!Array.isArray(entries) || !entries.length) { console.error('entries: expected a non-empty JSON array'); process.exit(1) }
@@ -46,7 +49,7 @@ const WEAPON = { ranged: ['name', 'tags', 'range', 'a', 'bs', 's', 'ap', 'd'], m
 const errors = []
 for (const e of entries) {
   const at = (m) => errors.push(`${e.id || e.name || '?'}: ${m}`)
-  for (const k of ['id', 'name', 'points', 'profiles', 'faction', 'abilities', 'composition', 'keywords', 'factionKeywords']) {
+  for (const k of ['id', 'name', 'points', 'profiles', 'abilities', 'composition', 'keywords', 'factionKeywords']) {
     if (!(k in e)) at(`missing "${k}"`)
   }
   if (typeof e.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(e.id)) at('id must be a kebab-case slug')

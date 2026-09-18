@@ -3,6 +3,81 @@
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 export default [
   {
+    "id": "barbed-hierodule",
+    "name": "Barbed Hierodule",
+    "points": [
+      {
+        "models": 1,
+        "points": 340
+      }
+    ],
+    "flavor": "First recorded during the invasion of Hamman’s World, these looming monstrosities are protected by thick armour plates that allow them to shrug off all but the most devastating of attacks, while their bio-cannons are able to hold off the foe as they charge forward to finish the prey at close quarters.",
+    "profiles": [
+      {
+        "name": "Barbed Hierodule",
+        "m": "8\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "8+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bio-cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Hierodule scything talons",
+        "tags": [],
+        "a": "8",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-2",
+        "d": "D3+3"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Synapse",
+    "abilities": [
+      {
+        "name": "Overgrown Barbs",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding TITANIC units) that was hit by one or more of those attacks. Until the start of your next turn, while this model is on the battlefield, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Barbed Hierodule"
+    ],
+    "loadout": "**This model is equipped with:** 2 bio-cannons; Hierodule scything talons.",
+    "keywords": [
+      "Monster",
+      "Frame",
+      "Great Devourer",
+      "Barbed Hierodule"
+    ],
+    "factionKeywords": [
+      "Tyranids"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "barbgaunts",
     "name": "Barbgaunts",
     "points": [
@@ -460,6 +535,69 @@ export default [
     ]
   },
   {
+    "id": "dimachaeron",
+    "name": "Dimachaeron",
+    "points": [
+      {
+        "models": 1,
+        "points": 200
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Dimachaeron",
+        "m": "12\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "16",
+        "ld": "7+",
+        "oc": "5",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Massive scything sickle-talons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "10",
+        "ws": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Synapse",
+    "abilities": [
+      {
+        "name": "Digestion Spine",
+        "text": "Each time this model fights, after it has resolved its attacks, if one or more enemy models (excluding VEHICLE models) were destroyed as the result of those attacks, this model regains up to D3 wounds."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Dimachaeron"
+    ],
+    "loadout": "**This model is equipped with:** massive scything sickle-talons.",
+    "keywords": [
+      "Monster",
+      "Frame",
+      "Great Devourer",
+      "Dimachaeron"
+    ],
+    "factionKeywords": [
+      "Tyranids"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "exocrine",
     "name": "Exocrine",
     "points": [
@@ -867,7 +1005,7 @@ export default [
       "Monster",
       "Titanic",
       "Transport"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -1072,7 +1210,7 @@ export default [
       "Titanic",
       "Towering",
       "Transport"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -1571,7 +1709,7 @@ export default [
       "Infantry",
       "Synapse",
       "Vanguard Invader"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ]
@@ -1636,6 +1774,74 @@ export default [
       "Tyranids"
     ],
     "baseSize": "50mm"
+  },
+  {
+    "id": "malanthrope",
+    "name": "Malanthrope",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Malanthrope",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Grasping tail",
+        "tags": [],
+        "a": "4",
+        "ws": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "core": "Leader, Stealth",
+    "faction": "Shadow in the Warp, Synapse",
+    "abilities": [
+      {
+        "name": "Enhanced Toxic Miasma",
+        "text": "While this model is leading a unit, the range of that unit’s Foul Spores Aura ability is increased to 9\"."
+      },
+      {
+        "name": "Prey Adaptation",
+        "text": "Each time this model’s unit is selected to fight, select one of the following abilities to apply to all melee weapons equipped by models in that unit until the end of the phase:\n▪ [SUSTAINED HITS 1]\n▪ [LANCE]\n▪ [LETHAL HITS]"
+      }
+    ],
+    "composition": [
+      "1 Malanthrope"
+    ],
+    "loadout": "**This model is equipped with:** grasping tail.",
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Venomthropes"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Fly",
+      "Great Devourer",
+      "Synapse",
+      "Malanthrope"
+    ],
+    "factionKeywords": [
+      "Tyranids"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "maleceptor",
@@ -1794,7 +2000,7 @@ export default [
       "Mawloc",
       "Monster",
       "Vanguard Invader"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -2852,6 +3058,156 @@ export default [
     "baseSize": "90mm"
   },
   {
+    "id": "scythed-hierodule",
+    "name": "Scythed Hierodule",
+    "points": [
+      {
+        "models": 1,
+        "points": 330
+      }
+    ],
+    "flavor": "The Hive Mind trusts only in the power of flesh. The Hierodule is a clear embodiment of this principle, a living weapon of monstrous power whose scythed limbs can cut apart war machines with ease. Any that survive the power of its talons are subjected to torrents of mutagenic acid from the symbiote-beast that grows between its armoured plates.",
+    "profiles": [
+      {
+        "name": "Scythed Hierodule",
+        "m": "12\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "8+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bio-acid spray",
+        "tags": [
+          "TORRENT"
+        ],
+        "range": "18\"",
+        "a": "3D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Hierodule scything talons",
+        "tags": [],
+        "a": "10",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-2",
+        "d": "D3+3"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Synapse",
+    "abilities": [
+      {
+        "name": "Irresistible Force",
+        "text": "This model is eligible to declare a charge in a turn in which it Fell Back."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Scythed Hierodule"
+    ],
+    "loadout": "**This model is equipped with:** bio-acid spray; Hierodule scything talons.",
+    "keywords": [
+      "Monster",
+      "Frame",
+      "Great Devourer",
+      "Scythed Hierodule"
+    ],
+    "factionKeywords": [
+      "Tyranids"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sky-slasher-swarms",
+    "name": "Sky-slasher Swarms",
+    "points": [
+      {
+        "models": 3,
+        "points": 60
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sky-slasher Swarms",
+        "m": "12\"",
+        "t": "2",
+        "sv": "6+",
+        "w": "4",
+        "ld": "8+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Spinemaws",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Claws and teeth",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "6",
+        "ws": "5+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "Synapse",
+    "abilities": [
+      {
+        "name": "Chitinous Horrors",
+        "text": "While an enemy unit is within Engagement Range of one or more units with this ability, halve the Objective Control characteristic of models in that enemy unit."
+      }
+    ],
+    "composition": [
+      "3 Sky-slasher Swarms"
+    ],
+    "loadout": "**Every model is equipped with:** claws and teeth.",
+    "options": [
+      "Any number of models can each be equipped with 1 spinemaws."
+    ],
+    "keywords": [
+      "Swarm",
+      "Great Devourer",
+      "Fly",
+      "Sky-slasher Swarms"
+    ],
+    "factionKeywords": [
+      "Tyranids"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "spore-mines",
     "name": "Spore Mines",
     "points": [
@@ -3292,7 +3648,7 @@ export default [
       "Monster",
       "The Red Terror",
       "Vanguard Invader"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3458,7 +3814,7 @@ export default [
       "Great Devourer",
       "Monster",
       "Toxicrene"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3531,7 +3887,7 @@ export default [
       "Monster",
       "Trygon",
       "Vanguard Invader"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3886,7 +4242,7 @@ export default [
       "Transport",
       "Tyrannocyte",
       "Vanguard Invader"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -4004,7 +4360,7 @@ export default [
       "Great Devourer",
       "Monster",
       "Tyrannofex"
-        ],
+    ],
     "factionKeywords": [
       "Tyranids"
     ],

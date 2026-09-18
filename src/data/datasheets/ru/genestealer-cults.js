@@ -371,6 +371,20 @@ export default {
       'Sanctus bio-dagger этой модели можно заменить на 1 cult sniper rifle и 1 close combat weapon.',
     ],
   },
+  // Warhammer Legends, from the Faction Pack v1.1 (EN sheet carries source: 'faction-pack').
+  'tectonic-fragdrill': {
+    abilities: {
+      Fortification:
+        'Пока вражеский юнит находится в дистанции ввязывания только одного или более FORTIFICATIONS из вашей армии:\n▪ Этот юнит по-прежнему можно выбирать целью дальнобойных атак, но каждый раз, когда такая атака совершается, если только она не совершается из Pistol, вычтите 1 из броска попадания.\n▪ Моделям этого юнита не нужно проходить проверки Desperate Escape из-за отступления в боевом шоке, кроме тех, что при этом пройдут через вражеские модели.',
+      'Tectonic Fragdrill':
+        'Дружественные модели GENESTEALER CULTS INFANTRY могут быть развёрнуты или завершать любой вид движения на секциях пола этого Fortification.',
+      'Underground Egress':
+        'Каждый раз, когда один из ваших маркеров Cult Ambush убирается из-за того, что вражеский юнит завершил любой вид движения в пределах 8" от него, вы можете вместо этого переместить этот маркер так, чтобы он был целиком в пределах 8" от этого Fortification и дальше 8" по горизонтали от всех вражеских юнитов (если это невозможно, маркер убирается как обычно).',
+      'Manufactorum Cover':
+        'Каждый раз, когда дальнобойная атака распределяется по модели, если эта модель не полностью видима каждой модели атакующего юнита из-за этого Fortification, эта модель имеет Benefit of Cover против этой атаки.',
+    },
+    loadout: '**Эта модель вооружена:** fragdrill.',
+  },
 }
 
 export const abilityNamesRu = {
@@ -420,4 +434,9 @@ export const abilityNamesRu = {
   'Creeping Shadow': 'Крадущаяся тень',
   'Cloaked Assassin': 'Сокрытый убийца',
   'Psychic Spoor': 'Псионический след',
+  // Legends (Faction Pack)
+  Fortification: 'Укрепление',
+  'Tectonic Fragdrill': 'Тектонический бур',
+  'Underground Egress': 'Подземный выход',
+  'Manufactorum Cover': 'Укрытие мануфакторума',
 }

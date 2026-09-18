@@ -951,7 +951,7 @@ export default [
         "Acolyte Hybrids with Hand Flamers",
         "Acolyte Hybrids with Autopistols",
         "Aberrants"
-      ],
+      ]
     },
     "keywords": [
       "Character",
@@ -1032,7 +1032,7 @@ export default [
         "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
-      ],
+      ]
     },
     "keywords": [
       "Great Devourer",
@@ -1631,7 +1631,7 @@ export default [
         "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
-      ],
+      ]
     },
     "keywords": [
       "Locus",
@@ -2016,7 +2016,7 @@ export default [
         "Acolyte Hybrids with Autopistols",
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
-      ],
+      ]
     },
     "keywords": [
       "Infantry",
@@ -2475,5 +2475,72 @@ export default [
       "Genestealer Cults"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "tectonic-fragdrill",
+    "name": "Tectonic Fragdrill",
+    "points": [
+      {
+        "models": 1,
+        "points": 125
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Tectonic Fragdrill",
+        "m": "-",
+        "t": "11",
+        "sv": "3+",
+        "w": "14",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Fragdrill",
+        "tags": [],
+        "a": "6",
+        "ws": "6+",
+        "s": "12",
+        "ap": "-2",
+        "d": "D6"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      },
+      {
+        "name": "Tectonic Fragdrill",
+        "text": "Friendly GENESTEALER CULTS INFANTRY models can be set up or end any type of move on top of the floor sections of this Fortification."
+      },
+      {
+        "name": "Underground Egress",
+        "text": "Each time one of your Cult Ambush markers is removed as the result of an enemy unit ending any kind of move within 8\" of it, you can instead move that marker so that it is wholly within 8\" of this Fortification and more than 8\" horizontally away from all enemy units (if this is not possible, that marker is removed as normal)."
+      },
+      {
+        "name": "Manufactorum Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      }
+    ],
+    "composition": [
+      "1 Tectonic Fragdrill"
+    ],
+    "loadout": "**This model is equipped with:** fragdrill.",
+    "keywords": [
+      "Fortification",
+      "Vehicle",
+      "Frame",
+      "Tectonic Fragdrill"
+    ],
+    "factionKeywords": [
+      "Genestealer Cults"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
   }
 ]
