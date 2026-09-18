@@ -37,6 +37,22 @@ const DP_GOD_BLOCK = {
 const dmgHitMinus = (range) =>
   `Пока у этой модели осталось ${range} ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
 
+// Warhammer Legends (Faction Pack): the undivided beasts pick a god, Nurgle's toads borrow the Beasts' leaders.
+const DAEMONIC_ALLEGIANCE_LEGENDS =
+  'Когда вы выбираете эту модель для включения в свою армию, вы обязаны выбрать одно из следующих ключевых слов, которое она получит:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH'
+const DAEMONIC_ALLEGIANCE_LEGENDS_STATS = `${DAEMONIC_ALLEGIANCE_LEGENDS}\nВыбранное ключевое слово также повлияет на некоторые характеристики этой модели (см. раздел Daemonic Allegiance).`
+const CREATURE_GOD_BLOCK = {
+  'Creature of Khorne':
+    'Если эта модель имеет ключевое слово KHORNE, прибавьте 2 к характеристике Силы (Strength) оружия ближнего боя этой модели.',
+  'Creature of Tzeentch': 'Если эта модель имеет ключевое слово TZEENTCH, эта модель имеет инвулевый спас-бросок 4+.',
+  'Creature of Nurgle':
+    'Если эта модель имеет ключевое слово NURGLE, прибавьте 1 к характеристике Стойкости (Toughness) этой модели.',
+  'Creature of Slaanesh':
+    'Если эта модель имеет ключевое слово SLAANESH, прибавьте 2" к характеристике Перемещения (Move) этой модели.',
+}
+const GRANDFATHERS_BLESSING =
+  'Если модель из вашей армии со способностью Leader может быть присоединена к юниту BEASTS OF NURGLE, вместо этого её можно присоединить к этому юниту.'
+
 export default {
   belakor: {
     // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
@@ -820,6 +836,112 @@ export default {
     options: ['Нет.'],
     leader: { text: LEADER_TEXT },
   },
+
+  // Warhammer Legends, from the Faction Pack v1.1 (see `source: "faction-pack"` in the EN file).
+
+  'aetaos-rau-keres': {
+    abilities: {
+      'Emissary of the Great Mutator (Aura)': 'Пока дружественный юнит TZEENTCH LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
+      'Master of Magicks (Psychic)':
+        'В вашей фазе стрельбы выберите одну из следующих способностей: [IGNORES COVER]; [LETHAL HITS]; [SUSTAINED HITS D3]. До конца фазы дальнобойное оружие этой модели имеет эту способность.',
+    },
+    damaged: { note: 'осталось 1–8 ран', text: dmgHitMinus('1–8') },
+    loadout: `${EQUIP_THIS} Bolt of Tzeentch; staff of cataclysm; warpfire talons.`,
+    options: ['Нет.'],
+  },
+  'an-ggrath-the-unbound': {
+    abilities: {
+      'Emissary of the Blood God (Aura)': 'Пока дружественный юнит KHORNE LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
+      'Relentless Carnage':
+        'В конце фазы ближнего боя вы можете выбрать один вражеский юнит в дистанции ввязывания от этой модели и бросить восемь D6: за каждый 4+ этот вражеский юнит получает 1 смертельную рану.',
+    },
+    damaged: { note: 'осталось 1–8 ран', text: dmgHitMinus('1–8') },
+    loadout: `${EQUIP_THIS} bloodlash; axe of Khorne.`,
+    options: ['Нет.'],
+  },
+  furies: {
+    abilities: {
+      'Prey on the Weak':
+        'Каждый раз, когда эта модель совершает атаку по вражескому юниту в боевом шоке, прибавьте 1 к броску ранения.',
+    },
+    rules: { 'DAEMONIC ALLEGIANCE': DAEMONIC_ALLEGIANCE_LEGENDS },
+    loadout: `${EQUIP_EVERY} daemonic claws.`,
+    options: ['Нет.'],
+  },
+  'giant-chaos-spawn': {
+    abilities: {
+      'Regenerating Monstrosity':
+        'В начале фазы командования каждого игрока эта модель восстанавливает до D3 потерянных ран.',
+    },
+    special: { ...CREATURE_GOD_BLOCK },
+    rules: { 'DAEMONIC ALLEGIANCE': DAEMONIC_ALLEGIANCE_LEGENDS_STATS },
+    loadout: `${EQUIP_THIS} churning fangs and claws.`,
+    options: ['Нет.'],
+  },
+  'herald-of-slaanesh-on-steed-of-slaanesh': {
+    abilities: {
+      'Lethal Caress':
+        'Пока эта модель возглавляет юнит, улучшите характеристику Пробития брони (Armour Penetration) оружия ближнего боя моделей этого юнита на 1.',
+      'Symphony of Pain (Psychic)':
+        'В конце вашей фазы перемещения вы можете выбрать один вражеский юнит, что в боевом шоке и в пределах 12" от этой модели. До конца хода каждый раз, когда модель SLAANESH LEGIONES DAEMONICA из вашей армии совершает атаку по этому вражескому юниту, вы можете перебросить бросок попадания и бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} lashing tongue; ravaging claws.`,
+    options: ['Нет.'],
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+  'plague-toads': {
+    abilities: {
+      'Pouncing Leap':
+        'Вы можете нацелить стратагему Heroic Intervention на этот юнит, независимо от любых других применений этой стратагемы в этой фазе. Если вы это делаете:\n▪ Это применение стоит на 1 CP меньше.\n▪ Это применение не мешает применить эту стратагему на других юнитах в этой фазе.',
+    },
+    rules: { 'GRANDFATHER’S BLESSING': GRANDFATHERS_BLESSING },
+    loadout: `${EQUIP_EVERY} grasping tongue; yawning maw.`,
+    options: ['Нет.'],
+  },
+  'pox-riders': {
+    abilities: {
+      'Bounding Assault':
+        'Каждый раз, когда этот юнит завершает манёвр нападения, до конца хода Pox Rider plaguesword моделей этого юнита имеют способность [LANCE].',
+    },
+    wargear: { ...DAEMONIC_WG },
+    rules: { 'GRANDFATHER’S BLESSING': GRANDFATHERS_BLESSING },
+    loadout: `${EQUIP_EVERY} grasping tongue; Pox Rider plaguesword; yawning maw.`,
+    options: [
+      '1 Pox Rider, не вооружённого daemonic icon, можно снабдить 1 instrument of Chaos.',
+      '1 Pox Rider, не вооружённого instrument of Chaos, можно снабдить 1 daemonic icon.',
+    ],
+  },
+  'scabeiathrax-the-bloated': {
+    abilities: {
+      'Emissary of the Plague God (Aura)': 'Пока дружественный юнит NURGLE LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
+      'Nurgle’s Rot (Psychic)':
+        'В конце вашей фазы перемещения вы можете выбрать один вражеский юнит в пределах 12" от этой модели. До начала вашей следующей фазы перемещения вычтите 1 из характеристики Стойкости (Toughness) моделей этого юнита.',
+    },
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
+    loadout: `${EQUIP_THIS} putrid vomit; blade of decay.`,
+    options: ['Нет.'],
+  },
+  'spined-chaos-beast': {
+    abilities: {
+      'Warp Spines':
+        'Каждый раз, когда эта модель завершает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от неё и бросьте один D6: на 2–3 этот вражеский юнит получает D3 смертельные раны; на 4–5 — 3 смертельные раны; на 6 — D3+3 смертельные раны.',
+    },
+    special: { ...CREATURE_GOD_BLOCK },
+    rules: { 'DAEMONIC ALLEGIANCE': DAEMONIC_ALLEGIANCE_LEGENDS_STATS },
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+    loadout: `${EQUIP_THIS} jagged claws and tusked maw.`,
+    options: ['Нет.'],
+  },
+  zarakynel: {
+    abilities: {
+      'Emissary of the Prince of Excess (Aura)': 'Пока дружественный юнит SLAANESH LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
+      'Mesmerising Form':
+        'Каждый раз, когда атака нацеливается на эту модель, вычтите 1 из броска попадания.',
+    },
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
+    loadout: `${EQUIP_THIS} Phantasmagoria; snapping claws; souleater blade.`,
+    options: ['Нет.'],
+  },
 }
 
 export const abilityNamesRu = {
@@ -931,4 +1053,20 @@ export const abilityNamesRu = {
   'Diseased Cover': 'Больное укрытие',
   Fortification: 'Укрепление',
   'Soporific Musk': 'Снотворный мускус',
+  // Legends (Faction Pack)
+  'Emissary of the Great Mutator (Aura)': 'Посланник Великого Мутатора (Аура)',
+  'Emissary of the Blood God (Aura)': 'Посланник Кровавого Бога (Аура)',
+  'Emissary of the Plague God (Aura)': 'Посланник Бога Чумы (Аура)',
+  'Emissary of the Prince of Excess (Aura)': 'Посланник Принца Излишеств (Аура)',
+  'Prey on the Weak': 'Охота на слабых',
+  'Regenerating Monstrosity': 'Регенерирующее чудовище',
+  'Creature of Khorne': 'Тварь Кхорна',
+  'Creature of Tzeentch': 'Тварь Тзинча',
+  'Creature of Nurgle': 'Тварь Нургла',
+  'Creature of Slaanesh': 'Тварь Слаанеш',
+  'Lethal Caress': 'Смертельная ласка',
+  'Pouncing Leap': 'Прыжок в наскок',
+  'GRANDFATHER’S BLESSING': 'Благословение Дедушки',
+  'Bounding Assault': 'Прыжковый натиск',
+  'Warp Spines': 'Варп-шипы',
 }

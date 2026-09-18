@@ -14,6 +14,12 @@ const SCUTTLING_WALKER =
 const dmgHitMinus = (range) =>
   `Пока у этой модели осталось ${range} ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
 
+// Warhammer Legends (Faction Pack): the two Chaos Lords share these.
+const CHAOS_LORD_LEGENDS =
+  'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку, перебросьте бросок попадания, равный 1.'
+const DESICCATION_CONDUIT =
+  'Пока вражеский юнит находится в пределах Contagion Range этой модели, в конце хода бросьте один D6: на 4+ этот вражеский юнит получает D3 смертельные раны.'
+
 export default {
   'beasts-of-nurgle': {
     flavor:
@@ -548,6 +554,73 @@ export default {
     loadout: `${EQUIP_THIS} Lakrimae.`,
     leader: { text: LEADER_TEXT },
   },
+
+  // Warhammer Legends, from the Faction Pack v1.2 (see `source: "faction-pack"` in the EN file).
+
+  'death-guard-chaos-lord': {
+    abilities: {
+      'Chaos Lord': CHAOS_LORD_LEGENDS,
+      'Desiccation Conduit (Aura)': DESICCATION_CONDUIT,
+    },
+    loadout: `${EQUIP_THIS} plague bolt pistol; Astartes chainsword.`,
+    options: [
+      'plague bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 combi-weapon\n▪ 1 plague combi-bolter\n▪ 1 plague fist\n▪ 1 plague-encrusted exalted weapon\n▪ 1 plasma pistol',
+      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 plague fist\n▪ 1 plague-encrusted exalted weapon',
+      'plague bolt pistol и Astartes chainsword этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+  'death-guard-chaos-lord-in-terminator-armour': {
+    abilities: {
+      'Chaos Lord': CHAOS_LORD_LEGENDS,
+      'Desiccation Conduit (Aura)': DESICCATION_CONDUIT,
+    },
+    loadout: `${EQUIP_THIS} plague combi-bolter; plague-encrusted exalted weapon.`,
+    options: [
+      'plague combi-bolter этой модели можно заменить на одно из следующего:\n▪ 1 combi-weapon\n▪ 1 plague-encrusted exalted weapon',
+      'plague-encrusted exalted weapon этой модели можно заменить на одно из следующего:\n▪ 1 chainfist\n▪ 1 plague fist',
+      'plague combi-bolter и plague-encrusted exalted weapon этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+  'death-guard-cultists': {
+    loadout: `${EQUIP_EVERY} Cultist firearm; brutal assault weapon.`,
+    options: [
+      'За каждые 10 моделей в этом юните у 1 Death Guard Cultist его Cultist firearm можно заменить на 1 flamer.',
+      'За каждые 10 моделей в этом юните у 1 Death Guard Cultist его Cultist firearm можно заменить на 1 heavy stubber.',
+      'За каждые 10 моделей в этом юните у 1 Death Guard Cultist его Cultist firearm можно заменить на 1 grenade launcher.',
+    ],
+  },
+  'death-guard-possessed': {
+    abilities: {
+      'Infectious Bloodshed':
+        'Каждый раз, когда этот юнит совершает манёвр нападения, до конца хода оружие моделей этого юнита имеет способность [SUSTAINED HITS 1].',
+    },
+    wargear: {
+      'Diseased Icon': 'Оружие ближнего боя юнита носителя имеет способность [LETHAL HITS].',
+    },
+    rules: {
+      POSSESSED:
+        'Для целей погрузки в TRANSPORTS каждая модель Death Guard Possessed считается за одну модель TERMINATOR.',
+    },
+    loadout: `${EQUIP_EVERY} hideous mutations.`,
+    options: ['1 модель можно снабдить 1 diseased icon.'],
+  },
+  'death-guard-sorcerer-in-terminator-armour': {
+    abilities: {
+      'Putrescent Vitality (Psychic)':
+        'В начале фазы ближнего боя вы можете бросить один D6: на 1 юнит этого PSYKER получает D3 смертельные раны; на 2+ до конца фазы каждый раз, когда атака распределяется по модели юнита этого PSYKER, вычтите 1 из характеристики Урона (Damage) этой атаки.',
+      'Pestilent Familiar (Psychic)':
+        'Один раз за битву, после выбора целей для Psychic-оружия этой модели, до конца фазы улучшите характеристики Силы (Strength) и Урона (Damage) этого оружия на 2.\n\n**Примечание разработчика:** положите рядом с этой моделью жетон Pestilent Familiar и уберите его, когда эта способность будет использована.',
+    },
+    loadout: `${EQUIP_THIS} Curse of the Leper; plague combi-bolter; force weapon.`,
+    options: [
+      'plague combi-bolter этой модели можно заменить на одно из следующего:\n▪ 1 combi-weapon\n▪ 1 plague-encrusted exalted weapon',
+      'force weapon этой модели можно заменить на одно из следующего:\n▪ 1 chainfist\n▪ 1 plague fist\n▪ 1 plague-encrusted exalted weapon',
+      'plague combi-bolter и force weapon этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
 }
 
 export const abilityNamesRu = {
@@ -615,4 +688,12 @@ export const abilityNamesRu = {
   'Scuttling Walker': 'Снующий шагоход',
   'Barrage of Filth': 'Шквал скверны',
   'Hovering Death': 'Парящая смерть',
+  // Legends (Faction Pack)
+  'Chaos Lord': 'Лорд Хаоса',
+  'Desiccation Conduit (Aura)': 'Проводник иссушения (Аура)',
+  'Infectious Bloodshed': 'Заразное кровопролитие',
+  'Diseased Icon': 'Заражённая икона',
+  POSSESSED: 'Одержимые',
+  'Putrescent Vitality (Psychic)': 'Гнилостная живучесть (Психика)',
+  'Pestilent Familiar (Psychic)': 'Моровой фамильяр (Психика)',
 }

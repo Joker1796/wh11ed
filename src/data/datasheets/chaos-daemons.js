@@ -5169,5 +5169,944 @@ export default [
       "Legiones Daemonica"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "aetaos-rau-keres",
+    "name": "Aetaos’rau’keres",
+    "points": [
+      {
+        "models": 1,
+        "points": 315
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Aetaos’rau’keres",
+        "m": "12\"",
+        "t": "10",
+        "sv": "6+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "6",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt of Tzeentch – focused witchfire",
+        "tags": [
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "9",
+        "bs": "2+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Bolt of Tzeentch – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "9",
+        "bs": "2+",
+        "s": "10",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Staff of cataclysm",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "6",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Warpfire talons",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "12",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Emissary of the Great Mutator (Aura)",
+        "text": "While a friendly TZEENTCH LEGIONES DAEMONICA unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+      },
+      {
+        "name": "Master of Magicks (Psychic)",
+        "text": "In your Shooting phase, select one of the following abilities: [IGNORES COVER]; [LETHAL HITS]; [SUSTAINED HITS D3]. Until the end of the phase, this model’s ranged weapon has that ability."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Aetaos’rau’keres – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Bolt of Tzeentch; staff of cataclysm; warpfire talons.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Character",
+      "Epic Hero",
+      "Titanic",
+      "Towering",
+      "Fly",
+      "Psyker",
+      "Chaos",
+      "Daemon",
+      "Tzeentch",
+      "Aetaos’rau’keres"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "an-ggrath-the-unbound",
+    "name": "An’ggrath the Unbound",
+    "points": [
+      {
+        "models": 1,
+        "points": 415
+      }
+    ],
+    "profiles": [
+      {
+        "name": "An’ggrath the Unbound",
+        "m": "12\"",
+        "t": "11",
+        "sv": "4+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "6",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bloodlash",
+        "tags": [],
+        "range": "12\"",
+        "a": "9",
+        "bs": "2+",
+        "s": "8",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Axe of Khorne – strike",
+        "tags": [],
+        "a": "8",
+        "ws": "2+",
+        "s": "16",
+        "ap": "-4",
+        "d": "D6+2"
+      },
+      {
+        "name": "Axe of Khorne – sweep",
+        "tags": [],
+        "a": "16",
+        "ws": "2+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Emissary of the Blood God (Aura)",
+        "text": "While a friendly KHORNE LEGIONES DAEMONICA unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+      },
+      {
+        "name": "Relentless Carnage",
+        "text": "At the end of the Fight phase, you can select one enemy unit within Engagement Range of this model and roll eight D6: for each 4+, that enemy unit suffers 1 mortal wound."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 An’ggrath the Unbound – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** bloodlash; axe of Khorne.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Character",
+      "Epic Hero",
+      "Titanic",
+      "Towering",
+      "Chaos",
+      "Daemon",
+      "Khorne",
+      "An’ggrath the Unbound"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "furies",
+    "name": "Furies",
+    "points": [
+      {
+        "models": 5,
+        "points": 40
+      },
+      {
+        "models": 10,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Furies",
+        "m": "12\"",
+        "t": "3",
+        "sv": "7+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Daemonic claws",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Prey on the Weak",
+        "text": "Each time this model makes an attack that targets an enemy unit that is Battle-shocked, add 1 to the Wound roll."
+      }
+    ],
+    "rules": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH"
+      }
+    ],
+    "composition": [
+      "5-10 Furies"
+    ],
+    "loadout": "**Every model is equipped with:** daemonic claws.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Daemon",
+      "Fly",
+      "Furies"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "giant-chaos-spawn",
+    "name": "Giant Chaos Spawn",
+    "points": [
+      {
+        "models": 1,
+        "points": 130
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Giant Chaos Spawn",
+        "m": "10\"",
+        "t": "8",
+        "sv": "4+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Churning fangs and claws",
+        "tags": [],
+        "a": "D6+6",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deep Strike, Feel No Pain 5+",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Regenerating Monstrosity",
+        "text": "At the start of each player’s Command phase, this model regains up to D3 lost wounds."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "Creature of Khorne",
+        "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s melee weapons."
+      },
+      {
+        "name": "Creature of Tzeentch",
+        "text": "If this model has the TZEENTCH keyword, this model has a 4+ invulnerable save."
+      },
+      {
+        "name": "Creature of Nurgle",
+        "text": "If this model has the NURGLE keyword, add 1 to this model’s Toughness characteristic."
+      },
+      {
+        "name": "Creature of Slaanesh",
+        "text": "If this model has the SLAANESH keyword, add 2\" to this model’s Move characteristic."
+      }
+    ],
+    "rules": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics (see the Daemonic Allegiance section)."
+      }
+    ],
+    "composition": [
+      "1 Giant Chaos Spawn"
+    ],
+    "loadout": "**This model is equipped with:** churning fangs and claws.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Chaos",
+      "Giant Chaos Spawn"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "herald-of-slaanesh-on-steed-of-slaanesh",
+    "name": "Herald of Slaanesh on Steed of Slaanesh",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Herald of Slaanesh on Steed of Slaanesh",
+        "m": "14\"",
+        "t": "4",
+        "sv": "7+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Lashing tongue",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Ravaging claws",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike, Leader, Scouts 9\"",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Lethal Caress",
+        "text": "While this model is leading a unit, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
+      },
+      {
+        "name": "Symphony of Pain (Psychic)",
+        "text": "At the end of your Movement phase, you can select one enemy unit that is Battle-shocked and within 12\" of this model. Until the end of the turn, each time a SLAANESH LEGIONES DAEMONICA model from your army makes an attack that targets that enemy unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 Herald of Slaanesh on Steed of Slaanesh"
+    ],
+    "loadout": "**This model is equipped with:** lashing tongue; ravaging claws.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Seekers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Psyker",
+      "Chaos",
+      "Daemon",
+      "Slaanesh",
+      "Herald of Slaanesh"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "plague-toads",
+    "name": "Plague Toads",
+    "points": [
+      {
+        "models": 3,
+        "points": 120
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Plague Toads",
+        "m": "7\"",
+        "t": "8",
+        "sv": "6+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Grasping tongue",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "range": "9\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Yawning maw",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Pouncing Leap",
+        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
+      }
+    ],
+    "rules": [
+      {
+        "name": "GRANDFATHER’S BLESSING",
+        "text": "If a model from your army with the Leader ability can be attached to a BEASTS OF NURGLE unit, it can be attached to this unit instead."
+      }
+    ],
+    "composition": [
+      "3 Plague Toads"
+    ],
+    "loadout": "**Every model is equipped with:** grasping tongue; yawning maw.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Beast",
+      "Chaos",
+      "Daemon",
+      "Nurgle",
+      "Plague Toads"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "pox-riders",
+    "name": "Pox Riders",
+    "points": [
+      {
+        "models": 3,
+        "points": 160
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Pox Riders",
+        "m": "7\"",
+        "t": "8",
+        "sv": "6+",
+        "w": "5",
+        "ld": "7+",
+        "oc": "2",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Grasping tongue",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "range": "9\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Pox Rider plaguesword",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Yawning maw",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Bounding Assault",
+        "text": "Each time this unit ends a Charge move, until the end of the turn, Pox Rider plagueswords equipped by models in this unit have the [LANCE] ability."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Daemonic Icon",
+        "text": "Models in the bearer’s unit have a Leadership characteristic of 6+."
+      },
+      {
+        "name": "Instrument of Chaos",
+        "text": "Add 1 to Charge rolls made for the bearer’s unit."
+      }
+    ],
+    "rules": [
+      {
+        "name": "GRANDFATHER’S BLESSING",
+        "text": "If a model from your army with the Leader ability can be attached to a BEASTS OF NURGLE unit, it can be attached to this unit instead."
+      }
+    ],
+    "composition": [
+      "3 Pox Riders"
+    ],
+    "loadout": "**Every model is equipped with:** grasping tongue; Pox Rider plaguesword; yawning maw.",
+    "options": [
+      "1 Pox Rider that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+      "1 Pox Rider that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon."
+    ],
+    "keywords": [
+      "Mounted",
+      "Chaos",
+      "Daemon",
+      "Nurgle",
+      "Pox Riders"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "scabeiathrax-the-bloated",
+    "name": "Scabeiathrax the Bloated",
+    "points": [
+      {
+        "models": 1,
+        "points": 275
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Scabeiathrax the Bloated",
+        "m": "7\"",
+        "t": "12",
+        "sv": "5+",
+        "w": "22",
+        "ld": "6+",
+        "oc": "5",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Putrid vomit",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "6\"",
+        "a": "D6+3",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Blade of decay – strike",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Blade of decay – sweep",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "14",
+        "ws": "2+",
+        "s": "7",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Deep Strike, Feel No Pain 6+",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Emissary of the Plague God (Aura)",
+        "text": "While a friendly NURGLE LEGIONES DAEMONICA unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+      },
+      {
+        "name": "Nurgle’s Rot (Psychic)",
+        "text": "At the end of your Movement phase, you can select one enemy unit within 12\" of this model. Until the start of your next Movement phase, subtract 1 from the Toughness characteristic of models in that unit."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Scabeiathrax the Bloated – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** putrid vomit; blade of decay.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Character",
+      "Epic Hero",
+      "Psyker",
+      "Chaos",
+      "Daemon",
+      "Nurgle",
+      "Scabeiathrax the Bloated"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "spined-chaos-beast",
+    "name": "Spined Chaos Beast",
+    "points": [
+      {
+        "models": 1,
+        "points": 145
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Spined Chaos Beast",
+        "m": "10\"",
+        "t": "10",
+        "sv": "4+",
+        "w": "12",
+        "ld": "7+",
+        "oc": "4",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Jagged claws and tusked maw",
+        "tags": [],
+        "a": "6",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Warp Spines",
+        "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4-5, that enemy unit suffers 3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "Creature of Khorne",
+        "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s melee weapons."
+      },
+      {
+        "name": "Creature of Tzeentch",
+        "text": "If this model has the TZEENTCH keyword, this model has a 4+ invulnerable save."
+      },
+      {
+        "name": "Creature of Nurgle",
+        "text": "If this model has the NURGLE keyword, add 1 to this model’s Toughness characteristic."
+      },
+      {
+        "name": "Creature of Slaanesh",
+        "text": "If this model has the SLAANESH keyword, add 2\" to this model’s Move characteristic."
+      }
+    ],
+    "rules": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics (see the Daemonic Allegiance section)."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Spined Chaos Beast"
+    ],
+    "loadout": "**This model is equipped with:** jagged claws and tusked maw.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Chaos",
+      "Spined Chaos Beast"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "zarakynel",
+    "name": "Zarakynel",
+    "points": [
+      {
+        "models": 1,
+        "points": 320
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Zarakynel",
+        "m": "14\"",
+        "t": "10",
+        "sv": "5+",
+        "w": "20",
+        "ld": "6+",
+        "oc": "5",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Phantasmagoria – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "18\"",
+        "a": "9",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Phantasmagoria – witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "PSYCHIC"
+        ],
+        "range": "18\"",
+        "a": "6",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Snapping claws",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "EXTRA ATTACKS"
+        ],
+        "a": "4",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Souleater blade",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise D6, Deep Strike",
+    "faction": "The Shadow of Chaos",
+    "abilities": [
+      {
+        "name": "Emissary of the Prince of Excess (Aura)",
+        "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+      },
+      {
+        "name": "Mesmerising Form",
+        "text": "Each time an attack targets this model, subtract 1 from the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Zarakynel – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Phantasmagoria; snapping claws; souleater blade.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Monster",
+      "Character",
+      "Epic Hero",
+      "Psyker",
+      "Chaos",
+      "Daemon",
+      "Slaanesh",
+      "Zarakynel"
+    ],
+    "factionKeywords": [
+      "Legiones Daemonica"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
   }
 ]
