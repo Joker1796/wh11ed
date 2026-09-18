@@ -3,26 +3,12 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <!-- The name and, under it, the Legends line share one flex item: the head row never
-               wraps (name left, actions right), so a full-width sibling could only squeeze in
-               BESIDE the name — which is how a Legends title came to break one letter per line. -->
-          <div class="ds-name">
-            <h2 class="ds-title">
-              {{ sheet.name }} <span
-                v-if="sheet.baseSize"
-                class="ds-title-base"
-              >({{ fmtBase(sheet.baseSize) }})</span>
-            </h2>
-            <!-- A reader who followed a link straight here has to be told the same thing the
-                 grid's badge says: the rules below are published, the unit is not matched-play
-                 legal. -->
-            <p
-              v-if="sheet.legends"
-              class="ds-legends-note"
-            >
-              <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
-            </p>
-          </div>
+          <h2 class="ds-title">
+            {{ sheet.name }} <span
+              v-if="sheet.baseSize"
+              class="ds-title-base"
+            >({{ fmtBase(sheet.baseSize) }})</span>
+          </h2>
           <div class="ds-actions">
             <button
               type="button"
@@ -82,6 +68,16 @@
               <i class="bi bi-image" />
             </a>
           </div>
+          <!-- A reader who followed a link straight here has to be told the same thing the grid's
+               badge says: the rules below are published, the unit is not matched-play legal. A
+               full-width second row of the head — under the name AND the actions; the row is
+               what wraps, never the name-and-actions pair above it (see .ds-head). -->
+          <p
+            v-if="sheet.legends"
+            class="ds-legends-note"
+          >
+            <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
+          </p>
         </div>
         <DatasheetCard
           :sheet="sheet"
@@ -361,7 +357,9 @@ async function copyName() {
 .ds-head {
   display: flex;
   align-items: flex-start;
-  flex-wrap: nowrap;
+  /* Wrapping is for the Legends line alone: the title's flex-basis is 0, so the name and the
+     actions never outgrow the row — a long name shrinks and breaks, the actions stay beside it. */
+  flex-wrap: wrap;
   gap: 0.3rem 0.8rem;
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
@@ -374,11 +372,9 @@ async function copyName() {
 :root[data-theme='light'] .ds-head { --ds-th-bg: var(--accent); }
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
-.ds-name {
-  flex: 1 1 auto;
-  min-width: 0;
-}
 .ds-title {
+  flex: 1 1 0;
+  min-width: 0;
   overflow-wrap: break-word;
   font-family: var(--font-display);
   font-size: 2rem;
@@ -392,6 +388,7 @@ async function copyName() {
 /* Sits under the title and inside the head block, so it reads before the statline rather than
    after it. Muted, not alarming — the page below it is still a full datasheet. */
 .ds-legends-note {
+  flex-basis: 100%;
   margin: 0.2rem 0 0;
   font-size: 0.78rem;
   color: var(--muted);
