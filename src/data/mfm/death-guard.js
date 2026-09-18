@@ -62,4 +62,11 @@ export default {
       ],
     },
   ],
+  legends: [
+    { name: 'Death Guard Chaos Lord', options: [{ models: 1, points: 65 }] },
+    { name: 'Death Guard Chaos Lord in Terminator Armour', options: [{ models: 1, points: 85 }] },
+    { name: 'Death Guard Cultists', options: [{ models: 10, points: 50 }, { models: 20, points: 100 }] },
+    { name: 'Death Guard Possessed', options: [{ models: 5, points: 155 }, { models: 10, points: 310 }] },
+    { name: 'Death Guard Sorcerer in Terminator Armour', options: [{ models: 1, points: 70 }] },
+  ],
 }

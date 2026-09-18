@@ -81,4 +81,18 @@ export default {
     { name: 'Zodgrod Wortsnagga', options: [{ models: 1, points: 50 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Big Trakk', options: [{ models: 1, points: 90 }] },
+    { name: 'Boss Zagstruk', options: [{ models: 1, points: 90 }] },
+    { name: 'Burna Boyz', options: [{ models: 5, points: 60 }, { models: 10, points: 120 }] },
+    { name: 'Grot Mega-Tank', options: [{ models: 1, points: 110 }] },
+    { name: 'Grot Tanks', options: [{ models: 4, points: 155 }, { models: 8, points: 310 }] },
+    { name: 'Kaptin Badrukk', options: [{ models: 1, points: 80 }] },
+    { name: 'Kill Tank', options: [{ models: 1, points: 300 }] },
+    { name: 'Lifta Wagon', options: [{ models: 1, points: 135 }] },
+    { name: 'Lootas', options: [{ models: 5, points: 50, note: '1st-2nd' }, { models: 10, points: 100, note: '1st-2nd' }, { models: 5, points: 60, note: '3rd+' }, { models: 10, points: 110, note: '3rd+' }] },
+    { name: 'Mad Dok Grotsnik', options: [{ models: 1, points: 65 }] },
+    { name: 'Mekboy Workshop', options: [{ models: 1, points: 80 }] },
+    { name: 'Warboss on Warbike', options: [{ models: 1, points: 75 }] },
+  ],
 }

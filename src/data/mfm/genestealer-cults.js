@@ -44,4 +44,7 @@ export default {
     { name: 'Sanctus', options: [{ models: 1, points: 65 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Tectonic Fragdrill', options: [{ models: 1, points: 125 }] },
+  ],
 }

@@ -75,4 +75,18 @@ export default {
     { name: 'Triarch Stalker', options: [{ models: 1, points: 110, note: '1st-2nd' }, { models: 1, points: 120, note: '3rd+' }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Anrakyr the Traveller', options: [{ models: 1, points: 95 }] },
+    { name: 'Canoptek Acanthrites', options: [{ models: 3, points: 85 }, { models: 6, points: 170 }] },
+    { name: 'Canoptek Tomb Sentinel', options: [{ models: 1, points: 115 }] },
+    { name: 'Canoptek Tomb Stalker', options: [{ models: 1, points: 130 }] },
+    { name: 'Gauss Pylon', options: [{ models: 1, points: 210 }] },
+    { name: 'Lord', options: [{ models: 1, points: 65 }] },
+    { name: 'Nemesor Zahndrekh', options: [{ models: 1, points: 85 }] },
+    { name: 'Night Shroud', options: [{ models: 1, points: 140 }] },
+    { name: 'Sentry Pylons', options: [{ models: 1, points: 120 }] },
+    { name: 'Tesseract Ark', options: [{ models: 1, points: 130 }] },
+    { name: 'Tomb Citadel Walls', options: [{ models: 1, points: 180 }] },
+    { name: 'Vargard Obyron', options: [{ models: 1, points: 85 }] },
+  ],
 }

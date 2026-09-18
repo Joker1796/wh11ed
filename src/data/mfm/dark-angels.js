@@ -141,4 +141,9 @@ export default {
       ],
     },
   ],
+  legends: [
+    { name: 'Deathwing Command Squad', options: [{ models: 5, points: 200 }, { models: 10, points: 400 }] },
+    { name: 'Deathwing Strikemaster', options: [{ models: 1, points: 80 }] },
+    { name: 'Ravenwing Talonmaster', options: [{ models: 1, points: 105 }] },
+  ],
 }

@@ -6,13 +6,15 @@
 // EN-only data: faction/unit names and points are language-agnostic, so `ru` reuses
 // the same array (swap in a translated array later if needed).
 //
-// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[] }.
+// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[], legends[] }.
 //   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }
 //   unit       = { name, options: [{ models?, points, note? }] }
 //     `models` omitted for single-model units; `note` carries rank/variant pricing
 //     labels ('1st-2nd', '3rd+', …) or special unit compositions.
 //   subfactions group units the page lists under their own heading (Aeldari →
 //     Harlequins/Ynnari; the shared Space Marine roster; Imperial Agents allied costs).
+//   legends are the Warhammer Legends units (the page's 'Show Legends' toggle) — the
+//     same unit shape, kept apart from `units` because they are not the Codex roster.
 
 import adeptaSororitas from './mfm/adepta-sororitas.js'
 import adeptusCustodes from './mfm/adeptus-custodes.js'

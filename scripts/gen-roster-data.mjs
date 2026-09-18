@@ -1130,12 +1130,15 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
 // units of this army like any other. Two kinds of subfaction are not: a Chapter's "Space Marines"
 // section (the shared Codex pool, folded in at load time and priced by `unitPoints`) and Imperial
 // Agents' "(allied)" list, which is what those units cost in SOMEBODY ELSE'S army. The faction's
-// own list is appended last so it wins wherever a name appears in both.
+// own list is appended last so it wins wherever a name appears in both. The MFM's Legends
+// section (`legends`, behind the site's "Show Legends" toggle) prices the `legends: true`
+// sheets — appdata's for Orks, the Faction-Pack ones elsewhere — and goes in first, so a name
+// the Codex list also carries keeps the Codex price.
 function ownMfmUnits(mfmFaction) {
   const extra = (mfmFaction?.subfactions || [])
     .filter((s) => norm(s.name) !== 'space marines' && !/allied/i.test(s.name))
     .flatMap((s) => s.units || [])
-  return [...extra, ...(mfmFaction?.units || [])]
+  return [...(mfmFaction?.legends || []), ...extra, ...(mfmFaction?.units || [])]
 }
 
 function mfmPrices(mfmUnits) {

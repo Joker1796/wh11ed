@@ -39,4 +39,5 @@ export default {
     { name: 'War Dog Stalker', options: [{ models: 1, points: 135 }] },
   ],
   subfactions: [],
+  legends: [],
 }

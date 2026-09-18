@@ -55,4 +55,10 @@ export default {
     { name: 'Thulia Ghuld', options: [{ models: 1, points: 180 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Secutarii Hoplites', options: [{ models: 5, points: 65 }, { models: 10, points: 130 }] },
+    { name: 'Secutarii Peltasts', options: [{ models: 5, points: 50 }, { models: 10, points: 100 }] },
+    { name: 'Terrax-Pattern Termite', options: [{ models: 1, points: 200 }] },
+    { name: 'X-101', options: [{ models: 1, points: 40 }] },
+  ],
 }

@@ -4692,11 +4692,23 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 50
+        "points": 50,
+        "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 100
+        "points": 100,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 5,
+        "points": 60,
+        "note": "3rd+"
+      },
+      {
+        "models": 10,
+        "points": 110,
+        "note": "3rd+"
       }
     ],
     "flavor": "Lootas grub together every toof and fistful of scrap they can, then use the former to pay the Meks to turn the latter into very, very large guns. These they then turn on the enemy with gleeful abandon, unleashing such prodigious – if erratic – hails of fire that they can stop a battle tank in its tracks or scythe down squads of infantry.",

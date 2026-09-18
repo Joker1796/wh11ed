@@ -51,4 +51,5 @@ export default {
     { name: 'Witchseekers', options: [{ models: 4, points: 50 }, { models: 5, points: 55 }, { models: 9, points: 90 }, { models: 10, points: 100 }] },
   ],
   subfactions: [],
+  legends: [],
 }

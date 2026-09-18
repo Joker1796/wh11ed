@@ -43,4 +43,5 @@ export default {
     { name: 'Ûthar the Destined', options: [{ models: 1, points: 90 }] },
   ],
   subfactions: [],
+  legends: [],
 }

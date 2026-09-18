@@ -41,4 +41,5 @@ export default {
     { name: 'Questoris Knight Styrix', options: [{ models: 1, points: 375, note: '1st' }, { models: 1, points: 390, note: '2nd+' }] },
   ],
   subfactions: [],
+  legends: [],
 }

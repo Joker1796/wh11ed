@@ -73,4 +73,16 @@ export default {
     { name: 'Tranceweaver', options: [{ models: 1, points: 60 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Aetaos’rau’keres', options: [{ models: 1, points: 315 }] },
+    { name: 'An’ggrath the Unbound', options: [{ models: 1, points: 415 }] },
+    { name: 'Furies', options: [{ models: 5, points: 40 }, { models: 10, points: 80 }] },
+    { name: 'Giant Chaos Spawn', options: [{ models: 1, points: 130 }] },
+    { name: 'Herald of Slaanesh on Steed of Slaanesh', options: [{ models: 1, points: 70 }] },
+    { name: 'Plague Toads', options: [{ models: 3, points: 120 }] },
+    { name: 'Pox Riders', options: [{ models: 3, points: 160 }] },
+    { name: 'Scabeiathrax the Bloated', options: [{ models: 1, points: 275 }] },
+    { name: 'Spined Chaos Beast', options: [{ models: 1, points: 145 }] },
+    { name: 'Zarakynel', options: [{ models: 1, points: 320 }] },
+  ],
 }

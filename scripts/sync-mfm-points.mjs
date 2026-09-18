@@ -20,6 +20,10 @@
 //         extra rows with `note: "<subfaction name>"`, only where the price differs;
 //       - anything else (SM named-character sections, TS/WE daemon allies) is its own
 //         datasheet entry.
+//   * mfm `legends` → same-named datasheet entries carrying `legends: true` (appdata's for
+//     Orks, the faction-pack ones elsewhere — see the hub's `legends-from-pack` skill). A
+//     Legends unit MFM prices that we have no datasheet for is listed at the end as
+//     information, not drift: it is the work list for the packs, not an error in the data.
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -55,6 +59,7 @@ for (const sub of smMfm.subfactions) {
 }
 
 let drift = 0
+const missingLegends = []
 const report = (msg) => { console.log(msg); drift++ }
 
 for (const file of readdirSync(DS).sort()) {
@@ -68,6 +73,11 @@ for (const file of readdirSync(DS).sort()) {
   // ---- expected points per own-unit name -------------------------------
   const expected = new Map()
   for (const u of mfm.units ?? []) expected.set(norm(u.name), [...u.options])
+  const legendsNames = new Set()
+  for (const u of mfm.legends ?? []) {
+    legendsNames.add(norm(u.name))
+    if (!expected.has(norm(u.name))) expected.set(norm(u.name), [...u.options])
+  }
   const chapterShared = new Map() // name -> options (Chapter price of shared SM units)
   for (const sub of mfm.subfactions ?? []) {
     if (isChapter && sub.name === 'Space Marines') {
@@ -93,9 +103,11 @@ for (const file of readdirSync(DS).sort()) {
   // ---- own units --------------------------------------------------------
   let src = readFileSync(path.join(DS, file), 'utf-8')
   let touched = false
+  const have = new Set(mod.default.map((u) => norm(u.name)))
+  for (const k of legendsNames) if (!have.has(k)) missingLegends.push(`${slug}: ${k}`)
   for (const u of mod.default) {
     const want = expected.get(norm(u.name))
-    if (!want) continue // legends/appdata-only entries absent from MFM
+    if (!want) continue // appdata-only entries absent from MFM
     if (sameRows(u.points ?? [], want)) continue
     report(`${slug}: ${u.name}: ${JSON.stringify(u.points)} -> ${JSON.stringify(want)}`)
     if (WRITE) {
@@ -198,5 +210,9 @@ function matchBracket(src, start, open = src[start], close = open === '{' ? '}' 
   throw new Error('unbalanced brackets')
 }
 
+if (missingLegends.length) {
+  console.log(`\n${missingLegends.length} Legends unit(s) priced by MFM with no datasheet here (not drift — the faction-pack work list):`)
+  for (const l of missingLegends) console.log(`  ${l}`)
+}
 console.log(drift ? `\n${drift} drift item(s)${WRITE ? ' rewritten' : ''}` : 'datasheet points match MFM')
 if (!WRITE && drift) process.exit(1)

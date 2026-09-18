@@ -140,4 +140,16 @@ export default {
       ],
     },
   ],
+  legends: [
+    { name: 'Brother Corbulo', options: [{ models: 1, points: 75 }] },
+    { name: 'Captain Tycho', options: [{ models: 1, points: 75 }] },
+    { name: 'Death Company Dreadnought with Magna-Grapple', options: [{ models: 1, points: 145 }] },
+    { name: 'Death Company Marines with Boltguns', options: [{ models: 5, points: 125 }, { models: 10, points: 250 }] },
+    { name: 'Death Company Marines with Boltguns and Jump Packs', options: [{ models: 5, points: 140 }, { models: 10, points: 280 }] },
+    { name: 'Furioso Dreadnought', options: [{ models: 1, points: 150 }] },
+    { name: 'Gabriel Seth', options: [{ models: 1, points: 90 }] },
+    { name: 'Librarian Dreadnought', options: [{ models: 1, points: 170 }] },
+    { name: 'Sanguinary Priest with Jump Pack', options: [{ models: 1, points: 100 }] },
+    { name: 'Tycho the Lost', options: [{ models: 1, points: 90 }] },
+  ],
 }

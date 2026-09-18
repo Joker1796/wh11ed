@@ -73,4 +73,11 @@ export default {
     { name: 'Zoanthropes', options: [{ models: 3, points: 90 }, { models: 6, points: 190 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Barbed Hierodule', options: [{ models: 1, points: 340 }] },
+    { name: 'Dimachaeron', options: [{ models: 1, points: 200 }] },
+    { name: 'Malanthrope', options: [{ models: 1, points: 75 }] },
+    { name: 'Scythed Hierodule', options: [{ models: 1, points: 330 }] },
+    { name: 'Sky-Slasher Swarms', options: [{ models: 3, points: 60 }] },
+  ],
 }

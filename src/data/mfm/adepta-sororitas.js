@@ -52,4 +52,11 @@ export default {
     { name: 'Zephyrim Squad', options: [{ models: 5, points: 75, note: '1st-2nd' }, { models: 10, points: 150, note: '1st-2nd' }, { models: 5, points: 85, note: '3rd+' }, { models: 10, points: 160, note: '3rd+' }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Battle Sanctum', options: [{ models: 1, points: 170 }] },
+    { name: 'Celestian Sacresant Aveline', options: [{ models: 1, points: 45 }] },
+    { name: 'Crusaders', options: [{ models: 2, points: 40 }, { models: 4, points: 80 }] },
+    { name: 'Death Cult Assassins', options: [{ models: 2, points: 55 }, { models: 4, points: 110 }] },
+    { name: 'Repressor', options: [{ models: 1, points: 130 }] },
+  ],
 }

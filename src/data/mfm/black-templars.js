@@ -127,4 +127,5 @@ export default {
       ],
     },
   ],
+  legends: [],
 }

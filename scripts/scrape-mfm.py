@@ -22,6 +22,10 @@
 #   3. As of MFM v1.1 the site highlights units/detachments whose points changed since the
 #      previous version with a coloured header + an inline "▲ (+10)"/"▼ (-10)" delta before the
 #      actual points (see UNIT_SPLIT_RE and the points regex in parse_units for the fallout).
+#   4. Warhammer Legends points are on the page only behind the "Show Legends" toggle — a
+#      server action that sets the cookie `isLegendsDisplayed=true` and re-renders with an extra
+#      `<h3>LEGENDS</h3>` section. We send the cookie and emit that section as `legends: [...]`,
+#      apart from `units`, so a consumer that wants only the Codex roster is unaffected.
 
 import re, html as H, json, sys, os, subprocess, time
 
@@ -31,7 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, '..', 'src', 'data'))
 MFM_DIR = os.path.join(DATA, 'mfm')              # per-faction modules
 BARREL  = os.path.join(DATA, 'mfmFactions.js')   # aggregating barrel
-CACHE = '/tmp/mfm-pages'
+CACHE = '/tmp/mfm-pages-legends'  # pages fetched WITH the Legends cookie (see gotcha 4)
 
 SLUGS = ["adepta-sororitas","adeptus-custodes","adeptus-mechanicus","aeldari","astra-militarum",
 "black-templars","blood-angels","chaos-daemons","chaos-knights","chaos-space-marines",
@@ -77,7 +81,7 @@ def download(slug):
     url = f"https://mfm.warhammer-community.com/en/{slug}"
     for attempt in range(8):
         subprocess.run(["curl","-sL","--http1.1","--connect-timeout","20","--max-time","60",
-                        "-o",path,url])
+                        "-b","isLegendsDisplayed=true","-o",path,url])
         if os.path.exists(path) and has_units(open(path, encoding="utf-8").read()):
             return path
         time.sleep(3)
@@ -173,8 +177,11 @@ def parse_units(region):
         nm = re.match(r'([^<]+)<', chunk)
         if not nm: continue
         opts = []
-        for sm in re.finditer(r'font-bold text-black dark:text-white">(YOUR[^<]*)</div>(.*?)'
-                              r'(?=font-bold text-black dark:text-white">YOUR|WARGEAR OPTIONS|'
+        # The cost label's div carries `font-bold text-black dark:text-white` in the Codex
+        # sections and `bg-slate-200 … font-bold` in the LEGENDS one — match the label, not the
+        # class list.
+        for sm in re.finditer(r'font-bold[^"]*">(YOUR[^<]*)</div>(.*?)'
+                              r'(?=font-bold[^"]*">YOUR|WARGEAR OPTIONS|'
                               + UNIT_SPLIT_RE.pattern + r'|$)', chunk, re.S):
             note = note_for(sm.group(1))
             for li in re.finditer(r'<li>(.*?)</li>', sm.group(2), re.S):
@@ -206,10 +213,11 @@ def parse_faction(slug, raw):
               for i, (t, s, e) in enumerate(hs)]
     fac = {"id": slug, "name": SPECIAL_NAMES.get(slug, ' '.join(w.capitalize() for w in slug.split('-'))),
            "slug": slug, "sourceUrl": f"https://mfm.warhammer-community.com/en/{slug}",
-           "detachments": [], "units": [], "subfactions": []}
+           "detachments": [], "units": [], "subfactions": [], "legends": []}
     for t, s, e in bounds:
         if t == "DETACHMENTS": fac["detachments"] = parse_detachments(doc[s:e])
         elif t == "UNITS":     fac["units"] = parse_units(doc[s:e])
+        elif t == "LEGENDS":   fac["legends"] = parse_units(doc[s:e])
         elif t == "V1.0":      pass
         else:
             us = parse_units(doc[s:e])
@@ -265,6 +273,11 @@ def emit_faction(f):
             L += ["      ],", "    },"]
         L.append("  ],")
     else: L.append("  subfactions: [],")
+    if f['legends']:
+        L.append("  legends: [")
+        L += [emit_unit(u, 4) + "," for u in f['legends']]
+        L.append("  ],")
+    else: L.append("  legends: [],")
     L += ["}", ""]
     return "\n".join(L)
 
@@ -278,13 +291,15 @@ def emit_barrel(factions):
          "// EN-only data: faction/unit names and points are language-agnostic, so `ru` reuses",
          "// the same array (swap in a translated array later if needed).",
          "//",
-         "// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[] }.",
+         "// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[], legends[] }.",
          "//   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }",
          "//   unit       = { name, options: [{ models?, points, note? }] }",
          "//     `models` omitted for single-model units; `note` carries rank/variant pricing",
          "//     labels ('1st-2nd', '3rd+', …) or special unit compositions.",
          "//   subfactions group units the page lists under their own heading (Aeldari →",
          "//     Harlequins/Ynnari; the shared Space Marine roster; Imperial Agents allied costs).",
+         "//   legends are the Warhammer Legends units (the page's 'Show Legends' toggle) — the",
+         "//     same unit shape, kept apart from `units` because they are not the Codex roster.",
          ""]
     L += [f"import {camel(f['slug'])} from './mfm/{f['slug']}.js'" for f in factions]
     L.append("")
@@ -306,7 +321,8 @@ if __name__ == "__main__":
         f = parse_faction(slug, raw)
         sub = sum(len(s['units']) for s in f['subfactions'])
         print(f"  {slug:22s} det={len(f['detachments']):2d} units={len(f['units']):3d}"
-              + (f" +{sub} {[s['name'] for s in f['subfactions']]}" if f['subfactions'] else ""),
+              + (f" +{sub} {[s['name'] for s in f['subfactions']]}" if f['subfactions'] else "")
+              + (f" legends={len(f['legends'])}" if f['legends'] else ""),
               file=sys.stderr)
         factions.append(f)
     os.makedirs(MFM_DIR, exist_ok=True)

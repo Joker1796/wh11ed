@@ -46,4 +46,11 @@ export default {
     { name: 'Venerable Dreadnought', options: [{ models: 1, points: 130, note: '1st-2nd' }, { models: 1, points: 140, note: '3rd+' }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Brother-Captain Stern', options: [{ models: 1, points: 90 }] },
+    { name: 'Grey Knights Dreadnought', options: [{ models: 1, points: 160 }] },
+    { name: 'Grey Knights Relic Razorback', options: [{ models: 1, points: 95 }] },
+    { name: 'Kaldor Draigo', options: [{ models: 1, points: 125 }] },
+    { name: 'Servitors', options: [{ models: 4, points: 60 }] },
+  ],
 }

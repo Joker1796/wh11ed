@@ -43,4 +43,13 @@ export default {
     { name: 'Wyches', options: [{ models: 10, points: 90 }] },
   ],
   subfactions: [],
+  legends: [
+    { name: 'Beastmaster', options: [{ models: 7, points: 135 }] },
+    { name: 'Court of the Archon', options: [{ models: 4, points: 95 }] },
+    { name: 'Grotesques', options: [{ models: 3, points: 80 }, { models: 6, points: 170 }] },
+    { name: 'Raven Strike Fighter', options: [{ models: 1, points: 170 }] },
+    { name: 'Reaper', options: [{ models: 1, points: 115 }] },
+    { name: 'Tantalus', options: [{ models: 1, points: 230 }] },
+    { name: 'Urien Rakarth', options: [{ models: 1, points: 80 }] },
+  ],
 }

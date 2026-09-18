@@ -14,4 +14,5 @@ export default {
     { name: 'Chaos Warlord Titan', options: [{ models: 1, points: 3500 }] },
   ],
   subfactions: [],
+  legends: [],
 }
