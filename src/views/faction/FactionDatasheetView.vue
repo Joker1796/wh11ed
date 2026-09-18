@@ -3,11 +3,19 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
+          <!-- The Legends mark rides in the title line like the base size does — the same badge
+               the grid shows, with the same one-line explanation as its title — and costs no row
+               of its own: on a phone the head is the first thing on screen, and a sentence under
+               the name pushed the statline down for a fact the badge already states. -->
           <h2 class="ds-title">
             {{ sheet.name }} <span
               v-if="sheet.baseSize"
               class="ds-title-base"
-            >({{ fmtBase(sheet.baseSize) }})</span>
+            >({{ fmtBase(sheet.baseSize) }})</span><span
+              v-if="sheet.legends"
+              class="legends-badge ds-title-legends"
+              :title="labels.dsLegendsNote"
+            >{{ labels.dsLegends }}</span>
           </h2>
           <div class="ds-actions">
             <button
@@ -68,16 +76,6 @@
               <i class="bi bi-image" />
             </a>
           </div>
-          <!-- A reader who followed a link straight here has to be told the same thing the grid's
-               badge says: the rules below are published, the unit is not matched-play legal. A
-               full-width second row of the head — under the name AND the actions; the row is
-               what wraps, never the name-and-actions pair above it (see .ds-head). -->
-          <p
-            v-if="sheet.legends"
-            class="ds-legends-note"
-          >
-            <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
-          </p>
         </div>
         <DatasheetCard
           :sheet="sheet"
@@ -357,9 +355,7 @@ async function copyName() {
 .ds-head {
   display: flex;
   align-items: flex-start;
-  /* Wrapping is for the Legends line alone: the title's flex-basis is 0, so the name and the
-     actions never outgrow the row — a long name shrinks and breaks, the actions stay beside it. */
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.3rem 0.8rem;
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
@@ -373,7 +369,7 @@ async function copyName() {
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
 .ds-title {
-  flex: 1 1 0;
+  flex: 1 1 auto;
   min-width: 0;
   overflow-wrap: break-word;
   font-family: var(--font-display);
@@ -385,18 +381,17 @@ async function copyName() {
   margin: 0;
 }
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
-/* Sits under the title and inside the head block, so it reads before the statline rather than
-   after it. Muted, not alarming — the page below it is still a full datasheet. */
-.ds-legends-note {
-  flex-basis: 100%;
-  margin: 0.2rem 0 0;
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-/* The badge leads the line here, so it gives up the inline left margin it wears mid-sentence. */
-.ds-legends-note .legends-badge {
-  margin-left: 0;
-  margin-right: 0.35em;
+/* On the plate the badge sits on the title's baseline, a touch larger than in the grid so it
+   reads beside display type; the plate is dark in every theme, so it borrows the base-size
+   white rather than the grid's amber-on-light. */
+.ds-title-legends {
+  margin-left: 0.5rem;
+  vertical-align: 0.35em;
+  font-size: 0.66rem;
+  letter-spacing: 0.5px;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .ds-title-base {
