@@ -1,7 +1,7 @@
 // Space Wolves — русский перевод листов данных. Делят 80 листов с генерик-Space Marines
 // (тот же id и EN-текст) — переиспользуются из ./space-marines.js. Здесь переведены только
-// 21 лист, уникальный для Space Wolves (Blood Claws/Grey Hunters/Wulfen/Thunderwolf,
-// именные герои). Конвенции те же (см. ./index.js).
+// 39 листов, уникальных для Space Wolves (Blood Claws/Grey Hunters/Wulfen/Thunderwolf,
+// именные герои, восемнадцать Legends из Faction Pack’а). Конвенции те же (см. ./index.js).
 import smRu, { abilityNamesRu as smNames } from './space-marines.js'
 
 const SHARED = [
@@ -41,6 +41,23 @@ const HAYWIRE_MINE =
 // «Hunting Hounds» с разным подлежащим (модели, что получают OC 1).
 const huntingHounds = (subject) =>
   `Пока этот юнит находится в пределах 6" от одной или более дружественных моделей Space Wolves Character (исключая модели Wulfen), если этот юнит не в боевом шоке, ${subject} имеют характеристику Контроля целей (OC) 1.`
+
+
+// Warhammer Legends (Faction Pack): the three Wolf Guard Pack Leaders share these, the
+// Battle Leaders share Tactical Precision, the two gunships the DAMAGED plate.
+const INSPIRING_LEADER =
+  'Пока эта модель возглавляет юнит, один раз за битву, когда для этого юнита проходится проверка боевого шока, вы можете перебросить эту проверку.'
+const PACK_LEADER = 'Эта модель не может быть вашим WARLORD и не может получать Enhancement.'
+const TACTICAL_PRECISION =
+  'Пока эта модель возглавляет юнит, оружие моделей этого юнита имеет способность [LETHAL HITS].'
+const DAMAGED_1_5 = {
+  note: 'осталось 1–5 ран',
+  text: 'Пока у этой модели осталось 1–5 ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.',
+}
+const PISTOL_NOTE =
+  '\n* Эта модель может быть вооружена только двумя дальнобойными оружиями, если одно из них — Pistol (и только одним Pistol).'
+const gunshipTransport = (n) =>
+  `Эта модель имеет транспортную вместимость ${n} моделей ADEPTUS ASTARTES INFANTRY. Каждая модель Jump Pack, Wulfen, Gravis или Terminator занимает место 2 моделей, а каждая модель Centurion — место 3 моделей.`
 
 export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
@@ -387,6 +404,282 @@ export default {
       'Любому числу моделей их death totem можно заменить на 1 stormfrag auto-launcher.',
     ],
   },
+
+  // Warhammer Legends, from the Faction Pack v1.2 (see `source: "faction-pack"` in the EN file).
+
+  'canis-wolfborn': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Канис Волкорожденный', 'Канис Вольфборн', 'Канис'],
+    abilities: {
+      'Born of Wolves':
+        'Пока эта модель возглавляет юнит, оружие ближнего боя моделей этого юнита имеет способность [SUSTAINED HITS 1].',
+      'Alpha Predator':
+        'Каждый раз, когда эта модель завершает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от неё и бросьте один D6: на 2–3 этот вражеский юнит получает D3 смертельные раны; на 4–5 — 3 смертельные раны; на 6 — D3+3 смертельные раны.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; crushing teeth and claws; Wolf claws.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  cyberwolf: {
+    abilities: {
+      'Alpha Hunter': 'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Scouts 6".',
+      'Close In for the Kill':
+        'Каждый раз, когда эта модель совершает атаку по вражескому юниту ниже половинной численности, прибавьте 1 к броску попадания и прибавьте 1 к броску ранения.',
+    },
+    rules: { WOLFKIN: PACK_LEADER },
+    loadout: `${EQUIP_THIS} teeth and claws.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'harald-deathwolf': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Харальд Волк Смерти', 'Харальд Смерти-Волк', 'Харальд'],
+    abilities: {
+      'Lord of the Wolfkin':
+        'Пока эта модель возглавляет юнит, каждый раз, когда этот юнит совершает манёвр нападения, до конца хода crushing teeth and claws моделей этого юнита имеют способность [DEVASTATING WOUNDS].',
+      'Mantle of the Troll King':
+        'Один раз за фазу, при разрешении атаки по этой модели, после того как вы сделали спас-бросок за эту модель, вы можете изменить характеристику Урона (Damage) этой атаки на 0.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; crushing teeth and claws; Glacius.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'hounds-of-morkai': {
+    abilities: {
+      'Morkai’s Howl':
+        'В вашей фазе стрельбы вы можете выбрать один вражеский юнит в пределах 12" от этого юнита (если этот юнит возглавляет LIEUTENANT IN REIVER ARMOUR, вы можете вместо этого выбрать один вражеский юнит в пределах 18"). Этот юнит должен пройти проверку боевого шока, вычтя 1 из результата, если это юнит PSYKER. Если проверка провалена, помимо боевого шока этот юнит оглушён (Stunned) до начала вашей следующей фазы стрельбы. Пока юнит оглушён, каждый раз, когда модель этого юнита совершает Psychic Attack, вычтите 1 из броска попадания.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к Reiver Squad, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} Morkai bolt pistol; Morkai combat knife.`,
+    options: ['Нет.'],
+  },
+
+  'krom-dragongaze': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Кром Драконий Взор', 'Кром'],
+    abilities: {
+      'Refuse to Accept Defeat':
+        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку, прибавьте 1 к броску попадания, если этот юнит ниже своей начальной численности, а также прибавьте 1 к броску ранения, если этот юнит ниже половинной численности.',
+      'The Fierce Eye':
+        'В вашей фазе стрельбы вы можете выбрать один вражеский юнит INFANTRY в пределах 12" от этой модели и видимый ей. Этот вражеский юнит должен пройти проверку боевого шока.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Wyrmclaw.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'logan-grimnar-on-stormrider': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Логан Гримнар', 'Гримнар на санях', 'Оседлавший Бурю'],
+    abilities: {
+      'High King of Fenris':
+        'Один раз за битву, в вашей фазе нападения, эта модель может задействовать эту способность. Если она это делает, до конца хода вы можете перебрасывать броски нападения для юнитов ADEPTUS ASTARTES из вашей армии, и до конца хода каждый раз, когда модель ADEPTUS ASTARTES из вашей армии совершает атаку ближнего боя, вы можете перебросить бросок попадания.',
+      'The Great Wolf': 'Каждый раз, когда эта модель уничтожает вражеский юнит, вы получаете 1 CP.',
+    },
+    rules: {
+      'LOGAN GRIMNAR': 'Ваша армия не может включать одновременно LOGAN GRIMNAR и LOGAN GRIMNAR ON STORMRIDER.',
+    },
+    loadout: `${EQUIP_THIS} storm bolter; the Axe Morkai; flurry of teeth and claws.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'long-fangs': {
+    abilities: {
+      'Fire Discipline':
+        'Каждый раз, когда этот юнит остаётся неподвижным, если он включает Long Fang Pack Leader, вы можете выбрать один вражеский юнит, видимый этой модели. До конца хода каждый раз, когда модель этого юнита совершает дальнобойную атаку по этому вражескому юниту, перебросьте бросок попадания, равный 1.',
+      'Armorium Cherub':
+        'Один раз за битву, после броска попадания для модели этого юнита, вы можете изменить этот результат на немодифицированный 6.\n\n**Примечание разработчика:** положите рядом с юнитом жетон Armorium Cherub, убрав его, как только эта способность будет задействована.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к Devastator Squad, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} boltgun; bolt pistol; close combat weapon.`,
+    options: [
+      'Любому числу Long Fang их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
+      'boltgun у Long Fang Pack Leader можно заменить на одно из следующего:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 plasma pistol',
+      'close combat weapon у Long Fang Pack Leader можно заменить на одно из следующего:\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon',
+    ],
+  },
+
+  'lukas-the-trickster': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Лукас Ловкач', 'Лукас Трикстер', 'Лукас'],
+    abilities: {
+      'Pelt of the Doppegangrel':
+        'Пока эта модель возглавляет юнит, каждый раз, когда атака нацеливается на этот юнит, вычтите 1 из броска попадания.',
+      'Last Laugh':
+        'Если эта модель уничтожена атакой ближнего боя, после того как атакующий юнит закончил свои атаки, бросьте один D6: на 4+ атакующий юнит получает D6 смертельных ран и оказывается в боевом шоке.',
+    },
+    rules: { 'MASTER OF MISCHIEF': 'Эта модель не может быть вашим WARLORD.' },
+    loadout: `${EQUIP_THIS} plasma pistol; Claw of the Jackalwolf.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  skyclaws: {
+    abilities: {
+      Headstrong:
+        'Вы можете перебрасывать броски нападения для этого юнита. Каждый раз, когда этот юнит совершает манёвр нападения, до конца хода каждый раз, когда модель этого юнита совершает атаку ближнего боя, прибавьте 1 к броску попадания.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к Assault Intercessors with Jump Packs или Assault Squad with Jump Packs, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} bolt pistol; Astartes chainsword.`,
+    options: [
+      'bolt pistol у Skyclaw Pack Leader можно заменить на 1 plasma pistol.',
+      'Astartes chainsword у Skyclaw Pack Leader можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
+      'До 2 Skyclaw их bolt pistol и Astartes chainsword можно заменить на одно из следующего:\n▪ 1 plasma pistol и 1 Astartes chainsword\n▪ 1 flamer и 1 close combat weapon\n▪ 1 grav-gun и 1 close combat weapon\n▪ 1 meltagun и 1 close combat weapon\n▪ 1 plasma gun и 1 close combat weapon',
+    ],
+  },
+
+  'stormfang-gunship': {
+    abilities: {
+      'Frozen Prey':
+        'В вашей фазе стрельбы, после того как эта модель отстрелялась, если вражеский юнит MONSTER или VEHICLE был поражён одной или более из этих атак, совершённых helfrost destructor этой модели, до конца следующего хода вашего оппонента этот вражеский юнит заморожен (Frozen). Пока юнит заморожен, вычтите 2 из его характеристики Движения (Move) и вычтите 2 из бросков продвижения и нападения для этого юнита.',
+    },
+    loadout: `${EQUIP_THIS} helfrost destructor; 2 skyhammer missile launchers; twin stormstrike missile launcher; armoured hull.`,
+    options: [
+      '2 skyhammer missile launchers этой модели можно заменить на одно из следующего:\n▪ 2 twin multi-meltas\n▪ 2 twin heavy bolters',
+      'twin stormstrike missile launcher этой модели можно заменить на 1 twin lascannon.',
+    ],
+    damaged: DAMAGED_1_5,
+    transport: gunshipTransport(6),
+  },
+
+  stormwolf: {
+    flavor:
+      'Stormwolf позволяют сынам Русса нести бой врагу, где бы тот ни прятался. В их просторных отсеках стаи воинов с невероятной скоростью доставляются в самую гущу врага. Пока стаи выпрыгивают в атаку, Stormwolf заливают местность шквалом тяжёлого огня, а затем взмывают на поиски новых целей.',
+    abilities: {
+      'Into the Foe':
+        'Если юнит высаживается из этого TRANSPORT прежде, чем он переместится, до конца хода этот юнит может нападать в ход, в который он продвигался.',
+    },
+    loadout: `${EQUIP_THIS} 2 skyhammer missile launchers; twin helfrost cannon; twin lascannon; armoured hull.`,
+    options: [
+      '2 skyhammer missile launchers этой модели можно заменить на одно из следующего:\n▪ 2 twin heavy bolters\n▪ 2 twin multi-meltas',
+    ],
+    damaged: DAMAGED_1_5,
+    transport: gunshipTransport(16),
+  },
+
+  'wolf-guard': {
+    abilities: {
+      'Chosen Companions':
+        'Пока модель CHARACTER возглавляет этот юнит, каждый раз, когда модель этого юнита совершает атаку, прибавьте 1 к броску попадания.',
+    },
+    wargear: { 'Storm Shield': INV4 },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к Sternguard Veteran Squad или Vanguard Veteran Squad, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} bolt pistol; heirloom weapon.`,
+    options: [
+      'Любому числу моделей их bolt pistol можно заменить на одно из следующего:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 storm shield',
+    ],
+  },
+
+  'wolf-guard-battle-leader-in-terminator-armour': {
+    abilities: {
+      'Tactical Precision': TACTICAL_PRECISION,
+      'Huskarl to the Jarl':
+        'Пока эта модель присоединена к юниту, содержащему другую модель CHARACTER, все модели CHARACTER этого юнита имеют способность Feel No Pain 4+.',
+    },
+    wargear: { 'Relic Shield': WOUNDS_6 },
+    loadout: `${EQUIP_THIS} storm bolter; power weapon.`,
+    options: [
+      'power weapon этой модели можно заменить на одно из следующего:\n▪ 1 chainfist\n▪ 1 power fist\n▪ 1 relic shield и 1 close combat weapon\n▪ 1 thunder hammer',
+      'storm bolter этой модели можно заменить на одно из следующего:\n▪ 1 chainfist\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n▪ 1 combi-weapon',
+      'storm bolter и power weapon этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'wolf-guard-battle-leader-on-thunderwolf': {
+    flavor:
+      'Battle Leader — чемпионы, обладающие великой тактической проницательностью; их лорд лично отбирает их, чтобы вести собственные отряды. Самые агрессивные нередко предпочитают идти на войну верхом на Thunderwolf.',
+    abilities: {
+      'Tactical Precision': TACTICAL_PRECISION,
+      'Aggressive Hunter':
+        'В фазе стрельбы вашего оппонента, когда вражеский юнит отстрелялся, если модель этого юнита была уничтожена в результате этих атак, этот юнит может совершить рывок (Surge move) до D6".',
+    },
+    wargear: { 'Storm Shield': INV4 },
+    loadout: `${EQUIP_THIS} bolt pistol; crushing teeth and claws; relic weapon.`,
+    options: [
+      'relic weapon этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 thunder hammer\n▪ 1 storm shield и 1 close combat weapon',
+      'bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 combi-weapon\n▪ 1 master-crafted boltgun\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 relic weapon\n▪ 1 thunder hammer',
+      'bolt pistol и relic weapon этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'wolf-guard-pack-leader': {
+    abilities: {
+      'Inspiring Leader': INSPIRING_LEADER,
+      'Pack Leader': PACK_LEADER,
+    },
+    wargear: { 'Storm Shield': INV4 },
+    loadout: `${EQUIP_THIS} bolt pistol; boltgun; close combat weapon.`,
+    options: [
+      'bolt pistol и boltgun этой модели можно заменить на два разных оружия из следующего списка:*\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n▪ 1 storm shield' + PISTOL_NOTE,
+      'bolt pistol и boltgun этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'wolf-guard-pack-leader-in-terminator-armour': {
+    flavor:
+      'Те Wolf Guard, кому дарована грубая мощь брони Terminator, шагают по полю боя почти неуязвимыми чемпионами. В стаях, которые они ведут, они служат несокрушимыми наковальнями: своей устрашающей громадой они держат строй братьев по оружию и с разрушительной силой обрушивают на врага своё украшенное оружие.',
+    abilities: {
+      'Inspiring Leader': INSPIRING_LEADER,
+      'Pack Leader': PACK_LEADER,
+    },
+    wargear: { 'Storm Shield': WOUNDS_4 },
+    loadout: `${EQUIP_THIS} storm bolter; power weapon.`,
+    options: [
+      'storm bolter и power weapon этой модели можно заменить на два разных варианта из следующего списка:*\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher и 1 storm bolter\n▪ 1 storm bolter\n▪ 1 chainfist\n▪ 1 power fist\n▪ 1 thunder hammer\n▪ 1 storm shield\n* Эта модель может быть вооружена только двумя дальнобойными оружиями, если одно из них — cyclone missile launcher, а другое — storm bolter или combi-weapon.',
+      'storm bolter и power weapon этой модели можно заменить на 1 twin lightning claws.',
+      'storm bolter этой модели можно заменить на 1 combi-weapon.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'wolf-guard-pack-leader-with-jump-pack': {
+    abilities: {
+      'Inspiring Leader': INSPIRING_LEADER,
+      'Pack Leader': PACK_LEADER,
+    },
+    wargear: { 'Storm Shield': INV4 },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword.`,
+    options: [
+      'bolt pistol и Astartes chainsword этой модели можно заменить на два разных оружия из следующего списка:*\n▪ 1 bolt pistol\n▪ 1 combi-weapon\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n▪ 1 storm shield' + PISTOL_NOTE,
+      'bolt pistol и Astartes chainsword этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'wolf-lord-on-thunderwolf': {
+    abilities: {
+      'Rites of Battle':
+        'Один раз за раунд боя один юнит вашей армии с этой способностью может быть выбран целью стратагемы за 0 CP, даже если другой юнит вашей армии уже был выбран целью этой стратагемы в эту фазу.',
+      'Speed of the Hunter': 'Прибавьте 1 к броскам продвижения и нападения для юнита этой модели.',
+    },
+    wargear: { 'Relic Shield': 'Носитель имеет характеристику Ран (Wounds) 7.' },
+    loadout: `${EQUIP_THIS} bolt pistol; crushing teeth and claws; relic weapon.`,
+    options: [
+      'relic weapon этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 thunder hammer\n▪ 1 relic shield и 1 close combat weapon',
+      'bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 combi-weapon\n▪ 1 master-crafted boltgun\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 relic weapon\n▪ 1 thunder hammer',
+      'bolt pistol и relic weapon этой модели можно заменить на 1 twin lightning claws.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
 }
 
 export const abilityNamesRu = {
@@ -427,4 +720,27 @@ export const abilityNamesRu = {
   'Bestial Rage': 'Звериное буйство',
   'Violent Fury': 'Яростное неистовство',
   'Hammer Blow': 'Удар молота',
+  'Born of Wolves': 'Рождённый волками',
+  'Alpha Predator': 'Альфа-хищник',
+  'Alpha Hunter': 'Альфа-охотник',
+  'Close In for the Kill': 'Добить жертву',
+  'Lord of the Wolfkin': 'Владыка волчьего рода',
+  'Mantle of the Troll King': 'Мантия Короля троллей',
+  'Morkai’s Howl': 'Вой Моркаи',
+  'Refuse to Accept Defeat': 'Не признавать поражения',
+  'The Fierce Eye': 'Яростный взор',
+  'The Great Wolf': 'Великий Волк',
+  'Fire Discipline': 'Огневая дисциплина',
+  'Pelt of the Doppegangrel': 'Шкура доппегангрела',
+  'Last Laugh': 'Последний смех',
+  Headstrong: 'Своевольные',
+  'Frozen Prey': 'Замороженная добыча',
+  'Into the Foe': 'На врага',
+  'Chosen Companions': 'Избранные соратники',
+  'Huskarl to the Jarl': 'Хускарл ярла',
+  'Aggressive Hunter': 'Агрессивный охотник',
+  'Pack Leader': 'Вожак стаи',
+  'Speed of the Hunter': 'Скорость охотника',
+  WOLFKIN: 'Волчий род',
+  'MASTER OF MISCHIEF': 'Мастер проказ',
 }

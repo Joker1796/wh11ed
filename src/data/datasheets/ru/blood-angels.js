@@ -1,7 +1,8 @@
 // Blood Angels — русский перевод листов данных. Blood Angels делят 84 листа с генерик-
 // Space Marines (тот же id и тот же EN-текст) — они переиспользуются напрямую из
-// ./space-marines.js (DRY: правится в одном месте). Здесь переведены только 15 листов,
-// уникальных для Blood Angels (Death Company, Sanguinary Guard, именные герои и т.п.).
+// ./space-marines.js (DRY: правится в одном месте). Здесь переведены только 25 листов,
+// уникальных для Blood Angels (Death Company, Sanguinary Guard, именные герои и т.п.,
+// десять Legends из Faction Pack’а).
 // Конвенции те же (см. ./index.js): имена юнитов/оружия, характеристики, keywords,
 // core/faction-правила, [BRACKET]-теги и ALL-CAPS-названия способностей — по-английски.
 import smRu, { abilityNamesRu as smNames } from './space-marines.js'
@@ -46,6 +47,22 @@ const DEATH_VISION =
   'Если эта модель уничтожена атакой ближнего боя, после того как атакующий юнит закончил свои атаки, вы можете бросить один D6, прибавив 2 к результату, если атакующий юнит содержит вражеского WARLORD: на 2–3 этот вражеский юнит получает D3 смертельные раны; на 4–5 — 3 смертельные раны; на 6+ — D3+3 смертельные раны.'
 const dmgHitMinus = (range) =>
   `Пока у этой модели осталось ${range} ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
+
+
+// Warhammer Legends (Faction Pack): the older Black Rage, keyed on Chaplains alone — one form
+// for a unit, one for a lone model; the codex sheets above use BLACK_RAGE.
+const BLACK_RAGE_LEGENDS_UNIT =
+  'Каждый раз, когда модель этого юнита совершает атаку, вы можете перебросить бросок попадания. Пока этот юнит не находится в пределах 12" от одной или более дружественных моделей CHAPLAIN, его нельзя выбрать для отступления, а характеристика Контроля целей (OC) его моделей равна 0.'
+const BLACK_RAGE_LEGENDS_MODEL =
+  'Каждый раз, когда эта модель совершает атаку, вы можете перебросить бросок попадания. Пока эта модель не находится в пределах 12" от одной или более дружественных моделей CHAPLAIN, её нельзя выбрать для отступления, а её характеристика Контроля целей (OC) равна 0.'
+const HONOURABLE_DEATH =
+  'Каждый раз, когда модель этого юнита совершает атаку, эта атака имеет способность [SUSTAINED HITS 1], если этот юнит ниже своей начальной численности, или способность [SUSTAINED HITS 2], если этот юнит ниже половинной численности.'
+const TYCHO_RULE = 'Ваша армия не может включать одновременно CAPTAIN TYCHO и TYCHO THE LOST.'
+const DC_BOLTGUN_OPTIONS = [
+  'Любому числу моделей их boltgun и close combat weapon можно заменить на одно из следующего:\n▪ 1 Astartes chainsword и 1 bolt pistol\n▪ 1 thunder hammer',
+  'Любому числу моделей их bolt pistol можно заменить на одно из следующего:\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol',
+  'Любому числу моделей их Astartes chainsword можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
+]
 
 export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
@@ -286,6 +303,180 @@ export default {
     },
     loadout: `${EQUIP_THIS} encarmine broadsword.`,
   },
+
+  // Warhammer Legends, from the Faction Pack v1.1 (see `source: "faction-pack"` in the EN file).
+
+  'brother-corbulo': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Корбуло', 'брат Корбуло'],
+    flavor:
+      'Сангвинарный Верховный Жрец, брат Корбуло, глубоко почитаем за преданность Ордену, благородство и дар предвидения — способность, которой, как многие верят, обладал и сам Сангвиний. На поле боя он спешит к раненым братьям, рубя любых врагов на своём пути мощными взмахами Heaven’s Teeth.',
+    abilities: {
+      'Sanguinary Priest':
+        'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 5+.',
+      'The Red Grail':
+        'Пока эта модель возглавляет юнит, прибавьте 1 к характеристике Атак (Attacks) оружия ближнего боя моделей этого юнита.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Heaven’s Teeth.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'captain-tycho': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['капитан Тихо', 'Тихо'],
+    flavor:
+      'Капитан Тихо некогда был одним из самых одарённых командиров Blood Angels, образцом всех идеалов своего Ордена. В бесчисленных битвах с орками на Армагеддоне он снискал славу и известность — и там же получил рану, навсегда изменившую его жизнь.',
+    abilities: {
+      'Gifted Commander':
+        'Пока эта модель возглавляет юнит, каждый раз, когда этот юнит выбирается для стрельбы, выберите одну из следующих способностей, которую до конца фазы получает дальнобойное оружие моделей этого юнита:\n▪ [ASSAULT]\n▪ [HEAVY]\n▪ [RAPID FIRE 1]',
+      Embittered:
+        'Когда атака впервые распределяется на эту модель, после того как атакующий юнит закончил свои атаки, до конца битвы измените характеристику Атак (Attacks) Dead Man’s Hand этой модели на 12.',
+    },
+    rules: { TYCHO: TYCHO_RULE },
+    loadout: `${EQUIP_THIS} Blood Song; bolt pistol; Dead Man’s Hand.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'death-company-dreadnought-with-magna-grapple': {
+    flavor:
+      'Даже заточения в саркофаге Dreadnought недостаточно, чтобы сдержать Чёрную Ярость. Death Company Dreadnought — словно яростные тараны, отчаянно рвущиеся врезаться во врага и разорвать его. Это мощное оружие ужаса, спущенное с поводка, чтобы причинить как можно больше урона.',
+    abilities: {
+      'Black Rage': BLACK_RAGE_LEGENDS_MODEL,
+      'Frenzied Reprisal':
+        'Один раз за ход, в фазе боя, когда вражеский юнит выбирает этот юнит целью, после того как этот юнит разрешил свои атаки, этот юнит может сражаться (даже если он уже сражался в этой фазе) и должен быть выбран для схватки следующим.',
+      'Magna-grapple':
+        'Прибавьте 2 к броскам нападения для этой модели, если одна или более целей этого нападения — юнит MONSTER или VEHICLE.',
+    },
+    wargear: {
+      'Smoke Launchers': 'Носитель теряет способность Magna-grapple и получает ключевое слово SMOKE.',
+    },
+    loadout: `${EQUIP_THIS} meltagun; storm bolter; twin Furioso fists.`,
+    options: [
+      'storm bolter этой модели можно заменить на 1 heavy flamer.',
+      'meltagun этой модели можно заменить на 1 heavy flamer.',
+      'Furioso fists этой модели можно заменить на 1 blood talons.',
+      'Эту модель можно снабдить 1 smoke launchers.',
+    ],
+  },
+
+  'death-company-marines-with-boltguns': {
+    flavor:
+      'Члены Death Company охвачены берсеркерской яростью, доведённые до безумия страшными видениями и галлюцинациями. В бою они не ищут ничего, кроме смерти, и столь велика их свирепость, что они едва вздрагивают даже от тяжелейших ран, не думая ни о чём, кроме уничтожения врагов.',
+    abilities: {
+      'Black Rage': BLACK_RAGE_LEGENDS_UNIT,
+      'An Honourable Death in Combat': HONOURABLE_DEATH,
+    },
+    rules: {
+      'DEATH COMPANY':
+        'Если модель CHAPLAIN из вашей армии со способностью Leader может быть присоединена к Tactical Squad, она может быть присоединена к этому юниту вместо этого.\n\nЕсли юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к юниту Death Company Marines, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} boltgun; close combat weapon.`,
+    options: DC_BOLTGUN_OPTIONS,
+  },
+
+  'death-company-marines-with-boltguns-and-jump-packs': {
+    flavor:
+      'Члены Death Company охвачены берсеркерской яростью, доведённые до безумия страшными видениями и галлюцинациями. В бою они не ищут ничего, кроме смерти, и столь велика их свирепость, что они едва вздрагивают даже от тяжелейших ран, не думая ни о чём, кроме уничтожения врагов.',
+    abilities: {
+      'Black Rage': BLACK_RAGE_LEGENDS_UNIT,
+      'An Honourable Death in Combat': HONOURABLE_DEATH,
+    },
+    rules: {
+      'DEATH COMPANY':
+        'Если модель CHAPLAIN из вашей армии со способностью Leader может быть присоединена к Assault Intercessors with Jump Packs или Assault Squad with Jump Packs, она может быть присоединена к этому юниту вместо этого.\n\nЕсли юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к юниту Death Company Marines with Jump Packs, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} boltgun; close combat weapon.`,
+    options: DC_BOLTGUN_OPTIONS,
+  },
+
+  'furioso-dreadnought': {
+    flavor:
+      'Уникальные для Ордена, Furioso часто оснащаются вооружением, какое есть только у Blood Angels, — от кромсающей пехоту heavy frag cannon до magna-grapple. Гарпуны последнего на адамантиевых цепях пробивают броню, позволяя Furioso подтягивать врагов к себе.',
+    abilities: {
+      'Wrathful Rampage':
+        'Каждый раз, когда эта модель выбирается для схватки, вы можете выбрать один вражеский юнит в дистанции ввязывания от неё и бросить один D6, прибавив 2 к результату, если эта модель совершила манёвр нападения в этот ход: на 4–5 этот вражеский юнит получает D3 смертельные раны; на 6+ — 3 смертельные раны.',
+    },
+    wargear: {
+      'Magna-grapple':
+        'Носитель теряет ключевое слово SMOKE, но прибавьте 2 к броскам нападения для носителя, если одна или более целей этого нападения — юнит MONSTER или VEHICLE.',
+    },
+    loadout: `${EQUIP_THIS} heavy frag cannon; Furioso fist; storm bolter.`,
+    options: [
+      'heavy frag cannon и Furioso fist этой модели можно заменить на одно из следующего:\n▪ 1 blood talons и 1 meltagun\n▪ 1 twin Furioso fists и 1 meltagun',
+      'storm bolter этой модели можно заменить на 1 heavy flamer.',
+      'meltagun этой модели можно заменить на 1 heavy flamer.',
+      'Эту модель можно снабдить 1 magna-grapple.',
+    ],
+  },
+
+  'gabriel-seth': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Габриэль Сет', 'Сет'],
+    flavor:
+      'Габриэль Сет — воин ужасающей ярости, бесстрашно бросающийся в самую гущу схватки вихрем бешенства и дикости. Он владеет Blood Reaver — огромным двуручным цепным мечом, которым способен разрубить даже самых чудовищных врагов.',
+    abilities: {
+      'Lord of Slaughter':
+        'Пока эта модель возглавляет юнит, этот юнит может объявить нападение в ход, в который он продвигался.',
+      'Whirlwind of Gore':
+        'Каждый раз, когда эта модель сражается, до конца этой схватки прибавьте 1 к характеристике Атак (Attacks) Blood Reaver этой модели за каждые 5 вражеских моделей в пределах 6" от этой модели.',
+    },
+    rules: {
+      'FLESH TEARERS':
+        'Эта модель из Ордена Flesh Tearers, преемников Blood Angels. Для всех игровых целей она считается моделью BLOOD ANGELS, но не может быть включена в армию, включающую любые другие модели BLOOD ANGELS EPIC HERO.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Blood Reaver.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'librarian-dreadnought': {
+    flavor:
+      'Связь Blood Angels с варпом столь сильна, что Librarian, заточённые в Dreadnought, сохраняют свою связь с ним. Это опасные противники — со всей адамантиевой мощью Dreadnought и способностью вскипятить кровь в жилах врага или разорвать его лучами энергии.',
+    abilities: {
+      'Shield of Sanguinius (Aura, Psychic)':
+        'Пока дружественный юнит ADEPTUS ASTARTES находится в пределах 6" от этой модели, модели этого юнита имеют способность Feel No Pain 5+ против смертельных ран и Psychic Attacks.',
+      'Wings of Sanguinius (Psychic)':
+        'Один раз за ход, в конце вашей фазы движения, один PSYKER из вашей армии с этой способностью может её задействовать. Если он это делает, бросьте один D6: на 1 этот PSYKER получает D3 смертельные раны; на 2+ выберите один дружественный юнит ADEPTUS ASTARTES INFANTRY в пределах 12" от этого PSYKER, уберите выбранный юнит с поля боя и выставьте его снова в любом месте поля боя более чем в 8" по горизонтали от всех вражеских моделей.',
+    },
+    loadout: `${EQUIP_THIS} Blood Lance; storm bolter; Furioso fist; Furioso force halberd.`,
+    options: [
+      'storm bolter этой модели можно заменить на одно из следующего:\n▪ 1 heavy flamer\n▪ 1 meltagun',
+    ],
+  },
+
+  'sanguinary-priest-with-jump-pack': {
+    flavor:
+      'Sanguinary Priest — это Apothecary Blood Angels, отвечающие как за душу Ордена, так и за его тело. Своими попечениями и церемониями они призывают Blood Angels принять Красную Жажду, обуздать её и обрушить свою ярость на врага.',
+    abilities: {
+      'Sanguinary Priest':
+        'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 5+.',
+      'Blood Chalice':
+        'Пока эта модель возглавляет юнит, улучшите характеристику Пробития брони (Armour Penetration) оружия ближнего боя моделей этого юнита на 1.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'tycho-the-lost': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Тихо Потерянный', 'Тихо'],
+    flavor:
+      'В Третьей войне за Армагеддон ярость наконец поглотила капитана Тихо, как поглотит она всех сынов Сангвиния, и он занял своё место в Death Company. Он косил орков очередями Blood Song и разрядами цифрового оружия, встроенного в его левую перчатку, известную как Dead Man’s Hand.',
+    abilities: {
+      'Forlorn Hero':
+        'Пока эта модель возглавляет юнит, этот юнит может объявить нападение в ход, в который он продвигался.',
+      'Black Rage': BLACK_RAGE_LEGENDS_MODEL,
+      'Death Vision of Sanguinius':
+        'Если эта модель уничтожена атакой ближнего боя, после того как атакующий юнит закончил свои атаки, вы можете бросить один D6, прибавив 2 к результату, если атакующий юнит содержит вражеского WARLORD: на 2–3 этот вражеский юнит получает 3 смертельные раны; на 4–5 — D3+3 смертельные раны; на 6+ — D6+3 смертельные раны.',
+    },
+    rules: { TYCHO: TYCHO_RULE },
+    loadout: `${EQUIP_THIS} Blood Song; bolt pistol; Dead Man’s Hand.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
 }
 
 export const abilityNamesRu = {
@@ -314,4 +505,16 @@ export const abilityNamesRu = {
   'Blood Chalice': 'Чаша крови',
   'Aura of Fervour (Aura)': 'Аура рвения (Аура)',
   'Miraculous Saviour': 'Чудесный спаситель',
+  'The Red Grail': 'Красный Грааль',
+  'Gifted Commander': 'Одарённый командир',
+  Embittered: 'Ожесточённый',
+  'Frenzied Reprisal': 'Неистовое возмездие',
+  'Magna-grapple': 'Магна-захват',
+  'Smoke Launchers': 'Дымовые пусковые установки',
+  'Wrathful Rampage': 'Гневное буйство',
+  'Lord of Slaughter': 'Владыка резни',
+  'Whirlwind of Gore': 'Кровавый вихрь',
+  'Shield of Sanguinius (Aura, Psychic)': 'Щит Сангвиния (Аура, Психика)',
+  'Wings of Sanguinius (Psychic)': 'Крылья Сангвиния (Психика)',
+  'DEATH COMPANY': 'Рота Смерти',
 }

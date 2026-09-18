@@ -424,6 +424,81 @@ export default {
       'storm bolter этой модели можно заменить на 1 heavy flamer.',
     ],
   },
+
+  // Warhammer Legends, from the Faction Pack v1.1 (see `source: "faction-pack"` in the EN file).
+
+  'brother-captain-stern': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['брат-капитан Стерн', 'Стерн'],
+    abilities: {
+      'Exemplar of the Silvered Host':
+        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку ближнего боя, при критическом ранении цель получает 1 смертельную рану в дополнение к обычному урону.',
+      'Strands of Fate (Psychic)':
+        'Когда эта модель уничтожается впервые, бросьте один D6 в конце фазы. На 2+ выставьте эту модель обратно на поле боя как можно ближе к месту, где её уничтожили, но не в дистанции ввязывания каких-либо вражеских юнитов, со всеми её ранами.',
+    },
+    loadout: `${EQUIP_THIS} storm bolter; Nemesis force sword.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'grey-knights-dreadnought': {
+    abilities: {
+      'Wisdom of the Ancients (Aura)':
+        'Пока дружественный юнит GREY KNIGHTS INFANTRY находится в пределах 6" от этой модели, каждый раз, когда модель этого юнита совершает атаку, перебросьте бросок попадания, равный 1, и перебросьте бросок ранения, равный 1.',
+    },
+    loadout: `${EQUIP_THIS} assault cannon; storm bolter; Dreadnought combat weapon.`,
+    options: [
+      'assault cannon, storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 heavy psycannon, 1 storm bolter и 1 Nemesis doomglaive\n▪ 1 heavy psycannon, 1 incinerator и 1 Nemesis doomglaive',
+      'assault cannon этой модели можно заменить на одно из следующего:\n▪ 1 heavy plasma cannon\n▪ 1 multi-melta\n▪ 1 twin lascannon',
+      'storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 missile launcher и 1 armoured feet\n▪ 1 heavy flamer и 1 Dreadnought combat weapon',
+    ],
+  },
+
+  'grey-knights-relic-razorback': {
+    abilities: {
+      'Fire Support':
+        'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит, по которому она нанесла одно или более попаданий в этой фазе. До конца фазы каждый раз, когда дружественная модель, что высадилась из этого TRANSPORT в этот ход, совершает атаку по этому вражескому юниту, вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} twin heavy bolter; armoured tracks.`,
+    options: [
+      'twin heavy bolter этой модели можно заменить на одно из следующего:\n▪ 1 multi-melta\n▪ 1 twin assault cannon\n▪ 1 twin lascannon\n▪ 1 twin psycannon',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить 1 storm bolter.',
+    ],
+    transport:
+      'Эта модель имеет транспортную вместимость 6 моделей GREY KNIGHTS INFANTRY. Она не может перевозить модели Terminator.',
+  },
+
+  'kaldor-draigo': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Калдор Драйго', 'Драйго'],
+    abilities: {
+      'Untouchable Purity':
+        'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 4+ против смертельных ран.',
+      'One With the Warp (Psychic)':
+        'Один раз за битву, когда юнит этой модели объявляет нападение в тот же ход, в который он был выставлен на поле боя способностью Deep Strike или Teleport Assault, прибавьте 3 к броску нападения.',
+    },
+    loadout: `${EQUIP_THIS} Scourging; storm bolter; the Titansword.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  servitors: {
+    abilities: {
+      Mindlock:
+        'Пока модель BROTHERHOOD TECHMARINE возглавляет этот юнит, улучшите характеристики Навыка стрельбы (BS) и Навыка ближнего боя (WS) дальнобойного оружия и оружия ближнего боя моделей SERVITOR этого юнита на 1.',
+      Retinue:
+        'Пока модель BROTHERHOOD TECHMARINE возглавляет этот юнит, модели этого юнита имеют способности Deep Strike и Teleport Assault.',
+    },
+    rules: {
+      'SERVITOR RETINUE':
+        'В начале шага Declare Battle Formations этот юнит может присоединиться к одному другому юниту из вашей армии, который возглавляет BROTHERHOOD TECHMARINE (к юниту не может быть присоединено больше одного юнита SERVITORS). Если он это делает, до конца битвы каждая модель этого юнита считается частью этого юнита-телохранителя, и его начальная численность соответственно увеличивается.',
+    },
+    loadout: `${EQUIP_EVERY} Servitor’s servo-arm.`,
+    options: [
+      'До 2 моделей их Servitor’s servo-arm можно заменить на одно из следующего:\n▪ 1 heavy bolter и 1 Servitor’s tools\n▪ 1 multi-melta и 1 Servitor’s tools\n▪ 1 plasma cannon и 1 Servitor’s tools',
+    ],
+  },
 }
 
 export const abilityNamesRu = {
@@ -464,4 +539,13 @@ export const abilityNamesRu = {
   'Thunderhawk Cluster Bombs': 'Кассетные бомбы «Тандерхок»',
   'Personal Teleporters': 'Личные телепортеры',
   'Assault Ramp': 'Штурмовая аппарель',
+  'Exemplar of the Silvered Host': 'Образец Серебряного Воинства',
+  'Strands of Fate (Psychic)': 'Нити судьбы (Психика)',
+  'Wisdom of the Ancients (Aura)': 'Мудрость древних (Аура)',
+  'Fire Support': 'Огневая поддержка',
+  'Untouchable Purity': 'Неприкосновенная чистота',
+  'One With the Warp (Psychic)': 'Единый с варпом (Психика)',
+  Mindlock: 'Разумозамок',
+  Retinue: 'Свита',
+  'SERVITOR RETINUE': 'Свита сервиторов',
 }

@@ -131,6 +131,97 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "brother-captain-stern",
+    "name": "Brother-Captain Stern",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Brother-Captain Stern",
+        "m": "5\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Nemesis force sword",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Deep Strike, Leader",
+    "faction": "Gate of Infinity",
+    "abilities": [
+      {
+        "name": "Exemplar of the Silvered Host",
+        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, on a Critical Wound, the target suffers 1 mortal wound in addition to any normal damage."
+      },
+      {
+        "name": "Strands of Fate (Psychic)",
+        "text": "The first time this model is destroyed, roll one D6 at the end of the phase. On a 2+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with its full wounds remaining."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Brother-Captain Stern – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** storm bolter; Nemesis force sword.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Brotherhood Terminator Squad",
+        "Paladin Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Psyker",
+      "Imperium",
+      "Terminator",
+      "Brother-Captain Stern"
+    ],
+    "factionKeywords": [
+      "Grey Knights"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
     "id": "brotherhood-champion",
     "name": "Brotherhood Champion",
     "points": [
@@ -1201,6 +1292,378 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "grey-knights-dreadnought",
+    "name": "Grey Knights Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Grey Knights Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Heavy plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Heavy psycannon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Incinerator",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought combat weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Nemesis doomglaive",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Gate of Infinity",
+    "abilities": [
+      {
+        "name": "Wisdom of the Ancients (Aura)",
+        "text": "While a friendly GREY KNIGHTS INFANTRY unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Grey Knights Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** assault cannon; storm bolter; Dreadnought combat weapon.",
+    "options": [
+      "This model’s assault cannon, storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 heavy psycannon, 1 storm bolter and 1 Nemesis doomglaive\n▪ 1 heavy psycannon, 1 incinerator and 1 Nemesis doomglaive",
+      "This model’s assault cannon can be replaced with one of the following:\n▪ 1 heavy plasma cannon\n▪ 1 multi-melta\n▪ 1 twin lascannon",
+      "This model’s storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 missile launcher and 1 armoured feet\n▪ 1 heavy flamer and 1 Dreadnought combat weapon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Psyker",
+      "Smoke",
+      "Imperium",
+      "Dreadnought"
+    ],
+    "factionKeywords": [
+      "Grey Knights"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
+    "id": "grey-knights-relic-razorback",
+    "name": "Grey Knights Relic Razorback",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Grey Knights Relic Razorback",
+        "m": "12\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Twin psycannon",
+        "tags": [
+          "PSYCHIC",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Fire Support",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit it scored one or more hits against this phase. Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Grey Knights Relic Razorback"
+    ],
+    "loadout": "**This model is equipped with:** twin heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s twin heavy bolter can be replaced with one of the following:\n▪ 1 multi-melta\n▪ 1 twin assault cannon\n▪ 1 twin lascannon\n▪ 1 twin psycannon",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "transport": "This model has a transport capacity of 6 GREY KNIGHTS INFANTRY models. It cannot transport Terminator models.",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Dedicated Transport",
+      "Imperium",
+      "Relic Razorback"
+    ],
+    "factionKeywords": [
+      "Grey Knights"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
     "id": "grey-knights-thunderhawk-gunship",
     "name": "Grey Knights Thunderhawk Gunship",
     "points": [
@@ -1332,7 +1795,7 @@ export default [
       "Titanic",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -1478,6 +1941,119 @@ export default [
       "Grey Knights"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "kaldor-draigo",
+    "name": "Kaldor Draigo",
+    "points": [
+      {
+        "models": 1,
+        "points": 125
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Kaldor Draigo",
+        "m": "5\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Scourging",
+        "tags": [
+          "ANTI-DAEMON 2+",
+          "IGNORES COVER",
+          "PSYCHIC"
+        ],
+        "range": "18\"",
+        "a": "3",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "The Titansword",
+        "tags": [
+          "ANTI-DAEMON 2+",
+          "PSYCHIC"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-4",
+        "d": "3"
+      }
+    ],
+    "core": "Deep Strike, Leader",
+    "faction": "Gate of Infinity",
+    "abilities": [
+      {
+        "name": "Untouchable Purity",
+        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 4+ ability against mortal wounds."
+      },
+      {
+        "name": "One With the Warp (Psychic)",
+        "text": "Once per battle, when this model’s unit declares a charge in the same turn it was set up on the battlefield using the Deep Strike or Teleport Assault ability, add 3 to the Charge roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "composition": [
+      "1 Kaldor Draigo – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** Scourging; storm bolter; the Titansword.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Brotherhood Terminator Squad",
+        "Paladin Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Psyker",
+      "Terminator",
+      "Grenades",
+      "Imperium",
+      "Kaldor Draigo"
+    ],
+    "factionKeywords": [
+      "Grey Knights"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
   },
   {
     "id": "land-raider",
@@ -2708,6 +3284,138 @@ export default [
     "baseSize": "Hull"
   },
   {
+    "id": "servitors",
+    "name": "Servitors",
+    "points": [
+      {
+        "models": 4,
+        "points": 60
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Servitors",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "0",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "HEAVY",
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Servitor’s servo-arm",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Servitor’s tools",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Mindlock",
+        "text": "While a BROTHERHOOD TECHMARINE model is leading this unit, improve the Ballistic Skill and Weapon Skill characteristics of ranged and melee weapons equipped by SERVITOR models in this unit by 1."
+      },
+      {
+        "name": "Retinue",
+        "text": "While a BROTHERHOOD TECHMARINE model is leading this unit, models in this unit have the Deep Strike and Teleport Assault abilities."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "SERVITOR RETINUE",
+        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a BROTHERHOOD TECHMARINE (a unit cannot have more than one SERVITORS unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      }
+    ],
+    "composition": [
+      "4 Servitors"
+    ],
+    "loadout": "**Every model is equipped with:** Servitor’s servo-arm.",
+    "options": [
+      "Up to 2 models can each have their Servitor’s servo-arm replaced with one of the following:\n▪ 1 heavy bolter and 1 Servitor’s tools\n▪ 1 multi-melta and 1 Servitor’s tools\n▪ 1 plasma cannon and 1 Servitor’s tools"
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Servitors"
+    ],
+    "factionKeywords": [
+      "Grey Knights"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.1"
+  },
+  {
     "id": "stormhawk-interceptor",
     "name": "Stormhawk Interceptor",
     "points": [
@@ -2845,7 +3553,7 @@ export default [
       "Smoke",
       "Stormhawk Interceptor",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -3041,7 +3749,7 @@ export default [
       "Stormraven Gunship",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -3173,7 +3881,7 @@ export default [
       "Imperium",
       "Stormtalon Gunship",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Grey Knights"
     ],
