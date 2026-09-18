@@ -3,19 +3,11 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <!-- The Legends mark rides in the title line — the same badge the grid shows, with the
-               same one-line explanation as its title — and costs no row of its own: on a phone the
-               head is the first thing on screen, and a sentence under the name pushed the statline
-               down for a fact the badge already states. It LEADS the name rather than trailing it:
-               a trailing badge wrapped onto a line of its own the moment the name filled the first
-               (seen on a phone, 2026-09-18), while a leading one always shares the first line with
-               the first word. -->
+          <!-- No Legends mark up here: the name plate is the first thing on a phone's screen and
+               anything beside the name either wrapped the name or took a row. The badge sits in
+               the statline's spare space instead (DatasheetCard). -->
           <h2 class="ds-title">
-            <span
-              v-if="sheet.legends"
-              class="legends-badge ds-title-legends"
-              :title="labels.dsLegendsNote"
-            >{{ labels.dsLegends }}</span>{{ sheet.name }} <span
+            {{ sheet.name }} <span
               v-if="sheet.baseSize"
               class="ds-title-base"
             >({{ fmtBase(sheet.baseSize) }})</span>
@@ -384,18 +376,6 @@ async function copyName() {
   margin: 0;
 }
 /* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
-/* On the plate the badge sits on the title's baseline, a touch larger than in the grid so it
-   reads beside display type; the plate is dark in every theme, so it borrows the base-size
-   white rather than the grid's amber-on-light. */
-.ds-title-legends {
-  margin: 0 0.5rem 0 0;
-  vertical-align: 0.35em;
-  font-size: 0.66rem;
-  letter-spacing: 0.5px;
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.92);
-}
 
 .ds-title-base {
   display: inline;

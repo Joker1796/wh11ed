@@ -73,6 +73,16 @@
                 >{{ invNoteText(p.invNote) }}</span>
               </div>
             </template>
+            <!-- The Legends mark — the grid's badge, with the same one-line explanation as its
+                 title — lives in the statline's own spare space, right of OC, and costs no row:
+                 it was a sentence under the name plate first, then a badge in the title, and both
+                 pushed the statline down on a phone (2026-09-18). Where the space runs out (a
+                 narrow container, a multi-profile name) it steps down a row — see .ds-legends-tag. -->
+            <span
+              v-if="i === 0 && sheet.legends"
+              class="legends-badge ds-legends-tag"
+              :title="labels.dsLegendsNote"
+            >{{ labels.dsLegends }}</span>
           </div>
         </div>
       </div>
@@ -1313,9 +1323,20 @@ function abilityStateLabel(st) {
 .ds-statline:has(+ .ds-statline) { margin-bottom: 0.35rem; }
 .ds-stats {
   display: grid;
-  grid-template-columns: repeat(6, max-content) minmax(0, 1fr);
+  /* Six stat columns, the flexible one the multi-profile name starts in, and a last max-content
+     column for the Legends tag — empty (zero wide) on every sheet that has none. */
+  grid-template-columns: repeat(6, max-content) minmax(0, 1fr) max-content;
   gap: 0.35rem;
   align-items: start;
+}
+/* Right of OC, on the stat row, level with the boxes; the badge's inline margin is for
+   mid-sentence use and is dropped here. */
+.ds-legends-tag {
+  grid-column: 8;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+  margin: 0;
 }
 .ds-stat {
   display: flex;
@@ -1434,6 +1455,16 @@ function abilityStateLabel(st) {
   .ds-stats.has-name .ds-stat { grid-row: 2; }
   .ds-stats.has-name .ds-inv-box { grid-row: 3; }
   .ds-stats.has-name .ds-inv-side { grid-row: 3; }
+  /* …and the Legends tag stays level with the boxes, not with the name that now spans the row. */
+  .ds-stats.has-name .ds-legends-tag { grid-row: 2; }
+}
+/* Narrower still, six boxes fill the row: the tag steps down beside the invulnerable-save label
+   (which then keeps to the three columns under W/LD/OC) — a row of its own only on a sheet with
+   no invulnerable save, where it is the only thing on that row. */
+@container dscard (max-width: 400px) {
+  .ds-legends-tag { grid-row: 2; grid-column: 7 / -1; align-self: start; }
+  .ds-stats:has(.ds-legends-tag) .ds-inv-side { grid-column: 4 / 7; }
+  .ds-stats.has-name .ds-legends-tag { grid-row: 3; }
 }
 
 /* Points — closing faction-colour band: bleeds over the card padding (mirroring
