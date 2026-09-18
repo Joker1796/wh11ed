@@ -141,6 +141,321 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "beastmaster",
+    "name": "Beastmaster",
+    "points": [
+      {
+        "models": 7,
+        "points": 135
+      }
+    ],
+    "flavor": "On thrumming skyboards that spit venom-laced shards, Beastmasters hover above the frenzied bloodletting of their thrall-creatures, goading them on with the cruel lashes of a nerve-inflaming agoniser. Many wear shamanistic masks that augment the wearer’s natural dominance with sub-vocal emissions and subjugating pheromones.",
+    "profiles": [
+      {
+        "name": "BEASTMASTER",
+        "m": "12\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "6+"
+      },
+      {
+        "name": "CLAWED FIEND",
+        "m": "12\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "5",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "6+"
+      },
+      {
+        "name": "KHYMERAE",
+        "m": "12\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "2",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "6+"
+      },
+      {
+        "name": "RAZORWING FLOCK",
+        "m": "12\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "3",
+        "ld": "8+",
+        "oc": "1",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Splinter pods",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Agoniser",
+        "tags": [
+          "ANTI-INFANTRY 3+"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "3",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Clawed Fiend fists",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "5",
+        "ws": "4+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Khymerae talons",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "4",
+        "ws": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Razorwing feathers",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "6",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Scouts 9\"",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Goaded Savagery (Pain)",
+        "text": "In the Fight phase, when you select this unit to fight, you can spend 1 of your Pain tokens to Empower this unit. While this unit is Empowered, if it contains a Beastmaster model, each time a BEAST model in this unit makes a melee attack, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      },
+      {
+        "name": "Beastmaster",
+        "text": "While this unit contains a Beastmaster model, you can re-roll Charge rolls made for this unit."
+      }
+    ],
+    "composition": [
+      "1 Beastmaster",
+      "1 Clawed Fiend",
+      "2 Khymerae",
+      "3 Razorwing Flocks"
+    ],
+    "loadout": "**The Beastmaster is equipped with:** splinter pods; agoniser.\n\n**Every Clawed Fiend is equipped with:** Clawed Fiend fists.\n\n**Every Khymerae is equipped with:** Khymerae talons.\n\n**Every Razorwing Flock is equipped with:** Razorwing feathers.",
+    "keywords": [
+      "Beasts",
+      "Aeldari",
+      "Fly",
+      "Mounted",
+      "Character",
+      "Beastmaster"
+    ],
+    "keywordsByModel": [
+      {
+        "model": "ALL MODELS",
+        "list": [
+          "Beasts",
+          "Aeldari"
+        ]
+      },
+      {
+        "model": "RAZORWING FLOCKS",
+        "list": [
+          "Fly"
+        ]
+      },
+      {
+        "model": "BEASTMASTER",
+        "list": [
+          "Mounted",
+          "Character",
+          "Fly",
+          "Beastmaster"
+        ]
+      }
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "court-of-the-archon",
+    "name": "Court of the Archon",
+    "points": [
+      {
+        "models": 4,
+        "points": 95
+      }
+    ],
+    "flavor": "Nothing but the manipulative cunning of an Archon could demand the loyalty of their varied Courts. Drawn from diverse mercenary factions that inhabit Commorragh, Drukhari, aliens and other horrors protect their liege with all manner of twisted weapons, flesh-eating venoms, needle-like fangs and empathic leaching.",
+    "profiles": [
+      {
+        "name": "Court of the Archon",
+        "m": "7\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Eyeburst",
+        "tags": [
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Shardcarbine",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "ASSAULT"
+        ],
+        "range": "18\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Splinter pistol",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "ASSAULT",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shaimeshi blade",
+        "tags": [
+          "ANTI-INFANTRY 2+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Sslyth battle-blade",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Ur-ghul talons",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "6",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Deadly Retinue (Pain)",
+        "text": "At the start of your Shooting phase or at the start of the Fight phase, you can spend 1 Pain token to Empower this unit. While this unit is Empowered:\n▪ If it contains one or more Lhamaean models, melee weapons equipped by models in this unit have the [LETHAL HITS] ability.\n▪ If it contains one or more Medusae models, ranged weapons equipped by models in this unit have the [IGNORES COVER] ability.\n▪ If it contains one or more Sslyth models, each time a melee attack targets this unit, subtract 1 from the Wound roll.\n▪ If this unit contains one or more Ur-ghul models, this unit has the Fights First ability."
+      },
+      {
+        "name": "Court of the Archon",
+        "text": "While a CHARACTER model is leading a unit that contains one or more Lhamaean, Medusae, Sslyth and/or Ur-ghul models, that CHARACTER model has the Feel No Pain 4+ ability."
+      }
+    ],
+    "composition": [
+      "1 Lhamaean",
+      "1 Medusae",
+      "1 Sslyth",
+      "1 Ur-ghul"
+    ],
+    "loadout": "**A Lhamaean is equipped with:** shaimeshi blade.\n\n**A Medusae is equipped with:** eyeburst; close combat weapon.\n\n**A Sslyth is equipped with:** shardcarbine; splinter pistol; Sslyth battle-blade.\n\n**An Ur-ghul is equipped with:** Ur-ghul talons.",
+    "rules": [
+      {
+        "name": "COURT OF THE ARCHON",
+        "text": "This unit can be led by an ARCHON. Alternatively, in the Declare Battle Formations step, this unit can join one KABALITE WARRIORS or HAND OF THE ARCHON unit from your army that is being led by an ARCHON (a unit cannot have more than one COURT OF THE ARCHON unit joined to it). If it does, until the end of the battle, every model in this unit counts as part of that KABALITE WARRIORS or HAND OF THE ARCHON unit, and its Starting Strength is increased accordingly."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Kabal",
+      "Aeldari",
+      "Court of the Archon"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "cronos",
     "name": "Cronos",
     "points": [
@@ -322,6 +637,107 @@ export default [
       "Drukhari"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "grotesques",
+    "name": "Grotesques",
+    "points": [
+      {
+        "models": 3,
+        "points": 80
+      },
+      {
+        "models": 6,
+        "points": 170
+      }
+    ],
+    "flavor": "These modified meat-hulks are pumped full of painful chemicals, growth elixirs and macro-steroids. With swollen muscles they hack their master’s foes apart, their brutal cleavers and grafted claws dripping with toxins. They are mindlessly obedient and insensible to any hurt, chasing down fleeing prey at the behest of their creator.",
+    "profiles": [
+      {
+        "name": "Grotesques",
+        "m": "7\"",
+        "t": "5",
+        "sv": "6+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Liquifier gun",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Monstrous weapons",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Paired monstrous weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 5+",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Macro-steroids (Pain)",
+        "text": "In the Fight phase, when you select this unit to fight, you can spend 1 of your Pain tokens to Empower this unit. While Empowered, melee weapons equipped by models in this unit have a Strength characteristic of 8 and the [LETHAL HITS] ability."
+      },
+      {
+        "name": "Monstrous Charge",
+        "text": "Each time this unit ends a Charge move, select one enemy unit within Engagement Range of it, then roll one D6 for each model in this unit that is within Engagement Range of that enemy unit: for each 4+, that enemy unit suffers D3 mortal wounds."
+      }
+    ],
+    "composition": [
+      "3-6 Grotesques"
+    ],
+    "loadout": "**Every model is equipped with:** paired monstrous weapons.",
+    "options": [
+      "Any number of models can each replace their paired monstrous weapons with 1 monstrous weapon and 1 liquifier gun."
+    ],
+    "rules": [
+      {
+        "name": "MONSTROUS HULKS",
+        "text": "This unit cannot embark within a VENOM, but it can embark within other DRUKHARI TRANSPORTS; when doing so, each Grotesque model takes up the space of 3 models."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Haemonculus Covens",
+      "Aeldari",
+      "Grotesques"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "haemonculus",
@@ -1574,6 +1990,93 @@ export default [
     "baseSize": "Large Flying Base"
   },
   {
+    "id": "raven-strike-fighter",
+    "name": "Raven Strike Fighter",
+    "points": [
+      {
+        "models": 1,
+        "points": 170
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Raven Strike Fighter",
+        "m": "20+\"",
+        "t": "8",
+        "sv": "4+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "0",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Dark lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Splinterstorm cannon",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "SUSTAINED HITS 2"
+        ],
+        "range": "36\"",
+        "a": "8",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Bladed wings",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Stealth",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Shredding Fire (Pain)",
+        "text": "In your Shooting phase, when you select this unit to shoot, you can spend 1 Pain token to Empower this unit. While Empowered, the Armour Penetration characteristic of its ranged weapons is increased by 1."
+      },
+      {
+        "name": "Ground-attack Craft",
+        "text": "Each time a model in this unit makes a ranged attack that targets an enemy unit (excluding units that can FLY), add 1 to the Hit roll."
+      }
+    ],
+    "composition": [
+      "1 Raven Strike Fighter"
+    ],
+    "loadout": "**This model is equipped with:** 2 dark lances; splinterstorm cannon; bladed wings.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Aeldari",
+      "Raven Strike Fighter"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "razorwing-jetfighter",
     "name": "Razorwing Jetfighter",
     "points": [
@@ -1719,11 +2222,114 @@ export default [
       "Fly",
       "Razorwing Jetfighter",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Drukhari"
     ],
     "baseSize": "120x92mm Oval Base"
+  },
+  {
+    "id": "reaper",
+    "name": "Reaper",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Reaper",
+        "m": "14\"",
+        "t": "9",
+        "sv": "4+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Storm vortex projector – beam",
+        "tags": [],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm vortex projector – blast",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Bladevanes",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Prow blade",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LANCE",
+          "SUSTAINED HITS 3"
+        ],
+        "a": "1",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D3, Deep Strike",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Electromagentic Cascade (Pain)",
+        "text": "In your Shooting phase, when you select this model to shoot, you can spend 1 Pain token to Empower this model. While Empowered:\n▪ Each time this model makes a ranged attack that targets a VEHICLE unit, that attack has the [SUSTAINED HITS 2] ability.\n▪ Each time this model makes a ranged attack that targets a non-VEHICLE unit, that attack has the [SUSTAINED HITS 1] ability."
+      },
+      {
+        "name": "Eradicate the Foe",
+        "text": "Each time this model makes an attack that targets an enemy unit that is at its Starting Strength, re-roll a Hit roll of 1. If the target unit has a Starting Strength of 1, this ability only applies if that unit has its starting number of wounds."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time it makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Reaper"
+    ],
+    "loadout": "**This model is equipped with:** storm vortex projector; bladevanes; prow blade.",
+    "keywords": [
+      "Vehicle",
+      "Kabal",
+      "Fly",
+      "Aeldari",
+      "Reaper"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "reavers",
@@ -2488,6 +3094,184 @@ export default [
     "baseSize": "Large Flying Base"
   },
   {
+    "id": "tantalus",
+    "name": "Tantalus",
+    "points": [
+      {
+        "models": 1,
+        "points": 230
+      }
+    ],
+    "flavor": "The Tantalus is a prestigious twin-hulled Drukhari assault skimmer perfectly crafted for high-speed terror raids. The signature armament of the Tantalus is a set of graceful scythevanes that extend from the vehicle’s hull, designed to slice and sever any foes caught in the skimmer’s sweeping flight path.",
+    "profiles": [
+      {
+        "name": "Tantalus",
+        "m": "16\"",
+        "t": "10",
+        "sv": "4+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Pulse disintegrators",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "36\"",
+        "a": "12",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Dire scythe blades",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "9",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6, Deep Strike, Firing Deck 16",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Engine of Destruction (Pain)",
+        "text": "In your Shooting phase, when you select this model to shoot, you can spend 1 Pain token to Empower this model. While Empowered, this model’s pulse disintegrators have the [RAPID FIRE 8] ability."
+      },
+      {
+        "name": "Scything Charge",
+        "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4-5, that enemy unit suffers 3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time it makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Tantalus"
+    ],
+    "loadout": "**This model is equipped with:** pulse disintegrators; dire scythe blades.",
+    "transport": "This model has a transport capacity of 16 DRUKHARI INFANTRY models. Each GROTESQUE model takes up the space of 3 models. This model cannot transport models that can FLY.",
+    "keywords": [
+      "Vehicle",
+      "Transport",
+      "Fly",
+      "Aeldari",
+      "Tantalus"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "urien-rakarth",
+    "name": "Urien Rakarth",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "flavor": "Urien Rakarth is the most ingenious of the many Haemonculi masters. He is the Sculptor of Torments, whose repugnant creations strain his enemies’ sanity. Once his casket of fanged spirits and his toxin-laced blades are finished, a coiling nest of Haemovores feast upon whatever is left of Rakarth’s foes.",
+    "profiles": [
+      {
+        "name": "Urien Rakarth",
+        "m": "7\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Casket of Flensing",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "ONE SHOT",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "3D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Haemonculus tools and scissorhands",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PRECISION"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "3",
+        "ap": "-1",
+        "d": "D3"
+      }
+    ],
+    "core": "Feel No Pain 4+, Leader",
+    "faction": "Power from Pain",
+    "abilities": [
+      {
+        "name": "Sculptor of Torments (Pain)",
+        "text": "In your Fight phase, when you select this model’s unit to fight, you can spend 1 of your Pain tokens to Empower this model’s unit. While that unit is Empowered, each time a model in that unit makes a melee attack, add 1 to the Wound roll."
+      },
+      {
+        "name": "Father of Pain",
+        "text": "Each time an attack with a Damage characteristic of 1 is allocated to a model in this model’s unit, that model has the Feel No Pain 4+ ability against that attack."
+      },
+      {
+        "name": "Horrific Regeneration",
+        "text": "The first time this model is destroyed, roll one D6 at the end of the phase. On a 2+, set this model back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with its full wounds remaining."
+      }
+    ],
+    "composition": [
+      "1 Urien Rakarth – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Casket of Flensing; Haemonculus tools and scissorhands.",
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Wracks"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Haemonculus Covens",
+      "Character",
+      "Epic Hero",
+      "Aeldari",
+      "Haemonculus",
+      "Urien Rakarth"
+    ],
+    "factionKeywords": [
+      "Drukhari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "venom",
     "name": "Venom",
     "points": [
@@ -2699,7 +3483,7 @@ export default [
       "Fly",
       "Vehicle",
       "Voidraven Bomber"
-        ],
+    ],
     "factionKeywords": [
       "Drukhari"
     ],
