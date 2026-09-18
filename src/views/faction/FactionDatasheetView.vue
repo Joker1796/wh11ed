@@ -3,20 +3,26 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <h2 class="ds-title">
-            {{ sheet.name }} <span
-              v-if="sheet.baseSize"
-              class="ds-title-base"
-            >({{ fmtBase(sheet.baseSize) }})</span>
-          </h2>
-          <!-- A reader who followed a link straight here has to be told the same thing the grid's
-               badge says: the rules below are published, the unit is not matched-play legal. -->
-          <p
-            v-if="sheet.legends"
-            class="ds-legends-note"
-          >
-            <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
-          </p>
+          <!-- The name and, under it, the Legends line share one flex item: the head row never
+               wraps (name left, actions right), so a full-width sibling could only squeeze in
+               BESIDE the name — which is how a Legends title came to break one letter per line. -->
+          <div class="ds-name">
+            <h2 class="ds-title">
+              {{ sheet.name }} <span
+                v-if="sheet.baseSize"
+                class="ds-title-base"
+              >({{ fmtBase(sheet.baseSize) }})</span>
+            </h2>
+            <!-- A reader who followed a link straight here has to be told the same thing the
+                 grid's badge says: the rules below are published, the unit is not matched-play
+                 legal. -->
+            <p
+              v-if="sheet.legends"
+              class="ds-legends-note"
+            >
+              <strong class="legends-badge">{{ labels.dsLegends }}</strong> {{ labels.dsLegendsNote }}
+            </p>
+          </div>
           <div class="ds-actions">
             <button
               type="button"
@@ -368,9 +374,11 @@ async function copyName() {
 :root[data-theme='light'] .ds-head { --ds-th-bg: var(--accent); }
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
-.ds-title {
+.ds-name {
   flex: 1 1 auto;
   min-width: 0;
+}
+.ds-title {
   overflow-wrap: break-word;
   font-family: var(--font-display);
   font-size: 2rem;
@@ -384,7 +392,6 @@ async function copyName() {
 /* Sits under the title and inside the head block, so it reads before the statline rather than
    after it. Muted, not alarming — the page below it is still a full datasheet. */
 .ds-legends-note {
-  flex-basis: 100%;
   margin: 0.2rem 0 0;
   font-size: 0.78rem;
   color: var(--muted);
