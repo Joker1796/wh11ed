@@ -94,14 +94,20 @@ export function useParty() {
   // The host has the right to the guest's side (editing the setup rewrites both sides at once), but
   // a side someone sits on (`party.held`, from the server with every sync) is theirs on the host's
   // screen too — one rule for everyone, "your side is yours", instead of a permission matrix. The
-  // host takes a held side back by freeing the seat in the sharing dialog. With no party at all
-  // every screen edits as it always has.
+  // host takes a held side back by freeing the seat in the sharing dialog — or, by choice, keeps
+  // both sides open on its own phone (`party.scoreAll`, the dialog's one switch; local to the
+  // handle, never synced, off by default — asked for by the owner 2026-09-18 so a host can score
+  // for a guest who is only watching). With no party at all every screen edits as it always has.
   function canEdit(pi) {
     const p = party.value
     if (!p || p.revoked || p.ended) return true
     if (p.side === pi) return true
     if (!p.host) return false
-    return !(p.held || []).includes(pi)
+    return !!p.scoreAll || !(p.held || []).includes(pi)
+  }
+  function setScoreAll(on) {
+    const p = current.value?.party
+    if (p && p.host) p.scoreAll = !!on
   }
   function canWriteSlice(name) {
     const p = party.value
@@ -630,7 +636,7 @@ export function useParty() {
   }
 
   return {
-    party, active, isHost, canShare, canEdit, canResume,
+    party, active, isHost, canShare, canEdit, canResume, setScoreAll,
     status, lastError, lastSyncAt, members, invite,
     init, attach, detach, wake, flush, sync,
     share, join, peekMembers, takeSeat, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, forget,

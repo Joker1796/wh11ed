@@ -143,7 +143,8 @@ change goes out 800 ms after the last tap, not on the next tick.
 sits on. The server sends `held` (the sides other live members hold) with every state-bearing
 answer, and it lives on the handle; a held side is locked on the host's screen too — "your side is
 yours", one rule instead of a permission matrix — and the host takes it back by freeing the seat
-(kick) in `PartyModal`. The right stays wider than the lock on purpose: a setup edit rewrites both
+(kick) in `PartyModal`, or keeps both sides open on its own phone with that dialog's one switch
+(`party.scoreAll`, local to the handle, off by default; for a guest who joined to watch). The right stays wider than the lock on purpose: a setup edit rewrites both
 sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
 side with the reason under its title (the host's line names the way back) and puts `inert` (a
 presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP

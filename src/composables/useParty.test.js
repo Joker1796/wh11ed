@@ -118,6 +118,11 @@ describe('sharing', () => {
     tracker.setCp(1, 9)
     await vi.advanceTimersByTimeAsync(900)
     expect(Object.keys(lastRequest().body.slices)).toEqual(['side1'])
+    // The host's own switch keeps both sides open on its phone, held or not.
+    party.setScoreAll(true)
+    expect(party.canEdit(1)).toBe(true)
+    party.setScoreAll(false)
+    expect(party.canEdit(1)).toBe(false)
     // Kicked: the next answer says nobody holds it.
     fetchMock.mockResolvedValueOnce(answer(200, { seq: 4, status: 'open', you: { side: 0, mi: null, host: true }, held: [], written: {}, slices: {} }))
     await vi.advanceTimersByTimeAsync(4000)

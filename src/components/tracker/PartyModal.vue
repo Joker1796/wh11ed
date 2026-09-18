@@ -153,6 +153,25 @@
           </ul>
         </div>
 
+        <!-- The host's one switch: by default a side another phone sits on is locked on the host's
+             screen too (see useParty.canEdit); this keeps both sides open here — for the guest who
+             joined to watch, or is busy, and wants the host to keep score. Local to this phone. -->
+        <label
+          v-if="isHost"
+          class="check pt-score-all"
+          :class="{ on: party.scoreAll }"
+        >
+          <input
+            type="checkbox"
+            :checked="!!party.scoreAll"
+            @change="setScoreAll($event.target.checked)"
+          >
+          <span>
+            {{ labels.partyScoreAll }}
+            <em class="check-note">{{ labels.partyScoreAllHint }}</em>
+          </span>
+        </label>
+
         <div class="pt-actions">
           <template v-if="isHost">
             <button
@@ -212,7 +231,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const {
   party, active, isHost, canShare, lastError, members, invite,
-  share, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave,
+  share, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, setScoreAll,
 } = useParty()
 const { current } = useTracker()
 
@@ -383,6 +402,8 @@ onUnmounted(() => clearInterval(timer))
   letter-spacing: 0.08em;
   color: var(--text-primary);
 }
+.pt-score-all { margin-top: 0.8rem; }
+
 .pt-members {
   margin-top: 0.8rem;
   padding-top: 0.7rem;

@@ -271,6 +271,13 @@ describe('RoundTracker — a shared game', () => {
     const w = mountTracker()
     expect(cards(w).map(locked)).toEqual([OPEN, LOCKED])
     expect(cards(w)[1].text()).toContain('free its seat')
+    // …unless the host chose to score both sides from its phone.
+    tracker.current.value.party.scoreAll = true
+    await w.vm.$nextTick()
+    expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
+    tracker.current.value.party.scoreAll = false
+    await w.vm.$nextTick()
+    expect(cards(w).map(locked)).toEqual([OPEN, LOCKED])
     // The guest gone (kicked, left), the side is the host's again.
     tracker.current.value.party.held = []
     await w.vm.$nextTick()

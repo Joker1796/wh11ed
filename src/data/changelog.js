@@ -21,7 +21,7 @@ export const changelog = [
     date: '2026-09-18',
     en: [
       { h: 'Shared game: each side is scored by its own player' },
-      'A side someone else scores from their phone is locked for everyone — the host included. To take it back, the host frees that seat in the sharing dialog.',
+      'A side someone else scores from their phone is locked for everyone — the host included. To take it back, the host frees that seat in the sharing dialog; a switch there lets the host score both sides anyway, for a guest who joined to watch.',
       'A locked card is still there to read: the army list, the army rule\u2019s text, what is active right now. Only the scoring is off limits.',
       'A joined phone has its own settings: the gear opens for it and sets what this phone shows (the opponent\u2019s army-rule card, for one). The game itself stays with the host.',
       '"Join a shared game" is now a button on the tracker page, next to "New game".',
@@ -35,7 +35,7 @@ export const changelog = [
     ],
     ru: [
       { h: 'Общая партия: каждую сторону ведёт только её игрок' },
-      'Сторону, которую кто-то ведёт со своего телефона, не может править никто — хост в том числе. Чтобы забрать её обратно, хост освобождает это место в окне партии.',
+      'Сторону, которую кто-то ведёт со своего телефона, не может править никто — хост в том числе. Чтобы забрать её обратно, хост освобождает это место в окне партии; там же есть переключатель, чтобы хост всё равно вёл обе стороны — для гостя, который подключился только смотреть.',
       'Запертая карточка по-прежнему читается: лист, текст правила армии, что действует прямо сейчас. Закрыт только подсчёт.',
       'У подключившегося телефона свои настройки: шестерёнка открывается и для него и задаёт то, что показывает этот телефон (например, карточку правила армии соперника). Сама партия остаётся у хоста.',
       '«Подключиться к общей партии» теперь кнопка на странице трекера, рядом с «Новой игрой».',
