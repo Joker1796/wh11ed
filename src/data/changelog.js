@@ -20,7 +20,7 @@ export const changelog = [
     version: '2.5.1',
     date: '2026-09-18',
     en: [
-      { h: 'Shared game: your side is yours' },
+      { h: 'Shared game: each side is scored by its own player' },
       'A side someone else scores from their phone is locked for everyone — the host included. To take it back, the host frees that seat in the sharing dialog.',
       'A locked card is still there to read: the army list, the army rule\u2019s text, what is active right now. Only the scoring is off limits.',
       'A joined phone has its own settings: the gear opens for it and sets what this phone shows (the opponent\u2019s army-rule card, for one). The game itself stays with the host.',
@@ -34,7 +34,7 @@ export const changelog = [
       'The datasheet\u2019s name plate and the card go edge-to-edge together; at a window around 500px wide the plate stayed inset while the card already reached the screen edge.',
     ],
     ru: [
-      { h: 'Общая партия: своя сторона — своя' },
+      { h: 'Общая партия: каждую сторону ведёт только её игрок' },
       'Сторону, которую кто-то ведёт со своего телефона, не может править никто — хост в том числе. Чтобы забрать её обратно, хост освобождает это место в окне партии.',
       'Запертая карточка по-прежнему читается: лист, текст правила армии, что действует прямо сейчас. Закрыт только подсчёт.',
       'У подключившегося телефона свои настройки: шестерёнка открывается и для него и задаёт то, что показывает этот телефон (например, карточку правила армии соперника). Сама партия остаётся у хоста.',
