@@ -1329,13 +1329,13 @@ function abilityStateLabel(st) {
   gap: 0.35rem;
   align-items: start;
 }
-/* Right of OC, on the stat row, level with the boxes; the badge's inline margin is for
-   mid-sentence use and is dropped here. */
+/* The band's top-right corner: right of OC, level with the stat labels rather than the boxes;
+   the badge's inline margin is for mid-sentence use and is dropped here. */
 .ds-legends-tag {
   grid-column: 8;
   grid-row: 1;
   justify-self: end;
-  align-self: center;
+  align-self: start;
   margin: 0;
 }
 .ds-stat {
@@ -1455,7 +1455,7 @@ function abilityStateLabel(st) {
   .ds-stats.has-name .ds-stat { grid-row: 2; }
   .ds-stats.has-name .ds-inv-box { grid-row: 3; }
   .ds-stats.has-name .ds-inv-side { grid-row: 3; }
-  /* …and the Legends tag stays level with the boxes, not with the name that now spans the row. */
+  /* …and the Legends tag keeps to the stat row, not the name that now spans the row above. */
   .ds-stats.has-name .ds-legends-tag { grid-row: 2; }
 }
 /* Narrower still, six boxes fill the row: the tag steps down beside the invulnerable-save label
