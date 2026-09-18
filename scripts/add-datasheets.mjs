@@ -53,6 +53,9 @@ for (const e of entries) {
     if (!(k in e)) at(`missing "${k}"`)
   }
   if (typeof e.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(e.id)) at('id must be a kebab-case slug')
+  // sync-mfm-points finds a sheet's `points` block by scanning forward from its `"id"` line — a
+  // `points` key written BEFORE `id` lands the next sheet's prices on this one (seen 2026-09-18).
+  if (Object.keys(e).indexOf('points') < Object.keys(e).indexOf('id')) at('put "id" and "name" before "points" — sync-mfm-points reads the file in key order')
   if (taken.has(e.id) && !REPLACE) at('id already used in this faction (pass --replace to overwrite)')
   if (mod.sharedUnitIds?.includes(e.id)) at('id belongs to a shared Space Marine sheet — a Chapter file cannot shadow it')
   if (!Array.isArray(e.profiles) || !e.profiles.length) at('profiles: expected at least one')

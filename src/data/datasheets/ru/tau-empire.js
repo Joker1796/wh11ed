@@ -39,6 +39,36 @@ const MARKER_DRONE =
 const SHIELD_DRONE = 'Прибавьте 1 к характеристике Ран (Wounds) носителя.'
 
 export default {
+  // Warhammer Legends, from the Faction Pack v1.2 (EN sheets carry source: 'faction-pack').
+  aunshi: {
+    aliasesRu: ['Аун’Ши'],
+    flavor:
+      'Аун’Ши — герой своего народа, скромный воин, чьё присутствие вдохновляет т’ау Касты Огня так же верно, как пылающий маяк. Соединяя возвышающую природу своей касты с исключительным воинским мастерством, Аун’Ши ведёт к победе, и его клинок чести сверкает и режет.',
+    abilities: {
+      'Inspirational Defiance':
+        'Пока эта модель возглавляет юнит, прибавьте 1 к характеристике Контроля целей (OC) моделей этого юнита.',
+      'Martial Warrior':
+        'Каждый раз, когда эта модель выбирается для ближнего боя, выберите одну из следующих способностей, действующую при разрешении этих атак:\n▪ Direct Grace: Fidelity имеет способность [PRECISION].\n▪ Forceful Strike: Fidelity имеет способность [DEVASTATING WOUNDS].\n▪ Whirling Stance: Fidelity имеет способность [SUSTAINED HITS 2] вместо [SUSTAINED HITS 1].',
+    },
+    loadout: '**Эта модель вооружена:** Fidelity.',
+    leader: { text: LEADER_TEXT },
+  },
+
+  aunva: {
+    aliasesRu: ['Аун’Ва'],
+    flavor:
+      'Нет для т’ау фигуры более великой и вдохновляющей, чем Аун’Ва, Верховный Эфирный. Под его каменным взором Охотничьи кадры стремятся к невообразимому совершенству, сражаясь так, словно среди них движется живое воплощение самого Т’ау’Ва и требует от них всего, что они могут дать.',
+    abilities: {
+      'Duality Shield':
+        'Один раз за битву, каждый раз, когда атака нацелена на этот юнит, он может задействовать эту способность. Если он это делает, до конца фазы модели этого юнита имеют неуязвимый спас-бросок 2+.',
+      'Paradox of Duality':
+        'Каждый раз, когда атака нацелена на этот юнит, вычтите 1 из броска попадания и вычтите 1 из броска ранения.',
+      'Supreme Loyalty (Aura)':
+        'Пока дружественный юнит T’AU EMPIRE находится в пределах 6" от этого юнита, каждый раз, когда этот юнит проходит проверку боевого шока или лидерства, прибавьте 1 к этой проверке.',
+    },
+    loadout: '**Аун’Ва вооружён:** close combat weapon.\n\n**Каждый Ethereal Guard вооружён:** supreme honour blade.',
+  },
+
   'ax-1-0-tiger-shark': {
     flavor:
       'Разработанный как прямой ответ крупнейшим Титанам, Tiger Shark AX-1-0 заменяет стойки дронов и ионные пушки варианта истребителя-бомбардировщика на twin heavy rail cannon и батарею seeker missile. Это оружие превращает его в грозный штурмовик — бич сверхтяжёлых боевых машин.',
@@ -52,6 +82,21 @@ export default {
       '2 burst cannons этой модели можно заменить на 2 cyclic ion blasters.',
     ],
     loadout: '**Эта модель вооружена:** 2 burst cannons; 2 missile pods; twin heavy rail cannon; armoured hull.',
+  },
+
+  barracuda: {
+    flavor:
+      'Barracuda была создана, чтобы дать Империи Т’ау многоцелевой истребитель, способный противостоять всё более разнообразным угрозам Высшему Благу. Вооружённая ионной пушкой и управляемыми дронами burst cannons, Barracuda своей универсальностью и огневой мощью стоит в авангарде воздушной войны т’ау.',
+    abilities: {
+      'Agile Dogfighter': 'Каждый раз, когда атака нацелена на эту модель, вычтите 1 из броска попадания.',
+    },
+    damaged: { note: 'осталось 1–5 ран', text: dmgHit('1–5') },
+    loadout: '**Эта модель вооружена:** 2 long-barrelled burst cannons; swiftstrike burst cannon; 2 missile pods; armoured hull.',
+    options: [
+      '2 long-barrelled burst cannons этой модели можно заменить на 2 cyclic ion blasters.',
+      'swiftstrike burst cannon этой модели можно заменить на одно из следующего:\n▪ 1 ion cannon\n▪ 1 swiftstrike railgun',
+      'Эту модель можно снарядить до 2 seeker missiles.',
+    ],
   },
 
   'breacher-team': {
@@ -129,6 +174,29 @@ export default {
     loadout: '**Эта модель вооружена:** high-intensity plasma rifle; Dawn Blade.',
   },
 
+  'commander-in-crisis-battlesuit': {
+    flavor:
+      'Смертоносное сочетание стратегического мастерства, отваги и технологической мощи: каждый командир т’ау пилотирует свой боевой костюм и направляет свои армии с большим искусством. Для них честь владеть одним из самых передовых видов оружия, какие может дать империя, и это позволяет им сражаться за Высшее Благо ещё яростнее.',
+    abilities: {
+      'Crisis Commander':
+        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку дальнего боя, перебросьте бросок попадания 1.',
+    },
+    wargear: {
+      'Battlesuit Support System': BSS_BEARER,
+      'Shield Generator': SHIELD_GENERATOR,
+      'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
+    loadout: '**Эта модель вооружена:** burst cannon; battlesuit fists.',
+    options: [
+      'burst cannon этой модели можно заменить на одно из следующего:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 cyclic ion blaster\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*',
+      'Эту модель можно снарядить до трёх из следующего, включая повторы:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 burst cannon\n▪ 1 cyclic ion blaster\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*\n* Эта модель не может иметь повторов этих предметов снаряжения.',
+      'Эту модель можно снарядить до двух из следующего, включая повторы:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
   'commander-in-coldstar-battlesuit': {
     flavor:
       'Способный проноситься на высокой скорости над полем боя и даже действовать в холодной пустоте космоса, боевой доспех XV86 — исключительно продвинутое орудие войны. Его предпочитают те Commander, кто стремится быть везде одновременно, нанося удар и растворяясь там, где нужнее всего.',
@@ -195,6 +263,32 @@ export default {
         'Пока дружественный юнит T’au Empire находится в пределах 6" от носителя, каждый раз, когда вы выбираете этот юнит целью стратагемы, бросьте один D6: на 5+ вы получаете 1 CP.',
     },
     loadout: '**Эта модель вооружена:** flechette launcher; 2 high-energy fusion blasters; light missile pod; pulse pistol; battlesuit fists; advanced guardian drone; command-link drone.',
+  },
+
+  'crisis-battlesuits': {
+    flavor:
+      'Где битва бушует яростнее всего, туда и бьют Crisis Battlesuits. Пилотируемые отважными ветеранами Касты Огня, эти костюмы столь же прочны и хорошо вооружены, как лёгкие танки многих рас, и при этом обладают реактивной скоростью, позволяющей пересекать поле боя огромными прыжками или сбрасываться с Manta Gunships.',
+    abilities: {
+      'Turbo-jets':
+        'Каждый раз, когда этот юнит продвигается, не делайте для него бросок продвижения. Вместо этого до конца фазы прибавьте 6" к характеристике Движения (Move) моделей этого юнита.',
+    },
+    wargear: {
+      'Battlesuit Support System': BSS_BEARER,
+      'Shield Generator': SHIELD_GENERATOR,
+      'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
+    rules: {
+      'CRISIS BODYGUARD':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к юниту CRISIS FIREKNIFE BATTLESUIT, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: '**Каждая модель вооружена:** burst cannon; battlesuit fists.',
+    options: [
+      'Любое число моделей может заменить свой burst cannon на одно из следующего:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 cyclic ion blaster\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*',
+      'Любое число моделей может быть снаряжено до трёх из следующего, включая повторы***:\n▪ 1 airbursting fragmentation projector*\n▪ 1 battlesuit support system*\n▪ 1 burst cannon\n▪ 1 cyclic ion blaster\n▪ 1 fusion blaster\n▪ 1 missile pod\n▪ 1 plasma rifle\n▪ 1 shield generator*\n▪ 1 T’au flamer\n▪ 1 weapon support system*\n* Модель не может иметь повторов этих предметов снаряжения.\n*** Модель не может быть снаряжена более чем 3 единицами дальнобойного оружия.',
+      'Любое число моделей может быть снаряжено до двух из следующего, включая повторы:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
+    ],
   },
 
   'crisis-fireknife-battlesuits': {
@@ -287,6 +381,17 @@ export default {
     loadout: '**Эта модель вооружена:** accelerator burst cannon; 2 twin pulse carbines; armoured hull.',
   },
 
+  'drone-sentry-turret': {
+    abilities: {
+      'Sentinel Protocols':
+        'Каждый раз, когда вы выбираете эту Fortification для стратагемы Fire Overwatch, при разрешении этой стратагемы попадания засчитываются на немодифицированных бросках попадания 5+.',
+      Fortification: FORTIFICATION,
+      'Reinforced Cover': TIDEWALL_COVER,
+    },
+    loadout: '**Эта модель вооружена:** twin plasma rifle.',
+    options: ['twin plasma rifle этой модели можно заменить на одно из следующего:\n▪ 1 twin burst cannon\n▪ 1 twin fusion blaster\n▪ 1 twin missile pod'],
+  },
+
   ethereal: {
     flavor:
       'Ethereal безмятежны и мудры — духовные лидеры T’au, воплощающие мудрость и единство Высшего Блага. Во времена войны они лично выходят на поле, сражаясь ритуальным оружием, скользя над битвой на парящих дронах и взывая к первозданной мощи каст T’au.',
@@ -341,6 +446,33 @@ export default {
     loadout: '**Эта модель вооружена:** fusion collider; twin T’au flamer; Ghostkeel fists.',
   },
 
+  'great-knarloc': {
+    abilities: {
+      'Loping Stride':
+        'Каждый раз, когда эта модель продвигается, не делайте для неё бросок продвижения. Вместо этого до конца фазы прибавьте 6" к характеристике Движения (Move) этой модели.',
+    },
+    wargear: {
+      Hooked:
+        'Каждый раз, когда носитель совершает атаку этим оружием по юниту MONSTER или VEHICLE, если засчитано попадание, до конца хода, если носитель выбирает этот юнит целью нападения, прибавьте 2 к броскам нападения носителя, а вражеские юниты не могут применять стратагему Fire Overwatch для стрельбы по носителю.',
+      'Baggage Harness (Aura)':
+        'Пока дружественный юнит KROOT находится в пределах 3" от носителя, дальнобойное оружие моделей этого юнита имеет способность [SUSTAINED HITS 1].',
+    },
+    loadout: '**Эта модель вооружена:** Great Knarloc beak and talons.',
+    options: ['Эту модель можно снарядить одним из следующего:\n▪ 1 Kroot bolt thrower и 1 Kroot rifle\n▪ 1 twin Kroot gun\n▪ 1 baggage harness'],
+  },
+
+  'heavy-gun-drones': {
+    abilities: {
+      'Drone Escort':
+        'Один раз за ход, в фазе стрельбы вашего оппонента, когда дружественный юнит T’AU EMPIRE в пределах 6" от этого юнита выбирается целью атаки, один юнит вашей армии с этой способностью может её задействовать. Если он это делает, после того как этот вражеский юнит завершит свои атаки, юнит, задействовавший способность, может стрелять, как если бы это была ваша фаза стрельбы, но при разрешении этих атак может выбирать целью только этот вражеский юнит (и только если он является допустимой целью).',
+    },
+    wargear: {
+      Markerlight: 'Носитель имеет ключевое слово MARKERLIGHT.',
+    },
+    loadout: '**Каждая модель вооружена:** burst cannon; markerlight; close combat weapon.',
+    options: ['Любое число моделей может заменить свои burst cannon и markerlight на 1 twin burst cannon.'],
+  },
+
   'hammerhead-gunship': {
     flavor:
       'Hammerhead Gunship воплощает способ ведения войны T’au. Этот парящий танк не только живуч и обладает поистине свирепой огневой мощью, но и достаточно быстр и манёврен, чтобы обгонять неповоротливые вражеские боевые машины, поспевая за стремительными наступлениями, финтами и передислокациями Hunter Cadre.',
@@ -357,6 +489,14 @@ export default {
       'Эта модель может быть снаряжена до 2 seeker missiles.',
     ],
     loadout: '**Эта модель вооружена:** 1 railgun; 2 twin pulse carbines; armoured hull.',
+  },
+
+  'knarloc-riders': {
+    abilities: {
+      'Thunderous Pounce':
+        'Каждый раз, когда этот юнит завершает манёвр нападения, до конца хода Knarloc beak and talons моделей этого юнита имеют способность [LANCE].',
+    },
+    loadout: '**Каждая модель вооружена:** Kroot rifle; Knarloc beak and talons.',
   },
 
   'kroot-carnivores': {
@@ -484,6 +624,26 @@ export default {
     loadout: '**Каждая модель вооружена:** repeater cannon; close combat weapon; Krootox fists.',
   },
 
+  longstrike: {
+    aliasesRu: ['Лонгстрайк'],
+    flavor:
+      'Известный по всей Империи Т’ау как её лучший танковый ас, Шас’ла Т’ау Ша’нг обладает возвышенным талантом к бронетанковой войне. Его пилотный боевой костюм XV02 позволяет ему бесшовно слиться с искусственным интеллектом выбранного корабля, усиливая его системы наведения и обеспечивая попадание каждого выстрела.',
+    abilities: {
+      'Armour Hunter': 'Каждый раз, когда эта модель совершает атаку по MONSTER или VEHICLE, прибавьте 1 к броску попадания.',
+      'Targeting Array':
+        'Каждый раз, когда эта модель выбирается для стрельбы, при разрешении её атак вы можете перебросить один бросок попадания или перебросить один бросок ранения.',
+      'XV02 Pilot Battlesuit':
+        'В вашей фазе командования вы можете выбрать один дружественный юнит HAMMERHEAD GUNSHIP в пределах 12". До начала вашей следующей фазы командования дальнобойное оружие моделей этого юнита имеет способность [LETHAL HITS].',
+    },
+    damaged: { note: 'осталось 1–5 ран', text: dmgHit('1–5') },
+    loadout: '**Эта модель вооружена:** 2 twin pulse carbines; railgun; armoured hull.',
+    options: [
+      'railgun этой модели можно заменить на 1 ion cannon.',
+      '2 twin pulse carbines этой модели можно заменить на одно из следующего:\n▪ 2 accelerator burst cannons\n▪ 2 smart missile systems',
+      'Эту модель можно снарядить до 2 seeker missiles.',
+    ],
+  },
+
   manta: {
     flavor:
       'Manta — продвинутый сверхтяжёлый десантный корабль, применяемый для доставки крупных контингентов войск в бой. Мощные энергополя защищают судно при спуске, а не менее шестнадцати управляемых дронами burst cannon отбивают вражеские поползновения, тогда как крыльевые главные орудия поражают приоритетные цели, что могли бы угрожать месту высадки Manta.',
@@ -498,6 +658,17 @@ export default {
     damaged: { note: 'осталось 1–20 ран', text: dmgHit('1–20') },
     options: ['Нет'],
     loadout: '**Эта модель вооружена:** 2 heavy rail cannons; 6 ion cannons; 2 long-barrelled burst cannon arrays; 2 missile pods; 10 seeker missiles; armoured hull.',
+  },
+
+  'orca-dropship': {
+    abilities: {
+      'Jet Pack Insertion':
+        'В конце фазы движения вашего оппонента один или более юнитов, погружённых в этот TRANSPORT, могут из него высадиться при условии, что каждая модель каждого из высаживающихся юнитов имеет способность Deep Strike.',
+    },
+    damaged: { note: 'осталось 1–9 ран', text: dmgHit('1–9') },
+    transport:
+      'Эта модель имеет вместимость транспорта 48 моделей T’AU EMPIRE INFANTRY. Эта модель также может перевозить до 6 моделей BATTLESUIT (эти модели занимают место числа моделей, равного их характеристике Ран (Wounds); например, BATTLESUIT с характеристикой Ран 8 занимает место 8 моделей). Эта модель не может перевозить модели KROOT и VESPID STINGWINGS.',
+    loadout: '**Эта модель вооружена:** 2 long-barrelled burst cannons; missile pod; armoured hull.',
   },
 
   'pathfinder-team': {
@@ -554,6 +725,26 @@ export default {
     loadout: '**Эта модель вооружена:** accelerator burst cannon; quad ion turret; 2 seeker missiles; armoured hull.',
   },
 
+  'remora-stealth-drones': {
+    flavor:
+      'Remora — воздушная оружейная система, которую нередко несёт в бой на фюзеляже более крупный корабль-носитель вроде Tiger Shark. Набитые умными технологиями и вооружённые burst cannons и seeker missiles, Remora могут атаковать воздушные и наземные цели и часто действуют в поддержку команд Pathfinder и Stealth Suit.',
+    abilities: {
+      'Aerial Disengagement':
+        'В фазе движения вашего оппонента, когда вражеский юнит завершает обычный манёвр, продвижение или отступление в пределах 8" от этого юнита, если этот юнит не находится в дистанции ввязывания одного или более вражеских юнитов, он может совершить обычный манёвр до 6".',
+    },
+    loadout: '**Каждая модель вооружена:** twin long-barrelled burst cannons; 2 Remora seeker missiles; close combat weapon.',
+  },
+
+  'remote-sensor-tower': {
+    abilities: {
+      'Orbital Comms Array (Aura)':
+        'Пока дружественный юнит T’AU EMPIRE находится в пределах 6" от этой Fortification, каждый раз, когда вы нацеливаете на этот юнит стратагему, бросьте один D6: на 5+ вы получаете 1 CP.',
+      Fortification: FORTIFICATION,
+      'Reinforced Cover': TIDEWALL_COVER,
+    },
+    loadout: '**Эта модель вооружена:** ничем.',
+  },
+
   'riptide-battlesuit': {
     flavor:
       'Riptide сочетает бронированную живучесть и подавляющий огонь тяжёлого боевого танка с проворством быстрого и умелого воина. Питаемый гудящим нова-реактором, боевой доспех при нужде может перегружать свои системы, а его массированный огонь способен истреблять целые построения вражеских воинов или бронемашины.',
@@ -572,6 +763,35 @@ export default {
       'Эта модель может быть снаряжена до 2 missile drones.',
     ],
     loadout: '**Эта модель вооружена:** heavy burst cannon; twin plasma rifle; Riptide fists.',
+  },
+
+  'rvarna-battlesuit': {
+    flavor:
+      'Развитие Riptide, боевой костюм т’ау XV107 R’varna жертвует подвижностью ради более тяжёлой брони и возросшей огневой мощи в виде двух pulse submunition cannons — экспериментальных оружейных систем, стреляющих микрокластерными снарядами, способными накрыть область цели смертоносным штормом плазменных импульсов.',
+    abilities: {
+      'Battlesuit Support System': 'Эта модель может стрелять в ход, в который она отступила.',
+      'Nova Shielding':
+        'Один раз за битву, когда эта модель выбирается целью атаки дальнего боя, она может задействовать эту способность. Если она это делает, до конца фазы каждый раз, когда атака нацелена на эту модель, если характеристика Силы (Strength) этой атаки больше характеристики Стойкости (Toughness) этой модели, вычтите 1 из броска ранения.',
+      'Weapon Support System':
+        'Каждый раз, когда эта модель совершает атаку дальнего боя, вы можете игнорировать любые или все модификаторы броска попадания.',
+    },
+    damaged: { note: 'осталось 1–5 ран', text: dmgHit('1–5') },
+    loadout: '**Эта модель вооружена:** 2 pulse submunitions cannons; battlesuit fists.',
+    options: ['Эту модель можно снарядить до 2 missile drones.'],
+  },
+
+  'shaso-ralai': {
+    aliasesRu: ['Шас’о Р’алай'],
+    abilities: {
+      'Eclipse Field Generator': 'Пока эта модель возглавляет юнит, модели этого юнита имеют неуязвимый спас-бросок 5+.',
+      Assassin: 'Каждый раз, когда эта модель совершает атаку по юниту CHARACTER, вы можете перебросить бросок попадания.',
+    },
+    wargear: {
+      'Blacklight Marker Drones':
+        'Дважды за битву, когда этот юнит является юнитом-наблюдателем (Observer), до конца фазы каждый раз, когда модель его юнита Guided совершает атаку дальнего боя по их юниту Spotted, перебросьте бросок ранения 1.\n\n**Примечание разработчика:** положите рядом с этой моделью два жетона Blacklight Marker Drone, убирая по одному каждый раз, когда эта способность задействована.',
+    },
+    loadout: '**Эта модель вооружена:** experimental pulse submunitions rifle; battlesuit fists; blacklight marker drones.',
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
   },
 
   'sky-ray-gunship': {
@@ -664,6 +884,12 @@ export default {
     loadout: '**Эта модель вооружена:** missile pod; 2 seeker missiles; 2 twin ion rifles; armoured hull.',
   },
 
+  'tactical-drones': {
+    flavor:
+      'Бронированные единицы под управлением искусственного интеллекта на гравитационных репульсорах, Tactical Drones поддерживают силы т’ау в поле. Способные обрушивать шквальный огонь импульсных карабинов, они с готовностью отправляются командирами на поисково-ударные задания, чтобы подавить вражеских разведчиков и даже лёгкую технику.',
+    loadout: '**Каждая модель вооружена:** twin pulse carbine; close combat weapon.',
+  },
+
   'taunar-supremacy-armour': {
     flavor:
       'Ta’unar Supremacy Armour — крупнейший класс боевого доспеха T’au из встреченных на сегодня. Спроектированная главным образом для статичной обороны, платформа KX139 лишена манёвренности, но несёт широкий набор невероятно мощного оружия, способного противостоять целям от Imperial Knight до высящихся чуждых чудовищ.',
@@ -678,6 +904,16 @@ export default {
       '3 pulse ordnance drivers этой модели можно заменить на одно из следующего:\n▪ 2 nexus missile launchers\n▪ 1 heavy rail cannon array и 1 fragmentation cluster shell launcher',
     ],
     loadout: '**Эта модель вооружена:** 4 burst cannons; fusion eradicator; 3 pulse ordnance drivers; 4 smart missile systems; tri-axis ion cannon; crushing feet.',
+  },
+
+  tetras: {
+    flavor:
+      'Tetra — лёгкий и быстрый разведывательный спидер, которым Pathfinders пользуются для дальней инфильтрации, разведки и диверсий. С ограниченной бронёй и вооружением они не настоящие боевые машины, но их скрытность и скорость расширяют оперативный радиус команд Pathfinder, как и их технологии наблюдения и связи.',
+    abilities: {
+      'High-intensity Markerlights':
+        'Каждый раз, когда этот юнит является юнитом-наблюдателем (Observer), до конца фазы каждый раз, когда модель его юнита Guided совершает атаку по их юниту Spotted, вы можете перебросить бросок попадания.',
+    },
+    loadout: '**Каждая модель вооружена:** 2 pulse rifles; close combat weapons.',
   },
 
   'the-twin-lance': {
@@ -766,6 +1002,15 @@ export default {
     loadout: '**Эта модель вооружена:** 2 burst cannons; 2 ion cannons; 2 missile pods; armoured hull; transport bay.',
   },
 
+  'tx42-piranha': {
+    abilities: {
+      Outflank:
+        'Когда этот юнит прибывает из стратегических резервов, его можно выставить в зоне развёртывания вашего оппонента (все прочие ограничения сохраняются).',
+    },
+    loadout: '**Эта модель вооружена:** 2 plasma rifles; armoured hull.',
+    options: ['2 plasma rifles этой модели можно заменить на одно из следующего:\n▪ 2 fusion blasters\n▪ 2 missile pods\n▪ 2 rail rifles'],
+  },
+
   'vespid-stingwings': {
     flavor:
       'Эти чуждые вспомогательные войска влетают в бой на перепончатых крыльях, и их воздушная манёвренность не оставляет врагу укрытия. Достаточно живучие, чтобы стряхнуть всё, кроме самого тяжёлого огня, они высвобождают карающие радиоактивные залпы из neutron blaster, вскоре превращающие их цели в немногим более чем светящиеся кратеры.',
@@ -781,6 +1026,42 @@ export default {
       'Если этот юнит содержит 10 моделей:\n▪ Vespid Strain Leader может быть снаряжён 1 Oversight Drone.\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 T’au flamer\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 neutron grenade launcher\n▪ 1 Vespid Stingwing может заменить свой neutron blaster на 1 neutron rail rifle.',
     ],
     loadout: '**Каждая модель вооружена:** neutron blaster; stingwing claws.',
+  },
+
+  'xv9-hazard-battlesuits': {
+    abilities: {
+      'Photon Casters':
+        'В вашей фазе стрельбы, после того как этот юнит отстрелялся, если вражеский юнит INFANTRY был поражён одной или более из этих атак, до конца следующего хода вашего оппонента этот вражеский юнит оглушён (stunned). Пока юнит оглушён, вычтите 2 из характеристики Движения (Move) этого юнита и вычтите 2 из бросков продвижения и нападения, сделанных для этого юнита.',
+    },
+    wargear: {
+      'Battlesuit Support System': BSS_BEARER,
+      'Shield Generator': SHIELD_GENERATOR,
+      'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
+    loadout: '**Каждая модель вооружена:** fusion cascade; twin hazard burst cannon; battlesuit fists.',
+    options: [
+      'Любое число моделей может заменить свой fusion cascade на одно из следующего:\n▪ 1 phased ion gun\n▪ 1 twin hazard burst cannon',
+      'Любое число моделей может заменить свой twin hazard burst cannon на одно из следующего:\n▪ 1 fusion cascade\n▪ 1 phased ion gun',
+      'Любое число моделей может быть снаряжено одним из следующего:\n▪ 1 battlesuit support system\n▪ 1 shield generator\n▪ 1 weapon support system',
+      'Любое число моделей может быть снаряжено до двух из следующего, включая повторы:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
+    ],
+  },
+
+  'yvahra-battlesuit': {
+    flavor:
+      'Спешно развёрнутый после успеха боевого костюма R’varna, XV109 Y’vahra — боевой костюм 10-го класса, созданный для сокрушительного шокового штурма. Для этого он оснащён трёхствольным фазовым плазменным огнемётом, способным испарять керамит, и массивной ЭМИ-разрядной пушкой, предназначенной выводить из строя вражеские боевые машины.',
+    abilities: {
+      'Battlesuit Support System': 'Эта модель может стрелять в ход, в который она отступила.',
+      'Nova Burst':
+        'Один раз за битву, прежде чем эта модель совершит обычный манёвр, продвижение или отступление, она может задействовать эту способность. Если она это делает, до конца фазы её характеристика Движения (Move) равна 18".',
+      'Weapon Support System':
+        'Каждый раз, когда эта модель совершает атаку дальнего боя, вы можете игнорировать любые или все модификаторы броска попадания.',
+    },
+    damaged: { note: 'осталось 1–5 ран', text: dmgHit('1–5') },
+    loadout: '**Эта модель вооружена:** flechette pod; ionic discharge cannon; phased plasma-flamer; battlesuit fists.',
+    options: ['Эту модель можно снарядить до 2 missile drones.'],
   },
 }
 
@@ -860,4 +1141,33 @@ export const abilityNamesRu = {
   'Transport Bay': 'Транспортный отсек',
   'Airborne Agility': 'Воздушная манёвренность',
   'Oversight Drone': 'Дрон надзора',
+  // Legends (Faction Pack)
+  'Inspirational Defiance': 'Вдохновляющее неповиновение',
+  'Martial Warrior': 'Воин-мастер',
+  'Duality Shield': 'Щит двойственности',
+  'Paradox of Duality': 'Парадокс двойственности',
+  'Supreme Loyalty (Aura)': 'Высшая верность (Аура)',
+  'Agile Dogfighter': 'Вёрткий истребитель',
+  'Crisis Commander': 'Командир Crisis',
+  'Turbo-jets': 'Турбореактивные двигатели',
+  'Sentinel Protocols': 'Протоколы часового',
+  'Reinforced Cover': 'Усиленное укрытие',
+  'Loping Stride': 'Размашистый бег',
+  Hooked: 'С крюками',
+  'Baggage Harness (Aura)': 'Вьючная упряжь (Аура)',
+  'Drone Escort': 'Эскорт дронов',
+  Markerlight: 'Маркерлайт',
+  'Thunderous Pounce': 'Громовой прыжок',
+  'XV02 Pilot Battlesuit': 'Пилотный боевой костюм XV02',
+  'Jet Pack Insertion': 'Реактивная высадка',
+  'Aerial Disengagement': 'Воздушный отрыв',
+  'Orbital Comms Array (Aura)': 'Орбитальная антенна связи (Аура)',
+  'Nova Shielding': 'Нова-щит',
+  'Eclipse Field Generator': 'Генератор поля затмения',
+  Assassin: 'Ассасин',
+  'Blacklight Marker Drones': 'Маркерные дроны чёрного света',
+  'High-intensity Markerlights': 'Маркерлайты высокой интенсивности',
+  Outflank: 'Обход с фланга',
+  'Photon Casters': 'Фотонные излучатели',
+  'Nova Burst': 'Нова-рывок',
 }

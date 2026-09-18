@@ -3,6 +3,84 @@
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 export default [
   {
+    "id": "amallyn-shadowguide",
+    "name": "Amallyn Shadowguide",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Amallyn Shadowguide",
+        "m": "7\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Ranger long rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Power blade",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Lone Operative, Stealth",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "The Path Least Travelled",
+        "text": "If your army includes this model, after both players have deployed their armies and determined who has the first turn, you can select one RANGERS or SHROUD RUNNERS unit from your army and redeploy that unit. When doing so, that unit can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+      },
+      {
+        "name": "Path of the Outcast",
+        "text": "In your opponent’s Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of this model, if this model is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+      }
+    ],
+    "composition": [
+      "1 Amallyn Shadowguide – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** ranger long rifle; power blade.",
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Epic Hero",
+      "Aeldari",
+      "Amallyn Shadowguide"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "asurmen",
     "name": "Asurmen",
     "points": [
@@ -274,6 +352,140 @@ export default [
       "Asuryani"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "autarch-skyrunner",
+    "name": "Autarch Skyrunner",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "flavor": "Autarchs are more than capable of leading their warhosts from the front, plunging into the fray as Skyrunners astride jetbikes. When visited by war-lust, they draw upon all the skills they have learnt from the Aspect Shrines to spearhead assaults, duel enemy leaders and destroy war machines.",
+    "profiles": [
+      {
+        "name": "Autarch Skyrunner",
+        "m": "14\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Dragon fusion gun",
+        "tags": [
+          "ASSAULT",
+          "MELTA 3"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Laser lance",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Twin shuriken catapult",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Banshee blade",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-3",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "2+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Laser lance",
+        "tags": [
+          "LANCE"
+        ],
+        "a": "4",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Path of Command",
+        "text": "Once per battle round, one model from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+      },
+      {
+        "name": "Ride the Wind",
+        "text": "While this model is leading a unit, each time that unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in that unit."
+      }
+    ],
+    "composition": [
+      "1 Autarch Skyrunner"
+    ],
+    "loadout": "**This model is equipped with:** close combat weapon; laser lance; twin shuriken catapult.",
+    "options": [
+      "This model’s laser lance can be replaced with one of the following:\n▪ 1 Dragon fusion gun\n▪ 1 Banshee blade"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Windriders",
+        "Corsair Cloud Dancer Band"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Fly",
+      "Aeldari",
+      "Autarch",
+      "Autarch Skyrunner"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "autarch-wayleaper",
@@ -631,6 +843,82 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "bonesinger",
+    "name": "Bonesinger",
+    "points": [
+      {
+        "models": 1,
+        "points": 45
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Bonesinger",
+        "m": "7\"",
+        "t": "3",
+        "sv": "6+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Psytronome shaper",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "2",
+        "ws": "2+",
+        "s": "3",
+        "ap": "0",
+        "d": "D3"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Way of the Shaper (Psychic)",
+        "text": "While this model is leading a unit, WRAITH CONSTRUCT models in that unit have the Feel No Pain 6+ ability."
+      },
+      {
+        "name": "Bonesinger",
+        "text": "While this model is within 3\" of one or more friendly WRAITH CONSTRUCT or ASURYANI VEHICLE units, unless it is leading a unit, this model has the Lone Operative ability."
+      },
+      {
+        "name": "Psytronome Shaper",
+        "text": "In your Command phase, you can select one friendly WRAITH CONSTRUCT or ASURYANI VEHICLE model within 3\" of this model. That WRAITH CONSTRUCT or ASURYANI VEHICLE model regains up to D3 lost wounds."
+      }
+    ],
+    "composition": [
+      "1 Bonesinger"
+    ],
+    "loadout": "**This model is equipped with:** psytronome shaper.",
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Wraithblades",
+        "Wraithguard",
+        "Wraithlord"
+      ]
+    },
+    "keywords": [
+      "Character",
+      "Infantry",
+      "Psyker",
+      "Aeldari",
+      "Bonesinger"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "clanblade",
     "name": "Clanblade",
     "points": [
@@ -719,6 +1007,580 @@ export default [
       "Mounted"
     ],
     "factionKeywords": []
+  },
+  {
+    "id": "cobra",
+    "name": "Cobra",
+    "points": [
+      {
+        "models": 1,
+        "points": 415
+      }
+    ],
+    "flavor": "Cobras are huge skimmer tanks whose elegant hulls are dominated by a D-impaler – an enormous energy weapon against which not even powerful force fields are a reliable defence. So dangerous is this weapon that when a Cobra’s defence systems fail, a catastrophic D-rift will sometimes tear through reality, devouring the vehicle and any unfortunates nearby.",
+    "profiles": [
+      {
+        "name": "Cobra",
+        "m": "14\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "8",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "D-impaler",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "16",
+        "ap": "-4",
+        "d": "4"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "D-rift",
+        "text": "In your Shooting phase, just after selecting a target for this model’s D-impaler, roll one D6 for the target unit and every other unit within 3\" of that unit: on a 5+, the unit being rolled for is struck by a D-rift. After this model has finished making its attacks against that target unit this phase, each unit struck by a D-rift this phase suffers D3 mortal wounds."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Cobra"
+    ],
+    "loadout": "**This model is equipped with:** D-impaler; shuriken cannon; wraithbone hull.",
+    "options": [
+      "This model’s shuriken cannon can be replaced with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 starcannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aeldari",
+      "Cobra"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
+    "id": "corsair-cloud-dancer-band",
+    "name": "Corsair Cloud Dancer Band",
+    "points": [
+      {
+        "models": 3,
+        "points": 125
+      },
+      {
+        "models": 4,
+        "points": 150
+      },
+      {
+        "models": 6,
+        "points": 210
+      },
+      {
+        "models": 7,
+        "points": 245
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Corsair Cloud Dancer Band",
+        "m": "14\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Brace of pistols",
+        "tags": [
+          "ASSAULT",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dark lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Dissonance cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Dissonance pistol",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Splinter cannon",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin shuriken catapult",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "3",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Void sabre",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Scouts 7\"",
+    "abilities": [
+      {
+        "name": "Reckless Abandon",
+        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
+      }
+    ],
+    "composition": [
+      "0-1 Cloud Dancer Felarch",
+      "3-6 Corsair Cloud Dancers"
+    ],
+    "loadout": "**Every model is equipped with:** brace of pistols; twin shuriken catapult; close combat weapon.",
+    "options": [
+      "Any number of models can each have their twin shuriken catapult replaced with one of the following:\n▪ 1 dark lance\n▪ 1 dissonance cannon\n▪ 1 scatter laser\n▪ 1 shuriken cannon\n▪ 1 splinter cannon",
+      "The Cloud Dancer Felarch can be equipped with one of the following:\n▪ 1 dissonance pistol\n▪ 1 void sabre"
+    ],
+    "keywords": [
+      "Mounted",
+      "Grenades",
+      "Anhrathe",
+      "Aeldari",
+      "Corsair Cloud Dancer Band"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
+    "id": "corsair-reaver-band",
+    "name": "Corsair Reaver Band",
+    "points": [
+      {
+        "models": 5,
+        "points": 125
+      },
+      {
+        "models": 6,
+        "points": 150
+      },
+      {
+        "models": 10,
+        "points": 250
+      },
+      {
+        "models": 11,
+        "points": 275
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Corsair Reaver Band",
+        "m": "7\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Blaster",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Brace of pistols",
+        "tags": [
+          "ASSAULT",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Corsair firearm",
+        "tags": [
+          "ASSAULT",
+          "LETHAL HITS"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dark lance",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Dissonance pistol",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "ASSAULT",
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Fusion gun",
+        "tags": [
+          "ASSAULT",
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Shredder",
+        "tags": [
+          "ASSAULT",
+          "TORRENT"
+        ],
+        "range": "18\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Splinter cannon",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Spar-glaive",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Void sabre",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Reaver Band",
+        "text": "In your opponent’s Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+      }
+    ],
+    "composition": [
+      "0-1 Corsair Reaver Felarch",
+      "5-10 Corsair Reavers"
+    ],
+    "loadout": "**Every model is equipped with:** brace of pistols; Corsair firearm; close combat weapon.",
+    "options": [
+      "Any number of models can each have their Corsair firearm replaced with 1 spar-glaive.",
+      "For every 5 models in this unit, 1 model’s Corsair firearm can be replaced with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 blaster\n▪ 1 dark lance\n▪ 1 flamer\n▪ 1 fusion gun\n▪ 1 shredder\n▪ 1 shuriken cannon\n▪ 1 splinter cannon",
+      "The Corsair Reaver Felarch can be equipped with one of the following:\n▪ 1 dissonance pistol\n▪ 1 void sabre"
+    ],
+    "rules": [
+      {
+        "name": "CORSAIRS",
+        "text": "If a model from your army with the Leader ability can be attached to a CORSAIR VOIDREAVERS unit, it can be attached to this unit instead."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Anhrathe",
+      "Aeldari",
+      "Corsair Reaver Band"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "corsair-skyreavers",
@@ -2818,6 +3680,109 @@ export default [
     "baseSize": "Large Flying Base"
   },
   {
+    "id": "firestorm",
+    "name": "Firestorm",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Firestorm",
+        "m": "14\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Firestorm scatter laser",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "36\"",
+        "a": "16",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin shuriken catapult",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "3",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Skyfire",
+        "text": "Each time you target this model with the Fire Overwatch Stratagem just after an enemy unit that can FLY starts or ends a Normal, Advance or Fall Back move, when resolving that Stratagem, in addition to shooting that enemy unit, you can select up to 3 other enemy units within 24\" of this model that can FLY; this model can also shoot at each of those units with its Firestorm scatter laser (provided each one is an eligible target), but when doing so, an unmodified Hit roll of 6 is required to score a hit."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Firestorm"
+    ],
+    "loadout": "**This model is equipped with:** Firestorm scatter laser; twin shuriken catapult; wraithbone hull.",
+    "options": [
+      "This model’s twin shuriken catapult can be replaced with 1 shuriken cannon."
+    ],
+    "transport": "This model has a transport capacity of 6 AELDARI INFANTRY models. Each WRAITH CONSTRUCT model takes the space of 2 models. It cannot transport JUMP PACK models or YNNARI models (excluding YVRAINE and THE VISARCH).",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aeldari",
+      "Firestorm"
+    ],
+    "factionKeywords": [
+      "Aeldari"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "fuegan",
     "name": "Fuegan",
     "points": [
@@ -3145,6 +4110,142 @@ export default [
     "baseSize": "120x92mm Oval Base"
   },
   {
+    "id": "hornet",
+    "name": "Hornet",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "flavor": "The Hornet is a small, single-seater attack craft deployed in a fast reconnaissance and raiding role. Often operating alongside jetbikes and Vypers, Hornets speed ahead of the main Aeldari force to harry and outmanoeuvre priority targets, utilising a range of paired heavy weapons to strike and fade before the enemy can respond.",
+    "profiles": [
+      {
+        "name": "Hornet",
+        "m": "14\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Hornet pulse laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Lightning Assault",
+        "text": "Each time this model ends a Normal move, you can select one enemy unit (excluding MONSTER and VEHICLE units) that it moved over during that move, then roll six D6: for each 4+, that enemy unit suffers 1 mortal wound."
+      }
+    ],
+    "composition": [
+      "1 Hornet"
+    ],
+    "loadout": "**This model is equipped with:** 2 Hornet pulse lasers; wraithbone hull.",
+    "options": [
+      "Each of this model’s Hornet pulse lasers can be replaced with one of the following:\n▪ Aeldari missile launcher\n▪ Bright lance\n▪ Scatter laser\n▪ Shuriken cannon\n▪ Starcannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aeldari",
+      "Hornet"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "howling-banshees",
     "name": "Howling Banshees",
     "points": [
@@ -3293,6 +4394,189 @@ export default [
     ]
   },
   {
+    "id": "illic-nightspear",
+    "name": "Illic Nightspear",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "flavor": "There are few Aeldari more skilled in the arts of stealth and marksmanship than Illic Nightspear, whose kill-tally numbers in the hundreds of thousands. Illic’s weapon of choice is the long rifle Void Bringer; each shot from this weapon opens a tiny warp hole within the target, ripping their body apart or wrenching them into the void.",
+    "profiles": [
+      {
+        "name": "Illic Nightspear",
+        "m": "7\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+",
+        "invNote": "* Against ranged attacks only"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Shuriken pistol",
+        "tags": [
+          "ASSAULT",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Voidbringer",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "6",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Aeldari power sword",
+        "tags": [],
+        "a": "4",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Leader, Stealth",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Bringer of the True Death",
+        "text": "While this model is leading a unit, each time a model in that unit makes an attack, you can re-roll the Wound roll."
+      },
+      {
+        "name": "Hunter Unseen",
+        "text": "This model’s unit can only be selected as the target of a ranged attack if the attacking model is within 12\"."
+      }
+    ],
+    "composition": [
+      "1 Illic Nightspear – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Voidbringer; shuriken pistol; Aeldari power sword.",
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Rangers"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Aeldari",
+      "Illic Nightspear"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
+    "id": "irillyth",
+    "name": "Irillyth",
+    "points": [
+      {
+        "models": 1,
+        "points": 105
+      }
+    ],
+    "flavor": "Once a disciple of the first Phoenix Lord Asurmen, Irillyth founded the shrine of the Shadow Spectres on the craftworld of Mymeara, instilling in his warriors the arts of stealth, swiftness and decisive firepower. Known as the Shade of Twilight, he moves like a wraith among shadows, wielding the Spear of Starlight with lethal effect.",
+    "profiles": [
+      {
+        "name": "Irillyth",
+        "m": "12\"",
+        "t": "3",
+        "sv": "2+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Spear of Starlight",
+        "tags": [],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "4"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Spear of Starlight",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Leader, Deep Strike, Stealth",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Reaper of Souls",
+        "text": "While this model is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll."
+      },
+      {
+        "name": "Shadow of Death (Aura)",
+        "text": "While an enemy unit is within 6\" of this model, each time that unit takes a Battle-shock or Leadership test, subtract 1 from that test."
+      }
+    ],
+    "composition": [
+      "1 Irillyth – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Spear of Starlight.",
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Shadow Spectres"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Fly",
+      "Jump Pack",
+      "Phoenix Lord",
+      "Aeldari",
+      "Irillyth"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "jain-zar",
     "name": "Jain Zar",
     "points": [
@@ -3376,6 +4660,110 @@ export default [
       "Asuryani"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "karandras",
+    "name": "Karandras",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "flavor": "Karandras is a master of stealth and patience, striking in a blur of emerald armour. He assails his enemies with a white-hot burst from the mandiblaster Scorpion’s Bite before ripping them to shreds with his diamond-tipped chainblade Isirmathil, or crushing them in the grip of Arhra’s Bane – his bespoke Scorpion’s claw.",
+    "profiles": [
+      {
+        "name": "Karandras",
+        "m": "7\"",
+        "t": "3",
+        "sv": "2+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Arhra’s Bane",
+        "tags": [
+          "ASSAULT",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Arhra’s Bane",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Isirmathil",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "8",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Leader",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Shadow Hunter",
+        "text": "While this model is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll."
+      },
+      {
+        "name": "Sustained Assault",
+        "text": "Each time this model makes a melee attack, if it made a Charge move this turn, a successful unmodified Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "The Scorpion’s Bite",
+        "text": "Melee weapons equipped by the bearer have the [DEVASTATING WOUNDS] ability when targeting units without the TITANIC keyword."
+      }
+    ],
+    "composition": [
+      "1 Karandras – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Arhra’s Bane; Isirmathil; the Scorpion’s Bite.",
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Striking Scorpions"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Phoenix Lord",
+      "Aeldari",
+      "Karandras"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "kharseth",
@@ -3657,6 +5045,149 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "lynx",
+    "name": "Lynx",
+    "points": [
+      {
+        "models": 1,
+        "points": 180
+      }
+    ],
+    "flavor": "Resembling a sleek twin-bladed spearhead, the Lynx is a heavy grav-tank armed with a pulsar. Though they lack the resilience of the largest engines of Vaul, Lynxes more than compensate for this with their speed and agility, defying the tracking systems of the enemy as they manoeuvre themselves for the perfect precision kill.",
+    "profiles": [
+      {
+        "name": "Lynx",
+        "m": "14\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "4",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Lynx pulsar",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "16",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Speed of Vaul",
+        "text": "Each time this model Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 9\" to the Move characteristic of this model."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Lynx"
+    ],
+    "loadout": "**This model is equipped with:** Lynx pulsar; shuriken cannon; wraithbone hull.",
+    "options": [
+      "This model’s shuriken cannon can be replaced with one of the following:\n▪ Aeldari missile launcher\n▪ Bright lance\n▪ Scatter laser\n▪ Starcannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aeldari",
+      "Lynx"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "maugan-ra",
     "name": "Maugan Ra",
     "points": [
@@ -3851,6 +5382,95 @@ export default [
     "baseSize": "Large Flying Base"
   },
   {
+    "id": "nightwing",
+    "name": "Nightwing",
+    "points": [
+      {
+        "models": 1,
+        "points": 150
+      }
+    ],
+    "flavor": "The Nightwing is a superlative dog-fighting aircraft, its swept-wing design granting it a combination of lightning speed and aerobatic agility unmatched by its rivals. Appearing only as a momentary blur in the sights of adversaries on the ground, Nightwings streak through the skies like born predators, vanquishing their quarry with a hail of shurikens or a single well-placed bright lance strike.",
+    "profiles": [
+      {
+        "name": "Nightwing",
+        "m": "-",
+        "t": "8",
+        "sv": "3+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "-",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin bright lance",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Twin shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Interceptor",
+        "text": "Each time this model makes a ranged attack that targets a unit that can FLY, add 1 to the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Nightwing"
+    ],
+    "loadout": "**This model is equipped with:** twin bright lance; twin shuriken cannon; wraithbone hull.",
+    "keywords": [
+      "Vehicle",
+      "Aircraft",
+      "Fly",
+      "Aeldari",
+      "Nightwing"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "phantom-titan",
     "name": "Phantom Titan",
     "points": [
@@ -3999,6 +5619,104 @@ export default [
       "Asuryani"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "phoenix",
+    "name": "Phoenix",
+    "points": [
+      {
+        "models": 1,
+        "points": 175
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Phoenix",
+        "m": "-",
+        "t": "9",
+        "sv": "3+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Phoenix missile array",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Phoenix pulse laser",
+        "tags": [],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Twin shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Strafing Run",
+        "text": "Each time this model makes a ranged attack that targets a unit that cannot FLY, add 1 to the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Phoenix"
+    ],
+    "loadout": "**This model is equipped with:** Phoenix missile array; Phoenix pulse laser; twin shuriken cannon; wraithbone hull.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Aeldari",
+      "Phoenix"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "prince-yriel",
@@ -4310,6 +6028,252 @@ export default [
       "Asuryani"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "scorpion",
+    "name": "Scorpion",
+    "points": [
+      {
+        "models": 1,
+        "points": 410
+      }
+    ],
+    "flavor": "Optimised for hunting heavy tanks and titans, Scorpions are amongst the most powerful mobile weapons platforms employed by the Asuryani. Their twin pulsars are able to lance through the densest armour plating as though it was not there, vaporising everything they touch.",
+    "profiles": [
+      {
+        "name": "Scorpion",
+        "m": "14\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "8",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Twin Scorpion pulsar",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "60\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "18",
+        "ap": "-3",
+        "d": "5"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Lanced Obliteration",
+        "text": "Each time an attack made with this model’s twin Scorpion pulsar destroys an enemy model that has the Deadly Demise ability, that model’s Deadly Demise ability inflicts mortal wounds on a D6 roll of 4+ instead of on a 6."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Scorpion"
+    ],
+    "loadout": "**This model is equipped with:** shuriken cannon; twin Scorpion pulsar; wraithbone hull.",
+    "options": [
+      "This model’s shuriken cannon can be replaced with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 starcannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aeldari",
+      "Scorpion"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
+    "id": "shadow-spectres",
+    "name": "Shadow Spectres",
+    "points": [
+      {
+        "models": 1,
+        "points": 30
+      },
+      {
+        "models": 5,
+        "points": 115
+      },
+      {
+        "models": 10,
+        "points": 230
+      }
+    ],
+    "flavor": "Draped in holo-fields and gossamer-thin robes, Shadow Spectres haunt the battlefield as intangible ghosts, using their prism rifles to knock out valuable armoured targets before swiftly relocating. Their abilities allow these unsettling Aspect Warriors to stay a step ahead of any counterattack as they resume their terrifying hunt.",
+    "profiles": [
+      {
+        "name": "SHADOW SPECTRE",
+        "m": "12\"",
+        "t": "3",
+        "sv": "3+",
+        "w": "1",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      },
+      {
+        "name": "SHADOW SPECTRE EXARCH",
+        "m": "12\"",
+        "t": "3",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Prism rifle – dispersed",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "18\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Prism rifle – focused",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike, Stealth",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Shade of Twilight",
+        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\". If it does, until the end of the turn, this unit is not eligible to declare a charge."
+      }
+    ],
+    "composition": [
+      "0-1 Shadow Spectre Exarch",
+      "5-10 Shadow Spectres"
+    ],
+    "loadout": "**Every model is equipped with:** prism rifle; close combat weapon.",
+    "keywords": [
+      "Infantry",
+      "Jump Pack",
+      "Fly",
+      "Aeldari",
+      "Shadow Spectres"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "shadow-weaver-platform",
@@ -4775,6 +6739,157 @@ export default [
       "Asuryani"
     ],
     "baseSize": "Large Flying Base"
+  },
+  {
+    "id": "skathach-wraithknight",
+    "name": "Skathach Wraithknight",
+    "points": [
+      {
+        "models": 1,
+        "points": 490
+      }
+    ],
+    "flavor": "Skathach Wraithknights were designed to walk the endless paths of the Labyrinth Dimension, purging those eldritch passageways of any trespassers. Equipped with complex webway shunt generators and rare, specialised weapons, these constructs stride the battlefield like vengeful demigods, dispensing doom with every graceful step.",
+    "profiles": [
+      {
+        "name": "Skathach Wraithknight",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "10"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Deathshroud cannon – dispersed",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "12\"",
+        "a": "3D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Deathshroud cannon – focused",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Inferno lance",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Titanic feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6, Deep Strike",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Agile",
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over other models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
+      },
+      {
+        "name": "Webway Shunt Generator",
+        "text": "Once per battle, at the end of your opponent’s turn, if this model is not within Engagement Range of one or more enemy units, you can remove this model from the battlefield and place it into Strategic Reserves."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Scattershield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Skathach Wraithknight"
+    ],
+    "loadout": "**This model is equipped with:** inferno lance; titanic feet; scattershield.",
+    "options": [
+      "This model’s inferno lance can be replaced with 1 deathshroud cannon.",
+      "This model’s scattershield can be replaced with one of the following:\n▪ 1 inferno lance\n▪ 1 deathshroud cannon",
+      "This model can be equipped with up to two of the following:\n▪ 1 scatter laser\n▪ 1 shuriken cannon\n▪ 1 starcannon"
+    ],
+    "keywords": [
+      "Monster",
+      "Titanic",
+      "Towering",
+      "Walker",
+      "Wraith Construct",
+      "Aeldari",
+      "Skathach Wraithknight"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "skyweavers",
@@ -6267,6 +8382,195 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "vampire-hunter",
+    "name": "Vampire Hunter",
+    "points": [
+      {
+        "models": 1,
+        "points": 460
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Vampire Hunter",
+        "m": "-",
+        "t": "12",
+        "sv": "3+",
+        "w": "30",
+        "ld": "6+",
+        "oc": "-",
+        "inv": "4+",
+        "invNote": "* Against ranged attacks only"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin pulse laser",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Twin Vampire pulsar",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "60\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "4"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Titan Hunter",
+        "text": "Each time a ranged attack made by this model is allocated to a MONSTER or VEHICLE model, re-roll a Damage roll of 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-10 wounds remaining",
+      "text": "While this model has 1-10 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Vampire Hunter"
+    ],
+    "loadout": "**This model is equipped with:** scatter laser; 2 twin pulse lasers; twin Vampire pulsar; wraithbone hull.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Titanic",
+      "Aeldari",
+      "Vampire Hunter"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
+    "id": "vampire-raider",
+    "name": "Vampire Raider",
+    "points": [
+      {
+        "models": 1,
+        "points": 430
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Vampire Raider",
+        "m": "14\"",
+        "t": "12",
+        "sv": "3+",
+        "w": "30",
+        "ld": "6+",
+        "oc": "-",
+        "inv": "4+",
+        "invNote": "* Against ranged attacks only"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin pulse laser",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Hover",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Into the Foe",
+        "text": "If a unit disembarks from this TRANSPORT before it moves, until the end of the turn, that unit is eligible to charge in a turn in which it Advanced."
+      }
+    ],
+    "damaged": {
+      "note": "1-10 wounds remaining",
+      "text": "While this model has 1-10 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Vampire Raider"
+    ],
+    "loadout": "**This model is equipped with:** scatter laser; 2 twin pulse lasers; wraithbone hull.",
+    "transport": "This model has a transport capacity of 30 AELDARI INFANTRY models. Each WRAITH CONSTRUCT model takes the space of 2 models. It cannot transport JUMP PACK models or YNNARI models (excluding YVRAINE and THE VISARCH).",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Titanic",
+      "Transport",
+      "Aeldari",
+      "Vampire Raider"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "vibro-cannon-platform",
     "name": "Vibro Cannon Platform",
     "points": [
@@ -6837,7 +9141,7 @@ export default [
       "units": [
         "Storm Guardians",
         "Guardian Defenders"
-      ],
+      ]
     },
     "keywords": [
       "Warlock",
@@ -7125,6 +9429,123 @@ export default [
     }
   },
   {
+    "id": "warp-hunter",
+    "name": "Warp Hunter",
+    "points": [
+      {
+        "models": 1,
+        "points": 145
+      }
+    ],
+    "flavor": "Like the Fire Prism and Night Spinner, the rare Warp Hunter grav-tank foregoes the transport capacity of the Falcon chassis in favour of its potent main armament. Known as the D-flail, this huge weapon can be used either to project a sphere of warp energy that tears its target apart, or to open a temporary rift that drags hapless victims to a terrible death.",
+    "profiles": [
+      {
+        "name": "Warp Hunter",
+        "m": "14\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "D-flail – blast",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "3"
+      },
+      {
+        "name": "D-flail – rift",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D3",
+        "bs": "N/A",
+        "s": "12",
+        "ap": "-4",
+        "d": "3"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin shuriken catapult",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "3",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wraithbone hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Devastating Assault",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That enemy unit must take a Battle-shock test."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Warp Hunter"
+    ],
+    "loadout": "**This model is equipped with:** D-flail; twin shuriken catapult; wraithbone hull.",
+    "options": [
+      "This model’s twin shuriken catapult can be replaced with 1 shuriken cannon."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aeldari",
+      "Warp Hunter"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
+  },
+  {
     "id": "warp-spiders",
     "name": "Warp Spiders",
     "points": [
@@ -7298,6 +9719,134 @@ export default [
     "factionKeywords": [
       "Asuryani"
     ]
+  },
+  {
+    "id": "wasp-assault-walker",
+    "name": "Wasp Assault Walker",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Wasp Assault Walker",
+        "m": "10\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Wasp feet",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Cloudbreakers",
+        "text": "Each time this model Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of this model."
+      }
+    ],
+    "composition": [
+      "1 Wasp Assault Walker"
+    ],
+    "loadout": "**This model is equipped with:** scatter laser; shuriken cannon; Wasp feet.",
+    "options": [
+      "This model’s scatter laser can be replaced with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 bright lance\n▪ 1 shuriken cannon\n▪ 1 starcannon",
+      "This model’s shuriken cannon can be replaced with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 starcannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Fly",
+      "Aeldari",
+      "Wasp Assault Walker"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "wave-serpent",
@@ -7474,6 +10023,65 @@ export default [
       "Asuryani"
     ],
     "baseSize": "Large Flying Base"
+  },
+  {
+    "id": "webway-gate",
+    "name": "Webway Gate",
+    "points": [
+      {
+        "models": 2,
+        "points": 105
+      }
+    ],
+    "flavor": "Webway Gates allow the Aeldari access to the boundless corridors of the labyrinth dimension. Remnants of the lost Aeldari empire, millions of these portals are scattered across the galaxy, and every craftworld has a nexus of such constructs to enable their people to travel where they need to.",
+    "profiles": [
+      {
+        "name": "Webway Gate",
+        "m": "-",
+        "t": "12",
+        "sv": "3+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "0"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Arcane Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      },
+      {
+        "name": "Webway Strike",
+        "text": "Each time a friendly AELDARI unit arrives from Strategic Reserves, you can choose to set it up anywhere on the battlefield that is wholly within 6\" of this Fortification. If you do, that AELDARI unit can be set up within 9\" of enemy models, and can be set up within Engagement Range of enemy models. If an AELDARI unit is set up within Engagement Range of any enemy models in this way, it counts as having made a Charge move this turn and is eligible to fight this turn."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      }
+    ],
+    "rules": [
+      {
+        "name": "DEPLOYMENT",
+        "text": "Both Wraithbone Arches of this Fortification must be set up with their upper points no more than 1\" apart and with both statues facing in fully opposite directions so that an arch is formed. Both arches are then treated as a single model for all rules purposes."
+      }
+    ],
+    "composition": [
+      "2 Wraithbone Arches"
+    ],
+    "loadout": "**This unit is equipped with:** nothing.",
+    "keywords": [
+      "Fortification",
+      "Frame",
+      "Aeldari",
+      "Webway Gate"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "windriders",
@@ -8188,6 +10796,176 @@ export default [
       "Asuryani"
     ],
     "baseSize": "60mm"
+  },
+  {
+    "id": "wraithseer",
+    "name": "Wraithseer",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "Rare and precious beyond compare, Wraithseers are ancient vessels containing the spiritual essence of fallen Warlocks. As in their mortal lives, these venerable beings are war leaders and powerful psykers, marshalling eldritch forces as deftly as they wield their ghostspear.",
+    "profiles": [
+      {
+        "name": "Wraithseer",
+        "m": "8\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aeldari missile launcher – starshot",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Aeldari missile launcher – sunburst",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bright lance",
+        "tags": [],
+        "range": "36\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Destructor",
+        "tags": [
+          "PSYCHIC",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Scatter laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shuriken cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Starcannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Wraithseer D-cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Ghostspear – strike",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PRECISION",
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Ghostspear – sweep",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PSYCHIC"
+        ],
+        "a": "12",
+        "ws": "4+",
+        "s": "7",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Battle Focus",
+    "abilities": [
+      {
+        "name": "Horrify (Psychic)",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That enemy unit must take a Battle-shock test."
+      }
+    ],
+    "composition": [
+      "1 Wraithseer"
+    ],
+    "loadout": "**This model is equipped with:** destructor; ghostspear.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 1 Aeldari missile launcher\n▪ 1 bright lance\n▪ 1 scatter laser\n▪ 1 shuriken cannon\n▪ 1 starcannon\n▪ 1 Wraithseer D-cannon"
+    ],
+    "keywords": [
+      "Monster",
+      "Psyker",
+      "Walker",
+      "Wraith Construct",
+      "Aeldari",
+      "Wraithseer"
+    ],
+    "factionKeywords": [
+      "Asuryani"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.3"
   },
   {
     "id": "ynnari-archon",
