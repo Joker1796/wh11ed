@@ -18,6 +18,9 @@
 //   legacy       an older field name still sitting in saved games (read-only fallback)
 //   requires     another row's `setting` this one hangs off; off there is off here, whatever this
 //                row's own value says. Drawn as a child of that row.
+//   local        this PHONE's choice, not the game's: kept out of the shared-game sync
+//                (gameSlices.js) and the one kind of row a guest may flip in a game another phone
+//                hosts. Everything else on the setup dialog is the host's, because it is the game.
 //   enabled      (ctx) => boolean — whether the row can be flipped in THIS game
 //   unavailable  (ctx) => ui.js key | null — why not, printed under a disabled caption
 //   note         (ctx) => ui.js key | null — a caveat printed under an enabled caption
@@ -66,6 +69,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpArmyRule',
     default: true,
     remember: true,
+    local: true,
     legacy: 'trackArmyRule',
     unavailable: (ctx) => (ctx.you.faction ? null : 'trackerOptNeedsFaction'),
     note: (ctx) => (ctx.you.trackable ? null : 'trackerArmyReferenceOnly'),
@@ -78,6 +82,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpArmyRule',
     default: true,
     remember: true,
+    local: true,
     legacy: 'trackArmyRule',
     unavailable: (ctx) => (ctx.opp.faction ? null : 'trackerOptNeedsFaction'),
     note: (ctx) => (ctx.opp.trackable ? null : 'trackerArmyReferenceOnly'),
@@ -196,6 +201,11 @@ export const TRACK_OPTIONS = [
 ]
 
 const BY_SETTING = new Map(TRACK_OPTIONS.map((o) => [o.setting, o]))
+
+// The settings that stay on the phone in a shared game — the `local` rows and their retired names
+// (a saved game may still carry the old field, and it must not travel either).
+export const LOCAL_TRACK_SETTINGS = TRACK_OPTIONS.filter((o) => o.local).flatMap((o) => [o.setting, ...(o.legacy ? [o.legacy] : [])])
+  .filter((k, i, a) => a.indexOf(k) === i)
 
 // Whether a row can be flipped in this game. `unavailable` says WHY not in one ui key; a row with
 // neither is always available.

@@ -88,17 +88,27 @@ export function useParty() {
   const isHost = computed(() => !!party.value?.host)
   const canShare = computed(() => authStatus.value === 'authed')
 
-  // May THIS phone change side `pi`? The host may change anything; a seated guest its own side.
-  // With no party at all every screen edits as it always has.
+  // Two different questions, deliberately. `canWriteSlice` is the RIGHT — what the server lets
+  // this phone write: the host any slice, a seated guest its own side and the shared slice. `canEdit`
+  // is what the screen lets this phone TOUCH: its own side, and a side no other phone is playing.
+  // The host has the right to the guest's side (editing the setup rewrites both sides at once), but
+  // a side someone sits on (`party.held`, from the server with every sync) is theirs on the host's
+  // screen too — one rule for everyone, "your side is yours", instead of a permission matrix. The
+  // host takes a held side back by freeing the seat in the sharing dialog. With no party at all
+  // every screen edits as it always has.
   function canEdit(pi) {
     const p = party.value
     if (!p || p.revoked || p.ended) return true
-    if (p.host) return true
-    return p.side === pi
+    if (p.side === pi) return true
+    if (!p.host) return false
+    return !(p.held || []).includes(pi)
   }
   function canWriteSlice(name) {
+    const p = party.value
+    if (p.host) return true
+    if (p.side == null) return false
     const side = sideOfSlice(name)
-    return side == null ? active.value && (party.value.host || party.value.side != null) : canEdit(side)
+    return side == null || side === p.side
   }
   // Only the host reopens a finished shared game (the server refuses everyone else).
   const canResume = computed(() => !active.value || isHost.value)
@@ -132,9 +142,11 @@ export function useParty() {
   }
 
   // A seat moved by the host: the flag every label reads follows it.
-  function takeStanding(you) {
+  function takeStanding(you, held) {
     const p = current.value?.party
-    if (!p || !you) return
+    if (!p) return
+    if (Array.isArray(held) && stableJson(held) !== stableJson(p.held || [])) p.held = [...held]
+    if (!you) return
     if (p.side !== you.side || p.mi !== you.mi || p.host !== you.host) {
       p.side = you.side
       p.mi = you.mi
@@ -209,7 +221,7 @@ export function useParty() {
             if (slices[name]) setBase(name, slices[name].json, version)
           }
           if (data.seq != null) current.value.party.seq = data.seq
-          takeStanding(data.you)
+          takeStanding(data.you, data.held)
           if (data.status) takeStatus(data.status)
           lastSyncAt.value = Date.now()
           // A refused batch left this phone's changes unsent; the server's copies are in place

@@ -22,10 +22,20 @@ export const changelog = [
     en: [
       { h: 'Legends' },
       'The Orks unit list now ends with the "Warhammer Legends" section of the Legends publication: what Legends are, and the Legendary Proxies table — retired units that have no datasheet of their own (Ufthak Blackhawk, Kannonwagon, Nobz on Warbikes…) and the Codex unit each one is fielded as, linked. Searching for the old name — on the unit list or in the global search — finds the sheet it uses.',
+      { h: 'Shared game' },
+      'Your side is yours: a side someone else scores from their phone is locked for everyone, the host included. The host takes a side back by freeing its seat in the sharing dialog.',
+      'The other side\u2019s card stays readable while locked — its army list, the army rule\u2019s text and what is active right now — only the scoring is off limits.',
+      'A joined phone gets its own settings: the gear opens for it and sets what this phone shows, such as the opponent\u2019s army-rule card. Everything that is the game itself stays with the host.',
+      '"Join a shared game" is a button on the tracker page, next to "New game".',
     ],
     ru: [
       { h: 'Legends' },
       'Список юнитов орков теперь заканчивается разделом «Warhammer Legends» из публикации Legends: что такое Legends и таблица Legendary Proxies — снятые юниты без собственного датащита (Ufthak Blackhawk, Kannonwagon, Nobz on Warbikes…) и юнит из кодекса, за который каждый из них выставляется, со ссылкой. Старое имя, набранное в поиске — на странице юнитов или в глобальном, — находит датащит, за который он выставляется.',
+      { h: 'Общая партия' },
+      'Своя сторона — своя: сторону, которую кто-то ведёт со своего телефона, не может править никто, хост в том числе. Хост забирает сторону обратно, освободив её место в окне партии.',
+      'Карточка чужой стороны остаётся читаемой, пока заперта, — лист, текст правила армии и что действует прямо сейчас; закрыт только подсчёт.',
+      'У подключившегося телефона свои настройки: шестерёнка открывается и для него и задаёт то, что показывает этот телефон, — например, карточку правила армии соперника. Всё, что и есть сама партия, остаётся у хоста.',
+      '«Подключиться к общей партии» — кнопка на странице трекера, рядом с «Новой игрой».',
     ],
   },
   {

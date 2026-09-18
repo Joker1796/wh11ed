@@ -61,6 +61,23 @@ describe('TrackOptions', () => {
     expect(rows[0].find('.opt-info').attributes('disabled')).toBeUndefined()
   })
 
+  // A guest in a shared game: the rows the table marks `local` are this phone's, the rest are
+  // the host's and say so.
+  it('lockShared leaves only the local rows live', () => {
+    const w = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'game', lockShared: true },
+      global: { stubs: { RouterLink } },
+    })
+    const rows = w.findAll('.opt-row')
+    const live = rows.filter((r) => !r.find('input').element.disabled).map((r) => r.text())
+    expect(live).toHaveLength(2)
+    expect(live[0]).toContain('your army rule')
+    expect(live[1]).toContain("opponent's army rule")
+    const cp = rows.find((r) => r.text().includes('Track CP'))
+    expect(cp.find('input').element.disabled).toBe(true)
+    expect(cp.text()).toContain('Host only')
+  })
+
   // The five families hang off the master; nothing else does.
   it('disables the children when the master is off', async () => {
     const settings = reactive(trackSettingsOf({}))

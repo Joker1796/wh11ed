@@ -21,10 +21,13 @@
 // PHONE plays (the stats page and the You/Opponent labels hang on it), and the other phone's
 // answer is the opposite one. The two `trackArmyYou` / `trackArmyOpp` settings (and their retired
 // `trackArmyRule`) are read through that flag — "show MY army's card" — so on the other phone
-// they would mean the other army: they stay each phone's own too. And the game's own sync and
-// broadcast handles (`party`, `broadcast`) are this phone's credentials — a member token, a
-// stream token — never the other phone's. applySlice keeps every one of these; assembleGame sets
-// `isYou` from the joiner's seat and leaves the rest for the caller.
+// they would mean the other army: they stay each phone's own too — the option table marks them
+// `local`, and that flag is also what lets a guest flip them (EditSetupModal's guest mode). And the
+// game's own sync and broadcast handles (`party`, `broadcast`) are this phone's credentials — a
+// member token, a stream token — never the other phone's. applySlice keeps every one of these;
+// assembleGame sets `isYou` from the joiner's seat and leaves the rest for the caller.
+
+import { LOCAL_TRACK_SETTINGS } from '../data/trackerOptions.js'
 
 export const SLICE_NAMES = ['shared', 'side0', 'side1', 'roster0', 'roster1']
 
@@ -39,7 +42,7 @@ export function sideOfSlice(name) {
 const ROSTER_KEYS = ['rosterId', 'roster']
 const LOCAL_KEYS = ['isYou']
 export const LOCAL_GAME_KEYS = ['party', 'broadcast']
-export const LOCAL_SETTING_KEYS = ['trackArmyYou', 'trackArmyOpp', 'trackArmyRule']
+export const LOCAL_SETTING_KEYS = LOCAL_TRACK_SETTINGS
 
 const clone = (v) => (v === undefined ? undefined : JSON.parse(JSON.stringify(v)))
 

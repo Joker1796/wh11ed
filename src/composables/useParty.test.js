@@ -104,6 +104,26 @@ describe('sharing', () => {
     expect(await party.share()).toBe(false)
     status.value = 'authed'
   })
+
+  it('a side another phone sits on is off limits to the host too, until the seat is freed', async () => {
+    await shareAsHost()
+    fetchMock.mockResolvedValueOnce(answer(200, { seq: 2, status: 'open', you: { side: 0, mi: null, host: true }, held: [1], written: {}, slices: {} }))
+    party.attach()
+    await vi.advanceTimersByTimeAsync(100)
+    expect(tracker.current.value.party.held).toEqual([1])
+    expect(party.canEdit(0)).toBe(true)
+    expect(party.canEdit(1)).toBe(false)
+    // The RIGHT is unchanged: a setup edit that touches the guest's side still goes out.
+    fetchMock.mockResolvedValueOnce(answer(200, { seq: 3, status: 'open', you: { side: 0, mi: null, host: true }, held: [1], written: { side1: 2 }, slices: {} }))
+    tracker.setCp(1, 9)
+    await vi.advanceTimersByTimeAsync(900)
+    expect(Object.keys(lastRequest().body.slices)).toEqual(['side1'])
+    // Kicked: the next answer says nobody holds it.
+    fetchMock.mockResolvedValueOnce(answer(200, { seq: 4, status: 'open', you: { side: 0, mi: null, host: true }, held: [], written: {}, slices: {} }))
+    await vi.advanceTimersByTimeAsync(4000)
+    expect(party.canEdit(1)).toBe(true)
+    party.detach()
+  })
 })
 
 describe('a tick', () => {

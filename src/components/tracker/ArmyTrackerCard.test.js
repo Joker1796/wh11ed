@@ -57,6 +57,23 @@ describe('ArmyTrackerCard', () => {
     expect(wrapper.find('.army-options').exists()).toBe(true)
   })
 
+  // The other phone's army in a shared game: the picker is inert, the rule text is not.
+  it('readonly locks the controls and leaves the rule text readable', async () => {
+    newGame('death-guard')
+    const wrapper = mount(ArmyTrackerCard, { props: { pi: 0, readonly: true } })
+    await settle()
+    expect(wrapper.find('.army-options').attributes('inert')).toBe('true')
+    const howto = wrapper.find('.army-acc-head')
+    expect(howto.attributes('inert')).toBeUndefined()
+    await howto.trigger('click')
+    expect(howto.attributes('aria-expanded')).toBe('true')
+    // A toggle faction: the call button is inert too.
+    newGame('orks')
+    const orks = mount(ArmyTrackerCard, { props: { pi: 0, readonly: true } })
+    await settle()
+    expect(orks.find('.army-call').attributes('inert')).toBe('true')
+  })
+
   describe('Genestealer Cults (round-1 start bonus + resurrect spend log)', () => {
     it('applies the round-1 start bonus once, then hides it', async () => {
       newGame('genestealer-cults')

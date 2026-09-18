@@ -217,43 +217,69 @@ describe('RoundTracker — doubles', () => {
   })
 })
 
-// A shared game (useParty.js): the side another phone plays is on screen but not touchable,
-// and the setup button belongs to the host. Nothing changes for a game that is not shared.
+// A shared game (useParty.js): the side another phone plays is on screen, readable, and its
+// scoring controls are not touchable; the setup dialog opens for everyone (a guest gets its
+// phone-local options there). Nothing changes for a game that is not shared.
 describe('RoundTracker — a shared game', () => {
   function withParty(over) {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.party = { id: 'p', token: 't', side: 0, mi: null, host: false, seq: 1, versions: {}, ...over }
   }
   const cards = (w) => w.findAll('.player')
+  // The lock is on the scoring controls, never on the card: a locked card still opens its army
+  // facts, its list and its army rule's text.
+  function locked(card) {
+    const primary = card.find('.card-open, .score-row')
+    const deck = card.findComponent({ name: 'SecondaryDeck' })
+    const army = card.findComponent({ name: 'ArmyTrackerCard' })
+    return {
+      card: card.attributes('inert'),
+      primary: primary.attributes('inert'),
+      deck: deck.attributes('inert'),
+      army: army.props('readonly'),
+      caption: card.find('.plocked').exists(),
+    }
+  }
+  const OPEN = { card: undefined, primary: undefined, deck: undefined, army: false, caption: false }
+  const LOCKED = { card: undefined, primary: 'true', deck: 'true', army: true, caption: true }
 
   it('leaves both cards live and the setup button enabled with no party', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
-    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
+    expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
     expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
-    expect(w.find('.plocked').exists()).toBe(false)
   })
 
-  it('a guest gets the other side inert, captioned, and no setup', () => {
+  it('a guest gets the other side locked but readable, and keeps the setup button', () => {
     withParty({ host: false, side: 1 })
     const w = mountTracker()
-    expect(cards(w)[0].attributes('inert')).toBeDefined()
-    expect(cards(w)[0].find('.plocked').exists()).toBe(true)
-    expect(cards(w)[1].attributes('inert')).toBeUndefined()
-    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeDefined()
+    expect(cards(w).map(locked)).toEqual([LOCKED, OPEN])
+    expect(cards(w)[0].find('.pinfo').attributes('inert')).toBeUndefined()
+    expect(cards(w)[0].text()).toContain('Scored on another phone')
+    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
   })
 
-  it('the host edits both sides and keeps the setup', () => {
+  it('the host edits a side nobody sits on, and not one another phone holds', () => {
     withParty({ host: true, side: 0 })
     const w = mountTracker()
-    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
-    expect(w.find('[aria-label="Setup"]').attributes('disabled')).toBeUndefined()
+    expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
     expect(w.find('.sync-ind').exists()).toBe(true)
+  })
+
+  it('a side a guest sits on is locked on the host\'s screen too, with the way back', async () => {
+    withParty({ host: true, side: 0, held: [1] })
+    const w = mountTracker()
+    expect(cards(w).map(locked)).toEqual([OPEN, LOCKED])
+    expect(cards(w)[1].text()).toContain('free its seat')
+    // The guest gone (kicked, left), the side is the host's again.
+    tracker.current.value.party.held = []
+    await w.vm.$nextTick()
+    expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
   })
 
   it('a phone the host removed edits its own game again', () => {
     withParty({ host: false, side: 1, revoked: true })
     const w = mountTracker()
-    expect(cards(w).map((c) => c.attributes('inert'))).toEqual([undefined, undefined])
+    expect(cards(w).map(locked)).toEqual([OPEN, OPEN])
   })
 })

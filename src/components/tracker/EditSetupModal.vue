@@ -6,10 +6,17 @@
   >
     <div class="modal-body">
       <p class="es-note">
-        {{ labels.trackerEditSetupNote }}
+        {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
       </p>
 
-      <div class="players">
+      <!-- A guest in a shared game gets only the option blocks — the players, the turn order, the
+           score mode and the layout ARE the game and belong to the host (the note above says so
+           in place of the controls). Of the options, the rows marked `local` in the table are
+           this phone's; the others are drawn disabled with "host only" (TrackOptions). -->
+      <div
+        v-if="!guest"
+        class="players"
+      >
         <div
           v-for="(p, i) in players"
           :key="i"
@@ -113,7 +120,10 @@
         </div>
       </div>
 
-      <div class="settings deploy-opts">
+      <div
+        v-if="!guest"
+        class="settings deploy-opts"
+      >
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
@@ -160,17 +170,19 @@
           :settings="settings"
           :ctx="trackCtx"
           group="game"
+          :lock-shared="guest"
         />
         <TrackOptions
           :settings="settings"
           :ctx="trackCtx"
           group="roster"
           heading="trackerRosterHeading"
+          :lock-shared="guest"
         />
       </div>
 
       <div
-        v-if="layouts.length"
+        v-if="!guest && layouts.length"
         class="settings layout-block"
       >
         <h3 class="block-head">
@@ -238,11 +250,12 @@ import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
-import { trackSettingsOf, normalizeTrackSettings } from '../../data/trackerOptions.js'
+import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
 import { useTracker, membersOf } from '../../composables/useTracker.js'
+import { useParty } from '../../composables/useParty.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 
@@ -251,6 +264,10 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, updateSetup } = useTracker()
 const game = current.value
+// A guest in a shared game (useParty.js): the setup is the host's, and only the phone-local
+// options are offered here. Resolved once — a hand-over mid-dialog is not worth a live gate.
+const { active: partyActive, isHost } = useParty()
+const guest = partyActive.value && !isHost.value
 
 const isDoubles = game.settings.gameType === 'doubles'
 
@@ -380,10 +397,18 @@ const trackCtx = computed(() => ({
 }))
 
 function save() {
+  // Same rule as the wizard's Start: a row this game cannot offer is stored off, not at the value
+  // a disabled checkbox happened to be carrying.
+  const normalized = normalizeTrackSettings(settings, trackCtx.value)
+  if (guest) {
+    // Only what is this phone's: the shared settings would be snapped back by the sync anyway,
+    // and the players were never on screen.
+    updateSetup({ settings: Object.fromEntries(LOCAL_TRACK_SETTINGS.filter((k) => k in normalized).map((k) => [k, normalized[k]])) })
+    emit('close')
+    return
+  }
   updateSetup({
-    // Same rule as the wizard's Start: a row this game cannot offer is stored off, not at the
-    // value a disabled checkbox happened to be carrying.
-    settings: normalizeTrackSettings(settings, trackCtx.value),
+    settings: normalized,
     players: players.map(p => ({
       name: p.name, battleReady: p.battleReady,
       rosterId: p.rosterId, roster: p.roster,

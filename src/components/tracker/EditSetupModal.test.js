@@ -150,3 +150,26 @@ describe('EditSetupModal — the roster settings', () => {
   })
 })
 
+// A guest in a shared game (useParty.js): the setup is the host's, so the dialog offers only
+// the phone-local options and writes only those.
+describe('EditSetupModal — a guest in a shared game', () => {
+  it('shows the options alone, and saves only this phone\'s rows', async () => {
+    startGame()
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    mount(EditSetupModal)
+    expect(body().find('.players').exists()).toBe(false)
+    expect(body().find('.deploy-opts').exists()).toBe(false)
+    expect(body().text()).toContain('host')
+    const rowOf = (name) => body().findAll('.opt-row').find(r => r.text().includes(name))
+    expect(rowOf('Track CP').find('input').element.disabled).toBe(true)
+    const opp = rowOf("opponent's army rule")
+    expect(opp.find('input').element.disabled).toBe(false)
+    await opp.find('input').setValue(false)
+    await save()
+    expect(tracker.current.value.settings.trackArmyOpp).toBe(false)
+    expect(tracker.current.value.settings.trackCP).toBe(true)
+    expect(tracker.current.value.players[0].name).toBe('Me')
+  })
+})
+

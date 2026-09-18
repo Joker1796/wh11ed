@@ -16,6 +16,7 @@
         v-if="view.kind === 'counter' && !view.spends"
         :model-value="counter"
         :min="view.min ?? 0"
+        :inert="lock"
         @update:model-value="v => setArmyCounter(pi, v, mi)"
       />
       <!-- A counter with dedicated spend buttons (GSC): the spend picker + the round-1 bonus now
@@ -33,6 +34,7 @@
         :model-value="poolRemaining"
         :min="0"
         :max="roundStart"
+        :inert="lock"
         @update:model-value="v => setArmyPool(pi, currentRound, v, mi)"
       />
       <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
@@ -41,6 +43,7 @@
         class="army-head-reset"
         :aria-label="labels.trackerArmyReset"
         :title="labels.trackerArmyReset"
+        :inert="lock"
         @click="undoArmyToggle(pi, mi)"
       >
         <i class="bi bi-arrow-counterclockwise" />
@@ -62,6 +65,7 @@
     <div
       v-if="view.startBonus && currentRound === 1"
       class="army-bonus"
+      :inert="lock"
     >
       <button
         v-if="!bonusApplied"
@@ -92,6 +96,7 @@
     <div
       v-if="view.spends"
       class="army-multi"
+      :inert="lock"
     >
       <button
         class="army-field"
@@ -120,6 +125,7 @@
     <div
       v-if="view.kind === 'dice'"
       class="army-dice"
+      :inert="lock"
     >
       <div
         v-if="dice.length"
@@ -167,6 +173,7 @@
     <div
       v-if="view.kind === 'selection' && view.options && !choiceLocked"
       class="army-options"
+      :inert="lock"
     >
       <button
         v-for="o in view.options"
@@ -187,6 +194,7 @@
     <div
       v-if="view.kind === 'multi' && view.options"
       class="army-multi"
+      :inert="lock"
     >
       <button
         class="army-field"
@@ -214,6 +222,7 @@
       <button
         v-if="usedCount === 0"
         class="army-call"
+        :inert="lock"
         @click="fireArmyToggle(pi, currentRound, mi)"
       >
         {{ labels.trackerArmyCall }} {{ view.label }}
@@ -255,6 +264,7 @@
         <button
           v-if="canCallAgain"
           class="army-again"
+          :inert="lock"
           @click="fireArmyToggle(pi, currentRound, mi)"
         >
           {{ view.againLabel || labels.trackerArmyCallAgain }}
@@ -366,6 +376,7 @@
               class="army-resurrect-undo"
               :aria-label="labels.trackerArmyReset"
               :title="labels.trackerArmyReset"
+              :inert="lock"
               @click="undoArmyResurrect(pi, i, mi)"
             >
               <i class="bi bi-arrow-counterclockwise" />
@@ -489,7 +500,14 @@ const props = defineProps({
   // Doubles member index — which army of the side this card tracks. null = the side itself:
   // singles, or a unified doubles force's SHARED pool (one card, side-level state).
   mi: { type: Number, default: null },
+  // A side another phone plays (RoundTracker, the shared game): every control that CHANGES the
+  // state is inert — steppers, dice, pickers, the call and its undo — while everything that reads
+  // it stays live: the "How it works" text, the active rule, the spent log. The other side's army
+  // rule is a thing to look up mid-game, whoever is keeping its count.
+  readonly: { type: Boolean, default: false },
 })
+// `inert` is a presence attribute: undefined, never false.
+const lock = computed(() => (props.readonly ? true : undefined))
 
 const {
   current, setArmyCounter, setArmySelection, toggleArmyMulti, setArmyChoice, fireArmyToggle,

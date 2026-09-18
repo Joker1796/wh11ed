@@ -91,6 +91,9 @@ const props = defineProps({
   heading: { type: String, default: 'trackerTrackHeading' },
   // The link out to the guide belongs to the last block on the screen, not to each of them.
   guide: { type: Boolean, default: false },
+  // A guest in a shared game: only the rows marked `local` in the table are this phone's to flip;
+  // the rest are the host's, drawn disabled with that as the reason.
+  lockShared: { type: Boolean, default: false },
 })
 
 const { locale } = useLocale()
@@ -99,11 +102,15 @@ const rows = computed(() => optionsIn(props.group))
 const helpFor = ref(null)
 
 // A child row is dead while its parent is off, on top of whatever the game itself allows.
+function hostsRow(o) {
+  return props.lockShared && !o.local
+}
 function enabledOf(o) {
-  if (!optionEnabled(o, props.ctx)) return false
+  if (hostsRow(o) || !optionEnabled(o, props.ctx)) return false
   return !o.requires || props.settings[o.requires] !== false
 }
 function reasonOf(o) {
+  if (hostsRow(o)) return 'partyHostOnly'
   return o.unavailable?.(props.ctx) || (enabledOf(o) ? o.note?.(props.ctx) : null) || null
 }
 </script>

@@ -137,11 +137,25 @@ the screen, `visibilitychange: hidden` and `pagehide` send what is pending first
 `keepalive`), so a score corrected a second before the lock does not wait for the unlock. A local
 change goes out 800 ms after the last tap, not on the next tick.
 
-**Rights on screen, never hidden.** `RoundTracker` renders the side another phone plays greyed and
-`inert` (a presence attribute — `undefined`, not `false`) with the reason under its title; the
-setup gear is disabled for a guest with "host only"; the finished screen's Resume is disabled for a
-guest and its primary button reads "Save to my history". `RosterViewView`'s `canSwitch` includes
-`canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
+**Rights on screen, never hidden — and two different questions.** `canWriteSlice` is the RIGHT
+(the host any slice, a seated guest its own side and the shared one — what the server enforces);
+`canEdit(pi)` is what the screen lets this phone TOUCH: its own side, and a side no other phone
+sits on. The server sends `held` (the sides other live members hold) with every state-bearing
+answer, and it lives on the handle; a held side is locked on the host's screen too — "your side is
+yours", one rule instead of a permission matrix — and the host takes it back by freeing the seat
+(kick) in `PartyModal`. The right stays wider than the lock on purpose: a setup edit rewrites both
+sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
+side with the reason under its title (the host's line names the way back) and puts `inert` (a
+presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP
+stepper — and passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
+rule text, the active rule and the spent log live; the card itself is never inert, because the
+opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about
+the shared game was a guest who could not open the other side's rule). The setup gear opens for a
+guest too: `EditSetupModal` in guest mode shows only the option blocks, `TrackOptions` with
+`lockShared` leaves live the rows the table marks `local` (`trackArmyYou`/`trackArmyOpp` — the
+same flag `gameSlices` keeps out of the sync) and disables the rest with "host only", and Save
+writes only those. The finished screen's Resume is disabled for a guest and its primary button
+reads "Save to my history". `RosterViewView`'s `canSwitch` includes `canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
 spinner only for a request older than 400 ms — except on resume, when it is wanted at once — and a
 warning glyph with its reason. `PartyModal.vue` (the people icon beside the broadcast one) is the
 host's invite (link, QR via the lazily imported `qrcode`, code with its ten minutes, a fresh code or

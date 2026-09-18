@@ -57,20 +57,20 @@
       >
         {{ labels.trackerNewGame }}
       </button>
+      <!-- Someone else's game on this phone (useParty.js): always the quiet button, whatever the
+           state of your own — the usual visitor is here for their own game. -->
+      <RouterLink
+        to="/tracker/join"
+        class="btn-ghost btn-lg"
+      >
+        <i class="bi bi-people-fill" /> {{ labels.partyHomeJoin }}
+      </RouterLink>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
            sign-in button: the account is app-wide (the roster builder syncs through the same one),
            so the way in and out is the navbar's account menu — the line above only reports where
            the games stand. -->
     </div>
-
-    <!-- Someone else's game on this phone (useParty.js). A quiet line under the buttons, not a
-         fourth button: the usual visitor is here for their own game. -->
-    <p class="join-line">
-      <RouterLink to="/tracker/join">
-        <i class="bi bi-people-fill" /> {{ labels.partyHomeJoin }}
-      </RouterLink>
-    </p>
 
     <!-- The one number people came back for. It sits above the list because a record is a
          summary of that list, and it is a link because everything behind it is on /tracker/stats. -->
@@ -462,17 +462,10 @@ function footLine(g) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 2rem;
 }
-.join-line {
-  text-align: center;
-  margin: 0 0 2rem;
-  font-size: 0.85rem;
-}
-.join-line a { color: var(--text-muted); text-decoration: none; }
-@media (hover: hover) { .join-line a:hover { color: var(--accent); } }
 
-/* Phones: these are three ordinary buttons (resume / new game / sign in), not three panels. They
+/* Phones: these are three ordinary buttons (resume / new game / join), not three panels. They
    stay the size of their own label — stretching them to share the row only turns the longest one
    into a two-line block, which is how they got big in the first place — and the label is kept on
    one line, which at this size fits even a 320px screen. */

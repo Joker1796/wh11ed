@@ -92,27 +92,30 @@
     </details>
 
     <div class="players">
-      <!-- In a shared game a side this phone does not play is shown as it is, greyed and
-           inert, with the reason under its title — never hidden: what the opponent has scored
-           is exactly what a player wants to see. `inert` is what keeps every control inside
-           (steppers, cards, the army tracker) from taking a tap; the sync layer snaps back
-           anything that gets past it. `inert` is a presence attribute — a rendered "false"
-           would still be inert — hence `undefined` rather than false. -->
+      <!-- In a shared game a side another phone plays is shown as it is, greyed, with the reason
+           under its title — never hidden: what the opponent has scored is exactly what a player
+           wants to see. The lock is on what SCORES — the primary, the deck, the CP stepper, the
+           army tracker's controls (`inert`, see lock()) — and not on the card, because the card
+           is also where the opponent's army is READ: the setup facts, the way to their list, the
+           army rule's text and state. A guest who could not open the other side's Waaagh! rule
+           was the first complaint about the shared game. The sync layer snaps back anything
+           that gets past the lock. `inert` is a presence attribute — a rendered "false" would
+           still be inert — hence `undefined` rather than false. -->
       <div
         v-for="(pl, i) in current.players"
         :key="i"
         class="player"
         :class="{ 'player-locked': !canEdit(i) }"
-        :inert="canEdit(i) ? undefined : true"
       >
         <h3 class="ptitle">
           {{ playerName(i) }}
         </h3>
+        <!-- The host's line also says how to take the side back: the seat is the lock. -->
         <p
           v-if="!canEdit(i)"
           class="plocked"
         >
-          {{ labels.partyOtherSide }}
+          {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
         </p>
         <!-- Disposition and detachments are setup facts, consulted rarely mid-game — folded by
              default so the card opens on what IS the game: the missions and the score. Native
@@ -152,6 +155,7 @@
         <button
           v-if="primaryMission(i)"
           class="card-open"
+          :inert="lock(i)"
           @click="openPrimary = i"
         >
           <span class="card-name">{{ primaryName(i) }}</span>
@@ -162,6 +166,7 @@
         <div
           v-else
           class="score-row"
+          :inert="lock(i)"
         >
           <NumberStepper
             :model-value="pl.rounds[current.currentRound - 1].primary"
@@ -172,7 +177,10 @@
           <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
         </div>
 
-        <SecondaryDeck :pi="i" />
+        <SecondaryDeck
+          :pi="i"
+          :inert="lock(i)"
+        />
 
         <!-- CP and this player's army sit UNDER the secondaries: both are consulted between
              scoring passes, not during one, and above they pushed the round's actual scoring
@@ -191,6 +199,7 @@
             <NumberStepper
               :model-value="pl.cp"
               :min="0"
+              :inert="lock(i)"
               @update:model-value="v => setCp(i, v)"
             />
           </template>
@@ -216,6 +225,7 @@
           :key="c.mi ?? 'side'"
           :pi="i"
           :mi="c.mi"
+          :readonly="!canEdit(i)"
         />
       </div>
     </div>
@@ -236,12 +246,12 @@
     <div class="actions">
       <div class="actions-left">
         <!-- Setup is the host's in a shared game (it rewrites both sides — a swapped first turn
-             is all five slices); a guest sees the button disabled with the reason. -->
+             is all five slices), but the dialog is still a guest's: it is where this phone's own
+             "what to show" switches live (EditSetupModal's guest mode). -->
         <button
           class="btn-ghost btn-icon"
           :aria-label="labels.trackerEditSetup"
-          :title="partyActive && !isHost ? labels.partyHostOnly : labels.trackerEditSetup"
-          :disabled="partyActive && !isHost"
+          :title="labels.trackerEditSetup"
           @click="editSetupOpen = true"
         >
           <i class="bi bi-chevron-left" />
@@ -357,8 +367,9 @@ const broadcastOpen = ref(false)
 const partyOpen = ref(false)
 
 // The shared game: which side this phone may edit, and whether it is the host. With no party,
-// canEdit is true for both and nothing here changes.
+// canEdit is true for both and nothing here changes. `lock` is canEdit as an `inert` value.
 const { active: partyActive, isHost, canEdit } = useParty()
+const lock = (pi) => (canEdit(pi) ? undefined : true)
 
 // Live broadcast: arm the push watcher on entering the game screen, so a reload mid-stream
 // resumes pushing without reopening the dialog. `enabled` also lights the toolbar button.
