@@ -840,6 +840,8 @@ export default {
   // Warhammer Legends, from the Faction Pack v1.1 (see `source: "faction-pack"` in the EN file).
 
   'aetaos-rau-keres': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Аэтаос’рау’керес'],
     abilities: {
       'Emissary of the Great Mutator (Aura)': 'Пока дружественный юнит TZEENTCH LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
       'Master of Magicks (Psychic)':
@@ -850,6 +852,8 @@ export default {
     options: ['Нет.'],
   },
   'an-ggrath-the-unbound': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Ан’гграт Нескованный'],
     abilities: {
       'Emissary of the Blood God (Aura)': 'Пока дружественный юнит KHORNE LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
       'Relentless Carnage':
@@ -912,6 +916,8 @@ export default {
     ],
   },
   'scabeiathrax-the-bloated': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Скабейатракс Раздутый'],
     abilities: {
       'Emissary of the Plague God (Aura)': 'Пока дружественный юнит NURGLE LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
       'Nurgle’s Rot (Psychic)':
@@ -933,6 +939,8 @@ export default {
     options: ['Нет.'],
   },
   zarakynel: {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Заракинель'],
     abilities: {
       'Emissary of the Prince of Excess (Aura)': 'Пока дружественный юнит SLAANESH LEGIONES DAEMONICA находится в пределах 6" от этой модели, вы можете перебросить проверки боевого шока, проходимые для этого юнита.',
       'Mesmerising Form':

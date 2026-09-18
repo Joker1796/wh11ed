@@ -598,6 +598,8 @@ export default {
   },
 
   'x-101': {
+    // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
+    aliasesRu: ['Х-101'],
     abilities: {
       Mindlock: 'Пока модель TECH-PRIEST возглавляет юнит этой модели, улучшите характеристики Навыка стрельбы (BS) и Навыка ближнего боя (WS) оружия этой модели на 1.',
       'Bound Creation': 'Пока модель TECH-PRIEST возглавляет юнит этой модели, эта модель TECH-PRIEST имеет способность Feel No Pain 5+.',
