@@ -30,6 +30,9 @@ export const changelog = [
       { h: 'Dark Angels' },
       'Three Warhammer Legends datasheets from the Faction Pack: Ravenwing Talonmaster, Deathwing Strikemaster and Deathwing Command Squad — on the unit list (with the Legends badge), in search, with their Munitorum points.',
       'Legends points for every faction now come from the Munitorum Field Manual\u2019s own Legends section; the Orks\u2019 Lootas get their 3rd+ copy tier.',
+      { h: 'Datasheet page' },
+      'The Legends mark is a badge in the top-right corner of the statline, not a sentence under the name: the name plate carries the name alone, and a long Legends name no longer breaks a letter per line on a phone. The explanation is the badge\u2019s tooltip.',
+      'The name plate and the card go edge-to-edge together: at a window around 500px wide the plate stayed inset while the card below it already reached the screen edge.',
     ],
     ru: [
       { h: 'Legends' },
@@ -42,6 +45,9 @@ export const changelog = [
       { h: 'Dark Angels' },
       'Три датащита Warhammer Legends из Faction Pack’а: Ravenwing Talonmaster, Deathwing Strikemaster и Deathwing Command Squad — в списке юнитов (с бейджем Legends), в поиске, с очками по Munitorum. Пока по-английски; перевод — отдельным проходом.',
       'Очки Legends у всех фракций теперь берутся из раздела Legends самого Munitorum Field Manual; у орочьих Lootas появилась наценка за 3-ю и последующие копии.',
+      { h: 'Страница датащита' },
+      'Пометка Legends — бейдж в правом верхнем углу полосы характеристик, а не предложение под именем: плашка несёт только имя, и длинное имя Legends-юнита на телефоне больше не ломается по букве в строке. Пояснение — в подсказке бейджа.',
+      'Плашка с именем и карточка уходят в край экрана вместе: при окне около 500px плашка оставалась в отступах, когда карточка под ней уже была во всю ширину.',
     ],
   },
   {
