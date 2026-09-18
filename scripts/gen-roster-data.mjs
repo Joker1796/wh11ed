@@ -2435,6 +2435,14 @@ if (CHECK) {
     for (const f of report.stale.slice(0, 40)) console.log(`    - src/data/roster/${f}`)
     return 1
   }
+  // A group whose prose the parser could not fully account for is a swap the list cannot make
+  // the way the datasheet says — the Lieutenant's shield loadout sat in this list, printed and
+  // unread, until a player reported it (2026-09-18). Zero today; a new one is a gate, not a note.
+  // (`unbacked` stays a note: those are one-of lists appdata's enumeration simply does not cover.)
+  if (b.unclaimed.length) {
+    console.log(`\n  --check: ${b.unclaimed.length} wargear group(s) whose prose the bundle parser could not account for — read them above; a misspelling in appdata's instruction is the usual cause (flatText).`)
+    return 1
+  }
   console.log('\n  --check: up to date.')
 }
 return 0
