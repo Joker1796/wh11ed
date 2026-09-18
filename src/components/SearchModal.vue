@@ -81,10 +81,14 @@
               <span class="result-num">{{ item.sectionNum }}</span>
               <span class="result-section">{{ item.sectionTitle }}</span>
             </div>
-            <div
-              class="result-title"
-              v-html="highlightMatch(item.title, query)"
-            />
+            <div class="result-title">
+              <span v-html="highlightMatch(item.title, query)" />
+              <span
+                v-if="item.legends"
+                class="legends-badge"
+                :title="labels.dsLegendsNote"
+              >{{ labels.dsLegends }}</span>
+            </div>
             <div
               v-if="item.titleRu"
               class="result-title-ru"

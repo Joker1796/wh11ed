@@ -445,7 +445,7 @@ function searchDatasheets(q, locale) {
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
-    for (const [id, name, aliasesRu, legacy] of units) {
+    for (const [id, name, aliasesRu, legacy, legends] of units) {
       const nameHit = foldName(name).includes(qn)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
       // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
@@ -466,6 +466,9 @@ function searchDatasheets(q, locale) {
         snippet: '',
         route: `/factions/${slug}/datasheets/${id}`,
         sectionTitle: `${faction} · ${L.factionDatasheets}`,
+        // Drawn as the shared .legends-badge beside the title — the same mark the datasheet grid
+        // and the roster browser wear, so a Legends hit reads as one before the page opens.
+        legends: !!legends,
         score: 2,
       })
     }

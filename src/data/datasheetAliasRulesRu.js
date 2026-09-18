@@ -1005,4 +1005,52 @@ export const datasheetAliasRulesRu = [
   { pattern: /^Dimachaeron$/i, aliasesRu: ['димахерон'] },
   { pattern: /^Malanthrope$/i, aliasesRu: ['малантроп'] },
   { pattern: /\bSky-slasher Swarms\b/i, aliasesRu: ['рои небесных потрошителей', 'скайслэшеры'] },
+  // Warhammer Legends, the three Chapter packs (2026-09-18): Space Wolves, Blood Angels, Grey
+  // Knights — the sheets Wolf Guard / Dreadnought / Death Company / Thunderwolf above did not
+  // reach. `^Servitors$` is anchored so the bare word stays off Munitorum Servitors (which has
+  // its own rule) and any future Astartes Servitors line. Named characters (Corbulo, Seth, the
+  // two Tychos, Draigo, Stern, Canis, Harald, Krom, Lukas, Grimnar on Stormrider) live on their
+  // sheets in ru/<slug>.js.
+  { pattern: /^Servitors$/i, aliasesRu: ['сервиторы'] },
+  { pattern: /\bCyberwolf\b/i, aliasesRu: ['киберволк'] },
+  { pattern: /\bHounds of Morkai\b/i, aliasesRu: ['Гончие Моркаи', 'хаунды'] },
+  { pattern: /\bLong Fangs\b/i, aliasesRu: ['Длинные Клыки', 'лонг фанги', 'лонгфанги'] },
+  { pattern: /\bSkyclaws\b/i, aliasesRu: ['Небесные Когти', 'скайклавы'] },
+  { pattern: /\bStormfang\b/i, aliasesRu: ['«Грозовой клык»', 'штормфанг'] },
+  { pattern: /\bStormwolf\b/i, aliasesRu: ['«Грозовой волк»', 'штормвульф', 'штормвольф'] },
+  // Warhammer Legends, Space Marines Faction Pack v1.2 (2026-09-18): the 76 Adeptus Astartes
+  // sheets. Bike/Attack Bike/Command Squad/Servitors patterns are anchored so they stay off the
+  // Chapter and Militarum lines that already have their own rules. Named characters (Areios,
+  // Culln, Cassius, Chronus, Telion) live on their sheets in ru/space-marines.js.
+  { pattern: /^Assault Squad\b/i, aliasesRu: ['штурмовое отделение', 'ассолт сквад'] },
+  { pattern: /^Astartes Servitors$/i, aliasesRu: ['сервиторы Астартес', 'сервиторы'] },
+  { pattern: /^Attack Bike Squad$/i, aliasesRu: ['отделение ударных мотоциклов', 'атак байки'] },
+  { pattern: /^Bike Squad$/i, aliasesRu: ['мотоциклетное отделение', 'байкеры', 'байк сквад'] },
+  { pattern: /\bCaestus Assault Ram\b/i, aliasesRu: ['штурмовой таран «Цест»', 'цестус'] },
+  { pattern: /^Cerberus$/i, aliasesRu: ['«Цербер»', 'цербер'] },
+  { pattern: /^Command Squad$/i, aliasesRu: ['командное отделение', 'коммандники'] },
+  { pattern: /\bCompany Veterans on Bikes\b/i, aliasesRu: ['ветераны роты на мотоциклах', 'байкеры-ветераны'] },
+  { pattern: /^Falchion$/i, aliasesRu: ['«Фальшион»', 'фальшион'] },
+  { pattern: /^Fellblade$/i, aliasesRu: ['«Разящий клинок»', 'феллблейд'] },
+  { pattern: /\bFire Raptor\b/i, aliasesRu: ['«Огненный раптор»', 'файр раптор'] },
+  { pattern: /^Hunter$/i, aliasesRu: ['«Охотник»', 'хантер'] },
+  { pattern: /\bJavelin Attack Speeder\b/i, aliasesRu: ['ударный спидер «Дротик»', 'джавелин'] },
+  { pattern: /^Kratos$/i, aliasesRu: ['«Кратос»', 'кратос'] },
+  { pattern: /^Mastodon$/i, aliasesRu: ['«Мастодонт»', 'мастодон'] },
+  { pattern: /^Rapier Carrier$/i, aliasesRu: ['носитель «Рапира»', 'рапира'] },
+  { pattern: /\bSicaran\b/i, aliasesRu: ['«Сикаранец»', 'сикаран'] },
+  { pattern: /\bSicaran Arcus\b/i, aliasesRu: ['аркус'] },
+  { pattern: /\bSicaran Omega\b/i, aliasesRu: ['омега'] },
+  { pattern: /\bSicaran Punisher\b/i, aliasesRu: ['«Каратель»', 'панишер'] },
+  { pattern: /\bSicaran Venator\b/i, aliasesRu: ['венатор'] },
+  { pattern: /\bSokar-pattern Stormbird\b/i, aliasesRu: ['«Грозовая птица»', 'штормбёрд', 'сокар'] },
+  { pattern: /^Spartan$/i, aliasesRu: ['«Спартанец»', 'спартан'] },
+  { pattern: /^Stalker$/i, aliasesRu: ['«Сталкер»', 'сталкер'] },
+  { pattern: /\bStorm Eagle\b/i, aliasesRu: ['«Грозовой орёл»', 'шторм игл'] },
+  { pattern: /\bTarantula Air Defence Battery\b/i, aliasesRu: ['зенитная батарея «Тарантул»', 'тарантула'] },
+  { pattern: /\bTarantula Sentry Battery\b/i, aliasesRu: ['турель «Тарантул»', 'тарантула'] },
+  { pattern: /\bTerminus Ultra\b/i, aliasesRu: ['«Терминус Ультра»', 'терминус'] },
+  { pattern: /\bThunderfire Cannon\b/i, aliasesRu: ['пушка «Громобой»', 'тандерфайр'] },
+  { pattern: /^Typhon$/i, aliasesRu: ['«Тифон»', 'тифон'] },
+  { pattern: /\bXiphon Interceptor\b/i, aliasesRu: ['перехватчик «Ксифон»', 'ксифон'] },
 ]

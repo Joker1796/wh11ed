@@ -143,7 +143,10 @@
             </CollapseTransition>
           </template>
           <template v-if="visibleProxies.length">
-            <h4 class="ds-legends-sub">
+            <h4
+              id="legendary-proxies"
+              class="ds-legends-sub"
+            >
               {{ labels.dsLegendsProxies }}
             </h4>
             <p class="ds-legends-hint">
@@ -198,6 +201,7 @@ import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -242,9 +246,17 @@ watch(
     if (list) datasheets.value = list
     legends.value = leg
     loaded.value = true
+    // A deep link into the list (the changelog's Legendary Proxies link lands on
+    // #legendary-proxies): the target only exists once the lazy chunk has rendered, so the scroll
+    // runs here, after the load, not on mount — scrollToAnchor itself waits out the paint.
+    if (route.hash) scrollToAnchor(route.hash.slice(1))
   },
   { immediate: true },
 )
+// A hash-only change keeps the view alive (the RouterView key is the path) — re-run the scroll.
+watch(() => route.hash, (hash) => {
+  if (hash && loaded.value) scrollToAnchor(hash.slice(1))
+})
 // A locale switch swaps the intro's language in place; the list itself is locale-free.
 watch(locale, async () => {
   const s = route.params.slug
