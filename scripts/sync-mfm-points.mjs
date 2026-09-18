@@ -60,7 +60,7 @@ for (const sub of smMfm.subfactions) {
 
 let drift = 0
 const missingLegends = []
-const LEGENDS_MFM_NAMES = { 'sentry pylons': 'sentry pylon' }
+const LEGENDS_MFM_NAMES = { 'sentry pylons': 'sentry pylon', 'ferren aerios': 'ferren areios' } // the MFM misspells the Captain
 const report = (msg) => { console.log(msg); drift++ }
 
 for (const file of readdirSync(DS).sort()) {

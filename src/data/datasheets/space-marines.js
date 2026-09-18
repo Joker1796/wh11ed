@@ -410,7 +410,7 @@ export default [
         "Tactical Squad",
         "Vanguard Veteran Squad",
         "Wolf Guard"
-      ],
+      ]
     },
     "keywords": [
       "Character",
@@ -559,7 +559,7 @@ export default [
         "Relic Terminator Squad",
         "Terminator Assault Squad",
         "Terminator Squad"
-      ],
+      ]
     },
     "keywords": [
       "Infantry",
@@ -572,6 +572,207 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "ancient-on-bike",
+    "name": "Ancient on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Ancient on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Astartes Banner",
+        "text": "While this model is leading a unit, add 1 to the Objective Control characteristic of models in that unit."
+      },
+      {
+        "name": "Unbreakable Duty",
+        "text": "While this model is within range of an objective marker and/or within 6\" of the centre of the battlefield, this model has the Feel No Pain 4+ ability."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Ancient on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; Astartes chainsword.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Ancient"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "apothecary",
@@ -667,7 +868,7 @@ export default [
         "Sword Brethren Squad",
         "Tactical Squad",
         "Vanguard Veteran Squad"
-      ],
+      ]
     },
     "keywords": [
       "Tacticus",
@@ -751,7 +952,7 @@ export default [
         "Indomitor Kill Team",
         "Aggressor Squad",
         "Heavy Intercessor Squad"
-      ],
+      ]
     },
     "keywords": [
       "Apothecary",
@@ -765,6 +966,104 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "apothecary-on-bike",
+    "name": "Apothecary on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 65
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Apothecary on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Narthecium",
+        "text": "While this model is leading a unit, in your Command phase, you can return 1 destroyed model (excluding CHARACTER models) to that unit."
+      },
+      {
+        "name": "Gene-seed Recovery",
+        "text": "When this model’s Bodyguard unit is destroyed, roll one D6: on a 2+, you gain 1CP."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Apothecary on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; Astartes chainsword.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Apothecary"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "assault-intercessor-squad",
@@ -1065,6 +1364,671 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "assault-squad",
+    "name": "Assault Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 95
+      },
+      {
+        "models": 10,
+        "points": 190
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Assault Squad",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Eviscerator",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Chainsword Doctrines",
+        "text": "Each time this unit is selected to fight, select one of the following abilities to apply to all Astartes chainswords equipped by models in this unit until the end of the phase:\n▪ [SUSTAINED HITS 1]\n▪ [LETHAL HITS]\n▪ [LANCE]"
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Astartes Shield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to an Assault Intercessor Squad, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Assault Sergeant",
+      "4-9 Assault Marines"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; Astartes chainsword.",
+    "options": [
+      "The Assault Sergeant’s bolt pistol can be replaced with one of the following:\n▪ 1 grav-pistol*\n▪ 1 hand flamer*\n▪ 1 inferno pistol*\n▪ 1 plasma pistol",
+      "The Assault Sergeant’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Assault Sergeant can do one of the following:\n▪ Replace its bolt pistol and Astartes chainsword with 1 twin lightning claws.\n▪ Be equipped with 1 Astartes shield.",
+      "Up to 2 Assault Marines can each have their bolt pistol and Astartes chainsword replaced with one of the following:\n▪ 1 plasma pistol and 1 Astartes chainsword\n▪ 1 flamer and 1 close combat weapon\n▪ 1 meltagun and 1 close combat weapon\n▪ 1 plasma gun and 1 close combat weapon",
+      "For every 5 models in this unit, 1 model’s Astartes chainsword can be replaced with 1 eviscerator.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Imperium",
+      "Assault Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "assault-squad-with-jump-packs",
+    "name": "Assault Squad with Jump Packs",
+    "points": [
+      {
+        "models": 5,
+        "points": 115
+      },
+      {
+        "models": 10,
+        "points": 230
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Assault Squad with Jump Packs",
+        "m": "12\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Eviscerator",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Hammer of Wrath",
+        "text": "Each time this unit ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Astartes Shield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to Assault Intercessors with Jump Packs, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Assault Sergeant with Jump Pack",
+      "4-9 Assault Marines with Jump Packs"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; Astartes chainsword.",
+    "options": [
+      "The Assault Sergeant with Jump Pack’s bolt pistol can be replaced with one of the following:\n▪ 1 grav-pistol*\n▪ 1 hand flamer*\n▪ 1 inferno pistol*\n▪ 1 plasma pistol",
+      "The Assault Sergeant with Jump Pack’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Assault Sergeant with Jump Pack can do one of the following:\n▪ Replace its bolt pistol and Astartes chainsword with 1 twin lightning claws.\n▪ Be equipped with 1 Astartes shield.",
+      "Up to 2 Assault Marines with Jump Packs can each have their bolt pistol and Astartes chainsword replaced with one of the following:\n▪ 1 plasma pistol and 1 Astartes chainsword\n▪ 1 flamer and 1 close combat weapon\n▪ 1 meltagun and 1 close combat weapon\n▪ 1 plasma gun and 1 close combat weapon",
+      "For every 5 models in this unit, 1 model’s Astartes chainsword can be replaced with 1 eviscerator.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Jump Pack",
+      "Fly",
+      "Imperium",
+      "Assault Squad with Jump Packs"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "astartes-servitors",
+    "name": "Astartes Servitors",
+    "points": [
+      {
+        "models": 4,
+        "points": 55
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Astartes Servitors",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "0",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "HEAVY",
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Servitor servo-arm",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Mindlock",
+        "text": "While a TECHMARINE model is leading this unit, improve the Ballistic Skill and Weapon Skill characteristics of ranged and melee weapons equipped by Astartes Servitor models in this unit by 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "SERVITOR RETINUE",
+        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a TECHMARINE. If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      }
+    ],
+    "composition": [
+      "4 Astartes Servitors"
+    ],
+    "loadout": "**Every model is equipped with:** Servitor servo-arm.",
+    "options": [
+      "Up to 2 models can each have their Servitor servo-arm replaced with one of the following:\n▪ 1 heavy bolter and 1 close combat weapon\n▪ 1 multi-melta and 1 close combat weapon\n▪ 1 plasma cannon and 1 close combat weapon"
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Astartes Servitors"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "astraeus",
     "name": "Astraeus",
     "points": [
@@ -1230,11 +2194,128 @@ export default [
       "Imperium",
       "Titanic",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "attack-bike-squad",
+    "name": "Attack Bike Squad",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      },
+      {
+        "models": 2,
+        "points": 110
+      },
+      {
+        "models": 3,
+        "points": 165
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Attack Bike Squad",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Outrider Escort",
+        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly ADEPTUS ASTARTES MOUNTED unit within 6\" of this unit is selected as the target of an attack, this unit can use this ability. If it does, after that enemy unit has finished making its attacks, this unit can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1-3 Attack Bikes"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; heavy bolter; twin boltgun; close combat weapon.",
+    "options": [
+      "Any number of models can each have their heavy bolter replaced with 1 multi-melta."
+    ],
+    "keywords": [
+      "Mounted",
+      "Grenades",
+      "Imperium",
+      "Attack Bike Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "ballistus-dreadnought",
@@ -1350,6 +2431,344 @@ export default [
     "baseSize": "90mm"
   },
   {
+    "id": "bike-squad",
+    "name": "Bike Squad",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      },
+      {
+        "models": 3,
+        "points": 80
+      },
+      {
+        "models": 6,
+        "points": 160
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Space Marine Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "2"
+      },
+      {
+        "name": "Attack Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-gun",
+        "tags": [
+          "ANTI-VEHICLE 2+"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Turbo-boost",
+        "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in this unit."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to an Outrider Squad, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Biker Sergeant",
+      "2-5 Space Marine Bikers",
+      "0-1 Attack Bike"
+    ],
+    "loadout": "**The Biker Sergeant and every Space Marine Biker is equipped with:** bolt pistol; twin boltgun; close combat weapon.\n\n**An Attack Bike is equipped with:** bolt pistol; heavy bolter; twin boltgun; close combat weapon.",
+    "options": [
+      "The Biker Sergeant’s bolt pistol can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 boltgun*\n▪ 1 combi-weapon*\n▪ 1 hand flamer\n▪ 1 grav-pistol\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter*\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Any number of Space Marine Bikers can each have their bolt pistol replaced with 1 Astartes chainsword.",
+      "Up to 2 Space Marine Bikers can each have their bolt pistol replaced with one of the following:\n▪ 1 flamer*\n▪ 1 grav-gun*\n▪ 1 meltagun*\n▪ 1 plasma gun*\n▪ 1 plasma pistol",
+      "An Attack Bike’s heavy bolter can be replaced with 1 multi-melta.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Mounted",
+      "Grenades",
+      "Imperium",
+      "Bike Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "bladeguard-ancient",
     "name": "Bladeguard Ancient",
     "points": [
@@ -1416,7 +2835,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Bladeguard Veteran Squad"
-      ],
+      ]
     },
     "keywords": [
       "Tacticus",
@@ -1802,6 +3221,103 @@ export default [
       "Iron Hands"
     ],
     "baseSize": "50mm"
+  },
+  {
+    "id": "caestus-assault-ram",
+    "name": "Caestus Assault Ram",
+    "points": [
+      {
+        "models": 1,
+        "points": 215
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Caestus Assault Ram",
+        "m": "14\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Firefury missile batteries",
+        "tags": [
+          "BLAST",
+          "IGNORES COVER"
+        ],
+        "range": "36\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Twin magna-melta",
+        "tags": [
+          "MELTA 4",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [
+          "LANCE"
+        ],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Hover",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Into the Foe",
+        "text": "If a unit disembarks from this TRANSPORT before it moves, until the end of the turn, that unit is eligible to charge in a turn in which it Advanced."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Caestus Assault Ram"
+    ],
+    "loadout": "**This model is equipped with:** firefury missile batteries; twin magna-melta; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS or TERMINATOR model takes up the space of 2 models and each CENTURION model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Aircraft",
+      "Transport",
+      "Fly",
+      "Imperium",
+      "Caestus Assault Ram"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "captain",
@@ -2350,6 +3866,262 @@ export default [
     "baseSize": "50mm"
   },
   {
+    "id": "captain-on-bike",
+    "name": "Captain on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Captain on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Master-crafted boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Relic weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Swift Assault",
+        "text": "While this model is leading a unit, ranged weapons equipped by models in that unit have the [ASSAULT] ability."
+      },
+      {
+        "name": "Rites of Battle",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted by a Stratagem for 0CP, even if another unit from your army has already been targeted by that Stratagem this phase."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Relic Shield",
+        "text": "The bearer has a Wounds characteristic of 7."
+      }
+    ],
+    "composition": [
+      "1 Captain on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; Astartes chainsword.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 combi-weapon**\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 master-crafted boltgun\n▪ 1 plasma pistol\n▪ 1 storm bolter**\n▪ 1 relic shield*\n▪ 1 relic weapon\n▪ 1 power fist\n▪ 1 thunder hammer",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 close combat weapon and 1 relic shield*\n▪ 1 power fist\n▪ 1 relic weapon",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 twin lightning claws.\n* Maximum one per model.\n** The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Captain"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "captain-titus",
     "name": "Captain Titus",
     "points": [
@@ -2636,6 +4408,131 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "carab-culln-the-risen",
+    "name": "Carab Culln the Risen",
+    "points": [
+      {
+        "models": 1,
+        "points": 250
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Carab Culln the Risen",
+        "m": "8\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "4",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Tarsus Scorpii",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "4"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Rites of Battle",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted by a Stratagem for 0CP, even if another unit from your army has already been targeted by that Stratagem this phase."
+      },
+      {
+        "name": "Death-hold",
+        "text": "When making ranged attacks, this model does not suffer the penalty to its Hit rolls for being within Engagement Range of one or more enemy units."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Carab Culln the Risen – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; 2 heavy flamers; 3 hunter-killer missiles; twin assault cannon; Tarsus Scorpii.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Smoke",
+      "Character",
+      "Epic Hero",
+      "Dreadnought",
+      "Carab Culln the Risen"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "cato-sicarius",
     "name": "Cato Sicarius",
     "points": [
@@ -2726,7 +4623,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Victrix Honour Guard"
-      ],
+      ]
     },
     "keywords": [
       "Tacticus",
@@ -2985,6 +4882,146 @@ export default [
     "baseSize": "50mm"
   },
   {
+    "id": "cerberus",
+    "name": "Cerberus",
+    "points": [
+      {
+        "models": 1,
+        "points": 270
+      }
+    ],
+    "flavor": "The primary weapon of the Cerberus is the neutron pulse array, whose systems pre-date even the Great Crusade. Powered by an atomantic arc-reactor, this enormous anti-tank gun fires a pulsed beam of intense radiation that scythes straight through even the thickest armour and wreaks havoc on delicate systems within.",
+    "profiles": [
+      {
+        "name": "Cerberus",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "6"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Cerberus neutron pulse array",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "16",
+        "ap": "-4",
+        "d": "D6+3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Atomantic Arc-reactor",
+        "text": "Each time this unit shoots its Cerberus neutron pulse array in your Shooting phase, provided it Remained Stationary this turn, that weapon has the [LETHAL HITS] ability."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Cerberus"
+    ],
+    "loadout": "**This model is equipped with:** Cerberus neutron pulse array; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with one of the following:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 multi-melta\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Cerberus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "chaplain",
     "name": "Chaplain",
     "points": [
@@ -3083,6 +5120,101 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "chaplain-cassius",
+    "name": "Chaplain Cassius",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaplain Cassius",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "4",
+        "ld": "5+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Infernus",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Artificer crozius",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 5+, Leader",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Catechism of Death",
+        "text": "While this model is leading a unit, melee weapons equipped by models in that unit have the [DEVASTATING WOUNDS] ability."
+      },
+      {
+        "name": "Inspired Retribution",
+        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 4+, do not remove it from play; that destroyed model can fight after the attacking model’s unit has finished making its attacks, and is then removed from play."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Chaplain Cassius – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** Infernus; artificer crozius.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Squad",
+        "Command Squad",
+        "Sternguard Veteran Squad",
+        "Tactical Squad",
+        "Tyrannic War Veterans",
+        "Vanguard Veteran Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Chaplain Cassius"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Ultramarines"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "chaplain-in-terminator-armour",
@@ -3270,11 +5402,184 @@ export default [
       "Grenades",
       "Imperium",
       "Mounted"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
     "baseSize": "90x52.5mm Oval Base"
+  },
+  {
+    "id": "chaplain-venerable-dreadnought",
+    "name": "Chaplain Venerable Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 150
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaplain Venerable Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought inferno cannon",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Heavy plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought combat weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Spiritual Leader",
+        "text": "Once per battle, at the start of any phase, you can select one friendly ADEPTUS ASTARTES unit that is Battle-shocked and within 12\" of this model. That unit is no longer Battle-shocked."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Chaplain Venerable Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** assault cannon; storm bolter; Dreadnought combat weapon.",
+    "options": [
+      "This model’s storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 heavy flamer and 1 Dreadnought combat weapon\n▪ 1 assault cannon\n▪ 1 Dreadnought inferno cannon\n▪ 1 heavy plasma cannon\n▪ 1 multi-melta\n▪ 1 twin lascannon",
+      "This model’s assault cannon can be replaced with one of the following:\n▪ 1 Dreadnought inferno cannon\n▪ 1 heavy plasma cannon\n▪ 1 multi-melta\n▪ 1 storm bolter and 1 Dreadnought combat weapon\n▪ 1 heavy flamer and 1 Dreadnought combat weapon\n▪ 1 twin lascannon"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Dreadnought",
+      "Chaplain Venerable Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "chaplain-with-jump-pack",
@@ -3611,6 +5916,541 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "command-squad",
+    "name": "Command Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 165
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Command Squad",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-cannon",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "HEAVY"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Grav-gun",
+        "tags": [
+          "ANTI-VEHICLE 2+"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "HEAVY",
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Champion’s blade",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Narthecium",
+        "text": "While this unit contains an Apothecary, in your Command phase, you can return 1 destroyed model (excluding CHARACTER models) to this unit."
+      },
+      {
+        "name": "Astartes Banner",
+        "text": "While this unit contains a Company Ancient, add 1 to the Objective Control characteristic of models in this unit."
+      },
+      {
+        "name": "Honour or Death",
+        "text": "While this unit contains a Company Champion, add 1 to Advance and Charge rolls made for this unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Astartes Shield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to a Company Heroes unit, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Apothecary",
+      "1 Company Ancient",
+      "1 Company Champion",
+      "2 Company Veterans"
+    ],
+    "loadout": "**The Apothecary is equipped with:** bolt pistol; Astartes chainsword.\n\n**The Company Ancient is equipped with:** bolt pistol; close combat weapon.\n\n**The Company Champion is equipped with:** bolt pistol; Champion’s blade; Astartes shield.\n\n**Each Company Veteran is equipped with:** bolt pistol; boltgun; close combat weapon.",
+    "options": [
+      "Any number of models can each have their bolt pistol replaced with one of the following:\n▪ 1 hand flamer*\n▪ 1 grav-pistol*\n▪ 1 inferno pistol*\n▪ 1 plasma pistol*",
+      "Any number of Company Veterans can each have their bolt pistol replaced with 1 Astartes shield.",
+      "Any number of Company Veterans can each have their bolt pistol and boltgun replaced with 1 twin lightning claws.",
+      "The Company Ancient’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon*",
+      "Any number of Company Veterans can each have their boltgun replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 Astartes shield\n▪ 1 combi-weapon*\n▪ 1 flamer\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n▪ 1 grav-cannon*\n▪ 1 grav-gun\n▪ 1 lascannon*\n▪ 1 meltagun\n▪ 1 missile launcher*\n▪ 1 multi-melta*\n▪ 1 plasma cannon*\n▪ 1 plasma gun\n▪ 1 storm bolter*\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Imperium",
+      "Command Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "company-champion-on-bike",
+    "name": "Company Champion on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 60
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Company Champion on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Master-crafted power weapon",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "4",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Honour or Death",
+        "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
+      },
+      {
+        "name": "Martial Superiority",
+        "text": "Each time this model makes a melee attack that targets a CHARACTER unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Company Champion on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; master-crafted power weapon.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Company Champion"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "company-heroes",
     "name": "Company Heroes",
     "points": [
@@ -3743,6 +6583,275 @@ export default [
     ]
   },
   {
+    "id": "company-veterans-on-bikes",
+    "name": "Company Veterans on Bikes",
+    "points": [
+      {
+        "models": 2,
+        "points": 110
+      },
+      {
+        "models": 5,
+        "points": 275
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Company Veterans on Bikes",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-gun",
+        "tags": [
+          "ANTI-VEHICLE 2+"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Vanguard Assault",
+        "text": "Each time this unit ends a Charge move, until the end of the turn, melee weapons equipped by models in this unit have the [LETHAL HITS] ability."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Storm Shield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "rules": [
+      {
+        "name": "COMMAND SQUAD BODYGUARD",
+        "text": "If a model from your army with the Leader ability can be attached to a Bike Squad, it can be attached to this unit instead."
+      }
+    ],
+    "composition": [
+      "1 Veteran Biker Sergeant",
+      "1-4 Veteran Bikers"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; twin boltgun; Astartes chainsword.",
+    "options": [
+      "The Veteran Biker Sergeant’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol*\n▪ 1 storm bolter",
+      "The Veteran Biker Sergeant’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Any number of Veteran Bikers’ bolt pistols can each be replaced with one of the following:\n▪ 1 grav-pistol\n▪ 1 plasma pistol*\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n▪ 1 storm shield",
+      "Any number of Veteran Bikers’ Astartes chainswords can each be replaced with one of the following:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 grav-pistol\n▪ 1 meltagun\n▪ 1 plasma gun*\n▪ 1 plasma pistol*\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n▪ 1 storm shield\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Mounted",
+      "Imperium",
+      "Grenades",
+      "Company Veterans"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "darnath-lysander",
     "name": "Darnath Lysander",
     "points": [
@@ -3825,6 +6934,459 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "50mm"
+  },
+  {
+    "id": "deathstorm-drop-pod",
+    "name": "Deathstorm Drop Pod",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "flavor": "Deathstorm Drop Pods act as a battlefield delivery method not for troops or vehicles, but instead for automated weapons systems such as Whirlwind missile launchers or assault cannons. Once in place, these potent weapons unleash a massive volley of firepower, clearing the way for a full-scale ground assault.",
+    "profiles": [
+      {
+        "name": "Deathstorm Drop Pod",
+        "m": "-",
+        "t": "7",
+        "sv": "3+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Deathstorm cannon array",
+        "tags": [
+          "SUSTAINED HITS 2"
+        ],
+        "range": "18\"",
+        "a": "12",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Deathstorm missile array",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "18\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Deathstorm Assault",
+        "text": "This model must start the battle in Reserves, but it is not counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Deathstorm Drop Pod"
+    ],
+    "loadout": "**This model is equipped with:** deathstorm cannon array.",
+    "options": [
+      "This model’s deathstorm cannon array can be replaced with 1 deathstorm missile array."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Deathstorm Drop Pod"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "deimos-predator",
+    "name": "Deimos Predator",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Deimos Predator",
+        "m": "10\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Conversion beam cannon",
+        "tags": [
+          "CONVERSION",
+          "SUSTAINED HITS D3"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Infernus cannon",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Magna-melta cannon",
+        "tags": [
+          "MELTA 4"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma destroyer – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Plasma destroyer – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Armoured Spearhead",
+        "text": "Each time this model makes an attack that targets an enemy unit, re-roll a Hit roll of 1 and, if that unit is within range of an objective marker you do not control, you can re-roll the Hit roll instead."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 12\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Deimos Predator"
+    ],
+    "loadout": "**This model is equipped with:** plasma destroyer; armoured tracks.",
+    "options": [
+      "This model’s plasma destroyer can be replaced with one of the following:\n▪ 1 conversion beam cannon\n▪ 1 infernus cannon\n▪ 1 magna-melta cannon",
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers*\n▪ 2 lascannons\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card.",
+      "This model can be equipped with 1 storm bolter.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Deimos Predator"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "deredeo-dreadnought",
+    "name": "Deredeo Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "While the Deredeo Dreadnought shares many core systems with the famed Contemptor class, it was expressly designed as a heavy weapons platform, combining superior firepower with the flexibility of a walker. Now rare, Deredeos are treasured assets whose survivability and killing power have proved decisive on countless battlefields.",
+    "profiles": [
+      {
+        "name": "Deredeo Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Aiolos missile launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Anvilus autocannon battery",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Arachnus heavy lascannon battery",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Boreas air defence missiles",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Hellfire plasma cannonade – standard",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Hellfire plasma cannonade – supercharge",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Volkite falconet battery",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "30\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "9",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Deredeo Strike",
+        "text": "Each time this model makes a ranged attack that targets a unit that is not Below Half-strength, you can re-roll the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Deredeo Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** anvilus autocannon battery; twin heavy bolter; armoured feet.",
+    "options": [
+      "This model’s anvilus autocannon battery can be replaced with one of the following:\n▪ 1 arachnus heavy lascannon battery\n▪ 1 hellfire plasma cannonade\n▪ 1 volkite falconet battery",
+      "This model’s twin heavy bolter can be replaced with 1 twin heavy flamer.",
+      "This model can be equipped with one of the following:\n▪ 1 aiolos missile launcher\n▪ 1 boreas air defence missiles"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Smoke",
+      "Dreadnought",
+      "Deredeo Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "desolation-squad",
@@ -4435,6 +7997,59 @@ export default [
     "baseSize": "60mm"
   },
   {
+    "id": "dreadnought-drop-pod",
+    "name": "Dreadnought Drop Pod",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "flavor": "Larger and more robust than the infantry equivalents, Dreadnought Drop Pods give Space Marine commanders the option of deploying armoured walkers directly into the theatre of battle. Still hot from its meteoric descent through the atmosphere, a Drop Pod’s ramps slam open to disgorge its deadly cargo into the enemy’s midst.",
+    "profiles": [
+      {
+        "name": "Dreadnought Drop Pod",
+        "m": "-",
+        "t": "7",
+        "sv": "3+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "melee": [],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Drop Pod Assault",
+        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model must immediately disembark after it has been set up on the battlefield, and they must be set up more than 9\" away from all enemy models. After this model has been set up on the battlefield, no units can embark within it."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Dreadnought Drop Pod"
+    ],
+    "loadout": "**This model is equipped with:** nothing.",
+    "options": [
+      "None"
+    ],
+    "transport": "This model has a transport capacity of 1 DREADNOUGHT model.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Transport",
+      "Dreadnought Drop Pod"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "drop-pod",
     "name": "Drop Pod",
     "points": [
@@ -4808,6 +8423,661 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "falchion",
+    "name": "Falchion",
+    "points": [
+      {
+        "models": 1,
+        "points": 420
+      }
+    ],
+    "flavor": "The Falchion was developed to arm the Legiones Astartes with a superlative tank destroyer, and the apocalyptic power of its twin volcano cannon soon became a thing of legend. True to its name, the volcano cannon can turn rock and metal into fiery magma, and a direct hit from the weapon can be fatal to even titanic war machines.",
+    "profiles": [
+      {
+        "name": "Falchion",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Laser destroyer",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Quad lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin Falchion volcano cannon",
+        "tags": [
+          "BLAST",
+          "TWIN-LINKED"
+        ],
+        "range": "120\"",
+        "a": "D3+1",
+        "bs": "3+",
+        "s": "24",
+        "ap": "-5",
+        "d": "12"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Titan-killer",
+        "text": "Each time this model makes a ranged attack with its twin Falchion volcano cannon that targets a MONSTER or VEHICLE unit, that attack has the [DEVASTATING WOUNDS] ability."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Falchion"
+    ],
+    "loadout": "**This model is equipped with:** 2 quad lascannons; twin heavy bolter; twin Falchion volcano cannon; armoured tracks.",
+    "options": [
+      "This model’s 2 quad lascannons can be replaced with 2 laser destroyers.",
+      "This model’s twin heavy bolter can be replaced with 1 twin heavy flamer.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 multi-melta\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Titanic",
+      "Imperium",
+      "Smoke",
+      "Falchion"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "fellblade",
+    "name": "Fellblade",
+    "points": [
+      {
+        "models": 1,
+        "points": 480
+      }
+    ],
+    "flavor": "Now a rare jewel in loyalist or traitor arsenals, the Fellblade is a legendary war machine equipped with a panoply of weapons all but unknown in the 41st Millennium. Foremost of these is the accelerator cannon, which uses complex vacuum technologies to fire high-velocity shells that few targets can withstand.",
+    "profiles": [
+      {
+        "name": "Fellblade",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Demolisher cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Fellblade accelerator cannon – AP shells",
+        "tags": [],
+        "range": "72\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "6"
+      },
+      {
+        "name": "Fellblade accelerator cannon – HE shells",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "72\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Havoc launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Laser destroyer",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Quad heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Quad lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Rolling Fortress",
+        "text": "Each time a ranged attack is allocated to a model from your army, if that model is not fully visible to every model in the attacking unit because of this Fellblade model, that model has the Benefit of Cover against that attack."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Fellblade"
+    ],
+    "loadout": "**This model is equipped with:** demolisher cannon; Fellblade accelerator cannon; 2 quad lascannons; twin heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s 2 quad lascannons can be replaced with one of the following:\n▪ 2 laser destroyers\n▪ 2 quad heavy bolters",
+      "This model’s twin heavy bolter can be replaced with 1 twin heavy flamer.",
+      "This model can be equipped with 1 havoc launcher.",
+      "This model can be equipped with one of the following:\n▪ 1 combi-weapon*\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 multi-melta\n▪ 1 storm bolter\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Titanic",
+      "Imperium",
+      "Smoke",
+      "Fellblade"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "ferren-areios",
+    "name": "Ferren Areios",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "flavor": "Ferren Areios is a formidable battle leader who earned the trust and respect of his Primarch in the bloody fighting of the Indomitus Crusade. Now elevated to the rank of Captain of the 6th Company, he leads his battle-brothers with courage and honour, wading into the thick of the fight with thunder hammer in hand.",
+    "profiles": [
+      {
+        "name": "Ferren Areios",
+        "m": "6\"",
+        "t": "4",
+        "sv": "2+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Relic thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Master of Rites",
+        "text": "In your Command phase, select one of the following to apply to this model’s unit until the end of the turn:\n▪ This model’s unit is eligible to shoot in a turn in which it Advanced.\n▪ This model’s unit is eligible to declare a charge in a turn in which it Advanced.\n▪ This model’s unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      },
+      {
+        "name": "Unrelenting and Uncompromising",
+        "text": "While this model is leading a unit, each time a model in that unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic Skill or Weapon Skill characteristics and/or all modifiers to the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Ferren Areios – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolt pistol; relic thunder hammer.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Bladeguard Veteran Squad",
+        "Company Heroes",
+        "Hellblaster Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Tactical Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Character",
+      "Grenades",
+      "Epic Hero",
+      "Tacticus",
+      "Captain",
+      "Ferren Areios"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "fire-raptor-gunship",
+    "name": "Fire Raptor Gunship",
+    "points": [
+      {
+        "models": 1,
+        "points": 290
+      }
+    ],
+    "flavor": "A variant of the Storm Eagle, the Fire Raptor was created to provide overwhelming aerial firepower to Legiones Astartes assault forces. The craft soon gained renown for the devastating rain of bolts and rockets it could produce, and the few operational specimens that still survive are viewed as invaluable assets.",
+    "profiles": [
+      {
+        "name": "Fire Raptor Gunship",
+        "m": "-",
+        "t": "10",
+        "sv": "3+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Quad heavy bolter",
+        "tags": [
+          "TWIN-LINKED",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin avenger bolt cannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "10",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin hellstrike launcher",
+        "tags": [
+          "ANTI-FLY 2+",
+          "TWIN-LINKED"
+        ],
+        "range": "72\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Hover",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Strafing Run",
+        "text": "Each time this model makes a ranged attack that targets a unit that cannot FLY, add 1 to the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Fire Raptor Gunship"
+    ],
+    "loadout": "**This model is equipped with:** twin avenger bolt cannon; 2 twin autocannons; 2 twin hellstrike launchers; armoured hull.",
+    "options": [
+      "This model’s 2 twin hellstrike launchers can be replaced with 2 twin lascannons.",
+      "This model’s 2 twin autocannons can be replaced with 2 quad heavy bolters."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Imperium",
+      "Fire Raptor Gunship"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "firestrike-servo-turrets",
@@ -5614,6 +9884,223 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "hunter",
+    "name": "Hunter",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Hunter",
+        "m": "9\"",
+        "t": "11",
+        "sv": "3+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Skyspear missile launcher",
+        "tags": [
+          "ANTI-FLY 3+",
+          "DEVASTATING WOUNDS",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6+2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Hunter Missile Targeting",
+        "text": "Each time this model makes an attack with its skyspear missile launcher that targets a MONSTER or VEHICLE unit, that attack scores a hit on an unmodified Hit roll of 2+."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Hunter"
+    ],
+    "loadout": "**This model is equipped with:** skyspear missile launcher; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Hunter"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "imperial-space-marine",
+    "name": "Imperial Space Marine",
+    "points": [
+      {
+        "models": 1,
+        "points": 40
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Imperial Space Marine",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Disintegration combi-gun",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Disintegration pistol",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Swift Assault",
+        "text": "While this model is leading a unit, ranged weapons equipped by models in that unit have the [ASSAULT] ability."
+      },
+      {
+        "name": "Unbreakable Duty",
+        "text": "While this model is within range of an objective marker and/or within 6\" of the centre of the battlefield, this model has the Feel No Pain 4+ ability."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "You can attach this model to one of the above units even if one CHARACTER model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
+      }
+    ],
+    "composition": [
+      "1 Imperial Space Marine"
+    ],
+    "loadout": "**This model is equipped with:** disintegration combi-gun; disintegration pistol; close combat weapon.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Squad",
+        "Command Squad",
+        "Tactical Squad",
+        "Vanguard Veteran Squad",
+        "Devastator Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Character",
+      "Grenades",
+      "Imperial Space Marine"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "impulsor",
@@ -6514,7 +11001,7 @@ export default [
       "Imperium",
       "Invader ATV",
       "Mounted"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -6767,6 +11254,295 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "ironclad-dreadnought",
+    "name": "Ironclad Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 150
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Ironclad Dreadnought",
+        "m": "6\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Hurricane bolter",
+        "tags": [
+          "RAPID FIRE 6",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Dreadnought chainfist",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dreadnought combat weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Seismic hammer",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6+2"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Siege-breaker Protocols",
+        "text": "Each time this model makes a melee attack that targets a VEHICLE or FORTIFICATION unit, add 1 to the Hit roll and add 1 to the Wound roll."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Ironclad Assault Launchers",
+        "text": "The bearer has the GRENADES keyword."
+      }
+    ],
+    "composition": [
+      "1 Ironclad Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** meltagun; storm bolter; Dreadnought combat weapon; seismic hammer.",
+    "options": [
+      "This model’s seismic hammer can be replaced with 1 Dreadnought chainfist.",
+      "This model’s Dreadnought combat weapon and storm bolter can be replaced with 1 hurricane bolter.",
+      "This model’s storm bolter can be replaced with 1 heavy flamer.",
+      "This model’s meltagun can be replaced with 1 heavy flamer.",
+      "This model can be equipped with up to 2 hunter-killer missiles.",
+      "This model can be equipped with 1 Ironclad assault launchers."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Smoke",
+      "Imperium",
+      "Dreadnought",
+      "Ironclad Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "javelin-attack-speeder",
+    "name": "Javelin Attack Speeder",
+    "points": [
+      {
+        "models": 1,
+        "points": 110
+      }
+    ],
+    "flavor": "The Javelin Attack Speeder is a highly durable reconnaissance and strike craft once used widely by the Legiones Astartes, but now almost absent from the war zones of the 41st Millennium. Irreplaceable though they are, Javelins are sometimes entrusted to the very best pilots, who use the vehicles’ extended range to inflict decisive damage behind enemy lines.",
+    "profiles": [
+      {
+        "name": "Javelin Attack Speeder",
+        "m": "14\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "9",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Javelin missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "3D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Javelin missile launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Fire and Redeploy",
+        "text": "In your Shooting phase, each time this model has shot, if it is not within Engagement Range of any enemy units, it can make a Normal move of up to D6\". If it does, until the end of the turn, this model is not eligible to declare a charge."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Javelin Attack Speeder"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Javelin missile launcher; close combat weapon.",
+    "options": [
+      "This model’s Javelin missile launcher can be replaced with 2 lascannons.",
+      "This model’s heavy bolter can be replaced with 1 multi-melta.",
+      "This model can be equipped with up to 2 hunter-killer missiles."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Javelin Attack Speeder"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "judiciar",
@@ -7072,6 +11848,257 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "kratos",
+    "name": "Kratos",
+    "points": [
+      {
+        "models": 1,
+        "points": 240
+      }
+    ],
+    "flavor": "Boasting an impressive array of weapon loadouts and a formidably armoured hull, the Kratos is a venerable assault tank that has earned well its reputation amongst the hosts of both loyalist and heretic commanders alike. Advancing alongside formations of armoured infantry, the vehicle provides punishing fire support that can turn the tide of entire battles.",
+    "profiles": [
+      {
+        "name": "Kratos",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "6"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Havoc launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Kratos battle cannon – AP",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "18",
+        "ap": "-4",
+        "d": "D6+3"
+      },
+      {
+        "name": "Kratos battle cannon – HE",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Melta blast-gun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Volkite caliver",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      },
+      {
+        "name": "Volkite cardanelle",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "9",
+        "bs": "3+",
+        "s": "9",
+        "ap": "0",
+        "d": "3"
+      },
+      {
+        "name": "Volkite culverin",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Line-breaker",
+        "text": "When making ranged attacks, this model can target enemy units within Engagement Range of it with Blast weapons (provided no other friendly units are also within Engagement Range of that enemy unit). In addition, when making ranged attacks, this model does not suffer the penalty to its Hit rolls for being within Engagement Range of one or more enemy units."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Kratos"
+    ],
+    "loadout": "**This model is equipped with:** autocannon; Kratos battle cannon; 4 heavy bolters; armoured tracks.",
+    "options": [
+      "This model’s Kratos battle cannon can be replaced with one of the following:\n▪ 1 melta blast-gun\n▪ 1 volkite cardanelle",
+      "2 of this model’s heavy bolters can be replaced with one of the following:\n▪ 2 autocannons\n▪ 2 lascannons*\n▪ 2 volkite calivers",
+      "2 of this model’s heavy bolters can be replaced with one of the following:\n▪ 2 heavy flamers*\n▪ 2 lascannons*\n▪ 2 volkite culverins",
+      "This model can be equipped with one of the following:\n▪ 1 combi-weapon*\n▪ 1 havoc launcher\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n▪ 1 multi-melta*\n▪ 1 twin boltgun",
+      "This model can be equipped with 1 hunter-killer missile.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Kratos"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "land-raider",
     "name": "Land Raider",
     "points": [
@@ -7204,6 +12231,152 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "land-raider-achilles",
+    "name": "Land Raider Achilles",
+    "points": [
+      {
+        "models": 1,
+        "points": 230
+      }
+    ],
+    "flavor": "The Achilles is considered one of the rarest of all Land Raider variants, each one individually wrought under the scrupulous gaze of senior adepts of the Omnissiah. The result is an assault vehicle that is exceptionally resistant to energy-based weaponry. Roaring forward with impunity, the Achilles uses its thunderfire cannon and multi-meltas to suppress a wide range of foes.",
+    "profiles": [
+      {
+        "name": "Land Raider Achilles",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Quad launcher – shatter shells",
+        "tags": [],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Quad launcher – thunderfire shells",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "60\"",
+        "a": "D6+4",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin multi-melta",
+        "tags": [
+          "MELTA 2",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Twin volkite culverin",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Land Raider Achilles"
+    ],
+    "loadout": "**This model is equipped with:** quad launcher; 2 twin volkite culverins; armoured tracks.",
+    "options": [
+      "This model’s 2 twin volkite culverins can be replaced with 2 twin multi-meltas.",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION or OBLITERATOR model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Transport",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Land Raider Achilles"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "land-raider-crusader",
@@ -7343,6 +12516,556 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "land-raider-excelsior",
+    "name": "Land Raider Excelsior",
+    "points": [
+      {
+        "models": 1,
+        "points": 250
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Raider Excelsior",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Godhammer lascannons",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Grav-cannon",
+        "tags": [
+          "ANTI-VEHICLE 2+"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Rites of Battle",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted by a Stratagem for 0CP, even if another unit from your army has already been targeted by that Stratagem this phase."
+      },
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Land Raider Excelsior"
+    ],
+    "loadout": "**This model is equipped with:** grav-cannon; 2 godhammer lascannons; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter.",
+      "This model can be equipped with 1 multi-melta.",
+      "This model can be equipped with 1 combi-weapon."
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS or TERMINATOR model takes up the space of 2 models and each CENTURION model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Frame",
+      "Imperium",
+      "Land Raider Excelsior"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-raider-helios",
+    "name": "Land Raider Helios",
+    "points": [
+      {
+        "models": 1,
+        "points": 220
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Raider Helios",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Godhammer lascannons",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Helios launcher",
+        "tags": [
+          "ANTI-FLY 3+"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Land Raider Helios"
+    ],
+    "loadout": "**This model is equipped with:** 2 godhammer lascannons; Helios launcher; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 storm bolter.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Frame",
+      "Imperium",
+      "Land Raider Helios"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-raider-prometheus",
+    "name": "Land Raider Prometheus",
+    "points": [
+      {
+        "models": 1,
+        "points": 250
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Raider Prometheus",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Quad heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Land Raider Prometheus"
+    ],
+    "loadout": "**This model is equipped with:** 2 quad heavy bolters; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 multi-melta.",
+      "This model can be equipped with 1 storm bolter.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Frame",
+      "Imperium",
+      "Land Raider Prometheus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-raider-proteus",
+    "name": "Land Raider Proteus",
+    "points": [
+      {
+        "models": 1,
+        "points": 220
+      }
+    ],
+    "flavor": "The ancient and venerable Land Raider has served the Space Marines since their earliest beginnings, and the oldest variants are known as Proteus patterns. These heavily armoured bastions once acted as forward assault vehicles in Explorator missions, and rare survivals still serve the Imperium as relic vehicles of highest regard.",
+    "profiles": [
+      {
+        "name": "Land Raider Proteus",
+        "m": "12\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Explorator Augury Web",
+        "text": "Enemy units that are set up on the battlefield as Reinforcements cannot be set up within 12\" of the bearer, but the bearer must halve its Transport Capacity."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Land Raider Proteus"
+    ],
+    "loadout": "**This model is equipped with:** 2 twin lascannons; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 1 heavy bolter\n▪ 1 multi-melta\n▪ 1 twin heavy bolter\n▪ 1 twin heavy flamer",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter.",
+      "This model can be equipped with 1 explorator augury web."
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION or OBLITERATOR model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Transport",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Land Raider Proteus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "land-raider-redeemer",
@@ -7585,11 +13308,595 @@ export default [
       "Imperium",
       "Land Speeder",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
     "baseSize": "105x70mm Oval Base"
+  },
+  {
+    "id": "land-speeder-storm",
+    "name": "Land Speeder Storm",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Speeder Storm",
+        "m": "14\"",
+        "t": "7",
+        "sv": "4+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Cerberus launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "18\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Firing Deck 6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Storm Assault",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Land Speeder Storm"
+    ],
+    "loadout": "**This model is equipped with:** Cerberus launcher; heavy bolter; close combat weapon.",
+    "options": [
+      "None"
+    ],
+    "transport": "This model has a transport capacity of 6 models. It can only transport SCOUT SQUAD, SCOUT SNIPER SQUAD and SERGEANT TELION models.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Transport",
+      "Dedicated Transport",
+      "Imperium",
+      "Land Speeder Storm"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-speeder-tempest",
+    "name": "Land Speeder Tempest",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Speeder Tempest",
+        "m": "14\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Tempest salvo launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Tempest salvo launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Isolate and Destroy",
+        "text": "Each time this model makes an attack that targets an enemy unit, if there are no other units from your opponent’s army within 6\" of that target, add 1 to the Wound roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Land Speeder Tempest"
+    ],
+    "loadout": "**This model is equipped with:** assault cannon; Tempest salvo launcher; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Land Speeder Tempest"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-speeder-tornado",
+    "name": "Land Speeder Tornado",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Speeder Tornado",
+        "m": "14\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Strafing Enfilade",
+        "text": "Each time this model ends a Normal move, you can select one enemy unit (excluding MONSTER and VEHICLE units) that it moved over during that move, then roll six D6: for each 4+, that enemy unit suffers 1 mortal wound."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Land Speeder Tornado"
+    ],
+    "loadout": "**This model is equipped with:** assault cannon; heavy bolter; close combat weapon.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 multi-melta.",
+      "This model’s assault cannon can be replaced with 1 heavy flamer."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Land Speeder Tornado"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "land-speeder-typhoon",
+    "name": "Land Speeder Typhoon",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Land Speeder Typhoon",
+        "m": "14\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Typhoon missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Typhoon missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Fire and Redeploy",
+        "text": "In your Shooting phase, each time this model has shot, if it is not within Engagement Range of any enemy units, it can make a Normal move of up to D6\". If it does, until the end of the turn, this model is not eligible to declare a charge."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Land Speeder Typhoon"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Typhoon missile launcher; close combat weapon.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 multi-melta."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Land Speeder Typhoon"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "leviathan-dreadnought",
+    "name": "Leviathan Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Leviathan Dreadnought was the product of a secret development programme on Terra itself, which combined ancient technologies to create a savagely powerful siege and hunter-killer machine. Leviathans proved as costly as they were deadly, however, and of the limited quantities manufactured, only a handful now remain.",
+    "profiles": [
+      {
+        "name": "Leviathan Dreadnought",
+        "m": "8\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "4",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Cyclonic melta lance",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Grav-flux bombard",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "2D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm cannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin volkite caliver",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Leviathan siege claw",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Leviathan siege drill",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Duty Eternal",
+        "text": "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Leviathan Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy flamers; 2 grav-flux bombards; armoured feet.",
+    "options": [
+      "Each of this model’s grav-flux bombards can be replaced with one of the following:\n▪ 1 cyclonic melta lance\n▪ 1 storm cannon\n▪ 1 meltagun and 1 Leviathan siege claw\n▪ 1 meltagun and 1 Leviathan siege drill",
+      "This model’s 2 heavy flamers can be replaced with 2 twin volkite calivers.",
+      "This model can be equipped with 3 hunter-killer missiles."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Smoke",
+      "Dreadnought",
+      "Leviathan Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "librarian",
@@ -7971,6 +14278,425 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "librarian-on-bike",
+    "name": "Librarian on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Librarian on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Smite – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Smite – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Psychic Hood",
+        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 4+ ability against Psychic Attacks."
+      },
+      {
+        "name": "Mental Fortress (Psychic)",
+        "text": "While this model is leading a unit, models in that unit have a 4+ invulnerable save."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Librarian on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; force weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Psyker",
+      "Imperium",
+      "Librarian"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "librarian-with-jump-pack",
+    "name": "Librarian with Jump Pack",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Librarian with Jump Pack",
+        "m": "12\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Smite – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Smite – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      }
+    ],
+    "core": "Deep Strike, Leader",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Psychic Hood",
+        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 4+ ability against Psychic Attacks."
+      },
+      {
+        "name": "Might of Heroes (Psychic)",
+        "text": "While this model is leading a unit, improve the Strength and Armour Penetration characteristics of melee weapons equipped by models in that unit by 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Librarian with Jump Pack"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Smite; force weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Squad with Jump Packs",
+        "Vanguard Veteran Squad with Jump Packs"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Jump Pack",
+      "Fly",
+      "Psyker",
+      "Grenades",
+      "Imperium",
+      "Librarian"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "lieutenant",
     "name": "Lieutenant",
     "points": [
@@ -8143,7 +14869,7 @@ export default [
         "Tactical Squad",
         "Vanguard Veteran Squad",
         "Wolf Guard"
-      ],
+      ]
     },
     "keywords": [
       "Lieutenant",
@@ -8240,7 +14966,7 @@ export default [
         "Incursor Squad",
         "Spectrus Kill Team",
         "Infiltrator Squad"
-      ],
+      ]
     },
     "keywords": [
       "Lieutenant",
@@ -8325,7 +15051,7 @@ export default [
       "units": [
         "Hounds Of Morkai",
         "Reiver Squad"
-      ],
+      ]
     },
     "keywords": [
       "Lieutenant in Reiver Armour",
@@ -8533,6 +15259,333 @@ export default [
     "baseSize": "50mm"
   },
   {
+    "id": "mastodon",
+    "name": "Mastodon",
+    "points": [
+      {
+        "models": 1,
+        "points": 540
+      }
+    ],
+    "flavor": "The Mastodon is one of the heaviest assault transports ever fielded by the Space Marines, reserved for use against the most heavily fortified positions. Several times the size of a Land Raider, the Mastodon’s primary role is to deliver armoured warriors directly into the breach created with the siege melta array mounted on the vehicle’s armoured prow.",
+    "profiles": [
+      {
+        "name": "Mastodon",
+        "m": "9\"",
+        "t": "14",
+        "sv": "2+",
+        "w": "30",
+        "ld": "6+",
+        "oc": "12"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Siege melta array",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Skyreaper battery",
+        "tags": [
+          "ANTI-FLY 4+"
+        ],
+        "range": "48\"",
+        "a": "8",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Volkite culverin",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 2D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Inviolable Transport",
+        "text": "Once per battle round, when an attack is allocated to this model, you can change the Damage characteristic of that attack to 0."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-10 wounds remaining",
+      "text": "While this model has 1-10 wounds remaining, subtract 6 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Mastodon"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy flamers; 2 lascannons; siege melta array; skyreaper battery; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy flamers can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons\n▪ 2 volkite culverins",
+      "This model’s 2 lascannons can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 volkite culverins"
+    ],
+    "transport": "This model has a transport capacity of 45 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION or OBLITERATOR model takes up the space of 3 models. This model can also transport up to 2 DREADNOUGHT or HELBRUTE models (these models take up the space of a number of models equal to their Wounds characteristic e.g. a DREADNOUGHT with a Wounds characteristic of 8 would take up the space of 8 models).",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Titanic",
+      "Imperium",
+      "Transport",
+      "Smoke",
+      "Mastodon"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "mortis-dreadnought",
+    "name": "Mortis Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 130
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Mortis Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought inferno cannon",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Heavy plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Mortis Strike",
+        "text": "Each time this model makes a ranged attack that targets a unit that is not Below Half-strength, you can re-roll the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Mortis Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** 2 twin heavy bolters; armoured feet.",
+    "options": [
+      "This model’s 2 twin heavy bolters can be replaced with one of the following:\n▪ 2 assault cannons\n▪ 2 Dreadnought inferno cannons\n▪ 2 heavy plasma cannons\n▪ 2 missile launchers\n▪ 2 multi-meltas\n▪ 2 twin autocannons\n▪ 2 twin lascannons"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Dreadnought",
+      "Mortis Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "outrider-squad",
     "name": "Outrider Squad",
     "points": [
@@ -8674,7 +15727,7 @@ export default [
       "Imperium",
       "Mounted",
       "Outrider Squad"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ]
@@ -9044,6 +16097,237 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "primaris-company-champion",
+    "name": "Primaris Company Champion",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Primaris Company Champion",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Master-crafted power weapon",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "5",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Honour or Death",
+        "text": "While this model is leading a unit, add 1 to Advance and Charge rolls made for that unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
+      },
+      {
+        "name": "Martial Superiority",
+        "text": "Each time this model makes a melee attack that targets a CHARACTER unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Primaris Company Champion"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; master-crafted power weapon.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Bladeguard Veteran Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Tacticus",
+      "Primaris Company Champion"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "rapier-carrier",
+    "name": "Rapier Carrier",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "flavor": "The Rapier Armoured Carrier is a bulky, tracked device that traces its origin to the dawn of Mankind’s stellar empire. Compatible with various heavy weapons, the Rapier is most commonly fitted with a powerful quad lascannon known as a laser destroyer, making it a compact but potent anti-armour asset.",
+    "profiles": [
+      {
+        "name": "Rapier Carrier",
+        "m": "3\"",
+        "t": "6",
+        "sv": "2+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Graviton cannon",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Laser destroyer",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Quad heavy bolter",
+        "tags": [
+          "HEAVY",
+          "TWIN-LINKED",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Quad launcher – shatter shells",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Quad launcher – thunderfire shells",
+        "tags": [
+          "BLAST",
+          "HEAVY",
+          "INDIRECT FIRE"
+        ],
+        "range": "60\"",
+        "a": "D6+4",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Powerful Volley",
+        "text": "Each time this model shoots in your Shooting phase, provided it Remained Stationary this turn, all [HEAVY] weapons equipped by models in this unit have the [LETHAL HITS] ability."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Rapier Carrier"
+    ],
+    "loadout": "**This model is equipped with:** boltgun; quad heavy bolter; close combat weapon.",
+    "options": [
+      "This model’s quad heavy bolter can be replaced with one of the following:\n▪ 1 graviton cannon\n▪ 1 laser destroyer\n▪ 1 quad launcher"
+    ],
+    "keywords": [
+      "Artillery",
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Rapier Carrier"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "razorback",
@@ -9459,6 +16743,620 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "32mm"
+  },
+  {
+    "id": "relic-contemptor-dreadnought",
+    "name": "Relic Contemptor Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 140
+      }
+    ],
+    "flavor": "As relics of a lost age of martial design, Contemptor Dreadnoughts are exemplars of combat versatility. The best demonstration of this is the wide array of weapon arms compatible with the Contemptor chassis, ranging from conventional heavy weapons and power fists to some of the most esoteric firearms still in use on the battlefields of the 41st Millennium.",
+    "profiles": [
+      {
+        "name": "Relic Contemptor Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Conversion beam cannon",
+        "tags": [
+          "CONVERSION",
+          "SUSTAINED HITS D3"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Cyclone missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Cyclone missile launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Graviton blaster",
+        "tags": [
+          "ANTI-VEHICLE 2+"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Heavy plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Kheres-pattern assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma blaster – standard",
+        "tags": [],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma blaster – supercharge",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Twin volkite culverin",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought chainfist",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Dreadnought combat weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Even In Death I Serve",
+        "text": "The first time this model is destroyed, remove it from play without resolving its Deadly Demise ability. Then, at the end of the phase, roll one D6: on a 2+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with D6 wounds remaining."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets a unit more than 12\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "composition": [
+      "1 Relic Contemptor Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy plasma cannons; armoured feet.",
+    "options": [
+      "Each of this model’s heavy plasma cannons can be replaced with one of the following:\n▪ 1 conversion beam cannon\n▪ 1 kheres-pattern assault cannon\n▪ 1 multi-melta*\n▪ 1 twin autocannon*\n▪ 1 twin heavy bolter*\n▪ 1 twin lascannon*\n▪ 1 twin volkite culverin\n▪ 1 Dreadnought chainfist and 1 combi-bolter\n▪ 1 Dreadnought combat weapon and 1 combi-bolter",
+      "Each of this model’s combi-bolters can be replaced with one of the following:\n▪ 1 graviton blaster\n▪ 1 heavy flamer*\n▪ 1 plasma blaster*",
+      "This model can be equipped with 1 cyclone missile launcher.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Dreadnought",
+      "Relic Contemptor Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "relic-razorback",
+    "name": "Relic Razorback",
+    "points": [
+      {
+        "models": 1,
+        "points": 105
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Relic Razorback",
+        "m": "12\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Fire Support",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit it scored one or more hits against this phase. Until the end of the phase, each time a friendly model that disembarked from this Transport this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Relic Razorback"
+    ],
+    "loadout": "**This model is equipped with:** twin heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s twin heavy bolter can be replaced with one of the following:\n▪ 1 multi-melta\n▪ 1 twin assault cannon\n▪ 1 twin lascannon",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "transport": "This model has a transport capacity of 6 ADEPTUS ASTARTES INFANTRY models. It cannot transport JUMP PACK, WULFEN, PHOBOS, GRAVIS, CENTURION, TERMINATOR or TACTICUS models (except for TACTICUS CHARACTER models that begin the battle attached to a non-TACTICUS unit).",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Dedicated Transport",
+      "Frame",
+      "Imperium",
+      "Relic Razorback"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "relic-terminator-squad",
+    "name": "Relic Terminator Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 200
+      },
+      {
+        "models": 10,
+        "points": 400
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Relic Terminator Squad",
+        "m": "5\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Plasma blaster – standard",
+        "tags": [],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma blaster – supercharge",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Reaper autocannon",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Volkite charger",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chainfist",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Fury of the First",
+        "text": "Each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic Skill or Weapon Skill characteristic and/or to the Hit roll. In addition, each time a model in this unit makes an attack that targets the enemy unit you selected for the Oath of Moment ability this turn, add 1 to the Hit roll."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Grenade Harness",
+        "text": "The bearer has the GRENADES keyword."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to a Terminator Squad, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Relic Terminator Sergeant",
+      "4-9 Relic Terminators"
+    ],
+    "loadout": "**Every model is equipped with:** combi-bolter; power fist.",
+    "options": [
+      "The Relic Terminator Sergeant’s combi-bolter can be replaced with one of the following:\n▪ 1 plasma blaster\n▪ 1 volkite charger",
+      "For every 5 models in this unit, 1 Relic Terminator’s combi-bolter can be replaced with one of the following:\n▪ 1 heavy flamer\n▪ 1 reaper autocannon",
+      "For every 5 models in this unit, 1 model can be equipped with 1 grenade harness.",
+      "Any number of models can each have their power fist replaced with 1 power weapon.",
+      "Any number of models can each have their power fist replaced with 1 chainfist.",
+      "Any number of models can each have their combi-bolter and power fist replaced with 1 twin lightning claws."
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Terminator",
+      "Relic Terminator Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "repulsor",
@@ -9884,6 +17782,114 @@ export default [
     "baseSize": "Hull"
   },
   {
+    "id": "rhino-primaris",
+    "name": "Rhino Primaris",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Rhino Primaris",
+        "m": "12\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Twin plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Self Repair",
+        "text": "At the end of your Command phase, this model regains 1 lost wound."
+      },
+      {
+        "name": "Orbital Comms Array (Aura)",
+        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of the bearer, each time you target that unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Rhino Primaris"
+    ],
+    "loadout": "**This model is equipped with:** twin plasma gun; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "transport": "This model has a transport capacity of 6 ADEPTUS ASTARTES INFANTRY models. It cannot transport JUMP PACK, WULFEN, PHOBOS, GRAVIS, CENTURION, TERMINATOR or TACTICUS models (except for TACTICUS CHARACTER models that begin the battle attached to a non-TACTICUS unit).",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Frame",
+      "Imperium",
+      "Rhino Primaris"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "roboute-guilliman",
     "name": "Roboute Guilliman",
     "points": [
@@ -9970,7 +17976,7 @@ export default [
       "Monster",
       "Primarch",
       "Roboute Guilliman"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Ultramarines"
@@ -10001,6 +18007,390 @@ export default [
         ]
       }
     ]
+  },
+  {
+    "id": "scout-bike-squad",
+    "name": "Scout Bike Squad",
+    "points": [
+      {
+        "models": 3,
+        "points": 75
+      },
+      {
+        "models": 6,
+        "points": 150
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Scout Bike Squad",
+        "m": "12\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Astartes grenade launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Astartes grenade launcher – krak",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Astartes shotgun",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-INFANTRY 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Combat knife",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Scouts 9\"",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Outflank",
+        "text": "When this unit arrives from Strategic Reserves, it can be set up within your opponent’s deployment zone (all other restrictions still apply)."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Scout Biker Sergeant",
+      "2-5 Scout Bikers"
+    ],
+    "loadout": "**Every model is equipped with:** Astartes shotgun; bolt pistol; twin boltgun; combat knife.",
+    "options": [
+      "The Scout Biker Sergeant’s bolt pistol can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 boltgun*\n▪ 1 combi-weapon*\n▪ 1 hand flamer*\n▪ 1 grav-pistol*\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter*\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Any number of models can each have their twin boltgun replaced with 1 Astartes grenade launcher.\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Mounted",
+      "Grenades",
+      "Smoke",
+      "Imperium",
+      "Scout Bike Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "scout-sniper-squad",
+    "name": "Scout Sniper Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 75
+      },
+      {
+        "models": 10,
+        "points": 150
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Scout Sniper Squad",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Scout sniper rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Stealth",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Concealed Positions",
+        "text": "This unit can only be selected as the target of a ranged attack if the attacking model is within 12\"."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Scout Sniper Sergeant",
+      "4-9 Scout Snipers"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; scout sniper rifle; close combat weapon.",
+    "options": [
+      "1 Scout Sniper’s scout sniper rifle can be replaced with 1 missile launcher."
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Smoke",
+      "Imperium",
+      "Scout Sniper Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "scout-squad",
@@ -10187,6 +18577,1224 @@ export default [
     "baseSize": "28.5mm"
   },
   {
+    "id": "sergeant-chronus",
+    "name": "Sergeant Chronus",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sergeant Chronus",
+        "m": "6\"",
+        "t": "4",
+        "sv": "2+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chronus’ servo-arm",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Tank Commander",
+        "text": "While this model is commanding a VEHICLE model (see reverse):\n▪ Ranged weapons equipped by that VEHICLE model have a Ballistic Skill characteristic of 2+.\n▪ Each time that VEHICLE model is selected to shoot, you can re-roll one Wound roll when resolving those attacks."
+      },
+      {
+        "name": "Chronus",
+        "text": "When this model disembarks from a VEHICLE model it was commanding, it has the Lone Operative ability until the end of the battle."
+      }
+    ],
+    "wargearAbilities": [],
+    "rules": [
+      {
+        "name": "TANK COMMANDER",
+        "text": "If your army includes one or more of the VEHICLE models listed below, Sergeant Chronus must start the battle embarked within one of those models as if it were a TRANSPORT. Sergeant Chronus can only disembark from that VEHICLE if it is destroyed. While embarked in this way, Sergeant Chronus is said to be commanding that VEHICLE.\n▪ Hunter\n▪ Land Raider\n▪ Land Raider Crusader\n▪ Land Raider Redeemer\n▪ Predator Annihilator\n▪ Predator Destructor\n▪ Stalker\n▪ Vindicator\n▪ Whirlwind"
+      }
+    ],
+    "composition": [
+      "1 Sergeant Chronus – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Chronus’ servo-arm.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Sergeant Chronus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Ultramarines"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sergeant-telion",
+    "name": "Sergeant Telion",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sergeant Telion",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Quietus",
+        "tags": [
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Combat knife",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Leader, Scouts 6\", Stealth",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Voice of Experience",
+        "text": "While this model is leading a unit, improve the Objective Control characteristic of models in that unit by 1 and each time a model in that unit makes an attack, add 1 to the Hit roll."
+      },
+      {
+        "name": "Guiding Hand",
+        "text": "While this model is leading a unit, each time that unit is selected to shoot or fight, select one of the following abilities to apply to weapons equipped by models in that unit until the end of the phase:\n▪ [LETHAL HITS]\n▪ [PRECISION]\n▪ [SUSTAINED HITS 1]"
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Sergeant Telion – EPIC HERO"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Quietus; combat knife.",
+    "options": [
+      "None"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Scout Squad",
+        "Scout Sniper Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Sergeant Telion"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Ultramarines"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sicaran-arcus",
+    "name": "Sicaran Arcus",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Sicaran Arcus was originally conceived to supply small, unsupported Astartes forces with highly specialised weapon systems, and combines the powerful Sicaran chassis with an Arcus launcher capable of firing a wide range of warheads. Despite the mysterious censure of the Adeptus Mechanicus, surviving examples of the tank continue to serve in battle with great honour.",
+    "profiles": [
+      {
+        "name": "Sicaran Arcus",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Arcus multi-launcher",
+        "tags": [
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Specialised Weapon System",
+        "text": "Each time this model makes an attack that targets the enemy unit you selected for the Oath of Moment ability, that attack has the [IGNORES COVER] ability and can ignore the penalty to their Hit rolls when making attacks with Indirect Fire weapons against targets that are not visible to them."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sicaran Arcus"
+    ],
+    "loadout": "**This model is equipped with:** Arcus multi-launcher; heavy bolter; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Sicaran Arcus"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sicaran-battle-tank",
+    "name": "Sicaran Battle Tank",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Sicaran is one of the rarest relic tanks seen on the battlefields of the 41st Millennium. Its unique design dates back to the Great Crusade. The most potent of the Sicaran’s distinctive systems is the twin accelerator cannon, whose accuracy and rate of fire are far in excess of other weapons of its class.",
+    "profiles": [
+      {
+        "name": "Sicaran Battle Tank",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Herakles-pattern autocannon",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "48\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Armoured Spearhead",
+        "text": "Each time this model makes an attack that targets an enemy unit, re-roll a Hit roll of 1 and, if that unit is within range of an objective marker you do not control, you can re-roll the Hit roll instead."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sicaran Battle Tank"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Herakles-pattern autocannon; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Sicaran Battle Tank"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sicaran-omega",
+    "name": "Sicaran Omega",
+    "points": [
+      {
+        "models": 1,
+        "points": 180
+      }
+    ],
+    "flavor": "Retrofitted to allow the Sicaran hull to carry heavier firepower, the Omega is a formidable tank-hunter with countless victories to its name. The design utilises the speed provided by the Sicaran’s engines to apply overwhelming short-range firepower in battle, racing forwards to ambush and obliterate the lumbering siege tanks of enemy columns.",
+    "profiles": [
+      {
+        "name": "Sicaran Omega",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Omega plasma array – standard",
+        "tags": [],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Omega plasma array – supercharge",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Overwhelming Short-range Firepower",
+        "text": "Each time this model makes an attack that targets the closest eligible enemy unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sicaran Omega"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; omega plasma array; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Sicaran Omega"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sicaran-punisher",
+    "name": "Sicaran Punisher",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "In the final days of the Great Crusade, the punisher rotary cannon was fitted to the versatile hull of the Sicaran Punisher: a formidable war machine capable of obliterating massed infantry and light vehicles with a storm of high-calibre shells.",
+    "profiles": [
+      {
+        "name": "Sicaran Punisher",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Punisher rotary cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "18",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Rotating Death",
+        "text": "This model’s Punisher rotary cannon has the [SUSTAINED HITS 1] ability when targeting INFANTRY units."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sicaran Punisher"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Punisher rotary cannon; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Sicaran Punisher"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sicaran-venator",
+    "name": "Sicaran Venator",
+    "points": [
+      {
+        "models": 1,
+        "points": 180
+      }
+    ],
+    "flavor": "Built on the lauded Sicaran chassis, the Venator is an ancient breed of tank destroyer fitted with a neutron laser system. The Venator’s combination of mobility, protection and anti-armour firepower ensures that those surviving are highly prized by any force fortunate enough to possess them.",
+    "profiles": [
+      {
+        "name": "Sicaran Venator",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Venator neutron laser",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "16",
+        "ap": "-4",
+        "d": "D3+3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Ferocious Assault",
+        "text": "Each time this model makes a ranged attack that targets the closest eligible MONSTER or VEHICLE unit, add 1 to the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sicaran Venator"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Venator neutron laser; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Sicaran Venator"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sokar-pattern-stormbird",
+    "name": "Sokar-pattern Stormbird",
+    "points": [
+      {
+        "models": 1,
+        "points": 900
+      }
+    ],
+    "flavor": "The Stormbird was the design precursor to the Thunderhawk Gunship, conceived as a specialised, high-durability orbital assault craft that could land a Space Marine strike force in the face of heavy ground fire. Though largely superseded by the Thunderhawk, the Stormbird’s capabilities as a mobile bastion and firebase are never overlooked by those factions who still possess it.",
+    "profiles": [
+      {
+        "name": "Sokar-pattern Stormbird",
+        "m": "20\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "40",
+        "ld": "6+",
+        "oc": "0",
+        "inv": "4+",
+        "invNote": "Against ranged attacks only."
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hellstrike missile battery",
+        "tags": [
+          "ANTI-FLY 3+"
+        ],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "9",
+        "ws": "4+",
+        "s": "9",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 2D6, Hover",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Aerial Assault",
+        "text": "Each time a unit with the Deep Strike ability disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-13 wounds remaining",
+      "text": "While this model has 1-13 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Sokar-pattern Stormbird"
+    ],
+    "loadout": "**This model is equipped with:** hellstrike missile battery; 3 twin heavy bolters; 4 twin lascannons; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "transport": "This model has a transport capacity of 55 ADEPTUS ASTARTES INFANTRY or ADEPTUS ASTARTES MOUNTED models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each MOUNTED, CENTURION or OBLITERATOR model takes up the space of 3 models. This model can also transport up to 1 RHINO model (this model – and any models embarked within it – take up the space of 25 models).",
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aircraft",
+      "Transport",
+      "Imperium",
+      "Sokar-pattern Stormbird"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "spartan",
+    "name": "Spartan",
+    "points": [
+      {
+        "models": 1,
+        "points": 300
+      }
+    ],
+    "flavor": "An armoured transport of truly massive proportions, the Spartan is a heavy assault tank created to carry large numbers of troops into the very heart of enemy territory, shrugging off weapons fire that would annihilate lesser vehicles while its quad lascannons claim victims of their own.",
+    "profiles": [
+      {
+        "name": "Spartan",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "6"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Laser destroyer",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Quad lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Spartan"
+    ],
+    "loadout": "**This model is equipped with:** 2 quad lascannons; twin heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s 2 quad lascannons can be replaced with 2 laser destroyers.",
+      "This model’s twin heavy bolter can be replaced with 1 twin heavy flamer.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 multi-melta\n▪ 1 storm bolter"
+    ],
+    "transport": "This model has a transport capacity of 28 ADEPTUS ASTARTES INFANTRY models. Each JUMP PACK, WULFEN, GRAVIS, POSSESSED or TERMINATOR model takes up the space of 2 models and each CENTURION or OBLITERATOR model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Transport",
+      "Smoke",
+      "Spartan"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "stalker",
+    "name": "Stalker",
+    "points": [
+      {
+        "models": 1,
+        "points": 140
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Stalker",
+        "m": "9\"",
+        "t": "11",
+        "sv": "3+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Icarus stormcannon",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Skyfire Protocols",
+        "text": "Each time you target this model with the Overwatch Stratagem just after an enemy unit that can FLY starts or ends a Normal, Advance or Fall Back move, when resolving that Stratagem, in addition to shooting that enemy unit, you can select up to three additional enemy units within 24\" of this model that can FLY; this model can also shoot at each of those units with its Icarus stormcannons (provided each one is an eligible target), but when doing so, an unmodified Hit roll of 6 is required to score a hit."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Stalker"
+    ],
+    "loadout": "**This model is equipped with:** 2 Icarus stormcannons; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Stalker"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "sternguard-veteran-squad",
     "name": "Sternguard Veteran Squad",
     "points": [
@@ -10351,6 +19959,162 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "storm-eagle-gunship",
+    "name": "Storm Eagle Gunship",
+    "points": [
+      {
+        "models": 1,
+        "points": 250
+      }
+    ],
+    "flavor": "The Storm Eagle is a multi-purpose assault and transport vehicle capable of intra-orbital operations, combining generous troop capacity with hard-hitting firepower and excellent handling for a machine of its size. In recent years the number of Storm Eagles in active service has begun to increase, suggesting production has been restored at some as yet unknown location.",
+    "profiles": [
+      {
+        "name": "Storm Eagle Gunship",
+        "m": "-",
+        "t": "10",
+        "sv": "3+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin hellstrike launcher",
+        "tags": [
+          "ANTI-FLY 2+",
+          "TWIN-LINKED"
+        ],
+        "range": "72\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Twin multi-melta",
+        "tags": [
+          "MELTA 2",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Typhoon missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Typhoon missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Vengeance launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Hover",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Armoured Resilience",
+        "text": "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Storm Eagle Gunship"
+    ],
+    "loadout": "**This model is equipped with:** twin heavy bolter; 2 twin hellstrike launchers; vengeance launcher; armoured hull.",
+    "options": [
+      "This model’s twin heavy bolter can be replaced with one of the following:\n▪ 1 twin multi-melta\n▪ 1 typhoon missile launcher",
+      "This model’s 2 twin hellstrike launchers can be replaced with 2 twin lascannons."
+    ],
+    "transport": "This model has a transport capacity of 22 ADEPTUS ASTARTES INFANTRY models and 1 DREADNOUGHT model. Each JUMP PACK, WULFEN, GRAVIS, TERMINATOR or POSSESSED model takes up the space of 2 models and each CENTURION or OBLITERATOR model takes up the space of 3 models.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Transport",
+      "Imperium",
+      "Storm Eagle Gunship"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "storm-speeder-hailstrike",
     "name": "Storm Speeder Hailstrike",
     "points": [
@@ -10445,7 +20209,7 @@ export default [
       "Imperium",
       "Storm Speeder Hailstrike",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10541,7 +20305,7 @@ export default [
       "Imperium",
       "Storm Speeder Hammerstrike",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10638,7 +20402,7 @@ export default [
       "Imperium",
       "Storm Speeder Thunderstrike",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10783,7 +20547,7 @@ export default [
       "Smoke",
       "Stormhawk Interceptor",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10980,7 +20744,7 @@ export default [
       "Stormraven Gunship",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -11114,7 +20878,7 @@ export default [
       "Imperium",
       "Stormtalon Gunship",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -11681,6 +21445,175 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "tarantula-air-defence-battery",
+    "name": "Tarantula Air Defence Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Tarantula Air Defence Battery",
+        "m": "-",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Tarantula air defence missiles",
+        "tags": [
+          "ANTI-FLY 2+",
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Sentry Programming",
+        "text": "You can target this model with the Fire Overwatch Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this turn. This model can only be targeted with that Stratagem once per turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Tarantula Air Defence Battery"
+    ],
+    "loadout": "**This model is equipped with:** Tarantula air defence missiles; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Tarantula Air Defence Battery"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "tarantula-sentry-battery",
+    "name": "Tarantula Sentry Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 30
+      },
+      {
+        "models": 2,
+        "points": 60
+      },
+      {
+        "models": 3,
+        "points": 90
+      }
+    ],
+    "flavor": "Tarantula Sentry Guns are automated weapon systems ideally suited to area denial and deterrent roles. Equipped with simple logic engines and fitted with either lascannons or heavy bolters, they can cut down enemy troops or stop armoured vehicles in their tracks, placing minimal demand on their operators’ attention.",
+    "profiles": [
+      {
+        "name": "Tarantula Sentry Battery",
+        "m": "-",
+        "t": "6",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "1",
+        "ws": "6+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Sentinel Protocols",
+        "text": "Each time you select this unit for the Fire Overwatch Stratagem, hits are scored on unmodified Hit rolls of 4+ when resolving that Stratagem."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Tarantula Sentry Battery"
+    ],
+    "loadout": "**This model is equipped with:** twin heavy bolter; armoured hull.",
+    "options": [
+      "This model’s twin heavy bolter can be replaced with 1 twin lascannon."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Artillery",
+      "Frame",
+      "Imperium",
+      "Tarantula Sentry Battery"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "techmarine",
     "name": "Techmarine",
     "points": [
@@ -11799,6 +21732,266 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "techmarine-on-bike",
+    "name": "Techmarine on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Techmarine on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Conversion beamer",
+        "tags": [
+          "CONVERSION",
+          "SUSTAINED HITS D3"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin boltgun",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Omnissian power axe",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Plasma cutter",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Servo arm",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "1",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Techmarine",
+        "text": "While this model is within 3\" of one or more friendly ADEPTUS ASTARTES VEHICLE units, this model has the Lone Operative ability."
+      },
+      {
+        "name": "Blessing of the Omnissiah",
+        "text": "In your Command phase, you can select one friendly ADEPTUS ASTARTES VEHICLE model within 3\" of this model. That model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE model makes an attack, add 1 to the Hit roll. Each model can only be selected for this ability once per turn."
+      },
+      {
+        "name": "Vengeance of the Omnissiah",
+        "text": "If a friendly ADEPTUS ASTARTES VEHICLE model is destroyed within 12\" of this model, until the end of the battle, this model’s Omnissian power axe has an Attacks characteristic of 7."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 12\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "composition": [
+      "1 Techmarine on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; twin boltgun; Omnissian power axe.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol*\n▪ 1 storm bolter",
+      "This model’s Omnissian power axe can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 thunder hammer",
+      "This model must be equipped with one of the following:\n▪ 1 servo arm\n▪ 1 conversion beamer\n▪ 1 flamer, 1 plasma cutter and 2 servo-arms\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Bike Squad",
+        "Outrider Squad"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Imperium",
+      "Techmarine"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "terminator-assault-squad",
     "name": "Terminator Assault Squad",
     "points": [
@@ -11879,7 +22072,7 @@ export default [
       "Infantry",
       "Terminator",
       "Terminator Assault Squad"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -12038,6 +22231,396 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "terminus-ultra",
+    "name": "Terminus Ultra",
+    "points": [
+      {
+        "models": 1,
+        "points": 285
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Terminus Ultra",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "16",
+        "ld": "6+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Terminus lascannon – overload",
+        "tags": [
+          "HAZARDOUS",
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6+3"
+      },
+      {
+        "name": "Terminus lascannon – standard",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Assault Ramp",
+        "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Terminus Ultra"
+    ],
+    "loadout": "**This model is equipped with:** 3 Terminus lascannons; 2 lascannons; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 multi-melta.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Frame",
+      "Imperium",
+      "Terminus Ultra"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "terrax-pattern-termite",
+    "name": "Terrax-pattern Termite",
+    "points": [
+      {
+        "models": 1,
+        "points": 200
+      }
+    ],
+    "flavor": "Originally designed on Terra for the task of rooting out burrowing xenos species during the Great Crusade, canny commanders quickly found use for the Termite Assault Drill in tearing through the foundations of enemy bastions or emerging behind barricades or trench lines to lay waste to their defenders.",
+    "profiles": [
+      {
+        "name": "Terrax-pattern Termite",
+        "m": "8\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Terrax melta cutter",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "5",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Twin volkite charger",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Termite drill",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "6",
+        "ws": "4+",
+        "s": "14",
+        "ap": "-2",
+        "d": "D3+3"
+      }
+    ],
+    "core": "Deadly Demise D3, Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Termite Assault",
+        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model can disembark after it has been set up on the battlefield, and if they do they must be set up more than 9\" away from all enemy models."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Terrax-pattern Termite"
+    ],
+    "loadout": "**This model is equipped with:** Terrax melta cutter; 2 combi-bolters; Termite drill.",
+    "options": [
+      "This model’s 2 combi-bolters can be replaced with one of the following:\n▪ 2 heavy flamers\n▪ 2 twin volkite chargers"
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTUS ASTARTES INFANTRY models. It cannot transport JUMP PACK, WULFEN, PHOBOS, GRAVIS, CENTURION, TERMINATOR, OBLITERATOR, POSSESSED or TACTICUS models (excluding TACTICUS CHARACTER models that began the battle attached to a non-TACTICUS unit).",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Transport",
+      "Dedicated Transport",
+      "Terrax-pattern Termite"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "thunderfire-cannon",
+    "name": "Thunderfire Cannon",
+    "points": [
+      {
+        "models": 2,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Thunderfire Cannon",
+        "m": "3\"",
+        "t": "6",
+        "sv": "2+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Thunderfire cannon",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "D6+4",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Gunner’s servo-arms",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Plasma cutter",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Tremor Shells",
+        "text": "In your Shooting phase, after this unit has shot, if an enemy INFANTRY unit was hit by one or more attacks made by this unit’s thunderfire cannon this phase, until the end of your opponent’s next turn, that enemy unit is shaken. While a unit is shaken, subtract 2 from that unit’s Move characteristic, and subtract 2 from Advance and Charge rolls made for that unit."
+      },
+      {
+        "name": "Crewed Artillery",
+        "text": "If one model in this unit is destroyed, the remaining model in this unit is also destroyed."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Techmarine Gunner",
+      "1 Thunderfire Cannon"
+    ],
+    "loadout": "**The Techmarine Gunner is equipped with:** bolt pistol; flamer; plasma cutter; Gunner’s servo-arms; close combat weapon.\n\n**The Thunderfire Cannon is equipped with:** thunderfire cannon; close combat weapon.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Artillery",
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Thunderfire Cannon"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "thunderhawk-gunship",
     "name": "Thunderhawk Gunship",
     "points": [
@@ -12164,11 +22747,106 @@ export default [
       "Titanic",
       "Transport",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
     "baseSize": "Unique"
+  },
+  {
+    "id": "thunderhawk-transporter",
+    "name": "Thunderhawk Transporter",
+    "points": [
+      {
+        "models": 1,
+        "points": 495
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Thunderhawk Transporter",
+        "m": "20\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "30",
+        "ld": "6+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hellstrike missile battery",
+        "tags": [
+          "ANTI-FLY 4+"
+        ],
+        "range": "72\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "8",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Hover",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Aerial Deployment",
+        "text": "If this model starts the game in Hover mode and in Strategic Reserves, it can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-10 wounds remaining",
+      "text": "While this model has 1-10 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Thunderhawk Transporter"
+    ],
+    "loadout": "**This model is equipped with:** hellstrike missile battery; 4 twin heavy bolters; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "transport": "This model has a transport capacity of 15 ADEPTUS ASTARTES INFANTRY or ADEPTUS ASTARTES MOUNTED models. Each JUMP PACK, WULFEN, GRAVIS or TERMINATOR model takes up the space of 2 models. Each CENTURION model takes up the space of 3 models. Each MOUNTED model takes up the space of 4 models. This model can also transport up to 2 ADEPTUS ASTARTES VEHICLE models (excluding AIRCRAFT and TITANIC models). Models embarked within TRANSPORT VEHICLES that are themselves being transported by this model do not count towards the transport capacity of this model.",
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aircraft",
+      "Transport",
+      "Imperium",
+      "Thunderhawk Transporter"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "tor-garadon",
@@ -12255,6 +22933,236 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "typhon",
+    "name": "Typhon",
+    "points": [
+      {
+        "models": 1,
+        "points": 320
+      }
+    ],
+    "flavor": "Prior to the creation of the Typhon, the dreadhammer siege cannon had only been utilised on static super-heavy ordnance used to pound cities to dust. Mounting this mighty weapon on a tank created a mobile and heavily armoured fortress-breaker that remains unmatched by any other relics in Space Marine armouries.",
+    "profiles": [
+      {
+        "name": "Typhon",
+        "m": "10\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "18",
+        "ld": "6+",
+        "oc": "6"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Dreadhammer siege cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+6",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Sunderer of Fortresses",
+        "text": "Each time this model makes an attack that targets a VEHICLE, improve the Strength and Damage characteristic of that attack by 1 (if that attack targets a FORTIFICATION unit, improve the Strength and Damage characteristics of that attack by 2 instead)."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Typhon"
+    ],
+    "loadout": "**This model is equipped with:** dreadhammer siege cannon; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with one of the following:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 multi-melta\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Typhon"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "tyrannic-war-veterans",
+    "name": "Tyrannic War Veterans",
+    "points": [
+      {
+        "models": 5,
+        "points": 85
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Tyrannic War Veterans",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "ANTI-TYRANIDS 4+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Boltgun",
+        "tags": [
+          "ANTI-TYRANIDS 4+"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [
+          "ANTI-TYRANIDS 4+"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Tyrannic War Veterans",
+        "text": "Weapons equipped by models in this unit have the [DEVASTATING WOUNDS] ability when targeting TYRANIDS units."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Veteran Sergeant",
+      "4 Tyrannic War Veterans"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Imperium",
+      "Tyrannic War Veterans"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Ultramarines"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "uriel-ventris",
@@ -12360,6 +23268,161 @@ export default [
       "Ultramarines"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "vanguard-veteran-squad",
+    "name": "Vanguard Veteran Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 120
+      },
+      {
+        "models": 10,
+        "points": 240
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Vanguard Veteran Squad",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "2",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grav-pistol",
+        "tags": [
+          "ANTI-VEHICLE 2+",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Inferno pistol",
+        "tags": [
+          "MELTA 2",
+          "PISTOL"
+        ],
+        "range": "6\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-4",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Heirloom weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Scouts 6\"",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Vanguard Assault",
+        "text": "Each time this unit ends a Charge move, until the end of the turn, melee weapons equipped by models in this unit have the [LETHAL HITS] ability."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Storm Shield",
+        "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNITS",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to an Assault Intercessor Squad, it can also be attached to this unit."
+      }
+    ],
+    "composition": [
+      "1 Vanguard Veteran Sergeant",
+      "4-9 Vanguard Veterans"
+    ],
+    "loadout": "**Every model is equipped with:** bolt pistol; heirloom weapon.",
+    "options": [
+      "Any number of models can each have their bolt pistol replaced with one of the following:\n▪ 1 storm shield\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol"
+    ],
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Imperium",
+      "Vanguard Veteran Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "vanguard-veteran-squad-with-jump-packs",
@@ -12548,6 +23611,240 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "venerable-dreadnought",
+    "name": "Venerable Dreadnought",
+    "points": [
+      {
+        "models": 1,
+        "points": 165
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Venerable Dreadnought",
+        "m": "6\"",
+        "t": "9",
+        "sv": "2+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought inferno cannon",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Heavy plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured feet",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dreadnought combat weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Wisdom of the Ancients (Aura)",
+        "text": "While a friendly ADEPTUS ASTARTES INFANTRY unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "composition": [
+      "1 Venerable Dreadnought"
+    ],
+    "loadout": "**This model is equipped with:** assault cannon; storm bolter; armoured feet; Dreadnought combat weapon.",
+    "options": [
+      "This model’s assault cannon can be replaced with one of the following:\n▪ 1 heavy plasma cannon*\n▪ 1 multi-melta\n▪ 1 twin autocannon\n▪ 1 twin heavy bolter\n▪ 1 twin heavy flamer\n▪ 1 twin lascannon\n▪ 1 Dreadnought inferno cannon",
+      "This model’s storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 heavy flamer and 1 Dreadnought combat weapon\n▪ 1 missile launcher*\n▪ 1 twin autocannon\n* The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Smoke",
+      "Imperium",
+      "Venerable",
+      "Dreadnought"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "victrix-honour-guard",
     "name": "Victrix Honour Guard",
     "points": [
@@ -12656,7 +23953,7 @@ export default [
       "Infantry",
       "Tacticus",
       "Victrix Honour Guard"
-        ],
+    ],
     "factionKeywords": [
       "Ultramarines",
       "Adeptus Astartes"
@@ -12770,6 +24067,120 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "vindicator-laser-destroyer",
+    "name": "Vindicator Laser Destroyer",
+    "points": [
+      {
+        "models": 1,
+        "points": 175
+      }
+    ],
+    "flavor": "Eschewing the more indiscriminate firepower of the demolisher cannon, Vindicators fitted with laser destroyers are specialised for the pinpoint destruction of enemy armour. This weapon was first combined with the heavily armoured Deimos chassis during the dark days of the Horus Heresy, and the Vindicator Laser Destroyer’s reputation as a deadly tank-hunter has endured ever since.",
+    "profiles": [
+      {
+        "name": "Vindicator Laser Destroyer",
+        "m": "9\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Laser volley cannon – overcharge fire",
+        "tags": [
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+3"
+      },
+      {
+        "name": "Laser volley cannon – volley fire",
+        "tags": [],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D3+3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Annihilator",
+        "text": "Each time this model makes a ranged attack that targets a MONSTER or VEHICLE unit, re-roll a Damage roll of 1."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Vindicator Laser Destroyer"
+    ],
+    "loadout": "**This model is equipped with:** laser volley cannon; storm bolter; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Vindicator Laser Destroyer"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "vulkan-hestan",
@@ -13177,5 +24588,203 @@ export default [
       "Adeptus Astartes"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "whirlwind-scorpius",
+    "name": "Whirlwind Scorpius",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "flavor": "The Scorpius is a Whirlwind variant designed during the Horus Heresy to engage heavily armoured infantry. As such, surviving examples are a direct and bitter reminder of the mass fratricide that consumed the Emperor’s Legions. The tank’s launch system, targeting mechanisms and ammunition feed are unlike any other model in common use in the 41st Millennium, and are therefore held in awe by Tech-Priests and Techmarines alike.",
+    "profiles": [
+      {
+        "name": "Whirlwind Scorpius",
+        "m": "10\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Scorpius multi-launcher",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "2D3+3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Pinning Bombardment",
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with its Scorpius multi-launcher scored a hit against an enemy INFANTRY unit, that unit must take a Battle-shock test."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Whirlwind Scorpius"
+    ],
+    "loadout": "**This model is equipped with:** Scorpius multi-launcher; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with 1 storm bolter."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Whirlwind Scorpius"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "xiphon-interceptor",
+    "name": "Xiphon Interceptor",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "flavor": "Xiphon-pattern Interceptors are sleek Space Marine combat flyers with an ancient lineage, designed to excel in both void missions and atmospheric strikes. Fitted with a potent combination of lascannons and intelligent warheads, there are few targets the Xiphon cannot reduce to smouldering wreckage.",
+    "profiles": [
+      {
+        "name": "Xiphon Interceptor",
+        "m": "-",
+        "t": "9",
+        "sv": "3+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Xiphon missile battery",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "60\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Interceptor",
+        "text": "Each time this model makes a ranged attack that targets a unit that can FLY, add 1 to the Hit roll."
+      }
+    ],
+    "wargearAbilities": [],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Xiphon Interceptor"
+    ],
+    "loadout": "**This model is equipped with:** 2 twin lascannons; Xiphon missile battery; armoured hull.",
+    "options": [
+      "None"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Imperium",
+      "Xiphon Interceptor"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   }
 ]
