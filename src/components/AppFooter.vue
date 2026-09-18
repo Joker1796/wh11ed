@@ -8,12 +8,12 @@
         <p class="footer-contact">
           <a :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
         </p>
-        <p class="footer-contact">
-          <RouterLink to="/disclaimer">
-            {{ t.footer.disclaimerLink }}
-          </RouterLink>
-        </p>
-        <p class="footer-contact">
+        <!-- The other ways in, as one wrapped row rather than a column of underlined links: on a
+             phone five red lines under "contact the author" read as a link dump, and only the
+             first of them is a contact. Order: the two channels that can answer (the form, the
+             VK group — the one place a bug report gets a reply), then support, then the legal
+             page, quietest. -->
+        <p class="footer-links">
           <button
             type="button"
             class="footer-feedback"
@@ -21,27 +21,27 @@
           >
             {{ fbLabel }}
           </button>
-        </p>
-        <p class="footer-contact">
-          <RouterLink to="/support">
-            {{ t.footer.supportLink }}
-          </RouterLink>
-        </p>
-        <!-- The community — and the one channel where a bug report can get an answer, which the
-             in-app form cannot give. -->
-        <p class="footer-contact">
           <a
             class="footer-vk"
             :href="vkUrl"
             target="_blank"
             rel="noopener"
           ><VkIcon /> {{ t.footer.vkLink }}</a>
+          <RouterLink to="/support">
+            {{ t.footer.supportLink }}
+          </RouterLink>
+          <RouterLink
+            to="/disclaimer"
+            class="footer-quiet"
+          >
+            {{ t.footer.disclaimerLink }}
+          </RouterLink>
         </p>
         <p class="footer-version">
           <RouterLink to="/changelog">
             {{ 'v' + version }}
           </RouterLink>
-          <span class="footer-data-version">{{ t.footer.dataVersionLabel }} {{ dataVersion }}</span>
+          <span class="footer-data-version">· {{ t.footer.dataVersionLabel }} {{ dataVersion }}</span>
         </p>
       </div>
 
@@ -171,7 +171,26 @@ const showDetails = ref(false)
   color: var(--accent-hover);
 }
 
-/* The mark rides at text size beside the label; the underline stays under the words alone. */
+/* The row of ways in: accent text, no underline (the email above keeps its underline — it is
+   the one address to copy), wrapping onto a second line on a phone. */
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.1rem;
+  margin: 0.35rem 0 0;
+}
+.footer-links a,
+.footer-links .footer-feedback {
+  color: var(--accent);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .footer-links a:hover,
+  .footer-links .footer-feedback:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 2px; }
+}
+/* The legal page is the one nobody comes here for: muted, not accent. */
+.footer-links .footer-quiet { color: var(--text-muted); }
+/* The mark rides at text size beside its label. */
 .footer-vk {
   display: inline-flex;
   align-items: center;
@@ -192,12 +211,8 @@ const showDetails = ref(false)
   border: none;
   padding: 0;
   font: inherit;
-  color: inherit;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
-@media (hover: hover) { .footer-feedback:hover { color: var(--accent); } }
 
 .footer-version {
   /* pinned to the bottom of the contact column, level with the tallest column's last line */
@@ -218,9 +233,9 @@ const showDetails = ref(false)
   color: var(--accent);
 }
 
+/* One line with the app version — two stacked mono lines was the tallest thing in the column. */
 .footer-data-version {
-  display: block;
-  margin-top: 0.15rem;
+  margin-left: 0.3rem;
   color: var(--text-muted);
   font-size: 0.68rem;
 }
