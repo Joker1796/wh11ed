@@ -216,6 +216,109 @@ export default [
     ]
   },
   {
+    "id": "blood-slaughterer",
+    "name": "Blood Slaughterer",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Blood Slaughterer is a monstrous, gore-splattered Daemon Engine of brass and iron, forged for the sole purpose of wreaking carnage amongst the enemy. Once awoken by dreadful sacrifice rituals, Blood Slaughterers rend and kill indiscriminately, their every attack an act of profane worship to Khorne.",
+    "profiles": [
+      {
+        "name": "Blood Slaughterer",
+        "m": "12\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Impaler harpoon",
+        "tags": [
+          "ANTI-MONSTER 2+",
+          "ANTI-VEHICLE 2+",
+          "IMPALED"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Slaughter blade",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Twin slaughter blade",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Scuttling Gait",
+        "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in this unit."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Impaled",
+        "text": "Each time this weapon scores a hit against an enemy MONSTER or VEHICLE unit, until the end of the turn, if the bearer selects that unit as a target of a charge, add 2 to Charge rolls made for the bearer."
+      }
+    ],
+    "rules": [
+      {
+        "name": "RENEGADES AND TRAITORS",
+        "text": "This datasheet can be included in World Eaters armies. To do so, replace instances of the HERETIC ASTARTES Faction keyword with the WORLD EATERS Faction keyword, and replace instances of the Dark Pacts ability with Blessings of Khorne. Use the points value listed for the Heretic Astartes version of the datasheet."
+      }
+    ],
+    "composition": [
+      "1 Blood Slaughterer"
+    ],
+    "loadout": "**This model is equipped with:** impaler harpoon; slaughter blade.",
+    "options": [
+      "This model’s impaler harpoon and slaughter blade can be replaced with 1 twin slaughter blade."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Chaos",
+      "Khorne",
+      "Daemon",
+      "Frame",
+      "Blood Slaughterer"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "chaos-bikers",
     "name": "Chaos Bikers",
     "points": [
@@ -427,6 +530,203 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "75x42mm Oval Base"
+  },
+  {
+    "id": "chaos-deimos-predator",
+    "name": "Chaos Deimos Predator",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Deimos Predator",
+        "m": "10\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "11",
+        "ld": "6+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Conversion beam cannon",
+        "tags": [
+          "CONVERSION",
+          "SUSTAINED HITS D3"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Infernus cannon",
+        "tags": [
+          "TORRENT",
+          "IGNORES COVER"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Magna-melta cannon",
+        "tags": [
+          "MELTA 4"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma destroyer – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Plasma destroyer – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Armoured Spearhead",
+        "text": "Each time this model makes an attack that targets an enemy unit, re-roll a Hit roll of 1 and, if that unit is within range of an objective marker you do not control, you can re-roll the Hit roll instead."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack is made with this weapon, if the target is more than 12\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Chaos Deimos Predator"
+    ],
+    "loadout": "**This model is equipped with:** plasma destroyer; armoured tracks.",
+    "options": [
+      "This model’s plasma destroyer can be replaced with one of the following:\n▪ 1 conversion beam cannon\n▪ 1 infernus cannon\n▪ 1 magna-melta cannon",
+      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons",
+      "This model can be equipped with 1 combi-bolter.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Frame",
+      "Chaos",
+      "Deimos Predator"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "chaos-land-raider",
@@ -824,6 +1124,936 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "chaos-lord-on-bike",
+    "name": "Chaos Lord on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Lord on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Paired accursed weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Lord of Chaos",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted with a Stratagem for 0CP, even if another unit from your army has already been targeted with that Stratagem this phase."
+      },
+      {
+        "name": "Swift Assault",
+        "text": "While this model is leading a unit, ranged weapons equipped by models in that unit have the [ASSAULT] ability."
+      }
+    ],
+    "composition": [
+      "1 Chaos Lord on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; combi-bolter; Astartes chainsword; close combat weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 paired accursed weapons."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Chaos Bikers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Chaos Lord on Bike"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "chaos-lord-on-disc-of-tzeentch",
+    "name": "Chaos Lord on Disc of Tzeentch",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Lord on Disc of Tzeentch",
+        "m": "12\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Paired accursed weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Lord of Chaos",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted with a Stratagem for 0CP, even if another unit from your army has already been targeted with that Stratagem this phase."
+      },
+      {
+        "name": "Lord of Fate",
+        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 5+ ability against mortal wounds."
+      }
+    ],
+    "composition": [
+      "1 Chaos Lord on Disc of Tzeentch"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Astartes chainsword; close combat weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 paired accursed weapons."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries",
+        "Rubric Marines"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Tzeentch",
+      "Fly",
+      "Chaos Lord",
+      "Disc of Tzeentch"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "chaos-lord-on-juggernaut",
+    "name": "Chaos Lord on Juggernaut",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Lord on Juggernaut",
+        "m": "10\"",
+        "t": "6",
+        "sv": "2+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Bladed horn",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LANCE"
+        ],
+        "a": "4",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Paired accursed weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Lord of Chaos",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted with a Stratagem for 0CP, even if another unit from your army has already been targeted with that Stratagem this phase."
+      },
+      {
+        "name": "Bloody Stampede",
+        "text": "Each time this model’s unit ends a Charge move, select one enemy unit within Engagement Range of this model and roll one D6: on a 2-3, that enemy unit suffers 1 mortal wound; on a 4-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
+      }
+    ],
+    "composition": [
+      "1 Chaos Lord on Juggernaut"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Astartes chainsword; bladed horn; close combat weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 paired accursed weapons."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chaos Bikers",
+        "Khorne Berzerkers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Khorne",
+      "Chaos Lord",
+      "Juggernaut"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "chaos-lord-on-palanquin-of-nurgle",
+    "name": "Chaos Lord on Palanquin of Nurgle",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Lord on Palanquin of Nurgle",
+        "m": "5\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "8",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Nurgling’s claws and teeth",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "4",
+        "ws": "5+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Paired accursed weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Lord of Chaos",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted with a Stratagem for 0CP, even if another unit from your army has already been targeted with that Stratagem this phase."
+      },
+      {
+        "name": "Revolting Regeneration",
+        "text": "At the start of your Command phase, this model regains up to D3 lost wounds."
+      }
+    ],
+    "composition": [
+      "1 Chaos Lord on Palanquin of Nurgle"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Astartes chainsword; close combat weapon; Nurgling’s claws and teeth.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 paired accursed weapons."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries",
+        "Plague Marines"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Nurgle",
+      "Chaos Lord",
+      "Palanquin of Nurgle"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "chaos-lord-on-steed-of-slaanesh",
+    "name": "Chaos Lord on Steed of Slaanesh",
+    "points": [
+      {
+        "models": 1,
+        "points": 100
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Chaos Lord on Steed of Slaanesh",
+        "m": "14\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Lashing tongue",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Paired accursed weapons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "7",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Lord of Chaos",
+        "text": "Once per battle round, one unit from your army with this ability can be targeted with a Stratagem for 0CP, even if another unit from your army has already been targeted with that Stratagem this phase."
+      },
+      {
+        "name": "Cut Off Their Escape",
+        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of this model’s unit is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests."
+      }
+    ],
+    "composition": [
+      "1 Chaos Lord on Steed of Slaanesh"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Astartes chainsword; close combat weapon; lashing tongue.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist",
+      "This model’s bolt pistol and Astartes chainsword can be replaced with 1 paired accursed weapons."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Chaos Bikers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Slaanesh",
+      "Chaos Lord",
+      "Steed of Slaanesh"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "chaos-lord-with-jump-pack",
@@ -1568,6 +2798,148 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "chaos-thunderhawk",
+    "name": "Chaos Thunderhawk",
+    "points": [
+      {
+        "models": 1,
+        "points": 840
+      }
+    ],
+    "flavor": "So often a symbol of hope and deliverance in the skies above Imperial worlds, Thunderhawk Gunships sworn to Chaos encapsulate the opposite. Sowing ruin with their cannons and missiles, the resilient craft descend like ruthless birds of prey, their fuselages loaded with Chaos Space Marines hungry for conquest and revenge.",
+    "profiles": [
+      {
+        "name": "Chaos Thunderhawk",
+        "m": "20\"",
+        "t": "12",
+        "sv": "2+",
+        "w": "30",
+        "ld": "6+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hellstrike missile battery",
+        "tags": [
+          "ANTI-FLY 4+"
+        ],
+        "range": "72\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Thunderhawk heavy cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6+6",
+        "bs": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Turbo-laser destructor",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "96\"",
+        "a": "D3+1",
+        "bs": "3+",
+        "s": "20",
+        "ap": "-4",
+        "d": "D6+6"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Hover",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Aerial Assault",
+        "text": "Each time a unit with the Deep Strike ability disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Thunderhawk Cluster Bombs",
+        "text": "Each time the bearer ends a Normal move, you can select one enemy unit it moved over during that move and roll six D6: for each 3+, that unit suffers 1 mortal wound."
+      }
+    ],
+    "rules": [
+      {
+        "name": "RENEGADES AND TRAITORS",
+        "text": "This datasheet can be included in Death Guard, Thousand Sons and World Eaters armies. To do so, replace instances of the HERETIC ASTARTES Faction keyword with the DEATH GUARD, THOUSAND SONS or WORLD EATERS Faction keyword respectively, and replace instances of the Dark Pacts ability with Nurgle’s Gift (Aura) (Death Guard) or Blessings of Khorne (World Eaters), or remove them (Thousand Sons). Use the points value listed for the Heretic Astartes version of the datasheet."
+      }
+    ],
+    "damaged": {
+      "note": "1-10 wounds remaining",
+      "text": "While this model has 1-10 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Chaos Thunderhawk"
+    ],
+    "loadout": "**This model is equipped with:** 2 lascannons; Thunderhawk heavy cannon; 4 twin heavy bolters; armoured hull; Thunderhawk cluster bombs.",
+    "options": [
+      "This model’s Thunderhawk heavy cannon can be replaced with 1 turbo-laser destructor.",
+      "This model’s Thunderhawk cluster bombs can be replaced with 1 hellstrike missile battery."
+    ],
+    "transport": "This model has a transport capacity of 30 HERETIC ASTARTES INFANTRY or HERETIC ASTARTES MOUNTED models. Each JUMP PACK, POSSESSED and TERMINATOR model takes up the space of 2 models. Each OBLITERATOR model takes up the space of 3 models. Each MOUNTED model takes up the space of 4 models.",
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aircraft",
+      "Transport",
+      "Chaos",
+      "Thunderhawk"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "chaos-vindicator",
     "name": "Chaos Vindicator",
     "points": [
@@ -2036,6 +3408,177 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "cultist-mob-with-firearms",
+    "name": "Cultist Mob with Firearms",
+    "points": [
+      {
+        "models": 10,
+        "points": 50
+      },
+      {
+        "models": 20,
+        "points": 100
+      }
+    ],
+    "flavor": "Chaos Cultists are the mortal devotees of the Dark Gods, ordinary men and women fallen to promises of temporal power who take to battle in huge numbers. Bearing a motley collection of improvised, stolen and makeshift weapons, they can overwhelm even determined enemies with sheer weight of numbers.",
+    "profiles": [
+      {
+        "name": "Cultist Mob with Firearms",
+        "m": "6\"",
+        "t": "3",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autogun",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Autopistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – krak",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Brutal assault weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "For the Dark Gods",
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
+      }
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a CHARACTER unit from your army with the Leader ability can be attached to a Cultist Mob, it can be attached to this unit instead."
+      }
+    ],
+    "composition": [
+      "1 Cultist Champion",
+      "9-19 Chaos Cultists"
+    ],
+    "loadout": "**The Cultist Champion is equipped with:** autopistol; brutal assault weapon.\n\n**Every Chaos Cultist is equipped with:** autopistol; brutal assault weapon.",
+    "options": [
+      "The Cultist Champion’s autopistol can be replaced with 1 bolt pistol.",
+      "Any number of models can each have their autogun and close combat weapon replaced with 1 autopistol and 1 brutal assault weapon.",
+      "For every 10 models in this unit, 1 Chaos Cultist’s autogun can be replaced with 1 flamer.",
+      "For every 10 models in this unit, 1 Chaos Cultist’s autogun can be replaced with 1 heavy stubber.",
+      "For every 10 models in this unit, 1 Chaos Cultist’s autogun can be replaced with 1 grenade launcher."
+    ],
+    "keywords": [
+      "Infantry",
+      "Battleline",
+      "Grenades",
+      "Chaos",
+      "Damned",
+      "Cultist Mob with Firearms"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "cypher",
     "name": "Cypher",
     "points": [
@@ -2407,6 +3950,155 @@ export default [
     ]
   },
   {
+    "id": "decimator",
+    "name": "Decimator",
+    "points": [
+      {
+        "models": 1,
+        "points": 165
+      }
+    ],
+    "flavor": "Decimators are horrific amalgamations of Human and xenos technology, brought to unholy life by the darkest warp sorceries and all but impossible to completely destroy. While some Decimators accompany Chaos warbands as siege engines, others mysteriously appear upon the bloodiest of battlefields, stepping from the warp to burn and slay.",
+    "profiles": [
+      {
+        "name": "Decimator",
+        "m": "10\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "12",
+        "ld": "6+",
+        "oc": "4",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Decimator butcher cannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Decimator conversion beamer",
+        "tags": [
+          "CONVERSION",
+          "SUSTAINED HITS D3"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Hellflamer",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Soulburner petard",
+        "tags": [
+          "ANTI-INFANTRY 3+",
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS"
+        ],
+        "range": "24\"",
+        "a": "4",
+        "bs": "3+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm laser",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "8",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Decimator claw",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Twin Decimator claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Infernal Regeneration",
+        "text": "The first time this model is destroyed, remove it from play without resolving its Deadly Demise ability. Then, at the end of the phase, roll one D6: on a 2+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with D6 wounds remaining."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Conversion",
+        "text": "Each time an attack made with this weapon targets a unit more than 12\" from the bearer, an unmodified successful Hit roll of 4+ scores a Critical Hit."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Decimator"
+    ],
+    "loadout": "**This model is equipped with:** 2 Decimator butcher cannons; armoured feet.",
+    "options": [
+      "Each of this model’s Decimator butcher cannons can be replaced with one of the following:\n▪ 1 Decimator conversion beamer\n▪ 1 soulburner petard\n▪ 1 storm laser\n▪ 1 hellflamer and 1 Decimator claw",
+      "Both of this model’s Decimator butcher cannons can be replaced with 1 twin Decimator claw and 2 hellflamers."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Chaos",
+      "Daemon",
+      "Decimator"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "defiler",
     "name": "Defiler",
     "points": [
@@ -2609,6 +4301,170 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "160mm"
+  },
+  {
+    "id": "dreadclaw-drop-pod",
+    "name": "Dreadclaw Drop Pod",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "flavor": "Since the dark days of the Horus Heresy, Dreadclaws have been a feared sight in void actions and planetary conflicts alike, their distinctive bladed hulls slicing through the flames of battle to disgorge elite Astartes assault troops. Though phased out by the loyalist Space Marine Chapters, Dreadclaws still form the spear-tip of many Heretic Astartes terror raids.",
+    "profiles": [
+      {
+        "name": "Dreadclaw Drop Pod",
+        "m": "12\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "9",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Blade struts",
+        "tags": [],
+        "a": "8",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Dreadclaw Assault",
+        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model can disembark after it has been set up on the battlefield, and if they do they must be set up more than 9\" away from all enemy models."
+      }
+    ],
+    "composition": [
+      "1 Dreadclaw Drop Pod"
+    ],
+    "loadout": "**This model is equipped with:** blade struts.",
+    "options": [
+      "None."
+    ],
+    "transport": "This model has a transport capacity of 12 HERETIC ASTARTES INFANTRY models. Each JUMP PACK, POSSESSED and TERMINATOR model takes up the space of 2 models. Each OBLITERATOR model takes up the space of 3 models. This model can instead transport 1 HELBRUTE or DREADNOUGHT model.",
+    "keywords": [
+      "Vehicle",
+      "Chaos",
+      "Transport",
+      "Fly",
+      "Frame",
+      "Dreadclaw Drop Pod"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "exalted-champion",
+    "name": "Exalted Champion",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "flavor": "These murderous champions of the Dark Gods exhort their fellow traitors by example. The fell deeds they commit and the violent bloodbaths they unleash – ostensibly supporting their overlord’s strategies – are often wrought solely to further the Exalted Champion’s own goals as they aspire to even greater glory.",
+    "profiles": [
+      {
+        "name": "Exalted Champion",
+        "m": "6\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Exalted weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Support",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Dark Champion",
+        "text": "While this model is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll."
+      },
+      {
+        "name": "Aspire to Glory",
+        "text": "Each time this model’s unit makes a Dark Pact, until the end of the phase, add D3 to the Strength characteristic of weapons equipped by this model."
+      }
+    ],
+    "composition": [
+      "1 Exalted Champion"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; combi-weapon; exalted weapon.",
+    "options": [
+      "None."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries"
+      ],
+      "footer": "You can attach this model to one of the above units even if one other CHARACTER model has already been attached to it (a unit cannot have two Exalted Champions attached to it). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Exalted Champion"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "fabius-bile",
@@ -2989,6 +4845,320 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "120x92mm Oval Base"
+  },
+  {
+    "id": "gellerpox-infected",
+    "name": "Gellerpox Infected",
+    "points": [
+      {
+        "models": 7,
+        "points": 125
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Nightmare Hulk",
+        "m": "5\"",
+        "t": "5",
+        "sv": "6+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "Gellerpox Mutants",
+        "m": "5\"",
+        "t": "5",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Belly-flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Brutal weapons",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hideous mutations",
+        "tags": [],
+        "a": "4",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 5+",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Fearsome (Aura)",
+        "text": "While an enemy unit is within 6\" of this unit, each time that enemy unit takes a Battle-shock or Leadership test, subtract 1 from the result."
+      }
+    ],
+    "composition": [
+      "4 Nightmare Hulks",
+      "3 Gellerpox Mutants"
+    ],
+    "loadout": "**Every Gellerpox Mutant is equipped with:** brutal weapons.\n\n**One Nightmare Hulk is equipped with:** belly-flamer; hideous mutations.\n\n**Every other Nightmare Hulk is equipped with:** hideous mutations.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Nurgle",
+      "Gellerpox Infected"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "greater-blight-drone",
+    "name": "Greater Blight Drone",
+    "points": [
+      {
+        "models": 1,
+        "points": 150
+      }
+    ],
+    "flavor": "Blight Drones are nightmarish hovering killers, their weapons capable of sending swathes of enemy infantry to an unspeakably vile death. Often encountered in swarms on worlds falling to Chaos, Blight Drones act very much in the manner of carrion flies, drawn to ongoing bloodshed and concentrations of the dead.",
+    "profiles": [
+      {
+        "name": "Greater Blight Drone",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bile maw",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Blightreaper cannon",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Greater plague probe",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Hovering Death",
+        "text": "This model is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      }
+    ],
+    "rules": [
+      {
+        "name": "RENEGADES AND TRAITORS",
+        "text": "This datasheet can be included in Death Guard armies. To do so, replace instances of the HERETIC ASTARTES Faction keyword with the DEATH GUARD Faction keyword and replace instances of the Dark Pacts ability with Nurgle’s Gift (Aura). Use the points value listed for the Heretic Astartes version of the datasheet."
+      }
+    ],
+    "composition": [
+      "1 Greater Blight Drone"
+    ],
+    "loadout": "**This model is equipped with:** bile maw; blightreaper cannon; greater plague probe.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Chaos",
+      "Nurgle",
+      "Daemon",
+      "Greater Blight Drone"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "greater-brass-scorpion",
+    "name": "Greater Brass Scorpion",
+    "points": [
+      {
+        "models": 1,
+        "points": 500
+      }
+    ],
+    "flavor": "More rampaging beasts than war machines, Brass Scorpions are monstrous fusions of armour plating and daemonic flesh that delight in destruction. Whether blasting apart the enemy at range with their scorpion cannon and soulburner cannon, or engulfing nearby targets with their hellmaw cannons, Brass Scorpions are terrifying embodiments of Khorne’s wrath.",
+    "profiles": [
+      {
+        "name": "Greater Brass Scorpion",
+        "m": "12\"",
+        "t": "12",
+        "sv": "3+",
+        "w": "26",
+        "ld": "6+",
+        "oc": "10",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Demolisher cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Hellmaw flame cannons",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "2D6",
+        "bs": "N/A",
+        "s": "8",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Scorpion cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "15",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Hellcrusher claws – strike",
+        "tags": [],
+        "a": "6",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-3",
+        "d": "6"
+      },
+      {
+        "name": "Hellcrusher claws – sweep",
+        "tags": [],
+        "a": "18",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Super-heavy Walker",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Runes of the Blood God",
+        "text": "This model has the Feel No Pain 4+ ability against mortal wounds and Psychic Attacks."
+      }
+    ],
+    "rules": [
+      {
+        "name": "RENEGADES AND TRAITORS",
+        "text": "This datasheet can be included in World Eaters armies. To do so, replace instances of the HERETIC ASTARTES Faction keyword with the WORLD EATERS Faction keyword, and replace instances of the Dark Pacts ability with Blessings of Khorne. Use the points value listed for the Heretic Astartes version of the datasheet."
+      }
+    ],
+    "damaged": {
+      "note": "1-9 wounds remaining",
+      "text": "While this model has 1-9 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Greater Brass Scorpion"
+    ],
+    "loadout": "**This model is equipped with:** demolisher cannon; Scorpion cannon; hellmaw flame cannons; hellcrusher claws.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Walker",
+      "Chaos",
+      "Khorne",
+      "Frame",
+      "Daemon",
+      "Greater Brass Scorpion"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "haarken-worldclaimer",
@@ -3628,6 +5798,194 @@ export default [
     "baseSize": "120x92mm Oval Base"
   },
   {
+    "id": "hell-blade",
+    "name": "Hell Blade",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Hell Blade",
+        "m": "-",
+        "t": "8",
+        "sv": "3+",
+        "w": "10",
+        "ld": "6+",
+        "oc": "-",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Interceptor",
+        "text": "Each time this model makes a ranged attack that targets a unit that can FLY, add 1 to the Hit roll."
+      }
+    ],
+    "composition": [
+      "1 Hell Blade"
+    ],
+    "loadout": "**This model is equipped with:** 2 twin autocannons; armoured hull.",
+    "options": [
+      "This model’s 2 twin autocannons can be replaced with 2 twin lascannons."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Chaos",
+      "Aircraft",
+      "Fly",
+      "Hell Blade"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "hell-talon",
+    "name": "Hell Talon",
+    "points": [
+      {
+        "models": 1,
+        "points": 140
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Hell Talon",
+        "m": "-",
+        "t": "9",
+        "sv": "3+",
+        "w": "14",
+        "ld": "6+",
+        "oc": "-",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Havoc launcher",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Bomb Rack",
+        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved across during that move and roll six D6: for each 3+, that unit suffers 1 mortal wound."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Hell Talon"
+    ],
+    "loadout": "**This model is equipped with:** autocannon; twin lascannon; armoured hull.",
+    "options": [
+      "This model’s autocannon can be replaced with 1 havoc launcher."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Chaos",
+      "Aircraft",
+      "Fly",
+      "Hell Talon"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "heretic-astartes-daemon-prince",
     "name": "Heretic Astartes Daemon Prince",
     "points": [
@@ -3931,6 +6289,109 @@ export default [
     "baseSize": "50mm"
   },
   {
+    "id": "kharybdis-assault-claw",
+    "name": "Kharybdis Assault Claw",
+    "points": [
+      {
+        "models": 1,
+        "points": 300
+      }
+    ],
+    "flavor": "The Kharybdis is a powerful ship-to-ship assault pod able to insert a large complement of Heretic Astartes warriors into enemy vessels or war zones on the ground. Far more than a simple shuttle, the Kharybdis is also a threat in its own right, capable of showering target areas with its storm launchers or even ramming enemy vehicles and burning through thick steel and ceramite with melta cutters designed to breach starships.",
+    "profiles": [
+      {
+        "name": "Kharybdis Assault Claw",
+        "m": "12\"",
+        "t": "11",
+        "sv": "3+",
+        "w": "20",
+        "ld": "6+",
+        "oc": "4"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Kharybdis storm launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kharybdis storm launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Blade struts",
+        "tags": [],
+        "a": "12",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Melta array",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "1",
+        "ws": "4+",
+        "s": "12",
+        "ap": "-4",
+        "d": "D6+2"
+      }
+    ],
+    "core": "Deep Strike, Deadly Demise D6+2",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Kharybdis Assault",
+        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model can disembark after it has been set up on the battlefield, and if they do they must be set up more than 9\" away from all enemy models."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Kharybdis Assault Claw"
+    ],
+    "loadout": "**This model is equipped with:** 5 Kharybdis storm launchers; blade struts; melta array.",
+    "options": [
+      "None."
+    ],
+    "transport": "This model has a transport capacity of 22 HERETIC ASTARTES INFANTRY models. Each JUMP PACK, POSSESSED and TERMINATOR model takes up the space of 2 models. Each OBLITERATOR model takes up the space of 3 models. This model can instead transport 1 HELBRUTE or DREADNOUGHT model.",
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Chaos",
+      "Transport",
+      "Fly",
+      "Frame",
+      "Kharybdis Assault Claw"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "khorne-lord-of-skulls",
     "name": "Khorne Lord of Skulls",
     "points": [
@@ -4187,6 +6648,101 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "50mm"
+  },
+  {
+    "id": "kytan-ravager",
+    "name": "Kytan Ravager",
+    "points": [
+      {
+        "models": 1,
+        "points": 400
+      }
+    ],
+    "flavor": "Forged by the most malign Warsmiths as an act of devotion to Khorne, Kytan Daemon Engines carve murderous paths across the battlefields of the 41st Millennium, their brazen hides slick with blood and gore. Kytan Ravagers’ thirst for slaughter is unquenchable, and they do not relent until they have eviscerated all who dare oppose them.",
+    "profiles": [
+      {
+        "name": "Kytan Ravager",
+        "m": "10\"",
+        "t": "12",
+        "sv": "3+",
+        "w": "24",
+        "ld": "6+",
+        "oc": "10",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Kytan gatling cannon",
+        "tags": [],
+        "range": "36\"",
+        "a": "18",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Kytan cleaver – strike",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "14",
+        "ap": "-4",
+        "d": "6"
+      },
+      {
+        "name": "Kytan cleaver – sweep",
+        "tags": [],
+        "a": "12",
+        "ws": "3+",
+        "s": "9",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "core": "Deadly Demise D6+2, Super-heavy Walker",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Bloodlust",
+        "text": "Each time this model makes a Charge move, until the end of the turn, its melee weapons have the [SUSTAINED HITS 1] ability. In addition, once per battle, this model is eligible to declare a charge in a turn in which it Advanced."
+      }
+    ],
+    "rules": [
+      {
+        "name": "RENEGADES AND TRAITORS",
+        "text": "This datasheet can be included in World Eaters armies. To do so, replace instances of the HERETIC ASTARTES Faction keyword with the WORLD EATERS Faction keyword, and replace instances of the Dark Pacts ability with Blessings of Khorne. Use the points value listed for the Heretic Astartes version of the datasheet."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Kytan Ravager"
+    ],
+    "loadout": "**This model is equipped with:** Kytan gatling cannon; Kytan cleaver.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Walker",
+      "Chaos",
+      "Khorne",
+      "Daemon",
+      "Kytan Ravager"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "legionaries",
@@ -4684,7 +7240,7 @@ export default [
         "Legionaries",
         "Nemesis Claw",
         "Red Corsairs Raiders"
-      ],
+      ]
     },
     "keywords": [
       "Character",
@@ -5181,6 +7737,136 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "50mm"
+  },
+  {
+    "id": "mutoid-vermin",
+    "name": "Mutoid Vermin",
+    "points": [
+      {
+        "models": 16,
+        "points": 85
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Mutoid Vermin",
+        "m": "8\"",
+        "t": "2",
+        "sv": "7+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "0"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Diseased claws and fangs",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Feel No Pain 6+",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Mischief Makers (Aura)",
+        "text": "While an enemy unit (excluding MONSTERS and VEHICLES) is within 6\" of this unit, each time a model in that unit makes a melee attack, subtract 1 from the Hit roll."
+      }
+    ],
+    "composition": [
+      "16 Mutoid Vermin"
+    ],
+    "loadout": "**Every model is equipped with:** diseased claws and fangs.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Swarm",
+      "Chaos",
+      "Damned",
+      "Nurgle",
+      "Mutoid Vermin"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "negavolt-cultists",
+    "name": "Negavolt Cultists",
+    "points": [
+      {
+        "models": 4,
+        "points": 55
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Negavolt Cultists",
+        "m": "6\"",
+        "t": "3",
+        "sv": "7+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Electro-goads",
+        "tags": [
+          "SUSTAINED HITS 2"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Feel No Pain 5+",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Voltagheist Field",
+        "text": "Each time this unit ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
+      }
+    ],
+    "rules": [
+      {
+        "name": "SERVANTS OF THE ABYSS",
+        "text": "If a unit from your army with the Leader ability can be attached to a Cultist Mob, it can be attached to this unit instead."
+      }
+    ],
+    "composition": [
+      "4 Negavolt Cultists"
+    ],
+    "loadout": "**Every model is equipped with:** electro-goads.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Negavolt Cultists"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "nemesis-claw",
@@ -5911,7 +8597,7 @@ export default [
       "Infantry",
       "Jump Pack",
       "Raptors"
-        ],
+    ],
     "factionKeywords": [
       "Heretic Astartes"
     ],
@@ -6182,6 +8868,656 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "renegade-enforcer",
+    "name": "Renegade Enforcer",
+    "points": [
+      {
+        "models": 1,
+        "points": 65
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Renegade Enforcer",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autogun",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Enforcer pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Lasgun",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Shotgun",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "12\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Enforcer melee weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Brutal Example",
+        "text": "While this model is leading a unit, you can target that unit with the Insane Bravery Stratagem for 0CP, and can do so even if another unit from your army has already been targeted with that Stratagem this phase. Each time you use this ability, one Bodyguard model in that unit is destroyed."
+      },
+      {
+        "name": "Enforcer",
+        "text": "This model’s unit is eligible to declare a charge in a turn in which it Fell Back."
+      }
+    ],
+    "composition": [
+      "1 Renegade Enforcer"
+    ],
+    "loadout": "**This model is equipped with:** Enforcer pistol; Enforcer melee weapon.",
+    "options": [
+      "This model’s Enforcer pistol can be replaced with one of the following:\n▪ 1 autogun\n▪ 1 lasgun\n▪ 1 shotgun",
+      "This model’s Enforcer melee weapon can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Traitor Guardsmen Squad",
+        "Renegade Heavy Weapons Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Grenades",
+      "Character",
+      "Renegade Enforcer"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "renegade-heavy-weapons-squad",
+    "name": "Renegade Heavy Weapons Squad",
+    "points": [
+      {
+        "models": 3,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Renegade Heavy Weapons Squad",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "5+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Missile launcher – frag",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Missile launcher – krak",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Mortar",
+        "tags": [
+          "BLAST",
+          "HEAVY",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Renegade firearm",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Covering Fire",
+        "text": "Each time you target this unit with the Fire Overwatch Stratagem, while resolving that Stratagem, hits are scored on unmodified Hit rolls of 5+."
+      }
+    ],
+    "rules": [
+      {
+        "name": "HEAVY WEAPONS TEAM",
+        "text": "For the purposes of embarking within TRANSPORTS, each Renegade Heavy Weapons Team model counts as two models."
+      }
+    ],
+    "composition": [
+      "3 Renegade Heavy Weapons Teams"
+    ],
+    "loadout": "**Every model is equipped with:** renegade firearm; heavy stubber; close combat weapons.",
+    "options": [
+      "Any number of models’ heavy stubbers can each be replaced with one of the following:\n▪ 1 autocannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 mortar"
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Grenades",
+      "Renegade Heavy Weapons Squad"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "renegade-ogryn-beast-handler",
+    "name": "Renegade Ogryn Beast Handler",
+    "points": [
+      {
+        "models": 4,
+        "points": 40
+      },
+      {
+        "models": 7,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Ogryn Pack Master",
+        "m": "6\"",
+        "t": "6",
+        "sv": "5+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "Chaos Mauler Hound",
+        "m": "6\"",
+        "t": "4",
+        "sv": "6+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Befouled claws and fangs",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Mauler goad and ripper claw",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Beastmaster",
+        "text": "While this unit contains an Ogryn Pack Master model, you can re-roll Charge rolls made for this unit, and each time a Chaos Mauler Hound model in this unit makes an attack, re-roll a Hit roll of 1."
+      }
+    ],
+    "composition": [
+      "1 Ogryn Pack Master",
+      "3 Chaos Mauler Hounds"
+    ],
+    "loadout": "**The Ogryn Pack Master is equipped with:** mauler goad and ripper claw.\n\n**Every Chaos Mauler Hound is equipped with:** befouled claws and fangs.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Beasts",
+      "Chaos",
+      "Damned",
+      "Renegade Ogryn Beast Handler"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "renegade-ogryn-brutes",
+    "name": "Renegade Ogryn Brutes",
+    "points": [
+      {
+        "models": 3,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Renegade Ogryn Brutes",
+        "m": "6\"",
+        "t": "6",
+        "sv": "5+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Ogryn power drill",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "10",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Ogryn weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Ogryn Combat Stimms",
+        "text": "Each time a model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 4+, do not remove it from play; that destroyed model can fight after the attacking model’s unit has finished making its attacks, and is then removed from play."
+      }
+    ],
+    "rules": [
+      {
+        "name": "OGRYNS",
+        "text": "For the purposes of embarking within TRANSPORTS, each Renegade Ogryn Brute model counts as one TERMINATOR model."
+      }
+    ],
+    "composition": [
+      "3 Renegade Ogryn Brutes"
+    ],
+    "loadout": "**Every model is equipped with:** Ogryn weapon.",
+    "options": [
+      "One model’s Ogryn weapon can be replaced with 1 Ogryn power drill."
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Renegade Ogryn Brutes"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "renegade-plague-ogryns",
+    "name": "Renegade Plague Ogryns",
+    "points": [
+      {
+        "models": 3,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Renegade Plague Ogryns",
+        "m": "5\"",
+        "t": "7",
+        "sv": "5+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Ogryn plague claws",
+        "tags": [
+          "LETHAL HITS"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 6+",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Wall of Muscle",
+        "text": "Each time an attack is allocated to a model in this unit, subtract 1 from the Damage characteristic of that attack."
+      }
+    ],
+    "rules": [
+      {
+        "name": "OGRYNS",
+        "text": "For the purposes of embarking within TRANSPORTS, each Renegade Plague Ogryn model counts as one TERMINATOR model."
+      }
+    ],
+    "composition": [
+      "3 Renegade Plague Ogryns"
+    ],
+    "loadout": "**Every model is equipped with:** Ogryn plague claws.",
+    "options": [
+      "None."
+    ],
+    "keywords": [
+      "Infantry",
+      "Chaos",
+      "Damned",
+      "Nurgle",
+      "Renegade Plague Ogryns"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "rogue-psyker",
+    "name": "Rogue Psyker",
+    "points": [
+      {
+        "models": 1,
+        "points": 60
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Rogue Psyker",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Laspistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Psychic Strike – focused witchfire",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "12\"",
+        "a": "D6+3",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Psychic Strike – witchfire",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS",
+          "PSYCHIC"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chaos stave",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "1",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Cursed Wardings (Psychic)",
+        "text": "While this model is leading a unit, models in that unit have the Feel No Pain 4+ ability against Psychic Attacks."
+      },
+      {
+        "name": "Psychic Barrier (Psychic)",
+        "text": "At the start of your opponent’s Shooting phase, you can roll one D6: on a 1, this PSYKER’s unit suffers D3 mortal wounds; on a 2+, until the end of the phase, models in this PSYKER’s unit have a 4+ invulnerable save."
+      }
+    ],
+    "composition": [
+      "1 Rogue Psyker"
+    ],
+    "loadout": "**This model is equipped with:** laspistol; Psychic Strike; Chaos stave.",
+    "options": [
+      "None."
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Accursed Cultists",
+        "Cultist Mob",
+        "Negavolt Cultists"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Psyker",
+      "Chaos",
+      "Damned",
+      "Rogue Psyker"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "sorcerer",
     "name": "Sorcerer",
     "points": [
@@ -6426,6 +9762,804 @@ export default [
       "Heretic Astartes"
     ],
     "baseSize": "40mm"
+  },
+  {
+    "id": "sorcerer-on-bike",
+    "name": "Sorcerer on Bike",
+    "points": [
+      {
+        "models": 1,
+        "points": 75
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sorcerer on Bike",
+        "m": "12\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Infernal Gaze – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Infernal Gaze – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Prescience (Psychic)",
+        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll."
+      },
+      {
+        "name": "Unholy Power",
+        "text": "Each time this model’s unit makes a Dark Pact, until the end of the phase, each time this model makes a Psychic Attack, add 1 to the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 Sorcerer on Bike"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; combi-bolter; Infernal Gaze; force weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 power fist"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Chaos Bikers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Psyker",
+      "Sorcerer on Bike"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sorcerer-on-disc-of-tzeentch",
+    "name": "Sorcerer on Disc of Tzeentch",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sorcerer on Disc of Tzeentch",
+        "m": "12\"",
+        "t": "4",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Infernal Gaze – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Infernal Gaze – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Flames of Change (Psychic)",
+        "text": "While this model is leading a unit, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+      },
+      {
+        "name": "Altered Reality (Psychic)",
+        "text": "Once per battle round, after a Hit roll, a Wound roll or a saving throw is made for this model, you can change the result of that roll to a 6."
+      }
+    ],
+    "composition": [
+      "1 Sorcerer on Disc of Tzeentch"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Infernal Gaze; force weapon.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 power fist"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries",
+        "Rubric Marines"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Psyker",
+      "Tzeentch",
+      "Fly",
+      "Sorcerer",
+      "Disc of Tzeentch"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sorcerer-on-palanquin-of-nurgle",
+    "name": "Sorcerer on Palanquin of Nurgle",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sorcerer on Palanquin of Nurgle",
+        "m": "5\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "7",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Infernal Gaze – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Infernal Gaze – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Nurgling’s claws and teeth",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "4",
+        "ws": "5+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Gift of Poxes (Psychic)",
+        "text": "While this model is leading a unit, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability."
+      },
+      {
+        "name": "Feculent Despair (Aura, Psychic)",
+        "text": "While an enemy unit is within 6\" of this model, each time that unit takes a Battle-shock test, subtract 1 from that test."
+      }
+    ],
+    "composition": [
+      "1 Sorcerer on Palanquin of Nurgle"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Infernal Gaze; force weapon; Nurgling’s claws and teeth.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 power fist"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries",
+        "Plague Marines"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Psyker",
+      "Nurgle",
+      "Sorcerer",
+      "Palanquin of Nurgle"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sorcerer-on-steed-of-slaanesh",
+    "name": "Sorcerer on Steed of Slaanesh",
+    "points": [
+      {
+        "models": 1,
+        "points": 85
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sorcerer on Steed of Slaanesh",
+        "m": "14\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Combi-weapon",
+        "tags": [
+          "ANTI-INFANTRY 4+",
+          "DEVASTATING WOUNDS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Infernal Gaze – focused witchfire",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "HAZARDOUS",
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Infernal Gaze – witchfire",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Accursed weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Astartes chainsword",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Force weapon",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      },
+      {
+        "name": "Lashing tongue",
+        "tags": [
+          "EXTRA ATTACKS",
+          "LETHAL HITS"
+        ],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Dark Pacts",
+    "abilities": [
+      {
+        "name": "Dark Favour (Psychic)",
+        "text": "While this model is leading a unit, models in that unit have a 4+ invulnerable save."
+      },
+      {
+        "name": "Infernal Speed",
+        "text": "While this model is leading a unit, change the Move characteristic of models in that unit to 14\"."
+      }
+    ],
+    "composition": [
+      "1 Sorcerer on Steed of Slaanesh"
+    ],
+    "loadout": "**This model is equipped with:** bolt pistol; Infernal Gaze; force weapon; lashing tongue.",
+    "options": [
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 power fist"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Chaos Bikers"
+      ]
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Grenades",
+      "Chaos",
+      "Slaanesh",
+      "Sorcerer",
+      "Steed of Slaanesh"
+    ],
+    "factionKeywords": [
+      "Heretic Astartes"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "traitor-enforcer",
@@ -6986,7 +11120,7 @@ export default [
       "Infantry",
       "Jump Pack",
       "Warp Talons"
-        ],
+    ],
     "factionKeywords": [
       "Heretic Astartes"
     ],

@@ -30,6 +30,33 @@ const DAEMON_ALLEGIANCE_BLOCK = {
   Slaanesh: SLAANESH_MOD,
 }
 
+// Legends из Faction Pack v1.2: Lord of Chaos там напечатан в старой редакции, не как в кодексе.
+const LORD_OF_CHAOS_LEGENDS =
+  'Один раз за раунд боя один юнит вашей армии с этой способностью может быть выбран целью стратагемы за 0 CP, даже если другой юнит вашей армии уже был выбран целью этой стратагемы в эту фазу.'
+const OGRYNS_RU = (unit) =>
+  `При погрузке в TRANSPORTS каждая модель ${unit} считается за одну модель TERMINATOR.`
+const ASSAULT_POD_RU =
+  'Эта модель обязана начать битву в Резерве, но ни она, ни погружённые в неё юниты не учитываются в любых ограничениях на максимальное число юнитов в Резерве, с которыми вы можете начать битву. Эта модель может быть развёрнута на шаге Подкреплений вашей первой, второй или третьей фазы перемещения, независимо от любых правил миссии. Любые юниты, погружённые в эту модель, могут высадиться после того, как она развёрнута на поле боя, и если они это делают, их нужно разместить дальше 9" от всех вражеских моделей.'
+const POD_TRANSPORT_RU = (n) =>
+  `Эта модель имеет транспортную вместимость ${n} моделей HERETIC ASTARTES INFANTRY. Каждая модель JUMP PACK, POSSESSED и TERMINATOR занимает место 2 моделей. Каждая модель OBLITERATOR занимает место 3 моделей. Вместо этого эта модель может перевозить 1 модель HELBRUTE или DREADNOUGHT.`
+const SORC_LEGENDS_OPTIONS = [
+  'bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 combi-bolter\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 power fist',
+]
+const lordLegendsOptions = (withCombiBolter = true) => [
+  `bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol${withCombiBolter ? '\n▪ 1 combi-bolter' : ''}\n▪ 1 combi-weapon\n▪ 1 accursed weapon\n▪ 1 power fist`,
+  'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 bolt pistol\n▪ 1 plasma pistol\n▪ 1 accursed weapon\n▪ 1 power fist',
+  'bolt pistol и Astartes chainsword этой модели можно заменить на 1 paired accursed weapons.',
+]
+// «Renegades and Traitors» (стр. 102 пака): какие листы Legends могут брать другие фракции Heretic Astartes.
+const RENEGADES_WE_RU =
+  'Этот лист данных можно включить в армию World Eaters. Для этого замените на нём ключевое слово фракции HERETIC ASTARTES на WORLD EATERS, а способность Dark Pacts — на Blessings of Khorne. Используйте стоимость в очках, указанную для версии Heretic Astartes этого листа.'
+const RENEGADES_DG_RU =
+  'Этот лист данных можно включить в армию Death Guard. Для этого замените на нём ключевое слово фракции HERETIC ASTARTES на DEATH GUARD, а способность Dark Pacts — на Nurgle’s Gift (Aura). Используйте стоимость в очках, указанную для версии Heretic Astartes этого листа.'
+const RENEGADES_ALL_RU =
+  'Этот лист данных можно включить в армию Death Guard, Thousand Sons или World Eaters. Для этого замените на нём ключевое слово фракции HERETIC ASTARTES соответственно на DEATH GUARD, THOUSAND SONS или WORLD EATERS, а способность Dark Pacts — на Nurgle’s Gift (Aura) (Death Guard) или Blessings of Khorne (World Eaters) либо уберите её (Thousand Sons). Используйте стоимость в очках, указанную для версии Heretic Astartes этого листа.'
+const dmgOcMinus = (range, oc) =>
+  `Пока у этой модели осталось ${range} ран, вычтите ${oc} из характеристики Контроля целей (OC) этой модели, и каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
+
 export default {
   'abaddon-the-despoiler': {
     // Search-only aliases: they affect Ctrl+K only, never shown as the unit's name.
@@ -871,6 +898,401 @@ export default {
     loadout: `${EQUIP_THIS} flamer tendril; melta tendril; plasma pistol; forge weapon.`,
     leader: { text: LEADER_TEXT },
   },
+
+  // Warhammer Legends, from the Faction Pack v1.2 (pp. 40–101): no lore in the pack for most of these sheets.
+  'blood-slaughterer': {
+    flavor:
+      'Blood Slaughterer — чудовищный, забрызганный кровью Daemon Engine из латуни и железа, выкованный с единственной целью: сеять резню среди врагов. Пробуждённые жуткими жертвенными ритуалами, Blood Slaughterer рвут и убивают без разбора, и каждая их атака — акт нечестивого поклонения Кхорну.',
+    abilities: {
+      'Scuttling Gait':
+        'Каждый раз, когда этот юнит совершает рывок, не делайте для него бросок рывка. Вместо этого до конца фазы прибавьте 6" к характеристике Перемещения (Move) моделей этого юнита.',
+    },
+    wargear: {
+      Impaled:
+        'Каждый раз, когда это оружие наносит попадание по вражескому юниту MONSTER или VEHICLE, до конца хода, если носитель выбирает этот юнит целью нападения, прибавьте 2 к броскам нападения, сделанным для носителя.',
+    },
+    rules: { 'RENEGADES AND TRAITORS': RENEGADES_WE_RU },
+    loadout: `${EQUIP_THIS} impaler harpoon; slaughter blade.`,
+    options: ['impaler harpoon и slaughter blade этой модели можно заменить на 1 twin slaughter blade.'],
+  },
+
+  'chaos-deimos-predator': {
+    abilities: {
+      'Armoured Spearhead':
+        'Каждый раз, когда эта модель совершает атаку по вражескому юниту, перебросьте бросок попадания, равный 1, и, если этот юнит находится в радиусе маркера цели, который вы не контролируете, вы можете вместо этого перебросить бросок попадания.',
+    },
+    wargear: {
+      Conversion:
+        'Каждый раз, когда этим оружием совершается атака, если цель находится более чем в 12" от носителя, немодифицированный успешный бросок попадания 4+ считается критическим попаданием.',
+    },
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+    loadout: `${EQUIP_THIS} plasma destroyer; armoured tracks.`,
+    options: [
+      'plasma destroyer этой модели можно заменить на одно из следующего:\n▪ 1 conversion beam cannon\n▪ 1 infernus cannon\n▪ 1 magna-melta cannon',
+      'Эту модель можно снабдить одним из следующего:\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons',
+      'Эту модель можно снабдить 1 combi-bolter.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+  },
+
+  'chaos-lord-on-bike': {
+    abilities: {
+      'Lord of Chaos': LORD_OF_CHAOS_LEGENDS,
+      'Swift Assault':
+        'Пока эта модель возглавляет юнит, оружие дальнего боя моделей этого юнита имеет способность [ASSAULT].',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; combi-bolter; Astartes chainsword; close combat weapon.`,
+    options: lordLegendsOptions(false),
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+
+  'chaos-lord-on-disc-of-tzeentch': {
+    abilities: {
+      'Lord of Chaos': LORD_OF_CHAOS_LEGENDS,
+      'Lord of Fate':
+        'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 5+ против смертельных ран.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword; close combat weapon.`,
+    options: lordLegendsOptions(),
+    leader: { text: LEADER_TEXT },
+  },
+
+  'chaos-lord-on-juggernaut': {
+    abilities: {
+      'Lord of Chaos': LORD_OF_CHAOS_LEGENDS,
+      'Bloody Stampede':
+        'Каждый раз, когда юнит этой модели завершает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от этой модели и бросьте один D6: на 2–3 этот вражеский юнит получает 1 смертельную рану; на 4–5 — D3 смертельные раны; на 6 — D3+3 смертельные раны.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword; bladed horn; close combat weapon.`,
+    options: lordLegendsOptions(),
+    leader: { text: LEADER_TEXT },
+  },
+
+  'chaos-lord-on-palanquin-of-nurgle': {
+    abilities: {
+      'Lord of Chaos': LORD_OF_CHAOS_LEGENDS,
+      'Revolting Regeneration': 'В начале вашей фазы командования эта модель восстанавливает до D3 потерянных ран.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword; close combat weapon; Nurgling’s claws and teeth.`,
+    options: lordLegendsOptions(),
+    leader: { text: LEADER_TEXT },
+  },
+
+  'chaos-lord-on-steed-of-slaanesh': {
+    abilities: {
+      'Lord of Chaos': LORD_OF_CHAOS_LEGENDS,
+      'Cut Off Their Escape':
+        'Каждый раз, когда вражеский юнит (исключая MONSTERS и VEHICLES) в дистанции ввязывания юнита этой модели выбирается для отступления, модели этого вражеского юнита обязаны пройти проверки Desperate Escape, как если бы их юнит был в боевом шоке. При этом, если этот вражеский юнит также в боевом шоке по другим причинам, вычтите 1 из каждой из этих проверок Desperate Escape.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Astartes chainsword; close combat weapon; lashing tongue.`,
+    options: lordLegendsOptions(),
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+
+  'chaos-thunderhawk': {
+    flavor:
+      'Столь часто символ надежды и избавления в небесах имперских миров, Thunderhawk Gunship, присягнувшие Хаосу, воплощают обратное. Сея разрушение пушками и ракетами, живучие машины пикируют, как безжалостные хищные птицы, а их фюзеляжи набиты Chaos Space Marines, жадными до завоеваний и мести.',
+    abilities: {
+      'Aerial Assault':
+        'Каждый раз, когда юнит со способностью Deep Strike высаживается из этой модели после того, как она совершила обычный манёвр, этот юнит по-прежнему может объявить нападение в этот ход.',
+    },
+    wargear: {
+      'Thunderhawk Cluster Bombs':
+        'Каждый раз, когда носитель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым он прошёл в этом манёвре, и бросить шесть D6: за каждый 3+ этот юнит получает 1 смертельную рану.',
+    },
+    rules: { 'RENEGADES AND TRAITORS': RENEGADES_ALL_RU },
+    damaged: { note: 'осталось 1–10 ран', text: dmgHitMinus('1–10') },
+    loadout: `${EQUIP_THIS} 2 lascannons; Thunderhawk heavy cannon; 4 twin heavy bolters; armoured hull; Thunderhawk cluster bombs.`,
+    options: [
+      'Thunderhawk heavy cannon этой модели можно заменить на 1 turbo-laser destructor.',
+      'Thunderhawk cluster bombs этой модели можно заменить на 1 hellstrike missile battery.',
+    ],
+    transport:
+      'Эта модель имеет транспортную вместимость 30 моделей HERETIC ASTARTES INFANTRY или HERETIC ASTARTES MOUNTED. Каждая модель JUMP PACK, POSSESSED и TERMINATOR занимает место 2 моделей. Каждая модель OBLITERATOR занимает место 3 моделей. Каждая модель MOUNTED занимает место 4 моделей.',
+  },
+
+  'cultist-mob-with-firearms': {
+    flavor:
+      'Chaos Cultist — смертные приверженцы Тёмных Богов, обычные мужчины и женщины, павшие перед посулами мирской власти, что идут в бой огромными толпами. С пёстрым набором самодельного, краденого и импровизированного оружия они способны задавить даже упорного врага чистой массой.',
+    abilities: {
+      'For the Dark Gods':
+        'В конце вашей фазы командования, если этот юнит находится в радиусе маркера цели, который вы контролируете, этот маркер цели остаётся под вашим контролем, пока Уровень контроля (Level of Control) вашего оппонента над этим маркером не окажется больше вашего в конце какой-либо фазы.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если юнит CHARACTER из вашей армии со способностью Leader может быть присоединён к Cultist Mob, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout:
+      '**Cultist Champion вооружён:** autopistol; brutal assault weapon.\n\n**Каждый Chaos Cultist вооружён:** autopistol; brutal assault weapon.',
+    options: [
+      'autopistol у Cultist Champion можно заменить на 1 bolt pistol.',
+      'Любому числу моделей можно заменить autogun и close combat weapon на 1 autopistol и 1 brutal assault weapon.',
+      'На каждые 10 моделей в этом юните autogun у 1 Chaos Cultist можно заменить на 1 flamer.',
+      'На каждые 10 моделей в этом юните autogun у 1 Chaos Cultist можно заменить на 1 heavy stubber.',
+      'На каждые 10 моделей в этом юните autogun у 1 Chaos Cultist можно заменить на 1 grenade launcher.',
+    ],
+  },
+
+  'decimator': {
+    flavor:
+      'Decimator — чудовищные сплавы человеческих и ксенотехнологий, пробуждённые к нечестивой жизни темнейшими варп-чарами и почти неуничтожимые. Одни Decimator сопровождают банды Хаоса как осадные машины, другие загадочно возникают на самых кровавых полях боя, выходя из Варпа, чтобы жечь и убивать.',
+    abilities: {
+      'Infernal Regeneration':
+        'В первый раз, когда эта модель уничтожается, уберите её из игры, не отыгрывая её способность Deadly Demise. Затем в конце фазы бросьте один D6: на 2+ выставьте эту модель обратно на поле боя как можно ближе к месту, где она была уничтожена, и не в дистанции ввязывания любых вражеских юнитов, с D6 оставшимися ранами.',
+    },
+    wargear: {
+      Conversion:
+        'Каждый раз, когда атака этим оружием нацеливается на юнит более чем в 12" от носителя, немодифицированный успешный бросок попадания 4+ считается критическим попаданием.',
+    },
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+    loadout: `${EQUIP_THIS} 2 Decimator butcher cannons; armoured feet.`,
+    options: [
+      'Каждую Decimator butcher cannon этой модели можно заменить на одно из следующего:\n▪ 1 Decimator conversion beamer\n▪ 1 soulburner petard\n▪ 1 storm laser\n▪ 1 hellflamer и 1 Decimator claw',
+      'Обе Decimator butcher cannon этой модели можно заменить на 1 twin Decimator claw и 2 hellflamers.',
+    ],
+  },
+
+  'dreadclaw-drop-pod': {
+    flavor:
+      'С тёмных дней Ереси Хоруса Dreadclaw наводят страх и в пустотных боях, и в наземных конфликтах: их характерные клинковидные корпуса прорезают пламя битвы, чтобы извергнуть элитные штурмовые войска Астартес. Хотя лоялистские ордена космодесанта от них отказались, Dreadclaw по-прежнему остриё многих рейдов устрашения Heretic Astartes.',
+    abilities: { 'Dreadclaw Assault': ASSAULT_POD_RU },
+    loadout: `${EQUIP_THIS} blade struts.`,
+    options: ['Нет.'],
+    transport: POD_TRANSPORT_RU(12),
+  },
+
+  'exalted-champion': {
+    flavor:
+      'Эти кровожадные чемпионы Тёмных Богов вдохновляют собратьев-предателей личным примером. Злодеяния, которые они творят, и кровавые бойни, которые устраивают, — якобы в поддержку замыслов своего повелителя, — зачастую служат лишь целям самого Exalted Champion, стремящегося к ещё большей славе.',
+    abilities: {
+      'Dark Champion':
+        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку, прибавьте 1 к броску попадания.',
+      'Aspire to Glory':
+        'Каждый раз, когда юнит этой модели совершает Dark Pact, до конца фазы прибавьте D3 к характеристике Силы (Strength) оружия этой модели.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; combi-weapon; exalted weapon.`,
+    options: ['Нет.'],
+    leader: {
+      text: LEADER_TEXT,
+      footer:
+        'Вы можете присоединить эту модель к одному из юнитов выше, даже если к нему уже присоединена одна другая модель CHARACTER (к юниту нельзя присоединить двух Exalted Champion). Если так, и этот юнит-телохранитель уничтожается, присоединённые к нему юниты-лидеры становятся отдельными юнитами со своими исходными начальными численностями.',
+    },
+  },
+
+  'gellerpox-infected': {
+    abilities: {
+      'Fearsome (Aura)':
+        'Пока вражеский юнит находится в пределах 6" от этого юнита, каждый раз, когда этот вражеский юнит проходит проверку боевого шока или лидерства, вычтите 1 из результата.',
+    },
+    loadout:
+      '**Каждый Gellerpox Mutant вооружён:** brutal weapons.\n\n**Один Nightmare Hulk вооружён:** belly-flamer; hideous mutations.\n\n**Каждый другой Nightmare Hulk вооружён:** hideous mutations.',
+    options: ['Нет.'],
+  },
+
+  'greater-blight-drone': {
+    flavor:
+      'Blight Drone — кошмарные парящие убийцы, чьё оружие способно отправить целые толпы вражеской пехоты на невыразимо мерзкую смерть. Часто встречаемые роями на мирах, падающих под власть Хаоса, Blight Drone ведут себя во многом как падальные мухи, которых влечёт к идущему кровопролитию и скоплениям мёртвых.',
+    abilities: {
+      'Hovering Death': 'Эта модель может стрелять и объявлять нападение в ход, в который она отступала.',
+    },
+    rules: { 'RENEGADES AND TRAITORS': RENEGADES_DG_RU },
+    loadout: `${EQUIP_THIS} bile maw; blightreaper cannon; greater plague probe.`,
+    options: ['Нет.'],
+  },
+
+  'greater-brass-scorpion': {
+    flavor:
+      'Скорее буйствующие звери, чем боевые машины, Brass Scorpion — чудовищные сплавы бронеплит и демонической плоти, упивающиеся разрушением. Разносят ли они врага на расстоянии из scorpion cannon и soulburner cannon или охватывают ближние цели пламенем hellmaw cannon, Brass Scorpion — ужасающее воплощение гнева Кхорна.',
+    abilities: {
+      'Runes of the Blood God':
+        'Эта модель имеет способность Feel No Pain 4+ против смертельных ран и психических атак.',
+    },
+    rules: { 'RENEGADES AND TRAITORS': RENEGADES_WE_RU },
+    damaged: { note: 'осталось 1–9 ран', text: dmgOcMinus('1–9', 5) },
+    loadout: `${EQUIP_THIS} demolisher cannon; Scorpion cannon; hellmaw flame cannons; hellcrusher claws.`,
+    options: ['Нет.'],
+  },
+
+  'hell-blade': {
+    abilities: {
+      Interceptor:
+        'Каждый раз, когда эта модель совершает дальнобойную атаку по юниту, что может FLY, прибавьте 1 к броску попадания.',
+    },
+    loadout: `${EQUIP_THIS} 2 twin autocannons; armoured hull.`,
+    options: ['2 twin autocannons этой модели можно заменить на 2 twin lascannons.'],
+  },
+
+  'hell-talon': {
+    abilities: {
+      'Bomb Rack':
+        'Каждый раз, когда эта модель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым она прошла в этом манёвре, и бросить шесть D6: за каждый 3+ этот юнит получает 1 смертельную рану.',
+    },
+    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
+    loadout: `${EQUIP_THIS} autocannon; twin lascannon; armoured hull.`,
+    options: ['autocannon этой модели можно заменить на 1 havoc launcher.'],
+  },
+
+  'kharybdis-assault-claw': {
+    flavor:
+      'Kharybdis — мощная абордажная капсула, способная высадить крупный отряд воинов Heretic Astartes на вражеские корабли или в зоны боевых действий на земле. Куда больше, чем простой челнок, Kharybdis и сама по себе угроза: она способна засыпать целевые районы огнём storm launcher или даже таранить вражескую технику и прожигать толстую сталь и керамит мелта-резаками, созданными для вскрытия звездолётов.',
+    abilities: { 'Kharybdis Assault': ASSAULT_POD_RU },
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
+    loadout: `${EQUIP_THIS} 5 Kharybdis storm launchers; blade struts; melta array.`,
+    options: ['Нет.'],
+    transport: POD_TRANSPORT_RU(22),
+  },
+
+  'kytan-ravager': {
+    flavor:
+      'Выкованные самыми злокозненными Warsmith как акт поклонения Кхорну, Daemon Engine Kytan прокладывают кровавые пути по полям боя 41-го тысячелетия, и их латунные шкуры лоснятся от крови и требухи. Жажда резни у Kytan Ravager неутолима, и они не отступают, пока не выпотрошат всех, кто посмел встать у них на пути.',
+    abilities: {
+      Bloodlust:
+        'Каждый раз, когда эта модель совершает манёвр нападения, до конца хода её оружие ближнего боя имеет способность [SUSTAINED HITS 1]. Кроме того, один раз за битву эта модель может объявить нападение в ход, в который она совершила рывок.',
+    },
+    rules: { 'RENEGADES AND TRAITORS': RENEGADES_WE_RU },
+    damaged: { note: 'осталось 1–8 ран', text: dmgOcMinus('1–8', 5) },
+    loadout: `${EQUIP_THIS} Kytan gatling cannon; Kytan cleaver.`,
+    options: ['Нет.'],
+  },
+
+  'mutoid-vermin': {
+    abilities: {
+      'Mischief Makers (Aura)':
+        'Пока вражеский юнит (исключая MONSTERS и VEHICLES) находится в пределах 6" от этого юнита, каждый раз, когда модель этого юнита совершает атаку ближнего боя, вычтите 1 из броска попадания.',
+    },
+    loadout: `${EQUIP_EVERY} diseased claws and fangs.`,
+    options: ['Нет.'],
+  },
+
+  'negavolt-cultists': {
+    abilities: {
+      'Voltagheist Field':
+        'Каждый раз, когда этот юнит завершает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от него и бросьте один D6 за каждую модель этого юнита: за каждый 4+ этот вражеский юнит получает 1 смертельную рану.',
+    },
+    rules: {
+      'SERVANTS OF THE ABYSS':
+        'Если юнит из вашей армии со способностью Leader может быть присоединён к Cultist Mob, он может быть присоединён к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} electro-goads.`,
+    options: ['Нет.'],
+  },
+
+  'renegade-enforcer': {
+    abilities: {
+      'Brutal Example':
+        'Пока эта модель возглавляет юнит, вы можете нацелить стратагему Insane Bravery на этот юнит за 0 CP, и можете сделать это, даже если вы уже нацелили эту стратагему на другой юнит из вашей армии в эту фазу. Каждый раз, когда вы задействуете эту способность, одна модель-Bodyguard в этом юните уничтожается.',
+      Enforcer: 'Юнит этой модели может объявить нападение в ход, в который он отступал.',
+    },
+    loadout: `${EQUIP_THIS} Enforcer pistol; Enforcer melee weapon.`,
+    options: [
+      'Enforcer pistol этой модели можно заменить на одно из следующего:\n▪ 1 autogun\n▪ 1 lasgun\n▪ 1 shotgun',
+      'Enforcer melee weapon этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'renegade-heavy-weapons-squad': {
+    abilities: {
+      'Covering Fire':
+        'Каждый раз, когда вы нацеливаете стратагему Fire Overwatch на этот юнит, при отыгрыше этой стратагемы попадания засчитываются на немодифицированных бросках попадания 5+.',
+    },
+    rules: {
+      'HEAVY WEAPONS TEAM': 'При погрузке в TRANSPORTS каждая модель Renegade Heavy Weapons Team считается за две модели.',
+    },
+    loadout: `${EQUIP_EVERY} renegade firearm; heavy stubber; close combat weapons.`,
+    options: [
+      'Любому числу моделей можно заменить heavy stubber на одно из следующего:\n▪ 1 autocannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 mortar',
+    ],
+  },
+
+  'renegade-ogryn-beast-handler': {
+    abilities: {
+      Beastmaster:
+        'Пока этот юнит содержит модель Ogryn Pack Master, вы можете перебрасывать броски нападения, сделанные для этого юнита, и каждый раз, когда модель Chaos Mauler Hound этого юнита совершает атаку, перебросьте бросок попадания, равный 1.',
+    },
+    loadout:
+      '**Ogryn Pack Master вооружён:** mauler goad and ripper claw.\n\n**Каждый Chaos Mauler Hound вооружён:** befouled claws and fangs.',
+    options: ['Нет.'],
+  },
+
+  'renegade-ogryn-brutes': {
+    abilities: {
+      'Ogryn Combat Stimms':
+        'Каждый раз, когда модель этого юнита уничтожается атакой ближнего боя, если эта модель ещё не сражалась в эту фазу, бросьте один D6. На 4+ не убирайте её из игры; эта уничтоженная модель может сражаться после того, как юнит атакующей модели завершит свои атаки, и затем убирается из игры.',
+    },
+    rules: { OGRYNS: OGRYNS_RU('Renegade Ogryn Brute') },
+    loadout: `${EQUIP_EVERY} Ogryn weapon.`,
+    options: ['Ogryn weapon у одной модели можно заменить на 1 Ogryn power drill.'],
+  },
+
+  'renegade-plague-ogryns': {
+    abilities: {
+      'Wall of Muscle':
+        'Каждый раз, когда атака распределяется по модели этого юнита, вычтите 1 из характеристики Урона (Damage) этой атаки.',
+    },
+    rules: { OGRYNS: OGRYNS_RU('Renegade Plague Ogryn') },
+    loadout: `${EQUIP_EVERY} Ogryn plague claws.`,
+    options: ['Нет.'],
+  },
+
+  'rogue-psyker': {
+    abilities: {
+      'Cursed Wardings (Psychic)':
+        'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 4+ против психических атак.',
+      'Psychic Barrier (Psychic)':
+        'В начале фазы стрельбы вашего оппонента вы можете бросить один D6: на 1 юнит этого PSYKER получает D3 смертельные раны; на 2+ до конца фазы модели юнита этого PSYKER имеют инвулевый спас-бросок 4+.',
+    },
+    loadout: `${EQUIP_THIS} laspistol; Psychic Strike; Chaos stave.`,
+    options: ['Нет.'],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'sorcerer-on-bike': {
+    abilities: {
+      'Prescience (Psychic)':
+        'Пока эта модель возглавляет юнит, каждый раз, когда атака нацеливается на этот юнит, вычтите 1 из броска попадания.',
+      'Unholy Power':
+        'Каждый раз, когда юнит этой модели совершает Dark Pact, до конца фазы каждый раз, когда эта модель совершает психическую атаку, прибавьте 1 к броску ранения.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; combi-bolter; Infernal Gaze; force weapon.`,
+    options: SORC_LEGENDS_OPTIONS,
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+
+  'sorcerer-on-disc-of-tzeentch': {
+    abilities: {
+      'Flames of Change (Psychic)':
+        'Пока эта модель возглавляет юнит, оружие дальнего боя моделей этого юнита имеет способность [IGNORES COVER].',
+      'Altered Reality (Psychic)':
+        'Один раз за раунд боя, после того как для этой модели сделан бросок попадания, бросок ранения или спас-бросок, вы можете изменить результат этого броска на 6.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Infernal Gaze; force weapon.`,
+    options: SORC_LEGENDS_OPTIONS,
+    leader: { text: LEADER_TEXT },
+  },
+
+  'sorcerer-on-palanquin-of-nurgle': {
+    abilities: {
+      'Gift of Poxes (Psychic)':
+        'Пока эта модель возглавляет юнит, оружие моделей этого юнита имеет способность [SUSTAINED HITS 1].',
+      'Feculent Despair (Aura, Psychic)':
+        'Пока вражеский юнит находится в пределах 6" от этой модели, каждый раз, когда этот юнит проходит проверку боевого шока, вычтите 1 из этой проверки.',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Infernal Gaze; force weapon; Nurgling’s claws and teeth.`,
+    options: SORC_LEGENDS_OPTIONS,
+    leader: { text: LEADER_TEXT },
+  },
+
+  'sorcerer-on-steed-of-slaanesh': {
+    abilities: {
+      'Dark Favour (Psychic)': 'Пока эта модель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 4+.',
+      'Infernal Speed':
+        'Пока эта модель возглавляет юнит, измените характеристику Перемещения (Move) моделей этого юнита на 14".',
+    },
+    loadout: `${EQUIP_THIS} bolt pistol; Infernal Gaze; force weapon; lashing tongue.`,
+    options: SORC_LEGENDS_OPTIONS,
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
 }
 
 export const abilityNamesRu = {
@@ -971,4 +1393,47 @@ export const abilityNamesRu = {
   'Mind-breaking Mutations (Aura)': 'Разум-ломающие мутации (Аура)',
   Despoilers: 'Осквернители',
   'Siege Shield': 'Осадный щит',
+  // Legends (Faction Pack)
+  'Scuttling Gait': 'Семенящая поступь',
+  Impaled: 'Насаживание',
+  'RENEGADES AND TRAITORS': 'Ренегаты и предатели',
+  'Armoured Spearhead': 'Бронированный наконечник',
+  Conversion: 'Конверсия',
+  'Swift Assault': 'Стремительный штурм',
+  'Lord of Fate': 'Владыка судьбы',
+  'Bloody Stampede': 'Кровавая давка',
+  'Revolting Regeneration': 'Отвратительная регенерация',
+  'Cut Off Their Escape': 'Отрежь им отход',
+  'Aerial Assault': 'Воздушный штурм',
+  'Thunderhawk Cluster Bombs': 'Кассетные бомбы «Тандерхок»',
+  'ATTACHED UNIT': 'Присоединяемый юнит',
+  'Infernal Regeneration': 'Инфернальная регенерация',
+  'Dreadclaw Assault': 'Штурм Dreadclaw',
+  'Dark Champion': 'Тёмный чемпион',
+  'Aspire to Glory': 'Стремление к славе',
+  'Hovering Death': 'Парящая смерть',
+  'Runes of the Blood God': 'Руны Кровавого Бога',
+  Interceptor: 'Перехватчик',
+  'Bomb Rack': 'Бомбовая стойка',
+  'Kharybdis Assault': 'Штурм Kharybdis',
+  Bloodlust: 'Жажда крови',
+  'Mischief Makers (Aura)': 'Зачинщики бед (Аура)',
+  'Voltagheist Field': 'Вольтагейст-поле',
+  'SERVANTS OF THE ABYSS': 'Слуги Бездны',
+  Enforcer: 'Надсмотрщик',
+  'Covering Fire': 'Прикрывающий огонь',
+  'HEAVY WEAPONS TEAM': 'Расчёт тяжёлого оружия',
+  Beastmaster: 'Повелитель зверей',
+  'Ogryn Combat Stimms': 'Боевые стимуляторы огринов',
+  OGRYNS: 'Огрины',
+  'Wall of Muscle': 'Стена мышц',
+  'Cursed Wardings (Psychic)': 'Проклятые обереги (Психика)',
+  'Psychic Barrier (Psychic)': 'Психический барьер (Психика)',
+  'Unholy Power': 'Нечестивая мощь',
+  'Flames of Change (Psychic)': 'Пламя перемен (Психика)',
+  'Altered Reality (Psychic)': 'Изменённая реальность (Психика)',
+  'Gift of Poxes (Psychic)': 'Дар моров (Психика)',
+  'Feculent Despair (Aura, Psychic)': 'Гнилостное отчаяние (Аура, Психика)',
+  'Dark Favour (Psychic)': 'Тёмная милость (Психика)',
+  'Infernal Speed': 'Инфернальная скорость',
 }
