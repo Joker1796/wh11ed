@@ -800,7 +800,10 @@ function nearName(words, name) {
 // every one of those items is stored with an ASCII hyphen. Character-level only and
 // length-preserving, so the match offsets that order the set stay meaningful; `norm` is not usable
 // here because it also strips a trailing "(...)", which belongs to names and not to sentences.
-const flatText = (s) => (s || '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[‐‑–—]/g, '-')
+// …and one row breaks a hyphenated name across a space ("1 neo- volkite pistol" on the Space
+// Marine Lieutenant, found by a player 2026-09-18): a hyphen glued to the letter before it and
+// followed by whitespace is that typo, never a spaced dash (" - "), so the space goes.
+const flatText = (s) => (s || '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[‐‑–—]/g, '-').replace(/(?<=[a-z])-\s+(?=[a-z])/g, '-')
 
 // The group's own items named in one statement, in order, with the count written in front of
 // them ("2 Mortifier flamers"). Longest name first so a name containing another ("master-crafted

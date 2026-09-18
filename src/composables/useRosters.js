@@ -10,7 +10,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 7
+export const SCHEMA_VERSION = 8
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -152,6 +152,23 @@ export function migrateRoster(r, v) {
       u.id = V7_ORKS_RENAMED[u.id] || u.id
       delete u.wg
       if (V7_ORKS_RESIZED.has(u.id)) { delete u.size; delete u.count }
+    }
+  }
+
+  // → v8: the v6 event once more, on one datasheet and one group. appdata's instruction for the
+  // Space Marine Lieutenant's shield loadout breaks a name across a space ("1 neo- volkite
+  // pistol"), so the three items it grants together were read as three separate options; a
+  // player found the list could not take the pistol and the shield at once (2026-09-18). The
+  // generator now reads through that space and the group is ONE bundled option, so a pick stored
+  // in it points at nothing — that group's picks go, the Lieutenant's other groups keep theirs.
+  // Group 1 of the sheet, in every Chapter's list (the sheet is shared, and the id may carry a
+  // faction prefix as an allied unit does).
+  if (!(v >= 8)) {
+    for (const u of r.units || []) {
+      if (/(^|\/)lieutenant$/.test(u.id || '') && Array.isArray(u.wg)) {
+        u.wg = u.wg.filter(([g]) => g !== 1)
+        if (!u.wg.length) delete u.wg
+      }
     }
   }
   return r

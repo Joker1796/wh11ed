@@ -31,6 +31,7 @@ export const changelog = [
       'Legends points for every faction come from the Munitorum Field Manual\u2019s own Legends section; the Orks\u2019 Lootas get their 3rd+ copy tier.',
       'On a datasheet the Legends mark is a badge in the corner of the statline, not a sentence under the name — a long Legends name no longer breaks a letter per line on a phone. Hover or hold the badge for what it means.',
       { h: 'Fixes' },
+      'Roster builder: the Space Marine Lieutenant can take his shield loadout — neo-volkite pistol, master-crafted power weapon and storm shield together, as the datasheet says — instead of one of the three. A saved list\u2019s pick in that one group is cleared; its other picks stay.',
       'The datasheet\u2019s name plate and the card go edge-to-edge together; at a window around 500px wide the plate stayed inset while the card already reached the screen edge.',
     ],
     ru: [
@@ -45,6 +46,7 @@ export const changelog = [
       'Очки Legends у всех фракций берутся из раздела Legends самого Munitorum Field Manual; у орочьих Lootas появилась наценка за 3-ю и последующие копии.',
       'На датащите пометка Legends — бейдж в углу полосы характеристик, а не предложение под именем: длинное имя Legends-юнита на телефоне больше не ломается по букве в строке. Что она значит — по наведению или долгому нажатию на бейдж.',
       { h: 'Починено' },
+      'Конструктор ростеров: лейтенанту Space Marines можно взять комплект со щитом — neo-volkite pistol, master-crafted power weapon и storm shield вместе, как на датащите, — а не одно из трёх. У сохранённого листа выбор в этой одной группе сбрасывается; остальные выборы остаются.',
       'Плашка с именем датащита и карточка уходят в край экрана вместе; при окне около 500px плашка оставалась в отступах, когда карточка уже была во всю ширину.',
     ],
   },

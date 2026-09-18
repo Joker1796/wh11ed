@@ -255,6 +255,34 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v8', () => {
+  // The Space Marine Lieutenant's shield loadout became one bundled option (the instruction
+  // spelled "neo- volkite" with a space, so its three items had been three options). Only the
+  // picks in THAT group go; the other groups' picks and everything else stay, and no other
+  // datasheet is touched.
+  it('drops only the Lieutenant’s picks in the renumbered group', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 7,
+      rosters: [{
+        id: 'r1',
+        name: 'Old',
+        faction: 'dark-angels',
+        updatedAt: 1,
+        units: [
+          { uid: 'u1', id: 'lieutenant', wg: [[1, 2, 1], [2, 0, 1]], enh: 'Fear Made Manifest' },
+          { uid: 'u2', id: 'space-marines/lieutenant', wg: [[1, 0, 1]] },
+          { uid: 'u3', id: 'captain', wg: [[1, 0, 1]] },
+        ],
+      }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units.map((u) => u.wg)).toEqual([[[2, 0, 1]], undefined, [[1, 0, 1]]])
+    expect(r.units[0].enh).toBe('Fear Made Manifest')
+  })
+})
+
 describe('schema → v7', () => {
   // Codex: Orks replaced the faction. A list stored before it holds wargear indices into a bundle
   // that was regenerated (16 of 51 surviving datasheets changed how many groups they have), so the
