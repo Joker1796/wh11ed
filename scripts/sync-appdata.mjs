@@ -106,9 +106,17 @@ async function syncFaction(slug) {
   // Datasheets. For entirely missing units, a points/keywords pointer is enough — a new
   // datasheet needs full authoring (RU translation included), not a one-line paste.
   const wh11edSheets = await loadWh11edDatasheets(slug)
-  lines.push(...diffByName('datasheet', wh11edSheets, appDatasheets, (d) => d.name, (d) => d.name, [],
-    (d) => `${(d.points || []).map((p) => `${p.models}=${p.points}pts`).join(', ')} — ${(d.keywords || []).join(', ')}`))
   const appDsByName = byNormName(appDatasheets, (d) => d.name)
+  // A Legends sheet authored from the Faction Pack PDF (`source: 'faction-pack'`, see the hub's
+  // `legends-from-pack` skill) is expected to be absent from appdata — the app carries Legends
+  // for Orks alone today — so it is not an "extra". The day appdata DOES carry it, that copy is
+  // superseded and says so: appdata is the source of truth, the pack was the stand-in.
+  const packSheets = wh11edSheets.filter((d) => d.source === 'faction-pack')
+  for (const d of packSheets) {
+    if (appDsByName.has(norm(d.name))) lines.push(`  ⟲ datasheet "${d.name}" [${d.id}] is now in appdata — retire the faction-pack copy (re-author from appdata, drop \`source\`)`)
+  }
+  lines.push(...diffByName('datasheet', wh11edSheets.filter((d) => d.source !== 'faction-pack'), appDatasheets, (d) => d.name, (d) => d.name, [],
+    (d) => `${(d.points || []).map((p) => `${p.models}=${p.points}pts`).join(', ')} — ${(d.keywords || []).join(', ')}`))
   for (const d of wh11edSheets) {
     const appDs = appDsByName.get(norm(d.name))
     if (!appDs) continue

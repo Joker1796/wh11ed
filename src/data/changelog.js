@@ -27,6 +27,9 @@ export const changelog = [
       'The other side\u2019s card stays readable while locked — its army list, the army rule\u2019s text and what is active right now — only the scoring is off limits.',
       'A joined phone gets its own settings: the gear opens for it and sets what this phone shows, such as the opponent\u2019s army-rule card. Everything that is the game itself stays with the host.',
       '"Join a shared game" is a button on the tracker page, next to "New game".',
+      { h: 'Dark Angels' },
+      'Three Warhammer Legends datasheets from the Faction Pack: Ravenwing Talonmaster, Deathwing Strikemaster and Deathwing Command Squad — on the unit list (with the Legends badge), in search, with their Munitorum points.',
+      'Legends points for every faction now come from the Munitorum Field Manual\u2019s own Legends section; the Orks\u2019 Lootas get their 3rd+ copy tier.',
     ],
     ru: [
       { h: 'Legends' },
@@ -36,6 +39,9 @@ export const changelog = [
       'Карточка чужой стороны остаётся читаемой, пока заперта, — лист, текст правила армии и что действует прямо сейчас; закрыт только подсчёт.',
       'У подключившегося телефона свои настройки: шестерёнка открывается и для него и задаёт то, что показывает этот телефон, — например, карточку правила армии соперника. Всё, что и есть сама партия, остаётся у хоста.',
       '«Подключиться к общей партии» — кнопка на странице трекера, рядом с «Новой игрой».',
+      { h: 'Dark Angels' },
+      'Три датащита Warhammer Legends из Faction Pack’а: Ravenwing Talonmaster, Deathwing Strikemaster и Deathwing Command Squad — в списке юнитов (с бейджем Legends), в поиске, с очками по Munitorum. Пока по-английски; перевод — отдельным проходом.',
+      'Очки Legends у всех фракций теперь берутся из раздела Legends самого Munitorum Field Manual; у орочьих Lootas появилась наценка за 3-ю и последующие копии.',
     ],
   },
   {

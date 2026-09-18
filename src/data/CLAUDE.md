@@ -102,6 +102,18 @@ retired names also ride in `datasheetIndex.js` as each target sheet's fourth slo
 the global search finds "Ufthak" → Warboss with a "Legendary Proxies: Ufthak Blackhawk" subline in
 both locales — **re-run `npm run datasheets:index` after `npm run legends`**.
 
+**Legends datasheets from a Faction Pack (`source: "faction-pack"`)** — appdata carries Legends
+for Orks alone; every other faction's Legends sheets exist only in the Faction Pack PDF, so they
+are authored by hand from that text (hub skill `legends-from-pack`; `scripts/add-datasheets.mjs`
+validates and inserts them, `sync-mfm-points` prices them from the MFM's own Legends section —
+behind the site's "Show Legends" toggle, a cookie `scrape-mfm.py` sends). The marker is what the
+rest of the pipeline reads: `sync-appdata` does not list such a sheet as "extra in wh11ed" and
+says `⟲ … is now in appdata — retire the faction-pack copy` the day appdata catches up (appdata
+wins, the pack was the stand-in); the RU coverage test in `datasheets/index.test.js` AWAITS a pack
+sheet with no overlay entry (EN ships first, by decision) and holds one with an entry to the full
+standard. Not in the roster builder: `gen-roster-data` builds units from appdata's composition and
+wargear tables, which a pack sheet does not have. First: Dark Angels ×3, 2026-09-18.
+
 **SM-Chapter datasheet dedup** — the 5 Chapter codex files (`black-templars.js`, `blood-angels.js`,
 `dark-angels.js`, `deathwatch.js`, `space-wolves.js`) don't duplicate datasheets that are identical
 to their `space-marines.js` counterpart; each instead exports a `sharedUnitIds: string[]` alongside

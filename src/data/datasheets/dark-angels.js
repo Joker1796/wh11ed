@@ -1,7 +1,7 @@
 // Dark Angels — datasheets. Unit roster and points from src/data/mfm/dark-angels.js.
 // wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
-// 16 chapter-specific/differing datasheets here; 84 units identical
+// 19 chapter-specific/differing datasheets here; 84 units identical
 // to space-marines.js are NOT duplicated — see sharedUnitIds below and
 // src/data/datasheets/index.js (loadDatasheets merges them in by id).
 export const sharedUnitIds = [
@@ -404,6 +404,239 @@ export default [
     "baseSize": "50mm"
   },
   {
+    "id": "deathwing-command-squad",
+    "name": "Deathwing Command Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 200
+      },
+      {
+        "models": 10,
+        "points": 400
+      }
+    ],
+    "flavor": "On occasion a Deathwing squad will be formed into an honour guard to accompany high-ranking members of the Inner Circle, such as Librarians, Interrogator-Chaplains and even Company Masters. Together, they will lead their brothers straight into the heart of battle, where their skills are most needed.",
+    "profiles": [
+      {
+        "name": "Deathwing Command Squad",
+        "m": "5\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Cyclone missile launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "2D6",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Cyclone missile launcher – krak",
+        "tags": [],
+        "range": "36\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D6"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chainfist",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Halberd of Caliban",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Narthecium",
+        "text": "While this unit contains an Apothecary, in your Command phase, you can return 1 destroyed model (excluding CHARACTER models) to this unit."
+      },
+      {
+        "name": "Astartes Banner",
+        "text": "While this unit contains an Ancient, add 1 to the Objective Control characteristic of its models."
+      },
+      {
+        "name": "Honour or Death",
+        "text": "While this unit contains a Company Champion, add 1 to Advance and Charge rolls made for this unit. When you target this unit with the Heroic Intervention stratagem, that use is -1 CP."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Storm Shield",
+        "text": "The bearer has a Wounds characteristic of 4."
+      }
+    ],
+    "composition": [
+      "1 Deathwing Ancient",
+      "1 Deathwing Apothecary",
+      "1 Deathwing Champion",
+      "2-7 Deathwing Command Terminators"
+    ],
+    "loadout": "**The Deathwing Ancient is equipped with:** storm bolter; power fist.\n\n**The Deathwing Apothecary is equipped with:** storm bolter; chainfist.\n\n**The Deathwing Champion is equipped with:** halberd of Caliban.\n\n**Every Deathwing Command Terminator is equipped with:** storm bolter; power fist.",
+    "options": [
+      "Any number of Deathwing Command Terminators can each have their storm bolter and power fist replaced with one of the following:\n▪ 1 twin lightning claws\n▪ 1 thunder hammer and 1 storm shield",
+      "Any number of Deathwing Command Terminators can each have their power fist replaced with 1 chainfist.",
+      "1 Deathwing Command Terminator’s power fist can be replaced with 1 power weapon.",
+      "For every 5 models in this unit, 1 Deathwing Command Terminator can replace its storm bolter with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 plasma cannon\n▪ 1 storm bolter and 1 cyclone missile launcher (this model’s storm bolter cannot be replaced)",
+      "This unit can be equipped with 1 Watcher in the Dark.*\n* The rules for a Watcher in the Dark can be found on the Deathwing Knights datasheet."
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Deathwing",
+      "Terminator",
+      "Deathwing Command Squad"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Dark Angels"
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "deathwing-knights",
     "name": "Deathwing Knights",
     "points": [
@@ -523,6 +756,156 @@ export default [
         "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
       }
     ]
+  },
+  {
+    "id": "deathwing-strikemaster",
+    "name": "Deathwing Strikemaster",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "flavor": "Deathwing Strikemasters serve as the Deathwing’s Lieutenants. To earn such an esteemed rank they have carried out deeds of enormous bravery on countless battlefields, honing their skills as warriors and leaders. In battle they guide their Deathwing brethren with skill and pride, bringing death to the enemy.",
+    "profiles": [
+      {
+        "name": "Deathwing Strikemaster",
+        "m": "5\"",
+        "t": "5",
+        "sv": "2+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chainfist",
+        "tags": [
+          "ANTI-VEHICLE 3+"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Mace of absolution",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Master-crafted power weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Power fist",
+        "tags": [],
+        "a": "4",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Thunder hammer",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "a": "4",
+        "ws": "3+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Twin lightning claws",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike, Support",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Tactical Precision",
+        "text": "While this model is leading a unit, weapons equipped by models in that unit have the [LETHAL HITS] ability."
+      },
+      {
+        "name": "Vanquish the Foe",
+        "text": "Each time this model makes an attack that targets an enemy unit that is Below Half-strength, add 1 to the Hit roll and add 1 to the Wound roll."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Storm Shield",
+        "text": "The bearer has a Wounds characteristic of 6."
+      }
+    ],
+    "composition": [
+      "1 Deathwing Strikemaster"
+    ],
+    "loadout": "**This model is equipped with:** storm bolter; master-crafted power weapon.",
+    "options": [
+      "This model’s storm bolter and master-crafted power weapon can be replaced with either 1 twin lightning claws, or two different weapons from the following list:\n▪ 1 storm bolter\n▪ 1 chainfist\n▪ 1 mace of absolution\n▪ 1 power fist\n▪ 1 thunder hammer\n▪ 1 storm shield"
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Deathwing Command Squad",
+        "Deathwing Terminator Squad",
+        "Relic Terminator Squad",
+        "Terminator Assault Squad",
+        "Terminator Squad"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Imperium",
+      "Deathwing",
+      "Terminator",
+      "Lieutenant",
+      "Deathwing Strikemaster"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Dark Angels"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "deathwing-terminator-squad",
@@ -1262,7 +1645,7 @@ export default [
     "specialAbilities": [
       {
         "name": "Mist-wreathed Shadow Realms",
-        "text": "In your Command phase, if this unit is unengaged, you can use this ability. If you do:\n\u25aa Place this unit in Strategic Reserves.\n\u25aa This unit can make an ingress move in your next Movement phase (including in your first turn)."
+        "text": "In your Command phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in Strategic Reserves.\n▪ This unit can make an ingress move in your next Movement phase (including in your first turn)."
       },
       {
         "name": "Martial Exemplar (Aura)",
@@ -1288,7 +1671,7 @@ export default [
       "Mobile",
       "Monster",
       "Primarch"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Dark Angels"
@@ -1891,12 +2274,109 @@ export default [
       "Imperium",
       "Ravenwing",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Dark Angels"
     ],
     "baseSize": "Large Flying Base"
+  },
+  {
+    "id": "ravenwing-talonmaster",
+    "name": "Ravenwing Talonmaster",
+    "points": [
+      {
+        "models": 1,
+        "points": 105
+      }
+    ],
+    "flavor": "Mounted in a Land Speeder outfitted with additional auspex scanners and vox-casters, it is a Talonmaster’s role to direct the Ravenwing’s fire, using his equipment to ensure no quarry can hide from them. They even identify foes seeking temporary refuge in dense terrain, revealing their location to all Ravenwing warriors.",
+    "profiles": [
+      {
+        "name": "Ravenwing Talonmaster",
+        "m": "16\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "6",
+        "ld": "6+",
+        "oc": "2",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS",
+          "TWIN-LINKED"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "3+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Talonmaster",
+        "text": "While this model is within 3\" of one or more other friendly ADEPTUS ASTARTES MOUNTED or ADEPTUS ASTARTES FLY VEHICLE units, this model has the Lone Operative ability."
+      },
+      {
+        "name": "Nowhere to Hide",
+        "text": "While a friendly ADEPTUS ASTARTES MOUNTED or ADEPTUS ASTARTES FLY VEHICLE unit is within 6\" of this model, ranged weapons equipped by models in that unit have the [IGNORES COVER] ability."
+      },
+      {
+        "name": "Master of Manoeuvre",
+        "text": "In your opponent’s Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of this model, if this model is not within Engagement Range of one or more enemy units, this model can make a Normal move of up to 6\"."
+      }
+    ],
+    "composition": [
+      "1 Ravenwing Talonmaster"
+    ],
+    "loadout": "**This model is equipped with:** twin assault cannon; twin heavy bolter; power weapon.",
+    "keywords": [
+      "Vehicle",
+      "Character",
+      "Fly",
+      "Imperium",
+      "Ravenwing",
+      "Ravenwing Talonmaster"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes",
+      "Dark Angels"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "sammael",

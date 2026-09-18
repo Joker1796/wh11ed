@@ -103,12 +103,18 @@ describe('the RU overlay covers every datasheet', () => {
   it('leaves no ability, loadout or attachment line in English', async () => {
     let checked = 0
     const gaps = []
+    const awaited = []
     for (const [f, load] of Object.entries(bundles)) {
       const slug = f.replace('./', '').replace('.js', '')
       const mod = await loadDatasheetsRu(slug)
       if (!mod?.default) continue // faction with no overlay yet
       const sheets = (await load()).default || []
       for (const en of sheets) {
+        // A Legends sheet authored from a Faction Pack PDF (hub skill `legends-from-pack`) ships
+        // EN first, by decision, and gets its RU in a separate pass — the overlay entry is what
+        // marks that pass done, so a pack sheet WITHOUT one is awaited, not a gap. With one, it
+        // is held to the same standard as every other sheet.
+        if (en.source === 'faction-pack' && !mod.default[en.id]) { awaited.push(`${slug}/${en.id}`); continue }
         const ru = localizeSheet(en, mod.default[en.id], mod.abilityNamesRu)
         for (const k of ['abilities', 'wargearAbilities', 'specialAbilities', 'rules']) {
           for (const [i, a] of (en[k] || []).entries()) {
@@ -136,6 +142,7 @@ describe('the RU overlay covers every datasheet', () => {
         }
       }
     }
+    if (awaited.length) console.info(`RU overlay: ${awaited.length} faction-pack Legends sheet(s) awaiting the RU pass — ${awaited.join(', ')}`)
     expect(gaps, `${gaps.length} untranslated field(s)`).toEqual([])
     expect(checked).toBeGreaterThan(4000) // the whole corpus really was walked
   })
