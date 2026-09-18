@@ -569,6 +569,61 @@ export default {
       'bolt pistol у Zephyrim Superior можно заменить на 1 plasma pistol.',
     ],
   },
+
+  // Warhammer Legends, from the Faction Pack v1.2 (EN sheets carry source: 'faction-pack').
+  'battle-sanctum': {
+    abilities: {
+      Fortification: 'Пока вражеский юнит находится в дистанции ввязывания только одного или более FORTIFICATIONS из вашей армии:\n▪ Этот юнит по-прежнему можно выбирать целью дальнобойных атак, но каждый раз, когда такая атака совершается, если только она не совершается из Pistol, вычтите 1 из броска попадания.\n▪ Моделям этого юнита не нужно проходить проверки Desperate Escape из-за отступления в боевом шоке, кроме тех, что при этом пройдут через вражеские модели.',
+      'Consecrated Ground':
+        'Когда эта Fortification выставляется, все её части должны быть выставлены в пределах 1" от другой части. Дружественные модели ADEPTA SORORITAS INFANTRY могут быть выставлены или завершать любой вид движения на секциях пола этой Fortification. Пока юнит ADEPTA SORORITAS из вашей армии находится в пределах 1" от этой Fortification, этот юнит может совершать один дополнительный Act of Faith за фазу.',
+      'Holy Cover':
+        'Каждый раз, когда дальнобойная атака распределяется по модели, если эта модель не полностью видима каждой модели атакующего юнита из-за этой Fortification, эта модель имеет Benefit of Cover против этой атаки.',
+    },
+    loadout: `${EQUIP_THIS} ничем.`,
+  },
+
+  'celestian-sacresant-aveline': {
+    aliasesRu: ['Авелина'],
+    abilities: {
+      'Instrument of the Emperor’s Wrath':
+        'Один раз за битву, в начале фазы ближнего боя, эта модель может задействовать эту способность. Если она это делает, до конца фазы прибавьте 3 к характеристике Атак (Attacks) оружия ближнего боя этой модели, и это оружие имеет способность [DEVASTATING WOUNDS].',
+      Daemonbreaker:
+        'Каждый раз, когда эта модель совершает атаку по юниту DAEMON, вы можете перебросить бросок попадания и вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} Ministorum hand flamer; The Thorn of the White Rose.`,
+  },
+
+  crusaders: {
+    abilities: {
+      'Spiritual Fortitude': 'Модели этого юнита имеют способность Feel No Pain 4+ против Psychic Attacks и смертельных ран.',
+    },
+    rules: {
+      'ATTACHED UNIT':
+        'Если модель из вашей армии со способностью Leader может быть присоединена к BATTLE SISTERS SQUAD, она может быть присоединена к этому юниту вместо этого.',
+    },
+    loadout: `${EQUIP_EVERY} power weapon.`,
+  },
+
+  'death-cult-assassins': {
+    abilities: {
+      'Death Cult': 'Каждый раз, когда модель этого юнита совершает атаку по юниту CHARACTER, вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_EVERY} Death Cult power blades.`,
+  },
+
+  repressor: {
+    abilities: {
+      'Emergency Combat Embarkation':
+        'Один раз за ход, в фазе нападения вашего оппонента, после того как вражеский юнит выбрал цели нападения, но до того, как он совершит манёвр нападения, вы можете выбрать один юнит ADEPTA SORORITAS из вашей армии, выбранный целью этого нападения. При условии, что этот юнит не находится в дистанции ввязывания вражеских юнитов и каждая его модель в пределах 3" от этого TRANSPORT, он может погрузиться в этот TRANSPORT.',
+    },
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+    transport: 'Эта модель имеет транспортную вместимость 12 моделей ADEPTA SORORITAS INFANTRY. Она не может перевозить модели JUMP PACK или TRIUMPH OF SAINT KATHERINE.',
+    loadout: `${EQUIP_THIS} Repressor twin heavy flamer; storm bolter; dozer ram.`,
+    options: [
+      'Эту модель можно снарядить 1 hunter-killer missile.',
+      'Эту модель можно снарядить одним из следующего:\n▪ 1 heavy flamer\n▪ 1 storm bolter',
+    ],
+  },
 }
 
 export const abilityNamesRu = {
@@ -636,4 +691,13 @@ export const abilityNamesRu = {
   'Stirring Rhetoric': 'Воодушевляющая риторика',
   'Executioner of Heretics (Aura)': 'Палач еретиков (Аура)',
   'Unflinching Determination': 'Непоколебимая решимость',
+  // Legends (Faction Pack)
+  Fortification: 'Фортификация',
+  'Consecrated Ground': 'Освящённая земля',
+  'Holy Cover': 'Святое укрытие',
+  'Instrument of the Emperor’s Wrath': 'Орудие гнева Императора',
+  Daemonbreaker: 'Сокрушительница демонов',
+  'Spiritual Fortitude': 'Духовная стойкость',
+  'Death Cult': 'Культ смерти',
+  'Emergency Combat Embarkation': 'Экстренная боевая погрузка',
 }

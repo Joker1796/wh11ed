@@ -1246,6 +1246,786 @@ export default {
     ],
     damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
   },
+
+  // Warhammer Legends, from the Faction Pack v1.2 (EN sheets carry source: 'faction-pack').
+  'aquila-lander': {
+    abilities: {
+      'Aerial Deployment': 'Если эта модель начинает игру в режиме Hover и в стратегических резервах, её можно выставить в шаге Reinforcements вашей первой, второй или третьей фазы движения, независимо от любых правил миссии.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; armoured hull.`,
+    options: [
+      'heavy bolter этой модели можно заменить на одно из следующего:\n▪ 1 autocannon\n▪ 1 multi-laser',
+    ],
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+    transport:
+      'Эта модель имеет транспортную вместимость 12 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Каждая модель OGRYN занимает место 3 моделей. Она не может перевозить модели ARTILLERY.',
+  },
+
+  'arkurian-stormhammer': {
+    abilities: {
+      'Rolling Fortress': 'Каждый раз, когда дальнобойная атака распределяется по модели ASTRA MILITARUM из вашей армии, если эта модель не полностью видима каждой модели атакующего юнита из-за этой модели Arkurian Stormhammer, эта модель имеет Benefit of Cover против этой атаки.',
+    },
+    loadout: `${EQUIP_THIS} lascannon; 7 multi-lasers; Stormhammer cannon; twin battle cannon; armoured tracks.`,
+    options: [
+      '7 multi-lasers этой модели можно заменить на одно из следующего:\n▪ 7 heavy bolters\n▪ 7 heavy flamers\n▪ 7 lascannons',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–8 ран', text: dmgHitOcMinus('1–8') },
+  },
+
+  'armageddon-pattern-medusa': {
+    abilities: {
+      'Pinning Bombardment': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, если одна или более из этих атак, сделанных её Medusa siege cannon, поразили вражеский юнит INFANTRY, этот юнит должен пройти проверку боевого шока.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; Medusa siege cannon; armoured tracks.`,
+    options: [
+      'heavy bolter этой модели можно заменить на 1 heavy flamer.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 storm bolter\n▪ 1 heavy stubber',
+    ],
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+  },
+
+  'arvus-lighter': {
+    abilities: {
+      'Aerial Deployment': 'Если эта модель начинает игру в режиме Hover и в стратегических резервах, её можно выставить в шаге Reinforcements вашей первой, второй или третьей фазы движения, независимо от любых правил миссии.',
+    },
+    loadout: `${EQUIP_THIS} armoured hull.`,
+    transport:
+      'Эта модель имеет транспортную вместимость 12 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Она не может перевозить модели OGRYN или ARTILLERY.',
+  },
+
+  'atlas-recovery-vehicle': {
+    abilities: {
+      'Recovery Vehicle': 'В конце вашей фазы движения вы можете выбрать одну дружественную модель ASTRA MILITARUM VEHICLE в пределах 3" от этой модели. Эта модель VEHICLE восстанавливает до D3 потерянных ран. Каждую модель можно выбирать для этой способности только один раз за ход.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+  },
+
+  carnodon: {
+    flavor:
+      'Carnodon — универсальный боевой танк, чья славная история восходит к Великому крестовому походу. Приспособляемый и надёжный, Carnodon стал синонимом завоевания среди экспедиционных флотов, и хотя теперь его в основном держат в стратегическом резерве, он по-прежнему отличается в бою, когда его призывают на службу.',
+    abilities: {
+      'Ancient Conquest': 'Каждый раз, когда эта модель совершает атаку по вражескому юниту в зоне развёртывания вашего оппонента, перебросьте бросок попадания 1 и перебросьте бросок ранения 1.',
+    },
+    loadout: `${EQUIP_THIS} 2 autocannons; Carnodon twin autocannon; armoured tracks.`,
+    options: [
+      'Carnodon twin autocannon этой модели можно заменить на одно из следующего:\n▪ 1 Carnodon twin lascannon\n▪ 1 Carnodon twin multi-laser\n▪ 1 volkite culverin',
+      '2 autocannons этой модели можно заменить на одно из следующего:\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons\n▪ 2 Militarum multi-lasers\n▪ 2 volkite calivers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+  },
+
+  'centaur-light-carrier': {
+    abilities: {
+      'Blistering Advance': 'Юниты могут выгружаться из этого TRANSPORT после того, как он продвинулся. Сделавшие это юниты считаются совершившими обычный манёвр в этой фазе и не могут объявлять нападение в этом же ходу, но в остальном могут действовать как обычно до конца хода.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy stubbers; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+    transport:
+      'Эта модель имеет транспортную вместимость 6 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Она не может перевозить модели OGRYN или ARTILLERY.',
+  },
+
+  'ciaphas-cain': {
+    abilities: {
+      'Hero of the Imperium (Aura)': 'Пока дружественный юнит ASTRA MILITARUM находится в пределах 6" от этой модели, этот юнит может перебрасывать броски боевого шока.',
+      'Trapped by Excuses': 'В шаге Deploy Armies вы обязаны выставить этот юнит на поле боя или погруженным в юнит TRANSPORT, выставленный на поле боя. Способности, позволяющие передислоцировать юнит или поместить юнит в стратегические резервы, не могут затрагивать этот юнит или юнит TRANSPORT, в который он погружен.',
+      'Psychic Blank': 'Эта модель имеет Feel No Pain 4+ против Psychic Attacks и смертельных ран.',
+      'Unparalleled Luck (Once per battle, per army)': 'В начале фазы вы можете задействовать эту способность. Если вы это делаете, эта модель имеет инвулевый спас-бросок 2+.',
+    },
+    rules: {
+      EMBARKING: 'Будучи погруженной в TRANSPORT, эта модель занимает место 2 моделей.',
+      ORDERS: 'Этот OFFICER может издать до 2 Orders юнитам REGIMENT. Этот OFFICER может издавать только Orders Duty and Honour!, Move! Move! Move! и Take Cover!.',
+    },
+    loadout: `${EQUIP_THIS} 1 Chainsword and Gun Butt; 1 Laspistols; 1 Meltagun.\n\nЭту модель можно собрать на одной подставке или как две модели — Ciaphas Cain и Jurgen — на отдельных подставках. Если вы собираете модели по отдельности, модель Ciaphas Cain имеет эти правила, а модель Jurgen — жетон.`,
+  },
+
+  colossus: {
+    flavor:
+      'Colossus — реликтовое орудие древнего происхождения, чья чудовищная разрушительная мощь с лихвой возмещает неспешную скорострельность. Colossus — одни из крупнейших артиллерийских орудий, что выставляет Астра Милитарум, и прямое попадание снаряда Colossus превращает самый стойкий бункер в дымящуюся кальдеру.',
+    abilities: {
+      'Tracking Target': 'Каждый раз, когда эта модель выбирается для стрельбы, если она оставалась неподвижной в этом ходу, её Colossus siege mortar имеет способности [ANTI-MONSTER 5+] и [ANTI-VEHICLE 5+] при разыгрывании этих атак.',
+    },
+    loadout: `${EQUIP_THIS} Colossus siege mortar; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+  },
+
+  crassus: {
+    flavor:
+      'Бронетранспортёр, известный как Crassus, носит имя легендарного генерала Боргена Крассуса, что оставался непоколебимо верен Империуму на протяжении всей мрачной и кровавой Махарианской ереси. Тяжело бронированный и обманчиво быстрый, Crassus остаётся образцом конструкции транспорта для войск, несмотря на почтенный возраст.',
+    abilities: {
+      'Fire Support': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит, поражённый одной или более из этих атак. До конца фазы каждый раз, когда дружественная модель, что выгрузилась из этого TRANSPORT в этом ходу, совершает атаку по этому вражескому юниту, вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} 4 heavy bolters; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+    transport:
+      'Эта модель имеет транспортную вместимость 36 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Каждая модель OGRYN занимает место 3 моделей. Она не может перевозить модели ARTILLERY.',
+  },
+
+  'death-korps-grenadier-squad': {
+    abilities: {
+      Grenadiers: 'Один раз за ход вы можете нацелить на этот юнит стратагему Grenade за 0 CP.',
+    },
+    wargear: {
+      'Vox-caster': VOX_CASTER,
+    },
+    rules: {
+      'GRENADIER SQUAD': 'Если модель из вашей армии со способностью Leader может быть присоединена к юниту KRIEG COMBAT ENGINEERS, она может быть присоединена к этому юниту вместо этого.',
+    },
+    loadout: '**Grenadier Sergeant вооружён:** sergeant’s pistol; sergeant’s close combat weapon.\n\n**Каждая модель Grenadier вооружена:** hot-shot lasgun; close combat weapon.\n\n**Heavy Weapons Team вооружена:** heavy flamer; close combat weapon.',
+    options: [
+      'До 2 моделей Grenadier могут каждая заменить свой hot-shot lasgun на одно из следующего:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy stubber\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle',
+    ],
+  },
+
+  'death-rider-commissar': {
+    abilities: {
+      'Summary Execution': 'Один раз за раунд боя, в начале любой фазы, вы можете выбрать один дружественный юнит ASTRA MILITARUM INFANTRY или ASTRA MILITARUM MOUNTED в боевом шоке в пределах 12" от этой модели. Если вы это делаете, одна модель этого юнита уничтожается, и этот юнит больше не в боевом шоке.',
+      'Political Overwatch': 'Пока другая модель OFFICER находится в одном юните с этой моделью, вы можете перебрасывать проверки боевого шока для этого юнита.',
+    },
+    rules: {
+      ORDERS: 'Этот OFFICER может издать 1 Order юниту REGIMENT. Этот OFFICER может издавать только Orders Duty and Honour! и Fix Bayonets!.',
+    },
+    loadout: `${EQUIP_THIS} Commissar’s pistol; Commissar’s close combat weapon; savage claws.`,
+    leader: {
+      text: 'Эту модель можно присоединить к следующему юниту:',
+      footer: 'Вы можете присоединить эту модель к юниту выше, даже если к нему уже присоединена одна модель DEATH RIDER SQUADRON COMMANDER, LORD MARSHAL DREIR или LORD SOLAR LEONTUS. Если так, и этот юнит-телохранитель уничтожается, присоединённые к нему юниты-лидеры становятся отдельными юнитами со своими исходными начальными численностями.',
+    },
+  },
+
+  'dominus-armoured-siege-bombard': {
+    abilities: {
+      'Pinning Bombardment': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, если одна или более из этих атак, сделанных её Dominus triple bombard, поразили вражеский юнит INFANTRY, этот юнит должен пройти проверку боевого шока.',
+    },
+    loadout: `${EQUIP_THIS} Dominus triple bombard; 2 heavy bolters; armoured tracks.`,
+    options: [
+      '2 heavy bolters этой модели можно заменить на одно из следующего:\n▪ 2 autocannons\n▪ 2 heavy flamers\n▪ 2 lascannons',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  'earthshaker-carriage-battery': {
+    flavor:
+      'Развёрнутые далеко за линией фронта, Earthshaker Carriage способны вести безостановочный огонь, ограниченный лишь запасом боеприпасов. Известно, что такие обстрелы ломали позиции врага почти без чужой помощи: тяжёлая бомбардировка обращает твердыни в щебень, а спорную землю — в изрытую воронками пустошь.',
+    abilities: {
+      'Earthshaker Rounds': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, если одна или более из этих атак, сделанных её earthshaker cannon, поразили  юнит INFANTRY, до конца следующего хода вашего оппонента этот юнит потрясён. Пока юнит потрясён, вычтите 2" из его характеристики Движения (Move) и вычтите 2 из бросков продвижения и нападения для него.',
+    },
+    loadout: `${EQUIP_THIS} earthshaker cannon; battery close combat weapons.\n\n**Примечание разработчика:** положите пять жетонов Heavy Artillery Crew рядом с каждой моделью Earthshaker Carriage, когда этот юнит впервые выставляется, убирая один каждый раз, когда её модель Earthshaker Carriage теряет рану (сама модель Earthshaker Carriage считается представляющей её последнюю рану). Для любых правил они не считаются моделями.`,
+  },
+
+  'earthshaker-platform': {
+    abilities: {
+      'Earthshaker Rounds': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, если одна или более из этих атак, сделанных её earthshaker cannon, поразили вражеский юнит INFANTRY, до конца следующего хода вашего оппонента этот юнит потрясён. Пока юнит потрясён, вычтите 2" из его характеристики Движения (Move) и вычтите 2 из бросков продвижения и нападения для него.',
+      'Reinforced Cover': REINFORCED_COVER,
+      Fortification: FORTIFICATION,
+    },
+    loadout: `${EQUIP_THIS} earthshaker cannon; close combat weapons.`,
+  },
+
+  'elysian-drop-sentinel': {
+    abilities: {
+      'Meteoric Descent': 'Когда эта модель выставляется на поле боя с помощью способности Deep Strike, она может совершить метеорный спуск. Если она это делает, эту модель можно выставить где угодно на поле боя дальше 6" по горизонтали от всех вражеских юнитов, но до конца хода она не имеет права объявлять нападение.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; close combat weapon.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy flamer\n▪ 1 multi-melta',
+    ],
+  },
+
+  'elysian-sniper-squad': {
+    abilities: {
+      'Mark the Target': 'Каждый раз, когда этот юнит остаётся неподвижным, до начала вашей следующей фазы движения дальнобойное оружие моделей этого юнита имеет способность [DEVASTATING WOUNDS].',
+    },
+    rules: {
+      'SNIPER TEAMS': 'Для погрузки в TRANSPORT каждая модель Elysian Sniper Team считается одной моделью HEAVY WEAPONS TEAM.',
+    },
+    loadout: `${EQUIP_EVERY} lasgun; sniper rifle; close combat weapon.`,
+  },
+
+  'gorgon-heavy-transport': {
+    abilities: {
+      'Mount Up!': 'В конце фазы движения вашего оппонента, если в этот TRANSPORT сейчас не погружено ни одной модели, вы можете выбрать один дружественный юнит ASTRA MILITARUM INFANTRY (исключая юниты ARTILLERY), находящийся целиком в пределах 6" от этого TRANSPORT. Если этот юнит не находится в дистанции ввязывания одного или более вражеских юнитов, он может погрузиться в этот TRANSPORT.',
+    },
+    loadout: `${EQUIP_THIS} 2 Gorgon mortars; 2 twin heavy stubbers; landing ramp.`,
+    options: [
+      '2 Gorgon mortars этой модели можно заменить на одно из следующего:\n▪ 4 heavy bolters\n▪ 4 heavy flamers\n▪ 4 heavy stubbers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+    transport:
+      'Эта модель имеет транспортную вместимость 30 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Каждая модель OGRYN занимает место 3 моделей. Она не может перевозить модели ARTILLERY.',
+  },
+
+  'griffon-mortar-carrier': {
+    abilities: {
+      'Suppression Bombardment': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит (исключая MONSTER и VEHICLE), что был поражён одной или более из этих атак, сделанных Griffon heavy mortar этой модели. До начала вашего следующего хода этот вражеский юнит подавлен. Пока юнит подавлен, каждый раз, когда его модель совершает атаку, вычтите 1 из броска попадания.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; Griffon heavy mortar; armoured tracks.`,
+    options: [
+      'heavy bolter этой модели можно заменить на 1 heavy flamer.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+  },
+
+  'hades-breaching-drill': {
+    flavor:
+      'Изначально созданный для промышленной добычи, Hades Breaching Drill показал себя ценным осадным оружием. Мощный мельта-резак машины способен пробиваться сквозь землю, скалу и даже армированный феррокрит, прогрызая тоннель, достаточно широкий для штурма пехоты, и перемалывая любых живых врагов на своём пути.',
+    abilities: {
+      'Subterranean Assault': 'Каждый раз, когда вы выставляете эту модель на поле боя с помощью способности Deep Strike, вы можете выбрать один дружественный юнит ASTRA MILITARUM INFANTRY в стратегических резервах. Если вы это делаете, выставьте этот юнит где угодно на поле боя целиком в пределах 9" от этой модели и дальше 8" от всех вражеских юнитов.',
+    },
+    loadout: `${EQUIP_THIS} melta-cutter drill.`,
+  },
+
+  'heavy-mortar-team': {
+    abilities: {
+      'Rearm, Reload, Fire': 'Пока на эту модель действует Order, если она оставалась неподвижной в этом ходу, дальнобойное оружие этой модели имеет способность [SUSTAINED HITS 1].',
+    },
+    rules: {
+      'ARTILLERY TEAM': '**Примечание разработчика:** положите рядом с этой моделью три жетона Crew, когда она впервые выставляется, убирая один каждый раз, когда эта модель теряет рану (сама модель Heavy Mortar Team считается представляющей её последнюю рану).',
+    },
+    loadout: `${EQUIP_THIS} heavy mortar; close combat weapons.`,
+  },
+
+  'heavy-quad-launcher-team': {
+    abilities: {
+      'Suppression Bombardment': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит (исключая MONSTER и VEHICLE), что был поражён одной или более из этих атак. До начала вашего следующего хода этот вражеский юнит подавлен. Пока юнит подавлен, каждый раз, когда его модель совершает атаку, вычтите 1 из броска попадания.',
+    },
+    rules: {
+      'ARTILLERY TEAM': '**Примечание разработчика:** положите рядом с этой моделью три жетона Crew, когда она впервые выставляется, убирая один каждый раз, когда эта модель теряет рану (сама модель Heavy Quad Launcher Team считается представляющей её последнюю рану).',
+    },
+    loadout: `${EQUIP_THIS} heavy quad launcher; close combat weapons.`,
+  },
+
+  'hells-last': {
+    abilities: {
+      'Heroic Example': 'Пока модель Minka Lesk этого юнита находится на поле боя, каждый раз, когда модель этого юнита совершает атаку, вы можете перебросить бросок попадания.',
+      'Lesk’s Heroes': 'Прибавьте 1 к характеристике Лидерства (Leadership) моделей этого юнита, и вы можете перебрасывать проверки боевого шока и проверки Лидерства для этого юнита.',
+    },
+    wargear: {
+      'Regimental Banner': 'Прибавьте 1 к характеристике Контроля целей (OC) моделей юнита носителя.',
+    },
+    rules: {
+      ORDERS: 'OFFICER этого юнита может издать 2 Orders юнитам REGIMENT.',
+    },
+    loadout: '**Minka Lesk вооружена:** bolt pistol; power weapon.\n\n**1 Lesk’s Hero вооружён:** demolitions; meltagun; close combat weapon.\n\n**1 Lesk’s Hero вооружён:** hot-shot laspistol; dirk.\n\n**1 Lesk’s Hero вооружён:** bolt pistol; power weapon.\n\n**1 Lesk’s Hero вооружён:** power weapon; regimental banner.',
+    leader: { text: 'Эту модель можно присоединить к следующим юнитам:' },
+  },
+
+  'hydra-platform': {
+    abilities: {
+      'Flak Battery': 'Каждый раз, когда эта модель совершает атаку по юниту, который может FLY, вы можете перебросить бросок попадания.',
+      'Reinforced Cover': REINFORCED_COVER,
+      Fortification: FORTIFICATION,
+    },
+    loadout: `${EQUIP_THIS} Hydra quad autocannon; close combat weapons.`,
+  },
+
+  'iron-hand-straken': {
+    flavor:
+      'Командующий Катачанским II — «Зелёными гадюками» — полковник «Железная Рука» Стракен — напористый, практичный и хитрый офицер. Пережив тяжелейшие раны, Стракен обзавёлся обширной бионикой, что многократно усиливает его природную мощь. Он ведёт бойцов с передовой, громко подбадривая их, пока у всех на глазах сокрушает врага размашистыми ударами.',
+    abilities: {
+      'Cold Steel and Courage': 'Пока эта модель возглавляет юнит, оружие ближнего боя моделей этого юнита имеет способность [LETHAL HITS].',
+      'Been There, Seen it, Killed it': 'Каждый раз, когда эта модель совершает атаку в ближнем бою, если она совершила манёвр нападения в этом ходу, вы можете перебросить бросок попадания и вы можете перебросить бросок ранения.',
+    },
+    rules: {
+      ORDERS: 'Этот OFFICER может издать до 2 Orders юнитам REGIMENT.',
+    },
+    loadout: `${EQUIP_THIS} auto shotgun; plasma pistol; bionic arm with devil’s claw.`,
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+
+  macharius: {
+    flavor:
+      'Живучий и сокрушительно мощный, танк Macharius — древняя боевая машина, названная в честь героя-крестоносца Империума, лорда-командующего Солара Махария. Хотя некоторые считают Macharius худшим предшественником Baneblade, эта неприхотливая машина продолжает посрамлять критиков, сея разрушение всюду, где её развёртывают.',
+    abilities: {
+      'Battlefield Control': 'Каждый раз, когда эта модель совершает дальнобойную атаку, если она в пределах дальности от маркера цели, который вы контролируете, перебросьте бросок попадания 1.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy stubbers; Macharius twin battle cannon; twin heavy stubber; armoured tracks.`,
+    options: [
+      '2 heavy stubbers этой модели можно заменить на одно из следующего:\n▪ 2 heavy bolters\n▪ 2 heavy flamers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  'macharius-omega': {
+    abilities: {
+      'Overwhelming Short-range Firepower': 'Каждый раз, когда эта модель совершает атаку по ближайшему допустимому вражескому юниту, перебросьте бросок попадания 1 и перебросьте бросок ранения 1.',
+    },
+    loadout: `${EQUIP_THIS} omega-pattern plasma blastgun; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить одним из следующего:\n▪ 2 autocannons\n▪ 2 heavy bolters\n▪ 2 heavy flamers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  'macharius-vanquisher': {
+    flavor:
+      'Замена twin battle cannon у Macharius на Macharius vanquisher cannon даёт вариант Vanquisher — смертоносного охотника на танки, способного опустошать целые эскадроны лёгкой техники или выводить из строя вражеские сверхтяжёлые машины. Macharius vanquisher cannon дорога, но её присутствие способно переломить ход танкового боя.',
+    abilities: {
+      'Tank Hunter': 'Каждый раз, когда эта модель совершает дальнобойную атаку своей Macharius twin vanquisher cannon по юниту MONSTER или VEHICLE, вы можете перебросить бросок попадания.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy stubbers; Macharius twin vanquisher cannon; twin heavy stubber; armoured tracks.`,
+    options: [
+      '2 heavy stubbers этой модели можно заменить на одно из следующего:\n▪ 2 heavy bolters\n▪ 2 heavy flamers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  'macharius-vulcan': {
+    flavor:
+      'Башенное орудие Macharius Vulcan — грозный vulcan mega-bolter. Это спаренное роторное оружие, которое несут и Титаны класса Warhound, извергает поток разрывных снарядов, способный уничтожить пехоту. Скорострельность Vulcan столь яростна, что танковые экипажи используют каждый дюйм кабины, чтобы запасти как можно больше боеприпасов.',
+    abilities: {
+      'Armoured Aggressor': 'Каждый раз, когда эта модель совершает дальнобойную атаку, она не получает штраф к броску попадания за нахождение в дистанции ввязывания одного или более вражеских юнитов.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy stubbers; Macharius vulcan mega-bolter; twin heavy stubber; armoured tracks.`,
+    options: [
+      '2 heavy stubbers этой модели можно заменить на одно из следующего:\n▪ 2 heavy bolters\n▪ 2 heavy flamers',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  malcador: {
+    flavor:
+      'Танки Malcador — редкость в большинстве полков Астра Милитарум, но их неприхотливая надёжность и сокрушительная огневая мощь по-прежнему в чести у командиров-традиционалистов, способных их раздобыть. Хотя Malcador во многом вытеснен Leman Russ, о недостатках его конструкции забывают, едва зарокочет его battle cannon.',
+    abilities: {
+      'Rugged Reliability': 'Каждый раз, когда дальнобойная атака нацелена на эту модель, ухудшите характеристику Бронебойности (AP) этой атаки на 1.',
+    },
+    loadout: `${EQUIP_THIS} 2 autocannons; heavy bolter; Malcador battle cannon; armoured tracks.`,
+    options: [
+      '2 autocannons этой модели можно заменить на одно из следующего:\n▪ 2 heavy bolters\n▪ 2 lascannons',
+      'heavy bolter этой модели можно заменить на одно из следующего:\n▪ 1 autocannon\n▪ 1 lascannon',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'malcador-annihilator': {
+    flavor:
+      'Malcador Annihilator меняет battle cannon Malcador на twin lascannon, а к корпусу крепит demolisher cannon. Хотя, возможно, он хуже заточен под одну роль на поле боя, послужной список Annihilator говорит сам за себя: машина доказала свою приспособляемость к самым разным театрам войны.',
+    abilities: {
+      'Battlefield Dominance': 'Дальнобойное оружие этой модели имеет способность [IGNORES COVER], пока целится во вражеский юнит в пределах половины дальности.',
+    },
+    loadout: `${EQUIP_THIS} demolisher cannon; 2 heavy bolters; Malcador twin lascannon; armoured tracks.`,
+    options: [
+      '2 heavy bolters этой модели можно заменить на одно из следующего:\n▪ 2 autocannons\n▪ 2 lascannons',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'malcador-defender': {
+    flavor:
+      'С семью heavy bolters и demolisher cannon в корпусе Defender способен возглавлять осадные операции или косить волну за волной вражеской пехоты. Сильно переделанная амбразура танка ощетинилась орудиями со всех сторон, придавая ему вид движущейся крепости.',
+    abilities: {
+      'Armoured Defender': 'Каждый раз, когда вы нацеливаете стратагему Fire Overwatch на эту модель, при отыгрыше этой стратагемы попадания засчитываются при немодифицированных бросках попадания 5+.',
+    },
+    loadout: `${EQUIP_THIS} demolisher cannon; 7 heavy bolters; armoured tracks.`,
+    options: [
+      '2 heavy bolters этой модели можно заменить на одно из следующего:\n▪ 2 autocannons\n▪ 2 lascannons',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'malcador-infernus': {
+    flavor:
+      'Infernus — огромный танк, что буксирует топливо для своей inferno gun в отдельном прицепе позади. Когда это оружие извергается, исполинский язык пламени пожирает цель, пылая с таким жаром, что детонируют мины и топливные баки, а плоть и кость, попавшие в пекло, обращаются в раскалённый пар.',
+    abilities: {
+      'Explosive Death': 'Когда эта модель уничтожается, бросьте один D6: на 3+ не убирайте её из игры — после того как юнит атакующей модели завершит свои атаки, она может выстрелить из своей inferno gun, как если бы это была ваша фаза стрельбы и как если бы у неё оставались все раны. Затем эта модель убирается из игры.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy stubbers; inferno gun; armoured tracks.`,
+    options: [
+      '2 heavy stubbers этой модели можно заменить на одно из следующего:\n▪ 2 autocannons\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'manticore-platform': {
+    abilities: {
+      'Furious Barrage': 'Каждый раз, когда эта модель совершает атаку своими storm eagle rockets по вражескому юниту из пяти или более моделей, вы можете перебросить бросок попадания.',
+      'Reinforced Cover': REINFORCED_COVER,
+      Fortification: FORTIFICATION,
+    },
+    loadout: `${EQUIP_THIS} storm eagle rockets; close combat weapons.`,
+  },
+
+  'marauder-bomber': {
+    flavor:
+      'Способный действовать и в атмосфере, и в пустоте, Marauder Bomber — рабочая лошадка Имперского флота с отличной боевой нагрузкой. Он превосходен в поддержке наземных наступлений Астра Милитарум бомбовыми ударами по скоплениям вражеских войск, укреплённым позициям и объектам снабжения.',
+    wargear: {
+      'Heavy Bombs': 'Каждый раз, когда носитель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым он прошёл в этом манёвре, и бросить девять D6, прибавляя 1 к каждому результату, если этот юнит — MONSTER или VEHICLE: за каждый 5+ этот юнит получает 1 смертельную рану.',
+      'Inferno Bombs': 'Каждый раз, когда носитель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым он прошёл в этом манёвре, и бросить девять D6, прибавляя 1 к каждому результату, если этот юнит не MONSTER и не VEHICLE: за каждый 5+ этот юнит получает 1 смертельную рану.',
+    },
+    loadout: `${EQUIP_THIS} heavy bombs; 2 heavy bolters; 2 lascannons; armoured hull.`,
+    options: [
+      'heavy bombs этой модели можно заменить на 1 inferno bombs.',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
+  },
+
+  'marauder-destroyer': {
+    flavor:
+      'Marauder Destroyer был разработан во время Второй войны за Армагеддон в ответ на господство орочьей авиации. Результатом стал тяжеловооружённый и бронированный самолёт, способный охотиться на воздушных врагов или бить по бронированным наземным целям из набора грозных орудий и ракет.',
+    abilities: {
+      'Bomb Drop': 'Каждый раз, когда эта модель завершает обычный манёвр, вы можете выбрать один вражеский юнит, над которым она прошла в этом манёвре, и бросить шесть D6: за каждый 3+ этот юнит получает 1 смертельную рану.',
+    },
+    loadout: `${EQUIP_THIS} 2 assault cannons; 2 heavy bolters; Marauder nose autocannons; armoured hull.`,
+    options: [
+      'Эту модель можно снабдить 1 hellstrike missile rack.',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
+  },
+
+  'medusa-carriage-battery': {
+    flavor:
+      'Немногие стены достаточно толсты, чтобы выдержать артиллерийский огонь Medusa siege cannon. Способные бить тяжёлыми снарядами, обращающими постройки в щебень, многие театры войны гудят от гулкого огня осадных орудий Medusa, что ровняют поле боя, пока незадачливому врагу негде укрыться.',
+    abilities: {
+      'Siege Bombardment': 'В вашей фазе стрельбы, после того как этот юнит отстрелялся, выберите один вражеский юнит, поражённый одной или более из этих атак. Этот вражеский юнит должен пройти проверку боевого шока.',
+    },
+    loadout: `${EQUIP_THIS} Medusa siege cannon; battery close combat weapons.\n\n**Примечание разработчика:** положите пять жетонов Heavy Artillery Crew рядом с каждой моделью Medusa Carriage, когда этот юнит впервые выставляется, убирая один каждый раз, когда её модель Medusa Carriage теряет рану (сама модель Medusa Carriage считается представляющей её последнюю рану). Для любых правил они не считаются моделями.`,
+  },
+
+  minotaur: {
+    abilities: {
+      'Armoured Frontis': 'Каждый раз, когда атака распределяется по этой модели, вычтите 1 из характеристики Урона (Damage) этой атаки.',
+    },
+    loadout: `${EQUIP_THIS} Minotaur twin earthshaker cannon; armoured tracks.`,
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'mukaali-riders': {
+    abilities: {
+      'Desert Riders': 'Вы можете игнорировать любые или все модификаторы характеристики Движения (Move) этого юнита и бросков продвижения и нападения для него. Кроме того, этот юнит имеет право стрелять и объявлять нападение в ходу, в котором он отступил.',
+    },
+    loadout: `${EQUIP_EVERY} laspistol; hunting lance; stomping feet.`,
+    options: [
+      'laspistol у Mukaali Rider Sergeant можно заменить на 1 plasma pistol.',
+      'hunting lance у Mukaali Rider Sergeant можно заменить на одно из следующего:\n▪ 1 chainsword\n▪ 1 power weapon',
+      'До 2 Mukaali Riders могут каждый заменить свою hunting lance на одно из следующего:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun',
+    ],
+  },
+
+  'munitorum-servitors': {
+    flavor:
+      'Лоботомированные и аугментированные, сервиторы служат Департаменто Муниторум бесчисленными чёрными работами. Эти кибернетические живые инструменты часто составляют раболепную свиту энджинсиров, чиня промышленными серво-руками громадные танки — и без колебаний обращая их против врага, подошедшего слишком близко.',
+    abilities: {
+      Mindlock: 'Пока дружественная модель TECH-PRIEST ENGINSEER возглавляет этот юнит, улучшите характеристики Навыка стрельбы (BS) и Навыка боя (WS) дальнобойного и оружия ближнего боя моделей Munitorum Servitor этого юнита на 1.',
+    },
+    rules: {
+      'SERVITOR RETINUE': 'В начале шага Declare Battle Formations этот юнит может присоединиться к одному другому юниту из вашей армии, который возглавляет TECH-PRIEST ENGINSEER (к юниту не может быть присоединено больше одного юнита MUNITORUM SERVITORS). Если он это делает, до конца битвы каждая модель этого юнита считается частью этого юнита-телохранителя, и его начальная численность соответственно увеличивается.',
+    },
+    loadout: `${EQUIP_EVERY} Servitor’s servo-arm.`,
+    options: [
+      'До 2 моделей могут каждая заменить свою Servitor’s servo-arm на одно из следующего:\n▪ 1 heavy bolter\n▪ 1 multi-melta\n▪ 1 plasma cannon',
+    ],
+  },
+
+  praetor: {
+    flavor:
+      'Построенный на том же шасси, что и штурмовой транспорт Crassus, Praetor несёт сложную ракетную систему, которую можно снаряжать разными боеголовками — от универсальных ракет foehammer, начинённых осколочными суббоеприпасами, до фрагментирующих зарядов firestorm.',
+    abilities: {
+      'Targeting Coordinates': 'Пока на эту модель действует Order, каждый раз, когда она совершает атаку своей Praetor launcher, она не получает штраф к броску попадания за атаку по юниту, который ей не виден.',
+    },
+    loadout: `${EQUIP_THIS} 2 heavy bolters; Praetor launcher; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+  },
+
+  'provisionally-prepared': {
+    flavor:
+      'Черты, делающие рэтлингов превосходными снайперами, делают их и умелыми ворами. Самые ловкие работают парами: один запасает всевозможное снабжение на пользу своим часто забытым собратьям-стрелкам, другой скрытно стоит на стрёме. Разумеется, оба одинаково усердно налегают на украденный паёк.',
+    abilities: {
+      'A Hearty ‘Pick Me Up’': 'Пока эта модель возглавляет юнит, в вашей фазе командования вы можете вернуть до D3 уничтоженных моделей в этот юнит.',
+      'Well-stocked Supplies': 'Пока эта модель возглавляет юнит, улучшите характеристики Лидерства (Leadership) и Контроля целей (OC) моделей этого юнита на 1.',
+    },
+    loadout: `${EQUIP_THIS} sniper rifle; close combat weapons.`,
+    leader: { text: 'Этот юнит можно присоединить к следующему юниту:' },
+  },
+
+  'quartermaster-cadre-squad': {
+    abilities: {
+      'Medicae Medi-packs': 'Пока этот юнит содержит одного или более Medicae Servitors, модели этого юнита имеют способность Feel No Pain 5+.',
+      Mindlock: 'Пока этот юнит содержит модель Quartermaster Revenant, улучшите характеристику Навыка боя (WS) Medical scalpels этого юнита на 1.',
+    },
+    loadout: '**Quartermaster Revenant вооружён:** Quartermaster’s pistol; Quartermaster’s close combat weapon.\n\n**Каждый Medicae Servitor вооружён:** medical scalpels.',
+    leader: { text: 'Этот юнит можно присоединить к следующим юнитам:' },
+  },
+
+  'rapier-laser-destroyer-battery': {
+    flavor:
+      'Лафет Rapier — громоздкая гусеничная машина, чьё происхождение восходит к заре звёздной империи человечества. Совместимый с разным тяжёлым оружием, Rapier чаще всего оснащают мощной счетверённой лазпушкой, известной как laser destroyer, что делает его компактным, но грозным противотанковым средством.',
+    abilities: {
+      'Powerful Volley': 'Пока на этот юнит действует Order, если он оставался неподвижным в этом ходу, оружие Heavy моделей этого юнита имеет способность [LETHAL HITS].',
+    },
+    loadout: `${EQUIP_EVERY} laser destroyer; close combat weapon.\n\n**Примечание разработчика:** положите два жетона Artillery Crew рядом с каждой моделью Rapier Laser Destroyer, когда этот юнит впервые выставляется, убирая один каждый раз, когда её модель Rapier Laser Destroyer теряет рану (сама модель Rapier Laser Destroyer считается представляющей её последнюю рану).`,
+  },
+
+  'regimental-attaches': {
+    flavor:
+      'Опытные офицеры знают цену советам разных атташе. От закалённых пустотой офицеров флота до закопчённых мастеров артиллерии и псайкеров-астропатов — такие специалисты применяют свои знания в поддержку великих замыслов офицера.',
+    abilities: {
+      'Artillery Commander': 'В начале вашей фазы стрельбы выберите один вражеский юнит в пределах 30" от модели Master of Ordnance этого юнита и видимый ей, который ещё не выбирался для этой способности в этой фазе. До конца фазы оружие Blast дружественных моделей ASTRA MILITARUM ARTILLERY имеет способность [SUSTAINED HITS 1] при стрельбе по этому юниту.',
+      'Aeronautica Commander': 'В начале вашей фазы стрельбы выберите один вражеский юнит в пределах 30" от модели Officer of the Fleet этого юнита и видимый ей. До конца фазы каждый раз, когда дружественная модель ASTRA MILITARUM AIRCRAFT совершает дальнобойную атаку по этому юниту, прибавьте 1 к броску попадания.',
+      'Divination (Psychic)': 'Вражеские юниты, выставляемые на поле боя как подкрепления, нельзя выставлять в пределах 12" от модели Astropath этого юнита.',
+    },
+    rules: {
+      'ATTACHÉS': 'В начале шага Declare Battle Formations этот юнит обязан присоединиться к одному юниту COMMAND SQUAD из вашей армии (к юниту COMMAND SQUAD не может быть присоединено больше одного юнита REGIMENTAL ATTACHÉ). До конца битвы каждая модель этого юнита считается частью этого юнита COMMAND SQUAD, и его начальная численность соответственно увеличивается. Если присоединить юнит REGIMENTAL ATTACHÉ к COMMAND SQUAD таким образом невозможно, он не участвует в битве и считается уничтоженным.\n\nПока этот юнит присоединён к юниту, он может погружаться в любой TRANSPORT, в который может погружаться этот юнит.',
+    },
+    loadout: '**Master of Ordnance и Officer of the Fleet оба вооружены:** laspistol; close combat weapon.\n\n**Astropath вооружён:** laspistol; Astropath’s stave.',
+  },
+
+  'rein-and-raus': {
+    abilities: {
+      'Shoot Sharp and Scarper': 'В вашей фазе стрельбы, после того как этот юнит отстрелялся, если он не находится в дистанции ввязывания одного или более вражеских юнитов, он может совершить обычный манёвр. Если он это делает, до конца хода этот юнит не имеет права объявлять нападение.',
+      'The Ratling Twins': 'Пока этот юнит содержит 2 модели, каждый раз, когда модель этого юнита совершает дальнобойную атаку, вы можете перебросить бросок попадания и вы можете перебросить бросок ранения.',
+    },
+    loadout: '**Rein вооружён:** sniper rifle; stub pistol; close combat weapon.\n\n**Raus вооружён:** demolition charge; stub pistol; close combat weapon.',
+  },
+
+  'sabre-weapons-battery': {
+    abilities: {
+      'Sentinel Directives': 'Каждый раз, когда вы нацеливаете стратагему Fire Overwatch на этот юнит, при отыгрыше этой стратагемы попадания засчитываются при немодифицированных бросках попадания 5+.',
+      Fortification: FORTIFICATION,
+    },
+    wargear: {
+      'Defence Searchlight': 'В начале вашей фазы стрельбы вы можете выбрать один вражеский юнит в пределах 24" от носителя и видимый ему. До конца фазы этот юнит не может иметь Benefit of Cover.',
+    },
+    loadout: `${EQUIP_EVERY} twin heavy bolter; close combat weapon.`,
+    options: [
+      'Любое число моделей могут каждая заменить свой twin heavy bolter на одно из следующего:\n▪ 1 defence searchlight\n▪ 1 twin autocannon\n▪ 1 twin heavy stubber\n▪ 1 twin lascannon',
+    ],
+  },
+
+  'salamander-command-vehicle': {
+    abilities: {
+      'Auspex Surveyor': 'Каждый раз, когда эта модель отстрелялась, выберите один вражеский юнит, поражённый одной или более из этих атак. До конца фазы этот юнит не может иметь Benefit of Cover.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; heavy flamer; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+  },
+
+  'salamander-scout-vehicle': {
+    abilities: {
+      Outflank: 'Когда эта модель прибывает из стратегических резервов, её можно выставить в зоне развёртывания вашего оппонента (все остальные ограничения по-прежнему действуют).',
+    },
+    loadout: `${EQUIP_THIS} autocannon; heavy bolter; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+  },
+
+  'sentinel-powerlifter': {
+    abilities: {
+      'Powerlifter Charge': 'Каждый раз, когда эта модель завершает манёвр нападения, выберите один вражеский юнит в её дистанции ввязывания и бросьте один D6: на 2–5 этот вражеский юнит получает D3 смертельные раны; на 6 этот вражеский юнит получает 3 смертельные раны.',
+    },
+    loadout: `${EQUIP_THIS} powerlifter.`,
+  },
+
+  'sergeant-harker': {
+    flavor:
+      'Канонир-сержант Харкер, известный своим катачанцам как «Каменный Зуб», — один из самых крепких представителей этой суровой породы. Говорят, он не чувствует боли, а его чудовищная сила позволяет носить heavy bolter по имени Payback так же легко, как другие носят винтовку.',
+    abilities: {
+      'Harker’s Hellraisers': 'Пока эта модель возглавляет юнит, каждый раз, когда дальнобойная атака нацелена на этот юнит, если атакующая модель дальше 12", вычтите 1 из броска попадания.',
+      'Payback Time': 'Один раз за битву, когда эта модель выбирается для стрельбы, она может задействовать эту способность. Если она это делает, до конца фазы её оружие Payback имеет характеристику Атак (Attacks) 6 и способность [SUSTAINED HITS 3] вместо способности [SUSTAINED HITS 1].',
+    },
+    rules: {
+      ORDERS: 'Этот OFFICER может издать 1 Order юниту CATACHAN JUNGLE FIGHTERS.',
+    },
+    loadout: `${EQUIP_THIS} Payback; close combat weapon.`,
+    leader: { text: 'Эту модель можно присоединить к следующему юниту:' },
+  },
+
+  'storm-chimera': {
+    abilities: {
+      'Mobile Command Vehicle': 'В вашей фазе командования одна модель OFFICER, погруженная в этот TRANSPORT, может издавать Orders, даже хотя она не на поле боя. При этом расстояния измеряются до и от этого TRANSPORT.',
+    },
+    loadout: `${EQUIP_THIS} autocannon; heavy bolter; armoured tracks.`,
+    options: [
+      'heavy bolter этой модели можно заменить на 1 heavy flamer.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    transport:
+      'Эта модель имеет транспортную вместимость 12 моделей ASTRA MILITARUM INFANTRY. Каждая модель HEAVY WEAPONS TEAM и VETERAN HEAVY WEAPONS TEAM занимает место 2 моделей. Каждая модель OGRYN занимает место 3 моделей. Она не может перевозить модели ARTILLERY.',
+  },
+
+  stormblade: {
+    flavor:
+      'Созданный для охоты на Титанов подобно Shadowsword, Stormblade несёт главным орудием plasma blastgun. Хотя оно и менее стабильно, чем volcano cannon, это огромное орудие можно обратить против титанических боевых машин, пехотных построений или бронированных бастионов с равно опустошительным итогом.',
+    abilities: {
+      'Close-range Devastation': 'Каждый раз, когда эта модель совершает дальнобойную атаку своей Stormblade plasma blastgun по юниту в пределах половины дальности, вы можете перебросить бросок попадания.',
+    },
+    loadout: `${EQUIP_THIS} 2 lascannons; 1 Stormblade plasma blastgun; 2 twin heavy bolters; armoured tracks.`,
+    options: [
+      '2 twin heavy bolters этой модели можно заменить на 2 twin heavy flamers.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+      'Эту модель можно снабдить одним из следующего:\n▪ 2 lascannons и 2 twin heavy bolters\n▪ 2 lascannons и 2 twin heavy flamers',
+    ],
+    damaged: { note: 'осталось 1–8 ран', text: dmgHitOcMinus('1–8') },
+  },
+
+  'stygies-destroyer-tank-hunter': {
+    abilities: {
+      'Tank Hunter': 'Каждый раз, когда эта модель совершает дальнобойную атаку по юниту VEHICLE, прибавьте 1 к броску ранения.',
+    },
+    loadout: `${EQUIP_THIS} Stygies laser destroyer; armoured tracks.`,
+    options: [
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–4 ран', text: dmgHitMinus('1–4') },
+  },
+
+  'tarantula-battery': {
+    flavor:
+      'Автоматические турели Tarantula — оружейные системы, идеально подходящие для запрета доступа и сдерживания. Оснащённые простыми логическими машинами и вооружённые лазпушками или heavy bolters, они способны косить вражескую пехоту или останавливать бронетехнику на ходу, почти не требуя внимания операторов.',
+    abilities: {
+      'Sentry Programming': 'Вы можете нацелить на этот юнит стратагему Fire Overwatch за 0 CP, и можете сделать это, даже если уже применили эту стратагему к другому юниту в этой фазе.',
+    },
+    loadout: `${EQUIP_EVERY} twin heavy bolter; close combat weapon.`,
+    options: [
+      'Любое число моделей могут каждая заменить свой twin heavy bolter на 1 twin lascannon.',
+    ],
+  },
+
+  'tauros-assault-vehicle': {
+    abilities: {
+      'Turbo-boost': 'Каждый раз, когда эта модель продвигается, не делайте для неё бросок продвижения. Вместо этого до конца фазы прибавьте 6" к характеристике Движения (Move) этой модели.',
+    },
+    loadout: `${EQUIP_THIS} heavy flamer; armoured frame.`,
+    options: [
+      'heavy flamer этой модели можно заменить на 1 Tauros grenade launcher.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+  },
+
+  'tauros-venator': {
+    abilities: {
+      'Mobile Hunter-killer': 'Каждый раз, когда эта модель совершает атаку по юниту MONSTER или VEHICLE, вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} twin multi-laser; armoured frame.`,
+    options: [
+      'twin multi-laser этой модели можно заменить на 1 twin lascannon.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+  },
+
+  'trojan-support-vehicle': {
+    flavor:
+      'Бронетанковые роты и артиллерийские полки Астра Милитарум зависят от обширного корпуса машин обеспечения для ремонта и перевооружения. Среди них — Trojan, оснащённый краном возчик боеприпасов, чья задача — не давать большим пушкам замолчать, будь то пополнением запасов снарядов и топлива или простым полевым ремонтом.',
+    abilities: {
+      'Support Vehicle': 'В вашей фазе командования выберите одну дружественную модель ASTRA MILITARUM VEHICLE в пределах 3" от этой модели. Эта модель VEHICLE восстанавливает до D3 потерянных ран, и до начала вашей следующей фазы командования каждый раз, когда эта модель VEHICLE совершает атаку, перебрасывайте бросок попадания 1. Одну и ту же модель VEHICLE нельзя выбрать и для этой способности, и для способности Omnissiah’s Blessing у Regimental Enginseer в одном ходу, и каждую модель можно выбирать для этой способности только один раз за фазу командования.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; armoured tracks.`,
+    options: [
+      'heavy bolter этой модели можно заменить на 1 heavy flamer.',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+    ],
+  },
+
+  valdor: {
+    flavor:
+      'Valdor — тайный вариант шасси Malcador, чей корпус целиком подчинён технологической реликвии, известной как neutron laser projector. Это мощное энергетическое оружие бьёт лучом сверхзаряженных частиц, что пронзает самую толстую броню и пускает по внутренностям техники парализующий электромагнитный импульс.',
+    abilities: {
+      'Power Overload': 'Каждый раз, когда эта модель совершает атаку по юниту MONSTER или VEHICLE, вы можете перебросить бросок урона.',
+    },
+    loadout: `${EQUIP_THIS} autocannon; Valdor neutron laser; armoured tracks.`,
+    options: [
+      'autocannon этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon',
+      'Эту модель можно снабдить 1 hunter-killer missile.',
+      'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
+    ],
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitOcMinus('1–7') },
+  },
+
+  'valkyrie-sky-talon': {
+    abilities: {
+      'Fire Support': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит, по которому она засчитала одно или более попаданий в этой фазе. До конца фазы каждый раз, когда дружественная модель, что выгрузилась из этого TRANSPORT в этом ходу, совершает атаку по этому вражескому юниту, вы можете перебросить бросок ранения.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; 2 hellstrike missiles; armoured hull.`,
+    options: [
+      '2 hellstrike missiles этой модели можно заменить на 2 multiple rocket pods.',
+    ],
+    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
+    transport:
+      'Эта модель имеет транспортную вместимость 1 модель TAUROS или 2 модели ASTRA MILITARUM WALKER.',
+  },
+
+  'vendetta-gunship': {
+    abilities: {
+      'Anti-armour Gunship': 'Каждый раз, когда дальнобойная атака этой модели распределяется по модели MONSTER или VEHICLE, перебросьте бросок урона 1.',
+    },
+    loadout: `${EQUIP_THIS} 3 Vendetta twin lascannons; armoured hull.`,
+    options: [
+      '2 Vendetta twin lascannons этой модели можно заменить на 1 Vendetta hellstrike rack.',
+      'Эту модель можно снабдить 2 heavy bolters.',
+    ],
+    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
+  },
+
+  'voss-pattern-lightning': {
+    flavor:
+      'Меньший и более манёвренный, чем знаменитый Thunderbolt, Lightning — скоростной суборбитальный истребитель для перехвата, воспрещения и хирургических ударов. Ракеты hellstrike в паре с лазпушками гарантируют, что немногие наземные цели уцелеют при его пикирующих атаках.',
+    abilities: {
+      'Agile Dogfighter': 'Каждый раз, когда атака нацелена на эту модель, вычтите 1 из броска попадания.',
+    },
+    loadout: `${EQUIP_THIS} 2 lascannons; armoured hull.`,
+    options: [
+      'Эту модель можно снабдить 1 Lightning hellstrike rack.',
+    ],
+    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
+  },
+
+  'vulture-gunship': {
+    flavor:
+      'Построенные на основе СШК Valkyrie, Vulture Gunship — скоростные низковысотные охотники-убийцы, способные нести широкий набор вооружения. Будь то ближнее прикрытие десантников или штурмовка массированной пехоты и лёгкой техники, Vulture — верные бойцы Имперского флота, приспособленные к множеству боевых ситуаций.',
+    abilities: {
+      'Gunship Barrage': 'В вашей фазе стрельбы, после того как эта модель отстрелялась, выберите один вражеский юнит, поражённый одной или более из этих атак. Этот вражеский юнит должен пройти проверку боевого шока.',
+    },
+    loadout: `${EQUIP_THIS} heavy bolter; 2 multiple rocket pods; Vulture hellstrike racks; armoured hull.`,
+    options: [
+      '2 multiple rocket pods и Vulture hellstrike rack этой модели можно заменить на 2 Vulture gatling cannons.',
+    ],
+    damaged: { note: 'осталось 1–5 ран', text: dmgHitMinus('1–5') },
+  },
 }
 
 export const abilityNamesRu = {
@@ -1359,4 +2139,64 @@ export const abilityNamesRu = {
   Counterstrategist: 'Контрстратег',
   'Decisive Command': 'Решительное командование',
   'Inspiring Hero (Aura)': 'Вдохновляющий герой (Аура)',
+  // Legends (Faction Pack)
+  'Aerial Deployment': 'Воздушное развёртывание',
+  'Pinning Bombardment': 'Прижимающий обстрел',
+  'Recovery Vehicle': 'Эвакуационная машина',
+  'Ancient Conquest': 'Древнее завоевание',
+  'Blistering Advance': 'Стремительный бросок',
+  'Hero of the Imperium (Aura)': 'Герой Империума (Аура)',
+  'Trapped by Excuses': 'В ловушке отговорок',
+  'Psychic Blank': 'Псионическая пустота',
+  'Unparalleled Luck (Once per battle, per army)': 'Небывалая удача (один раз за битву, на армию)',
+  'Tracking Target': 'Сопровождение цели',
+  'Fire Support': 'Огневая поддержка',
+  'Meteoric Descent': 'Метеорный спуск',
+  'Mark the Target': 'Пометить цель',
+  'Subterranean Assault': 'Подземный штурм',
+  'Heroic Example': 'Героический пример',
+  'Lesk’s Heroes': 'Герои Леск',
+  'Regimental Banner': 'Полковое знамя',
+  'Cold Steel and Courage': 'Холодная сталь и отвага',
+  'Been There, Seen it, Killed it': 'Был там, видел, убил',
+  'Battlefield Control': 'Контроль поля боя',
+  'Overwhelming Short-range Firepower': 'Подавляющая огневая мощь в упор',
+  'Tank Hunter': 'Охотник на танки',
+  'Armoured Aggressor': 'Бронированный агрессор',
+  'Rugged Reliability': 'Неприхотливая надёжность',
+  'Battlefield Dominance': 'Господство на поле боя',
+  'Armoured Defender': 'Бронированный защитник',
+  'Explosive Death': 'Взрывная гибель',
+  'Heavy Bombs': 'Тяжёлые бомбы',
+  'Inferno Bombs': 'Бомбы «Инферно»',
+  'Bomb Drop': 'Сброс бомб',
+  'Siege Bombardment': 'Осадный обстрел',
+  'Armoured Frontis': 'Бронированный фронтис',
+  'Desert Riders': 'Наездники пустыни',
+  Mindlock: 'Разумозамок',
+  'Targeting Coordinates': 'Координаты цели',
+  'A Hearty ‘Pick Me Up’': 'Сытный «подкрепиться»',
+  'Well-stocked Supplies': 'Богатые запасы',
+  'Medicae Medi-packs': 'Медпакеты медика',
+  'Powerful Volley': 'Мощный залп',
+  'Artillery Commander': 'Командующий артиллерией',
+  'Aeronautica Commander': 'Командующий авиацией',
+  'Divination (Psychic)': 'Прорицание (Psychic)',
+  'The Ratling Twins': 'Близнецы-рэтлинги',
+  'Sentinel Directives': 'Директивы часового',
+  'Defence Searchlight': 'Оборонительный прожектор',
+  'Auspex Surveyor': 'Ауспик-наблюдатель',
+  Outflank: 'Обход с фланга',
+  'Powerlifter Charge': 'Натиск погрузчика',
+  'Harker’s Hellraisers': 'Головорезы Харкера',
+  'Payback Time': 'Час расплаты',
+  'Close-range Devastation': 'Опустошение в упор',
+  'Sentry Programming': 'Программа часового',
+  'Turbo-boost': 'Турбоускорение',
+  'Mobile Hunter-killer': 'Подвижный охотник-убийца',
+  'Support Vehicle': 'Машина обеспечения',
+  'Power Overload': 'Перегрузка',
+  'Anti-armour Gunship': 'Противотанковый ганшип',
+  'Agile Dogfighter': 'Вёрткий истребитель',
+  'Gunship Barrage': 'Залп ганшипа',
 }

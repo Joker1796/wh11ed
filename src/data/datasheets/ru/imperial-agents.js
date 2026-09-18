@@ -527,6 +527,264 @@ export default {
     loadout: `${EQUIP_THIS} vigil spear.`,
     leader: { text: LEADER_TEXT },
   },
+
+  // Warhammer Legends, from the Faction Pack v1.1 (EN sheets carry source: 'faction-pack').
+  daemonhost: {
+    flavor:
+      'Демонхосты — духи эмпиреев, обрядом заключённые в тело смертного. Некоторые служат подневольными прислужниками в свите инквизитора, обладая сонмом потусторонних способностей. Создать демонхоста — решение поистине смелое или безрассудное: вырвавшиеся на свободу духи с наслаждением мстят своим пленителям.',
+    abilities: {
+      'Malefic Warding': 'Пока модель INQUISITOR возглавляет юнит, включающий одну или более моделей DAEMONHOST, модели этого юнита имеют инвулевый спас-бросок 5+.',
+      'Bound Daemon': 'Пока модель INQUISITOR возглавляет юнит, включающий одну или более моделей DAEMONHOST, характеристика Контроля целей (OC) моделей DAEMONHOST этого юнита равна 1.',
+    },
+    rules: {
+      'INQUISITORIAL RETINUE':
+        'Если фракция вашей армии не AGENTS OF THE IMPERIUM, то за каждую уникальную пару из 1 юнита INQUISITORIAL AGENTS и 1 юнита DAEMONHOST в вашей армии увеличьте максимальное число юнитов RETINUE, разрешённых в вашей армии, на 1.\n\nВ начале шага Declare Battle Formations этот юнит может присоединиться к одному юниту INQUISITORIAL AGENTS из вашей армии, который возглавляет модель INQUISITOR (к юниту не может быть присоединено больше одного юнита DAEMONHOST). Если он это делает, до конца битвы каждая модель этого юнита считается частью этого юнита-телохранителя, и его начальная численность соответственно увеличивается.',
+    },
+    loadout: `${EQUIP_EVERY} unholy gaze; Warp grasp.`,
+  },
+
+  'damned-legionnaires': {
+    abilities: {
+      'Grim Spectres': 'В вашей фазе стрельбы, после того как этот юнит отстрелялся, выберите один вражеский юнит, поражённый одной или более из этих атак. Этот вражеский юнит должен пройти проверку боевого шока, вычитая при этом 1 из результата.',
+    },
+    loadout: `${EQUIP_EVERY} boltgun; close combat weapon.`,
+    options: [
+      'boltgun у Legionnaire Sergeant можно заменить на одно из следующего:\n▪ 1 bolt pistol и 1 power weapon\n▪ 1 plasma pistol и 1 power weapon\n▪ 1 bolt pistol и 1 Astartes chainsword\n▪ 1 plasma pistol и 1 Astartes chainsword',
+      'boltgun одного Legionnaire можно заменить на одно из следующего:\n▪ 1 heavy flamer\n▪ 1 multi-melta',
+      'boltgun одного Legionnaire можно заменить на одно из следующего:\n▪ 1 flamer\n▪ 1 meltagun\n▪ 1 plasma gun',
+    ],
+  },
+
+  'deathwatch-terminator-squad': {
+    flavor:
+      'Несокрушимые воины, удостоенные чести носить громоздкие доспехи Терминатора, вдохновляют своих братьев одним видом. Терминаторы Deathwatch несут мощнейшее оружие ближнего боя, а сила и прочность их брони позволяют им нести тяжелейший огонь прямо в скрытые логова ксеносов.',
+    abilities: {
+      'Terminatus Assault': 'Каждый раз, когда этот юнит завершает манёвр нападения, каждый вражеский юнит в дистанции ввязывания этого юнита должен пройти проверку боевого шока.',
+      'Teleport Homer':
+        'В начале битвы вы можете поставить один жетон Teleport Homer для этого юнита где угодно на поле боя вне зоны развёртывания вашего оппонента. Если вы это делаете, один раз за битву вы можете нацелить на этот юнит стратагему Rapid Ingress за 0 CP, но при отыгрыше этой стратагемы вы обязаны развернуть этот юнит в пределах 3" от этого жетона и не в пределах 8" от любых вражеских моделей. Затем этот жетон убирается.',
+    },
+    wargear: { 'Storm Shield': 'Носитель имеет характеристику Ран (Wounds) 4.' },
+    rules: { 'ATTACHED UNIT': 'Если CHARACTER из вашей армии со способностью Leader может быть присоединён к DEATHWATCH KILL TEAM, он может быть присоединён к этому юниту вместо этого.' },
+    loadout: `${EQUIP_EVERY} power fist; storm bolter.`,
+    options: [
+      'До 3 Deathwatch Terminators могут заменить свой storm bolter на одно из следующего:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 plasma cannon\n▪ 1 cyclone missile launcher и 1 storm bolter (storm bolter этой модели заменить нельзя)',
+      'Любое число моделей может заменить свои power fist и storm bolter на одно из следующего:\n▪ 1 storm bolter и 1 power weapon\n▪ 1 storm bolter и 1 chainfist\n▪ 1 twin lightning claws\n▪ 1 thunder hammer и 1 storm shield',
+    ],
+  },
+
+  'fortis-kill-team': {
+    flavor:
+      'Доработанные после первоначального замысла магистра Дозора Морделая, Fortis Kill Teams — образец высшей приспособляемости варианта Tacticus силовой брони Mk X, бесшовно сочетающий разнообразные роли ближней поддержки и смертоносную огневую мощь.',
+    abilities: {
+      'Kill Team': 'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, для определения броска, необходимого для ранения, используйте характеристику Стойкости большинства моделей этого юнита. Если две или более характеристики Стойкости делят большинство, используйте наибольшее значение.\n\nДля определения того, какие модели этого юнита могут погрузиться в TRANSPORT, модели Kill Team Terminator, Kill Team Outrider, Kill Team Biker и модели с прыжковым ранцем занимают место 2 моделей каждая, но в остальном могут погружаться в любой TRANSPORT, в который может погрузиться их юнит, даже если похожие модели в других юнитах имеют ключевые слова TERMINATOR, MOUNTED или JUMP PACK.\n\nДля взаимодействия с элементами ландшафта все модели юнитов с этой способностью считаются моделями INFANTRY, даже если похожие модели в других юнитах могут иметь ключевые слова MOUNTED или JUMP PACK.\n\n**Примечание разработчика:** хотя абстракции этого правила заставляют некоторые модели вести себя иначе, чем похожие модели в других юнитах, они созданы, чтобы свести к минимуму сложные правила движения, транспорта и преимущества укрытия.',
+      'Fortis Doctrines': 'Каждый раз, когда модель этого юнита совершает атаку по юниту ниже половинной численности, прибавьте 1 к броску попадания.',
+    },
+    rules: { 'ATTACHED UNIT': 'Если CHARACTER из вашей армии со способностью Leader может быть присоединён к DEATHWATCH KILL TEAM, он может быть присоединён к этому юниту вместо этого.', TRANSPORT: 'Этот юнит не может погружаться в IMPERIAL RHINO.' },
+    loadout:
+      '**Каждый Kill Team Intercessor вооружён:** bolt pistol; bolt rifle; close combat weapon.\n\n**Каждый Kill Team Intercessor с plasma incinerator вооружён:** bolt pistol; plasma incinerator; close combat weapon.\n\n**Каждый Kill Team Intercessor с heavy bolt pistol вооружён:** heavy bolt pistol; Astartes chainsword.\n\n**Каждый Kill Team Outrider вооружён:** bolt pistol; twin bolt rifle; Astartes chainsword.',
+    options: [
+      'bolt rifle 1 Kill Team Intercessor можно заменить на одно из следующего:\n▪ 1 hand flamer\n▪ 1 plasma pistol\n▪ 1 Astartes chainsword\n▪ 1 Long Vigil melee weapon',
+      '1 модель, снаряжённая bolt rifle, может заменить свой close combat weapon на одно из следующего:\n▪ 1 Astartes chainsword\n▪ 1 Long Vigil melee weapon',
+      'За каждые 5 моделей в этом юните bolt rifle 1 модели можно заменить на 1 Long Vigil ranged weapon.',
+      'Любое число Kill Team Intercessors с plasma incinerators может заменить свой bolt pistol на 1 plasma pistol.',
+    ],
+  },
+
+  'indomitor-kill-team': {
+    flavor:
+      'Состоящие из воинов в более тяжёлом варианте Gravis брони Mk X, Indomitor Kill Teams — подвижные бастионы, способные обрушить огневую мощь эскадрона боевых танков. Перед ними равно рвутся на части и орды ксеносов, и чудовищные твари.',
+    abilities: {
+      'Kill Team': 'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, для определения броска, необходимого для ранения, используйте характеристику Стойкости большинства моделей этого юнита. Если две или более характеристики Стойкости делят большинство, используйте наибольшее значение.\n\nДля определения того, какие модели этого юнита могут погрузиться в TRANSPORT, модели Kill Team Terminator, Kill Team Outrider, Kill Team Biker и модели с прыжковым ранцем занимают место 2 моделей каждая, но в остальном могут погружаться в любой TRANSPORT, в который может погрузиться их юнит, даже если похожие модели в других юнитах имеют ключевые слова TERMINATOR, MOUNTED или JUMP PACK.\n\nДля взаимодействия с элементами ландшафта все модели юнитов с этой способностью считаются моделями INFANTRY, даже если похожие модели в других юнитах могут иметь ключевые слова MOUNTED или JUMP PACK.\n\n**Примечание разработчика:** хотя абстракции этого правила заставляют некоторые модели вести себя иначе, чем похожие модели в других юнитах, они созданы, чтобы свести к минимуму сложные правила движения, транспорта и преимущества укрытия.',
+      'Indomitor Doctrines': 'Каждый раз, когда модель этого юнита совершает атаку, прибавьте 1 к броску попадания, если этот юнит ниже своей начальной численности, а также прибавьте 1 к броску ранения, если этот юнит ниже половинной численности.',
+    },
+    wargear: { 'Jump Pack': 'Носитель имеет характеристику Движения (Move) 10" и может двигаться сквозь модели и элементы ландшафта, как если бы их не было.' },
+    rules: {
+      'ATTACHED UNIT': 'Если юнит CHARACTER из вашей армии может быть присоединён к DEATHWATCH KILL TEAM, он может быть присоединён к этому юниту вместо этого.',
+      TRANSPORT: 'Этот юнит не может погружаться в IMPERIAL RHINO.',
+    },
+    loadout:
+      '**Каждый Kill Team Heavy Intercessor вооружён:** bolt pistol; heavy bolt rifle; close combat weapon.\n\n**Каждый Kill Team Heavy Intercessor с power fists вооружён:** flamestorm gauntlets; power fists.\n\n**Каждый Kill Team Heavy Intercessor с melta rifle вооружён:** bolt pistol; melta rifle; close combat weapon.\n\n**Каждый Kill Team Heavy Intercessor с jump pack вооружён:** assault bolters; close combat weapon; jump pack.',
+    options: [
+      'За каждые 5 моделей в этом юните 1 модель, снаряжённая heavy bolt rifle, может заменить свой heavy bolt rifle на 1 heavy bolter.',
+      '1 модель, снаряжённая melta rifle, может заменить свой melta rifle на 1 multi-melta.',
+      'Любое число моделей, снаряжённых flamestorm gauntlets, может заменить свои flamestorm gauntlets на 1 auto boltstorm gauntlets и 1 fragstorm grenade launcher.',
+      'Любое число моделей, снаряжённых assault bolters, может заменить свои assault bolters на 1 plasma exterminators.',
+    ],
+  },
+
+  'inquisitor-eisenhorn': {
+    aliasesRu: ['Эйзенхорн', 'Айзенхорн'],
+    flavor:
+      'Инквизитор Эйзенхорн из Ордо Ксенос — человек огромной силы воли и решимости. Он пойдёт на всё, чтобы сохранить Империум, и за свои действия дважды объявлялся предателем — и оба раза был признан верным. Эйзенхорн ещё и могучий телепат, способный принудить отдельных людей и даже целые группы следовать его указаниям.',
+    abilities: {
+      'Authority of the Inquisition': AUTHORITY,
+      'Malus Codicium': 'Пока эта модель возглавляет юнит, удвойте характеристику Атак (Attacks) оружия ближнего боя моделей DAEMONHOST этого юнита.',
+      'Dominate Will (Psychic)':
+        'В начале фазы стрельбы вашего оппонента выберите один вражеский юнит INFANTRY в пределах 12" от этой модели и видимый ей и бросьте один D6: на 1 эта модель получает D3 смертельных ран; на 2–5 до конца фазы каждый раз, когда модель этого юнита совершает атаку, вычтите 1 из броска попадания; на 6 до конца фазы этот юнит не имеет права стрелять.',
+    },
+    loadout: `${EQUIP_THIS} artificer bolt pistol; Mind Assault; runestaff and Barbarisater.`,
+    leader: { text: LEADER_TEXT },
+  },
+
+  'inquisitor-in-terminator-armour': {
+    abilities: {
+      'Authority of the Inquisition': AUTHORITY,
+      'Power of the Rosette': 'Каждый раз, когда вы нацеливаете стратагему на юнит этой модели, бросьте один D6: на 3+ вы получаете 1 CP.',
+    },
+    wargear: {
+      'Blessed Wardings': 'Пока носитель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 6+.',
+      'Psychic Gifts': 'Носитель имеет ключевое слово PSYKER.',
+    },
+    loadout: `${EQUIP_THIS} storm bolter; Inquisitorial melee weapon; blessed wardings.`,
+    options: [
+      'storm bolter этой модели можно заменить на 1 combi-weapon.',
+      'blessed wardings этой модели можно заменить на 1 psychic gifts и 1 psychic shock wave.',
+      'Если эта модель снаряжена 1 psychic gifts, её Inquisitorial melee weapon можно заменить на 1 force weapon.',
+      'Если эта модель снаряжена 1 psychic gifts, её storm bolter можно заменить на 1 psycannon.',
+    ],
+    leader: { text: LEADER_TEXT },
+  },
+
+  'inquisitor-karamazov': {
+    aliasesRu: ['Карамазов'],
+    flavor:
+      'Инквизитор Карамазов — один из самых безжалостных и бескомпромиссных в Ордо Еретикус. В его действиях нет ни хитрости, ни уловок, и на милосердие у него нет времени. Карамазов водил огромные крестоносные армии и вершил суд над еретиками со своего Трона Правосудия — древнего двуногого боевого святилища.',
+    abilities: {
+      'Throne of Judgement (Aura)': 'Пока дружественный юнит находится в пределах 6" от этой модели, улучшите характеристику Лидерства (Leadership) моделей этого юнита на 1. Пока вражеский юнит находится в пределах 6" от этой модели, ухудшите характеристику Лидерства (Leadership) моделей этого юнита на 1.',
+      'Unsubtle Crusader': 'В начале шага Declare Battle Formations вы можете выбрать до трёх юнитов AGENTS OF THE IMPERIUM INFANTRY из вашей армии или один юнит IMPERIUM BATTLELINE из вашей армии — эти юниты получают способность Scouts 6".',
+    },
+    loadout: `${EQUIP_THIS} master-crafted multi-melta; master-crafted power sword.`,
+  },
+
+  'inquisitor-ostromandeus': {
+    aliasesRu: ['Остромандеус'],
+    abilities: {
+      'Authority of the Inquisition': 'Пока этот юнит возглавляет юнит, он может погружаться в любой TRANSPORT, в который может погружаться его юнит телохранителей (Bodyguard).',
+      'Ward Against the Malefic Arts': 'Пока этот юнит возглавляет юнит, каждый раз, когда Psychic Attack нацелена на этот юнит, вычтите 1 из броска попадания и вычтите 1 из броска ранения.',
+      'Vox-cast Proclamations (Aura)': 'Каждый раз, когда ваш оппонент нацеливает стратагему на юнит своей армии, если этот юнит в пределах 12" от модели Inquisitor Ostromandeus этого юнита, увеличьте стоимость этого применения этой стратагемы на 1 CP.',
+    },
+    wargear: {
+      'Vox-skull':
+        'Один раз за битву, в начале любой фазы, вы можете выбрать один вражеский юнит (исключая MONSTERS и VEHICLES) в пределах 12" от носителя. Этот юнит должен пройти проверку боевого шока; если проверка провалена, до конца вашего следующего хода этот юнит не может иметь Benefit of Cover.\n\n**Примечание разработчика:** положите рядом с юнитом жетон vox-skull, убрав его, когда эта способность задействована.',
+    },
+    loadout: '**Inquisitor Ostromandeus вооружён:** inferno pistol; power sword; vox-skull.\n\n**Stentor-I-52 вооружён:** hydraulic vox-ram.',
+    leader: { text: 'Этот юнит можно присоединить к следующим юнитам:' },
+  },
+
+  'janus-draik': {
+    aliasesRu: ['Янус Драйк'],
+    abilities: { 'Backroom Deals': 'Если ваша армия содержит один или более юнитов с этой способностью, в шаге Declare Battle Formations выберите один из них. Пока выбранный юнит возглавляет юнит, модели этого юнита имеют способность Infiltrators.', 'Warrant of Trade': 'Если ваша армия включает один или более юнитов с этой способностью, после того как оба игрока развернули армии, выберите до D3 юнитов IMPERIUM BATTLELINE из вашей армии и передислоцируйте их. При этом вы можете выставить эти юниты в стратегических резервах независимо от того, сколько юнитов уже находится в стратегических резервах.' },
+    loadout: `${EQUIP_THIS} heirloom pistol; monomolecular rapier.`,
+    leader: { text: LEADER_TEXT },
+  },
+
+  'jokaero-weaponsmith': {
+    flavor:
+      'Эти ксеносы — техносаванты с инстинктивным пониманием механизмов и технологических систем. Имея достаточно времени и материалов, они способны смастерить почти что угодно и сделать грозным даже самое простое оружие с помощью небольших — хотя и озадачивающих — улучшений.',
+    abilities: {
+      'Inconceivable Augmentation': 'Пока эта модель возглавляет юнит, дальнобойное оружие моделей этого юнита имеет способность [LETHAL HITS].',
+      'A Weaponsmith, Not a Warlord': 'Эту модель нельзя выбрать вашим WARLORD. Пока модель INQUISITOR возглавляет юнит, включающий одну или более моделей JOKAERO WEAPONSMITH, характеристика Контроля целей (OC) моделей JOKAERO WEAPONSMITH этого юнита равна 1.',
+    },
+    rules: {
+      'INQUISITORIAL AGENT': 'Если фракция вашей армии не AGENTS OF THE IMPERIUM, то за каждую уникальную пару из 1 юнита INQUISITORIAL AGENTS и 1 юнита JOKAERO WEAPONSMITH в вашей армии увеличьте максимальное число юнитов CHARACTER, разрешённых в вашей армии, на 1.',
+    },
+    loadout: `${EQUIP_THIS} Jokaero weapons; close combat weapon.`,
+    leader: {
+      text: LEADER_TEXT,
+      footer: 'Вы можете присоединить эту модель к юниту INQUISITORIAL AGENTS, даже если к нему уже присоединён один юнит INQUISITOR. Если так, и этот юнит-телохранитель уничтожается, присоединённые к нему юниты-лидеры становятся отдельными юнитами со своими исходными начальными численностями.',
+    },
+  },
+
+  'kill-team-cassius': {
+    flavor:
+      'Kill Team Cassius — элитный отряд специалистов даже среди ветеранов Таласа Прайм. Отобранные лично капелланом Кассием для несанкционированной миссии, они вместе с ним раскрыли первый зафиксированный культ генокрадов на Госар Квинтус. С тех пор они сражались вместе много раз и не отступают ни перед каким ужасом ксеносов.',
+    abilities: {
+      'Kill Team': 'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, для определения броска, необходимого для ранения, используйте характеристику Стойкости большинства моделей этого юнита. Если две или более характеристики Стойкости делят большинство, используйте наибольшее значение.\n\nДля определения того, какие модели этого юнита могут погрузиться в TRANSPORT, модели Kill Team Terminator, Kill Team Outrider, Kill Team Biker и модели с прыжковым ранцем занимают место 2 моделей каждая, но в остальном могут погружаться в любой TRANSPORT, в который может погрузиться их юнит, даже если похожие модели в других юнитах имеют ключевые слова TERMINATOR, MOUNTED или JUMP PACK.\n\nДля взаимодействия с элементами ландшафта все модели юнитов с этой способностью считаются моделями INFANTRY, даже если похожие модели в других юнитах могут иметь ключевые слова MOUNTED или JUMP PACK.\n\n**Примечание разработчика:** хотя абстракции этого правила заставляют некоторые модели вести себя иначе, чем похожие модели в других юнитах, они созданы, чтобы свести к минимуму сложные правила движения, транспорта и преимущества укрытия.',
+      'Catechism of Death': 'Пока этот юнит содержит Chaplain Cassius, оружие ближнего боя моделей этого юнита имеет способность [DEVASTATING WOUNDS].',
+      Unflinching: 'Вы можете перебрасывать проверки боевого шока для этого юнита.',
+    },
+    wargear: {
+      'Jump Pack': 'Носитель имеет характеристику Движения (Move) 12" и может двигаться сквозь модели и элементы ландшафта, как если бы их не было.',
+      'Psychic Hood': 'Модели юнита носителя имеют способность Feel No Pain 4+ против Psychic Attacks.',
+    },
+    rules: { CASSIUS: 'Ваша армия не может содержать одновременно CHAPLAIN CASSIUS и KILL TEAM CASSIUS.' },
+    loadout:
+      '**Chaplain Cassius вооружён:** artificer crozius; bolt pistol.\n\n**Vael Donatus вооружён:** boltgun; bolt pistol; close combat weapon.\n\n**Zameon Gydrael вооружён:** Long Vigil ranged weapon; Long Vigil melee weapon.\n\n**Rodricus Grytt вооружён:** frag cannon; bolt pistol; close combat weapon.\n\n**Antor Delassio вооружён:** Long Vigil ranged weapon; Long Vigil melee weapon; jump pack.\n\n**Edryc Setorax вооружён:** twin lightning claws; jump pack.\n\n**Jensus Natorian вооружён:** Psychic Cleanse; bolt pistol; force weapon; psychic hood.\n\n**Drenn Redblade вооружён:** Long Vigil melee weapon; boltgun.\n\n**Garran Branatar вооружён:** heavy flamer; Long Vigil ranged weapon; power fist.\n\n**Ennox Sorrlock вооружён:** Long Vigil ranged weapon; close combat weapon.\n\n**Jetek Suberei вооружён:** Deathwatch twin boltgun; Long Vigil melee weapon.',
+  },
+
+  'neyam-shai-murad': {
+    aliasesRu: ['Нейам Шай Мурад'],
+    abilities: { 'Backroom Deals': 'Если ваша армия содержит один или более юнитов с этой способностью, в шаге Declare Battle Formations выберите один из них. Пока выбранный юнит возглавляет юнит, модели этого юнита имеют способность Infiltrators.', 'Warrant of Trade': 'Если ваша армия включает один или более юнитов с этой способностью, после того как оба игрока развернули армии, выберите до D3 юнитов IMPERIUM BATTLELINE из вашей армии и передислоцируйте их. При этом вы можете выставить эти юниты в стратегических резервах независимо от того, сколько юнитов уже находится в стратегических резервах.' },
+    loadout: `${EQUIP_THIS} negotiator pistols; close combat weapon.`,
+    leader: { text: LEADER_TEXT },
+  },
+
+  'proteus-kill-team': {
+    flavor:
+      'Сама универсальность их вооружения в сочетании с живучестью и манёвренностью не оставляет удивления в том, что Proteus Kill Teams совершали чудеса воинского искусства на бесчисленных враждебных мирах на протяжении всей истории Империума.',
+    abilities: {
+      'Kill Team': 'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, для определения броска, необходимого для ранения, используйте характеристику Стойкости большинства моделей этого юнита. Если две или более характеристики Стойкости делят большинство, используйте наибольшее значение.\n\nДля определения того, какие модели этого юнита могут погрузиться в TRANSPORT, модели Kill Team Terminator, Kill Team Outrider, Kill Team Biker и модели с прыжковым ранцем занимают место 2 моделей каждая, но в остальном могут погружаться в любой TRANSPORT, в который может погрузиться их юнит, даже если похожие модели в других юнитах имеют ключевые слова TERMINATOR, MOUNTED или JUMP PACK.\n\nДля взаимодействия с элементами ландшафта все модели юнитов с этой способностью считаются моделями INFANTRY, даже если похожие модели в других юнитах могут иметь ключевые слова MOUNTED или JUMP PACK.\n\n**Примечание разработчика:** хотя абстракции этого правила заставляют некоторые модели вести себя иначе, чем похожие модели в других юнитах, они созданы, чтобы свести к минимуму сложные правила движения, транспорта и преимущества укрытия.',
+      'Proteus Doctrines': 'Каждый раз, когда модель этого юнита совершает атаку по юниту, который не ниже половинной численности, прибавьте 1 к броску попадания.',
+    },
+    wargear: { 'Astartes Shield': INV4, 'Jump Pack': 'Носитель имеет характеристику Движения (Move) 12" и может двигаться сквозь модели и элементы ландшафта, как если бы их не было.', 'Storm Shield': 'Носитель имеет характеристику Ран (Wounds) 4.' },
+    rules: { 'ATTACHED UNIT': 'Если CHARACTER из вашей армии со способностью Leader может быть присоединён к DEATHWATCH KILL TEAM, он может быть присоединён к этому юниту вместо этого.' },
+    loadout:
+      '**Каждый Kill Team Veteran вооружён:** boltgun; Long Vigil melee weapon; close combat weapon.\n\n**Каждый Kill Team Veteran с Jump Pack вооружён:** Long Vigil melee weapon; close combat weapon; jump pack.\n\n**Каждый Kill Team Biker вооружён:** twin boltgun; close combat weapon.\n\n**Каждый Kill Team Terminator вооружён:** storm bolter; power fist.',
+    options: [
+      'Любое число Kill Team Veterans может заменить свои boltgun и Long Vigil melee weapon на:\n▪ 1 Long Vigil ranged weapon\n▪ 1 boltgun и 1 Astartes shield\n▪ 1 Long Vigil melee weapon и 1 Astartes shield',
+      'За каждые 5 моделей в этом юните до 2 моделей могут заменить свои boltgun и Long Vigil melee weapon на 1 Deathwatch thunder hammer.',
+      'За каждые 5 моделей в юните до 2 моделей могут заменить свои boltgun и Long Vigil melee weapon на одно из следующего:\n▪ 1 frag cannon\n▪ 1 Infernus heavy bolter',
+      'Любое число моделей Kill Team Biker можно снарядить одним из следующего:\n▪ 1 bolt pistol\n▪ 1 Long Vigil melee weapon',
+      'До 3 моделей могут заменить свой storm bolter на одно из следующего:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 plasma cannon\n▪ 1 cyclone missile launcher и 1 storm bolter (storm bolter этой модели заменить нельзя)',
+      'Любое число моделей Kill Team Terminator может заменить свои power fist и storm bolter на одно из следующего:\n▪ 1 storm bolter и 1 power weapon\n▪ 1 storm bolter и 1 chainfist\n▪ 1 twin lightning claws\n▪ 1 Terminator thunder hammer и 1 storm shield',
+    ],
+  },
+
+  'spectrus-kill-team': {
+    flavor:
+      'Зловещие, безмолвные и почти невидимые, пока не нанесут удар, Spectrus Kill Teams искусны нести смерть и вблизи, и издалека. Облачённые в облегающую броню Mk X Phobos, они специализируются на контроле поля боя и дестабилизации врага.',
+    abilities: {
+      'Kill Team': 'Каждый раз, когда атака нацелена на этот юнит, если он содержит модели с разными характеристиками Стойкости (Toughness), до тех пор пока атакующий юнит не завершит свои атаки, для определения броска, необходимого для ранения, используйте характеристику Стойкости большинства моделей этого юнита. Если две или более характеристики Стойкости делят большинство, используйте наибольшее значение.\n\nДля определения того, какие модели этого юнита могут погрузиться в TRANSPORT, модели Kill Team Terminator, Kill Team Outrider, Kill Team Biker и модели с прыжковым ранцем занимают место 2 моделей каждая, но в остальном могут погружаться в любой TRANSPORT, в который может погрузиться их юнит, даже если похожие модели в других юнитах имеют ключевые слова TERMINATOR, MOUNTED или JUMP PACK.\n\nДля взаимодействия с элементами ландшафта все модели юнитов с этой способностью считаются моделями INFANTRY, даже если похожие модели в других юнитах могут иметь ключевые слова MOUNTED или JUMP PACK.\n\n**Примечание разработчика:** хотя абстракции этого правила заставляют некоторые модели вести себя иначе, чем похожие модели в других юнитах, они созданы, чтобы свести к минимуму сложные правила движения, транспорта и преимущества укрытия.',
+      'Spectrus Doctrines': 'В конце хода вашего оппонента, если этот юнит дальше 6" от всех вражеских юнитов, вы можете убрать его с поля боя и поместить в стратегические резервы.',
+    },
+    wargear: {
+      'Helix Gauntlet': 'Модели юнита носителя имеют способность Feel No Pain 6+.',
+      'Infiltrator Comms Array': 'Каждый раз, когда вы нацеливаете стратагему на юнит носителя, бросьте один D6: на 5+ вы получаете 1 CP.',
+      'Jump Pack': 'Носитель имеет характеристику Движения (Move) 12" и может двигаться сквозь модели и элементы ландшафта, как если бы их не было.',
+    },
+    rules: { 'ATTACHED UNIT': 'Если CHARACTER из вашей армии со способностью Leader может быть присоединён к DEATHWATCH KILL TEAM, он может быть присоединён к этому юниту вместо этого.', TRANSPORT: 'Этот юнит не может погружаться в IMPERIAL RHINO.' },
+    loadout:
+      '**Каждый Kill Team Infiltrator вооружён:** bolt pistol; marksman bolt carbine; close combat weapon.\n\n**Каждый Kill Team Infiltrator с bolt sniper rifle вооружён:** bolt pistol; bolt sniper rifle; close combat weapon.\n\n**Каждый Kill Team Infiltrator с jump pack вооружён:** bolt pistol; accelerator autocannon; close combat weapon; jump pack.\n\n**Каждый Kill Team Infiltrator с occulus bolt carbine вооружён:** bolt pistol; occulus bolt carbine; paired combat blades.\n\n**Каждый Kill Team Infiltrator с combat knife вооружён:** special-issue bolt pistol; combat knife.',
+    options: [
+      'Одну модель, снаряжённую marksman bolt carbine, можно снарядить 1 helix gauntlet.*',
+      'Одну модель, снаряжённую marksman bolt carbine, можно снарядить 1 Infiltrator comms array.*\n* Эти опции нельзя брать на одну и ту же модель.',
+      'Одна модель может заменить свой bolt sniper rifle на 1 bolt carbine.',
+      'Любое число моделей может заменить свой bolt sniper rifle на 1 las fusil.',
+      'Любое число моделей может заменить свой combat knife на 1 bolt carbine и 1 close combat weapon.',
+    ],
+  },
+
+  'ur-025': {
+    abilities: {
+      'Self Repair': 'В начале вашей фазы командования эта модель восстанавливает 1 потерянную рану.',
+      'Evade and Survive': 'В фазе движения вашего оппонента, когда вражеский юнит завершает обычный манёвр, продвижение или отступление в пределах 8" от этой модели, если эта модель не находится в дистанции ввязывания одного или более вражеских юнитов, она может совершить обычный манёвр.',
+    },
+    loadout: `${EQUIP_THIS} Mk 1 assault weapon; power claw.`,
+  },
+
+  'veteran-bike-squad': {
+    flavor:
+      'Противопоставляя свою скорость, силу и огневую мощь быстрейшим из ксеносов, байкеры-ветераны — искусные охотники. В долгих миссиях на опасной территории они оценивают каждую слабость врага, отрезают пути отхода и используют скорость для внезапных ударов с неожиданных углов.',
+    abilities: {
+      'Turbo-boost': 'Каждый раз, когда этот юнит продвигается, не делайте для него бросок продвижения. Вместо этого до конца фазы прибавьте 6" к характеристике Движения (Move) моделей этого юнита.',
+    },
+    wargear: { 'Astartes Shield': INV4 },
+    loadout: `${EQUIP_EVERY} bolt pistol; close combat weapon; twin boltgun.`,
+    options: [
+      'Veteran Biker Sergeant можно снарядить одним из следующего:\n▪ 1 Long Vigil ranged weapon\n▪ 1 Long Vigil melee weapon\n▪ 1 xenophase blade\n▪ 1 Astartes shield',
+      'Любое число моделей Veteran Biker можно снарядить 1 Long Vigil melee weapon.',
+    ],
+  },
 }
 
 // RU-подписи под английскими названиями способностей (сабтайтл в карточке).
@@ -598,4 +856,32 @@ export const abilityNamesRu = {
   'Unstoppable Champion': 'Неудержимый чемпион',
   'Strategic Knowledge': 'Стратегическое знание',
   'Rites of Battle': 'Ритуалы битвы',
+  // Legends (Faction Pack)
+  'Malefic Warding': 'Малефическая защита',
+  'Bound Daemon': 'Связанный демон',
+  'Grim Spectres': 'Мрачные призраки',
+  'Terminatus Assault': 'Штурм Терминатус',
+  'Teleport Homer': 'Телепортационный маяк',
+  'Storm Shield': 'Штормовой щит',
+  'Fortis Doctrines': 'Доктрины Fortis',
+  'Indomitor Doctrines': 'Доктрины Indomitor',
+  'Jump Pack': 'Прыжковый ранец',
+  'Malus Codicium': 'Малус Кодициум',
+  'Dominate Will (Psychic)': 'Подчинить волю (Psychic)',
+  'Throne of Judgement (Aura)': 'Трон Правосудия (Аура)',
+  'Unsubtle Crusader': 'Прямолинейный крестоносец',
+  'Ward Against the Malefic Arts': 'Защита от малефических искусств',
+  'Vox-cast Proclamations (Aura)': 'Вокс-воззвания (Аура)',
+  'Vox-skull': 'Вокс-череп',
+  'Inconceivable Augmentation': 'Немыслимое усовершенствование',
+  'A Weaponsmith, Not a Warlord': 'Оружейник, а не полководец',
+  'Catechism of Death': 'Катехизис смерти',
+  Unflinching: 'Непоколебимые',
+  'Psychic Hood': 'Псионический капюшон',
+  'Proteus Doctrines': 'Доктрины Proteus',
+  'Spectrus Doctrines': 'Доктрины Spectrus',
+  'Helix Gauntlet': 'Перчатка-геликс',
+  'Infiltrator Comms Array': 'Антенна связи инфильтратора',
+  'Evade and Survive': 'Уклониться и выжить',
+  'Turbo-boost': 'Турбоускорение',
 }

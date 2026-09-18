@@ -66,6 +66,423 @@ export default [
     ]
   },
   {
+    "id": "aquila-lander",
+    "name": "Aquila Lander",
+    "points": [
+      {
+        "models": 1,
+        "points": 120
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Aquila Lander",
+        "m": "14\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "12",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Hover",
+    "abilities": [
+      {
+        "name": "Aerial Deployment",
+        "text": "If this model starts the game in Hover mode and in Strategic Reserves, it can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Aquila Lander"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; armoured hull.",
+    "options": [
+      "This model’s heavy bolter can be replaced with one of the following:\n▪ 1 autocannon\n▪ 1 multi-laser"
+    ],
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. Each OGRYN model takes up the space of 3 models. It cannot transport ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Transport",
+      "Aquila Lander"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "arkurian-stormhammer",
+    "name": "Arkurian Stormhammer",
+    "points": [
+      {
+        "models": 1,
+        "points": 480
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Arkurian Stormhammer",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "24",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Multi-laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Stormhammer cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "72\"",
+        "a": "3D6",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Twin battle cannon",
+        "tags": [
+          "BLAST",
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Rolling Fortress",
+        "text": "Each time a ranged attack is allocated to an ASTRA MILITARUM model from your army, if that model is not fully visible to every model in the attacking unit because of this Arkurian Stormhammer model, that model has the Benefit of Cover against that attack."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Arkurian Stormhammer"
+    ],
+    "loadout": "**This model is equipped with:** lascannon; 7 multi-lasers; Stormhammer cannon; twin battle cannon; armoured tracks.",
+    "options": [
+      "This model’s 7 multi-lasers can be replaced with one of the following:\n▪ 7 heavy bolters\n▪ 7 heavy flamers\n▪ 7 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Arkurian Stormhammer"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "armageddon-pattern-medusa",
+    "name": "Armageddon-pattern Medusa",
+    "points": [
+      {
+        "models": 1,
+        "points": 105
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Armageddon-pattern Medusa",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Medusa siege cannon",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "36\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "4"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Pinning Bombardment",
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with its Medusa siege cannon scored a hit against an enemy INFANTRY unit, that unit must take a Battle-shock test."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Armageddon-pattern Medusa"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Medusa siege cannon; armoured tracks.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 heavy flamer.",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 storm bolter\n▪ 1 heavy stubber"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Artillery",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Armageddon-pattern Medusa"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "armoured-sentinels",
     "name": "Armoured Sentinels",
     "points": [
@@ -376,6 +793,174 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "130mm"
+  },
+  {
+    "id": "arvus-lighter",
+    "name": "Arvus Lighter",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Arvus Lighter",
+        "m": "14\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "8",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Hover",
+    "abilities": [
+      {
+        "name": "Aerial Deployment",
+        "text": "If this model starts the game in Hover mode and in Strategic Reserves, it can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules."
+      }
+    ],
+    "composition": [
+      "1 Arvus Lighter"
+    ],
+    "loadout": "**This model is equipped with:** armoured hull.",
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. It cannot transport OGRYN or ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Transport",
+      "Arvus Lighter"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "atlas-recovery-vehicle",
+    "name": "Atlas Recovery Vehicle",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Atlas Recovery Vehicle",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Recovery Vehicle",
+        "text": "At the end of your Movement phase, you can select one friendly ASTRA MILITARUM VEHICLE model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds. Each model can only be selected for this ability once per turn."
+      }
+    ],
+    "composition": [
+      "1 Atlas Recovery Vehicle"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Atlas Recovery Vehicle"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "attilan-rough-riders",
@@ -2225,11 +2810,209 @@ export default [
       "Infantry",
       "Platoon",
       "Regiment"
-        ],
+    ],
     "factionKeywords": [
       "Astra Militarum"
     ],
     "baseSize": "25mm"
+  },
+  {
+    "id": "carnodon",
+    "name": "Carnodon",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Carnodon is a versatile battle tank whose storied history stretches back to the Great Crusade. Adaptable and reliable, the Carnodon became a byword for conquest amongst the Expeditionary fleets, and though it is now largely kept in strategic reserve, it continues to perform with distinction when called into service.",
+    "profiles": [
+      {
+        "name": "Carnodon",
+        "m": "12\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "12",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Carnodon twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Carnodon twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Carnodon twin multi-laser",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Militarum multi-laser",
+        "tags": [],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Volkite caliver",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "2"
+      },
+      {
+        "name": "Volkite culverin",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Ancient Conquest",
+        "text": "Each time this model makes an attack that targets an enemy unit that is within your opponent’s deployment zone, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Carnodon"
+    ],
+    "loadout": "**This model is equipped with:** 2 autocannons; Carnodon twin autocannon; armoured tracks.",
+    "options": [
+      "This model’s Carnodon twin autocannon can be replaced with one of the following:\n▪ 1 Carnodon twin lascannon\n▪ 1 Carnodon twin multi-laser\n▪ 1 volkite culverin",
+      "This model’s 2 autocannons can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons\n▪ 2 Militarum multi-lasers\n▪ 2 volkite calivers",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Carnodon"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "catachan-command-squad",
@@ -2804,6 +3587,94 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "centaur-light-carrier",
+    "name": "Centaur Light Carrier",
+    "points": [
+      {
+        "models": 1,
+        "points": 40
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Centaur Light Carrier",
+        "m": "10\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "7",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Blistering Advance",
+        "text": "Units can disembark from this TRANSPORT after it has Advanced. Units that do so count as having made a Normal move that phase, and cannot declare a charge in the same turn, but can otherwise act normally in the remainder of the turn."
+      }
+    ],
+    "composition": [
+      "1 Centaur Light Carrier"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy stubbers; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "transport": "This model has a transport capacity of 6 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. It cannot transport OGRYN or ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Transport",
+      "Smoke",
+      "Centaur Light Carrier"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "centaur-rsv",
     "name": "Centaur RSV",
     "points": [
@@ -3040,6 +3911,230 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "ciaphas-cain",
+    "name": "Ciaphas Cain",
+    "points": [
+      {
+        "models": 1,
+        "points": 70
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Ciaphas Cain",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "5",
+        "ld": "6+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Laspistols",
+        "tags": [
+          "PRECISION"
+        ],
+        "range": "12\"",
+        "a": "2",
+        "bs": "2+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chainsword and Gun Butt",
+        "tags": [],
+        "a": "6",
+        "ws": "2+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Leader, Stealth",
+    "faction": "Voice of Command",
+    "abilities": [
+      {
+        "name": "Hero of the Imperium (Aura)",
+        "text": "While a friendly ASTRA MILITARUM unit is within 6\" of this model, that unit can re-roll Battle-shock rolls."
+      },
+      {
+        "name": "Trapped by Excuses",
+        "text": "In the Deploy Armies step, you must set this unit up on the battlefield or embarked within a TRANSPORT unit that is set up on the battlefield. Abilities that allow you to redeploy a unit or place a unit in Strategic Reserves cannot affect this unit or a TRANSPORT unit this unit is embarked within."
+      },
+      {
+        "name": "Psychic Blank",
+        "text": "This model has Feel No Pain 4+ against Psychic Attacks and mortal wounds."
+      },
+      {
+        "name": "Unparalleled Luck (Once per battle, per army)",
+        "text": "At the start of a phase, you can use this ability. If you do, this model has a 2+ invulnerable save."
+      }
+    ],
+    "composition": [
+      "1 Ciaphas Cain model"
+    ],
+    "loadout": "**This model is equipped with:** 1 Chainsword and Gun Butt; 1 Laspistols; 1 Meltagun.\n\nThis model can be assembled on a single base or as two models – Ciaphas Cain and Jurgen – on separate bases. If you assemble the models separately, the Ciaphas Cain model has these rules and the Jurgen model is a token.",
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a TRANSPORT, this model takes up the space of 2 models."
+      },
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to REGIMENT units. This OFFICER can only issue the Duty and Honour!, Move! Move! Move! and Take Cover! Orders."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Commissar",
+      "Epic Hero",
+      "Imperium",
+      "Officer"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "colossus",
+    "name": "Colossus",
+    "points": [
+      {
+        "models": 1,
+        "points": 160
+      }
+    ],
+    "flavor": "The Colossus is a relic weapon of ancient provenance whose massive damage output more than compensates for its ponderous rate of fire. Colossus are amongst the largest artillery pieces fielded by the Astra Militarum, and a direct hit from a Colossus shell can turn the staunchest bunker into a smoking caldera.",
+    "profiles": [
+      {
+        "name": "Colossus",
+        "m": "10\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Colossus siege mortar",
+        "tags": [
+          "BLAST",
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "120\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D6+2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Tracking Target",
+        "text": "Each time this model is selected to shoot, provided it Remained Stationary this turn, its Colossus siege mortar has the [ANTI-MONSTER 5+] and [ANTI-VEHICLE 5+] abilities while resolving those attacks."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Colossus"
+    ],
+    "loadout": "**This model is equipped with:** Colossus siege mortar; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Colossus"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "commissar",
@@ -3545,6 +4640,111 @@ export default [
     ]
   },
   {
+    "id": "crassus",
+    "name": "Crassus",
+    "points": [
+      {
+        "models": 1,
+        "points": 180
+      }
+    ],
+    "flavor": "The armoured personnel carrier known as the Crassus takes its name from the legendary general Borgen Crassus, who remained steadfastly loyal to the Imperium throughout the grim and bloody Macharian Heresy. Heavily armoured and deceptively fast, the Crassus remains an exemplar of troop transport design despite its venerable age.",
+    "profiles": [
+      {
+        "name": "Crassus",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Fire Support",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit that was hit by one or more of those attacks. Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Crassus"
+    ],
+    "loadout": "**This model is equipped with:** 4 heavy bolters; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "transport": "This model has a transport capacity of 36 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. Each OGRYN model takes up the space of 3 models. It cannot transport ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Transport",
+      "Smoke",
+      "Crassus"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "cyclops-demolition-vehicle",
     "name": "Cyclops Demolition Vehicle",
     "points": [
@@ -3605,6 +4805,235 @@ export default [
         "text": "This model can embark within an ASTRA MILITARUM TRANSPORT model as if it were an INFANTRY model. If it does, it takes up the space of 7 models."
       }
     ]
+  },
+  {
+    "id": "death-korps-grenadier-squad",
+    "name": "Death Korps Grenadier Squad",
+    "points": [
+      {
+        "models": 10,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "GRENADIER",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "HEAVY WEAPONS TEAM",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – krak",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "HEAVY",
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hot-shot lasgun",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Sergeant’s pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Sniper rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Sergeant’s close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Grenadiers",
+        "text": "Once per turn, you can target this unit with the Grenade Stratagem for 0CP."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Vox-caster",
+        "text": "Each time you target the bearer’s unit with a Stratagem, roll one D6, adding 1 to the result if there are one or more friendly OFFICER models within 6\": on a 5+, you gain 1CP."
+      }
+    ],
+    "composition": [
+      "One of the following:",
+      "1 Grenadier Sergeant and 9 Grenadiers",
+      "1 Grenadier Sergeant, 7 Grenadiers and 1 Heavy Weapons Team"
+    ],
+    "loadout": "**The Grenadier Sergeant is equipped with:** sergeant’s pistol; sergeant’s close combat weapon.\n\n**Every Grenadier model is equipped with:** hot-shot lasgun; close combat weapon.\n\n**The Heavy Weapons Team is equipped with:** heavy flamer; close combat weapon.",
+    "options": [
+      "Up to 2 Grenadier models can each have their hot-shot lasgun replaced with one of the following:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy stubber\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle"
+    ],
+    "rules": [
+      {
+        "name": "GRENADIER SQUAD",
+        "text": "If a model from your army with the Leader ability can be attached to a KRIEG COMBAT ENGINEERS unit, it can be attached to this unit instead."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Platoon",
+      "Krieg",
+      "Death Korps Grenadier Squad"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "death-korps-of-krieg",
@@ -3867,6 +5296,107 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "death-rider-commissar",
+    "name": "Death Rider Commissar",
+    "points": [
+      {
+        "models": 1,
+        "points": 35
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Death Rider Commissar",
+        "m": "12\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "4",
+        "ld": "6+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Commissar’s pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Commissar’s close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Savage claws",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Voice of Command",
+    "abilities": [
+      {
+        "name": "Summary Execution",
+        "text": "Once per battle round, at the start of any phase, you can select one friendly ASTRA MILITARUM INFANTRY or ASTRA MILITARUM MOUNTED unit that is Battle-shocked and within 12\" of this model. If you do, one model in that unit is destroyed, and that unit is then no longer Battle-shocked."
+      },
+      {
+        "name": "Political Overwatch",
+        "text": "While another OFFICER model is in the same unit as this model, you can re-roll Battle-shock tests taken for that unit."
+      }
+    ],
+    "composition": [
+      "1 Death Rider Commissar"
+    ],
+    "loadout": "**This model is equipped with:** Commissar’s pistol; Commissar’s close combat weapon; savage claws.",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue 1 Order to a REGIMENT unit. This OFFICER can only issue the Duty and Honour! and Fix Bayonets! Orders."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Death Riders"
+      ],
+      "footer": "You can attach this model to the above unit even if one DEATH RIDER SQUADRON COMMANDER, LORD MARSHAL DREIR or LORD SOLAR LEONTUS model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
+    },
+    "keywords": [
+      "Mounted",
+      "Character",
+      "Imperium",
+      "Grenades",
+      "Officer",
+      "Death Rider Commissar"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "death-riders",
     "name": "Death Riders",
     "points": [
@@ -4092,6 +5622,170 @@ export default [
     "baseSize": "Hull"
   },
   {
+    "id": "dominus-armoured-siege-bombard",
+    "name": "Dominus Armoured Siege Bombard",
+    "points": [
+      {
+        "models": 1,
+        "points": 325
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Dominus Armoured Siege Bombard",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Dominus triple bombard",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Pinning Bombardment",
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with its Dominus triple bombard scored a hit against an enemy INFANTRY unit, that unit must take a Battle-shock test."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Dominus Armoured Siege Bombard"
+    ],
+    "loadout": "**This model is equipped with:** Dominus triple bombard; 2 heavy bolters; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy bolters can be replaced with one of the following:\n▪ 2 autocannons\n▪ 2 heavy flamers\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Dominus Armoured Siege Bombard"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "doomhammer",
     "name": "Doomhammer",
     "points": [
@@ -4214,6 +5908,361 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "earthshaker-carriage-battery",
+    "name": "Earthshaker Carriage Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 120
+      }
+    ],
+    "flavor": "Deployed far behind the front line, Earthshaker Carriages can maintain a relentless rate of fire, limited only by the ready supply of munitions. Such barrages have been known to break enemy positions almost unaided; heavy shelling reduces strongholds to rubble and churns contested ground into cratered wastes.",
+    "profiles": [
+      {
+        "name": "Earthshaker Carriage Battery",
+        "m": "4\"",
+        "t": "7",
+        "sv": "4+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Earthshaker cannon",
+        "tags": [
+          "BLAST",
+          "HEAVY",
+          "INDIRECT FIRE"
+        ],
+        "range": "240\"",
+        "a": "D6+3",
+        "bs": "5+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Battery close combat weapons",
+        "tags": [],
+        "a": "5",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Earthshaker Rounds",
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with its earthshaker cannon scored a hit against an INFANTRY unit, until the end of your opponent’s next turn, that INFANTRY unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Advance and Charge rolls made for it."
+      }
+    ],
+    "composition": [
+      "1 Earthshaker Carriage"
+    ],
+    "loadout": "**This model is equipped with:** earthshaker cannon; battery close combat weapons.\n\n**Designer’s Note:** Place five Heavy Artillery Crew tokens next to each Earthshaker Carriage model when this unit is first set up, removing one each time its Earthshaker Carriage model loses a wound (an Earthshaker Carriage model itself is considered to represent its final wound). These do not count as models for any rules purposes.",
+    "keywords": [
+      "Infantry",
+      "Artillery",
+      "Frame",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Earthshaker Carriage Battery"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "earthshaker-platform",
+    "name": "Earthshaker Platform",
+    "points": [
+      {
+        "models": 1,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Earthshaker Platform",
+        "m": "-",
+        "t": "8",
+        "sv": "3+",
+        "w": "8",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Earthshaker cannon",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "240\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Earthshaker Rounds",
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with its earthshaker cannon scored a hit against an enemy INFANTRY unit, until the end of your opponent’s next turn, that unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Advance and Charge rolls made for it."
+      },
+      {
+        "name": "Reinforced Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      }
+    ],
+    "composition": [
+      "1 Earthshaker Platform"
+    ],
+    "loadout": "**This model is equipped with:** earthshaker cannon; close combat weapons.",
+    "keywords": [
+      "Fortification",
+      "Frame",
+      "Imperium",
+      "Artillery",
+      "Earthshaker Platform"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "elysian-drop-sentinel",
+    "name": "Elysian Drop Sentinel",
+    "points": [
+      {
+        "models": 1,
+        "points": 85
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Elysian Drop Sentinel",
+        "m": "10\"",
+        "t": "6",
+        "sv": "3+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Deep Strike",
+    "abilities": [
+      {
+        "name": "Meteoric Descent",
+        "text": "When this model is set up on the battlefield using the Deep Strike ability, it can perform a meteoric descent. If it does, this model can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy units, but until the end of the turn, it is not eligible to declare a charge."
+      }
+    ],
+    "composition": [
+      "1 Elysian Drop Sentinel"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; close combat weapon.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy flamer\n▪ 1 multi-melta"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Imperium",
+      "Regiment",
+      "Squadron",
+      "Smoke",
+      "Elysian Drop Sentinel"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "elysian-sniper-squad",
+    "name": "Elysian Sniper Squad",
+    "points": [
+      {
+        "models": 3,
+        "points": 65
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Elysian Sniper Squad",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Lasgun",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Sniper rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deep Strike",
+    "abilities": [
+      {
+        "name": "Mark the Target",
+        "text": "Each time this unit Remains Stationary, until the start of your next Movement phase, ranged weapons equipped by models in this unit have the [DEVASTATING WOUNDS] ability."
+      }
+    ],
+    "composition": [
+      "3 Elysian Sniper Teams"
+    ],
+    "loadout": "**Every model is equipped with:** lasgun; sniper rifle; close combat weapon.",
+    "rules": [
+      {
+        "name": "SNIPER TEAMS",
+        "text": "For the purposes of embarking within TRANSPORTS, each Elysian Sniper Team model counts as one HEAVY WEAPONS TEAM model."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Elysian Sniper Squad"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "field-ordnance-battery",
@@ -4515,6 +6564,489 @@ export default [
         "text": "This unit’s OFFICER can issue up to 2 Orders to Regiment or GAUNT’S GHOSTS units."
       }
     ]
+  },
+  {
+    "id": "gorgon-heavy-transport",
+    "name": "Gorgon Heavy Transport",
+    "points": [
+      {
+        "models": 1,
+        "points": 275
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Gorgon Heavy Transport",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8",
+        "inv": "5+",
+        "invNote": "* Against ranged attacks only"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Gorgon mortar",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin heavy stubber",
+        "tags": [
+          "RAPID FIRE 3",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Landing ramp",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Mount Up!",
+        "text": "At the end of your opponent’s Movement phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly ASTRA MILITARUM INFANTRY unit (excluding ARTILLERY units) that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Gorgon Heavy Transport"
+    ],
+    "loadout": "**This model is equipped with:** 2 Gorgon mortars; 2 twin heavy stubbers; landing ramp.",
+    "options": [
+      "This model’s 2 Gorgon mortars can be replaced with one of the following:\n▪ 4 heavy bolters\n▪ 4 heavy flamers\n▪ 4 heavy stubbers",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "transport": "This model has a transport capacity of 30 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. Each OGRYN model takes up the space of 3 models. It cannot transport ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Transport",
+      "Gorgon Heavy Transport"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "griffon-mortar-carrier",
+    "name": "Griffon Mortar Carrier",
+    "points": [
+      {
+        "models": 1,
+        "points": 115
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Griffon Mortar Carrier",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Griffon heavy mortar",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Suppression Bombardment",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTER and VEHICLE units) hit by one or more of those attacks made with this model’s Griffon heavy mortar. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+      }
+    ],
+    "composition": [
+      "1 Griffon Mortar Carrier"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; Griffon heavy mortar; armoured tracks.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 heavy flamer.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Artillery",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Griffon Mortar Carrier"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "hades-breaching-drill",
+    "name": "Hades Breaching Drill",
+    "points": [
+      {
+        "models": 1,
+        "points": 110
+      }
+    ],
+    "flavor": "Originally designed for industrial mining, the Hades Breaching Drill has proved itself to be a valuable weapon of siegecraft. The machine’s powerful melta-cutter is capable of pounding through earth, rock and even reinforced ferrocrete, boring a tunnel broad enough for troops to assault through and mangling any living foes that block its path.",
+    "profiles": [
+      {
+        "name": "Hades Breaching Drill",
+        "m": "6\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "8",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Melta-cutter drill",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6+2"
+      }
+    ],
+    "core": "Deep Strike",
+    "abilities": [
+      {
+        "name": "Subterranean Assault",
+        "text": "Each time you set up this model on the battlefield using the Deep Strike ability, you can select one friendly ASTRA MILITARUM INFANTRY unit in Strategic Reserves. If you do, set up that unit anywhere on the battlefield that is wholly within 9\" of this model and more than 8\" away from all enemy units."
+      }
+    ],
+    "composition": [
+      "1 Hades Breaching Drill"
+    ],
+    "loadout": "**This model is equipped with:** melta-cutter drill.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Hades Breaching Drill"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "heavy-mortar-team",
+    "name": "Heavy Mortar Team",
+    "points": [
+      {
+        "models": 1,
+        "points": 50
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Heavy Mortar Team",
+        "m": "4\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy mortar",
+        "tags": [
+          "HEAVY",
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "D6",
+        "bs": "5+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Rearm, Reload, Fire",
+        "text": "While this model is being affected by an Order, provided it Remained Stationary this turn, ranged weapons equipped by this model have the [SUSTAINED HITS 1] ability."
+      }
+    ],
+    "composition": [
+      "1 Heavy Mortar Team"
+    ],
+    "loadout": "**This model is equipped with:** heavy mortar; close combat weapons.",
+    "rules": [
+      {
+        "name": "ARTILLERY TEAM",
+        "text": "**Designer’s Note:** Place three Crew tokens next to this model when it is first set up, removing one each time this model loses a wound (the Heavy Mortar Team model itself is considered to represent its final wound)."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Artillery",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Heavy Mortar Team"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "heavy-quad-launcher-team",
+    "name": "Heavy Quad Launcher Team",
+    "points": [
+      {
+        "models": 1,
+        "points": 50
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Heavy Quad Launcher Team",
+        "m": "4\"",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy quad launcher",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "48\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Suppression Bombardment",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTER and VEHICLE units) hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+      }
+    ],
+    "composition": [
+      "1 Heavy Quad Launcher Team"
+    ],
+    "loadout": "**This model is equipped with:** heavy quad launcher; close combat weapons.",
+    "rules": [
+      {
+        "name": "ARTILLERY TEAM",
+        "text": "**Designer’s Note:** Place three Crew tokens next to this model when it is first set up, removing one each time this model loses a wound (the Heavy Quad Launcher Team model itself is considered to represent its final wound)."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Artillery",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Heavy Quad Launcher Team"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "hellhammer",
@@ -4834,6 +7366,193 @@ export default [
     "baseSize": "Hull"
   },
   {
+    "id": "hells-last",
+    "name": "Hell’s Last",
+    "points": [
+      {
+        "models": 5,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "MINKA LESK",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      },
+      {
+        "name": "LESK’S VETERANS",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Demolitions",
+        "tags": [
+          "BLAST",
+          "ONE SHOT"
+        ],
+        "range": "6\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Hot-shot laspistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Dirk",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "3",
+        "ws": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Voice of Command",
+    "abilities": [
+      {
+        "name": "Heroic Example",
+        "text": "While this unit’s Minka Lesk model is on the battlefield, each time a model in this unit makes an attack, you can re-roll the Hit roll."
+      },
+      {
+        "name": "Lesk’s Heroes",
+        "text": "Add 1 to the Leadership characteristic of models in this unit and you can re-roll Battle-shock and Leadership tests taken for this unit."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Regimental Banner",
+        "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit."
+      }
+    ],
+    "composition": [
+      "1 Minka Lesk – Epic Hero",
+      "4 Lesk’s Heroes"
+    ],
+    "loadout": "**Minka Lesk is equipped with:** bolt pistol; power weapon.\n\n**1 Lesk’s Hero is equipped with:** demolitions; meltagun; close combat weapon.\n\n**1 Lesk’s Hero is equipped with:** hot-shot laspistol; dirk.\n\n**1 Lesk’s Hero is equipped with:** bolt pistol; power weapon.\n\n**1 Lesk’s Hero is equipped with:** power weapon; regimental banner.",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 2 Orders to REGIMENT units."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Cadian Shock Troops"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Grenades",
+      "Imperium",
+      "Platoon",
+      "Command Squad",
+      "Hell’s Last",
+      "Character",
+      "Epic Hero",
+      "Officer"
+    ],
+    "keywordsByModel": [
+      {
+        "model": "ALL MODELS",
+        "list": [
+          "Infantry",
+          "Grenades",
+          "Imperium",
+          "Platoon",
+          "Command Squad",
+          "Hell’s Last"
+        ]
+      },
+      {
+        "model": "MINKA LESK ONLY",
+        "list": [
+          "Character",
+          "Epic Hero",
+          "Officer"
+        ]
+      }
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "hippogriff-afv",
     "name": "Hippogriff AFV",
     "points": [
@@ -5089,6 +7808,203 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "hydra-platform",
+    "name": "Hydra Platform",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Hydra Platform",
+        "m": "-",
+        "t": "8",
+        "sv": "3+",
+        "w": "8",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hydra quad autocannon",
+        "tags": [
+          "ANTI-FLY 2+",
+          "TWIN-LINKED"
+        ],
+        "range": "72\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Flak Battery",
+        "text": "Each time this model makes an attack that targets a unit that can FLY, you can re-roll the Hit roll."
+      },
+      {
+        "name": "Reinforced Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      }
+    ],
+    "composition": [
+      "1 Hydra Platform"
+    ],
+    "loadout": "**This model is equipped with:** Hydra quad autocannon; close combat weapons.",
+    "keywords": [
+      "Fortification",
+      "Frame",
+      "Imperium",
+      "Artillery",
+      "Hydra Platform"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "iron-hand-straken",
+    "name": "‘Iron Hand’ Straken",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      }
+    ],
+    "flavor": "Commanding the Catachan II – the ‘Green Vipers’ – Colonel ‘Iron Hand’ Straken is a bullish, practical and cunning officer. Having survived dire wounds, Straken’s extensive bionics magnify his innate strength. He leads from the front, loudly encouraging his troops as he visibly crushes the enemy with sweeping blows.",
+    "profiles": [
+      {
+        "name": "‘Iron Hand’ Straken",
+        "m": "6\"",
+        "t": "3",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Auto shotgun",
+        "tags": [
+          "ASSAULT"
+        ],
+        "range": "12\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Bionic arm with devil’s claw",
+        "tags": [
+          "ANTI-MONSTER 4+"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "6",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Leader, Scouts 6\"",
+    "faction": "Voice of Command",
+    "abilities": [
+      {
+        "name": "Cold Steel and Courage",
+        "text": "While this model is leading a unit, melee weapons equipped by models in that unit have the [LETHAL HITS] ability."
+      },
+      {
+        "name": "Been There, Seen it, Killed it",
+        "text": "Each time this model makes a melee attack, if it made a Charge move this turn, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 ‘Iron Hand’ Straken – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** auto shotgun; plasma pistol; bionic arm with devil’s claw.",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to REGIMENT units."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Catachan Jungle Fighters"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Grenades",
+      "Officer",
+      "‘Iron Hand’ Straken"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "kasrkin",
@@ -7846,6 +10762,1268 @@ export default [
     ]
   },
   {
+    "id": "macharius",
+    "name": "Macharius",
+    "points": [
+      {
+        "models": 1,
+        "points": 310
+      }
+    ],
+    "flavor": "Resilient and brutally powerful, the Macharius tank is an ancient war machine named after the Imperium’s crusading hero, Lord Commander Solar Macharius. Though some consider the Macharius an inferior predecessor to the Baneblade, the rugged machine continues to defy its critics, sowing destruction wherever it is deployed.",
+    "profiles": [
+      {
+        "name": "Macharius",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Macharius twin battle cannon",
+        "tags": [
+          "BLAST",
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy stubber",
+        "tags": [
+          "RAPID FIRE 3",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Battlefield Control",
+        "text": "Each time this model makes a ranged attack, if it is within range of an objective marker you control, re-roll a Hit roll of 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Macharius"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy stubbers; Macharius twin battle cannon; twin heavy stubber; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy stubbers can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Macharius"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "macharius-omega",
+    "name": "Macharius Omega",
+    "points": [
+      {
+        "models": 1,
+        "points": 310
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Macharius Omega",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Omega-pattern plasma blastgun – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "60\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Omega-pattern plasma blastgun – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "60\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-3",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Overwhelming Short-range Firepower",
+        "text": "Each time this model makes an attack that targets the closest eligible enemy unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Macharius Omega"
+    ],
+    "loadout": "**This model is equipped with:** omega-pattern plasma blastgun; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 2 autocannons\n▪ 2 heavy bolters\n▪ 2 heavy flamers",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Macharius Omega"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "macharius-vanquisher",
+    "name": "Macharius Vanquisher",
+    "points": [
+      {
+        "models": 1,
+        "points": 285
+      }
+    ],
+    "flavor": "Replacing the Macharius’ twin battle cannon with the Macharius vanquisher cannon creates the vanquisher variant; a deadly tank-hunter that can devastate whole squadrons of lighter vehicles or knock out rival super-heavies. The Macharius vanquisher cannon is costly, but its presence can tip the balance of tank warfare.",
+    "profiles": [
+      {
+        "name": "Macharius Vanquisher",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Macharius twin vanquisher cannon",
+        "tags": [
+          "HEAVY",
+          "TWIN-LINKED"
+        ],
+        "range": "72\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "18",
+        "ap": "-4",
+        "d": "D6+6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy stubber",
+        "tags": [
+          "RAPID FIRE 3",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Tank Hunter",
+        "text": "Each time this model makes a ranged attack with its Macharius twin vanquisher cannon that targets a MONSTER or VEHICLE unit, you can re-roll the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Macharius Vanquisher"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy stubbers; Macharius twin vanquisher cannon; twin heavy stubber; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy stubbers can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Macharius Vanquisher"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "macharius-vulcan",
+    "name": "Macharius Vulcan",
+    "points": [
+      {
+        "models": 1,
+        "points": 310
+      }
+    ],
+    "flavor": "The turret weapon of the Macharius Vulcan is the fearsome vulcan mega-bolter. Also carried by Warhound-class Titans, this twin rotary weapon emits a torrent of explosive rounds that can annihilate infantry. So furious is the Vulcan’s rate of fire that tank crews use every inch of cabin space to store as many extra rounds as possible.",
+    "profiles": [
+      {
+        "name": "Macharius Vulcan",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Macharius vulcan mega-bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "48\"",
+        "a": "16",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin heavy stubber",
+        "tags": [
+          "RAPID FIRE 3",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Armoured Aggressor",
+        "text": "Each time this model makes a ranged attack, it does not suffer the penalty to the Hit roll for being within Engagement Range of one or more enemy units."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Macharius Vulcan"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy stubbers; Macharius vulcan mega-bolter; twin heavy stubber; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy stubbers can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 heavy flamers",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Macharius Vulcan"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "malcador",
+    "name": "Malcador",
+    "points": [
+      {
+        "models": 1,
+        "points": 250
+      }
+    ],
+    "flavor": "Malcador tanks are a rare sight in most Astra Militarum regiments, but their rugged reliability and hard-hitting firepower still find favour with traditionalist tank commanders able to procure them. Though largely superseded by the Leman Russ Battle Tank, the Malcador’s design limitations are soon overlooked once its battle cannon begins to roar.",
+    "profiles": [
+      {
+        "name": "Malcador",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Malcador battle cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Rugged Reliability",
+        "text": "Each time a ranged attack targets this model, worsen the Armour Penetration characteristic of that attack by 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Malcador"
+    ],
+    "loadout": "**This model is equipped with:** 2 autocannons; heavy bolter; Malcador battle cannon; armoured tracks.",
+    "options": [
+      "This model’s 2 autocannons can be replaced with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model’s heavy bolter can be replaced with one of the following:\n▪ 1 autocannon\n▪ 1 lascannon",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Malcador"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "malcador-annihilator",
+    "name": "Malcador Annihilator",
+    "points": [
+      {
+        "models": 1,
+        "points": 270
+      }
+    ],
+    "flavor": "The Malcador Annihilator exchanges the Malcador’s battle cannon for a twin lascannon, with a demolisher cannon attached to its hull. Though arguably less optimised for a single battlefield role, the Annihilator’s record speaks for itself, and the vehicle has proved itself highly adaptable to a range of war zones.",
+    "profiles": [
+      {
+        "name": "Malcador Annihilator",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Demolisher cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Malcador twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Battlefield Dominance",
+        "text": "Ranged weapons equipped by this model have the [IGNORES COVER] ability while targeting an enemy unit within half range."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Malcador Annihilator"
+    ],
+    "loadout": "**This model is equipped with:** demolisher cannon; 2 heavy bolters; Malcador twin lascannon; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy bolters can be replaced with one of the following:\n▪ 2 autocannons\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Malcador Annihilator"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "malcador-defender",
+    "name": "Malcador Defender",
+    "points": [
+      {
+        "models": 1,
+        "points": 310
+      }
+    ],
+    "flavor": "With a complement of seven heavy bolters and a hull-mounted demolisher cannon, the Defender is able to spearhead siege actions or cut down wave upon wave of enemy infantry. The tank’s heavily modified embrasure bristles with guns from every angle, giving it the appearance of a moving fortress.",
+    "profiles": [
+      {
+        "name": "Malcador Defender",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Demolisher cannon",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Armoured Defender",
+        "text": "Each time you target this model with the Fire Overwatch Stratagem, hits are scored on unmodified Hit rolls of 5+ while resolving that Stratagem."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Malcador Defender"
+    ],
+    "loadout": "**This model is equipped with:** demolisher cannon; 7 heavy bolters; armoured tracks.",
+    "options": [
+      "2 of this model’s heavy bolters can be replaced with one of the following:\n▪ 2 autocannons\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Malcador Defender"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "malcador-infernus",
+    "name": "Malcador Infernus",
+    "points": [
+      {
+        "models": 1,
+        "points": 235
+      }
+    ],
+    "flavor": "The Infernus is a huge tank that tows the fuel for its inferno gun in a dedicated carriage behind it. When this weapon erupts, a massive gout of flame consumes the target area, burning with such heat that mines and fuel tanks detonate, while flesh and bone caught in the blaze becomes nothing more than super-hot vapour.",
+    "profiles": [
+      {
+        "name": "Malcador Infernus",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Inferno gun",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "18\"",
+        "a": "D6+3",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Explosive Death",
+        "text": "When this model is destroyed, roll one D6: on a 3+, do not remove it from play – it can, after the attacking model’s unit has finished making its attacks, shoot with its inferno gun as if it were your Shooting phase and as if it had its full wounds remaining. This model is then removed from play."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Malcador Infernus"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy stubbers; inferno gun; armoured tracks.",
+    "options": [
+      "This model’s 2 heavy stubbers can be replaced with one of the following:\n▪ 2 autocannons\n▪ 2 heavy bolters\n▪ 2 heavy flamers\n▪ 2 lascannons",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Malcador Infernus"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "manticore",
     "name": "Manticore",
     "points": [
@@ -7968,6 +12146,369 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "manticore-platform",
+    "name": "Manticore Platform",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Manticore Platform",
+        "m": "-",
+        "t": "8",
+        "sv": "3+",
+        "w": "8",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Storm eagle rockets",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE"
+        ],
+        "range": "120\"",
+        "a": "D6+1",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Furious Barrage",
+        "text": "Each time this model makes an attack with its storm eagle rockets that targets an enemy unit that contains five or more models, you can re-roll the Hit roll."
+      },
+      {
+        "name": "Reinforced Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      }
+    ],
+    "composition": [
+      "1 Manticore Platform"
+    ],
+    "loadout": "**This model is equipped with:** storm eagle rockets; close combat weapons.",
+    "keywords": [
+      "Fortification",
+      "Frame",
+      "Imperium",
+      "Artillery",
+      "Manticore Platform"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "marauder-bomber",
+    "name": "Marauder Bomber",
+    "points": [
+      {
+        "models": 1,
+        "points": 345
+      }
+    ],
+    "flavor": "Capable of atmospheric and void operations, the Marauder Bomber is an Imperial Navy workhorse with an excellent weapon payload. It excels when supporting Astra Militarum ground offensives with bombing runs on enemy troop concentrations, entrenched positions and supply facilities.",
+    "profiles": [
+      {
+        "name": "Marauder Bomber",
+        "m": "-",
+        "t": "10",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [],
+    "wargearAbilities": [
+      {
+        "name": "Heavy Bombs",
+        "text": "Each time the bearer ends a Normal move, you can select one enemy unit it moved over during that move and roll nine D6, adding 1 to each result if that unit is a MONSTER or VEHICLE: for each 5+, that unit suffers 1 mortal wound."
+      },
+      {
+        "name": "Inferno Bombs",
+        "text": "Each time the bearer ends a Normal move, you can select one enemy unit it moved over during that move and roll nine D6, adding 1 to each result if that unit is not a MONSTER or VEHICLE: for each 5+, that unit suffers 1 mortal wound."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Marauder Bomber"
+    ],
+    "loadout": "**This model is equipped with:** heavy bombs; 2 heavy bolters; 2 lascannons; armoured hull.",
+    "options": [
+      "This model’s heavy bombs can be replaced with 1 inferno bombs."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aircraft",
+      "Imperium",
+      "Marauder Bomber"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "marauder-destroyer",
+    "name": "Marauder Destroyer",
+    "points": [
+      {
+        "models": 1,
+        "points": 375
+      }
+    ],
+    "flavor": "The Marauder Destroyer was developed during the Second War for Armageddon in response to the dominance of Ork air power. The result was a heavily armed and armoured aircraft capable of hunting down airborne foes or striking armoured ground targets with an array of fearsome guns and missiles.",
+    "profiles": [
+      {
+        "name": "Marauder Destroyer",
+        "m": "-",
+        "t": "10",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Assault cannon",
+        "tags": [
+          "DEVASTATING WOUNDS"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hellstrike missile rack",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Marauder nose autocannons",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Bomb Drop",
+        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move and roll six D6: for each 3+, that unit suffers 1 mortal wound."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Marauder Destroyer"
+    ],
+    "loadout": "**This model is equipped with:** 2 assault cannons; 2 heavy bolters; Marauder nose autocannons; armoured hull.",
+    "options": [
+      "This model can be equipped with 1 hellstrike missile rack."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Fly",
+      "Aircraft",
+      "Imperium",
+      "Marauder Destroyer"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "medusa-carriage-battery",
+    "name": "Medusa Carriage Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 125
+      }
+    ],
+    "flavor": "Few walls are thick enough to withstand the artillery fire launched from a Medusa siege cannon. Able to fire heavy shells that can reduce structures to rubble, many war zones resonate with the sonorous fire of the Medusa’s siege cannons, levelling battlefields until there is nowhere for the hapless enemy to hide.",
+    "profiles": [
+      {
+        "name": "Medusa Carriage Battery",
+        "m": "4\"",
+        "t": "7",
+        "sv": "4+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Medusa siege cannon",
+        "tags": [
+          "BLAST",
+          "HEAVY",
+          "INDIRECT FIRE"
+        ],
+        "range": "36\"",
+        "a": "D6",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-3",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Battery close combat weapons",
+        "tags": [],
+        "a": "5",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Siege Bombardment",
+        "text": "In your Shooting phase, after this unit has shot, select one enemy unit hit by one or more of those attacks. That enemy unit must take a Battle-shock test."
+      }
+    ],
+    "composition": [
+      "1 Medusa Carriage"
+    ],
+    "loadout": "**This model is equipped with:** Medusa siege cannon; battery close combat weapons.\n\n**Designer’s Note:** Place five Heavy Artillery Crew tokens next to each Medusa Carriage model when this unit is first set up, removing one each time its Medusa Carriage model loses a wound (a Medusa Carriage model itself is considered to represent its final wound). These do not count as models for any rules purposes.",
+    "keywords": [
+      "Infantry",
+      "Artillery",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Medusa Carriage Battery"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "militarum-tempestus-command-squad",
@@ -8349,6 +12890,417 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "minotaur",
+    "name": "Minotaur",
+    "points": [
+      {
+        "models": 1,
+        "points": 225
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Minotaur",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Minotaur twin earthshaker cannon",
+        "tags": [
+          "BLAST",
+          "INDIRECT FIRE",
+          "TWIN-LINKED"
+        ],
+        "range": "240\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Armoured Frontis",
+        "text": "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Minotaur"
+    ],
+    "loadout": "**This model is equipped with:** Minotaur twin earthshaker cannon; armoured tracks.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Artillery",
+      "Squadron",
+      "Transport",
+      "Smoke",
+      "Minotaur"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "mukaali-riders",
+    "name": "Mukaali Riders",
+    "points": [
+      {
+        "models": 3,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Mukaali Riders",
+        "m": "8\"",
+        "t": "6",
+        "sv": "4+",
+        "w": "5",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Grenade launcher – krak",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      },
+      {
+        "name": "Laspistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma gun – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma gun – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      },
+      {
+        "name": "Plasma pistol – standard",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma pistol – supercharge",
+        "tags": [
+          "HAZARDOUS",
+          "RAPID FIRE 1"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Chainsword",
+        "tags": [],
+        "a": "4",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunting lance",
+        "tags": [
+          "LANCE"
+        ],
+        "a": "3",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Stomping feet",
+        "tags": [
+          "EXTRA ATTACKS"
+        ],
+        "a": "2",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Scouts 6\"",
+    "abilities": [
+      {
+        "name": "Desert Riders",
+        "text": "You can ignore any or all modifiers to this unit’s Move characteristic and to Advance and Charge rolls made for it. In addition, this unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+      }
+    ],
+    "composition": [
+      "1 Mukaali Rider Sergeant",
+      "2 Mukaali Riders"
+    ],
+    "loadout": "**Every model is equipped with:** laspistol; hunting lance; stomping feet.",
+    "options": [
+      "The Mukaali Rider Sergeant’s laspistol can be replaced with 1 plasma pistol.",
+      "The Mukaali Rider Sergeant’s hunting lance can be replaced with one of the following:\n▪ 1 chainsword\n▪ 1 power weapon",
+      "Up to 2 Mukaali Riders can each have their hunting lance replaced with one of the following:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun"
+    ],
+    "keywords": [
+      "Mounted",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Mukaali Riders"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "munitorum-servitors",
+    "name": "Munitorum Servitors",
+    "points": [
+      {
+        "models": 4,
+        "points": 35
+      }
+    ],
+    "flavor": "Lobotomised and augmented, Servitors attend the Departmento Munitorum in countless menial ways. These cybernetic living tools often form servile retinues for Enginseers, using their industrial servo-arms to repair hulking tanks, but unhesitatingly turning them on the foe should they draw too near.",
+    "profiles": [
+      {
+        "name": "Munitorum Servitors",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "0",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "6+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "HEAVY",
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "6+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "6+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS",
+          "HEAVY"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "6+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Servitor’s servo-arm",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "6",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Mindlock",
+        "text": "While a friendly TECH-PRIEST ENGINSEER model is leading this unit, improve the Ballistic Skill and Weapon Skill characteristics of ranged and melee weapons equipped by Munitorum Servitor models in this unit by 1."
+      }
+    ],
+    "composition": [
+      "4 Munitorum Servitors"
+    ],
+    "loadout": "**Every model is equipped with:** Servitor’s servo-arm.",
+    "options": [
+      "Up to 2 models can each have their Servitor’s servo-arm replaced with one of the following:\n▪ 1 heavy bolter\n▪ 1 multi-melta\n▪ 1 plasma cannon"
+    ],
+    "rules": [
+      {
+        "name": "SERVITOR RETINUE",
+        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a TECH-PRIEST ENGINSEER (a unit cannot have more than one MUNITORUM SERVITORS unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Munitorum Servitors"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "nork-deddog",
     "name": "Nork Deddog",
     "points": [
@@ -8640,6 +13592,140 @@ export default [
     "baseSize": "40mm"
   },
   {
+    "id": "praetor",
+    "name": "Praetor",
+    "points": [
+      {
+        "models": 1,
+        "points": 275
+      }
+    ],
+    "flavor": "Built around the same chassis as the Crassus assault transport, the Praetor mounts a sophisticated missile system that can be armed with a variety of warheads. These range from versatile foehammer missiles packed with explosive bomblets to fragmenting firestorm munitions.",
+    "profiles": [
+      {
+        "name": "Praetor",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "18",
+        "ld": "7+",
+        "oc": "5"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Praetor launcher – firestorm",
+        "tags": [
+          "BLAST",
+          "HEAVY",
+          "IGNORES COVER",
+          "INDIRECT FIRE"
+        ],
+        "range": "120\"",
+        "a": "2D6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Praetor launcher – foehammer",
+        "tags": [
+          "ANTI-MONSTER 4+",
+          "ANTI-VEHICLE 4+",
+          "BLAST",
+          "HEAVY",
+          "INDIRECT FIRE"
+        ],
+        "range": "120\"",
+        "a": "D6+1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Targeting Coordinates",
+        "text": "While this model is being affected by an Order, each time it makes an attack with its Praetor launcher, it does not suffer the penalty to the Hit roll for attacking a unit that is not visible to it."
+      }
+    ],
+    "damaged": {
+      "note": "1-6 wounds remaining",
+      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Praetor"
+    ],
+    "loadout": "**This model is equipped with:** 2 heavy bolters; Praetor launcher; armoured tracks.",
+    "options": [
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Praetor"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "primaris-psyker",
     "name": "Primaris Psyker",
     "points": [
@@ -8755,6 +13841,292 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "provisionally-prepared",
+    "name": "Provisionally Prepared",
+    "points": [
+      {
+        "models": 1,
+        "points": 40
+      }
+    ],
+    "flavor": "The traits that make Ratlings excellent snipers also make them skilled thieves. The most adept work in pairs, one amassing all manner of supplies to benefit their often-overlooked fellow sharpshooters while the other keeps a stealthy lookout. They both work equally hard to exploit their pilfered rations, of course.",
+    "profiles": [
+      {
+        "name": "Provisionally Prepared",
+        "m": "6\"",
+        "t": "2",
+        "sv": "6+",
+        "w": "2",
+        "ld": "8+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Sniper rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapons",
+        "tags": [],
+        "a": "2",
+        "ws": "5+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Leader, Stealth",
+    "abilities": [
+      {
+        "name": "A Hearty ‘Pick Me Up’",
+        "text": "While this model is leading a unit, in your Command phase, you can return up to D3 destroyed models to that unit."
+      },
+      {
+        "name": "Well-stocked Supplies",
+        "text": "While this model is leading a unit, improve the Leadership and Objective Control characteristics of models in that unit by 1."
+      }
+    ],
+    "composition": [
+      "1 Provisionally Prepared – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** sniper rifle; close combat weapons.",
+    "leader": {
+      "text": "This unit can be attached to the following unit:",
+      "units": [
+        "Ratlings"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Character",
+      "Grenades",
+      "Epic Hero",
+      "Provisionally Prepared"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "quartermaster-cadre-squad",
+    "name": "Quartermaster Cadre Squad",
+    "points": [
+      {
+        "models": 5,
+        "points": 45
+      }
+    ],
+    "profiles": [
+      {
+        "name": "QUARTERMASTER REVENANT",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      },
+      {
+        "name": "MEDICAE SERVITOR",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Quartermaster’s pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "3",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Medical scalpels",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Quartermaster’s close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Leader",
+    "abilities": [
+      {
+        "name": "Medicae Medi-packs",
+        "text": "Whilst this unit contains one or more Medicae Servitors, models in this unit have the Feel No Pain 5+ ability."
+      },
+      {
+        "name": "Mindlock",
+        "text": "While this unit contains a Quartermaster Revenant model, improve the Weapon Skill characteristic of this unit’s Medical scalpels by 1."
+      }
+    ],
+    "composition": [
+      "1 Quartermaster Revenant",
+      "4 Medicae Servitors"
+    ],
+    "loadout": "**The Quartermaster Revenant is equipped with:** Quartermaster’s pistol; Quartermaster’s close combat weapon.\n\n**Every Medicae Servitor is equipped with:** medical scalpels.",
+    "leader": {
+      "text": "This unit can be attached to the following units:",
+      "units": [
+        "Death Korps of Krieg",
+        "Death Korps Grenadier Squad",
+        "Infantry Squad",
+        "Krieg Combat Engineers"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Grenades",
+      "Regiment",
+      "Krieg",
+      "Quartermaster Cadre Squad",
+      "Character"
+    ],
+    "keywordsByModel": [
+      {
+        "model": "ALL MODELS",
+        "list": [
+          "Infantry",
+          "Imperium",
+          "Grenades",
+          "Regiment",
+          "Krieg",
+          "Quartermaster Cadre Squad"
+        ]
+      },
+      {
+        "model": "QUARTERMASTER REVENANT",
+        "list": [
+          "Character"
+        ]
+      }
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "rapier-laser-destroyer-battery",
+    "name": "Rapier Laser Destroyer Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 35
+      },
+      {
+        "models": 2,
+        "points": 70
+      },
+      {
+        "models": 3,
+        "points": 105
+      }
+    ],
+    "flavor": "The Rapier carrier is a bulky tracked device that traces its origin to the dawn of Mankind’s stellar empire. Compatible with various heavy weapons, the Rapier is most commonly fitted with a powerful quad lascannon known as a laser destroyer, making it a compact but potent anti-armour asset.",
+    "profiles": [
+      {
+        "name": "Rapier Laser Destroyer Battery",
+        "m": "6\"",
+        "t": "4",
+        "sv": "4+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Laser destroyer",
+        "tags": [
+          "HEAVY",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "12",
+        "ap": "-2",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Powerful Volley",
+        "text": "While this unit is being affected by an Order, provided it Remained Stationary this turn, Heavy weapons equipped by models in this unit have the [LETHAL HITS] ability."
+      }
+    ],
+    "composition": [
+      "1-3 Rapier Laser Destroyers"
+    ],
+    "loadout": "**Every model is equipped with:** laser destroyer; close combat weapon.\n\n**Designer’s Note:** Place two Artillery Crew tokens next to each Rapier Laser Destroyer model when this unit is first set up, removing one each time its Rapier Laser Destroyer model loses a wound (a Rapier Laser Destroyer model itself is considered to represent its final wound).",
+    "keywords": [
+      "Infantry",
+      "Artillery",
+      "Grenades",
+      "Regiment",
+      "Imperium",
+      "Rapier Laser Destroyer Battery"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "ratlings",
     "name": "Ratlings",
     "points": [
@@ -8852,6 +14224,218 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "25mm / 28.5mm"
+  },
+  {
+    "id": "regimental-attaches",
+    "name": "Regimental Attachés",
+    "points": [
+      {
+        "models": 3,
+        "points": 40
+      }
+    ],
+    "flavor": "Experienced officers know the value of drawing upon the advice of varied attachés. From void-hardened Officers of the Fleet to soot-stained Masters of Ordnance and psychic Astropaths, such specialists bring their expertise to bear in support of an officer’s grand strategies.",
+    "profiles": [
+      {
+        "name": "Regimental Attachés",
+        "m": "6\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "1",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Laspistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Astropath’s stave",
+        "tags": [
+          "PSYCHIC"
+        ],
+        "a": "1",
+        "ws": "4+",
+        "s": "6",
+        "ap": "-1",
+        "d": "D3"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Artillery Commander",
+        "text": "At the start of your Shooting phase, select one enemy unit within 30\" of and visible to this unit’s Master of Ordnance model that has not already been selected for this ability this phase. Until the end of the phase, Blast weapons equipped by friendly ASTRA MILITARUM ARTILLERY models have the [SUSTAINED HITS 1] ability when targeting that unit."
+      },
+      {
+        "name": "Aeronautica Commander",
+        "text": "At the start of your Shooting phase, select one enemy unit within 30\" of and visible to this unit’s Officer of the Fleet model. Until the end of the phase, each time a friendly ASTRA MILITARUM AIRCRAFT model makes a ranged attack that targets that unit, add 1 to the Hit roll."
+      },
+      {
+        "name": "Divination (Psychic)",
+        "text": "Enemy units that are set up on the battlefield as Reinforcements cannot be set up within 12\" of this unit’s Astropath model."
+      }
+    ],
+    "composition": [
+      "1 Master of Ordnance, 1 Officer of the Fleet and 1 Astropath"
+    ],
+    "loadout": "**The Master of Ordnance and Officer of the Fleet are both equipped with:** laspistol; close combat weapon.\n\n**The Astropath is equipped with:** laspistol; Astropath’s stave.",
+    "rules": [
+      {
+        "name": "ATTACHÉS",
+        "text": "At the start of the Declare Battle Formations step, this unit must join one COMMAND SQUAD unit from your army (a COMMAND SQUAD unit cannot have more than one REGIMENTAL ATTACHÉ unit joined to it). For the rest of the battle, every model in this unit counts as part of that COMMAND SQUAD unit, and its Starting Strength is increased accordingly. If it is not possible to join a REGIMENTAL ATTACHÉ unit to a COMMAND SQUAD in this way, it does not take part in the battle and counts as having been destroyed.\n\nWhile this unit is joined to a unit, it can embark within any TRANSPORT that unit can embark within."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Regimental Attachés",
+      "Psyker"
+    ],
+    "keywordsByModel": [
+      {
+        "model": "ALL MODELS",
+        "list": [
+          "Infantry",
+          "Imperium",
+          "Regimental Attachés"
+        ]
+      },
+      {
+        "model": "ASTROPATH",
+        "list": [
+          "Psyker"
+        ]
+      }
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "rein-and-raus",
+    "name": "Rein and Raus",
+    "points": [
+      {
+        "models": 2,
+        "points": 50
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Rein and Raus",
+        "m": "6\"",
+        "t": "2",
+        "sv": "6+",
+        "w": "1",
+        "ld": "8+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Demolition charge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS",
+          "ONE SHOT"
+        ],
+        "range": "6\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Sniper rifle",
+        "tags": [
+          "HEAVY",
+          "PRECISION"
+        ],
+        "range": "36\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Stub pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "5+",
+        "s": "2",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Infiltrators, Lone Operative, Stealth",
+    "abilities": [
+      {
+        "name": "Shoot Sharp and Scarper",
+        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move. If it does, until the end of the turn, this unit is not eligible to declare a charge."
+      },
+      {
+        "name": "The Ratling Twins",
+        "text": "While this unit contains 2 models, each time a model in this unit makes a ranged attack, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 Rein – Epic Hero",
+      "1 Raus – Epic Hero"
+    ],
+    "loadout": "**Rein is equipped with:** sniper rifle; stub pistol; close combat weapon.\n\n**Raus is equipped with:** demolition charge; stub pistol; close combat weapon.",
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Character",
+      "Epic Hero",
+      "Rein and Raus"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "rogal-dorn-battle-tank",
@@ -9225,6 +14809,374 @@ export default [
     ]
   },
   {
+    "id": "sabre-weapons-battery",
+    "name": "Sabre Weapons Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 45
+      },
+      {
+        "models": 2,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sabre Weapons Battery",
+        "m": "-",
+        "t": "4",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin autocannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy stubber",
+        "tags": [
+          "RAPID FIRE 3",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Sentinel Directives",
+        "text": "Each time you target this unit with the Fire Overwatch Stratagem, hits are scored on unmodified Hit rolls of 5+ when resolving that Stratagem."
+      },
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Defence Searchlight",
+        "text": "At the start of your Shooting phase, you can select one enemy unit within 24\" and visible to the bearer. Until the end of the phase, that unit cannot have the Benefit of Cover."
+      }
+    ],
+    "composition": [
+      "1-2 Sabre Gun Platforms"
+    ],
+    "loadout": "**Every model is equipped with:** twin heavy bolter; close combat weapon.",
+    "options": [
+      "Any number of models’ twin heavy bolters can each be replaced with one of the following:\n▪ 1 defence searchlight\n▪ 1 twin autocannon\n▪ 1 twin heavy stubber\n▪ 1 twin lascannon"
+    ],
+    "keywords": [
+      "Fortification",
+      "Imperium",
+      "Artillery",
+      "Sabre Weapons Battery"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "salamander-command-vehicle",
+    "name": "Salamander Command Vehicle",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Salamander Command Vehicle",
+        "m": "12\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Auspex Surveyor",
+        "text": "Each time this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, that unit cannot have the Benefit of Cover."
+      }
+    ],
+    "composition": [
+      "1 Salamander Command Vehicle"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; heavy flamer; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Salamander Command Vehicle"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "salamander-scout-vehicle",
+    "name": "Salamander Scout Vehicle",
+    "points": [
+      {
+        "models": 1,
+        "points": 95
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Salamander Scout Vehicle",
+        "m": "12\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "10",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Scouts 9\"",
+    "abilities": [
+      {
+        "name": "Outflank",
+        "text": "When this model arrives from Strategic Reserves, it can be set up within your opponent’s deployment zone (all other restrictions still apply)."
+      }
+    ],
+    "composition": [
+      "1 Salamander Scout Vehicle"
+    ],
+    "loadout": "**This model is equipped with:** autocannon; heavy bolter; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Salamander Scout Vehicle"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "scout-sentinels",
     "name": "Scout Sentinels",
     "points": [
@@ -9405,6 +15357,155 @@ export default [
       "Astra Militarum"
     ],
     "baseSize": "80mm"
+  },
+  {
+    "id": "sentinel-powerlifter",
+    "name": "Sentinel Powerlifter",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Sentinel Powerlifter",
+        "m": "8\"",
+        "t": "7",
+        "sv": "3+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Powerlifter",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "10",
+        "ap": "-2",
+        "d": "D3"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Powerlifter Charge",
+        "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it and roll one D6: on a 2-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers 3 mortal wounds."
+      }
+    ],
+    "composition": [
+      "1 Sentinel Powerlifter"
+    ],
+    "loadout": "**This model is equipped with:** powerlifter.",
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Frame",
+      "Imperium",
+      "Regiment",
+      "Squadron",
+      "Smoke",
+      "Sentinel Powerlifter"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "sergeant-harker",
+    "name": "Sergeant Harker",
+    "points": [
+      {
+        "models": 1,
+        "points": 40
+      }
+    ],
+    "flavor": "Gunnery Sergeant Harker, known as ‘Stonetooth’ Harker to his Catachan soldiers, is amongst the toughest of that hardy breed. He is said to feel no pain, and his immense strength enables him to carry his heavy bolter, Payback, as easily as others carry a rifle.",
+    "profiles": [
+      {
+        "name": "Sergeant Harker",
+        "m": "6\"",
+        "t": "4",
+        "sv": "5+",
+        "w": "3",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Payback",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Feel No Pain 6+, Leader, Scouts 6\"",
+    "faction": "Voice of Command",
+    "abilities": [
+      {
+        "name": "Harker’s Hellraisers",
+        "text": "While this model is leading a unit, each time a ranged attack targets that unit, if the attacking model is more than 12\" away, subtract 1 from the Hit roll."
+      },
+      {
+        "name": "Payback Time",
+        "text": "Once per battle, when this model is selected to shoot, it can use this ability. If it does, until the end of the phase, its Payback weapon has an Attacks characteristic of 6 and the [SUSTAINED HITS 3] ability instead of the [SUSTAINED HITS 1] ability."
+      }
+    ],
+    "composition": [
+      "1 Sergeant Harker – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Payback; close combat weapon.",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue 1 Order to a CATACHAN JUNGLE FIGHTERS unit."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following unit:",
+      "units": [
+        "Catachan Jungle Fighters"
+      ]
+    },
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Grenades",
+      "Officer",
+      "Sergeant Harker"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "shadowsword",
@@ -9613,6 +15714,314 @@ export default [
         "text": "This model cannot be selected as your WARLORD."
       }
     ]
+  },
+  {
+    "id": "storm-chimera",
+    "name": "Storm Chimera",
+    "points": [
+      {
+        "models": 1,
+        "points": 90
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Storm Chimera",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Firing Deck 2",
+    "abilities": [
+      {
+        "name": "Mobile Command Vehicle",
+        "text": "In your Command phase, one OFFICER model embarked within this TRANSPORT can issue Orders even though it is not on the battlefield. When doing so, measure distances to and from this TRANSPORT."
+      }
+    ],
+    "composition": [
+      "1 Storm Chimera"
+    ],
+    "loadout": "**This model is equipped with:** autocannon; heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 heavy flamer.",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "transport": "This model has a transport capacity of 12 ASTRA MILITARUM INFANTRY models. Each HEAVY WEAPONS TEAM model and VETERAN HEAVY WEAPONS TEAM model takes up the space of 2 models. Each OGRYN model takes up the space of 3 models. It cannot transport ARTILLERY models.",
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Transport",
+      "Dedicated Transport",
+      "Smoke",
+      "Storm Chimera"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "stormblade",
+    "name": "Stormblade",
+    "points": [
+      {
+        "models": 1,
+        "points": 415
+      }
+    ],
+    "flavor": "Designed to fulfil a Titan-hunting role similar to that of the Shadowsword, the Stormblade’s main armament is the plasma blastgun. Though less stable than a volcano cannon, this huge weapon can be turned upon titanic war machines, infantry formations or armoured bastions with equally devastating results.",
+    "profiles": [
+      {
+        "name": "Stormblade",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "24",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Stormblade plasma blastgun – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Stormblade plasma blastgun – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "48\"",
+        "a": "D6+3",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "4"
+      },
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Close-range Devastation",
+        "text": "Each time this model makes a ranged attack with its Stormblade plasma blastgun that targets a unit within half range, you can re-roll the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-8 wounds remaining",
+      "text": "While this model has 1-8 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Stormblade"
+    ],
+    "loadout": "**This model is equipped with:** 2 lascannons; 1 Stormblade plasma blastgun; 2 twin heavy bolters; armoured tracks.",
+    "options": [
+      "This model’s 2 twin heavy bolters can be replaced with 2 twin heavy flamers.",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter",
+      "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Stormblade"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "stormlord",
@@ -9864,11 +16273,428 @@ export default [
       "Stormsword",
       "Titanic",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Astra Militarum"
     ],
     "baseSize": "Hull"
+  },
+  {
+    "id": "stygies-destroyer-tank-hunter",
+    "name": "Stygies Destroyer Tank Hunter",
+    "points": [
+      {
+        "models": 1,
+        "points": 180
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Stygies Destroyer Tank Hunter",
+        "m": "10\"",
+        "t": "11",
+        "sv": "2+",
+        "w": "13",
+        "ld": "7+",
+        "oc": "3"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Stygies laser destroyer",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "72\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-4",
+        "d": "D6+3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Tank Hunter",
+        "text": "Each time this model makes a ranged attack that targets a VEHICLE unit, add 1 to the Wound roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Stygies Destroyer Tank Hunter"
+    ],
+    "loadout": "**This model is equipped with:** Stygies laser destroyer; armoured tracks.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Frame",
+      "Imperium",
+      "Squadron",
+      "Smoke",
+      "Stygies Destroyer Tank Hunter"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "tarantula-battery",
+    "name": "Tarantula Battery",
+    "points": [
+      {
+        "models": 1,
+        "points": 40
+      },
+      {
+        "models": 2,
+        "points": 80
+      },
+      {
+        "models": 3,
+        "points": 120
+      }
+    ],
+    "flavor": "Tarantula Sentry Guns are automated weapon systems ideally suited to area denial and deterrent roles. Equipped with simple logic engines and fitted with either lascannons or heavy bolters, they can cut down enemy troops or stop armoured vehicles in their tracks, placing minimal demands on their operators’ attention.",
+    "profiles": [
+      {
+        "name": "Tarantula Battery",
+        "m": "-",
+        "t": "5",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Twin heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1",
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "1",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Sentry Programming",
+        "text": "You can target this unit with the Fire Overwatch Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase."
+      }
+    ],
+    "composition": [
+      "1-3 Tarantula Sentry Guns"
+    ],
+    "loadout": "**Every model is equipped with:** twin heavy bolter; close combat weapon.",
+    "options": [
+      "Any number of models can each have their twin heavy bolter replaced with 1 twin lascannon."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Imperium",
+      "Tarantula Battery"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "tauros-assault-vehicle",
+    "name": "Tauros Assault Vehicle",
+    "points": [
+      {
+        "models": 1,
+        "points": 50
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Tauros Assault Vehicle",
+        "m": "12\"",
+        "t": "6",
+        "sv": "4+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Tauros grenade launcher – frag",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "24\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Tauros grenade launcher – krak",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-2",
+        "d": "D3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured frame",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1, Scouts 9\"",
+    "abilities": [
+      {
+        "name": "Turbo-boost",
+        "text": "Each time this model Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of this model."
+      }
+    ],
+    "composition": [
+      "1 Tauros Assault Vehicle"
+    ],
+    "loadout": "**This model is equipped with:** heavy flamer; armoured frame.",
+    "options": [
+      "This model’s heavy flamer can be replaced with 1 Tauros grenade launcher.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Mounted",
+      "Regiment",
+      "Frame",
+      "Imperium",
+      "Tauros",
+      "Tauros Assault Vehicle"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "tauros-venator",
+    "name": "Tauros Venator",
+    "points": [
+      {
+        "models": 1,
+        "points": 50
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Tauros Venator",
+        "m": "12\"",
+        "t": "6",
+        "sv": "4+",
+        "w": "6",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Twin multi-laser",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "36\"",
+        "a": "4",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured frame",
+        "tags": [],
+        "a": "2",
+        "ws": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise 1",
+    "abilities": [
+      {
+        "name": "Mobile Hunter-killer",
+        "text": "Each time this model makes an attack that targets a MONSTER or VEHICLE unit, you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 Tauros Venator"
+    ],
+    "loadout": "**This model is equipped with:** twin multi-laser; armoured frame.",
+    "options": [
+      "This model’s twin multi-laser can be replaced with 1 twin lascannon.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Mounted",
+      "Regiment",
+      "Frame",
+      "Imperium",
+      "Tauros",
+      "Tauros Venator"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "taurox",
@@ -10709,6 +17535,107 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "trojan-support-vehicle",
+    "name": "Trojan Support Vehicle",
+    "points": [
+      {
+        "models": 1,
+        "points": 80
+      }
+    ],
+    "flavor": "Astra Militarum armoured companies and artillery regiments depend upon an extensive corps of support vehicles for their maintenance and rearmament. Amongst these is the Trojan; a crane-armed ammo mule tasked with keeping big guns firing, whether by replenishing supplies of shells and fuel or by facilitating simple battlefield repairs.",
+    "profiles": [
+      {
+        "name": "Trojan Support Vehicle",
+        "m": "10\"",
+        "t": "9",
+        "sv": "3+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "2"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3",
+    "abilities": [
+      {
+        "name": "Support Vehicle",
+        "text": "In your Command phase, select one friendly ASTRA MILITARUM VEHICLE model within 3\" of this model. That VEHICLE model regains up to D3 lost wounds and, until the start of your next Command phase, each time that VEHICLE model makes an attack, re-roll a Hit roll of 1. The same VEHICLE model cannot be selected for both this ability and the Regimental Enginseer’s Omnissiah’s Blessing ability in the same turn, and each model can only be selected for this ability once per Command phase."
+      }
+    ],
+    "composition": [
+      "1 Trojan Support Vehicle"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; armoured tracks.",
+    "options": [
+      "This model’s heavy bolter can be replaced with 1 heavy flamer.",
+      "This model can be equipped with 1 hunter-killer missile."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Squadron",
+      "Smoke",
+      "Frame",
+      "Imperium",
+      "Trojan Support Vehicle"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "ursula-creed",
     "name": "Ursula Creed",
     "points": [
@@ -10796,6 +17723,170 @@ export default [
         "text": "This OFFICER can issue up to 3 Orders to Regiment units."
       }
     ]
+  },
+  {
+    "id": "valdor",
+    "name": "Valdor",
+    "points": [
+      {
+        "models": 1,
+        "points": 285
+      }
+    ],
+    "flavor": "The Valdor is an arcane variant of the Malcador tank chassis, its entire frame dominated by a technological relic known as the neutron laser projector. This powerful energy weapon fires a beam of superenergised particles that can penetrate the thickest armour and send a crippling electromagnetic pulse through vehicles’ inner workings.",
+    "profiles": [
+      {
+        "name": "Valdor",
+        "m": "9\"",
+        "t": "13",
+        "sv": "2+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "8"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Autocannon",
+        "tags": [],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-1",
+        "d": "3"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Heavy stubber",
+        "tags": [
+          "RAPID FIRE 3"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Valdor neutron laser",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "16",
+        "ap": "-4",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured tracks",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6+2",
+    "abilities": [
+      {
+        "name": "Power Overload",
+        "text": "Each time this model makes an attack that targets a MONSTER or VEHICLE unit, you can re-roll the Damage roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, subtract 4 from its Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Valdor"
+    ],
+    "loadout": "**This model is equipped with:** autocannon; Valdor neutron laser; armoured tracks.",
+    "options": [
+      "This model’s autocannon can be replaced with one of the following:\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon",
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter"
+    ],
+    "keywords": [
+      "Vehicle",
+      "Titanic",
+      "Frame",
+      "Imperium",
+      "Smoke",
+      "Valdor"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "valkyrie",
@@ -10920,11 +18011,418 @@ export default [
       "Transport",
       "Valkyrie",
       "Vehicle"
-        ],
+    ],
     "factionKeywords": [
       "Astra Militarum"
     ],
     "baseSize": "120x92mm Oval Base"
+  },
+  {
+    "id": "valkyrie-sky-talon",
+    "name": "Valkyrie Sky Talon",
+    "points": [
+      {
+        "models": 1,
+        "points": 185
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Valkyrie Sky Talon",
+        "m": "14\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "14",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Hellstrike missile",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Multiple rocket pod",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Hover",
+    "abilities": [
+      {
+        "name": "Fire Support",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit it scored one or more hits against this phase. Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Valkyrie Sky Talon"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; 2 hellstrike missiles; armoured hull.",
+    "options": [
+      "This model’s 2 hellstrike missiles can be replaced with 2 multiple rocket pods."
+    ],
+    "transport": "This model has a transport capacity of 1 TAUROS model or 2 ASTRA MILITARUM WALKER models.",
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Transport",
+      "Valkyrie Sky Talon"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "vendetta-gunship",
+    "name": "Vendetta Gunship",
+    "points": [
+      {
+        "models": 1,
+        "points": 255
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Vendetta Gunship",
+        "m": "14\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "14",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Vendetta hellstrike rack",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Vendetta twin lascannon",
+        "tags": [
+          "TWIN-LINKED"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Hover",
+    "abilities": [
+      {
+        "name": "Anti-armour Gunship",
+        "text": "Each time a ranged attack made by this model is allocated to a MONSTER or VEHICLE model, re-roll a Damage roll of 1."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Vendetta Gunship"
+    ],
+    "loadout": "**This model is equipped with:** 3 Vendetta twin lascannons; armoured hull.",
+    "options": [
+      "2 of this model’s Vendetta twin lascannons can be replaced with 1 Vendetta hellstrike rack.",
+      "This model can be equipped with 2 heavy bolters."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Transport",
+      "Vendetta Gunship"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "voss-pattern-lightning",
+    "name": "Voss-pattern Lightning",
+    "points": [
+      {
+        "models": 1,
+        "points": 130
+      }
+    ],
+    "flavor": "Smaller and more agile than the iconic Thunderbolt, the Lightning is a high-speed suborbital fighter designed for interception, interdiction and surgical strikes. The Lightning’s hellstrike missiles, coupled with lascannons, ensure that few ground targets are safe from its swooping assaults.",
+    "profiles": [
+      {
+        "name": "Voss-pattern Lightning",
+        "m": "-",
+        "t": "9",
+        "sv": "3+",
+        "w": "14",
+        "ld": "7+",
+        "oc": "-"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Lascannon",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Lightning hellstrike rack",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "8",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "abilities": [
+      {
+        "name": "Agile Dogfighter",
+        "text": "Each time an attack targets this model, subtract 1 from the Hit roll."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Voss-pattern Lightning"
+    ],
+    "loadout": "**This model is equipped with:** 2 lascannons; armoured hull.",
+    "options": [
+      "This model can be equipped with 1 Lightning hellstrike rack."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Aircraft",
+      "Imperium",
+      "Voss-pattern Lightning"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
+    "id": "vulture-gunship",
+    "name": "Vulture Gunship",
+    "points": [
+      {
+        "models": 1,
+        "points": 225
+      }
+    ],
+    "flavor": "Based on the Valkyrie STC, Vulture Gunships are high-speed, low-level hunter-killers capable of bearing a wide range of payloads. Whether performing close-protection roles for drop troops or strafing missions against massed infantry and light vehicles, Vultures are stalwarts of the Imperial Navy that can be adapted to many combat situations.",
+    "profiles": [
+      {
+        "name": "Vulture Gunship",
+        "m": "14\"",
+        "t": "10",
+        "sv": "2+",
+        "w": "14",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "4+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Multiple rocket pod",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D6",
+        "bs": "4+",
+        "s": "6",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Vulture gatling cannon",
+        "tags": [
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "18",
+        "bs": "4+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Vulture hellstrike rack",
+        "tags": [
+          "ANTI-FLY 2+"
+        ],
+        "range": "48\"",
+        "a": "2",
+        "bs": "4+",
+        "s": "10",
+        "ap": "-3",
+        "d": "D6"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Armoured hull",
+        "tags": [],
+        "a": "6",
+        "ws": "4+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D6, Hover",
+    "abilities": [
+      {
+        "name": "Gunship Barrage",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That enemy unit must take a Battle-shock test."
+      }
+    ],
+    "damaged": {
+      "note": "1-5 wounds remaining",
+      "text": "While this model has 1-5 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Vulture Gunship"
+    ],
+    "loadout": "**This model is equipped with:** heavy bolter; 2 multiple rocket pods; Vulture hellstrike racks; armoured hull.",
+    "options": [
+      "This model’s 2 multiple rocket pods and Vulture hellstrike rack can be replaced with 2 Vulture gatling cannons."
+    ],
+    "keywords": [
+      "Vehicle",
+      "Fly",
+      "Imperium",
+      "Vulture Gunship"
+    ],
+    "factionKeywords": [
+      "Astra Militarum"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "wyvern",

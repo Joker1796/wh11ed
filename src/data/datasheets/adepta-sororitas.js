@@ -174,6 +174,59 @@ export default [
     "baseSize": "25mm"
   },
   {
+    "id": "battle-sanctum",
+    "name": "Battle Sanctum",
+    "points": [
+      {
+        "models": 1,
+        "points": 170
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Battle Sanctum",
+        "m": "-",
+        "t": "11",
+        "sv": "3+",
+        "w": "20",
+        "ld": "7+",
+        "oc": "0"
+      }
+    ],
+    "core": "Deadly Demise D6",
+    "faction": "Acts of Faith",
+    "abilities": [
+      {
+        "name": "Fortification",
+        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+      },
+      {
+        "name": "Consecrated Ground",
+        "text": "When this Fortification is set up, all parts of it must be set up within 1\" of another part. Friendly ADEPTA SORORITAS INFANTRY models can be set up or end any type of move on top of the floor sections of this Fortification. While an ADEPTA SORORITAS unit from your army is within 1\" of this Fortification, that unit can perform one additional Act of Faith per phase."
+      },
+      {
+        "name": "Holy Cover",
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+      }
+    ],
+    "composition": [
+      "1 Battle Sanctum"
+    ],
+    "loadout": "**This model is equipped with:** nothing.",
+    "keywords": [
+      "Imperium",
+      "Fortification",
+      "Towering",
+      "Battle Sanctum"
+    ],
+    "factionKeywords": [
+      "Adepta Sororitas"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "battle-sisters-squad",
     "name": "Battle Sisters Squad",
     "points": [
@@ -1037,6 +1090,85 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "celestian-sacresant-aveline",
+    "name": "Celestian Sacresant Aveline",
+    "points": [
+      {
+        "models": 1,
+        "points": 45
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Celestian Sacresant Aveline",
+        "m": "6\"",
+        "t": "3",
+        "sv": "3+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Ministorum hand flamer",
+        "tags": [
+          "IGNORES COVER",
+          "PISTOL",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "The Thorn of the White Rose",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "core": "Feel No Pain 6+, Lone Operative",
+    "faction": "Acts of Faith",
+    "abilities": [
+      {
+        "name": "Instrument of the Emperor’s Wrath",
+        "text": "Once per battle, at the start of the Fight phase, this model can use this ability. If it does, until the end of the phase, add 3 to the Attacks characteristic of melee weapons equipped by this model and those weapons have the [DEVASTATING WOUNDS] ability."
+      },
+      {
+        "name": "Daemonbreaker",
+        "text": "Each time this model makes an attack that targets a DAEMON unit, you can re-roll the Hit roll and you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "1 Celestian Sacresant Aveline – Epic Hero"
+    ],
+    "loadout": "**This model is equipped with:** Ministorum hand flamer; The Thorn of the White Rose.",
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Imperium",
+      "Grenades",
+      "Epic Hero",
+      "Celestian Sacresant Aveline"
+    ],
+    "factionKeywords": [
+      "Adepta Sororitas"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "celestian-sacresants",
     "name": "Celestian Sacresants",
     "points": [
@@ -1202,6 +1334,71 @@ export default [
     "baseSize": "32mm"
   },
   {
+    "id": "crusaders",
+    "name": "Crusaders",
+    "points": [
+      {
+        "models": 2,
+        "points": 40
+      },
+      {
+        "models": 4,
+        "points": 80
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Crusaders",
+        "m": "6\"",
+        "t": "3",
+        "sv": "3+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "4+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-2",
+        "d": "2"
+      }
+    ],
+    "faction": "Acts of Faith",
+    "abilities": [
+      {
+        "name": "Spiritual Fortitude",
+        "text": "Models in this unit have the Feel No Pain 4+ ability against Psychic Attacks and mortal wounds."
+      }
+    ],
+    "composition": [
+      "2-4 Crusaders"
+    ],
+    "loadout": "**Every model is equipped with:** power weapon.",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a model from your army with the Leader ability can be attached to a BATTLE SISTERS SQUAD, it can be attached to this unit instead."
+      }
+    ],
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Crusaders"
+    ],
+    "factionKeywords": [
+      "Adepta Sororitas"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "daemonifuge",
     "name": "Daemonifuge",
     "points": [
@@ -1304,6 +1501,68 @@ export default [
     ]
   },
   {
+    "id": "death-cult-assassins",
+    "name": "Death Cult Assassins",
+    "points": [
+      {
+        "models": 2,
+        "points": 55
+      },
+      {
+        "models": 4,
+        "points": 110
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Death Cult Assassins",
+        "m": "7\"",
+        "t": "3",
+        "sv": "5+",
+        "w": "2",
+        "ld": "7+",
+        "oc": "1",
+        "inv": "5+"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Death Cult power blades",
+        "tags": [
+          "PRECISION"
+        ],
+        "a": "4",
+        "ws": "2+",
+        "s": "4",
+        "ap": "-2",
+        "d": "1"
+      }
+    ],
+    "core": "Fights First, Infiltrators, Lone Operative",
+    "faction": "Acts of Faith",
+    "abilities": [
+      {
+        "name": "Death Cult",
+        "text": "Each time a model in this unit makes an attack that targets a CHARACTER unit, you can re-roll the Wound roll."
+      }
+    ],
+    "composition": [
+      "2-4 Death Cult Assassins"
+    ],
+    "loadout": "**Every model is equipped with:** Death Cult power blades.",
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Death Cult Assassins"
+    ],
+    "factionKeywords": [
+      "Adepta Sororitas"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
+  },
+  {
     "id": "dialogus",
     "name": "Dialogus",
     "points": [
@@ -1375,7 +1634,7 @@ export default [
         "Battle Sisters Squad",
         "Celestian Insidiants",
         "Dominion Squad"
-      ],
+      ]
     },
     "keywords": [
       "Infantry",
@@ -1459,7 +1718,7 @@ export default [
         "Retributor Squad",
         "Dominion Squad",
         "Celestian Sacresants"
-      ],
+      ]
     },
     "keywords": [
       "Grenades",
@@ -1925,7 +2184,7 @@ export default [
         "Battle Sisters Squad",
         "Celestian Insidiants",
         "Dominion Squad"
-      ],
+      ]
     },
     "keywords": [
       "Infantry",
@@ -2021,7 +2280,7 @@ export default [
         "Battle Sisters Squad",
         "Retributor Squad",
         "Dominion Squad"
-      ],
+      ]
     },
     "keywords": [
       "Imagifier",
@@ -3238,6 +3497,127 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ]
+  },
+  {
+    "id": "repressor",
+    "name": "Repressor",
+    "points": [
+      {
+        "models": 1,
+        "points": 130
+      }
+    ],
+    "profiles": [
+      {
+        "name": "Repressor",
+        "m": "12\"",
+        "t": "10",
+        "sv": "3+",
+        "w": "12",
+        "ld": "7+",
+        "oc": "2",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Hunter-killer missile",
+        "tags": [
+          "ONE SHOT"
+        ],
+        "range": "48\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "14",
+        "ap": "-3",
+        "d": "D6"
+      },
+      {
+        "name": "Repressor twin heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT",
+          "TWIN-LINKED"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
+        "name": "Storm bolter",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "24\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Dozer ram",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "7",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Deadly Demise D3, Firing Deck 6",
+    "faction": "Acts of Faith",
+    "abilities": [
+      {
+        "name": "Emergency Combat Embarkation",
+        "text": "Once per turn, in your opponent’s Charge phase, after an enemy unit has selected targets for its charge but before it makes a Charge move, you can select one ADEPTA SORORITAS unit from your army that was selected as a target of that charge. Provided that unit is not within Engagement Range of any enemy units and every model in that unit is within 3\" of this TRANSPORT, it can embark within this TRANSPORT."
+      }
+    ],
+    "damaged": {
+      "note": "1-4 wounds remaining",
+      "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+    },
+    "composition": [
+      "1 Repressor"
+    ],
+    "loadout": "**This model is equipped with:** Repressor twin heavy flamer; storm bolter; dozer ram.",
+    "options": [
+      "This model can be equipped with 1 hunter-killer missile.",
+      "This model can be equipped with one of the following:\n▪ 1 heavy flamer\n▪ 1 storm bolter"
+    ],
+    "transport": "This model has a transport capacity of 12 ADEPTA SORORITAS INFANTRY models. It cannot transport JUMP PACK models or the TRIUMPH OF SAINT KATHERINE.",
+    "keywords": [
+      "Vehicle",
+      "Smoke",
+      "Transport",
+      "Dedicated Transport",
+      "Imperium",
+      "Repressor"
+    ],
+    "factionKeywords": [
+      "Adepta Sororitas"
+    ],
+    "legends": true,
+    "source": "faction-pack",
+    "sourceVersion": "1.2"
   },
   {
     "id": "retributor-squad",
