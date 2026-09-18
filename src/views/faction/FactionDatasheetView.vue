@@ -3,19 +3,22 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <!-- The Legends mark rides in the title line like the base size does — the same badge
-               the grid shows, with the same one-line explanation as its title — and costs no row
-               of its own: on a phone the head is the first thing on screen, and a sentence under
-               the name pushed the statline down for a fact the badge already states. -->
+          <!-- The Legends mark rides in the title line — the same badge the grid shows, with the
+               same one-line explanation as its title — and costs no row of its own: on a phone the
+               head is the first thing on screen, and a sentence under the name pushed the statline
+               down for a fact the badge already states. It LEADS the name rather than trailing it:
+               a trailing badge wrapped onto a line of its own the moment the name filled the first
+               (seen on a phone, 2026-09-18), while a leading one always shares the first line with
+               the first word. -->
           <h2 class="ds-title">
-            {{ sheet.name }} <span
-              v-if="sheet.baseSize"
-              class="ds-title-base"
-            >({{ fmtBase(sheet.baseSize) }})</span><span
+            <span
               v-if="sheet.legends"
               class="legends-badge ds-title-legends"
               :title="labels.dsLegendsNote"
-            >{{ labels.dsLegends }}</span>
+            >{{ labels.dsLegends }}</span>{{ sheet.name }} <span
+              v-if="sheet.baseSize"
+              class="ds-title-base"
+            >({{ fmtBase(sheet.baseSize) }})</span>
           </h2>
           <div class="ds-actions">
             <button
@@ -385,7 +388,7 @@ async function copyName() {
    reads beside display type; the plate is dark in every theme, so it borrows the base-size
    white rather than the grid's amber-on-light. */
 .ds-title-legends {
-  margin-left: 0.5rem;
+  margin: 0 0.5rem 0 0;
   vertical-align: 0.35em;
   font-size: 0.66rem;
   letter-spacing: 0.5px;
