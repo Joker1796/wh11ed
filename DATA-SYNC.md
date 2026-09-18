@@ -181,6 +181,16 @@ cd ../wh11ed && npm run sync
 - **FAQ/эррата** генерируются из `tables/faq.json` в `src/data/factionFaq.json`
   (`npm run faq`), EN-only; RU — отдельный drop-in `factionFaqRu.json`, перевод делается
   вручную вслед (см. §4).
+- **Проза публикации «Legends: <Faction>»** (`publication.isLegends`) — два раздела помимо
+  датащитов: вводный «Warhammer Legends» и таблица «Legendary Proxies» (снятый юнит → какой
+  датащит кодекса за него выставлять). Датащиты приходят обычным путём (`legends: true`), а
+  эти два раздела — только через `npm run legends` → `src/data/factionLegends.json`; RU-интро
+  — drop-in `factionLegendsRu.json` (проксики — имена юнитов, не переводятся). Генератор
+  падает, если цель прокси не резолвится в наш датащит (опечатки GW — в `USE_TYPOS`).
+  До 2026-09-18 оба раздела терялись: синк датащитов их не видит, синк прозы фракции читает
+  кодекс. Показываются внизу `/factions/<slug>/datasheets`; старые имена попадают и в
+  глобальный поиск через `datasheetIndex.js` — после `npm run legends` перегенерировать
+  `npm run datasheets:index`.
 
 ## 4. EN — сейчас, RU — отдельным проходом через очередь
 
@@ -305,7 +315,8 @@ npm run modifiers:check    # гейт: ненулевой выход, пока �
 2. `npm run modifiers:check` — зелёный (или осознанно отложенные записи; см. §4d).
 3. `npx vitest run && npm run build` — оба зелёные.
 4. Если `npm run sync` в начале флагнул устаревший сайдкар — перегенерировать:
-   `npm run sourceids` / `npm run condkeywords` / `npm run faq` (без `--check` — пишут файл).
+   `npm run sourceids` / `npm run condkeywords` / `npm run faq` / `npm run legends` (без
+   `--check` — пишут файл).
 5. Бампнуть `APP_DATA_VERSION` в `src/data/appDataVersion.js` — в том же коммите, что и
    правки данных (это единственный маркер версии, `sync-common.mjs` его лишь ре-экспортит).
 6. Коммит-конвенция: `data(9NN): <короткое описание>` (пример из прошлых bump'ов —

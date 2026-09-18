@@ -555,8 +555,19 @@ if (!only) {
     })
   }
 
+  // factionLegends.json ↔ factionLegendsRu.json — one prose field per faction (the intro); the
+  // proxies are unit names and have no RU side.
+  const legEn = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionLegends.json'), 'utf8'))
+  const legRu = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionLegendsRu.json'), 'utf8'))
+  for (const [slug, entry] of Object.entries(legEn)) {
+    if (!entry.intro) continue
+    if (!legRu[slug]?.intro) { notes.push(`faction Legends ${slug}: EN intro, no RU overlay`); continue }
+    pairs++
+    checkPair(`faction Legends ${slug} · intro`, entry.intro, legRu[slug].intro, errors, notes)
+  }
+
   totalErrors += errors.length
-  console.log(`\nmissions / combat patrol / faction FAQ EN↔RU — ${pairs} field pair(s), ${errors.length} error(s)${notes.length ? `, ${notes.length} note(s)` : ''}`)
+  console.log(`\nmissions / combat patrol / faction FAQ / Legends EN↔RU — ${pairs} field pair(s), ${errors.length} error(s)${notes.length ? `, ${notes.length} note(s)` : ''}`)
   for (const e of errors) console.log(`    ✗ ${e}`)
   if (notes.length && args.includes('--notes')) for (const n of notes) console.log(`    · ${n}`)
   else if (notes.length) console.log(`    · ${notes.length} note(s) — run with --notes to list`)

@@ -7,6 +7,9 @@
 //   - sourceIds        — is the stable-id bridge (src/data/sourceIds.json) up to date?
 //   - conditionalKeywords — is the rule-granted-keywords sidecar (Deathwing/Battleline/…) fresh?
 //   - factionFaq       — is the per-faction FAQ/errata sidecar (src/data/factionFaq.json) fresh?
+//   - factionLegends   — is the Legends prose sidecar (src/data/factionLegends.json — the
+//     "Warhammer Legends" intro and the Legendary Proxies table of a "Legends: <Faction>"
+//     publication) fresh, and does every proxy still resolve to a datasheet of ours?
 //   - rosterTextsRu    — is the generated Russian for the roster's wargear group instructions
 //     current with src/data/roster/items.js?
 //   - roster data      — are the roster builder's generated faction files (points, brackets,
@@ -134,6 +137,7 @@ if (current == null) {
 const idsStale = await run('sourceIds bridge (--check)', './gen-source-ids.mjs', ['--check'])
 const condKwStale = await run('conditionalKeywords sidecar (--check)', './gen-conditional-keywords.mjs', ['--check'])
 const faqStale = await run('factionFaq sidecar (--check)', './gen-faction-faq.mjs', ['--check'])
+const legendsStale = await run('factionLegends sidecar (--check)', './gen-faction-legends.mjs', ['--check'])
 const textsRuStale = await run('rosterTextsRu (--check)', './gen-roster-texts-ru.mjs', ['--check'])
 const modsDirty = await run('rosterModifiers (--check)', './gen-roster-modifiers.mjs', ['--check'])
 const rosterStale = await run('roster data (--check)', './gen-roster-data.mjs', ['--check'])
@@ -168,6 +172,7 @@ console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
 if (condKwStale) console.log('⚠ src/data/conditionalKeywords.json is stale — run `node scripts/gen-conditional-keywords.mjs`.')
 if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node scripts/gen-faction-faq.mjs`.')
+if (legendsStale) console.log('⚠ src/data/factionLegends.json is stale or a proxy points nowhere — run `npm run legends`.')
 if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')

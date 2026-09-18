@@ -193,6 +193,19 @@ describe('datasheet unit search', () => {
     expect(unit).toBeTruthy()
     expect(unit.titleRu).toBe('')
   })
+
+  it('finds the Codex sheet a retired Legends unit is fielded as, and says why, in both locales', async () => {
+    // Legendary Proxies (src/data/factionLegends.json): Ufthak Blackhawk has no datasheet of his
+    // own and uses Warboss. The typed name is not the result's title, so the subline carries it.
+    await preloadDatasheetIndex()
+    for (const [locale, label] of [['en', 'Legendary Proxies'], ['ru', 'Legendary Proxies']]) {
+      const res = search('ufthak', locale)
+      const unit = res.find((r) => r.route === '/factions/orks/datasheets/warboss')
+      expect(unit).toBeTruthy()
+      expect(unit.title).toBe('Warboss')
+      expect(unit.titleRu).toBe(`${label}: Ufthak Blackhawk`)
+    }
+  })
 })
 
 describe('faction rules search', () => {

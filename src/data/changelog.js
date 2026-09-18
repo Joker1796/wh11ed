@@ -17,6 +17,18 @@
 
 export const changelog = [
   {
+    version: '2.5.1',
+    date: '2026-09-18',
+    en: [
+      { h: 'Legends' },
+      'The Orks unit list now ends with the "Warhammer Legends" section of the Legends publication: what Legends are, and the Legendary Proxies table — retired units that have no datasheet of their own (Ufthak Blackhawk, Kannonwagon, Nobz on Warbikes…) and the Codex unit each one is fielded as, linked. Searching for the old name — on the unit list or in the global search — finds the sheet it uses.',
+    ],
+    ru: [
+      { h: 'Legends' },
+      'Список юнитов орков теперь заканчивается разделом «Warhammer Legends» из публикации Legends: что такое Legends и таблица Legendary Proxies — снятые юниты без собственного датащита (Ufthak Blackhawk, Kannonwagon, Nobz on Warbikes…) и юнит из кодекса, за который каждый из них выставляется, со ссылкой. Старое имя, набранное в поиске — на странице юнитов или в глобальном, — находит датащит, за который он выставляется.',
+    ],
+  },
+  {
     version: '2.5.0',
     date: '2026-09-17',
     en: [

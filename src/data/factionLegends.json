@@ -1,0 +1,95 @@
+{
+  "orks": {
+    "pub": "Legends: Orks",
+    "intro": "What follow are official rules, and we actively encourage you to use them in your games at home, in stores, clubs, and campaigns. Your classic units and characters are still awesome, and there is no shortage of battles for them still to fight.\n\nAs points values for Legends units are not updated with the same regularity as units in your Codex, we do not recommend their inclusion in competitive Warhammer Events without the permission of the event organisers.\n\nWarhammer Legends come in two varieties:\n\n▪ Units that are no longer part of your army's Codex, but which are still supported with their own datasheets and Legends points. You can include these units in your army in the same way as other units from your Codex, though bear in mind the disclaimer about competitive Warhammer Events, above.\n\n▪ Units that are well represented by other datasheets in your army's Codex - we refer to these as **Legendary Proxies** units. To use **Legendary Proxies** units in your army, simply use the relevant datasheet indicated below, complete with its points value(s), and field your unit as you would any other. When running through the mission sequence, be sure that your opponent understands which units your **Legendary Proxies** units represent. Bear in mind that **Legendary Proxies** units may vary in size or base size from the units they are counting as. When an issue arises during battle as a result of this (for example, because a **Legendary Proxies** unit is **visible** when the unit it is representing wouldn't be), it is good practice to err in favour of the other player.",
+    "proxies": [
+      {
+        "legacy": [
+          "Boomdakka Snazzwagon",
+          "Kustom Boosta-blasta",
+          "Megatrakk Scrapjet",
+          "Shokkjump Dragsta"
+        ],
+        "use": "Warbuggies",
+        "id": "warbuggies"
+      },
+      {
+        "legacy": [
+          "Attack Fighta"
+        ],
+        "use": "Dakkajet",
+        "id": "dakkajet"
+      },
+      {
+        "legacy": [
+          "Big Gunz"
+        ],
+        "use": "Mek Gunz",
+        "id": "mek-gunz"
+      },
+      {
+        "legacy": [
+          "Big Mek with Kustom Force Field"
+        ],
+        "use": "Big Mek in Mega Armour equipped with Kustom Force Field",
+        "id": "big-mek-in-mega-armour"
+      },
+      {
+        "legacy": [
+          "Fighta-Bommer"
+        ],
+        "use": "Blitza-bommer",
+        "id": "blitza-bommer"
+      },
+      {
+        "legacy": [
+          "Kannonwagon"
+        ],
+        "use": "Gunwagon",
+        "id": "gunwagon"
+      },
+      {
+        "legacy": [
+          "Mega Dread"
+        ],
+        "use": "Gorkanaut",
+        "id": "gorkanaut"
+      },
+      {
+        "legacy": [
+          "Meka Dread"
+        ],
+        "use": "Morkanaut",
+        "id": "morkanaut"
+      },
+      {
+        "legacy": [
+          "Nobz on Warbikes"
+        ],
+        "use": "Warbikers",
+        "id": "warbikers"
+      },
+      {
+        "legacy": [
+          "Squiggoth"
+        ],
+        "use": "Gargantuan Squiggoth",
+        "id": "gargantuan-squiggoth"
+      },
+      {
+        "legacy": [
+          "Ufthak Blackhawk"
+        ],
+        "use": "Warboss",
+        "id": "warboss"
+      },
+      {
+        "legacy": [
+          "Wurrboy"
+        ],
+        "use": "Weirdboy",
+        "id": "weirdboy"
+      }
+    ]
+  }
+}

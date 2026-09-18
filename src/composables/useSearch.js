@@ -445,19 +445,23 @@ function searchDatasheets(q, locale) {
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
-    for (const [id, name, aliasesRu] of units) {
+    for (const [id, name, aliasesRu, legacy] of units) {
       const nameHit = foldName(name).includes(qn)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
       // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
       // result matched at all, not on every result for a unit that merely has aliases on file.
       const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldName(a).includes(qn))
-      if (!nameHit && !aliasHit) continue
+      // A retired Legends unit the sheet stands in for ("Ufthak Blackhawk" → Warboss). The
+      // subline says so in either locale: the result's title is a different name from the one
+      // typed, and without the reason it reads as a wrong hit.
+      const legacyHit = !nameHit && !aliasHit && (legacy || []).find((a) => foldName(a).includes(qn))
+      if (!nameHit && !aliasHit && !legacyHit) continue
       results.push({
         id: '',
         key: `ds-${slug}-${id}`,
         sectionNum: '',
         title: name,
-        titleRu: isRu && aliasHit ? aliasHit : '',
+        titleRu: legacyHit ? `${L.dsLegendsProxies}: ${legacyHit}` : isRu && aliasHit ? aliasHit : '',
         body: '',
         snippet: '',
         route: `/factions/${slug}/datasheets/${id}`,

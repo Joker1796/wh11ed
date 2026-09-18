@@ -29,24 +29,27 @@
         <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
              icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
              instead of on 90 chips. -->
-        <p class="ds-legend">
-          <span><i class="bi bi-pin-angle" /> {{ labels.favPinnedGroup }}</span>
-          <span><i class="bi bi-star" /> {{ labels.rosterFilterOwned }}</span>
-        </p>
-        <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
-             still publishes is a rule somebody is reading. The switch is for the player building
-             a matched-play list, and only appears for the factions that have any. -->
-        <label
-          v-if="hasLegends"
-          class="check ds-legends-filter"
-          :class="{ on: hideLegends }"
-        >
-          <input
-            v-model="hideLegends"
-            type="checkbox"
+        <div class="ds-tools">
+          <p class="ds-legend">
+            <span><i class="bi bi-pin-angle" /> {{ labels.favPinnedGroup }}</span>
+            <span><i class="bi bi-star" /> {{ labels.rosterFilterOwned }}</span>
+          </p>
+          <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
+               still publishes is a rule somebody is reading. The switch is for the player building
+               a matched-play list, and only appears for the factions that have any. It shares the
+               key's row — width before height — and wraps under it on a phone. -->
+          <label
+            v-if="hasLegends"
+            class="check ds-legends-filter"
+            :class="{ on: hideLegends }"
           >
-          <span>{{ labels.dsLegendsHide }}</span>
-        </label>
+            <input
+              v-model="hideLegends"
+              type="checkbox"
+            >
+            <span>{{ labels.dsLegendsHide }}</span>
+          </label>
+        </div>
         <template
           v-for="g in groupedDatasheets"
           :key="g.key"
@@ -105,6 +108,70 @@
             </RouterLink>
           </div>
         </template>
+        <!-- The prose half of a "Legends: <Faction>" publication (src/data/factionLegends.json).
+             Sits under the list, not above it: a player who opened this page came for the units,
+             and the intro is four paragraphs of GW's stance on Legends — folded until asked for.
+             The proxies are the useful part and stay open: a retired unit with no datasheet of
+             its own ("Ufthak Blackhawk") and the Codex sheet it is fielded as — the first Legends
+             question a player sent us was exactly that, and this table already answered it in
+             appdata. A search query narrows the proxies by the retired names, so typing the old
+             unit's name finds its row even though no chip carries it. -->
+        <section
+          v-if="legends && (!dsQuery.trim() || visibleProxies.length)"
+          class="ds-legends"
+        >
+          <h3 class="ds-group-head">
+            {{ labels.dsLegendsTitle }}
+          </h3>
+          <template v-if="!dsQuery.trim() && legends.intro">
+            <button
+              type="button"
+              class="ds-legends-about"
+              :aria-expanded="introOpen"
+              @click="introOpen = !introOpen"
+            >
+              <i
+                class="bi"
+                :class="introOpen ? 'bi-chevron-down' : 'bi-chevron-right'"
+              />
+              <span>{{ labels.dsLegendsAbout }}</span>
+            </button>
+            <CollapseTransition :show="introOpen">
+              <div class="ds-legends-intro rule-body">
+                <RuleBody :body="legends.intro" />
+              </div>
+            </CollapseTransition>
+          </template>
+          <template v-if="visibleProxies.length">
+            <h4 class="ds-legends-sub">
+              {{ labels.dsLegendsProxies }}
+            </h4>
+            <p class="ds-legends-hint">
+              {{ labels.dsLegendsProxiesHint }}
+            </p>
+            <ul class="ds-proxies">
+              <li
+                v-for="(p, i) in visibleProxies"
+                :key="i"
+              >
+                <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
+                <i class="bi bi-arrow-right ds-proxy-arrow" />
+                <!-- Both are flex items, so the line breaks around the text cost no space. -->
+                <RouterLink
+                  v-if="p.id"
+                  :to="`/factions/${slug}/datasheets/${p.id}`"
+                  class="ds-proxy-use"
+                >
+                  {{ p.use }}
+                </RouterLink>
+                <span
+                  v-else
+                  class="ds-proxy-use"
+                >{{ p.use }}</span>
+              </li>
+            </ul>
+          </template>
+        </section>
       </template>
       <p
         v-else-if="loaded"
@@ -121,6 +188,8 @@ import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FactionLayout from '../../components/FactionLayout.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
+import CollapseTransition from '../../components/CollapseTransition.vue'
+import RuleBody from '../../components/RuleBody.vue'
 import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
@@ -140,21 +209,56 @@ const labels = computed(() => ui[locale.value])
 const datasheets = ref([])
 const loaded = ref(false)
 const dsQuery = ref('')
+// The faction's Legends prose (intro + Legendary Proxies), null for the factions without a
+// Legends publication — which today is all but one. Its own lazy chunk, tiny, and fetched only
+// for the faction that has an entry; the RU intro is a drop-in overlay with EN fallback, the
+// same import.meta.glob arrangement FactionFaqView uses so a missing file costs nothing.
+const legends = ref(null)
+const introOpen = ref(false)
+const legendsRuGlob = import.meta.glob('../../data/factionLegendsRu.json', { import: 'default' })
+const legendsRuLoader = legendsRuGlob['../../data/factionLegendsRu.json'] || null
+async function loadLegends(s) {
+  const all = (await import('../../data/factionLegends.json')).default
+  const en = all[s]
+  if (!en) return null
+  let ru = null
+  if (locale.value === 'ru' && legendsRuLoader) {
+    try { ru = (await legendsRuLoader())?.[s] || null } catch { ru = null }
+  }
+  return { ...en, intro: ru?.intro || en.intro }
+}
 watch(
   () => route.params.slug,
   async (s) => {
     datasheets.value = []
+    legends.value = null
     loaded.value = false
     dsQuery.value = ''
+    introOpen.value = false
     if (!s) return
-    const list = await loadDatasheets(s)
+    const [list, leg] = await Promise.all([loadDatasheets(s), loadLegends(s)])
     // guard against a stale resolve after a rapid route change
     if (route.params.slug !== s) return
     if (list) datasheets.value = list
+    legends.value = leg
     loaded.value = true
   },
   { immediate: true },
 )
+// A locale switch swaps the intro's language in place; the list itself is locale-free.
+watch(locale, async () => {
+  const s = route.params.slug
+  if (!s || !legends.value) return
+  const leg = await loadLegends(s)
+  if (route.params.slug === s) legends.value = leg
+})
+
+const visibleProxies = computed(() => {
+  const q = dsQuery.value.trim().toLowerCase()
+  const rows = legends.value?.proxies || []
+  if (!q) return rows
+  return rows.filter((p) => p.legacy.some((n) => n.toLowerCase().includes(q)) || p.use.toLowerCase().includes(q))
+})
 
 // The global army choice (chapter + detachment) is shared with the rule page via
 // FactionPickerBar / useFactionChoice. Chapters come from the faction rules data
@@ -361,7 +465,8 @@ const groupedDatasheets = computed(() => {
 }
 
 .ds-legends-filter {
-  margin: 0 0 0.6rem;
+  margin: 0;
+  padding-block: 0.35rem;
 }
 
 .ds-chip-pts {
@@ -372,12 +477,22 @@ const groupedDatasheets = computed(() => {
   white-space: nowrap;
 }
 
+/* The chips' key and the Legends switch on one row (the switch wraps under on a phone). */
+.ds-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: 0.5rem 0 0;
+}
+
 /* The chips' key. Dim and small — it is read once and then ignored. */
 .ds-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 1rem;
-  margin: 0.5rem 0 0;
+  margin: 0;
   font-size: 0.75rem;
   color: var(--text-muted);
 }
@@ -387,5 +502,71 @@ const groupedDatasheets = computed(() => {
   color: var(--text-muted);
   font-size: 1rem;
 }
+
+/* The Legends block under the list. The title is a group head like the ones above it, so the
+   section reads as one more part of the same page rather than a footnote. */
+.ds-legends { margin-top: 1.5rem; }
+
+.ds-legends-about {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.ds-legends-about:hover { color: var(--accent); }
+.ds-legends-about i { font-size: 0.7rem; }
+
+/* Muted — a folded aside, not the rules the page is for. The global `strong` is near-white at
+   800 in the dark theme, and on a muted paragraph every **Legendary Proxies** flared against
+   it; here bold keeps the paragraph's own colour and is bold by weight alone. */
+.ds-legends-intro {
+  max-width: 70ch;
+  padding: 0.3rem 0 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.ds-legends-intro :deep(strong) {
+  color: inherit;
+  font-weight: 700;
+}
+
+.ds-legends-sub {
+  margin: 0.8rem 0 0.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ds-legends-hint {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.ds-proxies {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+.ds-proxies li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.ds-proxy-legacy { color: var(--text-primary); }
+.ds-proxy-arrow {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.ds-proxy-use { font-weight: 600; }
 
 </style>
