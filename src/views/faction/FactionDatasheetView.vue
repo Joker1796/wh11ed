@@ -1,7 +1,14 @@
 <template>
   <FactionLayout :hero="false">
     <section class="fsection">
-      <template v-if="sheet">
+      <!-- One container for the plate and the card: the card bleeds to the screen edge by its
+           OWN width (DatasheetCard's dscard container, ≤480px), and the plate has to bleed on
+           exactly the same condition — a viewport query put the two out of step by the page
+           gutter, and a window ~500px wide showed an inset plate over a full-bleed card. -->
+      <div
+        v-if="sheet"
+        class="ds-page"
+      >
         <div class="ds-head">
           <!-- No Legends mark up here: the name plate is the first thing on a phone's screen and
                anything beside the name either wrapped the name or took a row. The badge sits in
@@ -81,7 +88,7 @@
           keyword-links-enabled
           @keyword-click="activeKeyword = $event"
         />
-      </template>
+      </div>
       <p
         v-else-if="loaded"
         class="ds-missing"
@@ -478,18 +485,15 @@ async function copyName() {
   .ds-title { font-size: 1.5rem; }
 }
 
-/* Very narrow phones (≤480px): bleed the name plate past .main-content's gutter to the
-   true viewport edge and square its top corners, matching DatasheetCard's .ds-card below
-   it (same 100vw trick as FactionPickerBar's .fpb) — the two read as one flush, edge-to-edge
-   header instead of a floating card. Horizontal padding drops to .ds-card's own 0.4rem so
-   both line up, and the action buttons shrink to leave the (often long) unit name more room. */
-@media (max-width: 480px) {
-  /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits
-     flush under the subnav, with no gap above the name plate — matching the edge-to-edge
-     treatment on the sides. */
-  .fsection {
-    margin-top: -0.5rem;
-  }
+.ds-page { container: dspage / inline-size; }
+
+/* Very narrow phones (≤480px of CONTAINER, the same measure DatasheetCard's own bleed keys on):
+   bleed the name plate past .main-content's gutter to the true viewport edge and square its top
+   corners, matching .ds-card below it (same 100vw trick as FactionPickerBar's .fpb) — the two
+   read as one flush, edge-to-edge header instead of a floating card. Horizontal padding drops to
+   .ds-card's own 0.4rem so both line up, and the action buttons shrink to leave the (often long)
+   unit name more room. */
+@container dspage (max-width: 480px) {
   .ds-head {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -499,6 +503,14 @@ async function copyName() {
     min-width: 30px;
     min-height: 30px;
     font-size: 0.85rem;
+  }
+}
+/* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits flush
+   under the subnav, with no gap above the name plate. .fsection is the container's parent and
+   cannot be queried from inside it; a viewport query is close enough for half a rem. */
+@media (max-width: 480px) {
+  .fsection {
+    margin-top: -0.5rem;
   }
 }
 </style>
