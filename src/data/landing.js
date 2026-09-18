@@ -55,6 +55,7 @@ export const landing = {
       helpLink: 'How to use this',
       disclaimerLink: 'Legal & disclaimer',
       supportLink: 'Support the project',
+      vkLink: 'VK group',
       support: {
         title: 'Support the project',
         intro: 'This app is free, has no ads, asks for no account and sells nothing. I write it and keep it up to date on my own, in my spare time. I pay for the domain, the CDN and the storage myself.',
@@ -126,6 +127,7 @@ export const landing = {
       helpLink: 'Как пользоваться',
       disclaimerLink: 'Правовая информация',
       supportLink: 'Поддержать проект',
+      vkLink: 'Группа ВКонтакте',
       support: {
         title: 'Поддержать проект',
         intro: 'Приложение бесплатное, без рекламы, без обязательного аккаунта и без платных функций. Я пишу его и поддерживаю в актуальном состоянии один, в своё свободное время. Домен, CDN и хранилище оплачиваю сам.',

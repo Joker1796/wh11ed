@@ -27,6 +27,16 @@
             {{ t.footer.supportLink }}
           </RouterLink>
         </p>
+        <!-- The community — and the one channel where a bug report can get an answer, which the
+             in-app form cannot give. -->
+        <p class="footer-contact">
+          <a
+            class="footer-vk"
+            :href="vkUrl"
+            target="_blank"
+            rel="noopener"
+          ><VkIcon /> {{ t.footer.vkLink }}</a>
+        </p>
         <p class="footer-version">
           <RouterLink to="/changelog">
             {{ 'v' + version }}
@@ -97,6 +107,7 @@ import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { useLocale } from '../composables/useLocale.js'
 import CollapseTransition from './CollapseTransition.vue'
+import VkIcon from './VkIcon.vue'
 
 const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
@@ -107,6 +118,8 @@ const fbLabel = computed(() => ui[locale.value].feedbackMenu)
 const contactEmail = 'gorlovevgeni9617@gmail.com'
 // The umbrella repo (not this one): explains how the frontend, API and glossary fit together.
 const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
+// The project's VK group — news, and the place to talk about a bug report.
+const vkUrl = 'https://vk.ru/whrules'
 const version = __APP_VERSION__
 // The GW app data_version the rules were reconciled against (shown under the app version).
 const dataVersion = APP_DATA_VERSION
@@ -156,6 +169,13 @@ const showDetails = ref(false)
 
 .footer-contact a:hover {
   color: var(--accent-hover);
+}
+
+/* The mark rides at text size beside the label; the underline stays under the words alone. */
+.footer-vk {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
 }
 
 .footer-thanks {
