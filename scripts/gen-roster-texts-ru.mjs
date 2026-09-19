@@ -33,9 +33,13 @@ const OUT = path.join(ROOT, 'src/data/roster/ru/texts.js')
 // equipped with 1 plasma gun") and emit confident nonsense. Rejecting those makes the frame miss,
 // and a miss leaves the whole sentence in English — which is the intended failure.
 const SLOT_NOISE = /[,;:()◦•▫]|\bif\b|\bfor every\b|\bequipped with\b|\bthat is\b|\bthat has\b|\bcontains\b|\bwith\b|^(?:each of|any|all|up to|either)\b/i
+// "…with Jump Pack(s)" / "…with Boltguns" is part of a unit's NAME (Assault Sergeant with Jump
+// Pack, Kill Team Intercessors with plasma incinerators), not a qualifier — the only "with" a
+// subject slot may carry.
+const NAME_WITH = /\swith\s(?:jump packs?|boltguns?|[a-z-]+ (?:pistols?|incinerators?|carbines?|rifles?|fists?|knives|knife|gauntlets?|bolters?|autocannons?))$/i
 const plainSlot = (raw) => {
   const s = (raw || '').trim()
-  return !!s && s.length <= 48 && !SLOT_NOISE.test(s) && !s.includes('\n')
+  return !!s && s.length <= 48 && !SLOT_NOISE.test(s.replace(NAME_WITH, '')) && !s.includes('\n')
 }
 
 // A VALUE slot ("…replaced with X") must be a plain list of items. Some instructions chain a
@@ -136,6 +140,116 @@ const possOwner = (raw) => raw.replace(/[’']s$/i, '').replace(/[’']$/, '')
 
 // ── Frames. Ordered: the first match wins, so the most specific come first. ──────────────────
 const FRAMES = [
+  // ── Wordings the Faction Pack Legends sheets add (2026-09-19) ──
+  // "Each of this model’s Hornet pulse lasers can be replaced with one of the following:"
+  {
+    re: /^(?:Each|Both) of this model[’']s (.+?) can be replaced with (?:one|1) of the following:?\s*$/i,
+    ru: (m) => `Каждое из ${slotRu(m[1])} этой модели можно заменить на одно из:`,
+  },
+  {
+    re: /^(?:Each|Both) of this model[’']s (.+?) can be replaced with (.+?)\.?$/i,
+    ok: (m) => plainValue(m[2]),
+    ru: (m) => `Каждое из ${slotRu(m[1])} этой модели можно заменить на ${joinRu(m[2])}.`,
+  },
+  // "2 of this model’s heavy bolters can be replaced with one of the following:"
+  {
+    re: /^(\d+) of this model[’']s (.+?) can be replaced with (?:one|1) of the following:?\s*$/i,
+    ru: (m) => `${m[1]} из ${slotRu(m[2])} этой модели можно заменить на одно из:`,
+  },
+  {
+    re: /^(\d+) of this model[’']s (.+?) can be replaced with (.+?)\.?$/i,
+    ok: (m) => plainValue(m[3]),
+    ru: (m) => `${m[1]} из ${slotRu(m[2])} этой модели можно заменить на ${joinRu(m[3])}.`,
+  },
+  // "Any number of models’ twin heavy bolters can each be replaced with one of the following:" /
+  // "Any number of Veteran Bikers’ bolt pistols can each be replaced with …"
+  {
+    re: /^Any number of (.+?(?:[’']s|s[’'])) (.+?) can each be replaced with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(possOwner(m[1])),
+    ru: (m) => `Любое количество моделей${suffix(possOwner(m[1]))} может заменить ${slotRu(m[2])} на одно из:`,
+  },
+  {
+    re: /^Any number of (.+?(?:[’']s|s[’'])) (.+?) can each be replaced with (.+?)\.?$/i,
+    ok: (m) => plainSlot(possOwner(m[1])) && plainValue(m[3]),
+    ru: (m) => `Любое количество моделей${suffix(possOwner(m[1]))} может заменить ${slotRu(m[2])} на ${joinRu(m[3])}.`,
+  },
+  // "X can be equipped with up to two of the following[, and can take duplicates]:"
+  {
+    re: /^(.+?) can (?:each )?be equipped with up to (two|three|four|\d+) of the following(, and can take duplicates)?:?\s*$/i,
+    ok: (m) => plainSlot(m[1]) || /^Any number of models$/i.test(m[1]),
+    ru: (m) => `${/^Any number of models$/i.test(m[1]) ? 'Каждая модель отряда' : subjectRu(m[1])} может получить до ${{ two: 'двух', three: 'трёх', four: 'четырёх' }[m[2].toLowerCase()] || m[2]} из следующего${m[3] ? ' (можно брать одинаковые)' : ''}:`,
+  },
+  // "This model’s bolt pistol and boltgun can be replaced with two different weapons from the following list:"
+  {
+    re: /^(?:The\s+)?(.+?(?:[’']s|s[’'])) (.+?) can be replaced with two different (?:weapons|options) from the following list:?\s*$/i,
+    ok: (m) => plainSlot(possOwner(m[1])),
+    ru: (m) => `${slotRu(m[2])} ${ownerRu(possOwner(m[1]))} можно заменить на два разных оружия из списка:`,
+  },
+  {
+    re: /^(?:The\s+)?(.+?(?:[’']s|s[’'])) (.+?) can be replaced with either (\d+ .+?), or two different weapons from the following list:?\s*$/i,
+    ok: (m) => plainSlot(possOwner(m[1])),
+    ru: (m) => `${slotRu(m[2])} ${ownerRu(possOwner(m[1]))} можно заменить на ${m[3]} или на два разных оружия из списка:`,
+  },
+  // "This model must be equipped with one of the following:"
+  {
+    re: /^(.+?) must be equipped with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `${subjectRu(m[1])} должна получить одно из:`,
+  },
+  // "The Assault Sergeant can do one of the following:" — its bullets are translated by joinRu.
+  {
+    re: /^(.+?) can do (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `${subjectRu(m[1])} ${verbFor(m[1])} сделать одно из:`,
+  },
+  // "1 model equipped with a bolt rifle can replace its close combat weapon with …" /
+  // "…can have its melta rifle replaced with 1 multi-melta."
+  {
+    re: /^(?:1|One) (.+?)(?: models?)? equipped with (?:an? |1 )?(.+?) can (?:replace (?:its|their) (.+?) with|have (?:its|their) (.+?) replaced with) (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]) && plainSlot(m[2]),
+    ru: (m) => `1 модель${suffix(m[1])}, имеющая ${condRu(m[2])}, может заменить ${slotRu(m[3] || m[4])} на одно из:`,
+  },
+  {
+    re: /^(?:1|One) (.+?)(?: models?)? equipped with (?:an? |1 )?(.+?) can (?:replace (?:its|their) (.+?) with|have (?:its|their) (.+?) replaced with) (.+?)\.?$/i,
+    ok: (m) => plainSlot(m[1]) && plainSlot(m[2]) && plainValue(m[5]),
+    ru: (m) => `1 модель${suffix(m[1])}, имеющая ${condRu(m[2])}, может заменить ${slotRu(m[3] || m[4])} на ${joinRu(m[5])}.`,
+  },
+  // "Any number of models equipped with flamestorm gauntlets can each have their X replaced with Y."
+  {
+    re: /^Any number of (.+?) equipped with (.+?) can each have (?:their|its) (.+?) replaced with (.+?)\.?$/i,
+    ok: (m) => plainSlot(m[1]) && plainSlot(m[2]) && plainValue(m[4]),
+    ru: (m) => `Любое количество моделей${suffix(m[1])}, имеющих ${condRu(m[2])}, может заменить ${slotRu(m[3])} на ${joinRu(m[4])}.`,
+  },
+  // "Any number of Kill Team Veterans can replace their boltgun and Long Vigil melee weapon with:"
+  {
+    re: /^Any number of (.+?) can (?:each )?replace (?:their|its) (.+?) with:\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `Любое количество моделей${suffix(m[1])} может заменить ${slotRu(m[2])} на:`,
+  },
+  // "Up to 2 models can replace their X with …" (no "each")
+  {
+    re: /^Up to (\d+) (.+?) can (?:each )?replace (?:their|its) (.+?) with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[2]),
+    ru: (m) => `До ${m[1]} моделей${suffix(m[2])} могут заменить ${slotRu(m[3])} на одно из:`,
+  },
+  {
+    re: /^Up to (\d+) (.+?) can (?:each )?replace (?:their|its) (.+?) with (.+?)\.?$/i,
+    ok: (m) => plainSlot(m[2]) && plainValue(m[4]),
+    ru: (m) => `До ${m[1]} моделей${suffix(m[2])} могут заменить ${slotRu(m[3])} на ${joinRu(m[4])}.`,
+  },
+  // "Any number of Kill Team Biker models can be equipped with one of the following:" (no "each")
+  {
+    re: /^Any number of (.+?) can be equipped with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `Любое количество моделей${suffix(m[1])} может получить одно из:`,
+  },
+  // "Any number of models can have their bolt pistol replaced with one of the following:" (no "each")
+  {
+    re: /^Any number of (.+?) can have (?:their|its) (.+?) replaced with (?:one|1) of the following:?\s*$/i,
+    ok: (m) => plainSlot(m[1]),
+    ru: (m) => `Любое количество моделей${suffix(m[1])} может заменить ${slotRu(m[2])} на одно из:`,
+  },
+
   // "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol replaced with 1 X."
   {
     re: /^Up to (\d+) (.+?) can each have (?:their|its) (.+?) replaced with (?:one|1) of the following:?\s*$/i,
@@ -180,7 +294,7 @@ const FRAMES = [
   },
   // "Any number of models can each replace their X with …"
   {
-    re: /^Any number of (.+?) can each replace (?:their|its) (.+?) with (?:one|1) of the following:?\s*$/i,
+    re: /^Any number of (.+?) can (?:each )?replace (?:their|its) (.+?) with (?:one|1) of the following:?\s*$/i,
     ru: (m) => `Любое количество моделей${suffix(m[1])} может заменить ${slotRu(m[2])} на одно из:`,
   },
   {
@@ -318,7 +432,32 @@ const CONTAINS = /^[Il]f this unit contains (\d+)( or fewer| or more)? models[:,
 // nothing but weapon names and counts, which stay English anyway, so it is split off, the
 // sentence above it translated, and the list re-attached with its line structure intact (only
 // the counted-item connective inside each bullet is translated).
-const LIST_HEAD = /^([\s\S]*?(?:one|1) of the following:)\s*([\s\S]+)$/i
+// Generalised 2026-09-19 for the Faction Pack sheets, whose lists also hang under "up to two of
+// the following, and can take duplicates:", "two different weapons from the following list:*" and
+// a bare "…with:" — any head line that ends in a colon (footnote stars allowed) over a list.
+const LIST_HEAD = /^([^\n]*?:\**)\s*\n([\s\S]+)$/
+
+// The footnotes a sentence or its list can end with ("* The profile for this weapon can be found
+// on the Adeptus Astartes Legends Armoury card."). Split off before the frames see the sentence,
+// translated where the wording is known — the same sentence the RU datasheet overlay prints — and
+// re-attached; an unknown footnote stays English under a Russian sentence, which reads as a note.
+const FOOTNOTE_RU = [
+  [/^(\*+) ?The profile for this weapon can be found on the Adeptus Astartes Legends Armoury card\.$/i, (m) => `${m[1]} Профиль этого оружия приведён на карте Adeptus Astartes Legends Armoury.`],
+  [/^(\*+) ?Maximum (?:1|one) per model\.$/i, (m) => `${m[1]} Не больше одного на модель.`],
+  [/^(\*+) ?(?:This|Each) model cannot have duplicates of these pieces of wargear\.$/i, (m) => `${m[1]} Модель не может брать одинаковые предметы из этого списка.`],
+  [/^(\*+) ?You cannot select the same weapon from this list more than once per unit\.$/i, (m) => `${m[1]} Одно и то же оружие из этого списка нельзя выбрать больше одного раза на отряд.`],
+  [/^(\*+) ?A model can only take one of these options\.$/i, (m) => `${m[1]} Модель может взять только один из этих пунктов.`],
+  [/^(\*+) ?These options cannot be taken on the same model\.$/i, (m) => `${m[1]} Эти пункты нельзя брать на одну модель.`],
+  [/^(\*+) ?This weapon cannot be replaced\.?$/i, (m) => `${m[1]} Это оружие нельзя заменить.`],
+  [/^(\*+) ?(?:That|This) model[’']s (.+?) cannot be replaced\.?$/i, (m) => `${m[1]} ${slotRu(m[2])} этой модели нельзя заменить.`],
+  [/^(\*+) ?This model can only be equipped with two ranged weapons if one of them is a Pistol \(and it can only have one Pistol\)\.?$/i, (m) => `${m[1]} Модель может иметь два оружия дальнего боя, только если одно из них — Pistol (и не больше одного Pistol).`],
+  [/^(\*+) ?The rules for a Watcher in the Dark can be found on the Deathwing Knights datasheet\.$/i, (m) => `${m[1]} Правила Watcher in the Dark приведены на листе данных Deathwing Knights.`],
+  [/^(\*+) ?Each model cannot be equipped with more than 3 ranged weapons\.$/i, (m) => `${m[1]} Модель не может иметь больше 3 оружий дальнего боя.`],
+]
+const footnoteRu = (line) => {
+  for (const [re, ru] of FOOTNOTE_RU) { const m = line.match(re); if (m) return ru(m) }
+  return line
+}
 
 // "1 vexilla and 1 misericordia" — the connective between counted items is glue, not part of a
 // weapon name, so it is safe to translate. Anchored on the count so a name containing "and"
@@ -337,6 +476,9 @@ const joinRu = (s) => noteRu(s)
   .replace(/ and (?=\d)/g, ' и ')
   .replace(/^up to (?=\d)/i, 'до ')
   .replace(/^one (?=[A-Z])/, '1 ')
+  // The two sentence-bullets under "can do one of the following:" (the Assault Sergeant).
+  .replace(/^([▪◦•■▫]\s*)Replace its (.+?) with (.+?)\.$/, (_, b, x, y) => `${b}Заменить ${slotRu(x)} на ${y.replace(/ and (?=\d)/g, ' и ')}.`)
+  .replace(/^([▪◦•■▫]\s*)Be equipped with (.+?)\.$/, (_, b, y) => `${b}Получить ${y.replace(/ and (?=\d)/g, ' и ')}.`)
 
 function translateClause(text) {
   // appdata occasionally leaks a list marker into the instruction itself ("■ This model's …"),
@@ -346,8 +488,11 @@ function translateClause(text) {
 
   const list = s.match(LIST_HEAD)
   let tail = ''
+  // Footnote stars around a list head's colon ("…following list:*", "…duplicates***:") are
+  // taken off for the frames and put back on the translated head.
+  let stars = ''
   if (list) {
-    s = list[1].trim()
+    s = list[1].trim().replace(/(\*+):$|:(\*+)$/, (_, a, b) => { stars = a || b; return ':' })
     // Kept line-per-line: the bullets are a list, and the UI renders one row per line. Only the
     // counted-item connective inside a bullet is translated (joinRu) — the names themselves stay
     // English by convention, so the bullet is already correct Russian apart from that glue.
@@ -365,7 +510,7 @@ function translateClause(text) {
     // The bullet tail is exempt: its notes stay English by design when noteRu doesn't know them.
     if (/\b(?:can|cannot|following|replaced?|equipped)\b/i.test(ru)) return null
     // appdata contains stray double spaces; they read as a generator slip once inside Russian.
-    return (ru + tail).replace(/[ \t]{2,}/g, ' ')
+    return (ru.replace(/:$/, `:${stars}`) + tail).replace(/[ \t]{2,}/g, ' ')
   }
   return null
 }
@@ -390,7 +535,16 @@ function composed(head, rest) {
 }
 
 export function translate(text) {
-  const s = (text || '').trim()
+  const lines = (text || '').trim().split('\n')
+  // Trailing footnote lines come off first; the sentence (and its list) is translated without
+  // them and they go back underneath, translated where the wording is known.
+  const notes = []
+  while (lines.length > 1 && /^\s*(?:\*|$)/.test(lines[lines.length - 1])) { const l = lines.pop().trim(); if (l) notes.unshift(l) }
+  if (notes.length) {
+    const head = translate(lines.join('\n'))
+    return head ? `${head}\n${notes.map(footnoteRu).join('\n')}` : null
+  }
+  const s = lines.join('\n').trim()
   if (!s) return null
 
   const every = s.match(FOR_EVERY)

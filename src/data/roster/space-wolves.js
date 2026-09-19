@@ -233,6 +233,104 @@ export default {
       ]
     },
     {
+      "id": "canis-wolfborn",
+      "name": "Canis Wolfborn",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Epic Hero",
+        "Imperium",
+        "Canis Wolfborn"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2868,
+              1
+            ],
+            [
+              2869,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "fenrisian-wolves",
+          "type": "leader"
+        },
+        {
+          "to": "thunderwolf-cavalry",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "cyberwolf",
+      "name": "Cyberwolf",
+      "kws": [
+        "Beast",
+        "Character",
+        "Imperium",
+        "Cyberwolf"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 20,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2182,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "fenrisian-wolves",
+          "type": "support"
+        }
+      ]
+    },
+    {
       "id": "fenrisian-wolves",
       "sid": "3b736e89-e3f2-433f-9016-eab60e59303d",
       "name": "Fenrisian Wolves",
@@ -387,6 +485,150 @@ export default {
       ]
     },
     {
+      "id": "harald-deathwolf",
+      "name": "Harald Deathwolf",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Captain",
+        "Harald Deathwolf"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2868,
+              1
+            ],
+            [
+              2870,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "thunderwolf-cavalry",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "hounds-of-morkai",
+      "name": "Hounds of Morkai",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Smoke",
+        "Imperium",
+        "Phobos",
+        "Hounds of Morkai"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 190,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Hound of Morkai Pack Leader"
+        },
+        {
+          "n": "Hounds of Morkai"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2871,
+              1
+            ],
+            [
+              2872,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2871,
+              1
+            ],
+            [
+              2872,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "iron-priest",
       "sid": "79db442b-77b7-4244-86ca-0c9d3798318e",
       "name": "Iron Priest",
@@ -442,6 +684,64 @@ export default {
       ]
     },
     {
+      "id": "krom-dragongaze",
+      "name": "Krom Dragongaze",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Captain",
+        "Krom Dragongaze"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2873,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "blood-claws",
+          "type": "leader"
+        },
+        {
+          "to": "grey-hunters",
+          "type": "leader"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "logan-grimnar",
       "sid": "3786f037-dab8-4c69-9173-3946fe7044b3",
       "name": "Logan Grimnar",
@@ -493,6 +793,280 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "logan-grimnar-on-stormrider",
+      "name": "Logan Grimnar on Stormrider",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Epic Hero",
+        "Imperium",
+        "Chapter Master",
+        "Logan Grimnar on Stormrider"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 180,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              2874,
+              1
+            ],
+            [
+              2875,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "thunderwolf-cavalry",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "long-fangs",
+      "name": "Long Fangs",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Long Fangs"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 145,
+          "per": [
+            6,
+            6
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Long Fang Pack Leader"
+        },
+        {
+          "n": "Long Fangs"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              1167,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              1167,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1195,
+          "in": "stepper",
+          "o": [
+            [
+              2068
+            ],
+            [
+              2079
+            ],
+            [
+              743
+            ],
+            [
+              545
+            ],
+            [
+              999
+            ],
+            [
+              169
+            ],
+            [
+              1481
+            ]
+          ],
+          "rep": [
+            1332
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1196,
+          "in": "checkbox",
+          "o": [
+            [
+              301
+            ],
+            [
+              2134
+            ],
+            [
+              1335
+            ],
+            [
+              607
+            ],
+            [
+              536
+            ]
+          ],
+          "rep": [
+            1332
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1197,
+          "in": "checkbox",
+          "o": [
+            [
+              751
+            ],
+            [
+              952
+            ],
+            [
+              13
+            ]
+          ],
+          "rep": [
+            357
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lukas-the-trickster",
+      "name": "Lukas the Trickster",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Lukas the Trickster"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              536,
+              1
+            ],
+            [
+              2876,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "blood-claws",
+          "type": "leader"
+        }
       ]
     },
     {
@@ -660,6 +1234,389 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "skyclaws",
+      "name": "Skyclaws",
+      "kws": [
+        "Infantry",
+        "Jump Pack",
+        "Fly",
+        "Grenades",
+        "Imperium",
+        "Skyclaws"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 165,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        },
+        {
+          "pts": 240,
+          "per": [
+            11,
+            15
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              10,
+              14
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Skyclaw Pack Leader"
+        },
+        {
+          "n": "Skyclaws"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1198,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1199,
+          "in": "checkbox",
+          "o": [
+            [
+              952
+            ],
+            [
+              13
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1200,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  536,
+                  1
+                ],
+                [
+                  751,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  301,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2134,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1335,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  607,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stormfang-gunship",
+      "name": "Stormfang Gunship",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Transport",
+        "Imperium",
+        "Stormfang Gunship"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 300,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2877,
+              1
+            ],
+            [
+              2128,
+              2
+            ],
+            [
+              2878,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1201,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  61,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  60,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2128
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1202,
+          "in": "checkbox",
+          "o": [
+            [
+              718
+            ]
+          ],
+          "rep": [
+            2878
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stormwolf",
+      "name": "Stormwolf",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Transport",
+        "Imperium",
+        "Stormwolf"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 250,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2128,
+              2
+            ],
+            [
+              2879,
+              1
+            ],
+            [
+              718,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1203,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  60,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  61,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2128
+          ]
+        }
       ]
     },
     {
@@ -985,6 +1942,121 @@ export default {
       ]
     },
     {
+      "id": "wolf-guard",
+      "name": "Wolf Guard",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Wolf Guard"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 170,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Wolf Guard Pack Leader"
+        },
+        {
+          "n": "Wolf Guard"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2864,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2864,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 1204,
+          "in": "stepper",
+          "o": [
+            [
+              1332
+            ],
+            [
+              680
+            ],
+            [
+              536
+            ],
+            [
+              38
+            ],
+            [
+              2100
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        }
+      ]
+    },
+    {
       "id": "wolf-guard-battle-leader",
       "sid": "27e2604f-8c2c-404c-a711-5e36d0512e7c",
       "name": "Wolf Guard Battle Leader",
@@ -1071,6 +2143,266 @@ export default {
           "rep": [
             2176
           ]
+        }
+      ]
+    },
+    {
+      "id": "wolf-guard-battle-leader-in-terminator-armour",
+      "name": "Wolf Guard Battle Leader in Terminator Armour",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Imperium",
+        "Terminator",
+        "Wolf Guard Battle Leader in Terminator Armour"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1205,
+          "in": "checkbox",
+          "o": [
+            [
+              1457
+            ],
+            [
+              952
+            ],
+            [
+              [
+                [
+                  2036,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ],
+            [
+              2047
+            ]
+          ],
+          "rep": [
+            13
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1206,
+          "in": "checkbox",
+          "o": [
+            [
+              1457
+            ],
+            [
+              952
+            ],
+            [
+              13
+            ],
+            [
+              2047
+            ],
+            [
+              680
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1207,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            38,
+            13
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "relic-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "wolf-guard-terminators",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "wolf-guard-battle-leader-on-thunderwolf",
+      "name": "Wolf Guard Battle Leader on Thunderwolf",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Imperium",
+        "Wolf Guard Battle Leader on Thunderwolf"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2868,
+              1
+            ],
+            [
+              1103,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1208,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              952
+            ],
+            [
+              2047
+            ],
+            [
+              [
+                [
+                  2100,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1103
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1209,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ],
+            [
+              141
+            ],
+            [
+              536
+            ],
+            [
+              38
+            ],
+            [
+              952
+            ],
+            [
+              1103
+            ],
+            [
+              2047
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1210,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            1167,
+            1103
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "thunderwolf-cavalry",
+          "type": "leader"
         }
       ]
     },
@@ -1214,6 +2546,378 @@ export default {
             2028,
             2100
           ]
+        }
+      ]
+    },
+    {
+      "id": "wolf-guard-pack-leader",
+      "name": "Wolf Guard Pack Leader",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Imperium",
+        "Pack Leader",
+        "Wolf Guard Pack Leader"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 30,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1332,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1211,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              1332
+            ],
+            [
+              680
+            ],
+            [
+              536
+            ],
+            [
+              38
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ],
+            [
+              13
+            ],
+            [
+              2047
+            ],
+            [
+              2100
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              1
+            ]
+          ],
+          "rep": [
+            1167,
+            1332
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1212,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            1167,
+            1332
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "blood-claws",
+          "type": "support"
+        },
+        {
+          "to": "grey-hunters",
+          "type": "support"
+        },
+        {
+          "to": "long-fangs",
+          "type": "support"
+        }
+      ]
+    },
+    {
+      "id": "wolf-guard-pack-leader-in-terminator-armour",
+      "name": "Wolf Guard Pack Leader in Terminator Armour",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Imperium",
+        "Terminator",
+        "Pack Leader",
+        "Wolf Guard Pack Leader in Terminator Armour"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1213,
+          "in": "checkbox",
+          "o": [
+            [
+              2156
+            ],
+            [
+              743
+            ],
+            [
+              [
+                [
+                  736,
+                  1
+                ],
+                [
+                  38,
+                  1
+                ]
+              ]
+            ],
+            [
+              38
+            ],
+            [
+              1457
+            ],
+            [
+              952
+            ],
+            [
+              2047
+            ],
+            [
+              2100
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              1
+            ]
+          ],
+          "rep": [
+            38,
+            13
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1207,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            38,
+            13
+          ]
+        },
+        {
+          "m": 0,
+          "t": 781,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "blood-claws",
+          "type": "support"
+        },
+        {
+          "to": "grey-hunters",
+          "type": "support"
+        },
+        {
+          "to": "long-fangs",
+          "type": "support"
+        }
+      ]
+    },
+    {
+      "id": "wolf-guard-pack-leader-with-jump-pack",
+      "name": "Wolf Guard Pack Leader with Jump Pack",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Jump Pack",
+        "Fly",
+        "Grenades",
+        "Imperium",
+        "Pack Leader",
+        "Wolf Guard Pack Leader with Jump Pack"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 35,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1214,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              680
+            ],
+            [
+              536
+            ],
+            [
+              38
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ],
+            [
+              13
+            ],
+            [
+              2047
+            ],
+            [
+              2100
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              1
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1215,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "skyclaws",
+          "type": "support"
         }
       ]
     },
@@ -1368,6 +3072,136 @@ export default {
               2
             ]
           ]
+        }
+      ]
+    },
+    {
+      "id": "wolf-lord-on-thunderwolf",
+      "name": "Wolf Lord on Thunderwolf",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Imperium",
+        "Captain",
+        "Wolf Lord on Thunderwolf"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2868,
+              1
+            ],
+            [
+              1103,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1216,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              952
+            ],
+            [
+              2047
+            ],
+            [
+              [
+                [
+                  2036,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1103
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1209,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ],
+            [
+              141
+            ],
+            [
+              536
+            ],
+            [
+              38
+            ],
+            [
+              952
+            ],
+            [
+              1103
+            ],
+            [
+              2047
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1210,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            1167,
+            1103
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "thunderwolf-cavalry",
+          "type": "leader"
         }
       ]
     },

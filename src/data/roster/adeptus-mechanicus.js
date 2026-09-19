@@ -1161,6 +1161,247 @@ export default {
       ]
     },
     {
+      "id": "secutarii-hoplites",
+      "name": "Secutarii Hoplites",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Skitarii",
+        "Secutarii Hoplites"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 130,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Hoplite Alpha"
+        },
+        {
+          "n": "Secutarii Hoplites"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2568,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2568,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 968,
+          "in": "checkbox",
+          "o": [
+            [
+              2569
+            ]
+          ],
+          "rep": [
+            2568
+          ]
+        },
+        {
+          "m": 0,
+          "t": 969,
+          "in": "checkbox",
+          "o": [
+            [
+              2570
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 970,
+          "in": "checkbox",
+          "o": [
+            [
+              232
+            ],
+            [
+              255
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secutarii-peltasts",
+      "name": "Secutarii Peltasts",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Skitarii",
+        "Secutarii Peltasts"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 100,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Peltast Alpha"
+        },
+        {
+          "n": "Secutarii Peltasts"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2571,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2571,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 971,
+          "in": "checkbox",
+          "o": [
+            [
+              2569
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 972,
+          "in": "checkbox",
+          "o": [
+            [
+              2570
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 973,
+          "in": "checkbox",
+          "o": [
+            [
+              232
+            ],
+            [
+              255
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "serberys-raiders",
       "sid": "428c2950-a5ef-4c7d-a902-04014972ae54",
       "name": "Serberys Raiders",
@@ -2838,6 +3079,78 @@ export default {
       ]
     },
     {
+      "id": "terrax-pattern-termite",
+      "name": "Terrax-pattern Termite",
+      "kws": [
+        "Vehicle",
+        "Imperium",
+        "Transport",
+        "Dedicated Transport",
+        "Terrax-pattern Termite"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 200,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2572,
+              1
+            ],
+            [
+              1129,
+              2
+            ],
+            [
+              2573,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 974,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2574,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1129
+          ]
+        }
+      ]
+    },
+    {
       "id": "thulia-ghuld",
       "sid": "681fcb1a-b0aa-4344-8353-ca1050efdcba",
       "name": "Thulia Ghuld",
@@ -2877,6 +3190,49 @@ export default {
             ],
             [
               278,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "x-101",
+      "name": "X-101",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Character",
+        "Epic Hero",
+        "Cult Mechanicus",
+        "X-101"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2134,
+              1
+            ],
+            [
+              210,
               1
             ]
           ]

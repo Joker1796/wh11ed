@@ -4,6 +4,49 @@ export default {
   "name": "Asuryani",
   "units": [
     {
+      "id": "amallyn-shadowguide",
+      "name": "Amallyn Shadowguide",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Epic Hero",
+        "Aeldari",
+        "Amallyn Shadowguide"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2575,
+              1
+            ],
+            [
+              2576,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "asurmen",
       "sid": "d7c61e16-4b79-4bfd-a219-afd567369de8",
       "name": "Asurmen",
@@ -162,6 +205,80 @@ export default {
           "rep": [
             281
           ]
+        }
+      ]
+    },
+    {
+      "id": "autarch-skyrunner",
+      "name": "Autarch Skyrunner",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Fly",
+        "Aeldari",
+        "Autarch",
+        "Autarch Skyrunner"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              357,
+              1
+            ],
+            [
+              390,
+              1
+            ],
+            [
+              342,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 975,
+          "in": "checkbox",
+          "o": [
+            [
+              284
+            ],
+            [
+              288
+            ]
+          ],
+          "rep": [
+            390
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "windriders",
+          "type": "leader"
+        },
+        {
+          "to": "corsair-cloud-dancer-band",
+          "type": "leader"
         }
       ]
     },
@@ -351,6 +468,57 @@ export default {
       ]
     },
     {
+      "id": "bonesinger",
+      "name": "Bonesinger",
+      "kws": [
+        "Character",
+        "Infantry",
+        "Psyker",
+        "Aeldari",
+        "Bonesinger"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 45,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2577,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "wraithblades",
+          "type": "leader"
+        },
+        {
+          "to": "wraithguard",
+          "type": "leader"
+        },
+        {
+          "to": "wraithlord",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "clanblade",
       "sid": "b1c71485-4ec5-42d3-8734-75c65c06542d",
       "name": "Clanblade",
@@ -399,6 +567,406 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "cobra",
+      "name": "Cobra",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Fly",
+        "Aeldari",
+        "Cobra"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 415,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2578,
+              1
+            ],
+            [
+              325,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 976,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            325
+          ]
+        }
+      ]
+    },
+    {
+      "id": "corsair-cloud-dancer-band",
+      "name": "Corsair Cloud Dancer Band",
+      "kws": [
+        "Mounted",
+        "Grenades",
+        "Anhrathe",
+        "Aeldari",
+        "Corsair Cloud Dancer Band"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 150,
+          "per": [
+            4,
+            4
+          ]
+        },
+        {
+          "pts": 210,
+          "per": [
+            5,
+            6
+          ]
+        },
+        {
+          "pts": 245,
+          "per": [
+            7,
+            7
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              6
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Cloud Dancer Felarch"
+        },
+        {
+          "n": "Corsair Cloud Dancers"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2580,
+              1
+            ],
+            [
+              342,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2580,
+              1
+            ],
+            [
+              342,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 977,
+          "in": "stepper",
+          "o": [
+            [
+              477
+            ],
+            [
+              2581
+            ],
+            [
+              428
+            ],
+            [
+              325
+            ],
+            [
+              475
+            ]
+          ],
+          "rep": [
+            342
+          ]
+        },
+        {
+          "m": 0,
+          "t": 978,
+          "in": "checkbox",
+          "o": [
+            [
+              2582
+            ],
+            [
+              2583
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "corsair-reaver-band",
+      "name": "Corsair Reaver Band",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Anhrathe",
+        "Aeldari",
+        "Corsair Reaver Band"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 150,
+          "per": [
+            6,
+            6
+          ]
+        },
+        {
+          "pts": 250,
+          "per": [
+            7,
+            10
+          ]
+        },
+        {
+          "pts": 275,
+          "per": [
+            11,
+            11
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              10
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Corsair Reaver Felarch"
+        },
+        {
+          "n": "Corsair Reavers"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2580,
+              1
+            ],
+            [
+              2584,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2580,
+              1
+            ],
+            [
+              2584,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 979,
+          "in": "stepper",
+          "o": [
+            [
+              2585
+            ]
+          ],
+          "rep": [
+            2584
+          ]
+        },
+        {
+          "all": 1,
+          "t": 980,
+          "in": "stepper",
+          "o": [
+            [
+              2579
+            ],
+            [
+              299
+            ],
+            [
+              477
+            ],
+            [
+              301
+            ],
+            [
+              302
+            ],
+            [
+              303
+            ],
+            [
+              325
+            ],
+            [
+              475
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            2584
+          ]
+        },
+        {
+          "m": 0,
+          "t": 981,
+          "in": "checkbox",
+          "o": [
+            [
+              2582
+            ],
+            [
+              2583
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2342,6 +2910,64 @@ export default {
       ]
     },
     {
+      "id": "firestorm",
+      "name": "Firestorm",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aeldari",
+        "Firestorm"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2586,
+              1
+            ],
+            [
+              342,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 133,
+          "in": "checkbox",
+          "o": [
+            [
+              325
+            ]
+          ],
+          "rep": [
+            342
+          ]
+        }
+      ]
+    },
+    {
       "id": "fuegan",
       "sid": "6e9e71f4-0b58-4065-a6f3-15f65ac0561d",
       "name": "Fuegan",
@@ -2526,6 +3152,73 @@ export default {
       ]
     },
     {
+      "id": "hornet",
+      "name": "Hornet",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aeldari",
+        "Hornet"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2587,
+              2
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 982,
+          "in": "stepper",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              325
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            2587
+          ],
+          "cp": 2
+        }
+      ]
+    },
+    {
       "id": "howling-banshees",
       "sid": "dbf44164-23a5-46b7-98de-896e8b672051",
       "name": "Howling Banshees",
@@ -2665,6 +3358,105 @@ export default {
       ]
     },
     {
+      "id": "illic-nightspear",
+      "name": "Illic Nightspear",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Aeldari",
+        "Illic Nightspear"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2588,
+              1
+            ],
+            [
+              295,
+              1
+            ],
+            [
+              2589,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "rangers",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "irillyth",
+      "name": "Irillyth",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Fly",
+        "Jump Pack",
+        "Phoenix Lord",
+        "Aeldari",
+        "Irillyth"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 105,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2590,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "shadow-spectres",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "jain-zar",
       "sid": "3c4f61dd-6963-4b5d-9226-9c8e8c158f65",
       "name": "Jain Zar",
@@ -2712,6 +3504,59 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "karandras",
+      "name": "Karandras",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Phoenix Lord",
+        "Aeldari",
+        "Karandras"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2591,
+              1
+            ],
+            [
+              2592,
+              1
+            ],
+            [
+              2593,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "striking-scorpions",
+          "type": "leader"
+        }
       ]
     },
     {
@@ -2874,6 +3719,73 @@ export default {
       ]
     },
     {
+      "id": "lynx",
+      "name": "Lynx",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aeldari",
+        "Lynx"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 180,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2594,
+              1
+            ],
+            [
+              325,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 983,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            325
+          ]
+        }
+      ]
+    },
+    {
       "id": "maugan-ra",
       "sid": "e2592764-a979-4b75-b6a9-5413403af7c8",
       "name": "Maugan Ra",
@@ -2979,6 +3891,50 @@ export default {
             342
           ]
         }
+      ]
+    },
+    {
+      "id": "nightwing",
+      "name": "Nightwing",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Aeldari",
+        "Nightwing"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 150,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              436,
+              1
+            ],
+            [
+              434,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -3166,6 +4122,54 @@ export default {
       ]
     },
     {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aircraft",
+        "Aeldari",
+        "Phoenix"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 175,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2595,
+              1
+            ],
+            [
+              2596,
+              1
+            ],
+            [
+              434,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "prince-yriel",
       "sid": "55d8777e-a3ea-4838-9171-015f06fa5aa8",
       "name": "Prince Yriel",
@@ -3346,6 +4350,152 @@ export default {
             389
           ]
         }
+      ]
+    },
+    {
+      "id": "scorpion",
+      "name": "Scorpion",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Fly",
+        "Aeldari",
+        "Scorpion"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 410,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              325,
+              1
+            ],
+            [
+              2597,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 976,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            325
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shadow-spectres",
+      "name": "Shadow Spectres",
+      "kws": [
+        "Infantry",
+        "Jump Pack",
+        "Fly",
+        "Aeldari",
+        "Shadow Spectres"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 230,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Shadow Spectre Exarch"
+        },
+        {
+          "n": "Shadow Spectres"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2598,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2598,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -3639,6 +4789,106 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "skathach-wraithknight",
+      "name": "Skathach Wraithknight",
+      "kws": [
+        "Monster",
+        "Titanic",
+        "Towering",
+        "Walker",
+        "Wraith Construct",
+        "Aeldari",
+        "Skathach Wraithknight"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 490,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2599,
+              1
+            ],
+            [
+              451,
+              1
+            ],
+            [
+              450,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 984,
+          "in": "checkbox",
+          "o": [
+            [
+              2600
+            ]
+          ],
+          "rep": [
+            2599
+          ]
+        },
+        {
+          "m": 0,
+          "t": 985,
+          "in": "checkbox",
+          "o": [
+            [
+              2599
+            ],
+            [
+              2600
+            ]
+          ],
+          "rep": [
+            450
+          ]
+        },
+        {
+          "m": 0,
+          "t": 986,
+          "in": "checkbox",
+          "o": [
+            [
+              428
+            ],
+            [
+              325
+            ],
+            [
+              429
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              1
+            ]
+          ]
+        }
       ]
     },
     {
@@ -4757,6 +6007,100 @@ export default {
       ]
     },
     {
+      "id": "vampire-hunter",
+      "name": "Vampire Hunter",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aircraft",
+        "Titanic",
+        "Aeldari",
+        "Vampire Hunter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 460,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              428,
+              1
+            ],
+            [
+              2601,
+              2
+            ],
+            [
+              2602,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "vampire-raider",
+      "name": "Vampire Raider",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Titanic",
+        "Transport",
+        "Aeldari",
+        "Vampire Raider"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 430,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              428,
+              1
+            ],
+            [
+              2601,
+              2
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "vibro-cannon-platform",
       "sid": "5e228e4e-0288-4713-bbfd-573150464935",
       "name": "Vibro Cannon Platform",
@@ -5229,6 +6573,64 @@ export default {
       ]
     },
     {
+      "id": "warp-hunter",
+      "name": "Warp Hunter",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aeldari",
+        "Warp Hunter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 145,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2603,
+              1
+            ],
+            [
+              342,
+              1
+            ],
+            [
+              318,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 133,
+          "in": "checkbox",
+          "o": [
+            [
+              325
+            ]
+          ],
+          "rep": [
+            342
+          ]
+        }
+      ]
+    },
+    {
       "id": "warp-spiders",
       "sid": "433a2ffb-6bf7-4992-9172-797ed3021d4e",
       "name": "Warp Spiders",
@@ -5386,6 +6788,96 @@ export default {
       ]
     },
     {
+      "id": "wasp-assault-walker",
+      "name": "Wasp Assault Walker",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Aeldari",
+        "Wasp Assault Walker"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              428,
+              1
+            ],
+            [
+              325,
+              1
+            ],
+            [
+              2604,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 987,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              325
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            428
+          ]
+        },
+        {
+          "m": 0,
+          "t": 976,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              429
+            ]
+          ],
+          "rep": [
+            325
+          ]
+        }
+      ]
+    },
+    {
       "id": "wave-serpent",
       "sid": "5fe4e548-edb1-4ce3-90eb-fb4e0a4ab7bb",
       "name": "Wave Serpent",
@@ -5469,6 +6961,36 @@ export default {
             342
           ]
         }
+      ]
+    },
+    {
+      "id": "webway-gate",
+      "name": "Webway Gate",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Aeldari",
+        "Webway Gate"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 105,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          []
+        ]
       ]
     },
     {
@@ -5919,6 +7441,74 @@ export default {
             [
               0,
               2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wraithseer",
+      "name": "Wraithseer",
+      "kws": [
+        "Monster",
+        "Psyker",
+        "Walker",
+        "Wraith Construct",
+        "Aeldari",
+        "Wraithseer"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              431,
+              1
+            ],
+            [
+              2605,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 988,
+          "in": "checkbox",
+          "o": [
+            [
+              2579
+            ],
+            [
+              459
+            ],
+            [
+              428
+            ],
+            [
+              325
+            ],
+            [
+              429
+            ],
+            [
+              2606
             ]
           ]
         }

@@ -4,6 +4,104 @@ export default {
   "name": "Legiones Daemonica",
   "units": [
     {
+      "id": "aetaos-rau-keres",
+      "name": "Aetaos’rau’keres",
+      "kws": [
+        "Monster",
+        "Character",
+        "Epic Hero",
+        "Titanic",
+        "Towering",
+        "Fly",
+        "Psyker",
+        "Chaos",
+        "Daemon",
+        "Tzeentch",
+        "Aetaos’rau’keres"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 315,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2680,
+              1
+            ],
+            [
+              2681,
+              1
+            ],
+            [
+              2682,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "an-ggrath-the-unbound",
+      "name": "An’ggrath the Unbound",
+      "kws": [
+        "Monster",
+        "Character",
+        "Epic Hero",
+        "Titanic",
+        "Towering",
+        "Chaos",
+        "Daemon",
+        "Khorne",
+        "An’ggrath the Unbound"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 415,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2683,
+              1
+            ],
+            [
+              780,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "belakor",
       "sid": "bd832fd9-cafc-450c-947f-8f41f09a956e",
       "name": "Be’lakor",
@@ -1386,6 +1484,83 @@ export default {
       ]
     },
     {
+      "id": "furies",
+      "name": "Furies",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Daemon",
+        "Fly",
+        "Furies"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1
+        },
+        {
+          "pts": 80,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2684,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "giant-chaos-spawn",
+      "name": "Giant Chaos Spawn",
+      "kws": [
+        "Monster",
+        "Chaos",
+        "Giant Chaos Spawn"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2685,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "great-unclean-one",
       "sid": "2554476c-6f45-4317-bb68-39738cb037b5",
       "name": "Great Unclean One",
@@ -1512,6 +1687,55 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "herald-of-slaanesh-on-steed-of-slaanesh",
+      "name": "Herald of Slaanesh on Steed of Slaanesh",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Psyker",
+        "Chaos",
+        "Daemon",
+        "Slaanesh",
+        "Herald of Slaanesh"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              843,
+              1
+            ],
+            [
+              871,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "seekers",
+          "type": "leader"
+        }
       ]
     },
     {
@@ -2163,6 +2387,46 @@ export default {
       ]
     },
     {
+      "id": "plague-toads",
+      "name": "Plague Toads",
+      "kws": [
+        "Beast",
+        "Chaos",
+        "Daemon",
+        "Nurgle",
+        "Plague Toads"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2416,
+              1
+            ],
+            [
+              2686,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "plaguebearers",
       "sid": "fca72699-9adc-4144-baf5-055aeee0475f",
       "name": "Plaguebearers",
@@ -2258,6 +2522,80 @@ export default {
             [
               0,
               1
+            ]
+          ],
+          "cond": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pox-riders",
+      "name": "Pox Riders",
+      "kws": [
+        "Mounted",
+        "Chaos",
+        "Daemon",
+        "Nurgle",
+        "Pox Riders"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2416,
+              1
+            ],
+            [
+              2687,
+              1
+            ],
+            [
+              2686,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1032,
+          "in": "checkbox",
+          "o": [
+            [
+              775
+            ]
+          ],
+          "cond": [
+            1,
+            0
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1033,
+          "in": "checkbox",
+          "o": [
+            [
+              776
             ]
           ],
           "cond": [
@@ -2401,6 +2739,51 @@ export default {
             ],
             [
               841,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "scabeiathrax-the-bloated",
+      "name": "Scabeiathrax the Bloated",
+      "kws": [
+        "Monster",
+        "Character",
+        "Epic Hero",
+        "Psyker",
+        "Chaos",
+        "Daemon",
+        "Nurgle",
+        "Scabeiathrax the Bloated"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 275,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              807,
+              1
+            ],
+            [
+              2688,
               1
             ]
           ]
@@ -2988,6 +3371,40 @@ export default {
       ]
     },
     {
+      "id": "spined-chaos-beast",
+      "name": "Spined Chaos Beast",
+      "kws": [
+        "Monster",
+        "Chaos",
+        "Spined Chaos Beast"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 145,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2689,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "spoilpox-scrivener",
       "sid": "82b0a610-b1a6-4620-a72f-c55a7ed4da64",
       "name": "Spoilpox Scrivener",
@@ -3309,6 +3726,55 @@ export default {
           [
             [
               871,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "zarakynel",
+      "name": "Zarakynel",
+      "kws": [
+        "Monster",
+        "Character",
+        "Epic Hero",
+        "Psyker",
+        "Chaos",
+        "Daemon",
+        "Slaanesh",
+        "Zarakynel"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 320,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              824,
+              1
+            ],
+            [
+              822,
+              1
+            ],
+            [
+              2690,
               1
             ]
           ]

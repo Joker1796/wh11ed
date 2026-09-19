@@ -801,6 +801,570 @@ export default {
       ]
     },
     {
+      "id": "death-guard-chaos-lord",
+      "name": "Death Guard Chaos Lord",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Chaos",
+        "Nurgle",
+        "Grenades",
+        "Chaos Lord"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2732,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1061,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ],
+            [
+              2733
+            ],
+            [
+              2734
+            ],
+            [
+              2735
+            ],
+            [
+              536
+            ]
+          ],
+          "rep": [
+            2732
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1062,
+          "in": "checkbox",
+          "o": [
+            [
+              2734
+            ],
+            [
+              2735
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1063,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            2732,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "plague-marines",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "death-guard-chaos-lord-in-terminator-armour",
+      "name": "Death Guard Chaos Lord in Terminator Armour",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Chaos",
+        "Nurgle",
+        "Terminator",
+        "Chaos Lord"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2733,
+              1
+            ],
+            [
+              2735,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1064,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ],
+            [
+              2735
+            ]
+          ],
+          "rep": [
+            2733
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1065,
+          "in": "checkbox",
+          "o": [
+            [
+              1457
+            ],
+            [
+              2734
+            ]
+          ],
+          "rep": [
+            2735
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1066,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            2733,
+            2735
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "blightlord-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "deathshroud-terminators",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "death-guard-cultists",
+      "name": "Death Guard Cultists",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Nurgle",
+        "Cultists"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 100,
+          "per": [
+            11,
+            20
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              10,
+              19
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Death Guard Cultist Champion"
+        },
+        {
+          "n": "Death Guard Cultists"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2736,
+              1
+            ],
+            [
+              963,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2736,
+              1
+            ],
+            [
+              963,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1067,
+          "in": "stepper",
+          "o": [
+            [
+              301
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            2736
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1068,
+          "in": "stepper",
+          "o": [
+            [
+              1353
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            2736
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1069,
+          "in": "stepper",
+          "o": [
+            [
+              605
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ],
+          "rep": [
+            2736
+          ]
+        }
+      ]
+    },
+    {
+      "id": "death-guard-possessed",
+      "name": "Death Guard Possessed",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Daemon",
+        "Possessed"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 155,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 310,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Possessed Champion"
+        },
+        {
+          "n": "Possessed"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2512,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2512,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 1070,
+          "in": "checkbox",
+          "o": [
+            [
+              2737
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "death-guard-sorcerer-in-terminator-armour",
+      "name": "Death Guard Sorcerer in Terminator Armour",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Psyker",
+        "Chaos",
+        "Nurgle",
+        "Terminator",
+        "Sorcerer"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2738,
+              1
+            ],
+            [
+              2733,
+              1
+            ],
+            [
+              643,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1064,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ],
+            [
+              2735
+            ]
+          ],
+          "rep": [
+            2733
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1071,
+          "in": "checkbox",
+          "o": [
+            [
+              1457
+            ],
+            [
+              2734
+            ],
+            [
+              2735
+            ]
+          ],
+          "rep": [
+            643
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1072,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ]
+          ],
+          "rep": [
+            2733,
+            643
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "blightlord-terminators",
+          "type": "leader"
+        },
+        {
+          "to": "deathshroud-terminators",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "deathshroud-terminators",
       "sid": "2f6e1cf5-9c8c-4fc1-aa97-3480a84edb1c",
       "name": "Deathshroud Terminators",

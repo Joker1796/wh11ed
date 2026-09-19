@@ -28,6 +28,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule } from './lib/sync-common.mjs'
+import { packRosterUnit, emptyPackReport } from './lib/pack-roster.mjs'
 
 const T = path.join(APPDATA, 'tables')
 const OUT = path.join(ROOT, 'src/data/roster')
@@ -328,7 +329,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -446,9 +447,31 @@ for (const [dsName, kwName] of PROSE_ATTACH) {
 // as src/data/roster/items.js) keeps ids stable everywhere and folds for free.
 const itemIds = new Map() // wargear_item UUID -> int
 const textIds = new Map() // instruction text -> int
+// Items the Faction Pack Legends name that appdata has no row for (see itemByName): synthetic key
+// `pack:<norm name>` → printed name, read by genItems alongside wgItemName.
+const packItemNames = new Map()
 const fx = {
   item: (uuid) => { if (!itemIds.has(uuid)) itemIds.set(uuid, itemIds.size + 1); return itemIds.get(uuid) },
   text: (s) => { if (!textIds.has(s)) textIds.set(s, textIds.size + 1); return textIds.get(s) },
+  // An item by NAME, for the pack Legends units: the appdata item of that name where one exists —
+  // preferring one already interned, so a Legends Bike Squad's "Bolt pistol" is the same id every
+  // Space Marine already carries and the importer/stock rule/export cannot tell the sources apart
+  // — else a pack-only item under the printed name.
+  itemByName: (name) => {
+    const n = norm(name)
+    const uuids = wgItemByNorm.get(n) || []
+    const uuid = uuids.find((u) => itemIds.has(u)) || uuids[0]
+    if (uuid) return fx.item(uuid)
+    const key = `pack:${n}`
+    if (!packItemNames.has(key)) packItemNames.set(key, name)
+    return fx.item(key)
+  },
+}
+const wgItemByNorm = new Map()
+for (const [uuid, name] of wgItemName) {
+  const n = norm(name)
+  if (!wgItemByNorm.has(n)) wgItemByNorm.set(n, [])
+  wgItemByNorm.get(n).push(uuid)
 }
 
 // Invert sourceIds.json for a faction: appdata datasheet UUID -> wh11ed datasheet slug.
@@ -2204,13 +2227,60 @@ async function genFaction(slug) {
       report.sharedDets += sharedDets.names.length
     }
   }
-  const body = `${HEAD}export default ${stableJson(data)}\n`
-  writeOut(`${slug}.js`, body)
+  // Written after every faction has been built (see run): the pack Legends intern their items
+  // last, so the ids appdata's units carry do not move when a pack sheet is added.
+  built.push({ slug, data })
+}
+const built = []
+
+// ---- Faction Pack Legends ---------------------------------------------------------------
+// The Legends datasheets appdata never carried (`source: 'faction-pack'` in data/datasheets) are
+// read from their own printed composition/loadout/options by scripts/lib/pack-roster.mjs and
+// listed alongside the appdata units. Their ids ARE the datasheet ids (so `linked` needs no
+// sourceIds row), their prices are the MFM rows sync-mfm-points already wrote onto the sheet.
+async function packUnitsFor(slug, units) {
+  const sheets = ((await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`)))?.default || [])
+    .filter((d) => d.source === 'faction-pack')
+  if (!sheets.length) return []
+  // Leader targets by name: this faction's appdata units, its pack sheets, and — for a Chapter —
+  // the shared Space Marines pool it folds in at load time (Codex units AND the SM pack Legends).
+  const unitIdByName = new Map(units.map((u) => [norm(u.name), u.id]))
+  for (const d of sheets) unitIdByName.set(norm(d.name), d.id)
+  if (isChapter(slug)) {
+    const smMap = unitIdMap('space-marines')
+    const smBundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP['space-marines']}.json`))
+    for (const d of smBundle?.datasheets || []) if (smMap.has(d.id) && !unitIdByName.has(norm(d.name))) unitIdByName.set(norm(d.name), smMap.get(d.id))
+    const smSheets = (await loadModule(path.join(ROOT, 'src/data/datasheets', 'space-marines.js')))?.default || []
+    for (const d of smSheets) if (d.source === 'faction-pack' && !unitIdByName.has(norm(d.name))) unitIdByName.set(norm(d.name), d.id)
+  }
+  // The Mark of Chaos: Pactbound Zealots' rule is written for "a HERETIC ASTARTES unit [that] is
+  // not an EPIC HERO and does not already have one of the following keywords" — a rule, not a
+  // list, so a pack Legends Chaos Lord on Bike gets the same choice appdata's 43 units carry.
+  const mark = units.find((u) => u.alleg?.g === 'mark-of-chaos')?.alleg
+  const MARKS = ['khorne', 'tzeentch', 'nurgle', 'slaanesh', 'chaos undivided']
+  const allegFor = (d) => {
+    if (!mark) return null
+    const kws = [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm)
+    if (!kws.includes('heretic astartes') || kws.includes('epic hero') || kws.some((k) => MARKS.includes(k))) return null
+    return JSON.parse(JSON.stringify(mark))
+  }
+  // Keyword-named Leader targets ("Imperium Battleline Infantry"), against every unit this file
+  // will hold — appdata's and the pack's; a keyword that names nothing here resolves to nothing.
+  const kwOf = new Map(units.map((u) => [u.id, (u.kws || []).map(norm)]))
+  for (const d of sheets) kwOf.set(d.id, [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm))
+  const unitsByKw = (kws) => [...kwOf].filter(([, have]) => kws.every((k) => have.includes(norm(k)))).map(([id]) => id)
+  const ctx = { report: report.pack, item: fx.itemByName, text: fx.text, unitIdByName, allegFor, unitsByKw }
+  const out = []
+  for (const d of sheets) {
+    const u = packRosterUnit(d, ctx)
+    if (u) { out.push(u); report.pack.units++ } else report.pack.dropped.push(`${slug}: ${d.name}`)
+  }
+  return out
 }
 
 function genItems() {
   const items = {}
-  for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || ''
+  for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || packItemNames.get(uuid) || ''
   const texts = {}
   for (const [s, id] of textIds) texts[id] = s
   const data = { items, texts }
@@ -2338,6 +2408,11 @@ const slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
 fs.mkdirSync(OUT, { recursive: true })
 genCore()
 for (const slug of slugs) await genFaction(slug)
+for (const { slug, data } of built) {
+  const pack = await packUnitsFor(slug, data.units)
+  if (pack.length) { data.units.push(...pack); data.units.sort((a, b) => a.name.localeCompare(b.name)); report.units += pack.length; report.linked += pack.length }
+  writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
+}
 genItems() // after all factions — the intern dicts are complete
 genIndex()
 
@@ -2420,6 +2495,16 @@ for (const [why, list] of [["prose doesn't account for every option", b.unclaime
   if (!list.length) continue
   console.log(`  left as appdata lists them — ${why} (${list.length}):`)
   for (const l of list) console.log(`    - ${l.replace(/\s+/g, ' ').slice(0, 110)}`)
+}
+// The Faction Pack Legends, read from their own printed text — every line below is a sheet the
+// roster shows less of than the PDF says; the parser guesses nothing, so each is a template to add.
+const pk = report.pack
+console.log(`  Faction Pack Legends: ${pk.units} units read from their printed composition/loadout/options${pk.dropped.length ? `, ${pk.dropped.length} not readable` : ''}`)
+for (const [why, list] of [['sheet dropped', pk.dropped], ['composition line unreadable', pk.composition], ['price bracket outside the composition', pk.bracket], ['no usable price', pk.noPoints], ['loadout paragraph unplaced (unit keeps no default loadout)', pk.loadout], ['option sentence unread (choice left out)', pk.option], ['replaced item not in the printed loadout (group has no rep)', pk.rep], ['item the sheet does not print (kept under its printed name)', pk.unknownItem], ['Leader target not found', pk.lead], ['notes', pk.note]]) {
+  if (!list.length) continue
+  console.log(`    ${why} (${list.length}):`)
+  for (const l of list.slice(0, 40)) console.log(`      - ${l.replace(/\s+/g, ' ')}`)
+  if (list.length > 40) console.log(`      … +${list.length - 40} more`)
 }
 if (report.unlinked.length) {
   console.log(`  unlinked units (no datasheet page — slugified id, no deep link):`)

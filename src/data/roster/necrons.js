@@ -61,6 +61,54 @@ export default {
       ]
     },
     {
+      "id": "anrakyr-the-traveller",
+      "name": "Anrakyr the Traveller",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Noble",
+        "Anrakyr the Traveller"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1700,
+              1
+            ],
+            [
+              1682,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "immortals",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "ctan-shard-of-the-deceiver",
       "sid": "65f56806-cf8c-47ef-8470-13e3ac1fc66e",
       "name": "C’tan Shard of the Deceiver",
@@ -187,6 +235,52 @@ export default {
             ],
             [
               1660,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "canoptek-acanthrites",
+      "name": "Canoptek Acanthrites",
+      "kws": [
+        "Beasts",
+        "Fly",
+        "Canoptek",
+        "Acanthrites"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        },
+        {
+          "pts": 170,
+          "per": [
+            4,
+            6
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2783,
+              1
+            ],
+            [
+              1734,
               1
             ]
           ]
@@ -548,6 +642,90 @@ export default {
             1640
           ]
         }
+      ]
+    },
+    {
+      "id": "canoptek-tomb-sentinel",
+      "name": "Canoptek Tomb Sentinel",
+      "kws": [
+        "Monster",
+        "Canoptek",
+        "Tomb Sentinel"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2784,
+              1
+            ],
+            [
+              2785,
+              1
+            ],
+            [
+              1639,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "canoptek-tomb-stalker",
+      "name": "Canoptek Tomb Stalker",
+      "kws": [
+        "Monster",
+        "Canoptek",
+        "Tomb Stalker"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2786,
+              1
+            ],
+            [
+              2787,
+              1
+            ],
+            [
+              1639,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1005,6 +1183,46 @@ export default {
           [
             [
               1666,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "gauss-pylon",
+      "name": "Gauss Pylon",
+      "kws": [
+        "Fortification",
+        "Vehicle",
+        "Towering",
+        "Titanic",
+        "Gauss Pylon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 210,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2788,
+              1
+            ],
+            [
+              2789,
               1
             ]
           ]
@@ -1508,6 +1726,81 @@ export default {
       ]
     },
     {
+      "id": "lord",
+      "name": "Lord",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Noble",
+        "Lord"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1713,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 689,
+          "in": "checkbox",
+          "o": [
+            [
+              1679
+            ]
+          ],
+          "rep": [
+            1713
+          ]
+        },
+        {
+          "m": 0,
+          "t": 686,
+          "in": "checkbox",
+          "o": [
+            [
+              1681
+            ]
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "immortals",
+          "type": "leader"
+        },
+        {
+          "to": "lychguard",
+          "type": "leader"
+        },
+        {
+          "to": "necron-warriors",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "lychguard",
       "sid": "3564cad2-6d2a-43d8-9fa1-01cf36a45efb",
       "name": "Lychguard",
@@ -1748,6 +2041,58 @@ export default {
       ]
     },
     {
+      "id": "nemesor-zahndrekh",
+      "name": "Nemesor Zahndrekh",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Noble",
+        "Nemesor Zahndrekh"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1713,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "immortals",
+          "type": "leader"
+        },
+        {
+          "to": "lychguard",
+          "type": "leader"
+        },
+        {
+          "to": "necron-warriors",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "night-scythe",
       "sid": "acd92a6c-c754-45d6-80fb-e20a112818f4",
       "name": "Night Scythe",
@@ -1761,6 +2106,45 @@ export default {
       "sizes": [
         {
           "pts": 125,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1622,
+              1
+            ],
+            [
+              1620,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "night-shroud",
+      "name": "Night Shroud",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Night Shroud"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
           "per": [
             1,
             1
@@ -2228,6 +2612,59 @@ export default {
       ]
     },
     {
+      "id": "sentry-pylon",
+      "name": "Sentry Pylon",
+      "kws": [
+        "Fortification",
+        "Vehicle",
+        "Frame",
+        "Sentry Pylon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2790,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1106,
+          "in": "checkbox",
+          "o": [
+            [
+              2791
+            ],
+            [
+              2792
+            ]
+          ],
+          "rep": [
+            2790
+          ]
+        }
+      ]
+    },
+    {
       "id": "seraptek-heavy-construct",
       "sid": "3ab9411d-be16-4e33-8133-26186b6f98b8",
       "name": "Seraptek Heavy Construct",
@@ -2471,6 +2908,76 @@ export default {
       ]
     },
     {
+      "id": "tesseract-ark",
+      "name": "Tesseract Ark",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Tesseract Ark"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2793,
+              1
+            ],
+            [
+              1623,
+              2
+            ],
+            [
+              1620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1107,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1621,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1724,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1623
+          ]
+        }
+      ]
+    },
+    {
       "id": "tesseract-vault",
       "sid": "78c48e30-c3ad-4039-affa-955d81c36b36",
       "name": "Tesseract Vault",
@@ -2688,6 +3195,74 @@ export default {
             ],
             [
               1728
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tomb-citadel-walls",
+      "name": "Tomb Citadel Walls",
+      "kws": [
+        "Fortification",
+        "Titanic",
+        "Vehicle",
+        "Frame",
+        "Tomb Citadel"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 180,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          []
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1108,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2790,
+                  1
+                ],
+                [
+                  1622,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2790,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1622,
+                  2
+                ]
+              ]
             ]
           ]
         }
@@ -2914,6 +3489,58 @@ export default {
           "rep": [
             1735
           ]
+        }
+      ]
+    },
+    {
+      "id": "vargard-obyron",
+      "name": "Vargard Obyron",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Vargard Obyron"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1,
+        "alongside": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1682,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "immortals",
+          "type": "leader"
+        },
+        {
+          "to": "lychguard",
+          "type": "leader"
+        },
+        {
+          "to": "necron-warriors",
+          "type": "leader"
         }
       ]
     }

@@ -247,6 +247,244 @@ export default {
       ]
     },
     {
+      "id": "deathwing-command-squad",
+      "name": "Deathwing Command Squad",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Deathwing",
+        "Terminator",
+        "Deathwing Command Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 200,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 400,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              3,
+              7
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Deathwing Ancient"
+        },
+        {
+          "n": "Deathwing Apothecary"
+        },
+        {
+          "n": "Deathwing Champion"
+        },
+        {
+          "n": "Deathwing Command Terminators"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              952,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              1457,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              2731,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              952,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 3,
+          "t": 1055,
+          "in": "stepper",
+          "o": [
+            [
+              2135
+            ],
+            [
+              [
+                [
+                  2047,
+                  1
+                ],
+                [
+                  2100,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            38,
+            952
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1056,
+          "in": "stepper",
+          "o": [
+            [
+              1457
+            ]
+          ],
+          "rep": [
+            952
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1057,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ],
+          "rep": [
+            952
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1058,
+          "in": "stepper",
+          "o": [
+            [
+              2156
+            ],
+            [
+              743
+            ],
+            [
+              1481
+            ],
+            [
+              [
+                [
+                  38,
+                  1
+                ],
+                [
+                  736,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "all": 1,
+          "t": 1059,
+          "in": "checkbox",
+          "o": [
+            [
+              1102
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "deathwing-knights",
       "sid": "f522bffd-8580-405a-a4e7-063aed70a553",
       "name": "Deathwing Knights",
@@ -353,6 +591,112 @@ export default {
           "rep": [
             1100
           ]
+        }
+      ]
+    },
+    {
+      "id": "deathwing-strikemaster",
+      "name": "Deathwing Strikemaster",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Imperium",
+        "Deathwing",
+        "Terminator",
+        "Lieutenant",
+        "Deathwing Strikemaster"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              2062,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1060,
+          "in": "checkbox",
+          "o": [
+            [
+              2135
+            ],
+            [
+              38
+            ],
+            [
+              1457
+            ],
+            [
+              1100
+            ],
+            [
+              952
+            ],
+            [
+              2047
+            ],
+            [
+              2100
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              1
+            ]
+          ],
+          "rep": [
+            38,
+            2062
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "deathwing-command-squad",
+          "type": "support"
+        },
+        {
+          "to": "deathwing-terminator-squad",
+          "type": "support"
+        },
+        {
+          "to": "relic-terminator-squad",
+          "type": "support"
+        },
+        {
+          "to": "terminator-assault-squad",
+          "type": "support"
+        },
+        {
+          "to": "terminator-squad",
+          "type": "support"
         }
       ]
     },
@@ -1291,6 +1635,52 @@ export default {
             35
           ]
         }
+      ]
+    },
+    {
+      "id": "ravenwing-talonmaster",
+      "name": "Ravenwing Talonmaster",
+      "kws": [
+        "Vehicle",
+        "Character",
+        "Fly",
+        "Imperium",
+        "Ravenwing",
+        "Ravenwing Talonmaster"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 105,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              711,
+              1
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {

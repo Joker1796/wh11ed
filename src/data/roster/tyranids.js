@@ -4,6 +4,45 @@ export default {
   "name": "Tyranids",
   "units": [
     {
+      "id": "barbed-hierodule",
+      "name": "Barbed Hierodule",
+      "kws": [
+        "Monster",
+        "Frame",
+        "Great Devourer",
+        "Barbed Hierodule"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 340,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2901,
+              2
+            ],
+            [
+              2902,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "barbgaunts",
       "sid": "afe80fb1-c0a6-4f83-b1cc-0cba459d0649",
       "name": "Barbgaunts",
@@ -311,6 +350,41 @@ export default {
           [
             [
               2406,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "dimachaeron",
+      "name": "Dimachaeron",
+      "kws": [
+        "Monster",
+        "Frame",
+        "Great Devourer",
+        "Dimachaeron"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 200,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2903,
               1
             ]
           ]
@@ -1008,6 +1082,50 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "malanthrope",
+      "name": "Malanthrope",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Fly",
+        "Great Devourer",
+        "Synapse",
+        "Malanthrope"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2904,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "venomthropes",
+          "type": "leader"
+        }
       ]
     },
     {
@@ -1723,6 +1841,92 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "scythed-hierodule",
+      "name": "Scythed Hierodule",
+      "kws": [
+        "Monster",
+        "Frame",
+        "Great Devourer",
+        "Scythed Hierodule"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 330,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2905,
+              1
+            ],
+            [
+              2902,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "sky-slasher-swarms",
+      "name": "Sky-slasher Swarms",
+      "kws": [
+        "Swarm",
+        "Great Devourer",
+        "Fly",
+        "Sky-slasher Swarms"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 60,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2906,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1235,
+          "in": "stepper",
+          "o": [
+            [
+              2458
+            ]
+          ]
+        }
       ]
     },
     {

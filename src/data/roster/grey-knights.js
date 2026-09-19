@@ -78,6 +78,60 @@ export default {
       ]
     },
     {
+      "id": "brother-captain-stern",
+      "name": "Brother-Captain Stern",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Psyker",
+        "Imperium",
+        "Terminator",
+        "Brother-Captain Stern"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              2755,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "brotherhood-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "paladin-squad",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "brotherhood-champion",
       "sid": "33f3447d-08c2-48a1-9cc5-0421e8a5c8c0",
       "name": "Brotherhood Champion",
@@ -966,6 +1020,236 @@ export default {
       ]
     },
     {
+      "id": "grey-knights-dreadnought",
+      "name": "Grey Knights Dreadnought",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Psyker",
+        "Smoke",
+        "Imperium",
+        "Dreadnought"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2156,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              1432,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1074,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1415,
+                  1
+                ],
+                [
+                  38,
+                  1
+                ],
+                [
+                  2756,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1415,
+                  1
+                ],
+                [
+                  1389,
+                  1
+                ],
+                [
+                  2756,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2156,
+            38,
+            1432
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1075,
+          "in": "checkbox",
+          "o": [
+            [
+              1433
+            ],
+            [
+              169
+            ],
+            [
+              718
+            ]
+          ],
+          "rep": [
+            2156
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1076,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  999,
+                  1
+                ],
+                [
+                  2026,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  1
+                ],
+                [
+                  1432,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            38,
+            1432
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grey-knights-relic-razorback",
+      "name": "Grey Knights Relic Razorback",
+      "kws": [
+        "Vehicle",
+        "Smoke",
+        "Transport",
+        "Dedicated Transport",
+        "Imperium",
+        "Relic Razorback"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1077,
+          "in": "checkbox",
+          "o": [
+            [
+              169
+            ],
+            [
+              711
+            ],
+            [
+              718
+            ],
+            [
+              2757
+            ]
+          ],
+          "rep": [
+            60
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "grey-knights-thunderhawk-gunship",
       "sid": "468fb8ee-7717-46c9-b3e1-206f180773b9",
       "name": "Grey Knights Thunderhawk Gunship",
@@ -1198,6 +1482,65 @@ export default {
             38,
             1418
           ]
+        }
+      ]
+    },
+    {
+      "id": "kaldor-draigo",
+      "name": "Kaldor Draigo",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Psyker",
+        "Terminator",
+        "Grenades",
+        "Imperium",
+        "Kaldor Draigo"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2758,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              2759,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "brotherhood-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "paladin-squad",
+          "type": "leader"
         }
       ]
     },
@@ -2338,6 +2681,94 @@ export default {
             [
               38
             ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "servitors",
+      "name": "Servitors",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Servitors"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 60,
+          "per": [
+            4,
+            4
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2646,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1078,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  1
+                ],
+                [
+                  2760,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  169,
+                  1
+                ],
+                [
+                  2760,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1481,
+                  1
+                ],
+                [
+                  2760,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ],
+          "rep": [
+            2646
           ]
         }
       ]

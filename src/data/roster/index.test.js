@@ -358,12 +358,18 @@ describe('replaced-item links', () => {
   it('leaves almost nothing unparsed across the corpus', () => {
     // Two leftovers remain, both "X or Y" where the profile holds both alternatives, and both
     // fail-open by design. The number is here so a parser regression shows up as a jump.
+    // The Faction Pack Legends (no appdata `sid`) are counted apart: their 12 are CHAINED swaps
+    // — "bolt pistol" on Death Company Marines with Boltguns, who only gain one through an
+    // earlier swap — and the pack's own misprints (Secutarii Peltasts' "arc lance"), which no
+    // reader of the printed loadout can resolve.
     let withReplaced = 0
     let missing = 0
+    let packMissing = 0
     for (const { data } of factions) {
       for (const u of data.units || []) {
         for (const g of u.gear || []) {
           if (!/replaced with/i.test(rosterItems.texts[g.t] || '')) continue
+          if (!u.sid) { if (!g.rep?.length) packMissing++; continue }
           withReplaced++
           if (!g.rep?.length) missing++
         }
@@ -371,6 +377,7 @@ describe('replaced-item links', () => {
     }
     expect(withReplaced).toBeGreaterThan(800)
     expect(missing).toBeLessThanOrEqual(2)
+    expect(packMissing).toBeLessThanOrEqual(12)
   })
 })
 
@@ -555,6 +562,10 @@ describe('unit composition', () => {
       for (const u of data.units || []) {
         if (!(u.minis?.length > 1)) continue
         for (const s of u.sizes) {
+          // A Faction Pack sheet (no appdata `sid`) whose bracket spreads over two open-ended
+          // profiles — a Bike Squad's Bikers and its Attack Bike — has no exact split to record
+          // and carries none; the parts of what it does record still have to add up.
+          if (!u.sid && !s.comp) continue
           expect(s.comp, `${slug}/${u.id} @${s.pts}`).toBeTruthy()
           const sum = s.comp.reduce((a, c) => [a[0] + c[1], a[1] + (c.length === 3 ? c[2] : c[1])], [0, 0])
           expect(sum, `${slug}/${u.id} @${s.pts}`).toEqual(s.per)
@@ -648,7 +659,10 @@ describe('allegiance choices', () => {
     .filter((u) => u.alleg).map((u) => ({ slug, u })))
 
   it('reaches every datasheet appdata gives one', () => {
-    expect(withAlleg()).toHaveLength(92)
+    // 92 from appdata, plus the 17 Faction Pack Legends of the Chaos Space Marines that the
+    // Pactbound Zealots rule reaches by its own wording (a HERETIC ASTARTES unit that is not an
+    // EPIC HERO and carries no mark already) — see gen-roster-data.mjs's packUnitsFor.
+    expect(withAlleg()).toHaveLength(92 + 17)
   })
 
   it('always offers something to choose, and says whether it must be chosen', () => {

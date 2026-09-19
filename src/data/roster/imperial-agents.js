@@ -515,6 +515,238 @@ export default {
       ]
     },
     {
+      "id": "daemonhost",
+      "name": "Daemonhost",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Psyker",
+        "Retinue",
+        "Daemon",
+        "Daemonhost"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 80,
+          "per": [
+            2,
+            2
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2761,
+              1
+            ],
+            [
+              2762,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "damned-legionnaires",
+      "name": "Damned Legionnaires",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Retinue",
+        "Damned Legionnaires"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 180,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Legionnaire Sergeant"
+        },
+        {
+          "n": "Legionnaires"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1079,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1167,
+                  1
+                ],
+                [
+                  13,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  536,
+                  1
+                ],
+                [
+                  13,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1167,
+                  1
+                ],
+                [
+                  751,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  536,
+                  1
+                ],
+                [
+                  751,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1332
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1080,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ],
+            [
+              169
+            ]
+          ],
+          "rep": [
+            1332
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1081,
+          "in": "checkbox",
+          "o": [
+            [
+              301
+            ],
+            [
+              1335
+            ],
+            [
+              607
+            ]
+          ],
+          "rep": [
+            1332
+          ]
+        }
+      ]
+    },
+    {
       "id": "deathwatch-kill-team",
       "sid": "f8a1e436-99f5-4e58-bbbe-7dab10f1af67",
       "name": "Deathwatch Kill Team",
@@ -855,6 +1087,186 @@ export default {
       ]
     },
     {
+      "id": "deathwatch-terminator-squad",
+      "name": "Deathwatch Terminator Squad",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Terminator",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Terminator Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 210,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 420,
+          "per": [
+            6,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Deathwatch Terminator Sergeant"
+        },
+        {
+          "n": "Deathwatch Terminators"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              952,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              952,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1082,
+          "in": "stepper",
+          "o": [
+            [
+              2156
+            ],
+            [
+              743
+            ],
+            [
+              1481
+            ],
+            [
+              [
+                [
+                  736,
+                  1
+                ],
+                [
+                  38,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              3
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "all": 1,
+          "t": 1083,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  38,
+                  1
+                ],
+                [
+                  13,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  38,
+                  1
+                ],
+                [
+                  1457,
+                  1
+                ]
+              ]
+            ],
+            [
+              2135
+            ],
+            [
+              [
+                [
+                  2047,
+                  1
+                ],
+                [
+                  2100,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            952,
+            38
+          ]
+        }
+      ]
+    },
+    {
       "id": "eversor-assassin",
       "sid": "2863b534-dc9f-403b-8cd6-13afcc11ec40",
       "name": "Eversor Assassin",
@@ -1091,6 +1503,215 @@ export default {
           "cond": [
             1,
             0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fortis-kill-team",
+      "name": "Fortis Kill Team",
+      "kws": [
+        "Infantry",
+        "Kill Team",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Fortis Kill Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 200,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Intercessors"
+        },
+        {
+          "n": "Kill Team Intercessors with plasma incinerators"
+        },
+        {
+          "n": "Kill Team Intercessors with heavy bolt pistols"
+        },
+        {
+          "n": "Kill Team Outriders"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              759,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1204,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              681,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2057,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1084,
+          "in": "checkbox",
+          "o": [
+            [
+              614
+            ],
+            [
+              536
+            ],
+            [
+              751
+            ],
+            [
+              2763
+            ]
+          ],
+          "rep": [
+            759
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1085,
+          "in": "checkbox",
+          "o": [
+            [
+              751
+            ],
+            [
+              2763
+            ]
+          ],
+          "rep": [
+            357
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1086,
+          "in": "stepper",
+          "o": [
+            [
+              2764
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            759
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1087,
+          "in": "stepper",
+          "o": [
+            [
+              536
+            ]
+          ],
+          "rep": [
+            1167
           ]
         }
       ]
@@ -1510,6 +2131,212 @@ export default {
       ]
     },
     {
+      "id": "indomitor-kill-team",
+      "name": "Indomitor Kill Team",
+      "kws": [
+        "Infantry",
+        "Kill Team",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Indomitor Kill Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 240,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Heavy Intercessors"
+        },
+        {
+          "n": "Kill Team Heavy Intercessors with power fists"
+        },
+        {
+          "n": "Kill Team Heavy Intercessors with melta rifles"
+        },
+        {
+          "n": "Kill Team Heavy Intercessors with jump packs"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2078,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1223,
+              1
+            ],
+            [
+              2765,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1221,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1236,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2766,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1088,
+          "in": "stepper",
+          "o": [
+            [
+              2079
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "rep": [
+            2078
+          ]
+        },
+        {
+          "m": 2,
+          "t": 1089,
+          "in": "checkbox",
+          "o": [
+            [
+              169
+            ]
+          ],
+          "rep": [
+            1221
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1090,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  1226,
+                  1
+                ],
+                [
+                  699,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1223
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1091,
+          "in": "stepper",
+          "o": [
+            [
+              1237
+            ]
+          ],
+          "rep": [
+            1236
+          ]
+        }
+      ]
+    },
+    {
       "id": "inquisitor",
       "sid": "f94a64f8-598a-4556-b7eb-be6413305eb1",
       "name": "Inquisitor",
@@ -1844,6 +2671,116 @@ export default {
       ]
     },
     {
+      "id": "inquisitor-eisenhorn",
+      "name": "Inquisitor Eisenhorn",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Psyker",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Inquisitor",
+        "Eisenhorn"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2767,
+              1
+            ],
+            [
+              2768,
+              1
+            ],
+            [
+              2769,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "deathwatch-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "daemonhost",
+          "type": "leader"
+        },
+        {
+          "to": "exaction-squad",
+          "type": "leader"
+        },
+        {
+          "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "imperial-navy-breachers",
+          "type": "leader"
+        },
+        {
+          "to": "vigilant-squad",
+          "type": "leader"
+        },
+        {
+          "to": "inquisitorial-agents",
+          "type": "leader"
+        },
+        {
+          "to": "subductor-squad",
+          "type": "leader"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Imperium",
+            "Battleline",
+            "Infantry"
+          ],
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "inquisitor-greyfax",
       "sid": "c2bf1620-129d-4418-b699-5027288da74d",
       "name": "Inquisitor Greyfax",
@@ -1942,6 +2879,236 @@ export default {
       ]
     },
     {
+      "id": "inquisitor-in-terminator-armour",
+      "name": "Inquisitor in Terminator Armour",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Terminator",
+        "Imperium",
+        "Inquisitor"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              1460,
+              1
+            ],
+            [
+              1459,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 781,
+          "in": "checkbox",
+          "o": [
+            [
+              680
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1092,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  1462,
+                  1
+                ],
+                [
+                  1463,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1459
+          ]
+        },
+        {
+          "m": 0,
+          "t": 624,
+          "in": "checkbox",
+          "o": [
+            [
+              643
+            ]
+          ],
+          "rep": [
+            1460
+          ],
+          "cond": [
+            1,
+            1
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1093,
+          "in": "checkbox",
+          "o": [
+            [
+              1401
+            ]
+          ],
+          "rep": [
+            38
+          ],
+          "cond": [
+            1,
+            1
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "deathwatch-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "exaction-squad",
+          "type": "leader"
+        },
+        {
+          "to": "grey-knights-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "imperial-navy-breachers",
+          "type": "leader"
+        },
+        {
+          "to": "vigilant-squad",
+          "type": "leader"
+        },
+        {
+          "to": "inquisitorial-agents",
+          "type": "leader"
+        },
+        {
+          "to": "sisters-of-battle-squad",
+          "type": "leader"
+        },
+        {
+          "to": "subductor-squad",
+          "type": "leader"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Imperium",
+            "Battleline",
+            "Infantry"
+          ],
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "inquisitor-karamazov",
+      "name": "Inquisitor Karamazov",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Character",
+        "Epic Hero",
+        "Imperium",
+        "Inquisitor",
+        "Ordo Hereticus",
+        "Karamazov"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2770,
+              1
+            ],
+            [
+              1319,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "inquisitor-kroyle",
       "sid": "57245b91-4131-419f-b76d-1bd1abca079e",
       "name": "Inquisitor Kroyle",
@@ -1992,6 +3159,125 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "inquisitor-ostromandeus",
+      "name": "Inquisitor Ostromandeus",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Epic Hero",
+        "Imperium",
+        "Inquisitor",
+        "Ostromandeus"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            2,
+            2
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Inquisitor Ostromandeus"
+        },
+        {
+          "n": "Stentor-I-52"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ],
+            [
+              2131,
+              1
+            ],
+            [
+              2771,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2772,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "exaction-squad",
+          "type": "leader"
+        },
+        {
+          "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "imperial-navy-breachers",
+          "type": "leader"
+        },
+        {
+          "to": "vigilant-squad",
+          "type": "leader"
+        },
+        {
+          "to": "inquisitorial-agents",
+          "type": "leader"
+        },
+        {
+          "to": "sisters-of-battle-squad",
+          "type": "leader"
+        },
+        {
+          "to": "subductor-squad",
+          "type": "leader"
+        }
+      ],
+      "leadKw": [
+        {
+          "kw": [
+            "Imperium",
+            "Battleline",
+            "Infantry"
+          ],
+          "type": "leader"
+        }
       ]
     },
     {
@@ -2305,6 +3591,280 @@ export default {
       ]
     },
     {
+      "id": "janus-draik",
+      "name": "Janus Draik",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Voidfarers",
+        "Character",
+        "Epic Hero",
+        "Janus Draik"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2773,
+              1
+            ],
+            [
+              2774,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "imperial-navy-breachers",
+          "type": "leader"
+        },
+        {
+          "to": "voidsmen-at-arms",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "jokaero-weaponsmith",
+      "name": "Jokaero Weaponsmith",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Character",
+        "Jokaero Weaponsmith"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "alongside": 1
+      },
+      "sizes": [
+        {
+          "pts": 30,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2775,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "inquisitorial-agents",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "kill-team-cassius",
+      "name": "Kill Team Cassius",
+      "kws": [
+        "Infantry",
+        "Kill Team",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Deathwatch",
+        "Kill Team Cassius",
+        "Character",
+        "Epic Hero"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 220,
+          "per": [
+            11,
+            11
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Chaplain Cassius"
+        },
+        {
+          "n": "Kill Team Veterans"
+        },
+        {
+          "n": "Kill Team Terminator"
+        },
+        {
+          "n": "Kill Team Biker"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              683,
+              1
+            ],
+            [
+              1167,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1332,
+              2,
+              1
+            ],
+            [
+              1167,
+              3,
+              1
+            ],
+            [
+              357,
+              3,
+              1
+            ],
+            [
+              2764,
+              3,
+              1
+            ],
+            [
+              2763,
+              3,
+              1
+            ],
+            [
+              1201,
+              1,
+              1
+            ],
+            [
+              2766,
+              2,
+              1
+            ],
+            [
+              2135,
+              1,
+              1
+            ],
+            [
+              2776,
+              1,
+              1
+            ],
+            [
+              643,
+              1,
+              1
+            ],
+            [
+              2777,
+              1,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              743,
+              1,
+              1
+            ],
+            [
+              2764,
+              1,
+              1
+            ],
+            [
+              952,
+              1,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              2778,
+              1,
+              1
+            ],
+            [
+              2763,
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "ministorum-priest",
       "sid": "fc1244b5-13b3-4f28-ac77-c997ef826a61",
       "name": "Ministorum Priest",
@@ -2445,6 +4005,380 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "neyam-shai-murad",
+      "name": "Neyam Shai Murad",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Voidfarers",
+        "Character",
+        "Epic Hero",
+        "Neyam Shai Murad"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2779,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "imperial-navy-breachers",
+          "type": "leader"
+        },
+        {
+          "to": "voidsmen-at-arms",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "proteus-kill-team",
+      "name": "Proteus Kill Team",
+      "kws": [
+        "Infantry",
+        "Kill Team",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Proteus Kill Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 320,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Veterans"
+        },
+        {
+          "n": "Kill Team Veterans with Jump Packs"
+        },
+        {
+          "n": "Kill Team Bikers"
+        },
+        {
+          "n": "Kill Team Terminators"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              2763,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2763,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2766,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              2780,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              952,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1094,
+          "in": "stepper",
+          "o": [
+            [
+              2764
+            ],
+            [
+              [
+                [
+                  1332,
+                  1
+                ],
+                [
+                  1203,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2763,
+                  1
+                ],
+                [
+                  1203,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1332,
+            2763
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1095,
+          "in": "stepper",
+          "o": [
+            [
+              1211
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              2
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "rep": [
+            1332,
+            2763
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1096,
+          "in": "stepper",
+          "o": [
+            [
+              1201
+            ],
+            [
+              1434
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              2
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "rep": [
+            1332,
+            2763
+          ]
+        },
+        {
+          "m": 2,
+          "t": 1097,
+          "in": "stepper",
+          "o": [
+            [
+              1167
+            ],
+            [
+              2763
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1098,
+          "in": "stepper",
+          "o": [
+            [
+              2156
+            ],
+            [
+              743
+            ],
+            [
+              1481
+            ],
+            [
+              [
+                [
+                  736,
+                  1
+                ],
+                [
+                  38,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              3
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "m": 3,
+          "t": 1099,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  38,
+                  1
+                ],
+                [
+                  13,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  38,
+                  1
+                ],
+                [
+                  1457,
+                  1
+                ]
+              ]
+            ],
+            [
+              2135
+            ],
+            [
+              [
+                [
+                  2781,
+                  1
+                ],
+                [
+                  2100,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            952,
+            38
+          ]
+        }
       ]
     },
     {
@@ -3084,6 +5018,238 @@ export default {
       ]
     },
     {
+      "id": "spectrus-kill-team",
+      "name": "Spectrus Kill Team",
+      "kws": [
+        "Infantry",
+        "Kill Team",
+        "Smoke",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Spectrus Kill Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              4,
+              0
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 180,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Infiltrators"
+        },
+        {
+          "n": "Kill Team Infiltrators with bolt sniper rifles"
+        },
+        {
+          "n": "Kill Team Infiltrators with jump packs"
+        },
+        {
+          "n": "Kill Team Infiltrators with occulus bolt carbines"
+        },
+        {
+          "n": "Kill Team Infiltrators with combat knives"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2083,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1228,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2132,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2766,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2080,
+              1
+            ],
+            [
+              2102,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              1227,
+              1
+            ],
+            [
+              1205,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1100,
+          "in": "checkbox",
+          "o": [
+            [
+              1231
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1101,
+          "in": "checkbox",
+          "o": [
+            [
+              1232
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1102,
+          "in": "checkbox",
+          "o": [
+            [
+              2160
+            ]
+          ],
+          "rep": [
+            1228
+          ]
+        },
+        {
+          "m": 1,
+          "t": 512,
+          "in": "stepper",
+          "o": [
+            [
+              1234
+            ]
+          ],
+          "rep": [
+            1228
+          ]
+        },
+        {
+          "m": 4,
+          "t": 1103,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  2160,
+                  1
+                ],
+                [
+                  357,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1205
+          ]
+        }
+      ]
+    },
+    {
       "id": "subductor-squad",
       "sid": "87ab52a8-d78e-4a39-b87c-7ef3d498cbf3",
       "name": "Subductor Squad",
@@ -3177,6 +5343,178 @@ export default {
           "o": [
             [
               1444
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ur-025",
+      "name": "UR-025",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Character",
+        "Epic Hero",
+        "UR-025"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2782,
+              1
+            ],
+            [
+              2380,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "veteran-bike-squad",
+      "name": "Veteran Bike Squad",
+      "kws": [
+        "Mounted",
+        "Grenades",
+        "Imperium",
+        "Ordo Xenos",
+        "Retinue",
+        "Deathwatch",
+        "Veteran Bike Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 140,
+          "per": [
+            4,
+            6
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              5
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Veteran Biker Sergeant"
+        },
+        {
+          "n": "Veteran Bikers"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2780,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2780,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1104,
+          "in": "checkbox",
+          "o": [
+            [
+              2764
+            ],
+            [
+              2763
+            ],
+            [
+              1197
+            ],
+            [
+              1203
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1105,
+          "in": "stepper",
+          "o": [
+            [
+              2763
             ]
           ]
         }

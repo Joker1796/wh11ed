@@ -275,6 +275,186 @@ export default {
       ]
     },
     {
+      "id": "brother-corbulo",
+      "name": "Brother Corbulo",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Sanguinary Priest",
+        "Brother Corbulo"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2669,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "desolation-squad",
+          "type": "leader"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "devastator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "tactical-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "captain-tycho",
+      "name": "Captain Tycho",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Captain",
+        "Tycho"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2670,
+              1
+            ],
+            [
+              1167,
+              1
+            ],
+            [
+              2671,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "command-squad",
+          "type": "leader"
+        },
+        {
+          "to": "company-heroes",
+          "type": "leader"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "tactical-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "chief-librarian-mephiston",
       "sid": "72f541ed-6136-42e2-b86e-d2243ac6952e",
       "name": "Chief Librarian Mephiston",
@@ -635,6 +815,98 @@ export default {
       ]
     },
     {
+      "id": "death-company-dreadnought-with-magna-grapple",
+      "name": "Death Company Dreadnought with Magna-grapple",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Imperium",
+        "Dreadnought",
+        "Death Company Dreadnought"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 145,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1335,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              2672,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 607,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1023,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            1335
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1024,
+          "in": "checkbox",
+          "o": [
+            [
+              755
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1025,
+          "in": "checkbox",
+          "o": [
+            [
+              2673
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "death-company-marines",
       "sid": "c475e222-864c-42e9-8b23-5e400302b421",
       "name": "Death Company Marines",
@@ -924,6 +1196,216 @@ export default {
       ]
     },
     {
+      "id": "death-company-marines-with-boltguns",
+      "name": "Death Company Marines with Boltguns",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Death Company",
+        "Death Company Marines with Boltguns"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1
+        },
+        {
+          "pts": 250,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1026,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  751,
+                  1
+                ],
+                [
+                  1167,
+                  1
+                ]
+              ]
+            ],
+            [
+              2047
+            ]
+          ],
+          "rep": [
+            1332,
+            357
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1027,
+          "in": "stepper",
+          "o": [
+            [
+              614
+            ],
+            [
+              9
+            ],
+            [
+              536
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1028,
+          "in": "stepper",
+          "o": [
+            [
+              952
+            ],
+            [
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "death-company-marines-with-boltguns-and-jump-packs",
+      "name": "Death Company Marines with Boltguns and Jump Packs",
+      "kws": [
+        "Infantry",
+        "Fly",
+        "Jump Pack",
+        "Grenades",
+        "Imperium",
+        "Death Company",
+        "Death Company Marines with Boltguns and Jump Packs"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
+          "per": [
+            5,
+            5
+          ],
+          "default": 1
+        },
+        {
+          "pts": 280,
+          "per": [
+            6,
+            10
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1332,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1026,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  751,
+                  1
+                ],
+                [
+                  1167,
+                  1
+                ]
+              ]
+            ],
+            [
+              2047
+            ]
+          ],
+          "rep": [
+            1332,
+            357
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1027,
+          "in": "stepper",
+          "o": [
+            [
+              614
+            ],
+            [
+              9
+            ],
+            [
+              536
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1028,
+          "in": "stepper",
+          "o": [
+            [
+              952
+            ],
+            [
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "death-company-marines-with-jump-packs",
       "sid": "75865686-56e2-40e7-b0cd-4d749c9b4ed0",
       "name": "Death Company Marines with Jump Packs",
@@ -1192,6 +1674,210 @@ export default {
       ]
     },
     {
+      "id": "furioso-dreadnought",
+      "name": "Furioso Dreadnought",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Imperium",
+        "Dreadnought",
+        "Furioso Dreadnought"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 150,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2674,
+              1
+            ],
+            [
+              2675,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1029,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  755,
+                  1
+                ],
+                [
+                  1335,
+                  1
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2672,
+                  1
+                ],
+                [
+                  1335,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2674,
+            2675
+          ]
+        },
+        {
+          "m": 0,
+          "t": 607,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1023,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1030,
+          "in": "checkbox",
+          "o": [
+            [
+              2676
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gabriel-seth",
+      "name": "Gabriel Seth",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Chapter Master",
+        "Gabriel Seth"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              2677,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "assault-intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "command-squad",
+          "type": "leader"
+        },
+        {
+          "to": "company-heroes",
+          "type": "leader"
+        },
+        {
+          "to": "hellblaster-squad",
+          "type": "leader"
+        },
+        {
+          "to": "infernus-squad",
+          "type": "leader"
+        },
+        {
+          "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "tactical-squad",
+          "type": "leader"
+        },
+        {
+          "to": "vanguard-veteran-squad",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "lemartes",
       "sid": "626d0a43-a1fd-48e5-a8e3-379dfae6b5fe",
       "name": "Lemartes",
@@ -1242,6 +1928,74 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "librarian-dreadnought",
+      "name": "Librarian Dreadnought",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Smoke",
+        "Psyker",
+        "Imperium",
+        "Dreadnought",
+        "Librarian Dreadnought"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 170,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2678,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              2675,
+              1
+            ],
+            [
+              2679,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1031,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ],
+            [
+              1335
+            ]
+          ],
+          "rep": [
+            38
+          ]
+        }
       ]
     },
     {
@@ -1443,6 +2197,63 @@ export default {
       ]
     },
     {
+      "id": "sanguinary-priest-with-jump-pack",
+      "name": "Sanguinary Priest with Jump Pack",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Imperium",
+        "Fly",
+        "Jump Pack",
+        "Sanguinary Priest"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "assault-intercessors-with-jump-packs",
+          "type": "support"
+        },
+        {
+          "to": "assault-squad-with-jump-packs",
+          "type": "support"
+        },
+        {
+          "to": "vanguard-veteran-squad-with-jump-packs",
+          "type": "support"
+        }
+      ]
+    },
+    {
       "id": "the-sanguinor",
       "sid": "339ce90c-c01b-4222-a5b0-28284c0f9637",
       "name": "The Sanguinor",
@@ -1481,6 +2292,68 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "tycho-the-lost",
+      "name": "Tycho the Lost",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Grenades",
+        "Imperium",
+        "Captain",
+        "Tycho the Lost"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2670,
+              1
+            ],
+            [
+              1167,
+              1
+            ],
+            [
+              2671,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "death-company-marines",
+          "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-bolt-rifles",
+          "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns",
+          "type": "leader"
+        }
       ]
     }
   ],

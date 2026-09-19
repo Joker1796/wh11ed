@@ -4,6 +4,127 @@ export default {
   "name": "T’au Empire",
   "units": [
     {
+      "id": "aunshi",
+      "name": "Aun’Shi",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Ethereal",
+        "Aun’Shi"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2880,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "breacher-team",
+          "type": "leader"
+        },
+        {
+          "to": "kroot-carnivores",
+          "type": "leader"
+        },
+        {
+          "to": "kroot-farstalkers",
+          "type": "leader"
+        },
+        {
+          "to": "strike-team",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "aunva",
+      "name": "Aun’Va",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Ethereal",
+        "Aun’Va"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Aun’Va"
+        },
+        {
+          "n": "Ethereal Guards"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2881,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "ax-1-0-tiger-shark",
       "sid": "7a2d34de-4d07-43a2-928a-2be9dfdc47a7",
       "name": "AX-1-0 Tiger Shark",
@@ -85,6 +206,106 @@ export default {
           ],
           "rep": [
             2207
+          ]
+        }
+      ]
+    },
+    {
+      "id": "barracuda",
+      "name": "Barracuda",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Barracuda"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 220,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2882,
+              2
+            ],
+            [
+              2333,
+              1
+            ],
+            [
+              2231,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1217,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2219,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2882
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1218,
+          "in": "checkbox",
+          "o": [
+            [
+              2253
+            ],
+            [
+              2334
+            ]
+          ],
+          "rep": [
+            2333
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1219,
+          "in": "stepper",
+          "o": [
+            [
+              2200
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              4,
+              4
+            ]
           ]
         }
       ]
@@ -657,6 +878,172 @@ export default {
       ]
     },
     {
+      "id": "commander-in-crisis-battlesuit",
+      "name": "Commander in Crisis Battlesuit",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Character",
+        "Battlesuit",
+        "Commander in Crisis Battlesuit"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2207,
+              1
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1220,
+          "in": "checkbox",
+          "o": [
+            [
+              2216
+            ],
+            [
+              2250
+            ],
+            [
+              2219
+            ],
+            [
+              2234
+            ],
+            [
+              2231
+            ],
+            [
+              2232
+            ],
+            [
+              2223
+            ],
+            [
+              2224
+            ],
+            [
+              2203
+            ]
+          ],
+          "rep": [
+            2207
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1221,
+          "in": "checkbox",
+          "o": [
+            [
+              2216
+            ],
+            [
+              2250
+            ],
+            [
+              2207
+            ],
+            [
+              2219
+            ],
+            [
+              2234
+            ],
+            [
+              2231
+            ],
+            [
+              2232
+            ],
+            [
+              2223
+            ],
+            [
+              2224
+            ],
+            [
+              2203
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              3,
+              3
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1222,
+          "in": "checkbox",
+          "o": [
+            [
+              2195
+            ],
+            [
+              2196
+            ],
+            [
+              2197
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              2
+            ]
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "crisis-battlesuits",
+          "type": "leader"
+        },
+        {
+          "to": "crisis-fireknife-battlesuits",
+          "type": "leader"
+        },
+        {
+          "to": "crisis-starscythe-battlesuits",
+          "type": "leader"
+        },
+        {
+          "to": "crisis-sunforge-battlesuits",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "commander-in-enforcer-battlesuit",
       "sid": "ce69c919-6a01-4e21-b1bd-2b768b537657",
       "name": "Commander in Enforcer Battlesuit",
@@ -875,6 +1262,187 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "crisis-battlesuits",
+      "name": "Crisis Battlesuits",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Battlesuit",
+        "Crisis"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 200,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 400,
+          "per": [
+            4,
+            6
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              5
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Crisis Shas’vre"
+        },
+        {
+          "n": "Crisis Shas’ui"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2207,
+              1
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2207,
+              1
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "all": 1,
+          "t": 1223,
+          "in": "stepper",
+          "o": [
+            [
+              2216
+            ],
+            [
+              2250
+            ],
+            [
+              2219
+            ],
+            [
+              2234
+            ],
+            [
+              2231
+            ],
+            [
+              2232
+            ],
+            [
+              2223
+            ],
+            [
+              2224
+            ],
+            [
+              2203
+            ]
+          ],
+          "rep": [
+            2207
+          ]
+        },
+        {
+          "all": 1,
+          "t": 1224,
+          "in": "stepper",
+          "o": [
+            [
+              2216
+            ],
+            [
+              2250
+            ],
+            [
+              2207
+            ],
+            [
+              2219
+            ],
+            [
+              2234
+            ],
+            [
+              2231
+            ],
+            [
+              2232
+            ],
+            [
+              2223
+            ],
+            [
+              2224
+            ],
+            [
+              2203
+            ]
+          ]
+        },
+        {
+          "all": 1,
+          "t": 1225,
+          "in": "stepper",
+          "o": [
+            [
+              2195
+            ],
+            [
+              2196
+            ],
+            [
+              2197
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1381,6 +1949,62 @@ export default {
       ]
     },
     {
+      "id": "drone-sentry-turret",
+      "name": "Drone Sentry Turret",
+      "kws": [
+        "Fortification",
+        "Vehicle",
+        "Frame",
+        "Drone Sentry Turret"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2201,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1226,
+          "in": "checkbox",
+          "o": [
+            [
+              2308
+            ],
+            [
+              2248
+            ],
+            [
+              2311
+            ]
+          ],
+          "rep": [
+            2201
+          ]
+        }
+      ]
+    },
+    {
       "id": "ethereal",
       "sid": "7610f3fb-f9cf-4c95-8f30-c7a44dc6a0a3",
       "name": "Ethereal",
@@ -1594,6 +2218,68 @@ export default {
       ]
     },
     {
+      "id": "great-knarloc",
+      "name": "Great Knarloc",
+      "kws": [
+        "Monster",
+        "Frame",
+        "Kroot",
+        "Great Knarloc"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2883,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1227,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2884,
+                  1
+                ],
+                [
+                  2254,
+                  1
+                ]
+              ]
+            ],
+            [
+              2885
+            ],
+            [
+              2886
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "hammerhead-gunship",
       "sid": "aa754bcb-3a8d-4d3b-94d6-16d435fadd0e",
       "name": "Hammerhead Gunship",
@@ -1694,6 +2380,102 @@ export default {
             ]
           ]
         }
+      ]
+    },
+    {
+      "id": "heavy-gun-drones",
+      "name": "Heavy Gun Drones",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Heavy Gun Drones"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 45,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2207,
+              1
+            ],
+            [
+              2887,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1228,
+          "in": "stepper",
+          "o": [
+            [
+              2308
+            ]
+          ],
+          "rep": [
+            2207,
+            2887
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knarloc-riders",
+      "name": "Knarloc Riders",
+      "kws": [
+        "Mounted",
+        "Kroot",
+        "Knarloc Riders"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 110,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2254,
+              1
+            ],
+            [
+              2888,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2390,6 +3172,110 @@ export default {
       ]
     },
     {
+      "id": "longstrike",
+      "name": "Longstrike",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Character",
+        "Epic Hero",
+        "Longstrike"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2236,
+              2
+            ],
+            [
+              2251,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 877,
+          "in": "checkbox",
+          "o": [
+            [
+              2253
+            ]
+          ],
+          "rep": [
+            2251
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1229,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2237,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2239,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2236
+          ]
+        },
+        {
+          "m": 0,
+          "t": 872,
+          "in": "stepper",
+          "o": [
+            [
+              2200
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "manta",
       "sid": "454eb05f-4f2c-425f-b0f8-e4af8264efff",
       "name": "Manta",
@@ -2442,6 +3328,51 @@ export default {
             [
               2253,
               6
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "orca-dropship",
+      "name": "Orca Dropship",
+      "kws": [
+        "Vehicle",
+        "Aircraft",
+        "Fly",
+        "Titanic",
+        "Transport",
+        "Orca Dropship"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 275,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2882,
+              2
+            ],
+            [
+              2231,
+              1
+            ],
+            [
+              138,
+              1
             ]
           ]
         ]
@@ -2693,6 +3624,65 @@ export default {
       ]
     },
     {
+      "id": "rvarna-battlesuit",
+      "name": "R’varna Battlesuit",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Battlesuit",
+        "R’varna"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 200,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2891,
+              2
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 896,
+          "in": "stepper",
+          "o": [
+            [
+              2892
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "razorshark-strike-fighter",
       "sid": "3c609621-eaec-44e7-875f-6d5262e1d439",
       "name": "Razorshark Strike Fighter",
@@ -2751,6 +3741,78 @@ export default {
             2237
           ]
         }
+      ]
+    },
+    {
+      "id": "remora-stealth-drones",
+      "name": "Remora Stealth Drones",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Markerlight",
+        "Remora Stealth Drones"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2889,
+              1
+            ],
+            [
+              2890,
+              2
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "remote-sensor-tower",
+      "name": "Remote Sensor Tower",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Remote Sensor Tower"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          []
+        ]
       ]
     },
     {
@@ -2845,6 +3907,61 @@ export default {
               2
             ]
           ]
+        }
+      ]
+    },
+    {
+      "id": "shaso-ralai",
+      "name": "Shas’o R’alai",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Character",
+        "Markerlight",
+        "Epic Hero",
+        "Battlesuit",
+        "Shas’o R’alai"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2893,
+              1
+            ],
+            [
+              2214,
+              1
+            ],
+            [
+              2894,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "xv9-hazard-battlesuits",
+          "type": "leader"
         }
       ]
     },
@@ -3455,6 +4572,52 @@ export default {
       ]
     },
     {
+      "id": "tetras",
+      "name": "Tetras",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Markerlight",
+        "Tetras"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        },
+        {
+          "pts": 160,
+          "per": [
+            3,
+            4
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2309,
+              2
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "the-twin-lance",
       "sid": "8fdcf599-8c54-4515-a709-46d293cca0b8",
       "name": "The Twin Lance",
@@ -3812,6 +4975,80 @@ export default {
       ]
     },
     {
+      "id": "tx42-piranha",
+      "name": "TX42 Piranha",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "TX42 Piranha"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 60,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2232,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1230,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2234,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2231,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2289,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2232
+          ]
+        }
+      ]
+    },
+    {
       "id": "vespid-stingwings",
       "sid": "597b7e1e-6e9b-4921-9089-bde707b16674",
       "name": "Vespid Stingwings",
@@ -3926,6 +5163,190 @@ export default {
             ],
             [
               2330
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xv9-hazard-battlesuits",
+      "name": "XV9 Hazard Battlesuits",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Battlesuit",
+        "XV9 Hazard"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 110,
+          "per": [
+            2,
+            2
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2895,
+              1
+            ],
+            [
+              2896,
+              1
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1231,
+          "in": "stepper",
+          "o": [
+            [
+              2897
+            ],
+            [
+              2896
+            ]
+          ],
+          "rep": [
+            2895
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1232,
+          "in": "stepper",
+          "o": [
+            [
+              2895
+            ],
+            [
+              2897
+            ]
+          ],
+          "rep": [
+            2896
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1233,
+          "in": "stepper",
+          "o": [
+            [
+              2250
+            ],
+            [
+              2223
+            ],
+            [
+              2203
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1234,
+          "in": "stepper",
+          "o": [
+            [
+              2195
+            ],
+            [
+              2196
+            ],
+            [
+              2197
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yvahra-battlesuit",
+      "name": "Y’vahra Battlesuit",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Fly",
+        "Battlesuit",
+        "Y’vahra"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 210,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2898,
+              1
+            ],
+            [
+              2899,
+              1
+            ],
+            [
+              2900,
+              1
+            ],
+            [
+              2214,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 896,
+          "in": "stepper",
+          "o": [
+            [
+              2892
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2,
+              2
             ]
           ]
         }

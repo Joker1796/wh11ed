@@ -1928,6 +1928,41 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "id": "tectonic-fragdrill",
+      "name": "Tectonic Fragdrill",
+      "kws": [
+        "Fortification",
+        "Vehicle",
+        "Frame",
+        "Tectonic Fragdrill"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2754,
+              1
+            ]
+          ]
+        ]
+      ]
     }
   ],
   "detachments": [

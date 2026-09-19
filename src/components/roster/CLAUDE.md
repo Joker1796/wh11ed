@@ -310,6 +310,63 @@ No option in the corpus is both priced and flagged default, so `unitWargearPoint
 `defaultWargearPoints()` cannot double-charge; the old `def`-flag branch that assumed otherwise is
 gone.
 
+### The Faction Pack Legends — units read from their own text (added 2026-09-19)
+
+appdata carries Legends for the Orks only. The other 314 Legends datasheets live in
+`src/data/datasheets/<slug>.js` with `source: 'faction-pack'`, transcribed from the Faction Pack
+PDFs (hub skill `legends-from-pack`), and until 2026-09-19 the roster did not know them: nothing in
+appdata's tables describes their profiles, loadouts or swaps. **`scripts/lib/pack-roster.mjs`** reads
+the three printed fields instead and `gen-roster-data.mjs`'s `packUnitsFor` lists the result beside
+the appdata units of the same faction file (a Chapter's file carries the Chapter's own pack sheets;
+the Space Marines pack sheets are NOT folded into the Chapters, because the datasheet layer's
+`sharedUnitIds` does not fold them either — an open question for the owner, not an omission here).
+
+- **`composition`** → `minis` and `sizes`. "1 Biker Sergeant / 2-5 Space Marine Bikers / 0-1 Attack
+  Bike" is three profiles; the MFM rows the sheet already carries (`sync-mfm-points`) become brackets
+  the way the app reads them — a row prices every size above the previous row up to its own count.
+  `comp` is emitted only where the profiles' ranges add up to the bracket exactly, as the appdata
+  reader keeps it: a bracket spread over two open-ended profiles carries none and every reader falls
+  back (the Deathwatch-team behaviour). A row the composition cannot hold ("1 model" on a squad of
+  3–7, the MFM's add-on prices) is dropped and reported. "One of the following:" over two whole
+  compositions (Death Korps Grenadier Squad) is folded into one range per profile, wider than the
+  two legal builds, and said so.
+- **`loadout`** → `defaults`. One paragraph per subject; "This/Every model" is every profile, a name
+  is that profile (plural-blind, `pkey`: "Kill Team Intercessors with plasma incinerators" and its
+  singular are one name; a named crew — Kill Team Cassius, Hell's Last — reaches its profile through
+  the composition's aliases). A paragraph about ONE model ("One Nightmare Hulk", "1 Lesk's Hero"
+  four times) is a profile TOTAL (the `[id, count, 1]` slot the Servitor Battleclade uses), not a
+  per-model kit.
+- **`options`** → `gear`. Every sentence resolves to WHO (a profile, or unit-wide), HOW MANY models
+  (one → checkbox; up to N, N per 5, any number → stepper with the matching `lim`), WHAT is given up
+  (`rep`, resolved against the profile's printed loadout — chained swaps and the pack's own
+  misprints stay without one, fail-open) and the VALUE (a bullet list, "up to two of the
+  following[, and can take duplicates]", "two different weapons from the following list" → limit 2
+  / dup 1, an inline set "1 X and 2 Y" → a bundle). "Each of this model's X" → `cp`. "[not] equipped
+  with X" → `cond` on the sibling that grants or gives X up (a bundle counts as granting). A
+  generic "models" allowance that only one profile can make ("Up to 3 models can each have their
+  storm bolter replaced…" where only the Terminators carry one) belongs to that profile. "The Assault
+  Sergeant can do one of the following:" becomes one group per bullet, the later gated on the first.
+- **Items** are interned BY NAME through `fx.itemByName`: the appdata item of that name where one
+  exists (preferring one already interned), else a pack-only item under the printed spelling — so a
+  Legends Bike Squad's bolt pistol is the same id every Space Marine carries and the importer, the
+  stock rule and the export cannot tell the sources apart. Pack items are interned LAST (the faction
+  files are written after every faction is built), so appdata's ids do not move when a pack sheet is
+  added.
+- **Leaders** by name against the faction's units (and the SM pool for a Chapter); a keyword target
+  ("Imperium Battleline Infantry") becomes `leadKw` plus the resolved ids. **The Mark of Chaos** is
+  granted by the Pactbound Zealots rule's own wording — a HERETIC ASTARTES unit, not an EPIC HERO,
+  carrying no mark already — copied from an appdata unit that has it; 17 CSM sheets.
+- **Fail-closed, reported by name.** The generator prints every sheet dropped, bracket rejected,
+  loadout paragraph unplaced, option sentence unread, replaced item unresolved, item the sheet does
+  not print, Leader target not found — under "Faction Pack Legends" in the run report. Read it after
+  a pack sheet is added or re-transcribed; a new wording is a template to add to `parseOption`, not
+  a note. Today: one sheet dropped (T'au Tactical Drones, no MFM price), 12 chained/misprinted `rep`s,
+  the two `"with:"`-style Kill Team leftovers all read.
+- **RU** for the new instruction wordings is the same generated layer (`npm run roster:texts-ru`),
+  extended the same day: footnote lines are split off and translated where known (the Armoury card
+  sentence, "Maximum one per model"…), and a dozen frames were added for the pack's phrasings. 290/290
+  pack instructions translate.
+
 ### Reading a swap that only shows as a count (added 2026-08-24)
 
 An export prints what the models are HOLDING, not what changed. `matchRoster` used to call a weapon

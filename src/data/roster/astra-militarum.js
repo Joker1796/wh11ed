@@ -4,6 +4,60 @@ export default {
   "name": "Astra Militarum",
   "units": [
     {
+      "id": "iron-hand-straken",
+      "name": "‘Iron Hand’ Straken",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Imperium",
+        "Grenades",
+        "Officer",
+        "‘Iron Hand’ Straken"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2631,
+              1
+            ],
+            [
+              536,
+              1
+            ],
+            [
+              2632,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "catachan-jungle-fighters",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "aegis-defence-line",
       "sid": "c220c8f6-cc30-4dcc-a778-be6ce4c929b0",
       "name": "Aegis Defence Line",
@@ -25,6 +79,260 @@ export default {
         }
       ],
       "linked": 1
+    },
+    {
+      "id": "aquila-lander",
+      "name": "Aquila Lander",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Imperium",
+        "Transport",
+        "Aquila Lander"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 989,
+          "in": "checkbox",
+          "o": [
+            [
+              544
+            ],
+            [
+              493
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arkurian-stormhammer",
+      "name": "Arkurian Stormhammer",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Arkurian Stormhammer"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 480,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              545,
+              1
+            ],
+            [
+              493,
+              7
+            ],
+            [
+              2607,
+              1
+            ],
+            [
+              651,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 990,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  7
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  7
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  7
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            493
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "armageddon-pattern-medusa",
+      "name": "Armageddon-pattern Medusa",
+      "kws": [
+        "Vehicle",
+        "Artillery",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Armageddon-pattern Medusa"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 105,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              2608,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 198,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 992,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ],
+            [
+              1353
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "armoured-sentinels",
@@ -182,6 +490,108 @@ export default {
           ],
           "rep": [
             502
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arvus-lighter",
+      "name": "Arvus Lighter",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Imperium",
+        "Transport",
+        "Arvus Lighter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "atlas-recovery-vehicle",
+      "name": "Atlas Recovery Vehicle",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Atlas Recovery Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
           ]
         }
       ]
@@ -1808,6 +2218,132 @@ export default {
       ]
     },
     {
+      "id": "carnodon",
+      "name": "Carnodon",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Carnodon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              2
+            ],
+            [
+              2609,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 993,
+          "in": "checkbox",
+          "o": [
+            [
+              2610
+            ],
+            [
+              2611
+            ],
+            [
+              2612
+            ]
+          ],
+          "rep": [
+            2609
+          ]
+        },
+        {
+          "m": 0,
+          "t": 994,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2613,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2614,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            544
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "catachan-command-squad",
       "sid": "95ce1670-b654-4242-b72d-ca4f5f1c2aeb",
       "name": "Catachan Command Squad",
@@ -2242,6 +2778,60 @@ export default {
       ]
     },
     {
+      "id": "centaur-light-carrier",
+      "name": "Centaur Light Carrier",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Transport",
+        "Smoke",
+        "Centaur Light Carrier"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1353,
+              2
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "centaur-rsv",
       "sid": "94ede55d-7c9d-4c45-a763-c81cc447f74f",
       "name": "Centaur RSV",
@@ -2389,6 +2979,119 @@ export default {
           "o": [
             [
               500
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ciaphas-cain",
+      "name": "Ciaphas Cain",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Commissar",
+        "Epic Hero",
+        "Imperium",
+        "Officer"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2615,
+              1
+            ],
+            [
+              2616,
+              1
+            ],
+            [
+              1335,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "colossus",
+      "name": "Colossus",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Colossus"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2617,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
             ]
           ]
         }
@@ -2699,6 +3402,63 @@ export default {
       ]
     },
     {
+      "id": "crassus",
+      "name": "Crassus",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Transport",
+        "Smoke",
+        "Crassus"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 180,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              4
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "cyclops-demolition-vehicle",
       "sid": "fc421646-48ba-4b95-b30c-003fc82d749e",
       "name": "Cyclops Demolition Vehicle",
@@ -2723,6 +3483,121 @@ export default {
         "at": 3,
         "pts": 5
       }
+    },
+    {
+      "id": "death-korps-grenadier-squad",
+      "name": "Death Korps Grenadier Squad",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Platoon",
+        "Krieg",
+        "Death Korps Grenadier Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 110,
+          "per": [
+            8,
+            10
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Grenadier Sergeant"
+        },
+        {
+          "n": "Grenadiers"
+        },
+        {
+          "n": "Heavy Weapons Team"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2618,
+              1
+            ],
+            [
+              2619,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              604,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              743,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 995,
+          "in": "stepper",
+          "o": [
+            [
+              301
+            ],
+            [
+              605
+            ],
+            [
+              1353
+            ],
+            [
+              1335
+            ],
+            [
+              607
+            ],
+            [
+              645
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ],
+          "rep": [
+            604
+          ]
+        }
+      ]
     },
     {
       "id": "death-korps-of-krieg",
@@ -2950,6 +3825,59 @@ export default {
       ]
     },
     {
+      "id": "death-rider-commissar",
+      "name": "Death Rider Commissar",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Imperium",
+        "Grenades",
+        "Officer",
+        "Death Rider Commissar"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "alongside": 1
+      },
+      "sizes": [
+        {
+          "pts": 35,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2620,
+              1
+            ],
+            [
+              2621,
+              1
+            ],
+            [
+              571,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "death-riders",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "death-riders",
       "sid": "9ebc91e4-578b-43d9-9089-867a8867b4ec",
       "name": "Death Riders",
@@ -3128,6 +4056,110 @@ export default {
       ]
     },
     {
+      "id": "dominus-armoured-siege-bombard",
+      "name": "Dominus Armoured Siege Bombard",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Dominus Armoured Siege Bombard"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 325,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2622,
+              1
+            ],
+            [
+              2079,
+              2
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 996,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  544,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "doomhammer",
       "sid": "85f52c31-2ce0-4ba2-89e8-c1bd98ccb465",
       "name": "Doomhammer",
@@ -3243,6 +4275,199 @@ export default {
             ]
           ]
         }
+      ]
+    },
+    {
+      "id": "earthshaker-carriage-battery",
+      "name": "Earthshaker Carriage Battery",
+      "kws": [
+        "Infantry",
+        "Artillery",
+        "Frame",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Earthshaker Carriage Battery"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 120,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              521,
+              1
+            ],
+            [
+              578,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "earthshaker-platform",
+      "name": "Earthshaker Platform",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Imperium",
+        "Artillery",
+        "Earthshaker Platform"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 110,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              521,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "elysian-drop-sentinel",
+      "name": "Elysian Drop Sentinel",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Imperium",
+        "Regiment",
+        "Squadron",
+        "Smoke",
+        "Elysian Drop Sentinel"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 997,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ],
+            [
+              169
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "elysian-sniper-squad",
+      "name": "Elysian Sniper Squad",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Elysian Sniper Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              503,
+              1
+            ],
+            [
+              645,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -3465,6 +4690,404 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "gorgon-heavy-transport",
+      "name": "Gorgon Heavy Transport",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Transport",
+        "Gorgon Heavy Transport"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 275,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2623,
+              2
+            ],
+            [
+              1341,
+              2
+            ],
+            [
+              2624,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 998,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  4
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  4
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  1353,
+                  4
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2623
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "griffon-mortar-carrier",
+      "name": "Griffon Mortar Carrier",
+      "kws": [
+        "Vehicle",
+        "Artillery",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Griffon Mortar Carrier"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              2625,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 198,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hades-breaching-drill",
+      "name": "Hades Breaching Drill",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Hades Breaching Drill"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 110,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2626,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "heavy-mortar-team",
+      "name": "Heavy Mortar Team",
+      "kws": [
+        "Infantry",
+        "Artillery",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Heavy Mortar Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1343,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "heavy-quad-launcher-team",
+      "name": "Heavy Quad Launcher Team",
+      "kws": [
+        "Infantry",
+        "Artillery",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Heavy Quad Launcher Team"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              505,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "hells-last",
+      "name": "Hell’s Last",
+      "kws": [
+        "Infantry",
+        "Grenades",
+        "Imperium",
+        "Platoon",
+        "Command Squad",
+        "Hell’s Last",
+        "Character",
+        "Epic Hero",
+        "Officer"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Minka Lesk"
+        },
+        {
+          "n": "Lesk’s Heroes"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2627,
+              1,
+              1
+            ],
+            [
+              1335,
+              1,
+              1
+            ],
+            [
+              357,
+              1,
+              1
+            ],
+            [
+              603,
+              1,
+              1
+            ],
+            [
+              2628,
+              1,
+              1
+            ],
+            [
+              1167,
+              1,
+              1
+            ],
+            [
+              13,
+              2,
+              1
+            ],
+            [
+              2629,
+              1,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "cadian-shock-troops",
+          "type": "leader"
+        }
       ]
     },
     {
@@ -3839,6 +5462,46 @@ export default {
             ]
           ]
         }
+      ]
+    },
+    {
+      "id": "hydra-platform",
+      "name": "Hydra Platform",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Imperium",
+        "Artillery",
+        "Hydra Platform"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2630,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -5890,6 +7553,828 @@ export default {
       ]
     },
     {
+      "id": "macharius",
+      "name": "Macharius",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Macharius"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 310,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1353,
+              2
+            ],
+            [
+              2633,
+              1
+            ],
+            [
+              1341,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 999,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1353
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "macharius-omega",
+      "name": "Macharius Omega",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Macharius Omega"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 310,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2634,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1000,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  544,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "macharius-vanquisher",
+      "name": "Macharius Vanquisher",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Macharius Vanquisher"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 285,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1353,
+              2
+            ],
+            [
+              2635,
+              1
+            ],
+            [
+              1341,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 999,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1353
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "macharius-vulcan",
+      "name": "Macharius Vulcan",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Macharius Vulcan"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 310,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1353,
+              2
+            ],
+            [
+              2636,
+              1
+            ],
+            [
+              1341,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 999,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1353
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "malcador",
+      "name": "Malcador",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Malcador"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 250,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              2
+            ],
+            [
+              2079,
+              1
+            ],
+            [
+              2637,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1001,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            544
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1002,
+          "in": "checkbox",
+          "o": [
+            [
+              544
+            ],
+            [
+              545
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "malcador-annihilator",
+      "name": "Malcador Annihilator",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Malcador Annihilator"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 270,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              959,
+              1
+            ],
+            [
+              2079,
+              2
+            ],
+            [
+              2638,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1003,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  544,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "malcador-defender",
+      "name": "Malcador Defender",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Malcador Defender"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 310,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              959,
+              1
+            ],
+            [
+              2079,
+              7
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1004,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  544,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2079
+          ],
+          "cp": 2
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "malcador-infernus",
+      "name": "Malcador Infernus",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Malcador Infernus"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 235,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1353,
+              2
+            ],
+            [
+              2639,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1005,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  544,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            1353
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "manticore",
       "sid": "a27bc6cc-b883-4166-af30-4a7d948eac4e",
       "name": "Manticore",
@@ -5961,6 +8446,212 @@ export default {
             ]
           ]
         }
+      ]
+    },
+    {
+      "id": "manticore-platform",
+      "name": "Manticore Platform",
+      "kws": [
+        "Fortification",
+        "Frame",
+        "Imperium",
+        "Artillery",
+        "Manticore Platform"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              632,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "marauder-bomber",
+      "name": "Marauder Bomber",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Fly",
+        "Aircraft",
+        "Imperium",
+        "Marauder Bomber"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 345,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2640,
+              1
+            ],
+            [
+              2079,
+              2
+            ],
+            [
+              545,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1006,
+          "in": "checkbox",
+          "o": [
+            [
+              2641
+            ]
+          ],
+          "rep": [
+            2640
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marauder-destroyer",
+      "name": "Marauder Destroyer",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Fly",
+        "Aircraft",
+        "Imperium",
+        "Marauder Destroyer"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 375,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2156,
+              2
+            ],
+            [
+              2079,
+              2
+            ],
+            [
+              2642,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1007,
+          "in": "checkbox",
+          "o": [
+            [
+              2643
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medusa-carriage-battery",
+      "name": "Medusa Carriage Battery",
+      "kws": [
+        "Infantry",
+        "Artillery",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Medusa Carriage Battery"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2608,
+              1
+            ],
+            [
+              578,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -6273,6 +8964,248 @@ export default {
       ]
     },
     {
+      "id": "minotaur",
+      "name": "Minotaur",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Artillery",
+        "Squadron",
+        "Transport",
+        "Smoke",
+        "Minotaur"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 225,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2644,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "mukaali-riders",
+      "name": "Mukaali Riders",
+      "kws": [
+        "Mounted",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Mukaali Riders"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 110,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Mukaali Rider Sergeant"
+        },
+        {
+          "n": "Mukaali Riders"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              509,
+              1
+            ],
+            [
+              2645,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              509,
+              1
+            ],
+            [
+              2645,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1008,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ]
+          ],
+          "rep": [
+            510
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1009,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ],
+            [
+              13
+            ]
+          ],
+          "rep": [
+            509
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1010,
+          "in": "stepper",
+          "o": [
+            [
+              301
+            ],
+            [
+              605
+            ],
+            [
+              1335
+            ],
+            [
+              607
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ],
+          "rep": [
+            509
+          ]
+        }
+      ]
+    },
+    {
+      "id": "munitorum-servitors",
+      "name": "Munitorum Servitors",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Munitorum Servitors"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 35,
+          "per": [
+            4,
+            4
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2646,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1011,
+          "in": "stepper",
+          "o": [
+            [
+              2079
+            ],
+            [
+              169
+            ],
+            [
+              1481
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              2
+            ]
+          ],
+          "rep": [
+            2646
+          ]
+        }
+      ]
+    },
+    {
       "id": "nork-deddog",
       "sid": "d6e26fae-f2d9-4b1f-8ff2-7abb24977945",
       "name": "Nork Deddog",
@@ -6534,6 +9467,66 @@ export default {
       ]
     },
     {
+      "id": "praetor",
+      "name": "Praetor",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Praetor"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 275,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              2
+            ],
+            [
+              2647,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "primaris-psyker",
       "sid": "e94d65ad-fbc6-4773-bb1e-7854f1f22b58",
       "name": "Primaris Psyker",
@@ -6598,6 +9591,194 @@ export default {
             ],
             [
               529,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "provisionally-prepared",
+      "name": "Provisionally Prepared",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Character",
+        "Grenades",
+        "Epic Hero",
+        "Provisionally Prepared"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              645,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "ratlings",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "quartermaster-cadre-squad",
+      "name": "Quartermaster Cadre Squad",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Grenades",
+        "Regiment",
+        "Krieg",
+        "Quartermaster Cadre Squad",
+        "Character"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 45,
+          "per": [
+            5,
+            5
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Quartermaster Revenant"
+        },
+        {
+          "n": "Medicae Servitors"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2648,
+              1
+            ],
+            [
+              2649,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2650,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "death-korps-of-krieg",
+          "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
+        },
+        {
+          "to": "krieg-combat-engineers",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "rapier-laser-destroyer-battery",
+      "name": "Rapier Laser Destroyer Battery",
+      "kws": [
+        "Infantry",
+        "Artillery",
+        "Grenades",
+        "Regiment",
+        "Imperium",
+        "Rapier Laser Destroyer Battery"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 35,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 70,
+          "per": [
+            2,
+            2
+          ]
+        },
+        {
+          "pts": 105,
+          "per": [
+            3,
+            3
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2651,
+              1
+            ],
+            [
+              357,
               1
             ]
           ]
@@ -6699,6 +9880,177 @@ export default {
             ]
           ]
         }
+      ]
+    },
+    {
+      "id": "regimental-attaches",
+      "name": "Regimental Attachés",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Regimental Attachés",
+        "Psyker"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            3,
+            3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Master of Ordnance"
+        },
+        {
+          "n": "Officer of the Fleet"
+        },
+        {
+          "n": "Astropath"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              2652,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "rein-and-raus",
+      "name": "Rein and Raus",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Character",
+        "Epic Hero",
+        "Rein and Raus"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            2,
+            2
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Rein"
+        },
+        {
+          "n": "Raus"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              645,
+              1
+            ],
+            [
+              2653,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1458,
+              1
+            ],
+            [
+              2653,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -6966,6 +10318,216 @@ export default {
       ]
     },
     {
+      "id": "sabre-weapons-battery",
+      "name": "Sabre Weapons Battery",
+      "kws": [
+        "Fortification",
+        "Imperium",
+        "Artillery",
+        "Sabre Weapons Battery"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 45,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 90,
+          "per": [
+            2,
+            2
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1012,
+          "in": "stepper",
+          "o": [
+            [
+              2654
+            ],
+            [
+              2355
+            ],
+            [
+              1341
+            ],
+            [
+              718
+            ]
+          ],
+          "rep": [
+            60
+          ]
+        }
+      ]
+    },
+    {
+      "id": "salamander-command-vehicle",
+      "name": "Salamander Command Vehicle",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Salamander Command Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              743,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "salamander-scout-vehicle",
+      "name": "Salamander Scout Vehicle",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Salamander Scout Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              1
+            ],
+            [
+              2079,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "scout-sentinels",
       "sid": "62d85e34-a50d-4c67-841a-037256b34d47",
       "name": "Scout Sentinels",
@@ -7057,6 +10619,95 @@ export default {
               500
             ]
           ]
+        }
+      ]
+    },
+    {
+      "id": "sentinel-powerlifter",
+      "name": "Sentinel Powerlifter",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Frame",
+        "Imperium",
+        "Regiment",
+        "Squadron",
+        "Smoke",
+        "Sentinel Powerlifter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2655,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "sergeant-harker",
+      "name": "Sergeant Harker",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Epic Hero",
+        "Imperium",
+        "Grenades",
+        "Officer",
+        "Sergeant Harker"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2656,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "catachan-jungle-fighters",
+          "type": "leader"
         }
       ]
     },
@@ -7220,6 +10871,214 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "storm-chimera",
+      "name": "Storm Chimera",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Transport",
+        "Dedicated Transport",
+        "Smoke",
+        "Storm Chimera"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              1
+            ],
+            [
+              2079,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 198,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stormblade",
+      "name": "Stormblade",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Stormblade"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 415,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              545,
+              2
+            ],
+            [
+              2657,
+              1
+            ],
+            [
+              60,
+              2
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1013,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  658,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            60
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1014,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  545,
+                  2
+                ],
+                [
+                  60,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ],
+                [
+                  658,
+                  2
+                ]
+              ]
+            ]
+          ]
+        }
       ]
     },
     {
@@ -7455,6 +11314,271 @@ export default {
                   2
                 ]
               ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stygies-destroyer-tank-hunter",
+      "name": "Stygies Destroyer Tank Hunter",
+      "kws": [
+        "Vehicle",
+        "Frame",
+        "Imperium",
+        "Squadron",
+        "Smoke",
+        "Stygies Destroyer Tank Hunter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 180,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2658,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tarantula-battery",
+      "name": "Tarantula Battery",
+      "kws": [
+        "Vehicle",
+        "Imperium",
+        "Tarantula Battery"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        },
+        {
+          "pts": 80,
+          "per": [
+            2,
+            2
+          ]
+        },
+        {
+          "pts": 120,
+          "per": [
+            3,
+            3
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1015,
+          "in": "stepper",
+          "o": [
+            [
+              718
+            ]
+          ],
+          "rep": [
+            60
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tauros-assault-vehicle",
+      "name": "Tauros Assault Vehicle",
+      "kws": [
+        "Mounted",
+        "Regiment",
+        "Frame",
+        "Imperium",
+        "Tauros",
+        "Tauros Assault Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              743,
+              1
+            ],
+            [
+              2659,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1016,
+          "in": "checkbox",
+          "o": [
+            [
+              2660
+            ]
+          ],
+          "rep": [
+            743
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tauros-venator",
+      "name": "Tauros Venator",
+      "kws": [
+        "Mounted",
+        "Regiment",
+        "Frame",
+        "Imperium",
+        "Tauros",
+        "Tauros Venator"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2661,
+              1
+            ],
+            [
+              2659,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1017,
+          "in": "checkbox",
+          "o": [
+            [
+              718
+            ]
+          ],
+          "rep": [
+            2661
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
             ]
           ]
         }
@@ -8101,6 +12225,72 @@ export default {
       ]
     },
     {
+      "id": "trojan-support-vehicle",
+      "name": "Trojan Support Vehicle",
+      "kws": [
+        "Vehicle",
+        "Squadron",
+        "Smoke",
+        "Frame",
+        "Imperium",
+        "Trojan Support Vehicle"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 198,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ]
+          ],
+          "rep": [
+            2079
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "id": "ursula-creed",
       "sid": "6821980c-e383-41d6-b823-cf5c2060183c",
       "name": "Ursula Creed",
@@ -8151,6 +12341,95 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "valdor",
+      "name": "Valdor",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Frame",
+        "Imperium",
+        "Smoke",
+        "Valdor"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 285,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              1
+            ],
+            [
+              2662,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1018,
+          "in": "checkbox",
+          "o": [
+            [
+              2079
+            ],
+            [
+              743
+            ],
+            [
+              545
+            ]
+          ],
+          "rep": [
+            544
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 991,
+          "in": "checkbox",
+          "o": [
+            [
+              1353
+            ],
+            [
+              38
+            ]
+          ]
+        }
       ]
     },
     {
@@ -8244,6 +12523,261 @@ export default {
                 ]
               ]
             ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valkyrie-sky-talon",
+      "name": "Valkyrie Sky Talon",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Imperium",
+        "Transport",
+        "Valkyrie Sky Talon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 185,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              2663,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1019,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  677,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2663
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vendetta-gunship",
+      "name": "Vendetta Gunship",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Imperium",
+        "Transport",
+        "Vendetta Gunship"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 255,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2664,
+              3
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1020,
+          "in": "stepper",
+          "o": [
+            [
+              2665
+            ]
+          ],
+          "rep": [
+            2664
+          ],
+          "cp": 2
+        },
+        {
+          "m": 0,
+          "t": 289,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "voss-pattern-lightning",
+      "name": "Voss-pattern Lightning",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aircraft",
+        "Imperium",
+        "Voss-pattern Lightning"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              545,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1021,
+          "in": "checkbox",
+          "o": [
+            [
+              2666
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vulture-gunship",
+      "name": "Vulture Gunship",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Imperium",
+        "Vulture Gunship"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 225,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2079,
+              1
+            ],
+            [
+              677,
+              2
+            ],
+            [
+              2667,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1022,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2668,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            677,
+            2667
           ]
         }
       ]

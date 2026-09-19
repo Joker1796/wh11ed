@@ -146,6 +146,36 @@ export default {
       ]
     },
     {
+      "id": "battle-sanctum",
+      "name": "Battle Sanctum",
+      "kws": [
+        "Imperium",
+        "Fortification",
+        "Towering",
+        "Battle Sanctum"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 170,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          []
+        ]
+      ]
+    },
+    {
       "id": "battle-sisters-squad",
       "sid": "5a07618f-6422-4e6d-b6d8-80eb4840a2a1",
       "name": "Battle Sisters Squad",
@@ -823,6 +853,49 @@ export default {
       ]
     },
     {
+      "id": "celestian-sacresant-aveline",
+      "name": "Celestian Sacresant Aveline",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Imperium",
+        "Grenades",
+        "Epic Hero",
+        "Celestian Sacresant Aveline"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 45,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              10,
+              1
+            ],
+            [
+              2564,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "celestian-sacresants",
       "sid": "7f57f601-3fd3-441d-b9f6-dd648cc69bef",
       "name": "Celestian Sacresants",
@@ -961,6 +1034,47 @@ export default {
       ]
     },
     {
+      "id": "crusaders",
+      "name": "Crusaders",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Crusaders"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        },
+        {
+          "pts": 80,
+          "per": [
+            3,
+            4
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "daemonifuge",
       "sid": "2bb1b8ac-84b3-40df-9e81-3b541fe5dcbb",
       "name": "Daemonifuge",
@@ -1024,6 +1138,47 @@ export default {
             ],
             [
               48,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "death-cult-assassins",
+      "name": "Death Cult Assassins",
+      "kws": [
+        "Infantry",
+        "Imperium",
+        "Death Cult Assassins"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            2,
+            2
+          ],
+          "default": 1
+        },
+        {
+          "pts": 110,
+          "per": [
+            3,
+            4
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2565,
               1
             ]
           ]
@@ -2383,6 +2538,76 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "repressor",
+      "name": "Repressor",
+      "kws": [
+        "Vehicle",
+        "Smoke",
+        "Transport",
+        "Dedicated Transport",
+        "Imperium",
+        "Repressor"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 130,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2566,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              2567,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 967,
+          "in": "checkbox",
+          "o": [
+            [
+              743
+            ],
+            [
+              38
+            ]
+          ]
+        }
       ]
     },
     {

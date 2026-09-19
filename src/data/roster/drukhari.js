@@ -97,6 +97,213 @@ export default {
       ]
     },
     {
+      "id": "beastmaster",
+      "name": "Beastmaster",
+      "kws": [
+        "Beasts",
+        "Aeldari",
+        "Fly",
+        "Mounted",
+        "Character",
+        "Beastmaster"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 135,
+          "per": [
+            7,
+            7
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              3
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Beastmaster"
+        },
+        {
+          "n": "Clawed Fiend"
+        },
+        {
+          "n": "Khymerae"
+        },
+        {
+          "n": "Razorwing Flocks"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1260,
+              1
+            ],
+            [
+              1243,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2739,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              2740,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              2741,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "court-of-the-archon",
+      "name": "Court of the Archon",
+      "kws": [
+        "Infantry",
+        "Kabal",
+        "Aeldari",
+        "Court of the Archon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            4,
+            4
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Lhamaean"
+        },
+        {
+          "n": "Medusae"
+        },
+        {
+          "n": "Sslyth"
+        },
+        {
+          "n": "Ur-ghul"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2742,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2743,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              1255,
+              1
+            ],
+            [
+              465,
+              1
+            ],
+            [
+              2744,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              2745,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "cronos",
       "sid": "35d5461d-5518-42f1-9e65-c1a6075f8692",
       "name": "Cronos",
@@ -197,6 +404,72 @@ export default {
             ]
           ]
         ]
+      ]
+    },
+    {
+      "id": "grotesques",
+      "name": "Grotesques",
+      "kws": [
+        "Infantry",
+        "Haemonculus Covens",
+        "Aeldari",
+        "Grotesques"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        },
+        {
+          "pts": 170,
+          "per": [
+            4,
+            6
+          ]
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2746,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1073,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  2747,
+                  1
+                ],
+                [
+                  1301,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2746
+          ]
+        }
       ]
     },
     {
@@ -1284,6 +1557,50 @@ export default {
       ]
     },
     {
+      "id": "raven-strike-fighter",
+      "name": "Raven Strike Fighter",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Aircraft",
+        "Aeldari",
+        "Raven Strike Fighter"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 170,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              477,
+              2
+            ],
+            [
+              2748,
+              1
+            ],
+            [
+              1276,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
       "id": "razorwing-jetfighter",
       "sid": "25d7da7d-27e2-4a7d-8527-11e4ef259461",
       "name": "Razorwing Jetfighter",
@@ -1361,6 +1678,50 @@ export default {
             1277
           ]
         }
+      ]
+    },
+    {
+      "id": "reaper",
+      "name": "Reaper",
+      "kws": [
+        "Vehicle",
+        "Kabal",
+        "Fly",
+        "Aeldari",
+        "Reaper"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2749,
+              1
+            ],
+            [
+              1293,
+              1
+            ],
+            [
+              2750,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1921,6 +2282,96 @@ export default {
               1292
             ]
           ]
+        }
+      ]
+    },
+    {
+      "id": "tantalus",
+      "name": "Tantalus",
+      "kws": [
+        "Vehicle",
+        "Transport",
+        "Fly",
+        "Aeldari",
+        "Tantalus"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 230,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2751,
+              1
+            ],
+            [
+              2752,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "urien-rakarth",
+      "name": "Urien Rakarth",
+      "kws": [
+        "Infantry",
+        "Haemonculus Covens",
+        "Character",
+        "Epic Hero",
+        "Aeldari",
+        "Haemonculus",
+        "Urien Rakarth"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "epic": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2753,
+              1
+            ],
+            [
+              1249,
+              1
+            ]
+          ]
+        ]
+      ],
+      "leads": [
+        {
+          "to": "wracks",
+          "type": "leader"
         }
       ]
     },

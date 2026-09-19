@@ -197,6 +197,64 @@ export default {
       ]
     },
     {
+      "id": "blood-slaughterer",
+      "name": "Blood Slaughterer",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Chaos",
+        "Khorne",
+        "Daemon",
+        "Frame",
+        "Blood Slaughterer"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 160,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2691,
+              1
+            ],
+            [
+              2692,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1034,
+          "in": "checkbox",
+          "o": [
+            [
+              2693
+            ]
+          ],
+          "rep": [
+            2691,
+            2692
+          ]
+        }
+      ]
+    },
+    {
       "id": "chaos-bikers",
       "sid": "92522b41-7f37-465b-b427-c164625d96ff",
       "name": "Chaos Bikers",
@@ -394,6 +452,141 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "id": "chaos-deimos-predator",
+      "name": "Chaos Deimos Predator",
+      "kws": [
+        "Vehicle",
+        "Smoke",
+        "Frame",
+        "Chaos",
+        "Deimos Predator"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2694,
+              1
+            ],
+            [
+              620,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1035,
+          "in": "checkbox",
+          "o": [
+            [
+              937
+            ],
+            [
+              2695
+            ],
+            [
+              2696
+            ]
+          ],
+          "rep": [
+            2694
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1036,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  2079,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  743,
+                  2
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  545,
+                  2
+                ]
+              ]
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1037,
+          "in": "checkbox",
+          "o": [
+            [
+              1129
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              500
+            ]
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
     },
     {
       "id": "chaos-land-raider",
@@ -747,6 +940,629 @@ export default {
             171,
             950
           ]
+        }
+      ]
+    },
+    {
+      "id": "chaos-lord-on-bike",
+      "name": "Chaos Lord on Bike",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Chaos Lord on Bike"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1129,
+              1
+            ],
+            [
+              751,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1038,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1039,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              536
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1040,
+          "in": "checkbox",
+          "o": [
+            [
+              1044
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
+      "leads": [
+        {
+          "to": "chaos-bikers",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "chaos-lord-on-disc-of-tzeentch",
+      "name": "Chaos Lord on Disc of Tzeentch",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Tzeentch",
+        "Fly",
+        "Chaos Lord",
+        "Disc of Tzeentch"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1041,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1039,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              536
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1040,
+          "in": "checkbox",
+          "o": [
+            [
+              1044
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chosen",
+          "type": "leader"
+        },
+        {
+          "to": "legionaries",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "chaos-lord-on-juggernaut",
+      "name": "Chaos Lord on Juggernaut",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Khorne",
+        "Chaos Lord",
+        "Juggernaut"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ],
+            [
+              2559,
+              1
+            ],
+            [
+              357,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1041,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1039,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              536
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1040,
+          "in": "checkbox",
+          "o": [
+            [
+              1044
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chaos-bikers",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "chaos-lord-on-palanquin-of-nurgle",
+      "name": "Chaos Lord on Palanquin of Nurgle",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Nurgle",
+        "Chaos Lord",
+        "Palanquin of Nurgle"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 90,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              2697,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1041,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1039,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              536
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1040,
+          "in": "checkbox",
+          "o": [
+            [
+              1044
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chosen",
+          "type": "leader"
+        },
+        {
+          "to": "legionaries",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "chaos-lord-on-steed-of-slaanesh",
+      "name": "Chaos Lord on Steed of Slaanesh",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Slaanesh",
+        "Chaos Lord",
+        "Steed of Slaanesh"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 100,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              751,
+              1
+            ],
+            [
+              357,
+              1
+            ],
+            [
+              843,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1041,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1039,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ],
+            [
+              536
+            ],
+            [
+              949
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            751
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1040,
+          "in": "checkbox",
+          "o": [
+            [
+              1044
+            ]
+          ],
+          "rep": [
+            1167,
+            751
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chaos-bikers",
+          "type": "leader"
         }
       ]
     },
@@ -1469,6 +2285,111 @@ export default {
       ]
     },
     {
+      "id": "chaos-thunderhawk",
+      "name": "Chaos Thunderhawk",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Fly",
+        "Aircraft",
+        "Transport",
+        "Chaos",
+        "Thunderhawk"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 840,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              545,
+              2
+            ],
+            [
+              1422,
+              1
+            ],
+            [
+              60,
+              4
+            ],
+            [
+              138,
+              1
+            ],
+            [
+              1423,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 597,
+          "in": "checkbox",
+          "o": [
+            [
+              1424
+            ]
+          ],
+          "rep": [
+            1422
+          ]
+        },
+        {
+          "m": 0,
+          "t": 598,
+          "in": "checkbox",
+          "o": [
+            [
+              1425
+            ]
+          ],
+          "rep": [
+            1423
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
       "id": "chaos-vindicator",
       "sid": "00bf212d-7582-4d98-bbf9-78abc292edd3",
       "name": "Chaos Vindicator",
@@ -2015,6 +2936,213 @@ export default {
       ]
     },
     {
+      "id": "cultist-mob-with-firearms",
+      "name": "Cultist Mob with Firearms",
+      "kws": [
+        "Infantry",
+        "Battleline",
+        "Grenades",
+        "Chaos",
+        "Damned",
+        "Cultist Mob with Firearms"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 50,
+          "per": [
+            10,
+            10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "default": 1
+        },
+        {
+          "pts": 100,
+          "per": [
+            11,
+            20
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              10,
+              19
+            ]
+          ]
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Cultist Champion"
+        },
+        {
+          "n": "Chaos Cultists"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              610,
+              1
+            ],
+            [
+              963,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              610,
+              1
+            ],
+            [
+              963,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 394,
+          "in": "checkbox",
+          "o": [
+            [
+              1167
+            ]
+          ],
+          "rep": [
+            610
+          ]
+        },
+        {
+          "all": 1,
+          "t": 1042,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  610,
+                  1
+                ],
+                [
+                  963,
+                  1
+                ]
+              ]
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1043,
+          "in": "stepper",
+          "o": [
+            [
+              301
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1044,
+          "in": "stepper",
+          "o": [
+            [
+              1353
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1045,
+          "in": "stepper",
+          "o": [
+            [
+              605
+            ]
+          ],
+          "lim": [
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ]
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
       "id": "cypher",
       "sid": "19560b64-7c16-44f8-bcfa-be84464a9dac",
       "name": "Cypher",
@@ -2372,6 +3500,126 @@ export default {
       ]
     },
     {
+      "id": "decimator",
+      "name": "Decimator",
+      "kws": [
+        "Vehicle",
+        "Walker",
+        "Chaos",
+        "Daemon",
+        "Decimator"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 165,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2698,
+              2
+            ],
+            [
+              2026,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1046,
+          "in": "stepper",
+          "o": [
+            [
+              2699
+            ],
+            [
+              2700
+            ],
+            [
+              2701
+            ],
+            [
+              [
+                [
+                  2702,
+                  1
+                ],
+                [
+                  2703,
+                  1
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2698
+          ],
+          "cp": 2
+        },
+        {
+          "m": 0,
+          "t": 1047,
+          "in": "stepper",
+          "o": [
+            [
+              [
+                [
+                  2704,
+                  1
+                ],
+                [
+                  2702,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2698
+          ],
+          "cp": 2
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
       "id": "defiler",
       "sid": "efa73f6a-2706-48db-9459-58413bbd0f3c",
       "name": "Defiler",
@@ -2521,6 +3769,145 @@ export default {
           "rep": [
             973
           ]
+        }
+      ]
+    },
+    {
+      "id": "dreadclaw-drop-pod",
+      "name": "Dreadclaw Drop Pod",
+      "kws": [
+        "Vehicle",
+        "Chaos",
+        "Transport",
+        "Fly",
+        "Frame",
+        "Dreadclaw Drop Pod"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2705,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
+      "id": "exalted-champion",
+      "name": "Exalted Champion",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Exalted Champion"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1,
+        "alongside": 1
+      },
+      "sizes": [
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              680,
+              1
+            ],
+            [
+              950,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
+      "leads": [
+        {
+          "to": "chosen",
+          "type": "support"
+        },
+        {
+          "to": "legionaries",
+          "type": "support"
         }
       ]
     },
@@ -2904,6 +4291,175 @@ export default {
             989
           ]
         }
+      ]
+    },
+    {
+      "id": "gellerpox-infected",
+      "name": "Gellerpox Infected",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Nurgle",
+        "Gellerpox Infected"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 125,
+          "per": [
+            7,
+            7
+          ],
+          "comp": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Nightmare Hulks"
+        },
+        {
+          "n": "Gellerpox Mutants"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2512,
+              1
+            ],
+            [
+              2706,
+              1,
+              1
+            ],
+            [
+              2512,
+              1,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2707,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "greater-blight-drone",
+      "name": "Greater Blight Drone",
+      "kws": [
+        "Vehicle",
+        "Fly",
+        "Chaos",
+        "Nurgle",
+        "Daemon",
+        "Greater Blight Drone"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 150,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2708,
+              1
+            ],
+            [
+              2709,
+              1
+            ],
+            [
+              2710,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "greater-brass-scorpion",
+      "name": "Greater Brass Scorpion",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Walker",
+        "Chaos",
+        "Khorne",
+        "Frame",
+        "Daemon",
+        "Greater Brass Scorpion"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 500,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              959,
+              1
+            ],
+            [
+              2711,
+              1
+            ],
+            [
+              2712,
+              1
+            ],
+            [
+              2713,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -3332,6 +4888,171 @@ export default {
       ]
     },
     {
+      "id": "hell-blade",
+      "name": "Hell Blade",
+      "kws": [
+        "Vehicle",
+        "Chaos",
+        "Aircraft",
+        "Fly",
+        "Hell Blade"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 115,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2355,
+              2
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1048,
+          "in": "checkbox",
+          "o": [
+            [
+              [
+                [
+                  718,
+                  2
+                ]
+              ]
+            ]
+          ],
+          "rep": [
+            2355
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
+      "id": "hell-talon",
+      "name": "Hell Talon",
+      "kws": [
+        "Vehicle",
+        "Chaos",
+        "Aircraft",
+        "Fly",
+        "Hell Talon"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 140,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              544,
+              1
+            ],
+            [
+              718,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1049,
+          "in": "checkbox",
+          "o": [
+            [
+              946
+            ]
+          ],
+          "rep": [
+            544
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
       "id": "heretic-astartes-daemon-prince",
       "sid": "5e8b0541-446b-4e3a-b6e1-5bd97c633bb3",
       "name": "Heretic Astartes Daemon Prince",
@@ -3538,6 +5259,75 @@ export default {
       ]
     },
     {
+      "id": "kharybdis-assault-claw",
+      "name": "Kharybdis Assault Claw",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Chaos",
+        "Transport",
+        "Fly",
+        "Frame",
+        "Kharybdis Assault Claw"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 300,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2714,
+              5
+            ],
+            [
+              2705,
+              1
+            ],
+            [
+              2715,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
       "id": "khorne-lord-of-skulls",
       "sid": "6908d242-da75-4490-85cb-bb4fc86e0f22",
       "name": "Khorne Lord of Skulls",
@@ -3696,6 +5486,48 @@ export default {
             ],
             [
               1016,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "kytan-ravager",
+      "name": "Kytan Ravager",
+      "kws": [
+        "Vehicle",
+        "Titanic",
+        "Walker",
+        "Chaos",
+        "Khorne",
+        "Daemon",
+        "Kytan Ravager"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 400,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2716,
+              1
+            ],
+            [
+              2717,
               1
             ]
           ]
@@ -4667,6 +6499,100 @@ export default {
           ]
         ]
       ]
+    },
+    {
+      "id": "mutoid-vermin",
+      "name": "Mutoid Vermin",
+      "kws": [
+        "Swarm",
+        "Chaos",
+        "Damned",
+        "Nurgle",
+        "Mutoid Vermin"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            16,
+            16
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2718,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "negavolt-cultists",
+      "name": "Negavolt Cultists",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Negavolt Cultists"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 55,
+          "per": [
+            4,
+            4
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2719,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
     },
     {
       "id": "nemesis-claw",
@@ -5765,6 +7691,489 @@ export default {
       ]
     },
     {
+      "id": "renegade-enforcer",
+      "name": "Renegade Enforcer",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Grenades",
+        "Character",
+        "Renegade Enforcer"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 65,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2720,
+              1
+            ],
+            [
+              2721,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1050,
+          "in": "checkbox",
+          "o": [
+            [
+              105
+            ],
+            [
+              503
+            ],
+            [
+              2722
+            ]
+          ],
+          "rep": [
+            2720
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1051,
+          "in": "checkbox",
+          "o": [
+            [
+              952
+            ],
+            [
+              13
+            ]
+          ],
+          "rep": [
+            2721
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
+      "leads": [
+        {
+          "to": "traitor-guardsmen-squad",
+          "type": "leader"
+        },
+        {
+          "to": "renegade-heavy-weapons-squad",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "renegade-heavy-weapons-squad",
+      "name": "Renegade Heavy Weapons Squad",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Grenades",
+        "Renegade Heavy Weapons Squad"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2723,
+              1
+            ],
+            [
+              1353,
+              1
+            ],
+            [
+              2242,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1052,
+          "in": "stepper",
+          "o": [
+            [
+              544
+            ],
+            [
+              2079
+            ],
+            [
+              545
+            ],
+            [
+              999
+            ],
+            [
+              547
+            ]
+          ],
+          "rep": [
+            1353
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
+      "id": "renegade-ogryn-beast-handler",
+      "name": "Renegade Ogryn Beast Handler",
+      "kws": [
+        "Beasts",
+        "Chaos",
+        "Damned",
+        "Renegade Ogryn Beast Handler"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 40,
+          "per": [
+            4,
+            4
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Ogryn Pack Master"
+        },
+        {
+          "n": "Chaos Mauler Hounds"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2724,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2725,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
+      "id": "renegade-ogryn-brutes",
+      "name": "Renegade Ogryn Brutes",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Renegade Ogryn Brutes"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2726,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1053,
+          "in": "checkbox",
+          "o": [
+            [
+              2727
+            ]
+          ],
+          "rep": [
+            2726
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      }
+    },
+    {
+      "id": "renegade-plague-ogryns",
+      "name": "Renegade Plague Ogryns",
+      "kws": [
+        "Infantry",
+        "Chaos",
+        "Damned",
+        "Nurgle",
+        "Renegade Plague Ogryns"
+      ],
+      "flags": {
+        "legends": 1
+      },
+      "sizes": [
+        {
+          "pts": 95,
+          "per": [
+            3,
+            3
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2728,
+              1
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "rogue-psyker",
+      "name": "Rogue Psyker",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Psyker",
+        "Chaos",
+        "Damned",
+        "Rogue Psyker"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 60,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              510,
+              1
+            ],
+            [
+              2729,
+              1
+            ],
+            [
+              2730,
+              1
+            ]
+          ]
+        ]
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
+      "leads": [
+        {
+          "to": "accursed-cultists",
+          "type": "leader"
+        },
+        {
+          "to": "cultist-mob",
+          "type": "leader"
+        },
+        {
+          "to": "negavolt-cultists",
+          "type": "leader"
+        }
+      ]
+    },
+    {
       "id": "sorcerer",
       "sid": "28a43ef8-5403-46db-bba7-962c6707f87d",
       "name": "Sorcerer",
@@ -5972,6 +8381,383 @@ export default {
               1056
             ]
           ]
+        }
+      ]
+    },
+    {
+      "id": "sorcerer-on-bike",
+      "name": "Sorcerer on Bike",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Psyker",
+        "Sorcerer on Bike"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1129,
+              1
+            ],
+            [
+              1055,
+              1
+            ],
+            [
+              643,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1054,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        }
+      ],
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
+      "leads": [
+        {
+          "to": "chaos-bikers",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "sorcerer-on-disc-of-tzeentch",
+      "name": "Sorcerer on Disc of Tzeentch",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Psyker",
+        "Tzeentch",
+        "Fly",
+        "Sorcerer",
+        "Disc of Tzeentch"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1055,
+              1
+            ],
+            [
+              643,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1054,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chosen",
+          "type": "leader"
+        },
+        {
+          "to": "legionaries",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "sorcerer-on-palanquin-of-nurgle",
+      "name": "Sorcerer on Palanquin of Nurgle",
+      "kws": [
+        "Infantry",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Psyker",
+        "Nurgle",
+        "Sorcerer",
+        "Palanquin of Nurgle"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 80,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1055,
+              1
+            ],
+            [
+              643,
+              1
+            ],
+            [
+              2697,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1054,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chosen",
+          "type": "leader"
+        },
+        {
+          "to": "legionaries",
+          "type": "leader"
+        }
+      ]
+    },
+    {
+      "id": "sorcerer-on-steed-of-slaanesh",
+      "name": "Sorcerer on Steed of Slaanesh",
+      "kws": [
+        "Mounted",
+        "Character",
+        "Grenades",
+        "Chaos",
+        "Slaanesh",
+        "Sorcerer",
+        "Steed of Slaanesh"
+      ],
+      "flags": {
+        "legends": 1,
+        "char": 1
+      },
+      "sizes": [
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ],
+          "default": 1
+        }
+      ],
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1167,
+              1
+            ],
+            [
+              1055,
+              1
+            ],
+            [
+              643,
+              1
+            ],
+            [
+              843,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1054,
+          "in": "checkbox",
+          "o": [
+            [
+              536
+            ],
+            [
+              1129
+            ],
+            [
+              680
+            ],
+            [
+              949
+            ],
+            [
+              751
+            ],
+            [
+              952
+            ]
+          ],
+          "rep": [
+            1167
+          ]
+        }
+      ],
+      "leads": [
+        {
+          "to": "chaos-bikers",
+          "type": "leader"
         }
       ]
     },

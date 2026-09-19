@@ -17,14 +17,18 @@
 
 export const changelog = [
   {
-    version: '2.6.1',
+    version: '2.7.0',
     date: '2026-09-19',
     en: [
+      { h: 'Roster builder: the Faction Pack Legends can be fielded' },
+      'The 314 Warhammer Legends datasheets that come from the Faction Packs are now in the roster builder \u2014 every Chapter\u2019s bike Characters, the Assault, Bike and Command Squads, the Relic Dreadnoughts and Forge World armour, the Deathwatch Kill Teams, the Chaos Lords on their mounts, the Corsair bands, the Tarantulas, Sentry Pylons and the rest \u2014 with their sizes, printed loadouts, wargear swaps and Munitorum points, marked Legends like the Ork ones. Their composition, loadout and options are read from the datasheet text itself, so a swap the builder cannot read is left out rather than guessed; a Chaos Space Marines Legends unit takes its Mark of Chaos under Pactbound Zealots like any other. Still outside: T\u2019au Tactical Drones (no Munitorum price), and a squad whose two optional profiles cannot be told apart at one size (the Bike Squad at 4\u20136 models) is not split per profile.',
       { h: 'Roster builder: a weapon can only be given up once' },
       'A model\u2019s swaps now spend the weapon they replace. A Chaos Lord with Jump Pack who traded his bolt pistol for a plasma pistol has no bolt pistol left to trade, with the accursed weapon, for twin lightning claws \u2014 that option is greyed out and says which weapon is already gone. Steppers stop at the models that still carry the weapon (five Terminators with five combi-weapons have no combi-bolter left for a heavy weapon). An option that hands the weapon back (a Deathwatch Veteran\u2019s power weapon and Astartes shield) leaves it in place for the next swap, as the official app does. Ninety-eight weapons on 72 datasheets could be given up twice before.',
       'A saved or imported list that already does this is not changed \u2014 its issues list names the unit and the weapon, and which swap to undo is yours to decide.',
     ],
     ru: [
+      { h: 'Конструктор ростеров: Legends из Faction Pack\u2019ов можно выставлять' },
+      '314 листов Warhammer Legends из Faction Pack\u2019ов теперь есть в конструкторе ростеров \u2014 персонажи Орденов на байках, Assault, Bike и Command Squad, реликтовые дредноуты и техника Forge World, Kill Team\u2019ы Deathwatch, Chaos Lord\u2019ы на скакунах, корсарские банды, Tarantula, Sentry Pylon и остальные \u2014 с размерами, печатным вооружением, заменами и очками Munitorum, с пометкой Legends, как у орков. Состав, вооружение и опции читаются из текста самого листа, поэтому замена, которую конструктор не смог прочитать, не угадывается, а пропускается; юнит Legends у Chaos Space Marines берёт Mark of Chaos под Pactbound Zealots, как и все. Пока снаружи: Tactical Drones T\u2019au (нет цены в Munitorum), а отряд, где при одном размере не различить два необязательных профиля (Bike Squad на 4\u20136 моделей), не раскладывается по профилям.',
       { h: 'Конструктор ростеров: оружие отдаётся только один раз' },
       'Замены модели теперь расходуют то оружие, которое заменяют. У Chaos Lord with Jump Pack, обменявшего bolt pistol на plasma pistol, не остаётся bolt pistol, чтобы вместе с accursed weapon обменять его на twin lightning claws \u2014 такой пункт гаснет и пишет, какое оружие уже отдано. Счётчики останавливаются на моделях, которые ещё несут это оружие (у пяти Terminators с пятью combi-weapon не остаётся combi-bolter под тяжёлое оружие). Пункт, который возвращает оружие обратно (power weapon и Astartes shield у Deathwatch Veteran), оставляет его для следующей замены \u2014 как в официальном приложении. Раньше 98 видов оружия на 72 листах можно было отдать дважды.',
       'Сохранённый или импортированный ростер, где это уже случилось, не меняется \u2014 список замечаний называет отряд и оружие, а какую замену снять, решаете вы.',
