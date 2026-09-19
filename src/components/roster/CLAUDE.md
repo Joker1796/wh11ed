@@ -2005,7 +2005,11 @@ nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/ros
 non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearing, not
 cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
 `--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
-overlapping it — matches by class name alone, regardless of which view rendered it. **The bar is
+overlapping it — matches by class name alone, regardless of which view rendered it. Those chips
+then float over the list pane's bottom-right corner; the pane pads its scroll end by
+`--mobile-bar-h` (≤900px, `RosterWorkbench.vue`) so the last unit can be pulled clear, and the
+chips' strip is `pointer-events: none` — until 2026-09-19 its empty left half sat over the
+catalogue's «Other units» fold and swallowed the tap. **The bar is
 full-bleed and its CONTENTS are measured** (`.rc-sticky-inner`, the same 860px + 2rem inner both
 `AppSubnav` and `FactionPickerBar` use): the bar is the window's bottom edge, but Save belongs
 under the panel it saves, not in the far corner of a 1500px screen),
