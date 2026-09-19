@@ -272,9 +272,10 @@ watch(hideLegends, (v) => setItem('wh11ed-roster-filter-legends', v ? '1' : ''))
 const hasLegends = computed(() => props.units.some((u) => u.flags?.legends))
 
 const hasBudget = computed(() => Number.isFinite(props.remaining))
-// Open if anything is already filtering — a fold that hides a switch which is ON would leave the
-// reader looking for units that the pane has quietly taken away.
-const filtersOpen = ref(onlyAffordable.value || onlyOwned.value || hideLegends.value)
+// Always folded on arrival, even with a remembered filter on (it used to open then): the pane's
+// height is the catalogue's, and the two things outside the fold — the count on this header and
+// the "N hidden" line — already say why the list is short. Owner's call, 2026-09-19.
+const filtersOpen = ref(false)
 const activeFilters = computed(() => (onlyAffordable.value && hasBudget.value ? 1 : 0) + (onlyOwned.value ? 1 : 0)
   + (hideLegends.value && hasLegends.value ? 1 : 0))
 const anyFilter = computed(() => (onlyAffordable.value && hasBudget.value) || onlyOwned.value

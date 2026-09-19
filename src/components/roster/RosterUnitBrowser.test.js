@@ -278,14 +278,14 @@ describe('RosterUnitBrowser — the catalogue filters', () => {
     expect(w.find('.rub-empty').exists()).toBe(true)
   })
 
-  it('remembers both toggles for the next visit, and opens the fold when one is on', async () => {
+  it('remembers both toggles for the next visit, and still starts folded — the header count tells', async () => {
     const w = mountBrowser({ remaining: 500 })
     await tick(filters(w)[0])
     const again = mountBrowser({ remaining: 500 })
     expect(filters(again)[0].element.checked).toBe(true)
     expect(filters(again).at(-1).element.checked).toBe(false)
-    // A closed fold would hide the switch that is shortening the list.
-    expect(again.find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('true')
+    expect(again.find('.rub-filters .rub-head').attributes('aria-expanded')).toBe('false')
+    expect(again.find('.rub-filters .rub-group-count').text()).toBe('1')
   })
 
   it('starts folded away while nothing is filtering', () => {

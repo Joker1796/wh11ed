@@ -1491,7 +1491,9 @@ away is counted on screen.
 **Two things never go inside the fold**, because a closed accordion must not hide why the
 catalogue is short: the "N hidden" line under it (inside the block, above its rule — that note is
 the filters talking, not the list) and a count of the active filters on the header itself. The
-fold also starts OPEN whenever a remembered filter is already on. A `border-bottom` closes the
+fold always starts closed — until 2026-09-19 it opened whenever a remembered filter was on, which
+on a phone spent three rows of the catalogue on switches already summed up by that count. A
+`border-bottom` closes the
 block off from the groups below: stacked in a column, its header would otherwise read as one more
 battlefield role.
 
