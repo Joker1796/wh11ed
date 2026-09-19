@@ -69,8 +69,8 @@
                   type="button"
                   class="ds-fav"
                   :class="{ on: isUnitFavorite(slug, s.id) }"
-                  :title="isUnitFavorite(slug, s.id) ? labels.favUnpin : labels.favPin"
-                  :aria-label="isUnitFavorite(slug, s.id) ? labels.favUnpin : labels.favPin"
+                  :title="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
+                  :aria-label="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
                   :aria-pressed="isUnitFavorite(slug, s.id)"
                   @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
                 >

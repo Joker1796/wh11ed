@@ -150,6 +150,9 @@ export const ui = {
     favPinnedGroup: 'Pinned',
     favPin: 'Pin to top',
     favUnpin: 'Unpin',
+    // A unit's pin lands in the faction's unit list, not "on top" of the page it is pressed on.
+    dsPinUnit: 'Pin in the unit list',
+    dsUnpinUnit: 'Unpin from the unit list',
     factionGroupUnaligned: 'Unaligned',
     factionRules: 'Rules',
     factionArmyRule: 'Army Rule',
@@ -1076,6 +1079,8 @@ export const ui = {
     favPinnedGroup: 'Закреплённые',
     favPin: 'Закрепить сверху',
     favUnpin: 'Открепить',
+    dsPinUnit: 'Закрепить в списке юнитов',
+    dsUnpinUnit: 'Открепить от списка юнитов',
     factionGroupUnaligned: 'Неприсоединившиеся',
     factionRules: 'Правила',
     factionArmyRule: 'Правило армии',

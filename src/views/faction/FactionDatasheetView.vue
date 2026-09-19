@@ -24,8 +24,8 @@
               type="button"
               class="ds-btn"
               :class="{ 'ds-btn-pin-on': fav }"
-              :title="fav ? labels.favUnpin : labels.favPin"
-              :aria-label="fav ? labels.favUnpin : labels.favPin"
+              :title="fav ? labels.dsUnpinUnit : labels.dsPinUnit"
+              :aria-label="fav ? labels.dsUnpinUnit : labels.dsPinUnit"
               :aria-pressed="fav"
               @click="toggleUnitFavorite(route.params.slug, sheet.id)"
             >
@@ -122,7 +122,7 @@
           class="act-btn ds-act"
           @click="moreDo(() => toggleUnitFavorite(route.params.slug, sheet.id))"
         >
-          <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />{{ fav ? labels.favUnpin : labels.favPin }}
+          <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
         </button>
         <button
           class="act-btn ds-act"
