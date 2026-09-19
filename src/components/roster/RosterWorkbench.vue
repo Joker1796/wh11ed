@@ -197,6 +197,11 @@ watch(() => props.desk, () => nextTick(measure))
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+/* The phone's floating chips («К партии») sit over this pane's bottom-right corner; the pane
+   keeps its height, only its scroll end gets the slack, so the last unit can be pulled clear. */
+@media (max-width: 900px) {
+  .rw-panes > .rp-list { padding-bottom: var(--mobile-bar-h, 0px); }
+}
 
 .rw-empty {
   margin: 2rem 0 0;

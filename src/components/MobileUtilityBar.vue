@@ -131,6 +131,9 @@ defineExpose({ visible })
   z-index: 195;
   height: 3rem;
   padding: 0 calc(1rem + var(--safe-right)) 0 calc(1rem + var(--safe-left));
+  /* The strip itself is invisible and spans the window; only the chips are real. Without this
+     the empty left part swallowed taps on whatever lay under it (a roster pane's last row). */
+  pointer-events: none;
 }
 
 @media (min-width: 901px) {
@@ -153,6 +156,7 @@ defineExpose({ visible })
   width: 2.2rem;
   height: 2.2rem;
   flex-shrink: 0;
+  pointer-events: auto;
   border: none;
   /* Light theme: a light chip (--bg-card) with a dark border/icon (--bg-insert, the
      bottom-nav's own always-dark tone — used here as an outline instead of a fill). Dark
