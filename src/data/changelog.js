@@ -22,8 +22,8 @@ export const changelog = [
     en: [
       { h: 'Roster builder: the Faction Pack Legends' },
       'All 314 Legends datasheets from the Faction Packs are in the roster builder \u2014 sizes, loadouts, wargear options and Munitorum points, marked Legends. Not in: T\u2019au Tactical Drones (no Munitorum price).',
-      { h: 'Roster builder: a weapon can only be given up once' },
-      'An option that replaces a weapon the model has already traded away is greyed out and says which weapon is gone. A saved or imported list that does this is not changed \u2014 its issues list names the unit and the weapon.',
+      { h: 'Roster builder: one weapon, one swap' },
+      'Once a model\u2019s weapon has been swapped by one option, the other options that swap the same weapon are unavailable and say why. Saved and imported lists that already do this are not changed \u2014 the issues list names the unit and the weapon.',
       { h: 'Grey Knights are listed under Imperium' },
       'In every faction picker \u2014 the Factions page, the menu, the game tracker, the roster importer, Combat Patrol.',
       { h: 'Datasheet page' },
@@ -34,8 +34,8 @@ export const changelog = [
     ru: [
       { h: 'Конструктор ростеров: Legends из Faction Pack\u2019ов' },
       'Все 314 листов Legends из Faction Pack\u2019ов есть в конструкторе ростеров \u2014 размеры, вооружение, опции и очки Munitorum, с пометкой Legends. Нет только Tactical Drones T\u2019au (нет цены в Munitorum).',
-      { h: 'Конструктор ростеров: оружие отдаётся только один раз' },
-      'Пункт, заменяющий оружие, которое модель уже отдала, гаснет и пишет, какого оружия нет. Сохранённый или импортированный ростер, где это уже случилось, не меняется \u2014 список замечаний называет отряд и оружие.',
+      { h: 'Конструктор ростеров: одно оружие \u2014 одна замена' },
+      'Если оружие модели уже заменено одной опцией, другие опции, меняющие то же оружие, недоступны и подсказывают почему. Сохранённые и импортированные ростеры, где такое уже есть, не меняются \u2014 список замечаний показывает отряд и оружие.',
       { h: 'Grey Knights \u2014 в группе Империума' },
       'Во всех выборах фракции \u2014 на странице фракций, в меню, в трекере партии, в импорте ростера, в Combat Patrol.',
       { h: 'Страница датащита' },
