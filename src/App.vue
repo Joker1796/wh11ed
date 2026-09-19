@@ -334,11 +334,19 @@ onUnmounted(() => {
   }
 }
 
+/* Below the desk the roster screens keep two panes that scroll inside themselves on a page that
+   does not scroll (RosterWorkbench measures the room under the panes from THIS padding), so the
+   reserve is exactly the fixed Cancel/Save bar, the bottom nav where there is one, and a gap. */
+@media (max-width: 1199px) {
+  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 1rem); }
+}
+
 /* ── Mobile ── */
 @media (max-width: 900px) {
   .main-content {
     padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px)) calc(1rem + var(--safe-left));
   }
+  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 52px + var(--safe-bottom) + 1rem); }
 }
 
 /* Very narrow phones (≤480px): the 900px tier's 1rem gutter still wastes a large share

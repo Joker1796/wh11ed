@@ -3,44 +3,48 @@
     class="roster-create themed"
     :style="accentStyle"
   >
-    <RouterLink
-      to="/roster"
-      class="back"
-    >
-      <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
-    </RouterLink>
-
-    <!-- The step markers are navigation, not just a progress read-out: any step already
-         reachable can be jumped to directly. Step 2 stays disabled until step 1 has a faction,
-         which is the same condition its own Next button enforces — and going forward through a
-         marker runs `goToUnits()` rather than assigning `step`, so the roster still gets created
-         and step 1's fields still get written.
-
-         There were three: picking units and configuring them were a step apart, which since
-         wargear started deciding a unit's price meant walking back and forth between them. They
-         are one step with two panes now — the same layout the editor's Units tab uses. -->
-    <div
-      v-if="!desk"
-      class="rc-steps"
-    >
-      <button
-        type="button"
-        class="rc-step"
-        :class="{ on: step === 1, done: step > 1 }"
-        @click="goToStep(1)"
+    <!-- One row for the way out and the step markers: on a phone the panes below get the window
+         minus everything above them, so a line here is a line taken from the catalogue. -->
+    <div class="rc-top">
+      <RouterLink
+        to="/roster"
+        class="back"
       >
-        <span>1</span><span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span>
-      </button>
-      <span class="rc-step-sep">→</span>
-      <button
-        type="button"
-        class="rc-step"
-        :class="{ on: step === 2 }"
-        :disabled="!canLeaveStep1"
-        @click="goToStep(2)"
+        <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
+      </RouterLink>
+
+      <!-- The step markers are navigation, not just a progress read-out: any step already
+           reachable can be jumped to directly. Step 2 stays disabled until step 1 has a faction,
+           which is the same condition its own Next button enforces — and going forward through a
+           marker runs `goToUnits()` rather than assigning `step`, so the roster still gets created
+           and step 1's fields still get written.
+
+           There were three: picking units and configuring them were a step apart, which since
+           wargear started deciding a unit's price meant walking back and forth between them. They
+           are one step with two panes now — the same layout the editor's Units tab uses. -->
+      <div
+        v-if="!desk"
+        class="rc-steps"
       >
-        <span>2</span><span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span>
-      </button>
+        <button
+          type="button"
+          class="rc-step"
+          :class="{ on: step === 1, done: step > 1 }"
+          @click="goToStep(1)"
+        >
+          <span>1</span><span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span>
+        </button>
+        <span class="rc-step-sep">→</span>
+        <button
+          type="button"
+          class="rc-step"
+          :class="{ on: step === 2 }"
+          :disabled="!canLeaveStep1"
+          @click="goToStep(2)"
+        >
+          <span>2</span><span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span>
+        </button>
+      </div>
     </div>
 
     <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
@@ -711,9 +715,10 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.roster-create { padding-top: 0.75rem; padding-bottom: 2rem; }
+.roster-create { padding-top: 0.75rem; padding-bottom: 0; }
 
-.rc-steps { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 1.25rem; font-size: 0.85rem; }
+.rc-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1rem; }
+.rc-steps { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.85rem; }
 /* Buttons now, but they must keep reading as a progress row rather than a toolbar — so the
    native chrome is reset and only the colour changes with state. */
 .rc-step {
@@ -742,20 +747,14 @@ watchEffect(() => {
 }
 
 .rc-panel { display: flex; flex-direction: column; gap: 1.1rem; }
-/* The unit-selection panel has a fixed footer overlaying the bottom of the viewport — reserve
-   room so the last rows of a long list aren't hidden behind it (mirrors .main-content's own
-   bottom-nav reservation in App.vue). */
-/* The bar is fixed and serves both steps, so both panels have to clear it. */
-.rc-panel { padding-bottom: 4.5rem; }
+/* Height is the phone's scarce axis, and the panes below are sized to what is left of it. */
 @media (max-width: 900px) {
-  .rc-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
+  .rc-top { margin-bottom: 0.6rem; }
+  .rc-panel { gap: 0.6rem; }
 }
-/* The desk (RosterWorkbench, ≥1200px) sizes its columns to end above the footer itself, and
-   App.vue's desk padding reserves the footer's room — any reserve here on top of that is height
-   the page has to scroll by. */
-@media (min-width: 1200px) {
-  .roster-create, .rc-panel { padding-bottom: 0; }
-}
+/* No reserve for the fixed bar here: App.vue's `.main-content--desk` padding is that reserve at
+   every width, and RosterWorkbench sizes the panes to end exactly above it — any padding on top
+   of that is height the page has to scroll by, and the page is meant to stand still. */
 /* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
    .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
 .rc-card {

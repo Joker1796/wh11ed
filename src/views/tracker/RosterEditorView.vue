@@ -4,9 +4,11 @@
     class="roster-editor themed"
     :style="accentStyle"
   >
+    <!-- Not on a phone: the fixed bar's Back goes to the same place, and the panes below get the
+         window minus everything above them, so a line here is a line taken from the catalogue. -->
     <RouterLink
       to="/roster"
-      class="back"
+      class="back red-back"
     >
       <i class="bi bi-chevron-left" /> {{ labels.rosterBackToList }}
     </RouterLink>
@@ -545,7 +547,7 @@ function rename(name) {
 </script>
 
 <style scoped>
-.roster-editor { padding-top: 0.75rem; padding-bottom: 5rem; }
+.roster-editor { padding-top: 0.75rem; padding-bottom: 0; }
 
 .red-head {
   display: flex;
@@ -594,20 +596,20 @@ function rename(name) {
 
 /* The tabs are PageTabs' own; only where they sit is this screen's business. */
 .red-tabs { margin-bottom: 1rem; }
-
-/* Reserve room for the fixed .rc-sticky footer below, same idea as RosterCreateView.vue's own
-   .rc-panel:has(.rc-sticky) — it's always visible here (not gated to a completed step), so
-   every tab needs the padding, not just one. */
-.red-panel { display: flex; flex-direction: column; gap: 1.1rem; padding-bottom: 4.5rem; }
+/* Height is the phone's scarce axis, and the panes below are sized to what is left of it. */
 @media (max-width: 900px) {
-  .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
+  .red-back { display: none; }
+  .red-head { margin: 0 0 0.6rem; padding-bottom: 0.4rem; }
+  .rname-input { font-size: 1.35rem; }
+  .red-tabs { margin-bottom: 0.6rem; }
+  .red-panel { gap: 0.6rem; }
 }
-/* The desk (RosterWorkbench, ≥1200px) sizes its columns to end above the footer itself, and
-   App.vue's desk padding reserves the footer's room — any reserve here on top of that is height
-   the page has to scroll by. */
-@media (min-width: 1200px) {
-  .roster-editor, .red-panel { padding-bottom: 0; }
-}
+
+/* No reserve for the fixed .rc-sticky footer here: App.vue's `.main-content--desk` padding is
+   that reserve at every width (the bar, the bottom nav where there is one, a gap), and
+   RosterWorkbench sizes the panes to end exactly above it — any padding on top of that is height
+   the page has to scroll by, and the page is meant to stand still. */
+.red-panel { display: flex; flex-direction: column; gap: 1.1rem; }
 
 /* ONE card of settings, not five tiles. Each setting used to be its own bordered box that sized
    itself to its own words — a faction name, two detachment names, an empty notes field — so the

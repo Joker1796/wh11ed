@@ -426,7 +426,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 /* flex/min-height, not just overflow: inside the build panes this component's height is bounded
    by the pane, and a column flex item defaults to min-height:auto — without these the body grows
    past the pane and is CLIPPED by it instead of scrolling. Inert where nothing bounds it. */
-.rub-body { flex: 1; min-height: 0; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; }
+.rub-body { flex: 1; min-height: 0; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; overflow-y: auto; overscroll-behavior: contain; }
 .rub-empty { color: var(--text-muted); font-style: italic; padding: 0.5rem; }
 
 .rub-group { display: flex; flex-direction: column; }

@@ -1129,17 +1129,31 @@ steps, and the phone its modal.
 
 - **`RosterWorkbench.vue`** owns both arrangements, so the catalogue and the list are written once
   per screen: `desk` renders the three columns, otherwise it renders the same `.roster-panes`
-  markup the two screens always had. Each desk column **scrolls inside itself, and the page does
-  not scroll at all** (2026-09-18): the columns are `height: 100dvh − --rw-top − --roster-sticky-h
-  − 1rem`, where `--rw-top` is where they start in the document, MEASURED by the workbench (a
-  ResizeObserver on the body, re-run on resize — the settings bar and the faction-rules fold above
-  them are as tall as their content, which CSS cannot know), and `App.vue`'s desk padding reserves
-  exactly the same bar-plus-gap below, so the page ends at the window's edge. Until 2026-09-18 the
-  columns were sticky under the navbar and capped against it alone, and the page still scrolled by
-  the height of everything above them — four scrollbars. A `min-height: 16rem` floor keeps a column
-  usable if the fold above opens on something long; the page then scrolls, which beats an unusable
-  column. All three are `container-type: inline-size`, which is why nothing inside them needed
-  rewriting: the rows already size themselves against their pane.
+  markup the two screens always had. Each column — the desk's three (2026-09-18) and the two panes
+  below it (2026-09-19) — **scrolls inside itself, and the page does not scroll at all**: the
+  columns are `height: 100dvh − --rw-top − --rw-below`, both MEASURED by the workbench —
+  `--rw-top` is where they start in the document (the settings bar / tabs and the faction-rules
+  fold above them are as tall as their content, which CSS cannot know), `--rw-below` the paddings
+  between their bottom edge and the end of `.main-content`, summed from computed styles (never
+  read off the boxes: `.main-content` fills the window, so a short page's bottom edge is the
+  window's, and measuring against it fed the column height back into itself). `App.vue`'s
+  `.main-content--desk` padding is the only reserve under them at every width — the fixed
+  Cancel/Save bar, the bottom nav where there is one, a gap — so the page ends at the window's
+  edge; the two screens' own footer paddings went with this. Re-measured by a ResizeObserver on
+  the body AND on the screen's root element (the body is `min-height: 100vh`, so a page shorter
+  than the window can change height without it noticing) and on resize; written only when
+  changed, so the observer does not loop on the height it just set. Before 2026-09-18 the columns
+  were sticky under the navbar and capped against it alone, and the page still scrolled by the
+  height of everything above them; below the desk that arrangement lasted a day longer, and on a
+  phone it meant a finger on the catalogue scrolled the catalogue until it ran out and then the
+  page (scroll chaining), which a player described as the page «lagging». A `min-height` floor
+  (16rem on the desk, 12rem in the panes — a phone with the keyboard up has less to give) keeps a
+  column usable if the fold above opens on something long; the page then scrolls, which beats an
+  unusable column. All columns are `container-type: inline-size`, which is why nothing inside
+  them needed rewriting: the rows already size themselves against their pane. Because height is
+  what the panes are paid from, both screens fold what sits above them on a phone (≤900px): the
+  editor hides its back link (the bar's Back goes to the same place) and shrinks the name row and
+  tab margins; the wizard puts the back link and the step markers on one line.
 - **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
   battle size, Force Disposition, then the points and the issue badge. It holds no state: both
   callers own a roster and do different things with the same answer (the wizard's faction pick also
@@ -1182,7 +1196,10 @@ round trip: add it there, see what it costs here. The reader who reported it had
 way and called the flow «путано».
 
 The panes are two columns on a phone as well, which is a deliberate choice and not an oversight —
-but half a phone is ~180px, and everything inside a pane has to be laid out for that.
+but half a phone is ~180px, and everything inside a pane has to be laid out for that. Since
+2026-09-19 each pane is its own scroll area on a page that stands still (see the desk section
+above for the mechanics — the same `RosterWorkbench` measurement); the alternative of one tab per
+pane was offered and turned down by the owner in favour of keeping both in view.
 
 **Both panes are query containers** (`container-type: inline-size`) and every compact arrangement
 inside them is an `@container (max-width: 300px)` rule, not a media query. A viewport breakpoint

@@ -8,16 +8,17 @@
      written ONCE per screen: below the threshold this renders the same `.roster-panes` markup it
      always did.
 
-     What the desk owns is the part neither caller can express on its own: three independent
-     scroll areas that stay put while the page behind them scrolls.
+     What the desk owns is the part neither caller can express on its own: independent scroll
+     areas that stay put, on a page that does not scroll.
 
-     Each column scrolls inside itself, and the PAGE does not scroll at all (2026-09-18): the
-     columns are sized to what the window has left under the settings bar and above the fixed
-     Cancel/Save bar, measured — where the columns actually start is the one number CSS cannot
-     know, because the bar and the faction-rules fold above them are as tall as their content.
-     Before, the columns were capped against the navbar alone and stuck under it, so the page
-     could still scroll by the height of everything above them, and three inner scrollbars plus
-     an outer one is one scrollbar too many to keep track of. -->
+     Each column scrolls inside itself, and the PAGE does not scroll at all (desk 2026-09-18, the
+     two panes 2026-09-19): the columns are sized to what the window has left under whatever sits
+     above them and above the fixed Cancel/Save bar, measured — where the columns start, and how
+     much padding the page keeps under them, are the two numbers CSS cannot know, because the bar
+     and the faction-rules fold above them are as tall as their content. Before, the panes were
+     capped against the navbar alone with the catalogue stuck under it, so a finger on the
+     catalogue scrolled the catalogue until it ran out and then the page (scroll chaining), which
+     a player described as the page «lagging»; a nested scroll on a phone always feels like that. -->
 <template>
   <div
     v-if="desk"
@@ -48,7 +49,8 @@
        which draws them itself — inline, or in a modal on a phone. -->
   <div
     v-else
-    class="roster-panes"
+    ref="colsEl"
+    class="roster-panes rw-panes"
   >
     <div class="rp-catalog">
       <slot name="catalog" />
@@ -77,23 +79,47 @@ const props = defineProps({
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// Where the columns start, in document space, handed to the CSS as --rw-top. Re-measured when
-// anything on the page changes size (the faction-rules fold opening, a detachment name wrapping
-// the bar onto two lines) and on resize — a ResizeObserver on the body is one observer for all
-// of those, and the measurement is a single getBoundingClientRect.
+// Where the columns start, in document space (--rw-top), and how much the page keeps under them
+// (--rw-below: the paddings between the columns' bottom edge and the end of `.main-content`,
+// which is where App.vue reserves the fixed bars' room). Both handed to the CSS; the column
+// height is the window minus the two. Re-measured when anything on the page changes size (the
+// faction-rules fold opening, a detachment name wrapping the bar onto two lines) and on resize —
+// a ResizeObserver on the body is one observer for all of those. Written only when changed, so
+// the observer's own reaction to the height it just set does not loop.
 const colsEl = ref(null)
 let observer = null
 function measure() {
   const el = colsEl.value
   if (!el) return
-  const top = el.getBoundingClientRect().top + window.scrollY
-  el.style.setProperty('--rw-top', `${Math.round(top)}px`)
+  const rect = el.getBoundingClientRect()
+  const top = `${Math.round(rect.top + window.scrollY)}px`
+  if (el.style.getPropertyValue('--rw-top') !== top) el.style.setProperty('--rw-top', top)
+  // Summed from the computed styles, not read off the boxes: `.main-content` is a flex item that
+  // fills the window, so its bottom edge is the window's whenever the page is short — measuring
+  // the gap against it fed the columns' own height back into itself and shrank them to the floor.
+  const main = el.closest('.main-content')
+  if (!main) return
+  let px = 0
+  for (let n = el; n && n !== main.parentElement; n = n.parentElement) {
+    const cs = getComputedStyle(n)
+    px += parseFloat(cs.marginBottom) || 0
+    if (n !== el) px += (parseFloat(cs.paddingBottom) || 0) + (parseFloat(cs.borderBottomWidth) || 0)
+  }
+  const below = `${Math.ceil(px)}px`
+  if (el.style.getPropertyValue('--rw-below') !== below) el.style.setProperty('--rw-below', below)
 }
 onMounted(() => {
   measure()
   if (typeof ResizeObserver !== 'undefined') {
     observer = new ResizeObserver(measure)
     observer.observe(document.body)
+    // The body is min-height: 100vh and `.main-content` fills the window, so a page shorter than
+    // the window can change height without either noticing — the screen's own root element (the
+    // child of `.main-content` the columns sit in) is as tall as its content and does.
+    const main = colsEl.value?.closest('.main-content')
+    let root = colsEl.value
+    while (root && root.parentElement !== main) root = root.parentElement
+    if (root) observer.observe(root)
   }
   window.addEventListener('resize', measure)
 })
@@ -119,7 +145,7 @@ watch(() => props.desk, () => nextTick(measure))
      ends exactly at the window's edge and has nothing to scroll. Until the first measurement
      the fallback is the navbar alone. The floor keeps the columns usable if the fold above
      them opens on something long; the page then scrolls, which beats an unusable column. */
-  height: calc(100dvh - var(--rw-top, calc(var(--navbar-height) + var(--safe-top))) - var(--roster-sticky-h, 0px) - 1rem);
+  height: calc(100dvh - var(--rw-top, calc(var(--navbar-height) + var(--safe-top))) - var(--rw-below, calc(var(--roster-sticky-h, 0px) + 1rem)));
   min-height: 16rem;
   min-width: 0;
   /* Everything inside a column sizes itself against the COLUMN, exactly as the two panes do:
@@ -141,6 +167,22 @@ watch(() => props.desk, () => nextTick(measure))
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: 0.2rem;
+}
+
+/* The two panes, same model: each pane is a scroll area of its own and the page stands still.
+   The base `.roster-panes` rules (style.css) still lay them out and make them query containers;
+   this overrides the catalogue's sticky-and-capped arrangement with a fixed height. The floor
+   is lower than the desk's — a phone with the keyboard up has less window to give. */
+.rw-panes > .rp-catalog,
+.rw-panes > .rp-list {
+  height: calc(100dvh - var(--rw-top, calc(var(--navbar-height) + var(--safe-top))) - var(--rw-below, calc(var(--roster-sticky-h, 0px) + 1rem)));
+  max-height: none;
+  min-height: 12rem;
+}
+.rw-panes > .rp-catalog { position: static; }
+.rw-panes > .rp-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .rw-empty {

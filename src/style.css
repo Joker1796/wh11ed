@@ -849,7 +849,11 @@ strong {
   .rc-sticky-inner { padding: 0.6rem calc(1rem + var(--safe-right)) 0.6rem calc(1rem + var(--safe-left)); }
 }
 
-@media (max-width: 400px) {
+/* The bar never wraps: "1350 / 2000" split over two lines and "← Back" under itself is what a
+   414px phone showed at the 400px threshold this used to be (2026-09-19). The compact measure
+   starts at 480px, and the points and the buttons are one line whatever the width. */
+.rc-points, .rc-sticky-actions > * { white-space: nowrap; }
+@media (max-width: 480px) {
   .rc-sticky-inner {
     padding: 0.5rem calc(0.6rem + var(--safe-right)) 0.5rem calc(0.6rem + var(--safe-left));
     gap: 0.5rem;
