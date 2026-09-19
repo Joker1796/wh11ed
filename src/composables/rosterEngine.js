@@ -174,10 +174,12 @@ export function wargearGroupLive(def, entry, gi) {
 // the named items have to come off a model, 'present' — a model has to carry them again. Which
 // one it is falls out of the same pair of readings wargearGroupLive weighs: a sibling that
 // REPLACES something is undone by taking its pick back, one that ADDS something by dropping it.
+// A third answer, 'stock', comes from the stock rule (stockBlocker below): the named items have
+// already been replaced by another group, and there is no model left carrying them.
 // `ids` are wargear item ids; the caller names them (this file never holds the dictionary).
 export function wargearGroupBlocker(def, entry, gi) {
   const cond = def?.gear?.[gi]?.cond
-  if (!cond || wargearGroupLive(def, entry, gi)) return null
+  if (!cond || wargearGroupLive(def, entry, gi)) return stockBlocker(def, entry, gi)
   const sib = def.gear[cond[0]]
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers
@@ -186,6 +188,27 @@ export function wargearGroupBlocker(def, entry, gi) {
   const opt = pick ? sib?.o?.[pick[1]] : null
   const ids = rep || [...new Set((opt ? [opt] : sib?.o || []).flatMap((o) => optionItems(o).map(([id]) => id)))]
   return { need: !!rep === !!cond[1] ? 'gone' : 'present', ids }
+}
+
+// The stock rule's half of wargearGroupBlocker (see swapRoom): an UNTOUCHED group whose swap has
+// nothing left to replace — every model that carried one of the items already gave it up to
+// another group — closes with `need: 'stock'` and the items that ran out. A group that already
+// holds a pick is never closed this way: its pick is what the player would undo, and a greyed-out
+// row cannot be undone. Whether that pick overdraws the unit is validateRoster's to say.
+// Closed only when EVERY option is — an option that hands an item back does not need it, so a
+// group can stay open through one of its rows while the others have nothing left to take.
+function stockBlocker(def, entry, gi) {
+  if ((entry?.wg || []).some(([g]) => g === gi)) return null
+  const byItem = swapRoomByItem(def, entry, gi)
+  if (!byItem) return null
+  const g = def.gear[gi]
+  const ids = new Set()
+  for (const [oi] of (g.o || []).entries()) {
+    const out = givenUp(g, oi).filter((id) => byItem.get(id) <= 0)
+    if (!out.length) return null
+    out.forEach((id) => ids.add(id))
+  }
+  return ids.size ? { need: 'stock', ids: [...ids] } : null
 }
 
 // A wargear group's instruction text is a sentence, sometimes followed by a list of the options
@@ -828,15 +851,6 @@ export function modelsPerMini(def, entry) {
   return out
 }
 
-// How many models of a profile a pick takes the item away from. A stepper carries the model count;
-// a checkbox is one tick per model, except for the four groups whose instruction hands the swap to
-// the whole profile ("All models can each have their…", `repall`). Reading every checkbox as the
-// whole profile is what used to wipe all nine boltguns off a Battle Sisters Squad when one Sister
-// traded hers away.
-function swapConsumed(g, n, scope) {
-  return g.in === 'stepper' ? Math.min(n || 1, scope) : Math.min(g.repall ? scope : 1, scope)
-}
-
 // Which profiles print an item in their default loadout, biggest first — the capacity a unit-wide
 // swap is spent against. A `total` quantity belongs to the PROFILE rather than to each of its
 // models (the single heavy bolter among two Gun Servitors) and is never reduced by a swap
@@ -871,38 +885,151 @@ function swapCarriers(def, perMini, id) {
 // groups are charged FIRST so a profile's own swaps claim its models before a unit-wide one does,
 // and nothing is ever charged past what a profile actually fields.
 export function swapsByMini(def, entry, perMini) {
+  return swapLedger(def, entry, perMini).removed
+}
+
+// The ledger behind swapsByMini and the stock rule below: what every live swap took, and what it
+// asked for that the unit did not have. `exceptGi` leaves one group's own picks out, which is how
+// swapRoom asks "what is left for THIS group" without counting the group against itself.
+//
+// Picks are summed PER GROUP before they are capped by the models in scope, not one by one. A
+// group is one allowance over one set of models — the Devastator Sergeant's "bolt pistol and
+// boltgun can be replaced with two different weapons" is two rows on one model — and reading each
+// row as a model of its own would have that one Sergeant give his bolt pistol up twice. Two
+// DIFFERENT groups are two allowances, and they add up: that is exactly the double spend the
+// overdraft reports (a Chaos Lord who swaps his bolt pistol for a plasma pistol AND, together with
+// his accursed weapon, for twin lightning claws).
+//
+// `removed` is GROSS — every model that took a swap gave up everything the group replaces — because
+// its readers (defaultLoadoutLines, the modifier overlay, the export) add what the option grants
+// on top. `back` is the part of that the chosen option handed straight back: Deathwatch Veterans
+// trade "boltgun and power weapon" for "power weapon and Astartes shield", and the Watch Sergeant
+// who did so still holds a power weapon to swap for a xenophase blade — the GW app builds him that
+// way, and so did 13 lists in the import corpus. Stock is the NET, removed less back.
+function swapLedger(def, entry, perMini, exceptGi = null) {
   const removed = new Map()
-  if (!perMini) return removed
-  const take = (key, n) => removed.set(key, (removed.get(key) || 0) + n)
-  const unitWide = []
-  for (const [gi, , n] of entry?.wg || []) {
+  const back = new Map()
+  const over = []
+  if (!perMini) return { removed, back, over }
+  const bump = (map, key, n) => map.set(key, (map.get(key) || 0) + n)
+  const net = (key) => (removed.get(key) || 0) - (back.get(key) || 0)
+  const asked = new Map() // gi → item id → [models asked, models whose option hands it back]
+  for (const [gi, oi, n] of entry?.wg || []) {
+    if (gi === exceptGi) continue
     const g = def?.gear?.[gi]
     if (!g?.rep?.length || !wargearGroupLive(def, entry, gi)) continue
-    if (g.all) { unitWide.push([g, n]); continue }
+    // A stepper carries the model count, a checkbox is one model unless its instruction hands the
+    // swap to the whole profile (`repall`) — Infinity here, the scope cap below makes it "all".
+    const models = g.in === 'stepper' ? n || 1 : g.repall ? Infinity : 1
+    const grants = new Set(optionItems(g.o?.[oi]).map(([id]) => id))
+    if (!asked.has(gi)) asked.set(gi, new Map())
+    const byItem = asked.get(gi)
+    for (const id of g.rep) {
+      const cur = byItem.get(id) || [0, 0]
+      byItem.set(id, [cur[0] + models, cur[1] + (grants.has(id) ? models : 0)])
+    }
+  }
+  const unitWide = []
+  for (const [gi, byItem] of asked) {
+    const g = def.gear[gi]
+    if (g.all) { unitWide.push(byItem); continue }
     const m = g.m ?? 0
     const models = perMini.get(m)
     if (models == null) continue
-    const consumed = swapConsumed(g, n, models)
-    for (const id of g.rep) take(`${m}:${id}`, consumed)
+    for (const [id, [n, b]] of byItem) {
+      const consumed = Math.min(n, models)
+      bump(removed, `${m}:${id}`, consumed)
+      bump(back, `${m}:${id}`, Math.min(b, consumed))
+    }
   }
-  if (!unitWide.length) return removed
+  // Per-profile overdraft: more models of a profile gave an item up than the profile fields. Only
+  // an item the profile is PRINTED with can be overdrawn — an item no default names (a chained
+  // swap, an "X or Y" the generator could not settle) has no stock to count against.
+  for (const key of removed.keys()) {
+    const [m, id] = key.split(':').map(Number)
+    const carrier = swapCarriers(def, perMini, id).find(([cm]) => cm === m)
+    if (carrier && net(key) > carrier[1]) over.push({ id, used: net(key), cap: carrier[1] })
+  }
+  if (!unitWide.length) return { removed, back, over }
   const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
   const unitModels = entry?.count ?? size?.per?.[0] ?? 1
-  for (const [g, n] of unitWide) {
-    const consumed = swapConsumed(g, n, unitModels)
-    for (const id of g.rep) {
-      let left = consumed
-      for (const [m, models] of swapCarriers(def, perMini, id)) {
+  for (const byItem of unitWide) {
+    for (const [id, [n, b]] of byItem) {
+      let left = Math.min(n, unitModels)
+      let backLeft = Math.min(b, left)
+      const carriers = swapCarriers(def, perMini, id)
+      for (const [m, models] of carriers) {
         if (left <= 0) break
-        const room = models - (removed.get(`${m}:${id}`) || 0)
+        const key = `${m}:${id}`
+        // Room is what the profile still NETS: a model whose swap handed the item back is still
+        // carrying it, so it is not a model the next swap has to look elsewhere for.
+        const room = models - net(key) + Math.min(backLeft, left)
         if (room <= 0) continue
         const spend = Math.min(room, left)
-        take(`${m}:${id}`, spend)
+        const returned = Math.min(backLeft, spend)
+        bump(removed, key, spend)
+        bump(back, key, returned)
         left -= spend
+        backLeft -= returned
+      }
+      // What no carrier could absorb is the unit-wide overdraft, against the whole unit's stock.
+      if (left > 0 && carriers.length) {
+        const cap = carriers.reduce((s, [, models]) => s + models, 0)
+        over.push({ id, used: cap + left, cap })
       }
     }
   }
-  return removed
+  return { removed, back, over }
+}
+
+// The items one pick in group `g` actually takes off a model: what the group replaces, less what
+// the option itself grants back. With no option named, everything the group replaces.
+function givenUp(g, oi = null) {
+  const opt = oi == null ? null : g.o?.[oi]
+  if (!opt) return g.rep || []
+  const grants = new Set(optionItems(opt).map(([id]) => id))
+  return (g.rep || []).filter((id) => !grants.has(id))
+}
+
+// THE STOCK RULE: a model cannot give the same item up twice. How many models still carry every
+// item a pick in group `gi` would take — the group's own picks not counted, so the number is the
+// room the group has left, whether it is untouched or already holds a pick. With `oi`, the room
+// for that option (an option that hands an item back does not need it). null where the data
+// cannot say, and a null never closes anything: a group that replaces nothing, a per-copy group
+// (`cp` — the Wraithlord swaps each of two flamers, and copies are not models), a unit whose
+// models cannot be split between profiles (modelsPerMini), an item the profile's printed loadout
+// does not carry, or an option that gives up nothing at all.
+export function swapRoom(def, entry, gi, oi = null) {
+  const byItem = swapRoomByItem(def, entry, gi)
+  if (!byItem) return null
+  const ids = givenUp(def.gear[gi], oi)
+  return ids.length ? Math.min(...ids.map((id) => byItem.get(id))) : null
+}
+
+// The same answer per replaced item (item id → models still carrying it), so the editor can name
+// the item that ran out rather than the whole set the group gives up.
+export function swapRoomByItem(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  if (!g?.rep?.length || g.cp) return null
+  const perMini = modelsPerMini(def, entry)
+  if (!perMini) return null
+  const { removed, back } = swapLedger(def, entry, perMini, gi)
+  const out = new Map()
+  for (const id of g.rep) {
+    const carriers = swapCarriers(def, perMini, id).filter(([m]) => g.all || m === (g.m ?? 0))
+    if (!carriers.length) return null
+    const left = (m, models) => models - (removed.get(`${m}:${id}`) || 0) + (back.get(`${m}:${id}`) || 0)
+    out.set(id, carriers.reduce((s, [m, models]) => s + Math.max(0, left(m, models)), 0))
+  }
+  return out
+}
+
+// Items a unit has given up more times than it carries them — `{ id, used, cap }` per item, for
+// validateRoster. Empty for a legal list; the editor keeps the list legal as you click (swapRoom
+// greys the group out), so this fires on a list that was built before the rule, was imported, or
+// shrank under its swaps.
+export function swapOverdraft(def, entry) {
+  return swapLedger(def, entry, modelsPerMini(def, entry)).over
 }
 
 // The profile a pick is SHOWN under — `g.m` for an ordinary group, and for a unit-wide one the

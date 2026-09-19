@@ -111,7 +111,7 @@ export function useRosterDerived(roster, factionData) {
   // that don't exist.
   const validation = computed(() =>
     factionData.value && roster.value
-      ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
+      ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore, items: rosterItems.items })
       : { points: points.value, issues: [], errorCount: 0 })
 
   // Everything `RosterEntryFields` needs beyond the entry itself, identical wherever the fields

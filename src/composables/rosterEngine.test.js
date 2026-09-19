@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -854,6 +854,124 @@ describe('modelsPerMini', () => {
   it('refuses a count the composition cannot produce', () => {
     expect(modelsPerMini(squad([[0, 1], [1, 4, 9]]), { size: 0, count: 20 })).toBeNull()
     expect(modelsPerMini({ minis: [{ n: 'A' }, { n: 'B' }], sizes: [{ pts: 1, per: [5, 5] }] }, {})).toBeNull()
+  })
+})
+
+describe('the stock rule — a model cannot give the same item up twice', () => {
+  // Chaos Lord with Jump Pack, as shipped: three groups, two of which replace the bolt pistol and
+  // two the accursed weapon. Before the rule the editor let all three be ticked at once.
+  const lord = {
+    sizes: [{ pts: 80, per: [1, 1], default: 1 }],
+    defaults: [[0, [[22, 1], [949, 1]]]], // bolt pistol, accursed weapon
+    gear: [
+      { m: 0, t: 1, in: 'checkbox', o: [[25]], rep: [22] }, // plasma pistol
+      { m: 0, t: 2, in: 'checkbox', o: [[952]], rep: [949] }, // power fist
+      { m: 0, t: 3, in: 'checkbox', o: [[954]], rep: [22, 949] }, // twin lightning claws
+    ],
+  }
+
+  it('closes the untouched groups that would replace an item already given up', () => {
+    expect(wargearGroupBlocker(lord, { wg: [] }, 2)).toBeNull()
+    // Plasma pistol taken: the claws need the bolt pistol, the fist does not.
+    expect(wargearGroupBlocker(lord, { wg: [[0, 0, 1]] }, 2)).toEqual({ need: 'stock', ids: [22] })
+    expect(wargearGroupBlocker(lord, { wg: [[0, 0, 1]] }, 1)).toBeNull()
+    // Claws taken: both single swaps are closed, each naming its own item.
+    expect(wargearGroupBlocker(lord, { wg: [[2, 0, 1]] }, 0)).toEqual({ need: 'stock', ids: [22] })
+    expect(wargearGroupBlocker(lord, { wg: [[2, 0, 1]] }, 1)).toEqual({ need: 'stock', ids: [949] })
+    // A group that already holds a pick is never closed — its pick is what the player would undo.
+    expect(wargearGroupBlocker(lord, { wg: [[2, 0, 1]] }, 2)).toBeNull()
+  })
+
+  it('reports the double spend on a list built before the rule', () => {
+    expect(swapOverdraft(lord, { wg: [[0, 0, 1]] })).toEqual([])
+    expect(swapOverdraft(lord, { wg: [[0, 0, 1], [1, 0, 1], [2, 0, 1]] }))
+      .toEqual([{ id: 22, used: 2, cap: 1 }, { id: 949, used: 2, cap: 1 }])
+  })
+
+  it('reads a group\u2019s picks as one allowance, not one model each', () => {
+    // Devastator Sergeant: "bolt pistol and boltgun can be replaced with two different weapons" —
+    // two rows in ONE group on one model is the swap taken whole, not the pistol given up twice.
+    const sergeant = {
+      sizes: [{ pts: 100, per: [1, 1], default: 1 }],
+      defaults: [[0, [[1, 1], [5, 1]]]],
+      gear: [{ m: 0, t: 1, in: 'checkbox', o: [[30], [31], [32]], rep: [1, 5], lim: [[0, 2, 1]] }],
+    }
+    expect(swapOverdraft(sergeant, { wg: [[0, 0, 1], [0, 1, 1]] })).toEqual([])
+    expect(swapsByMini(sergeant, { wg: [[0, 0, 1], [0, 1, 1]] }, modelsPerMini(sergeant, {})).get('0:1')).toBe(1)
+  })
+
+  it('leaves a stepper only the models the other groups have not spent', () => {
+    // Terminators, 5 models: any number may swap the combi-bolter for a combi-weapon (stepper),
+    // and 1 per 5 may swap it for a heavy weapon. Four combi-weapons leave the heavy one model.
+    const terms = {
+      sizes: [{ pts: 180, per: [5, 5], default: 1 }],
+      defaults: [[0, [[7, 1], [8, 1]]]], // combi-bolter, power fist
+      gear: [
+        { m: 0, t: 1, in: 'stepper', o: [[9]], rep: [7] }, // combi-weapon
+        { m: 0, t: 2, in: 'stepper', o: [[10]], rep: [7], lim: [[0, 1, 1]] }, // heavy weapon
+      ],
+    }
+    expect(swapRoom(terms, { wg: [] }, 1)).toBe(5)
+    expect(swapRoom(terms, { wg: [[0, 0, 4]] }, 1)).toBe(1)
+    expect(swapRoom(terms, { wg: [[0, 0, 5]] }, 1)).toBe(0)
+    expect(wargearGroupBlocker(terms, { wg: [[0, 0, 5]] }, 1)).toEqual({ need: 'stock', ids: [7] })
+    // The other way round, the open-ended stepper has four models left.
+    expect(swapRoom(terms, { wg: [[1, 0, 1]] }, 0)).toBe(4)
+    expect(swapOverdraft(terms, { wg: [[0, 0, 5], [1, 0, 1]] })).toEqual([{ id: 7, used: 6, cap: 5 }])
+  })
+
+  it('counts a unit-wide swap against every profile that carries the item', () => {
+    const chosen = {
+      minis: [{ n: 'Champion' }, { n: 'Chosen' }],
+      sizes: [{ pts: 125, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+      defaults: [[0, [[5, 1]]], [1, [[5, 1]]]], // boltgun on both
+      gear: [
+        { all: 1, m: 0, t: 1, in: 'stepper', o: [[3]], rep: [5] },
+        { all: 1, m: 0, t: 2, in: 'stepper', o: [[4]], rep: [5] },
+      ],
+    }
+    expect(swapRoom(chosen, { wg: [[0, 0, 3]] }, 1)).toBe(2)
+    expect(swapOverdraft(chosen, { wg: [[0, 0, 3], [1, 0, 3]] })).toEqual([{ id: 5, used: 6, cap: 5 }])
+  })
+
+  it('does not count an item the chosen option hands back', () => {
+    // Deathwatch Veterans: "boltgun and power weapon" → "power weapon and Astartes shield" keeps
+    // the power weapon, so the Watch Sergeant can still trade it for a xenophase blade — the way
+    // the GW app builds him. Sizes as shipped: Sergeant + 4 Veterans.
+    const dw = {
+      minis: [{ n: 'Watch Sergeant' }, { n: 'Deathwatch Veterans' }],
+      sizes: [{ pts: 100, per: [5, 5], default: 1, comp: [[0, 1], [1, 4]] }],
+      defaults: [[0, [[1, 1], [5, 1]]], [1, [[5, 1], [1, 1]]]], // power weapon, boltgun
+      gear: [
+        { m: 0, t: 1, in: 'checkbox', o: [[60]], rep: [1] }, // xenophase blade
+        { all: 1, m: 0, t: 2, in: 'stepper', lim: [[5, 2]], rep: [5, 1], o: [[[[5, 1], [61, 1]]], [[[1, 1], [61, 1]]]] }, // boltgun+shield / power weapon+shield
+      ],
+    }
+    // Two shields kept with the power weapon: the power weapon stock is untouched.
+    expect(swapOverdraft(dw, { wg: [[1, 1, 2], [0, 0, 1]] })).toEqual([])
+    expect(swapRoom(dw, { wg: [[1, 1, 2]] }, 0)).toBe(1)
+    // Room is asked per option: the "power weapon + shield" row needs boltguns only.
+    const allBlades = { wg: [[0, 0, 1]] }
+    expect(swapRoom(dw, allBlades, 1, 0)).toBe(4) // keeps the boltgun, needs a power weapon: one is gone
+    expect(swapRoom(dw, allBlades, 1, 1)).toBe(5) // keeps the power weapon, needs a boltgun: all five there
+  })
+
+  it('never closes what it cannot count', () => {
+    // A per-copy group (the Wraithlord's two flamers), and an item the printed loadout does not
+    // carry (a chained swap): both stay open, as they always were.
+    const wraithlord = {
+      sizes: [{ pts: 140, per: [1, 1], default: 1 }],
+      defaults: [[0, [[40, 2]]]],
+      gear: [{ m: 0, t: 1, in: 'stepper', cp: 2, o: [[41]], rep: [40] }, { m: 0, t: 2, in: 'checkbox', o: [[42]], rep: [40] }],
+    }
+    expect(swapRoom(wraithlord, { wg: [[1, 0, 1]] }, 0)).toBeNull()
+    const chained = {
+      sizes: [{ pts: 50, per: [1, 1], default: 1 }],
+      defaults: [[0, [[1, 1]]]],
+      gear: [{ m: 0, t: 1, in: 'checkbox', o: [[2]], rep: [1] }, { m: 0, t: 2, in: 'checkbox', o: [[3]], rep: [2] }],
+    }
+    expect(swapRoom(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
+    expect(wargearGroupBlocker(chained, { wg: [[0, 0, 1]] }, 1)).toBeNull()
   })
 })
 

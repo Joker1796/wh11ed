@@ -58,7 +58,7 @@ for (const { label, text } of lists) {
         const f = await faction(slug)
         const { payload, report } = matchRoster(parsed, { faction: f, core, items: rosterItems.items })
         const roster = { ...payload, faction: slug, detachments: report.detachments.matched }
-        const issues = validateRoster(roster, { faction: f, core }).issues.filter((i) => i.level === 'error')
+        const issues = validateRoster(roster, { faction: f, core, items: rosterItems.items }).issues.filter((i) => i.level === 'error')
         mismatch = !!report.points.stated && report.points.computed !== report.points.stated
         if (mismatch) notes.push(`points ${report.points.computed} / ${report.points.stated} stated`)
         for (const u of report.missing) notes.push(`no datasheet: ${u.name}`)

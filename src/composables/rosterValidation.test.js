@@ -113,6 +113,26 @@ describe('validateRoster — wargear pick limits', () => {
     expect(iss.uid).toBe(u.uid)
   })
 
+  it('flags an item given up by more models than carry it', () => {
+    const lord = {
+      id: 'lord', name: 'Lord', kws: ['Character', 'Infantry'], flags: { char: 1 },
+      sizes: [{ pts: 80, per: [1, 1], default: 1 }],
+      defaults: [[0, [[22, 1], [949, 1]]]],
+      gear: [
+        { m: 0, t: 1, in: 'checkbox', o: [[25]], rep: [22] },
+        { m: 0, t: 2, in: 'checkbox', o: [[954]], rep: [22, 949] },
+      ],
+    }
+    const ff = { ...faction, units: [...faction.units, lord] }
+    const items = { 22: 'Bolt pistol', 949: 'Accursed weapon' }
+    const run = (wg) => validateRoster(roster({ units: [{ ...U('lord', { size: 0, wg }), warlord: true }] }), { faction: ff, core, items })
+      .issues.filter((i) => i.code === 'overWargearReplaced')
+    expect(run([[1, 0, 1]])).toHaveLength(0)
+    const [iss] = run([[0, 0, 1], [1, 0, 1]])
+    expect(iss.level).toBe('error')
+    expect(iss.params).toMatchObject({ item: 'Bolt pistol', count: 2, limit: 1 })
+  })
+
   it('caps an uncapped group by the profile it belongs to', () => {
     // No wargear_limit for this one, so the ceiling is the number of models that can take it —
     // the rank-and-file profile, not the squad (a 10-model unit with one leader allows 9).
@@ -778,7 +798,7 @@ describe('validateRoster — every issue says which unit it is about', () => {
   it('asks for nothing the validator does not send', async () => {
     const { ui } = await import('../i18n/ui.js')
     const known = new Set(['unit', 'target', 'id', 'count', 'limit', 'over', 'spent', 'group',
-      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options'])
+      'names', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options', 'item'])
     for (const loc of ['en', 'ru']) {
       for (const [key, tpl] of Object.entries(ui[loc])) {
         if (!key.startsWith('issue_')) continue

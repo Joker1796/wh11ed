@@ -194,6 +194,44 @@ Both read the FIRST line only, as every allowance does. "cannot take duplicates"
 read from the whole text: it is usually a footnote under the list (two T'au groups keep their
 duplicate cap only because of that).
 
+### The stock rule: a weapon is given up once (added 2026-09-19)
+
+A player found the Chaos Lord with Jump Pack taking a plasma pistol (for his bolt pistol), a power
+fist (for his accursed weapon) AND twin lightning claws (for both) at once. The data knew better all
+along — every one of those groups carries `rep`, what it replaces — but the only reader of `rep`
+was the loadout line, which clipped the remainder at zero and said nothing. 98 profile/item pairs on
+72 datasheets could be given up twice.
+
+`rosterEngine.swapLedger` is now the one place that spends swaps, and three readers sit on it:
+
+- **`swapsByMini`** (the loadout line, the modifier overlay, the export) — unchanged in meaning,
+  GROSS: every model that took a swap gave up everything the group replaces, and the option's own
+  grants are added by the reader.
+- **`swapRoom(def, entry, gi, oi?)`** — how many models still carry every item a pick in this group
+  would take, the group's own picks not counted. The editor greys an untouched group out through
+  `wargearGroupBlocker` (`need: 'stock'`, "Already replaced by another choice: bolt pistol") and
+  caps a stepper at the room the other groups left it. A group that already holds a pick is never
+  closed: its pick is what the player would undo, and a greyed-out row cannot be undone.
+- **`swapOverdraft`** — `{ id, used, cap }` per item given up by more models than carry it, which
+  `validateRoster` reports as `overWargearReplaced`. Lists built before the rule, imported, or
+  shrunk under their swaps land here; nothing is auto-trimmed.
+
+Two readings keep legal lists legal. **Picks are summed per group before they meet the model
+count**: the Devastator Sergeant's "bolt pistol and boltgun can be replaced with two different
+weapons" is two rows in one group on one model, one allowance, not the pistol given up twice. **An
+item the chosen option hands back is not given up** (`back`, the net half of the ledger):
+Deathwatch Veterans trade "boltgun and power weapon" for "power weapon and Astartes shield", and
+the Watch Sergeant who did so still holds a power weapon to trade for a xenophase blade — the GW app
+builds him that way, and 13 corpus lists did. Room is therefore asked per OPTION where the options
+differ in what they return.
+
+Fail-open, as every other reader here: a per-copy group (`cp`), a unit whose models cannot be split
+between profiles (`modelsPerMini` null), an item the profile's printed loadout does not carry (a
+chained swap, an unresolved "X or Y") and a `total` line are not stock and never close anything.
+Known residue: the importer breaks a tie between two same-named options (the two shield bundles)
+by order, so one corpus list in 658 arrives with a Sergeant who swapped his power weapon twice and
+is told so — the fix is one tap in the editor; a stock-aware tie-break is the importer's to grow.
+
 ### Attachments named by keyword
 
 A datasheet can say who it joins with a keyword instead of a list — "this model can be attached to
