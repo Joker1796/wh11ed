@@ -34,9 +34,22 @@ export function phaseLabel(key, labels) {
 export function phasesOf(englishWhen) {
   if (!englishWhen) return ['any']
   if (/\bany phase\b/i.test(englishWhen)) return ['any']
-  const named = NAMED_PHASES.filter((p) => new RegExp(`\\b${p} phase\\b`, 'i').test(englishWhen))
+  const text = withoutComparisons(englishWhen)
+  const named = NAMED_PHASES.filter((p) => new RegExp(`\\b${p} phase\\b`, 'i').test(text))
   return named.length ? named : ['any']
 }
+
+// "…can make a Normal move of up to 6\" as if it were your Movement phase" names a phase the rule
+// does NOT happen in — the comparison says how to resolve the move, the timing is stated elsewhere
+// ("In your Shooting phase, after this unit has shot"). Read as timing, it put the Grey Knights'
+// Personal Teleporters into the Movement-phase reminder (a player's report, 2026-09-19). 41 rules
+// in the corpus use the phrasing, 31 of them "shoot as if it were your Shooting phase"; the clause
+// is dropped before either reader looks for a phase.
+const AS_IF_RE = new RegExp(
+  `\\bas (?:if|though) it (?:were|was) (?:your opponent['\u2019]s |your |the )?(?:${NAMED_PHASES.join('|')}) phase\\b`,
+  'gi',
+)
+function withoutComparisons(text) { return text.replace(AS_IF_RE, '') }
 
 // WHOSE phase, per phase the timing names. `phasesOf` deliberately stays as it is: the stratagem
 // page groups by phase and has no reason to care whose turn it is — this is the extra half the
@@ -59,7 +72,7 @@ const SIDE_RE = new RegExp(
 export function phaseSidesOf(englishWhen) {
   const out = {}
   if (!englishWhen) return out
-  for (const m of englishWhen.matchAll(SIDE_RE)) {
+  for (const m of withoutComparisons(englishWhen).matchAll(SIDE_RE)) {
     const phase = m[2].toLowerCase()
     const owner = (m[1] || '').toLowerCase()
     const side = !owner ? 'both' : owner === 'your' ? 'own' : 'opp'

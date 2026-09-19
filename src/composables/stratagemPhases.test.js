@@ -56,3 +56,18 @@ describe('usableInSlot', () => {
     expect(usableInSlot(['shooting'], { shooting: 'own' }, 'fight', true)).toBe(false)
   })
 })
+
+describe('a phase named only as a comparison', () => {
+  // Personal Teleporters (Grey Knights): the move is made in the Shooting phase, "as if it were
+  // your Movement phase" only says how — a player found it under the Movement-phase reminder.
+  const teleporters = 'In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6" as if it were your Movement phase.'
+  it('is not a phase the rule happens in', () => {
+    expect(phasesOf(teleporters)).toEqual(['shooting'])
+    expect(phaseSidesOf(teleporters)).toEqual({ shooting: 'own' })
+  })
+  it('leaves a rule with no other timing without a phase', () => {
+    const dying = 'When this model is destroyed, it can shoot as if it were your Shooting phase.'
+    expect(phasesOf(dying)).toEqual(['any'])
+    expect(phaseSidesOf(dying)).toEqual({})
+  })
+})

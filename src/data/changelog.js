@@ -27,6 +27,8 @@ export const changelog = [
       'A saved or imported list that already does this is not changed \u2014 its issues list names the unit and the weapon, and which swap to undo is yours to decide.',
       { h: 'Grey Knights are listed under Imperium' },
       'Every faction picker \u2014 the Factions page, the navbar menu, the game tracker, the roster importer, Combat Patrol \u2014 now lists Grey Knights beside the Custodes and the Sororitas instead of among the Space Marine Chapters.',
+      { h: 'Game tracker: the phase reminder no longer reads a comparison as a timing' },
+      '\u201cAs if it were your Movement phase\u201d says how a move is made, not when \u2014 the Grey Knights\u2019 Personal Teleporters showed up under the Movement phase for it (a player\u2019s report). The reminder now reads only the phase a rule actually happens in: Personal Teleporters, Shoot Sharp and Scarper and Master Outrider sit in your Shooting phase alone; Deathmarks\u2019 Hyperspace Hunters and the Kelermorph\u2019s Hypersensory Abilities in your opponent\u2019s Movement phase alone; fifteen opponent\u2019s-Shooting-phase abilities (Outrider Escort, Vanguard Support, Guns Blazing and the like) stop appearing in your own.',
     ],
     ru: [
       { h: 'Конструктор ростеров: Legends из Faction Pack\u2019ов можно выставлять' },
@@ -36,6 +38,8 @@ export const changelog = [
       'Сохранённый или импортированный ростер, где это уже случилось, не меняется \u2014 список замечаний называет отряд и оружие, а какую замену снять, решаете вы.',
       { h: 'Grey Knights \u2014 в группе Империума' },
       'Во всех выборах фракции \u2014 на странице фракций, в меню, в трекере партии, в импорте ростера, в Combat Patrol \u2014 Grey Knights теперь стоят рядом с Custodes и Sororitas, а не среди Орденов космодесанта.',
+      { h: 'Трекер партии: напоминание по фазам больше не принимает сравнение за срок' },
+      '\u00ab\u041aак если бы это была ваша фаза движения\u00bb говорит, как делается ход, а не когда \u2014 из-за этого Personal Teleporters у Grey Knights показывались в фазе движения (жалоба игрока). Напоминание теперь читает только фазу, в которой правило действительно срабатывает: Personal Teleporters, Shoot Sharp and Scarper и Master Outrider \u2014 только в вашей фазе стрельбы; Hyperspace Hunters у Deathmarks и Hypersensory Abilities у Kelermorph \u2014 только в фазе движения соперника; пятнадцать способностей на фазу стрельбы соперника (Outrider Escort, Vanguard Support, Guns Blazing и подобные) перестали появляться в вашей.',
     ],
   },
   {
