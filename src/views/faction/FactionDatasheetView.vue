@@ -77,6 +77,20 @@
             >
               <i class="bi bi-image" />
             </a>
+            <!-- On a phone the five buttons above fold into this one (the container query below
+                 swaps them): five 30px squares beside a name like "Kill Team Cassius" left the name
+                 two words to a line (a screenshot, 2026-09-19). The sheet it opens is the same
+                 .act-list every "…" in the app opens, the actions unchanged. -->
+            <button
+              ref="moreBtn"
+              type="button"
+              class="ds-btn ds-more"
+              :title="labels.rosterMoreActions"
+              :aria-label="labels.rosterMoreActions"
+              @click="moreOpen = true"
+            >
+              <i class="bi bi-three-dots" />
+            </button>
           </div>
         </div>
         <DatasheetCard
@@ -96,6 +110,50 @@
         {{ labels.factionsSoon }}
       </p>
     </section>
+
+    <BaseModal
+      v-if="moreOpen && sheet"
+      :title="sheet.name"
+      max-width="340px"
+      @close="moreOpen = false"
+    >
+      <div class="modal-body act-list">
+        <button
+          class="act-btn ds-act"
+          @click="moreDo(() => toggleUnitFavorite(route.params.slug, sheet.id))"
+        >
+          <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'" />{{ fav ? labels.favUnpin : labels.favPin }}
+        </button>
+        <button
+          class="act-btn ds-act"
+          @click="moreDo(() => toggleOwned(route.params.slug, sheet.id, sheet.name))"
+        >
+          <i :class="owned ? 'bi bi-star-fill' : 'bi bi-star'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
+        </button>
+        <button
+          class="act-btn ds-act"
+          @click="moreDo(copyName)"
+        >
+          <i class="bi bi-clipboard" />{{ labels.dsCopyName }}
+        </button>
+        <button
+          v-if="sheet.flavor"
+          class="act-btn ds-act"
+          @click="moreDo(openLoreFromSheet)"
+        >
+          <i class="bi bi-book" />{{ labels.loreShow }}
+        </button>
+        <a
+          :href="imageUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="act-btn ds-act"
+          @click="moreOpen = false"
+        >
+          <i class="bi bi-image" />{{ labels.dsSearchImage }}
+        </a>
+      </div>
+    </BaseModal>
 
     <KeywordUnitsModal
       v-if="activeKeyword"
@@ -137,6 +195,7 @@
 import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
+import BaseModal from '../../components/BaseModal.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import KeywordUnitsModal from '../../components/KeywordUnitsModal.vue'
 import { unitsWithKeyword } from '../../utils/keywordUnits.js'
@@ -289,10 +348,22 @@ function toggleLorePopover(e) {
 }
 function closeLore() { loreOpen.value = false }
 
+// The phone-width "…" sheet. Every action closes the sheet first; the lore popover is then
+// anchored to the "…" button itself — the book button it usually hangs off is display:none at
+// that width — and opened on the next tick, after the sheet's own click has finished bubbling
+// (the document click that dismisses the popover is attached while that click is still in flight).
+const moreOpen = ref(false)
+const moreBtn = ref(null)
+function moreDo(fn) { moreOpen.value = false; fn() }
+function openLoreFromSheet() {
+  const rect = moreBtn.value?.getBoundingClientRect()
+  setTimeout(() => { loreAnchor.value = rect || null; loreOpen.value = true }, 0)
+}
+
 function dismissOnMove() { if (loreOpen.value) closeLore() }
 function onKeydown(e) { if (e.key === 'Escape') closeLore() }
 function onDocClick(e) {
-  if (lorePopEl.value?.contains(e.target) || loreBtn.value?.contains(e.target)) return
+  if (lorePopEl.value?.contains(e.target) || loreBtn.value?.contains(e.target) || moreBtn.value?.contains(e.target)) return
   closeLore()
 }
 
@@ -493,6 +564,9 @@ async function copyName() {
    read as one flush, edge-to-edge header instead of a floating card. Horizontal padding drops to
    .ds-card's own 0.4rem so both line up, and the action buttons shrink to leave the (often long)
    unit name more room. */
+/* The "…" exists only where the buttons fold (below); a same-specificity rule inside the container
+   block has to come AFTER this one to win. */
+.ds-more { display: none; }
 @container dspage (max-width: 480px) {
   .ds-head {
     width: 100vw;
@@ -504,7 +578,13 @@ async function copyName() {
     min-height: 30px;
     font-size: 0.85rem;
   }
+  /* Five buttons become one: the row is the name's, not the toolbar's. */
+  .ds-actions > .ds-btn:not(.ds-more) { display: none; }
+  .ds-more { display: flex; min-width: 36px; min-height: 36px; font-size: 1rem; }
 }
+/* The sheet's rows carry the same icon the toolbar button did, so the two read as one thing. */
+.ds-act { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.ds-act .bi { width: 1.1rem; text-align: center; color: var(--text-muted); }
 /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits flush
    under the subnav, with no gap above the name plate. .fsection is the container's parent and
    cannot be queried from inside it; a viewport query is close enough for half a rem. */

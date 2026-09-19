@@ -1487,7 +1487,7 @@ function abilityStateLabel(st) {
   color: var(--accent);
   margin: 0 0 0.25rem;
 }
-.ds-points table { border-collapse: collapse; font-size: 0.8rem; }
+.ds-points table { border-collapse: collapse; font-size: 0.8rem; margin: 0; }
 .ds-points th {
   text-align: center;
   font-size: 0.6rem;
@@ -1530,7 +1530,11 @@ function abilityStateLabel(st) {
 /* …but the pill variant carries a border, and 0.3rem from the weapon table's last row reads as
    part of it. Only matters when there is nothing in play and "possible" follows the table alone. */
 .ds-weapons:has(+ .ds-mods-btn) { margin-bottom: 0.55rem; }
-.ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+/* `margin: 0` because style.css gives every `table` a 1rem margin top and bottom — the card's own
+   spacing (--ds-space, the 0.05rem between ranged and melee below) sat ON TOP of 32px of that
+   between the two tables and 16px above and below the pair, unnoticed since the first commit
+   (a player's screenshot, 2026-09-19). The card decides its gaps; the page rule is for prose. */
+.ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 0; }
 .ds-weapons th {
   text-align: center;
   font-size: 0.62rem;
