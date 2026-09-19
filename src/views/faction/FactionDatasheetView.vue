@@ -581,6 +581,15 @@ async function copyName() {
   /* Five buttons become one: the row is the name's, not the toolbar's. */
   .ds-actions > .ds-btn:not(.ds-more) { display: none; }
   .ds-more { display: flex; min-width: 36px; min-height: 36px; font-size: 1rem; }
+  /* …and the name takes the room back. Measured 2026-09-19 against the longest names in the data
+     ("Ironkin Steeljacks with Heavy Volkanite Disintegrators", 54 chars): at 360–430px, 1.75rem
+     wraps them to the same two lines 1.5rem did, ten pixels taller; a 25-char name ("Chaos Lord
+     with Jump Pack", the 90th percentile) stays on one line. Only a 320px screen needs a step
+     down to keep the longest at two lines. */
+  .ds-title { font-size: 1.75rem; }
+}
+@container dspage (max-width: 340px) {
+  .ds-title { font-size: 1.6rem; }
 }
 /* The sheet's rows carry the same icon the toolbar button did, so the two read as one thing. */
 .ds-act { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
