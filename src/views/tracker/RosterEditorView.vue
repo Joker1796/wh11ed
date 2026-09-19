@@ -1,7 +1,11 @@
 <template>
+  <!-- `.rw-host` while the Units panes are up: the screen is then a column as tall as the
+       window and the panes scroll inside themselves (RosterWorkbench); the Settings tab is an
+       ordinary page. -->
   <div
     v-if="roster"
     class="roster-editor themed"
+    :class="{ 'rw-host': desk || tab !== 'settings' }"
     :style="accentStyle"
   >
     <!-- Not on a phone: the fixed bar's Back goes to the same place, and the panes below get the
@@ -198,7 +202,7 @@
          only the layout changed. -->
     <div
       v-else
-      class="red-panel"
+      class="red-panel rw-fill"
     >
       <div
         v-if="!roster.faction"

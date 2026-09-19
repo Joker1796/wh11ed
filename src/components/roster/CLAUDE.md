@@ -1130,30 +1130,38 @@ steps, and the phone its modal.
 - **`RosterWorkbench.vue`** owns both arrangements, so the catalogue and the list are written once
   per screen: `desk` renders the three columns, otherwise it renders the same `.roster-panes`
   markup the two screens always had. Each column — the desk's three (2026-09-18) and the two panes
-  below it (2026-09-19) — **scrolls inside itself, and the page does not scroll at all**: the
-  columns are `height: 100dvh − --rw-top − --rw-below`, both MEASURED by the workbench —
-  `--rw-top` is where they start in the document (the settings bar / tabs and the faction-rules
-  fold above them are as tall as their content, which CSS cannot know), `--rw-below` the paddings
-  between their bottom edge and the end of `.main-content`, summed from computed styles (never
-  read off the boxes: `.main-content` fills the window, so a short page's bottom edge is the
-  window's, and measuring against it fed the column height back into itself). `App.vue`'s
-  `.main-content--desk` padding is the only reserve under them at every width — the fixed
-  Cancel/Save bar, the bottom nav where there is one, a gap — so the page ends at the window's
-  edge; the two screens' own footer paddings went with this. Re-measured by a ResizeObserver on
-  the body AND on the screen's root element (the body is `min-height: 100vh`, so a page shorter
-  than the window can change height without it noticing) and on resize; written only when
-  changed, so the observer does not loop on the height it just set. Before 2026-09-18 the columns
-  were sticky under the navbar and capped against it alone, and the page still scrolled by the
-  height of everything above them; below the desk that arrangement lasted a day longer, and on a
-  phone it meant a finger on the catalogue scrolled the catalogue until it ran out and then the
-  page (scroll chaining), which a player described as the page «lagging». A `min-height` floor
-  (16rem on the desk, 12rem in the panes — a phone with the keyboard up has less to give) keeps a
-  column usable if the fold above opens on something long; the page then scrolls, which beats an
-  unusable column. All columns are `container-type: inline-size`, which is why nothing inside
-  them needed rewriting: the rows already size themselves against their pane. Because height is
-  what the panes are paid from, both screens fold what sits above them on a phone (≤900px): the
-  editor hides its back link (the bar's Back goes to the same place) and shrinks the name row and
-  tab margins; the wizard puts the back link and the step markers on one line.
+  below it (2026-09-19) — **scrolls inside itself, and the page does not scroll at all.** The
+  model is a flex column, not a measured column: while the columns are showing, the screen's root
+  carries `.rw-host` (`style.css`) — a flex column exactly `100dvh − --rw-top − --rw-below` tall —
+  and every box between the root and the columns is `.rw-fill`, passing the room down; header,
+  tabs and the faction-rules fold keep their natural height, the columns (`flex: 1; min-height:
+  0`, one `minmax(0, 1fr)` grid row) take the rest. The two numbers CSS cannot know are measured
+  by the workbench and written on the root: `--rw-top`, where the root starts in the document
+  (navbar, an update banner, the page's top padding), and `--rw-below`, the paddings between the
+  root and the end of `.main-content` — summed from computed styles, never read off the boxes,
+  because `.main-content` can be as tall as the window on a short page and measuring against its
+  edge fed the root's height back into itself. Neither changes while the user works inside the
+  screen, so the observers (body, `.main-content`'s border box — the reserve is its padding — and
+  `resize`) fire on real changes only; the fold opening above the columns shrinks them in the
+  same layout pass with no script in the loop. The first version measured where the COLUMNS
+  start and re-measured on every frame of the fold's animation; the columns lagged the fold by a
+  frame, the page became scrollable and unscrollable in alternation, and a phone showed it as the
+  whole screen shivering. `App.vue`'s `.main-content--desk` padding is the only reserve under the
+  screen at every width — the fixed Cancel/Save bar, the bottom nav where there is one, a gap —
+  and the two screens' own footer paddings went with this. Before 2026-09-18 the columns were
+  sticky under the navbar and capped against it alone, and the page still scrolled by the height
+  of everything above them; below the desk that arrangement lasted a day longer, and on a phone
+  it meant a finger on the catalogue scrolled the catalogue until it ran out and then the page
+  (scroll chaining), which a player described as the page «lagging». A `min-height` floor (16rem
+  on the desk, 12rem in the panes — a phone with the keyboard up has less to give) keeps a column
+  usable if the fold above opens on something long; the columns then overflow the root and the
+  page scrolls, which beats an unusable column. All columns are `container-type: inline-size`,
+  which is why nothing inside them needed rewriting: the rows already size themselves against
+  their pane. Because height is what the columns are paid from, both screens fold what sits above
+  them on a phone (≤900px): the editor hides its back link (the bar's Back goes to the same place)
+  and shrinks the name row and tab margins; the wizard puts the back link and the step markers on
+  one line. The Settings tab and the wizard's step 1 are ordinary pages: `.rw-host` is bound to
+  the columns being up.
 - **`RosterSettingsBar.vue`** is the top line — name, faction, detachments (with the DP count),
   battle size, Force Disposition, then the points and the issue badge. It holds no state: both
   callers own a roster and do different things with the same answer (the wizard's faction pick also

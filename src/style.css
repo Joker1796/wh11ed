@@ -767,6 +767,17 @@ strong {
 .roster-panes > .rp-catalog > * { flex: 1; min-height: 0; }
 .roster-panes > .rp-list { min-width: 0; }
 @media (max-width: 380px) { .roster-panes { gap: 0.35rem; } }
+/* The roster building screens while their columns are showing: the screen's root is a column
+   exactly as tall as the window has left (RosterWorkbench measures --rw-top / --rw-below and
+   explains the model), and every box between the root and the columns is `.rw-fill`, passing the
+   room down. Header, tabs and the faction-rules fold keep their natural height; the columns take
+   the rest. Until the first measurement the fallback is the navbar alone. */
+.rw-host {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - var(--rw-top, calc(var(--navbar-height) + var(--safe-top))) - var(--rw-below, 0px));
+}
+.rw-fill { flex: 1 1 auto; min-height: 0; }
 
 /* ── Roster wizard footer bar ──────────────────────────────────────────────
    The fixed bar under the three roster-building screens: points and issue count on the left,

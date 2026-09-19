@@ -1,6 +1,10 @@
 <template>
+  <!-- `.rw-host` while the panes are up (step 2, or the desk): the screen is then a column as
+       tall as the window and the panes scroll inside themselves (RosterWorkbench); step 1 is an
+       ordinary page. -->
   <div
     class="roster-create themed"
+    :class="{ 'rw-host': desk || step === 2 }"
     :style="accentStyle"
   >
     <!-- One row for the way out and the step markers: on a phone the panes below get the window
@@ -234,7 +238,7 @@
          (RosterUnitList decides that). -->
     <div
       v-show="desk || step === 2"
-      class="rc-panel"
+      class="rc-panel rw-fill"
     >
       <!-- What this list plays with, above the list being built: army rule, each picked
            detachment's rule, their enhancements and stratagems. Folded — see the component. -->
