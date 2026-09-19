@@ -355,3 +355,17 @@ describe('DatasheetCard modifier notes', () => {
     expect(w.find('.ds-mod-src').text()).toBe('Experimental Augmentations')
   })
 })
+
+describe('DatasheetCard empty sections', () => {
+  // Tactical Drones (T’au Legends) print `abilities: []` — four sheets do — and the card drew an
+  // "Abilities" heading over nothing (a player's screenshot, 2026-09-19). An empty list is no section.
+  it('draws no heading for an empty abilities, wargear-abilities or weapon list', () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ abilities: [], wargearAbilities: [], ranged: [], melee: [] }) } })
+    expect(w.findAll('.ds-group-title')).toHaveLength(0)
+    expect(w.find('.ds-weapons').exists()).toBe(false)
+  })
+  it('still draws the heading when there is an ability to show', () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ abilities: [{ name: 'Teleport Homer', text: 'Deep Strike.' }] }) } })
+    expect(w.findAll('.ds-group-title').map((n) => n.text())).toContain('Abilities')
+  })
+})

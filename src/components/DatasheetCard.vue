@@ -89,7 +89,7 @@
 
       <!-- Weapons -->
       <div
-        v-if="sheet.ranged"
+        v-if="sheet.ranged?.length"
         class="ds-weapons"
       >
         <table>
@@ -172,7 +172,7 @@
         </table>
       </div>
       <div
-        v-if="sheet.melee"
+        v-if="sheet.melee?.length"
         class="ds-weapons"
       >
         <table>
@@ -418,7 +418,7 @@
            accordion here that starts closed is "possible modifiers" above, which is not the
            printed datasheet. -->
         <div
-          v-if="sheet.abilities"
+          v-if="sheet.abilities?.length"
           class="ds-ability-group"
         >
           <DsAccordion :collapsible="collapsible">
@@ -476,7 +476,7 @@
           </DsAccordion>
         </div>
         <div
-          v-if="sheet.wargearAbilities"
+          v-if="sheet.wargearAbilities?.length"
           class="ds-ability-group"
         >
           <DsAccordion :collapsible="collapsible">
@@ -534,7 +534,7 @@
           </DsAccordion>
         </div>
         <div
-          v-if="sheet.specialAbilities"
+          v-if="sheet.specialAbilities?.length"
           class="ds-ability-group"
         >
           <DsAccordion :collapsible="collapsible">
