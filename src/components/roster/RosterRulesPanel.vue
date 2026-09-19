@@ -246,19 +246,24 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
   background: var(--bg-card);
   margin-bottom: 0.6rem;
 }
+/* The head wears the same accent-tinted bar as the catalogue's role headings below it
+   (RosterUnitBrowser's `.rub-group > .rub-head`, a fifth of the accent over the secondary
+   surface): on a phone the panel sits right above those bars and read as one more grey row of
+   the page until the owner asked for it to be marked (2026-09-19). One tint, one meaning. */
 .rrp-head {
   display: flex;
   align-items: center;
   gap: 0.45rem;
   width: 100%;
   padding: 0.45rem 0.6rem;
-  background: none;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg-secondary));
   border: none;
   color: var(--text-primary);
   cursor: pointer;
   text-align: left;
 }
-.rrp-chev { flex: none; font-size: 0.72rem; color: var(--text-dim); }
+@media (hover: hover) { .rrp-head:hover { background: color-mix(in srgb, var(--accent) 32%, var(--bg-secondary)); } }
+.rrp-chev { flex: none; font-size: 0.72rem; color: var(--text-muted); }
 .rrp-title {
   font-size: 0.78rem;
   font-weight: 700;
@@ -271,7 +276,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
   flex: 1;
   min-width: 0;
   font-size: 0.72rem;
-  color: var(--text-dim);
+  color: var(--text-muted);
   text-align: right;
   overflow: hidden;
   text-overflow: ellipsis;
