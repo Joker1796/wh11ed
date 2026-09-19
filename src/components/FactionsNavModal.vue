@@ -33,7 +33,7 @@
         :key="g.id"
       >
         <h4 class="fp-group">
-          {{ labels[groupLabelKey(g.id)] }}
+          {{ labels[factionGroupLabelKey(g.id)] }}
         </h4>
         <template
           v-for="f in g.factions"
@@ -79,7 +79,7 @@
 import { computed } from 'vue'
 import BaseModal from './BaseModal.vue'
 import FavoriteStar from './FavoriteStar.vue'
-import { factionGroups } from '../data/factionsIndex.js'
+import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
@@ -92,15 +92,6 @@ const labels = computed(() => ui[locale.value])
 const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(factionGroups))
 
-const GROUP_LABEL_KEYS = {
-  astartes: 'factionGroupAstartes',
-  imperium: 'factionGroupImperium',
-  xenos: 'factionGroupXenos',
-  chaos: 'factionGroupChaos',
-}
-function groupLabelKey(id) {
-  return GROUP_LABEL_KEYS[id] || id
-}
 
 // The same colour identification as the tracker's faction picker (FactionPickerModal): a bar
 // and a monogram in the faction's own colour. The rows here ARE the index entries, so the pair

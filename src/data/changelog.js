@@ -25,6 +25,8 @@ export const changelog = [
       { h: 'Roster builder: a weapon can only be given up once' },
       'A model\u2019s swaps now spend the weapon they replace. A Chaos Lord with Jump Pack who traded his bolt pistol for a plasma pistol has no bolt pistol left to trade, with the accursed weapon, for twin lightning claws \u2014 that option is greyed out and says which weapon is already gone. Steppers stop at the models that still carry the weapon (five Terminators with five combi-weapons have no combi-bolter left for a heavy weapon). An option that hands the weapon back (a Deathwatch Veteran\u2019s power weapon and Astartes shield) leaves it in place for the next swap, as the official app does. Ninety-eight weapons on 72 datasheets could be given up twice before.',
       'A saved or imported list that already does this is not changed \u2014 its issues list names the unit and the weapon, and which swap to undo is yours to decide.',
+      { h: 'Grey Knights are listed under Imperium' },
+      'Every faction picker \u2014 the Factions page, the navbar menu, the game tracker, the roster importer, Combat Patrol \u2014 now lists Grey Knights beside the Custodes and the Sororitas instead of among the Space Marine Chapters.',
     ],
     ru: [
       { h: 'Конструктор ростеров: Legends из Faction Pack\u2019ов можно выставлять' },
@@ -32,6 +34,8 @@ export const changelog = [
       { h: 'Конструктор ростеров: оружие отдаётся только один раз' },
       'Замены модели теперь расходуют то оружие, которое заменяют. У Chaos Lord with Jump Pack, обменявшего bolt pistol на plasma pistol, не остаётся bolt pistol, чтобы вместе с accursed weapon обменять его на twin lightning claws \u2014 такой пункт гаснет и пишет, какое оружие уже отдано. Счётчики останавливаются на моделях, которые ещё несут это оружие (у пяти Terminators с пятью combi-weapon не остаётся combi-bolter под тяжёлое оружие). Пункт, который возвращает оружие обратно (power weapon и Astartes shield у Deathwatch Veteran), оставляет его для следующей замены \u2014 как в официальном приложении. Раньше 98 видов оружия на 72 листах можно было отдать дважды.',
       'Сохранённый или импортированный ростер, где это уже случилось, не меняется \u2014 список замечаний называет отряд и оружие, а какую замену снять, решаете вы.',
+      { h: 'Grey Knights \u2014 в группе Империума' },
+      'Во всех выборах фракции \u2014 на странице фракций, в меню, в трекере партии, в импорте ростера, в Combat Patrol \u2014 Grey Knights теперь стоят рядом с Custodes и Sororitas, а не среди Орденов космодесанта.',
     ],
   },
   {

@@ -60,7 +60,7 @@
                 class="nd-group"
               >
                 <h4 class="nd-group-title">
-                  {{ labels[groupLabelKey(g.id)] }}
+                  {{ labels[factionGroupLabelKey(g.id)] }}
                 </h4>
                 <template
                   v-for="f in g.factions"
@@ -298,7 +298,7 @@ import { useAccountActions } from '../composables/useAccountActions.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import AccountMenu from './AccountMenu.vue'
 import { ui } from '../i18n/ui.js'
-import { factionGroups } from '../data/factionsIndex.js'
+import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
 
 defineProps({
@@ -402,14 +402,6 @@ function onInstallClick() {
   if (canInstall.value) promptInstall()
   else if (iosInstall.value) emit('open-install-hint')
 }
-
-// Faction-group headings for the desktop navbar "Factions" hover dropdown (same tiny
-// id→i18n-key map used by FactionsListView; faction names themselves stay English).
-const GROUP_LABEL_KEYS = {
-  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
-  xenos: 'factionGroupXenos', chaos: 'factionGroupChaos',
-}
-function groupLabelKey(id) { return GROUP_LABEL_KEYS[id] || id }
 
 // The Factions dropdown is CSS hover/focus-within; clicking a link navigates but the cursor
 // stays over the trigger, so force-hide it on click and re-enable on mouseleave.

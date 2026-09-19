@@ -43,7 +43,7 @@
         class="group"
       >
         <h2 class="group-title">
-          {{ labels[groupLabelKey(group.id)] }}
+          {{ labels[factionGroupLabelKey(group.id)] }}
         </h2>
         <ul class="faction-list">
           <li
@@ -80,7 +80,7 @@
 <script setup>
 import { computed } from 'vue'
 import FavoriteStar from '../components/FavoriteStar.vue'
-import { factionGroups } from '../data/factionsIndex.js'
+import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
@@ -91,15 +91,6 @@ const labels = computed(() => ui[locale.value])
 const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(factionGroups))
 
-const GROUP_LABEL_KEYS = {
-  astartes: 'factionGroupAstartes',
-  imperium: 'factionGroupImperium',
-  xenos: 'factionGroupXenos',
-  chaos: 'factionGroupChaos',
-}
-function groupLabelKey(id) {
-  return GROUP_LABEL_KEYS[id] || id
-}
 </script>
 
 <style scoped>

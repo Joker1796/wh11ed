@@ -1,10 +1,11 @@
-// Faction index for the /factions landing page. Grouped into the same sub-groups the
-// Game Tracker's faction picker uses (see FACTION_GROUPS in composables/trackerFactions.js):
-// Space Marines and its Chapters form their own "Astartes" group, separate from the rest of
-// the Imperium. Membership mirrors the tracker's FACTION_GROUP_SLUGS (hand-kept in sync here
-// rather than imported, so this file — loaded by FactionsListView/NavSidebar — doesn't pull in
-// the heavy mfmFactions dataset the tracker lazy-loads). Within each group factions are sorted
-// by name, matching the tracker (Astartes / Imperium / Chaos / Xenos).
+// Faction index — THE ONE place that says which factions exist and which group each sits in.
+// Every picker that groups factions (the /factions landing page, the navbar dropdown, the Game
+// Tracker's faction picker, the roster importer, Combat Patrol) reads `factionGroups`, and the
+// tracker derives its FACTION_GROUP_SLUGS from it (composables/trackerFactions.js) — so moving a
+// faction between groups is a one-line change here. Space Marines and its Chapters form their own
+// "Astartes" group, separate from the rest of the Imperium; Grey Knights sit under Imperium
+// (moved 2026-09-19, the owner's call: players look for them beside the Custodes and the
+// Sororitas, not among the Chapters). Within each group factions are sorted by name.
 //
 // Only factions with a data file in src/data/factions/<slug>.js and `ready: true` link
 // through; the rest render as "coming soon". Names are the factions' own English names (kept
@@ -29,7 +30,6 @@ export const factionGroups = [
       { slug: 'blood-angels',       name: 'Blood Angels', ready: true, abbr: 'BA', color: { light: '#9b1c1c', dark: '#e06666' } },
       { slug: 'dark-angels',        name: 'Dark Angels', ready: true, abbr: 'DA', color: { light: '#1d5e34', dark: '#4fae74' } },
       { slug: 'deathwatch',         name: 'Deathwatch', ready: true, abbr: 'DW', color: { light: '#4a5560', dark: '#98a6b4' } },
-      { slug: 'grey-knights',       name: 'Grey Knights', ready: true, abbr: 'GK', color: { light: '#4f6d7a', dark: '#8fb3c2' } },
       { slug: 'space-marines',      name: 'Space Marines', ready: true, abbr: 'SM', color: { light: '#1f4e8c', dark: '#6b9fd8' } },
       { slug: 'space-wolves',       name: 'Space Wolves', ready: true, abbr: 'SW', color: { light: '#56707f', dark: '#9cc0d1' } },
     ],
@@ -41,6 +41,7 @@ export const factionGroups = [
       { slug: 'adeptus-custodes',   name: 'Adeptus Custodes', ready: true, abbr: 'AC', color: { light: '#8a6d1a', dark: '#d4af37' } },
       { slug: 'adeptus-mechanicus', name: 'Adeptus Mechanicus', ready: true, abbr: 'AdM', color: { light: '#9c3b1a', dark: '#e07a52' } },
       { slug: 'astra-militarum',    name: 'Astra Militarum', ready: true, abbr: 'AM', color: { light: '#4e5d2e', dark: '#a3b36b' } },
+      { slug: 'grey-knights',       name: 'Grey Knights', ready: true, abbr: 'GK', color: { light: '#4f6d7a', dark: '#8fb3c2' } },
       { slug: 'imperial-agents',    name: 'Imperial Agents', ready: true, abbr: 'IA', color: { light: '#33635c', dark: '#6fb3a8' } },
       { slug: 'imperial-knights',   name: 'Imperial Knights', ready: true, abbr: 'IK', color: { light: '#2e5f8a', dark: '#7fb0da' } },
       { slug: 'titan-legions',      name: 'Titan Legions', ready: true, abbr: 'TL', color: { light: '#6b3f24', dark: '#b98a63' } },
@@ -83,3 +84,11 @@ export function factionIndexBySlug(slug) {
   }
   return null
 }
+
+// Group id → ui.js label key, for every picker that prints the group headings. `other` is the
+// tracker's catch-all for an MFM faction this index does not know (see trackerFactions.js).
+export const FACTION_GROUP_LABEL_KEYS = {
+  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
+  chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
+}
+export function factionGroupLabelKey(id) { return FACTION_GROUP_LABEL_KEYS[id] || id }

@@ -4,28 +4,24 @@
 // loads with the setup chunk instead of bloating the playing/breakdown views.
 import { mfmFactions } from '../data/mfmFactions.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
+import { factionGroups } from '../data/factionsIndex.js'
 
 export const FACTIONS = mfmFactions.en.map(f => ({ slug: f.slug, name: f.name }))
 
 // Visual grouping of factions for the setup dropdown (`<optgroup>`) — the full list is
-// always selectable, the four groups only improve readability. Group ids map to labels
-// in ui.js (`factionGroup*`). Factions not listed here fall into an "other" group, so
-// new MFM factions never silently disappear from the picker.
-const FACTION_GROUP_SLUGS = {
-  astartes: ['space-marines', 'black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'grey-knights', 'space-wolves'],
-  imperium: ['adepta-sororitas', 'adeptus-custodes', 'adeptus-mechanicus', 'astra-militarum', 'imperial-agents', 'imperial-knights', 'titan-legions'],
-  chaos: ['chaos-space-marines', 'death-guard', 'thousand-sons', 'world-eaters', 'emperors-children', 'chaos-daemons', 'chaos-knights', 'chaos-titan-legions'],
-  xenos: ['aeldari', 'drukhari', 'necrons', 'orks', 'tau-empire', 'tyranids', 'genestealer-cults', 'leagues-of-votann'],
-}
+// always selectable, the four groups only improve readability. Membership comes from
+// data/factionsIndex.js (the one place a faction's group is decided); group ids map to labels
+// in ui.js (`factionGroup*`, see FACTION_GROUP_LABEL_KEYS there). Factions not listed in the
+// index fall into an "other" group, so new MFM factions never silently disappear from the picker.
 export const FACTION_GROUPS = (() => {
   const byName = (a, b) => a.name.localeCompare(b.name)
   const seen = new Set()
-  const groups = ['astartes', 'imperium', 'chaos', 'xenos'].map(id => {
-    const factions = FACTION_GROUP_SLUGS[id]
-      .map(slug => FACTIONS.find(f => f.slug === slug))
+  const groups = factionGroups.map(g => {
+    const factions = g.factions
+      .map(({ slug }) => FACTIONS.find(f => f.slug === slug))
       .filter(Boolean)
     factions.forEach(f => seen.add(f.slug))
-    return { id, factions: factions.sort(byName) }
+    return { id: g.id, factions: factions.sort(byName) }
   })
   const other = FACTIONS.filter(f => !seen.has(f.slug)).sort(byName)
   if (other.length) groups.push({ id: 'other', factions: other })

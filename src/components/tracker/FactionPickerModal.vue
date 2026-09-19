@@ -80,7 +80,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { FACTION_GROUPS, COMBAT_PATROL_FACTION_GROUPS } from '../../composables/trackerFactions.js'
-import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { factionIndexBySlug, factionGroupLabelKey } from '../../data/factionsIndex.js'
 
 const props = defineProps({
   selected: { type: String, default: null },
@@ -97,11 +97,7 @@ const groups = computed(() => props.combatPatrolOnly ? COMBAT_PATROL_FACTION_GRO
 const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
 const pinned = computed(() => pinnedFactionsFrom(groups.value))
 
-const GROUP_LABEL_KEYS = {
-  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
-  chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
-}
-function groupLabel(id) { return labels.value[GROUP_LABEL_KEYS[id]] || '' }
+function groupLabel(id) { return labels.value[factionGroupLabelKey(id)] || '' }
 
 // Colour identification (2026-09-17, a player's ask): thirty rows of text tell apart by
 // reading only; a bar and a monogram in the faction's own colour — the same pair the faction

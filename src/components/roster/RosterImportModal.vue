@@ -162,12 +162,8 @@ import { detectFormat, matchFaction, matchRoster, parseList } from '../../compos
 import rosterCore from '../../data/roster/core.js'
 // The light index (names + slugs), not the tracker's faction module: this modal is imported by the
 // roster list, which stays out of the heavy datasets.
-import { factionGroups } from '../../data/factionsIndex.js'
+import { factionGroups, factionGroupLabelKey } from '../../data/factionsIndex.js'
 
-const GROUP_LABEL_KEYS = {
-  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
-  chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
-}
 
 const emit = defineEmits(['close', 'imported'])
 
@@ -184,7 +180,7 @@ const factionName = ref('')
 const askFaction = ref(false)
 const pickedFaction = ref('')
 
-const groupLabel = (id) => labels.value[GROUP_LABEL_KEYS[id]] || id
+const groupLabel = (id) => labels.value[factionGroupLabelKey(id)] || id
 
 // Editing the pasted text invalidates the report it produced — otherwise "Create" would build the
 // list somebody read about two edits ago. The faction they chose goes with it: the next paste is a
