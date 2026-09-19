@@ -37,6 +37,11 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
   keyed on `$route.path`. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
   `useRefNavigation.js`) polls the DOM for ~1.5s so the short mount delay doesn't break it.
+  **A view must have exactly one root node, comments included**: `out-in` waits for the leaving
+  root's transition to report back, and a Fragment root (which a comment before the root element
+  makes it in dev — comments survive there, not in prod) never does, so the next page never mounts
+  and the screen under the navbar stays blank. Enforced by `vue/no-multiple-template-root` with
+  `disallowComments` for `src/views/**` (2026-09-19, the roster wizard and editor).
 - **Programmatic scrolling never animates** (`instantly()` in `useRefNavigation.js`). `html` carries
   `scroll-behavior: smooth` for the reader's own anchor clicks, and `behavior: 'instant'` is NOT
   enough to opt out of it: Safari only understood that value from **17.4**, so before this each of

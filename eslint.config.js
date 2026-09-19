@@ -73,6 +73,16 @@ export default [
   },
 
   {
+    // Route components render inside App.vue's `<Transition mode="out-in">`. A comment before the
+    // root element makes the root a Fragment in dev (comments are kept there, stripped in prod) —
+    // and a Fragment cannot be animated, so the leave never reports back and the next page never
+    // mounts: a blank screen under the navbar after leaving that view (2026-09-19, the roster
+    // wizard and editor). Views must have exactly one root node, comments included.
+    files: ['src/views/**/*.vue'],
+    rules: { 'vue/no-multiple-template-root': ['error', { disallowComments: true }] },
+  },
+
+  {
     // UpdateToast is headless on purpose: it registers the service worker and applies updates
     // silently, and its template is a comment explaining that. An empty root is the point, not
     // an oversight — and it still needs the `<template>` block, or Vue warns about a component

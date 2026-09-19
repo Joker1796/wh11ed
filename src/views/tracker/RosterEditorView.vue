@@ -1,13 +1,13 @@
 <template>
-  <!-- `.rw-host` while the Units panes are up: the screen is then a column as tall as the
-       window and the panes scroll inside themselves (RosterWorkbench); the Settings tab is an
-       ordinary page. -->
   <div
     v-if="roster"
     class="roster-editor themed"
     :class="{ 'rw-host': desk || tab !== 'settings' }"
     :style="accentStyle"
   >
+    <!-- `.rw-host` while the Units panes are up: the screen is then a column as tall as the
+         window and the panes scroll inside themselves (RosterWorkbench); the Settings tab is an
+         ordinary page. (No comment may sit BEFORE this root — see the src/views lint rule.) -->
     <!-- Not on a phone: the fixed bar's Back goes to the same place, and the panes below get the
          window minus everything above them, so a line here is a line taken from the catalogue. -->
     <RouterLink

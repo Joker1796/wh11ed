@@ -1,12 +1,12 @@
 <template>
-  <!-- `.rw-host` while the panes are up (step 2, or the desk): the screen is then a column as
-       tall as the window and the panes scroll inside themselves (RosterWorkbench); step 1 is an
-       ordinary page. -->
   <div
     class="roster-create themed"
     :class="{ 'rw-host': desk || step === 2 }"
     :style="accentStyle"
   >
+    <!-- `.rw-host` while the panes are up (step 2, or the desk): the screen is then a column as
+         tall as the window and the panes scroll inside themselves (RosterWorkbench); step 1 is
+         an ordinary page. (No comment may sit BEFORE this root — see the src/views lint rule.) -->
     <!-- One row for the way out and the step markers: on a phone the panes below get the window
          minus everything above them, so a line here is a line taken from the catalogue. -->
     <div class="rc-top">
