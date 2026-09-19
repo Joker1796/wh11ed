@@ -330,6 +330,30 @@ describe('validateRoster — enhancements', () => {
       U('marneus', { enh: 'Enlivened Sentinels' }),
     ])).toContain('dupEnh')
   })
+  // Muster rules: "the second and third instances of the same Upgrade do not count towards the
+  // total number of enhancements in your army". Three Land Speeders with one Upgrade and three
+  // with another are two slots — eight v946 tournament lists were flagged before this counted so.
+  it('counts an "(Upgrade)" once toward the army limit however many units carry it', () => {
+    const det2 = { ...detachment, enhancements: [...detachment.enhancements,
+      { name: 'Enlivened Sentinels', pts: 20, type: 'upgrade', limit: 3, req: [{ kw: ['Infantry'] }] },
+      { name: 'Ward of Iron', pts: 10, type: 'upgrade', limit: 3, req: [{ kw: ['Infantry'] }] }] }
+    const f = { ...faction, detachments: [det2] }
+    const inc = (units) => validateRoster({ ...roster({ units }), battleSize: 'incursion' }, { faction: f, core }).issues.map((i) => i.code)
+    // Incursion enhLimit = 2: two Upgrades on five units are two slots.
+    expect(inc([
+      U('captain', { warlord: true, enh: 'Enlivened Sentinels' }),
+      U('lieutenant', { enh: 'Enlivened Sentinels' }),
+      U('chaplain', { enh: 'Enlivened Sentinels' }),
+      U('lieutenant', { enh: 'Ward of Iron' }),
+      U('chaplain', { enh: 'Ward of Iron' }),
+    ])).not.toContain('overEnhLimit')
+    // …and an ordinary enhancement on top is the third slot.
+    expect(inc([
+      U('captain', { warlord: true, enh: 'Enlivened Sentinels' }),
+      U('lieutenant', { enh: 'Ward of Iron' }),
+      U('chaplain', { enh: 'Artificer Armour' }),
+    ])).toContain('overEnhLimit')
+  })
   // "No unit (including attached units) can have more than one enhancement" — every other check
   // here asks about ONE entry, and two enhancement-carrying Leaders on the same bodyguard unit is
   // a roster where no single entry is wrong.

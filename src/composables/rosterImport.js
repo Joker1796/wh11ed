@@ -28,7 +28,7 @@
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
 import { factionGroups } from '../data/factionsIndex.js'
-import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, unitPoints, wargearGroupCap } from './rosterEngine.js'
+import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
@@ -48,7 +48,12 @@ const PTS = '(?:pts?|points?)'
 // points) - Palatine Eristine". Four such characters in one Sororitas list matched nothing at all
 // and went missing — 280 points of it — and the one printed under a squad was read as that squad's
 // wargear. The name they chose is theirs, not a datasheet's, so it is tolerated and dropped.
-const POINTS_LINE = new RegExp(`^(.+?)\\s*\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)(?:\\s*[-\u2013\u2014]\\s*\\S.*)?$`, 'i')
+// …and a paste from the rendered page loses the parentheses along with the space before them —
+// "Shield-Captain on Dawneagle Jetbike170 Points" — so the points may also sit bare at the end of
+// the name, glued to it (2026-09-19, two lists).
+// Glued means glued: the digits follow a letter with nothing between ("2,000 points" and "Total
+// 2000 Points" are not units).
+const POINTS_LINE = new RegExp(`^(.+?)\\s*(?:\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)|(?<=[^\\d\\s.,])(\\d[\\d.,]*) ?${PTS})(?:\\s*[-\u2013\u2014]\\s*\\S.*)?$`, 'i')
 // Points are whole numbers: a dot, comma or space inside one is a thousands separator, not a
 // decimal point — listhammer writes a 2000-point list as "2.000 Points".
 const num = (s) => +String(s).replace(/\D/g, '')
@@ -144,7 +149,14 @@ function isCompactList(text) {
 // one. Both shapes indent the same, so the tell is the BULLET: a bulleted line at depth 4 means the
 // depth-2 lines above it are model groups; an unbulleted one is the second weapon of a single model.
 function gwBody(entries) {
-  const nested = entries.some((e) => e.indent >= 4 && e.bullet)
+  // Nesting is read from indentation, or — where a paste has lost it — from the bullets: the GW
+  // app's "◦" lines are the weapons under the "•" model line above them. listhammer strips every
+  // leading space, so all 1,800 of its GW-format lists arrived flat, every profile's weapons were
+  // pooled, and a Seraphim Superior's plasma pistol and power weapon were scored against the
+  // squad's bolt pistols (2026-09-19).
+  const byBullet = entries.some((e) => e.sub) && entries.some((e) => e.bullet && !e.sub)
+  const depth = (e) => e.indent + (byBullet && e.sub ? 4 : 0)
+  const nested = byBullet || entries.some((e) => e.indent >= 4 && e.bullet)
   if (!nested) {
     // Indentation is the ONLY thing separating a model line from a weapon here, and a paste can
     // arrive with it stripped (copied out of a rendered page rather than the clipboard export) —
@@ -154,7 +166,7 @@ function gwBody(entries) {
     const weapons = entries.map(({ n, name }) => ({ n, name, mini: null }))
     return { models: null, weapons, modelLines: weapons, flatBody: true }
   }
-  const top = Math.min(...entries.map((e) => e.indent))
+  const top = Math.min(...entries.map(depth))
   let models = 0
   let mini = null
   const weapons = []
@@ -162,8 +174,10 @@ function gwBody(entries) {
   for (const e of entries) {
     // The model line names the profile the weapons under it belong to — which is what lets the
     // matcher tell the sergeant's plasma pistol from the squad's.
-    if (e.indent === top) { models += e.n; mini = e.name; modelLines.push({ n: e.n, name: e.name }); continue }
-    weapons.push({ n: e.n, name: e.name, mini })
+    // A bare line among bulleted ones is a comment ("One of these losers actually has a missile
+    // launcher. -TO edited"), not a model: it goes down as a weapon line for the matcher to report.
+    if (depth(e) === top && (e.bullet || !byBullet)) { models += e.n; mini = e.name; modelLines.push({ n: e.n, name: e.name }); continue }
+    weapons.push({ n: e.n, name: e.name, mini: !byBullet || e.bullet ? mini : null })
   }
   // The lines are kept as well as counted: a unit's attached extra is printed exactly like a model
   // ("• 1x Ammo Runt"), and only the datasheet knows which is which — see matchRoster.
@@ -324,7 +338,7 @@ function parseGw(text) {
     const head = indent === 0 && POINTS_LINE.exec(t)
     if (head) {
       const name = head[1].trim()
-      const pts = num(head[2])
+      const pts = num(head[2] ?? head[3])
       if (BATTLE_SIZES.test(name)) { out.limit = pts; inHeader = false; continue }
       // An attached block can be headed by its MEMBERS' names joined with " + " and the pair's
       // total, instead of by "Attached Unit N" — the same shape the site's compact mode uses. The
@@ -358,7 +372,9 @@ function parseGw(text) {
         // A "Label: Value" line that isn't a weapon is the allegiance the rules make you note.
         const mark = item[3].match(/^([^:]+): (.+)$/)
         if (mark && !/^\d/.test(item[3])) { unit.alleg = mark[2]; continue }
-        entries.push({ indent, bullet: !!item[1], n: +(item[2] || 1), name: item[3] })
+        // The GW app writes a model line with "•" and the weapons under it with "◦"; a paste that
+        // lost its indentation keeps the bullets, and they say the same thing (gwBody).
+        entries.push({ indent, bullet: !!item[1], sub: /\u25e6/.test(item[1] || ''), n: +(item[2] || 1), name: item[3] })
       }
       continue
     }
@@ -414,7 +430,7 @@ function parseListhammerCompact(text) {
     if (/^Exported (with|from)/i.test(t)) break
 
     const head = POINTS_LINE.exec(t)
-    if (!seenHeader && head) { out.name = head[1].trim(); out.stated = num(head[2]); seenHeader = true; continue }
+    if (!seenHeader && head) { out.name = head[1].trim(); out.stated = num(head[2] ?? head[3]); seenHeader = true; continue }
 
     // "Enhancement: Git-Spotter Squig" is printed UNDER the group, never beside the unit that
     // carries it, so it goes to the first member still without one — the leader, in practice.
@@ -541,7 +557,16 @@ function parseWtc(text) {
   // came out as 31 models and half price) and the attachments were lost outright. The body is
   // whose grammar it is, so it goes to that parser; the header above it still says what only the
   // header says (faction, detachment, warlord, enhancements).
-  if (/^attached units?( \d+)?$/im.test(body) || SECTIONS.test(body)) {
+  //
+  // Headings alone do not make it the app's grammar: an older WTC export writes CHARACTER /
+  // BATTLELINE headings, or an "Attached unit" line, over its own "Char1: 1x Chaplain On Bike
+  // (70 points)" lines, and read as the app's, every one of those came back as a datasheet nobody
+  // has ("6x Outrider Squad", "5x Scout Squad"). The app's own tells — "Attached as:", its "◦"
+  // weapon bullets — decide; headings decide only when no line is shaped like a WTC unit.
+  const wtcShaped = new RegExp(`^(?:${REF}: )?\\d+x? .+ \\(\\d+ ?${PTS}\\)`, 'im').test(body)
+  const appGrammar = /^\W*Attached as:/im.test(body) || /\u25e6/.test(body)
+  const headings = /^attached units?( \d+)?$/im.test(body) || SECTIONS.test(body)
+  if (appGrammar || (headings && !wtcShaped)) {
     const gw = parseGw(body)
     out.units = gw.units
     out.name = out.name || gw.name
@@ -611,7 +636,9 @@ function parseWtc(text) {
       }
     }
 
-    const head = t.match(new RegExp(`^(?:(${REF}): )?(?:(\\d+)x? )?(.+?) \\((\\d+) ?${PTS}\\)(?:: (.*))?$`, 'i'))
+    // "(With Outriders)" after the points is the writer's note of who this unit joined — tolerated
+    // and dropped, the same way the app's own "- Palatine Eristine" is.
+    const head = t.match(new RegExp(`^(?:(${REF}): )?(?:(\\d+)x? )?(.+?) \\((\\d+) ?${PTS}\\)(?: \\([^)]*\\))?(?:: (.*))?$`, 'i'))
     if (head) {
       flush()
       const [, ref, n, name, pts, tail] = head
@@ -1118,25 +1145,57 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // a stepper spends its cap, a one-of group holds exactly one. Without this the leftovers of a
     // weapon a Commander carries three of went back into the group that swaps his burst cannon —
     // which allows one pick — and the list came out illegal on wargear it is entitled to.
-    const roomIn = (gi) => {
-      const cap = wargearGroupCap(def, entry, gi)?.limit ?? null
+    // A group with no cap of its own is bounded by the models it belongs to — a Stormsword's "this
+    // model can be equipped with one of the following" is one pick, whatever appdata calls its
+    // input; read as unlimited, its 5 twin heavy bolters and 4 lascannons became two picks of the
+    // lascannon bundle and none of the flamer swap (2026-09-19).
+    const roomLeft = (gi) => {
+      const cap = wargearGroupCap(def, entry, gi)?.limit ?? wargearGroupFallbackCap(def, entry, gi) ?? null
       const limit = def.gear?.[gi]?.in === 'stepper' || (cap || 0) > 1 ? (cap ?? Infinity) : 1
       let used = 0
       for (const p of picks.values()) if (p.gi === gi) used += p.stepper ? stepperCount(p) : p.n
-      return used < limit
+      return Math.max(0, limit - used)
     }
+    const roomIn = (gi) => roomLeft(gi) > 0
     // How well an option ANSWERS the list: a bundled option ("1 boltstorm gauntlet, 1 power fist
     // and 1 relic blade") is one pick that puts three weapons on the model, and the Captain in
     // Gravis Armour offers three such bundles differing only in the last item. Scoring each
     // candidate by how much of it the list actually names — minus what it does not — is what tells
     // the relic-blade bundle from the relic-chainsword one; a plain single-item option scores 1
     // either way, so nothing else changes.
-    const fitOf = (r) => {
+    //
+    // Scored against the PROFILE the line was printed under when the export has one: a Seraphim
+    // Superior holding "plasma pistol, power weapon" fitted "bolt pistol + plasma pistol" and
+    // "bolt pistol + power weapon" just as well as "plasma pistol + power weapon", because the
+    // squad's own bolt pistols were in the unit-wide tally — and two picks in a one-of group made
+    // a legal squad illegal (a v946 tournament list, 2026-09-19). A line with no profile, or a
+    // profile the export never itemises, still scores unit-wide.
+    const listedPer = new Map()
+    for (const w of weapons) {
+      const mi = miniIndexOf(def, w.mini)
+      if (mi != null) bump(listedPer, `${mi}:${norm(w.name)}`, w.n || 1)
+    }
+    const itemised = new Set([...listedPer.keys()].map((k) => k.split(':')[0]))
+    //
+    // And a half the list holds MORE of than the printed loadout gives counts for the bundle,
+    // while a half it holds no more of is neutral: a Death Company Marine's "inferno pistol and
+    // Astartes chainsword" and "inferno pistol and power fist" both name a weapon the squad lists,
+    // but the chainswords are the printed ones the squad has FEWER of (it swapped some away) and
+    // the power fists are the three it has over. Scoring both +1 gave the chainsword bundle the
+    // inferno pistols, and the power fists then had to be a second swap — four picks in a group
+    // that allows two (2026-09-19).
+    const over = (x, mi) => {
+      const have = mi != null && itemised.has(String(mi)) ? listedPer.get(`${mi}:${x}`) || 0 : listed.get(x) || 0
+      const given = mi != null && itemised.has(String(mi)) ? printedPer.get(`${mi}:${x}`) || 0 : printedCount.get(x) || 0
+      return have > given
+    }
+    const fitOf = (r, mi = null) => {
       const opt = def.gear?.[r.gi]?.o?.[r.oi]
       if (!opt) return 0
       const names = optionItems(opt).map(([id]) => norm(items?.[id])).filter(Boolean)
       if (names.length < 2) return 1
-      return names.reduce((n, x) => n + (listed.has(x) ? 1 : -1), 0)
+      const has = mi != null && itemised.has(String(mi)) ? (x) => listedPer.has(`${mi}:${x}`) : (x) => listed.has(x)
+      return names.reduce((n, x) => n + (!has(x) ? -1 : over(x, mi) ? 1 : 0), 0)
     }
     // What the printed loadout already accounts for is not a pick — but by COUNT, not by name. A
     // Crisis Fireknife comes with a plasma rifle and a missile pod and can trade either for the
@@ -1145,23 +1204,35 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // the pod it starts with.
     const perLeft = new Map(printedPer)
     const anyLeft = new Map(printedCount)
-    const absorb = (w, key) => {
-      let n = w.n || 1
-      const draw = (amount, pk) => {
-        if (!amount) return
-        if (pk) perLeft.set(pk, (perLeft.get(pk) || 0) - amount)
-        anyLeft.set(key, (anyLeft.get(key) || 0) - amount)
-        n -= amount
-      }
+    // Two passes, so that every profile's OWN printed stock answers its own lines before any line
+    // borrows from the rest of the unit: a Cadian Sergeant's close combat weapon (from his autogun
+    // bundle) is processed before the nine Shock Troopers' printed ones, and drawing it from the
+    // unit-wide stock left one Trooper's weapon unexplained — a second pick in the Sergeant's
+    // group (2026-09-19, once the profiles were read at all).
+    const extraOf = new Map()
+    for (const w of weapons) {
+      const key = norm(w.name)
       const mi = miniIndexOf(def, w.mini)
       const pk = mi == null ? null : `${mi}:${key}`
-      if (pk) draw(Math.min(perLeft.get(pk) || 0, anyLeft.get(key) || 0, n), pk)
+      let n = w.n || 1
+      if (pk) {
+        const take = Math.min(perLeft.get(pk) || 0, anyLeft.get(key) || 0, n)
+        perLeft.set(pk, (perLeft.get(pk) || 0) - take)
+        anyLeft.set(key, (anyLeft.get(key) || 0) - take)
+        n -= take
+      }
+      extraOf.set(w, n)
+    }
+    const absorb = (w, key) => {
+      let n = extraOf.get(w) ?? (w.n || 1)
       // The profile the export named has none of this left — but a datasheet can field several
       // profiles under one NAME (an Aquila Kill Team lists four "Deathwatch Veteran"s, each with
       // its own loadout), and the name is all the export gives. So what the rest of the unit still
       // has printed answers for it before it counts as a deviation; the unit-wide stock is what
       // keeps the total honest either way.
-      draw(Math.min(anyLeft.get(key) || 0, n), null)
+      const take = Math.min(anyLeft.get(key) || 0, n)
+      anyLeft.set(key, (anyLeft.get(key) || 0) - take)
+      n -= take
       return n
     }
     // An export can name a model's loadout as ONE composite line and then print the items it is
@@ -1198,18 +1269,25 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const all = own.length ? own : refs
       const touched = all.filter((r) => !untouched(r.gi))
       const fitted = touched.length ? touched : all
-      const best = Math.max(...fitted.map(fitOf))
-      const pool = fitted.filter((r) => fitOf(r) === best)
+      const fit = (r) => fitOf(r, want)
+      const best = Math.max(...fitted.map(fit))
+      const pool = fitted.filter((r) => fit(r) === best)
       // The rest, best first — where a weapon the list holds SEVERAL of spills once the best-fitting
       // option has taken its share. A Forgefiend with three ectoplasma cannons has made both of its
       // swaps: the jaws bundle (which fits two of the printed names, so it wins the first cannon)
       // grants one, and the pair that replaces the Hades autocannons grants the other two. Without
       // the spill the leftovers were absorbed into the bundle already picked and the second swap —
       // ten points of it — went missing.
-      const rest = fitted.filter((r) => fitOf(r) !== best).sort((a, b) => fitOf(b) - fitOf(a))
-      // Does this name pick out a group at all, or is it the half several of them have in common?
-      const shared = new Set(pool.map((r) => r.gi)).size > 1
+      const rest = fitted.filter((r) => fit(r) !== best).sort((a, b) => fit(b) - fit(a))
+      // Does this name pick out an OPTION at all, or is it the half several of them have in common?
+      // Several groups' (a Forgefiend's ectoplasma cannon) or one group's: a Purgation Squad's
+      // "4x Close combat weapon" is the half every one of its three bundles carries, and counted as
+      // four picks of the first it made two incinerators and two psycannons six swaps (2026-09-19).
+      const shared = pool.length > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
+      // Is there anywhere ELSE for what is left of this line to go? Guards the spill above against
+      // walking in circles when every candidate is full or already holds it.
+      const candidatesLeft = () => [...pool, ...rest].some((r) => !holds(r) && (!usedGroups.has(r.gi) || roomIn(r.gi)))
       // How many of this weapon ONE pick of that option grants. "This model's lasher tendrils can
       // be replaced with 2 magma cutters" is a single swap, and the export prints what the model
       // ends up holding ("2x Magma cutters") — counted as two picks it filled a group that allows
@@ -1220,6 +1298,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         return Math.max(1, hit?.[1] || 1)
       }
       let left = extra
+      const visited = new Set()   // options this LINE has already spent into — chosen again, stop
       while (left > 0) {
         // Where this weapon goes, in order:
         //  1. an option already picked that does NOT yet list this weapon — the other half of a
@@ -1239,9 +1318,38 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const k = key2(ref)
         const at = picks.get(k)
         const step = per(ref)
+        // A stepper takes what its group has ROOM for and the rest spills to the next candidate:
+        // three power fists on a Death Company squad are two from the bundle group (two per ten
+        // models) and one from the plain "1 model's chainsword" swap. Taking all three into the
+        // bundle lost the third — placed, so never reported, and never imported. A group already
+        // full still takes the leftovers when nothing else can: the validator then says so. A
+        // SHARED half never spills: it identifies no option, so the whole line goes to the best
+        // candidate as before, and spilling it opened phantom picks in every group that carries it.
+        const stepperTake = () => {
+          const want = Math.ceil(left / step)
+          if (shared) return want
+          const room = roomLeft(ref.gi)
+          return room > 0 ? Math.min(want, room) : want
+        }
         if (at) {
+          if (visited.has(k)) break
+          visited.add(k)
           at.names.add(key)
-          if (ref.stepper) { count(at, w.mini, key, Math.ceil(left / step), shared); break }
+          if (ref.stepper) {
+            // Joining a bundle already picked: the bundle explains as many of this weapon as it
+            // has picks (two inferno-pistol bundles take two power fists; a Stormsword's lascannon
+            // bundle, picked once, takes two of its five twin heavy bolters), and the rest spills
+            // — the Death Company squad's third power fist is the plain chainsword swap's, the
+            // Stormsword's other two bolters are the flamer swap's. With nowhere to spill the
+            // bundle takes it all, as it always did, and the validator says what it thinks.
+            const want = Math.ceil(left / step)
+            const own = Math.max(1, stepperCount(at))
+            const take = want <= own || !candidatesLeft() ? want : own
+            count(at, w.mini, key, take, shared)
+            left -= take * step
+            if (left > 0 && !candidatesLeft()) break
+            continue
+          }
           // What that option grants of this weapon, and no more. A Forgefiend's jaws bundle grants
           // ONE ectoplasma cannon, so a line reading "3x Ectoplasma cannon" has two left to place —
           // in the group that replaces the Hades autocannons, which is the second swap and the ten
@@ -1250,10 +1358,18 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
           continue
         }
         usedGroups.add(ref.gi)
+        visited.add(k)
+        // Room is read BEFORE the pick goes in: an empty pick already counts as one.
+        const take = ref.stepper ? stepperTake() : 1
         const pick = { gi: ref.gi, oi: ref.oi, stepper: ref.stepper, n: 1, byMini: new Map(), shared: new Set(), names: new Set([key]) }
-        if (ref.stepper) count(pick, w.mini, key, Math.ceil(left / step), shared)
         picks.set(k, pick)
-        if (ref.stepper) break
+        if (ref.stepper) {
+          count(pick, w.mini, key, take, shared)
+          if (shared) break
+          left -= take * step
+          if (left > 0 && !candidatesLeft()) break
+          continue
+        }
         left -= step
       }
       line.gear.picked.push(w.name)

@@ -1055,6 +1055,32 @@ fixed above) against 214 that matched to the point. Neither the corpus nor the s
 they live outside `src/`, nothing imports them, and the whole batch of fixes above added 891 bytes
 to one existing chunk.
 
+`--all out.json [--rtt]` (2026-09-19) walks the API behind those pages instead —
+`/api/recentLists?page=N&gameType=40k`, 25 a page, ~1,800 GT lists (~4,700 with RTTs) — and is the
+corpus to use: the faction pages hand out 25 a faction and are thin on the current version. The
+1,817-list pass of 2026-09-19 (157 at v946) found, and the importer now handles: **nesting read
+from the bullets** — listhammer strips the indentation, so every app export arrived flat with all
+profiles' weapons pooled ("•" is the model line, "◦" its weapons; a bare line among them is a
+comment, not a model); **bundle fit scored per profile and by what the list holds MORE of than
+printed** (a Seraphim Superior's plasma pistol + power weapon against the squad's bolt pistols; a
+Death Company Marine's inferno pistol + chainsword against + power fist); **each profile's own
+printed stock absorbs its lines before any line borrows unit-wide**; **a half shared by every
+option of one group is not a pick count** (Purgation Squad's close combat weapons); **a stepper
+takes its group's room and spills the rest** to the next candidate, and a line joining a bundle
+already picked takes that bundle's pick count (three power fists = two inferno bundles + the plain
+swap; a Stormsword's five twin heavy bolters = the lascannon bundle once + the flamer swap once);
+**an uncapped group is bounded by its models** (`wargearGroupFallbackCap`); **the WTC parser keeps a
+WTC body under section headings or an "Attached unit" line** — only the app's own tells ("Attached
+as:", "◦") route to the app's parser — and tolerates "(With Outriders)" after the points; **points
+glued to the name** ("Vertus Praetors215 Points", a paste from the rendered page). Validation:
+**an Upgrade counts once toward the enhancement limit** however many units carry it (muster rules;
+eight legal lists were flagged). Across the corpus: over-limit wargear 219 → 24 lines, unknown
+datasheets 232 → 163 (the rest are old-codex units, foreign-language exports and hand-typed lists),
+current-version lists clean 132 → 148 of 157. What is left at v946 is the lists' own doing (no
+Warlord set, comments pasted into a unit) and one open question: two GT lists price the Vindicare
+at 130 and the Eversor at 115 where MFM v1.4 says 110/100 — a points update the website does not
+show yet, or not; not ours to guess.
+
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without

@@ -280,11 +280,23 @@ export function validateRoster(roster, { faction, core, items } = {}) {
     const limit = findEnhancement(detachments, name)?.limit || 1
     for (const u of list.slice(limit)) add('dupEnh', 'error', { uid: u.uid, params: { enh: name } })
   }
+  // The army-wide limit counts an Upgrade ONCE however many units carry it — the muster rules:
+  // "the second and third instances of the same Upgrade do not count towards the total number of
+  // enhancements in your army" (they still cost points, and still cap at `limit`, above). Three
+  // Land Speeders with Nightforged Battery and three with Thundercowl Turbines are two slots, not
+  // six; eight tournament lists at v946 said so before the count did (2026-09-19).
   if (detachments.length) {
-    const counted = enhUnits.filter((u) => {
+    const seenUpgrades = new Set()
+    let counted = 0
+    for (const u of enhUnits) {
       const e = findEnhancement(detachments, u.enh)
-      return e && !e.uncounted
-    }).length
+      if (!e || e.uncounted) continue
+      if (e.type === 'upgrade') {
+        if (seenUpgrades.has(u.enh)) continue
+        seenUpgrades.add(u.enh)
+      }
+      counted++
+    }
     if (counted > battle.enhLimit) add('overEnhLimit', 'error', { params: { count: counted, limit: battle.enhLimit } })
   }
   for (const u of enhUnits) {

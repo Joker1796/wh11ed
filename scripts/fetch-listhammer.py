@@ -3,6 +3,7 @@
 #
 #   python3 scripts/fetch-listhammer.py https://listhammer.info/list/<id>   # one list, as text
 #   python3 scripts/fetch-listhammer.py --corpus LISTS.json                 # ~25 per 40k faction
+#   python3 scripts/fetch-listhammer.py --all LISTS.json [--rtt]            # EVERY recent 40k list
 #
 # WHY IT IS THIS SHAPE — three things worth knowing before rewriting it:
 #   1. The site 403s a plain fetcher (and so does WebFetch); curl gets 200. Hence subprocess.
@@ -12,6 +13,10 @@
 #      rather than json.load()ed (see resolve()).
 #   3. /factions/<slug> server-renders 25 recent tournament lists WITH their full `listText`, which
 #      is why the corpus needs one request per faction and no pagination at all.
+#   4. Behind those pages is `/api/recentLists?page=N&gameType=40k[&includeRtt=true]` — 25 a page,
+#      `totalCount` in the answer, the same rows. `--all` walks it (~1,800 GT lists, ~4,700 with
+#      RTTs; found 2026-09-19 by reading the bundle — the event pages themselves render client-side
+#      and carry nothing). A second a page is the polite pace.
 #
 # The corpus is written wherever you point it — NOT into src/ or public/. It is test material for
 # `node scripts/check-roster-imports.mjs`, not app data, and nothing may import it.
@@ -70,6 +75,21 @@ def lists_of(slug):
     return data[key]['result'] if key else []
 
 
+def all_lists(rtt=False):
+    """Every recent 40k list the API will page out, oldest page last."""
+    rows, page = [], 1
+    while True:
+        q = f'page={page}&gameType=40k' + ('&includeRtt=true' if rtt else '')
+        got = json.loads(get(f'https://listhammer.info/api/recentLists?{q}'))
+        rows += got.get('result') or []
+        total = got.get('totalCount') or 0
+        print(f'page {page:3}  {len(rows):5}/{total}', file=sys.stderr)
+        if not got.get('result') or len(rows) >= total:
+            return rows
+        page += 1
+        time.sleep(1)
+
+
 def one(url):
     """The single-list page, as the text the app's own export writes."""
     body = get(url)
@@ -99,6 +119,10 @@ if __name__ == '__main__':
             rows += [{k: r.get(k) for k in FIELDS} for r in got]
             print(f'{s:22} {len(got):3}', file=sys.stderr)
             time.sleep(1)
+        json.dump(rows, open(sys.argv[2], 'w'), ensure_ascii=False)
+        print(f'{len(rows)} lists → {sys.argv[2]}', file=sys.stderr)
+    elif arg == '--all':
+        rows = [{k: r.get(k) for k in FIELDS} for r in all_lists(rtt='--rtt' in sys.argv)]
         json.dump(rows, open(sys.argv[2], 'w'), ensure_ascii=False)
         print(f'{len(rows)} lists → {sys.argv[2]}', file=sys.stderr)
     elif arg.startswith('http'):
