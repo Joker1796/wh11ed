@@ -369,3 +369,10 @@ describe('DatasheetCard empty sections', () => {
     expect(w.findAll('.ds-group-title').map((n) => n.text())).toContain('Abilities')
   })
 })
+
+describe('DatasheetCard ability line', () => {
+  it('keeps a space between the ability name and its text', () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet({ abilities: [{ name: 'Пацаны', nameEn: 'Ladz', text: 'Пока этот юнит.' }] }) } })
+    expect(w.find('.ds-ability').text()).toBe('Пацаны (Ladz): Пока этот юнит.')
+  })
+})

@@ -236,7 +236,7 @@
           <strong>{{ it.a.name }}<span
             v-if="it.a.nameEn"
             class="rpc-en"
-          > ({{ it.a.nameEn }})</span>:</strong>
+          > ({{ it.a.nameEn }})</span>: </strong>
           <span v-html="richText(it.a.text)" />
         </template>
         <span

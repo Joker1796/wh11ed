@@ -449,10 +449,13 @@
               class="ds-ability"
               :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
             >
+              <!-- The space after the colon lives INSIDE the strong: the compiler drops whitespace
+                   that spans a line break between two elements, so "Name:Text" is what a bare
+                   newline before the text span renders (a screenshot, 2026-09-19). -->
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
                 class="ds-name-en"
-              > ({{ a.nameEn }})</span>:</strong>
+              > ({{ a.nameEn }})</span>: </strong>
               <span
                 v-if="abilityState(a)"
                 class="ds-ab-state"
@@ -510,7 +513,7 @@
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
                 class="ds-name-en"
-              > ({{ a.nameEn }})</span>:</strong>
+              > ({{ a.nameEn }})</span>: </strong>
               <span
                 v-if="abilityState(a)"
                 class="ds-ab-state"
@@ -568,7 +571,7 @@
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
                 class="ds-name-en"
-              > ({{ a.nameEn }})</span>:</strong>
+              > ({{ a.nameEn }})</span>: </strong>
               <span
                 v-if="abilityState(a)"
                 class="ds-ab-state"
@@ -635,7 +638,7 @@
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
                 class="ds-name-en"
-              > ({{ a.nameEn }})</span>:</strong>
+              > ({{ a.nameEn }})</span>: </strong>
               <span
                 v-if="abilityState(a)"
                 class="ds-ab-state"
