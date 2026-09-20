@@ -94,6 +94,9 @@ const { entry, visible, markSeen } = useUpdateNotice()
 .ub-ver {
   font-family: var(--font-mono);
   font-weight: 700;
+  /* The global `strong` rule tints bold text towards --text-primary, which is dark in the
+     light theme — invisible on this always-dark bar. Same fix as .note-box strong. */
+  color: var(--text-on-dark);
 }
 
 .ub-link {
