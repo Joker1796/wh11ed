@@ -317,7 +317,9 @@ function wargearSources(bundle, dsBySid) {
   return out
 }
 
-const normItemName = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+// Same key as `norm` in src/composables/rosterModifiers.js — `datasheetEntriesFor` asks
+// `loadoutItemNames(...).has(ref.item)`, so a fold added on one side must be added on the other.
+const normItemName = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
 
 const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')

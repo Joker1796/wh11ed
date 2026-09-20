@@ -621,6 +621,39 @@ describe('wargear names are unambiguous within a unit', () => {
       }
     }
   })
+
+  // The other half of the same bargain. A weapon row nothing claims is always shown (the overlay
+  // errs towards showing more), so an item name that differs from its row by a GLYPH — the
+  // non-breaking hyphen appdata puts in "Master‑crafted power weapon", the datasheet's plain one —
+  // is a swap the card can't hide: the Archon who took that weapon showed his huskblade too (a
+  // player's report, 2026-09-20). `norm` folds the glyphs it knows about; this walks every sheet
+  // and fails on the first unclaimed row whose name is an item's once ALL punctuation is levelled.
+  // A row that differs in SPELLING ("Close combat weapon" against the item's "Close-combat weapon")
+  // is not a glyph gap and stays on the conservative side, unclaimed.
+  it('claims every weapon row that is an item name in different glyphs', async () => {
+    const { weaponRowClaimer } = await import('../../composables/rosterModifiers.js')
+    const { loadDatasheets } = await import('../datasheets/index.js')
+    const level = (s) => (s || '').toLowerCase().normalize('NFKD')
+      .replace(/\p{M}/gu, '').replace(/[\p{P}\p{S}]/gu, '-').replace(/\s+/g, ' ').trim()
+    let rows = 0
+    for (const { slug } of factions) {
+      const [fac, sheets] = await Promise.all([loadRosterFaction(slug), loadDatasheets(slug)])
+      for (const u of fac?.units || []) {
+        const sheet = sheets?.find((d) => d.id === u.id)
+        const claim = sheet && weaponRowClaimer(u, rosterItems.items)
+        if (!claim) continue
+        const levelled = new Set()
+        for (const [, list] of u.defaults || []) for (const [id] of list) levelled.add(level(rosterItems.items[id]))
+        for (const g of u.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) levelled.add(level(rosterItems.items[id]))
+        for (const w of [...(sheet.ranged || []), ...(sheet.melee || [])]) {
+          rows++
+          if (claim(w.name)) continue
+          expect(levelled.has(level(w.name)), `${slug}/${u.id} "${w.name}" is an item spelled with other glyphs`).toBe(false)
+        }
+      }
+    }
+    expect(rows).toBeGreaterThan(9000) // the whole corpus really was walked
+  })
 })
 
 describe('detachment tags', () => {

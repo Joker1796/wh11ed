@@ -21,16 +21,25 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 
 // Name matching between two independently-generated datasets: wargear item names live in
 // src/data/roster/items.js (interned from appdata's `wargear_item`), weapon rows live in
-// src/data/datasheets/<slug>.js. They agree on wording but not always on glyphs.
-const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+// src/data/datasheets/<slug>.js. They agree on wording but not always on glyphs: the apostrophe
+// is typographic on one side and ASCII on the other, and 39 item names carry a NON-BREAKING
+// hyphen (U+2011, "Master‑crafted power weapon") where the datasheet row has a plain one. Every
+// dash-class code point (Unicode Pd) folds to ASCII '-' for the same reason the apostrophe does —
+// a glyph is not a spelling. Before this fold an Archon who swapped his huskblade for a
+// master-crafted power weapon showed BOTH rows on his card (a player reported it, 2026-09-20):
+// the option's row was unclaimed, and an unclaimed row is always shown (see filterWeapons).
+// Mirrored by `normItemName` in scripts/gen-roster-modifiers.mjs — a wargear record's `ref.item`
+// is compared against `loadoutItemNames` with this key, so the two must agree.
+const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').replace(/\s+/g, ' ').trim()
 
 // A weapon row belongs to a wargear item when it IS that item, or when it's one of that item's
 // firing modes — appdata models a multi-mode weapon as one wargear item with several profiles,
-// which the datasheet files spell out as separate rows ("Plasma pistol – standard" / "– supercharge").
-// The parenthesised form covers the same idea written a different way ("Heavy flamer (twin-linked)").
+// which the datasheet files spell out as separate rows ("Plasma pistol – standard" / "– supercharge";
+// the en dash is a plain hyphen by the time `norm` has run on the row). The parenthesised form
+// covers the same idea written a different way ("Heavy flamer (twin-linked)").
 function rowMatchesItem(row, item) {
   if (!item) return false
-  return row === item || row.startsWith(`${item} – `) || row.startsWith(`${item} - `) || row.startsWith(`${item} (`)
+  return row === item || row.startsWith(`${item} - `) || row.startsWith(`${item} (`)
 }
 
 // Every wargear item this datasheet can ever field: its default loadout plus every option on
@@ -146,27 +155,37 @@ export function loadoutItemNames(def, entry, items) {
 //
 // CONSERVATIVE BY CONSTRUCTION: a row is hidden only when some wargear item positively CLAIMS it
 // and none of the ids behind that claim survive in the loadout. A row no item claims stays —
-// measured across all 30 factions, 2.8% of weapon rows (139 of 5038) are named in a way no
-// wargear item matches (a datasheet's fixed weapon spelled differently from its item, a profile
-// with no item at all). Hiding those would delete a weapon the unit really has, which is a worse
-// failure than leaving a swapped-away one on screen, so the unmatched case always errs towards
-// showing more.
-function filterWeapons(sheet, def, entry, items) {
-  const counts = loadoutItemCounts(def, entry)
-  if (!counts) return sheet
+// measured across all 30 factions, 0.5% of weapon rows (45 of 9,209, 2026-09-20) are named in a
+// way no wargear item matches (a drone's weapon the drone item stands for, a Librarian's Smite, a
+// datasheet's fixed weapon spelled differently from its item — "Close-combat weapon"). Hiding
+// those would delete a weapon the unit really has, which is a worse failure than leaving a
+// swapped-away one on screen, so the unmatched case always errs towards showing more.
+//
+// The claim itself is `weaponRowClaimer`, exported so the data-wide test in
+// src/data/roster/index.test.js can walk every sheet's unclaimed rows and catch the next glyph
+// `norm` doesn't fold — the non-breaking hyphen went unnoticed until a player met it.
+export function weaponRowClaimer(def, items) {
   const byName = itemNameIndex(def, items)
-  if (!byName.size) return sheet
+  if (!byName.size) return null
 
   // Longest name first: a shorter item name must never claim a row that a longer, more specific
   // one also matches (the same longest-first discipline the auto-bold pass uses).
   const names = [...byName.keys()].sort((a, b) => b.length - a.length)
 
-  // The item ids behind a row, or null when nothing claims it.
-  const claimOf = (row) => {
-    const r = norm(row?.name)
+  // The item ids behind a row name, or null when nothing claims it.
+  return (name) => {
+    const r = norm(name)
     const claim = names.find((n) => rowMatchesItem(r, n))
     return claim ? byName.get(claim) : null
   }
+}
+
+function filterWeapons(sheet, def, entry, items) {
+  const counts = loadoutItemCounts(def, entry)
+  if (!counts) return sheet
+  const claim = weaponRowClaimer(def, items)
+  if (!claim) return sheet
+  const claimOf = (row) => claim(row?.name)
 
   // Trim the table to what the entry fields, and stamp the quantity on what stays. One pass
   // because it is one question — which item is this row, and how many of it does the unit hold —
