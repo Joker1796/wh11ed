@@ -79,6 +79,9 @@ export const ui = {
     subNavReference: 'Reference',
     subNavMuster: 'Muster',
     searchPlaceholder: 'Search rules, keywords, sections…',
+    // Typed into the empty search box one after another (useTypingPlaceholder) — one of each
+    // kind of thing the search finds. Every entry must produce a hit: useSearch.test.js checks.
+    searchExamples: ['Lethal Hits', 'Terminator Squad', 'Heroic Intervention', 'Charge Phase', 'Gladius Task Force', 'Feel No Pain'],
     searchHint: 'Type at least 2 characters to search across all rules',
     searchNoResults: 'No results for',
     searchRecent: 'Recent searches',
@@ -1008,6 +1011,10 @@ export const ui = {
     subNavReference: 'Справочник',
     subNavMuster: 'Сбор армии',
     searchPlaceholder: 'Поиск правил, ключевых слов, разделов…',
+    // Names stay English in the RU rules, so the RU examples mix a translated section title and
+    // the community nicknames of units (datasheetAliasRulesRu) with the English names a RU
+    // reader actually types.
+    searchExamples: ['Нападение', 'Ктан', 'Heroic Intervention', 'Дредноут', 'Lethal Hits', 'Варбосс', 'Gladius Task Force', 'Леман Русс', 'Deep Strike', 'Демонпринц', 'Резервы'],
     searchHint: 'Введите не менее 2 символов для поиска по всем правилам',
     searchNoResults: 'Нет результатов для',
     searchRecent: 'Недавние запросы',

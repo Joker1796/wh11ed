@@ -34,16 +34,27 @@
             y2="16.65"
           />
         </svg>
-        <input
-          v-model="query"
-          type="text"
-          :placeholder="labels.searchPlaceholder"
-          class="search-input"
-          @keydown.escape="$emit('close')"
-          @keydown.down.prevent="moveSelection(1)"
-          @keydown.up.prevent="moveSelection(-1)"
-          @keydown.enter.prevent="goToSelected"
-        >
+        <!-- The empty box types out example queries (useTypingPlaceholder) instead of a static
+             placeholder: a ghost layer under the input, since a native placeholder can't carry
+             a blinking caret. Under prefers-reduced-motion the plain placeholder stays. -->
+        <div class="search-field">
+          <input
+            v-model="query"
+            type="text"
+            :placeholder="typing ? '' : labels.searchPlaceholder"
+            :aria-label="labels.searchPlaceholder"
+            class="search-input"
+            @keydown.escape="$emit('close')"
+            @keydown.down.prevent="moveSelection(1)"
+            @keydown.up.prevent="moveSelection(-1)"
+            @keydown.enter.prevent="goToSelected"
+          >
+          <span
+            v-if="typing && !query"
+            class="search-ghost"
+            aria-hidden="true"
+          >{{ ghostText }}</span>
+        </div>
         <button
           class="search-close"
           :aria-label="labels.ariaCloseSearch"
@@ -153,12 +164,13 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex } from '../composables/useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex, preloadFactionFaqIndex } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
 import { useFactionChoice } from '../composables/useFactionChoice.js'
 import { useSearchHistory } from '../composables/useSearchHistory.js'
+import { useTypingPlaceholder } from '../composables/useTypingPlaceholder.js'
 import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
@@ -176,12 +188,19 @@ const selectedIndex = ref(0)
 preloadDatasheetIndex()
 preloadFactionRulesIndex()
 preloadCombatPatrolIndex()
+preloadFactionFaqIndex()
 
 const results = computed(() => search(query.value, locale.value))
 // The one gate for "is this a search yet": results below it, recent queries above it.
 const hasQuery = computed(() => query.value.trim().length >= 2)
 
 watch(query, () => { selectedIndex.value = 0 })
+
+// Example queries typed into the empty box; paused while the user has something in it.
+const { text: ghostText, animated: typing } = useTypingPlaceholder(
+  computed(() => labels.value.searchExamples),
+  computed(() => query.value === ''),
+)
 
 // Focus-trap + restore-focus-to-trigger, with initial focus on the search input. (The
 // command-palette shell stays bespoke — BaseModal's centered/bottom-sheet layout doesn't fit.)
@@ -276,6 +295,43 @@ function navigate(item) {
 
 .search-input::placeholder {
   color: var(--text-dim);
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+
+/* Sits exactly where the placeholder would: same font and size as the input, laid over it
+   and inert to the pointer, so a tap still lands in the input. */
+.search-ghost {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  color: var(--text-dim);
+}
+
+.search-ghost::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 1.15em;
+  margin-left: 1px;
+  background: currentColor;
+  animation: search-caret 1s steps(2, jump-none) infinite;
+}
+
+@keyframes search-caret {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .search-close {
