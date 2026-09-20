@@ -741,6 +741,12 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
         { name: 'Crazed Focus', when: 'Your Shooting phase.', target: 'One DAMNED unit from your army that has not been selected to shoot this phase.' },
         { name: 'Warp Blast', when: 'Your Shooting phase.', target: 'One enemy unit within 12" of a unit from your army.' },
         { name: 'Cult Rites', when: 'Your Command phase.', target: 'One Warp Coven unit from your army.' },
+        { name: 'Plunging Talons', when: 'Fight phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit that made a Charge move this turn is selected to fight.', target: 'That HERETIC ASTARTES INFANTRY FLY unit.' },
+        { name: 'Seize the Prize', when: 'Your Movement phase, just after a HERETIC ASTARTES unit (excluding MONSTERS and VEHICLES) from your army has been selected to Advance.', target: 'That HERETIC ASTARTES unit.' },
+        { name: 'Prey', when: 'Fight phase, when your unit is selected to fight.', target: 'That HERETIC ASTARTES INFANTRY unit.' },
+        { name: 'Eye of the Gods', when: 'Fight phase, just after a HERETIC ASTARTES CHARACTER unit from your army (excluding DAMNED, DAEMON and EPIC HERO units) destroys an enemy unit.', target: 'One HERETIC ASTARTES CHARACTER model in that unit.' },
+        { name: 'Shining Veil', when: 'Your opponent’s Shooting phase, just after an enemy unit has selected its targets.', target: 'One HERETIC ASTARTES unit that was selected as the target of one or more of the attacking unit’s attacks.' },
+        { name: 'Warp Bolt', when: 'Your Shooting phase.', target: 'One enemy MONSTER unit within 12" of a unit from your army.' },
       ],
     }],
   }
@@ -790,6 +796,36 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
     const [out] = resolve('Cult Rites')
     expect(out.targetScopes).toEqual([{ targets: ['Warp Coven'], excludes: [] }])
     expect(gateStratagems([out], raiders, facKw)).toHaveLength(1)
+  })
+
+  // "TARGET: That … unit." points back at the unit the WHEN line named — 80 of 308 stratagems
+  // are written this way, and read as naming nobody they were offered to the whole army
+  // (Plunging Talons under a player's Terminators, Seize the Prize under his Defiler, 2026-09-19).
+  it('reads a "That … unit" target from the WHEN line, exclusions and all', () => {
+    const raptors = ['Raptors', 'Infantry', 'Fly', 'Jump Pack', 'Heretic Astartes']
+    const terminators = ['Chaos Terminator Squad', 'Infantry', 'Terminator', 'Heretic Astartes']
+    const defiler = ['Defiler', 'Vehicle', 'Walker', 'Heretic Astartes']
+    const kw = [raptors, terminators, defiler]
+    const [talons] = resolve('Plunging Talons')
+    expect(talons.targetScopes).toEqual([{ targets: ['HERETIC ASTARTES INFANTRY FLY'], excludes: [] }])
+    expect(gateStratagems([talons], raptors, kw)).toHaveLength(1)
+    expect(gateStratagems([talons], terminators, kw)).toEqual([])
+    const [prize] = resolve('Seize the Prize')
+    expect(prize.targetScopes[0].excludes).toContain('VEHICLE')
+    expect(gateStratagems([prize], terminators, kw)).toHaveLength(1)
+    expect(gateStratagems([prize], defiler, kw)).toEqual([])
+  })
+
+  it('falls back to the target line itself when the WHEN line names no unit', () => {
+    const [prey] = resolve('Prey')
+    expect(prey.targetScopes).toEqual([{ targets: ['HERETIC ASTARTES INFANTRY'], excludes: [] }])
+  })
+
+  it('reads "a model in that unit" from the WHEN line, and a bare "One X unit that…" as your own', () => {
+    expect(resolve('Eye of the Gods')[0].targetScopes).toEqual([{ targets: ['HERETIC ASTARTES CHARACTER'], excludes: ['DAMNED', 'DAEMON', 'EPIC HERO'] }])
+    expect(resolve('Shining Veil')[0].targetScopes).toEqual([{ targets: ['HERETIC ASTARTES'], excludes: [] }])
+    // …but never an enemy target, whatever keyword follows.
+    expect(resolve('Warp Bolt')[0].targetScopes).toBeNull()
   })
 
   it('leaves everything that is not a stratagem alone', () => {

@@ -830,6 +830,39 @@ describe('the real Kasrkin cap', () => {
   })
 })
 
+// The allowances gen-roster-data.mjs reads out of the instruction where appdata's own table is
+// missing or ambiguous (2026-09-19, a player's Raptors: two meltaguns from a group that allows one
+// of each, and no second pair at 10 models because the "additional" group drew as a one-of).
+describe('the real conditional caps', () => {
+  const capOf = async (file, name, pick, entry) => {
+    const rf = await import(`../data/roster/${file}.js`)
+    const texts = (await import('../data/roster/items.js')).default.texts
+    const unit = rf.default.units.find((u) => u.name === name)
+    const gi = unit.gear.findIndex((g) => pick.test(texts[g.t]))
+    return wargearGroupCap(unit, entry, gi)
+  }
+
+  it('Raptors: two special weapons at 5, one of each — and two more only once the squad is 10', async () => {
+    expect(await capOf('chaos-space-marines', 'Raptors', /^Up to 2 Raptors/, { size: 0, count: 5 })).toEqual({ limit: 2, dup: 1 })
+    expect(await capOf('chaos-space-marines', 'Raptors', /^If this unit contains 10/, { size: 0, count: 5 })).toEqual({ limit: 0, dup: 0 })
+    expect(await capOf('chaos-space-marines', 'Raptors', /^If this unit contains 10/, { size: 1, count: 10 })).toEqual({ limit: 2, dup: 1 })
+  })
+
+  it('Vespid Stingwings: the three "1 Vespid can replace" bullets are three models, not one', async () => {
+    expect(await capOf('tau-empire', 'Vespid Stingwings', /neutron rail rifle/, { size: 1, count: 10 })).toEqual({ limit: 3, dup: 1 })
+    expect(await capOf('tau-empire', 'Vespid Stingwings', /neutron rail rifle/, { size: 0, count: 5 })).toEqual({ limit: 0, dup: 0 })
+  })
+
+  it('Troupe: two of each pistol under 10 models, four of each from 10', async () => {
+    expect(await capOf('aeldari', 'Troupe', /^If this unit contains 9 or fewer/, { size: 0, count: 5 })).toEqual({ limit: 4, dup: 2 })
+    expect(await capOf('aeldari', 'Troupe', /^If this unit contains 9 or fewer/, { size: 2, count: 11 })).toEqual({ limit: 8, dup: 4 })
+  })
+
+  it('Carnifexes: "any number of models can each be equipped with 1 bio-plasma" is one per model', async () => {
+    expect(await capOf('tyranids', 'Carnifexes', /1 bio-plasma/, { size: 1, count: 2 })).toEqual({ limit: 2, dup: 0 })
+  })
+})
+
 describe('modelsPerMini', () => {
   // `sizes[i].comp` is appdata's unit_composition_miniature: [[miniIndex, min, max?], …].
   const squad = (comp) => ({ minis: [{ n: 'Superior' }, { n: 'Sister' }], sizes: [{ pts: 100, per: [5, 10], comp }] })

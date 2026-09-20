@@ -192,7 +192,33 @@ fall through to the one-pick fallback:
 
 Both read the FIRST line only, as every allowance does. "cannot take duplicates", by contrast, is
 read from the whole text: it is usually a footnote under the list (two T'au groups keep their
-duplicate cap only because of that).
+duplicate cap only because of that). *"You cannot select the same option more than once"* is the
+Raptors' spelling of the same rule (added 2026-09-19 — a player took two meltaguns from the group).
+
+**The conditional form** (added 2026-09-19, `proseConditionalAllowance`) is the one `proseAllowance`
+refuses: *"If this unit contains 10 models, up to 2 additional Raptors can each…"*, *"If this unit
+contains 10 models, 1 Corsair Voidscarred's power sword can be replaced…"*, the block whose bullets
+are each an allowance (Vespid Stingwings: three *"1 Vespid Stingwing can replace…"* bullets are three
+models, `[[10, 3, 1]]`), and the Troupe's two blocks (*"9 or fewer models: up to two…"* /
+*"10 or more: up to four…"* → `[[0, 4, 2], [10, 8, 4]]`). It is a step table — one row per block —
+and below the first threshold the cap is a real 0, which the editor already says in words. Four
+groups corpus-wide, all of which drew as a one-of radio offered at any size: a 10-model Raptor squad
+could take one extra special weapon where the datasheet allows two, and a 5-model one could take it
+at all. appdata's own set for the Raptors is one pool over BOTH groups (2 at any size, 4 at 10) and
+matches both identically, so it is reported ambiguous and the prose is what remains.
+
+The single-option *"Any number of models can each be equipped with 1 bio-plasma"* (Carnifexes, a
+checkbox in appdata with nothing given up) is read as one per model too, like its multi-option
+sibling below — it drew as one toggle for the unit, so two Carnifexes shared one bio-plasma. A
+single-option SWAP in that wording stays `repall` (one tick reaching every model).
+
+How to look for the next one of these: `scripts/` has no audit for it, but the shape is always
+"prose implies more than one pick, group carries no `lim`, and the editor's `mode()` makes it a
+radio or toggle" — dump every group without `lim`/`all`/`cp` whose first line has a number above
+one, "each", "any number", "all models", "if this unit" or "for every", and read what is left after
+dropping the bundled swaps ("2 X can be replaced with 2 Y" is one pick). The T'au *"any number of
+models can each be equipped with up to two of the following"* (a per-MODEL budget `lim` cannot
+express) is the known remainder — hub `journal/paused/2026-09-13-player-report-tails.md` §1.
 
 ### The stock rule: a weapon is given up once (added 2026-09-19)
 
@@ -1069,7 +1095,14 @@ option of one group is not a pick count** (Purgation Squad's close combat weapon
 takes its group's room and spills the rest** to the next candidate, and a line joining a bundle
 already picked takes that bundle's pick count (three power fists = two inferno bundles + the plain
 swap; a Stormsword's five twin heavy bolters = the lascannon bundle once + the flamer swap once);
-**an uncapped group is bounded by its models** (`wargearGroupFallbackCap`); **the WTC parser keeps a
+**an uncapped group is bounded by its models** (`wargearGroupFallbackCap`); **the same option offered
+by two groups is not a shared half** (the Raptors' two identical special-weapon groups: "1x Meltagun"
+inherited the count of the "2x Close combat weapon" line and became two), **room is read per option
+where the group is one-of-a-kind** (`dup` — two plasma guns on 10 Raptors are one from each group),
+**a group with a cap of 0 is not opened** (the 10-model group at 5 models), and **a weapon two groups
+offer leaves the group that is the only home of a later line** (a Carnifex's crushing claws go to
+the scything talons so the heavy venom cannon keeps the extra pair) — all 2026-09-19, the corpus lost
+13 false alarms and gained none; **the WTC parser keeps a
 WTC body under section headings or an "Attached unit" line** — only the app's own tells ("Attached
 as:", "◦") route to the app's parser — and tolerates "(With Outriders)" after the points; **points
 glued to the name** ("Vertus Praetors215 Points", a paste from the rendered page). Validation:
@@ -2421,6 +2454,28 @@ unit, for a stated window, when the player decides to. So:
     scope, 12 fall through the "matched nobody" escape (a detachment-granted keyword the datasheets
     do not print — SOUL FORGE, SHADOW LEGION, TANK ACE — or prose our patterns cannot read, "One
     Avatar of Khaine model"), and 44.8% of (unit, stratagem) pairs are dropped.
+  - **"TARGET: That … unit." is a back-reference** (added 2026-09-19, `stratagemTargetScopes`): 80
+    of the 308 stratagems with a modifier name their unit in the WHEN line ("when a friendly
+    HERETIC ASTARTES INFANTRY FLY unit … is selected to fight") and point at it from the TARGET
+    line, which `ruleScopes` reads as nobody — so all 80 were offered to the whole army, and a
+    player found Plunging Talons under his Terminators and Seize the Prize (whose "excluding
+    MONSTERS and VEHICLES" is in its WHEN line) under his Defiler. For a "That …" target the WHEN
+    line is the statement of the target, exclusions and all; the target line read as "Friendly …"
+    is the fallback; a model "in that unit" is the same back-reference. A TARGET line that names
+    its unit without "from your army" ("One GREY KNIGHTS unit that was selected as the target of
+    …", "One friendly unengaged HARLEQUINS unit") is about your own unit by construction, so a line
+    ruleScopes reads as nobody is read once more with "Friendly" in place of its opening count —
+    never past a lowercase "enemy". Measured over ALL 1329 stratagem lines (not only the 308 with
+    a modifier): 1284 → 1323 read; the 6 left ("Your NECRONS WARLORD", "Select one of those Cult
+    Ambush markers", "Your army's Favoured Champions unit") stay fail-open. Over the 308 with a
+    modifier, (unit, stratagem) pairs dropped went 33.4% → 45.7%; the per-stratagem visible sets
+    were diffed by hand (67 changed, every one narrower or wider in the direction the print says —
+    Shield of Faith to all of ADEPTA SORORITAS rather than the 4 JUMP PACK units its "or" clause
+    named). Shared with ruleTargets.js: `[gloss:…]` links unwrapped like `[core:…]`, "friendly
+    unengaged/engaged X", a spaced slash as an in-phrase alternation ("Infantry / Mounted Thousand
+    Sons Psyker" = INFANTRY-PSYKER or MOUNTED-PSYKER), "Battle-shocked" as a stop word, a slash
+    list inside "excluding". NOT shared: "in your army" is not an own-side marker — "within your
+    army's Power Matrix" contains it and would ungate 9 detachment rules through escape 2.
   - the gated list is what the CARD and the CHIPS are both built from (`RosterViewView`'s
     `gatedFor`), so a stratagem that is not on offer cannot appear as a chip, as a note, or as a
     condition switch its `cond` would otherwise have named.

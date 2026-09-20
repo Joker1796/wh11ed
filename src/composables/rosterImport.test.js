@@ -2800,6 +2800,66 @@ One of these losers actually has a missile launcher. -TO edited
     expect(payload.units[0].wg.map(([, , n]) => n)).toEqual([1, 1])
     expect(await codesOf(payload, ctx)).not.toContain('overWargearLimit')
   })
+
+  // Raptors carry two identical special-weapon groups ("Up to 2 Raptors…" and, at 10 models, "up
+  // to 2 additional"), each one of a kind. The same option offered by two groups is not a shared
+  // half: "1x Meltagun" used to inherit the count of the "2x Close combat weapon" line that had
+  // gone in first and became two meltaguns; a second weapon then opened the 10-model group at 5.
+  it('keeps a 5-model Raptor squad\u2019s meltagun and plasma gun in the one group it has', async () => {
+    const ctx = await ctxFor('chaos-space-marines')
+    const text = gw('Chaos Space Marines', `Raptors (110 points)
+• 1x Raptor Champion
+• 1x Astartes chainsword
+1x Bolt pistol
+• 4x Raptor
+• 4x Bolt pistol
+2x Astartes chainsword
+2x Close combat weapon
+1x Meltagun
+1x Plasma gun`)
+    const { payload } = matchRoster(parseList(text), ctx)
+    const texts = (await import('../data/roster/items.js')).default.texts
+    const def = ctx.faction.units.find((u) => u.id === 'raptors')
+    const gi = def.gear.findIndex((g) => /^Up to 2 Raptors/.test(texts[g.t]))
+    expect(payload.units[0].wg.map(([g, , n]) => [g, n])).toEqual([[gi, 1], [gi, 1]])
+    expect((await codesOf(payload, ctx)).filter((c) => c.startsWith('overWargear'))).toEqual([])
+  })
+
+  it('splits two plasma guns on a 10-model Raptor squad across its two groups', async () => {
+    const ctx = await ctxFor('chaos-space-marines')
+    const text = gw('Chaos Space Marines', `Raptors (210 points)
+• 1x Raptor Champion
+◦ 1x Astartes chainsword
+◦ 1x Bolt pistol
+• 9x Raptor
+◦ 9x Bolt pistol
+◦ 6x Astartes chainsword
+◦ 3x Close combat weapon
+◦ 1x Meltagun
+◦ 2x Plasma gun`)
+    const { payload } = matchRoster(parseList(text), ctx)
+    const byGroup = new Map()
+    for (const [g, , n] of payload.units[0].wg) byGroup.set(g, (byGroup.get(g) || 0) + n)
+    expect([...byGroup.values()].sort()).toEqual([1, 2])
+    expect((await codesOf(payload, ctx)).filter((c) => c.startsWith('overWargear'))).toEqual([])
+  })
+
+  // A weapon two groups offer leaves the group that is the only home of a later line: a
+  // Carnifex's crushing claws may replace either pair of talons, its heavy venom cannon only the
+  // extra pair. Claws first and into the first group filled it, and the cannon had nowhere legal.
+  it('leaves a group to the weapon that has no other home', async () => {
+    const ctx = await ctxFor('tyranids')
+    const text = gw('Tyranids', `Carnifexes (180 points)
+• 2x Carnifex
+• 2x Bio-plasma
+2x Carnifex crushing claws
+2x Chitinous claws and teeth
+2x Heavy venom cannon
+2x Spine banks`)
+    const { payload } = matchRoster(parseList(text), ctx)
+    expect(payload.units[0].wg).toHaveLength(4)
+    expect((await codesOf(payload, ctx)).filter((c) => c.startsWith('overWargear'))).toEqual([])
+  })
 })
 
 describe('parseList — more shapes from the corpus, 2026-09-19', () => {

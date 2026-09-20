@@ -1149,12 +1149,23 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // model can be equipped with one of the following" is one pick, whatever appdata calls its
     // input; read as unlimited, its 5 twin heavy bolters and 4 lascannons became two picks of the
     // lascannon bundle and none of the flamer swap (2026-09-19).
-    const roomLeft = (gi) => {
-      const cap = wargearGroupCap(def, entry, gi)?.limit ?? wargearGroupFallbackCap(def, entry, gi) ?? null
-      const limit = def.gear?.[gi]?.in === 'stepper' || (cap || 0) > 1 ? (cap ?? Infinity) : 1
+    // A cap of 0 is a real 0 — the group exists only from a unit size this squad has not reached
+    // ("If this unit contains 10 models, up to 2 additional Raptors…" at 5 models) — not a one-of.
+    // And a group that allows several picks but "never the same one twice" (`dup`) has, for ONE
+    // option, only what the duplicate cap leaves: two plasma guns on a 10-model Raptor squad are
+    // one from each of its two special-weapon groups, not two from the first (2026-09-19).
+    const roomLeft = (gi, oi = null) => {
+      const capOf = wargearGroupCap(def, entry, gi)
+      const cap = capOf?.limit ?? wargearGroupFallbackCap(def, entry, gi) ?? null
+      const limit = cap === 0 ? 0 : def.gear?.[gi]?.in === 'stepper' || (cap || 0) > 1 ? (cap ?? Infinity) : 1
       let used = 0
       for (const p of picks.values()) if (p.gi === gi) used += p.stepper ? stepperCount(p) : p.n
-      return Math.max(0, limit - used)
+      let room = Math.max(0, limit - used)
+      if (oi != null && capOf?.dup) {
+        const mine = picks.get(`${gi}:${oi}`)
+        room = Math.min(room, Math.max(0, capOf.dup - (mine ? (mine.stepper ? stepperCount(mine) : mine.n) : 0)))
+      }
+      return room
     }
     const roomIn = (gi) => roomLeft(gi) > 0
     // How well an option ANSWERS the list: a bundled option ("1 boltstorm gauntlet, 1 power fist
@@ -1253,7 +1264,16 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const others = weapons.filter((o) => o !== w).map((o) => norm(o.name))
       return parts.every((p) => others.some((o) => o === p || o.endsWith(` ${p}`)))
     }
-    for (const w of weapons) {
+    // Is `gi` the ONLY group some later line of this unit can go to? A weapon two groups offer
+    // should leave that group to the weapon that has no other home: a Carnifex's crushing claws
+    // may replace either pair of talons, its heavy venom cannon only the extra pair — placed first
+    // and into the first group, the claws filled it and the cannon had nowhere legal left
+    // (2026-09-19, two GT lists).
+    const soleHomeLater = (gi, from) => weapons.slice(from + 1).some((o) => {
+      const rs = idx.get(norm(o.name))
+      return !!rs?.length && rs.every((r) => r.gi === gi)
+    })
+    for (const [wi, w] of weapons.entries()) {
       const key = norm(w.name)
       if (!key) continue
       const extra = absorb(w, key)
@@ -1283,7 +1303,12 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // Several groups' (a Forgefiend's ectoplasma cannon) or one group's: a Purgation Squad's
       // "4x Close combat weapon" is the half every one of its three bundles carries, and counted as
       // four picks of the first it made two incinerators and two psycannons six swaps (2026-09-19).
-      const shared = pool.length > 1
+      // Several candidates that are the SAME option offered by several groups (the Raptors' two
+      // identical special-weapon groups) are not that: the weapon still identifies its option,
+      // it just has two homes. Counted as shared, "1x Meltagun" inherited the count of the
+      // "2x Close combat weapon" half that had gone in before it and became two meltaguns.
+      const optKey = (r) => optionItems(def.gear?.[r.gi]?.o?.[r.oi] || []).map(([id]) => id).sort().join('+')
+      const shared = new Set(pool.map(optKey)).size > 1
       const holds = (r) => picks.get(key2(r))?.names.has(key)
       // Is there anywhere ELSE for what is left of this line to go? Guards the spill above against
       // walking in circles when every candidate is full or already holds it.
@@ -1308,9 +1333,15 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         //     lance and shuriken cannon), and a REPEAT of one weapon is a second swap in a second
         //     group (a Defiler's two heavy reaper autocannons);
         //  3. an option of a group already used, and failing that the first candidate.
+        //     An untouched group the squad is too small for (room 0) is not opened for it: what
+        //     the list holds goes to a group that can take it, and only failing that anywhere.
+        const fresh = (rs) => {
+          const open = rs.filter((r) => !usedGroups.has(r.gi) && roomIn(r.gi))
+          return open.find((r) => !soleHomeLater(r.gi, wi)) || open[0]
+        }
         const ref = pool.find((r) => picks.has(key2(r)) && !holds(r))
-          || pool.find((r) => !usedGroups.has(r.gi))
-          || rest.find((r) => !usedGroups.has(r.gi))
+          || fresh(pool)
+          || fresh(rest)
           || pool.find((r) => !picks.has(key2(r)) && roomIn(r.gi))
           || rest.find((r) => !picks.has(key2(r)) && roomIn(r.gi))
           || pool.find((r) => !picks.has(key2(r)))
@@ -1328,7 +1359,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         const stepperTake = () => {
           const want = Math.ceil(left / step)
           if (shared) return want
-          const room = roomLeft(ref.gi)
+          const room = roomLeft(ref.gi, ref.oi)
           return room > 0 ? Math.min(want, room) : want
         }
         if (at) {

@@ -205,7 +205,7 @@
     >
       <section
         class="ues-sec"
-        :class="{ 'ues-inert': blockers[gi] }"
+        :class="{ 'ues-inert': shut[gi] }"
       >
         <!-- `ues-instr`, unlike every other .ues-h on this screen: what stands here is a SENTENCE
            out of the datasheet, not a label. See the style rule for why that needs a different
@@ -263,13 +263,13 @@
             v-for="opt in radioRows(g)"
             :key="opt.oi ?? 'default'"
             class="opt-tile"
-            :class="{ on: radioSel(gi) === opt.oi, disabled: !!blockers[gi] }"
+            :class="{ on: radioSel(gi) === opt.oi, disabled: shut[gi] }"
           >
             <label class="opt-select">
               <input
                 type="checkbox"
                 :checked="radioSel(gi) === opt.oi"
-                :disabled="!!blockers[gi]"
+                :disabled="shut[gi]"
                 @change="setRadio(gi, opt.oi)"
               >
               <span class="opt-name">{{ opt.name }}</span>
@@ -296,13 +296,13 @@
         >
           <div
             class="opt-tile"
-            :class="{ on: toggleOn(gi), disabled: !!blockers[gi] }"
+            :class="{ on: toggleOn(gi), disabled: shut[gi] }"
           >
             <label class="opt-select">
               <input
                 type="checkbox"
                 :checked="toggleOn(gi)"
-                :disabled="!!blockers[gi]"
+                :disabled="shut[gi]"
                 @change="toggle(gi)"
               >
               <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
@@ -331,7 +331,7 @@
             v-for="(o, oi) in g.o"
             :key="oi"
             class="opt-tile"
-            :class="{ disabled: !!blockers[gi] }"
+            :class="{ disabled: shut[gi] }"
           >
             <div class="opt-step-body">
               <span class="opt-name">{{ optLabel(o) }}<span
@@ -342,7 +342,7 @@
                 :model-value="stepCount(gi, oi)"
                 :min="0"
                 :max="stepMax(gi, oi)"
-                :disabled="!!blockers[gi]"
+                :disabled="shut[gi]"
                 @update:model-value="setStep(gi, oi, $event)"
               />
             </div>
@@ -525,6 +525,12 @@ const caps = computed(() => (props.def.gear || []).map((g, gi) => wargearGroupCa
 // The group is still drawn either way — greyed, its current pick visible — so the sentence below
 // is the only thing that has to explain itself.
 const blockers = computed(() => (props.def.gear || []).map((g, gi) => wargearGroupBlocker(props.def, props.entry, gi)))
+// A group is shut for one of two reasons, each with its own sentence below the instruction: a
+// sibling group holds the weapon it would give up (`blockers`), or the squad is too small for it
+// (a cap of 0 — "If this unit contains 10 models…" at 5). The rows were only greyed for the first
+// until 2026-09-19; the second said "not available" and let you tick anyway, and validateRoster
+// then reported the pick. Same rule for both now: drawn, greyed, current pick visible.
+const shut = computed(() => (props.def.gear || []).map((g, gi) => !!blockers.value[gi] || !!(caps.value[gi] && !caps.value[gi].limit)))
 function blockerText(gi) {
   const b = blockers.value[gi]
   if (!b) return ''

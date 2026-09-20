@@ -30,6 +30,13 @@
 // other way: Skitarii Hunter Cohort and Cult of Blood named their targets in a list, matched no
 // keyword end to end, and so had been shown to the whole army by escape 2.
 //
+// Re-measured 2026-09-19 (glossary links unwrapped, "friendly unengaged", the spaced-slash tail,
+// Battle-shocked as a stop word): 300 rules, 11 changed — every one narrower, and every one a rule
+// that had been shown to the whole faction because a [gloss:…] bracket sat between "friendly" and
+// the keyword (all 4 Black Templars detachment rules, 3 T'au, 3 Space Marines) or because
+// "unengaged" did (Purestrain Broodswarm). Stratagem TARGET lines are a different corpus with
+// its own reader (rosterStatMods' stratagemTargetScopes): 1323 of 1329 read.
+//
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
 
@@ -50,9 +57,13 @@ const KW_ALT = `${KW}(?:${KW_SEP}${KW})*`
 const PAREN = "(?:\\s*\\([^)]*\\))?"
 // `[Ff]riendly` rather than the /i flag: the flag would also make the capitalisation in KW
 // case-insensitive, and "capitalised word" is the entire signal that something is a keyword.
+// The noun is optional before "from your army" — stratagems write "One DRUKHARI TRANSPORT from
+// your army" (TRANSPORT is the keyword) — and "from  your army" occurs with two spaces. "friendly"
+// may be followed by the engagement state the stratagem asks for: "One friendly unengaged
+// HARLEQUINS unit" (21 stratagems). All 2026-09-19.
 const PATTERNS = [
-  new RegExp(`(${KW_ALT})\\s+(?:units?|models?)${PAREN}\\s+from your army`, 'g'),
-  new RegExp(`[Ff]riendly\\s+(${KW_ALT})\\s+(?:units?|models?)`, 'g'),
+  new RegExp(`(${KW_ALT})(?:\\s+(?:units?|models?))?${PAREN}\\s+from\\s+your army`, 'g'),
+  new RegExp(`[Ff]riendly\\s+(?:(?:un)?engaged\\s+)?(${KW_ALT})\\s+(?:units?|models?)`, 'g'),
 ]
 
 // "…(excluding Destroyer Cult, Monster and Titanic models)". Exclusions are safe by construction:
@@ -65,7 +76,10 @@ const PATTERNS = [
 const EXCLUDE = /excluding\s+([^).]{1,80})/gi
 
 // Does this passage speak about the reader's own army at all?
-const OWN_SIDE = /from your army|friendly/i
+// Not "in your army": "within your army's Power Matrix" contains it, and enhancement bookkeeping
+// ("…the total number of enhancements in your army") would count as a passage about your units
+// that names none — escape 2 would then ungate the whole rule (2026-09-19, measured: 9 rules).
+const OWN_SIDE = /from\s+your army|friendly/i
 
 // Capitalised words that are never a unit keyword — sentence openers, game vocabulary, the
 // structural labels the faction files use inside rule bodies (TRIGGER:/EFFECT:/KEYWORDS).
@@ -74,7 +88,10 @@ const STOP = new Set(['The', 'This', 'That', 'These', 'Those', 'Each', 'While', 
   'Charge', 'Fight', 'Phase', 'Battle', 'Round', 'Turn', 'Range', 'Strength', 'Toughness', 'Attacks', 'Wound',
   'Hit', 'Save', 'Other', 'Units', 'Models', 'Unit', 'Model', 'A', 'An', 'One', 'Any', 'All', 'Every', 'Eligible',
   'Enemy', 'Friendly', 'Keywords', 'Trigger', 'Effect', 'Number', 'Up', 'Same', 'Different', 'Both', 'Either',
-  'Detachment'])
+  'Detachment',
+  // A game state written with a capital, sitting where a keyword would: "friendly Battle-shocked
+  // ADEPTUS ASTARTES unit" (4 stratagems, 2026-09-19).
+  'Battle-shocked'])
 
 const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 
@@ -89,6 +106,10 @@ function passages(body) {
     // A core ability named in prose ([core:Stealth]) is emphasis, not a target — unwrap it to the
     // bare name so the brackets can never be read as a keyword's.
     .replace(/\[core:([^\]]*)\]/g, '$1')
+    // A glossary link ([gloss:friendly:friendly]) is its visible text: the brackets sat between
+    // "friendly" and the keyword and hid every Black Templars and T'au stratagem target from the
+    // gate (2026-09-19).
+    .replace(/\[gloss:[^:\]]*:([^\]]*)\]/g, '$1')
     .split(/\n\s*\n|\n(?=###\s)|\n?(?=▪\s)/)
     .filter((p) => p.trim())
 }
@@ -100,7 +121,8 @@ function excludesIn(passage) {
   EXCLUDE.lastIndex = 0
   let m
   while ((m = EXCLUDE.exec(passage))) {
-    for (const raw of m[1].replace(/\s+(?:units?|models?)\s*$/i, '').split(/,| and | or /i)) {
+    // The slash list too — "(excluding KROOT/VESPID STINGWINGS units)" is two exclusions.
+    for (const raw of m[1].replace(/\s+(?:units?|models?)\s*$/i, '').split(/,| and | or |\s*\/\s*/i)) {
       const words = raw.trim().replace(/\s+(?:units?|models?)$/i, '')
         .split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !isStop(w))
       if (!words.length) continue
@@ -138,7 +160,7 @@ export function ruleScopes(body) {
       let m
       while ((m = re.exec(passage))) {
         // An alternation is several targets, not one phrase.
-        for (const alt of m[1].split(/\s*\/\s*|,\s*|\s+(?:or|and)\s+/)) {
+        for (const alt of alternatives(m[1])) {
           const words = alt.trim().split(/\s+/).filter((w) => !isStop(w))
           if (words.length) found.add(words.join(' '))
         }
@@ -148,6 +170,20 @@ export function ruleScopes(body) {
     scopes.push({ targets: [...found], excludes: excludesIn(passage) })
   }
   return scopes
+}
+
+// The alternatives a matched run names. Thousand Sons write a SPACED slash for an alternation
+// inside one phrase — "Infantry / Mounted Thousand Sons Psyker" is (INFANTRY or MOUNTED) THOUSAND
+// SONS PSYKER, not INFANTRY-anything — so the words the last branch carries beyond the others are a
+// shared tail and go onto every branch (2026-09-19; the plain "CRONOS/TALOS" form is unchanged).
+function alternatives(run) {
+  const parts = run.split(/\s*\/\s*|,\s*|\s+(?:or|and)\s+/)
+  if (parts.length < 2 || !/\S \/ \S/.test(run)) return parts
+  const words = parts.map((p) => p.trim().split(/\s+/))
+  const head = words[0].length
+  if (!words.slice(0, -1).every((w) => w.length === head) || words[words.length - 1].length <= head) return parts
+  const tail = words[words.length - 1].slice(head).join(' ')
+  return words.map((w) => `${w.slice(0, head).join(' ')} ${tail}`)
 }
 
 // Every target a rule names, flattened — the readable summary of ruleScopes(), and what the

@@ -177,6 +177,43 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
     expect(ruleScopes(body)[0].excludes).toContain('Monster')
   })
 
+  it('splits a slash list inside an exclusion', () => {
+    // T'au's Guided By Unity: "(excluding KROOT/VESPID STINGWINGS units)" is two exclusions.
+    const body = 'Friendly T’AU EMPIRE units (excluding KROOT/VESPID STINGWINGS units) gain 1 to hit.'
+    const kroot = ['Kroot', 'Infantry', 'T’au Empire']
+    const vespid = ['Vespid Stingwings', 'Infantry', 'T’au Empire']
+    const fire = ['Fire Warriors', 'Infantry', 'T’au Empire']
+    expect(ruleAppliesTo(body, kroot, [kroot, vespid, fire])).toBe(false)
+    expect(ruleAppliesTo(body, vespid, [kroot, vespid, fire])).toBe(false)
+    expect(ruleAppliesTo(body, fire, [kroot, vespid, fire])).toBe(true)
+  })
+
+  it('reads through a glossary link', () => {
+    // Black Templars and T'au write "[gloss:friendly:friendly] Sword Brethren Squad unit".
+    const body = 'Fight phase, when a [gloss:friendly:friendly] Sword Brethren Squad unit is [gloss:selected-to-fight:selected to fight].'
+    expect(ruleTargets(body)).toEqual(['Sword Brethren Squad'])
+  })
+
+  it('reads "friendly unengaged X unit" and a keyword with no noun before "from your army"', () => {
+    expect(ruleTargets('One friendly unengaged HARLEQUINS unit.')).toEqual(['HARLEQUINS'])
+    expect(ruleTargets('One friendly engaged PLAGUE MARINES unit.')).toEqual(['PLAGUE MARINES'])
+    // "in your army" is not an own-side marker: "within your army's Power Matrix" contains it.
+    expect(ruleTargets('Each time a model in a Cryptek unit from your army makes an attack while wholly within your army\'s Power Matrix…')).toEqual(['Cryptek'])
+    expect(ruleTargets('One DRUKHARI TRANSPORT from your army that is within 8" of that enemy unit.')).toEqual(['DRUKHARI TRANSPORT'])
+    expect(ruleTargets('One HERETIC ASTARTES INFANTRY unit from  your army.')).toEqual(['HERETIC ASTARTES INFANTRY'])
+  })
+
+  it('treats a capitalised game state before the keyword as no keyword', () => {
+    expect(ruleTargets('One friendly Battle-shocked ADEPTUS ASTARTES unit.')).toEqual(['ADEPTUS ASTARTES'])
+  })
+
+  it('shares the tail of a spaced-slash alternation across its branches', () => {
+    // Thousand Sons: "(Infantry or Mounted) Thousand Sons Psyker", not "Infantry" and something else.
+    expect(ruleTargets('That friendly Infantry / Mounted Thousand Sons Psyker unit.')).toEqual(['Infantry Thousand Sons Psyker', 'Mounted Thousand Sons Psyker'])
+    // …and leaves the plain slash form as it was.
+    expect(ruleTargets('Friendly CRONOS/TALOS units.')).toEqual(['CRONOS', 'TALOS'])
+  })
+
   it('matches a singular target against the plural keyword the datasheet carries', () => {
     // Rules say "Vyper units from your army"; the datasheet keyword is VYPERS.
     const vyper = ['Vypers', 'Mounted', 'Aeldari']

@@ -421,6 +421,35 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
 //
 // Fail-open exactly like every other gate here (ruleTargets.js's three escapes): a target line that
 // names no unit of yours, or names one no datasheet in the faction matches, gates nothing.
+// The keyword gate on a stratagem's TARGET line. Two shapes in the corpus: the line names the unit
+// itself ("One DAMNED unit from your army that has not been selected to shoot this phase"), and
+// the line points BACK at the unit the WHEN line named — "TARGET: That HERETIC ASTARTES INFANTRY
+// FLY unit." after "WHEN: Fight phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit that made
+// a Charge move this turn is selected to fight". 80 of the 308 stratagems with a modifier are
+// written the second way, and "That …" names nobody in ruleScopes' terms, so every one of them
+// was offered to the whole army: a player found Murdertalon Raiders' Plunging Talons (INFANTRY FLY)
+// under his Terminators' possible modifiers, and Seize the Prize — whose "excluding MONSTERS and
+// VEHICLES" is in its WHEN line, the TARGET being just "That HERETIC ASTARTES unit" — under his
+// Defiler's (2026-09-19). For a back-reference the WHEN line is the statement of the target,
+// exclusions and all; the target line itself, read as "friendly …", is the fallback for a WHEN
+// line that names the unit some other way. Fail-open as before wherever neither reads.
+//
+// A TARGET line is about the reader's own unit unless it says "enemy" — "One GREY KNIGHTS unit that
+// was selected as the target of one or more of the attacking unit's attacks" has no "from your
+// army" because the line has no other side to be about — so a line ruleScopes reads as nobody is
+// read once more with "Friendly" in place of its opening count. Lowercase "enemy" after the count
+// stops the rewrite (no /i flag: the lookahead must mean a capital), and a run that then matches
+// no datasheet still falls to escape 3.
+const OWN_UNIT_LEAD = /^(?:That|One|Two|Three|Up to \w+|Any number of|One or more|Two or more|One other|One of those)\s+(?=[A-Z])/
+export function stratagemTargetScopes(st) {
+  const target = (st?.target || '').replace(/\*\*/g, '')
+  if (!target) return null
+  // "That … unit", or a model "in that unit" (Eye of the Gods: "One HERETIC ASTARTES CHARACTER
+  // model in that unit", the WHEN line carrying the exclusions) — the WHEN line names the unit.
+  if (/^That\b|\bin that unit\b/i.test(target)) return ruleScopes(st.when || '') ?? ruleScopes(target.replace(/^That\s+/i, 'Friendly '))
+  return ruleScopes(target) ?? (OWN_UNIT_LEAD.test(target) ? ruleScopes(target.replace(OWN_UNIT_LEAD, 'Friendly ')) : null)
+}
+
 export function gateStratagems(entries, keywords, factionKeywordSets) {
   return (entries || []).filter((e) => (
     e.kind !== 'stratagem' ||
@@ -719,7 +748,7 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       // against the unit it would be USED on, and the two are judged with different keyword sets
       // (see gateStratagems). Ungated when the target names nobody of yours, which is every
       // stratagem aimed at an enemy unit.
-      const targetScopes = st?.target ? ruleScopes(st.target) : null
+      const targetScopes = st ? stratagemTargetScopes(st) : null
       out.push({ ...rec, body: '', slot, targetScopes })
       continue
     }

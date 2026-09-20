@@ -329,7 +329,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1060,9 +1060,65 @@ function proseAllowance(text, optCount = 0) {
 // whole text; the other two are statements of the allowance itself and only count in it.)
 // ("duplicates are not allowed" is the parenthetical form, six groups; `can take duplicates` is
 // the OPPOSITE statement and must not be read as one of these.)
+// "You cannot select the same option more than once" is the Raptors' spelling of it (2026-09-19,
+// a player took two meltaguns from a group that allows one of each).
 const proseNoDuplicates = (text) =>
-  /cannot take duplicates|duplicates are not allowed/i.test(text) ||
+  /cannot take duplicates|duplicates are not allowed|cannot select the same option more than once/i.test(text) ||
   /\bany of the following\b|\bdifferent weapons\b/i.test(text.split('\n')[0])
+
+// The allowance that only exists at a unit size: "If this unit contains 10 models, up to 2
+// additional Raptors can each…", "If this unit contains 10 models, 1 Corsair Voidscarred's power
+// sword can be replaced…", and the block form over its own bullets —
+//
+//   If this unit contains 10 models:
+//   ◦ 1 Vespid Stingwing can replace its neutron blaster with 1 T'au flamer.
+//   ◦ 1 Vespid Stingwing can replace its neutron blaster with 1 neutron grenade launcher.
+//
+// where each bullet is a separate allowance (one model each, three models in all), and the
+// Troupe's two-block form ("9 or fewer models: up to two … / 10 or more models: up to four …").
+// proseAllowance refuses all of these on purpose (the number is conditional), and appdata's set
+// either does not exist or matches two identical groups — so these fell through to the editor,
+// which drew the multi-option ones as a one-of radio and offered every one of them at any size:
+// a 10-model Raptor squad could take one extra special weapon where the datasheet allows two, a
+// 5-model one could take it at all. Returns `lim` rows — `[threshold, picks, dup?]` — or null
+// where the text is not this shape or a bullet cannot be read; `optCount` tells the block form
+// whether its bullets ARE the options (then each bullet's number caps its own option, which the
+// dup slot expresses exactly when they all say the same number) or merely restate them.
+const COND_HEAD = /^if this unit contains (\d+)( or fewer| or more)? models?(,|:)\s*(.*)$/i
+function proseConditionalAllowance(text, optCount = 0) {
+  const blocks = text.split(/\n\s*\n/)
+  const rows = []
+  for (const block of blocks) {
+    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean)
+    const head = lines[0] && COND_HEAD.exec(lines[0])
+    if (!head) return null
+    const at = head[2]?.trim() === 'or fewer' ? 0 : Number(head[1])
+    const dupSaid = proseNoDuplicates(block) ? 1 : 0
+    if (head[3] === ',') {
+      // One sentence: "up to 2 additional X can each…", "1 X's Y can be replaced…". The lines
+      // after it, if any, are the options and say nothing about the allowance.
+      const n = proseAllowance(head[4].replace(/\badditional\b/i, ''), optCount)
+      if (n == null) return null
+      rows.push(dupSaid ? [at, n, dupSaid] : [at, n])
+      continue
+    }
+    // A colon: the bullets under it are the allowances, one number each.
+    const bullets = lines.slice(1).map((l) => l.replace(/^[◦▪•*-]\s*/, ''))
+    if (!bullets.length) return null
+    const each = bullets.map((b) => proseAllowance(b))
+    if (each.some((n) => n == null)) return null
+    const total = each.reduce((a, b) => a + b, 0)
+    const same = each.every((n) => n === each[0])
+    if (optCount === bullets.length && same) rows.push([at, total, each[0]])
+    else if (dupSaid) rows.push([at, total, 1])
+    else rows.push([at, total])
+  }
+  if (!rows.length) return null
+  rows.sort((a, b) => a[0] - b[0])
+  // Two blocks cannot claim the same threshold, and every row must state a real allowance.
+  if (rows.some((r, i) => r[1] < 1 || (i && r[0] === rows[i - 1][0]))) return null
+  return rows
+}
 
 function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
   const sets = limitedSetsByDs.get(datasheetId) || []
@@ -1751,6 +1807,16 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     d.lim = [dup ? [0, said, dup] : [0, said]]
     report.limit.fromProse++
   }
+  // …the CONDITIONAL form ("If this unit contains 10 models, …"), which is a step table with one
+  // row per block — see proseConditionalAllowance. Below its first threshold the group genuinely
+  // offers nothing, which wargearGroupCap already reads as a real 0.
+  for (const d of drafts) {
+    if (d.lim) continue
+    const rows = proseConditionalAllowance(d.text, d.opts.length)
+    if (!rows) continue
+    d.lim = rows
+    report.limit.fromProseConditional.push(`${bd.name}: ${JSON.stringify(rows)} — ${d.text.split('\n')[0].slice(0, 70)}`)
+  }
   // …and the SCALED form, which proseAllowance refuses because it is not one number: "For every 5
   // models in this unit, up to 2 models can each have their boltgun replaced with…" is a step
   // table, which is exactly what `lim` already is — one row per threshold the unit can reach.
@@ -1838,10 +1904,20 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // several models can each pick something DIFFERENT — which is what a multi-option list means.
   // Groups whose profile count is a RANGE the player sets ("5-9 Reivers") are left alone: a step
   // table keyed on the unit's size cannot express "however many of them you took".
+  //
+  // The single-option spelling of the same thing — "Any number of models can each be equipped
+  // with 1 bio-plasma" on Carnifexes, a checkbox in appdata — drew as one TOGGLE for the unit,
+  // so two Carnifexes could carry one bio-plasma between them (2026-09-19). It is read too, but
+  // only where the sentence says "any number" and nothing is given up: a single-option swap
+  // ("Any number of X can each have their A replaced with 1 B") is `repall` below, one tick
+  // reaching every model, and stays that.
   for (const d of drafts) {
-    if (d.lim || d.in === 'stepper' || d.all || d.m == null || d.opts.length < 2 || !d.rep?.length) continue
+    if (d.lim || d.in === 'stepper' || d.all || d.m == null) continue
     const first = d.text.split('\n')[0]
-    if (!/^\s*(?:any number of|all models)\b/i.test(first) || !/\beach\b/i.test(first)) continue
+    if (!/\beach\b/i.test(first)) continue
+    const many = d.opts.length >= 2
+    if (many ? !/^\s*(?:any number of|all models)\b/i.test(first) : !/^\s*any number of\b/i.test(first)) continue
+    if (many ? !d.rep?.length : d.rep?.length) continue
     const rows = []
     for (const s of unit.sizes || []) {
       const comp = (s.comp || []).find(([mi]) => mi === d.m)
@@ -2481,6 +2557,10 @@ if (lm.conflict.length) {
 }
 // appdata's table kept, ours discarded — but named, because a step form we read differently from
 // the table written off the same sentence is how a future data drop would quietly change a cap.
+if (lm.fromProseConditional.length) {
+  console.log(`  read "if this unit contains N models, …" as a step table (${lm.fromProseConditional.length}):`)
+  for (const c of lm.fromProseConditional) console.log(`    - ${c}`)
+}
 if (lm.perModelEach.length) {
   console.log(`  read "any number of X can each have…" as one pick per model of that profile (${lm.perModelEach.length}), drawn as a stepper instead of a one-of radio:`)
   for (const c of lm.perModelEach) console.log(`    - ${c}`)
