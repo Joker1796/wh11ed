@@ -17,18 +17,6 @@
 
 export const changelog = [
   {
-    version: '2.6.3',
-    date: '2026-09-20',
-    en: [
-      { h: 'Warhammer Legends of the Space Marines \u2014 in the Chapters too' },
-      'Blood Angels, Dark Angels, Black Templars, Deathwatch and Space Wolves now list the Legends sheets of the Space Marines pack \u2014 Bike Squad, Captain on Bike, the relic Dreadnoughts, the Forge World tanks and aircraft \u2014 on the datasheets page, in search and in the roster builder, with points. The rule is the Chapter\u2019s own: any ADEPTUS ASTARTES unit not drawn from another Chapter, so the four Ultramarines heroes stay out; Deathwatch loses the seven its pack names (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), Black Templars the Librarians, Space Wolves the Apothecary on Bike.',
-    ],
-    ru: [
-      { h: 'Warhammer Legends Space Marines \u2014 и у Орденов' },
-      'У Blood Angels, Dark Angels, Black Templars, Deathwatch и Space Wolves теперь есть Legends-листы из пака Space Marines \u2014 Bike Squad, Captain on Bike, реликтовые дредноуты, техника и авиация Forge World \u2014 на странице датащитов, в поиске и в конструкторе ростеров, с очками. Правило \u2014 собственное правило Ордена: любой юнит ADEPTUS ASTARTES не из другого Ордена, поэтому четверо героев Ultramarines остаются за бортом; у Deathwatch нет семи листов, которые их пак называет поимённо (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), у Black Templars \u2014 библиариев, у Space Wolves \u2014 Apothecary on Bike.',
-    ],
-  },
-  {
     version: '2.6.2',
     date: '2026-09-20',
     en: [
@@ -38,8 +26,11 @@ export const changelog = [
       'A stratagem whose target reads \u201cthat unit\u201d \u2014 the one its timing line names \u2014 was listed under every unit: Plunging Talons (INFANTRY FLY) under Terminators, Seize the Prize (no MONSTERS or VEHICLES) under a Defiler. The timing line is read now, exclusions included; 80 stratagems were written this way. Same player, thank you.',
       { h: 'Unit card in a roster: a swapped weapon is gone from the table' },
       'An Archon who took a master-crafted power weapon still had his huskblade on the card, as if he carried both. Hyphenated names \u2014 master-crafted, hot-shot, Jericho-class, magna-rail; 16 weapon rows on 9 datasheets \u2014 were not matched to your choice. They are now. Thanks to the player who reported it.',
+      { h: 'Warhammer Legends of the Space Marines \u2014 in the Chapters too' },
+      'Blood Angels, Dark Angels, Black Templars, Deathwatch and Space Wolves now list the Legends sheets of the Space Marines pack \u2014 Bike Squad, Captain on Bike, the relic Dreadnoughts, the Forge World tanks and aircraft \u2014 on the datasheets page, in search and in the roster builder, with points. The rule is the Chapter\u2019s own: any ADEPTUS ASTARTES unit not drawn from another Chapter, so the four Ultramarines heroes stay out; Deathwatch loses the seven its pack names (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), Black Templars the Librarians, Space Wolves the Apothecary on Bike.',
       { h: 'Thank you' },
-      'And a separate thank-you to everyone who supports the project with money. I still can\u2019t believe you do this \u2014 and it charges me up for the work like nothing else. The page is still where it was: [Support the project](/support).',
+      'And a separate thank-you to everyone who supports the project with money. I still can\u2019t believe you do this \u2014 and it charges me up for the work like nothing else.',
+      '[Support the project](/support)',
     ],
     ru: [
       { h: 'Конструктор ростеров: вооружение, зависящее от размера отряда' },
@@ -48,6 +39,8 @@ export const changelog = [
       'Стратагема, у которой цель записана как «этот отряд» (тот, что назван в строке «когда»), показывалась у каждого отряда: Plunging Talons (INFANTRY FLY) у Terminators, Seize the Prize (без MONSTERS и VEHICLES) у Defiler. Теперь читается строка «когда», вместе с исключениями; так записано 80 стратагем. Тому же игроку спасибо.',
       { h: 'Карточка юнита в ростере: заменённое оружие уходит из таблицы' },
       'Archon с master-crafted power weapon оставался и с huskblade в таблице оружия \u2014 как будто носит оба. Названия через дефис \u2014 master-crafted, hot-shot, Jericho-class, magna-rail; 16 строк оружия на 9 датащитах \u2014 не сопоставлялись с вашим выбором. Теперь сопоставляются. Спасибо игроку, который об этом написал.',
+      { h: 'Warhammer Legends Space Marines \u2014 и у Орденов' },
+      'У Blood Angels, Dark Angels, Black Templars, Deathwatch и Space Wolves теперь есть Legends-листы из пака Space Marines \u2014 Bike Squad, Captain on Bike, реликтовые дредноуты, техника и авиация Forge World \u2014 на странице датащитов, в поиске и в конструкторе ростеров, с очками. Правило \u2014 собственное правило Ордена: любой юнит ADEPTUS ASTARTES не из другого Ордена, поэтому четверо героев Ultramarines остаются за бортом; у Deathwatch нет семи листов, которые их пак называет поимённо (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), у Black Templars \u2014 библиариев, у Space Wolves \u2014 Apothecary on Bike.',
       { h: 'Спасибо' },
       'И отдельно благодарю всех, кто поддерживает проект рублём. Я до сих пор не верю, что вы это делаете и это невероятно заряжает на работу.',
       '[Поддержать проект](/support)',
