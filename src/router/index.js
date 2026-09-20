@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
@@ -543,13 +543,19 @@ router.beforeEach((to) => {
 //    for, which is the entire point of the two of them existing.
 //    The explicit EN toggle is not fought here: it persists 'en' BEFORE navigating, so by the
 //    time this runs the preference already says English.
-router.beforeEach((to) => {
+//    `replace: true` only on the very first navigation (a bare address typed or opened from
+//    outside), so Back does not return to the English twin of the page. Never on the ones that
+//    follow: the redirect's `replace` overrides the caller's, so a `true` here made EVERY tap on a
+//    bare in-app link overwrite the one history entry the installed app had, and the phone's Back
+//    gesture — nothing left to go back to — closed the app instead of going back a page. Leaving
+//    the key out keeps whatever the caller asked for (push or replace).
+router.beforeEach((to, from) => {
   if (to.params.lang === 'ru') return
   if (readStoredLocale() !== 'ru') return
   const target = localePath(to.path, 'ru')
   if (target === to.path) return
   if (!router.resolve(target).matched.some((r) => r.name !== 'not-found')) return
-  return { path: target, query: to.query, hash: to.hash, replace: true }
+  return { path: target, query: to.query, hash: to.hash, ...(from === START_LOCATION && { replace: true }) }
 })
 
 // 3) The address is the source of truth for the language on screen. Landing on a Russian URL also

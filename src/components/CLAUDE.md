@@ -92,6 +92,14 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
 
 Every dialog is a `BaseModal` (teleported to `<body>`, `useModalA11y` for focus/Escape).
 
+- **The phone's Back closes the dialog, not the app** — `useBackToClose.js`, wired through
+  `useModalA11y` (so every `BaseModal`/`ConfirmModal`/`SearchModal` gets it) and, for the nav
+  drawer that stays mounted, `useBackToCloseWhile(ref)` in `App.vue`. Opening pushes a copy of the
+  current history entry; Back pops it. A dialog that closes and navigates in one go (search) leaves
+  a dead copy behind on purpose — the listener steps over it — so don't "fix" the deferred self-pop
+  into a synchronous `history.back()`: that undoes the navigation. A dropdown (settings, account
+  menu) or the keyword popover is not a page and does not get this.
+
 - **The header chrome is global, in `style.css` ("Modal chrome"): `.modal-head`, `.mh-title`,
   `.mh-sub`, `.mh-right`, `.mh-close`.** Not scoped to `BaseModal`, and this is the whole point:
   a consumer's own `<template #header>` renders in **its** scope, which BaseModal's scoped rules

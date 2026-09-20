@@ -92,6 +92,28 @@ describe('links written before the move', () => {
     expect(router.currentRoute.value.path).toBe('/stratagems')
   })
 
+  it('a bare link followed by a Russian reader still adds a history entry — Back must go back, not out', async () => {
+    // The redirect that prefixes the link must not turn the navigation into a replace: every tap
+    // would then overwrite the one entry the installed app has, and Back would close the app.
+    setLocale('ru')
+    await router.replace('/ru')
+    const before = history.state.position
+    await router.push('/stratagems')
+    expect(router.currentRoute.value.path).toBe('/ru/stratagems')
+    expect(history.state.position).toBe(before + 1)
+    await router.push('/factions')
+    expect(history.state.position).toBe(before + 2)
+  })
+
+  it('a bare address typed in from outside is replaced, so Back does not return to its English twin', async () => {
+    setLocale('ru')
+    await router.replace('/ru')
+    const before = history.state.position
+    await router.replace('/stratagems')
+    expect(router.currentRoute.value.path).toBe('/ru/stratagems')
+    expect(history.state.position).toBe(before)
+  })
+
   it('makes a shared Russian link stick, so the next internal click stays Russian', async () => {
     setLocale('en')
     await router.push('/ru/factions/aeldari')

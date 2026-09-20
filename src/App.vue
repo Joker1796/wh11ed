@@ -95,6 +95,7 @@ import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } fr
 import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
+import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
@@ -134,6 +135,8 @@ const { open: feedbackOpen } = useFeedbackModal()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
 const { ensureSession } = useAuth()
 const mobileNavOpen = ref(false)
+// The drawer is a page to a phone: Back closes it before it leaves the route (useBackToClose.js).
+useBackToCloseWhile(mobileNavOpen, () => { mobileNavOpen.value = false })
 const searchOpen = ref(false)
 const installHintOpen = ref(false)
 const showFactions = ref(false)

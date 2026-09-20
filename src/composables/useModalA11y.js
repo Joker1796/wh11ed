@@ -1,8 +1,9 @@
 import { onMounted, onBeforeUnmount } from 'vue'
+import { useBackToClose } from './useBackToClose.js'
 
-// Shared modal accessibility: Escape-to-close, a Tab focus trap, initial focus into the
-// dialog, and focus restore to the trigger on close. Pass the dialog root element ref and
-// a close callback.
+// Shared modal accessibility: Escape-to-close, Back-to-close (the phone's Back button —
+// useBackToClose.js), a Tab focus trap, initial focus into the dialog, and focus restore to
+// the trigger on close. Pass the dialog root element ref and a close callback.
 //
 // Deliberately NO body scroll lock: on iOS Safari `body{overflow:hidden}` resets the scroll
 // position (the page jumps/sticks to the top on open/close) and doesn't reliably lock anyway.
@@ -17,6 +18,7 @@ const FOCUSABLE =
 // Defaults to the dialog root, which is the right target for most dialogs.
 export function useModalA11y(rootRef, onClose, opts = {}) {
   let prevActive = null
+  useBackToClose(onClose)
 
   function focusables() {
     const root = rootRef.value
