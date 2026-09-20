@@ -56,8 +56,9 @@
           class="errata-list"
         >
           <div
-            v-for="(e, i) in errataEntries"
-            :key="'e' + i"
+            v-for="e in errataEntries"
+            :id="'ffaq-' + e.idx"
+            :key="e.idx"
             class="errata-block"
           >
             <h4
@@ -77,8 +78,9 @@
           class="faq-list"
         >
           <FaqItem
-            v-for="(e, i) in qaEntries"
-            :key="'q' + i"
+            v-for="e in qaEntries"
+            :id="'ffaq-' + e.idx"
+            :key="e.idx"
             :q="e.q"
             :a="e.a"
           />
@@ -96,7 +98,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FactionLayout from '../../components/FactionLayout.vue'
 import FaqItem from '../../components/FaqItem.vue'
@@ -105,6 +107,7 @@ import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
 const route = useRoute()
 useFactionPage()
@@ -121,11 +124,13 @@ const entries = ref([])
 const updated = ref([])
 const loaded = ref(false)
 
-// Merge one entry with its RU overlay (same index), field-by-field with EN fallback.
-const mergeEntry = (en, ru) => {
-  if (!ru) return en
-  if (en.type === 'errata') return { type: 'errata', header: ru.header || en.header, body: ru.body || en.body }
-  return { type: 'qa', q: ru.q || en.q, a: ru.a || en.a }
+// Merge one entry with its RU overlay (same index), field-by-field with EN fallback. `idx` is
+// the entry's position in factionFaq.json — the anchor id `ffaq-<idx>` a search result
+// (factionFaqSearchIndex.js) points at, stable across the Errata | FAQ split below.
+const mergeEntry = (en, ru, idx) => {
+  if (!ru) return { ...en, idx }
+  if (en.type === 'errata') return { type: 'errata', header: ru.header || en.header, body: ru.body || en.body, idx }
+  return { type: 'qa', q: ru.q || en.q, a: ru.a || en.a, idx }
 }
 
 watch(
@@ -144,11 +149,26 @@ watch(
     }
     if (route.params.slug !== s) return // stale resolve after a fast route change
     updated.value = en?.updated || []
-    entries.value = (en?.entries || []).map((e, i) => mergeEntry(e, ru?.entries?.[i]))
+    entries.value = (en?.entries || []).map((e, i) => mergeEntry(e, ru?.entries?.[i], i))
     loaded.value = true
+    landOnHash()
   },
   { immediate: true },
 )
+
+// A search result arrives as `#ffaq-<idx>`: show the pane that entry lives in (without touching
+// the remembered preference) and scroll to it once the list is on screen. The scroll is also
+// requested by the navigation itself (useRefNavigation); this one covers the case where the
+// JSON chunk arrived after that request gave up waiting.
+function landOnHash() {
+  const m = route.hash.match(/^#ffaq-(\d+)$/)
+  if (!m) return
+  const target = entries.value[Number(m[1])]
+  if (!target) return
+  view.value = target.type
+  nextTick(() => scrollToAnchor(route.hash.slice(1)))
+}
+watch(() => route.hash, () => { if (loaded.value) landOnHash() })
 
 const errataEntries = computed(() => entries.value.filter((e) => e.type === 'errata'))
 const qaEntries = computed(() => entries.value.filter((e) => e.type === 'qa'))

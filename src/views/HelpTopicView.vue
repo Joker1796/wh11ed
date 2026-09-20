@@ -1,8 +1,10 @@
 <template>
   <div
     v-if="section"
+    :id="section.id"
     class="help-view"
   >
+    <!-- The root's id is the anchor a search result (useSearch's indexHelp) navigates to. -->
     <RouterLink
       to="/help"
       class="back"

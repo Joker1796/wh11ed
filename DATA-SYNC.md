@@ -180,7 +180,9 @@ cd ../wh11ed && npm run sync
   Sons, Ministorum Priest в Sororitas/AM/Agents и т.д.). Guardrail: `sync-leader-units.mjs`.
 - **FAQ/эррата** генерируются из `tables/faq.json` в `src/data/factionFaq.json`
   (`npm run faq`), EN-only; RU — отдельный drop-in `factionFaqRu.json`, перевод делается
-  вручную вслед (см. §4).
+  вручную вслед (см. §4). Заголовки (эрраты и вопросы) попадают в глобальный поиск через
+  `factionFaqSearchIndex.js` — после `npm run faq` или правки RU-оверлея перегенерировать
+  `npm run faq:index` (гейт в `npm run sync`).
 - **Проза публикации «Legends: <Faction>»** (`publication.isLegends`) — два раздела помимо
   датащитов: вводный «Warhammer Legends» и таблица «Legendary Proxies» (снятый юнит → какой
   датащит кодекса за него выставлять). Датащиты приходят обычным путём (`legends: true`), а

@@ -31,7 +31,7 @@ export const help = {
       {
         id: 'help-search',
         title: 'Finding a rule fast',
-        body: `The magnifier in the header — or **Ctrl + K** on a keyboard — opens search over everything at once: core rules, the Event Companion, faction rules, stratagems, enhancements and unit datasheets by name. Picking a result jumps to that exact paragraph, not just to the page it lives on.
+        body: `The magnifier in the header — or **Ctrl + K** on a keyboard — opens search over everything at once: core rules, the Event Companion, faction rules, stratagems, enhancements and unit datasheets by name, each faction's FAQ and errata by heading, and this guide. Picking a result jumps to that exact paragraph, not just to the page it lives on.
 ▪ Inside a rule, an ALL-CAPS keyword or a bracketed ability such as [LETHAL HITS] opens its definition where you tapped it.
 ▪ A rule number in brackets — (03.02) — is a link to that rule.`,
       },
@@ -112,7 +112,7 @@ export const help = {
       {
         id: 'help-search',
         title: 'Быстро найти правило',
-        body: `Лупа в шапке — или **Ctrl + K** с клавиатуры — открывает поиск сразу по всему: основные правила, Event Companion, правила фракций, стратагемы, улучшения и датащиты юнитов по названию. Выбранный результат ведёт к нужному абзацу, а не просто к странице, где он лежит.
+        body: `Лупа в шапке — или **Ctrl + K** с клавиатуры — открывает поиск сразу по всему: основные правила, Event Companion, правила фракций, стратагемы, улучшения и датащиты юнитов по названию, FAQ и эррату каждой фракции по заголовку и эту справку. Выбранный результат ведёт к нужному абзацу, а не просто к странице, где он лежит.
 ▪ Внутри правила ключевое слово капсом или способность в квадратных скобках вроде [LETHAL HITS] открывает своё определение прямо там, где вы нажали.
 ▪ Номер правила в скобках — (03.02) — это ссылка на само правило.`,
       },

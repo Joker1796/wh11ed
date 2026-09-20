@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex } from './useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex, preloadFactionFaqIndex } from './useSearch.js'
+import { ui } from '../i18n/ui.js'
 
 describe('search', () => {
   it('returns nothing for an empty or sub-2-char query', () => {
@@ -299,5 +300,68 @@ describe('highlightMatch', () => {
     expect(highlightMatch('Совершите манёвр продвижения', 'маневр')).toBe(
       'Совершите <mark>манёвр</mark> продвижения',
     )
+  })
+})
+
+// The examples the empty search box types out (ui.searchExamples) are a promise: every one of
+// them must find what it names, in its own locale, with the name in the top result — either in
+// its title or, for a RU unit nickname, in the "found via" subline (titleRu).
+describe('search examples', () => {
+  it('each typed-out example finds what it names', async () => {
+    await preloadDatasheetIndex()
+    await preloadFactionRulesIndex()
+    for (const locale of ['en', 'ru']) {
+      for (const q of ui[locale].searchExamples) {
+        const res = search(q, locale)
+        expect(res.length, `${locale}: ${q}`).toBeGreaterThan(0)
+        // Apostrophes fold the way search folds them: «Ктан» must count as finding «К’тан».
+        const fold = (t) => t.toLowerCase().replace(/[’'`]/g, '')
+        const top = fold(`${res[0].title} ${res[0].titleRu || ''}`)
+        expect(top, `${locale}: ${q}`).toContain(fold(q))
+      }
+    }
+  })
+})
+
+describe('help topics', () => {
+  it('finds a topic by a term that lives only in the guide, and routes to its own page', () => {
+    for (const locale of ['en', 'ru']) {
+      const hit = search('OBS', locale).find((r) => r.id === 'help-broadcast')
+      expect(hit, locale).toBeTruthy()
+      expect(hit.route).toBe('/help/broadcast')
+    }
+  })
+
+  it('reaches a topic through the cross-lingual fallback (an English term while browsing in RU)', () => {
+    const hit = search('Ctrl + K', 'ru').find((r) => r.id === 'help-search')
+    expect(hit).toBeTruthy()
+    expect(hit.route).toBe('/help/search')
+  })
+})
+
+describe('faction FAQ search', () => {
+  it('finds an errata block by the datasheet it names, routed to the faction FAQ tab', async () => {
+    await preloadFactionFaqIndex()
+    const res = search('Gladiator Lancer', 'en').filter((r) => r.route.endsWith('/faq'))
+    expect(res.length).toBeGreaterThan(0)
+    const hit = res[0]
+    expect(hit.route).toMatch(/^\/factions\/[a-z-]+\/faq$/)
+    expect(hit.id).toMatch(/^ffaq-\d+$/)
+    expect(hit.faqType).toBe('errata')
+    expect(hit.sectionTitle).toContain('FAQ')
+  })
+
+  it('in RU shows the translated heading as the title and keeps the English one as the subline', async () => {
+    await preloadFactionFaqIndex()
+    const hit = search('Gladiator Lancer', 'ru').find((r) => r.route.endsWith('/faq'))
+    expect(hit).toBeTruthy()
+    expect(hit.titleRu).toContain('Gladiator Lancer')
+    expect(hit.title).not.toBe(hit.titleRu)
+  })
+
+  it('finds a question by a Russian word from its translated heading', async () => {
+    await preloadFactionFaqIndex()
+    const res = search('способность', 'ru').filter((r) => r.route.endsWith('/faq'))
+    expect(res.length).toBeGreaterThan(0)
   })
 })

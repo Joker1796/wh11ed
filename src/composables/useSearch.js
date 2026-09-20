@@ -8,6 +8,7 @@ import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.j
 import { getEventContent } from '../data/eventCompanion.js'
 import { getMissions } from '../data/missions.js'
 import { intro } from '../data/intro.js'
+import { help, slugOf as helpSlugOf } from '../data/help.js'
 import { ui } from '../i18n/ui.js'
 import { factionGroups } from '../data/factionsIndex.js'
 import { factionAliasesRu } from '../data/factionAliasesRu.js'
@@ -229,7 +230,26 @@ function buildIndex(locale) {
   indexReferenceExtras(items, locale)
   indexIntro(items, locale)
   indexEventCompanion(items, locale)
+  indexHelp(items, locale)
   return items
+}
+
+// The "How to use this" guide — one item per topic, routed to the topic's own page. It is the
+// only place the app describes its hidden doors (import, share, OBS overlay, Ctrl+K), so a
+// reader asking the search about them has to land here. The page's root carries the section
+// id, so the anchor resolves and the cross-lingual fallback (keyed by id) covers it too.
+function indexHelp(items, locale) {
+  const t = help[locale] || help.en
+  for (const section of t.sections) {
+    items.push({
+      id: section.id,
+      sectionNum: '',
+      title: section.title,
+      body: stripMarkup(section.body),
+      route: `/help/${helpSlugOf(section)}`,
+      sectionTitle: t.title,
+    })
+  }
 }
 
 // Reference page extras beyond the Core Abilities table: the ability intro prose
@@ -652,6 +672,45 @@ function searchCombatPatrol(q, locale) {
   return results
 }
 
+// Faction FAQ & errata — each block by its heading (an errata header names the datasheet or
+// rule it changes, a question carries its own terms), routing to the faction's FAQ tab at the
+// block's anchor. Headings only: the bodies are 1 MB across the two locales and belong to the
+// tab that shows one faction at a time. Compact generated index (src/data/factionFaqSearchIndex.js,
+// `npm run faq:index`), dynamic-imported like the three above with its own reactive tick.
+let faqIndex = null
+let faqPromise = null
+const faqVersion = ref(0)
+export function preloadFactionFaqIndex() {
+  faqPromise ??= import('../data/factionFaqSearchIndex.js').then((m) => {
+    faqIndex = m.factionFaqSearchIndex
+    faqVersion.value++
+  })
+  return faqPromise
+}
+
+function searchFactionFaq(q, locale) {
+  if (!faqIndex) return []
+  const isRu = locale === 'ru'
+  const L = ui[locale] || ui.en
+  const results = []
+  for (const [slug, faction, rows] of faqIndex) {
+    const sectionTitle = `${faction} · ${L.factionFaq}`
+    for (const [i, type, text, textRu] of rows) {
+      if (!anyNameMatches(q, text, textRu)) continue
+      // The RU heading is the title in RU (the FAQ tab shows it, unlike unit names, which stay
+      // English everywhere); the EN one is kept as the subline so a reader who typed the
+      // English term still sees why this matched.
+      const ru = isRu && textRu
+      results.push({
+        id: `ffaq-${i}`, key: `ffaq-${slug}-${i}`, sectionNum: '', title: ru ? textRu : text,
+        titleRu: ru ? text : '', body: '', snippet: '', faqType: type,
+        route: `/factions/${slug}/faq`, sectionTitle, score: 2,
+      })
+    }
+  }
+  return results
+}
+
 // Built lazily on first search (per locale) so importing this module — and the large
 // data files it pulls in — never triggers a synchronous index build at load time. The
 // cross-lingual fallback below means a first search of 2+ chars typically ends up
@@ -733,6 +792,7 @@ export function search(query, locale = 'en') {
   void dsVersion.value
   void frVersion.value
   void cpVersion.value
+  void faqVersion.value
   if (!query) return []
   const trimmed = query.trim().toLowerCase()
   const numQuery = normalizeSectionNum(trimmed)
@@ -791,6 +851,7 @@ export function search(query, locale = 'en') {
   results.push(...searchFactionRules(q, locale))
   results.push(...searchCombatPatrol(q, locale))
   results.push(...searchDatasheets(q, locale))
+  results.push(...searchFactionFaq(q, locale))
   // Sort the full match set before slicing — capping earlier (in index order) would drop a
   // later high-relevance title hit before it could be ranked. 20, not 10: a class-wide RU
   // alias («терминатор») legitimately matches more than ten datasheets, and a cap that eats

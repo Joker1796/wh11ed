@@ -21,6 +21,7 @@
     "sourceids": "node scripts/gen-source-ids.mjs",
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",
     "faq": "node scripts/gen-faction-faq.mjs",
+    "faq:index": "node scripts/gen-faction-faq-search-index.mjs",
     "legends": "node scripts/gen-faction-legends.mjs",
     "sync": "node scripts/sync.mjs",
     "sync:text": "node scripts/sync-faction-text.mjs",
