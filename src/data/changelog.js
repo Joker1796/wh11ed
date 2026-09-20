@@ -17,6 +17,34 @@
 
 export const changelog = [
   {
+    version: '2.6.4',
+    date: '2026-09-21',
+    en: [
+      { h: 'Back on the phone goes back a page, not out of the app' },
+      'In the installed app, in Russian, the Back gesture closed the app instead of returning to the previous page: pages you had opened left no trail behind them. They do now. And an open dialog \u2014 units, stratagems, a picker, search, the menu \u2014 is closed by Back first, before it leaves the page. Thanks to the player who reported it.',
+      { h: 'Search covers two more sections' },
+      'The FAQ and errata of every faction (by heading \u2014 the result opens the faction\u2019s FAQ tab at that block) and the \u201cHow to use this\u201d guide.',
+      { h: 'Search: examples in the empty box' },
+      'The empty box types out what it can find \u2014 a unit, a stratagem, a keyword, a rule \u2014 one example after another. In Russian, transcribed names too: «Ктан», «Дредноут», «Варбосс».',
+      { h: 'Settings menu on a phone' },
+      'Your e-mail fits on one line; the menu no longer wraps its lines mid-word.',
+      { h: 'Update notice in the light theme' },
+      'The version number was the colour of the bar. It reads now.',
+    ],
+    ru: [
+      { h: '«Назад» на телефоне возвращает на страницу, а не закрывает приложение' },
+      'В установленном приложении на русском жест «назад» закрывал приложение вместо возврата на предыдущую страницу: открытые страницы не оставляли следа в истории. Теперь оставляют. А открытое окно \u2014 юниты, стратагемы, выбор, поиск, меню \u2014 «назад» сначала закрывает и только потом уводит со страницы. Спасибо игроку, который об этом написал.',
+      { h: 'Поиск ищет ещё по двум разделам' },
+      'FAQ и эррата каждой фракции (по заголовку \u2014 результат открывает вкладку FAQ фракции на этом блоке) и справка «Как этим пользоваться».',
+      { h: 'Поиск: примеры в пустом поле' },
+      'Пустое поле само набирает то, что умеет находить \u2014 юнит, стратагему, ключевое слово, правило \u2014 один пример за другим. В русской версии и транскрибированные названия: «Ктан», «Дредноут», «Варбосс».',
+      { h: 'Меню настроек на телефоне' },
+      'Почта помещается в одну строку; меню больше не переносит свои строки посреди слова.',
+      { h: 'Плашка обновления в светлой теме' },
+      'Номер версии был цвета самой плашки. Теперь читается.',
+    ],
+  },
+  {
     version: '2.6.2',
     date: '2026-09-20',
     en: [
