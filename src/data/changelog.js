@@ -17,6 +17,18 @@
 
 export const changelog = [
   {
+    version: '2.6.3',
+    date: '2026-09-20',
+    en: [
+      { h: 'Warhammer Legends of the Space Marines \u2014 in the Chapters too' },
+      'Blood Angels, Dark Angels, Black Templars, Deathwatch and Space Wolves now list the Legends sheets of the Space Marines pack \u2014 Bike Squad, Captain on Bike, the relic Dreadnoughts, the Forge World tanks and aircraft \u2014 on the datasheets page, in search and in the roster builder, with points. The rule is the Chapter\u2019s own: any ADEPTUS ASTARTES unit not drawn from another Chapter, so the four Ultramarines heroes stay out; Deathwatch loses the seven its pack names (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), Black Templars the Librarians, Space Wolves the Apothecary on Bike.',
+    ],
+    ru: [
+      { h: 'Warhammer Legends Space Marines \u2014 и у Орденов' },
+      'У Blood Angels, Dark Angels, Black Templars, Deathwatch и Space Wolves теперь есть Legends-листы из пака Space Marines \u2014 Bike Squad, Captain on Bike, реликтовые дредноуты, техника и авиация Forge World \u2014 на странице датащитов, в поиске и в конструкторе ростеров, с очками. Правило \u2014 собственное правило Ордена: любой юнит ADEPTUS ASTARTES не из другого Ордена, поэтому четверо героев Ultramarines остаются за бортом; у Deathwatch нет семи листов, которые их пак называет поимённо (Assault Squad, Attack Bike Squad, Scout Sniper Squad\u2026), у Black Templars \u2014 библиариев, у Space Wolves \u2014 Apothecary on Bike.',
+    ],
+  },
+  {
     version: '2.6.2',
     date: '2026-09-19',
     en: [

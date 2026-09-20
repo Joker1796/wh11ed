@@ -131,6 +131,24 @@ pre-errata ability text, outdated points, wrong core-ability labels) that had si
 sync with the shared pool. Each Chapter's `ru/<slug>.js` RU overlay was already ahead of this — its
 own `SHARED` list already assumed the correct fold — so only the EN files needed the catch-up.
 
+The Space Marines pack's **Warhammer Legends** (76 sheets) are in the same lists since 2026-09-20,
+by the Chapter rule itself — "any ADEPTUS ASTARTES unit not drawn from another Chapter" — and the
+one place a pack says so out loud: the Deathwatch pack's restriction list names seven of them by
+name (Assault Squad, Assault Squad with Jump Packs, Attack Bike Squad, Land Speeder Storm, Relic
+Terminator Squad, Scout Bike Squad, Scout Sniper Squad), which only makes sense if the rest are
+takeable. appdata has no row for any of this (it carries no Legends outside the Orks), so the
+exclusions are hand-held, per Chapter: every Chapter drops the four with an ULTRAMARINES keyword
+(Chaplain Cassius, Sergeant Chronus, Sergeant Telion, Tyrannic War Veterans — the same reason
+Calgar and Tigurius are not shared); Deathwatch the seven above; Black Templars the two Librarians
+(Codex: Black Templars — "cannot include any ADEPTUS ASTARTES PSYKER models"); Space Wolves the
+Venerable Dreadnought (their own sheet holds the id) and the Apothecary on Bike (appdata's
+`faction_keyword_excluded_datasheet` keeps both codex Apothecaries out of a Wolves army; the
+Legends one follows by the owner's decision, not by a printed line). Ferren Areios is shared: his
+sheet reads ADEPTUS ASTARTES only, even though the MFM prices him under an Ultramarines heading —
+the datasheet decides the Chapter, the MFM only the points. The RU `SHARED` lists carry the same
+ids because `gen-seo-routes.mjs` reads a Chapter's RU default directly rather than through
+`loadDatasheetsRu`'s fold. Hub journal: `journal/archive/2026/2026-09-19-sm-legends-in-chapters.md`.
+
 ## Data gates
 
 These checks fail the build rather than printing a report. Every one of them exists because a player

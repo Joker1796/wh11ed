@@ -24,6 +24,26 @@ const SHARED = [
   'stormraven-gunship', 'stormtalon-gunship', 'suppressor-squad', 'tactical-squad',
   'techmarine', 'terminator-assault-squad', 'thunderhawk-gunship',
   'vanguard-veteran-squad-with-jump-packs', 'vindicator', 'whirlwind',
+  // Warhammer Legends of the Space Marines pack a Chapter army may field (2026-09-20) —
+  // translated once in ./space-marines.js like every other shared sheet.
+  'ancient-on-bike', 'apothecary-on-bike', 'assault-squad', 'assault-squad-with-jump-packs',
+  'astartes-servitors', 'attack-bike-squad', 'bike-squad', 'caestus-assault-ram',
+  'captain-on-bike', 'carab-culln-the-risen', 'cerberus', 'chaplain-venerable-dreadnought',
+  'command-squad', 'company-champion-on-bike', 'company-veterans-on-bikes', 'deathstorm-drop-pod',
+  'deimos-predator', 'deredeo-dreadnought', 'dreadnought-drop-pod', 'falchion',
+  'fellblade', 'ferren-areios', 'fire-raptor-gunship', 'hunter',
+  'imperial-space-marine', 'ironclad-dreadnought', 'javelin-attack-speeder', 'kratos',
+  'land-raider-achilles', 'land-raider-excelsior', 'land-raider-helios', 'land-raider-prometheus',
+  'land-raider-proteus', 'land-speeder-storm', 'land-speeder-tempest', 'land-speeder-tornado',
+  'land-speeder-typhoon', 'leviathan-dreadnought', 'mastodon', 'mortis-dreadnought',
+  'primaris-company-champion', 'rapier-carrier', 'relic-contemptor-dreadnought', 'relic-razorback',
+  'relic-terminator-squad', 'rhino-primaris', 'scout-bike-squad', 'scout-sniper-squad',
+  'sicaran-arcus', 'sicaran-battle-tank', 'sicaran-omega', 'sicaran-punisher',
+  'sicaran-venator', 'sokar-pattern-stormbird', 'spartan', 'stalker',
+  'storm-eagle-gunship', 'tarantula-air-defence-battery', 'tarantula-sentry-battery', 'techmarine-on-bike',
+  'terminus-ultra', 'terrax-pattern-termite', 'thunderfire-cannon', 'thunderhawk-transporter',
+  'typhon', 'vanguard-veteran-squad', 'venerable-dreadnought', 'vindicator-laser-destroyer',
+  'whirlwind-scorpius', 'xiphon-interceptor',
 ]
 // These 5 carry a Black Templars-specific bonus ability appdata reveals that the generic
 // space-marines.js copy doesn't have — no longer byte-identical, so they're translated

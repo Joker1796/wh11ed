@@ -344,8 +344,9 @@ PDFs (hub skill `legends-from-pack`), and until 2026-09-19 the roster did not kn
 appdata's tables describes their profiles, loadouts or swaps. **`scripts/lib/pack-roster.mjs`** reads
 the three printed fields instead and `gen-roster-data.mjs`'s `packUnitsFor` lists the result beside
 the appdata units of the same faction file (a Chapter's file carries the Chapter's own pack sheets;
-the Space Marines pack sheets are NOT folded into the Chapters, because the datasheet layer's
-`sharedUnitIds` does not fold them either — an open question for the owner, not an omission here).
+the Space Marines pack sheets reach a Chapter through `sharedUnitIds`, which the datasheet layer
+folds them into since 2026-09-20 — see "SM-Chapter datasheet dedup" in `src/data/CLAUDE.md` for
+which ones each Chapter is denied and why).
 
 - **`composition`** → `minis` and `sizes`. "1 Biker Sergeant / 2-5 Space Marine Bikers / 0-1 Attack
   Bike" is three profiles; the MFM rows the sheet already carries (`sync-mfm-points`) become brackets

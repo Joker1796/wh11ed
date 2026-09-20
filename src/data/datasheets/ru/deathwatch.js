@@ -27,6 +27,25 @@ const SHARED = [
   'stormhawk-interceptor', 'stormraven-gunship', 'stormtalon-gunship', 'suppressor-squad',
   'techmarine', 'thunderhawk-gunship', 'vanguard-veteran-squad-with-jump-packs', 'vindicator',
   'whirlwind',
+  // Warhammer Legends of the Space Marines pack a Chapter army may field (2026-09-20) —
+  // translated once in ./space-marines.js like every other shared sheet.
+  'ancient-on-bike', 'apothecary-on-bike', 'astartes-servitors', 'bike-squad',
+  'caestus-assault-ram', 'captain-on-bike', 'carab-culln-the-risen', 'cerberus',
+  'chaplain-venerable-dreadnought', 'command-squad', 'company-champion-on-bike', 'company-veterans-on-bikes',
+  'deathstorm-drop-pod', 'deimos-predator', 'deredeo-dreadnought', 'dreadnought-drop-pod',
+  'falchion', 'fellblade', 'ferren-areios', 'fire-raptor-gunship',
+  'hunter', 'imperial-space-marine', 'ironclad-dreadnought', 'javelin-attack-speeder',
+  'kratos', 'land-raider-achilles', 'land-raider-excelsior', 'land-raider-helios',
+  'land-raider-prometheus', 'land-raider-proteus', 'land-speeder-tempest', 'land-speeder-tornado',
+  'land-speeder-typhoon', 'leviathan-dreadnought', 'librarian-on-bike', 'librarian-with-jump-pack',
+  'mastodon', 'mortis-dreadnought', 'primaris-company-champion', 'rapier-carrier',
+  'relic-contemptor-dreadnought', 'relic-razorback', 'rhino-primaris', 'sicaran-arcus',
+  'sicaran-battle-tank', 'sicaran-omega', 'sicaran-punisher', 'sicaran-venator',
+  'sokar-pattern-stormbird', 'spartan', 'stalker', 'storm-eagle-gunship',
+  'tarantula-air-defence-battery', 'tarantula-sentry-battery', 'techmarine-on-bike', 'terminus-ultra',
+  'terrax-pattern-termite', 'thunderfire-cannon', 'thunderhawk-transporter', 'typhon',
+  'vanguard-veteran-squad', 'venerable-dreadnought', 'vindicator-laser-destroyer', 'whirlwind-scorpius',
+  'xiphon-interceptor',
 ]
 
 const LEADER_TEXT = 'Эту модель можно присоединить к следующим юнитам:'
