@@ -240,7 +240,10 @@
               <template v-if="accountStatus === 'authed'">
                 <p class="settings-who">
                   <i class="bi bi-cloud-check-fill" />
-                  <span>{{ accountName || labels.cloudSignedIn }}</span>
+                  <!-- An e-mail that has to wrap breaks before the "@": name on one line,
+                       domain on the next — not a stray "yande / x.ru". -->
+                  <span v-if="accountEmailParts">{{ accountEmailParts.name }}<wbr>{{ accountEmailParts.domain }}</span>
+                  <span v-else>{{ accountName || labels.cloudSignedIn }}</span>
                 </p>
                 <button
                   class="settings-item"
@@ -331,6 +334,11 @@ const {
   dev: accountDev,
   toggleMock,
 } = useAccountActions()
+// Split at the "@" so the template can put a <wbr> there; null when the name isn't an e-mail.
+const accountEmailParts = computed(() => {
+  const at = accountName.value.indexOf('@')
+  return at > 0 ? { name: accountName.value.slice(0, at), domain: accountName.value.slice(at) } : null
+})
 
 // Every gear-menu entry closes the menu behind it; the account ones are no different.
 function onSignIn() {
@@ -747,6 +755,12 @@ a.nd-link:hover {
   top: calc(100% + 8px);
   z-index: 210;
   min-width: 200px;
+  /* Absolutely positioned inside the gear button's wrapper (~44px wide), so shrink-to-fit
+     would collapse the menu to min-width and wrap every longer line. Size it by content
+     instead, capped so the box stays on screen — its right edge sits under the gear, with
+     the hamburger further right, hence the cap is well short of the viewport width. */
+  width: max-content;
+  max-width: calc(100vw - 6rem);
   display: flex;
   flex-direction: column;
   padding: 0.3rem;
@@ -794,7 +808,8 @@ a.nd-link:hover {
   padding: 0.6rem 0.7rem 0.2rem;
   font-size: 0.8rem;
   color: var(--text-muted);
-  word-break: break-all;
+  /* Only when the e-mail is wider than the capped menu — and then at the <wbr>. */
+  overflow-wrap: anywhere;
 }
 .settings-who .bi {
   font-size: 1rem;
