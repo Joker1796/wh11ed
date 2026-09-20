@@ -2110,100 +2110,6 @@
       }
     ]
   },
-  "grey-knights": {
-    "updated": [
-      {
-        "pub": "Imperial Armour: Grey Knights",
-        "date": "17 June 2026"
-      },
-      {
-        "pub": "Codex: Grey Knights",
-        "date": "22 July 2026"
-      }
-    ],
-    "entries": [
-      {
-        "type": "errata",
-        "body": "▪ **Profile**: Change **M** to 20\".\n▪ **Keywords**: Remove '**AIRCRAFT**', Add '**FRAME**'.",
-        "header": "Grey Knights Thunderhawk Gunship"
-      },
-      {
-        "type": "errata",
-        "body": "Change to:\n▪ Place those units in **strategic reserves**.\n▪ Those units can make an **ingress move** in your next Movement phase (including in your first turn.)",
-        "header": "Army Rules, Gate of Infinity Army Rule, Last Paragraph"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘**GREY KNIGHTS** model only. When this unit ends an **ingress move**, you can use this ability. If you do:\n▪ This unit can make a **normal move** of up to D6\".\n▪ Until the end of the turn, this unit is not **eligible to declare a charge**.'",
-        "header": "Augurium Task Force, One Foot in the Future Enhancement"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: ‘Your unit's attacks can re-roll hit rolls.'",
-        "header": "Augurium Task Force, Aggressive Anticipation Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change 9\" to 8\".",
-        "header": "Banishers Detachment, Shadow of Anarch Stratagem, Target Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change 3\" to 6\".",
-        "header": "Brotherhood Strike Detachment, Combat Manifestation Stratagem, Effect Section"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: '**GREY KNIGHTS** model only. You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.'",
-        "header": "Hallowed Conclave Detachment, Eye of the Augurium Enhancement"
-      },
-      {
-        "type": "errata",
-        "body": "Change 9\" to 8\".",
-        "header": "Sanctic Spearhead Detachment, Sigil of Exigence Enhancement"
-      },
-      {
-        "type": "errata",
-        "body": "Change 9\" to 8\".",
-        "header": "Hallowed Conclave Detachment, Precognitive Strategies Stratagem, Target Section"
-      },
-      {
-        "type": "errata",
-        "body": "Add '**FRAME**'.",
-        "header": "Land Raider, Land Raider Crusader, Land Raider Redeemer, Razorback, Rhino – Keywords Section"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Core Abilities**: Remove 'Hover'.\n▪ **Profile**: Change **M** and **OC** to '-'.",
-        "header": "Stormtalon Gunship, Stormhawk Interceptor"
-      },
-      {
-        "type": "errata",
-        "body": "▪ **Profile**: Change **M** to 14\".\n▪ **Keywords**: Remove '**AIRCRAFT**'.",
-        "header": "Stormraven Gunship"
-      },
-      {
-        "type": "errata",
-        "body": "Add ‘Leader’.",
-        "header": "Brotherhood Chaplain, Abilities, Core Abilities"
-      },
-      {
-        "type": "errata",
-        "body": "Change to: 'Each time an enemy unit ends a charge move engaged with one or more friendly **GREY KNIGHTS VEHICLE** units and within 6\" of this unit, you can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.'",
-        "header": "Brotherhood Techmarine, Guardians of the Machine Ability"
-      },
-      {
-        "type": "errata",
-        "body": "Change to:\n▪ This unit has **Stealth**.\n▪ Melee attacks that target this unit have -1 to **hit rolls**.",
-        "header": "Grand Master Voldus, Sanctuary Ability"
-      },
-      {
-        "type": "qa",
-        "q": "Can a unit with the Sigil of Exigence enhancement use that ability during my opponent’s first turn?",
-        "a": "Yes"
-      }
-    ]
-  },
   "space-marines": {
     "updated": [
       {
@@ -3789,6 +3695,100 @@
         "type": "qa",
         "q": "When an Ogryn Bodyguard joins a Militarum Tempestus Command Squad, can the unit set up using the Deep Strike ability?",
         "a": "No, as the Ogryn Bodyguard model does not have the Deep Strike ability."
+      }
+    ]
+  },
+  "grey-knights": {
+    "updated": [
+      {
+        "pub": "Imperial Armour: Grey Knights",
+        "date": "17 June 2026"
+      },
+      {
+        "pub": "Codex: Grey Knights",
+        "date": "22 July 2026"
+      }
+    ],
+    "entries": [
+      {
+        "type": "errata",
+        "body": "▪ **Profile**: Change **M** to 20\".\n▪ **Keywords**: Remove '**AIRCRAFT**', Add '**FRAME**'.",
+        "header": "Grey Knights Thunderhawk Gunship"
+      },
+      {
+        "type": "errata",
+        "body": "Change to:\n▪ Place those units in **strategic reserves**.\n▪ Those units can make an **ingress move** in your next Movement phase (including in your first turn.)",
+        "header": "Army Rules, Gate of Infinity Army Rule, Last Paragraph"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘**GREY KNIGHTS** model only. When this unit ends an **ingress move**, you can use this ability. If you do:\n▪ This unit can make a **normal move** of up to D6\".\n▪ Until the end of the turn, this unit is not **eligible to declare a charge**.'",
+        "header": "Augurium Task Force, One Foot in the Future Enhancement"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: ‘Your unit's attacks can re-roll hit rolls.'",
+        "header": "Augurium Task Force, Aggressive Anticipation Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change 9\" to 8\".",
+        "header": "Banishers Detachment, Shadow of Anarch Stratagem, Target Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change 3\" to 6\".",
+        "header": "Brotherhood Strike Detachment, Combat Manifestation Stratagem, Effect Section"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: '**GREY KNIGHTS** model only. You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.'",
+        "header": "Hallowed Conclave Detachment, Eye of the Augurium Enhancement"
+      },
+      {
+        "type": "errata",
+        "body": "Change 9\" to 8\".",
+        "header": "Sanctic Spearhead Detachment, Sigil of Exigence Enhancement"
+      },
+      {
+        "type": "errata",
+        "body": "Change 9\" to 8\".",
+        "header": "Hallowed Conclave Detachment, Precognitive Strategies Stratagem, Target Section"
+      },
+      {
+        "type": "errata",
+        "body": "Add '**FRAME**'.",
+        "header": "Land Raider, Land Raider Crusader, Land Raider Redeemer, Razorback, Rhino – Keywords Section"
+      },
+      {
+        "type": "errata",
+        "body": "▪ **Core Abilities**: Remove 'Hover'.\n▪ **Profile**: Change **M** and **OC** to '-'.",
+        "header": "Stormtalon Gunship, Stormhawk Interceptor"
+      },
+      {
+        "type": "errata",
+        "body": "▪ **Profile**: Change **M** to 14\".\n▪ **Keywords**: Remove '**AIRCRAFT**'.",
+        "header": "Stormraven Gunship"
+      },
+      {
+        "type": "errata",
+        "body": "Add ‘Leader’.",
+        "header": "Brotherhood Chaplain, Abilities, Core Abilities"
+      },
+      {
+        "type": "errata",
+        "body": "Change to: 'Each time an enemy unit ends a charge move engaged with one or more friendly **GREY KNIGHTS VEHICLE** units and within 6\" of this unit, you can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase.'",
+        "header": "Brotherhood Techmarine, Guardians of the Machine Ability"
+      },
+      {
+        "type": "errata",
+        "body": "Change to:\n▪ This unit has **Stealth**.\n▪ Melee attacks that target this unit have -1 to **hit rolls**.",
+        "header": "Grand Master Voldus, Sanctuary Ability"
+      },
+      {
+        "type": "qa",
+        "q": "Can a unit with the Sigil of Exigence enhancement use that ability during my opponent’s first turn?",
+        "a": "Yes"
       }
     ]
   },
