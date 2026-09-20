@@ -30,7 +30,7 @@ export const changelog = [
   },
   {
     version: '2.6.2',
-    date: '2026-09-19',
+    date: '2026-09-20',
     en: [
       { h: 'Roster builder: wargear that depends on the squad\u2019s size' },
       'Raptors: two special weapons in a squad of 5 and two more in a squad of 10, never the same one twice in a group \u2014 so 2 meltaguns + 2 plasma guns at 10 models is legal, 2 meltaguns in one group is not. Same fix for Vespid Stingwings (three swaps at 10 models, not one), the Troupe (two of each pistol under 10, four from 10), Corsair Voidscarred (fusion pistol at 10 only) and Carnifexes (bio-plasma and spine banks per model). An option the squad is too small for is greyed out and says so. Thanks to the player who reported it.',
