@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.6.5',
+    date: '2026-09-21',
+    en: [
+      { h: 'Datasheets: who may join the Masters of the Maelstrom' },
+      'The card said only Huron Blackheart could join a unit the Masters had joined \u2014 a footnote from the previous edition. Now any Leader who may lead Chosen, Legionaries or Red Corsairs Raiders leads them alongside the Masters. The same old footnotes are gone from Wardens of Ultramar, the Space Marines Captain and the Cybernetica Datasmith.',
+      { h: 'Roster builder: Huron Blackheart can lead the Masters of the Maelstrom' },
+      'The Faction Pack lists the Masters among the units Huron may lead; the official app does not yet. I went with the Faction Pack: Huron can be attached to the Masters, and the Masters to a Chosen, Legionaries or Red Corsairs Raiders squad.',
+      { h: 'Installed app: updates arrive on the tracker page too' },
+      'The installed app did not update while the tracker page was open. If you only used the tracker, it could stay on an old version for weeks. Now a new version is applied as soon as it has downloaded. Your game is saved first and the app reopens on the same screen.',
+    ],
+    ru: [
+      { h: 'Датащиты: кто может присоединиться к Masters of the Maelstrom' },
+      'На карточке было написано, что к отряду с Masters может присоединиться только Huron Blackheart, \u2014 это сноска из прошлой редакции. Теперь любой Leader, который может вести Chosen, Legionaries или Red Corsairs Raiders, ведёт их вместе с Masters. Такие же старые сноски убраны у Wardens of Ultramar, у Captain космодесантников и у Cybernetica Datasmith.',
+      { h: 'Конструктор: Huron Blackheart может вести Masters of the Maelstrom' },
+      'В Faction Pack Masters есть в списке отрядов, которые может вести Huron; в официальном приложении их пока нет. Я взял версию Faction Pack: Huron можно присоединить к Masters, а Masters \u2014 к отряду Chosen, Legionaries или Red Corsairs Raiders.',
+      { h: 'Установленное приложение: обновления приходят и на странице трекера' },
+      'Установленное приложение не обновлялось, пока открыта страница трекера. Если вы пользовались только трекером, оно могло неделями сидеть на старой версии. Теперь новая версия применяется, как только скачалась. Партия сначала сохраняется, приложение открывается на том же экране.',
+    ],
+  },
+  {
     version: '2.6.4',
     date: '2026-09-21',
     en: [

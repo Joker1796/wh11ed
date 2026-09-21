@@ -1,34 +1,28 @@
 <template>
   <!-- Headless: this component renders nothing. It exists to register the service worker
-       (useRegisterSW) and silently apply updates at a safe moment — no UI, no button. -->
+       (useRegisterSW) and silently apply updates — no UI, no button. -->
 </template>
 
 <script setup>
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { stripLocale } from '../router/locale.js'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 
 const route = useRoute()
 
-// Is the app running as an installed PWA (standalone window) vs a normal browser tab?
-// matchMedia covers Chrome/Android/desktop installs; navigator.standalone is the iOS Safari flag.
-const pwaInstalled =
-  window.matchMedia('(display-mode: standalone)').matches ||
-  window.matchMedia('(display-mode: fullscreen)').matches ||
-  window.matchMedia('(display-mode: minimal-ui)').matches ||
-  window.navigator.standalone === true
-
-// Don't reload while the user is on the live scoring screen — that's the one place a reload
-// (which survives via localStorage, but drops half-typed input / open modals) is disruptive.
-const onActiveGame = () => stripLocale(route.path).startsWith('/tracker/game')
-
 // registerType is 'prompt' (vite.config.js): the SW activates only when we call
 // updateServiceWorker. needRefresh flips to true once a new SW has finished installing in
-// the background. There is no longer an "Update" button — we apply automatically:
-//   • normal browser tab: as soon as the new version is ready (state survives via localStorage);
-//   • installed PWA: at a SAFE moment — on returning to the foreground or leaving the live
-//     game screen, but never while the user sits on an active tracker game.
+// the background. There is no longer an "Update" button — we apply automatically, the moment
+// the new version is ready, tab or installed app alike.
+//
+// Until 2026-09-21 the installed app held the update back while the route was /tracker/game,
+// so a reload would never land mid-game. The check was on the PATH, not on the game: the setup
+// form, a finished game and the live one all live at /tracker/game, and the app resumes into
+// its last route on launch — so a reader who used it only as a tracker never left that path,
+// every deploy queued behind the one before, and one player sat on 2.4 through eight releases
+// until they wiped the site's storage. Nothing a reload loses is worth that: the game itself is
+// flushed to localStorage on pagehide/beforeunload (useTracker.js) and the app reopens on the
+// same screen; what goes is an open dialog or a half-typed note.
 //
 // By default the SW is only checked for updates at registration (app start), so a long-lived
 // session never learns about a new deploy. Poll, and also look on the two occasions a reader
@@ -60,29 +54,26 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         checkSW() // look for a newer SW…
-        applyIfSafe() // …and apply one that's already waiting, if it's safe to reload now
+        apply() // …and apply one that's already waiting
       }
     })
   },
 })
 
-// Apply a ready update when it won't interrupt active play. In a normal tab, "safe" is always.
-function applyIfSafe() {
+// Apply a ready update. Also called on visibilitychange above: a second call is a harmless
+// retry (needRefresh stays true until the reload), and an app that slept in the switcher may
+// have missed the moment the new SW finished installing.
+function apply() {
   if (!needRefresh.value) return
-  if (pwaInstalled && onActiveGame()) return // defer until they leave the live game
   updateServiceWorker(true)
 }
 
-// A new SW just became ready: apply immediately unless we're mid-game in the installed app.
+// A new SW just became ready: apply it.
 watch(needRefresh, (ready) => {
-  if (ready) applyIfSafe()
+  if (ready) apply()
 }, { immediate: true })
 
-// A navigation is two things at once: a safe moment to apply an update that was waiting, and a
-// free moment to go looking for one — the reader has just asked for a page, so one more
-// conditional GET is not what they will notice.
-watch(() => route.path, () => {
-  applyIfSafe()
-  checkSW()
-})
+// A navigation is a free moment to go looking for an update — the reader has just asked for a
+// page, so one more conditional GET is not what they will notice.
+watch(() => route.path, () => checkSW())
 </script>
