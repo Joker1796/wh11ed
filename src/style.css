@@ -821,9 +821,10 @@ strong {
 .rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: var(--danger); }
-/* What is left of the budget, beside every "used / limit" readout (the settings bar, the two
-   sticky bars, the list header) — the number a player subtracts in their head at every add, so it
-   is printed (player request, 2026-09-21). Quiet next to the total; the deficit is red like the
+/* What is left of the budget, beside the "used / limit" readout while a list is being BUILT (the
+   settings bar and the two sticky bars) — the number a player subtracts in their head at every
+   add, so it is printed (player request, 2026-09-21). Not on the read-only view: a finished list
+   is read for what it fields, not for what it could still take (owner, same day). Quiet next to the total; the deficit is red like the
    total it belongs to. */
 .pts-left { font-family: var(--font-mono); font-size: 0.78em; font-weight: 600; color: var(--text-muted); margin-left: 0.35em; white-space: nowrap; }
 .pts-left.over { color: var(--danger); }
