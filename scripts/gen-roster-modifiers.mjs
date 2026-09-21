@@ -418,6 +418,34 @@ export function sourcesForSlug(slug, ctx) {
   ]
 }
 
+// A reviewed effect that names its weapon (`only.name`) must name one the faction's datasheets
+// actually print in the family `on` says. Six reviewed records had this wrong on 2026-09-21 —
+// Castellan Crowe's +1 A to Purifying Flame sat on `melee` for a ranged weapon, so the overlay
+// matched nothing and a player found the card unchanged. The datasheet spelling is what the row
+// matcher compares against (rosterStatMods.js), so `Ballistus` for a datasheet's `Balistus` is a
+// miss too. Datasheet names are matched by prefix, the way the overlay does it, so a profile
+// suffix (`– strike`) is not a mismatch.
+async function namedWeaponMismatches(slug, entries) {
+  const file = path.join(ROOT, 'src/data/datasheets', `${slug}.js`)
+  if (!fs.existsSync(file)) return []
+  const sheets = (await loadModule(file))?.default || []
+  const norm = (x) => String(x || '').toLowerCase().replace(/[’']/g, "'")
+  const fam = (k) => new Set(sheets.flatMap((d) => (d[k] || []).map((w) => norm(w.name))))
+  const families = { melee: fam('melee'), ranged: fam('ranged') }
+  const out = []
+  for (const e of entries) {
+    for (const x of e.effects || []) {
+      if (!x.only?.name || !families[x.on]) continue
+      const name = norm(x.only.name)
+      if ([...families[x.on]].some((w) => w.startsWith(name))) continue
+      const other = x.on === 'melee' ? 'ranged' : 'melee'
+      const elsewhere = [...families[other]].some((w) => w.startsWith(name))
+      out.push(`${e.name} · on=${x.on} only.name="${x.only.name}" — ${elsewhere ? `the datasheet prints it as ${other}` : 'no datasheet in the faction prints that weapon'}`)
+    }
+  }
+  return out
+}
+
 export async function readExisting(slug) {
   const file = path.join(OUT_DIR, `${slug}.js`)
   if (!fs.existsSync(file)) return null
@@ -504,7 +532,7 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const ctx = sourceContext()
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -521,6 +549,10 @@ export async function run(argv = process.argv.slice(2)) {
     totals.ok += result.ok.length
     totals.unreviewed += unreviewed
 
+    for (const m of await namedWeaponMismatches(slug, existing?.entries || [])) {
+      totals.mismatch++
+      console.log(`  ✗ weapon  ${slug} · ${m}`)
+    }
     for (const { entry, src, hash } of result.stale) {
       console.log(`  ⟲ stale   ${slug} · ${entry.kind} · ${entry.name}${entry.det ? ` (${entry.det})` : ''}`)
       queueItems.push({ slug, sid: entry.sid, status: 'stale', kind: entry.kind, name: entry.name, det: entry.det, oldHash: entry.hash, newHash: hash, prose: src.prose, effects: entry.effects })
@@ -550,7 +582,7 @@ export async function run(argv = process.argv.slice(2)) {
     }
   }
 
-  console.log(`\n  ${totals.ok} up to date · ${totals.stale} stale · ${totals.fresh} new · ${totals.orphan} orphaned · ${totals.unreviewed} awaiting review`)
+  console.log(`\n  ${totals.ok} up to date · ${totals.stale} stale · ${totals.fresh} new · ${totals.orphan} orphaned · ${totals.unreviewed} awaiting review · ${totals.mismatch} named weapon(s) not on the datasheet`)
 
   if (queue) {
     fs.writeFileSync(QUEUE, JSON.stringify({ ver, items: queueItems }, null, 2))
@@ -562,6 +594,10 @@ export async function run(argv = process.argv.slice(2)) {
     if (dirty) {
       console.log('  --check: run `npm run modifiers` to refresh the skeletons, then review them'
         + ' (`npm run modifiers:queue` writes the working list).')
+      return 1
+    }
+    if (totals.mismatch) {
+      console.log('  --check: a reviewed effect names a weapon its `on` family does not print — fix `on` or the spelling.')
       return 1
     }
     console.log('  --check: up to date.')

@@ -2375,7 +2375,7 @@ export default {
           "op": "set",
           "value": "18\"",
           "only": {
-            "name": "Wailing doom"
+            "name": "The Wailing Doom"
           },
           "when": {
             "en": "while this stratagem is in force",
@@ -2388,7 +2388,7 @@ export default {
           "op": "set",
           "value": "8",
           "only": {
-            "name": "Wailing doom"
+            "name": "The Wailing Doom"
           },
           "when": {
             "en": "while this stratagem is in force",

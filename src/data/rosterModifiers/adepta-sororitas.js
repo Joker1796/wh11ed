@@ -434,7 +434,7 @@ export default {
       "reviewed": true,
       "effects": [
         {
-          "on": "melee",
+          "on": "ranged",
           "stat": "a",
           "op": "add",
           "value": 3,

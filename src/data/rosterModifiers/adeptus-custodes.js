@@ -1749,7 +1749,7 @@ export default {
           "op": "set",
           "value": "D3+3",
           "only": {
-            "name": "Ballistus grenade launcher"
+            "name": "Balistus grenade launcher"
           },
           "when": {
             "en": "while this stratagem is in force",

@@ -775,7 +775,7 @@ export default {
       "reviewed": true,
       "effects": [
         {
-          "on": "melee",
+          "on": "ranged",
           "stat": "d",
           "op": "add",
           "value": 1,
