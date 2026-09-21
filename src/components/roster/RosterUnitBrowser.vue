@@ -196,7 +196,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, mandatoryEnhancementFor, capKeyOf, sectionsOf, grantedKeywordsFor, unitBasePoints } from '../../composables/rosterEngine.js'
 import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
@@ -293,9 +293,7 @@ function toggleOwnUnit(u) { const s = srcOf(u); toggleOwned(s.slug, s.id, u.name
 // A unit already in the list is never filtered away — same reason the detachment picker keeps the
 // detachments you took: its row carries the "−" button, and a list that hides what you just added
 // (because the budget ran out, or because you are proxying something you don't own) reads as a
-// bug rather than as a filter. It is also what keeps the copy tax (`def.step`, rosterEngine's
-// unitBasePoints) out of this: the surcharge lands on the Nth copy, and every unit this test
-// prices is on its first.
+// bug rather than as a filter.
 //
 // The promise the budget filter makes is "its cheapest configuration fits" — `minPoints` is the
 // cheapest bracket plus any mandatory enhancement. Choosing a bigger bracket or paid wargear
@@ -385,9 +383,15 @@ function countLabel(u) {
 // Cheapest bracket (the "from" price) plus any mandatory enhancement this exact unit is stuck
 // with under the roster's selected detachments — so the browse price already matches what
 // step 3's config screen (and the final total) will show, not just the bare datasheet cost.
+// Priced as the NEXT copy: the copy tax (`def.step`, rosterEngine's unitBasePoints) lands on the
+// Nth copy of the same datasheet, and until 2026-09-21 the catalogue kept quoting the first
+// copy's price while the list charged the third one 10 more — "false hopes", as the player who
+// reported it put it. Counted by exact id, the way rosterPoints assigns copy indexes.
 function minPoints(u) {
-  const base = Math.min(...(u.sizes || []).map((s) => s.pts))
-  return base + (mandatoryEnhancementFor(u, props.detachments)?.pts || 0)
+  const sizes = u.sizes || []
+  const cheapest = sizes.reduce((best, s, i) => (s.pts < sizes[best].pts ? i : best), 0)
+  const copies = props.addedIds.filter((id) => id === u.id).length
+  return unitBasePoints(u, cheapest, copies + 1) + (mandatoryEnhancementFor(u, props.detachments)?.pts || 0)
 }
 
 const previewId = ref(null)

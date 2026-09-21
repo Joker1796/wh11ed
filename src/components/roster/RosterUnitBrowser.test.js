@@ -39,6 +39,13 @@ describe('RosterUnitBrowser', () => {
     expect(row.text()).not.toContain('90')
   })
 
+  it('prices the row as the next copy, so the copy tax shows before the third one is added', () => {
+    const taxed = [{ id: 't', name: 'Tango Taxed', sizes: [{ pts: 115, per: [5, 5] }], step: { at: 3, pts: 10 } }]
+    expect(mountBrowser({ units: taxed, addedIds: [] }).find('.rub-pts').text()).toContain('115')
+    expect(mountBrowser({ units: taxed, addedIds: ['t'] }).find('.rub-pts').text()).toContain('115')
+    expect(mountBrowser({ units: taxed, addedIds: ['t', 't'] }).find('.rub-pts').text()).toContain('125')
+  })
+
   it('badges units already in the roster with a count', () => {
     const w = mountBrowser({ addedIds: ['a', 'a', 'e'] })
     const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
