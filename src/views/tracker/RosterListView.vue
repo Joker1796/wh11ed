@@ -96,22 +96,26 @@
             <i class="bi bi-three-dots-vertical" />
           </button>
         </div>
-        <!-- The faction line names the detachment(s) too, and the army's Force Disposition rides
-             on it as the same coloured chip the tracker's detachment picker uses — so a list can
-             be told from its neighbours by what it fields, and the name is free to be a joke
-             (player request, 2026-09-21). The chip needs the MFM to know a detachment's
+        <!-- The army's Force Disposition rides on the faction line as the same coloured chip the
+             tracker's detachment picker uses, and the detachment(s) sit under it in quiet grey —
+             so a list can be told from its neighbours by what it fields, and the name is free to
+             be a joke (player request, 2026-09-21). The chip needs the MFM to know a detachment's
              disposition; until that lazy load lands the line simply has no chip. -->
         <div
           v-if="factionOf(r)"
           class="rline"
         >
-          <span class="rfaction">{{ factionLine(r) }}</span>
+          <span class="rfaction">{{ factionOf(r).name }}</span>
           <span
             v-if="fdOf(r)"
             class="tone tone-chip rfd"
             :style="toneOf(r)"
           >{{ fdOf(r) }}</span>
         </div>
+        <span
+          v-if="r.detachments?.length"
+          class="rdets"
+        >{{ r.detachments.join(', ') }}</span>
         <div class="roster-meta">
           <span class="meta-left">
             <span
@@ -339,10 +343,6 @@ function limitOf(r) { return effectiveBattle(r, rosterCore).points }
 // disposition — the line still prints what the list says it fields.
 const mfm = ref(null)
 onMounted(() => { import('../../data/mfmFactions.js').then((m) => { mfm.value = m.mfmFactions.en }) })
-function factionLine(r) {
-  const dets = (r.detachments || []).join(', ')
-  return dets ? `${factionOf(r).name} · ${dets}` : factionOf(r).name
-}
 function fdOf(r) {
   const known = mfm.value?.find((f) => f.slug === r.faction)?.detachments || []
   const dets = (r.detachments || []).map((n) => known.find((d) => d.name === n)).filter(Boolean)
@@ -503,11 +503,12 @@ function confirmDelete() {
 /* The draft's own Delete: same hit area as the kebab it replaces, and it says what it does only
    on hover — a bin sitting bright red on every draft card would shout louder than the card. */
 @media (hover: hover) { .kebab.danger:hover { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); } }
-/* Faction · detachments on the left, the disposition chip pinned right. The text wraps when a long
-   faction and a long detachment meet on a narrow phone; the chip never does. */
+/* Faction on the left, the disposition chip pinned right; the detachments under them, one step
+   quieter than the faction — a fact to check, not a headline. */
 .rline { display: flex; align-items: flex-start; gap: 0.45rem; margin-top: 0.05rem; }
 .rfaction { flex: 1 1 auto; min-width: 0; font-size: 0.78rem; font-weight: 600; color: var(--fa-light, var(--accent)); opacity: 0.7; }
 .rfd { flex-shrink: 0; margin-top: 0.1rem; }
+.rdets { display: block; font-size: 0.72rem; color: var(--text-muted); opacity: 0.8; }
 @media (prefers-color-scheme: dark) {
   .rfaction { color: var(--fa-dark, var(--accent)); }
 }
