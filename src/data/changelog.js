@@ -21,7 +21,7 @@ export const changelog = [
     date: '2026-09-21',
     en: [
       { h: 'Roster list: detachment and Force Disposition on the card' },
-      'The detachment now sits under the faction name, and the Force Disposition is a coloured tag beside the faction \u2014 the same one the tracker shows when you pick a detachment. Name a list whatever you like: what it fields is visible anyway.',
+      'The detachment now sits under the faction name, and the Force Disposition is a coloured tag beside the faction \u2014 the same one the tracker shows when you pick a detachment.',
       { h: 'Roster builder: points left' },
       'Turn on \u201cShow points left\u201d in the list settings, and the remainder appears under the total: 1995 / 2000, 5 left. Over the limit it turns red.',
       { h: 'Roster builder: the catalogue price counts your copies' },
@@ -39,7 +39,7 @@ export const changelog = [
     ],
     ru: [
       { h: 'Список ростеров: детачмент и Force Disposition на карточке' },
-      'Под названием фракции теперь стоит детачмент, а справа от фракции \u2014 цветной ярлык Force Disposition, тот же, что в трекере при выборе детачмента. Список можно назвать как угодно: что он выставляет, видно и так.',
+      'Под названием фракции теперь стоит детачмент, а справа от фракции \u2014 цветной ярлык Force Disposition, тот же, что в трекере при выборе детачмента.',
       { h: 'Конструктор: остаток очков' },
       'Включите «Показывать остаток очков» в настройках списка \u2014 и под суммой появится остаток: 1995 / 2000, осталось 5. При переборе он красный.',
       { h: 'Конструктор: цена в каталоге с учётом копий' },
