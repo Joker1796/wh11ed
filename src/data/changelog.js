@@ -36,6 +36,8 @@ export const changelog = [
       'The Faction Pack lists the Masters among the units Huron may lead; the official app does not yet. I went with the Faction Pack: Huron can be attached to the Masters, and the Masters to a Chosen, Legionaries or Red Corsairs Raiders squad.',
       { h: 'Installed app: updates arrive on the tracker page too' },
       'The installed app did not update while the tracker page was open. If you only used the tracker, it could stay on an old version for weeks. Now a new version is applied as soon as it has downloaded. Your game is saved first and the app reopens on the same screen.',
+      { h: 'Thank you' },
+      'Everything in this release came from your bug reports. I am grateful for each one. The button is in the \u2699 menu at the top of every page, on the phone and on the desktop alike, and in the footer.',
     ],
     ru: [
       { h: 'Список ростеров: детачмент и Force Disposition на карточке' },
@@ -54,6 +56,8 @@ export const changelog = [
       'В Faction Pack Masters есть в списке отрядов, которые может вести Huron; в официальном приложении их пока нет. Я взял версию Faction Pack: Huron можно присоединить к Masters, а Masters \u2014 к отряду Chosen, Legionaries или Red Corsairs Raiders.',
       { h: 'Установленное приложение: обновления приходят и на странице трекера' },
       'Установленное приложение не обновлялось, пока открыта страница трекера. Если вы пользовались только трекером, оно могло неделями сидеть на старой версии. Теперь новая версия применяется, как только скачалась. Партия сначала сохраняется, приложение открывается на том же экране.',
+      { h: 'Спасибо' },
+      'Всё в этом выпуске сделано по вашим сообщениям об ошибках. Я благодарен за каждое. Кнопка \u2014 в меню \u2699 наверху любой страницы, и на телефоне, и на компьютере, а ещё в подвале сайта.',
     ],
   },
   {
