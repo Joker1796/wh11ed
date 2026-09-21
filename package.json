@@ -37,6 +37,7 @@
     "companions": "node scripts/check-companion-pdfs.mjs",
     "radii": "node scripts/check-radii.mjs",
     "dupes": "node scripts/check-css-dupes.mjs",
+    "a11y": "node scripts/check-a11y.mjs",
     "imghash": "node scripts/check-image-renames.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
@@ -72,6 +73,7 @@
     "globals": "^17.12.0",
     "jsdom": "^30.0.1",
     "opentype.js": "^2.0.0",
+    "playwright-core": "^1.63.0",
     "sharp": "^0.35.4",
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^5.0.0"

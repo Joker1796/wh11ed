@@ -3,8 +3,9 @@
 The house rules for anything visual: motion, the shared primitives in `style.css`, modal chrome,
 square corners, where the palette and type scale live, and what the phone this is read on
 demands. They apply to every component in this tree — a feature with its own directory (`core/`,
-`event/`, `tracker/`, `roster/`) adds to them, never contradicts them. Two of the rules here are
-enforced by gates: `npm run radii` and `npm run dupes`.
+`event/`, `tracker/`, `roster/`) adds to them, never contradicts them. Three of the rules here are
+enforced by gates: `npm run radii` and `npm run dupes` read the stylesheets, `npm run a11y` reads
+the screen.
 
 ## Motion & animations
 
@@ -176,7 +177,32 @@ colour / which face / how big" question.
   `--sidebar-width`, the `--safe-*` insets. Anything that must line up with the chrome
   references these rather than repeating `56px`.
 
-## The phone this is read on
+## `npm run a11y` — the gate that looks at the rendered page
+
+`radii` and `dupes` read source; nothing read the screen until 2026-09-21, which is how ~15 error
+states sat dark-maroon on the dark theme for months (the `--danger` story above). `npm run a11y`
+(`scripts/check-a11y.mjs`) builds nothing — it needs a fresh `dist/` — then drives the installed
+Google Chrome through `playwright-core` over 18 routes × EN/RU × light/dark × 390/1280px and
+measures three things from computed styles and real geometry:
+
+- **Contrast** — WCAG AA, 4.5:1 for text and 3:1 for large text, resting state only. Text over a
+  background-image is skipped (not computable), so are disabled controls.
+- **Tap targets** — 24×24px minimum, with WCAG's own two exceptions: inline links in running text,
+  and a small control with nothing else to hit within 24px of its centre.
+- **Overflow** — the document never scrolls sideways; the widest offenders are named.
+
+Findings are keyed by theme + element signature + colour pair, not by page — a bad token pair is
+one finding however many pages carry it, and fixing the token clears them all. **The baseline**
+(`scripts/lib/a11y-baseline.json`, 134 entries at the first run) holds what the palette itself
+was short of AA on that day: `--text-dim` on every surface (2.6–3.2:1), the dark `--accent` as
+text (2.8–3.7:1) and as a button ground under white (4.2:1), `--text-muted` on `--bg-secondary`
+(4.24:1), a faction's own green as chip text. Those are palette decisions, still a fix each; the
+gate is red only on something new. A baseline entry that stops firing is reported as stale, so
+the file shrinks as the palette is fixed; `--baseline` re-records it — read the diff first.
+
+Tracker and roster screens that need a game or a list in storage are not in the route sample on
+purpose: a check that has to seed state to render is a test and lives in vitest.
+
 
 Most readers are on a phone at a table, and a large share of those are on iOS Safari. That is not
 a browser to test last — WebKit's differences here are not cosmetic, they lose data and hide

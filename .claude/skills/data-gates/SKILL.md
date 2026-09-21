@@ -1,6 +1,6 @@
 ---
 name: data-gates
-description: Прогнать проверки данных wh11ed (sync, parity, detmeta, wtags, dsrules, coregrants, emphasis, omissions, radii, dupes, imghash и генераторы с --check) и правильно прочитать вывод. Использовать после любой правки данных правил, датащитов, картинок или стилей.
+description: Прогнать проверки данных wh11ed (sync, parity, detmeta, wtags, dsrules, coregrants, emphasis, omissions, radii, dupes, a11y, imghash и генераторы с --check) и правильно прочитать вывод. Использовать после любой правки данных правил, датащитов, картинок или стилей.
 ---
 
 # Гейты данных
@@ -21,6 +21,7 @@ npm run coregrants    # GATE: правило, дающее core-способно
 npm run emphasis      # GATE: выделение из канона не потеряно в нашей прозе
 npm run radii         # скруглений нет, кроме разрешённых
 npm run dupes         # одно тело CSS-правила не скопировано в 3+ компонента
+npm run a11y          # GATE (после npm run build, ~90 с, нужен Chrome): контраст текста в обеих темах, тап-цели ≥24px, нет бокового скролла; baseline в scripts/lib/a11y-baseline.json
 npm run imghash       # картинку меняли переименованием, а не на месте
 npm run roster:data:check && npm run modifiers:check && npm run translate:check
 npm test && npm run lint && npm run build

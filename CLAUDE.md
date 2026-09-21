@@ -112,6 +112,7 @@ npm run layouts      # GATE: the 45 layout diagrams against the app's own artwor
 npm run companions   # GATE: the four Event Companion PDFs — version + the FAQ appdata does not carry
 npm run radii        # fail on any border-radius outside the listed exceptions (see Corners & surfaces)
 npm run dupes        # fail when one CSS rule body is copied into 3+ components (see Shared UI primitives)
+npm run a11y         # GATE: render a sample of pages in Chrome (needs dist/) — text contrast in both themes, 24px tap targets, no sideways scroll; baseline in scripts/lib/a11y-baseline.json (see src/components/CLAUDE.md)
 npm run imghash      # GATE (also in CI): fail when an image under public/images/ was edited in place instead of renamed (see PWA)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
