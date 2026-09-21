@@ -819,14 +819,21 @@ strong {
 /* margin-left, not just the inner's space-between: the creation wizard's step 1 puts nothing on
    the bar but its Next button, and a lone child under space-between sits at the LEFT edge. */
 .rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
-.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.rc-points { display: flex; flex-direction: column; justify-content: center; font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: var(--danger); }
+/* With the remainder on, the total steps down a size so the two lines together are no taller
+   than the buttons beside them; the badge beside it grows to the height of both lines (1.9rem
+   is what 0.9rem + 0.68rem of text come to) — and grows in proportion, a square with a mark a
+   quarter bigger, not a tall sliver around a small one. */
+.rc-points.with-left { font-size: 0.9rem; line-height: 1.15; }
+.rc-points.with-left + .issues-badge { height: 1.9rem; min-width: 1.9rem; justify-content: center; padding: 0 0.4rem; font-size: 1.05rem; }
 /* What is left of the budget, beside the "used / limit" readout while a list is being BUILT (the
    settings bar and the two sticky bars) — the number a player subtracts in their head at every
    add, so it is printed (player request, 2026-09-21). Not on the read-only view: a finished list
-   is read for what it fields, not for what it could still take (owner, same day). Quiet next to the total; the deficit is red like the
-   total it belongs to. */
-.pts-left { font-family: var(--font-mono); font-size: 0.78em; font-weight: 600; color: var(--text-muted); margin-left: 0.35em; white-space: nowrap; }
+   is read for what it fields, not for what it could still take (owner, same day). A second line
+   under the total, in words ("125 left"): a bare number after "1995 / 2000" read as part of it.
+   The deficit is red like the total it belongs to. */
+.pts-left { display: block; margin-top: 0.1rem; font-family: var(--font-sans); font-size: 0.68rem; font-weight: 500; line-height: 1.1; color: var(--text-muted); white-space: nowrap; }
 .pts-left.over { color: var(--danger); }
 
 .issues-badge {

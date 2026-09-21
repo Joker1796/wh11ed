@@ -1279,11 +1279,11 @@ export function rosterPoints(units, defOf, detachments = null) {
   return total
 }
 
-// The budget's remainder as the readouts print it beside "used / limit": a bare number while
-// there is room, a signed deficit once over (`−25`, with the typographic minus), and nothing at
-// all without a limit to count against.
-export function pointsLeftLabel(points, limit) {
+// The budget's remainder as the readouts print it under "used / limit": "125 left" while there
+// is room, "25 over" once past it, and nothing at all without a limit to count against. `labels`
+// is the locale's ui block (rosterPointsLeft / rosterPointsOver carry the `{n}` slot).
+export function pointsLeftLabel(points, limit, labels) {
   if (!Number.isFinite(limit) || limit <= 0) return ''
   const left = limit - points
-  return left < 0 ? `−${-left}` : String(left)
+  return (left < 0 ? labels.rosterPointsOver : labels.rosterPointsLeft).replace('{n}', String(Math.abs(left)))
 }

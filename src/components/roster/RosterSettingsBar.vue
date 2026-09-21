@@ -128,11 +128,11 @@
     <div class="rw-tally">
       <span
         class="rw-points"
-        :class="{ over: points > limit }"
+        :class="{ over: points > limit, 'with-left': showPointsLeft }"
       >{{ points }} / {{ limit }}<span
+        v-if="showPointsLeft"
         class="pts-left"
         :class="{ over: points > limit }"
-        :title="labels.rosterPointsLeft"
       >{{ leftLabel }}</span></span>
       <button
         v-if="factionSlug"
@@ -220,6 +220,16 @@
             <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
           </span>
         </label>
+        <label
+          class="check"
+          :class="{ on: showPointsLeft }"
+        >
+          <input
+            v-model="showPointsLeft"
+            type="checkbox"
+          >
+          <span>{{ labels.rosterShowPointsLeft }}</span>
+        </label>
       </div>
     </BaseModal>
   </div>
@@ -233,6 +243,7 @@ import DetachmentPickerModal from '../tracker/DetachmentPickerModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 
 const props = defineProps({
   showName: { type: Boolean, default: true },
@@ -266,7 +277,8 @@ defineEmits([
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const leftLabel = computed(() => pointsLeftLabel(props.points, props.limit))
+const { showPointsLeft } = useRosterPrefs()
+const leftLabel = computed(() => pointsLeftLabel(props.points, props.limit, labels.value))
 
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)

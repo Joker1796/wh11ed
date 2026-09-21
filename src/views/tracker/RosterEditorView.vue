@@ -193,6 +193,16 @@
           <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
         </span>
       </label>
+      <label
+        class="check"
+        :class="{ on: showPointsLeft }"
+      >
+        <input
+          v-model="showPointsLeft"
+          type="checkbox"
+        >
+        <span>{{ labels.rosterShowPointsLeft }}</span>
+      </label>
     </div>
 
     <!-- Units: the catalogue and the roster's own list, side by side (`.roster-panes` in
@@ -293,12 +303,12 @@
         >
           <span
             class="rc-points"
-            :class="{ over: points > limit }"
+            :class="{ over: points > limit, 'with-left': showPointsLeft }"
           >{{ points }} / {{ limit }}<span
+            v-if="showPointsLeft"
             class="pts-left"
             :class="{ over: points > limit }"
-            :title="labels.rosterPointsLeft"
-          >{{ pointsLeftLabel(points, limit) }}</span></span>
+          >{{ pointsLeftLabel(points, limit, labels) }}</span></span>
           <button
             v-if="roster.faction"
             type="button"
@@ -387,6 +397,7 @@ import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { ROSTER_NOTES_MAX, dispositionCandidates, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 
@@ -394,6 +405,7 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { showPointsLeft } = useRosterPrefs()
 const { saveToCloud } = useRosterSync()
 
 const tab = ref('units')
