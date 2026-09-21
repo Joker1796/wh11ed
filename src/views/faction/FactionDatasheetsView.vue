@@ -406,8 +406,9 @@ const groupedDatasheets = computed(() => {
   /* The two marks stack in the corner, so they cost the name ONE icon of width instead of two —
      at this grid's 180px a second column of buttons was breaking names onto a third line. The
      min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
-     a short chip (a one-line name and its points). */
-  min-height: 2.6rem;
+     a short chip (a one-line name and its points). Two marks at 1.35rem + the corner offset —
+     2.9rem; a one-line chip grew 5px for it on 2026-09-21 when the marks were made bigger. */
+  min-height: 2.9rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -417,19 +418,21 @@ const groupedDatasheets = computed(() => {
 
 /* Both marks — pin (favourite) and star (owned) — sit in the chip's top-right corner. They are
    inside the RouterLink, so their handlers stop propagation / prevent navigation. */
-.ds-marks { position: absolute; top: 0.2rem; right: 0.25rem; display: flex; flex-direction: column; }
+.ds-marks { position: absolute; top: 0.15rem; right: 0.2rem; display: flex; flex-direction: column; }
 
 .ds-fav {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* 1.5×1.35rem, glyph 1rem: as big as the stack can be without outgrowing a one-line chip.
+     Short of the 24px tap target still — listed in `npm run a11y`'s ALLOWED. */
   width: 1.5rem;
-  height: 1.15rem;
+  height: 1.35rem;
   padding: 0;
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 1rem;
   line-height: 1;
   cursor: pointer;
   opacity: 0.5;
