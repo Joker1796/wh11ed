@@ -78,6 +78,8 @@ async function go(item) {
   text-decoration: none;
   font-size: 0.95rem;
   line-height: 1.5;
+  /* 24px tap target (WCAG 2.5.8, `npm run a11y`) — one pixel over the line box, invisible. */
+  min-height: 24px;
 }
 
 .section-toc-link:hover {

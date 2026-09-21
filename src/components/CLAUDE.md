@@ -193,7 +193,7 @@ measures three things from computed styles and real geometry:
 
 Findings are keyed by theme + element signature + colour pair, not by page — a bad token pair is
 one finding however many pages carry it, and fixing the token clears them all. **The baseline**
-(`scripts/lib/a11y-baseline.json`, 134 entries at the first run) holds what the palette itself
+(`scripts/lib/a11y-baseline.json`, 124 entries after the first pass) holds what the palette itself
 was short of AA on that day: `--text-dim` on every surface (2.6–3.2:1), the dark `--accent` as
 text (2.8–3.7:1) and as a button ground under white (4.2:1), `--text-muted` on `--bg-secondary`
 (4.24:1), a faction's own green as chip text. Those are palette decisions, still a fix each; the

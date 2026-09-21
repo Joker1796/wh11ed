@@ -70,7 +70,14 @@ const ROUTES = [
 // Deliberate exceptions. `sig` matches the element signature (tag.classes) as the report prints
 // it; `route`/`theme`/`width` narrow it further when given. Every entry says why.
 const ALLOWED = [
-  // (none yet)
+  // Vertical density wins over 24px in the two dense tables of contents: ~80 and ~40 links in a
+  // column at 18px each, and the extra 6px a row would cost the Core Rules TOC a whole swipe on
+  // every open. A missed tap there is one more tap; links in a column read as text (2026-09-21).
+  { check: 'target', sig: 'a.core-toc-link', why: 'dense TOC — density over 24px' },
+  { check: 'target', sig: 'a.event-toc-link', why: 'dense TOC — density over 24px' },
+  // The pin and the star stack in a datasheet chip's corner; at 24px each the stack outgrows a
+  // one-line chip and every short name would cost the grid ~10px a row. Kept at 18px.
+  { check: 'target', sig: /^button\.ds-fav/, why: 'stacked chip marks — chip height over 24px' },
 ]
 
 const args = Object.fromEntries(
@@ -354,7 +361,10 @@ if (record) {
   console.log(`  baseline: ${Object.keys(sorted).length} finding(s) recorded in ${BASELINE_PATH}`)
 }
 const seenKeys = new Set(unallowed.map(keyOf))
-const stale = Object.keys(baseline).filter((k) => !seenKeys.has(k))
+// A narrowed run (--only, --routes, --en, one theme…) cannot tell "fixed" from "not looked at",
+// so stale entries are reported only when the whole matrix ran.
+const fullRun = !args.only && !args.routes && !args.en && !args.widths && !args.themes
+const stale = fullRun ? Object.keys(baseline).filter((k) => !seenKeys.has(k)) : []
 const real = record ? [] : unallowed.filter((f) => !Object.hasOwn(baseline, keyOf(f)))
 const held = new Set(unallowed.filter((f) => Object.hasOwn(baseline, keyOf(f))).map(keyOf)).size
 const skipped = findings.length - unallowed.length

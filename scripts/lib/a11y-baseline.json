@@ -122,15 +122,5 @@
   "contrast · light · span.strat-name-ru · #828283 on #1c1c1e": "Командный переброс",
   "contrast · light · strong · #3d282a on #027360": "CRITICAL HIT",
   "contrast · light · td.pname · #686957 on #dce1d3": "20",
-  "contrast · light · time.cl-date · #8a8b78 on #ebede4": "21/09/2026",
-  "target · a": "Поддержать проект",
-  "target · a.core-toc-link": "01 Core Concepts",
-  "target · a.event-toc-chapter": "Mission Sequence",
-  "target · a.event-toc-link": "Muster Armies",
-  "target · a.footer-quiet": "Правовая информация",
-  "target · a.footer-vk": "Группа ВКонтакте",
-  "target · a.section-toc-link": "09.06 Advance Move",
-  "target · button.ds-fav": "Pin in the unit list",
-  "target · button.ds-fav.ds-own": "Mark as owned",
-  "target · button.footer-feedback": "Сообщить об ошибке"
+  "contrast · light · time.cl-date · #8a8b78 on #ebede4": "21/09/2026"
 }

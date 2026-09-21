@@ -181,6 +181,11 @@ const showDetails = ref(false)
 }
 .footer-links a,
 .footer-links .footer-feedback {
+  display: inline-flex;
+  align-items: center;
+  /* 24px tap target (WCAG 2.5.8, `npm run a11y`): the row of ways in is what a phone reader
+     taps, and at text height it was 22px. Two pixels a row, nothing moves. */
+  min-height: 24px;
   color: var(--accent);
   text-decoration: none;
 }

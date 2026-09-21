@@ -129,6 +129,8 @@ const activeChapter = computed(() => {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
+  /* 24px tap target (WCAG 2.5.8, `npm run a11y`) — one pixel over the line box, invisible. */
+  min-height: 24px;
   color: var(--text-primary);
   text-decoration: none;
   margin-bottom: 0.25rem;
