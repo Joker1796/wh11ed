@@ -1,10 +1,10 @@
 # CLAUDE.md — `src/components/`
 
 The house rules for anything visual: motion, the shared primitives in `style.css`, modal chrome,
-square corners, and what the phone this is read on demands. They apply to every component in this
-tree — a feature with its own directory (`core/`, `event/`, `tracker/`, `roster/`) adds to them,
-never contradicts them. Two of the rules here are enforced by gates: `npm run radii` and
-`npm run dupes`.
+square corners, where the palette and type scale live, and what the phone this is read on
+demands. They apply to every component in this tree — a feature with its own directory (`core/`,
+`event/`, `tracker/`, `roster/`) adds to them, never contradicts them. Two of the rules here are
+enforced by gates: `npm run radii` and `npm run dupes`.
 
 ## Motion & animations
 
@@ -149,6 +149,32 @@ has to earn its place, and `npm run radii` fails the build of anyone who forgets
 - The flip side of square corners: **the frame does the work rounding used to do.** A surface is
   told from its background by `--border`/`--bg-card`, so don't drop a border "because it looks
   flat" — that is the only thing separating two panels now.
+
+## Palette & type live in `style.css`, not here
+
+There is no separate style passport: the design tokens at the top of `src/style.css` are it.
+Read that `:root` block before styling anything new — it is short and it answers every "which
+colour / which face / how big" question.
+
+- **Colour** — `--bg-*` surfaces, `--accent` (the house oxblood), `--text-*`, `--border*`, the
+  ability tints (`--ability-weapon` / `--ability-unit`) and the sub-rule set. There is a dark
+  theme (`:root[data-theme='dark']` further down the same file), so a hex literal in a component
+  is a colour that will not change with the theme — write `var(--token)` unless the surface is
+  always-dark on purpose. `FactionAccentScope` re-points `--accent` per faction; that is the
+  extension mechanism, not a licence to hard-code faction colours.
+- **`--danger`** is the one red that means "something is wrong": points over budget, issue
+  badges, validation errors, losses, destructive hover. Until 2026-09-21 it had no token and sat
+  as `#c0392b` (or its bootstrap cousin `#d9534f`) in 17 files, each with — or, more often,
+  without — its own dark-theme override; now the token carries the dark shade itself, so a
+  component never writes a `[data-theme='dark']` rule just to brighten a red. Not every red is
+  danger: `StratCard`'s opponent-turn tint is a turn colour and keeps its own value.
+- **Type** — `--font-display` (Sofia Sans Extra Condensed) on every heading and title,
+  `--font-sans` (Inter) on everything else, `--font-serif` (EB Garamond) only on lore flavour
+  text. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
+  invent a size. `font-family: inherit` on buttons/inputs is fine (it is undoing the UA default).
+- **Layout constants** — `--navbar-height`, `--subnav-height`, `--header-total`,
+  `--sidebar-width`, the `--safe-*` insets. Anything that must line up with the chrome
+  references these rather than repeating `56px`.
 
 ## The phone this is read on
 

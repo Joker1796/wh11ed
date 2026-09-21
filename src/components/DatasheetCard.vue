@@ -2017,8 +2017,8 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 .ds-damaged {
   margin-top: 0.6rem;
   padding: 0.5rem 0.7rem;
-  border-left: 3px solid #c0392b;
-  background: color-mix(in srgb, #c0392b 8%, transparent);
+  border-left: 3px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
   font-size: 0.82rem;
 }
 

@@ -358,7 +358,7 @@ const moreOpen = ref(false)
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
 }
-.rw-points.over { color: #d9534f; }
+.rw-points.over { color: var(--danger); }
 
 .rw-more {
   background: none;
@@ -385,5 +385,5 @@ const moreOpen = ref(false)
 .rw-help { margin: 0; padding: 1rem; font-size: 0.9rem; color: var(--text-muted); }
 
 .dp-count { font-style: normal; color: var(--text-dim); }
-.dp-count.over { color: #d9534f; }
+.dp-count.over { color: var(--danger); }
 </style>

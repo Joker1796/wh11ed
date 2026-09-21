@@ -27,6 +27,9 @@
   --bg-row-hover: rgba(139, 42, 51, 0.05);
   --ability-weapon: #7a5a00;
   --ability-unit: #004a6e;
+  /* The one "something is wrong" red: points over budget, validation errors, losses,
+     destructive hover. Every red that means danger goes through this — not a literal. */
+  --danger: #c0392b;
   --bg-definition: #cfd0c3;
   --bg-definition-border: #b8b9ac;
   --sub-rule-bg: #eef0e5;
@@ -207,6 +210,7 @@
   --bg-row-hover: rgba(200, 88, 94, 0.10);
   --ability-weapon: #e0b850;
   --ability-unit: #5fb2dc;
+  --danger: #ef6e60;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
   --sub-rule-bg: #292b21;
@@ -295,11 +299,10 @@ a {
   }
 }
 
-.color-red   { color: #c0392b; }
+.color-red   { color: var(--danger); }
 .color-blue  { color: #2471a3; }
 .color-green { color: #1e8449; }
 
-[data-theme='dark'] .color-red   { color: #ef6e60; }
 [data-theme='dark'] .color-blue  { color: #6aa9d6; }
 [data-theme='dark'] .color-green { color: #5cbf83; }
 
@@ -813,7 +816,7 @@ strong {
    the bar but its Next button, and a lone child under space-between sits at the LEFT edge. */
 .rc-sticky-actions { display: flex; gap: 0.5rem; margin-left: auto; }
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rc-points.over { color: #c0392b; }
+.rc-points.over { color: var(--danger); }
 
 .issues-badge {
   display: inline-flex;
@@ -828,7 +831,7 @@ strong {
   cursor: pointer;
 }
 
-.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
+.issues-badge.has-err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
 
 /* Legends mark — says a datasheet sits on the Legends shelf rather than the matched-play one.
@@ -1248,10 +1251,10 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }
-.act-danger { color: #c0392b; }
+.act-danger { color: var(--danger); }
 @media (hover: hover) {
   .act-btn:hover { border-color: var(--accent); }
-  .act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
+  .act-danger:hover { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); }
 }
 
 /* A body that is a LIST of choices rather than prose — the faction/detachment/keyword pickers. */

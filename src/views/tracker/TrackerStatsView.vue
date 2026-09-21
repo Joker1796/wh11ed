@@ -343,7 +343,7 @@ const rosterRows = computed(() => [...records.value.entries()].map(([id, rec]) =
 .c-lab { display: block; margin-top: 0.15rem; font-size: 0.7rem; color: var(--text-muted); }
 .card.soft .c-val { color: var(--text-dim); }
 .res-win { color: #e3b341; }
-.res-loss { color: #c0392b; }
+.res-loss { color: var(--danger); }
 
 .note { margin: 0 0 0.5rem; font-size: 0.75rem; color: var(--text-dim); line-height: 1.5; }
 

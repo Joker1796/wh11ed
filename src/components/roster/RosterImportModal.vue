@@ -257,7 +257,7 @@ function create() {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
 }
-.rim-error { margin: 0; font-size: 0.8rem; color: var(--danger, #c0392b); }
+.rim-error { margin: 0; font-size: 0.8rem; color: var(--danger); }
 .rim-faction { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--text-secondary); }
 .rim-faction select {
   padding: 0.4rem 0.5rem;

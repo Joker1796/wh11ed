@@ -92,6 +92,6 @@ const icon = computed(() => ({
   text-align: center;
 }
 .rc-bar .bi { color: var(--accent); }
-.rc-bar.err { color: #d9534f; }
+.rc-bar.err { color: var(--danger); }
 .rc-bar.err .bi { color: inherit; }
 </style>

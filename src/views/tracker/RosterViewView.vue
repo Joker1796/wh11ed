@@ -1542,7 +1542,7 @@ function stratKey(strat) {
 .rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; flex: 0 0 auto; }
 .rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
-.rv-points.over .rp-used { color: #c0392b; }
+.rv-points.over .rp-used { color: var(--danger); }
 .rp-sep, .rp-cap { color: var(--text-dim); }
 /* One of these is a link and the other is a button, and they must not look it: a <button> starts
    from the browser's own 13px system font, so the same padding drew two different boxes. Fixed
@@ -1643,8 +1643,8 @@ function stratKey(strat) {
   cursor: pointer;
 }
 .rv-issues.err {
-  border-color: color-mix(in srgb, #c0392b 50%, transparent);
-  background: color-mix(in srgb, #c0392b 12%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 50%, transparent);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
   color: #e05c4b;
 }
 .rvi-txt { flex: 1; min-width: 0; }
@@ -1671,7 +1671,7 @@ function stratKey(strat) {
   letter-spacing: 0.04em;
   color: var(--text-muted);
 }
-.rvg-head.locked .rvg-ally { color: #c0392b; }
+.rvg-head.locked .rvg-ally { color: var(--danger); }
 .rvunit {
   width: 100%;
   background: var(--bg-card);

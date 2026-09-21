@@ -225,7 +225,7 @@ const narrow = useMediaQuery('(max-width: 899px)')
   letter-spacing: 0.04em;
   color: var(--text-muted);
 }
-.rul-head.locked .rul-ally { color: #c0392b; }
+.rul-head.locked .rul-ally { color: var(--danger); }
 
 .rul-unit {
   background: var(--bg-card);
@@ -279,7 +279,7 @@ const narrow = useMediaQuery('(max-width: 899px)')
 }
 @media (hover: hover) { .rul-dup:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); } }
 .rul-dup:disabled { opacity: 0.35; cursor: not-allowed; }
-@media (hover: hover) { .rul-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); } }
+@media (hover: hover) { .rul-del:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); } }
 
 /* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
    header/points bands). In LIGHT theme this reads fine against a selected checkbox tile

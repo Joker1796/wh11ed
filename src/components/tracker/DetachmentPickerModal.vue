@@ -123,8 +123,7 @@ function toneOf(d) {
   color: var(--text-muted);
   font-style: normal;
 }
-.dp-modal-count.over { color: #c0392b; }
-[data-theme='dark'] .dp-modal-count.over { color: #ef6e60; }
+.dp-modal-count.over { color: var(--danger); }
 
 .det {
   display: flex;

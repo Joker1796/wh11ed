@@ -1568,8 +1568,7 @@ function cancel() {
   font-weight: 700;
   margin-left: 0.3rem;
 }
-.dp-count.over { color: #c0392b; }
-:global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
+.dp-count.over { color: var(--danger); }
 .seg-thirds {
   align-items: flex-start;
   margin-bottom: 1rem;

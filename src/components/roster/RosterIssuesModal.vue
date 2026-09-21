@@ -79,10 +79,10 @@ function message(iss) {
   font-size: 0.85rem;
 }
 .ri-item.is-link { cursor: pointer; }
-.ri-item.error { border-left-color: #c0392b; }
+.ri-item.error { border-left-color: var(--danger); }
 .ri-item.warn { border-left-color: #d98a2b; }
 .ri-item .bi { margin-top: 0.1rem; flex-shrink: 0; }
-.ri-item.error .bi { color: #c0392b; }
+.ri-item.error .bi { color: var(--danger); }
 .ri-item.warn .bi { color: #d98a2b; }
 .ri-msg { color: var(--text-primary); flex: 1; }
 .ri-go { margin-top: 0.1rem; color: var(--text-muted); font-size: 0.8rem; }

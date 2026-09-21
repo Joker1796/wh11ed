@@ -83,7 +83,7 @@ function save() {
 <style scoped>
 .roster-shared { padding-top: 0.75rem; }
 .rs-title { font-family: var(--font-display); font-weight: 500; color: var(--text-primary); margin: 0.75rem 0 1rem; }
-.rs-error { color: #c0392b; display: flex; align-items: center; gap: 0.4rem; }
+.rs-error { color: var(--danger); display: flex; align-items: center; gap: 0.4rem; }
 .rs-loading { color: var(--text-muted); }
 .spin { display: inline-block; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

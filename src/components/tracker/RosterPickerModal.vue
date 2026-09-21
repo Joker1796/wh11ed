@@ -193,7 +193,7 @@ async function useLink() {
   font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 .rp-link-btn:disabled { opacity: 0.5; cursor: default; }
-.rp-link-error { color: #c0392b; font-size: 0.8rem; margin: 0.4rem 0 0; }
+.rp-link-error { color: var(--danger); font-size: 0.8rem; margin: 0.4rem 0 0; }
 .rp-clear {
   margin-top: 0.5rem; padding: 0.5rem; border: 1px solid var(--border);
   background: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer;

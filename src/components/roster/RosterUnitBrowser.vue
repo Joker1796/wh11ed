@@ -495,7 +495,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
    beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
 .rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
 .rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
-.rub-count.over { color: #c0392b; }
+.rub-count.over { color: var(--danger); }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 /* Owned-mark rail, mirroring the +/− rail on the other side of the row rather than floating over
    the text — these rows are too dense for a corner overlay. Marked rows take the faction's accent,

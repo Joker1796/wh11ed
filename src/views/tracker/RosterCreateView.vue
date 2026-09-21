@@ -808,7 +808,7 @@ watchEffect(() => {
   font-weight: 700;
   margin-left: 0.3rem;
 }
-.dp-count.over { color: #c0392b; }
+.dp-count.over { color: var(--danger); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 

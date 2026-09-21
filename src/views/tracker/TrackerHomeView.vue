@@ -456,7 +456,7 @@ function footLine(g) {
 .cloud-account { display: inline-flex; align-items: center; gap: 0.4rem; }
 .cloud-account .bi { color: var(--accent); }
 .cloud-hint { color: var(--text-muted); }
-.cloud-err { color: #d9534f; }
+.cloud-err { color: var(--danger); }
 .cta {
   display: flex;
   justify-content: center;
@@ -592,7 +592,7 @@ function footLine(g) {
 .gc-dash { margin: 0 0.24em; color: var(--text-dim); font-weight: 500; }
 .gc-result { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.11em; }
 .res-win .gc-result { color: #e3b341; }
-.res-loss .gc-result { color: #c0392b; }
+.res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }

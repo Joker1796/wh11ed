@@ -469,13 +469,13 @@ function confirmDelete() {
 @media (hover: hover) { .kebab:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); } }
 /* The draft's own Delete: same hit area as the kebab it replaces, and it says what it does only
    on hover — a bin sitting bright red on every draft card would shout louder than the card. */
-@media (hover: hover) { .kebab.danger:hover { background: color-mix(in srgb, #d9534f 14%, transparent); color: #d9534f; } }
+@media (hover: hover) { .kebab.danger:hover { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); } }
 .rfaction { display: block; margin-top: 0.05rem; font-size: 0.78rem; font-weight: 600; color: var(--fa-light, var(--accent)); opacity: 0.7; }
 @media (prefers-color-scheme: dark) {
   .rfaction { color: var(--fa-dark, var(--accent)); }
 }
 .rpoints { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
-.rpoints.over { color: #c0392b; }
+.rpoints.over { color: var(--danger); }
 .rpoints .unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.15rem; }
 .roster-meta {
   display: flex;
