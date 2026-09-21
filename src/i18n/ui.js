@@ -1230,7 +1230,7 @@ export const ui = {
     rosterPointsLabel: 'очк',
     rosterPointsLeft: 'осталось {n}',
     rosterShowPointsLeft: 'Показывать остаток очков',
-    rosterPointsOver: 'перебор {n}',
+    rosterPointsOver: 'превышение {n}',
     rosterEditorSoon: 'Редактор листов скоро появится.',
     rosterBackToList: 'К листам',
     rosterAddUnit: 'Добавить юнит',
