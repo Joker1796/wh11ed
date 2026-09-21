@@ -41,6 +41,11 @@
           <span class="rp-used">{{ points }}</span>
           <span class="rp-sep">/</span>
           <span class="rp-cap">{{ limit }}</span>
+          <span
+            class="pts-left"
+            :class="{ over: points > limit }"
+            :title="labels.rosterPointsLeft"
+          >{{ pointsLeftLabel(points, limit) }}</span>
         </div>
         <RouterLink
           v-if="!inGame"
@@ -591,7 +596,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
-import { GROUP_LABEL_KEYS, allySourceOf, attachedBlockTotal, entrySummary, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, allySourceOf, attachedBlockTotal, entrySummary, leaderTargetsFor, mandatoryEnhancementFor, pointsLeftLabel, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords } from '../../composables/rosterStatMods.js'
 import { loadoutItemNames } from '../../composables/rosterModifiers.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'

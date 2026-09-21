@@ -1278,3 +1278,12 @@ export function rosterPoints(units, defOf, detachments = null) {
   }
   return total
 }
+
+// The budget's remainder as the readouts print it beside "used / limit": a bare number while
+// there is room, a signed deficit once over (`−25`, with the typographic minus), and nothing at
+// all without a limit to count against.
+export function pointsLeftLabel(points, limit) {
+  if (!Number.isFinite(limit) || limit <= 0) return ''
+  const left = limit - points
+  return left < 0 ? `−${-left}` : String(left)
+}

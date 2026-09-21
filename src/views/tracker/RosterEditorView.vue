@@ -294,7 +294,11 @@
           <span
             class="rc-points"
             :class="{ over: points > limit }"
-          >{{ points }} / {{ limit }}</span>
+          >{{ points }} / {{ limit }}<span
+            class="pts-left"
+            :class="{ over: points > limit }"
+            :title="labels.rosterPointsLeft"
+          >{{ pointsLeftLabel(points, limit) }}</span></span>
           <button
             v-if="roster.faction"
             type="button"
@@ -382,7 +386,7 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { ROSTER_NOTES_MAX, dispositionCandidates } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, dispositionCandidates, pointsLeftLabel } from '../../composables/rosterEngine.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 

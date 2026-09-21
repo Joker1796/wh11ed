@@ -129,7 +129,11 @@
       <span
         class="rw-points"
         :class="{ over: points > limit }"
-      >{{ points }} / {{ limit }}</span>
+      >{{ points }} / {{ limit }}<span
+        class="pts-left"
+        :class="{ over: points > limit }"
+        :title="labels.rosterPointsLeft"
+      >{{ leftLabel }}</span></span>
       <button
         v-if="factionSlug"
         type="button"
@@ -228,9 +232,9 @@ import FactionPickerModal from '../tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../tracker/DetachmentPickerModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, pointsLeftLabel } from '../../composables/rosterEngine.js'
 
-defineProps({
+const props = defineProps({
   showName: { type: Boolean, default: true },
   name: { type: String, default: '' },
   factionSlug: { type: String, default: '' },
@@ -262,6 +266,7 @@ defineEmits([
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const leftLabel = computed(() => pointsLeftLabel(props.points, props.limit))
 
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)

@@ -332,7 +332,11 @@
           <span
             class="rc-points"
             :class="{ over: points > limit }"
-          >{{ points }} / {{ limit }}</span>
+          >{{ points }} / {{ limit }}<span
+            class="pts-left"
+            :class="{ over: points > limit }"
+            :title="labels.rosterPointsLeft"
+          >{{ pointsLeftLabel(points, limit) }}</span></span>
           <button
             type="button"
             class="issues-badge"
@@ -448,7 +452,7 @@ import { forgetDraft, rememberDraft } from '../../composables/useRosterDraftResu
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import {
-  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates,
+  ROSTER_NOTES_MAX, addUnitEntry, duplicateUnitEntry, removeUnitEntry, dispositionCandidates, pointsLeftLabel,
 } from '../../composables/rosterEngine.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 
