@@ -97,6 +97,15 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   exactly what the per-type `manyLeaders` check already enforces. The generator prints a line for
   each and refuses to apply one the day appdata grows its own group: this is a stand-in for missing
   data, not an opinion about it.
+- **`PACK_ATTACH`** — one attachment the faction's own Faction Pack prints and appdata does not
+  state anywhere, group or prose: the Chaos Space Marines pack v1.2 (legal from 26 August 2026)
+  lists Masters of the Maelstrom among the units Huron Blackheart leads, data version 946 does not
+  — read as appdata's mistake (owner's call, 2026-09-21; the GW app's own export already prints
+  the chain "Huron leads the Masters, the Masters support the Chosen", see `rosterImport.js`).
+  Same shape as `PROSE_ATTACH` and the same self-retirement: the generator reports the entry the
+  day appdata names the target itself, and `sync-leader-units.mjs` keeps the matching datasheet
+  exception (`PACK_EXTRA`) and flags it the same day — drop both then. A list, not a rule: the
+  next PDF-vs-appdata gap is a question for the owner, not a new entry.
 
 **`npm run roster:data:check`** (`--check`, and part of `npm run sync`) regenerates everything in
 memory and reports which files would change, writing nothing. Without it an appdata bump left the

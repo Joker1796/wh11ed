@@ -6272,7 +6272,8 @@ export default [
         "Chaos Terminator Squad",
         "Chosen",
         "Red Corsairs Raiders",
-        "Legionaries"
+        "Legionaries",
+        "Masters of the Maelstrom"
       ]
     },
     "keywords": [
@@ -7542,8 +7543,7 @@ export default [
         "Chosen",
         "Legionaries",
         "Red Corsairs Raiders"
-      ],
-      "footer": "* This unit cannot join an Attached unit, and only HURON BLACKHEART can join a unit this unit has joined."
+      ]
     },
     "composition": [
       "1 Garreon the Corpsemaster – EPIC HERO",

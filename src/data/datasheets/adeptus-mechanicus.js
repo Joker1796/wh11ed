@@ -561,8 +561,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Kastelan Robots"
-      ],
-      "footer": "You must attach this model to a KASTELAN ROBOTS unit. If you cannot attach this model to a KASTELAN ROBOTS unit, this model cannot be deployed and counts as having been destroyed during the first battle round. While attached to a KASTELAN ROBOTS unit, this model loses the INFANTRY keyword."
+      ]
     },
     "keywords": [
       "Vehicle",

@@ -33,6 +33,16 @@
 //     Templars' "SWORD BRETHREN" vs our fuller "Sword Brethren Squad"). Detected as a prefix match
 //     against an unresolved bullet on the SAME datasheet and excluded from "extra".
 //
+// The footnote under the list is checked too, presence-only: appdata's prose carries it in the
+// same rule text (Death Guard's "*You can attach this model to a PLAGUE MARINES unit, even if
+// one other Leader unit…"), so a wh11ed `leader.footer` with nothing left in appdata's rule once
+// the header and the ■ bullets are stripped is a leftover from an older card. Found on
+// 2026-09-21 (user report): Masters of the Maelstrom still said "only HURON BLACKHEART can join a
+// unit this unit has joined" — the 10th-edition wording; in 11th the Support core rule itself
+// lets one Leader and one Support share a bodyguard, and appdata's card has no footnote at all.
+// Wardens of Ultramar carried the same sentence about Captain Titus. Wording is not compared —
+// our footers are paraphrased and unbolded — only whether each side has one.
+//
 // Report only — nothing is written (read the flagged lines and fix leader.units by hand; RU
 // datasheets don't carry a `units` array — see wh11ed/CLAUDE.md's DatasheetCard note — so there's
 // no EN/RU parity risk here, unlike sync-enh-bodyguards's enhancement bodies).
@@ -66,8 +76,10 @@ for (const [slug, entries] of Object.entries(sourceIdsMap() || {})) {
   }
 }
 
-// appdata Leader/Support prose bullets keyed by the OWNER datasheet's uuid (collision-proof)
+// appdata Leader/Support prose bullets keyed by the OWNER datasheet's uuid (collision-proof),
+// and whether any prose is left once the header line and the ■ bullets are gone (a footnote)
 const bulletsByUuid = new Map()
+const footnoteByUuid = new Map()
 for (const { bundle: d } of allFactionBundles()) {
   if (!d?.datasheets) continue
   for (const ds of d.datasheets) {
@@ -81,6 +93,10 @@ for (const { bundle: d } of allFactionBundles()) {
       [...r.rules.matchAll(/\*+([^*]+)\*+/g)].map((m) => m[1].trim()),
     ))]
     bulletsByUuid.set(ds.id, bullets)
+    footnoteByUuid.set(ds.id, rules.some((r) => r.rules.split('\n').some((line) => {
+      const t = line.trim()
+      return t && !t.startsWith('■') && !/can be attached to the following units:?$/i.test(t)
+    })))
   }
 }
 
@@ -94,6 +110,12 @@ for (const f of files) {
   fileArrays.set(f, mod.default)
   for (const ds of mod.default) if (ds.id) idToName.set(ds.id, ds.name)
 }
+
+// Attach targets the faction's own Faction Pack prints and appdata does not — the same list
+// gen-roster-data.mjs feeds the constructor from (PACK_ATTACH, with the source quoted there).
+// Not a rule: appdata's mistake, expected to be fixed by a coming data version. An entry that
+// appdata has caught up with is flagged so the exception gets dropped, not kept out of habit.
+const PACK_EXTRA = new Map([['chaos-space-marines:huron-blackheart', ['Masters of the Maelstrom']]])
 
 const flagged = []
 let scanned = 0
@@ -134,11 +156,16 @@ for (const f of files) {
         return nu === nb || nu.startsWith(nb + ' ') || nb.startsWith(nu + ' ')
       })
     }
-    const extra = [...new Set(units)].filter((u) => !refSet.has(u) && !rawNorm.includes(norm(u)) && !isAliasOfUnresolved(u))
+    const packExtra = PACK_EXTRA.get(`${slug}:${ds.id}`) || []
+    const caughtUp = packExtra.filter((u) => refSet.has(u))
+    const extra = [...new Set(units)].filter((u) => !refSet.has(u) && !rawNorm.includes(norm(u)) && !isAliasOfUnresolved(u) && !packExtra.includes(u))
     const missing = resolvedNames.filter((u) => !whSet.has(u))
 
-    if (dups.length || extra.length || missing.length) {
-      flagged.push({ file: f, name: ds.name, dups, extra, missing, unresolvedCount: unresolvedBullets.length })
+    const footer = Boolean(ds.leader.footer) === footnoteByUuid.get(uuid) ? null
+      : (ds.leader.footer ? 'stale' : 'missing')
+
+    if (dups.length || extra.length || missing.length || footer || caughtUp.length) {
+      flagged.push({ file: f, name: ds.name, dups, extra, missing, footer, caughtUp, unresolvedCount: unresolvedBullets.length })
     }
   }
 }
@@ -151,6 +178,9 @@ if (flagged.length) {
     if (r.dups.length) console.log(`      duplicate entries: ${r.dups.join(', ')}`)
     if (r.extra.length) console.log(`      extra (remove): ${r.extra.join(', ')}`)
     if (r.missing.length) console.log(`      missing (add): ${r.missing.join(', ')}`)
+    if (r.caughtUp.length) console.log(`      appdata now lists ${r.caughtUp.join(', ')} — drop the PACK_EXTRA entry (and gen-roster-data's PACK_ATTACH)`)
+    if (r.footer === 'stale') console.log('      leader.footer has no footnote in appdata\'s rule text (older card wording — remove)')
+    if (r.footer === 'missing') console.log('      appdata\'s rule text carries a footnote under the list, leader.footer is empty (add)')
     if (r.unresolvedCount) console.log(`      (+ ${r.unresolvedCount} appdata bullet(s) with no matching datasheet anywhere — likely an appdata data gap, not checked)`)
   }
 }

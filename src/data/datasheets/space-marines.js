@@ -3492,8 +3492,7 @@ export default [
         "Vanguard Veteran Squad",
         "Victrix Honour Guard",
         "Wolf Guard"
-      ],
-      "footer": "* This model cannot be attached to a BLADEGUARD VETERAN SQUAD unless this model is equipped with a relic shield, and cannot be attached to a HELLBLASTER SQUAD unless this model is equipped with a plasma pistol."
+      ]
     },
     "keywords": [
       "Infantry",
@@ -24454,8 +24453,7 @@ export default [
         "Intercessor Squad",
         "Sternguard Veteran Squad",
         "Vanguard Veteran Squad"
-      ],
-      "footer": "* This unit cannot join an Attached unit, and only CAPTAIN TITUS can join a unit this unit has joined."
+      ]
     },
     "composition": [
       "1 Ancient Gadriel – EPIC HERO",

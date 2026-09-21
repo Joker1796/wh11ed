@@ -638,7 +638,7 @@ export default {
     },
     loadout:
       '**Garreon the Corpsemaster вооружён:** absolvor bolt pistol; reductor array.\n\n**Garlon Souleater вооружён:** Mind Wrench; force stave.\n\n**Katar Garrix вооружён:** bolt pistol; Axe of Ending.\n\n**Captain Sargotta вооружён:** laspistol; power sabre.\n\n**The Enforcer вооружён:** Londaxi maimer; bionic gauntlet.',
-    leader: { text: LEADER_TEXT, footer: '* Этот юнит не может присоединиться к Attached-юниту, и только HURON BLACKHEART может присоединиться к юниту, к которому присоединился этот юнит.' },
+    leader: { text: LEADER_TEXT },
   },
 
   maulerfiend: {

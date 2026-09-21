@@ -5240,6 +5240,10 @@ export default {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "masters-of-the-maelstrom",
+          "type": "leader"
         }
       ],
       "defaults": [

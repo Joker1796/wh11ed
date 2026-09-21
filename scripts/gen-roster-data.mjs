@@ -329,7 +329,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [] }, sharedDets: 0, leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [] }, pack: { ...emptyPackReport(), dropped: [] } }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -439,6 +439,30 @@ for (const [dsName, kwName] of PROSE_ATTACH) {
   bgKeywords.set(gid, [kwName])
   bgByLeader.set(ds.id, [{ id: gid, datasheetId: ds.id, bodyguardType: 'support' }])
   report.proseAttachAdded++
+}
+
+// An attachment the faction's own Faction Pack prints and appdata does not state at all — neither
+// as a bodyguard group nor in the Leader prose. Read as appdata's mistake, expected to be fixed by
+// a coming data version, so this is not a rule but a list (owner's call, 2026-09-21):
+//   - Chaos Space Marines Faction Pack v1.2 (legal from 26 August 2026), Huron Blackheart's
+//     Leader list: "Chosen, Chaos Terminator Squad, Legionaries, Masters of the Maelstrom, Red
+//     Corsairs Raiders" — data version 946 has no group for the Masters, and the GW app's own
+//     export prints exactly that chain (Huron leads the Masters, the Masters support the Chosen;
+//     see rosterImport.js's foldRepeatedAttachments).
+// Each entry retires itself: once one of the leader's own appdata groups names the target it is
+// reported and adds nothing — drop the entry then. Emitted without a detachment gate: Pactbound
+// Zealots would let Huron join the Masters anyway (both Chaos Undivided).
+const PACK_ATTACH = [['Huron Blackheart', 'Masters of the Maelstrom', 'leader']]
+for (const [leaderName, targetName, type] of PACK_ATTACH) {
+  const [leader, ...moreLeaders] = table('datasheet').filter((d) => enOf(d).name === leaderName)
+  const [target, ...moreTargets] = table('datasheet').filter((d) => enOf(d).name === targetName)
+  if (!leader || !target || moreLeaders.length || moreTargets.length) { report.packAttach.push(`${leaderName} → ${targetName}: ${!leader || !target ? 'no datasheet by that name' : 'the name is not unique'}`); continue }
+  if ((bgByLeader.get(leader.id) || []).some((g) => (bgDatasheets.get(g.id) || []).includes(target.id))) { report.packAttach.push(`${leaderName} → ${targetName}: appdata now has it — drop this entry`); continue }
+  const gid = `pack:${leader.id}:${target.id}`
+  bgDatasheets.set(gid, [target.id])
+  if (!bgByLeader.has(leader.id)) bgByLeader.set(leader.id, [])
+  bgByLeader.get(leader.id).push({ id: gid, datasheetId: leader.id, bodyguardType: type })
+  report.packAttachAdded++
 }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
@@ -2521,6 +2545,9 @@ for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)
 const cmp = report.comp
 console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
 for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
+if (report.packAttach.length) {
+  console.log(`  !! Faction Pack attachments (PACK_ATTACH): ${report.packAttach.join('; ')}`)
+}
 if (report.proseAttach.length) {
   console.log(`  !! prose-only attachments (PROSE_ATTACH): ${report.proseAttach.join('; ')}`)
 }
@@ -2536,6 +2563,7 @@ if (report.hosts.unread.length) console.log(`    !! ${report.hosts.unread.length
 }
 const lk = report.leadKw
 console.log(`  ${report.proseAttachAdded} attachment${report.proseAttachAdded === 1 ? '' : 's'} appdata states only in prose, added by hand (PROSE_ATTACH)`)
+console.log(`  ${report.packAttachAdded} attachment${report.packAttachAdded === 1 ? '' : 's'} only the Faction Pack states, added by hand (PACK_ATTACH)`)
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep

@@ -1010,3 +1010,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     search with the wrong table or the wrong casing looks like: grep the tables AND the faction
     bundles, and say which file you looked in.
 
+62. **A baselined finding is a decision someone must be able to defend today.** The sync baseline
+    carried `datasheet "Masters of the Maelstrom" · leader: text differs from appdata` — and Wardens
+    of Ultramar, the Space Marines Captain, the Cybernetica Datasmith — as accepted noise since July.
+    Each was a 10th-edition footnote ("only HURON BLACKHEART can join a unit this unit has joined",
+    "must attach to KASTELAN ROBOTS") that the 11th-edition card had dropped; a player found the
+    first one on 2026-09-21. The gate had seen it all along and was told to stay quiet. Two rules
+    follow: the baseline diff is read line by line, and a line one cannot explain is a bug waiting
+    for a reporter, not noise; and when a whole CLASS is baselined ("leader text differs" — our
+    footers are paraphrased, so the text never matches), add a check that names what the class can
+    actually hide — `sync-leader-units` now compares footnote PRESENCE against appdata's rule text,
+    which flags exactly those four and nothing else.
