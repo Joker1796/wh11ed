@@ -299,7 +299,11 @@ a {
   }
 }
 
-.color-red   { color: var(--danger); }
+/* `{red:TEXT}` markup renders a coloured <strong>. Written with the theme attribute on purpose:
+   `[data-theme='dark'] strong` below recolours every strong to near-white, and a bare `.color-red`
+   loses to it — the RED unit in the shooting example went white on 2026-09-21 when the dark
+   `.color-red` override was folded into the `--danger` token. */
+:root .color-red   { color: var(--danger); }
 .color-blue  { color: #2471a3; }
 .color-green { color: #1e8449; }
 
