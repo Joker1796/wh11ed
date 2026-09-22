@@ -1142,7 +1142,8 @@ function joinAttached(items, where, attached) {
     const at = list.indexOf(p)
     if (at >= 0) list.splice(at, 1)
   }
-  // Hosts in list order, so the Attached section reads in the order the roster was built.
+  // Hosts in the order they were handed over — by name, since sectionsOf sorts before filing —
+  // so the Attached section reads the way every other section does.
   for (const host of items || []) {
     const children = kids.get(host?.uid)
     if (!children || !where.has(host)) continue
@@ -1205,6 +1206,20 @@ export function attachedBlockTotal(entries, i, pointsOf) {
   return parts.reduce((a, x) => a + (pointsOf(x) || 0), 0)
 }
 
+// The one comparator every list of units is read in — the catalogue, the sections of a list, the
+// export. English datasheet names, so the default locale's collation is the same everywhere.
+export const byUnitName = (a, b) => String(a || '').localeCompare(String(b || ''))
+
+// `items` in reading order: by `nameOf(item)`, ties in the order given (a stable sort — copies of
+// one datasheet keep their adding order, which is what the copy tax reads). Items with no name —
+// an entry whose datasheet the data no longer has — come first, together, in their own order;
+// every caller filters those out anyway.
+export function orderedByName(items, nameOf) {
+  return (items || []).map((it, i) => ({ it, i, n: nameOf(it) }))
+    .sort((x, y) => byUnitName(x.n, y.n) || x.i - y.i)
+    .map((x) => x.it)
+}
+
 // One split shared by every screen that lists units — the add-units browser, the editor and the
 // read-only view. Allies don't belong in the battlefield-role buckets: they are a separate part of
 // the army with their own ceiling, and two of them (Drukhari's Harlequins, a Chapter's Knights)
@@ -1216,6 +1231,17 @@ export function attachedBlockTotal(entries, i, pointsOf) {
 // `items` are whatever the caller lists (unit defs in the browser, roster entries elsewhere);
 // `idOf` pulls the unit id out of one. `pairAttached` is for the entry lists only — the browser
 // shows datasheets, which nothing is attached to.
+//
+// READING ORDER. Inside a section everything reads like the catalogue: datasheets by name, the
+// copies of one datasheet together in the order they were added. The roster's own `units` array
+// is left in ADDING order — that is the order the copy tax is assigned in (entryMeta,
+// rosterPoints, the export) and `orderedByName` is stable, so the second copy is still the one
+// below the first — and nothing is re-saved to sort it: a list from an older build or another
+// device reads the same way the moment it is opened, and so does the tracker's snapshot. Before
+// 2026-09-22 a section was in adding order, and a player who had added a squad, a character and
+// then a second squad had to delete and re-add to see the two squads together (report 05870f4a);
+// the alternative — dragging rows — needs a gesture the two-pane phone layout has no room for and
+// an order the format would have to carry.
 export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x) => x?.id, keepLocked = false, pairAttached = false } = {}) {
   const all = faction?.allies || []
   const active = allyGroupsFor(faction, detachments)
@@ -1223,7 +1249,8 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
   const byKey = new Map(all.map((g) => [g.key, []]))
   const roles = new Map(UNIT_GROUPS.map((id) => [id, []]))
   const where = new Map() // item → the list it was filed into, and whether that list is an ally group
-  for (const it of items || []) {
+  const ordered = orderedByName(items, (it) => (defOf ? defOf(idOf(it)) : it)?.name)
+  for (const it of ordered) {
     const id = idOf(it)
     const def = defOf ? defOf(id) : it
     if (!def) continue
@@ -1237,7 +1264,7 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
     list.push(it)
     where.set(it, { list, ally: !!mine })
   }
-  if (pairAttached) joinAttached(items, where, roles.get('attached'))
+  if (pairAttached) joinAttached(ordered, where, roles.get('attached'))
   // Active groups always (the browser offers them even while empty); a locked one only where the
   // caller keeps locked units — the editor and the read-only view must still show a unit that is
   // in the list, or its points would go missing from the screen but not from the total.

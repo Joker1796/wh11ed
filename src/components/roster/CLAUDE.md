@@ -1409,6 +1409,18 @@ model on top of the bracket (Terminator Assault Squad, Venatari Custodians, Vict
 the `dw` units with a ranged bracket), so filling up costs them a little more than the pill says;
 the running total and the "Default wargear" heading both show it as it happens.
 
+**A section reads by name, the roster stays in adding order** (`orderedByName` inside
+`sectionsOf`, added 2026-09-22). Every list of units — the catalogue, the three list screens, the
+print sheet and the text export — sorts each section by English datasheet name, copies of one
+datasheet together in the order they were added. The roster's `units` array is never reordered:
+it is the order the copy tax is assigned in (`entryMeta`, `rosterPoints`, the export's `seen`), and
+leaving it alone means an old list, a synced one and a game's snapshot all read sorted the moment
+they are opened, with nothing re-saved. The player's report (05870f4a): two squads with a character
+added between them could only be brought together by deleting and re-adding. Dragging rows was the
+other answer and was turned down — the two-pane phone layout has no gesture to spare, and a
+hand-made order would have to live in the format. Up/down buttons on a row were not considered
+either (vertical density).
+
 **An attached unit is drawn as one block** (`joinAttached` inside `sectionsOf`, `pairAttached:
 true`). A Leader and the unit it joined are ONE unit (core rules 19.01 — the same reading
 `RosterViewView`'s `attachedEntries` already writes every game state across both halves with), but
@@ -2653,6 +2665,20 @@ in `conditions.js` so the rule is stated once rather than as an id spelled out i
   (`stratagemsClearedBy()` → the view's `toggleUnitCondFor`). Leaving a spent stratagem rewriting
   the card of a unit that may not be affected by one is a contradiction the player would otherwise
   have to spot and undo by hand.
+
+**An ordinary state is the negation of a state, never a switch** (`negates` in `conditions.js`).
+"While the bearer's unit is not Battle-shocked" names the state a unit is in from deployment on,
+and only to say when the bonus stops. Until 2026-09-22 `unit-not-battle-shocked` was a plain
+per-unit switch: off the table nothing conditional applies, and in a game nobody thinks to turn
+"Not Battle-shocked" ON — so the Mandulian Reliquary's +3 OC (and the four sibling OC bonuses of
+Dark Angels, Tyranids, Adeptus Mechanicus and Genestealer Cults) never reached a card, until a
+player reported it. Now `activeConditions()` answers a negation from whatever answers the state it
+negates — on unless Battle-shock is on for that unit this round, and on in a game not keeping
+unit states, which cannot record the opposite — `rosterConditions()` answers it off the table
+(nothing has happened to a list nobody is playing), and `switchesFor()` offers the Battle-shocked
+chip in its place rather than a second chip for the same fact. `index.test.js` guards the shape:
+an id or label worded as a negation must carry `negates`, and every Battle-shock effect must be
+gated on the id its own `when` wording names.
 
 A unit state is written to EVERY card of an attached unit (`attachedEntries` → `toggleUnitCondFor`).
 Core Rules 19.01 makes a Leader and the unit it joined one unit, and the states this vocabulary holds

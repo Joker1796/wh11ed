@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1225,6 +1225,39 @@ describe('allies', () => {
   })
 })
 
+// A player's report (05870f4a, 2026-09-21): two copies of a squad with a character added between
+// them sat apart, and the only way to bring them together was to delete one and add it again.
+// A section now reads like the catalogue — by name — and the entries themselves are not moved,
+// so the copy tax still falls on the copy added second.
+describe('a section reads by name', () => {
+  const squad = { id: 'strike-squad', name: 'Strike Squad', kws: ['Battleline'], flags: {}, sizes: [{ pts: 100, per: [5, 5] }] }
+  const terms = { id: 'terminator-squad', name: 'Terminator Squad', kws: ['Infantry'], flags: {}, sizes: [{ pts: 200, per: [5, 5] }] }
+  const brothers = { id: 'brotherhood', name: 'Brotherhood Terminators', kws: ['Infantry'], flags: {}, sizes: [{ pts: 180, per: [5, 5] }] }
+  const faction = { units: [squad, terms, brothers], allies: [] }
+  const defOf = (id) => faction.units.find((u) => u.id === id)
+
+  it('sorts a section by datasheet name and keeps the copies of one datasheet in adding order', () => {
+    const items = [
+      { uid: 't1', id: 'terminator-squad' },
+      { uid: 'b1', id: 'brotherhood' },
+      { uid: 't2', id: 'terminator-squad' },
+    ]
+    const sec = sectionsOf(items, { faction, defOf }).find((s) => s.id === 'infantry')
+    expect(sec.items.map((i) => i.uid)).toEqual(['b1', 't1', 't2'])
+    expect(items.map((i) => i.uid)).toEqual(['t1', 'b1', 't2']) // the roster itself is not reordered
+  })
+
+  it('orders the catalogue the same way', () => {
+    const secs = sectionsOf([terms, brothers], { faction })
+    expect(secs.find((s) => s.id === 'infantry').items.map((u) => u.id)).toEqual(['brotherhood', 'terminator-squad'])
+  })
+
+  it('is a stable sort by name, unnamed items first', () => {
+    const list = [{ n: 'b', k: 1 }, { n: 'a', k: 2 }, { n: null, k: 3 }, { n: 'a', k: 4 }]
+    expect(orderedByName(list, (x) => x.n).map((x) => x.k)).toEqual([3, 2, 4, 1])
+  })
+})
+
 describe('attached units read as one block', () => {
   // Core rules 19.01: a Leader and the unit it joined are ONE unit. Filed by battlefield role
   // they landed in different sections, and the more important the character the further apart:
@@ -1262,13 +1295,24 @@ describe('attached units read as one block', () => {
     expect(ids(secs, 'epic')).toEqual([])
   })
 
-  it('keeps several characters on one host together, in list order', () => {
+  it('keeps several characters on one host together, by name like everything else', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
       { uid: 'legio', id: 'legionaries' },
       { uid: 'abn', id: 'abaddon', leaderOf: 'legio' },
     ]
-    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['legio', 'lord', 'abn'])
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['legio', 'abn', 'lord'])
+  })
+
+  // Blocks follow their hosts' names, whatever order the pairs were built in.
+  it('orders the blocks by their hosts', () => {
+    const items = [
+      { uid: 'lord', id: 'lord', leaderOf: 'legio' },
+      { uid: 'legio', id: 'legionaries' },
+      { uid: 'abn', id: 'abaddon', leaderOf: 'brute' },
+      { uid: 'brute', id: 'helbrute' },
+    ]
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['brute', 'abn', 'legio', 'lord'])
   })
 
   it('leaves an unattached character where it was', () => {

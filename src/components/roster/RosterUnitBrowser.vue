@@ -324,8 +324,9 @@ function allyCap(g) {
 const sectionsFor = (list) =>
   // The slug goes in so sectionsOf can ask conditionalKeywords.json which units this army's
   // Detachments make Battleline — without it Gretchin would sit under BATTLELINE in every list.
+  // Already by name inside each section — the same order the list itself reads in.
   sectionsOf(list, { faction: { allies: props.allies, slug: props.factionSlug }, detachments: props.detachments })
-    .map((sec) => ({ ...sec, units: sec.items.slice().sort((a, b) => a.name.localeCompare(b.name)) }))
+    .map((sec) => ({ ...sec, units: sec.items }))
 
 // Counted after sectionsOf, not before it: a group whose ally Detachment isn't selected is not on
 // offer whatever the toggles say, and counting it as "hidden by the filter" would be a lie.

@@ -25,7 +25,8 @@
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
   allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor } from './rosterEngine.js'
+  optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
+} from './rosterEngine.js'
 import { factionGroups } from '../data/factionsIndex.js'
 
 export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact']
@@ -168,18 +169,24 @@ function resolve(roster, { faction, core, items } = {}) {
     })
   }
 
-  // Attached units, the way the app blocks them: one block per bodyguard, its leaders above it.
-  // A leader whose target is gone from the list is not attached to anything and prints loose.
-  const byUid = new Map(rows.map((r) => [r.uid, r]))
+  // In the order the screen reads them — by name inside a section (rosterEngine's sectionsOf),
+  // copies of one datasheet in adding order — so a printed page and the exported text agree line
+  // for line. The copy index above was assigned in adding order, as the screen assigns it.
+  const ordered = orderedByName(rows, (r) => r.name)
+
+  // Attached units, the way the app blocks them: one block per bodyguard, its leaders above it,
+  // the blocks in the order of their hosts. A leader whose target is gone from the list is not
+  // attached to anything and prints loose.
+  const byUid = new Map(ordered.map((r) => [r.uid, r]))
   const leadersOf = new Map()
-  for (const r of rows) {
+  for (const r of ordered) {
     if (!r.leaderOf || !byUid.has(r.leaderOf)) continue
     if (!leadersOf.has(r.leaderOf)) leadersOf.set(r.leaderOf, [])
     leadersOf.get(r.leaderOf).push(r)
   }
-  const attached = [...leadersOf.entries()].map(([uid, leaders]) => ({ leaders, body: byUid.get(uid) }))
+  const attached = orderedByName([...leadersOf.entries()].map(([uid, leaders]) => ({ leaders, body: byUid.get(uid) })), (g) => g.body.name)
   const inAttached = new Set(attached.flatMap((g) => [g.body.uid, ...g.leaders.map((l) => l.uid)]))
-  const loose = rows.filter((r) => !inAttached.has(r.uid))
+  const loose = ordered.filter((r) => !inAttached.has(r.uid))
 
   const sizeName = battle.custom
     ? 'Custom'
