@@ -119,6 +119,7 @@ import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useAuth } from './composables/useAuth.js'
+import { startPrefsSync } from './composables/useUserPrefs.js'
 import { useKeywordPopover, opensPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
@@ -281,6 +282,9 @@ onMounted(() => {
   // answer to "am I signed in" can no longer wait for the tracker to be opened. Costs one
   // request against the refresh cookie, resolves to 'anon' offline or with no backend.
   ensureSession()
+  // A player's own marks — pinned factions, favourite datasheets, the model collection — follow
+  // the account from here on. Signed out it is a no-op; localStorage stays the primary store.
+  startPrefsSync()
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)

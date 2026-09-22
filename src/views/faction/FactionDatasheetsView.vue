@@ -200,6 +200,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { useCollection } from '../../composables/useCollection.js'
+import { reconcileFactionMarks } from '../../composables/useUserPrefs.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
@@ -246,6 +247,9 @@ watch(
     if (list) datasheets.value = list
     legends.value = leg
     loaded.value = true
+    // This is the one place that knows which datasheets this faction actually ships right now, so
+    // it is where a player's marks catch up with a renamed or retired unit (useUserPrefs).
+    if (list?.length) reconcileFactionMarks(s, new Set(list.map((d) => d.id)))
     // A deep link into the list (the changelog's Legendary Proxies link lands on
     // #legendary-proxies): the target only exists once the lazy chunk has rendered, so the scroll
     // runs here, after the load, not on mount — scrollToAnchor itself waits out the paint.

@@ -146,6 +146,14 @@ export function createMarkStore({ key, version, migrate }) {
 
   const cellsOf = (scope) => state[scope] || {}
 
+  /** Replace a whole scope (reconciliation rewrites several marks at once) and queue it. */
+  function setScope(scope, cells) {
+    state[scope] = cells
+    dirty.add(scope)
+    revision.value++
+    persist()
+  }
+
   /**
    * Fold in what another device wrote. Returns the scopes whose local copy actually changed, so
    * a pull that brought nothing new costs no upload — the cloud's copy and ours already agree.
@@ -185,6 +193,7 @@ export function createMarkStore({ key, version, migrate }) {
     revision,
     cellsOf,
     setCell,
+    setScope,
     applyRemote,
     sweep,
     persist,
