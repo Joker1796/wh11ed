@@ -1,68 +1,71 @@
-import { reactive } from 'vue'
-import { getItem, setItem } from './safeStorage.js'
+import { createMarkStore, liveCell, deadCell, isLive, liveIds } from './markStore.js'
 
-// Pinned favourites — a lightweight "float my regulars to the top" layer for the long
-// selection lists (faction picker first; detachments/chapters later). Module singleton +
-// localStorage, same pattern as useFactionChoice/useLocale. Pins are stored as arrays of
-// stable ids in pick order, so the "Pinned" group lists newest-pinned first.
+// Pinned favourites — a lightweight "float my regulars to the top" layer for the long selection
+// lists (faction picker first; detachments/chapters later). Module singleton over a mark store
+// (markStore.js), which is what makes a pin the player's rather than the phone's: every pin
+// carries when it was made, unpinning leaves a tombstone, and useUserPrefs merges the lot across
+// a player's devices.
 //
-// Two independent layers under one key:
-//   • factions — pinned faction slugs (the faction picker's "Pinned" group).
-//   • units    — per-faction favourite datasheet ids ({ slug: [id,…] }), surfaced as the
-//                "Favorites" group + the star on each chip / the unit page header.
+// Two independent layers, kept as scopes of the same store:
+//   • `@factions` — pinned faction slugs (the faction picker's "Pinned" group).
+//   • <faction slug> — that faction's favourite datasheet ids, surfaced as the "Favorites" group
+//     plus the star on each chip / the unit page header.
 //
-// NOT a roster: this only reorders existing pickers, it never adds army-list semantics
-// (counts, points, wargear) — that's the roster builder's territory.
+// Pin ORDER is not stored: a cell's timestamp is the order, newest first, which is exactly what
+// the "Pinned" group wants and one less thing for two devices to disagree about.
+//
+// NOT a roster: this only reorders existing pickers, it never adds army-list semantics (counts,
+// points, wargear) — that's the roster builder's territory.
 const STORAGE_KEY = 'wh11ed-favorites'
+export const GLOBAL_SCOPE = '@factions'
 
-function load() {
-  let saved
-  try { saved = JSON.parse(getItem(STORAGE_KEY) || '{}') || {} } catch { saved = {} }
-  const units = saved.units && typeof saved.units === 'object' ? saved.units : {}
-  for (const k of Object.keys(units)) if (!Array.isArray(units[k])) delete units[k]
-  return { factions: Array.isArray(saved.factions) ? saved.factions : [], units }
+// Shape written before marks carried timestamps: `{ factions: [slug…], units: { slug: [id…] } }`,
+// pin order by position. Position can't be recovered as a time, so every migrated mark is stamped
+// 0 — "it was already there" — and any later act on any device outranks it.
+function migrate(saved) {
+  const scopes = {}
+  const cells = (ids) => Object.fromEntries((Array.isArray(ids) ? ids : []).map((id) => [id, { at: 0 }]))
+  const pinned = cells(saved?.factions)
+  if (Object.keys(pinned).length) scopes[GLOBAL_SCOPE] = pinned
+  for (const [slug, ids] of Object.entries(saved?.units || {})) {
+    const units = cells(ids)
+    if (Object.keys(units).length) scopes[slug] = units
+  }
+  return scopes
 }
 
-const favorites = reactive(load())
-
-function persist() {
-  setItem(STORAGE_KEY, JSON.stringify(favorites))
-}
+export const favoritesStore = createMarkStore({ key: STORAGE_KEY, version: 2, migrate })
+favoritesStore.load()
 
 export function useFavorites() {
-  const isFactionPinned = (slug) => favorites.factions.includes(slug)
+  const isFactionPinned = (slug) => isLive(favoritesStore.cellsOf(GLOBAL_SCOPE)[slug])
 
   function toggleFaction(slug) {
-    const i = favorites.factions.indexOf(slug)
-    if (i === -1) favorites.factions.unshift(slug)
-    else favorites.factions.splice(i, 1)
-    persist()
+    if (!slug) return
+    favoritesStore.setCell(GLOBAL_SCOPE, slug, isFactionPinned(slug) ? deadCell() : liveCell())
   }
 
   // Resolve the pinned slugs to their entries within the given grouped faction data
-  // (factionGroups / FACTION_GROUPS), in pin order, dropping any that no longer exist.
+  // (factionGroups / FACTION_GROUPS), newest pin first, dropping any that no longer exist.
   function pinnedFactionsFrom(groups) {
     const bySlug = {}
     for (const g of groups) for (const f of g.factions) bySlug[f.slug] = f
-    return favorites.factions.map((s) => bySlug[s]).filter(Boolean)
+    return liveIds(favoritesStore.cellsOf(GLOBAL_SCOPE))
+      .map((s) => bySlug[s])
+      .filter(Boolean)
   }
 
   // Per-faction favourite datasheets.
-  const favoriteUnitIds = (slug) => favorites.units[slug] || []
-  const isUnitFavorite = (slug, id) => (favorites.units[slug] || []).includes(id)
+  const favoriteUnitIds = (slug) => liveIds(favoritesStore.cellsOf(slug))
+  const isUnitFavorite = (slug, id) => isLive(favoritesStore.cellsOf(slug)[id])
 
   function toggleUnitFavorite(slug, id) {
     if (!slug || !id) return
-    const list = favorites.units[slug] || (favorites.units[slug] = [])
-    const i = list.indexOf(id)
-    if (i === -1) list.unshift(id)
-    else list.splice(i, 1)
-    if (!list.length) delete favorites.units[slug]
-    persist()
+    favoritesStore.setCell(slug, id, isUnitFavorite(slug, id) ? deadCell() : liveCell())
   }
 
   return {
-    favorites,
+    favorites: favoritesStore.state,
     isFactionPinned,
     toggleFaction,
     pinnedFactionsFrom,
