@@ -68,6 +68,24 @@ built by name-matching wh11ed↔appdata, so run it while names still agree. On t
 spurious missing+extra pair. Datasheets map 1:1 (100%); a residue of strat/enh name-variants stays
 unmapped and is the same set the name-diff already surfaces.
 
+**Datasheet id stability (`src/data/datasheetIds.json` + `src/data/datasheetRenames.json`)** — an
+id is no longer only a URL: a player's favourites and model-collection marks are stored per
+`(faction slug, datasheet id)` and synced to their account, so an id that moves quietly takes
+their marks with it on every device at once. `datasheetIds.json` is a committed snapshot of every
+`(slug, id)` the build ships — derived from `datasheetIndex.js`, so it is exactly what a faction
+page can show, a Chapter's folded-in Space Marines sheets included (a Dark Angels player marks
+`intercessor-squad` under `dark-angels`). A pair that leaves the snapshot must be accounted for in
+`datasheetRenames.json`: `{ "<slug>": { "<old-id>": "<new-id>" } }` for a rename (the mark moves)
+or `"<old-id>": null` for a unit that left the game (the mark is dropped). The renames file ships
+to the app — the client applies it when reconciling against the cloud — which is why the two cases
+are told apart here, by whoever knows which happened, and not guessed at on a phone. The gate is
+`npm run dsids` (also inside `npm run sync` and, as `src/data/datasheetIds.test.js`, inside
+`npm test`, because an id moves on an ordinary hand edit too); `npm run dsids:write` refreshes the
+snapshot and refuses while a departure is unaccounted for. Legends need nothing special: pack-
+derived sheets carry ordinary slug ids like every other datasheet. The one asymmetry is that only
+Orks' Legends come through appdata and therefore have a `sourceIds.json` uuid, so a GW rename of
+a pack sheet is caught by this gate rather than by `sync-appdata`'s `⟲ renamed` line.
+
 **Rule-granted keywords (`src/data/conditionalKeywords.json`)** — a generated **sidecar** listing
 keywords a unit *gains from an army/detachment rule* rather than having printed on its datasheet
 (Dark Angels' Deathwing/Ravenwing via **The Unforgiven**, Battleline granted inside a detachment,

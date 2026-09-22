@@ -32,6 +32,8 @@
     "wtags": "node scripts/check-weapon-abilities.mjs",
     "dsrules": "node scripts/check-datasheet-rules.mjs",
     "coregrants": "node scripts/check-core-grants.mjs",
+    "dsids": "node scripts/check-datasheet-ids.mjs",
+    "dsids:write": "node scripts/check-datasheet-ids.mjs --write",
     "emphasis": "node scripts/check-emphasis.mjs",
     "layouts": "node scripts/check-layout-art.mjs",
     "companions": "node scripts/check-companion-pdfs.mjs",
