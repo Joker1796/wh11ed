@@ -225,6 +225,46 @@ describe('rosterModifiers data', () => {
     }
   })
 
+  // An ordinary state ("while not Battle-shocked") is a negation of a state, never a switch of its
+  // own: the Mandulian Reliquary's +3 OC sat behind a "Not Battle-shocked" switch nobody flipped
+  // until a player reported it (2026-09-21). So: a `negates` must point at a real condition of the
+  // same scope, and anything WORDED as a negation must carry one — that is the shape the next
+  // inverted state will arrive in.
+  it('models an ordinary state as the negation of a state, not as a switch', () => {
+    for (const [id, c] of Object.entries(conditions)) {
+      const negated = /-not-|^not-|^no-/.test(id) || /^(Not|No|Unless)\b/.test(c.label.en)
+      if (negated) expect(c.negates, `"${id}" reads as a negation but negates nothing`).toBeTruthy()
+      if (!c.negates) continue
+      expect(conditions[c.negates], `"${id}" negates "${c.negates}", which is not a condition`).toBeTruthy()
+      expect(conditions[c.negates].scope, `"${id}" and "${c.negates}" answer at different scopes`).toBe(c.scope)
+      expect(conditions[c.negates].negates, `"${c.negates}" negates back — one of the two is the state`).toBeUndefined()
+      expect(c.group, `"${id}" is a negation and cannot be one of a group`).toBeUndefined()
+    }
+  })
+
+  // …and the records agree with the wording: an effect gated on Battle-shock names the state
+  // its `when` describes. "while not Battle-shocked" / "unless … Battle-shocked" is the negation;
+  // "while Battle-shocked" is the state. A sentinel-gated effect is out of the question either way.
+  it('gates each Battle-shock effect on the state its wording names', () => {
+    const negation = /\b(not|unless\b[^.;]*?)\s+Battle-shocked/i
+    for (const { file, e } of allEntries) {
+      for (const eff of e.effects || []) {
+        const cond = eff.cond || []
+        if (!cond.length || cond.some(isSentinel)) continue
+        const w = eff.when?.en || ''
+        if (!/Battle-shocked/i.test(w)) continue
+        const where = `${file} › ${e.name}: "${w}"`
+        if (negation.test(w)) {
+          expect(cond, `${where} reads as a negation`).toContain('unit-not-battle-shocked')
+          expect(cond, `${where} reads as a negation`).not.toContain('unit-battle-shocked')
+        } else {
+          expect(cond, `${where} reads as the state`).toContain('unit-battle-shocked')
+          expect(cond, `${where} reads as the state`).not.toContain('unit-not-battle-shocked')
+        }
+      }
+    }
+  })
+
   it('answers only what it can actually answer', () => {
     expect(isAnswerable(['riled-up'])).toBe(true)
     expect(isAnswerable(['riled-up', 'unit-charged'])).toBe(true)

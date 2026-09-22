@@ -6,6 +6,8 @@
 //   auto    the tracker already knows, because the player told it elsewhere (a called Waaagh!)
 //   roster  the army list already says so (a Leader is attached to a unit)
 //   switch  nothing can know it, so the player flips it — army-wide or on one unit
+//   negation  the ordinary state a rule names only to say when it stops (`negates` in the
+//           vocabulary): true unless the state it negates is, from whatever answers THAT
 // A condition with an auto reader is NOT hand-switchable: two sources for one fact is how a card
 // ends up disagreeing with the tracker card next to it. To take a Waaagh! back you take it back
 // in the tracker.
@@ -169,6 +171,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
   const round = normaliseClock(clock).round
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
+    if (c.negates) continue   // answered from the rest, below
     let on = false
     if (c.scope === 'clock') on = clockHolds(c, clock)
     else if (isAuto(id)) on = AUTO[id](player, round)
@@ -179,6 +182,12 @@ export function activeConditions(player, clock, entry, opts = {}) {
     // can prove it, switch or no switch.
     if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)
     if (on) out.add(id)
+  }
+  // The ordinary state holds unless its opposite does. A game not keeping unit states cannot
+  // record the opposite, so there the ordinary state simply stays — the same "says less, never
+  // lies" degradation as everywhere else here, and the same answer the list gives off the table.
+  for (const [id, c] of Object.entries(conditions)) {
+    if (c.negates && !out.has(c.negates)) out.add(id)
   }
   capGroups(out, player, entry)
   return out
@@ -191,10 +200,14 @@ export function activeConditions(player, clock, entry, opts = {}) {
 // not footnoted. Deliberately NOT activeConditions() with an empty player: that would also answer
 // the clock-scoped conditions, and a null clock reads as round 1 — "during battle rounds 1-3"
 // would switch itself on in a list nobody is playing yet.
+//
+// An ordinary state (`negates`) is answered here too: nothing has happened to a list nobody is
+// playing, so "while not Battle-shocked" is as true as the printed number.
 export function rosterConditions(entry) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
     if (c.scope === 'roster' && rosterAnswers(id, entry)) out.add(id)
+    else if (c.negates) out.add(id)
   }
   return out
 }
@@ -470,10 +483,14 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry) {
       // without which an effect whose other half can be flipped would offer a switch that changes
       // nothing on screen.
       if (!eff.cond.every(answerable)) continue
-      for (const id of eff.cond) {
+      for (const cid of eff.cond) {
+        // An ordinary state has no switch of its own: the chip offered is the state it negates
+        // (Battle-shocked, which every unit's row carries anyway), and the rule that names THAT
+        // state is the one the chip is attributed to.
+        const id = conditions[cid].negates || cid
         if (conditions[id].scope !== scope) continue
         ids.add(id)
-        if (!namedBy.has(id)) namedBy.set(id, rec)
+        if (!conditions[cid].negates && !namedBy.has(id)) namedBy.set(id, rec)
       }
     }
   }

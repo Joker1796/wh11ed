@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { activeConditions, switchesFor, isAuto, clockOf, stampOf } from './rosterGameContext.js'
+import { conditions } from '../data/rosterModifiers/conditions.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
@@ -131,11 +132,42 @@ describe('activeConditions', () => {
   })
 
   // Nothing the PLAYER recorded is true. The clock still answers its own questions — battle round
-  // 1 really is inside the "rounds 1-3" window whether or not anybody flipped anything.
-  it('holds nothing but the clock for a game with no context recorded at all', () => {
-    const recorded = (p, entry) => [...activeConditions(p, 1, entry)].filter((id) => !id.startsWith('rounds-'))
+  // 1 really is inside the "rounds 1-3" window whether or not anybody flipped anything — and the
+  // ordinary states (a unit that is not Battle-shocked) hold, because nothing has happened yet.
+  it('holds nothing but the clock and the ordinary states for a game with no context recorded at all', () => {
+    const recorded = (p, entry) => [...activeConditions(p, 1, entry)]
+      .filter((id) => !id.startsWith('rounds-') && !conditions[id].negates)
     expect(recorded(null, null)).toEqual([])
     expect(recorded({}, { uid: 'u1' })).toEqual([])
+  })
+
+  // "While the bearer's unit is not Battle-shocked" is the ordinary state, not a switch: it holds
+  // until Battle-shock is flipped on, and comes back the round that switch expires. A player's
+  // report (2026-09-21): the Mandulian Reliquary's +3 OC never showed, because the negation was a
+  // per-unit switch nobody knew to turn on.
+  it('answers an ordinary state unless its opposite is on', () => {
+    const p = player({ units: { u1: { 'unit-battle-shocked': 2 } } })
+    expect(activeConditions(p, 1, { uid: 'u1' }).has('unit-not-battle-shocked')).toBe(true)
+    const shocked = activeConditions(p, 2, { uid: 'u1' })
+    expect(shocked.has('unit-battle-shocked')).toBe(true)
+    expect(shocked.has('unit-not-battle-shocked')).toBe(false)
+    expect(activeConditions(p, 3, { uid: 'u1' }).has('unit-not-battle-shocked')).toBe(true)
+    // Another unit's Battle-shock is not this one's.
+    expect(activeConditions(p, 2, { uid: 'u2' }).has('unit-not-battle-shocked')).toBe(true)
+  })
+
+  it('keeps the ordinary state in a game that is not keeping unit states', () => {
+    const p = player({ units: { u1: { 'unit-battle-shocked': 2 } } })
+    const out = activeConditions(p, 2, { uid: 'u1' }, { unit: false })
+    expect(out.has('unit-battle-shocked')).toBe(false)
+    expect(out.has('unit-not-battle-shocked')).toBe(true)
+  })
+
+  // A hand-set value under the negation's own id — a game played before it stopped being a
+  // switch — proves nothing either way.
+  it('ignores a stale switch stored under the negation itself', () => {
+    const p = player({ units: { u1: { 'unit-not-battle-shocked': 2, 'unit-battle-shocked': 2 } } })
+    expect(activeConditions(p, 2, { uid: 'u1' }).has('unit-not-battle-shocked')).toBe(false)
   })
 })
 
@@ -187,6 +219,22 @@ describe('switchesFor', () => {
   it('drops an effect whose OTHER condition is unanswerable, not just the bad half', () => {
     const army = switchesFor([{ effects: [{ when: {}, cond: ['imperative-conqueror', 'phase-shooting'] }] }], 'army', player({}), 1, null)
     expect(army).toEqual([])
+  })
+
+  // The negation has no chip of its own — the Battle-shocked chip every row carries is the one
+  // that answers it — and the chip is attributed to the rule that names Battle-shock, not to the
+  // enhancement that names its absence.
+  it('offers the state a negation negates, not the negation', () => {
+    const recs = [
+      { kind: 'enhancement', name: 'Mandulian Reliquary', effects: [{ on: 'profile', stat: 'oc', op: 'add', value: 3, when: {}, cond: ['unit-not-battle-shocked'] }] },
+      { kind: 'core', name: 'Battle-shock', effects: [{ on: 'profile', stat: 'oc', op: 'set', value: '-', when: {}, cond: ['unit-battle-shocked'] }] },
+    ]
+    const unit = switchesFor(recs, 'unit', player({}), 1, { uid: 'u1' })
+    expect(unit.map((s) => s.id)).toEqual(['unit-battle-shocked'])
+    expect(unit[0].on).toBe(false)
+    expect(unit[0].src.name).toBe('Battle-shock')
+    // …and with only the enhancement naming it, the chip is still offered, unattributed.
+    expect(switchesFor([recs[0]], 'unit', player({}), 1, { uid: 'u1' }).map((s) => s.id)).toEqual(['unit-battle-shocked'])
   })
 
   it('lists a condition once however many effects name it', () => {
@@ -408,8 +456,12 @@ describe('auras', () => {
 describe('rosterConditions', () => {
   it('answers what the list itself knows, and nothing else', async () => {
     const { rosterConditions } = await import('./rosterGameContext.js')
-    expect([...rosterConditions({ uid: 'u1', leaderOf: 'u2' })]).toEqual(['unit-leading'])
-    expect(rosterConditions({ uid: 'u1' }).size).toBe(0)
+    const led = rosterConditions({ uid: 'u1', leaderOf: 'u2' })
+    expect(led.has('unit-leading')).toBe(true)
+    expect(rosterConditions({ uid: 'u1' }).has('unit-leading')).toBe(false)
+    // …plus the ordinary states: a list nobody is playing has had nothing happen to it.
+    expect(rosterConditions({ uid: 'u1' }).has('unit-not-battle-shocked')).toBe(true)
+    expect([...led].filter((id) => id !== 'unit-leading' && !conditions[id].negates)).toEqual([])
     // Not activeConditions with an empty player: a null clock reads as round 1, and "during
     // battle rounds 1-3" would switch itself on in a list nobody is playing yet.
     expect(rosterConditions({ uid: 'u1', leaderOf: 'u2' }).has('rounds-1-3')).toBe(false)

@@ -89,6 +89,13 @@ export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 //   clock   the tracker's own clock answers it — which battle round it is, and (when the game is
 //           keeping phases) which phase of whose turn. Never a switch: two sources for one fact
 //           is how a card ends up disagreeing with the tracker next to it
+//
+// negates — the ORDINARY state, named by a rule only to say when its effect stops ("while the
+// bearer's unit is not Battle-shocked"). It is true by default, off the table and on it, and
+// stops being true exactly while the condition it negates is on; it is never a switch of its
+// own. Until 2026-09-22 `unit-not-battle-shocked` was a plain per-unit switch nobody flipped,
+// so the Mandulian Reliquary's +3 OC never reached the card (a player's report). A negation
+// keeps the scope of the state it negates and answers from that state's source.
 export const conditions = {
   // ── Army state ──────────────────────────────────────────────────────────────────────────
   // Codex: Orks replaced "the Waaagh! is active for your army" with a per-unit state: the War Cry
@@ -226,7 +233,7 @@ export const conditions = {
     },
   },
   'unit-not-battle-shocked': {
-    scope: 'unit', duration: 'round',
+    scope: 'unit', duration: 'round', negates: 'unit-battle-shocked',
     label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' },
     hint: {
       en: 'The ordinary state. The rule names it because its own effect stops while the unit IS **[gloss:battle-shocked:battle-shocked]** (01.07).',

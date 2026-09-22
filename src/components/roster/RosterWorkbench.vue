@@ -99,7 +99,19 @@ const labels = computed(() => ui[locale.value])
 // own height back into itself.
 const colsEl = ref(null)
 let observer = null
+let frame = 0
 function hostOf(el) { return el?.closest('.rw-host') || el }
+// measure() writes --rw-top / --rw-below on the host, which can move the very boxes the observer
+// watches. Doing that INSIDE the observer's callback is a layout change in the same frame the
+// browser is still delivering, which it reports as "ResizeObserver loop completed with undelivered
+// notifications" — harmless (the write is skipped once the values stop changing, so it settles in
+// one pass), but it is a window error, and the bug-report form ships the last ten of those, where
+// it buried the real ones in every roster report of 2026-09-21. One frame later is the same
+// measurement with nothing to report.
+function measureNextFrame() {
+  if (frame) return
+  frame = requestAnimationFrame(() => { frame = 0; measure() })
+}
 function measure() {
   const host = hostOf(colsEl.value)
   if (!host) return
@@ -122,7 +134,7 @@ onMounted(() => {
   // render, which can land after this mount — measure once more when that has settled.
   nextTick(measure)
   if (typeof ResizeObserver !== 'undefined') {
-    observer = new ResizeObserver(measure)
+    observer = new ResizeObserver(measureNextFrame)
     observer.observe(document.body)
     // Border box: the reserve under the screen is `.main-content`'s padding, and a padding
     // change does not move the content box the observer watches by default.
@@ -133,6 +145,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
   observer?.disconnect()
+  if (frame) cancelAnimationFrame(frame)
   window.removeEventListener('resize', measure)
 })
 watch(() => props.desk, () => nextTick(measure))
