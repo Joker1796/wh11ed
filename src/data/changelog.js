@@ -17,6 +17,26 @@
 
 export const changelog = [
   {
+    version: '2.6.6',
+    date: '2026-09-22',
+    en: [
+      { h: 'Datasheets in a list: bonuses that hold while the unit is not Battle-shocked' },
+      'The Mandulian Reliquary adds 3 to the bearer\u2019s Objective Control while its unit is not Battle-shocked. The card in the list kept showing the printed number. Now the bonus is applied from the start, in the list and in a game, and comes off while the unit is marked Battle-shocked. The same fix covers the Stalwart Champion, Cyber-psalm Programming and Rapid Takeover.',
+      { h: 'Roster builder: added units are sorted automatically' },
+      'When you build a list, added units now fall into place by type, in the same order as the catalogue. Two copies of one unit sit together. Before, units stayed in the order they were added.',
+      { h: 'Favourites and the model collection now live in your account' },
+      'Pinned factions, favourite datasheets and the marks for the models you own are kept in your account. Sign in on a second device and you see there what you marked on the first. A mark you take off comes off everywhere. Without signing in everything stays on the device, as before.',
+    ],
+    ru: [
+      { h: 'Датащиты в списке: бонусы, пока отряд не Battle-shocked' },
+      'Mandulian Reliquary даёт носителю +3 к Objective Control, пока его отряд не Battle-shocked. Карточка в списке показывала печатное число. Теперь бонус применяется сразу — в списке и в партии — и снимается, пока отряд отмечен как Battle-shocked. То же исправлено у Stalwart Champion, Cyber-psalm Programming и Rapid Takeover.',
+      { h: 'Конструктор: добавленные отряды сортируются сами' },
+      'При составлении ростера добавляемые отряды теперь автоматически встают по типу, в том же порядке, что и в каталоге. Две копии одного отряда стоят рядом. Раньше отряды шли в порядке добавления.',
+      { h: 'Избранное и коллекция моделей — в аккаунте' },
+      'Закреплённые фракции, избранные датащиты и отметки о наличии моделек теперь хранятся в аккаунте. Войдите на втором устройстве — и увидите там то, что отмечали на первом. Снятая отметка снимается везде. Без входа всё остаётся на устройстве, как раньше.',
+    ],
+  },
+  {
     version: '2.6.5',
     date: '2026-09-21',
     en: [
