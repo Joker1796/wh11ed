@@ -107,6 +107,7 @@ npm run detmeta      # GATE: a faction page's detachment dp / Force Disposition 
 npm run wtags        # GATE: every weapon tag printed on a datasheet must have text somewhere (see Data gates)
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
+npm run dsids        # GATE: a datasheet id that left the build must be recorded as renamed or retired — a player's marks hang off it (see src/data/CLAUDE.md)
 npm run emphasis     # GATE: emphasis the canon carries that our prose dropped (see Data gates)
 npm run layouts      # GATE: the 45 layout diagrams against the app's own artwork (see Data gates)
 npm run companions   # GATE: the four Event Companion PDFs — version + the FAQ appdata does not carry
@@ -164,6 +165,27 @@ never raises it.
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
 - **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with **five fixed** icons: Rules / **Rosters** (`/roster`) / **Factions** / **Stratagems** (`/stratagems`) / Tracker — nothing appears or disappears under the thumb. **Factions** is a `<button>` (not a link) that opens `FactionsNavModal.vue` — a lightweight grouped faction list (driven by the light `data/factionsIndex.js`, links to `/factions/:slug`, closes on pick). A sixth, **conditional** «Units» item used to be inserted here (on any faction-with-slug page, and — pointing at the "You" player's faction — anywhere during a tracker game); it was **removed** in favour of a button on the player's card in the tracker (`RoundTracker.vue`), which knows *whose* faction it is and so reaches the opponent's datasheets too, while the faction pages already carry their own Rules/Units tabs in the hero (`FactionLayout.vue` → `MobileUtilityBar`). `isUnitsRoute`/`unitsNavPath` went with it, and **Factions** simply lights on any faction route again. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы»; Factions reuses `navFactions`) so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — Missions is no longer in the bottom nav, only reachable via the Event subnav/drawer). `isStratagemsRoute` highlights its item. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it); the Factions `<button>` gets a native-chrome reset (`button.bn-item`).
 - **Mobile utility bar** (`MobileUtilityBar.vue`, mobile only, floats just above the bottom nav): one shared strip of small icon buttons for everything that would otherwise fight over that corner — additive, not exclusive, all can show together: **resume** (a game in progress, `useTracker().current.phase === 'playing'`, on any non-tracker/non-landing route with no full-screen modal/drawer open — `showResumeGame` in `App.vue`) → an icon button to `/tracker/game`; **faction tabs** (on a faction hero page with its in-page tab nav scrolled out of view) → the mobile equivalent of the desktop FAB column below, contributed via `useContributeMobileActions('faction-tabs', …)` in `FactionLayout.vue`; **resume roster** (a creation wizard left mid-build — `resumeDraftId` in `App.vue`, fed by `useRosterDraftResume.js`) → a chip back to *that* draft, `?draft=<id>` and all, because the wizard resumes by id and a bare `/roster/new` would start a second one; **back-to-top**, always rightmost, only once actually scrolled past the threshold. The bar itself hides only when none of them apply. Both resume chips are **text**, not icons, and both are session-scoped by design — a game in progress and a draft you just walked away from, not every draft you ever left (see `src/components/roster/CLAUDE.md`). A shared `--mobile-bar-h` var (set on `.app-layout`, sized whenever the bar is visible) lifts the content bottom-padding and the offline-warmup toast above it so nothing overlaps. Back-to-top's scroll-threshold logic (`useBackToTop.js`) is shared with the desktop-only `BackToTopButton.vue` and `FactionLayout.vue`'s own FAB. The reverse case — a fixed bar from a *view* claiming that same bottom-right corner, like the Roster Builder wizard's Back/Next bar (`RosterCreateView.vue`'s `.rc-sticky`, see `src/components/roster/CLAUDE.md`) — doesn't move; `App.vue` reserves its height in `--roster-sticky-h` (`.app-layout:has(.rc-sticky)`) and `MobileUtilityBar`'s own bottom offset adds it, so the utility bar rises above it instead of overlapping it and blocking the click.
+
+**A player's own marks** (`markStore.js` → `useFavorites.js` / `useCollection.js` → `useUserPrefs.js`)
+— pinned factions, favourite datasheets and the "I own this box" collection. `localStorage` stays
+the primary store and none of it needs an account; signing in makes the marks the player's rather
+than the phone's. Three things are load-bearing and easy to undo by accident:
+
+- **A mark is a timestamped cell, and unmarking writes a tombstone** rather than deleting the key.
+  A key that merely disappears is indistinguishable from one the other device has not heard of yet,
+  so the union that follows would bring the star back. Tombstones are swept after 90 days.
+- **A pull merges, never replaces.** Signing in on a second device adds its marks to the account
+  instead of overwriting them with it. Uploads are debounced (a star is a tap, and there is no
+  "Save" to hang them on) and go out per faction, so one tap rewrites one faction's cloud row —
+  `/prefs` in `wh11ed-api`, one row per scope, with an optimistic `version`: a write that lost a
+  race is refused with the row that beat it and re-merges instead of overwriting.
+- **Marks hang off datasheet ids**, so an id that moves takes them with it. `npm run dsids` is the
+  gate that makes an id change say which it was — a rename or a retirement — and
+  `src/data/datasheetRenames.json` is what the client applies (`markReconcile.js`) when a faction's
+  sheets load. A build whose data is older than the newest any of the account's devices reported
+  **merges but does not tidy**: an installed PWA offline for weeks has not been told which units
+  left the game, and tidying from there would delete marks everywhere. See `src/data/CLAUDE.md`
+  → *Datasheet id stability*.
 
 **Data → View pipeline:**
 
