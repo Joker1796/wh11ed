@@ -192,6 +192,37 @@ describe('GameSetup gates in a lobby', () => {
     expect(next[0].attributes('disabled')).toBeUndefined()
   })
 
+  // A side that has said "done" can ask to reopen, and the host can also be joined by a guest
+  // while it was filling that side itself. Either way the later steps were built on answers that
+  // are being changed: the primary is the pair of dispositions, the layout is that matchup. So
+  // the host comes back to the mission step and waits there (owner, 2026-09-24).
+  it('pulls the host back to the mission step when the other side reopens, and blocks Next', async () => {
+    const w = await hostScreen()
+    // AFTER hostScreen: it calls vi.resetModules(), so an earlier import would hand back a
+    // different module registry — and a different, empty store.
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const g = useTracker().current.value
+    // Both sides in and confirmed: the host can reach the battlefield step.
+    g.players[0].disposition = 'take-and-hold'
+    Object.assign(g.players[1], { factionSlug: 'orks', detachments: ['Bully Boyz'], disposition: 'take-and-hold' })
+    g.players[1].lobby.ready = true
+    await flushPromises()
+    const mission = w.findAll('.step-panel')[1]
+    expect(mission.findAll('.actions .btn-primary')[0].attributes('disabled')).toBeUndefined()
+    await mission.findAll('.actions .btn-primary')[0].trigger('click')
+    expect(w.findAll('.step-panel')[2].isVisible()).toBe(true)
+
+    // …then they ask for their side back.
+    g.players[1].lobby.ready = false
+    await flushPromises()
+    expect(w.findAll('.step-panel')[1].isVisible()).toBe(true)
+    expect(w.findAll('.step-panel')[1].findAll('.actions .btn-primary')[0].attributes('disabled')).toBeDefined()
+    // And the primary previews, which are that pair, say they are waiting rather than showing a
+    // mission that is about to change.
+    expect(w.findAll('.step-panel')[1].findAll('.primary-block')).toHaveLength(0)
+    expect(w.findAll('.step-panel')[1].find('.primary-pending').exists()).toBe(true)
+  })
+
   // …but the primary mission IS the pair of dispositions, so THAT step waits.
   it('holds the mission step until both sides have a disposition', async () => {
     const w = await hostScreen()

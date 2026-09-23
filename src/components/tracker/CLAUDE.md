@@ -232,7 +232,14 @@ typed into.
 (`'host'`), "Change" becomes a request the host answers in a dialog — the mission and the layout
 ahead of it were built on what this side said it was fielding. Granting it reopens that side and
 takes everyone back to the armies step; a denial says so on the waiting screen, where "Leave" is
-always available. The host's own way out is "Cancel the shared setup": the party ends and the
+always available. **The host's own screen follows** (2026-09-24): a `watch` on `othersReady` pulls
+it back to the mission step from anything later, `canMission` requires `othersReady` as well as the
+two dispositions — a reopened side KEEPS the disposition it had, so the gate read as passed while
+the guest was re-choosing the very thing the primary is made of — and both primary previews are
+replaced by `lobbyPrimaryAgain` while that lasts, since a primary is the pair and neither half is
+settled. The watch rather than the "allow" button: a guest can also reopen without asking while
+the stage is still `armies`, and a guest claiming a side the host had been filling itself has the
+same effect on the steps ahead. The host's own way out is "Cancel the shared setup": the party ends and the
 game becomes this phone's own setup again, every field where it was.
 
 **The protocol rides in the slices** — `game.lobby = { stage, grant, deny }` in `shared`,

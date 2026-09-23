@@ -662,8 +662,16 @@
           >
             {{ labels.lobbyPrimaryPending }}
           </p>
+          <!-- Said on this phone's own card, where the two dispositions are read from: the card
+               opposite already says, at length, that it is waiting. -->
+          <p
+            v-else-if="!primaryFinal && editable(i)"
+            class="primary-pending"
+          >
+            {{ labels.lobbyPrimaryAgain }}
+          </p>
           <div
-            v-if="primaryCards[i]"
+            v-if="primaryCards[i] && primaryFinal"
             class="primary-block"
           >
             <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
@@ -1785,8 +1793,14 @@ function missionOkFor(p) {
 // Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
 // the next step are the pair's matchup. This is the point where the other side genuinely has to
 // be in, and the button says so.
+//
+// `othersReady` as well as the dispositions, because a side that REOPENS keeps the disposition it
+// had: the slice stays, only the "done" goes. Without this the gate read as passed while the guest
+// was busy re-choosing the very thing the primary is made of (owner, 2026-09-24). Outside a lobby,
+// and for a side the host fills itself, `othersReady` is true and nothing changes.
 const canMission = computed(() =>
   canArmies.value &&
+  othersReady.value &&
   players.every(missionOkFor) &&
   !!primaryName(0) && !!primaryName(1)
 )
@@ -1796,6 +1810,19 @@ const canConfirmSide = computed(() => {
   const p = players[youIdx.value]
   return !!p && armiesOkFor(p) && missionOkFor(p)
 })
+
+// A side that reopens un-answers what the later steps were built on — the primary is its
+// disposition paired with ours, and the layout is that matchup. So the host comes back to the
+// mission step and waits there, instead of standing on the battlefield step over a game that has
+// changed underneath it (owner, 2026-09-24). A watch rather than something bolted onto the
+// "allow" button, because a guest can also reopen without asking while the lobby is still on the
+// armies stage, and a guest joining a side the host had been filling has the same effect. Never
+// forward: a host on step 1 stays there.
+watch(othersReady, (now, was) => { if (was && !now && step.value > 2) step.value = 2 })
+
+// The primary is the PAIR of dispositions, so while the other side is being re-filled BOTH
+// previews are provisional. Say that instead of printing a mission that is about to change.
+const primaryFinal = computed(() => !sharedSetup.value || othersReady.value)
 
 // Step 3 (Field & deployment): layout and first turn both always have a default → gate only
 // on the earlier steps.
