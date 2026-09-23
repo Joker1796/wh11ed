@@ -266,7 +266,7 @@ const { current, updateSetup } = useTracker()
 const game = current.value
 // A guest in a shared game (useParty.js): the setup is the host's, and only the phone-local
 // options are offered here. Resolved once — a hand-over mid-dialog is not worth a live gate.
-const { active: partyActive, isHost } = useParty()
+const { active: partyActive, isHost, reseat } = useParty()
 const guest = partyActive.value && !isHost.value
 
 const isDoubles = game.settings.gameType === 'doubles'
@@ -407,6 +407,12 @@ function save() {
     emit('close')
     return
   }
+  // Changing who goes first EXCHANGES the two player objects (players[0] is always the
+  // first-turn player), so in a shared game the seats have to be swapped with them — otherwise
+  // every other phone keeps a seat that now names the other army.
+  const swapping = partyActive.value && isHost.value
+    && normalized.firstTurn !== undefined
+    && (normalized.firstTurn === 1) !== !!current.value?.players?.[0]?.isYou
   updateSetup({
     settings: normalized,
     players: players.map(p => ({
@@ -416,6 +422,7 @@ function save() {
       ...(isDoubles ? { teamName: p.teamName, members: p.members.map(m => ({ ...m })) } : {}),
     })),
   })
+  if (swapping) reseat()
   emit('close')
 }
 </script>

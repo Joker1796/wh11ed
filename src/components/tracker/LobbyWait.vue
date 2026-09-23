@@ -29,7 +29,7 @@
       <p
         v-if="notice"
         class="lw-notice"
-        :class="{ deny: myRequestDenied }"
+        :class="{ deny: myRequestDenied || hostQuiet }"
       >
         {{ notice }}
       </p>
@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import { ui } from '../../i18n/ui.js'
@@ -109,7 +109,24 @@ const {
   mySide, isEditor, isReady, editorName, canReopenFreely, reopen, requestReopen,
   myRequestPending, myRequestDenied, takeOver,
 } = useLobby()
-const { leave } = useParty()
+const { leave, members, refreshMembers } = useParty()
+
+// A lobby whose host closed the app leaves everyone else waiting on nothing, and nothing else on
+// this screen would ever say so. The member list already carries `lastSeenAt`; asking for it
+// twice a minute while this screen is up is the cheapest honest answer. "Leave" is beside it.
+const QUIET_MS = 3 * 60 * 1000
+const now = ref(Date.now())
+let timer = null
+onMounted(() => {
+  refreshMembers()
+  timer = setInterval(() => { now.value = Date.now(); refreshMembers() }, 30000)
+})
+onUnmounted(() => clearInterval(timer))
+const hostQuiet = computed(() => {
+  const host = members.value.find((m) => m.host)
+  const seen = host?.lastSeenAt ? new Date(host.lastSeenAt).getTime() : 0
+  return !!seen && now.value - seen > QUIET_MS
+})
 
 const takeOverOpen = ref(false)
 const leaveOpen = ref(false)
@@ -129,6 +146,7 @@ const body = computed(() => {
   return labels.value.lobbyWaitBody
 })
 const notice = computed(() => {
+  if (hostQuiet.value) return labels.value.lobbyHostQuiet
   if (myRequestDenied.value) return labels.value.lobbyWaitRequestDenied
   if (myRequestPending.value) return labels.value.lobbyWaitRequestSent
   return ''
