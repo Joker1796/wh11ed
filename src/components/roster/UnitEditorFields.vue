@@ -516,6 +516,7 @@ const targetHints = computed(() => {
     t.models ? `${t.models} ${l.rosterModelsLabel}` : '',
     t.enh,
     t.alleg,
+    t.picks?.length ? t.picks.join(', ') : '',
     t.warlord ? l.rosterWarlord : '',
     t.note,
     t.with?.length ? l.rosterTargetWith.replace('{who}', t.with.join(', ')) : '',

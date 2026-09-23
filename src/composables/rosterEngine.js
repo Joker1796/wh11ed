@@ -643,7 +643,10 @@ const occupies = (def, other) => (def?.flags?.alongside || other?.flags?.alongsi
   ? def?.id != null && def.id === other?.id
   : true)
 
-export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []) {
+// `items` is optional and only feeds the disambiguating facts below: the wargear a target's own
+// player CHOSE, which is often the only thing separating two squads of one datasheet. A caller
+// that has no item dictionary to hand (the print sheet, the read-only view) simply gets none.
+export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = [], items = null) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const leads = leadsFor(def, entry, detachments)
   if (!leads.length && !def?.leadKw?.length) return []
@@ -680,6 +683,9 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         alleg: u.alleg || '',
         note: u.note || '',
         warlord: !!u.warlord,
+        // What its own player picked — never the default loadout, which is identical on every
+        // copy of a datasheet and would separate nothing.
+        picks: items ? wargearNames(tDef, u, items) : [],
         // Who is on it already — the one fact that is about the BLOCK rather than the squad.
         with: attached.map((a) => a.def?.name).filter(Boolean),
       }

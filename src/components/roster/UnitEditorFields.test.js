@@ -334,6 +334,18 @@ describe('UnitEditorFields — which of the two squads', () => {
     expect(second).not.toContain('Royal Warden')
   })
 
+  // Two squads of one size, told apart by what their own player picked for them.
+  it('names the wargear where that is what differs', () => {
+    const w = mountTargets([
+      { uid: 'a', name: 'Immortals', type: 'support', used: false, models: 5, picks: ['Tesla carbine ×5'], with: [] },
+      { uid: 'b', name: 'Immortals', type: 'support', used: false, models: 5, picks: ['Gauss blaster ×5'], with: [] },
+    ])
+    const [first, second] = hints(w)
+    expect(first).toContain('Tesla carbine ×5')
+    expect(second).toContain('Gauss blaster ×5')
+    expect(first).not.toMatch(/копия|copy/) // they differ already; no number needed
+  })
+
   // Same size, same everything, nothing attached to either: the only thing left is which is which.
   it('numbers two copies that are alike in every way', () => {
     const w = mountTargets([
