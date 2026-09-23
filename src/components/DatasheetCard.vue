@@ -1558,6 +1558,13 @@ function abilityStateLabel(st) {
   white-space: nowrap;
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
+/* The FIRST header cell is not a column label — it is the block's name ("Ranged Weapons"), the
+   twin of the band over the abilities block, and it is read from across the table rather than
+   scanned like RANGE / A / BS. So it holds `.ds-group-title`'s size and tracking at every width,
+   including the narrow ones below where the six stat labels shrink to fit (owner, 2026-09-24).
+   Sizing it apart from them is what makes that possible: the stat labels set the width of six
+   columns, this one sits in the name's column and costs the row nothing. */
+.ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
 .wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 /* How many of this weapon the ROSTER ENTRY fields — a count the printed datasheet keeps in its
@@ -1679,6 +1686,8 @@ function abilityStateLabel(st) {
     font-size: 0.55rem;
     letter-spacing: 0.3px;
   }
+  /* …the six stat labels, not the block's name: that one keeps the full size (see the base rule). */
+  .ds-weapons th.wname { font-size: 0.68rem; letter-spacing: 1px; }
   .ds-weapons td { padding: 0.3rem 0.15rem; }
   /* The name takes a SHARE of the row, not everything that is left. `width: 99%` (what this
      was until 2026-08-27) squeezes the six stat columns to their content minimum and parks them
@@ -1753,7 +1762,7 @@ function abilityStateLabel(st) {
     padding: 0 0.1rem 0.3rem;
     background: none;
     color: var(--accent);
-    font-size: 0.64rem;
+    font-size: 0.68rem;
   }
 
   /* Each weapon (or each group of profiles) is its own card. */
