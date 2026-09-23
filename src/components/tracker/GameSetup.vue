@@ -677,39 +677,45 @@
             </div>
           </div>
 
-          <label
-            class="field"
-            :inert="editable(i) ? undefined : true"
-          >
-            <span>{{ labels.trackerSecondaryMode }}</span>
-            <div class="seg">
-              <button
-                :class="{ on: p.secondaryMode === 'tactical' }"
-                @click="p.secondaryMode = 'tactical'"
-              >{{ labels.trackerTactical }}</button>
-              <button
-                :class="{ on: p.secondaryMode === 'fixed' }"
-                @click="p.secondaryMode = 'fixed'"
-              >{{ labels.trackerFixed }}</button>
-            </div>
-          </label>
+          <!-- Which deck a side plays is that side's own call, so on a card another phone holds
+               these are not offered: `.side-mirror` above reports the answer instead (sideSummary
+               prints it, and the armies step's card has always said it that way). They used to
+               sit outside that split and merely go inert — a bright "Tactical / Fixed" switch
+               under "waiting for your opponent", which is the one thing on the card the host had
+               no business touching (owner, 2026-09-24). No `inert` inside here: within
+               `!mirrored` the side is always this phone's to edit. -->
+          <template v-if="!mirrored(i)">
+            <label class="field">
+              <span>{{ labels.trackerSecondaryMode }}</span>
+              <div class="seg">
+                <button
+                  :class="{ on: p.secondaryMode === 'tactical' }"
+                  @click="p.secondaryMode = 'tactical'"
+                >{{ labels.trackerTactical }}</button>
+                <button
+                  :class="{ on: p.secondaryMode === 'fixed' }"
+                  @click="p.secondaryMode = 'fixed'"
+                >{{ labels.trackerFixed }}</button>
+              </div>
+            </label>
 
-          <div
-            v-if="p.secondaryMode === 'fixed'"
-            class="field"
-          >
-            <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-            <button
-              class="btn-choose-twist"
-              @click="fixedPickerFor = i"
+            <div
+              v-if="p.secondaryMode === 'fixed'"
+              class="field"
             >
-              <span
-                class="ct-name"
-                :class="{ placeholder: !p.fixedSecondaries.length }"
-              >{{ fixedSummary(p) }}</span>
-              <i class="bi bi-chevron-right ct-chev" />
-            </button>
-          </div>
+              <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+              <button
+                class="btn-choose-twist"
+                @click="fixedPickerFor = i"
+              >
+                <span
+                  class="ct-name"
+                  :class="{ placeholder: !p.fixedSecondaries.length }"
+                >{{ fixedSummary(p) }}</span>
+                <i class="bi bi-chevron-right ct-chev" />
+              </button>
+            </div>
+          </template>
         </div>
       </div>
 

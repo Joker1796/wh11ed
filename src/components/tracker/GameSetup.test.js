@@ -205,5 +205,15 @@ describe('GameSetup gates in a lobby', () => {
     await flushPromises()
     expect(w.findAll('.side-mirror')).toHaveLength(2) // armies + mission
     expect(w.findAll('.side-mirror .sm-waiting')).toHaveLength(2)
+
+    // …and "a report" means the whole card. The secondaries switch used to sit outside the
+    // mirror/form split and only go inert, so the mission step offered the host a live
+    // "Tactical / Fixed" toggle for a side another phone fills in (owner, 2026-09-24).
+    const cards = w.findAll('.step-panel')[1].findAll('.player-card')
+    const theirs = cards.find((c) => c.find('.side-mirror').exists())
+    expect(theirs).toBeTruthy()
+    expect(theirs.findAll('.seg')).toHaveLength(0)
+    // The host's own card still asks, or the step would have nothing to fill in.
+    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.seg').length).toBeGreaterThan(0)
   })
 })
