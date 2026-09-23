@@ -1453,21 +1453,29 @@ filing them by battlefield role sat them in different sections, and the more imp
 character the further apart they went: an Epic Hero at the top of the list, its squad at the
 bottom, joined only by an "attached to…" tag on each pointing at the other.
 
-The block moves into a section of its own, `attached`, first in `UNIT_GROUPS` — `bucketOf` never
-returns that id, the pairing pass is the only thing that fills it. **Unless any part of the block
-belongs to an ally group**: an ally heading carries that group's own accounting and a unit must not
-leave it, so there the block is gathered in place instead, host first. (Six ally units can lead and
-four can be led, all Aeldari — Harlequins and Ynnari.)
+The block is gathered **in place, under the host's own role** — each character moves to sit
+directly under the unit it joined. It had a section of its own (`attached`, first in
+`UNIT_GROUPS`) until 2026-09-23, and that cost every led squad its role: Immortals with an Overlord
+on them were filed under "Attached Units" and were nowhere to be found in Battleline, under a
+heading naming no role the game has. In-place was always what a block touching an **ally group**
+did — an ally heading carries that group's own accounting and a unit must not leave it — so this
+is that one rule, applied everywhere. (Six ally units can lead and four can be led, all Aeldari —
+Harlequins and Ynnari.)
 
-The three list screens then draw it the same way, from one pair of primitives in `style.css`
-(`.roster-attached`, `.roster-sum`): the bodyguard's tile, each character indented under it on an
-accent rail, then the block's own points. Those points are printed **once, under the last row**
-(`attachedBlockTotal`) rather than as a combined figure on the bodyguard — the per-row numbers
-above it still read down the column and still add up to the roster total, which a combined figure
-would have quietly broken. What each row keeps is a **role tag** ("Leader" / "Support"): the
-nesting says which unit a character joined, but not which slot it fills. The old reciprocal
-tags — "Attached to X" on the character, "X (Leader)" on the squad — are gone with the distance
-that made them necessary.
+Each character is indented under its host on an accent rail (`.roster-attached` in `style.css`),
+and keeps a **role tag** ("Leader" / "Support"): the nesting says which unit a character joined,
+but not which slot it fills. The old reciprocal tags — "Attached to X" on the character, "X
+(Leader)" on the squad — are gone with the distance that made them necessary.
+
+**On the two BUILDING screens the bodyguard's tile IS the block's header** (`RosterUnitList`,
+2026-09-23): a twisty on its row folds the characters away, and while they are folded the row
+carries the block's whole points (`hostBlockTotal`) and a `+N` chip for what is hidden. That is the
+only state in which a combined figure is safe — unfolded, every row shows its own number and the
+column still adds up to the roster total, which a combined figure beside them would quietly break.
+Folding is component state, not a setting: everything starts open, nothing is persisted, and a
+reload forgets it. The footnote line the block used to end with (`attachedBlockTotal` +
+`.roster-sum`) went with the change; the READ-ONLY list (`RosterViewView`) still prints it, because
+nothing folds there and the total has nowhere else to go.
 
 `pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
 lists datasheets, and nothing is attached to a datasheet.
@@ -1669,7 +1677,8 @@ Two things that follow, and one of them nearly shipped broken:
   bucket id has to be checked when this set grows; that file is the one place that does.
 - **The headings are the datasheet page's labels too.** `GROUP_LABEL_KEYS` points at
   `dsGroup*`, and the five `rosterGroup*` copies (identical strings, except "Прочее" against
-  "Прочие юниты") are gone. `rosterGroupAttached` stays — it is the group with no counterpart.
+  "Прочие юниты") are gone. `rosterGroupAttached` went with the `attached` section itself
+  (2026-09-23) — every group here is now a battlefield role the datasheet page also knows.
 
 ## Russian for the wargear instructions
 

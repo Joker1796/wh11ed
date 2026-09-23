@@ -26,11 +26,29 @@ const mountList = (props = {}) => mount(RosterUnitList, {
 afterEach(() => { document.body.innerHTML = '' })
 
 describe('RosterUnitList', () => {
-  it('prints the attached block total once, under the last row of the block', () => {
+  // The bodyguard's tile is the block's header: it folds the characters joined to it away, and
+  // the block's points come up onto its own row while they are hidden. There is no footnote line
+  // under the block any more (the read-only list still has one — nothing folds there).
+  it('folds the block from its host, and totals it while folded', async () => {
     const w = mountList()
-    const sums = w.findAll('.roster-sum')
-    expect(sums).toHaveLength(1)
-    expect(sums[0].text()).toContain('190')
+    expect(w.findAll('.roster-sum')).toHaveLength(0)
+    expect(w.findAll('.rul-unit')).toHaveLength(2)
+    expect(w.findAll('.rul-fold')).toHaveLength(1) // only the host has one
+
+    await w.find('.rul-fold').trigger('click')
+    expect(w.findAll('.rul-unit')).toHaveLength(1)
+    expect(w.find('.rur-pts').text()).toBe('190') // 90 + 100, the whole attached unit
+    expect(w.find('.rur-chip.role').text()).toBe('+1')
+
+    await w.find('.rul-fold').trigger('click')
+    expect(w.findAll('.rul-unit')).toHaveLength(2)
+    expect(w.find('.rur-pts').text()).toBe('90') // its own again
+  })
+
+  // Everything starts open, and folding is a gesture rather than a setting: nothing is stored.
+  it('starts unfolded', () => {
+    const w = mountList()
+    expect(w.find('.rul-fold').attributes('aria-expanded')).toBe('true')
   })
 
   it('reports the row that was tapped, copied or deleted', async () => {

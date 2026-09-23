@@ -38,10 +38,11 @@
           >{{ g.locked ? labels.rosterAllyLocked : labels.rosterAllySection }}</em>
         </h3>
         <template
-          v-for="(e, idx) in g.entries"
+          v-for="e in g.entries"
           :key="e.uid"
         >
           <div
+            v-if="!isHidden(e)"
             class="rul-unit"
             :class="{ 'rul-attached roster-attached': e.leaderOf, 'rul-picked': inPane && openUid === e.uid }"
           >
@@ -50,6 +51,22 @@
                  get its own click on every browser. They are positioned over the tile's top-right
                  corner at every width (see .rul-acts below). -->
             <div class="rul-headrow">
+              <!-- A bodyguard's tile IS the block's header: the twisty folds the characters
+                   joined to it away, and the block's own points come up onto this row while they
+                   are folded. Only a host with something attached has one. -->
+              <button
+                v-if="blockOf(g.entries, e).length"
+                type="button"
+                class="rul-fold"
+                :aria-expanded="!folded.has(e.uid)"
+                :aria-label="labels.rosterAttachedFold"
+                @click="toggleFold(e.uid)"
+              >
+                <i
+                  class="bi"
+                  :class="folded.has(e.uid) ? 'bi-chevron-right' : 'bi-chevron-down'"
+                />
+              </button>
               <button
                 type="button"
                 class="rul-row"
@@ -61,6 +78,8 @@
                   :def="defOf(e.id)"
                   :items="items"
                   :points="pointsOf(e) || 0"
+                  :block-total="folded.has(e.uid) ? hostBlockTotal(g.entries, e, (x) => pointsOf(x) || 0) : null"
+                  :hidden-count="folded.has(e.uid) ? blockOf(g.entries, e).length : 0"
                   :detachments="detachments"
                   :role="roleOf(e)"
                 />
@@ -99,15 +118,6 @@
               </div>
             </CollapseTransition>
           </div>
-          <!-- The attached unit's own points, once, under the last row of the block: the numbers
-               above it still read down the column and still add up to the roster total, which a
-               combined figure on the bodyguard's row would have broken. -->
-          <p
-            v-if="blockTotal(g.entries, idx) != null"
-            class="roster-sum"
-          >
-            {{ labels.rosterAttachedTotal }} · {{ blockTotal(g.entries, idx) }}{{ labels.rosterPointsLabel }}
-          </p>
         </template>
       </template>
     </template>
@@ -172,7 +182,7 @@ import RosterUnitRow from './RosterUnitRow.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
-import { GROUP_LABEL_KEYS, attachedBlockTotal } from '../../composables/rosterEngine.js'
+import { GROUP_LABEL_KEYS, hostBlockTotal } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   // rosterEngine's sectionsOf output, with `items` renamed `entries` by the caller.
@@ -199,7 +209,19 @@ const labels = computed(() => ui[locale.value])
 
 const inPane = computed(() => props.placement === 'pane')
 
-const blockTotal = (entries, i) => attachedBlockTotal(entries, i, (x) => props.pointsOf(x))
+// The characters joined to this entry, in the order the section already put them.
+const blockOf = (entries, host) => (host.leaderOf ? [] : (entries || []).filter((e) => e.leaderOf === host.uid))
+
+// Which blocks are folded, by host uid. Component state on purpose: folding is a gesture for
+// getting one finished squad out of the way while you work on the next, not a setting — it does
+// not survive a reload, and nothing is written anywhere. Everything starts open.
+const folded = ref(new Set())
+function toggleFold(uid) {
+  const next = new Set(folded.value)
+  next.has(uid) ? next.delete(uid) : next.add(uid)
+  folded.value = next
+}
+const isHidden = (e) => !!e.leaderOf && folded.value.has(e.leaderOf)
 
 const openEntry = computed(() => {
   for (const g of props.groups) {
@@ -275,6 +297,23 @@ function act(what) {
    property because that line is inside RosterUnitRow, and custom properties are the one thing
    that crosses a scoped-style boundary without :deep(). */
 .rul-headrow { --rul-acts-w: 2rem; }
+/* The fold twisty, on the host's row only. Its own control rather than part of the row, for the
+   same reason the actions are: the row is a button (it opens the configuration), and a button
+   inside a button is invalid. Narrow on purpose — it takes width from a name that has ~120px. */
+.rul-fold {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 1.6rem;
+  padding: 0.55rem 0 0;
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+@media (hover: hover) { .rul-fold:hover { color: var(--accent); } }
 .rul-row {
   flex: 1;
   min-width: 0;
@@ -322,6 +361,11 @@ function act(what) {
   .rul-head { font-size: 0.92rem; }
   .rul-ally { font-size: 0.62rem; }
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
+  /* 24px wide even here: it is a tap target, and the 6px it takes from the name is the row's
+     cheapest 6px — the name of a block header wraps one word later, the thumb hits every time. */
+  .rul-fold { width: 1.5rem; padding-top: 0.45rem; }
+  /* The fold eats into the row's own left padding rather than adding to it. */
+  .rul-fold + .rul-row { padding-left: 0.15rem; }
   .rul-chev { display: none; }
   .rul-headrow { --rul-acts-w: 1.7rem; }
   /* 24px tall exactly — the minimum a tap target owes, and the height the row below it has to

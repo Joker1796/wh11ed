@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
+import { ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, wargearGroupBlocker, attachedBlockTotal, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -1308,23 +1308,24 @@ describe('attached units read as one block', () => {
   const defOf = (id) => faction.units.find((u) => u.id === id)
   const ids = (secs, id) => (secs.find((s) => s.id === id)?.items || []).map((i) => i.uid)
 
-  it('moves a bodyguard and its leaders into one section, host first', () => {
+  // The block is gathered where the HOST already sits, under its own battlefield role — it had a
+  // section of its own ("Attached Units") until 2026-09-23, which cost every led squad its role.
+  it('moves the leaders down to their bodyguard, in its own section', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
       { uid: 'legio', id: 'legionaries' },
       { uid: 'brute', id: 'helbrute' },
     ]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'attached')).toEqual(['legio', 'lord'])
+    expect(ids(secs, 'battleline')).toEqual(['legio', 'lord'])
     expect(ids(secs, 'characters')).toEqual([])
-    expect(ids(secs, 'battleline')).toEqual([])
     expect(ids(secs, 'vehicles')).toEqual(['brute']) // everything else is filed by its own type
   })
 
   it('takes an Epic Hero out of the top section to sit with its squad', () => {
     const items = [{ uid: 'abn', id: 'abaddon', leaderOf: 'legio' }, { uid: 'legio', id: 'legionaries' }]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'attached')).toEqual(['legio', 'abn'])
+    expect(ids(secs, 'battleline')).toEqual(['legio', 'abn'])
     expect(ids(secs, 'epic')).toEqual([])
   })
 
@@ -1334,24 +1335,25 @@ describe('attached units read as one block', () => {
       { uid: 'legio', id: 'legionaries' },
       { uid: 'abn', id: 'abaddon', leaderOf: 'legio' },
     ]
-    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['legio', 'abn', 'lord'])
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'battleline')).toEqual(['legio', 'abn', 'lord'])
   })
 
-  // Blocks follow their hosts' names, whatever order the pairs were built in.
-  it('orders the blocks by their hosts', () => {
+  // Two blocks whose hosts are of different roles no longer meet; each reads under its own.
+  it('leaves each block under its host\'s own role', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
       { uid: 'legio', id: 'legionaries' },
       { uid: 'abn', id: 'abaddon', leaderOf: 'brute' },
       { uid: 'brute', id: 'helbrute' },
     ]
-    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['brute', 'abn', 'legio', 'lord'])
+    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'battleline')).toEqual(['legio', 'lord'])
+    expect(ids(secs, 'vehicles')).toEqual(['brute', 'abn'])
   })
 
   it('leaves an unattached character where it was', () => {
     const items = [{ uid: 'lord', id: 'lord' }, { uid: 'legio', id: 'legionaries' }]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'attached')).toEqual([])
     expect(ids(secs, 'characters')).toEqual(['lord'])
     expect(ids(secs, 'battleline')).toEqual(['legio'])
   })
@@ -1365,7 +1367,6 @@ describe('attached units read as one block', () => {
     ]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
     expect(ids(secs, 'ally:harlequins')).toEqual(['troupe', 'seer'])
-    expect(ids(secs, 'attached')).toEqual([])
   })
 
   it('does nothing at all unless asked', () => {
@@ -1388,6 +1389,16 @@ describe('attached units read as one block', () => {
     // A leader whose bodyguard is in another section (an allied host, say): there is no block
     // here to total, and printing one number of two would be worse than printing none.
     expect(attachedBlockTotal([{ uid: 'lord', leaderOf: 'elsewhere' }], 0, () => 95)).toBeNull()
+  })
+
+  // The building screens ask the HOST instead — the number goes on the bodyguard's own row.
+  it('totals the block from its host, and only when there is a block', () => {
+    const entries = [{ uid: 'legio' }, { uid: 'lord', leaderOf: 'legio' }, { uid: 'abn', leaderOf: 'legio' }]
+    const pts = { legio: 180, lord: 95, abn: 265 }
+    const of = (x) => pts[x.uid]
+    expect(hostBlockTotal(entries, entries[0], of)).toBe(540)
+    expect(hostBlockTotal(entries, entries[1], of)).toBeNull() // a character is not a host
+    expect(hostBlockTotal([{ uid: 'alone' }], { uid: 'alone' }, () => 80)).toBeNull() // nothing joined it
   })
 })
 

@@ -326,7 +326,6 @@ export const ui = {
     rosterModelsLabel: 'models',
     rosterChoose: 'Choose…',
     rosterAttachedTotal: 'Attached unit',
-    rosterGroupAttached: 'Attached Units',
     rosterNoResults: 'No matching units',
     rosterUnitSize: 'Unit size',
     rosterDefaultWargear: 'Default wargear',
@@ -497,6 +496,7 @@ export const ui = {
     rosterMoreActions: 'More actions',
     // The undo bar. "Removed: <name>" rather than "<name> removed" so the Russian line needs no
     // gender for a unit name it cannot decline.
+    rosterAttachedFold: 'Fold the attached unit',
     rosterRemoved: 'Removed: {name}',
     rosterUndo: 'Undo',
     rosterEdit: 'Edit',
@@ -1315,7 +1315,6 @@ export const ui = {
     rosterModelsLabel: 'моделей',
     rosterChoose: 'Выбрать…',
     rosterAttachedTotal: 'Отряд целиком',
-    rosterGroupAttached: 'Прикреплённые юниты',
     rosterNoResults: 'Нет подходящих юнитов',
     rosterUnitSize: 'Размер отряда',
     rosterDefaultWargear: 'Стандартное снаряжение',
@@ -1474,6 +1473,7 @@ export const ui = {
     rosterSharedInvalid: 'Ссылка недействительна или повреждена.',
     rosterUseInTracker: 'В трекер',
     rosterMoreActions: 'Другие действия',
+    rosterAttachedFold: 'Свернуть отряд',
     rosterRemoved: 'Удалено: {name}',
     rosterUndo: 'Вернуть',
     rosterEdit: 'Редактировать',
