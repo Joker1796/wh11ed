@@ -57,6 +57,17 @@
       >
         {{ labels.trackerNewGame }}
       </button>
+      <!-- Setting the game up together starts HERE, not inside a game already begun: by the time
+           the wizard is open the question "are we doing this together" has an answer, and it is
+           the first one the two players settle at the table. -->
+      <button
+        class="btn-lg btn-ghost"
+        :disabled="!canShare"
+        :title="canShare ? '' : labels.partySignIn"
+        @click="startShared"
+      >
+        <i class="bi bi-people" /> {{ labels.lobbyNewGame }}
+      </button>
       <!-- Someone else's game on this phone (useParty.js): always the quiet button, whatever the
            state of your own — the usual visitor is here for their own game. -->
       <RouterLink
@@ -227,6 +238,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
+// Only the host of a shared game needs an account, and this is the button that makes one.
+const { canShare, init: initParty } = useParty()
 const { status, user, ensureSession } = useAuth()
 const {
   init: initCloudSync,
@@ -278,7 +291,7 @@ onMounted(async () => {
   initCloudSync()
   // A shared game archived from here ("New game", resuming another) has to say goodbye to the
   // other phones; the watcher that does so is armed once, and this is the earliest screen.
-  useParty().init()
+  initParty()
   // The session is restored app-wide (App.vue) now that the account lives in the navbar; this
   // await just joins that in-flight restore — refresh() de-dupes, so it costs no extra request.
   await ensureSession()
@@ -312,6 +325,29 @@ function doStartNew() {
   archiveCurrent()          // save the in-progress game to history (instead of losing it)
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
+}
+
+// The same start, with the lobby opened on arrival: `?share=1` is the wizard's instruction to
+// share as soon as it is on screen, so the host lands on the armies step with the code already
+// in hand instead of finding a button there.
+function startShared() {
+  if (!canShare.value) return
+  if (current.value) {
+    const lobby = current.value.phase === 'setup'
+    confirmState.value = {
+      title: labels.value.lobbyNewGame,
+      message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
+      confirmLabel: labels.value.lobbyNewGame,
+      action: doStartShared,
+    }
+    return
+  }
+  doStartShared()
+}
+function doStartShared() {
+  archiveCurrent()
+  setupDraft.value = null
+  router.push('/tracker/game?share=1')
 }
 // Resume any finished game from the summary modal — pull it back into active play.
 function onResumeGame(id) {

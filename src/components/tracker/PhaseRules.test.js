@@ -36,14 +36,17 @@ function startGame(p0 = {}, p1 = {}) {
 }
 async function mountBlock() {
   const w = mount(PhaseRules, { global: { stubs: { RouterLink } } })
-  // The index is a dynamic import, and a cold one takes more than a single microtask flush to
-  // resolve — so wait for the block rather than for a fixed number of ticks.
-  // A microtask flush is not enough for a COLD one (it is real file I/O under vitest), so the
-  // poll yields to the macrotask queue too.
-  for (let i = 0; i < 40 && !w.find('.pr-head').exists(); i++) {
-    await new Promise((r) => setTimeout(r, 0))
-    await flushPromises()
-  }
+  // The index is a dynamic import — real file I/O under vitest — so wait for the block to
+  // appear rather than for a number of ticks. It used to poll 40 times with a zero timeout,
+  // which is a budget in TICKS, not in time: with the whole tracker suite running beside it the
+  // cold import sometimes needed more, and the next line then triggered a click on nothing.
+  // A real deadline with a real interval is what the wait is actually about.
+  // Swallowed on purpose: one case mounts a game where the block correctly renders NOTHING, and
+  // waiting for it there is waiting for something that will never come.
+  await vi.waitFor(() => {
+    if (!w.find('.pr-head').exists()) throw new Error('the phase block has not rendered yet')
+  }, { timeout: 2000, interval: 10 }).catch(() => {})
+  await flushPromises()
   return w
 }
 const open = async (w) => { await w.find('.pr-head').trigger('click'); await flushPromises() }

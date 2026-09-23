@@ -884,6 +884,7 @@ export const ui = {
     partyRejoinBlocked: 'The seat you chose is taken. Ask the host to free it.',
     partyDevJwtHint: 'Dev stand: the mock account cannot share a game by itself. Run `npm run dev:jwt` in wh11ed-api and put the token into localStorage["wh11ed-dev-jwt"], then try again.',
     // ── The lobby: setting the game up together, before it starts (useLobby.js) ──
+    lobbyNewGame: 'New shared game',
     lobbyStart: 'Play together',
     lobbyDiscardConfirm: 'Start a new setup? The one on screen, and the lobby with it, is dropped — nothing has been played yet, so there is nothing to keep.',
     lobbyStartConfirm: 'Share this setup: the others join by link, QR or code and fill in their own side — name, faction, detachments, army list. You keep the mission, the battlefield and the turn order, and you start the game.',
@@ -1837,6 +1838,7 @@ export const ui = {
     partyRejoinBlocked: 'Выбранное место занято. Попросите хоста освободить его.',
     partyDevJwtHint: 'Стенд: мок-аккаунт сам поделиться партией не может. Выполните `npm run dev:jwt` в wh11ed-api и положите токен в localStorage["wh11ed-dev-jwt"], затем повторите.',
     // ── Лобби: настраиваем партию вместе, до её начала (useLobby.js) ──
+    lobbyNewGame: 'Новая совместная игра',
     lobbyStart: 'Играть вместе',
     lobbyDiscardConfirm: 'Начать настройку заново? Текущая, вместе с лобби, будет отброшена — партия ещё не началась, сохранять нечего.',
     lobbyStartConfirm: 'Настроим партию вместе: остальные подключаются по ссылке, QR или коду и заполняют свою сторону — имя, фракцию, детачменты, ростер. За вами миссия, поле, очерёдность хода и начало партии.',

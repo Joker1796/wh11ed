@@ -978,6 +978,7 @@ import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
+import { useRoute, useRouter } from 'vue-router'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
@@ -1000,6 +1001,8 @@ const props = defineProps({
   mode: { type: String, default: 'wizard' },
 })
 const guest = computed(() => props.mode === 'guest')
+const route = useRoute()
+const router = useRouter()
 
 const emit = defineEmits(['start', 'cancel', 'done', 'leave'])
 const { locale } = useLocale()
@@ -1138,7 +1141,16 @@ function guestLeave() {
 // A guest's form is open from the moment the screen appears: it claims the side (the slice
 // version settles a tie) and holds this phone's own side back until "Done". The host claims its
 // own side the same way, so the guest's phone can see who is filling what.
-onMounted(() => {
+onMounted(async () => {
+  // Asked for from the tracker home ("New shared game"): open the lobby straight away, so the
+  // host arrives with the code in hand instead of a button to press. The query is dropped once
+  // it has been acted on — a reload must not try to share a second time.
+  // Optional chaining throughout: the component is mounted without a router in its own tests,
+  // and a wizard that throws on mount is a blank tracker.
+  if (route?.query?.share === '1') {
+    router?.replace({ path: route.path, query: {} })
+    if (!sharedSetup.value && canShare.value) await createLobby()
+  }
   if (!sharedSetup.value) return
   if (guest.value) openForm(youIdx.value, players[youIdx.value]?.name || '')
   else claimHostSide()
