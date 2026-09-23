@@ -21,6 +21,13 @@
           class="page-tab-icon"
           :class="t.icon"
         />{{ t.label }}
+        <i
+          v-if="t.warn"
+          class="bi bi-exclamation-triangle-fill page-tab-warn"
+          role="img"
+          :aria-label="t.warn"
+          :title="t.warn"
+        />
         <span
           v-if="t.count != null"
           class="page-tab-n"
@@ -40,6 +47,13 @@
           class="page-tab-icon"
           :class="t.icon"
         />{{ t.label }}
+        <i
+          v-if="t.warn"
+          class="bi bi-exclamation-triangle-fill page-tab-warn"
+          role="img"
+          :aria-label="t.warn"
+          :title="t.warn"
+        />
         <span
           v-if="t.count != null"
           class="page-tab-n"
@@ -55,7 +69,8 @@ import { computed } from 'vue'
 // Which tab is open is the caller's business (a route prefix here, a ref there), so every tab
 // arrives with its own `active` — this component only draws them.
 const props = defineProps({
-  // [{ key?, to?, label, icon?, count?, active? }]
+  // [{ key?, to?, label, icon?, count?, active?, warn? }] — `warn` is the sentence the mark
+  // stands for (it is both the tooltip and the accessible name), so an empty string draws nothing.
   tabs: { type: Array, required: true },
   ariaLabel: { type: String, default: '' },
 })
@@ -113,6 +128,15 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
 /* Slightly smaller than the tab text so the display-font label stays the anchor. */
 .page-tab-icon {
   font-size: 0.9em;
+}
+
+/* "There is something left to answer behind this tab." Amber, not the error red: what it marks is
+   a list that is legal and saveable — the player simply still owes a choice, and a red mark would
+   read as "you broke something". It keeps its own colour in both tab states on purpose: the whole
+   point of it is that a CLOSED tab says so, instead of the player finding out at Save. */
+.page-tab-warn {
+  font-size: 0.78em;
+  color: var(--warning);
 }
 
 /* A count is a footnote to the label, not part of it — same monospace treatment the roster

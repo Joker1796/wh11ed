@@ -355,12 +355,20 @@
           <button
             type="button"
             class="issues-badge"
-            :class="validation.errorCount ? 'has-err' : 'ok'"
+            :class="validation.errorCount ? 'has-err' : (validation.issues.length ? 'warn' : 'ok')"
             @click="issuesOpen = true"
           >
             <template v-if="validation.errorCount">
               <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
             </template>
+            <!-- A tick means "nothing left to look at", and it was showing over a list that still
+                 owed a Force Disposition: the badge counts ERRORS, and an unmade choice is a
+                 warning. Amber and no number — the count belongs to the errors, and what this
+                 says is "open me", which is one tap from here. -->
+            <i
+              v-else-if="validation.issues.length"
+              class="bi bi-exclamation-triangle-fill"
+            />
             <i
               v-else
               class="bi bi-check-circle-fill"

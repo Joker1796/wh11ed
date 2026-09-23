@@ -601,6 +601,15 @@ directory; still part of this feature:
   telling three identical messages apart, and `RosterIssuesModal` renders the row as a link only
   when there is a unit to jump to. `rosterValidation.test.js` guards both halves: every issue with a
   `uid` has a `unit`, and no message asks for a placeholder the validator does not send.
+  **An issue also knows which TAB can answer it** — `SETUP_CODES` / `setupIssueCount()` in the same
+  module: faction, detachments, the Force Disposition they disagree about and the DP they spend are
+  chosen on the editor's Setup tab and nowhere else, so that tab carries an amber ⚠ while any of
+  them is outstanding (`PageTabs`' `warn`). Everything answered by adding, dropping or re-arming a
+  unit is deliberately NOT in that set — `overPoints` included, which names the battle size but is
+  almost always fixed by the list. The mark exists because the footer badge counts ERRORS: a list
+  owing only a Force Disposition showed a green tick, and the player found out at Save (owner,
+  2026-09-24). That badge now has a third state of its own — amber, no number, when the list is
+  legal and something in it is still worth a look.
   Per-unit duplicate cap: the battle size's limit,
   doubled for Battleline/Dedicated Transport, hard-capped at 1 for every Epic Hero regardless
   of battle size (rule 25).

@@ -318,12 +318,20 @@
             v-if="roster.faction"
             type="button"
             class="issues-badge"
-            :class="validation.errorCount ? 'has-err' : 'ok'"
+            :class="validation.errorCount ? 'has-err' : (validation.issues.length ? 'warn' : 'ok')"
             @click="issuesOpen = true"
           >
             <template v-if="validation.errorCount">
               <i class="bi bi-exclamation-triangle-fill" /> {{ validation.errorCount }}
             </template>
+            <!-- A tick means "nothing left to look at", and it was showing over a list that still
+                 owed a Force Disposition: the badge counts ERRORS, and an unmade choice is a
+                 warning. Amber and no number — the count belongs to the errors, and what this
+                 says is "open me", which is one tap from here. -->
+            <i
+              v-else-if="validation.issues.length"
+              class="bi bi-exclamation-triangle-fill"
+            />
             <i
               v-else
               class="bi bi-check-circle-fill"
@@ -404,6 +412,7 @@ import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { ROSTER_NOTES_MAX, dispositionCandidates, pointsLeftLabel } from '../../composables/rosterEngine.js'
+import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
@@ -459,7 +468,17 @@ const { factionName, accentStyle } = useFactionAccent(computed(() => roster.valu
 // layout as the tracker: DP cost + Force Disposition).
 // PageTabs only draws; which panel is open is this screen's own state, same as RosterViewView.
 const editorTabs = computed(() => [
-  { key: 'settings', label: labels.value.rosterCreateStep1, active: tab.value === 'settings' },
+  {
+    key: 'settings',
+    label: labels.value.rosterCreateStep1,
+    active: tab.value === 'settings',
+    // A list can be perfectly legal and still owe an answer that lives on this tab — an undeclared
+    // Force Disposition, a detachment never picked. Nothing said so from the Units tab, where the
+    // whole build happens: the footer badge showed a green tick (it counts errors, and these are
+    // warnings), so the player found out at Save and had to come back. The mark is the tab's job
+    // rather than the badge's because it also answers WHERE to go.
+    warn: setupIssueCount(validation.value.issues) ? labels.value.rosterTabNeedsSetup : '',
+  },
   { key: 'units', label: labels.value.rosterViewTabUnits, active: tab.value === 'units' },
 ])
 

@@ -269,10 +269,10 @@ function create() {
 .rim-warn-note { color: var(--text-muted); font-weight: 400; }
 .rim-report { display: flex; flex-direction: column; gap: 0.4rem; }
 .rim-line { margin: 0; font-size: 0.85rem; }
-.rim-line.warn { color: var(--warning, #b8860b); }
+.rim-line.warn { color: var(--warning); }
 .rim-note { margin: 0; font-size: 0.75rem; color: var(--text-muted); }
 .rim-warn { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.78rem; }
-.rim-warn-h { font-weight: 600; color: var(--warning, #b8860b); }
+.rim-warn-h { font-weight: 600; color: var(--warning); }
 .rim-ok { margin: 0; font-size: 0.82rem; color: var(--text-secondary); }
 .rim-actions { display: flex; gap: 0.6rem; }
 .rim-btn {

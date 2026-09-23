@@ -1640,9 +1640,9 @@ function stratKey(strat) {
   width: 100%;
   margin: 0 0 0.8rem;
   padding: 0.5rem 0.7rem;
-  border: 1px solid color-mix(in srgb, var(--warning, #b8860b) 45%, transparent);
-  background: color-mix(in srgb, var(--warning, #b8860b) 10%, transparent);
-  color: var(--warning, #b8860b);
+  border: 1px solid color-mix(in srgb, var(--warning) 45%, transparent);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  color: var(--warning);
   font-size: 0.82rem;
   font-weight: 600;
   text-align: left;

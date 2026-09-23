@@ -80,6 +80,10 @@ it actually changes). `npm run dupes` fails when one rule body appears verbatim 
 - **Three ways to switch, and they are not interchangeable:** `PageTabs.vue` changes what the
   PAGE shows (faction pages, roster lists); `.seg` is one joined control inside a form; `.tab`
   is a row of separate boxes. Reach for the one that matches the job, don't add a fourth.
+  A `PageTabs` tab may also carry **`warn`** — the sentence an amber ⚠ stands for (tooltip and
+  accessible name both), for "the answer to this is behind a tab you are not on". It keeps its
+  colour in the closed state on purpose: a mark only a reader who already opened the tab can see
+  says nothing.
 - **What is deliberately NOT global:** `.hero`/`.hero-title` — a page hero is page identity
   (landing 3.74rem, faction 3rem, changelog 2rem), and the four plain index pages agreeing is a
   coincidence, not a contract. It is allowlisted in `scripts/check-css-dupes.mjs` with that
@@ -169,6 +173,12 @@ colour / which face / how big" question.
   without — its own dark-theme override; now the token carries the dark shade itself, so a
   component never writes a `[data-theme='dark']` rule just to brighten a red. Not every red is
   danger: `StratCard`'s opponent-turn tint is a turn colour and keeps its own value.
+- **`--warning`** is its neighbour: "legal, but you still owe an answer" — the roster's
+  worth-checking bar, the amber mark `PageTabs` puts on a tab that hides an unmade choice, the
+  import warnings. It got a token on 2026-09-24; before that it was `var(--warning, #b8860b)` in
+  three files, i.e. a literal, and that literal was **2.5:1 on the light page**. The light value
+  is the darker amber that clears AA as TEXT on its own 10% tint (4.9:1), not merely as an icon;
+  the dark shade rides in the token the way `--danger`'s does.
 - **Type** — `--font-display` (Sofia Sans Extra Condensed) on every heading and title,
   `--font-sans` (Inter) on everything else, `--font-serif` (EB Garamond) only on lore flavour
   text. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't

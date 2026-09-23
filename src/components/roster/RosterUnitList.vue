@@ -215,9 +215,6 @@
               @keyup.enter="saveName"
             >
           </label>
-          <p class="rul-name-hint">
-            {{ labels.rosterBlockNameHint }}
-          </p>
           <div class="rul-name-acts">
             <button
               class="btn-ghost"
@@ -441,7 +438,6 @@ watch(naming, (on) => {
   font-size: 0.95rem;
 }
 .rul-name-lab input:focus { outline: none; border-color: var(--accent); }
-.rul-name-hint { margin: 0; font-size: 0.74rem; line-height: 1.4; color: var(--text-dim); }
 .rul-name-acts { display: flex; justify-content: flex-end; gap: 0.5rem; }
 
 /* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
@@ -537,10 +533,17 @@ watch(naming, (on) => {
   /* The fold eats into the row's own left padding rather than adding to it. */
   .rul-fold + .rul-row { padding-left: 0.15rem; }
   .rul-chev { display: none; }
-  .rul-headrow { --rul-acts-w: 1.7rem; }
-  /* 24px tall exactly — the minimum a tap target owes, and the height the row below it has to
-     clear. Every pixel above that is a gap between a unit's name and its model count. */
-  .rul-more { width: 1.7rem; height: 1.5rem; font-size: 0.8rem; }
+  /* Matches the button's new width: the reserve is what keeps the name's text out from
+     under a control that would otherwise take the tap meant for the row. */
+  .rul-headrow { --rul-acts-w: 2rem; }
+  /* 32×32 — the tap size everything else on the phone gets, on a row whose first line is only
+     24px tall. It fits because .rul-acts is OUT of the flow: the box grows down over the right
+     end of the line below (the points number, which is text, not a control) and pushes nothing.
+     The glyph does not travel with it — `flex-start` plus the padding keeps it centred on the
+     name's line, so the button still reads as belonging to the name and not to the number.
+     Growing the box in flow instead is what reopens the gap between a unit and its model
+     count that the owner had us close. */
+  .rul-more { width: 2rem; height: 2rem; align-items: flex-start; padding-top: 0.3rem; font-size: 0.95rem; }
 }
 </style>
 

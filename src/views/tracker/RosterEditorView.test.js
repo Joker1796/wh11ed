@@ -82,6 +82,28 @@ describe('RosterEditorView', () => {
     expect(store.rosterById(r.id).disposition).toBe('Purge the Foe')
   })
 
+  // A warning belongs to the tab that can answer it. Without the mark the Units tab looks
+  // finished — the footer badge counts errors, and an undeclared Force Disposition is not one —
+  // and the player finds out at Save (owner, 2026-09-24).
+  it('marks the Setup tab while a choice that lives there is still unmade', async () => {
+    const fac = (await import('../../data/roster/space-marines.js')).default
+    const byFd = (fd) => fac.detachments.filter((d) => d.fd === fd).sort((a, b) => a.dp - b.dp)[0].name
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.detachments = [byFd('Take and Hold'), byFd('Purge the Foe')]
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Take and Hold')
+    const setupTab = () => w.findAll('.page-tab')[0]
+    expect(setupTab().find('.page-tab-warn').exists()).toBe(true)
+    // …and it goes as soon as the answer is given, from whichever tab the player is on.
+    store.updateRoster(r.id, { disposition: 'Purge the Foe' })
+    await flushPromises()
+    expect(setupTab().find('.page-tab-warn').exists()).toBe(false)
+  })
+
   // The header's hand-off to the tracker is gone (2026-08-28, on request): a list is attached to
   // a game from the tracker's own side, where somebody starting a game already is.
   it('offers no tracker hand-off from the editor header', async () => {
