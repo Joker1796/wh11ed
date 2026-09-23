@@ -500,6 +500,9 @@ export const ui = {
     rosterGroupAttached: 'Attached Units',
     rosterBlockName: 'Name this unit',
     rosterBlockDefault: 'Unit {n}',
+    // Telling two copies of one datasheet apart in the attachment picker.
+    rosterTargetWith: 'with {who}',
+    rosterTargetCopy: 'copy {n}',
     rosterBlockNameHint: 'What you call it while planning — “home objective”, “centre push”',
     rosterRemoved: 'Removed: {name}',
     rosterUndo: 'Undo',
@@ -1481,6 +1484,8 @@ export const ui = {
     rosterGroupAttached: 'Прикреплённые юниты',
     rosterBlockName: 'Назвать отряд',
     rosterBlockDefault: 'Отряд {n}',
+    rosterTargetWith: 'с {who}',
+    rosterTargetCopy: 'копия {n}',
     rosterBlockNameHint: 'Как вы зовёте его, когда планируете: «домашка», «ближняя точка»',
     rosterRemoved: 'Удалено: {name}',
     rosterUndo: 'Вернуть',

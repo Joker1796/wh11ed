@@ -297,3 +297,52 @@ describe('UnitEditorFields — notes', () => {
   })
 
 })
+
+// Two squads of one datasheet are the ordinary case — "Necron Warriors" twice, and a picker that
+// offers the same three words twice makes the player guess (a player's report, 2026-09-23).
+describe('UnitEditorFields — which of the two squads', () => {
+  const technomancer = necrons.units.find((u) => u.id === 'technomancer')
+  const mountTargets = (leaderTargets) => mount(UnitEditorFields, {
+    props: {
+      entry: { uid: 'c1', id: technomancer.id, size: 0 },
+      def: technomancer,
+      items: rosterItems.items,
+      texts: rosterItems.texts,
+      leaderTargets,
+    },
+    global: { stubs: { Teleport: true } },
+  })
+  const hints = (w) => w.findAll('.opt-col .opt-tile').map((t) => t.find('.opt-which').exists() ? t.find('.opt-which').text() : null)
+
+  it('says nothing where every target is a different datasheet', () => {
+    const w = mountTargets([
+      { uid: 'a', name: 'Immortals', type: 'support', used: false, models: 5, with: [] },
+      { uid: 'b', name: 'Necron Warriors', type: 'support', used: false, models: 10, with: [] },
+    ])
+    expect(hints(w)).toEqual([null, null])
+  })
+
+  it('tells two of one name apart by what actually differs', () => {
+    const w = mountTargets([
+      { uid: 'a', name: 'Necron Warriors', type: 'support', used: true, models: 10, with: ['Royal Warden'], blockName: 'Домашка' },
+      { uid: 'b', name: 'Necron Warriors', type: 'support', used: false, models: 20, with: [] },
+    ])
+    const [first, second] = hints(w)
+    expect(first).toContain('Домашка')
+    expect(first).toContain('Royal Warden')
+    expect(second).toContain('20')
+    expect(second).not.toContain('Royal Warden')
+  })
+
+  // Same size, same everything, nothing attached to either: the only thing left is which is which.
+  it('numbers two copies that are alike in every way', () => {
+    const w = mountTargets([
+      { uid: 'a', name: 'Immortals', type: 'support', used: false, models: 5, with: [] },
+      { uid: 'b', name: 'Immortals', type: 'support', used: false, models: 5, with: [] },
+    ])
+    const [first, second] = hints(w)
+    expect(first).toMatch(/1$/)
+    expect(second).toMatch(/2$/)
+    expect(first).not.toBe(second)
+  })
+})

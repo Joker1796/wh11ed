@@ -662,7 +662,27 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
         .filter((o) => o.uid !== excludeUid && o.uid !== u.uid && o.leaderOf === u.uid)
         .map((o) => ({ entry: o, def: defOf(o.id) }))
       const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
-      return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
+      const tDef = defOf(u.id)
+      const size = tDef?.sizes?.[u.size ?? 0] || tDef?.sizes?.[0]
+      // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
+      // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
+      // far more often than not, and a picker that offers the same three words twice makes the
+      // player guess (a player's report, 2026-09-23).
+      return {
+        uid: u.uid,
+        name: tDef?.name || u.id,
+        used,
+        type,
+        blockName: u.blockName || '',
+        // Only where the bracket can hold more than one: "1 model" distinguishes nothing.
+        models: size && size.per[1] > 1 ? (u.count ?? size.per[0]) : null,
+        enh: u.enh || mandatoryEnhancementFor(tDef, detachments)?.name || '',
+        alleg: u.alleg || '',
+        note: u.note || '',
+        warlord: !!u.warlord,
+        // Who is on it already — the one fact that is about the BLOCK rather than the squad.
+        with: attached.map((a) => a.def?.name).filter(Boolean),
+      }
     })
 }
 

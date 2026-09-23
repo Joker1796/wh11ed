@@ -465,7 +465,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'a', id: 'captain' },
       { uid: 'b', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'b', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'b', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 
   it('flags a target already claimed by a different entry of the SAME type as used', () => {
@@ -474,7 +474,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'b', id: 'captain', leaderOf: 'c' }, // another leader already attached to the squad
       { uid: 'c', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: true, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: true, type: 'leader' }])
   })
 
   it('does not flag a target as used against the entry\'s own current attachment', () => {
@@ -482,7 +482,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'a', id: 'captain', leaderOf: 'c' },
       { uid: 'c', id: 'intercessor-squad' },
     ]
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 
   it('a Leader and a Support can both target the same unit without colliding', () => {
@@ -492,7 +492,7 @@ describe('leaderTargetsFor', () => {
       { uid: 'c', id: 'intercessor-squad' },
     ]
     // The leader-type slot is still free — a support occupying the unit doesn't block a leader.
-    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toMatchObject([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 })
 

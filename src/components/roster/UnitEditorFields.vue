@@ -447,6 +447,12 @@
                 v-if="t.used && entry.leaderOf !== t.uid"
                 class="opt-tag"
               >{{ labels.rosterEnhUsed }}</span>
+              <!-- Only where the datasheet name is offered twice — three identical words in a row
+                   and the player has to guess which squad they mean. -->
+              <em
+                v-if="targetHints.get(t.uid)"
+                class="opt-which"
+              >{{ targetHints.get(t.uid) }}</em>
             </span>
           </label>
         </div>
@@ -495,6 +501,51 @@ defineEmits(['toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// What tells two targets of the same datasheet apart, in the player's own terms first: the name
+// they gave that block, then the facts that differ (models, enhancement, mark, their note), then
+// who is already on it. Silent where the name is unique — a list of units that are all different
+// needs no explaining. Two entries that are alike in every one of those still have to be told
+// apart, so they fall back to the order they stand in the roster.
+const targetHints = computed(() => {
+  const l = labels.value
+  const seen = new Map()
+  for (const t of props.leaderTargets) seen.set(t.name, (seen.get(t.name) || 0) + 1)
+  const parts = (t) => [
+    t.blockName,
+    t.models ? `${t.models} ${l.rosterModelsLabel}` : '',
+    t.enh,
+    t.alleg,
+    t.warlord ? l.rosterWarlord : '',
+    t.note,
+    t.with?.length ? l.rosterTargetWith.replace('{who}', t.with.join(', ')) : '',
+  ].filter(Boolean).join(' · ')
+  const out = new Map()
+  const nth = new Map()
+  const ties = new Map()
+  for (const t of props.leaderTargets) {
+    if (seen.get(t.name) < 2) { out.set(t.uid, ''); continue }
+    const text = parts(t)
+    nth.set(t.uid, (ties.get(t.name) || 0) + 1)
+    ties.set(t.name, nth.get(t.uid))
+    out.set(t.uid, text)
+  }
+  // …and where two of the same name say the same thing, number them.
+  const byText = new Map()
+  for (const t of props.leaderTargets) {
+    if (!out.has(t.uid)) continue
+    const key = `${t.name}\u0000${out.get(t.uid)}`
+    byText.set(key, (byText.get(key) || 0) + 1)
+  }
+  for (const t of props.leaderTargets) {
+    if (!out.has(t.uid)) continue
+    const key = `${t.name}\u0000${out.get(t.uid)}`
+    if (byText.get(key) < 2) continue
+    const copy = l.rosterTargetCopy.replace('{n}', nth.get(t.uid))
+    out.set(t.uid, [out.get(t.uid), copy].filter(Boolean).join(' · '))
+  }
+  return out
+})
 
 // An allied unit's id is namespaced with the faction its DATASHEET belongs to (see
 // data/roster/index.js); the rules and weapon modals are given that faction's slug, so they must
@@ -867,6 +918,9 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
+/* Which of the two squads of that name this row is. Its OWN line — the name above it is what the
+   reader scans, and a sentence trailing off the end of it would be read as part of the name. */
+.opt-which { display: block; margin-top: 0.1rem; font-size: 0.7rem; font-style: normal; line-height: 1.3; color: var(--text-muted); }
 .wl-flag { color: #e3b341; margin-right: 0.3rem; }
 
 /* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's
@@ -931,6 +985,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   .opt-name { font-size: 0.78rem; }
   .opt-pts { font-size: 0.78rem; }
   .opt-tag { font-size: 0.56rem; margin-left: 0.25rem; }
+  .opt-which { font-size: 0.64rem; }
   .opt-info { width: 2.15rem; font-size: 0.95rem; }
   .opt-step-body { padding: 0.4rem 0.45rem; gap: 0.35rem; }
 }

@@ -1506,6 +1506,16 @@ naming discoverable at all. The footnote line the block used to end with (`attac
 `.roster-sum`) went with the change; the READ-ONLY list (`RosterViewView`) still prints it, because
 nothing folds there and the total has nowhere else to go.
 
+**The attachment picker says WHICH squad**, where a datasheet is in the list twice —
+"Necron Warriors" offered three times over is a guess, not a choice (a player's report,
+2026-09-23). `leaderTargetsFor` returns the facts that can tell two copies apart — the block's own
+name, the model count, the enhancement, the mark, the note, the warlord flag and who is already
+attached to it (that last one it was computing anyway, for `hostSlotTaken`, and throwing away) —
+and `UnitEditorFields` builds the sentence, because the engine knows no locale. The line is drawn
+ONLY under a name that is offered more than once: a list of units that are all different needs no
+explaining. Two entries alike in every one of those facts fall back to the order they stand in the
+roster ("копия 2"), which is the only thing left that differs.
+
 `pairAttached` is off by default, which is what keeps `RosterUnitBrowser` out of it: the catalogue
 lists datasheets, and nothing is attached to a datasheet.
 
