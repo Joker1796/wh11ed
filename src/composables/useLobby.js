@@ -45,8 +45,9 @@ export function useLobby() {
   const oppSide = computed(() => (mySide.value === 0 ? 1 : 0))
   const myId = computed(() => party.value?.memberId || null)
 
-  // 'armies' — the host is still on the armies step, where a guest may reopen its side freely;
-  // 'host' — the host has moved on, and reopening is a request.
+  // 'invite' — the host is still on the lobby screen, showing the code around; 'armies' — it is
+  // on the wizard's first step, where a guest may still reopen its side freely; 'host' — it has
+  // moved past that, and reopening is a request.
   const stage = computed(() => game.value?.lobby?.stage || 'armies')
 
   function lobbyOf(pi) {
@@ -121,7 +122,7 @@ export function useLobby() {
   }
 
   // Reopening. Free while the host is still on the armies step; a request once it has moved on.
-  const canReopenFreely = computed(() => stage.value === 'armies')
+  const canReopenFreely = computed(() => stage.value !== 'host')
   function reopen(pi, name = '') {
     return openForm(pi, name)
   }

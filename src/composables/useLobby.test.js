@@ -94,7 +94,7 @@ describe('done, and asking to change it', () => {
     expect(guest.isReady(1)).toBe(true)
   })
 
-  it('while the host is on the armies step a change is simply taken', async () => {
+  it('while the host is still on the lobby screen or the armies step a change is simply taken', async () => {
     const guest = as(GUEST)
     await guest.openForm(1, 'Guest')
     guest.confirmSide(1)

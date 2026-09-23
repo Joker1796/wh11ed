@@ -178,7 +178,15 @@ pick a member seat. The server contract is `wh11ed-api/README.md` "A shared live
 Since 2026-09-23 the setup itself can be shared, not just the game in progress. It starts on the
 TRACKER HOME — "Shared game" → *Start a new one* (`SharedGameModal.vue`, which also holds the
 join entry: the two are one subject and differ only in whether an account is needed) — and that
-opens the wizard with `?share=1`, whose only job is to share on arrival. There is deliberately no
+opens the wizard with `?share=1`, whose only job is to share on arrival.
+
+**The host lands on `LobbyInvite.vue`, not in the wizard.** The lobby's first stage is `invite`:
+the code, its QR, the link and who has arrived so far — because at a real table you call the
+other player over first and settle the mission after. "Set the game up" moves the stage to
+`armies` and the wizard takes the screen; nobody has to be waited for, since the wizard's own
+gate is what holds Start until the other side confirms. The invitation itself is
+`PartyInvite.vue`, shared with the sharing dialog of a game already running — the same
+invitation, drawn once. There is deliberately no
 "share this setup" button inside the wizard: by the time the armies are being entered, whether
 this is a game for two phones was settled long ago, and a second door into the same room only
 made the step's button row longer. The wizard's draft becomes a **game in `phase: 'setup'`**

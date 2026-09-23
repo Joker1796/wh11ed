@@ -4,8 +4,16 @@
          component cut down to its own side — and, once it has pressed Done, the waiting screen
          (useLobby.js explains why a side is filled by exactly one phone). -->
     <template v-if="!current || current.phase === 'setup'">
+      <!-- The host, having just opened a lobby: the code and who has arrived, before the wizard.
+           Calling the other player over comes first at a real table, and the wizard behind this
+           screen is unchanged — the host walks into it when ready. -->
+      <LobbyInvite
+        v-if="hostInviting"
+        @next="toWizard"
+        @cancel="cancelLobby"
+      />
       <LobbyWait
-        v-if="guestWaiting"
+        v-else-if="guestWaiting"
         @edit="editing = true"
       />
       <GameSetup
@@ -77,6 +85,7 @@ import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
 import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LobbyWait from '../../components/tracker/LobbyWait.vue'
+import LobbyInvite from '../../components/tracker/LobbyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -86,22 +95,32 @@ import { useLobby } from '../../composables/useLobby.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, newGame, resumeGame, archiveGame } = useTracker()
+const { current, newGame, resumeGame, archiveGame, closeLobby } = useTracker()
 
 // This is a LIVE screen of the game: while it is up, a shared game polls for the other phones'
 // changes (useParty's gate); leaving it sends what is pending and stops the polling.
-const { active: partyActive, isHost, canResume, attach, detach, leave, reseat } = useParty()
+const { active: partyActive, isHost, canResume, attach, detach, leave, end, reseat } = useParty()
 onMounted(attach)
 onUnmounted(detach)
 
 // Which of the three setup screens this phone is on. `editing` is the one piece of screen state
 // the lobby needs: a guest that asked to change its side (and was allowed) is back in the form
 // even though the side it sent is still marked confirmed until it presses Done again.
-const { shared: sharedSetup, mySide, isEditor, isReady } = useLobby()
+const { shared: sharedSetup, mySide, isEditor, isReady, stage, setStage } = useLobby()
 const editing = ref(false)
 const guestSetup = computed(() =>
   sharedSetup.value && !isHost.value && isEditor(mySide.value) && (editing.value || !isReady(mySide.value)))
 const guestWaiting = computed(() => sharedSetup.value && !isHost.value && !guestSetup.value)
+const hostInviting = computed(() => sharedSetup.value && isHost.value && stage.value === 'invite')
+function toWizard() {
+  setStage('armies')
+}
+// Giving up on the lobby from that screen: the party ends and the setup is this phone's own
+// again, every field where it was (the wizard is still holding it).
+async function cancelLobby() {
+  await end()
+  closeLobby()
+}
 // A guest that leaves keeps the game as its own setup — the party handle is what goes.
 async function leaveLobby() {
   await leave()

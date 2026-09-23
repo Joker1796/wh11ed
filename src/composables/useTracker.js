@@ -420,7 +420,9 @@ export function useTracker() {
       phase: 'setup',
       settings,
       players,
-      lobby: { stage: 'armies' },
+      // 'invite' — the host is on the lobby screen handing out the code; 'armies' once it has
+      // walked on into the wizard (see useLobby.js).
+      lobby: { stage: 'invite' },
     }
     setupDraft.value = null
     saveNow()

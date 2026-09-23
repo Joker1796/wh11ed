@@ -42,48 +42,12 @@
       </template>
 
       <template v-else>
-        <!-- The host's invite: link, its QR, the code. -->
-        <template v-if="isHost && invite">
-          <div class="pt-row">
-            <span class="pt-label">{{ labels.partyLink }}</span>
-            <div class="copy-row">
-              <input
-                type="text"
-                class="copy-field"
-                readonly
-                :value="joinUrl"
-                @focus="$event.target.select()"
-              >
-              <button
-                class="btn-ghost copy-btn"
-                @click="copy"
-              >
-                {{ copied ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
-              </button>
-            </div>
-          </div>
-          <div
-            v-if="qrSvg"
-            class="pt-qr"
-            v-html="qrSvg"
-          />
-          <div class="pt-row pt-code-row">
-            <span class="pt-label">{{ labels.partyCode }}</span>
-            <span
-              v-if="invite.code && codeLive"
-              class="pt-code"
-            >{{ codeText }}</span>
-            <button
-              class="btn-ghost"
-              @click="newInvite()"
-            >
-              {{ labels.partyNewCode }}
-            </button>
-          </div>
-          <p class="pt-note-small">
-            {{ labels.partyCodeHint }}
-          </p>
-        </template>
+        <!-- The host's invite: link, its QR, the code — the same block the lobby screen shows
+             (PartyInvite.vue), because they are the same invitation. -->
+        <PartyInvite
+          v-if="isHost && invite"
+          :invite="invite"
+        />
 
         <!-- A guest's standing. -->
         <p
@@ -219,8 +183,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import PartyInvite from './PartyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
@@ -241,44 +206,16 @@ const devHint = computed(() => {
   try { return !localStorage.getItem('wh11ed-dev-jwt') } catch { return false }
 })
 
+// The clock behind "seen N minutes ago" (the invite block keeps its own for the code's
+// expiry — see PartyInvite.vue).
+const now = ref(Date.now())
+
 const sharing = ref(false)
 async function onShare() {
   sharing.value = true
   await share()
   sharing.value = false
   await refreshMembers()
-}
-
-// The join link: the bare path, and the reader's locale follows in the router's own way.
-const joinUrl = computed(() =>
-  invite.value?.token && typeof window !== 'undefined'
-    ? `${window.location.origin}/tracker/join/${invite.value.token}`
-    : '',
-)
-const codeText = computed(() => (invite.value?.code ? `${invite.value.code.slice(0, 3)} ${invite.value.code.slice(3)}` : ''))
-const now = ref(Date.now())
-const codeLive = computed(() => !!invite.value?.codeExpiresAt && new Date(invite.value.codeExpiresAt).getTime() > now.value)
-
-// The QR is drawn only when there is a link to draw, by a library loaded on demand — a
-// dialog opened to check who is connected must not pay for it.
-const qrSvg = ref('')
-watch(joinUrl, async (url) => {
-  qrSvg.value = ''
-  if (!url) return
-  try {
-    const { toString } = await import('qrcode')
-    qrSvg.value = await toString(url, { type: 'svg', margin: 1, errorCorrectionLevel: 'M' })
-  } catch { /* no QR is a smaller loss than no dialog */ }
-}, { immediate: true })
-
-const copied = ref(false)
-async function copy() {
-  if (!joinUrl.value) return
-  try {
-    await navigator.clipboard.writeText(joinUrl.value)
-    copied.value = true
-    setTimeout(() => { copied.value = false }, 1500)
-  } catch { /* clipboard denied — the field stays selectable by hand */ }
 }
 
 // Seats are named by the game's own players: "Anna" rather than "side 1".
@@ -373,34 +310,6 @@ onUnmounted(() => clearInterval(timer))
   justify-content: space-between;
   gap: 0.5rem;
   margin-bottom: 0.6rem;
-}
-.pt-row { margin-top: 0.6rem; }
-.pt-label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
-.pt-qr {
-  width: 9rem;
-  max-width: 100%;
-  margin: 0.6rem auto 0;
-  background: #fff;
-  padding: 0.3rem;
-}
-.pt-qr :deep(svg) { display: block; width: 100%; height: auto; }
-.pt-code-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-}
-.pt-code-row .pt-label { margin: 0; }
-.pt-code {
-  font-family: var(--font-mono);
-  font-size: 1.4rem;
-  letter-spacing: 0.08em;
-  color: var(--text-primary);
 }
 .pt-score-all { margin-top: 0.8rem; }
 
