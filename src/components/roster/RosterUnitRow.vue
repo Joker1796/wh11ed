@@ -139,9 +139,11 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
    them here, so it is the one that pays. Everything steps down together, so the row keeps its
    hierarchy instead of collapsing into one size. */
 @container (max-width: 300px) {
-  /* The padding keeps the name clear of the buttons horizontally; the min-height keeps the row
-     BELOW it clear of them vertically, since a one-line name is shorter than their strip. */
-  .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: var(--rul-acts-w, 3.4rem); min-height: 1.5rem; font-size: 0.85rem; }
+  /* The padding keeps the name clear of the button horizontally; the min-height keeps the row
+     BELOW it clear of it vertically, since a one-line name is shorter than the strip. Sized to
+     the strip and no more: at 1.5rem it stood ~7px taller than the name it held, and that slack
+     read as a gap between a unit and its own model count. */
+  .rur-name { grid-area: 1 / 1 / 2 / -1; padding-right: var(--rul-acts-w, 1.7rem); min-height: 1.1rem; font-size: 0.85rem; }
   .rur-pts { grid-area: 2 / 2 / 3 / 3; align-self: end; padding-right: 0; font-size: 0.85rem; }
   .rur-chips { grid-area: 2 / 1 / 3 / 2; }
   .rur-picks { grid-area: 3 / 1 / 4 / -1; }

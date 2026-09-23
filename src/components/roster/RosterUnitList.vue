@@ -324,7 +324,9 @@ function act(what) {
   .rul-row { padding: 0.45rem 0.5rem; gap: 0; }
   .rul-chev { display: none; }
   .rul-headrow { --rul-acts-w: 1.7rem; }
-  .rul-more { width: 1.7rem; height: 1.8rem; font-size: 0.8rem; }
+  /* 24px tall exactly — the minimum a tap target owes, and the height the row below it has to
+     clear. Every pixel above that is a gap between a unit's name and its model count. */
+  .rul-more { width: 1.7rem; height: 1.5rem; font-size: 0.8rem; }
 }
 </style>
 
