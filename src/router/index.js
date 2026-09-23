@@ -487,6 +487,12 @@ export const router = createRouter({
     // Switching language is not "going somewhere" — it is the same page in the other language,
     // so the reader must keep their place. `false` means "don't touch the scroll position".
     if (stripLocale(to.path) === stripLocale(from.path) && to.path !== from.path) return false
+    // Landing back on the location we are already on is not going anywhere either. A dialog
+    // pushes a copy of the current history entry (useBackToClose.js) so that Back closes it;
+    // popping that copy arrives here as a navigation whose position the router never saved —
+    // `savedPosition` is null and the page would jump to the top, which is what a reader
+    // scrolled halfway down the tracker sees when they close a picker (report 1173ea18).
+    if (to.fullPath === from.fullPath) return false
     if (savedPosition) return savedPosition
     return { top: 0 }
   },
