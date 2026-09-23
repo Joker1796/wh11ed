@@ -1454,14 +1454,17 @@ filing them by battlefield role sat them in different sections, and the more imp
 character the further apart they went: an Epic Hero at the top of the list, its squad at the
 bottom, joined only by an "attached to…" tag on each pointing at the other.
 
-The block is gathered **in place, under the host's own role** — each character moves to sit
-directly under the unit it joined. It had a section of its own (`attached`, first in
-`UNIT_GROUPS`) until 2026-09-23, and that cost every led squad its role: Immortals with an Overlord
-on them were filed under "Attached Units" and were nowhere to be found in Battleline, under a
-heading naming no role the game has. In-place was always what a block touching an **ally group**
-did — an ally heading carries that group's own accounting and a unit must not leave it — so this
-is that one rule, applied everywhere. (Six ally units can lead and four can be led, all Aeldari —
-Harlequins and Ynnari.)
+The block moves into a section of its own, `attached`, first in `UNIT_GROUPS` — `bucketOf` never
+returns that id, the pairing pass is the only thing that fills it. **Unless any part of the block
+belongs to an ally group**: an ally heading carries that group's own accounting and a unit must not
+leave it, so there the block is gathered in place instead, host first. (Six ally units can lead and
+four can be led, all Aeldari — Harlequins and Ynnari.)
+
+Gathering every block in place — under its host's own role, so a led squad kept it — was tried for
+a few hours on 2026-09-23 and the owner asked for the section back. The trade is real either way:
+in place, "Immortals with an Overlord on them" are findable under Battleline; in a section, the
+army's whole units are all in one place to read. With each block now carrying a header of its own
+(below), the second is worth more.
 
 The block's tiles touch and carry the army's colour down their left edge — the host's included, so
 the edge starts where the block does. It is drawn in each list's OWN scoped styles, not by a shared

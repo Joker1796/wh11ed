@@ -1308,24 +1308,25 @@ describe('attached units read as one block', () => {
   const defOf = (id) => faction.units.find((u) => u.id === id)
   const ids = (secs, id) => (secs.find((s) => s.id === id)?.items || []).map((i) => i.uid)
 
-  // The block is gathered where the HOST already sits, under its own battlefield role — it had a
-  // section of its own ("Attached Units") until 2026-09-23, which cost every led squad its role.
-  it('moves the leaders down to their bodyguard, in its own section', () => {
+  // One place to read the army's whole units in. Gathering the blocks in place instead — each
+  // under its host's own role — was tried on 2026-09-23 and the owner asked for the section back.
+  it('moves a bodyguard and its leaders into one section, host first', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
       { uid: 'legio', id: 'legionaries' },
       { uid: 'brute', id: 'helbrute' },
     ]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'battleline')).toEqual(['legio', 'lord'])
+    expect(ids(secs, 'attached')).toEqual(['legio', 'lord'])
     expect(ids(secs, 'characters')).toEqual([])
+    expect(ids(secs, 'battleline')).toEqual([])
     expect(ids(secs, 'vehicles')).toEqual(['brute']) // everything else is filed by its own type
   })
 
   it('takes an Epic Hero out of the top section to sit with its squad', () => {
     const items = [{ uid: 'abn', id: 'abaddon', leaderOf: 'legio' }, { uid: 'legio', id: 'legionaries' }]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'battleline')).toEqual(['legio', 'abn'])
+    expect(ids(secs, 'attached')).toEqual(['legio', 'abn'])
     expect(ids(secs, 'epic')).toEqual([])
   })
 
@@ -1335,25 +1336,24 @@ describe('attached units read as one block', () => {
       { uid: 'legio', id: 'legionaries' },
       { uid: 'abn', id: 'abaddon', leaderOf: 'legio' },
     ]
-    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'battleline')).toEqual(['legio', 'abn', 'lord'])
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['legio', 'abn', 'lord'])
   })
 
-  // Two blocks whose hosts are of different roles no longer meet; each reads under its own.
-  it('leaves each block under its host\'s own role', () => {
+  // Blocks follow their hosts' names, whatever order the pairs were built in.
+  it('orders the blocks by their hosts', () => {
     const items = [
       { uid: 'lord', id: 'lord', leaderOf: 'legio' },
       { uid: 'legio', id: 'legionaries' },
       { uid: 'abn', id: 'abaddon', leaderOf: 'brute' },
       { uid: 'brute', id: 'helbrute' },
     ]
-    const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
-    expect(ids(secs, 'battleline')).toEqual(['legio', 'lord'])
-    expect(ids(secs, 'vehicles')).toEqual(['brute', 'abn'])
+    expect(ids(sectionsOf(items, { faction, defOf, pairAttached: true }), 'attached')).toEqual(['brute', 'abn', 'legio', 'lord'])
   })
 
   it('leaves an unattached character where it was', () => {
     const items = [{ uid: 'lord', id: 'lord' }, { uid: 'legio', id: 'legionaries' }]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
+    expect(ids(secs, 'attached')).toEqual([])
     expect(ids(secs, 'characters')).toEqual(['lord'])
     expect(ids(secs, 'battleline')).toEqual(['legio'])
   })
@@ -1367,6 +1367,7 @@ describe('attached units read as one block', () => {
     ]
     const secs = sectionsOf(items, { faction, defOf, pairAttached: true })
     expect(ids(secs, 'ally:harlequins')).toEqual(['troupe', 'seer'])
+    expect(ids(secs, 'attached')).toEqual([])
   })
 
   it('does nothing at all unless asked', () => {

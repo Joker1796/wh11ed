@@ -6,18 +6,22 @@ import conditionalKeywords from '../data/conditionalKeywords.json'
 // Battlefield-role buckets a unit is filed under in the editor / add-unit list, in display
 // order. Derived from keywords (which stay English — see CLAUDE.md), Epic Hero and Character
 // first because those carry the tightest army-building limits.
-// The breakdown is the faction datasheet page's (FactionDatasheetsView's TYPE_GROUPS), in its
-// order — one army, one way of carving it up, whichever screen you are on.
-// There was an 'attached' group in front of these until 2026-09-23, holding every bodyguard that
-// had a Leader joined to it. It cost the block its battlefield role — Immortals with an Overlord
-// on them were filed under "Attached Units" and were nowhere to be found in Battleline — for a
-// heading that names no role the game has. The block is gathered in PLACE now, under the host's
-// own role, which is what `joinAttached` always did for a block touching an ally group.
-export const UNIT_GROUPS = ['epic', 'characters', 'battleline', 'transports', 'fortifications', 'vehicles', 'infantry', 'other']
+// 'attached' is not a battlefield role and `bucketOf` never returns it — `sectionsOf` fills it by
+// moving a bodyguard and its Leader there together (core rules 19.01: they are ONE unit while
+// attached). First, because that is the part of the list a player reads as whole units.
+// The rest is the faction datasheet page's breakdown (FactionDatasheetsView's TYPE_GROUPS), in its
+// order — one army, one way of carving it up, whichever screen you are on. 'attached' is the only
+// group that page has no use for: a Leader joined to its unit is a roster fact, not a datasheet's.
+// It was tried the other way for a few hours on 2026-09-23 — blocks gathered in place, under the
+// host's own role, so a led squad kept it — and the owner asked for the section back: with every
+// block now carrying a header of its own (RosterUnitList), one place to read the army's whole
+// units in is worth more than the role of the squad underneath each one.
+export const UNIT_GROUPS = ['attached', 'epic', 'characters', 'battleline', 'transports', 'fortifications', 'vehicles', 'infantry', 'other']
 
 // The i18n key for each group's heading — shared by every screen that lists units grouped by
 // UNIT_GROUPS (the editor, the read-only view, the creation wizard's unit browser/config step).
 export const GROUP_LABEL_KEYS = {
+  attached: 'rosterGroupAttached',
   epic: 'dsGroupEpicHeroes', characters: 'dsGroupCharacters', battleline: 'dsGroupBattleline',
   transports: 'dsGroupTransports', fortifications: 'dsGroupFortifications',
   vehicles: 'dsGroupVehicles', infantry: 'dsGroupInfantry', other: 'dsGroupOther',
@@ -1148,7 +1152,8 @@ export function allyGroupOf(faction, id, detachments = []) {
 // group's heading carries its own accounting, so a unit belonging to one never leaves it: there
 // the block is simply gathered in place, host first. Same for an allied Leader on a native host —
 // it stays under its own group rather than being pulled out of it.
-function joinAttached(items, where) {
+function joinAttached(items, where, attached) {
+  if (!attached) return
   const byUid = new Map((items || []).map((it) => [it?.uid, it]))
   const kids = new Map()
   for (const it of items || []) {
@@ -1161,16 +1166,23 @@ function joinAttached(items, where) {
     const at = list.indexOf(p)
     if (at >= 0) list.splice(at, 1)
   }
-  // Each character moves to sit right under the unit it joined, in the HOST's own list — its role
-  // section, or the ally heading that carries its own accounting and which a unit must not leave.
-  // Hosts in the order they were handed over (by name, since sectionsOf sorts before filing).
+  // Hosts in the order they were handed over — by name, since sectionsOf sorts before filing —
+  // so the Attached section reads the way every other section does. A block touching an ALLY group
+  // is gathered in place instead: an ally heading carries that group's own accounting and a unit
+  // must not leave it.
   for (const host of items || []) {
     const children = kids.get(host?.uid)
     if (!children || !where.has(host)) continue
+    if (!where.get(host).ally && children.every((c) => !where.get(c).ally)) {
+      drop(host)
+      children.forEach(drop)
+      attached.push(host, ...children)
+      continue
+    }
     const home = where.get(host).list
-    children.forEach(drop)
-    home.splice(home.indexOf(host) + 1, 0, ...children)
-    for (const c of children) where.set(c, { ...where.get(c), list: home })
+    const same = children.filter((c) => where.get(c).list === home)
+    same.forEach(drop)
+    home.splice(home.indexOf(host) + 1, 0, ...same)
   }
 }
 
@@ -1293,7 +1305,7 @@ export function sectionsOf(items, { faction, detachments = [], defOf, idOf = (x)
     list.push(it)
     where.set(it, { list, ally: !!mine })
   }
-  if (pairAttached) joinAttached(ordered, where)
+  if (pairAttached) joinAttached(ordered, where, roles.get('attached'))
   // Active groups always (the browser offers them even while empty); a locked one only where the
   // caller keeps locked units — the editor and the read-only view must still show a unit that is
   // in the list, or its points would go missing from the screen but not from the total.
